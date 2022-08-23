@@ -7,7 +7,6 @@ import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
-import sgtmelon.scriptum.cleanup.data.room.dao.NoteDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 

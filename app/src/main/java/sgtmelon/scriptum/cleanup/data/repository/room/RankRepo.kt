@@ -6,7 +6,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
-import sgtmelon.scriptum.cleanup.data.room.dao.NoteDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 
 /**
  * Repository of [RoomDb] for work with ranks.

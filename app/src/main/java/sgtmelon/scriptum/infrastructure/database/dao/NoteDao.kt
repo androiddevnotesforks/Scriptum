@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.room.dao
+package sgtmelon.scriptum.infrastructure.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete

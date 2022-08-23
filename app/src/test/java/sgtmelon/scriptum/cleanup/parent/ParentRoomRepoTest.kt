@@ -8,8 +8,8 @@ import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
+import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.RollDao
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
