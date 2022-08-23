@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
-import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
+import sgtmelon.scriptum.cleanup.data.room.dao.NoteDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
@@ -103,7 +103,7 @@ class RankRepo(
     suspend fun updateRankPosition(
         list: List<RankItem>,
         idList: List<Long>,
-        noteDao: INoteDao
+        noteDao: NoteDao
     ) {
         if (idList.isEmpty()) return
 

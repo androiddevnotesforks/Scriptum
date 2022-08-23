@@ -8,7 +8,7 @@ import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
+import sgtmelon.scriptum.cleanup.data.room.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.RollDao
@@ -24,7 +24,7 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
 
     @MockK lateinit var roomDb: RoomDb
 
-    @MockK lateinit var noteDao: INoteDao
+    @MockK lateinit var noteDao: NoteDao
     @MockK lateinit var rollDao: RollDao
     @MockK lateinit var rollVisibleDao: RollVisibleDao
     @MockK lateinit var rankDao: RankDao

@@ -7,7 +7,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
+import sgtmelon.scriptum.cleanup.data.room.dao.NoteDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.parent.provider.DateProvider.DATE_4
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 
 /**
- * Integration test for [INoteDao]
+ * Integration test for [NoteDao]
  */
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentRoomTest() {
@@ -54,11 +54,11 @@ class NoteDaoTest : ParentRoomTest() {
 
     //endregion
 
-    private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest {
+    private fun inNoteDao(func: suspend NoteDao.() -> Unit) = inRoomTest {
         noteDao.apply { func() }
     }
 
-    private suspend fun INoteDao.insertAllTo(isBin: Boolean) {
+    private suspend fun NoteDao.insertAllTo(isBin: Boolean) {
         insert(firstNote.copy(isBin = isBin))
         insert(secondNote.copy(isBin = isBin))
         insert(thirdNote.copy(isBin = isBin))
@@ -70,7 +70,7 @@ class NoteDaoTest : ParentRoomTest() {
         assertNotNull(get(fourthNote.id))
     }
 
-    private suspend fun INoteDao.updateAllTo(isBin: Boolean) {
+    private suspend fun NoteDao.updateAllTo(isBin: Boolean) {
         update(firstNote.copy(isBin = isBin))
         update(secondNote.copy(isBin = isBin))
         update(thirdNote.copy(isBin = isBin))

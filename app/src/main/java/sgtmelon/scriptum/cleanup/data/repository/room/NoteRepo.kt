@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
-import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
+import sgtmelon.scriptum.cleanup.data.room.dao.NoteDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
@@ -67,7 +67,7 @@ class NoteRepo(
     }
 
     @RunPrivate
-    suspend fun getSortBy(isBin: Boolean, sort: Sort, noteDao: INoteDao) = when (sort) {
+    suspend fun getSortBy(isBin: Boolean, sort: Sort, noteDao: NoteDao) = when (sort) {
         Sort.CHANGE -> noteDao.getByChange(isBin)
         Sort.CREATE -> noteDao.getByCreate(isBin)
         Sort.RANK -> noteDao.getByRank(isBin)
