@@ -63,7 +63,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     suspend fun getRemoveNoteList(model: Model, roomDb: RoomDb): List<NoteEntity> {
         val removeList = mutableListOf<NoteEntity>()
 
-        val existNoteList = roomDb.noteDao.get(bin = false)
+        val existNoteList = roomDb.noteDao.getList(isBin = false)
         val existRollNoteList = existNoteList.filter { it.type == NoteType.ROLL }
 
         for (item in model.noteList) {

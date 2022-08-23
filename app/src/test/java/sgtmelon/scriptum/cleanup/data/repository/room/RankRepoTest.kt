@@ -303,7 +303,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         rankRepo.updateRankPosition(list, noteIdList, noteDao)
 
         every { noteIdList.isEmpty() } returns false
-        coEvery { noteDao.get(noteIdList) } returns entityList
+        coEvery { noteDao.getList(noteIdList) } returns entityList
 
         for ((i, entity) in entityList.withIndex()) {
             every { list[i].id } returns rankIdList[i]
@@ -322,7 +322,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             noteIdList.isEmpty()
 
             noteIdList.isEmpty()
-            noteDao.get(noteIdList)
+            noteDao.getList(noteIdList)
 
             for ((i, entity) in entityList.withIndex()) {
                 val isFind = i.isDivideTwoEntirely()

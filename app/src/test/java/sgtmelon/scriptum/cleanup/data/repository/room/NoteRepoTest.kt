@@ -59,27 +59,39 @@ class NoteRepoTest : ParentRoomRepoTest() {
     // Repo get count and list functions
 
     @Test fun getCount() = startCoTest {
+        TODO()
+
         val firstIdList = mockk<List<Long>>()
         val secondIdList = mockk<List<Long>>()
         val firstCount = Random.nextInt()
         val secondCount = Random.nextInt()
 
         coEvery { rankDao.getIdList() } returns firstIdList
-        coEvery { noteDao.getCount(isBin = true, rankIdList = firstIdList) } returns firstCount
+        coEvery {
+            noteDao.getRankVisibleCount(
+                isBin = true,
+                rankIdList = firstIdList
+            )
+        } returns firstCount
         assertEquals(firstCount, noteRepo.getCount(isBin = true))
 
         coEvery { rankDao.getIdVisibleList() } returns secondIdList
-        coEvery { noteDao.getCount(isBin = false, rankIdList = secondIdList) } returns secondCount
+        coEvery {
+            noteDao.getRankVisibleCount(
+                isBin = false,
+                rankIdList = secondIdList
+            )
+        } returns secondCount
         assertEquals(secondCount, noteRepo.getCount(isBin = false))
 
         coVerifySequence {
             roomProvider.openRoom()
             rankDao.getIdList()
-            noteDao.getCount(isBin = true, rankIdList = firstIdList)
+            noteDao.getRankVisibleCount(isBin = true, rankIdList = firstIdList)
 
             roomProvider.openRoom()
             rankDao.getIdVisibleList()
-            noteDao.getCount(isBin = false, rankIdList = secondIdList)
+            noteDao.getRankVisibleCount(isBin = false, rankIdList = secondIdList)
         }
     }
 
@@ -138,23 +150,23 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val rankList = mockk<MutableList<NoteEntity>>()
         val colorList = mockk<MutableList<NoteEntity>>()
 
-        coEvery { noteDao.getByChange(isBin) } returns changeList
+        coEvery { noteDao.getListByChange(isBin) } returns changeList
         assertEquals(changeList, noteRepo.getSortBy(isBin, Sort.CHANGE, noteDao))
 
-        coEvery { noteDao.getByCreate(isBin) } returns createList
+        coEvery { noteDao.getListByCreate(isBin) } returns createList
         assertEquals(createList, noteRepo.getSortBy(isBin, Sort.CREATE, noteDao))
 
-        coEvery { noteDao.getByRank(isBin) } returns rankList
+        coEvery { noteDao.getListByRank(isBin) } returns rankList
         assertEquals(rankList, noteRepo.getSortBy(isBin, Sort.RANK, noteDao))
 
-        coEvery { noteDao.getByColor(isBin) } returns colorList
+        coEvery { noteDao.getListByColor(isBin) } returns colorList
         assertEquals(colorList, noteRepo.getSortBy(isBin, Sort.COLOR, noteDao))
 
         coVerifySequence {
-            noteDao.getByChange(isBin)
-            noteDao.getByCreate(isBin)
-            noteDao.getByRank(isBin)
-            noteDao.getByColor(isBin)
+            noteDao.getListByChange(isBin)
+            noteDao.getListByCreate(isBin)
+            noteDao.getListByRank(isBin)
+            noteDao.getListByColor(isBin)
         }
     }
 
@@ -332,7 +344,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val isVisibleList = List(size) { Random.nextBoolean() }
 
         coEvery { rankDao.getIdVisibleList() } returns idList
-        coEvery { noteDao.get(false) } returns entityList
+        coEvery { noteDao.getList(false) } returns entityList
 
         for ((i, entity) in entityList.withIndex()) {
             every { noteConverter.toItem(entity) } returns itemList[i]
@@ -344,7 +356,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         coVerifySequence {
             roomProvider.openRoom()
             rankDao.getIdVisibleList()
-            noteDao.get(false)
+            noteDao.getList(false)
 
             for ((i, entity) in entityList.withIndex()) {
                 noteConverter.toItem(entity)
@@ -368,7 +380,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             }
         }
 
-        coEvery { noteDao.get(true) } returns itemList
+        coEvery { noteDao.getList(true) } returns itemList
         coEvery { spyNoteRepo.clearConnection(any(), any(), rankDao) } returns Unit
 
         spyNoteRepo.clearBin()
@@ -378,7 +390,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             spyNoteRepo.roomProvider
 
             roomProvider.openRoom()
-            noteDao.get(true)
+            noteDao.getList(true)
             for ((i, item) in itemList.withIndex()) {
                 item.id
                 item.rankId
@@ -893,13 +905,13 @@ class NoteRepoTest : ParentRoomRepoTest() {
     @Test fun getNoteBackup() = startCoTest {
         val noteList = mockk<List<NoteEntity>>()
 
-        coEvery { noteDao.get(bin = false) } returns noteList
+        coEvery { noteDao.getList(isBin = false) } returns noteList
 
         assertEquals(noteList, noteRepo.getNoteBackup())
 
         coVerifySequence {
             roomProvider.openRoom()
-            noteDao.get(bin = false)
+            noteDao.getList(isBin = false)
         }
     }
 

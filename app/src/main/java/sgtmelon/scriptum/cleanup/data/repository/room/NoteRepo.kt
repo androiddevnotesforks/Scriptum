@@ -38,9 +38,12 @@ class NoteRepo(
      * - For bin page need take all items count
      */
     override suspend fun getCount(isBin: Boolean): Int = fromRoom {
-        val rankIdList = if (isBin) rankDao.getIdList() else rankDao.getIdVisibleList()
+        val noCategoryCount = noteDao.getNoCategoryCount(isBin)
 
-        return@fromRoom noteDao.getCount(isBin, rankIdList)
+        val rankIdList = if (isBin) rankDao.getIdList() else rankDao.getIdVisibleList()
+        val rankVisibleCount = noteDao.getRankVisibleCount(isBin, rankIdList)
+
+        return@fromRoom noCategoryCount + rankVisibleCount
     }
 
     /**
@@ -68,10 +71,10 @@ class NoteRepo(
 
     @RunPrivate
     suspend fun getSortBy(isBin: Boolean, sort: Sort, noteDao: NoteDao) = when (sort) {
-        Sort.CHANGE -> noteDao.getByChange(isBin)
-        Sort.CREATE -> noteDao.getByCreate(isBin)
-        Sort.RANK -> noteDao.getByRank(isBin)
-        Sort.COLOR -> noteDao.getByColor(isBin)
+        Sort.CHANGE -> noteDao.getListByChange(isBin)
+        Sort.CREATE -> noteDao.getListByCreate(isBin)
+        Sort.RANK -> noteDao.getListByRank(isBin)
+        Sort.COLOR -> noteDao.getListByColor(isBin)
     }
 
     /**
@@ -171,7 +174,7 @@ class NoteRepo(
     override suspend fun isListHide(): Boolean = fromRoom {
         val rankIdVisibleList = rankDao.getIdVisibleList()
 
-        return@fromRoom noteDao.get(false).any {
+        return@fromRoom noteDao.getList(false).any {
             !noteConverter.toItem(it).isRankVisible(rankIdVisibleList)
         }
     }
@@ -179,7 +182,7 @@ class NoteRepo(
     // Repo work with delete functions
 
     override suspend fun clearBin() = inRoom {
-        val itemList = noteDao.get(true)
+        val itemList = noteDao.getList(true)
 
         for (it in itemList) {
             clearConnection(it.id, it.rankId, rankDao)
@@ -333,7 +336,7 @@ class NoteRepo(
     // Repo backup functions
 
     override suspend fun getNoteBackup(): List<NoteEntity> {
-        return fromRoom { noteDao.get(bin = false) }
+        return fromRoom { noteDao.getList(isBin = false) }
     }
 
     override suspend fun getRollBackup(noteIdList: List<Long>): List<RollEntity> {

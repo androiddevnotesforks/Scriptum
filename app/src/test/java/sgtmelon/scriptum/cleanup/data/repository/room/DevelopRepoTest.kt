@@ -30,13 +30,13 @@ class DevelopRepoTest : ParentRoomRepoTest() {
         val list = List(getRandomSize()) { mockk<NoteEntity>() }
         val resultList = list.map { PrintItem.Note(it) }
 
-        coEvery { noteDao.get(isBin) } returns list
+        coEvery { noteDao.getList(isBin) } returns list
 
         assertEquals(resultList, developRepo.getPrintNoteList(isBin))
 
         coVerifySequence {
             roomProvider.openRoom()
-            noteDao.get(isBin)
+            noteDao.getList(isBin)
         }
     }
 
@@ -104,13 +104,13 @@ class DevelopRepoTest : ParentRoomRepoTest() {
             every { entity.id } returns id
         }
 
-        coEvery { noteDao.get(bin = false) } returns entityList
+        coEvery { noteDao.getList(isBin = false) } returns entityList
 
         assertEquals(id, developRepo.getRandomNoteId())
 
         coVerifySequence {
             roomProvider.openRoom()
-            noteDao.get(bin = false)
+            noteDao.getList(isBin = false)
         }
     }
 }

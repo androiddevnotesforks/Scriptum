@@ -107,7 +107,7 @@ class RankRepo(
     ) {
         if (idList.isEmpty()) return
 
-        val noteList = noteDao.get(idList)
+        val noteList = noteDao.getList(idList)
         for (entity in noteList) {
             entity.rankPs = list.firstOrNull { it.id == entity.rankId }?.position ?: continue
         }

@@ -16,7 +16,7 @@ class DevelopRepo(
     IRoomWork {
 
     override suspend fun getPrintNoteList(isBin: Boolean): List<PrintItem.Note> {
-        return fromRoom { noteDao.get(isBin).map { PrintItem.Note(it) } }
+        return fromRoom { noteDao.getList(isBin).map { PrintItem.Note(it) } }
     }
 
     override suspend fun getPrintRollList(): List<PrintItem.Roll> {
@@ -36,6 +36,6 @@ class DevelopRepo(
     }
 
     override suspend fun getRandomNoteId(): Long = fromRoom {
-        noteDao.get(bin = false).random().id
+        noteDao.getList(isBin = false).random().id
     }
 }
