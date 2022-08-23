@@ -111,6 +111,15 @@ class RollDaoTest : ParentRoomTest() {
         return pair
     }
 
+    private fun insertBigPair(): Pair<NoteEntity, List<RollEntity>> {
+        val note = nextNoteEntity(id = 1)
+        val rollList = overflowDelegator.getList { nextRollEntity((it + 1).toLong(), note.id, it) }
+
+        inRoomTest { insertRelation(note, rollList) }
+
+        return note to rollList
+    }
+
     //endregion
 
     override fun setUp() {
@@ -244,24 +253,18 @@ class RollDaoTest : ParentRoomTest() {
     }
 
     @Test fun deleteSafe_withSmallExclude() = inRoomTest {
-        val (noteList, rollsList) = insertBigData()
-
-        val index = noteList.indices.random()
-        val note = noteList[index]
-        val rollList = rollsList[index]
+        val (note, rollList) = insertBigPair()
 
         val excludeList = rollList.take((1..DaoConst.OVERFLOW_COUNT).random()).map { it.id!! }
+
+        assertTrue(excludeList.size <= DaoConst.OVERFLOW_COUNT)
 
         rollDao.deleteSafe(note.id, excludeList)
         assertEquals(rollDao.getIdList(note.id), excludeList)
     }
 
     @Test fun deleteSafe() = inRoomTest {
-        val (noteList, rollsList) = insertBigData()
-
-        val index = noteList.indices.random()
-        val note = noteList[index]
-        val rollList = rollsList[index]
+        val (note, rollList) = insertBigPair()
 
         val excludeList = rollList.filter { it.id!! % 2 == 0L }.map { it.id!! }
 

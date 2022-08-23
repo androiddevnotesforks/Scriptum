@@ -13,7 +13,6 @@ import org.junit.Assert.assertTrue
  */
 class OverflowDelegator(private val overflowCount: Int) {
 
-
     fun <T> getListPair(
         expectedSize: Int? = null,
         getRandom: (iteration: Int) -> T
@@ -34,6 +33,8 @@ class OverflowDelegator(private val overflowCount: Int) {
 
             return@run (randomStart..randomEnd).random()
         }
+
+        assertTrue(size > overflowCount)
 
         return List(size) { getRandom(it) }
     }
