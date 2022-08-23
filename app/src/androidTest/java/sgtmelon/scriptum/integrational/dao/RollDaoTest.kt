@@ -206,7 +206,10 @@ class RollDaoTest : ParentRoomTest() {
 
     @Test fun delete_withExclude_overflowCheck() = inRoomTest {
         exceptionRule.expect(SQLiteException::class.java)
-        rollDao.delete(abs(Random.nextLong()), overflowDelegator.getList { Random.nextLong() })
+
+        val (note, rollList) = firstPair
+        insertRelation(note, rollList)
+        rollDao.delete(note.id, overflowDelegator.getList { Random.nextLong() })
     }
 
     @Test fun delete_withExclude() = inRoomTest {
