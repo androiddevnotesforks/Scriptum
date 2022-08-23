@@ -98,6 +98,16 @@ class AlarmDaoTest : ParentRoomTest() {
         assertNotEquals(firstAlarm.noteId, secondAlarm.noteId)
     }
 
+    @Test fun parentStrategy_onDelete() = inRoomTest {
+        val note = firstNote
+        val alarm = firstAlarm
+
+        insertRelation(note, alarm)
+        assertEquals(alarmDao.get(note.id), alarm)
+        noteDao.delete(note)
+        assertNull(alarmDao.get(note.id))
+    }
+
     @Test fun insert() = inRoomTest { insertRelation(firstNote, firstAlarm) }
 
     /**

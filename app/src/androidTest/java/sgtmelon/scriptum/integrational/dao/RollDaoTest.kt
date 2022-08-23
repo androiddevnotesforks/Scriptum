@@ -128,6 +128,15 @@ class RollDaoTest : ParentRoomTest() {
         assertNotEquals(firstPair.first.id, secondPair.first.id)
     }
 
+    @Test fun parentStrategy_onDelete() = inRoomTest {
+        val (note, rollList) = firstPair
+
+        insertRelation(note, rollList)
+        assertEquals(rollDao.getList(note.id), rollList)
+        noteDao.delete(note)
+        assertTrue(rollDao.getList(note.id).isEmpty())
+    }
+
     @Test fun insert() = inRoomTest { with(firstPair) { insertRelation(first, second) } }
 
     /**

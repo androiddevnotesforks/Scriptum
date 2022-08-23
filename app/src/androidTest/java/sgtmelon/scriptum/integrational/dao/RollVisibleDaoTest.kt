@@ -84,6 +84,16 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertNotEquals(firstVisible.noteId, secondVisible.noteId)
     }
 
+    @Test fun parentStrategy_onDelete() = inRoomTest {
+        val note = firstNote
+        val rollVisible = firstVisible
+
+        insertRelation(note, rollVisible)
+        assertEquals(rollVisibleDao.getVisible(note.id), rollVisible.value)
+        noteDao.delete(note)
+        assertNull(rollVisibleDao.getVisible(note.id))
+    }
+
     @Test fun insert() = inRoomTest { insertRelation(firstNote, firstVisible) }
 
     /**
