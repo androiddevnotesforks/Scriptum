@@ -20,7 +20,47 @@ class NoteDataSourceImplTest : ParentTest() {
         confirmVerified(dao)
     }
 
-    @Test fun todo() {
+    @Test fun insert() {
+        TODO()
+    }
+
+    @Test fun `delete by entity`() {
+        TODO()
+    }
+
+    @Test fun `delete by list`() {
+        TODO()
+    }
+
+    @Test fun `update by entity`() {
+        TODO()
+    }
+
+    @Test fun `update by list`() {
+        TODO()
+    }
+
+    @Test fun getRankVisibleCount() {
+        TODO()
+    }
+
+    @Test fun getBindCount() {
+        TODO()
+    }
+
+    @Test fun get() {
+        TODO()
+    }
+
+    @Test fun `getList by idList`() {
+        TODO()
+    }
+
+    @Test fun `getList by isBin`() {
+        TODO()
+    }
+
+    @Test fun `getList by sort`() {
         TODO()
     }
 }
