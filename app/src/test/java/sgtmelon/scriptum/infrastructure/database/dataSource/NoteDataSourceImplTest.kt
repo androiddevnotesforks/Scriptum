@@ -54,19 +54,51 @@ class NoteDataSourceImplTest : ParentTest() {
     }
 
     @Test fun `delete by entity`() {
-        TODO()
+        val entity = mockk<NoteEntity>()
+
+        runBlocking {
+            dataSource.delete(entity)
+        }
+
+        coVerifySequence {
+            dao.delete(entity)
+        }
     }
 
     @Test fun `delete by list`() {
-        TODO()
+        val list = mockk<List<NoteEntity>>()
+
+        runBlocking {
+            dataSource.delete(list)
+        }
+
+        coVerifySequence {
+            dao.delete(list)
+        }
     }
 
     @Test fun `update by entity`() {
-        TODO()
+        val entity = mockk<NoteEntity>()
+
+        runBlocking {
+            dataSource.update(entity)
+        }
+
+        coVerifySequence {
+            dao.update(entity)
+        }
     }
 
     @Test fun `update by list`() {
-        TODO()
+        val list = mockk<List<NoteEntity>>()
+
+        runBlocking {
+            dataSource.update(list)
+        }
+
+        coVerifySequence {
+            dao.update(list)
+        }
     }
 
     @Test fun getRankVisibleCount() {
@@ -78,7 +110,25 @@ class NoteDataSourceImplTest : ParentTest() {
     }
 
     @Test fun get() {
-        TODO()
+        val id = Random.nextLong()
+        val entity = mockk<NoteEntity>()
+
+        coEvery { dao.get(id) } returns null
+
+        runBlocking {
+            assertNull(dataSource.get(id))
+        }
+
+        coEvery { dao.get(id) } returns entity
+
+        runBlocking {
+            assertEquals(dataSource.get(id), entity)
+        }
+
+        coVerifySequence {
+            dao.get(id)
+            dao.get(id)
+        }
     }
 
     @Test fun `getList by idList`() {
