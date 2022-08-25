@@ -14,7 +14,11 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getRankVisibleCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
  * Test for [NoteDataSourceImpl].
@@ -102,11 +106,41 @@ class NoteDataSourceImplTest : ParentTest() {
     }
 
     @Test fun getRankVisibleCount() {
-        TODO()
+        val isBin = Random.nextBoolean()
+        val rankIdList = mockk<List<Long>>()
+
+        val noCategoryCount = Random.nextInt()
+        val visibleCount = Random.nextInt()
+        val count = noCategoryCount + visibleCount
+
+        coEvery { dao.getNoCategoryCount(isBin) } returns noCategoryCount
+        FastMock.Dao.noteDaoSafe()
+        coEvery { dao.getRankVisibleCountSafe(isBin, rankIdList) } returns visibleCount
+
+        runBlocking {
+            assertEquals(dataSource.getRankVisibleCount(isBin, rankIdList), count)
+        }
+
+        coVerifySequence {
+            dao.getNoCategoryCount(isBin)
+            dao.getRankVisibleCountSafe(isBin, rankIdList)
+        }
     }
 
     @Test fun getBindCount() {
-        TODO()
+        val idList = mockk<List<Long>>()
+        val count = Random.nextInt()
+
+        FastMock.Dao.noteDaoSafe()
+        coEvery { dao.getBindCountSafe(idList) } returns count
+
+        runBlocking {
+            assertEquals(dataSource.getBindCount(idList), count)
+        }
+
+        coVerifySequence {
+            dao.getBindCountSafe(idList)
+        }
     }
 
     @Test fun get() {
@@ -132,14 +166,64 @@ class NoteDataSourceImplTest : ParentTest() {
     }
 
     @Test fun `getList by idList`() {
-        TODO()
+        val idList = mockk<List<Long>>()
+        val list = mockk<List<NoteEntity>>()
+
+        FastMock.Dao.noteDaoSafe()
+        coEvery { dao.getListSafe(idList) } returns list
+
+        runBlocking {
+            assertEquals(dataSource.getList(idList), list)
+        }
+
+        coVerifySequence {
+            dao.getListSafe(idList)
+        }
     }
 
     @Test fun `getList by isBin`() {
-        TODO()
+        val isBin = Random.nextBoolean()
+        val list = mockk<List<NoteEntity>>()
+
+        coEvery { dao.getList(isBin) } returns list
+
+        runBlocking {
+            assertEquals(dataSource.getList(isBin), list)
+        }
+
+        coVerifySequence {
+            dao.getList(isBin)
+        }
     }
 
     @Test fun `getList by sort`() {
-        TODO()
+        val isBin = Random.nextBoolean()
+        val mockList = List(Sort.values().size) { mockk<List<NoteEntity>>() }
+
+        for ((i, sort) in Sort.values().withIndex()) {
+            when (sort) {
+                Sort.CHANGE -> coEvery { dao.getListByChange(isBin) } returns mockList[i]
+                Sort.CREATE -> coEvery { dao.getListByCreate(isBin) } returns mockList[i]
+                Sort.RANK -> coEvery { dao.getListByRank(isBin) } returns mockList[i]
+                Sort.COLOR -> coEvery { dao.getListByColor(isBin) } returns mockList[i]
+            }
+        }
+
+        runBlocking {
+            for ((i, sort) in Sort.values().withIndex()) {
+                assertEquals(dataSource.getList(sort, isBin), mockList[i])
+            }
+        }
+
+        coVerifySequence {
+            for (sort in Sort.values()) {
+                when (sort) {
+                    Sort.CHANGE -> dao.getListByChange(isBin)
+                    Sort.CREATE -> dao.getListByCreate(isBin)
+                    Sort.RANK -> dao.getListByRank(isBin)
+                    Sort.COLOR -> dao.getListByColor(isBin)
+                }
+            }
+        }
     }
 }
