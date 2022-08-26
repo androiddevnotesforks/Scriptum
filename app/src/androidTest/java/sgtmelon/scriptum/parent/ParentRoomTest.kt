@@ -12,7 +12,7 @@ import sgtmelon.test.common.OverflowDelegator
 /**
  * Parent class for Integration tests.
  */
-abstract class ParentRoomTest : ParentIntegrationTest(),
+abstract class ParentRoomTest : ParentTest(),
     IRoomWork {
 
     @get:Rule val exceptionRule: ExpectedException = ExpectedException.none()
