@@ -12,7 +12,7 @@ import sgtmelon.test.common.OverflowDelegator
 /**
  * Parent class for Integration tests.
  */
-abstract class ParentRoomTest : ParentTest(),
+abstract class ParentRoomTest : ParentIntegrationTest(),
     IRoomWork {
 
     @get:Rule val exceptionRule: ExpectedException = ExpectedException.none()
@@ -21,17 +21,8 @@ abstract class ParentRoomTest : ParentTest(),
 
     protected val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 
-    @Deprecated("Use overflowDelegator for this")
-    protected val overflowLongList
-        get() = List(OVERFLOW_LIMIT * (10..50).random()) { it.toLong() }
-
     @Before override fun setUp() {
         super.setUp()
         inRoomTest { clearAllTables() }
-    }
-
-    companion object {
-        const val OVERFLOW_LIMIT = 1000
-        const val CROWD_SIZE = 5000
     }
 }
