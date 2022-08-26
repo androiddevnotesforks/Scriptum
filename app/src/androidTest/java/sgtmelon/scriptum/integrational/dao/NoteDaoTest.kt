@@ -1,49 +1,87 @@
 package sgtmelon.scriptum.integrational.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.random.Random
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
+import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentRoomTest
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_3
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_4
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
+import sgtmelon.test.common.nextString
 
 /**
- * Integration test for [NoteDao]
+ * Integration test for [NoteDao] and safe functions.
  */
+@Suppress("DEPRECATION")
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentRoomTest() {
 
-    @Test fun todo() {
-        TODO()
+    //region Variables
+
+    private val firstNote = NoteEntity(
+        id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
+        color = Color.PURPLE, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false,
+        isStatus = Random.nextBoolean()
+    )
+    private val secondNote = NoteEntity(
+        id = 2, create = DATE_2, change = DATE_3, text = "654", name = "321",
+        color = Color.PURPLE, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true,
+        isStatus = Random.nextBoolean()
+    )
+    private val thirdNote = NoteEntity(
+        id = 3, create = DATE_3, change = DATE_4, text = "123", name = "",
+        color = Color.BLUE, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
+        isStatus = Random.nextBoolean()
+    )
+    private val fourthNote = NoteEntity(
+        id = 4, create = DATE_4, change = DATE_5, text = "789", name = "",
+        color = Color.BLUE, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
+        isStatus = Random.nextBoolean()
+    )
+
+    //endregion
+
+    //region Help functions
+
+    private suspend fun RoomDb.insert(note: NoteEntity) {
+        noteDao.insert(note)
+        assertEquals(noteDao.get(note.id), note)
     }
 
-    //    //region Variables
-    //
-    //    private val firstNote = NoteEntity(
-    //        id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
-    //        color = Color.PURPLE, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false,
-    //        isStatus = Random.nextBoolean()
-    //    )
-    //
-    //    private val secondNote = NoteEntity(
-    //        id = 2, create = DATE_2, change = DATE_3, text = "654", name = "321",
-    //        color = Color.PURPLE, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true,
-    //        isStatus = Random.nextBoolean()
-    //    )
-    //
-    //    private val thirdNote = NoteEntity(
-    //        id = 3, create = DATE_3, change = DATE_4, text = "123", name = "",
-    //        color = Color.BLUE, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
-    //        isStatus = Random.nextBoolean()
-    //    )
-    //
-    //    private val fourthNote = NoteEntity(
-    //        id = 4, create = DATE_4, change = DATE_5, text = "789", name = "",
-    //        color = Color.BLUE, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
-    //        isStatus = Random.nextBoolean()
-    //    )
-    //
-    //    //endregion
-    //
+    //endregion
+
+    @Test fun insert() = inRoomTest { insert(firstNote) }
+
+    /**
+     * Check OnConflictStrategy.IGNORE on inserting with same [NoteEntity.id].
+     */
+    @Test fun insertWithSameId() = inRoomTest {
+        insert(firstNote)
+
+        val conflict = firstNote.copy(text = nextString(), name = nextString())
+        assertEquals(noteDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
+
+        assertEquals(noteDao.get(firstNote.id), firstNote)
+    }
+
+    @Test fun insertSafe() = inRoomTest {
+        assertEquals(noteDao.insertSafe(firstNote), firstNote.id)
+        assertNull(noteDao.insertSafe(secondNote.copy(id = firstNote.id)))
+    }
+
     //    private fun inNoteDao(func: suspend NoteDao.() -> Unit) = inRoomTest {
     //        noteDao.apply { func() }
     //    }
