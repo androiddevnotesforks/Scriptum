@@ -52,6 +52,8 @@ class NoteDaoTest : ParentRoomTest() {
         isStatus = Random.nextBoolean()
     )
 
+    private val list = listOf(firstNote, secondNote, thirdNote, fourthNote)
+
     //endregion
 
     //region Help functions
@@ -59,6 +61,12 @@ class NoteDaoTest : ParentRoomTest() {
     private suspend fun RoomDb.insert(note: NoteEntity) {
         noteDao.insert(note)
         assertEquals(noteDao.get(note.id), note)
+    }
+
+    private suspend fun RoomDb.insertAllTo(isBin: Boolean) {
+        for (note in list) {
+            insert(note.copy(isBin = isBin))
+        }
     }
 
     //endregion
@@ -82,20 +90,45 @@ class NoteDaoTest : ParentRoomTest() {
         assertNull(noteDao.insertSafe(secondNote.copy(id = firstNote.id)))
     }
 
+    @Test fun delete() = inRoomTest {
+        insert(firstNote)
+        noteDao.delete(firstNote)
+        assertNull(noteDao.get(firstNote.id))
+    }
+
+    @Test fun deleteList() = inRoomTest {
+        insertAllTo(Random.nextBoolean())
+        noteDao.delete(listOf(firstNote, thirdNote))
+
+        assertNull(noteDao.get(firstNote.id))
+        assertEquals(noteDao.get(secondNote.id), secondNote)
+        assertNull(noteDao.get(thirdNote.id))
+        assertEquals(noteDao.get(fourthNote.id), fourthNote)
+    }
+
+    @Test fun update() = inRoomTest {
+        insert(firstNote)
+
+        val update = firstNote.copy(name = nextString(), text = nextString())
+        noteDao.update(update)
+        assertEquals(noteDao.get(firstNote.id), update)
+    }
+
+    @Test fun updateList() = inRoomTest {
+        insertAllTo(Random.nextBoolean())
+
+        val updateList = list.mapIndexed { i, it ->
+            if (i % 2 == 0) it.copy(name = nextString(), text = nextString()) else it
+        }
+
+        noteDao.update(updateList)
+        for (note in updateList) {
+            assertEquals(noteDao.get(note.id), note)
+        }
+    }
+
     //    private fun inNoteDao(func: suspend NoteDao.() -> Unit) = inRoomTest {
     //        noteDao.apply { func() }
-    //    }
-    //
-    //    private suspend fun NoteDao.insertAllTo(isBin: Boolean) {
-    //        insert(firstNote.copy(isBin = isBin))
-    //        insert(secondNote.copy(isBin = isBin))
-    //        insert(thirdNote.copy(isBin = isBin))
-    //        insert(fourthNote.copy(isBin = isBin))
-    //
-    //        assertNotNull(get(firstNote.id))
-    //        assertNotNull(get(secondNote.id))
-    //        assertNotNull(get(thirdNote.id))
-    //        assertNotNull(get(fourthNote.id))
     //    }
     //
     //    private suspend fun NoteDao.updateAllTo(isBin: Boolean) {
