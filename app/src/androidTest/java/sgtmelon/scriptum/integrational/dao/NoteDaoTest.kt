@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.integrational.dao
 
+import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
@@ -63,10 +64,8 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(noteDao.get(note.id), note)
     }
 
-    private suspend fun RoomDb.insertAllTo(isBin: Boolean) {
-        for (note in list) {
-            insert(note.copy(isBin = isBin))
-        }
+    private suspend fun RoomDb.insertAll(list: List<NoteEntity>) {
+        for (note in list) insert(note)
     }
 
     //endregion
@@ -97,7 +96,7 @@ class NoteDaoTest : ParentRoomTest() {
     }
 
     @Test fun deleteList() = inRoomTest {
-        insertAllTo(Random.nextBoolean())
+        insertAll(list)
         noteDao.delete(listOf(firstNote, thirdNote))
 
         assertNull(noteDao.get(firstNote.id))
@@ -115,7 +114,7 @@ class NoteDaoTest : ParentRoomTest() {
     }
 
     @Test fun updateList() = inRoomTest {
-        insertAllTo(Random.nextBoolean())
+        insertAll(list)
 
         val updateList = list.mapIndexed { i, it ->
             if (i % 2 == 0) it.copy(name = nextString(), text = nextString()) else it
@@ -125,6 +124,70 @@ class NoteDaoTest : ParentRoomTest() {
         for (note in updateList) {
             assertEquals(noteDao.get(note.id), note)
         }
+    }
+
+    @Test fun getNoCategoryCount() = inRoomTest {
+        val list = list.map { it.copy(rankId = -1, isBin = Random.nextBoolean()) }
+
+        insertAll(list)
+
+        assertEquals(noteDao.getNoCategoryCount(isBin = true), list.filter { it.isBin }.size)
+        assertEquals(noteDao.getNoCategoryCount(isBin = false), list.filter { !it.isBin }.size)
+    }
+
+    @Test fun getRankVisibleCount_overflowCheck() = inRoomTest {
+        exceptionRule.expect(SQLiteException::class.java)
+
+        val isBin = Random.nextBoolean()
+        noteDao.getRankVisibleCount(isBin, overflowDelegator.getList { Random.nextLong() })
+    }
+
+    @Test fun getRankVisibleCount() = inRoomTest {
+        val list = list
+
+        insertAll(list)
+
+        TODO()
+    }
+
+    @Test fun getRankVisibleCountSafe() = inRoomTest {
+        val list = list
+
+        insertAll(list)
+
+        TODO()
+    }
+
+    @Test fun getBindCount() {
+        TODO()
+    }
+
+    @Test fun get() {
+        TODO()
+    }
+
+    @Test fun getList_byIdList() {
+        TODO()
+    }
+
+    @Test fun getList_byBin() {
+        TODO()
+    }
+
+    @Test fun getListByChange() {
+        TODO()
+    }
+
+    @Test fun getListByCreate() {
+        TODO()
+    }
+
+    @Test fun getListByRank() {
+        TODO()
+    }
+
+    @Test fun getListByColor() {
+        TODO()
     }
 
     //    private fun inNoteDao(func: suspend NoteDao.() -> Unit) = inRoomTest {
