@@ -33,9 +33,9 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -725,7 +725,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         fun indexToId(i: Int) = (i * i).toLong()
 
         for ((i, rollItem) in itemList.withIndex()) {
-            if (i.isDivideTwoEntirely()) {
+            if (i.isDivideEntirely()) {
                 every { rollItem.id } returns null
                 every { rollConverter.toEntity(id, rollItem) } returns entityList[i]
                 coEvery { rollDao.insert(entityList[i]) } returns idList[i]
@@ -757,7 +757,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             for ((i, rollItem) in itemList.withIndex()) {
                 rollItem.id
 
-                if (i.isDivideTwoEntirely()) {
+                if (i.isDivideEntirely()) {
                     item.id
                     rollConverter.toEntity(id, rollItem)
                     rollDao.insert(entityList[i])

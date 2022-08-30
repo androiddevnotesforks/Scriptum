@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -77,7 +78,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
                     createText(note) {
                         repeat(REPEAT_COUNT) {
                             onEnterText(it.getRepeatString())
-                            if (it % 2 == 0) {
+                            if (it.isDivideEntirely()) {
                                 closeKeyboard()
                             }
                             controlPanel { onSave().onEdit() }
@@ -98,7 +99,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
                     createRoll(note) {
                         repeat(REPEAT_COUNT) {
                             enterPanel { onAdd(it.getRepeatString()) }
-                            if (it % 2 == 0) {
+                            if (it.isDivideEntirely()) {
                                 closeKeyboard()
                             }
                             controlPanel { onSave().onEdit() }

@@ -5,6 +5,9 @@ package sgtmelon.scriptum.parent.provider
  */
 object DateProvider {
 
+    /**
+     * Number of date higher -> newest date
+     */
     const val DATE_1 = "1234-01-02 03:04:05"
     const val DATE_2 = "1345-02-03 04:05:06"
     const val DATE_3 = "1456-03-04 05:06:07"

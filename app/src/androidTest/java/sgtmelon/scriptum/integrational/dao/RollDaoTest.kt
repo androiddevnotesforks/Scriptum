@@ -25,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.parent.ParentRoomTest
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextRollEntity
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -235,7 +236,7 @@ class RollDaoTest : ParentRoomTest() {
         insertRelation(note, rollList)
 
         val idList = rollList.map { it.id!! }
-        val excludeList = idList.filter { it % 2 != 0L }
+        val excludeList = idList.filterNot { it.isDivideEntirely() }
 
         assertEquals(rollDao.getIdList(note.id), idList)
         rollDao.delete(note.id, excludeList)
@@ -252,7 +253,7 @@ class RollDaoTest : ParentRoomTest() {
         insertRelation(note, rollList)
 
         val idList = rollList.map { it.id!! }
-        val includeList = idList.filter { it % 2 != 0L }
+        val includeList = idList.filterNot { it.isDivideEntirely() }
         val excludeList = idList.toMutableList()
         excludeList.removeAll(includeList)
 
@@ -275,7 +276,10 @@ class RollDaoTest : ParentRoomTest() {
     @Test fun deleteSafe() = inRoomTest {
         val (note, rollList) = insertBigPair()
 
-        val excludeList = rollList.filter { it.id!! % 2 == 0L }.map { it.id!! }
+        val excludeList = rollList.asSequence()
+            .map { it.id!! }
+            .filter { it.isDivideEntirely() }
+            .toList()
 
         assertTrue(excludeList.size > DaoConst.OVERFLOW_COUNT)
 
@@ -333,11 +337,11 @@ class RollDaoTest : ParentRoomTest() {
         val (noteList, rollsList) = insertBigData()
 
         val idList = noteList.asSequence()
-            .filterIndexed { i, _ -> i % 2 == 0 }
+            .filterIndexed { i, _ -> i.isDivideEntirely() }
             .map { it.id }
             .toList()
 
-        val resultList = rollsList.filterIndexed { i, _ -> i % 2 == 0 }.flatten()
+        val resultList = rollsList.filterIndexed { i, _ -> i.isDivideEntirely() }.flatten()
 
         assertEquals(rollDao.getListSafe(idList), resultList)
     }

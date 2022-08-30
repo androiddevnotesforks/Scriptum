@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.parent.ParentUiRotationTest
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -56,7 +57,7 @@ class RankRotationTest : ParentUiRotationTest() {
                     repeat(times = 3) { time ->
                         onClickCancel()
 
-                        if (time % 2 == 0) {
+                        if (time.isDivideEntirely()) {
                             rotate.toSide()
                         } else {
                             rotate.toNormal()

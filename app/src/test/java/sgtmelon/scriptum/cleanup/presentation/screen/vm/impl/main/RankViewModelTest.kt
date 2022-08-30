@@ -36,9 +36,9 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -116,7 +116,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val size = getRandomSize()
         val positionArray = IntArray(size) { Random.nextInt() }
         val jsonArray = Array(size) { nextString() }
-        val itemList = List<RankItem?>(size) { if (it.isDivideTwoEntirely()) mockk() else null }
+        val itemList = List<RankItem?>(size) { if (it.isDivideEntirely()) mockk() else null }
 
         val cancelList = mutableListOf<Pair<Int, RankItem>>()
 

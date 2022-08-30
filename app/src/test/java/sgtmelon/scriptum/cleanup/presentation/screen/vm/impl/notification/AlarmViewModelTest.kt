@@ -25,7 +25,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmI
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -33,6 +32,7 @@ import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -160,7 +160,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             repeat(times = 2) {
-                if (!it.isDivideTwoEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
+                if (!it.isDivideEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
 
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
@@ -174,7 +174,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                     setupPlayer(uri, volume, isVolumeIncrease)
                 }
 
-                if (it.isDivideTwoEntirely()) {
+                if (it.isDivideEntirely()) {
                     interactor.getModel(Note.Default.ID)
                 } else {
                     interactor.getModel(id)

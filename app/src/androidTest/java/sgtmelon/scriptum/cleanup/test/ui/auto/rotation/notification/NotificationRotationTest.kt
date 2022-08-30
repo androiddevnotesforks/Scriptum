@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.parent.ParentUiRotationTest
+import sgtmelon.test.common.isDivideEntirely
 
 /**
  * Test of [NotificationActivity] work with phone rotation.
@@ -41,7 +42,7 @@ class NotificationRotationTest : ParentUiRotationTest() {
                     repeat(times = 3) { time ->
                         onClickCancel()
 
-                        if (time % 2 == 0) {
+                        if (time.isDivideEntirely()) {
                             rotate.toSide()
                         } else {
                             rotate.toNormal()

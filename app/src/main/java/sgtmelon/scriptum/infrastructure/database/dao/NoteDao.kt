@@ -17,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 /**
  * Interface for communication [DbData.Note.TABLE] with [RoomDb].
  */
+// TODO remove from use deprecated staff (and use NoteDataSource/NoteDaoSafe)
 @Dao
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 interface NoteDao {

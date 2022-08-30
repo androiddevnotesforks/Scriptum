@@ -26,8 +26,8 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -205,7 +205,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         every { item.name } returns name
 
         for ((i, id) in idList.withIndex()) {
-            val isValid = i.isDivideTwoEntirely()
+            val isValid = i.isDivideEntirely()
 
             coEvery { noteDao.get(id) } returns if (isValid) entityList[i] else null
 
@@ -222,7 +222,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             item.noteId
 
             for ((i, id) in idList.withIndex()) {
-                val isValid = i.isDivideTwoEntirely()
+                val isValid = i.isDivideEntirely()
 
                 noteDao.get(id)
 
@@ -308,7 +308,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         for ((i, entity) in entityList.withIndex()) {
             every { list[i].id } returns rankIdList[i]
 
-            val isFind = i.isDivideTwoEntirely()
+            val isFind = i.isDivideEntirely()
             every { entity.rankId } returns if (isFind) rankIdList[i] else -1
             if (isFind) {
                 every { list[i].position } returns rankPsList[i]
@@ -325,7 +325,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             noteDao.getList(noteIdList)
 
             for ((i, entity) in entityList.withIndex()) {
-                val isFind = i.isDivideTwoEntirely()
+                val isFind = i.isDivideEntirely()
 
                 for ((j, item) in list.withIndex()) {
                     item.id

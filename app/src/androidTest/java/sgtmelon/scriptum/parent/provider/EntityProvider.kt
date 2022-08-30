@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.parent.provider
 
+import kotlin.math.abs
 import kotlin.random.Random
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -19,11 +20,16 @@ object EntityProvider {
         text: String = nextString(),
         name: String = nextString(),
         color: Color = Color.values().random(),
-        type: NoteType = NoteType.values().random()
+        type: NoteType = NoteType.values().random(),
+        rankId: Long = if (Random.nextBoolean() && Random.nextBoolean()) abs(Random.nextLong()) else -1,
+        rankPs: Int = rankId.toInt(),
+        isBin: Boolean = Random.nextBoolean(),
+        isStatus: Boolean = Random.nextBoolean()
     ): NoteEntity {
         return NoteEntity(
             id = id, create = create, change = change,
-            text = text, name = name, color = color, type = type
+            text = text, name = name, color = color, type = type,
+            rankId = rankId, rankPs = rankPs, isBin = isBin, isStatus = isStatus
         )
     }
 

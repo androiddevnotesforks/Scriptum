@@ -6,8 +6,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModelTest
 
-fun Int.isDivideTwoEntirely(): Boolean = this % 2 == 0
-
 /**
  * Need size more than 2 inside:
  * - [NotesViewModelTest.onShowOptionsDialog]

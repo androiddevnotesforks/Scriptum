@@ -29,9 +29,9 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
-import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
 
@@ -164,7 +164,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
             List(size = 5) { RollVisibleEntity(id = Random.nextLong(), noteId = secondItem.id) }
         )
         for ((i, item) in startRankList.withIndex()) {
-            if (i.isDivideTwoEntirely()) {
+            if (i.isDivideEntirely()) {
                 val id = if (Random.nextBoolean()) firstItem.id else secondItem.id
                 item.noteId.add(id)
             }

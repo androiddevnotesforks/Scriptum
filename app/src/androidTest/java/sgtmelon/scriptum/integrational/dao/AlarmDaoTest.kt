@@ -25,6 +25,7 @@ import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextAlarmEntity
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
+import sgtmelon.test.common.isDivideEntirely
 
 
 /**
@@ -270,8 +271,8 @@ class AlarmDaoTest : ParentRoomTest() {
 
         val filteredIdList = noteList.asSequence()
             .take(maxSize)
-            .filter { it.id % 2 != 0L }
             .map { it.id }
+            .filterNot { it.isDivideEntirely() }
             .toList()
 
         assertEquals(alarmDao.getCountSafe(filteredIdList), filteredIdList.size)
@@ -283,8 +284,8 @@ class AlarmDaoTest : ParentRoomTest() {
         val (noteList, _) = insertBigData()
 
         val filteredIdList = noteList.asSequence()
-            .filter { it.id % 2 != 0L }
             .map { it.id }
+            .filterNot { it.isDivideEntirely() }
             .toList()
 
         assertEquals(alarmDao.getCountSafe(filteredIdList), filteredIdList.size)

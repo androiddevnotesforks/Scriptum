@@ -30,9 +30,9 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
+import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -105,7 +105,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         val positionArray = IntArray(size) { Random.nextInt() }
         val jsonArray = Array(size) { nextString() }
         val itemList = List<NotificationItem?>(size) {
-            if (it.isDivideTwoEntirely()) mockk() else null
+            if (it.isDivideEntirely()) mockk() else null
         }
 
         val cancelList = mutableListOf<Pair<Int, NotificationItem>>()
