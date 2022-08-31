@@ -21,12 +21,12 @@ import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
-import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
@@ -122,10 +122,10 @@ class RankRepoImplTest : ParentRoomRepoTest() {
         mockkObject(RankEntity)
         every { RankEntity[name] } returns entity
 
-        coEvery { rankDao.safeInsert(entity) } returns null
+        coEvery { rankDao.insertSafe(entity) } returns null
         assertNull(rankRepo.insert(name))
 
-        coEvery { rankDao.safeInsert(entity) } returns id
+        coEvery { rankDao.insertSafe(entity) } returns id
         assertEquals(id, rankRepo.insert(name))
 
         coVerifySequence {
@@ -134,7 +134,7 @@ class RankRepoImplTest : ParentRoomRepoTest() {
 
                 roomDb.rankDao
                 RankEntity[name]
-                rankDao.safeInsert(entity)
+                rankDao.insertSafe(entity)
                 roomDb.close()
             }
         }
@@ -168,7 +168,7 @@ class RankRepoImplTest : ParentRoomRepoTest() {
 
         every { converter.toEntity(rankItem) } returns rankEntity
         FastMock.daoExtension()
-        coEvery { rankDao.safeInsert(rankEntity) } returns id
+        coEvery { rankDao.insertSafe(rankEntity) } returns id
 
         rankRepo.insert(rankItem)
 
@@ -190,7 +190,7 @@ class RankRepoImplTest : ParentRoomRepoTest() {
             }
 
             converter.toEntity(rankItem)
-            rankDao.safeInsert(rankEntity)
+            rankDao.insertSafe(rankEntity)
         }
     }
 

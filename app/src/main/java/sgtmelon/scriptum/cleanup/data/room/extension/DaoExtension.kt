@@ -2,18 +2,9 @@
 
 package sgtmelon.scriptum.cleanup.data.room.extension
 
-import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
-import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.RollDao
-
-//region Insert
-
-@Deprecated("Use dataSource")
-suspend fun RankDao.safeInsert(entity: RankEntity): Long? = insert(entity).checkSafe()
-
-//endregion
 
 //region Overflow
 
