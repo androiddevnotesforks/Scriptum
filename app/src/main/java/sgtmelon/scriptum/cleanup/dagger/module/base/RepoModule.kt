@@ -21,6 +21,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
+import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 
 /**
  * Module for provide repo's
@@ -36,7 +37,12 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideBindRepo(roomProvider: RoomProvider): BindRepo = BindRepoImpl(roomProvider)
+    fun provideBindRepo(
+        alarmDataSource: AlarmDataSource,
+        noteDataSource: NoteDataSource
+    ): BindRepo {
+        return BindRepoImpl(alarmDataSource, noteDataSource)
+    }
 
     @Provides
     @Singleton

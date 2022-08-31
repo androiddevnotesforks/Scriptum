@@ -1,26 +1,27 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
-import sgtmelon.scriptum.cleanup.data.room.IRoomWork
-import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
-import sgtmelon.scriptum.cleanup.data.room.extension.inRoom
+import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
+import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
  * Repository of [Database] which work with notes bind in status bar.
  */
-class BindRepoImpl(override val roomProvider: RoomProvider) : BindRepo, IRoomWork {
+class BindRepoImpl(
+    private val alarmDataSource: AlarmDataSource,
+    private val noteDataSource: NoteDataSource
+) : BindRepo {
 
-    override suspend fun unbindNote(id: Long) = inRoom {
-        val noteEntity = noteDao.get(id) ?: return@inRoom
+    override suspend fun unbindNote(id: Long) {
+        val noteEntity = noteDataSource.get(id) ?: return
 
-        if (!noteEntity.isStatus) return@inRoom
+        if (!noteEntity.isStatus) return
 
         noteEntity.isStatus = false
-        noteDao.update(noteEntity)
+        noteDataSource.update(noteEntity)
     }
 
-    override suspend fun getNotificationCount(): Int = fromRoom { alarmDao.getCount() }
+    override suspend fun getNotificationCount(): Int = alarmDataSource.getCount()
 
 }
