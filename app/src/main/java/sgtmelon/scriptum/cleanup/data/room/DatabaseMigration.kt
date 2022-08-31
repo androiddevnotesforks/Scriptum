@@ -2,17 +2,17 @@ package sgtmelon.scriptum.cleanup.data.room
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import java.util.UUID.randomUUID
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
-import java.util.UUID.randomUUID
 
 /**
  * Class with objects for db migration.
  */
 @Suppress("KDocUnresolvedReference")
-object RoomMigrate {
+object DatabaseMigration {
 
     /**
      * Add [RollVisibleEntity].
@@ -21,7 +21,8 @@ object RoomMigrate {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
             execSQL("DROP TABLE IF EXISTS ROLL_VISIBLE_TABLE")
 
-            execSQL("""CREATE TABLE ROLL_VISIBLE_TABLE (
+            execSQL(
+                """CREATE TABLE ROLL_VISIBLE_TABLE (
                 RL_VS_ID INTEGER PRIMARY KEY NOT NULL DEFAULT 0,
                 RL_VS_NOTE_ID INTEGER NOT NULL DEFAULT 0,
                 RL_VS_VALUE INTEGER NOT NULL DEFAULT 1,

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
-import sgtmelon.scriptum.cleanup.data.room.RoomMigrate
+import sgtmelon.scriptum.cleanup.data.room.DatabaseMigration
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -53,7 +53,7 @@ abstract class Database : RoomDatabase() {
 
         operator fun get(context: Context): Database {
             return Room.databaseBuilder(context, Database::class.java, BuildConfig.DB_NAME)
-                .addMigrations(*RoomMigrate.sequence)
+                .addMigrations(*DatabaseMigration.sequence)
                 .build()
         }
     }

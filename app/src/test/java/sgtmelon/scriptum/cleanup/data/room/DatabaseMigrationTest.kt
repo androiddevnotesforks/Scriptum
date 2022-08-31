@@ -5,17 +5,17 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
- * Test for [RoomMigrate].
+ * Test for [DatabaseMigration].
  */
-class RoomMigrateTest : ParentTest() {
+class DatabaseMigrationTest : ParentTest() {
 
     @Test fun `FROM 4 TO 5 remove multiply noteId`() {
         val noteIdExistSet: MutableSet<Long> = mutableSetOf()
 
         val noteIdList: MutableList<MutableList<Long>> = arrayListOf(
-                arrayListOf(1L, 2L, 3L),
-                arrayListOf(2L, 3L, 4L),
-                arrayListOf(3L, 4L, 5L)
+            arrayListOf(1L, 2L, 3L),
+            arrayListOf(2L, 3L, 4L),
+            arrayListOf(3L, 4L, 5L)
         )
 
         val noteIdListExpected: MutableList<MutableList<Long>> = arrayListOf(
