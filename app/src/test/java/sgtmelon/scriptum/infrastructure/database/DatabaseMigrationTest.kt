@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.room
+package sgtmelon.scriptum.infrastructure.database
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -167,5 +167,4 @@ class BackupSelector(
     companion object {
         private val TAG = BackupSelector::class.java.simpleName
     }
-
 }

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.room
+package sgtmelon.scriptum.infrastructure.database
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -11,6 +11,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 /**
  * Class with objects for db migration.
  */
+// TODO remove lint errors
 @Suppress("KDocUnresolvedReference")
 object DatabaseMigration {
 
@@ -670,10 +671,7 @@ object DatabaseMigration {
     }
 
     val sequence = arrayOf(
-            FROM_1_TO_2, FROM_2_TO_3,
-            FROM_3_TO_4, FROM_4_TO_5,
-            FROM_5_TO_6, FROM_6_TO_7,
-            FROM_7_TO_8
+        FROM_1_TO_2, FROM_2_TO_3, FROM_3_TO_4, FROM_4_TO_5,
+        FROM_5_TO_6, FROM_6_TO_7, FROM_7_TO_8
     )
-
 }
