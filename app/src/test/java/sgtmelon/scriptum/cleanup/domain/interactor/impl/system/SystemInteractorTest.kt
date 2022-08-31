@@ -20,8 +20,8 @@ import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.getRandomSize
@@ -40,7 +40,7 @@ class SystemInteractorTest : ParentInteractorTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var bindRepo: BindRepo
     @MockK lateinit var alarmRepo: AlarmRepo
-    @MockK lateinit var rankRepo: IRankRepo
+    @MockK lateinit var rankRepo: RankRepo
     @MockK lateinit var noteRepo: NoteRepo
 
     @MockK lateinit var callback: ISystemBridge

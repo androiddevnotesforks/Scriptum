@@ -21,8 +21,8 @@ import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
@@ -1194,7 +1194,7 @@ object FastTest {
          * Can't mockk Arrays. Don't try.
          */
         suspend fun getRankDialogItemArray(
-            rankRepo: IRankRepo,
+            rankRepo: RankRepo,
             callFunc: suspend (name: String) -> Array<String>
         ) {
             val emptyName = nextString()
@@ -1209,7 +1209,7 @@ object FastTest {
             }
         }
 
-        suspend fun getRankId(rankRepo: IRankRepo, callFunc: suspend (check: Int) -> Long) {
+        suspend fun getRankId(rankRepo: RankRepo, callFunc: suspend (check: Int) -> Long) {
             val check = Random.nextInt()
             val id = Random.nextLong()
 
@@ -1268,7 +1268,7 @@ object FastTest {
 
         suspend inline fun <reified T : NoteItem> saveNote(
             noteRepo: NoteRepo,
-            rankRepo: IRankRepo,
+            rankRepo: RankRepo,
             callFunc: (item: T, isCreate: Boolean) -> Unit
         ) {
             val item = mockk<T>()

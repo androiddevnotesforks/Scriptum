@@ -14,8 +14,8 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 
@@ -28,7 +28,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     // TODO many items are common with [RollNoteInteractor]
 
     @MockK lateinit var alarmRepo: AlarmRepo
-    @MockK lateinit var rankRepo: IRankRepo
+    @MockK lateinit var rankRepo: RankRepo
     @MockK lateinit var noteRepo: NoteRepo
 
     private val interactor by lazy {

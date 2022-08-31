@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.data.repository.room
 
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -22,7 +22,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 class RankRepoImpl(
     override val roomProvider: RoomProvider,
     private val converter: RankConverter
-) : IRankRepo,
+) : RankRepo,
     IRoomWork {
 
     override suspend fun getCount(): Int = fromRoom { rankDao.getCount() }

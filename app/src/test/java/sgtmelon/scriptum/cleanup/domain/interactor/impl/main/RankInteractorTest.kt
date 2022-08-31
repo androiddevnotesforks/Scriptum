@@ -11,7 +11,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.test.common.nextString
@@ -22,7 +22,7 @@ import sgtmelon.test.common.nextString
 @ExperimentalCoroutinesApi
 class RankInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var rankRepo: IRankRepo
+    @MockK lateinit var rankRepo: RankRepo
 
     private val interactor by lazy { RankInteractor(rankRepo) }
 

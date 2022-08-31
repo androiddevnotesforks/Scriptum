@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 /**
  * Interface for communicate with [RankRepoImpl]
  */
-interface IRankRepo {
+interface RankRepo {
 
     suspend fun getCount(): Int
 

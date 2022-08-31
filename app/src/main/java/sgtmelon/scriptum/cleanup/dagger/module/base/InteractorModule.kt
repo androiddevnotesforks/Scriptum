@@ -7,8 +7,8 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
@@ -50,7 +50,7 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideRankInteractor(rankRepo: IRankRepo): IRankInteractor = RankInteractor(rankRepo)
+    fun provideRankInteractor(rankRepo: RankRepo): IRankInteractor = RankInteractor(rankRepo)
 
 
     @Provides
@@ -80,7 +80,7 @@ class InteractorModule {
     @ActivityScope
     fun provideTextNoteInteractor(
         alarmRepo: AlarmRepo,
-        rankRepo: IRankRepo,
+        rankRepo: RankRepo,
         noteRepo: NoteRepo
     ): ITextNoteInteractor {
         return TextNoteInteractor(alarmRepo, rankRepo, noteRepo)
@@ -90,7 +90,7 @@ class InteractorModule {
     @ActivityScope
     fun provideRollNoteInteractor(
         alarmRepo: AlarmRepo,
-        rankRepo: IRankRepo,
+        rankRepo: RankRepo,
         noteRepo: NoteRepo
     ): IRollNoteInteractor {
         return RollNoteInteractor(alarmRepo, rankRepo, noteRepo)
@@ -124,7 +124,7 @@ class InteractorModule {
     fun provideBackupPreferenceInteractor(
         preferencesRepo: PreferencesRepo,
         alarmRepo: AlarmRepo,
-        rankRepo: IRankRepo,
+        rankRepo: RankRepo,
         noteRepo: NoteRepo,
         backupRepo: BackupRepo,
         backupParser: IBackupParser,
@@ -167,7 +167,7 @@ class InteractorModule {
         preferencesRepo: PreferencesRepo,
         bindRepo: BindRepo,
         alarmRepo: AlarmRepo,
-        rankRepo: IRankRepo,
+        rankRepo: RankRepo,
         noteRepo: NoteRepo
     ): ISystemInteractor {
         return SystemInteractor(preferencesRepo, bindRepo, alarmRepo, rankRepo, noteRepo, logic)
