@@ -9,8 +9,8 @@ import sgtmelon.scriptum.infrastructure.database.Database
  * Repository of [Database] which work with notes bind in status bar.
  */
 class BindRepoImpl(
-    private val alarmDataSource: AlarmDataSource,
-    private val noteDataSource: NoteDataSource
+    private val noteDataSource: NoteDataSource,
+    private val alarmDataSource: AlarmDataSource
 ) : BindRepo {
 
     override suspend fun unbindNote(id: Long) {

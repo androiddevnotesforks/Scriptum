@@ -22,6 +22,9 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
+import sgtmelon.scriptum.data.dataSource.database.RankDataSource
+import sgtmelon.scriptum.data.dataSource.database.RollDataSource
+import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 
 /**
  * Module for provide repo's
@@ -38,15 +41,26 @@ class RepoModule {
     @Provides
     @Singleton
     fun provideBindRepo(
-        alarmDataSource: AlarmDataSource,
-        noteDataSource: NoteDataSource
+        noteDataSource: NoteDataSource,
+        alarmDataSource: AlarmDataSource
     ): BindRepo {
-        return BindRepoImpl(alarmDataSource, noteDataSource)
+        return BindRepoImpl(noteDataSource, alarmDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideDevelopRepo(roomProvider: RoomProvider): DevelopRepo = DevelopRepoImpl(roomProvider)
+    fun provideDevelopRepo(
+        noteDataSource: NoteDataSource,
+        rollDataSource: RollDataSource,
+        rollVisibleDataSource: RollVisibleDataSource,
+        rankDataSource: RankDataSource,
+        alarmDataSource: AlarmDataSource
+    ): DevelopRepo {
+        return DevelopRepoImpl(
+            noteDataSource, rollDataSource, rollVisibleDataSource,
+            rankDataSource, alarmDataSource
+        )
+    }
 
     @Provides
     @Singleton
