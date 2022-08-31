@@ -18,7 +18,6 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
-import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity

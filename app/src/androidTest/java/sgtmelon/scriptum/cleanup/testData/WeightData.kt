@@ -4,20 +4,20 @@ import android.content.Context
 import kotlin.random.Random
 import sgtmelon.common.utils.getTime
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.parent.RoomWorker
 
 /**
  * Data for weight tests
  */
 class WeightData(
     private val context: Context,
-    override val roomProvider: RoomProvider
-) : IRoomWork {
+    override val database: Database
+) : RoomWorker {
 
     val textNote: NoteEntity
         get() = NoteEntity().apply {
@@ -38,5 +38,4 @@ class WeightData(
             ))
         }
     }
-
 }

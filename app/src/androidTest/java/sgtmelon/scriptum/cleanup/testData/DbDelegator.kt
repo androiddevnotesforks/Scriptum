@@ -5,8 +5,6 @@ import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getRandomFutureTime
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.getTime
-import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
@@ -15,15 +13,16 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
-import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.bin.BinNoteDialogTest
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes.NotesNoteDialogTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.parent.RoomWorker
 import sgtmelon.test.common.nextString
 
 /**
@@ -31,9 +30,9 @@ import sgtmelon.test.common.nextString
  */
 // TODO replace unsafe operations
 class DbDelegator(
-    override val roomProvider: RoomProvider,
+    override val database: Database,
     private val preferencesRepo: PreferencesRepo
-) : IRoomWork {
+) : RoomWorker {
 
     private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
