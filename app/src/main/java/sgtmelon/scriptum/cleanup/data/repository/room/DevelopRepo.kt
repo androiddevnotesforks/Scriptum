@@ -2,10 +2,10 @@ package sgtmelon.scriptum.cleanup.data.repository.room
 
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
-import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
+import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
  * Repository of [Database] which work with all tables data and only for developer screen.

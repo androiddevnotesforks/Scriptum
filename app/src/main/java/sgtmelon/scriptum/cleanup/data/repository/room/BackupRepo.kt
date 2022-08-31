@@ -7,7 +7,6 @@ import sgtmelon.common.utils.getCalendarOrNull
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
-import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
+import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
  * Repository of [Database] which work with backup data.

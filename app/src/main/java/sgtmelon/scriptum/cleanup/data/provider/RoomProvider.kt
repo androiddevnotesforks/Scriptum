@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.data.provider
 
 import android.content.Context
-import sgtmelon.scriptum.cleanup.data.room.Database
+import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
  * Provider of [Database] for different repositories.

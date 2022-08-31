@@ -5,10 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 
 /**

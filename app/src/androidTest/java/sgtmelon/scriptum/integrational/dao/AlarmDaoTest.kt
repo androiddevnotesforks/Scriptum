@@ -11,11 +11,11 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe

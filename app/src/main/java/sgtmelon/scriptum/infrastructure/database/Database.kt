@@ -1,9 +1,10 @@
-package sgtmelon.scriptum.cleanup.data.room
+package sgtmelon.scriptum.infrastructure.database
 
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
+import sgtmelon.scriptum.cleanup.data.room.RoomMigrate
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity

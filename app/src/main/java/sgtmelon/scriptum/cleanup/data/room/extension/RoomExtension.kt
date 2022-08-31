@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.data.room.extension
 
 import kotlinx.coroutines.runBlocking
 import sgtmelon.common.test.annotation.RunNone
-import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
+import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
  * Function only for integration tests.

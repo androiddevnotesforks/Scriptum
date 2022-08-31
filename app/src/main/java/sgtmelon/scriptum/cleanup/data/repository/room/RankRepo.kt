@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.data.repository.room
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -14,6 +13,7 @@ import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 
 /**
