@@ -13,10 +13,10 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import sgtmelon.scriptum.cleanup.basic.exception.ThemeException
-import sgtmelon.scriptum.cleanup.dagger.module.base.ConverterModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ConverterModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.PreferencesModule
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.preferences.Preferences

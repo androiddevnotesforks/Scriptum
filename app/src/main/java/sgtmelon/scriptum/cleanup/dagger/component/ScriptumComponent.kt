@@ -19,15 +19,16 @@ import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.DevelopPref
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PrintDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.ServiceDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.service.SystemComponent
-import sgtmelon.scriptum.cleanup.dagger.module.base.ContextModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.ConverterModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.RepoModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.GetSummaryUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.UseCaseModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ContextModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ConverterModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.PreferencesModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.RoomModule
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 
 /**
@@ -37,6 +38,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 @Component(modules = [
     ContextModule::class,
     PreferencesModule::class,
+    RoomModule::class,
+    ConverterModule::class,
+
     DataSourceModule::class,
     RepositoryModule::class,
 
@@ -44,8 +48,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
     UseCaseModule::class,
 
     RepoModule::class,
-    ProviderModule::class,
-    ConverterModule::class
+    ProviderModule::class
 ])
 interface ScriptumComponent {
 

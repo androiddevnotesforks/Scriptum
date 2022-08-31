@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.dagger.module.base
+package sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure
 
 import android.content.Context
 import android.content.res.Resources
