@@ -14,8 +14,8 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 
@@ -29,7 +29,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var alarmRepo: AlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
-    @MockK lateinit var noteRepo: INoteRepo
+    @MockK lateinit var noteRepo: NoteRepo
 
     private val interactor by lazy {
         TextNoteInteractor(alarmRepo, rankRepo, noteRepo)

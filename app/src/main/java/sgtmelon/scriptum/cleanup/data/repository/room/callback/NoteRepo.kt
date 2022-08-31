@@ -11,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Sort
 /**
  * Interface for communicate with [NoteRepoImpl]
  */
-interface INoteRepo {
+interface NoteRepo {
 
     suspend fun getCount(isBin: Boolean): Int
 

@@ -21,8 +21,8 @@ import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
@@ -1222,7 +1222,7 @@ object FastTest {
         }
 
         suspend inline fun <reified T : NoteItem> restoreNote(
-            noteRepo: INoteRepo,
+            noteRepo: NoteRepo,
             callFunc: (T) -> Unit
         ) {
             val item = mockk<T>()
@@ -1237,7 +1237,7 @@ object FastTest {
         }
 
         suspend inline fun <reified T : NoteItem> updateNote(
-            noteRepo: INoteRepo,
+            noteRepo: NoteRepo,
             callFunc: (T) -> Unit
         ) {
             val item = mockk<T>()
@@ -1252,7 +1252,7 @@ object FastTest {
         }
 
         suspend inline fun <reified T : NoteItem> clearNote(
-            noteRepo: INoteRepo,
+            noteRepo: NoteRepo,
             callFunc: (T) -> Unit
         ) {
             val item = mockk<T>()
@@ -1267,7 +1267,7 @@ object FastTest {
         }
 
         suspend inline fun <reified T : NoteItem> saveNote(
-            noteRepo: INoteRepo,
+            noteRepo: NoteRepo,
             rankRepo: IRankRepo,
             callFunc: (item: T, isCreate: Boolean) -> Unit
         ) {
@@ -1288,7 +1288,7 @@ object FastTest {
 
 
         suspend inline fun <reified T : NoteItem> deleteNote(
-            noteRepo: INoteRepo,
+            noteRepo: NoteRepo,
             callFunc: (T) -> Unit
         ) {
             val item = mockk<T>()

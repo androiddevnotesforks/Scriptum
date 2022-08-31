@@ -7,8 +7,8 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
@@ -57,7 +57,7 @@ class InteractorModule {
     @ActivityScope
     fun provideNotesInteractor(
         preferencesRepo: PreferencesRepo,
-        noteRepo: INoteRepo,
+        noteRepo: NoteRepo,
         alarmRepo: AlarmRepo,
     ): INotesInteractor {
         return NotesInteractor(preferencesRepo, alarmRepo, noteRepo)
@@ -67,7 +67,7 @@ class InteractorModule {
     @ActivityScope
     fun provideBinInteractor(
         preferencesRepo: PreferencesRepo,
-        noteRepo: INoteRepo
+        noteRepo: NoteRepo
     ): IBinInteractor {
         return BinInteractor(preferencesRepo, noteRepo)
     }
@@ -81,7 +81,7 @@ class InteractorModule {
     fun provideTextNoteInteractor(
         alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
-        noteRepo: INoteRepo
+        noteRepo: NoteRepo
     ): ITextNoteInteractor {
         return TextNoteInteractor(alarmRepo, rankRepo, noteRepo)
     }
@@ -91,7 +91,7 @@ class InteractorModule {
     fun provideRollNoteInteractor(
         alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
-        noteRepo: INoteRepo
+        noteRepo: NoteRepo
     ): IRollNoteInteractor {
         return RollNoteInteractor(alarmRepo, rankRepo, noteRepo)
     }
@@ -102,7 +102,7 @@ class InteractorModule {
     @ActivityScope
     fun provideAlarmInteractor(
         alarmRepo: AlarmRepo,
-        noteRepo: INoteRepo
+        noteRepo: NoteRepo
     ): IAlarmInteractor {
         return AlarmInteractor(alarmRepo, noteRepo)
     }
@@ -110,7 +110,7 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideNotificationInteractor(
-        noteRepo: INoteRepo,
+        noteRepo: NoteRepo,
         alarmRepo: AlarmRepo,
         bindRepo: BindRepo
     ): INotificationInteractor {
@@ -125,7 +125,7 @@ class InteractorModule {
         preferencesRepo: PreferencesRepo,
         alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
-        noteRepo: INoteRepo,
+        noteRepo: NoteRepo,
         backupRepo: BackupRepo,
         backupParser: IBackupParser,
         fileControl: IFileControl,
@@ -168,7 +168,7 @@ class InteractorModule {
         bindRepo: BindRepo,
         alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
-        noteRepo: INoteRepo
+        noteRepo: NoteRepo
     ): ISystemInteractor {
         return SystemInteractor(preferencesRepo, bindRepo, alarmRepo, rankRepo, noteRepo, logic)
     }

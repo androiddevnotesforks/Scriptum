@@ -5,7 +5,7 @@ import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
  */
 class AlarmInteractor(
     private val alarmRepo: AlarmRepo,
-    private val noteRepo: INoteRepo
+    private val noteRepo: NoteRepo
 ) : ParentInteractor(),
     IAlarmInteractor {
 

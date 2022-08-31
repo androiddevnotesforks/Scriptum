@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.note
 import java.util.Calendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteV
 class RollNoteInteractor(
     private val alarmRepo: AlarmRepo,
     private val rankRepo: IRankRepo,
-    private val noteRepo: INoteRepo
+    private val noteRepo: NoteRepo
 ) : ParentInteractor(),
     IRollNoteInteractor {
 

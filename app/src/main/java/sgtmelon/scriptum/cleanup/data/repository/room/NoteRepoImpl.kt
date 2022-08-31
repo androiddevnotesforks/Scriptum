@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.data.repository.room
 
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
@@ -29,7 +29,7 @@ class NoteRepoImpl(
     override val roomProvider: RoomProvider,
     private val noteConverter: NoteConverter,
     private val rollConverter: RollConverter
-) : INoteRepo, IRoomWork {
+) : NoteRepo, IRoomWork {
 
     /**
      * Important:

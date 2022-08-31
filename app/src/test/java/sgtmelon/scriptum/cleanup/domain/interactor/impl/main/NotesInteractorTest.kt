@@ -16,8 +16,8 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
@@ -34,7 +34,7 @@ import sgtmelon.test.common.nextString
 class NotesInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
-    @MockK lateinit var noteRepo: INoteRepo
+    @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var alarmRepo: AlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
 

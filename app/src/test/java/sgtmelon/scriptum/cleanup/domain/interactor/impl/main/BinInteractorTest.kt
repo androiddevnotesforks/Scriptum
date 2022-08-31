@@ -12,7 +12,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.TestData
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -28,7 +28,7 @@ class BinInteractorTest : ParentInteractorTest() {
     private val data = TestData.Note
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
-    @MockK lateinit var noteRepo: INoteRepo
+    @MockK lateinit var noteRepo: NoteRepo
 
     private val interactor by lazy { BinInteractor(preferencesRepo, noteRepo) }
 

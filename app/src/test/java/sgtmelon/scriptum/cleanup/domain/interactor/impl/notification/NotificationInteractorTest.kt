@@ -14,7 +14,7 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
@@ -26,7 +26,7 @@ import sgtmelon.test.common.nextString
 @ExperimentalCoroutinesApi
 class NotificationInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var noteRepo: INoteRepo
+    @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var alarmRepo: AlarmRepo
     @MockK lateinit var bindRepo: BindRepo
 
