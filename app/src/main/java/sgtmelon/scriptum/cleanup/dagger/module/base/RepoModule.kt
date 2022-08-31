@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.BindRepoImpl
@@ -92,7 +91,15 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideBackupRepo(roomProvider: RoomProvider): BackupRepo {
-        return BackupRepoImpl(roomProvider)
+    fun provideBackupRepo(
+        noteDataSource: NoteDataSource,
+        rollDataSource: RollDataSource,
+        rollVisibleDataSource: RollVisibleDataSource,
+        rankDataSource: RankDataSource,
+        alarmDataSource: AlarmDataSource,
+    ): BackupRepo {
+        return BackupRepoImpl(
+            noteDataSource, rollDataSource, rollVisibleDataSource, rankDataSource, alarmDataSource
+        )
     }
 }
