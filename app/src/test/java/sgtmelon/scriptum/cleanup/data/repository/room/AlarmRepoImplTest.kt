@@ -20,14 +20,14 @@ import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [AlarmRepo].
+ * Test for [AlarmRepoImpl].
  */
 @ExperimentalCoroutinesApi
-class AlarmRepoTest : ParentRoomRepoTest() {
+class AlarmRepoImplTest : ParentRoomRepoTest() {
 
     @MockK lateinit var converter: AlarmConverter
 
-    private val alarmRepo by lazy { AlarmRepo(roomProvider, converter) }
+    private val alarmRepo by lazy { AlarmRepoImpl(roomProvider, converter) }
 
     @After override fun tearDown() {
         super.tearDown()

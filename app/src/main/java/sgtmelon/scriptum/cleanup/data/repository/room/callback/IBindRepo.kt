@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.data.repository.room.callback
 
-import sgtmelon.scriptum.cleanup.data.repository.room.BindRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.BindRepoImpl
 
 /**
- * Interface for communicate with [BindRepo]
+ * Interface for communicate with [BindRepoImpl]
  */
 interface IBindRepo {
 

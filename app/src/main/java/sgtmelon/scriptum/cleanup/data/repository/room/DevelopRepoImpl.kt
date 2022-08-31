@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 /**
  * Repository of [Database] which work with all tables data and only for developer screen.
  */
-class DevelopRepo(
+class DevelopRepoImpl(
     override val roomProvider: RoomProvider
 ) : IDevelopRepo,
     IRoomWork {

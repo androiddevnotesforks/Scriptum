@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
@@ -75,6 +75,6 @@ class BackupPreferenceInteractor(
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error
         val isSkipImports = preferencesRepo.isBackupSkipImports
 
-        return backupRepo.insertData(BackupRepo.Model[parserResult], isSkipImports)
+        return backupRepo.insertData(BackupRepoImpl.Model[parserResult], isSkipImports)
     }
 }

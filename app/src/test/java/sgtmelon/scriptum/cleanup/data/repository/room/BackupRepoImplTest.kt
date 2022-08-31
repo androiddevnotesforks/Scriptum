@@ -36,16 +36,16 @@ import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [BackupRepo].
+ * Test for [BackupRepoImpl].
  */
 @ExperimentalCoroutinesApi
-class BackupRepoTest : ParentRoomRepoTest() {
+class BackupRepoImplTest : ParentRoomRepoTest() {
 
-    private val backupRepo by lazy { BackupRepo(roomProvider) }
+    private val backupRepo by lazy { BackupRepoImpl(roomProvider) }
     private val spyBackupRepo by lazy { spyk(backupRepo) }
 
     @Test fun insertData() = startCoTest {
-        val model = mockk<BackupRepo.Model>()
+        val model = mockk<BackupRepoImpl.Model>()
         val noteList = mockk<MutableList<NoteEntity>>()
         val size = Random.nextInt()
         val removeList = mockk<List<NoteEntity>>()
@@ -146,7 +146,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
             AlarmEntity(id = Random.nextLong(), noteId = Random.nextLong())
         }
 
-        val endModel = BackupRepo.Model(
+        val endModel = BackupRepoImpl.Model(
             endNoteList, endRollList, endRollVisibleList, endRankList, endAlarmList
         )
 
@@ -177,7 +177,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
             }
         )
 
-        val startModel = BackupRepo.Model(
+        val startModel = BackupRepoImpl.Model(
             startNoteList, startRollList, startRollVisibleList, startRankList, startAlarmList
         )
 
@@ -220,7 +220,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
             last().rankPs = Random.nextInt()
         }
 
-        val model = BackupRepo.Model(noteList, mockk(), mockk(), rankList, mockk())
+        val model = BackupRepoImpl.Model(noteList, mockk(), mockk(), rankList, mockk())
 
         assertNotEquals(model.noteList, resultNoteList)
         assertNotEquals(model.rankList, resultRankList)
@@ -251,7 +251,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
             add(AlarmEntity(id = Random.nextLong(), date = getRandomPastTime()))
         }
 
-        val model = BackupRepo.Model(mockk(), mockk(), mockk(), mockk(), alarmList)
+        val model = BackupRepoImpl.Model(mockk(), mockk(), mockk(), mockk(), alarmList)
 
         assertNotEquals(model.alarmList, resultAlarmList)
 
@@ -300,7 +300,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun insertRollList() = startCoTest {
-        val model = mockk<BackupRepo.Model>()
+        val model = mockk<BackupRepoImpl.Model>()
         val item = mockk<RollEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
@@ -320,7 +320,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun insertRollVisibleList() = startCoTest {
-        val model = mockk<BackupRepo.Model>()
+        val model = mockk<BackupRepoImpl.Model>()
         val item = mockk<RollVisibleEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
@@ -344,7 +344,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun insertAlarmList() = startCoTest {
-        val model = mockk<BackupRepo.Model>()
+        val model = mockk<BackupRepoImpl.Model>()
         val item = mockk<AlarmEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 

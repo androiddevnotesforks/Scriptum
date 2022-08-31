@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 /**
  * Repository of [Database] which work with notes bind in status bar.
  */
-class BindRepo(override val roomProvider: RoomProvider) : IBindRepo, IRoomWork {
+class BindRepoImpl(override val roomProvider: RoomProvider) : IBindRepo, IRoomWork {
 
     override suspend fun unbindNote(id: Long) = inRoom {
         val noteEntity = noteDao.get(id) ?: return@inRoom

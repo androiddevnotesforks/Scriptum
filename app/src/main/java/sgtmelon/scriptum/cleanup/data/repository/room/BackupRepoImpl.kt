@@ -28,7 +28,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 /**
  * Repository of [Database] which work with backup data.
  */
-class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
+class BackupRepoImpl(override val roomProvider: RoomProvider) : IBackupRepo,
     IRoomWork {
 
     override suspend fun insertData(model: Model, isSkipImports: Boolean): ImportResult {

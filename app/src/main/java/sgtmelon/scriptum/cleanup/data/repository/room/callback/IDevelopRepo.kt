@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.data.repository.room.callback
 
-import sgtmelon.scriptum.cleanup.data.repository.room.DevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.DevelopRepoImpl
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 
 /**
- * Interface for communicate with [DevelopRepo]
+ * Interface for communicate with [DevelopRepoImpl]
  */
 interface IDevelopRepo {
 

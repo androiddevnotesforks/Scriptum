@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.data.repository.room.callback
 
-import sgtmelon.scriptum.cleanup.data.repository.room.RankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.RankRepoImpl
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 
 /**
- * Interface for communicate with [RankRepo]
+ * Interface for communicate with [RankRepoImpl]
  */
 interface IRankRepo {
 

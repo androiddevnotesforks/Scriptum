@@ -39,16 +39,16 @@ import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [NoteRepo].
+ * Test for [NoteRepoImpl].
  */
 @Suppress("UnusedEquals")
 @ExperimentalCoroutinesApi
-class NoteRepoTest : ParentRoomRepoTest() {
+class NoteRepoImplTest : ParentRoomRepoTest() {
 
     private val noteConverter = mockk<NoteConverter>()
     private val rollConverter = mockk<RollConverter>()
 
-    private val noteRepo by lazy { NoteRepo(roomProvider, noteConverter, rollConverter) }
+    private val noteRepo by lazy { NoteRepoImpl(roomProvider, noteConverter, rollConverter) }
     private val spyNoteRepo by lazy { spyk(noteRepo) }
 
     @After override fun tearDown() {

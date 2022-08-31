@@ -18,12 +18,12 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 
 /**
- * Test for [DevelopRepo].
+ * Test for [DevelopRepoImpl].
  */
 @ExperimentalCoroutinesApi
-class DevelopRepoTest : ParentRoomRepoTest() {
+class DevelopRepoImplTest : ParentRoomRepoTest() {
 
-    private val developRepo by lazy { DevelopRepo(roomProvider) }
+    private val developRepo by lazy { DevelopRepoImpl(roomProvider) }
 
     @Test fun getPrintNoteList() = startCoTest {
         val isBin = Random.nextBoolean()

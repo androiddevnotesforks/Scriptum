@@ -19,7 +19,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 /**
  * Repository of [Database] for work with ranks.
  */
-class RankRepo(
+class RankRepoImpl(
     override val roomProvider: RoomProvider,
     private val converter: RankConverter
 ) : IRankRepo,

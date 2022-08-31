@@ -31,14 +31,14 @@ import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [RankRepo].
+ * Test for [RankRepoImpl].
  */
 @ExperimentalCoroutinesApi
-class RankRepoTest : ParentRoomRepoTest() {
+class RankRepoImplTest : ParentRoomRepoTest() {
 
     private val converter: RankConverter = mockk()
 
-    private val rankRepo by lazy { RankRepo(roomProvider, converter) }
+    private val rankRepo by lazy { RankRepoImpl(roomProvider, converter) }
     private val spyRankRepo by lazy { spyk(rankRepo) }
 
     @After override fun tearDown() {

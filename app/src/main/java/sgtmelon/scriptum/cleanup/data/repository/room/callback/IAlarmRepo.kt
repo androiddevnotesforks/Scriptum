@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.data.repository.room.callback
 
-import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepoImpl
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 
 /**
- * Interface for communicate with [AlarmRepo]
+ * Interface for communicate with [AlarmRepoImpl]
  */
 interface IAlarmRepo {
 

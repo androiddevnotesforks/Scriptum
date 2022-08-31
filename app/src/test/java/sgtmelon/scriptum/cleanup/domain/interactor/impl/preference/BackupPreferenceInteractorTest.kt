@@ -16,7 +16,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
@@ -167,7 +167,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         val data = nextString()
         val parserResult = mockk<ParserResult>()
         val isSkipImports = Random.nextBoolean()
-        val backupModel = mockk<BackupRepo.Model>()
+        val backupModel = mockk<BackupRepoImpl.Model>()
 
         val skipResult = ImportResult.Skip(Random.nextInt())
 
@@ -185,8 +185,8 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
         assertEquals(ImportResult.Error, spyInteractor.import(item.name))
 
-        mockkObject(BackupRepo.Model)
-        every { BackupRepo.Model[parserResult] } returns backupModel
+        mockkObject(BackupRepoImpl.Model)
+        every { BackupRepoImpl.Model[parserResult] } returns backupModel
 
         every { backupParser.parse(data) } returns parserResult
         every { preferencesRepo.isBackupSkipImports } returns isSkipImports
@@ -219,7 +219,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
                 cipherControl.decrypt(encryptData)
                 backupParser.parse(data)
                 preferencesRepo.isBackupSkipImports
-                BackupRepo.Model[parserResult]
+                BackupRepoImpl.Model[parserResult]
                 backupRepo.insertData(backupModel, isSkipImports)
             }
         }

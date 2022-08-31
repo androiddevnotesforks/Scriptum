@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.data.repository.room.callback
 
-import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 
 /**
- * Interface for [BackupRepo].
+ * Interface for [BackupRepoImpl].
  */
 interface IBackupRepo {
-    suspend fun insertData(model: BackupRepo.Model, isSkipImports: Boolean): ImportResult
+    suspend fun insertData(model: BackupRepoImpl.Model, isSkipImports: Boolean): ImportResult
 }

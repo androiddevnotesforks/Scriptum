@@ -4,12 +4,12 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.BindRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.DevelopRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.RankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepoImpl
+import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
+import sgtmelon.scriptum.cleanup.data.repository.room.BindRepoImpl
+import sgtmelon.scriptum.cleanup.data.repository.room.DevelopRepoImpl
+import sgtmelon.scriptum.cleanup.data.repository.room.NoteRepoImpl
+import sgtmelon.scriptum.cleanup.data.repository.room.RankRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
@@ -31,16 +31,16 @@ class RepoModule {
     @Provides
     @Singleton
     fun provideAlarmRepo(dataSource: AlarmDataSource, converter: AlarmConverter): IAlarmRepo {
-        return AlarmRepo(dataSource, converter)
+        return AlarmRepoImpl(dataSource, converter)
     }
 
     @Provides
     @Singleton
-    fun provideBindRepo(roomProvider: RoomProvider): IBindRepo = BindRepo(roomProvider)
+    fun provideBindRepo(roomProvider: RoomProvider): IBindRepo = BindRepoImpl(roomProvider)
 
     @Provides
     @Singleton
-    fun provideDevelopRepo(roomProvider: RoomProvider): IDevelopRepo = DevelopRepo(roomProvider)
+    fun provideDevelopRepo(roomProvider: RoomProvider): IDevelopRepo = DevelopRepoImpl(roomProvider)
 
     @Provides
     @Singleton
@@ -49,18 +49,18 @@ class RepoModule {
         noteConverter: NoteConverter,
         rollConverter: RollConverter
     ): INoteRepo {
-        return NoteRepo(roomProvider, noteConverter, rollConverter)
+        return NoteRepoImpl(roomProvider, noteConverter, rollConverter)
     }
 
     @Provides
     @Singleton
     fun provideRankRepo(roomProvider: RoomProvider, converter: RankConverter): IRankRepo {
-        return RankRepo(roomProvider, converter)
+        return RankRepoImpl(roomProvider, converter)
     }
 
     @Provides
     @Singleton
     fun provideBackupRepo(roomProvider: RoomProvider): IBackupRepo {
-        return BackupRepo(roomProvider)
+        return BackupRepoImpl(roomProvider)
     }
 }

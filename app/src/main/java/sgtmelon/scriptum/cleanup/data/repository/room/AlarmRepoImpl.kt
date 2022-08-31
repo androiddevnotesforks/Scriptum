@@ -11,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 /**
  * Repository of [Database] which work with alarm.
  */
-class AlarmRepo(
+class AlarmRepoImpl(
     private val dataSource: AlarmDataSource,
     private val converter: AlarmConverter
 ) : IAlarmRepo {

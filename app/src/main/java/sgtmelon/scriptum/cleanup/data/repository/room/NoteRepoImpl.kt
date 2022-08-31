@@ -25,7 +25,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Sort
 /**
  * Repository of [Database] which work with notes.
  */
-class NoteRepo(
+class NoteRepoImpl(
     override val roomProvider: RoomProvider,
     private val noteConverter: NoteConverter,
     private val rollConverter: RollConverter

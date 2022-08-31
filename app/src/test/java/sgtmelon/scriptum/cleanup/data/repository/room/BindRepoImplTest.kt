@@ -12,12 +12,12 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 
 /**
- * Test for [BindRepo].
+ * Test for [BindRepoImpl].
  */
 @ExperimentalCoroutinesApi
-class BindRepoTest : ParentRoomRepoTest() {
+class BindRepoImplTest : ParentRoomRepoTest() {
 
-    private val bindRepo by lazy { BindRepo(roomProvider) }
+    private val bindRepo by lazy { BindRepoImpl(roomProvider) }
 
     @Test fun unbindNote() = startCoTest {
         val id = Random.nextLong()
