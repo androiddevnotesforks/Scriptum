@@ -5,7 +5,7 @@ import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.runMain
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
  */
 class SystemInteractor(
     private val preferenceRepo: PreferencesRepo,
-    private val bindRepo: IBindRepo,
+    private val bindRepo: BindRepo,
     private val alarmRepo: AlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo,

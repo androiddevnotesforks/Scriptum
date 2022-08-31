@@ -13,7 +13,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -28,7 +28,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var noteRepo: INoteRepo
     @MockK lateinit var alarmRepo: AlarmRepo
-    @MockK lateinit var bindRepo: IBindRepo
+    @MockK lateinit var bindRepo: BindRepo
 
     private val interactor by lazy {
         NotificationInteractor(noteRepo, alarmRepo, bindRepo)

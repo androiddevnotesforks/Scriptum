@@ -5,7 +5,7 @@ import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -112,7 +112,7 @@ class InteractorModule {
     fun provideNotificationInteractor(
         noteRepo: INoteRepo,
         alarmRepo: AlarmRepo,
-        bindRepo: IBindRepo
+        bindRepo: BindRepo
     ): INotificationInteractor {
         return NotificationInteractor(noteRepo, alarmRepo, bindRepo)
     }
@@ -165,7 +165,7 @@ class InteractorModule {
     fun provideSystemInteractor(
         logic: SystemLogic,
         preferencesRepo: PreferencesRepo,
-        bindRepo: IBindRepo,
+        bindRepo: BindRepo,
         alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo

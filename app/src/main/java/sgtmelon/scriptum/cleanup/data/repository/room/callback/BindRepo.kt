@@ -5,7 +5,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.BindRepoImpl
 /**
  * Interface for communicate with [BindRepoImpl]
  */
-interface IBindRepo {
+interface BindRepo {
 
     suspend fun unbindNote(id: Long)
 
