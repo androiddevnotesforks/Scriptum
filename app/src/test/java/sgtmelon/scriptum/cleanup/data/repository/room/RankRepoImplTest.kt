@@ -274,17 +274,23 @@ class RankRepoImplTest : ParentRoomRepoTest() {
 
         val entityList = mockk<MutableList<RankEntity>>()
 
-        coEvery { spyRankRepo.updateRankPosition(rankList, noteIdList, noteDao) } returns Unit
+        coEvery {
+            spyRankRepo.updateRankPositionsForNotes(
+                rankList,
+                noteIdList,
+                noteDao
+            )
+        } returns Unit
         every { converter.toEntity(rankList) } returns entityList
 
-        spyRankRepo.updatePosition(rankList, noteIdList)
+        spyRankRepo.updatePositions(rankList, noteIdList)
 
         coVerifySequence {
-            spyRankRepo.updatePosition(rankList, noteIdList)
+            spyRankRepo.updatePositions(rankList, noteIdList)
             spyRankRepo.roomProvider
 
             roomProvider.openRoom()
-            spyRankRepo.updateRankPosition(rankList, noteIdList, noteDao)
+            spyRankRepo.updateRankPositionsForNotes(rankList, noteIdList, noteDao)
             converter.toEntity(rankList)
             rankDao.update(entityList)
         }
@@ -300,7 +306,7 @@ class RankRepoImplTest : ParentRoomRepoTest() {
         val rankPsList = List(size) { Random.nextInt() }
 
         every { noteIdList.isEmpty() } returns true
-        rankRepo.updateRankPosition(list, noteIdList, noteDao)
+        rankRepo.updateRankPositionsForNotes(list, noteIdList, noteDao)
 
         every { noteIdList.isEmpty() } returns false
         coEvery { noteDao.getList(noteIdList) } returns entityList
@@ -316,7 +322,7 @@ class RankRepoImplTest : ParentRoomRepoTest() {
             }
         }
 
-        rankRepo.updateRankPosition(list, noteIdList, noteDao)
+        rankRepo.updateRankPositionsForNotes(list, noteIdList, noteDao)
 
         coVerifySequence {
             noteIdList.isEmpty()

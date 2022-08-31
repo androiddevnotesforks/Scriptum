@@ -179,7 +179,7 @@ class RankViewModel(
 
             itemList.add(p, item)
 
-            runBack { interactor.updatePosition(itemList, correctPositions(itemList)) }
+            runBack { interactor.updatePositions(itemList, correctPositions(itemList)) }
 
             callback?.scrollToItem(itemList, p, simpleClick)
         }
@@ -226,7 +226,7 @@ class RankViewModel(
         viewModelScope.launch {
             launchBack {
                 interactor.delete(item)
-                interactor.updatePosition(itemList, noteIdList)
+                interactor.updatePositions(itemList, noteIdList)
             }
 
             callback?.sendNotifyNotesBroadcast()
@@ -283,7 +283,7 @@ class RankViewModel(
         viewModelScope.launch {
             runBack {
                 interactor.insert(item)
-                interactor.updatePosition(itemList, correctPositions(itemList))
+                interactor.updatePositions(itemList, correctPositions(itemList))
             }
 
             callback?.setList(itemList)
@@ -348,7 +348,7 @@ class RankViewModel(
         val noteIdList = correctPositions(itemList)
         callback?.setList(itemList)
 
-        viewModelScope.launchBack { interactor.updatePosition(itemList, noteIdList) }
+        viewModelScope.launchBack { interactor.updatePositions(itemList, noteIdList) }
     }
 
 
@@ -388,6 +388,7 @@ class RankViewModel(
     /**
      * Return list of [NoteItem.id] which need update.
      */
+    // TODO move this complicated logic inside another class (repo)
     @RunPrivate
     fun correctPositions(list: List<RankItem>): List<Long> {
         val noteIdSet = mutableSetOf<Long>()
@@ -400,11 +401,9 @@ class RankViewModel(
                 item.position = i
 
                 /**
-                 * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
+                 * Add id to [Set] of [NoteItem.id] where need to update [NoteItem.rankPs].
                  */
-                for (it in item.noteId) {
-                    noteIdSet.add(it)
-                }
+                noteIdSet.addAll(item.noteId)
             }
         }
 

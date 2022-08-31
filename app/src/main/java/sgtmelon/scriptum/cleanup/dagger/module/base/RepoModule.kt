@@ -74,8 +74,13 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideRankRepo(roomProvider: RoomProvider, converter: RankConverter): RankRepo {
-        return RankRepoImpl(roomProvider, converter)
+    fun provideRankRepo(
+        noteDataSource: NoteDataSource,
+        rankDataSource: RankDataSource,
+        alarmDataSource: AlarmDataSource,
+        converter: RankConverter
+    ): RankRepo {
+        return RankRepoImpl(noteDataSource, rankDataSource, alarmDataSource, converter)
     }
 
     @Provides

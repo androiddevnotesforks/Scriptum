@@ -27,7 +27,7 @@ interface RankRepo {
 
     suspend fun update(list: List<RankItem>)
 
-    suspend fun updatePosition(list: List<RankItem>, idList: List<Long>)
+    suspend fun updatePositions(list: List<RankItem>, noteIdList: List<Long>)
 
     suspend fun updateConnection(item: NoteItem)
 
