@@ -6,7 +6,7 @@ import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendarOrNull
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -28,7 +28,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 /**
  * Repository of [Database] which work with backup data.
  */
-class BackupRepoImpl(override val roomProvider: RoomProvider) : IBackupRepo,
+class BackupRepoImpl(override val roomProvider: RoomProvider) : BackupRepo,
     IRoomWork {
 
     override suspend fun insertData(model: Model, isSkipImports: Boolean): ImportResult {

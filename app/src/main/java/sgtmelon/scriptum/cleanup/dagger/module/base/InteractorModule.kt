@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
@@ -126,7 +126,7 @@ class InteractorModule {
         alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo,
-        backupRepo: IBackupRepo,
+        backupRepo: BackupRepo,
         backupParser: IBackupParser,
         fileControl: IFileControl,
         cipherControl: ICipherControl

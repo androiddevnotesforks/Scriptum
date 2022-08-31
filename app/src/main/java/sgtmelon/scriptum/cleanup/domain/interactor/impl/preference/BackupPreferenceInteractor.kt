@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
@@ -27,7 +27,7 @@ class BackupPreferenceInteractor(
     private val alarmRepo: AlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo,
-    private val backupRepo: IBackupRepo,
+    private val backupRepo: BackupRepo,
     private val backupParser: IBackupParser,
     private val fileControl: IFileControl,
     private val cipherControl: ICipherControl
