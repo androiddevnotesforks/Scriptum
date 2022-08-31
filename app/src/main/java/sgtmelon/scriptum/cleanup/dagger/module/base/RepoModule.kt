@@ -20,6 +20,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
+import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 
 /**
  * Module for provide repo's
@@ -29,8 +30,8 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideAlarmRepo(roomProvider: RoomProvider, converter: AlarmConverter): IAlarmRepo {
-        return AlarmRepo(roomProvider, converter)
+    fun provideAlarmRepo(dataSource: AlarmDataSource, converter: AlarmConverter): IAlarmRepo {
+        return AlarmRepo(dataSource, converter)
     }
 
     @Provides

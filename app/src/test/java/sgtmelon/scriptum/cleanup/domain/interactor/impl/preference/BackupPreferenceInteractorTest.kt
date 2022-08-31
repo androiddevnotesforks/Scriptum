@@ -130,7 +130,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         coEvery { noteRepo.getRollBackup(noteIdList) } returns rollList
         coEvery { noteRepo.getRollVisibleBackup(noteIdList) } returns rollVisibleList
         coEvery { rankRepo.getRankBackup() } returns rankList
-        coEvery { alarmRepo.getAlarmBackup(noteIdList) } returns alarmList
+        coEvery { alarmRepo.getBackupList(noteIdList) } returns alarmList
 
         every { backupParser.collect(parserResult) } returns data
         every { cipherControl.encrypt(data) } returns encryptData
@@ -149,7 +149,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
                 noteRepo.getRollBackup(noteIdList)
                 noteRepo.getRollVisibleBackup(noteIdList)
                 rankRepo.getRankBackup()
-                alarmRepo.getAlarmBackup(noteIdList)
+                alarmRepo.getBackupList(noteIdList)
 
                 backupParser.collect(parserResult)
                 cipherControl.encrypt(data)

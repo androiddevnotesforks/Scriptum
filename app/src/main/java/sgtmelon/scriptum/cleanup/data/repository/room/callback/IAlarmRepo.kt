@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
  */
 interface IAlarmRepo {
 
-    suspend fun insertOrUpdate(noteItem: NoteItem, date: String)
+    suspend fun insertOrUpdate(item: NoteItem, date: String)
 
     suspend fun delete(noteId: Long)
 
@@ -19,6 +19,6 @@ interface IAlarmRepo {
     suspend fun getList(): List<NotificationItem>
 
 
-    suspend fun getAlarmBackup(noteIdList: List<Long>): List<AlarmEntity>
+    suspend fun getBackupList(noteIdList: List<Long>): List<AlarmEntity>
 
 }

@@ -1,50 +1,40 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
-import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
-import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
-import sgtmelon.scriptum.cleanup.data.room.extension.inRoom
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
  * Repository of [Database] which work with alarm.
  */
 class AlarmRepo(
-    override val roomProvider: RoomProvider,
+    private val dataSource: AlarmDataSource,
     private val converter: AlarmConverter
-) : IAlarmRepo,
-    IRoomWork {
+) : IAlarmRepo {
 
-    override suspend fun insertOrUpdate(noteItem: NoteItem, date: String) = inRoom {
-        noteItem.alarmDate = date
+    override suspend fun insertOrUpdate(item: NoteItem, date: String) {
+        item.alarmDate = date
 
-        val entity = converter.toEntity(noteItem)
-        if (noteItem.haveAlarm()) {
-            alarmDao.update(entity)
+        val entity = converter.toEntity(item)
+        if (item.haveAlarm()) {
+            dataSource.update(entity)
         } else {
-            noteItem.alarmId = alarmDao.insert(entity)
+            item.alarmId = dataSource.insert(entity)
         }
     }
 
-    override suspend fun delete(noteId: Long) = inRoom { alarmDao.delete(noteId) }
+    override suspend fun delete(noteId: Long) = dataSource.delete(noteId)
 
 
-    override suspend fun getItem(noteId: Long): NotificationItem? = fromRoom {
-        alarmDao.getItem(noteId)
+    override suspend fun getItem(noteId: Long): NotificationItem? = dataSource.getItem(noteId)
+
+    override suspend fun getList(): List<NotificationItem> = dataSource.getItemList()
+
+    override suspend fun getBackupList(noteIdList: List<Long>): List<AlarmEntity> {
+        return dataSource.getList(noteIdList)
     }
-
-    override suspend fun getList(): List<NotificationItem> = fromRoom {
-        alarmDao.getItemList()
-    }
-
-
-    override suspend fun getAlarmBackup(noteIdList: List<Long>): List<AlarmEntity> = fromRoom {
-        alarmDao.getList(noteIdList)
-    }
-
 }

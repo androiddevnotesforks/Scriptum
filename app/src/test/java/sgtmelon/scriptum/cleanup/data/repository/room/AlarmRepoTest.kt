@@ -119,7 +119,7 @@ class AlarmRepoTest : ParentRoomRepoTest() {
 
         coEvery { alarmDao.getList(noteIdList) } returns alarmList
 
-        assertEquals(alarmList, alarmRepo.getAlarmBackup(noteIdList))
+        assertEquals(alarmList, alarmRepo.getBackupList(noteIdList))
 
         coVerifySequence {
             roomProvider.openRoom()

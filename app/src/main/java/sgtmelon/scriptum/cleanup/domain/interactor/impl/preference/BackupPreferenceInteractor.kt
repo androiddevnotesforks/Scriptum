@@ -52,7 +52,7 @@ class BackupPreferenceInteractor(
         val rollList = noteRepo.getRollBackup(noteIdList)
         val rollVisibleList = noteRepo.getRollVisibleBackup(noteIdList)
         val rankList = rankRepo.getRankBackup()
-        val alarmList = alarmRepo.getAlarmBackup(noteIdList)
+        val alarmList = alarmRepo.getBackupList(noteIdList)
 
         val parserResult = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
 
