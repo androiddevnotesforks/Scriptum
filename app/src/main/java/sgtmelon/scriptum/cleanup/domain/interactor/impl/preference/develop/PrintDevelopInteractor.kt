@@ -1,25 +1,25 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop
 
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
  * Interactor for [IPrintDevelopViewModel].
  */
 class PrintDevelopInteractor(
-    private val developRepo: IDevelopRepo,
+    private val developRepo: DevelopRepo,
     private val key: PreferencesKeyProvider,
     private val def: PreferencesDefProvider,
     private val preferences: Preferences,

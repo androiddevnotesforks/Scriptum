@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
@@ -140,7 +140,7 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideDevelopInteractor(
-        developRepo: IDevelopRepo,
+        developRepo: DevelopRepo,
         preferences: Preferences
     ): IDevelopInteractor {
         return DevelopInteractor(developRepo, preferences)
@@ -149,7 +149,7 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun providePrintDevelopInteractor(
-        developRepo: IDevelopRepo,
+        developRepo: DevelopRepo,
         key: PreferencesKeyProvider,
         def: PreferencesDefProvider,
         preferences: Preferences,

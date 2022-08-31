@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 /**
  * Interface for communicate with [DevelopRepoImpl]
  */
-interface IDevelopRepo {
+interface DevelopRepo {
 
     suspend fun getPrintNoteList(isBin: Boolean): List<PrintItem.Note>
 

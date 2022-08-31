@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.RankRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
@@ -40,7 +40,7 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideDevelopRepo(roomProvider: RoomProvider): IDevelopRepo = DevelopRepoImpl(roomProvider)
+    fun provideDevelopRepo(roomProvider: RoomProvider): DevelopRepo = DevelopRepoImpl(roomProvider)
 
     @Provides
     @Singleton

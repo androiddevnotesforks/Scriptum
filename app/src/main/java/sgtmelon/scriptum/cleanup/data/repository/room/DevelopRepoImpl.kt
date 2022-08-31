@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
  */
 class DevelopRepoImpl(
     override val roomProvider: RoomProvider
-) : IDevelopRepo,
+) : DevelopRepo,
     IRoomWork {
 
     override suspend fun getPrintNoteList(isBin: Boolean): List<PrintItem.Note> {

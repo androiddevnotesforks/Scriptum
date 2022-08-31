@@ -13,7 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
@@ -33,7 +33,7 @@ import sgtmelon.test.common.nextString
 @ExperimentalCoroutinesApi
 class PrintDevelopInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var developRepo: IDevelopRepo
+    @MockK lateinit var developRepo: DevelopRepo
     @MockK lateinit var key: PreferencesKeyProvider
     @MockK lateinit var def: PreferencesDefProvider
     @MockK lateinit var preferences: Preferences

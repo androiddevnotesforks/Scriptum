@@ -10,7 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.infrastructure.preferences.Preferences
 @ExperimentalCoroutinesApi
 class DevelopInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var developRepo: IDevelopRepo
+    @MockK lateinit var developRepo: DevelopRepo
     @MockK lateinit var preferences: Preferences
 
     private val interactor by lazy { DevelopInteractor(developRepo, preferences) }
