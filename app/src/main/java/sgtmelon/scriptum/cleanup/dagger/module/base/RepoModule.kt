@@ -65,11 +65,18 @@ class RepoModule {
     @Provides
     @Singleton
     fun provideNoteRepo(
-        roomProvider: RoomProvider,
+        noteDataSource: NoteDataSource,
+        rollDataSource: RollDataSource,
+        rollVisibleDataSource: RollVisibleDataSource,
+        rankDataSource: RankDataSource,
+        alarmDataSource: AlarmDataSource,
         noteConverter: NoteConverter,
         rollConverter: RollConverter
     ): NoteRepo {
-        return NoteRepoImpl(roomProvider, noteConverter, rollConverter)
+        return NoteRepoImpl(
+            noteDataSource, rollDataSource, rollVisibleDataSource, rankDataSource, alarmDataSource,
+            noteConverter, rollConverter
+        )
     }
 
     @Provides

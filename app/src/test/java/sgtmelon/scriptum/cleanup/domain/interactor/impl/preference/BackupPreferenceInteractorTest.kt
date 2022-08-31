@@ -126,9 +126,9 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         val timeName = nextString()
         val path = nextString()
 
-        coEvery { noteRepo.getNoteBackup() } returns noteList
-        coEvery { noteRepo.getRollBackup(noteIdList) } returns rollList
-        coEvery { noteRepo.getRollVisibleBackup(noteIdList) } returns rollVisibleList
+        coEvery { noteRepo.getNoteBackupList() } returns noteList
+        coEvery { noteRepo.getRollBackupList(noteIdList) } returns rollList
+        coEvery { noteRepo.getRollVisibleBackupList(noteIdList) } returns rollVisibleList
         coEvery { rankRepo.getRankBackup() } returns rankList
         coEvery { alarmRepo.getBackupList(noteIdList) } returns alarmList
 
@@ -145,9 +145,9 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             repeat(times = 2) {
-                noteRepo.getNoteBackup()
-                noteRepo.getRollBackup(noteIdList)
-                noteRepo.getRollVisibleBackup(noteIdList)
+                noteRepo.getNoteBackupList()
+                noteRepo.getRollBackupList(noteIdList)
+                noteRepo.getRollVisibleBackupList(noteIdList)
                 rankRepo.getRankBackup()
                 alarmRepo.getBackupList(noteIdList)
 

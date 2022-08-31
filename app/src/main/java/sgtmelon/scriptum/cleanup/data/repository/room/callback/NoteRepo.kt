@@ -68,10 +68,10 @@ interface NoteRepo {
 
     // Repo backup functions
 
-    suspend fun getNoteBackup(): List<NoteEntity>
+    suspend fun getNoteBackupList(): List<NoteEntity>
 
-    suspend fun getRollBackup(noteIdList: List<Long>): List<RollEntity>
+    suspend fun getRollBackupList(noteIdList: List<Long>): List<RollEntity>
 
-    suspend fun getRollVisibleBackup(noteIdList: List<Long>): List<RollVisibleEntity>
+    suspend fun getRollVisibleBackupList(noteIdList: List<Long>): List<RollVisibleEntity>
 
 }

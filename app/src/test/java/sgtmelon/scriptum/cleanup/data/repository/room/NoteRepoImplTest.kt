@@ -907,7 +907,7 @@ class NoteRepoImplTest : ParentRoomRepoTest() {
 
         coEvery { noteDao.getList(isBin = false) } returns noteList
 
-        assertEquals(noteList, noteRepo.getNoteBackup())
+        assertEquals(noteList, noteRepo.getNoteBackupList())
 
         coVerifySequence {
             roomProvider.openRoom()
@@ -921,7 +921,7 @@ class NoteRepoImplTest : ParentRoomRepoTest() {
 
         coEvery { rollDao.getList(noteIdList) } returns rollList
 
-        assertEquals(rollList, noteRepo.getRollBackup(noteIdList))
+        assertEquals(rollList, noteRepo.getRollBackupList(noteIdList))
 
         coVerifySequence {
             roomProvider.openRoom()
@@ -935,7 +935,7 @@ class NoteRepoImplTest : ParentRoomRepoTest() {
 
         coEvery { rollVisibleDao.getList(noteIdList) } returns rollVisibleList
 
-        assertEquals(rollVisibleList, noteRepo.getRollVisibleBackup(noteIdList))
+        assertEquals(rollVisibleList, noteRepo.getRollVisibleBackupList(noteIdList))
 
         coVerifySequence {
             roomProvider.openRoom()

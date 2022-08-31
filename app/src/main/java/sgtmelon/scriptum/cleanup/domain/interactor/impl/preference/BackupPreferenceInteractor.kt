@@ -45,12 +45,12 @@ class BackupPreferenceInteractor(
 
 
     override suspend fun export(): ExportResult {
-        val noteList = noteRepo.getNoteBackup()
+        val noteList = noteRepo.getNoteBackupList()
 
         val noteIdList = noteList.filter { it.type == NoteType.ROLL }.map { it.id }
 
-        val rollList = noteRepo.getRollBackup(noteIdList)
-        val rollVisibleList = noteRepo.getRollVisibleBackup(noteIdList)
+        val rollList = noteRepo.getRollBackupList(noteIdList)
+        val rollVisibleList = noteRepo.getRollVisibleBackupList(noteIdList)
         val rankList = rankRepo.getRankBackup()
         val alarmList = alarmRepo.getBackupList(noteIdList)
 
