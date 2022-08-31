@@ -13,10 +13,12 @@ fun IRoomWork.inRoomTest(func: suspend Database.() -> Unit) {
     runBlocking { inRoom(func) }
 }
 
+@Deprecated("Use dataSources for communicate with database")
 suspend inline fun IRoomWork.inRoom(crossinline func: suspend Database.() -> Unit) {
     roomProvider.openRoom().apply { func() }.close()
 }
 
+@Deprecated("Use dataSources for communicate with database")
 suspend inline fun <T> IRoomWork.fromRoom(crossinline func: suspend Database.() -> T): T {
     val value: T
 
