@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.BindRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.DevelopRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.NoteRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.RankRepoImpl
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
@@ -30,7 +30,7 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideAlarmRepo(dataSource: AlarmDataSource, converter: AlarmConverter): IAlarmRepo {
+    fun provideAlarmRepo(dataSource: AlarmDataSource, converter: AlarmConverter): AlarmRepo {
         return AlarmRepoImpl(dataSource, converter)
     }
 

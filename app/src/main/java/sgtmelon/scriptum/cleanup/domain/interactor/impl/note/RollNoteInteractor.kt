@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.note
 
 import java.util.Calendar
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteV
  * Interactor for [IRollNoteViewModel].
  */
 class RollNoteInteractor(
-    private val alarmRepo: IAlarmRepo,
+    private val alarmRepo: AlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),

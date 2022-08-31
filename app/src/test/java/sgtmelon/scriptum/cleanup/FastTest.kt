@@ -20,7 +20,7 @@ import org.junit.Assert.assertTrue
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
@@ -1307,7 +1307,7 @@ object FastTest {
         //region Date work
 
         suspend inline fun getDateList(
-            alarmRepo: IAlarmRepo,
+            alarmRepo: AlarmRepo,
             callFunc: () -> List<String>
         ) {
             val size = getRandomSize()
@@ -1335,7 +1335,7 @@ object FastTest {
         }
 
         suspend inline fun <reified T : NoteItem> clearDate(
-            alarmRepo: IAlarmRepo,
+            alarmRepo: AlarmRepo,
             callFunc: (item: T) -> Unit
         ) {
             val item = mockk<T>()
@@ -1352,7 +1352,7 @@ object FastTest {
         }
 
         suspend inline fun <reified T : NoteItem> setDate(
-            alarmRepo: IAlarmRepo,
+            alarmRepo: AlarmRepo,
             callFunc: (item: T, calendar: Calendar) -> Unit
         ) {
             val item = mockk<T>()

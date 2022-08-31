@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
  */
 class NotesInteractor(
     private val preferenceRepo: PreferencesRepo,
-    private val alarmRepo: IAlarmRepo,
+    private val alarmRepo: AlarmRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     INotesInteractor {

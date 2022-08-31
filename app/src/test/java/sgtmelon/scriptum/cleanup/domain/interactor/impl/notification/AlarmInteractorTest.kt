@@ -19,7 +19,7 @@ import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.FastMock
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -37,7 +37,7 @@ import sgtmelon.test.common.nextString
 @ExperimentalCoroutinesApi
 class AlarmInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var alarmRepo: IAlarmRepo
+    @MockK lateinit var alarmRepo: AlarmRepo
     @MockK lateinit var noteRepo: INoteRepo
 
     private val interactor by lazy {

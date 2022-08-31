@@ -4,7 +4,7 @@ import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.runMain
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 class SystemInteractor(
     private val preferenceRepo: PreferencesRepo,
     private val bindRepo: IBindRepo,
-    private val alarmRepo: IAlarmRepo,
+    private val alarmRepo: AlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo,
     @RunPrivate var callback: ISystemBridge?

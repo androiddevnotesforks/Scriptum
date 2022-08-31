@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 class AlarmRepoImpl(
     private val dataSource: AlarmDataSource,
     private val converter: AlarmConverter
-) : IAlarmRepo {
+) : AlarmRepo {
 
     override suspend fun insertOrUpdate(item: NoteItem, date: String) {
         item.alarmDate = date

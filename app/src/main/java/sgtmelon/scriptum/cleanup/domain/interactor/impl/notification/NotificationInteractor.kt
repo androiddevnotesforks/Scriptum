@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IN
  */
 class NotificationInteractor(
     private val noteRepo: INoteRepo,
-    private val alarmRepo: IAlarmRepo,
+    private val alarmRepo: AlarmRepo,
     private val bindRepo: IBindRepo
 ) : ParentInteractor(),
     INotificationInteractor {

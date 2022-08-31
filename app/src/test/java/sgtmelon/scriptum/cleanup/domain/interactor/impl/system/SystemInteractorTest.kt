@@ -18,7 +18,7 @@ import org.junit.Test
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.cleanup.FastMock
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -39,7 +39,7 @@ class SystemInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var bindRepo: IBindRepo
-    @MockK lateinit var alarmRepo: IAlarmRepo
+    @MockK lateinit var alarmRepo: AlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
 

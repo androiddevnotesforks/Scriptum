@@ -17,7 +17,7 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -47,7 +47,7 @@ import sgtmelon.test.common.nextString
 class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
-    @MockK lateinit var alarmRepo: IAlarmRepo
+    @MockK lateinit var alarmRepo: AlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
     @MockK lateinit var backupRepo: IBackupRepo

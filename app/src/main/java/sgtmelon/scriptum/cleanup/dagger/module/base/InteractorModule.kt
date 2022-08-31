@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
@@ -58,7 +58,7 @@ class InteractorModule {
     fun provideNotesInteractor(
         preferencesRepo: PreferencesRepo,
         noteRepo: INoteRepo,
-        alarmRepo: IAlarmRepo,
+        alarmRepo: AlarmRepo,
     ): INotesInteractor {
         return NotesInteractor(preferencesRepo, alarmRepo, noteRepo)
     }
@@ -79,7 +79,7 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideTextNoteInteractor(
-        alarmRepo: IAlarmRepo,
+        alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): ITextNoteInteractor {
@@ -89,7 +89,7 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideRollNoteInteractor(
-        alarmRepo: IAlarmRepo,
+        alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): IRollNoteInteractor {
@@ -101,7 +101,7 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideAlarmInteractor(
-        alarmRepo: IAlarmRepo,
+        alarmRepo: AlarmRepo,
         noteRepo: INoteRepo
     ): IAlarmInteractor {
         return AlarmInteractor(alarmRepo, noteRepo)
@@ -111,7 +111,7 @@ class InteractorModule {
     @ActivityScope
     fun provideNotificationInteractor(
         noteRepo: INoteRepo,
-        alarmRepo: IAlarmRepo,
+        alarmRepo: AlarmRepo,
         bindRepo: IBindRepo
     ): INotificationInteractor {
         return NotificationInteractor(noteRepo, alarmRepo, bindRepo)
@@ -123,7 +123,7 @@ class InteractorModule {
     @ActivityScope
     fun provideBackupPreferenceInteractor(
         preferencesRepo: PreferencesRepo,
-        alarmRepo: IAlarmRepo,
+        alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo,
         backupRepo: IBackupRepo,
@@ -166,7 +166,7 @@ class InteractorModule {
         logic: SystemLogic,
         preferencesRepo: PreferencesRepo,
         bindRepo: IBindRepo,
-        alarmRepo: IAlarmRepo,
+        alarmRepo: AlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): ISystemInteractor {
