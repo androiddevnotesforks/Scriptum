@@ -11,7 +11,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
@@ -57,7 +57,7 @@ class AlarmDaoTest : ParentRoomTest() {
 
     //region Help functions
 
-    private suspend fun RoomDb.insertRelation(note: NoteEntity, alarm: AlarmEntity) {
+    private suspend fun Database.insertRelation(note: NoteEntity, alarm: AlarmEntity) {
         noteDao.insert(note)
         assertEquals(noteDao.get(note.id), note)
         alarmDao.insert(alarm)

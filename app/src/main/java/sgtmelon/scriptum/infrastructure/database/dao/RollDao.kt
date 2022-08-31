@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.PREVI
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 
 /**
- * Interface for communication [DbData.Roll.TABLE] with [RoomDb].
+ * Interface for communication [DbData.Roll.TABLE] with [Database].
  */
 // TODO remove from use deprecated staff (and use RollDataSource/RollDaoSafe)
 @Dao

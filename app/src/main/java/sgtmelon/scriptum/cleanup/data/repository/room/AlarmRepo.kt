@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.data.repository.room
 
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 
 /**
- * Repository of [RoomDb] which work with alarm.
+ * Repository of [Database] which work with alarm.
  */
 class AlarmRepo(
     override val roomProvider: RoomProvider,

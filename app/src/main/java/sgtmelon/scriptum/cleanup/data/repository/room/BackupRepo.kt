@@ -7,8 +7,8 @@ import sgtmelon.common.utils.getCalendarOrNull
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -26,7 +26,7 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 
 /**
- * Repository of [RoomDb] which work with backup data.
+ * Repository of [Database] which work with backup data.
  */
 class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     IRoomWork {
@@ -35,16 +35,16 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         return fromRoom {
             val startSize = model.noteList.size
 
-            if (isSkipImports) clearList(getRemoveNoteList(model, roomDb = this), model)
+            if (isSkipImports) clearList(getRemoveNoteList(model, db = this), model)
 
-            clearRankList(model, roomDb = this)
-            clearAlarmList(model, roomDb = this)
+            clearRankList(model, db = this)
+            clearAlarmList(model, db = this)
 
-            insertNoteList(model, roomDb = this)
-            insertRollList(model, roomDb = this)
-            insertRollVisibleList(model, roomDb = this)
-            insertRankList(model, roomDb = this)
-            insertAlarmList(model, roomDb = this)
+            insertNoteList(model, db = this)
+            insertRollList(model, db = this)
+            insertRollVisibleList(model, db = this)
+            insertRankList(model, db = this)
+            insertAlarmList(model, db = this)
 
             return@fromRoom if (isSkipImports) {
                 ImportResult.Skip(skipCount = startSize - model.noteList.size)
@@ -57,13 +57,13 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
     /**
      * Return list for remove with items from [Model.noteList], which
-     * already exists in [roomDb].
+     * already exists in [db].
      */
     @RunPrivate
-    suspend fun getRemoveNoteList(model: Model, roomDb: RoomDb): List<NoteEntity> {
+    suspend fun getRemoveNoteList(model: Model, db: Database): List<NoteEntity> {
         val removeList = mutableListOf<NoteEntity>()
 
-        val existNoteList = roomDb.noteDao.getList(isBin = false)
+        val existNoteList = db.noteDao.getList(isBin = false)
         val existRollNoteList = existNoteList.filter { it.type == NoteType.ROLL }
 
         for (item in model.noteList) {
@@ -75,7 +75,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
                 }
                 NoteType.ROLL -> {
                     val itemRollList = model.rollList.filter { it.noteId == item.id }
-                    if (needSkipRollNote(item, itemRollList, existRollNoteList, roomDb)) {
+                    if (needSkipRollNote(item, itemRollList, existRollNoteList, db)) {
                         removeList.add(item)
                     }
                 }
@@ -101,10 +101,10 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         item: NoteEntity,
         rollList: List<RollEntity>,
         existNoteList: List<NoteEntity>,
-        roomDb: RoomDb
+        db: Database
     ): Boolean {
         for (existItem in existNoteList.filter { it.name == item.name }) {
-            val existRollList = roomDb.rollDao.getList(existItem.id)
+            val existRollList = db.rollDao.getList(existItem.id)
 
             if (rollList.size != existRollList.size) continue
 
@@ -150,15 +150,15 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
     /**
      * Return list for remove with items from [Model.rankList], which
-     * already exists in [roomDb].
+     * already exists in [db].
      *
      * Also update [NoteEntity.rankId] and [NoteEntity.rankPs] (if need) for
      * items in [Model.noteList].
      */
     @RunPrivate
-    suspend fun clearRankList(model: Model, roomDb: RoomDb) {
+    suspend fun clearRankList(model: Model, db: Database) {
         val removeList = mutableListOf<RankEntity>()
-        val existRankList = roomDb.rankDao.getList()
+        val existRankList = db.rankDao.getList()
 
         for (item in model.rankList) {
             val index = existRankList.indexOfFirst { it.name == item.name }
@@ -179,12 +179,12 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      * Return list for remove with items from [Model.alarmList], which
      * already past.
      *
-     * Also change time of [Model.alarmList] items, if user have same date in [roomDb].
+     * Also change time of [Model.alarmList] items, if user have same date in [db].
      */
     @RunPrivate
-    suspend fun clearAlarmList(model: Model, roomDb: RoomDb) {
+    suspend fun clearAlarmList(model: Model, db: Database) {
         val removeList = mutableListOf<AlarmEntity>()
-        val notificationList = roomDb.alarmDao.getItemList()
+        val notificationList = db.alarmDao.getItemList()
 
         for (item in model.alarmList) {
             val calendar = item.date.getCalendarOrNull() ?: continue
@@ -213,14 +213,14 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
 
     /**
-     * Insert notes from [Model.noteList] to [roomDb].
+     * Insert notes from [Model.noteList] to [db].
      *
      * Also update (if need) noteId for items in other lists.
      *
      * Need reset [NoteEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertNoteList(model: Model, roomDb: RoomDb) {
+    suspend fun insertNoteList(model: Model, db: Database) {
         /**
          * Need for prevent overriding already updated items.
          * Because new noteId may be equals oldId for next item.
@@ -232,7 +232,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         for (item in model.noteList) {
             val oldId = item.id
 
-            item.id = roomDb.noteDao.insert(item.apply { id = Note.Default.ID })
+            item.id = db.noteDao.insert(item.apply { id = Note.Default.ID })
 
             for (it in model.rollList.filter {
                 !skipRollIdList.contains(it.id) && it.noteId == oldId
@@ -268,31 +268,31 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     }
 
     /**
-     * Insert roll items from [Model.rollList] to [roomDb].
+     * Insert roll items from [Model.rollList] to [db].
      *
      * Need reset [RollEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertRollList(model: Model, roomDb: RoomDb) {
+    suspend fun insertRollList(model: Model, db: Database) {
         for (it in model.rollList) {
-            it.id = roomDb.rollDao.insert(it.apply { id = Roll.Default.ID })
+            it.id = db.rollDao.insert(it.apply { id = Roll.Default.ID })
         }
     }
 
     /**
-     * Insert rollVisible items from [Model.rollVisibleList] to [roomDb].
+     * Insert rollVisible items from [Model.rollVisibleList] to [db].
      *
      * Need reset [RollVisibleEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertRollVisibleList(model: Model, roomDb: RoomDb) {
+    suspend fun insertRollVisibleList(model: Model, db: Database) {
         for (it in model.rollVisibleList) {
-            it.id = roomDb.rollVisibleDao.insert(it.apply { id = RollVisible.Default.ID })
+            it.id = db.rollVisibleDao.insert(it.apply { id = RollVisible.Default.ID })
         }
     }
 
     /**
-     * Insert rank items from [Model.rankList] to [roomDb].
+     * Insert rank items from [Model.rankList] to [db].
      *
      * Also update (if need) rankId and position for items from [Model.noteList].
      *
@@ -300,8 +300,8 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      * And update [RankEntity.position].
      */
     @RunPrivate
-    suspend fun insertRankList(model: Model, roomDb: RoomDb) {
-        val existRankList = roomDb.rankDao.getList().toMutableList()
+    suspend fun insertRankList(model: Model, db: Database) {
+        val existRankList = db.rankDao.getList().toMutableList()
 
         /**
          * Need for prevent overriding already updated notes.
@@ -312,7 +312,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         for (item in model.rankList) {
             val oldId = item.id
 
-            item.id = roomDb.rankDao.insert(item.apply {
+            item.id = db.rankDao.insert(item.apply {
                 id = Rank.Default.ID
                 position = existRankList.size
             })
@@ -329,19 +329,19 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         }
 
         if (skipIdList.isNotEmpty()) {
-            roomDb.noteDao.update(model.noteList)
+            db.noteDao.update(model.noteList)
         }
     }
 
     /**
-     * Insert alarm items from [Model.noteList] to [roomDb].
+     * Insert alarm items from [Model.noteList] to [db].
      *
      * Need reset [AlarmEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertAlarmList(model: Model, roomDb: RoomDb) {
+    suspend fun insertAlarmList(model: Model, db: Database) {
         for (it in model.alarmList) {
-            it.id = roomDb.alarmDao.insert(it.apply { id = Alarm.Default.ID })
+            it.id = db.alarmDao.insert(it.apply { id = Alarm.Default.ID })
         }
     }
 

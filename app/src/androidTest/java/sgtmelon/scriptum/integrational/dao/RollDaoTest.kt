@@ -12,7 +12,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
@@ -64,7 +64,7 @@ class RollDaoTest : ParentRoomTest() {
     private fun nextSize() = (20..100).random()
     private fun nextSmallSize() = (2..5).random()
 
-    private suspend fun RoomDb.insertRelation(note: NoteEntity, rollList: List<RollEntity>) {
+    private suspend fun Database.insertRelation(note: NoteEntity, rollList: List<RollEntity>) {
         noteDao.insert(note)
         assertEquals(noteDao.get(note.id), note)
 

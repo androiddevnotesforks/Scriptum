@@ -9,7 +9,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
@@ -37,7 +37,7 @@ class RankDaoTest : ParentRoomTest() {
 
     //region Help functions
 
-    private suspend fun RoomDb.insert(rank: RankEntity) {
+    private suspend fun Database.insert(rank: RankEntity) {
         rankDao.insert(rank)
         assertEquals(rankDao.get(rank.id), rank)
     }

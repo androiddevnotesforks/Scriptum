@@ -7,7 +7,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
@@ -22,7 +22,7 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
 
     @MockK lateinit var roomProvider: RoomProvider
 
-    @MockK lateinit var roomDb: RoomDb
+    @MockK lateinit var roomDb: Database
 
     @MockK lateinit var noteDao: NoteDao
     @MockK lateinit var rollDao: RollDao

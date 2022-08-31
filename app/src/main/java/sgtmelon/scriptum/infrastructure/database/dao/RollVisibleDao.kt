@@ -5,14 +5,14 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 
 /**
- * Interface for communication [DbData.RollVisible.TABLE] with [RoomDb].
+ * Interface for communication [DbData.RollVisible.TABLE] with [Database].
  */
 // TODO remove from use deprecated staff (and use RollVisibleDataSource/RollVisibleDaoSafe)
 @Dao

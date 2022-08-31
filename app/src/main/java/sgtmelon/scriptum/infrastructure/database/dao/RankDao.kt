@@ -6,14 +6,14 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.TypeConverters
 import androidx.room.Update
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 
 /**
- * Interface for communication [DbData.Rank.TABLE] with [RoomDb].
+ * Interface for communication [DbData.Rank.TABLE] with [Database].
  */
 // TODO remove from use deprecated staff (and use RankDataSource/RankDaoSafe)
 @Dao

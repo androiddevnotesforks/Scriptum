@@ -9,7 +9,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.Database
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
@@ -66,12 +66,12 @@ class NoteDaoTest : ParentRoomTest() {
 
     //region Help functions
 
-    private suspend fun RoomDb.insert(note: NoteEntity) {
+    private suspend fun Database.insert(note: NoteEntity) {
         noteDao.insert(note)
         assertEquals(noteDao.get(note.id), note)
     }
 
-    private suspend fun RoomDb.insertAll(list: List<NoteEntity>) {
+    private suspend fun Database.insertAll(list: List<NoteEntity>) {
         for (note in list) insert(note)
     }
 
