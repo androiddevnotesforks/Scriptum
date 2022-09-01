@@ -10,4 +10,4 @@ import sgtmelon.scriptum.infrastructure.database.dao.RankDao
  * Help interfaces for communicate with [RankDao] via safe way, preventing errors.
  */
 
-suspend fun RankDao.insertSafe(entity: RankEntity): Long? = insert(entity).checkSafe()
+suspend fun RankDao.insertSafe(entity: RankEntity): Long? = insert(entity).checkConflictSafe()

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
@@ -67,7 +66,7 @@ class NotesInteractor(
     override suspend fun clearDate(item: NoteItem) = alarmRepo.delete(item.id)
 
     override suspend fun setDate(item: NoteItem, calendar: Calendar) {
-        alarmRepo.insertOrUpdate(item, calendar.getText())
+        alarmRepo.insertOrUpdate(item, calendar)
     }
 
 

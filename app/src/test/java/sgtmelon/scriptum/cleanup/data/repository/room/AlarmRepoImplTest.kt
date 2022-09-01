@@ -34,6 +34,10 @@ class AlarmRepoImplTest : ParentRoomRepoTest() {
         confirmVerified(converter)
     }
 
+    @Test fun `insertOrUpdate via calendar`() {
+        TODO()
+    }
+
     @Test fun insertOrUpdate() = startCoTest {
         val noteItem = mockk<NoteItem>()
         val alarmEntity = mockk<AlarmEntity>()

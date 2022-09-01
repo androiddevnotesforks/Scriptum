@@ -24,15 +24,15 @@ class NotificationInteractor(
 
 
     override suspend fun setNotification(item: NotificationItem): NotificationItem? {
-        val id = item.note.id
-        val noteItem = noteRepo.getItem(id, isOptimal = true) ?: return null
+        val noteId = item.note.id
+        val noteItem = noteRepo.getItem(noteId, isOptimal = true) ?: return null
 
         alarmRepo.insertOrUpdate(noteItem, item.alarm.date)
 
         /**
          * After insert need return item with new id.
          */
-        return alarmRepo.getItem(id)
+        return alarmRepo.getItem(noteId)
     }
 
     override suspend fun cancelNotification(item: NotificationItem) = alarmRepo.delete(item.note.id)

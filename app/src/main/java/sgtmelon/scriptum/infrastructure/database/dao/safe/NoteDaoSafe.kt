@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
  * Help interfaces for communicate with [NoteDao] via safe way, preventing errors.
  */
 
-suspend fun NoteDao.insertSafe(entity: NoteEntity): Long? = insert(entity).checkSafe()
+suspend fun NoteDao.insertSafe(entity: NoteEntity): Long? = insert(entity).checkConflictSafe()
 
 suspend fun NoteDao.getRankVisibleCountSafe(isBin: Boolean, rankIdList: List<Long>): Int {
     var count = 0

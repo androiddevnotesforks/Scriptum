@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
+import java.util.Calendar
+import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
@@ -15,6 +17,10 @@ class AlarmRepoImpl(
     private val dataSource: AlarmDataSource,
     private val converter: AlarmConverter
 ) : AlarmRepo {
+
+    override suspend fun insertOrUpdate(item: NoteItem, calendar: Calendar) {
+        insertOrUpdate(item, calendar.getText())
+    }
 
     override suspend fun insertOrUpdate(item: NoteItem, date: String) {
         item.alarmDate = date

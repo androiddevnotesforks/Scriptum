@@ -22,7 +22,7 @@ interface NoteRepo {
         filterVisible: Boolean
     ): MutableList<NoteItem>
 
-    suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem?
+    suspend fun getItem(noteId: Long, isOptimal: Boolean): NoteItem?
 
     suspend fun getRollList(noteId: Long): MutableList<RollItem>
 

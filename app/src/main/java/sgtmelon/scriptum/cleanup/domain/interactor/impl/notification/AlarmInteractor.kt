@@ -41,7 +41,7 @@ class AlarmInteractor(
 
         checkDateExist(calendar)
 
-        alarmRepo.insertOrUpdate(item, calendar.getText())
+        alarmRepo.insertOrUpdate(item, calendar)
 
         return calendar
     }

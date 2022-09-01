@@ -8,7 +8,8 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
-import sgtmelon.scriptum.infrastructure.model.exception.DaoIdConflictException
+import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
+import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.test.common.OverflowDelegator
 import sgtmelon.test.common.nextString
@@ -20,14 +21,25 @@ class ParentDaoSafeTest : ParentTest() {
 
     private val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 
-    @Test fun checkSafe() {
+    @Test fun checkConflictSafe() {
         val long = Random.nextLong()
 
         FastMock.fireExtensions()
-        every { any<DaoIdConflictException>().record() } returns Unit
+        every { any<DaoConflictIdException>().record() } returns Unit
 
-        assertEquals(long, long.checkSafe())
-        assertNull(DaoConst.UNIQUE_ERROR_ID.checkSafe())
+        assertEquals(long, long.checkConflictSafe())
+        assertNull(DaoConst.UNIQUE_ERROR_ID.checkConflictSafe())
+    }
+
+    @Test fun insertForeignSafe() {
+        val id = Random.nextLong()
+
+        assertEquals(insertForeignSafe { id }, id)
+
+        FastMock.fireExtensions()
+        every { any<DaoForeignException>().record() } returns Unit
+
+        assertNull(insertForeignSafe { throw Throwable() })
     }
 
     @Test fun `safeOverflow lower overflow`() {

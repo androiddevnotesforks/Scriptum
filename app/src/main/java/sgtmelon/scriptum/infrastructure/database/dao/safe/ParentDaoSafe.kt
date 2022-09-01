@@ -2,20 +2,31 @@ package sgtmelon.scriptum.infrastructure.database.dao.safe
 
 import kotlin.math.min
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
-import sgtmelon.scriptum.infrastructure.model.exception.DaoIdConflictException
+import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
+import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * See description of error in [DaoConst.UNIQUE_ERROR_ID].
  */
-fun Long.checkSafe(): Long? {
+fun Long.checkConflictSafe(): Long? {
     val id = this.takeIf { it != DaoConst.UNIQUE_ERROR_ID }
 
     if (id == null) {
-        DaoIdConflictException().record()
+        DaoConflictIdException().record()
     }
 
     return id
+}
+
+inline fun insertForeignSafe(func: () -> Long?): Long? {
+    try {
+        return func()
+    } catch (e: Throwable) {
+        DaoForeignException(e).record()
+    }
+
+    return null
 }
 
 /**

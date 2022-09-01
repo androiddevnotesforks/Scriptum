@@ -6,7 +6,6 @@ package sgtmelon.scriptum.infrastructure.database.dao.safe
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.database.dao.RollDao
-import sgtmelon.scriptum.infrastructure.utils.record
 
 
 /**
@@ -14,13 +13,7 @@ import sgtmelon.scriptum.infrastructure.utils.record
  */
 
 suspend fun RollDao.insertSafe(entity: RollEntity): Long? {
-    try {
-        return insert(entity).checkSafe()
-    } catch (e: Throwable) {
-        e.record()
-    }
-
-    return null
+    return insertForeignSafe { insert(entity).checkConflictSafe() }
 }
 
 suspend fun RollDao.deleteSafe(noteId: Long, excludeIdList: List<Long>) {

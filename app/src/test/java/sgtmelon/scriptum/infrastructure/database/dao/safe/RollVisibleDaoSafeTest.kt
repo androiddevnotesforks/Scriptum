@@ -17,7 +17,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
-import sgtmelon.scriptum.infrastructure.model.exception.DaoIdConflictException
+import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
 import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.test.common.OverflowDelegator
 
@@ -41,7 +41,7 @@ class RollVisibleDaoSafeTest : ParentTest() {
 
         coEvery { dao.insert(entity) } returns DaoConst.UNIQUE_ERROR_ID
         FastMock.fireExtensions()
-        every { any<DaoIdConflictException>().record() } returns Unit
+        every { any<DaoConflictIdException>().record() } returns Unit
 
         runBlocking {
             assertNull(dao.insertSafe(entity))

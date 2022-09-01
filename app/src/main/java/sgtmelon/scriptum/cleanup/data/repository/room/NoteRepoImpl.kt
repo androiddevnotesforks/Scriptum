@@ -104,11 +104,11 @@ class NoteRepoImpl(
     /**
      * Return null if note doesn't exist.
      *
-     * [id] - note item id.
+     * [noteId] - note item id.
      * [isOptimal] - need for note lists where displays short information.
      */
-    override suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem? {
-        val entity = noteDataSource.get(id) ?: return null
+    override suspend fun getItem(noteId: Long, isOptimal: Boolean): NoteItem? {
+        val entity = noteDataSource.get(noteId) ?: return null
 
         return transformNoteEntity(entity, isOptimal)
     }

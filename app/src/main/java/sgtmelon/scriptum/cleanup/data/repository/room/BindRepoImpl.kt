@@ -14,12 +14,12 @@ class BindRepoImpl(
 ) : BindRepo {
 
     override suspend fun unbindNote(id: Long) {
-        val noteEntity = noteDataSource.get(id) ?: return
+        val entity = noteDataSource.get(id) ?: return
 
-        if (!noteEntity.isStatus) return
+        if (!entity.isStatus) return
 
-        noteEntity.isStatus = false
-        noteDataSource.update(noteEntity)
+        entity.isStatus = false
+        noteDataSource.update(entity)
     }
 
     override suspend fun getNotificationCount(): Int = alarmDataSource.getCount()
