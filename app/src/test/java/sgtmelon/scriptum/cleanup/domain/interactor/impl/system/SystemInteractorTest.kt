@@ -161,12 +161,12 @@ class SystemInteractorTest : ParentInteractorTest() {
     @Test fun notifyCountBind() = startCoTest {
         val count = Random.nextInt()
 
-        coEvery { bindRepo.getNotificationCount() } returns count
+        coEvery { bindRepo.getNotificationsCount() } returns count
 
         interactor.notifyCountBind()
 
         coVerifySequence {
-            bindRepo.getNotificationCount()
+            bindRepo.getNotificationsCount()
             callback.notifyCountBind(count)
         }
     }

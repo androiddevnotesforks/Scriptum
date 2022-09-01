@@ -65,7 +65,7 @@ class SystemInteractor(
     }
 
     override suspend fun notifyCountBind() {
-        callback?.notifyCountBind(bindRepo.getNotificationCount())
+        callback?.notifyCountBind(bindRepo.getNotificationsCount())
     }
 
     override suspend fun unbindNote(id: Long) = bindRepo.unbindNote(id)

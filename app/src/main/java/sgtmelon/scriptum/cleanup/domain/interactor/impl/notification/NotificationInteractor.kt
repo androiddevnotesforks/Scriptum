@@ -18,7 +18,7 @@ class NotificationInteractor(
 ) : ParentInteractor(),
     INotificationInteractor {
 
-    override suspend fun getCount(): Int = bindRepo.getNotificationCount()
+    override suspend fun getCount(): Int = bindRepo.getNotificationsCount()
 
     override suspend fun getList(): List<NotificationItem> = alarmRepo.getList()
 

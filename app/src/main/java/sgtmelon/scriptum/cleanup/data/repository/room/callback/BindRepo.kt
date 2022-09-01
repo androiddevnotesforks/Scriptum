@@ -9,6 +9,6 @@ interface BindRepo {
 
     suspend fun unbindNote(id: Long)
 
-    suspend fun getNotificationCount(): Int
+    suspend fun getNotificationsCount(): Int
 
 }

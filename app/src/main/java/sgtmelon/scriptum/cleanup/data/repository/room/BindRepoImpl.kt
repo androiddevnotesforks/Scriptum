@@ -3,10 +3,9 @@ package sgtmelon.scriptum.cleanup.data.repository.room
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
-import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
- * Repository of [Database] which work with notes bind in status bar.
+ * Repository for work with status bar bind data.
  */
 class BindRepoImpl(
     private val noteDataSource: NoteDataSource,
@@ -22,6 +21,6 @@ class BindRepoImpl(
         noteDataSource.update(entity)
     }
 
-    override suspend fun getNotificationCount(): Int = alarmDataSource.getCount()
+    override suspend fun getNotificationsCount(): Int = alarmDataSource.getCount()
 
 }
