@@ -10,6 +10,7 @@ import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ConverterModu
 import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.RoomModule
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
+import sgtmelon.scriptum.cleanup.testData.DbWeightDelegator
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
@@ -45,8 +46,12 @@ object ParentInjector {
         )
     }
 
-    fun provideTestDbDelegator(): DbDelegator {
+    fun provideDbDelegator(): DbDelegator {
         return DbDelegator(provideDatabase(), providePreferencesRepo())
+    }
+
+    fun provideDbWeightDelegator(): DbWeightDelegator {
+        return DbWeightDelegator(provideContext(), provideDatabase())
     }
 
     fun provideDatabase(): Database {

@@ -4,24 +4,19 @@ import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.testData.Scroll
-import sgtmelon.scriptum.cleanup.testData.WeightData
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.parent.ParentUiWeighTest
 
 /**
  * Test recyclerView lists for lags
  */
 @RunWith(AndroidJUnit4::class)
-class ListTest : ParentUiTest() {
+class ListTest : ParentUiWeighTest() {
 
     // TODO #TEST optimization textNote inside lists (because now I load all text length)
 
     private val pageList = arrayListOf(MainPage.RANK, MainPage.NOTES, MainPage.BIN)
-
-    private val weightData = WeightData(context, RoomProvider(context))
-
 
     @Test fun mainPageSelect() = launch(before = {
         db.fillRank(RANK_COUNT)
@@ -60,7 +55,7 @@ class ListTest : ParentUiTest() {
      * Simple = 19.780s
      * Coroutine = 21.930s
      */
-    @Test fun textNoteOpen() = db.insertText(weightData.textNote).let { model ->
+    @Test fun textNoteOpen() = db.insertText(dbWeight.textNote).let { model ->
         launch {
             mainScreen {
                 notesScreen {
@@ -72,7 +67,7 @@ class ListTest : ParentUiTest() {
 
     @Test fun rollNoteOpen() = db.insertRoll(
         isVisible = true,
-        list = weightData.rollList
+        list = dbWeight.rollList
     ).let { model ->
         launch {
             mainScreen {
@@ -85,7 +80,7 @@ class ListTest : ParentUiTest() {
 
     @Test fun rollNoteScroll() = db.insertRoll(
         isVisible = true,
-        list = weightData.rollList
+        list = dbWeight.rollList
     ).let {
         launch {
             mainScreen { notesScreen { openRollNote(it) { onScroll(Scroll.END, SCROLL_COUNT) } } }

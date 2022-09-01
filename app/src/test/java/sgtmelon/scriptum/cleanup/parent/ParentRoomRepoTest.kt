@@ -6,7 +6,6 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before
-import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
@@ -19,8 +18,6 @@ import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
  */
 @ExperimentalCoroutinesApi
 abstract class ParentRoomRepoTest : ParentCoTest() {
-
-    @MockK lateinit var roomProvider: RoomProvider
 
     @MockK lateinit var roomDb: Database
 

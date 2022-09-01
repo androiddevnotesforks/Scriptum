@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.RoomWorker
 /**
  * Data for weight tests
  */
-class WeightData(
+class DbWeightDelegator(
     private val context: Context,
     override val database: Database
 ) : RoomWorker {
