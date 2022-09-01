@@ -29,7 +29,8 @@ class AlarmRepoImpl(
         if (item.haveAlarm()) {
             dataSource.update(entity)
         } else {
-            item.alarmId = dataSource.insert(entity)
+            /** Catch of insert error happen inside dataSource. */
+            item.alarmId = dataSource.insert(entity) ?: return
         }
     }
 

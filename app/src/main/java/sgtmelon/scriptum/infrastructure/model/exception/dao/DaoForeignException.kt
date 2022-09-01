@@ -5,6 +5,7 @@ package sgtmelon.scriptum.infrastructure.model.exception.dao
  * Most likely this error is related to ForeignKey. But it could also be another one.
  */
 class DaoForeignException(cause: Throwable) : Throwable(
-    message = "Something happened during insertion to db. May be it's related with ForeignKey.",
+    message = "Something happened during insertion to db.\n" +
+            "May be it's related with ForeignKey (parent entity not exist).",
     cause
 )
