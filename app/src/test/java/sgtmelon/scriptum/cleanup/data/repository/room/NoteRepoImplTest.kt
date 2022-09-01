@@ -32,7 +32,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
@@ -42,7 +42,7 @@ import sgtmelon.test.common.nextString
  */
 @Suppress("UnusedEquals")
 @ExperimentalCoroutinesApi
-class NoteRepoImplTest : ParentRoomRepoTest() {
+class NoteRepoImplTest : ParentRepoTest() {
 
     private val noteConverter = mockk<NoteConverter>()
     private val rollConverter = mockk<RollConverter>()

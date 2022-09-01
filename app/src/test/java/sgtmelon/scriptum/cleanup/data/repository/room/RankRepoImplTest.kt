@@ -25,7 +25,7 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
@@ -34,7 +34,7 @@ import sgtmelon.test.common.nextString
  * Test for [RankRepoImpl].
  */
 @ExperimentalCoroutinesApi
-class RankRepoImplTest : ParentRoomRepoTest() {
+class RankRepoImplTest : ParentRepoTest() {
 
     private val converter: RankConverter = mockk()
 

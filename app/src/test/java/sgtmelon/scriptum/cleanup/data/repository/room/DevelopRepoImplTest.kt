@@ -5,7 +5,6 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.random.Random
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
@@ -15,13 +14,12 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 
 /**
  * Test for [DevelopRepoImpl].
  */
-@ExperimentalCoroutinesApi
-class DevelopRepoImplTest : ParentRoomRepoTest() {
+class DevelopRepoImplTest : ParentRepoTest() {
 
     private val developRepo by lazy { DevelopRepoImpl(roomProvider) }
 

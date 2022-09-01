@@ -9,12 +9,12 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
-import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 
 /**
  * Test for [BindRepoImpl].
  */
-class BindRepoImplTest : ParentRoomRepoTest() {
+class BindRepoImplTest : ParentRepoTest() {
 
     private val repo by lazy { BindRepoImpl(noteDataSource, alarmDataSource) }
 

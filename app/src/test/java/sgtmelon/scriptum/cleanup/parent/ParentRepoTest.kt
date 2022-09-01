@@ -8,12 +8,11 @@ import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
-import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
- * Parent test class for repositories who works with [Database] dataSource's.
+ * Parent test class for repositories who works with dataSource's.
  */
-abstract class ParentRoomRepoTest : ParentTest() {
+abstract class ParentRepoTest : ParentTest() {
 
     @MockK lateinit var noteDataSource: NoteDataSource
     @MockK lateinit var rollDataSource: RollDataSource
@@ -24,7 +23,8 @@ abstract class ParentRoomRepoTest : ParentTest() {
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(
-            noteDataSource, rollDataSource, rollVisibleDataSource, rankDataSource, alarmDataSource
+            noteDataSource, rollDataSource, rollVisibleDataSource,
+            rankDataSource, alarmDataSource
         )
     }
 }

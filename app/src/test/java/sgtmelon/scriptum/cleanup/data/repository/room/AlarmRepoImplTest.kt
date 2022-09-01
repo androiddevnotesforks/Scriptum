@@ -20,13 +20,13 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.test.common.nextString
 
 /**
  * Test for [AlarmRepoImpl].
  */
-class AlarmRepoImplTest : ParentRoomRepoTest() {
+class AlarmRepoImplTest : ParentRepoTest() {
 
     @MockK lateinit var converter: AlarmConverter
 
