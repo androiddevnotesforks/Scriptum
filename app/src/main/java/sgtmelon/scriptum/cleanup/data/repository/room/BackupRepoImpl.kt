@@ -227,47 +227,84 @@ class BackupRepoImpl(
     suspend fun insertNoteList(model: Model) {
         /**
          * Need for prevent overriding already updated items.
-         * Because new noteId may be equals oldId for next item.
+         * Because new noteId may be equals oldNoteId for next item.
          */
         val skipRollIdList = mutableListOf<Long>()
-        val skipRollVisibleIdList = mutableListOf<Long>()
-        val skipAlarmList = mutableListOf<Long>()
+        val skipVisibleIdList = mutableListOf<Long>()
+        val skipAlarmIdList = mutableListOf<Long>()
 
         for (item in model.noteList) {
-            val oldId = item.id
+            val oldNoteId = item.id
 
-            item.id = noteDataSource.insert(item.apply { id = Note.Default.ID })
+            /** Catch of insert errors happen inside dataSource. */
+            item.id = noteDataSource.insert(item.copy(id = Note.Default.ID)) ?: continue
 
-            for (it in model.rollList.filter {
-                !skipRollIdList.contains(it.id) && it.noteId == oldId
-            }) {
-                it.id?.let { id -> skipRollIdList.add(id) }
-                it.noteId = item.id
+            updateRollLink(oldNoteId, item.id, model.rollList, skipRollIdList)
+            updateRollVisibleLink(oldNoteId, item.id, model.rollVisibleList, skipVisibleIdList)
+            updateRankLink(oldNoteId, item.id, model.rankList)
+            updateAlarmList(oldNoteId, item.id, model.alarmList, skipAlarmIdList)
+        }
+    }
+
+    @RunPrivate
+    fun updateRollLink(
+        oldNoteId: Long,
+        newNoteId: Long,
+        rollList: List<RollEntity>,
+        skipIdList: MutableList<Long>
+    ) {
+        val list = rollList.filter { !skipIdList.contains(it.id) && it.noteId == oldNoteId }
+
+        for (it in list) {
+            val rollId = it.id
+            if (rollId != null) {
+                skipIdList.add(rollId)
             }
 
-            for (it in model.rollVisibleList.filter {
-                !skipRollVisibleIdList.contains(it.id) && it.noteId == oldId
-            }) {
-                skipRollVisibleIdList.add(it.id)
-                it.noteId = item.id
-            }
+            it.noteId = newNoteId
+        }
+    }
 
-            /**
-             * Note may be connected only to one rank (or not connected at all).
-             */
-            model.rankList.firstOrNull {
-                it.id == item.rankId && it.noteId.contains(oldId)
-            }?.apply {
-                noteId.remove(oldId)
-                noteId.add(item.id)
-            }
+    @RunPrivate
+    fun updateRollVisibleLink(
+        oldNoteId: Long,
+        newNoteId: Long,
+        rollVisibleList: List<RollVisibleEntity>,
+        skipIdList: MutableList<Long>
+    ) {
+        val list = rollVisibleList.filter { !skipIdList.contains(it.id) && it.noteId == oldNoteId }
 
-            for (it in model.alarmList.filter {
-                !skipAlarmList.contains(it.id) && it.noteId == oldId
-            }) {
-                skipAlarmList.add(it.id)
-                it.noteId = item.id
-            }
+        for (it in list) {
+            skipIdList.add(it.id)
+            it.noteId = newNoteId
+        }
+    }
+
+    /**
+     * Note may be connected only to one rank (or not connected at all).
+     */
+    @RunPrivate
+    fun updateRankLink(oldNoteId: Long, newNoteId: Long, rankList: List<RankEntity>) {
+        val entity = rankList.firstOrNull {
+            it.id == newNoteId && it.noteId.contains(oldNoteId)
+        } ?: return
+
+        entity.noteId.remove(oldNoteId)
+        entity.noteId.add(newNoteId)
+    }
+
+    @RunPrivate
+    fun updateAlarmList(
+        oldNoteId: Long,
+        newNoteId: Long,
+        alarmList: List<AlarmEntity>,
+        skipIdList: MutableList<Long>
+    ) {
+        val list = alarmList.filter { !skipIdList.contains(it.id) && it.noteId == oldNoteId }
+
+        for (it in list) {
+            skipIdList.add(it.id)
+            it.noteId = newNoteId
         }
     }
 
@@ -291,7 +328,8 @@ class BackupRepoImpl(
     @RunPrivate
     suspend fun insertRollVisibleList(model: Model) {
         for (it in model.rollVisibleList) {
-            it.id = rollVisibleDataSource.insert(it.apply { id = RollVisible.Default.ID })
+            /** Catch of insert errors happen inside dataSource. */
+            it.id = rollVisibleDataSource.insert(it.copy(id = RollVisible.Default.ID)) ?: continue
         }
     }
 
@@ -303,6 +341,7 @@ class BackupRepoImpl(
      * Need reset [RankEntity.id] for prevent unique id exception.
      * And update [RankEntity.position].
      */
+    // TODO if existRankList contain same name as inside [model.rankList]. Need add check for this.
     @RunPrivate
     suspend fun insertRankList(model: Model) {
         val existRankList = rankDataSource.getList().toMutableList()
@@ -316,10 +355,12 @@ class BackupRepoImpl(
         for (item in model.rankList) {
             val oldId = item.id
 
-            item.id = rankDataSource.insert(item.apply {
-                id = Rank.Default.ID
-                position = existRankList.size
-            })
+            /** Catch of insert errors happen inside dataSource. */
+            item.id = rankDataSource.insert(
+                item.copy(
+                    id = Rank.Default.ID, position = existRankList.size
+                )
+            ) ?: continue
 
             existRankList.add(item)
 
@@ -345,7 +386,8 @@ class BackupRepoImpl(
     @RunPrivate
     suspend fun insertAlarmList(model: Model) {
         for (it in model.alarmList) {
-            it.id = alarmDataSource.insert(it.apply { id = Alarm.Default.ID })
+            /** Catch of insert errors happen inside dataSource. */
+            it.id = alarmDataSource.insert(it.copy(id = Alarm.Default.ID)) ?: continue
         }
     }
 

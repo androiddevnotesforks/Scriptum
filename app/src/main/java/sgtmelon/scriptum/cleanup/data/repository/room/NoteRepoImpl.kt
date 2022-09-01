@@ -247,7 +247,7 @@ class NoteRepoImpl(
         val entity = noteConverter.toEntity(item)
 
         if (isCreate) {
-            /** Catch of insert error happen inside dataSource. */
+            /** Catch of insert errors happen inside dataSource. */
             item.id = noteDataSource.insert(entity) ?: return
         } else {
             noteDataSource.update(entity)
@@ -258,7 +258,7 @@ class NoteRepoImpl(
         val entity = noteConverter.toEntity(item)
 
         if (isCreate) {
-            /** Catch of insert error happen inside dataSource. */
+            /** Catch of insert errors happen inside dataSource. */
             item.id = noteDataSource.insert(entity) ?: return
 
             for (rollItem in item.list) {
