@@ -28,7 +28,6 @@ import sgtmelon.test.common.nextString
 /**
  * Class which fill db and provide data for tests.
  */
-// TODO replace unsafe operations
 class DbDelegator(
     override val database: Database,
     private val preferencesRepo: PreferencesRepo
@@ -139,7 +138,9 @@ class DbDelegator(
     }
 
     fun insertText(entity: NoteEntity = textNote): NoteItem.Text {
-        inRoomTest { entity.id = noteDao.insert(entity) }
+        inRoomTest {
+            entity.id = noteDao.insertSafe(entity) ?: throw NullPointerException()
+        }
 
         val item = noteConverter.toItem(entity)
 
@@ -156,14 +157,15 @@ class DbDelegator(
         list: ArrayList<RollEntity> = rollList
     ): NoteItem.Roll {
         inRoomTest {
-            entity.id = noteDao.insert(entity)
+            entity.id = noteDao.insertSafe(entity) ?: throw NullPointerException()
 
             for (it in list) {
                 it.noteId = entity.id
-                rollDao.insert(it)
+                rollDao.insertSafe(it) ?: throw NullPointerException()
             }
 
-            rollVisibleDao.insert(RollVisibleEntity(noteId = entity.id, value = isVisible))
+            val rollVisibleEntity = RollVisibleEntity(noteId = entity.id, value = isVisible)
+            rollVisibleDao.insertSafe(rollVisibleEntity) ?: throw NullPointerException()
         }
 
         val item = noteConverter.toItem(entity, isVisible, rollConverter.toItem(list))
@@ -232,7 +234,10 @@ class DbDelegator(
     ): NoteItem {
         item.alarmDate = date
 
-        inRoomTest { item.alarmId = alarmDao.insert(alarmConverter.toEntity(item)) }
+        inRoomTest {
+            val entity = alarmConverter.toEntity(item)
+            item.alarmId = alarmDao.insertSafe(entity) ?: throw NullPointerException()
+        }
 
         return item
     }
