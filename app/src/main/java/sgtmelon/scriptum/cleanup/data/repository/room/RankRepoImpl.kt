@@ -11,10 +11,9 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
-import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
- * Repository of [Database] for work with ranks.
+ * Repository for work with ranks.
  */
 class RankRepoImpl(
     private val noteDataSource: NoteDataSource,

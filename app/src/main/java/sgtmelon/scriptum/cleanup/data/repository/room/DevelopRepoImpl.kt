@@ -7,10 +7,9 @@ import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
-import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
- * Repository of [Database] which work with all tables data and only for developer screen.
+ * Repository which work with all data and only for developer screen.
  */
 class DevelopRepoImpl(
     private val noteDataSource: NoteDataSource,

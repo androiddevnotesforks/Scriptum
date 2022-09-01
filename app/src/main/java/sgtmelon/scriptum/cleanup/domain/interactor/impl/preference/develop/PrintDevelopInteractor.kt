@@ -38,6 +38,7 @@ class PrintDevelopInteractor(
         PrintType.FILE -> getPreferenceFileList()
     }
 
+    // TODO move inside repository
     @RunPrivate fun getPreferenceKeyList(): List<Preference> {
         return listOf(
             Preference.Title(R.string.pref_header_app),
