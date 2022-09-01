@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure
 
 import android.content.Context
 import androidx.room.RoomDatabase
+import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import sgtmelon.scriptum.infrastructure.database.Database
@@ -9,6 +10,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 /**
  * Module for provide [RoomDatabase] staff.
  */
+@Module
 class RoomModule {
 
     @Provides
