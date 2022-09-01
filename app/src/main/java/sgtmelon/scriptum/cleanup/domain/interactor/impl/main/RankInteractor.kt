@@ -17,12 +17,7 @@ class RankInteractor(private val rankRepo: RankRepo) : ParentInteractor(),
     override suspend fun getList(): MutableList<RankItem> = rankRepo.getList()
 
 
-    // TODO move logic inside repo
-    override suspend fun insert(name: String): RankItem? {
-        val id = rankRepo.insert(name) ?: return null
-
-        return RankItem(id, name = name)
-    }
+    override suspend fun insert(name: String): RankItem? = rankRepo.insert(name)
 
     override suspend fun insert(item: RankItem) = rankRepo.insert(item)
 

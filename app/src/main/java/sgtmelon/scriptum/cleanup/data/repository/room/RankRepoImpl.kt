@@ -42,7 +42,10 @@ class RankRepoImpl(
     override suspend fun getIdVisibleList(): List<Long> = rankDataSource.getIdVisibleList()
 
 
-    override suspend fun insert(name: String): Long? = rankDataSource.insert(RankEntity[name])
+    override suspend fun insert(name: String): RankItem? {
+        val id = rankDataSource.insert(RankEntity[name]) ?: return null
+        return RankItem(id, name = name)
+    }
 
     override suspend fun insert(item: RankItem) {
         /** Correcting of notes rankId/Ps. */
