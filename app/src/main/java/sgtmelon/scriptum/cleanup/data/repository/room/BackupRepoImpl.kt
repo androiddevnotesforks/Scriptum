@@ -28,7 +28,7 @@ import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
- * Repository of [Database] which work with backup data.
+ * Repository for work with backup data.
  */
 class BackupRepoImpl(
     private val noteDataSource: NoteDataSource,
@@ -316,7 +316,7 @@ class BackupRepoImpl(
     @RunPrivate
     suspend fun insertRollList(model: Model) {
         for (it in model.rollList) {
-            it.id = rollDataSource.insert(it.apply { id = Roll.Default.ID })
+            it.id = rollDataSource.insert(it.copy(id = Roll.Default.ID))
         }
     }
 

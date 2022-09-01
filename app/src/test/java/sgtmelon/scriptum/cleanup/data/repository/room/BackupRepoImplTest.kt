@@ -8,7 +8,7 @@ import io.mockk.mockk
 import io.mockk.spyk
 import java.util.Calendar
 import kotlin.random.Random
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -38,13 +38,17 @@ import sgtmelon.test.common.nextString
 /**
  * Test for [BackupRepoImpl].
  */
-@ExperimentalCoroutinesApi
 class BackupRepoImplTest : ParentRoomRepoTest() {
 
-    private val backupRepo by lazy { BackupRepoImpl(roomProvider) }
-    private val spyBackupRepo by lazy { spyk(backupRepo) }
+    private val repo by lazy {
+        BackupRepoImpl(
+            noteDataSource, rollDataSource, rollVisibleDataSource,
+            rankDataSource, alarmDataSource
+        )
+    }
+    private val spyRepo by lazy { spyk(repo) }
 
-    @Test fun insertData() = startCoTest {
+    @Test fun insertData() {
         val model = mockk<BackupRepoImpl.Model>()
         val noteList = mockk<MutableList<NoteEntity>>()
         val size = Random.nextInt()
@@ -53,47 +57,52 @@ class BackupRepoImplTest : ParentRoomRepoTest() {
         every { model.noteList } returns noteList
         every { noteList.size } returns size
 
-        coEvery { spyBackupRepo.getRemoveNoteList(model, roomDb) } returns removeList
-        coEvery { spyBackupRepo.clearList(removeList, model) } returns Unit
-        coEvery { spyBackupRepo.clearRankList(model, roomDb) } returns Unit
-        coEvery { spyBackupRepo.clearAlarmList(model, roomDb) } returns Unit
-        coEvery { spyBackupRepo.insertNoteList(model, roomDb) } returns Unit
-        coEvery { spyBackupRepo.insertRollList(model, roomDb) } returns Unit
-        coEvery { spyBackupRepo.insertRollVisibleList(model, roomDb) } returns Unit
-        coEvery { spyBackupRepo.insertRankList(model, roomDb) } returns Unit
-        coEvery { spyBackupRepo.insertAlarmList(model, roomDb) } returns Unit
+        coEvery { spyRepo.getRemoveNoteList(model) } returns removeList
+        coEvery { spyRepo.clearList(removeList, model) } returns Unit
+        coEvery { spyRepo.clearRankList(model) } returns Unit
+        coEvery { spyRepo.clearAlarmList(model) } returns Unit
+        coEvery { spyRepo.insertNoteList(model) } returns Unit
+        coEvery { spyRepo.insertRollList(model) } returns Unit
+        coEvery { spyRepo.insertRollVisibleList(model) } returns Unit
+        coEvery { spyRepo.insertRankList(model) } returns Unit
+        coEvery { spyRepo.insertAlarmList(model) } returns Unit
 
-        assertEquals(ImportResult.Simple, spyBackupRepo.insertData(model, isSkipImports = false))
+        runBlocking {
+            assertEquals(
+                spyRepo.insertData(model, isSkipImports = false),
+                ImportResult.Simple
+            )
+        }
 
         val skipResult = ImportResult.Skip(skipCount = 0)
-        assertEquals(skipResult, spyBackupRepo.insertData(model, isSkipImports = true))
+        runBlocking {
+            assertEquals(spyRepo.insertData(model, isSkipImports = true), skipResult)
+        }
 
         coVerifyOrder {
-            spyBackupRepo.insertData(model, isSkipImports = false)
-            roomProvider.openRoom()
+            spyRepo.insertData(model, isSkipImports = false)
             model.noteList
             noteList.size
-            spyBackupRepo.clearRankList(model, roomDb)
-            spyBackupRepo.clearAlarmList(model, roomDb)
-            spyBackupRepo.insertNoteList(model, roomDb)
-            spyBackupRepo.insertRollList(model, roomDb)
-            spyBackupRepo.insertRollVisibleList(model, roomDb)
-            spyBackupRepo.insertRankList(model, roomDb)
-            spyBackupRepo.insertAlarmList(model, roomDb)
+            spyRepo.clearRankList(model)
+            spyRepo.clearAlarmList(model)
+            spyRepo.insertNoteList(model)
+            spyRepo.insertRollList(model)
+            spyRepo.insertRollVisibleList(model)
+            spyRepo.insertRankList(model)
+            spyRepo.insertAlarmList(model)
 
-            spyBackupRepo.insertData(model, isSkipImports = true)
-            roomProvider.openRoom()
+            spyRepo.insertData(model, isSkipImports = true)
             model.noteList
             noteList.size
-            spyBackupRepo.getRemoveNoteList(model, roomDb)
-            spyBackupRepo.clearList(removeList, model)
-            spyBackupRepo.clearRankList(model, roomDb)
-            spyBackupRepo.clearAlarmList(model, roomDb)
-            spyBackupRepo.insertNoteList(model, roomDb)
-            spyBackupRepo.insertRollList(model, roomDb)
-            spyBackupRepo.insertRollVisibleList(model, roomDb)
-            spyBackupRepo.insertRankList(model, roomDb)
-            spyBackupRepo.insertAlarmList(model, roomDb)
+            spyRepo.getRemoveNoteList(model)
+            spyRepo.clearList(removeList, model)
+            spyRepo.clearRankList(model)
+            spyRepo.clearAlarmList(model)
+            spyRepo.insertNoteList(model)
+            spyRepo.insertRollList(model)
+            spyRepo.insertRollVisibleList(model)
+            spyRepo.insertRankList(model)
+            spyRepo.insertAlarmList(model)
             model.noteList
             noteList.size
         }
@@ -115,14 +124,18 @@ class BackupRepoImplTest : ParentRoomRepoTest() {
         every { item.name } returns name
         every { item.text } returns text
 
-        assertFalse(backupRepo.needSkipTextNote(item, list))
+        assertFalse(repo.needSkipTextNote(item, list))
 
         list.add(item)
 
-        assertTrue(backupRepo.needSkipTextNote(item, list))
+        assertTrue(repo.needSkipTextNote(item, list))
     }
 
     @Test fun needSkipRollNote() {
+        TODO()
+    }
+
+    @Test fun isContainSameItems() {
         TODO()
     }
 
@@ -182,14 +195,14 @@ class BackupRepoImplTest : ParentRoomRepoTest() {
         )
 
         assertNotEquals(startModel, endModel)
-        backupRepo.clearList(removeList, startModel)
+        repo.clearList(removeList, startModel)
         assertEquals(startModel, endModel)
     }
 
-    @Test fun clearRankList() = startCoTest {
+    @Test fun clearRankList() {
         val existList = List(size = 5) { RankEntity(id = Random.nextLong(), name = nextString()) }
 
-        coEvery { rankDao.getList() } returns existList
+        coEvery { rankDataSource.getList() } returns existList
 
         val existFirstItem = existList.first()
         val existSecondItem = existList.last()
@@ -225,22 +238,23 @@ class BackupRepoImplTest : ParentRoomRepoTest() {
         assertNotEquals(model.noteList, resultNoteList)
         assertNotEquals(model.rankList, resultRankList)
 
-        backupRepo.clearRankList(model, roomDb)
+        runBlocking {
+            repo.clearRankList(model)
+        }
 
         assertEquals(model.noteList, resultNoteList)
         assertEquals(model.rankList, resultRankList)
 
         coVerifySequence {
-            roomDb.rankDao
-            rankDao.getList()
+            rankDataSource.getList()
         }
     }
 
-    @Test fun clearAlarmList() = startCoTest {
+    @Test fun clearAlarmList() {
         val existList = mockk<List<NotificationItem>>()
 
-        coEvery { alarmDao.getItemList() } returns existList
-        every { spyBackupRepo.moveNotificationTime(any(), any(), existList) } returns Unit
+        coEvery { alarmDataSource.getItemList() } returns existList
+        every { spyRepo.moveNotificationTime(any(), any(), existList) } returns Unit
 
         val resultAlarmList = List(size = 5) {
             AlarmEntity(id = Random.nextLong(), date = getRandomFutureTime())
@@ -255,18 +269,19 @@ class BackupRepoImplTest : ParentRoomRepoTest() {
 
         assertNotEquals(model.alarmList, resultAlarmList)
 
-        spyBackupRepo.clearAlarmList(model, roomDb)
+        runBlocking {
+            spyRepo.clearAlarmList(model)
+        }
 
         assertEquals(model.alarmList, resultAlarmList)
 
         coVerifySequence {
-            spyBackupRepo.clearAlarmList(model, roomDb)
+            spyRepo.clearAlarmList(model)
 
-            roomDb.alarmDao
-            alarmDao.getItemList()
+            alarmDataSource.getItemList()
 
             for (it in resultAlarmList) {
-                spyBackupRepo.moveNotificationTime(it, any(), existList)
+                spyRepo.moveNotificationTime(it, any(), existList)
             }
         }
     }
@@ -289,7 +304,7 @@ class BackupRepoImplTest : ParentRoomRepoTest() {
         assertNotEquals(item.date, resultDate)
         assertNotEquals(startCalendar.get(Calendar.MINUTE), resultCalendar.get(Calendar.MINUTE))
 
-        backupRepo.moveNotificationTime(item, startCalendar, list)
+        repo.moveNotificationTime(item, startCalendar, list)
 
         assertEquals(item.date, resultDate)
         assertEquals(startCalendar.get(Calendar.MINUTE), resultCalendar.get(Calendar.MINUTE))
@@ -299,42 +314,62 @@ class BackupRepoImplTest : ParentRoomRepoTest() {
         TODO()
     }
 
-    @Test fun insertRollList() = startCoTest {
+    @Test fun updateRollLink() {
+        TODO()
+    }
+
+    @Test fun updateRollVisibleLink() {
+        TODO()
+    }
+
+    @Test fun updateRankLink() {
+        TODO()
+    }
+
+    @Test fun updateAlarmList() {
+        TODO()
+    }
+
+    // TODO #CHECK + null case
+    @Test fun insertRollList() {
         val model = mockk<BackupRepoImpl.Model>()
         val item = mockk<RollEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
         every { model.rollList } returns mutableListOf(item)
-        coEvery { rollDao.insert(item) } returns newId
+        coEvery { rollDataSource.insert(item) } returns newId
 
-        backupRepo.insertRollList(model, roomDb)
+        runBlocking {
+            repo.insertRollList(model)
+        }
 
         coVerifySequence {
             model.rollList
 
-            roomDb.rollDao
             item.id = Roll.Default.ID
-            rollDao.insert(item)
+            rollDataSource.insert(item)
             item.id = newId
         }
     }
 
-    @Test fun insertRollVisibleList() = startCoTest {
+    // TODO #CHECK + null case
+    @Test fun insertRollVisibleList() {
         val model = mockk<BackupRepoImpl.Model>()
         val item = mockk<RollVisibleEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
         every { model.rollVisibleList } returns mutableListOf(item)
-        coEvery { rollVisibleDao.insert(item) } returns newId
+        coEvery { rollVisibleDataSource.insert(item) } returns newId
 
-        backupRepo.insertRollVisibleList(model, roomDb)
+        runBlocking {
+            repo.insertRollVisibleList(model)
+        }
 
         coVerifySequence {
             model.rollVisibleList
 
-            roomDb.rollVisibleDao
             item.id = RollVisible.Default.ID
-            rollVisibleDao.insert(item)
+            rollVisibleDataSource.insert(item)
             item.id = newId
         }
     }
@@ -343,22 +378,24 @@ class BackupRepoImplTest : ParentRoomRepoTest() {
         TODO()
     }
 
-    @Test fun insertAlarmList() = startCoTest {
+    // TODO #CHECK + null case
+    @Test fun insertAlarmList() {
         val model = mockk<BackupRepoImpl.Model>()
         val item = mockk<AlarmEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
         every { model.alarmList } returns mutableListOf(item)
-        coEvery { alarmDao.insert(item) } returns newId
+        coEvery { alarmDataSource.insert(item) } returns newId
 
-        backupRepo.insertAlarmList(model, roomDb)
+        runBlocking {
+            repo.insertAlarmList(model)
+        }
 
         coVerifySequence {
             model.alarmList
 
-            roomDb.alarmDao
             item.id = Alarm.Default.ID
-            alarmDao.insert(item)
+            alarmDataSource.insert(item)
             item.id = newId
         }
     }
