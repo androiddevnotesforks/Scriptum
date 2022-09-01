@@ -5,6 +5,7 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.random.Random
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
@@ -21,80 +22,90 @@ import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
  */
 class DevelopRepoImplTest : ParentRepoTest() {
 
-    private val developRepo by lazy { DevelopRepoImpl(roomProvider) }
+    private val repo by lazy {
+        DevelopRepoImpl(
+            noteDataSource, rollDataSource, rollVisibleDataSource,
+            rankDataSource, alarmDataSource
+        )
+    }
 
-    @Test fun getPrintNoteList() = startCoTest {
+    @Test fun getPrintNoteList() {
         val isBin = Random.nextBoolean()
         val list = List(getRandomSize()) { mockk<NoteEntity>() }
         val resultList = list.map { PrintItem.Note(it) }
 
-        coEvery { noteDao.getList(isBin) } returns list
+        coEvery { noteDataSource.getList(isBin) } returns list
 
-        assertEquals(resultList, developRepo.getPrintNoteList(isBin))
+        runBlocking {
+            assertEquals(repo.getPrintNoteList(isBin), resultList)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            noteDao.getList(isBin)
+            noteDataSource.getList(isBin)
         }
     }
 
-    @Test fun getPrintRollList() = startCoTest {
+    @Test fun getPrintRollList() {
         val list = List(getRandomSize()) { mockk<RollEntity>() }
         val resultList = list.map { PrintItem.Roll(it) }
 
-        coEvery { rollDao.getList() } returns list
+        coEvery { rollDataSource.getList() } returns list
 
-        assertEquals(resultList, developRepo.getPrintRollList())
+        runBlocking {
+            assertEquals(repo.getPrintRollList(), resultList)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            rollDao.getList()
+            rollDataSource.getList()
         }
     }
 
-    @Test fun getPrintVisibleList() = startCoTest {
+    @Test fun getPrintVisibleList() {
         val list = List(getRandomSize()) { mockk<RollVisibleEntity>() }
         val resultList = list.map { PrintItem.Visible(it) }
 
-        coEvery { rollVisibleDao.getList() } returns list
+        coEvery { rollVisibleDataSource.getList() } returns list
 
-        assertEquals(resultList, developRepo.getPrintVisibleList())
+        runBlocking {
+            assertEquals(repo.getPrintVisibleList(), resultList)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            rollVisibleDao.getList()
+            rollVisibleDataSource.getList()
         }
     }
 
-    @Test fun getPrintRankList() = startCoTest {
+    @Test fun getPrintRankList() {
         val list = List(getRandomSize()) { mockk<RankEntity>() }
         val resultList = list.map { PrintItem.Rank(it) }
 
-        coEvery { rankDao.getList() } returns list
+        coEvery { rankDataSource.getList() } returns list
 
-        assertEquals(resultList, developRepo.getPrintRankList())
+        runBlocking {
+            assertEquals(repo.getPrintRankList(), resultList)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            rankDao.getList()
+            rankDataSource.getList()
         }
     }
 
-    @Test fun getPrintAlarmList() = startCoTest {
+    @Test fun getPrintAlarmList() {
         val list = List(getRandomSize()) { mockk<AlarmEntity>() }
         val resultList = list.map { PrintItem.Alarm(it) }
 
-        coEvery { alarmDao.getList() } returns list
+        coEvery { alarmDataSource.getList() } returns list
 
-        assertEquals(resultList, developRepo.getPrintAlarmList())
+        runBlocking {
+            assertEquals(repo.getPrintAlarmList(), resultList)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            alarmDao.getList()
+            alarmDataSource.getList()
         }
     }
 
-    @Test fun getRandomNoteId() = startCoTest {
+    @Test fun getRandomNoteId() {
         val entityList = List(getRandomSize()) { mockk<NoteEntity>() }
         val id = Random.nextLong()
 
@@ -102,13 +113,14 @@ class DevelopRepoImplTest : ParentRepoTest() {
             every { entity.id } returns id
         }
 
-        coEvery { noteDao.getList(isBin = false) } returns entityList
+        coEvery { noteDataSource.getList(isBin = false) } returns entityList
 
-        assertEquals(id, developRepo.getRandomNoteId())
+        runBlocking {
+            assertEquals(repo.getRandomNoteId(), id)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            noteDao.getList(isBin = false)
+            noteDataSource.getList(isBin = false)
         }
     }
 }
