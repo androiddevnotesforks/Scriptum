@@ -6,12 +6,16 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.spyk
+import java.util.Calendar
 import kotlin.random.Random
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.common.utils.getText
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -22,12 +26,12 @@ import sgtmelon.test.common.nextString
 /**
  * Test for [AlarmRepoImpl].
  */
-@ExperimentalCoroutinesApi
 class AlarmRepoImplTest : ParentRoomRepoTest() {
 
     @MockK lateinit var converter: AlarmConverter
 
-    private val alarmRepo by lazy { AlarmRepoImpl(roomProvider, converter) }
+    private val repo by lazy { AlarmRepoImpl(alarmDataSource, converter) }
+    private val spyRepo by lazy { spyk(repo) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -35,99 +39,137 @@ class AlarmRepoImplTest : ParentRoomRepoTest() {
     }
 
     @Test fun `insertOrUpdate via calendar`() {
-        TODO()
+        val item = mockk<NoteItem>()
+        val calendar = mockk<Calendar>()
+        val date = nextString()
+
+        FastMock.timeExtension()
+        every { calendar.getText() } returns date
+        coEvery { spyRepo.insertOrUpdate(item, date) } returns Unit
+
+        runBlocking {
+            spyRepo.insertOrUpdate(item, date)
+        }
+
+        coVerifySequence {
+            spyRepo.insertOrUpdate(item, date)
+
+            calendar.getText()
+            spyRepo.insertOrUpdate(item, date)
+        }
     }
 
-    @Test fun insertOrUpdate() = startCoTest {
-        val noteItem = mockk<NoteItem>()
-        val alarmEntity = mockk<AlarmEntity>()
+    @Test fun insertOrUpdate() {
+        val item = mockk<NoteItem>()
+        val entity = mockk<AlarmEntity>()
 
         val date = nextString()
         val insertId = Random.nextLong()
 
-        every { noteItem.alarmDate = date } returns Unit
-        every { noteItem.alarmId = insertId } returns Unit
+        every { item.alarmDate = date } returns Unit
+        every { item.alarmId = insertId } returns Unit
 
-        every { converter.toEntity(noteItem) } returns alarmEntity
-        coEvery { alarmDao.insert(alarmEntity) } returns insertId
+        every { converter.toEntity(item) } returns entity
 
-        every { noteItem.haveAlarm() } returns false
-        alarmRepo.insertOrUpdate(noteItem, date)
+        every { item.haveAlarm() } returns false
+        coEvery { alarmDataSource.insert(entity) } returns null
 
-        every { noteItem.haveAlarm() } returns true
-        alarmRepo.insertOrUpdate(noteItem, date)
+        runBlocking {
+            repo.insertOrUpdate(item, date)
+        }
+
+        coEvery { alarmDataSource.insert(entity) } returns insertId
+
+        runBlocking {
+            repo.insertOrUpdate(item, date)
+        }
+
+        every { item.haveAlarm() } returns true
+
+        runBlocking {
+            repo.insertOrUpdate(item, date)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            noteItem.alarmDate = date
-            converter.toEntity(noteItem)
-            noteItem.haveAlarm()
-            alarmDao.insert(alarmEntity)
-            noteItem.alarmId = insertId
+            item.alarmDate = date
+            converter.toEntity(item)
+            item.haveAlarm()
+            alarmDataSource.insert(entity)
 
-            roomProvider.openRoom()
-            noteItem.alarmDate = date
-            converter.toEntity(noteItem)
-            noteItem.haveAlarm()
-            alarmDao.update(alarmEntity)
+            item.alarmDate = date
+            converter.toEntity(item)
+            item.haveAlarm()
+            alarmDataSource.insert(entity)
+            item.alarmId = insertId
+
+            item.alarmDate = date
+            converter.toEntity(item)
+            item.haveAlarm()
+            alarmDataSource.update(entity)
         }
     }
 
-    @Test fun delete() = startCoTest {
+    @Test fun delete() {
         val id = Random.nextLong()
 
-        alarmRepo.delete(id)
+        runBlocking {
+            repo.delete(id)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            alarmDao.delete(id)
+            alarmDataSource.delete(id)
         }
     }
 
 
-    @Test fun getItem() = startCoTest {
+    @Test fun getItem() {
         val id = Random.nextLong()
         val item = mockk<NotificationItem>()
 
-        coEvery { alarmDao.getItem(id) } returns null
-        assertNull(alarmRepo.getItem(id))
+        coEvery { alarmDataSource.getItem(id) } returns null
 
-        coEvery { alarmDao.getItem(id) } returns item
-        assertEquals(item, alarmRepo.getItem(id))
+        runBlocking {
+            assertNull(repo.getItem(id))
+        }
+
+        coEvery { alarmDataSource.getItem(id) } returns item
+
+        runBlocking {
+            assertEquals(item, repo.getItem(id))
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            alarmDao.getItem(id)
-
-            roomProvider.openRoom()
-            alarmDao.getItem(id)
+            alarmDataSource.getItem(id)
+            alarmDataSource.getItem(id)
         }
     }
 
-    @Test fun getList() = startCoTest {
+    @Test fun getList() {
         val itemList = mockk<List<NotificationItem>>()
 
-        coEvery { alarmDao.getItemList() } returns itemList
-        assertEquals(alarmRepo.getList(), itemList)
+        coEvery { alarmDataSource.getItemList() } returns itemList
+
+        runBlocking {
+            assertEquals(repo.getList(), itemList)
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            alarmDao.getItemList()
+            alarmDataSource.getItemList()
         }
     }
 
-
-    @Test fun getAlarmBackup() = startCoTest {
+    @Test fun getBackupList() {
         val alarmList = mockk<List<AlarmEntity>>()
         val noteIdList = mockk<List<Long>>()
 
-        coEvery { alarmDao.getList(noteIdList) } returns alarmList
+        coEvery { alarmDataSource.getList(noteIdList) } returns alarmList
 
-        assertEquals(alarmList, alarmRepo.getBackupList(noteIdList))
+        runBlocking {
+            assertEquals(alarmList, repo.getBackupList(noteIdList))
+        }
 
         coVerifySequence {
-            roomProvider.openRoom()
-            alarmDao.getList(noteIdList)
+            alarmDataSource.getList(noteIdList)
         }
     }
 }

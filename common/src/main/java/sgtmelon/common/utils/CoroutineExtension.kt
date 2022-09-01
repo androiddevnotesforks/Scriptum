@@ -10,13 +10,13 @@ import sgtmelon.common.test.annotation.RunPrivate
 /**
  * Variable only for coroutine tests.
  */
-@RunPrivate var isTesting = false
+@RunPrivate var isCoTesting = false
 
 /**
  * Use this function for hard calculation operations.
  */
 suspend inline fun <T> runBack(crossinline func: suspend () -> T): T {
-    if (isTesting) return func()
+    if (isCoTesting) return func()
 
     return withContext(Dispatchers.IO) { func() }
 }

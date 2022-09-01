@@ -14,5 +14,4 @@ class CipherControl : ICipherControl {
     override fun decrypt(text: String): String {
         return String(Base64.decode(text.toByteArray(), Base64.URL_SAFE))
     }
-
 }

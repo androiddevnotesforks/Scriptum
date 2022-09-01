@@ -8,10 +8,9 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
-import sgtmelon.scriptum.infrastructure.database.Database
 
 /**
- * Repository of [Database] which work with alarm.
+ * Repository for work with alarm.
  */
 class AlarmRepoImpl(
     private val dataSource: AlarmDataSource,

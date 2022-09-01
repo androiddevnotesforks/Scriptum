@@ -1,47 +1,30 @@
 package sgtmelon.scriptum.cleanup.parent
 
 import io.mockk.confirmVerified
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Before
+import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
+import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
+import sgtmelon.scriptum.data.dataSource.database.RankDataSource
+import sgtmelon.scriptum.data.dataSource.database.RollDataSource
+import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.infrastructure.database.Database
-import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
-import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
-import sgtmelon.scriptum.infrastructure.database.dao.RankDao
-import sgtmelon.scriptum.infrastructure.database.dao.RollDao
-import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 
 /**
- * Parent class for RoomRepo tests.
+ * Parent test class for repositories who works with [Database] dataSource's.
  */
-@ExperimentalCoroutinesApi
-abstract class ParentRoomRepoTest : ParentCoTest() {
+abstract class ParentRoomRepoTest : ParentTest() {
 
-    @MockK lateinit var roomDb: Database
-
-    @MockK lateinit var noteDao: NoteDao
-    @MockK lateinit var rollDao: RollDao
-    @MockK lateinit var rollVisibleDao: RollVisibleDao
-    @MockK lateinit var rankDao: RankDao
-    @MockK lateinit var alarmDao: AlarmDao
-
-    @Before override fun setUp() {
-        super.setUp()
-
-        every { roomProvider.openRoom() } returns roomDb
-
-        every { roomDb.noteDao } returns noteDao
-        every { roomDb.rollDao } returns rollDao
-        every { roomDb.rollVisibleDao } returns rollVisibleDao
-        every { roomDb.rankDao } returns rankDao
-        every { roomDb.alarmDao } returns alarmDao
-    }
+    @MockK lateinit var noteDataSource: NoteDataSource
+    @MockK lateinit var rollDataSource: RollDataSource
+    @MockK lateinit var rollVisibleDataSource: RollVisibleDataSource
+    @MockK lateinit var rankDataSource: RankDataSource
+    @MockK lateinit var alarmDataSource: AlarmDataSource
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(roomProvider, noteDao, rollDao, rollVisibleDao, rankDao, alarmDao)
+        confirmVerified(
+            noteDataSource, rollDataSource, rollVisibleDataSource, rankDataSource, alarmDataSource
+        )
     }
-
 }

@@ -96,7 +96,7 @@ class RepoModule {
         rollDataSource: RollDataSource,
         rollVisibleDataSource: RollVisibleDataSource,
         rankDataSource: RankDataSource,
-        alarmDataSource: AlarmDataSource,
+        alarmDataSource: AlarmDataSource
     ): BackupRepo {
         return BackupRepoImpl(
             noteDataSource, rollDataSource, rollVisibleDataSource, rankDataSource, alarmDataSource

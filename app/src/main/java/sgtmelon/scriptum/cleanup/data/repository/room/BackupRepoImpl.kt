@@ -35,7 +35,7 @@ class BackupRepoImpl(
     private val rollDataSource: RollDataSource,
     private val rollVisibleDataSource: RollVisibleDataSource,
     private val rankDataSource: RankDataSource,
-    private val alarmDataSource: AlarmDataSource,
+    private val alarmDataSource: AlarmDataSource
 ) : BackupRepo {
 
     override suspend fun insertData(model: Model, isSkipImports: Boolean): ImportResult {

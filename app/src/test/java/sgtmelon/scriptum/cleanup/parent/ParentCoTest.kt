@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import sgtmelon.common.utils.isTesting
+import sgtmelon.common.utils.isCoTesting
 
 /**
  * Parent class for coroutines tests.
@@ -18,12 +18,12 @@ abstract class ParentCoTest : ParentTest() {
 
     @Before override fun setUp() {
         super.setUp()
-        isTesting = true
+        isCoTesting = true
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        isTesting = false
+        isCoTesting = false
     }
 
     // TODO deprecated
