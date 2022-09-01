@@ -247,23 +247,25 @@ class NoteRepoImpl(
         val entity = noteConverter.toEntity(item)
 
         if (isCreate) {
-            item.id = noteDataSource.insert(entity)
+            /** Catch of insert error happen inside dataSource. */
+            item.id = noteDataSource.insert(entity) ?: return
         } else {
             noteDataSource.update(entity)
         }
     }
 
     override suspend fun saveNote(item: NoteItem.Roll, isCreate: Boolean) {
-        val noteEntity = noteConverter.toEntity(item)
+        val entity = noteConverter.toEntity(item)
 
         if (isCreate) {
-            item.id = noteDataSource.insert(noteEntity)
+            /** Catch of insert error happen inside dataSource. */
+            item.id = noteDataSource.insert(entity) ?: return
 
             for (rollItem in item.list) {
                 rollItem.id = rollDataSource.insert(rollConverter.toEntity(item.id, rollItem))
             }
         } else {
-            noteDataSource.update(noteEntity)
+            noteDataSource.update(entity)
 
             /**
              * List of roll id's, which wasn't swiped.
