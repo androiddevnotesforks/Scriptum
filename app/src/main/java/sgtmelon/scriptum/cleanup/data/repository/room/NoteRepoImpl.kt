@@ -17,11 +17,10 @@ import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
-import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
- * Repository of [Database] which work with notes.
+ * Repository for work with notes.
  */
 class NoteRepoImpl(
     private val noteDataSource: NoteDataSource,
@@ -267,9 +266,7 @@ class NoteRepoImpl(
         } else {
             noteDataSource.update(entity)
 
-            /**
-             * List of roll id's, which wasn't swiped.
-             */
+            /** List of roll id's, which wasn't swiped. */
             val excludeIdList = ArrayList<Long>()
 
             for (rollItem in item.list) {

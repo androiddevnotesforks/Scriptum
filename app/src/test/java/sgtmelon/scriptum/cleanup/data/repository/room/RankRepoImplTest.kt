@@ -16,7 +16,6 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -122,7 +121,6 @@ class RankRepoImplTest : ParentRepoTest() {
         val entity = mockk<RankEntity>()
         val item = RankItem(id, name = name)
 
-        FastMock.daoExtension()
         mockkObject(RankEntity)
         every { RankEntity[name] } returns entity
 
@@ -173,7 +171,6 @@ class RankRepoImplTest : ParentRepoTest() {
         }
 
         every { converter.toEntity(rankItem) } returns rankEntity
-        FastMock.daoExtension()
         coEvery { rankDataSource.insert(rankEntity) } returns if (Random.nextBoolean()) id else null
 
         runBlocking {
@@ -241,7 +238,6 @@ class RankRepoImplTest : ParentRepoTest() {
                 }
             }
 
-            item.name
             rankDataSource.delete(item)
         }
     }

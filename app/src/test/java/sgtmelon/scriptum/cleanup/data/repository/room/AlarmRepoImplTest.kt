@@ -48,11 +48,11 @@ class AlarmRepoImplTest : ParentRepoTest() {
         coEvery { spyRepo.insertOrUpdate(item, date) } returns Unit
 
         runBlocking {
-            spyRepo.insertOrUpdate(item, date)
+            spyRepo.insertOrUpdate(item, calendar)
         }
 
         coVerifySequence {
-            spyRepo.insertOrUpdate(item, date)
+            spyRepo.insertOrUpdate(item, calendar)
 
             calendar.getText()
             spyRepo.insertOrUpdate(item, date)

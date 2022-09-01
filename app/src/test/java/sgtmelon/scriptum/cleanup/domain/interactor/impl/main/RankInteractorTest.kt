@@ -63,8 +63,8 @@ class RankInteractorTest : ParentInteractorTest() {
         coEvery { rankRepo.insert(name) } returns null
         assertNull(interactor.insert(name))
 
-        coEvery { rankRepo.insert(name) } returns id
-        assertEquals(item, interactor.insert(name))
+        coEvery { rankRepo.insert(name) } returns item
+        assertEquals(interactor.insert(name), item)
 
         coVerifySequence {
             rankRepo.insert(name)
