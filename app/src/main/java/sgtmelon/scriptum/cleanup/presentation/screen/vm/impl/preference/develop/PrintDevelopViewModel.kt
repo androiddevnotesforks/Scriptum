@@ -15,14 +15,14 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import sgtmelon.scriptum.domain.interactor.preferences.IPrintDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 
 /**
  * ViewModel for [IPrintDevelopActivity].
  */
 class PrintDevelopViewModel(
     callback: IPrintDevelopActivity,
-    private val interactor: IPrintDevelopInteractor
+    private val interactor: DevelopInteractor
 ) : ParentViewModel<IPrintDevelopActivity>(callback),
     IPrintDevelopViewModel {
 

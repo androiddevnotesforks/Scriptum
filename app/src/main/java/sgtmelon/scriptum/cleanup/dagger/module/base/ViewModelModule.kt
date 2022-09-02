@@ -71,7 +71,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.interactor.preferences.IPrintDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -307,7 +307,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideDevelopViewModel(
         fragment: DevelopFragment,
-        interactor: IPrintDevelopInteractor
+        interactor: DevelopInteractor
     ): IDevelopViewModel {
         val factory = ViewModelFactory.Develop.Main(fragment, interactor)
         return ViewModelProvider(fragment, factory)[DevelopViewModel::class.java]
@@ -317,7 +317,7 @@ class ViewModelModule {
     @ActivityScope
     fun providePrintDevelopViewModel(
         activity: PrintDevelopActivity,
-        interactor: IPrintDevelopInteractor
+        interactor: DevelopInteractor
     ): IPrintDevelopViewModel {
         val factory = ViewModelFactory.Develop.Print(activity, interactor)
         return ViewModelProvider(activity, factory)[PrintDevelopViewModel::class.java]

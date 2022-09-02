@@ -24,7 +24,7 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
-import sgtmelon.scriptum.domain.interactor.preferences.IPrintDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 
 /**
  * Test for [PrintDevelopViewModel].
@@ -35,7 +35,7 @@ class PrintDevelopViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IPrintDevelopActivity
-    @MockK lateinit var interactor: IPrintDevelopInteractor
+    @MockK lateinit var interactor: DevelopInteractor
 
     @MockK lateinit var bundle: Bundle
 

@@ -4,7 +4,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 
-class PrintDevelopInteractor(private val repository: DevelopRepo) : IPrintDevelopInteractor {
+class DevelopInteractorImpl(private val repository: DevelopRepo) : DevelopInteractor {
 
     override suspend fun getList(type: PrintType): List<PrintItem> = when (type) {
         PrintType.NOTE -> repository.getPrintNoteList(isBin = false)

@@ -15,7 +15,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
-import sgtmelon.scriptum.domain.interactor.preferences.IPrintDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 
 /**
  * Test for [DevelopViewModel].
@@ -26,7 +26,7 @@ class DevelopViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IDevelopFragment
-    @MockK lateinit var interactor: IPrintDevelopInteractor
+    @MockK lateinit var interactor: DevelopInteractor
 
     private val viewModel by lazy { DevelopViewModel(callback, interactor) }
 

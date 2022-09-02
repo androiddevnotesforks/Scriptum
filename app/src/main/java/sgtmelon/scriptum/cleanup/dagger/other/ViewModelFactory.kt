@@ -52,7 +52,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.interactor.preferences.IPrintDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -309,7 +309,7 @@ object ViewModelFactory {
 
         class Main(
             private val fragment: DevelopFragment,
-            private val interactor: IPrintDevelopInteractor
+            private val interactor: DevelopInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(DevelopViewModel::class) {
@@ -320,7 +320,7 @@ object ViewModelFactory {
 
         class Print(
             private val activity: PrintDevelopActivity,
-            private val interactor: IPrintDevelopInteractor
+            private val interactor: DevelopInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(PrintDevelopViewModel::class) {

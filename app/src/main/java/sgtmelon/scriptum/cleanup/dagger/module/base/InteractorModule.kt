@@ -32,8 +32,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.interactor.preferences.IPrintDevelopInteractor
-import sgtmelon.scriptum.domain.interactor.preferences.PrintDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
+import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractorImpl
 
 /**
  * Module for provide interactor's
@@ -134,8 +134,8 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun providePrintDevelopInteractor(repository: DevelopRepo): IPrintDevelopInteractor {
-        return PrintDevelopInteractor(repository)
+    fun provideDevelopInteractor(repository: DevelopRepo): DevelopInteractor {
+        return DevelopInteractorImpl(repository)
     }
 
     //endregion

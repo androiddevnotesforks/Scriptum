@@ -3,7 +3,7 @@ package sgtmelon.scriptum.domain.interactor.preferences
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 
-interface IPrintDevelopInteractor {
+interface DevelopInteractor {
 
     suspend fun getList(type: PrintType): List<PrintItem>
 

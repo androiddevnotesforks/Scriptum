@@ -18,13 +18,13 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 
 /**
- * Test for [PrintDevelopInteractor].
+ * Test for [DevelopInteractorImpl].
  */
 class DevelopInteractorTest : ParentTest() {
 
     @MockK lateinit var repository: DevelopRepo
 
-    private val interactor by lazy { PrintDevelopInteractor(repository) }
+    private val interactor by lazy { DevelopInteractorImpl(repository) }
 
     @After override fun tearDown() {
         super.tearDown()

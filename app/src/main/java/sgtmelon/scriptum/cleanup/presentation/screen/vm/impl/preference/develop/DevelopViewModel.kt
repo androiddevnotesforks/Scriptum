@@ -9,14 +9,14 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import sgtmelon.scriptum.domain.interactor.preferences.IPrintDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 
 /**
  * ViewModel for [IDevelopFragment].
  */
 class DevelopViewModel(
     callback: IDevelopFragment,
-    private val interactor: IPrintDevelopInteractor
+    private val interactor: DevelopInteractor
 ) : ParentViewModel<IDevelopFragment>(callback),
     IDevelopViewModel {
 
