@@ -1,89 +1,24 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop
 
-import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
-import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
-import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
-/**
- * Interactor for [IPrintDevelopViewModel].
- */
-class PrintDevelopInteractor(
-    private val developRepo: DevelopRepo,
-    private val key: PreferencesKeyProvider,
-    private val def: PreferencesDefProvider,
-    private val preferences: Preferences,
-    private val fileDataSource: FileDataSource
-) : ParentInteractor(),
-    IPrintDevelopInteractor {
+class PrintDevelopInteractor(private val repository: DevelopRepo) : IPrintDevelopInteractor {
 
     override suspend fun getList(type: PrintType): List<PrintItem> = when (type) {
-        PrintType.NOTE -> developRepo.getPrintNoteList(isBin = false)
-        PrintType.BIN -> developRepo.getPrintNoteList(isBin = true)
-        PrintType.ROLL -> developRepo.getPrintRollList()
-        PrintType.VISIBLE -> developRepo.getPrintVisibleList()
-        PrintType.RANK -> developRepo.getPrintRankList()
-        PrintType.ALARM -> developRepo.getPrintAlarmList()
-        PrintType.KEY -> getPreferenceKeyList()
-        PrintType.FILE -> getPreferenceFileList()
+        PrintType.NOTE -> repository.getPrintNoteList(isBin = false)
+        PrintType.BIN -> repository.getPrintNoteList(isBin = true)
+        PrintType.ROLL -> repository.getPrintRollList()
+        PrintType.VISIBLE -> repository.getPrintVisibleList()
+        PrintType.RANK -> repository.getPrintRankList()
+        PrintType.ALARM -> repository.getPrintAlarmList()
+        PrintType.KEY -> repository.getPrintPreferenceList()
+        PrintType.FILE -> repository.getPrintFileList()
     }
 
-    // TODO move inside repository
-    @RunPrivate fun getPreferenceKeyList(): List<Preference> {
-        return listOf(
-            Preference.Title(R.string.pref_header_app),
-            Preference.Key(key.isFirstStart, def.isFirstStart, preferences.isFirstStart),
-            Preference.Key(key.theme, def.theme, preferences.theme),
-            Preference.Title(R.string.pref_title_backup),
-            Preference.Key(key.isBackupSkipImports, def.isBackupSkipImports, preferences.isBackupSkipImports),
-            Preference.Title(R.string.pref_title_note),
-            Preference.Key(key.sort, def.sort, preferences.sort),
-            Preference.Key(key.defaultColor, def.defaultColor, preferences.defaultColor),
-            Preference.Key(key.isPauseSaveOn, def.isPauseSaveOn, preferences.isPauseSaveOn),
-            Preference.Key(key.isAutoSaveOn, def.isAutoSaveOn, preferences.isAutoSaveOn),
-            Preference.Key(key.savePeriod, def.savePeriod, preferences.savePeriod),
-            Preference.Title(R.string.pref_title_alarm),
-            Preference.Key(key.repeat, def.repeat, preferences.repeat),
-            Preference.Key(key.signal, def.signal, preferences.signal),
-            Preference.Key(key.melodyUri, def.melodyUri, preferences.melodyUri),
-            Preference.Key(key.volume, def.volume, preferences.volume),
-            Preference.Key(key.isVolumeIncrease, def.isVolumeIncrease, preferences.isVolumeIncrease),
-            Preference.Title(R.string.pref_header_other),
-            Preference.Key(key.isDeveloper, def.isDeveloper, preferences.isDeveloper)
-        )
-    }
+    override suspend fun getRandomNoteId(): Long = repository.getRandomNoteId()
 
-    @RunPrivate suspend fun getPreferenceFileList(): List<Preference> {
-        val list = mutableListOf(
-            Preference.Title(R.string.pref_header_path_save),
-            Preference.Path(fileDataSource.saveDirectory)
-        )
-
-        list.add(Preference.Title(R.string.pref_header_path_files))
-        for (it in fileDataSource.getExternalFiles()) {
-            list.add(Preference.Path(it))
-        }
-
-        list.add(Preference.Title(R.string.pref_header_path_cache))
-        for (it in fileDataSource.getExternalCache()) {
-            list.add(Preference.Path(it))
-        }
-
-        list.add(Preference.Title(R.string.pref_header_backup_files))
-        for (it in fileDataSource.getFileList(FileType.BACKUP)) {
-            list.add(Preference.File(it))
-        }
-
-        return list
-    }
+    override fun resetPreferences() = repository.resetPreferences()
 }
