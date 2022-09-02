@@ -32,7 +32,7 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.Devel
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.PrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
-import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
+import sgtmelon.scriptum.cleanup.presentation.control.file.FileDataSource
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -128,7 +128,7 @@ class InteractorModule {
         noteRepo: NoteRepo,
         backupRepo: BackupRepo,
         backupParser: IBackupParser,
-        fileControl: IFileControl,
+        fileControl: FileDataSource,
         cipherControl: ICipherControl
     ): IBackupPreferenceInteractor {
         return BackupPreferenceInteractor(
@@ -153,7 +153,7 @@ class InteractorModule {
         key: PreferencesKeyProvider,
         def: PreferencesDefProvider,
         preferences: Preferences,
-        fileControl: IFileControl
+        fileControl: FileDataSource
     ): IPrintDevelopInteractor {
         return PrintDevelopInteractor(developRepo, key, def, preferences, fileControl)
     }

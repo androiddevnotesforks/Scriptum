@@ -3,7 +3,7 @@ package sgtmelon.scriptum.data.repository.database
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
-import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
+import sgtmelon.scriptum.cleanup.presentation.control.file.FileDataSource
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
@@ -25,7 +25,7 @@ class DevelopRepoImpl(
     private val key: PreferencesKeyProvider,
     private val def: PreferencesDefProvider,
     private val preferences: Preferences,
-    private val fileControl: IFileControl
+    private val fileControl: FileDataSource
 ) : DevelopRepo {
 
     override suspend fun getPrintNoteList(isBin: Boolean): List<PrintItem.Note> {

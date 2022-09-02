@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
-import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
+import sgtmelon.scriptum.cleanup.presentation.control.file.FileDataSource
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
@@ -33,7 +33,7 @@ class DevelopRepoImplTest : ParentRepoTest() {
     @MockK lateinit var key: PreferencesKeyProvider
     @MockK lateinit var def: PreferencesDefProvider
     @MockK lateinit var preferences: Preferences
-    @MockK lateinit var fileControl: IFileControl
+    @MockK lateinit var fileControl: FileDataSource
 
     private val repo by lazy {
         DevelopRepoImpl(

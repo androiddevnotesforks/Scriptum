@@ -35,7 +35,7 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
-import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
+import sgtmelon.scriptum.cleanup.presentation.control.file.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
@@ -53,7 +53,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
     @MockK lateinit var backupRepo: BackupRepo
 
     @MockK lateinit var backupParser: IBackupParser
-    @MockK lateinit var fileControl: IFileControl
+    @MockK lateinit var fileControl: FileDataSource
     @MockK lateinit var cipherControl: ICipherControl
 
     private val interactor by lazy {

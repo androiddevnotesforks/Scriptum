@@ -5,9 +5,9 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 
 /**
- * Interface for [FileControlImpl].
+ * Interface for [FileDataSourceImpl].
  */
-interface IFileControl {
+interface FileDataSource {
 
     val saveDirectory: File
 

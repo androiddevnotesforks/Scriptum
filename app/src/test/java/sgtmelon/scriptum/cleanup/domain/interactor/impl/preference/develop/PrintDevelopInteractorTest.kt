@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
-import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
+import sgtmelon.scriptum.cleanup.presentation.control.file.FileDataSource
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
@@ -37,7 +37,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
     @MockK lateinit var key: PreferencesKeyProvider
     @MockK lateinit var def: PreferencesDefProvider
     @MockK lateinit var preferences: Preferences
-    @MockK lateinit var fileControl: IFileControl
+    @MockK lateinit var fileControl: FileDataSource
 
     private val interactor by lazy {
         PrintDevelopInteractor(developRepo, key, def, preferences, fileControl)
