@@ -17,7 +17,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.BinInteractor
@@ -28,7 +27,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.BackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.DevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.PrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
@@ -36,9 +34,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
  * Module for provide interactor's
@@ -139,23 +134,8 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideDevelopInteractor(
-        developRepo: DevelopRepo,
-        preferences: Preferences
-    ): IDevelopInteractor {
-        return DevelopInteractor(developRepo, preferences)
-    }
-
-    @Provides
-    @ActivityScope
-    fun providePrintDevelopInteractor(
-        developRepo: DevelopRepo,
-        key: PreferencesKeyProvider,
-        def: PreferencesDefProvider,
-        preferences: Preferences,
-        fileDataSource: FileDataSource
-    ): IPrintDevelopInteractor {
-        return PrintDevelopInteractor(developRepo, key, def, preferences, fileDataSource)
+    fun providePrintDevelopInteractor(repository: DevelopRepo): IPrintDevelopInteractor {
+        return PrintDevelopInteractor(repository)
     }
 
     //endregion

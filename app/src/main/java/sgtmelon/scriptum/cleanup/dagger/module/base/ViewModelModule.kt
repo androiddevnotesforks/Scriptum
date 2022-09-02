@@ -15,7 +15,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
@@ -308,7 +307,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideDevelopViewModel(
         fragment: DevelopFragment,
-        interactor: IDevelopInteractor
+        interactor: IPrintDevelopInteractor
     ): IDevelopViewModel {
         val factory = ViewModelFactory.Develop.Main(fragment, interactor)
         return ViewModelProvider(fragment, factory)[DevelopViewModel::class.java]

@@ -5,6 +5,8 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -145,6 +147,28 @@ class PrintDevelopInteractorTest : ParentTest() {
 
         coVerifySequence {
             repository.getPrintFileList()
+        }
+    }
+
+    @Test fun getRandomNoteId() {
+        val id = Random.nextLong()
+
+        coEvery { repository.getRandomNoteId() } returns id
+
+        runBlocking {
+            assertEquals(interactor.getRandomNoteId(), id)
+        }
+
+        coVerifySequence {
+            repository.getRandomNoteId()
+        }
+    }
+
+    @Test fun resetPreferences() {
+        interactor.resetPreferences()
+
+        verifySequence {
+            repository.resetPreferences()
         }
     }
 }

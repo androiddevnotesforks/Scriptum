@@ -12,7 +12,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
@@ -26,7 +26,7 @@ class DevelopViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IDevelopFragment
-    @MockK lateinit var interactor: IDevelopInteractor
+    @MockK lateinit var interactor: IPrintDevelopInteractor
 
     private val viewModel by lazy { DevelopViewModel(callback, interactor) }
 

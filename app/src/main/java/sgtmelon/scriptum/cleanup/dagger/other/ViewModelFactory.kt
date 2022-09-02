@@ -12,7 +12,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
@@ -310,7 +309,7 @@ object ViewModelFactory {
 
         class Main(
             private val fragment: DevelopFragment,
-            private val interactor: IDevelopInteractor
+            private val interactor: IPrintDevelopInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(DevelopViewModel::class) {
