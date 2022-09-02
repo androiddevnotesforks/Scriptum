@@ -4,6 +4,9 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
+import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
+import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherDataSource
+import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherDataSourceImpl
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
@@ -71,4 +74,8 @@ class DataSourceModule {
     fun provideRingtoneDataSource(context: Context): RingtoneDataSource {
         return RingtoneDataSourceImpl(context)
     }
+
+    @Provides
+    @ActivityScope
+    fun provideCipherDataSource(): CipherDataSource = CipherDataSourceImpl()
 }

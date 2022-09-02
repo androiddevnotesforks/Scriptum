@@ -14,7 +14,7 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
-import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
+import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherDataSource
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -30,7 +30,7 @@ class BackupPreferenceInteractor(
     private val backupRepo: BackupRepo,
     private val backupParser: IBackupParser,
     private val fileDataSource: FileDataSource,
-    private val cipherControl: ICipherControl
+    private val cipherControl: CipherDataSource
 ) : IBackupPreferenceInteractor {
 
     @RunPrivate var fileList: List<FileItem>? = null

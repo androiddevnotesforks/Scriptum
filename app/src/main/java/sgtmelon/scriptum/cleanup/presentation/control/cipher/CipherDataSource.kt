@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.presentation.control.cipher
 
 /**
- * Interface for [CipherControl].
+ * Interface for [CipherDataSourceImpl].
  */
-interface ICipherControl {
+interface CipherDataSource {
 
     fun encrypt(text: String): String
 
