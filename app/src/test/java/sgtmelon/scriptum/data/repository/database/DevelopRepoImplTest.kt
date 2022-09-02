@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.repository.room
+package sgtmelon.scriptum.data.repository.database
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence

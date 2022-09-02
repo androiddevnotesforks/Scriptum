@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop
 
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
+import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 /**

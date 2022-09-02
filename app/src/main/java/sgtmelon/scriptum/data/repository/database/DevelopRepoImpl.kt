@@ -1,6 +1,5 @@
-package sgtmelon.scriptum.cleanup.data.repository.room
+package sgtmelon.scriptum.data.repository.database
 
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource

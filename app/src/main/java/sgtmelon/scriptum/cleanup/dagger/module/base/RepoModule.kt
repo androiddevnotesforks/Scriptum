@@ -6,13 +6,11 @@ import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.BindRepoImpl
-import sgtmelon.scriptum.cleanup.data.repository.room.DevelopRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.NoteRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.RankRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.DevelopRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
@@ -24,6 +22,8 @@ import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
+import sgtmelon.scriptum.data.repository.database.DevelopRepo
+import sgtmelon.scriptum.data.repository.database.DevelopRepoImpl
 
 /**
  * Module for provide repo's
