@@ -25,8 +25,6 @@ class BinInteractor(
 
     override suspend fun clearBin() = noteRepo.clearBin()
 
-    override suspend fun restoreNote(item: NoteItem) = noteRepo.restoreNote(item)
-
     override suspend fun copy(item: NoteItem): String = noteRepo.getCopyText(item)
 
     override suspend fun clearNote(item: NoteItem) = noteRepo.clearNote(item)

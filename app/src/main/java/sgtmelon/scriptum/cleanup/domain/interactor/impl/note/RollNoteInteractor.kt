@@ -67,8 +67,6 @@ class RollNoteInteractor(
         noteRepo.convertNote(item, useCache = true)
     }
 
-    override suspend fun restoreNote(item: NoteItem.Roll) = noteRepo.restoreNote(item)
-
     override suspend fun updateNote(item: NoteItem.Roll) = noteRepo.updateNote(item)
 
     override suspend fun clearNote(item: NoteItem.Roll) = noteRepo.clearNote(item)

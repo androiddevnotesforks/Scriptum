@@ -102,10 +102,6 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun restoreNote() = startCoTest {
-        FastTest.Interactor.restoreNote<NoteItem.Text>(noteRepo) { interactor.restoreNote(it) }
-    }
-
     @Test fun updateNote() = startCoTest {
         FastTest.Interactor.updateNote<NoteItem.Text>(noteRepo) { interactor.updateNote(it) }
     }

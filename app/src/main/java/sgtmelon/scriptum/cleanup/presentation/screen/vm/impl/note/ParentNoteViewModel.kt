@@ -29,6 +29,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IParentNot
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 
@@ -41,7 +42,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     @RunProtected val colorConverter: ColorConverter,
     @RunProtected val preferencesRepo: PreferencesRepo,
     @RunProtected val interactor: I,
-    private val deleteNote: DeleteNoteUseCase
+    private val deleteNote: DeleteNoteUseCase,
+    private val restoreNote: RestoreNoteUseCase
 ) : ParentViewModel<C>(callback),
     IParentNoteViewModel {
 
@@ -289,7 +291,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onMenuRestore() {
         viewModelScope.launch {
-            runBack { interactor.restoreNote(noteItem) }
+            runBack { restoreNote(noteItem) }
             parentCallback?.finish()
         }
     }

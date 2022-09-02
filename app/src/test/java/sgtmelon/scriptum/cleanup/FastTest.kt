@@ -37,6 +37,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Theme
@@ -75,6 +76,7 @@ object FastTest {
         private val colorConverter: ColorConverter,
         private val interactor: IParentNoteInteractor<N>,
         private val deleteNote: DeleteNoteUseCase,
+        private val restoreNote: RestoreNoteUseCase,
         private val saveControl: SaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
@@ -620,7 +622,7 @@ object FastTest {
             coVerifySequence {
                 verifyInit()
 
-                interactor.restoreNote(noteItem)
+                restoreNote(noteItem)
                 parentCallback.finish()
             }
         }
@@ -1220,21 +1222,6 @@ object FastTest {
 
             coVerifySequence {
                 rankRepo.getId(check)
-            }
-        }
-
-        suspend inline fun <reified T : NoteItem> restoreNote(
-            noteRepo: NoteRepo,
-            callFunc: (T) -> Unit
-        ) {
-            val item = mockk<T>()
-
-            coEvery { noteRepo.restoreNote(item) } returns mockk()
-
-            callFunc(item)
-
-            coVerifySequence {
-                noteRepo.restoreNote(item)
             }
         }
 

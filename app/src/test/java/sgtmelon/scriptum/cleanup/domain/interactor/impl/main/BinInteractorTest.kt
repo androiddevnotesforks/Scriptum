@@ -83,10 +83,6 @@ class BinInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun restoreNote() = startCoTest {
-        FastTest.Interactor.restoreNote<NoteItem>(noteRepo) { interactor.restoreNote(it) }
-    }
-
     @Test fun copy() = startCoTest {
         val item = data.itemList.random()
         val text = nextString()

@@ -55,6 +55,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -147,11 +148,12 @@ object ViewModelFactory {
 
         class Bin(
             private val fragment: BinFragment,
-            private val interactor: IBinInteractor
+            private val interactor: IBinInteractor,
+            private val restoreNote: RestoreNoteUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BinViewModel::class) {
-                    BinViewModel(fragment, interactor)
+                    BinViewModel(fragment, interactor, restoreNote)
                 }
             }
         }
@@ -177,14 +179,15 @@ object ViewModelFactory {
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: ITextNoteInteractor,
-            private val deleteNote: DeleteNoteUseCase
+            private val deleteNote: DeleteNoteUseCase,
+            private val restoreNote: RestoreNoteUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
                     TextNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, deleteNote
+                        interactor, deleteNote, restoreNote
                     )
                 }
             }
@@ -195,14 +198,15 @@ object ViewModelFactory {
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: IRollNoteInteractor,
-            private val deleteNote: DeleteNoteUseCase
+            private val deleteNote: DeleteNoteUseCase,
+            private val restoreNote: RestoreNoteUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
                     RollNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, deleteNote
+                        interactor, deleteNote, restoreNote
                     )
                 }
             }

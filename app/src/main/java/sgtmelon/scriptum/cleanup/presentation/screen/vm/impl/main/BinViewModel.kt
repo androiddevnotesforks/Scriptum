@@ -3,19 +3,20 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.common.utils.launchBack
 import sgtmelon.common.utils.runBack
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
-import sgtmelon.common.test.idling.impl.AppIdlingResource
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 
 /**
@@ -23,7 +24,8 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
  */
 class BinViewModel(
     callback: IBinFragment,
-    private val interactor: IBinInteractor
+    private val interactor: IBinInteractor,
+    private val restoreNote: RestoreNoteUseCase
 ) : ParentViewModel<IBinFragment>(callback),
         IBinViewModel {
 
@@ -109,7 +111,7 @@ class BinViewModel(
     @RunPrivate fun onMenuRestore(p: Int) {
         val item = itemList.validRemoveAt(p) ?: return
 
-        viewModelScope.launchBack { interactor.restoreNote(item) }
+        viewModelScope.launchBack { restoreNote(item) }
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.notifyMenuClearBin()

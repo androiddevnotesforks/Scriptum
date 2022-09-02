@@ -50,8 +50,6 @@ class TextNoteInteractor(
         noteRepo.convertNote(item)
     }
 
-    override suspend fun restoreNote(item: NoteItem.Text) = noteRepo.restoreNote(item)
-
     override suspend fun updateNote(item: NoteItem.Text) = noteRepo.updateNote(item)
 
     override suspend fun clearNote(item: NoteItem.Text) = noteRepo.clearNote(item)
