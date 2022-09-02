@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop
+package sgtmelon.scriptum.domain.interactor.preferences
 
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType

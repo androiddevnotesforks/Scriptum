@@ -3,19 +3,19 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.test.idling.impl.AppIdlingResource
+import sgtmelon.common.utils.runBack
+import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Print.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.common.utils.runBack
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.interactor.preferences.IPrintDevelopInteractor
 
 /**
  * ViewModel for [IPrintDevelopActivity].

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop
+package sgtmelon.scriptum.domain.interactor.preferences
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.data.repository.database.DevelopRepo
 /**
  * Test for [PrintDevelopInteractor].
  */
-class PrintDevelopInteractorTest : ParentTest() {
+class DevelopInteractorTest : ParentTest() {
 
     @MockK lateinit var repository: DevelopRepo
 
