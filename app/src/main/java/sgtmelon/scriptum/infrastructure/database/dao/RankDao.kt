@@ -15,7 +15,6 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 /**
  * Interface for communication [DbData.Rank.TABLE] with [Database].
  */
-// TODO remove from use deprecated staff (and use RankDataSource/RankDaoSafe)
 @Dao
 @TypeConverters(BoolConverter::class)
 interface RankDao {

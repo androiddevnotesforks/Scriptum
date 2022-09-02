@@ -42,9 +42,9 @@ class RollVisibleDaoTest : ParentRoomTest() {
     //region Help functions
 
     private suspend fun Database.insertRelation(note: NoteEntity, rollVisible: RollVisibleEntity) {
-        noteDao.insert(note)
+        noteDao.insertSafe(note)
         assertEquals(noteDao.get(note.id), note)
-        rollVisibleDao.insert(rollVisible)
+        rollVisibleDao.insertSafe(rollVisible)
         assertEquals(rollVisibleDao.getVisible(rollVisible.noteId), rollVisible.value)
     }
 

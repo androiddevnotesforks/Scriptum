@@ -57,9 +57,9 @@ class AlarmDaoTest : ParentRoomTest() {
     //region Help functions
 
     private suspend fun Database.insertRelation(note: NoteEntity, alarm: AlarmEntity) {
-        noteDao.insert(note)
+        noteDao.insertSafe(note)
         assertEquals(noteDao.get(note.id), note)
-        alarmDao.insert(alarm)
+        alarmDao.insertSafe(alarm)
         assertEquals(alarmDao.get(alarm.noteId), alarm)
     }
 

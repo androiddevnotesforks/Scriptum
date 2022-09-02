@@ -14,7 +14,6 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 /**
  * Interface for communication [DbData.RollVisible.TABLE] with [Database].
  */
-// TODO remove from use deprecated staff (and use RollVisibleDataSource/RollVisibleDaoSafe)
 @Dao
 @TypeConverters(BoolConverter::class)
 interface RollVisibleDao {

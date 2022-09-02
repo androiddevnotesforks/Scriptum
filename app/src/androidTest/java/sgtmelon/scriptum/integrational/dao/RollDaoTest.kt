@@ -64,11 +64,11 @@ class RollDaoTest : ParentRoomTest() {
     private fun nextSmallSize() = (2..5).random()
 
     private suspend fun Database.insertRelation(note: NoteEntity, rollList: List<RollEntity>) {
-        noteDao.insert(note)
+        noteDao.insertSafe(note)
         assertEquals(noteDao.get(note.id), note)
 
         for (it in rollList) {
-            rollDao.insert(it)
+            rollDao.insertSafe(it)
         }
         assertEquals(rollDao.getList(note.id), rollList)
     }

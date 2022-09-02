@@ -66,7 +66,7 @@ class NoteDaoTest : ParentRoomTest() {
     //region Help functions
 
     private suspend fun Database.insert(note: NoteEntity) {
-        noteDao.insert(note)
+        noteDao.insertSafe(note)
         assertEquals(noteDao.get(note.id), note)
     }
 
