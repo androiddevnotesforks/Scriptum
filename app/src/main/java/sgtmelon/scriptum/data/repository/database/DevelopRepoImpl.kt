@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvi
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
- * Repository which work with all data and only for developer screen.
+ * Repository which work with all application data and needed only for developers.
  */
 class DevelopRepoImpl(
     private val noteDataSource: NoteDataSource,
