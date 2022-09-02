@@ -7,10 +7,8 @@ import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
-import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
-import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
@@ -40,16 +38,7 @@ class BackupPreferenceInteractor(
 
 
     override suspend fun export(): ExportResult {
-        val noteList = backupRepo.getNoteList()
-
-        val noteIdList = noteList.filter { it.type == NoteType.ROLL }.map { it.id }
-
-        val rollList = backupRepo.getRollList(noteIdList)
-        val rollVisibleList = backupRepo.getRollVisibleList(noteIdList)
-        val rankList = backupRepo.getRankList()
-        val alarmList = backupRepo.getAlarmList(noteIdList)
-
-        val parserResult = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
+        val parserResult = backupRepo.getData()
 
         val data = backupParser.collect(parserResult)
         val encryptData = cipherDataSource.encrypt(data)

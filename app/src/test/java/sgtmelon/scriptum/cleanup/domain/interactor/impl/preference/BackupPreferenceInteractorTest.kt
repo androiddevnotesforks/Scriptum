@@ -9,7 +9,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.spyk
 import kotlin.random.Random
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -17,23 +17,14 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
-import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
-import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
-import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -43,13 +34,9 @@ import sgtmelon.test.common.nextString
 /**
  * Test for [BackupPreferenceInteractor].
  */
-@ExperimentalCoroutinesApi
-class BackupPreferenceInteractorTest : ParentInteractorTest() {
+class BackupPreferenceInteractorTest : ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
-    @MockK lateinit var alarmRepo: AlarmRepo
-    @MockK lateinit var rankRepo: RankRepo
-    @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var backupRepo: BackupRepo
 
     @MockK lateinit var backupParser: IBackupParser
@@ -58,8 +45,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy {
         BackupPreferenceInteractor(
-            preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileDataSource, cipherDataSource
+            preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
         )
     }
     private val spyInteractor by lazy { spyk(interactor) }
@@ -73,23 +59,27 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         super.tearDown()
 
         confirmVerified(
-            preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileDataSource, cipherDataSource
+            preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
         )
     }
 
 
-    @Test fun getFileList() = startCoTest {
+    @Test fun getFileList() {
         val list = mockk<List<FileItem>>()
 
         coEvery { fileDataSource.getFileList(FileType.BACKUP) } returns list
 
-        assertEquals(list, interactor.getFileList())
+        runBlocking {
+            assertEquals(list, interactor.getFileList())
+        }
+
         assertEquals(list, interactor.fileList)
 
         coEvery { fileDataSource.getFileList(FileType.BACKUP) } returns emptyList()
 
-        assertEquals(list, interactor.getFileList())
+        runBlocking {
+            assertEquals(list, interactor.getFileList())
+        }
 
         coVerifySequence {
             fileDataSource.getFileList(FileType.BACKUP)
@@ -104,53 +94,33 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         assertNull(interactor.fileList)
     }
 
-    @Test fun export() = startCoTest {
-        val noteList = listOf(
-            NoteEntity(id = Random.nextLong(), type = NoteType.TEXT),
-            NoteEntity(id = Random.nextLong(), type = NoteType.ROLL),
-            NoteEntity(id = Random.nextLong(), type = NoteType.ROLL),
-            NoteEntity(id = Random.nextLong(), type = NoteType.TEXT)
-        )
-
-        val noteIdList = noteList.filter { it.type == NoteType.ROLL }.map { it.id }
-
-        val rollList = mockk<List<RollEntity>>()
-        val rollVisibleList = mockk<List<RollVisibleEntity>>()
-        val rankList = mockk<List<RankEntity>>()
-        val alarmList = mockk<List<AlarmEntity>>()
-
-        val parserResult = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
+    @Test fun export() {
+        val parserResult = mockk<ParserResult>()
 
         val data = nextString()
         val encryptData = nextString()
         val timeName = nextString()
         val path = nextString()
 
-        coEvery { noteRepo.getNoteBackupList() } returns noteList
-        coEvery { noteRepo.getRollBackupList(noteIdList) } returns rollList
-        coEvery { noteRepo.getRollVisibleBackupList(noteIdList) } returns rollVisibleList
-        coEvery { rankRepo.getRankBackup() } returns rankList
-        coEvery { alarmRepo.getBackupList(noteIdList) } returns alarmList
-
+        coEvery { backupRepo.getData() } returns parserResult
         every { backupParser.collect(parserResult) } returns data
         every { cipherDataSource.encrypt(data) } returns encryptData
         every { fileDataSource.getTimeName(FileType.BACKUP) } returns timeName
         every { fileDataSource.writeFile(timeName, encryptData) } returns null
 
-        assertEquals(ExportResult.Error, interactor.export())
+        runBlocking {
+            assertEquals(interactor.export(), ExportResult.Error)
+        }
 
         every { fileDataSource.writeFile(timeName, encryptData) } returns path
 
-        assertEquals(ExportResult.Success(path), interactor.export())
+        runBlocking {
+            assertEquals(interactor.export(), ExportResult.Success(path))
+        }
 
         coVerifySequence {
             repeat(times = 2) {
-                noteRepo.getNoteBackupList()
-                noteRepo.getRollBackupList(noteIdList)
-                noteRepo.getRollVisibleBackupList(noteIdList)
-                rankRepo.getRankBackup()
-                alarmRepo.getBackupList(noteIdList)
-
+                backupRepo.getData()
                 backupParser.collect(parserResult)
                 cipherDataSource.encrypt(data)
                 fileDataSource.getTimeName(FileType.BACKUP)
@@ -159,7 +129,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun import() = startCoTest {
+    @Test fun import() {
         val fileList = List(size = 5) { FileItem(nextShortString(), nextString()) }
         val wrongName = nextString()
         val item = fileList.random()
@@ -173,17 +143,23 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
         coEvery { spyInteractor.getFileList() } returns fileList
 
-        assertEquals(ImportResult.Error, spyInteractor.import(wrongName))
+        runBlocking {
+            assertEquals(spyInteractor.import(wrongName), ImportResult.Error)
+        }
 
         every { fileDataSource.readFile(item.path) } returns null
 
-        assertEquals(ImportResult.Error, spyInteractor.import(item.name))
+        runBlocking {
+            assertEquals(spyInteractor.import(item.name), ImportResult.Error)
+        }
 
         every { fileDataSource.readFile(item.path) } returns encryptData
         every { cipherDataSource.decrypt(encryptData) } returns data
         every { backupParser.parse(data) } returns null
 
-        assertEquals(ImportResult.Error, spyInteractor.import(item.name))
+        runBlocking {
+            assertEquals(spyInteractor.import(item.name), ImportResult.Error)
+        }
 
         mockkObject(BackupRepoImpl.Model)
         every { BackupRepoImpl.Model[parserResult] } returns backupModel
@@ -192,11 +168,15 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         every { preferencesRepo.isBackupSkipImports } returns isSkipImports
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns ImportResult.Simple
 
-        assertEquals(ImportResult.Simple, spyInteractor.import(item.name))
+        runBlocking {
+            assertEquals(spyInteractor.import(item.name), ImportResult.Simple)
+        }
 
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns skipResult
 
-        assertEquals(skipResult, spyInteractor.import(item.name))
+        runBlocking {
+            assertEquals(spyInteractor.import(item.name), skipResult)
+        }
 
         coVerifySequence {
             spyInteractor.import(wrongName)

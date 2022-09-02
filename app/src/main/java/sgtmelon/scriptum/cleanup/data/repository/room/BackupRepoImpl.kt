@@ -38,22 +38,17 @@ class BackupRepoImpl(
     private val alarmDataSource: AlarmDataSource
 ) : BackupRepo {
 
-    override suspend fun getNoteList(): List<NoteEntity> {
-        return noteDataSource.getList(isBin = false)
-    }
+    override suspend fun getData(): ParserResult {
+        val noteList = noteDataSource.getList(isBin = false)
 
-    override suspend fun getRollList(noteIdList: List<Long>): List<RollEntity> {
-        return rollDataSource.getList(noteIdList)
-    }
+        val noteIdList = noteList.filter { it.type == NoteType.ROLL }.map { it.id }
 
-    override suspend fun getRollVisibleList(noteIdList: List<Long>): List<RollVisibleEntity> {
-        return rollVisibleDataSource.getList(noteIdList)
-    }
+        val rollList = rollDataSource.getList(noteIdList)
+        val rollVisibleList = rollVisibleDataSource.getList(noteIdList)
+        val rankList = rankDataSource.getList()
+        val alarmList = alarmDataSource.getList(noteIdList)
 
-    override suspend fun getRankList(): List<RankEntity> = rankDataSource.getList()
-
-    override suspend fun getAlarmList(noteIdList: List<Long>): List<AlarmEntity> {
-        return alarmDataSource.getList(noteIdList)
+        return ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
     }
 
     //region Insert function
@@ -408,6 +403,7 @@ class BackupRepoImpl(
         }
     }
 
+    // TODO may be use only ParserREsult?
     data class Model(
         val noteList: MutableList<NoteEntity>,
         val rollList: MutableList<RollEntity>,

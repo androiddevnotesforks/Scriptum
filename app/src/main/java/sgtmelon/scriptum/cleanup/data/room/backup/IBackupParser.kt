@@ -10,5 +10,4 @@ interface IBackupParser {
     fun collect(model: ParserResult): String
 
     fun parse(data: String): ParserResult?
-
 }

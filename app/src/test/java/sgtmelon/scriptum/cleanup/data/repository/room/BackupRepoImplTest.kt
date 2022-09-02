@@ -29,6 +29,7 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
+import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.isDivideEntirely
@@ -48,75 +49,38 @@ class BackupRepoImplTest : ParentRepoTest() {
     }
     private val spyRepo by lazy { spyk(repo) }
 
-    @Test fun getNoteList() {
-        val noteList = mockk<List<NoteEntity>>()
+    @Test fun getData() {
+        val noteList = listOf(
+            NoteEntity(id = Random.nextLong(), type = NoteType.TEXT),
+            NoteEntity(id = Random.nextLong(), type = NoteType.ROLL),
+            NoteEntity(id = Random.nextLong(), type = NoteType.ROLL),
+            NoteEntity(id = Random.nextLong(), type = NoteType.TEXT)
+        )
+
+        val noteIdList = noteList.filter { it.type == NoteType.ROLL }.map { it.id }
+
+        val rollList = mockk<List<RollEntity>>()
+        val rollVisibleList = mockk<List<RollVisibleEntity>>()
+        val rankList = mockk<List<RankEntity>>()
+        val alarmList = mockk<List<AlarmEntity>>()
+
+        val parserResult = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
 
         coEvery { noteDataSource.getList(isBin = false) } returns noteList
+        coEvery { rollDataSource.getList(noteIdList) } returns rollList
+        coEvery { rollVisibleDataSource.getList(noteIdList) } returns rollVisibleList
+        coEvery { rankDataSource.getList() } returns rankList
+        coEvery { alarmDataSource.getList(noteIdList) } returns alarmList
 
         runBlocking {
-            assertEquals(repo.getNoteList(), noteList)
+            assertEquals(repo.getData(), parserResult)
         }
 
         coVerifySequence {
             noteDataSource.getList(isBin = false)
-        }
-    }
-
-    @Test fun getRollList() {
-        val rollList = mockk<List<RollEntity>>()
-        val noteIdList = mockk<List<Long>>()
-
-        coEvery { rollDataSource.getList(noteIdList) } returns rollList
-
-        runBlocking {
-            assertEquals(repo.getRollList(noteIdList), rollList)
-        }
-
-        coVerifySequence {
             rollDataSource.getList(noteIdList)
-        }
-    }
-
-    @Test fun getRollVisibleList() {
-        val visibleList = mockk<List<RollVisibleEntity>>()
-        val noteIdList = mockk<List<Long>>()
-
-        coEvery { rollVisibleDataSource.getList(noteIdList) } returns visibleList
-
-        runBlocking {
-            assertEquals(repo.getRollVisibleList(noteIdList), visibleList)
-        }
-
-        coVerifySequence {
             rollVisibleDataSource.getList(noteIdList)
-        }
-    }
-
-    @Test fun getRankList() {
-        val rankList = mockk<List<RankEntity>>()
-
-        coEvery { rankDataSource.getList() } returns rankList
-
-        runBlocking {
-            assertEquals(repo.getRankList(), rankList)
-        }
-
-        coVerifySequence {
             rankDataSource.getList()
-        }
-    }
-
-    @Test fun getAlarmList() {
-        val alarmList = mockk<List<AlarmEntity>>()
-        val noteIdList = mockk<List<Long>>()
-
-        coEvery { alarmDataSource.getList(noteIdList) } returns alarmList
-
-        runBlocking {
-            assertEquals(repo.getAlarmList(noteIdList), alarmList)
-        }
-
-        coVerifySequence {
             alarmDataSource.getList(noteIdList)
         }
     }
