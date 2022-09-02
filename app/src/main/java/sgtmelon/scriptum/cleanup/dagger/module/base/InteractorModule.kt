@@ -27,8 +27,8 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.AlarmIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.BackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
-import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherDataSource
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -124,11 +124,11 @@ class InteractorModule {
         backupRepo: BackupRepo,
         backupParser: IBackupParser,
         fileDataSource: FileDataSource,
-        cipherControl: CipherDataSource
+        cipherDataSource: CipherDataSource
     ): IBackupPreferenceInteractor {
         return BackupPreferenceInteractor(
             preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileDataSource, cipherControl
+            backupParser, fileDataSource, cipherDataSource
         )
     }
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.cipher
+package sgtmelon.scriptum.data.dataSource.system
 
 /**
  * Interface for [CipherDataSourceImpl].

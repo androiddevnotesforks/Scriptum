@@ -5,14 +5,13 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherDataSource
-import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherDataSourceImpl
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
+import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
@@ -27,6 +26,7 @@ import sgtmelon.scriptum.infrastructure.database.dataSource.RollDataSourceImpl
 import sgtmelon.scriptum.infrastructure.database.dataSource.RollVisibleDataSourceImpl
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.dataSource.PreferencesDataSourceImpl
+import sgtmelon.scriptum.infrastructure.system.dataSource.CipherDataSourceImpl
 import sgtmelon.scriptum.infrastructure.system.dataSource.FileDataSourceImpl
 import sgtmelon.scriptum.infrastructure.system.dataSource.RingtoneDataSourceImpl
 

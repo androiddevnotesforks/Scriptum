@@ -1,6 +1,7 @@
-package sgtmelon.scriptum.cleanup.presentation.control.cipher
+package sgtmelon.scriptum.infrastructure.system.dataSource
 
 import android.util.Base64
+import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 
 /**
  * Class for help control text ciphering with [Base64].

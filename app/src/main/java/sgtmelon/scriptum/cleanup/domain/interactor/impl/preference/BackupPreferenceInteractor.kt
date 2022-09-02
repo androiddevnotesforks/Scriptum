@@ -14,8 +14,8 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
-import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherDataSource
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
+import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
@@ -30,7 +30,7 @@ class BackupPreferenceInteractor(
     private val backupRepo: BackupRepo,
     private val backupParser: IBackupParser,
     private val fileDataSource: FileDataSource,
-    private val cipherControl: CipherDataSource
+    private val cipherDataSource: CipherDataSource
 ) : IBackupPreferenceInteractor {
 
     @RunPrivate var fileList: List<FileItem>? = null
@@ -57,7 +57,7 @@ class BackupPreferenceInteractor(
         val parserResult = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
 
         val data = backupParser.collect(parserResult)
-        val encryptData = cipherControl.encrypt(data)
+        val encryptData = cipherDataSource.encrypt(data)
 
         val timeName = fileDataSource.getTimeName(FileType.BACKUP)
         val path = fileDataSource.writeFile(timeName, encryptData) ?: return ExportResult.Error
@@ -70,7 +70,7 @@ class BackupPreferenceInteractor(
         val item = list.firstOrNull { it.name == name } ?: return ImportResult.Error
 
         val encryptData = fileDataSource.readFile(item.path) ?: return ImportResult.Error
-        val data = cipherControl.decrypt(encryptData)
+        val data = cipherDataSource.decrypt(encryptData)
 
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error
         val isSkipImports = preferencesRepo.isBackupSkipImports

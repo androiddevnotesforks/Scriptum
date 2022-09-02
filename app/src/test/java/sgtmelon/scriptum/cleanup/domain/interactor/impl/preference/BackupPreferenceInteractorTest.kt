@@ -34,7 +34,7 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
-import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherDataSource
+import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.test.common.nextShortString
@@ -54,12 +54,12 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var backupParser: IBackupParser
     @MockK lateinit var fileDataSource: FileDataSource
-    @MockK lateinit var cipherControl: CipherDataSource
+    @MockK lateinit var cipherDataSource: CipherDataSource
 
     private val interactor by lazy {
         BackupPreferenceInteractor(
             preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileDataSource, cipherControl
+            backupParser, fileDataSource, cipherDataSource
         )
     }
     private val spyInteractor by lazy { spyk(interactor) }
@@ -74,7 +74,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
         confirmVerified(
             preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileDataSource, cipherControl
+            backupParser, fileDataSource, cipherDataSource
         )
     }
 
@@ -133,7 +133,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         coEvery { alarmRepo.getBackupList(noteIdList) } returns alarmList
 
         every { backupParser.collect(parserResult) } returns data
-        every { cipherControl.encrypt(data) } returns encryptData
+        every { cipherDataSource.encrypt(data) } returns encryptData
         every { fileDataSource.getTimeName(FileType.BACKUP) } returns timeName
         every { fileDataSource.writeFile(timeName, encryptData) } returns null
 
@@ -152,7 +152,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
                 alarmRepo.getBackupList(noteIdList)
 
                 backupParser.collect(parserResult)
-                cipherControl.encrypt(data)
+                cipherDataSource.encrypt(data)
                 fileDataSource.getTimeName(FileType.BACKUP)
                 fileDataSource.writeFile(timeName, encryptData)
             }
@@ -180,7 +180,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         assertEquals(ImportResult.Error, spyInteractor.import(item.name))
 
         every { fileDataSource.readFile(item.path) } returns encryptData
-        every { cipherControl.decrypt(encryptData) } returns data
+        every { cipherDataSource.decrypt(encryptData) } returns data
         every { backupParser.parse(data) } returns null
 
         assertEquals(ImportResult.Error, spyInteractor.import(item.name))
@@ -209,14 +209,14 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
             spyInteractor.import(item.name)
             spyInteractor.getFileList()
             fileDataSource.readFile(item.path)
-            cipherControl.decrypt(encryptData)
+            cipherDataSource.decrypt(encryptData)
             backupParser.parse(data)
 
             repeat(times = 2) {
                 spyInteractor.import(item.name)
                 spyInteractor.getFileList()
                 fileDataSource.readFile(item.path)
-                cipherControl.decrypt(encryptData)
+                cipherDataSource.decrypt(encryptData)
                 backupParser.parse(data)
                 preferencesRepo.isBackupSkipImports
                 BackupRepoImpl.Model[parserResult]
