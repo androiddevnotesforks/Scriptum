@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.file
+package sgtmelon.scriptum.infrastructure.files.dataSource
 
 import android.content.Context
 import android.os.Environment
@@ -16,6 +16,7 @@ import java.io.OutputStreamWriter
 import sgtmelon.common.utils.getTime
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
+import sgtmelon.scriptum.data.dataSource.FileDataSource
 
 /**
  * Class for help control manipulations with files.

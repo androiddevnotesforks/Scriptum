@@ -3,7 +3,7 @@ package sgtmelon.scriptum.data.repository.database
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
-import sgtmelon.scriptum.cleanup.presentation.control.file.FileDataSource
+import sgtmelon.scriptum.data.dataSource.FileDataSource
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource

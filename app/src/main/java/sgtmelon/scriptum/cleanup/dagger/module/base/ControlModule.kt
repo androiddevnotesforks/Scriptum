@@ -6,8 +6,8 @@ import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
-import sgtmelon.scriptum.cleanup.presentation.control.file.FileDataSource
-import sgtmelon.scriptum.cleanup.presentation.control.file.FileDataSourceImpl
+import sgtmelon.scriptum.data.dataSource.FileDataSource
+import sgtmelon.scriptum.infrastructure.files.dataSource.FileDataSourceImpl
 
 /**
  * Module for provide control classes.
