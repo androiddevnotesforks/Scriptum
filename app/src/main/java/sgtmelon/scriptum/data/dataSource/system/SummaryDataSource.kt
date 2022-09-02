@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.provider
+package sgtmelon.scriptum.data.dataSource.system
 
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat

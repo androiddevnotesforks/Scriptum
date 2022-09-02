@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.domain.useCase.preferences.summary
 
 import androidx.annotation.IntRange
+import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
 
 class GetVolumeSummaryUseCaseImpl(
     private val summaryDataSource: SummaryDataSource,

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.useCase.preferences.summary
 
+import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
 
 class GetSignalSummaryUseCaseImpl(
     private val summaryDataSource: SummaryDataSource,

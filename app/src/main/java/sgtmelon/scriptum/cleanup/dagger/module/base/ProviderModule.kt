@@ -4,8 +4,8 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
-import sgtmelon.scriptum.infrastructure.provider.SummaryDataSourceImpl
+import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
+import sgtmelon.scriptum.infrastructure.system.dataSource.SummaryDataSourceImpl
 
 /**
  * Module for provide providers classes.

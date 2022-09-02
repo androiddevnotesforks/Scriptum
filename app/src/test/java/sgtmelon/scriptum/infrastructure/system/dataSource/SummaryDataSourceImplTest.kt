@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.provider
+package sgtmelon.scriptum.infrastructure.system.dataSource
 
 import android.content.res.Resources
 import io.mockk.every

@@ -1,10 +1,11 @@
-package sgtmelon.scriptum.infrastructure.provider
+package sgtmelon.scriptum.infrastructure.system.dataSource
 
 
 import android.content.res.Resources
 import java.util.Locale
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
