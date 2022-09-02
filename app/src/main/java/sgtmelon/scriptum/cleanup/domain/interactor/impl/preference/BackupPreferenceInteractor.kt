@@ -2,10 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
@@ -24,15 +21,13 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
  */
 class BackupPreferenceInteractor(
     private val preferencesRepo: PreferencesRepo,
-    private val alarmRepo: AlarmRepo,
-    private val rankRepo: RankRepo,
-    private val noteRepo: NoteRepo,
     private val backupRepo: BackupRepo,
     private val backupParser: IBackupParser,
     private val fileDataSource: FileDataSource,
     private val cipherDataSource: CipherDataSource
 ) : IBackupPreferenceInteractor {
 
+    // TODO make use case with caching fileList
     @RunPrivate var fileList: List<FileItem>? = null
 
     override suspend fun getFileList(): List<FileItem> {
@@ -45,14 +40,14 @@ class BackupPreferenceInteractor(
 
 
     override suspend fun export(): ExportResult {
-        val noteList = noteRepo.getNoteBackupList()
+        val noteList = backupRepo.getNoteList()
 
         val noteIdList = noteList.filter { it.type == NoteType.ROLL }.map { it.id }
 
-        val rollList = noteRepo.getRollBackupList(noteIdList)
-        val rollVisibleList = noteRepo.getRollVisibleBackupList(noteIdList)
-        val rankList = rankRepo.getRankBackup()
-        val alarmList = alarmRepo.getBackupList(noteIdList)
+        val rollList = backupRepo.getRollList(noteIdList)
+        val rollVisibleList = backupRepo.getRollVisibleList(noteIdList)
+        val rankList = backupRepo.getRankList()
+        val alarmList = backupRepo.getAlarmList(noteIdList)
 
         val parserResult = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
 

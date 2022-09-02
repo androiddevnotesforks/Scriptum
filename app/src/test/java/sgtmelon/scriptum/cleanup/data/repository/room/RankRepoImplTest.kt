@@ -531,19 +531,4 @@ class RankRepoImplTest : ParentRepoTest() {
             rankDataSource.getId(position)
         }
     }
-
-
-    @Test fun getRankBackup() {
-        val rankList = mockk<List<RankEntity>>()
-
-        coEvery { rankDataSource.getList() } returns rankList
-
-        runBlocking {
-            assertEquals(repo.getRankBackup(), rankList)
-        }
-
-        coVerifySequence {
-            rankDataSource.getList()
-        }
-    }
 }

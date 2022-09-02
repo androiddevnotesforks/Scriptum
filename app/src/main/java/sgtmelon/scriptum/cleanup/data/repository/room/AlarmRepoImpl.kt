@@ -4,7 +4,6 @@ import java.util.Calendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
-import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
@@ -39,8 +38,4 @@ class AlarmRepoImpl(
     override suspend fun getItem(noteId: Long): NotificationItem? = dataSource.getItem(noteId)
 
     override suspend fun getList(): List<NotificationItem> = dataSource.getItemList()
-
-    override suspend fun getBackupList(noteIdList: List<Long>): List<AlarmEntity> {
-        return dataSource.getList(noteIdList)
-    }
 }

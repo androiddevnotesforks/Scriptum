@@ -303,20 +303,4 @@ class NoteRepoImpl(
             rollVisibleDataSource.update(item.id, item.isVisible)
         }
     }
-
-    // Repo backup functions
-
-    // TODO move inside another repo?
-
-    override suspend fun getNoteBackupList(): List<NoteEntity> {
-        return noteDataSource.getList(isBin = false)
-    }
-
-    override suspend fun getRollBackupList(noteIdList: List<Long>): List<RollEntity> {
-        return rollDataSource.getList(noteIdList)
-    }
-
-    override suspend fun getRollVisibleBackupList(noteIdList: List<Long>): List<RollVisibleEntity> {
-        return rollVisibleDataSource.getList(noteIdList)
-    }
 }

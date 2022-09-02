@@ -160,8 +160,4 @@ class RankRepoImpl(
             rankDataSource.getId(position) ?: Note.Default.RANK_ID
         }
     }
-
-
-    override suspend fun getRankBackup(): List<RankEntity> = rankDataSource.getList()
-
 }

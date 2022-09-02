@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.data.repository.room.callback
 
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepoImpl
-import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 
@@ -20,8 +19,4 @@ interface AlarmRepo {
     suspend fun getItem(noteId: Long): NotificationItem?
 
     suspend fun getList(): List<NotificationItem>
-
-
-    suspend fun getBackupList(noteIdList: List<Long>): List<AlarmEntity>
-
 }

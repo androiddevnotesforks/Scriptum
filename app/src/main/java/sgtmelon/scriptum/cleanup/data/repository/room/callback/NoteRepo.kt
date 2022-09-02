@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.cleanup.data.repository.room.callback
 
 import sgtmelon.scriptum.cleanup.data.repository.room.NoteRepoImpl
-import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.model.key.Sort
@@ -63,13 +60,5 @@ interface NoteRepo {
     suspend fun updateNote(item: NoteItem)
 
     suspend fun setRollVisible(item: NoteItem.Roll)
-
-    // Repo backup functions
-
-    suspend fun getNoteBackupList(): List<NoteEntity>
-
-    suspend fun getRollBackupList(noteIdList: List<Long>): List<RollEntity>
-
-    suspend fun getRollVisibleBackupList(noteIdList: List<Long>): List<RollVisibleEntity>
 
 }

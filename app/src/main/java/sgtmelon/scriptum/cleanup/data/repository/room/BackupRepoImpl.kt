@@ -38,6 +38,26 @@ class BackupRepoImpl(
     private val alarmDataSource: AlarmDataSource
 ) : BackupRepo {
 
+    override suspend fun getNoteList(): List<NoteEntity> {
+        return noteDataSource.getList(isBin = false)
+    }
+
+    override suspend fun getRollList(noteIdList: List<Long>): List<RollEntity> {
+        return rollDataSource.getList(noteIdList)
+    }
+
+    override suspend fun getRollVisibleList(noteIdList: List<Long>): List<RollVisibleEntity> {
+        return rollVisibleDataSource.getList(noteIdList)
+    }
+
+    override suspend fun getRankList(): List<RankEntity> = rankDataSource.getList()
+
+    override suspend fun getAlarmList(noteIdList: List<Long>): List<AlarmEntity> {
+        return alarmDataSource.getList(noteIdList)
+    }
+
+    //region Insert function
+
     override suspend fun insertData(model: Model, isSkipImports: Boolean): ImportResult {
         val startSize = model.noteList.size
 
@@ -407,4 +427,6 @@ class BackupRepoImpl(
             }
         }
     }
+
+    //endregion
 }

@@ -157,19 +157,4 @@ class AlarmRepoImplTest : ParentRepoTest() {
             alarmDataSource.getItemList()
         }
     }
-
-    @Test fun getBackupList() {
-        val alarmList = mockk<List<AlarmEntity>>()
-        val noteIdList = mockk<List<Long>>()
-
-        coEvery { alarmDataSource.getList(noteIdList) } returns alarmList
-
-        runBlocking {
-            assertEquals(alarmList, repo.getBackupList(noteIdList))
-        }
-
-        coVerifySequence {
-            alarmDataSource.getList(noteIdList)
-        }
-    }
 }

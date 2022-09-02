@@ -118,17 +118,13 @@ class InteractorModule {
     @ActivityScope
     fun provideBackupPreferenceInteractor(
         preferencesRepo: PreferencesRepo,
-        alarmRepo: AlarmRepo,
-        rankRepo: RankRepo,
-        noteRepo: NoteRepo,
         backupRepo: BackupRepo,
         backupParser: IBackupParser,
         fileDataSource: FileDataSource,
         cipherDataSource: CipherDataSource
     ): IBackupPreferenceInteractor {
         return BackupPreferenceInteractor(
-            preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileDataSource, cipherDataSource
+            preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
         )
     }
 
