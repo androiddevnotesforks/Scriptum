@@ -28,6 +28,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNot
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IParentNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 
@@ -39,7 +40,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     @RunProtected var parentCallback: INoteConnector?,
     @RunProtected val colorConverter: ColorConverter,
     @RunProtected val preferencesRepo: PreferencesRepo,
-    @RunProtected val interactor: I
+    @RunProtected val interactor: I,
+    private val deleteNote: DeleteNoteUseCase
 ) : ParentViewModel<C>(callback),
     IParentNoteViewModel {
 
@@ -414,7 +416,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         viewModelScope.launch {
-            runBack { interactor.deleteNote(noteItem) }
+            runBack { deleteNote(noteItem) }
 
             callback?.sendCancelAlarmBroadcast(noteItem.id)
             callback?.sendCancelNoteBroadcast(noteItem.id)

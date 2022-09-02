@@ -36,6 +36,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
+import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Theme
@@ -73,6 +74,7 @@ object FastTest {
         private val parentCallback: INoteConnector,
         private val colorConverter: ColorConverter,
         private val interactor: IParentNoteInteractor<N>,
+        private val deleteNote: DeleteNoteUseCase,
         private val saveControl: SaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
@@ -1072,7 +1074,7 @@ object FastTest {
 
                 callback.isDialogOpen
                 noteState.isEdit
-                interactor.deleteNote(noteItem)
+                deleteNote(noteItem)
                 noteItem.id
                 callback.sendCancelAlarmBroadcast(id)
                 noteItem.id
@@ -1283,22 +1285,6 @@ object FastTest {
                 }
 
                 rankRepo.updateConnection(item)
-            }
-        }
-
-
-        suspend inline fun <reified T : NoteItem> deleteNote(
-            noteRepo: NoteRepo,
-            callFunc: (T) -> Unit
-        ) {
-            val item = mockk<T>()
-
-            coEvery { noteRepo.deleteNote(item) } returns mockk()
-
-            callFunc(item)
-
-            coVerifySequence {
-                noteRepo.deleteNote(item)
             }
         }
 

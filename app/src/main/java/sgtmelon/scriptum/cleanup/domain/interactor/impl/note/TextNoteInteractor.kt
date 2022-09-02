@@ -60,6 +60,4 @@ class TextNoteInteractor(
         noteRepo.saveNote(item, isCreate)
         rankRepo.updateConnection(item)
     }
-
-    override suspend fun deleteNote(item: NoteItem.Text) = noteRepo.deleteNote(item)
 }

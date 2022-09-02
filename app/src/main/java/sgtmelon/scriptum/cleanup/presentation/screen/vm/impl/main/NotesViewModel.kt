@@ -20,6 +20,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Options
 
 /**
@@ -28,7 +29,8 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Option
 class NotesViewModel(
     callback: INotesFragment,
     private val preferencesRepo: PreferencesRepo,
-    private val interactor: INotesInteractor
+    private val interactor: INotesInteractor,
+    private val deleteNote: DeleteNoteUseCase
 ) : ParentViewModel<INotesFragment>(callback),
     INotesViewModel {
 
@@ -170,7 +172,7 @@ class NotesViewModel(
         callback?.notifyItemRemoved(itemList, p)
 
         viewModelScope.launch {
-            runBack { interactor.deleteNote(item) }
+            runBack { deleteNote(item) }
 
             callback?.sendCancelAlarmBroadcast(item.id)
             callback?.sendCancelNoteBroadcast(item.id)

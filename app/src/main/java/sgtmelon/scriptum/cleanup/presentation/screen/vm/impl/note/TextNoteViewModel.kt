@@ -16,6 +16,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 /**
@@ -26,9 +27,10 @@ class TextNoteViewModel(
     parentCallback: INoteConnector?,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
-    interactor: ITextNoteInteractor
+    interactor: ITextNoteInteractor,
+    deleteNote: DeleteNoteUseCase
 ) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(
-    callback, parentCallback, colorConverter, preferencesRepo, interactor
+    callback, parentCallback, colorConverter, preferencesRepo, interactor, deleteNote
 ), ITextNoteViewModel {
 
     override fun cacheData() {

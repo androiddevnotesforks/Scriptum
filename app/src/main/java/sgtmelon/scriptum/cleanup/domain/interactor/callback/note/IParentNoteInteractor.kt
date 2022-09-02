@@ -33,6 +33,4 @@ interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     suspend fun saveNote(item: N, isCreate: Boolean)
 
-    suspend fun deleteNote(item: N)
-
 }

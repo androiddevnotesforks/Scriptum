@@ -73,6 +73,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -128,9 +129,12 @@ class ViewModelModule {
     fun provideNotesViewModel(
         fragment: NotesFragment,
         preferencesRepo: PreferencesRepo,
-        interactor: INotesInteractor
+        interactor: INotesInteractor,
+        deleteNote: DeleteNoteUseCase
     ): INotesViewModel {
-        val factory = ViewModelFactory.MainScreen.Notes(fragment, preferencesRepo, interactor)
+        val factory = ViewModelFactory.MainScreen.Notes(
+            fragment, preferencesRepo, interactor, deleteNote
+        )
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }
 
@@ -165,10 +169,11 @@ class ViewModelModule {
         fragment: TextNoteFragment,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
-        interactor: ITextNoteInteractor
+        interactor: ITextNoteInteractor,
+        deleteNote: DeleteNoteUseCase
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            fragment, colorConverter, preferencesRepo, interactor
+            fragment, colorConverter, preferencesRepo, interactor, deleteNote
         )
         val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
@@ -183,10 +188,11 @@ class ViewModelModule {
         fragment: RollNoteFragment,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
-        interactor: IRollNoteInteractor
+        interactor: IRollNoteInteractor,
+        deleteNote: DeleteNoteUseCase
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            fragment, colorConverter, preferencesRepo, interactor
+            fragment, colorConverter, preferencesRepo, interactor, deleteNote
         )
         val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)

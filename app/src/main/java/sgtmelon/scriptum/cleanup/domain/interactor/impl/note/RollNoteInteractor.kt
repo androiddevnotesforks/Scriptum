@@ -77,6 +77,4 @@ class RollNoteInteractor(
         noteRepo.saveNote(item, isCreate)
         rankRepo.updateConnection(item)
     }
-
-    override suspend fun deleteNote(item: NoteItem.Roll) = noteRepo.deleteNote(item)
 }

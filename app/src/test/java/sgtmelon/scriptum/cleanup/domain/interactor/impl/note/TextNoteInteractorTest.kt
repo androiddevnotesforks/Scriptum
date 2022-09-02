@@ -119,8 +119,4 @@ class TextNoteInteractorTest : ParentInteractorTest() {
             interactor.saveNote(item, isCreate)
         }
     }
-
-    @Test fun deleteNote() = startCoTest {
-        FastTest.Interactor.deleteNote<NoteItem.Text>(noteRepo) { interactor.deleteNote(it) }
-    }
 }

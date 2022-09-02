@@ -32,8 +32,6 @@ interface INotesInteractor : IParentInteractor {
 
     suspend fun copy(item: NoteItem): String
 
-    suspend fun deleteNote(item: NoteItem)
-
 
     suspend fun getNotification(noteId: Long): NotificationItem?
 

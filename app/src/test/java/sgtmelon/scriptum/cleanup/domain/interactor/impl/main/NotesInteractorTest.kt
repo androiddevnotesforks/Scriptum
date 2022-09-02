@@ -174,10 +174,6 @@ class NotesInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun deleteNote() = startCoTest {
-        FastTest.Interactor.deleteNote<NoteItem>(noteRepo) { interactor.deleteNote(it) }
-    }
-
 
     @Test fun getNotification() = startCoTest {
         val id = Random.nextLong()

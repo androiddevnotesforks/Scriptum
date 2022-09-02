@@ -37,6 +37,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.verifyDeepCopy
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
@@ -55,18 +56,21 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var colorConverter: ColorConverter
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: ITextNoteInteractor
+    @MockK lateinit var deleteNote: DeleteNoteUseCase
 
     @MockK lateinit var saveControl: SaveControl
     @MockK lateinit var inputControl: IInputControl
 
     private val viewModel by lazy {
-        TextNoteViewModel(callback, parentCallback, colorConverter, preferencesRepo, interactor)
+        TextNoteViewModel(
+            callback, parentCallback, colorConverter, preferencesRepo, interactor, deleteNote
+        )
     }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
 
     private val fastTest by lazy {
         FastTest.ViewModel(
-            callback, parentCallback, colorConverter, interactor,
+            callback, parentCallback, colorConverter, interactor, deleteNote,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }, { mockkInit() }, { verifyInit() }
         )

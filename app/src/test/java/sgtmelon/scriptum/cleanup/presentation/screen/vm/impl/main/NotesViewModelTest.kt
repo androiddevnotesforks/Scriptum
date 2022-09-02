@@ -31,6 +31,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.test.common.nextString
 
@@ -47,10 +48,13 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: INotesFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: INotesInteractor
+    @MockK lateinit var deleteNote: DeleteNoteUseCase
 
     @MockK lateinit var calendar: Calendar
 
-    private val viewModel by lazy { NotesViewModel(callback, preferencesRepo, interactor) }
+    private val viewModel by lazy {
+        NotesViewModel(callback, preferencesRepo, interactor, deleteNote)
+    }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
@@ -460,7 +464,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             callback.notifyItemRemoved(resultList, index)
 
-            interactor.deleteNote(item)
+            deleteNote(item)
 
             callback.sendCancelAlarmBroadcast(id)
             callback.sendCancelNoteBroadcast(id)

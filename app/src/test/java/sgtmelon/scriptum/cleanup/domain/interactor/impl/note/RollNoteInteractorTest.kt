@@ -151,8 +151,4 @@ class RollNoteInteractorTest : ParentInteractorTest() {
             interactor.saveNote(item, isCreate)
         }
     }
-
-    @Test fun deleteNote() = startCoTest {
-        FastTest.Interactor.deleteNote<NoteItem.Roll>(noteRepo) { interactor.deleteNote(it) }
-    }
 }
