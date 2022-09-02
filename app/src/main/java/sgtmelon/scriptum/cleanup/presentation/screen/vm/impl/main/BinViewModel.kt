@@ -17,6 +17,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 
@@ -26,6 +27,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 class BinViewModel(
     callback: IBinFragment,
     private val interactor: IBinInteractor,
+    private val getCopyText: GetCopyTextUseCase,
     private val restoreNote: RestoreNoteUseCase,
     private val clearNote: ClearNoteUseCase
 ) : ParentViewModel<IBinFragment>(callback),
@@ -123,7 +125,7 @@ class BinViewModel(
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            val text = runBack { interactor.copy(item) }
+            val text = runBack { getCopyText(item) }
             callback?.copyClipboard(text)
         }
     }

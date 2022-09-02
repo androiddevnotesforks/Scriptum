@@ -56,6 +56,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
@@ -138,11 +139,12 @@ object ViewModelFactory {
             private val fragment: NotesFragment,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: INotesInteractor,
+            private val getCopyText: GetCopyTextUseCase,
             private val deleteNote: DeleteNoteUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModel::class) {
-                    NotesViewModel(fragment, preferencesRepo, interactor, deleteNote)
+                    NotesViewModel(fragment, preferencesRepo, interactor, getCopyText, deleteNote)
                 }
             }
         }
@@ -150,12 +152,13 @@ object ViewModelFactory {
         class Bin(
             private val fragment: BinFragment,
             private val interactor: IBinInteractor,
+            private val getCopyText: GetCopyTextUseCase,
             private val restoreNote: RestoreNoteUseCase,
             private val clearNote: ClearNoteUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BinViewModel::class) {
-                    BinViewModel(fragment, interactor, restoreNote, clearNote)
+                    BinViewModel(fragment, interactor, getCopyText, restoreNote, clearNote)
                 }
             }
         }

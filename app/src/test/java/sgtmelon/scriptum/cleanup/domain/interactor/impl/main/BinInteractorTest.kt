@@ -15,7 +15,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.test.common.nextString
 
 /**
  * Test for [BinInteractor].
@@ -78,19 +77,6 @@ class BinInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             noteRepo.clearBin()
-        }
-    }
-
-    @Test fun copy() = startCoTest {
-        val item = data.itemList.random()
-        val text = nextString()
-
-        coEvery { noteRepo.getCopyText(item) } returns text
-
-        interactor.copy(item)
-
-        coVerifySequence {
-            noteRepo.getCopyText(item)
         }
     }
 }

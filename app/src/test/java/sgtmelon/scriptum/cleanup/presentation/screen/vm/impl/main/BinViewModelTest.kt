@@ -25,6 +25,7 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.test.common.nextString
 
@@ -38,10 +39,13 @@ class BinViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IBinFragment
     @MockK lateinit var interactor: IBinInteractor
+    @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
 
-    private val viewModel by lazy { BinViewModel(callback, interactor, restoreNote, clearNote) }
+    private val viewModel by lazy {
+        BinViewModel(callback, interactor, getCopyText, restoreNote, clearNote)
+    }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
@@ -277,7 +281,7 @@ class BinViewModelTest : ParentViewModelTest() {
         val item = itemList[index]
         val text = nextString()
 
-        coEvery { interactor.copy(item) } returns text
+        coEvery { getCopyText(item) } returns text
 
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -285,7 +289,7 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onMenuCopy(index)
 
         coVerifySequence {
-            interactor.copy(item)
+            getCopyText(item)
             callback.copyClipboard(text)
         }
 

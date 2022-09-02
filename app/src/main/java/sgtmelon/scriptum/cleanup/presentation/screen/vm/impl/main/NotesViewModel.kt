@@ -21,6 +21,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesView
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Options
 
 /**
@@ -30,6 +31,7 @@ class NotesViewModel(
     callback: INotesFragment,
     private val preferencesRepo: PreferencesRepo,
     private val interactor: INotesInteractor,
+    private val getCopyText: GetCopyTextUseCase,
     private val deleteNote: DeleteNoteUseCase
 ) : ParentViewModel<INotesFragment>(callback),
     INotesViewModel {
@@ -161,7 +163,7 @@ class NotesViewModel(
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            val text = runBack { interactor.copy(item) }
+            val text = runBack { getCopyText(item) }
             callback?.copyClipboard(text)
         }
     }

@@ -8,7 +8,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
-import io.mockk.verifySequence
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -16,7 +15,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
@@ -27,7 +25,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
@@ -565,76 +562,6 @@ class NoteRepoImplTest : ParentRepoTest() {
             finishItem.id
             rollDataSource.delete(id)
             finishItem == finishItem
-        }
-    }
-
-    @Test fun `getCopyText for text note`() {
-        val item = mockk<NoteItem.Text>()
-
-        val name = nextString()
-        val text = nextString()
-
-        every { item.name } returns ""
-        every { item.text } returns text
-
-        runBlocking {
-            assertEquals(repo.getCopyText(item), text)
-        }
-
-        every { item.name } returns name
-
-        runBlocking {
-            assertEquals(repo.getCopyText(item), "$name\n$text")
-        }
-
-        verifySequence {
-            item.name
-            item.text
-
-            item.name
-            item.name
-            item.text
-        }
-    }
-
-    @Test fun `getCopyText for roll note`() {
-        val item = mockk<NoteItem.Roll>()
-
-        val id = Random.nextLong()
-        val name = nextString()
-        val list = mockk<MutableList<RollItem>>()
-        val text = nextString()
-
-        FastMock.listExtension()
-
-        every { item.name } returns ""
-        every { item.id } returns id
-        coEvery { spyRepo.getRollList(id) } returns list
-        every { list.getText() } returns text
-
-        runBlocking {
-            assertEquals(spyRepo.getCopyText(item), text)
-        }
-
-        every { item.name } returns name
-
-        runBlocking {
-            assertEquals(spyRepo.getCopyText(item), "$name\n$text")
-        }
-
-        coVerifySequence {
-            spyRepo.getCopyText(item)
-            item.name
-            item.id
-            spyRepo.getRollList(id)
-            list.getText()
-
-            spyRepo.getCopyText(item)
-            item.name
-            item.name
-            item.id
-            spyRepo.getRollList(id)
-            list.getText()
         }
     }
 

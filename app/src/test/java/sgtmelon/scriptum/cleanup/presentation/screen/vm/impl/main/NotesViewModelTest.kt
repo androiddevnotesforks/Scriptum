@@ -32,6 +32,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.test.common.nextString
 
@@ -48,12 +49,13 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: INotesFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: INotesInteractor
+    @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
 
     @MockK lateinit var calendar: Calendar
 
     private val viewModel by lazy {
-        NotesViewModel(callback, preferencesRepo, interactor, deleteNote)
+        NotesViewModel(callback, preferencesRepo, interactor, getCopyText, deleteNote)
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
@@ -429,7 +431,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         val item = itemList[index]
         val text = nextString()
 
-        coEvery { interactor.copy(item) } returns text
+        coEvery { getCopyText(item) } returns text
 
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -437,7 +439,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onMenuCopy(index)
 
         coVerifySequence {
-            interactor.copy(item)
+            getCopyText(item)
             callback.copyClipboard(text)
         }
 

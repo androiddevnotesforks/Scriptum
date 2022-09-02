@@ -41,8 +41,6 @@ import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.infrastructure.model.key.Theme
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.test.common.nextString
 
 /**
@@ -52,24 +50,6 @@ import sgtmelon.test.common.nextString
 object FastTest {
 
     // TODO create common interactor or anything else for remove some fast test functions (like date)
-
-    @Deprecated("Use preferencesRepo")
-    fun getTheme(preferences: Preferences, callFunc: () -> Int) {
-        fun checkRequestGet(value: Int) {
-            every { preferences.theme } returns value
-            assertEquals(callFunc(), value)
-        }
-
-        val valueList = listOf(Theme.LIGHT.ordinal, Theme.DARK.ordinal, Random.nextInt())
-        for (it in valueList) {
-            checkRequestGet(it)
-        }
-
-        verifySequence {
-            repeat(valueList.size) { preferences.theme }
-        }
-    }
-
 
     class ViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
         private val callback: IParentNoteFragment<N>,
@@ -1239,21 +1219,6 @@ object FastTest {
 
             coVerifySequence {
                 noteRepo.updateNote(item)
-            }
-        }
-
-        suspend inline fun <reified T : NoteItem> clearNote(
-            noteRepo: NoteRepo,
-            callFunc: (T) -> Unit
-        ) {
-            val item = mockk<T>()
-
-            coEvery { noteRepo.clearNote(item) } returns mockk()
-
-            callFunc(item)
-
-            coVerifySequence {
-                noteRepo.clearNote(item)
             }
         }
 

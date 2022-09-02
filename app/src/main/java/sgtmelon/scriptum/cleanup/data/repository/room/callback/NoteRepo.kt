@@ -52,8 +52,6 @@ interface NoteRepo {
      */
     suspend fun convertNote(item: NoteItem.Roll, useCache: Boolean): NoteItem.Text
 
-    suspend fun getCopyText(item: NoteItem): String
-
     suspend fun saveNote(item: NoteItem.Text, isCreate: Boolean)
 
     suspend fun saveNote(item: NoteItem.Roll, isCreate: Boolean)

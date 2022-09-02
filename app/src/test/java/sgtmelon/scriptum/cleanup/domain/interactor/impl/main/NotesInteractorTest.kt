@@ -25,7 +25,6 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.test.common.nextString
 
 /**
  * Test for [NotesInteractor].
@@ -157,20 +156,6 @@ class NotesInteractorTest : ParentInteractorTest() {
     @Test fun setDate() = startCoTest {
         FastTest.Interactor.setDate<NoteItem>(alarmRepo) { item, calendar ->
             interactor.setDate(item, calendar)
-        }
-    }
-
-
-    @Test fun copy() = startCoTest {
-        val item = mockk<NoteItem>()
-        val text = nextString()
-
-        coEvery { noteRepo.getCopyText(item) } returns text
-
-        assertEquals(text, interactor.copy(item))
-
-        coVerifySequence {
-            noteRepo.getCopyText(item)
         }
     }
 

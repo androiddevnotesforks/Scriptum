@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
@@ -195,7 +194,7 @@ class NoteRepoImpl(
     }
 
     /**
-     * Remove relation between [RankEntity] and [NoteItem] which will be delete
+     * Remove connection between [RankEntity] and [NoteItem] (in case if last one will be delete).
      */
     @RunPrivate
     suspend fun clearConnection(noteId: Long, rankId: Long) {
@@ -230,17 +229,6 @@ class NoteRepoImpl(
 
         return newItem
     }
-
-    override suspend fun getCopyText(item: NoteItem) = StringBuilder().apply {
-        if (item.name.isNotEmpty()) {
-            append(item.name).append("\n")
-        }
-
-        when (item) {
-            is NoteItem.Text -> append(item.text)
-            is NoteItem.Roll -> append(getRollList(item.id).getText())
-        }
-    }.toString()
 
     override suspend fun saveNote(item: NoteItem.Text, isCreate: Boolean) {
         val entity = noteConverter.toEntity(item)

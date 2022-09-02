@@ -75,6 +75,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
@@ -132,10 +133,11 @@ class ViewModelModule {
         fragment: NotesFragment,
         preferencesRepo: PreferencesRepo,
         interactor: INotesInteractor,
+        getCopyText: GetCopyTextUseCase,
         deleteNote: DeleteNoteUseCase
     ): INotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
-            fragment, preferencesRepo, interactor, deleteNote
+            fragment, preferencesRepo, interactor, getCopyText, deleteNote
         )
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }
@@ -145,10 +147,13 @@ class ViewModelModule {
     fun provideBinViewModel(
         fragment: BinFragment,
         interactor: IBinInteractor,
+        getCopyText: GetCopyTextUseCase,
         restoreNote: RestoreNoteUseCase,
         clearNote: ClearNoteUseCase
     ): IBinViewModel {
-        val factory = ViewModelFactory.MainScreen.Bin(fragment, interactor, restoreNote, clearNote)
+        val factory = ViewModelFactory.MainScreen.Bin(
+            fragment, interactor, getCopyText, restoreNote, clearNote
+        )
         return ViewModelProvider(fragment, factory)[BinViewModel::class.java]
     }
 

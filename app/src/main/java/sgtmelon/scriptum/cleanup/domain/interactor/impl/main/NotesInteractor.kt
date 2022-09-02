@@ -70,9 +70,6 @@ class NotesInteractor(
     }
 
 
-    override suspend fun copy(item: NoteItem) = noteRepo.getCopyText(item)
-
-
     override suspend fun getNotification(noteId: Long): NotificationItem? {
         return alarmRepo.getItem(noteId)
     }

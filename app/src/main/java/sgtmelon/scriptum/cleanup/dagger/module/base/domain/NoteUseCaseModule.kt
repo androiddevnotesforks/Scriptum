@@ -7,11 +7,18 @@ import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCaseImpl
 
 @Module
 class NoteUseCaseModule {
+
+    @Provides
+    fun provideGetCopyTextUseCase(repository: NoteRepo): GetCopyTextUseCase {
+        return GetCopyTextUseCaseImpl(repository)
+    }
 
     @Provides
     fun provideClearNoteUseCase(repository: NoteRepo): ClearNoteUseCase {
