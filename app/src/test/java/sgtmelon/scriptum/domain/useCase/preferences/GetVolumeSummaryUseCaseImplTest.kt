@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetVolumeSummaryUseCaseImpl
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
 import sgtmelon.test.common.nextString
 
 /**
@@ -21,17 +21,17 @@ import sgtmelon.test.common.nextString
  */
 class GetVolumeSummaryUseCaseImplTest : ParentTest() {
 
-    @MockK lateinit var summaryProvider: SummaryProvider
+    @MockK lateinit var summaryDataSource: SummaryDataSource
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
     private val getSummary: GetSummaryUseCase by lazy {
-        GetVolumeSummaryUseCaseImpl(summaryProvider, preferencesRepo)
+        GetVolumeSummaryUseCaseImpl(summaryDataSource, preferencesRepo)
     }
     private val spyGetSummary by lazy { spyk(getSummary) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(summaryProvider, preferencesRepo)
+        confirmVerified(summaryDataSource, preferencesRepo)
     }
 
     @Test fun `simple summary get`() {
@@ -39,13 +39,13 @@ class GetVolumeSummaryUseCaseImplTest : ParentTest() {
         val summary = nextString()
 
         every { preferencesRepo.volume } returns volume
-        every { summaryProvider.getVolume(volume) } returns summary
+        every { summaryDataSource.getVolume(volume) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
             preferencesRepo.volume
-            summaryProvider.getVolume(volume)
+            summaryDataSource.getVolume(volume)
         }
     }
 

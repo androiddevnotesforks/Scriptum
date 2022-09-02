@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
 
 @Module
 class GetSummaryUseCaseModule {
@@ -26,67 +26,67 @@ class GetSummaryUseCaseModule {
     @Provides
     @Named("Theme")
     fun provideGetThemeSummaryUseCase(
-        summaryProvider: SummaryProvider,
+        summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo,
         converter: ThemeConverter
     ): GetSummaryUseCase {
-        return GetThemeSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        return GetThemeSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
     @Named("Sort")
     fun provideGetSortSummaryUseCase(
-        summaryProvider: SummaryProvider,
+        summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo,
         converter: SortConverter
     ): GetSummaryUseCase {
-        return GetSortSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        return GetSortSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
     @Named("DefaultColor")
     fun provideGetDefaultColorSummaryUseCase(
-        summaryProvider: SummaryProvider,
+        summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo,
         converter: ColorConverter
     ): GetSummaryUseCase {
-        return GetDefaultColorSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        return GetDefaultColorSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
     @Named("SavePeriod")
     fun provideGetSavePeriodSummaryUseCase(
-        summaryProvider: SummaryProvider,
+        summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo,
         converter: SavePeriodConverter
     ): GetSummaryUseCase {
-        return GetSavePeriodSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        return GetSavePeriodSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
     @Named("Repeat")
     fun provideGetRepeatSummaryUseCase(
-        summaryProvider: SummaryProvider,
+        summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo,
         converter: RepeatConverter
     ): GetSummaryUseCase {
-        return GetRepeatSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        return GetRepeatSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
     @Named("Volume")
     fun provideGetVolumeSummaryUseCase(
-        summaryProvider: SummaryProvider,
+        summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo
     ): GetSummaryUseCase {
-        return GetVolumeSummaryUseCaseImpl(summaryProvider, preferencesRepo)
+        return GetVolumeSummaryUseCaseImpl(summaryDataSource, preferencesRepo)
     }
 
     @Provides
     fun provideGetSignalSummaryUseCase(
-        summaryProvider: SummaryProvider,
+        summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo
     ) : GetSignalSummaryUseCase {
-        return GetSignalSummaryUseCaseImpl(summaryProvider, preferencesRepo)
+        return GetSignalSummaryUseCaseImpl(summaryDataSource, preferencesRepo)
     }
 }

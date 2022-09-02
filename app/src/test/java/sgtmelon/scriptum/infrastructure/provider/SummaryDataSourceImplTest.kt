@@ -22,13 +22,13 @@ import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [SummaryProviderImpl].
+ * Test for [SummaryDataSourceImpl].
  */
-class SummaryProviderImplTest : ParentTest() {
+class SummaryDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var resources: Resources
 
-    private val provider by lazy { SummaryProviderImpl(resources) }
+    private val provider by lazy { SummaryDataSourceImpl(resources) }
 
     @Test fun getTheme() {
         val value = Theme.values().random()
@@ -167,11 +167,11 @@ class SummaryProviderImplTest : ParentTest() {
                 if (!b) return@mapIndexed null
 
                 val summary = summaryArray[i].lowercase(Locale.getDefault())
-                return@mapIndexed SummaryProviderImpl.SIGNAL_DIVIDER.plus(summary)
+                return@mapIndexed SummaryDataSourceImpl.SIGNAL_DIVIDER.plus(summary)
             }
             .filterNotNull()
             .joinToString(separator = "")
-            .replaceFirst(SummaryProviderImpl.SIGNAL_DIVIDER, "")
+            .replaceFirst(SummaryDataSourceImpl.SIGNAL_DIVIDER, "")
 
         assertEquals(provider.getSignal(valueArray), result)
 

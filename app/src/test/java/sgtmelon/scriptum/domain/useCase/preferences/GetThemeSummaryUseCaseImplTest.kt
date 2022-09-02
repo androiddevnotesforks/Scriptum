@@ -21,7 +21,7 @@ class GetThemeSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<ThemeConvert
     @MockK override lateinit var converter: ThemeConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetThemeSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        GetThemeSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
@@ -29,13 +29,13 @@ class GetThemeSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<ThemeConvert
         val summary = nextString()
 
         every { preferencesRepo.theme } returns theme
-        every { summaryProvider.getTheme(theme) } returns summary
+        every { summaryDataSource.getTheme(theme) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
             preferencesRepo.theme
-            summaryProvider.getTheme(theme)
+            summaryDataSource.getTheme(theme)
         }
     }
 

@@ -21,7 +21,7 @@ class GetSavePeriodSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<SavePer
     @MockK override lateinit var converter: SavePeriodConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetSavePeriodSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        GetSavePeriodSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
@@ -29,13 +29,13 @@ class GetSavePeriodSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<SavePer
         val summary = nextString()
 
         every { preferencesRepo.savePeriod } returns savePeriod
-        every { summaryProvider.getSavePeriod(savePeriod) } returns summary
+        every { summaryDataSource.getSavePeriod(savePeriod) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
             preferencesRepo.savePeriod
-            summaryProvider.getSavePeriod(savePeriod)
+            summaryDataSource.getSavePeriod(savePeriod)
         }
     }
 

@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCaseImpl
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
 import sgtmelon.test.common.nextString
 
 /**
@@ -21,17 +21,17 @@ import sgtmelon.test.common.nextString
 class GetSignalSummaryUseCaseImplTest : ParentTest(),
     GetSummaryUseCaseTest {
 
-    @MockK lateinit var summaryProvider: SummaryProvider
+    @MockK lateinit var summaryDataSource: SummaryDataSource
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
     private val getSummary by lazy {
-        GetSignalSummaryUseCaseImpl(summaryProvider, preferencesRepo)
+        GetSignalSummaryUseCaseImpl(summaryDataSource, preferencesRepo)
     }
     private val spyGetSummary by lazy { spyk(getSummary) }
 
     override fun tearDown() {
         super.tearDown()
-        confirmVerified(summaryProvider, preferencesRepo)
+        confirmVerified(summaryDataSource, preferencesRepo)
     }
 
     @Test override fun `simple summary get`() {
@@ -39,13 +39,13 @@ class GetSignalSummaryUseCaseImplTest : ParentTest(),
         val summary = nextString()
 
         every { preferencesRepo.signalTypeCheck } returns typeCheck
-        every { summaryProvider.getSignal(typeCheck) } returns summary
+        every { summaryDataSource.getSignal(typeCheck) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
             preferencesRepo.signalTypeCheck
-            summaryProvider.getSignal(typeCheck)
+            summaryDataSource.getSignal(typeCheck)
         }
     }
 

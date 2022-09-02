@@ -21,7 +21,7 @@ class GetSortSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<SortConverter
     @MockK override lateinit var converter: SortConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetSortSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        GetSortSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
@@ -29,13 +29,13 @@ class GetSortSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<SortConverter
         val summary = nextString()
 
         every { preferencesRepo.sort } returns sort
-        every { summaryProvider.getSort(sort) } returns summary
+        every { summaryDataSource.getSort(sort) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
             preferencesRepo.sort
-            summaryProvider.getSort(sort)
+            summaryDataSource.getSort(sort)
         }
     }
 

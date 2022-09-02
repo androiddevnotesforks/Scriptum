@@ -21,7 +21,7 @@ class GetDefaultColorSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<Color
     @MockK override lateinit var converter: ColorConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetDefaultColorSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        GetDefaultColorSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
@@ -29,13 +29,13 @@ class GetDefaultColorSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<Color
         val summary = nextString()
 
         every { preferencesRepo.defaultColor } returns color
-        every { summaryProvider.getColor(color) } returns summary
+        every { summaryDataSource.getColor(color) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
             preferencesRepo.defaultColor
-            summaryProvider.getColor(color)
+            summaryDataSource.getColor(color)
         }
     }
 

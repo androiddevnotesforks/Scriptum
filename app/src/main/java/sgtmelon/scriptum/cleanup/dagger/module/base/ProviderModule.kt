@@ -4,8 +4,8 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
-import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
+import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
+import sgtmelon.scriptum.infrastructure.provider.SummaryDataSourceImpl
 
 /**
  * Module for provide providers classes.
@@ -15,7 +15,7 @@ class ProviderModule {
 
     @Provides
     @Singleton
-    fun provideSummaryProvider(resources: Resources): SummaryProvider {
-        return SummaryProviderImpl(resources)
+    fun provideSummaryProvider(resources: Resources): SummaryDataSource {
+        return SummaryDataSourceImpl(resources)
     }
 }

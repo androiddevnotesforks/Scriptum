@@ -2,15 +2,15 @@ package sgtmelon.scriptum.domain.useCase.preferences.summary
 
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
 
 class GetSavePeriodSummaryUseCaseImpl(
-    private val summaryProvider: SummaryProvider,
+    private val summaryDataSource: SummaryDataSource,
     private val preferencesRepo: PreferencesRepo,
     private val converter: SavePeriodConverter
 ) : GetSummaryUseCase {
 
-    override fun invoke(): String = summaryProvider.getSavePeriod(preferencesRepo.savePeriod)
+    override fun invoke(): String = summaryDataSource.getSavePeriod(preferencesRepo.savePeriod)
 
     override fun invoke(value: Int): String {
         val savePeriod = converter.toEnum(value)

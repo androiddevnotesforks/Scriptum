@@ -16,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.utils.record
 /**
  * Provide summary/description for preference keys.
  */
-class SummaryProviderImpl(private val resources: Resources): SummaryProvider {
+class SummaryDataSourceImpl(private val resources: Resources) : SummaryDataSource {
 
     override fun getTheme(theme: Theme): String {
         val id = when (theme) {

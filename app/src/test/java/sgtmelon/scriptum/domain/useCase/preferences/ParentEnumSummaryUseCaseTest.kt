@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ParentEnumConverter
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryDataSource
 import sgtmelon.test.common.nextString
 
 /**
@@ -22,7 +22,7 @@ import sgtmelon.test.common.nextString
 abstract class ParentEnumSummaryUseCaseTest<T: ParentEnumConverter<*>> : ParentTest(),
     GetSummaryUseCaseTest {
 
-    @MockK lateinit var summaryProvider: SummaryProvider
+    @MockK lateinit var summaryDataSource: SummaryDataSource
     @MockK lateinit var preferencesRepo: PreferencesRepo
     abstract var converter: T
 
@@ -32,7 +32,7 @@ abstract class ParentEnumSummaryUseCaseTest<T: ParentEnumConverter<*>> : ParentT
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(summaryProvider, preferencesRepo, converter)
+        confirmVerified(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test fun `get summary with bad converting`() {

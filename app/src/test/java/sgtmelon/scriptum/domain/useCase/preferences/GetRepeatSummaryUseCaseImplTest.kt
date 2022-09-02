@@ -22,7 +22,7 @@ class GetRepeatSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<RepeatConve
     @MockK override lateinit var converter: RepeatConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetRepeatSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+        GetRepeatSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
@@ -30,13 +30,13 @@ class GetRepeatSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<RepeatConve
         val summary = nextString()
 
         every { preferencesRepo.repeat } returns repeat
-        every { summaryProvider.getRepeat(repeat) } returns summary
+        every { summaryDataSource.getRepeat(repeat) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
             preferencesRepo.repeat
-            summaryProvider.getRepeat(repeat)
+            summaryDataSource.getRepeat(repeat)
         }
     }
 
