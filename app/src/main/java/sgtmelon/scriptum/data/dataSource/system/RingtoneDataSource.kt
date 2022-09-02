@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.data.dataSource.system
 
-import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 
 interface RingtoneDataSource {
 

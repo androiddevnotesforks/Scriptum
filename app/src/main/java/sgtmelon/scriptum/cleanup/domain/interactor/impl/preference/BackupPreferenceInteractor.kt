@@ -1,18 +1,17 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
-import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.scriptum.infrastructure.model.type.FileType
 
 /**
  * Interactor for import/export backup files (for [IBackupPreferenceViewModel]).
@@ -24,18 +23,6 @@ class BackupPreferenceInteractor(
     private val fileDataSource: FileDataSource,
     private val cipherDataSource: CipherDataSource
 ) : IBackupPreferenceInteractor {
-
-    // TODO make use case with caching fileList
-    @RunPrivate var fileList: List<FileItem>? = null
-
-    override suspend fun getFileList(): List<FileItem> {
-        return fileList ?: fileDataSource.getFileList(FileType.BACKUP).also { fileList = it }
-    }
-
-    override fun resetFileList() {
-        fileList = null
-    }
-
 
     override suspend fun export(): ExportResult {
         val parserResult = backupRepo.getData()
@@ -49,9 +36,8 @@ class BackupPreferenceInteractor(
         return ExportResult.Success(path)
     }
 
-    override suspend fun import(name: String): ImportResult {
-        val list = getFileList()
-        val item = list.firstOrNull { it.name == name } ?: return ImportResult.Error
+    override suspend fun import(name: String, backupFileList: List<FileItem>): ImportResult {
+        val item = backupFileList.firstOrNull { it.name == name } ?: return ImportResult.Error
 
         val encryptData = fileDataSource.readFile(item.path) ?: return ImportResult.Error
         val data = cipherDataSource.decrypt(encryptData)

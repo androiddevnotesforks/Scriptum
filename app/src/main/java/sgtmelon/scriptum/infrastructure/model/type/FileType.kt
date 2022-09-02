@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.annotation
+package sgtmelon.scriptum.infrastructure.model.type
 
 import androidx.annotation.StringDef
 

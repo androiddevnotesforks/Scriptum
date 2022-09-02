@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.data.repository.database
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
@@ -95,7 +94,7 @@ class DevelopRepoImpl(
         }
 
         list.add(PrintItem.Preference.Title(R.string.pref_header_backup_files))
-        for (it in fileDataSource.getFileList(FileType.BACKUP)) {
+        for (it in fileDataSource.getBackupFileList()) {
             list.add(PrintItem.Preference.File(it))
         }
 

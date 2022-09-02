@@ -12,7 +12,7 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCaseImpl
-import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 
 /**
  * Test for [GetMelodyListUseCaseImpl].

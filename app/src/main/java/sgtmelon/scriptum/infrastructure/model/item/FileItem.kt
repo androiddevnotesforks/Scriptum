@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.item
+package sgtmelon.scriptum.infrastructure.model.item
 
 /**
  * Model which help describes any files.

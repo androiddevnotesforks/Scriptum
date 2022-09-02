@@ -22,6 +22,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.service.SystemComponent
 import sgtmelon.scriptum.cleanup.dagger.module.base.RepoModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.domain.BackupUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.GetSummaryUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.NoteUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.UseCaseModule
@@ -45,6 +46,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
     RepositoryModule::class,
 
     NoteUseCaseModule::class,
+    BackupUseCaseModule::class,
     GetSummaryUseCaseModule::class,
     UseCaseModule::class,
 

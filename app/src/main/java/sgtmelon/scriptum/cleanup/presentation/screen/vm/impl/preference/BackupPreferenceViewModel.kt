@@ -12,6 +12,7 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult as Permission
 
 /**
@@ -19,7 +20,8 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult as Permission
  */
 class BackupPreferenceViewModel(
     callback: IBackupPreferenceFragment,
-    private val interactor: IBackupPreferenceInteractor
+    private val interactor: IBackupPreferenceInteractor,
+    private val getBackupFileList: GetBackupFileListUseCase
 ) : ParentViewModel<IBackupPreferenceFragment>(callback),
     IBackupPreferenceViewModel {
 
@@ -52,7 +54,7 @@ class BackupPreferenceViewModel(
 
         callback?.updateImportEnabled(isEnabled = false)
         callback?.startImportSummarySearch()
-        val fileList = runBack { interactor.getFileList() }
+        val fileList = runBack { getBackupFileList() }
         callback?.stopImportSummarySearch()
 
         if (fileList.isEmpty()) {
@@ -70,7 +72,7 @@ class BackupPreferenceViewModel(
      * remove sd card. It calls even after permission dialog.
      */
     override fun onPause() {
-        interactor.resetFileList()
+        getBackupFileList.reset()
     }
 
     //region Export/import functions
@@ -113,7 +115,7 @@ class BackupPreferenceViewModel(
                 /**
                  * Need update file list for feature import.
                  */
-                interactor.resetFileList()
+                getBackupFileList.reset()
                 setupBackground()
             }
             is ExportResult.Error -> {
@@ -152,7 +154,7 @@ class BackupPreferenceViewModel(
     }
 
     @RunPrivate suspend fun prepareImportDialog() {
-        val fileList = runBack { interactor.getFileList() }
+        val fileList = runBack { getBackupFileList() }
         val titleArray = fileList.map { it.name }.toTypedArray()
 
         if (titleArray.isEmpty()) {
@@ -166,7 +168,7 @@ class BackupPreferenceViewModel(
     override fun onResultImport(name: String) {
         viewModelScope.launch {
             callback?.showImportLoadingDialog()
-            val result: ImportResult = runBack { interactor.import(name) }
+            val result: ImportResult = runBack { interactor.import(name, getBackupFileList()) }
             callback?.hideImportLoadingDialog()
 
             when (result) {

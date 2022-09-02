@@ -14,9 +14,9 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 import sgtmelon.common.utils.getTime
-import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
-import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.scriptum.infrastructure.model.type.FileType
 
 /**
  * Class for help control manipulations with files.
@@ -89,7 +89,9 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
     override fun getTimeName(@FileType type: String): String = getTime().plus(type)
 
 
-    override suspend fun getFileList(@FileType type: String): List<FileItem> {
+    override suspend fun getBackupFileList(): List<FileItem> = getFileList(FileType.BACKUP)
+
+    private suspend fun getFileList(@FileType type: String): List<FileItem> {
         val list = mutableListOf<FileItem>()
 
         list.addAll(getFileList(saveDirectory, type))

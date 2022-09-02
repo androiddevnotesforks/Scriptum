@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup
 
 import kotlin.random.Random
-import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
@@ -9,7 +8,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
 

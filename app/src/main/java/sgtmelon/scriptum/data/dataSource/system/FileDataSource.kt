@@ -1,12 +1,9 @@
 package sgtmelon.scriptum.data.dataSource.system
 
 import java.io.File
-import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
-import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.scriptum.infrastructure.model.type.FileType
 
-/**
- * Interface for [FileDataSourceImpl].
- */
 interface FileDataSource {
 
     val saveDirectory: File
@@ -23,6 +20,6 @@ interface FileDataSource {
     fun getTimeName(@FileType type: String): String
 
 
-    suspend fun getFileList(@FileType type: String): List<FileItem>
+    suspend fun getBackupFileList(): List<FileItem>
 
 }

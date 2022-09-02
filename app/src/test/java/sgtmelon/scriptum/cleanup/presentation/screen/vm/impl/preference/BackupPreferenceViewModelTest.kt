@@ -18,13 +18,14 @@ import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
+import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import sgtmelon.test.common.nextString
 
 /**
@@ -37,15 +38,18 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IBackupPreferenceFragment
     @MockK lateinit var interactor: IBackupPreferenceInteractor
+    @MockK lateinit var getBackupFileList: GetBackupFileListUseCase
 
     private val fileList = TestData.Backup.fileList
 
-    private val viewModel by lazy { BackupPreferenceViewModel(callback, interactor) }
+    private val viewModel by lazy {
+        BackupPreferenceViewModel(callback, interactor, getBackupFileList)
+    }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor)
+        confirmVerified(callback, interactor, getBackupFileList)
     }
 
     @Test override fun onDestroy() {
@@ -116,7 +120,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
         val list = mockk<List<FileItem>>()
         val size = getRandomSize()
 
-        coEvery { interactor.getFileList() } returns list
+        coEvery { getBackupFileList() } returns list
         every { list.isEmpty() } returns true
 
         viewModel.setupBackground()
@@ -131,7 +135,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.resetExportSummary()
             callback.updateImportEnabled(isEnabled = false)
             callback.startImportSummarySearch()
-            interactor.getFileList()
+            getBackupFileList()
             callback.stopImportSummarySearch()
             list.isEmpty()
             callback.updateImportSummary(R.string.pref_summary_backup_import_empty)
@@ -141,7 +145,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.resetExportSummary()
             callback.updateImportEnabled(isEnabled = false)
             callback.startImportSummarySearch()
-            interactor.getFileList()
+            getBackupFileList()
             callback.stopImportSummarySearch()
             list.isEmpty()
             list.size
@@ -155,7 +159,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onPause()
 
         verifySequence {
-            interactor.resetFileList()
+            getBackupFileList.reset()
         }
     }
 
@@ -242,7 +246,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.hideExportLoadingDialog()
             spyViewModel.callback
             callback.showExportPathToast(path)
-            interactor.resetFileList()
+            getBackupFileList.reset()
             spyViewModel.setupBackground()
         }
     }
@@ -303,43 +307,45 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
     @Test fun prepareImportDialog() = startCoTest {
         val titleArray = fileList.map { it.name }.toTypedArray()
 
-        coEvery { interactor.getFileList() } returns emptyList()
+        coEvery { getBackupFileList() } returns emptyList()
 
         viewModel.prepareImportDialog()
 
-        coEvery { interactor.getFileList() } returns fileList
+        coEvery { getBackupFileList() } returns fileList
 
         viewModel.prepareImportDialog()
 
         coVerifySequence {
-            interactor.getFileList()
+            getBackupFileList()
             callback.updateImportSummary(R.string.pref_summary_backup_import_empty)
             callback.updateImportEnabled(isEnabled = false)
 
-            interactor.getFileList()
+            getBackupFileList()
             callback.showImportDialog(titleArray)
         }
     }
 
     @Test fun onResultImport() {
+        val backupFileList = mockk<List<FileItem>>()
         val name = nextString()
         val skipCount = Random.nextInt()
 
-        coEvery { interactor.import(name) } returns ImportResult.Simple
+        coEvery { getBackupFileList() } returns backupFileList
+        coEvery { interactor.import(name, backupFileList) } returns ImportResult.Simple
 
         viewModel.onResultImport(name)
 
-        coEvery { interactor.import(name) } returns ImportResult.Skip(skipCount)
+        coEvery { interactor.import(name, backupFileList) } returns ImportResult.Skip(skipCount)
 
         viewModel.onResultImport(name)
 
-        coEvery { interactor.import(name) } returns ImportResult.Error
+        coEvery { interactor.import(name, backupFileList) } returns ImportResult.Error
 
         viewModel.onResultImport(name)
 
         coVerifySequence {
             callback.showImportLoadingDialog()
-            interactor.import(name)
+            interactor.import(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_result)
             callback.sendTidyUpAlarmBroadcast()
@@ -347,7 +353,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             callback.showImportLoadingDialog()
-            interactor.import(name)
+            interactor.import(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showImportSkipToast(skipCount)
             callback.sendTidyUpAlarmBroadcast()
@@ -355,7 +361,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             callback.showImportLoadingDialog()
-            interactor.import(name)
+            interactor.import(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_error)
         }

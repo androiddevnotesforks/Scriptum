@@ -72,6 +72,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
+import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -262,9 +263,10 @@ class ViewModelModule {
     @ActivityScope
     fun provideBackupPreferenceViewModel(
         fragment: BackupPreferenceFragment,
-        interactor: IBackupPreferenceInteractor
+        interactor: IBackupPreferenceInteractor,
+        getBackupFileList: GetBackupFileListUseCase
     ): IBackupPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Backup(fragment, interactor)
+        val factory = ViewModelFactory.Preference.Backup(fragment, interactor, getBackupFileList)
         return ViewModelProvider(fragment, factory)[BackupPreferenceViewModel::class.java]
     }
 

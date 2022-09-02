@@ -10,7 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.MelodyDialogUi
-import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**

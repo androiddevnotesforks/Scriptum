@@ -19,12 +19,11 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
-import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
-import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
@@ -286,7 +285,7 @@ class DevelopRepoImplTest : ParentRepoTest() {
         every { fileDataSource.saveDirectory } returns saveDirectory
         every { fileDataSource.getExternalFiles() } returns externalFiles
         every { fileDataSource.getExternalCache() } returns externalCache
-        coEvery { fileDataSource.getFileList(FileType.BACKUP) } returns backupFiles
+        coEvery { fileDataSource.getBackupFileList() } returns backupFiles
 
         val list = mutableListOf<PrintItem.Preference>()
         list.add(PrintItem.Preference.Title(R.string.pref_header_path_save))
@@ -306,7 +305,7 @@ class DevelopRepoImplTest : ParentRepoTest() {
             fileDataSource.saveDirectory
             fileDataSource.getExternalFiles()
             fileDataSource.getExternalCache()
-            fileDataSource.getFileList(FileType.BACKUP)
+            fileDataSource.getBackupFileList()
         }
     }
 

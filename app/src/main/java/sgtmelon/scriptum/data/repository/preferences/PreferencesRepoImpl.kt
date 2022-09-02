@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
-import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod

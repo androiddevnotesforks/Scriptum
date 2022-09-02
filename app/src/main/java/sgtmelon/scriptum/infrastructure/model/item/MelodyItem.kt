@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.model
+package sgtmelon.scriptum.infrastructure.model.item
 
 import android.media.RingtoneManager
 

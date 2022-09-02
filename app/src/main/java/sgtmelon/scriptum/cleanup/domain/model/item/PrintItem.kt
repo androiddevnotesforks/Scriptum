@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.presentation.adapter.PrintAdapter
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import java.io.File as JavaFile
 
 /**

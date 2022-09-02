@@ -7,20 +7,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.spyk
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
-import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
-import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
@@ -28,6 +22,8 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.scriptum.infrastructure.model.type.FileType
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
 
@@ -48,12 +44,6 @@ class BackupPreferenceInteractorTest : ParentTest() {
             preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
         )
     }
-    private val spyInteractor by lazy { spyk(interactor) }
-
-    @Before override fun setUp() {
-        super.setUp()
-        assertNull(interactor.fileList)
-    }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -61,37 +51,6 @@ class BackupPreferenceInteractorTest : ParentTest() {
         confirmVerified(
             preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
         )
-    }
-
-
-    @Test fun getFileList() {
-        val list = mockk<List<FileItem>>()
-
-        coEvery { fileDataSource.getFileList(FileType.BACKUP) } returns list
-
-        runBlocking {
-            assertEquals(list, interactor.getFileList())
-        }
-
-        assertEquals(list, interactor.fileList)
-
-        coEvery { fileDataSource.getFileList(FileType.BACKUP) } returns emptyList()
-
-        runBlocking {
-            assertEquals(list, interactor.getFileList())
-        }
-
-        coVerifySequence {
-            fileDataSource.getFileList(FileType.BACKUP)
-        }
-    }
-
-    @Test fun resetFileList() {
-        interactor.fileList = mockk()
-
-        assertNotNull(interactor.fileList)
-        interactor.resetFileList()
-        assertNull(interactor.fileList)
     }
 
     @Test fun export() {
@@ -141,16 +100,14 @@ class BackupPreferenceInteractorTest : ParentTest() {
 
         val skipResult = ImportResult.Skip(Random.nextInt())
 
-        coEvery { spyInteractor.getFileList() } returns fileList
-
         runBlocking {
-            assertEquals(spyInteractor.import(wrongName), ImportResult.Error)
+            assertEquals(interactor.import(wrongName, fileList), ImportResult.Error)
         }
 
         every { fileDataSource.readFile(item.path) } returns null
 
         runBlocking {
-            assertEquals(spyInteractor.import(item.name), ImportResult.Error)
+            assertEquals(interactor.import(item.name, fileList), ImportResult.Error)
         }
 
         every { fileDataSource.readFile(item.path) } returns encryptData
@@ -158,7 +115,7 @@ class BackupPreferenceInteractorTest : ParentTest() {
         every { backupParser.parse(data) } returns null
 
         runBlocking {
-            assertEquals(spyInteractor.import(item.name), ImportResult.Error)
+            assertEquals(interactor.import(item.name, fileList), ImportResult.Error)
         }
 
         mockkObject(BackupRepoImpl.Model)
@@ -169,32 +126,23 @@ class BackupPreferenceInteractorTest : ParentTest() {
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns ImportResult.Simple
 
         runBlocking {
-            assertEquals(spyInteractor.import(item.name), ImportResult.Simple)
+            assertEquals(interactor.import(item.name, fileList), ImportResult.Simple)
         }
 
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns skipResult
 
         runBlocking {
-            assertEquals(spyInteractor.import(item.name), skipResult)
+            assertEquals(interactor.import(item.name, fileList), skipResult)
         }
 
         coVerifySequence {
-            spyInteractor.import(wrongName)
-            spyInteractor.getFileList()
-
-            spyInteractor.import(item.name)
-            spyInteractor.getFileList()
             fileDataSource.readFile(item.path)
 
-            spyInteractor.import(item.name)
-            spyInteractor.getFileList()
             fileDataSource.readFile(item.path)
             cipherDataSource.decrypt(encryptData)
             backupParser.parse(data)
 
             repeat(times = 2) {
-                spyInteractor.import(item.name)
-                spyInteractor.getFileList()
                 fileDataSource.readFile(item.path)
                 cipherDataSource.decrypt(encryptData)
                 backupParser.parse(data)

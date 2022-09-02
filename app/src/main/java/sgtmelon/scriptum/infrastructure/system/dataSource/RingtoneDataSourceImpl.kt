@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.system.dataSource
 import android.content.Context
 import android.media.RingtoneManager
 import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
-import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 
 /**
  * Class providing access to ringtones and work with [RingtoneManager].

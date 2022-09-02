@@ -53,6 +53,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
+import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -259,11 +260,12 @@ object ViewModelFactory {
 
         class Backup(
             private val fragment: BackupPreferenceFragment,
-            private val interactor: IBackupPreferenceInteractor
+            private val interactor: IBackupPreferenceInteractor,
+            private val getBackupFileList: GetBackupFileListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BackupPreferenceViewModel::class) {
-                    BackupPreferenceViewModel(fragment, interactor)
+                    BackupPreferenceViewModel(fragment, interactor, getBackupFileList)
                 }
             }
         }
