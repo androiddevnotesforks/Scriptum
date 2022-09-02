@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 /**
  * Class for help control manipulations with files.
  */
-class FileControl(private val context: Context) : IFileControl {
+class FileControlImpl(private val context: Context) : IFileControl {
 
     override val saveDirectory: File get() = Environment.getExternalStorageDirectory()
 
@@ -118,7 +118,7 @@ class FileControl(private val context: Context) : IFileControl {
     }
 
     companion object {
-        private val TAG = FileControl::class.java.simpleName
+        private val TAG = FileControlImpl::class.java.simpleName
     }
 
 }

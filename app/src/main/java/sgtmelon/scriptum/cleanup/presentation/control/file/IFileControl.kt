@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.presentation.control.file
 
+import java.io.File
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
-import java.io.File
 
 /**
- * Interface for [FileControl].
+ * Interface for [FileControlImpl].
  */
 interface IFileControl {
 

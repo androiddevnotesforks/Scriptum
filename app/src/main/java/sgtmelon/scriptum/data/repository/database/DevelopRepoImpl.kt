@@ -1,11 +1,17 @@
 package sgtmelon.scriptum.data.repository.database
 
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
+import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
  * Repository which work with all data and only for developer screen.
@@ -15,7 +21,11 @@ class DevelopRepoImpl(
     private val rollDataSource: RollDataSource,
     private val rollVisibleDataSource: RollVisibleDataSource,
     private val rankDataSource: RankDataSource,
-    private val alarmDataSource: AlarmDataSource
+    private val alarmDataSource: AlarmDataSource,
+    private val key: PreferencesKeyProvider,
+    private val def: PreferencesDefProvider,
+    private val preferences: Preferences,
+    private val fileControl: IFileControl
 ) : DevelopRepo {
 
     override suspend fun getPrintNoteList(isBin: Boolean): List<PrintItem.Note> {
@@ -38,7 +48,63 @@ class DevelopRepoImpl(
         return alarmDataSource.getList().map { PrintItem.Alarm(it) }
     }
 
+    override suspend fun getPrintPreferenceList(): List<PrintItem.Preference> {
+        return listOf(
+            PrintItem.Preference.Title(R.string.pref_header_app),
+            PrintItem.Preference.Key(key.isFirstStart, def.isFirstStart, preferences.isFirstStart),
+            PrintItem.Preference.Key(key.theme, def.theme, preferences.theme),
+            PrintItem.Preference.Title(R.string.pref_title_backup),
+            PrintItem.Preference.Key(
+                key.isBackupSkipImports, def.isBackupSkipImports, preferences.isBackupSkipImports
+            ),
+            PrintItem.Preference.Title(R.string.pref_title_note),
+            PrintItem.Preference.Key(key.sort, def.sort, preferences.sort),
+            PrintItem.Preference.Key(key.defaultColor, def.defaultColor, preferences.defaultColor),
+            PrintItem.Preference.Key(
+                key.isPauseSaveOn, def.isPauseSaveOn, preferences.isPauseSaveOn
+            ),
+            PrintItem.Preference.Key(key.isAutoSaveOn, def.isAutoSaveOn, preferences.isAutoSaveOn),
+            PrintItem.Preference.Key(key.savePeriod, def.savePeriod, preferences.savePeriod),
+            PrintItem.Preference.Title(R.string.pref_title_alarm),
+            PrintItem.Preference.Key(key.repeat, def.repeat, preferences.repeat),
+            PrintItem.Preference.Key(key.signal, def.signal, preferences.signal),
+            PrintItem.Preference.Key(key.melodyUri, def.melodyUri, preferences.melodyUri),
+            PrintItem.Preference.Key(key.volume, def.volume, preferences.volume),
+            PrintItem.Preference.Key(
+                key.isVolumeIncrease, def.isVolumeIncrease, preferences.isVolumeIncrease
+            ),
+            PrintItem.Preference.Title(R.string.pref_header_other),
+            PrintItem.Preference.Key(key.isDeveloper, def.isDeveloper, preferences.isDeveloper)
+        )
+    }
+
+    override suspend fun getPrintFileList(): List<PrintItem.Preference> {
+        val list = mutableListOf(
+            PrintItem.Preference.Title(R.string.pref_header_path_save),
+            PrintItem.Preference.Path(fileControl.saveDirectory)
+        )
+
+        list.add(PrintItem.Preference.Title(R.string.pref_header_path_files))
+        for (it in fileControl.getExternalFiles()) {
+            list.add(PrintItem.Preference.Path(it))
+        }
+
+        list.add(PrintItem.Preference.Title(R.string.pref_header_path_cache))
+        for (it in fileControl.getExternalCache()) {
+            list.add(PrintItem.Preference.Path(it))
+        }
+
+        list.add(PrintItem.Preference.Title(R.string.pref_header_backup_files))
+        for (it in fileControl.getFileList(FileType.BACKUP)) {
+            list.add(PrintItem.Preference.File(it))
+        }
+
+        return list
+    }
+
     override suspend fun getRandomNoteId(): Long {
         return noteDataSource.getList(isBin = false).random().id
     }
+
+    override fun resetPreferences() = preferences.clear()
 }

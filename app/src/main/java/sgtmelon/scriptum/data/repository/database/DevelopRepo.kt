@@ -17,5 +17,11 @@ interface DevelopRepo {
 
     suspend fun getPrintAlarmList(): List<PrintItem.Alarm>
 
+    suspend fun getPrintPreferenceList(): List<PrintItem.Preference>
+
+    suspend fun getPrintFileList(): List<PrintItem.Preference>
+
     suspend fun getRandomNoteId(): Long
+
+    fun resetPreferences()
 }
