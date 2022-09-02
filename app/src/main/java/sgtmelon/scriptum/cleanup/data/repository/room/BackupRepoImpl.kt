@@ -59,7 +59,6 @@ class BackupRepoImpl(
         }
     }
 
-
     /**
      * Return list for remove with items from [Model.noteList], which
      * already exists in [Database].
@@ -357,9 +356,7 @@ class BackupRepoImpl(
 
             /** Catch of insert errors happen inside dataSource. */
             item.id = rankDataSource.insert(
-                item.copy(
-                    id = Rank.Default.ID, position = existRankList.size
-                )
+                item.copy(id = Rank.Default.ID, position = existRankList.size)
             ) ?: continue
 
             existRankList.add(item)

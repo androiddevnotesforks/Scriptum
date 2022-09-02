@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.ui.logic.preference
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.UseCaseModule
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Header
@@ -17,8 +17,10 @@ import sgtmelon.scriptum.cleanup.ui.screen.preference.AlarmPreferenceScreen
  */
 class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
-    private val summaryProvider = ProviderModule().provideSummaryProvider(context.resources)
-    val getMelodyList = UseCaseModule().provideGetMelodyListUseCase(ProviderModule().provideRingtoneProvider(context))
+    private val summaryDataSource = DataSourceModule().provideSummaryDataSource(context.resources)
+    val getMelodyList = UseCaseModule().provideGetMelodyListUseCase(
+        DataSourceModule().provideRingtoneDataSource(context)
+    )
 
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf(
@@ -29,7 +31,7 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
             )
         )
 
-        val signalSummary = summaryProvider.getSignal(preferencesRepo.signalTypeCheck)
+        val signalSummary = summaryDataSource.getSignal(preferencesRepo.signalTypeCheck)
         list.add(Summary.Text(R.string.pref_title_alarm_signal, signalSummary))
 
         list.add(Header(R.string.pref_header_melody_options))

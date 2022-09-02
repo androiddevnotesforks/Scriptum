@@ -55,7 +55,7 @@
             <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048"/>
         </Profilers>
     </config>
-    <suite name="sgtmelon.scriptum.cleanup.test.integration.cipher.CipherControlTest"
+    <suite name="sgtmelon.scriptum.integrational.cipher.CipherControlTest"
         duration="54"
         status="passed">
         <test name="encryptAndDecrypt" duration="54" status="passed" />
@@ -341,7 +341,7 @@
                 className="CipherControlTest"
                 endTimestampMillis="54"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.integration.cipher.CipherControlTest.encryptAndDecrypt"
+                id="sgtmelon.scriptum.integrational.cipher.CipherControlTest.encryptAndDecrypt"
                 logcat=""
                 methodName="encryptAndDecrypt"
                 packageName="sgtmelon.scriptum.cleanup.test.integration.cipher"

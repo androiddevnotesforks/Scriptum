@@ -4,7 +4,7 @@ import android.util.Base64
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 
 /**
- * Class for help control text ciphering with [Base64].
+ * Class encrypting/decrypting text with [Base64].
  */
 class CipherDataSourceImpl : CipherDataSource {
 

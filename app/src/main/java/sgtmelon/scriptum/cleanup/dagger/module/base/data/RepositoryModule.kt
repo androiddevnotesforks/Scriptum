@@ -16,8 +16,8 @@ import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 @Module
 class RepositoryModule {
 
-    @Singleton
     @Provides
+    @Singleton
     fun providePreferencesRepo(
         dataSource: PreferencesDataSource,
         themeConverter: ThemeConverter,
