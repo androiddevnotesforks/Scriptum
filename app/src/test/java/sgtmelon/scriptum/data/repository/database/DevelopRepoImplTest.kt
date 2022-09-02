@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
-import sgtmelon.scriptum.data.dataSource.FileDataSource
+import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
@@ -33,19 +33,19 @@ class DevelopRepoImplTest : ParentRepoTest() {
     @MockK lateinit var key: PreferencesKeyProvider
     @MockK lateinit var def: PreferencesDefProvider
     @MockK lateinit var preferences: Preferences
-    @MockK lateinit var fileControl: FileDataSource
+    @MockK lateinit var fileDataSource: FileDataSource
 
     private val repo by lazy {
         DevelopRepoImpl(
             noteDataSource, rollDataSource, rollVisibleDataSource,
             rankDataSource, alarmDataSource,
-            key, def, preferences, fileControl
+            key, def, preferences, fileDataSource
         )
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(key, def, preferences, fileControl)
+        confirmVerified(key, def, preferences, fileDataSource)
     }
 
     @Test fun getPrintNoteList() {

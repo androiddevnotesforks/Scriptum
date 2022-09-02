@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.data.dataSource
+package sgtmelon.scriptum.data.dataSource.system
 
 import java.io.File
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType

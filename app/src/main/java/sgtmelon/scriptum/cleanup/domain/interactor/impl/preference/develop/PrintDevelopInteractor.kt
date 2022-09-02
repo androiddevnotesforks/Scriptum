@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
-import sgtmelon.scriptum.data.dataSource.FileDataSource
+import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
@@ -23,7 +23,7 @@ class PrintDevelopInteractor(
     private val key: PreferencesKeyProvider,
     private val def: PreferencesDefProvider,
     private val preferences: Preferences,
-    private val fileControl: FileDataSource
+    private val fileDataSource: FileDataSource
 ) : ParentInteractor(),
     IPrintDevelopInteractor {
 
@@ -66,21 +66,21 @@ class PrintDevelopInteractor(
     @RunPrivate suspend fun getPreferenceFileList(): List<Preference> {
         val list = mutableListOf(
             Preference.Title(R.string.pref_header_path_save),
-            Preference.Path(fileControl.saveDirectory)
+            Preference.Path(fileDataSource.saveDirectory)
         )
 
         list.add(Preference.Title(R.string.pref_header_path_files))
-        for (it in fileControl.getExternalFiles()) {
+        for (it in fileDataSource.getExternalFiles()) {
             list.add(Preference.Path(it))
         }
 
         list.add(Preference.Title(R.string.pref_header_path_cache))
-        for (it in fileControl.getExternalCache()) {
+        for (it in fileDataSource.getExternalCache()) {
             list.add(Preference.Path(it))
         }
 
         list.add(Preference.Title(R.string.pref_header_backup_files))
-        for (it in fileControl.getFileList(FileType.BACKUP)) {
+        for (it in fileDataSource.getFileList(FileType.BACKUP)) {
             list.add(Preference.File(it))
         }
 

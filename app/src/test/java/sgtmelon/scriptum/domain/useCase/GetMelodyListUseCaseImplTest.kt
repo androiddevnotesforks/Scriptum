@@ -10,36 +10,36 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
-import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
 
 /**
  * Test for [GetMelodyListUseCaseImpl].
  */
 class GetMelodyListUseCaseImplTest : ParentTest() {
 
-    @MockK lateinit var ringtoneProvider: RingtoneProvider
+    @MockK lateinit var dataSource: RingtoneDataSource
 
-    private val getMelodyList by lazy { GetMelodyListUseCaseImpl(ringtoneProvider) }
+    private val getMelodyList by lazy { GetMelodyListUseCaseImpl(dataSource) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(ringtoneProvider)
+        confirmVerified(dataSource)
     }
 
 
     @Test fun `get list`() {
         val list = mockk<List<MelodyItem>>()
 
-        coEvery { ringtoneProvider.getAlarmList() } returns list
+        coEvery { dataSource.getAlarmList() } returns list
         runBlocking { assertEquals(getMelodyList(), list) }
 
-        coEvery { ringtoneProvider.getAlarmList() } returns mockk()
+        coEvery { dataSource.getAlarmList() } returns mockk()
         runBlocking { assertEquals(getMelodyList(), list) }
 
         coVerifySequence {
-            ringtoneProvider.getAlarmList()
+            dataSource.getAlarmList()
         }
     }
 
@@ -47,18 +47,18 @@ class GetMelodyListUseCaseImplTest : ParentTest() {
         val firstList = mockk<List<MelodyItem>>()
         val secondList = mockk<List<MelodyItem>>()
 
-        coEvery { ringtoneProvider.getAlarmList() } returns firstList
+        coEvery { dataSource.getAlarmList() } returns firstList
         runBlocking { assertEquals(getMelodyList(), firstList) }
 
-        coEvery { ringtoneProvider.getAlarmList() } returns secondList
+        coEvery { dataSource.getAlarmList() } returns secondList
         runBlocking { assertEquals(getMelodyList(), firstList) }
 
         getMelodyList.reset()
         runBlocking { assertEquals(getMelodyList(), secondList) }
 
         coVerifySequence {
-            ringtoneProvider.getAlarmList()
-            ringtoneProvider.getAlarmList()
+            dataSource.getAlarmList()
+            dataSource.getAlarmList()
         }
     }
 }

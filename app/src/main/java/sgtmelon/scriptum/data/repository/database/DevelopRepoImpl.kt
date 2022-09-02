@@ -3,12 +3,12 @@ package sgtmelon.scriptum.data.repository.database
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
-import sgtmelon.scriptum.data.dataSource.FileDataSource
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
+import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
@@ -25,7 +25,7 @@ class DevelopRepoImpl(
     private val key: PreferencesKeyProvider,
     private val def: PreferencesDefProvider,
     private val preferences: Preferences,
-    private val fileControl: FileDataSource
+    private val fileDataSource: FileDataSource
 ) : DevelopRepo {
 
     override suspend fun getPrintNoteList(isBin: Boolean): List<PrintItem.Note> {
@@ -81,21 +81,21 @@ class DevelopRepoImpl(
     override suspend fun getPrintFileList(): List<PrintItem.Preference> {
         val list = mutableListOf(
             PrintItem.Preference.Title(R.string.pref_header_path_save),
-            PrintItem.Preference.Path(fileControl.saveDirectory)
+            PrintItem.Preference.Path(fileDataSource.saveDirectory)
         )
 
         list.add(PrintItem.Preference.Title(R.string.pref_header_path_files))
-        for (it in fileControl.getExternalFiles()) {
+        for (it in fileDataSource.getExternalFiles()) {
             list.add(PrintItem.Preference.Path(it))
         }
 
         list.add(PrintItem.Preference.Title(R.string.pref_header_path_cache))
-        for (it in fileControl.getExternalCache()) {
+        for (it in fileDataSource.getExternalCache()) {
             list.add(PrintItem.Preference.Path(it))
         }
 
         list.add(PrintItem.Preference.Title(R.string.pref_header_backup_files))
-        for (it in fileControl.getFileList(FileType.BACKUP)) {
+        for (it in fileDataSource.getFileList(FileType.BACKUP)) {
             list.add(PrintItem.Preference.File(it))
         }
 

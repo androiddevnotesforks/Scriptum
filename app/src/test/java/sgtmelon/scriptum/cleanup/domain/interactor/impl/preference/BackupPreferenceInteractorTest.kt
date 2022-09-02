@@ -35,7 +35,7 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
-import sgtmelon.scriptum.data.dataSource.FileDataSource
+import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
@@ -53,13 +53,13 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
     @MockK lateinit var backupRepo: BackupRepo
 
     @MockK lateinit var backupParser: IBackupParser
-    @MockK lateinit var fileControl: FileDataSource
+    @MockK lateinit var fileDataSource: FileDataSource
     @MockK lateinit var cipherControl: ICipherControl
 
     private val interactor by lazy {
         BackupPreferenceInteractor(
             preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileControl, cipherControl
+            backupParser, fileDataSource, cipherControl
         )
     }
     private val spyInteractor by lazy { spyk(interactor) }
@@ -74,7 +74,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
         confirmVerified(
             preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileControl, cipherControl
+            backupParser, fileDataSource, cipherControl
         )
     }
 
@@ -82,17 +82,17 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getFileList() = startCoTest {
         val list = mockk<List<FileItem>>()
 
-        coEvery { fileControl.getFileList(FileType.BACKUP) } returns list
+        coEvery { fileDataSource.getFileList(FileType.BACKUP) } returns list
 
         assertEquals(list, interactor.getFileList())
         assertEquals(list, interactor.fileList)
 
-        coEvery { fileControl.getFileList(FileType.BACKUP) } returns emptyList()
+        coEvery { fileDataSource.getFileList(FileType.BACKUP) } returns emptyList()
 
         assertEquals(list, interactor.getFileList())
 
         coVerifySequence {
-            fileControl.getFileList(FileType.BACKUP)
+            fileDataSource.getFileList(FileType.BACKUP)
         }
     }
 
@@ -134,12 +134,12 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
         every { backupParser.collect(parserResult) } returns data
         every { cipherControl.encrypt(data) } returns encryptData
-        every { fileControl.getTimeName(FileType.BACKUP) } returns timeName
-        every { fileControl.writeFile(timeName, encryptData) } returns null
+        every { fileDataSource.getTimeName(FileType.BACKUP) } returns timeName
+        every { fileDataSource.writeFile(timeName, encryptData) } returns null
 
         assertEquals(ExportResult.Error, interactor.export())
 
-        every { fileControl.writeFile(timeName, encryptData) } returns path
+        every { fileDataSource.writeFile(timeName, encryptData) } returns path
 
         assertEquals(ExportResult.Success(path), interactor.export())
 
@@ -153,8 +153,8 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
                 backupParser.collect(parserResult)
                 cipherControl.encrypt(data)
-                fileControl.getTimeName(FileType.BACKUP)
-                fileControl.writeFile(timeName, encryptData)
+                fileDataSource.getTimeName(FileType.BACKUP)
+                fileDataSource.writeFile(timeName, encryptData)
             }
         }
     }
@@ -175,11 +175,11 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
         assertEquals(ImportResult.Error, spyInteractor.import(wrongName))
 
-        every { fileControl.readFile(item.path) } returns null
+        every { fileDataSource.readFile(item.path) } returns null
 
         assertEquals(ImportResult.Error, spyInteractor.import(item.name))
 
-        every { fileControl.readFile(item.path) } returns encryptData
+        every { fileDataSource.readFile(item.path) } returns encryptData
         every { cipherControl.decrypt(encryptData) } returns data
         every { backupParser.parse(data) } returns null
 
@@ -204,18 +204,18 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
             spyInteractor.import(item.name)
             spyInteractor.getFileList()
-            fileControl.readFile(item.path)
+            fileDataSource.readFile(item.path)
 
             spyInteractor.import(item.name)
             spyInteractor.getFileList()
-            fileControl.readFile(item.path)
+            fileDataSource.readFile(item.path)
             cipherControl.decrypt(encryptData)
             backupParser.parse(data)
 
             repeat(times = 2) {
                 spyInteractor.import(item.name)
                 spyInteractor.getFileList()
-                fileControl.readFile(item.path)
+                fileDataSource.readFile(item.path)
                 cipherControl.decrypt(encryptData)
                 backupParser.parse(data)
                 preferencesRepo.isBackupSkipImports

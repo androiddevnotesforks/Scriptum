@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
-import sgtmelon.scriptum.data.dataSource.FileDataSource
+import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
@@ -29,14 +29,14 @@ class BackupPreferenceInteractor(
     private val noteRepo: NoteRepo,
     private val backupRepo: BackupRepo,
     private val backupParser: IBackupParser,
-    private val fileControl: FileDataSource,
+    private val fileDataSource: FileDataSource,
     private val cipherControl: ICipherControl
 ) : IBackupPreferenceInteractor {
 
     @RunPrivate var fileList: List<FileItem>? = null
 
     override suspend fun getFileList(): List<FileItem> {
-        return fileList ?: fileControl.getFileList(FileType.BACKUP).also { fileList = it }
+        return fileList ?: fileDataSource.getFileList(FileType.BACKUP).also { fileList = it }
     }
 
     override fun resetFileList() {
@@ -59,8 +59,8 @@ class BackupPreferenceInteractor(
         val data = backupParser.collect(parserResult)
         val encryptData = cipherControl.encrypt(data)
 
-        val timeName = fileControl.getTimeName(FileType.BACKUP)
-        val path = fileControl.writeFile(timeName, encryptData) ?: return ExportResult.Error
+        val timeName = fileDataSource.getTimeName(FileType.BACKUP)
+        val path = fileDataSource.writeFile(timeName, encryptData) ?: return ExportResult.Error
 
         return ExportResult.Success(path)
     }
@@ -69,7 +69,7 @@ class BackupPreferenceInteractor(
         val list = getFileList()
         val item = list.firstOrNull { it.name == name } ?: return ImportResult.Error
 
-        val encryptData = fileControl.readFile(item.path) ?: return ImportResult.Error
+        val encryptData = fileDataSource.readFile(item.path) ?: return ImportResult.Error
         val data = cipherControl.decrypt(encryptData)
 
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error

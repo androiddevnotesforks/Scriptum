@@ -1,13 +1,14 @@
-package sgtmelon.scriptum.infrastructure.provider
+package sgtmelon.scriptum.infrastructure.system.dataSource
 
 import android.content.Context
 import android.media.RingtoneManager
+import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**
  * Class for help control [RingtoneManager].
  */
-class RingtoneProviderImpl(private val context: Context) : RingtoneProvider {
+class RingtoneDataSourceImpl(private val context: Context) : RingtoneDataSource {
 
     private val ringtoneManager get() = RingtoneManager(context)
 

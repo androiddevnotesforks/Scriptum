@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
-import sgtmelon.scriptum.data.dataSource.FileDataSource
+import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
@@ -37,10 +37,10 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
     @MockK lateinit var key: PreferencesKeyProvider
     @MockK lateinit var def: PreferencesDefProvider
     @MockK lateinit var preferences: Preferences
-    @MockK lateinit var fileControl: FileDataSource
+    @MockK lateinit var fileDataSource: FileDataSource
 
     private val interactor by lazy {
-        PrintDevelopInteractor(developRepo, key, def, preferences, fileControl)
+        PrintDevelopInteractor(developRepo, key, def, preferences, fileDataSource)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
@@ -297,10 +297,10 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         val externalCache = List(getRandomSize()) { mockk<File>() }
         val backupFiles = List(getRandomSize()) { mockk<FileItem>() }
 
-        every { fileControl.saveDirectory } returns saveDirectory
-        every { fileControl.getExternalFiles() } returns externalFiles
-        every { fileControl.getExternalCache() } returns externalCache
-        coEvery { fileControl.getFileList(FileType.BACKUP) } returns backupFiles
+        every { fileDataSource.saveDirectory } returns saveDirectory
+        every { fileDataSource.getExternalFiles() } returns externalFiles
+        every { fileDataSource.getExternalCache() } returns externalCache
+        coEvery { fileDataSource.getFileList(FileType.BACKUP) } returns backupFiles
 
         val list = mutableListOf<Preference>()
         list.add(Preference.Title(R.string.pref_header_path_save))
@@ -315,10 +315,10 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         assertEquals(list, interactor.getPreferenceFileList())
 
         coVerifySequence {
-            fileControl.saveDirectory
-            fileControl.getExternalFiles()
-            fileControl.getExternalCache()
-            fileControl.getFileList(FileType.BACKUP)
+            fileDataSource.saveDirectory
+            fileDataSource.getExternalFiles()
+            fileDataSource.getExternalCache()
+            fileDataSource.getFileList(FileType.BACKUP)
         }
     }
 }
