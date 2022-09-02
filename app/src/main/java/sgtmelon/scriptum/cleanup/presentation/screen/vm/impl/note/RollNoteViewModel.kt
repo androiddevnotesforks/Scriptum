@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -38,9 +39,11 @@ class RollNoteViewModel(
     preferencesRepo: PreferencesRepo,
     interactor: IRollNoteInteractor,
     deleteNote: DeleteNoteUseCase,
-    restoreNote: RestoreNoteUseCase
+    restoreNote: RestoreNoteUseCase,
+    clearNote: ClearNoteUseCase
 ) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(
-    callback, parentCallback, colorConverter, preferencesRepo, interactor, deleteNote, restoreNote
+    callback, parentCallback, colorConverter, preferencesRepo, interactor,
+    deleteNote, restoreNote, clearNote
 ), IRollNoteViewModel {
 
     /**

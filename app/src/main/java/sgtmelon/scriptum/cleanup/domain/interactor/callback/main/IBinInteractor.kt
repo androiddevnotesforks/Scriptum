@@ -18,6 +18,4 @@ interface IBinInteractor : IParentInteractor {
 
     suspend fun copy(item: NoteItem): String
 
-    suspend fun clearNote(item: NoteItem)
-
 }

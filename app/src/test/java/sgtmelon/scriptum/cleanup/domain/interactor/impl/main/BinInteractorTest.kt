@@ -10,10 +10,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Sort
@@ -94,9 +92,5 @@ class BinInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.getCopyText(item)
         }
-    }
-
-    @Test fun clearNote() = startCoTest {
-        FastTest.Interactor.clearNote<NoteItem>(noteRepo) { interactor.clearNote(it) }
     }
 }

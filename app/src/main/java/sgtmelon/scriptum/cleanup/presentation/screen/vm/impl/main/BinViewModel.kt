@@ -16,6 +16,7 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 
@@ -25,7 +26,8 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 class BinViewModel(
     callback: IBinFragment,
     private val interactor: IBinInteractor,
-    private val restoreNote: RestoreNoteUseCase
+    private val restoreNote: RestoreNoteUseCase,
+    private val clearNote: ClearNoteUseCase
 ) : ParentViewModel<IBinFragment>(callback),
         IBinViewModel {
 
@@ -129,10 +131,9 @@ class BinViewModel(
     @RunPrivate fun onMenuClear(p: Int) {
         val item = itemList.validRemoveAt(p) ?: return
 
-        viewModelScope.launchBack { interactor.clearNote(item) }
+        viewModelScope.launchBack { clearNote(item) }
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.notifyMenuClearBin()
     }
-
 }

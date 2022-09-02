@@ -36,6 +36,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
+import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -77,6 +78,7 @@ object FastTest {
         private val interactor: IParentNoteInteractor<N>,
         private val deleteNote: DeleteNoteUseCase,
         private val restoreNote: RestoreNoteUseCase,
+        private val clearNote: ClearNoteUseCase,
         private val saveControl: SaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
@@ -658,7 +660,7 @@ object FastTest {
             coVerifySequence {
                 verifyInit()
 
-                interactor.clearNote(noteItem)
+                clearNote(noteItem)
                 parentCallback.finish()
             }
         }

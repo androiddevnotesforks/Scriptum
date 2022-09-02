@@ -69,8 +69,6 @@ class RollNoteInteractor(
 
     override suspend fun updateNote(item: NoteItem.Roll) = noteRepo.updateNote(item)
 
-    override suspend fun clearNote(item: NoteItem.Roll) = noteRepo.clearNote(item)
-
     override suspend fun saveNote(item: NoteItem.Roll, isCreate: Boolean) {
         noteRepo.saveNote(item, isCreate)
         rankRepo.updateConnection(item)

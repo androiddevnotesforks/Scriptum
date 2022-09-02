@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
+import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.test.common.nextString
 
@@ -38,8 +39,9 @@ class BinViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: IBinFragment
     @MockK lateinit var interactor: IBinInteractor
     @MockK lateinit var restoreNote: RestoreNoteUseCase
+    @MockK lateinit var clearNote: ClearNoteUseCase
 
-    private val viewModel by lazy { BinViewModel(callback, interactor, restoreNote) }
+    private val viewModel by lazy { BinViewModel(callback, interactor, restoreNote, clearNote) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
@@ -306,7 +308,7 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onMenuClear(index)
 
         coVerifySequence {
-            interactor.clearNote(item)
+            clearNote(item)
 
             callback.notifyItemRemoved(resultList, index)
             callback.notifyMenuClearBin()

@@ -27,8 +27,6 @@ interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     suspend fun updateNote(item: N)
 
-    suspend fun clearNote(item: N)
-
     suspend fun saveNote(item: N, isCreate: Boolean)
 
 }

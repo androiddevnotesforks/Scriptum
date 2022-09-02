@@ -138,10 +138,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         FastTest.Interactor.updateNote<NoteItem.Roll>(noteRepo) { interactor.updateNote(it) }
     }
 
-    @Test fun clearNote() = startCoTest {
-        FastTest.Interactor.clearNote<NoteItem.Roll>(noteRepo) { interactor.clearNote(it) }
-    }
-
     @Test fun saveNote() = startCoTest {
         FastTest.Interactor.saveNote<NoteItem.Roll>(noteRepo, rankRepo) { item, isCreate ->
             interactor.saveNote(item, isCreate)

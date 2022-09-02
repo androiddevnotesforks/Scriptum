@@ -52,8 +52,6 @@ class TextNoteInteractor(
 
     override suspend fun updateNote(item: NoteItem.Text) = noteRepo.updateNote(item)
 
-    override suspend fun clearNote(item: NoteItem.Text) = noteRepo.clearNote(item)
-
     override suspend fun saveNote(item: NoteItem.Text, isCreate: Boolean) {
         noteRepo.saveNote(item, isCreate)
         rankRepo.updateConnection(item)

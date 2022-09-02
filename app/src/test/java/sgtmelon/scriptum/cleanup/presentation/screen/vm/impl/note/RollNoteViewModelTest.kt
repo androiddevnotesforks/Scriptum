@@ -46,6 +46,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.verifyDeepCopy
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -68,21 +69,23 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var interactor: IRollNoteInteractor
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
+    @MockK lateinit var clearNote: ClearNoteUseCase
 
     @MockK lateinit var saveControl: SaveControl
     @MockK lateinit var inputControl: IInputControl
 
     private val viewModel by lazy {
         RollNoteViewModel(
-            callback, parentCallback, colorConverter, preferencesRepo,
-            interactor, deleteNote, restoreNote
+            callback, parentCallback, colorConverter, preferencesRepo, interactor,
+            deleteNote, restoreNote, clearNote
         )
     }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
 
     private val fastTest by lazy {
         FastTest.ViewModel(
-            callback, parentCallback, colorConverter, interactor, deleteNote, restoreNote,
+            callback, parentCallback, colorConverter, interactor,
+            deleteNote, restoreNote, clearNote,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }, { mockkInit() }, { verifyInit() }
         )
