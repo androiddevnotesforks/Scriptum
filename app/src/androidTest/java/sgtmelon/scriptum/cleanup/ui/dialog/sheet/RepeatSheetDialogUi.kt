@@ -25,7 +25,7 @@ class RepeatSheetDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repe
     //endregion
 
     fun onClickRepeat(repeat: Repeat) {
-        when(repeat) {
+        when (repeat) {
             Repeat.MIN_10 -> repeat0Button.click()
             Repeat.MIN_30 -> repeat1Button.click()
             Repeat.MIN_60 -> repeat2Button.click()

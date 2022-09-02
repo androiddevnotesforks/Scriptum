@@ -147,7 +147,7 @@ fun View.updateMargin(
 ) {
     if (margin == null) return
 
-    val valueTo = when(dir) {
+    val valueTo = when (dir) {
         InsetsDir.LEFT -> margin.left + insets.systemWindowInsetLeft
         InsetsDir.TOP -> margin.top + insets.systemWindowInsetTop
         InsetsDir.RIGHT -> margin.right + insets.systemWindowInsetRight
@@ -170,7 +170,7 @@ private fun updateMarginAnimation(
     view: View
 ) {
     val params = view.layoutParams as? ViewGroup.MarginLayoutParams ?: return
-    val valueFrom = when(dir) {
+    val valueFrom = when (dir) {
         InsetsDir.LEFT -> params.leftMargin
         InsetsDir.TOP -> params.topMargin
         InsetsDir.RIGHT -> params.rightMargin
