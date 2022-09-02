@@ -168,7 +168,7 @@ class NoteRepoImpl(
     // Repo work with delete functions
 
     override suspend fun clearBin() {
-        val itemList = noteDataSource.getList(true)
+        val itemList = noteDataSource.getList(isBin = true)
 
         for (it in itemList) {
             clearConnection(it.id, it.rankId)

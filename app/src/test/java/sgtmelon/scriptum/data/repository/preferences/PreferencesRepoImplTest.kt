@@ -9,7 +9,6 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
 import kotlin.random.Random
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertArrayEquals
@@ -40,7 +39,6 @@ import sgtmelon.test.common.nextString
 /**
  * Test for [PreferencesRepoImpl].
  */
-@ExperimentalCoroutinesApi
 class PreferencesRepoImplTest : ParentTest() {
 
     //region Setup

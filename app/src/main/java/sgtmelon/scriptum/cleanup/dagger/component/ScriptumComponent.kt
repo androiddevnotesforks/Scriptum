@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.dagger.module.base.RepoModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.GetSummaryUseCaseModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.domain.NoteUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.UseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ContextModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ConverterModule
@@ -44,6 +45,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
     DataSourceModule::class,
     RepositoryModule::class,
 
+    NoteUseCaseModule::class,
     GetSummaryUseCaseModule::class,
     UseCaseModule::class,
 

@@ -5,7 +5,6 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -18,7 +17,6 @@ import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
 /**
  * Test for [GetMelodyListUseCaseImpl].
  */
-@ExperimentalCoroutinesApi
 class GetMelodyListUseCaseImplTest : ParentTest() {
 
     @MockK lateinit var ringtoneProvider: RingtoneProvider
