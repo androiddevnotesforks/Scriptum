@@ -8,13 +8,11 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.data.backup.BackupParserImpl
-import sgtmelon.scriptum.data.backup.BackupParserImplTest
-import sgtmelon.scriptum.data.backup.BackupParserSelectorImplTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
 
 /**
- * Parent test for [BackupParserImplTest] and [BackupParserSelectorImplTest].
+ * Parent test for backup staff.
  */
 abstract class ParentBackupTest : ParentTest() {
 
