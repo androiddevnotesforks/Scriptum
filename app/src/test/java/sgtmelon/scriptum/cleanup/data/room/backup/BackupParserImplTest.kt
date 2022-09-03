@@ -59,22 +59,22 @@ class BackupParserImplTest : ParentBackupTest() {
 
         mockTag()
 
-        assertNull(spyBackupParser.parse(dataError))
-        assertNull(spyBackupParser.parse(versionError))
-        assertNull(spyBackupParser.parse(hashError))
-        assertNull(spyBackupParser.parse(databaseError))
+        assertNull(spyBackupParser.convert(dataError))
+        assertNull(spyBackupParser.convert(versionError))
+        assertNull(spyBackupParser.convert(hashError))
+        assertNull(spyBackupParser.convert(databaseError))
 
         verifySequence {
-            spyBackupParser.parse(dataError)
+            spyBackupParser.convert(dataError)
 
-            spyBackupParser.parse(versionError)
+            spyBackupParser.convert(versionError)
             context.getString(R.string.backup_version)
 
-            spyBackupParser.parse(hashError)
+            spyBackupParser.convert(hashError)
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)
 
-            spyBackupParser.parse(databaseError)
+            spyBackupParser.convert(databaseError)
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)
             context.getString(R.string.backup_database)
@@ -88,10 +88,10 @@ class BackupParserImplTest : ParentBackupTest() {
         mockTag()
         every { spyBackupParser.getHash(data) } returns nextString()
 
-        assertNull(spyBackupParser.parse(backupJson))
+        assertNull(spyBackupParser.convert(backupJson))
 
         verifySequence {
-            spyBackupParser.parse(backupJson)
+            spyBackupParser.convert(backupJson)
 
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)
@@ -112,10 +112,10 @@ class BackupParserImplTest : ParentBackupTest() {
         every { spyBackupParser.getHash(data) } returns hash
         every { selector.parse(data, version) } returns model
 
-        assertEquals(model, spyBackupParser.parse(backupJson))
+        assertEquals(model, spyBackupParser.convert(backupJson))
 
         verifySequence {
-            spyBackupParser.parse(backupJson)
+            spyBackupParser.convert(backupJson)
 
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)

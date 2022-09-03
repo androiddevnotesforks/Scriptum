@@ -22,7 +22,7 @@ class BackupCollectorImplTest : ParentBackupTest() {
 
     @MockK lateinit var dataSource: BackupDataSource
     @MockK lateinit var hashMaker: BackupHashMaker
-    @MockK lateinit var jsonConverter: EntityJsonConverter
+    @MockK lateinit var jsonConverter: BackupJsonConverter
 
     private val collector by lazy { BackupCollectorImpl(dataSource, hashMaker, jsonConverter) }
 

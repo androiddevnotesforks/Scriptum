@@ -6,11 +6,9 @@ import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupCollector
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupCollectorImpl
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupHashMaker
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupJsonConverter
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserImpl
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserSelector
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserSelectorImpl
-import sgtmelon.scriptum.cleanup.data.room.backup.EntityJsonConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
@@ -25,26 +23,15 @@ class ParserModule {
 
     @Provides
     @Singleton
-    fun provideBackupSelector(
-        colorConverter: ColorConverter,
-        typeConverter: NoteTypeConverter,
-        stringConverter: StringConverter
-    ): BackupParserSelector {
-        return BackupParserSelectorImpl(colorConverter, typeConverter, stringConverter)
-    }
-
-    @Provides
-    @Singleton
     fun provideBackupParser(
         dataSource: BackupDataSource,
         hashMaker: BackupHashMaker,
-        selector: BackupParserSelector,
         colorConverter: ColorConverter,
         typeConverter: NoteTypeConverter,
         stringConverter: StringConverter
     ): BackupParser {
         return BackupParserImpl(
-            dataSource, hashMaker, selector, colorConverter, typeConverter, stringConverter
+            dataSource, hashMaker, colorConverter, typeConverter, stringConverter
         )
     }
 
@@ -59,7 +46,7 @@ class ParserModule {
     fun provideBackupCollector(
         dataSource: BackupDataSource,
         hashMaker: BackupHashMaker,
-        jsonConverter: EntityJsonConverter
+        jsonConverter: BackupJsonConverter
     ): BackupCollector {
         return BackupCollectorImpl(dataSource, hashMaker, jsonConverter)
     }
@@ -70,7 +57,7 @@ class ParserModule {
         colorConverter: ColorConverter,
         typeConverter: NoteTypeConverter,
         stringConverter: StringConverter
-    ): EntityJsonConverter {
-        return EntityJsonConverter(colorConverter, typeConverter, stringConverter)
+    ): BackupJsonConverter {
+        return BackupJsonConverter(colorConverter, typeConverter, stringConverter)
     }
 }

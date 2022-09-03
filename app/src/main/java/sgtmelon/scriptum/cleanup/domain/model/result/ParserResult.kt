@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 
 /**
- * Class for result processing of [BackupParser.parse].
+ * Class for result processing of [BackupParser.convert].
  */
 data class ParserResult(
     val noteList: List<NoteEntity>,

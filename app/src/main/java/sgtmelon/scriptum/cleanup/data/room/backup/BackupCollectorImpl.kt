@@ -21,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.utils.record
 class BackupCollectorImpl(
     private val dataSource: BackupDataSource,
     private val hashMaker: BackupHashMaker,
-    private val jsonConverter: EntityJsonConverter
+    private val jsonConverter: BackupJsonConverter
 ) : BackupCollector {
 
     override fun convert(model: ParserResult): String? {

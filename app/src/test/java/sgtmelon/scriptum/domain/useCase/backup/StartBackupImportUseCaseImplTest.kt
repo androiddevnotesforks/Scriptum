@@ -75,7 +75,7 @@ class StartBackupImportUseCaseImplTest : ParentTest() {
 
         every { fileDataSource.readFile(item.path) } returns encryptData
         every { cipherDataSource.decrypt(encryptData) } returns data
-        every { backupParser.parse(data) } returns null
+        every { backupParser.convert(data) } returns null
 
         runBlocking {
             assertEquals(startBackupImport(item.name, fileList), ImportResult.Error)
@@ -84,7 +84,7 @@ class StartBackupImportUseCaseImplTest : ParentTest() {
         mockkObject(BackupRepoImpl.Model)
         every { BackupRepoImpl.Model[parserResult] } returns backupModel
 
-        every { backupParser.parse(data) } returns parserResult
+        every { backupParser.convert(data) } returns parserResult
         every { preferencesRepo.isBackupSkipImports } returns isSkipImports
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns ImportResult.Simple
 
@@ -103,12 +103,12 @@ class StartBackupImportUseCaseImplTest : ParentTest() {
 
             fileDataSource.readFile(item.path)
             cipherDataSource.decrypt(encryptData)
-            backupParser.parse(data)
+            backupParser.convert(data)
 
             repeat(times = 2) {
                 fileDataSource.readFile(item.path)
                 cipherDataSource.decrypt(encryptData)
-                backupParser.parse(data)
+                backupParser.convert(data)
                 preferencesRepo.isBackupSkipImports
                 BackupRepoImpl.Model[parserResult]
                 backupRepo.insertData(backupModel, isSkipImports)

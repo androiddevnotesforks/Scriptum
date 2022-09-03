@@ -28,7 +28,7 @@ class StartBackupImportUseCaseImpl(
         val encryptData = fileDataSource.readFile(item.path) ?: return ImportResult.Error
         val data = cipherDataSource.decrypt(encryptData)
 
-        val parserResult = backupParser.parse(data) ?: return ImportResult.Error
+        val parserResult = backupParser.convert(data) ?: return ImportResult.Error
         val isSkipImports = preferencesRepo.isBackupSkipImports
 
         return backupRepo.insertData(BackupRepoImpl.Model[parserResult], isSkipImports)

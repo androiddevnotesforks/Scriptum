@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
-class EntityJsonConverter(
+class BackupJsonConverter(
     private val colorConverter: ColorConverter,
     private val typeConverter: NoteTypeConverter,
     private val stringConverter: StringConverter
