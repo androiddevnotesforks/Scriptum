@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -248,9 +247,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
 
     override fun setupDialog() {
         renameDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultRenameDialog(position, name)
-            }
+            onPositiveClick { viewModel.onResultRenameDialog(position, name) }
             onDismiss { openState?.clear() }
         }
     }

@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.safedialog.R
+import sgtmelon.safedialog.utils.safeDismiss
 
 /**
  * Parent dialog for sheet's with [NavigationView].
@@ -23,11 +25,28 @@ abstract class BlankMenuSheetDialog : BottomSheetDialogFragment(),
     @get:LayoutRes abstract val layoutId: Int
     @get:IdRes abstract val navigationId: Int
 
-    var itemSelectedListener: NavigationView.OnNavigationItemSelectedListener? = null
     var dismissListener: DialogInterface.OnDismissListener? = null
+    var itemSelectedListener: NavigationView.OnNavigationItemSelectedListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    inline fun onDismiss(crossinline func: () -> Unit) {
+        dismissListener = DialogInterface.OnDismissListener { func() }
+    }
+
+    inline fun onItemSelected(
+        owner: LifecycleOwner,
+        crossinline func: (menuItem: MenuItem) -> Unit
+    ) {
+        itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
+            safeDismiss(owner)
+            func(it)
+            return@OnNavigationItemSelectedListener true
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         return inflater.inflate(layoutId, container, false)
     }
 

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.preference.Preference
 import javax.inject.Inject
@@ -87,30 +86,30 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
             return@setOnPreferenceClickListener true
         }
 
-        sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultNoteSort(sortDialog.check)
+        sortDialog.apply {
+            onPositiveClick { viewModel.onResultNoteSort(sortDialog.check) }
+            onDismiss { openState.clear() }
         }
-        sortDialog.onDismiss { openState.clear() }
 
         colorPreference?.setOnPreferenceClickListener {
             viewModel.onClickNoteColor()
             return@setOnPreferenceClickListener true
         }
 
-        colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultNoteColor(colorDialog.check)
+        colorDialog.apply {
+            onPositiveClick { viewModel.onResultNoteColor(colorDialog.check) }
+            onDismiss { openState.clear() }
         }
-        colorDialog.onDismiss { openState.clear() }
 
         savePeriodPreference?.setOnPreferenceClickListener {
             viewModel.onClickSaveTime()
             return@setOnPreferenceClickListener true
         }
 
-        savePeriodDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultSaveTime(savePeriodDialog.check)
+        savePeriodDialog.apply {
+            onPositiveClick { viewModel.onResultSaveTime(savePeriodDialog.check) }
+            onDismiss { openState.clear() }
         }
-        savePeriodDialog.onDismiss { openState.clear() }
     }
 
     override fun updateSortSummary(summary: String) {

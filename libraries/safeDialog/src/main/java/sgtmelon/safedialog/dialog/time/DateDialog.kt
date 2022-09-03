@@ -24,6 +24,10 @@ class DateDialog : BlankDateTimeDialog(),
 
     var neutralListener: DialogInterface.OnClickListener? = null
 
+    inline fun onNeutralClick(crossinline func: () -> Unit) {
+        neutralListener = DialogInterface.OnClickListener { _, _ -> func() }
+    }
+
     private var neutralVisible: Boolean = DEF_NEUTRAL
 
     /**

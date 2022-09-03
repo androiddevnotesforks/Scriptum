@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -130,9 +129,10 @@ class BinFragment : ParentFragment(), IBinFragment {
         itemClearBin = toolbar?.menu?.findItem(R.id.item_clear)
         activity?.let { itemClearBin?.tintIcon(it) }
 
-        clearBinDialog.positiveListener =
-            DialogInterface.OnClickListener { _, _ -> viewModel.onClickClearBin() }
-        clearBinDialog.onDismiss { openState?.clear() }
+        clearBinDialog.apply {
+            onPositiveClick { viewModel.onClickClearBin() }
+            onDismiss { openState?.clear() }
+        }
     }
 
     override fun setupRecycler() {
@@ -152,10 +152,10 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
     override fun setupDialog() {
-        optionsDialog.itemListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.onResultOptionsDialog(optionsDialog.position, which)
+        optionsDialog.apply {
+            onItem { viewModel.onResultOptionsDialog(optionsDialog.position, it) }
+            onDismiss { openState?.clear() }
         }
-        optionsDialog.onDismiss { openState?.clear() }
     }
 
 

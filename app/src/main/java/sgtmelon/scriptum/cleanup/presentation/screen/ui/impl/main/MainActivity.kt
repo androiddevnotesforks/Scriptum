@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
@@ -13,7 +12,6 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.safedialog.utils.safeShow
@@ -140,12 +138,8 @@ class MainActivity : AppActivity(), IMainActivity {
         menuNavigation?.selectedItemId = itemId
 
         addDialog.apply {
-            itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
-                dismiss()
-                viewModel.onResultAddDialog(it.itemId)
-                return@OnNavigationItemSelectedListener true
-            }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            onItemSelected(owner = this@MainActivity) { viewModel.onResultAddDialog(it.itemId) }
+            onDismiss { openState.clear() }
         }
     }
 

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.Manifest
-import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -150,42 +149,61 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             return@setOnPreferenceClickListener true
         }
 
-        exportPermissionDialog.isCancelable = false
-        exportPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
+        exportPermissionDialog.apply {
+            isCancelable = false
 
-            requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.EXPORT)
+            onPositiveClick {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
+
+                requestPermissions(
+                    arrayOf(storagePermissionState.permission), PermissionRequest.EXPORT
+                )
+            }
+            onDismiss { openState.clear() }
         }
-        exportPermissionDialog.onDismiss { openState.clear() }
 
-        exportDenyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            context?.startActivitySafe(context?.getSettingsIntent(), toastControl)
+        exportDenyDialog.apply {
+            onPositiveClick {
+                val context = context
+                context?.startActivitySafe(context.getSettingsIntent(), toastControl)
+            }
+            onDismiss { openState.clear() }
         }
-        exportDenyDialog.onDismiss { openState.clear() }
 
-        importPermissionDialog.isCancelable = false
-        importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
+        importPermissionDialog.apply {
+            isCancelable = false
 
-            requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.IMPORT)
+            onPositiveClick {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
+
+                requestPermissions(
+                    arrayOf(storagePermissionState.permission), PermissionRequest.IMPORT
+                )
+            }
+            onDismiss { openState.clear() }
         }
-        importPermissionDialog.onDismiss { openState.clear() }
 
-        importDenyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            context?.startActivitySafe(context?.getSettingsIntent(), toastControl)
+        importDenyDialog.apply {
+            onPositiveClick {
+                val context = context
+                context?.startActivitySafe(context.getSettingsIntent(), toastControl)
+            }
+            onDismiss { openState.clear() }
         }
-        importDenyDialog.onDismiss { openState.clear() }
 
-        importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            val name = with(importDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
-
-            openState.skipClear = true
-            viewModel.onResultImport(name)
+        importDialog.apply {
+            onPositiveClick {
+                val name = itemArray.getOrNull(check) ?: return@onPositiveClick
+                openState.skipClear = true
+                viewModel.onResultImport(name)
+            }
+            onDismiss { openState.clear() }
         }
-        importDialog.onDismiss { openState.clear() }
 
-        loadingDialog.isCancelable = false
-        loadingDialog.onDismiss { openState.clear() }
+        loadingDialog.apply {
+            isCancelable = false
+            onDismiss { openState.clear() }
+        }
     }
 
     override fun getStoragePermissionResult(): PermissionResult? {

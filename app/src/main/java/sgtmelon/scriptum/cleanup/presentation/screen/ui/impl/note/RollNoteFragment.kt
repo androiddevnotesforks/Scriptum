@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note
 
-import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
@@ -239,41 +238,32 @@ class RollNoteFragment : ParentFragment(),
     override fun setupDialog(rankNameArray: Array<String>) {
         rankDialog.apply {
             itemArray = rankNameArray
-            positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultRankDialog(check = rankDialog.check - 1)
-            }
+
+            onPositiveClick { viewModel.onResultRankDialog(check = rankDialog.check - 1) }
             onDismiss { openState.clear() }
         }
 
         colorDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultColorDialog(colorDialog.check)
-            }
+            onPositiveClick { viewModel.onResultColorDialog(colorDialog.check) }
             onDismiss { openState.clear() }
         }
 
         dateDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ ->
+            onPositiveClick {
                 openState.skipClear = true
                 viewModel.onResultDateDialog(dateDialog.calendar)
             }
+            onNeutralClick { viewModel.onResultDateDialogClear() }
             onDismiss { openState.clear() }
-            neutralListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultDateDialogClear()
-            }
         }
 
         timeDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultTimeDialog(timeDialog.calendar)
-            }
+            onPositiveClick { viewModel.onResultTimeDialog(timeDialog.calendar) }
             onDismiss { openState.clear() }
         }
 
         convertDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultConvertDialog()
-            }
+            onPositiveClick { viewModel.onResultConvertDialog() }
             onDismiss { openState.clear() }
         }
     }

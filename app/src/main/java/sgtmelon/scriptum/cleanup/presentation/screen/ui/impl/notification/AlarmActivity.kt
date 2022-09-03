@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification
 
 import android.animation.AnimatorSet
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
@@ -20,13 +19,11 @@ import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
-import com.google.android.material.navigation.NavigationView
 import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.common.test.addIdlingListener
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
@@ -209,12 +206,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
 
         repeatDialog.apply {
-            itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
-                safeDismiss(owner = this@AlarmActivity)
-                viewModel.onResultRepeatDialog(it.itemId)
-                return@OnNavigationItemSelectedListener true
-            }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            onItemSelected(owner = this@AlarmActivity) { viewModel.onResultRepeatDialog(it.itemId) }
+            onDismiss { openState.clear() }
         }
     }
 

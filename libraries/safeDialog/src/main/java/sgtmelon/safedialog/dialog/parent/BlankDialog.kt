@@ -21,6 +21,10 @@ abstract class BlankDialog : BlankEmptyDialog() {
 
     var positiveListener: DialogInterface.OnClickListener? = null
 
+    inline fun onPositiveClick(crossinline func: () -> Unit) {
+        positiveListener = DialogInterface.OnClickListener { _, _ -> func() }
+    }
+
     protected val onPositiveClick = DialogInterface.OnClickListener { dialogInterface, i ->
         positiveListener?.onClick(dialogInterface, i)
         dialogInterface.cancel()

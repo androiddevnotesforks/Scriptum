@@ -137,44 +137,53 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             return@setOnPreferenceClickListener true
         }
 
-        repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultRepeat(repeatDialog.check)
+        repeatDialog.apply {
+            onPositiveClick { viewModel.onResultRepeat(repeatDialog.check) }
+            onDismiss { openState.clear() }
         }
-        repeatDialog.onDismiss { openState.clear() }
 
         signalPreference?.setOnPreferenceClickListener {
             viewModel.onClickSignal()
             return@setOnPreferenceClickListener true
         }
 
-        signalDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultSignal(signalDialog.check)
+        signalDialog.apply {
+            onPositiveClick { viewModel.onResultSignal(signalDialog.check) }
+            onDismiss { openState.clear() }
         }
-        signalDialog.onDismiss { openState.clear() }
 
         melodyPreference?.setOnPreferenceClickListener {
             viewModel.onClickMelody(storagePermissionState.getResult())
             return@setOnPreferenceClickListener true
         }
 
-        melodyPermissionDialog.isCancelable = false
-        melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
+        melodyPermissionDialog.apply {
+            isCancelable = false
 
-            requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.MELODY)
-        }
-        melodyPermissionDialog.onDismiss { openState.clear() }
+            onPositiveClick {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
 
-        melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
-            viewModel.onSelectMelody(i)
+                requestPermissions(
+                    arrayOf(storagePermissionState.permission), PermissionRequest.MELODY
+                )
+            }
+            onDismiss { openState.clear() }
         }
-        melodyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            val title = with(melodyDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
-            viewModel.onResultMelody(title)
-        }
-        melodyDialog.onDismiss {
-            melodyControl.stop()
-            openState.clear()
+
+        melodyDialog.apply {
+            melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
+                viewModel.onSelectMelody(i)
+            }
+            onPositiveClick {
+                val title = with(melodyDialog) { itemArray.getOrNull(check) }
+                if (title != null) {
+                    viewModel.onResultMelody(title)
+                }
+            }
+            onDismiss {
+                melodyControl.stop()
+                openState.clear()
+            }
         }
 
         volumePreference?.setOnPreferenceClickListener {
@@ -182,10 +191,10 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             return@setOnPreferenceClickListener true
         }
 
-        volumeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultVolume(volumeDialog.progress)
+        volumeDialog.apply {
+            onPositiveClick { viewModel.onResultVolume(volumeDialog.progress) }
+            onDismiss { openState.clear() }
         }
-        volumeDialog.onDismiss { openState.clear() }
     }
 
     override fun updateRepeatSummary(summary: String) {

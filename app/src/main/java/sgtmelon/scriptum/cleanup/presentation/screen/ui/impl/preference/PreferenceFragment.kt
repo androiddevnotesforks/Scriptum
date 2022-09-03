@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.content.ActivityNotFoundException
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
@@ -89,7 +88,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
-        themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+        themeDialog.onPositiveClick {
             viewModel.onResultTheme(themeDialog.check)
             activity?.checkThemeChange()
         }

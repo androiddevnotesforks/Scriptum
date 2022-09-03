@@ -18,6 +18,9 @@ class OptionsDialog : BlankEmptyDialog(),
     var title: String = DEF_TITLE
     var itemListener: DialogInterface.OnClickListener? = null
 
+    inline fun onItem(crossinline func: (which: Int) -> Unit) {
+        itemListener = DialogInterface.OnClickListener { _, which -> func(which) }
+    }
 
     private var itemList: List<String> = emptyList()
 

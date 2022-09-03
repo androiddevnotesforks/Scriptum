@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -196,27 +195,24 @@ class NotesFragment : ParentFragment(),
 
     override fun setupDialog() {
         optionsDialog.apply {
-            itemListener = DialogInterface.OnClickListener { _, which ->
-                if (which == Options.Notes.NOTIFICATION) openState?.skipClear = true
-
-                viewModel.onResultOptionsDialog(optionsDialog.position, which)
+            onItem {
+                if (it == Options.Notes.NOTIFICATION) openState?.skipClear = true
+                viewModel.onResultOptionsDialog(optionsDialog.position, it)
             }
             onDismiss { openState?.clear() }
         }
 
         dateDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ ->
+            onPositiveClick {
                 openState?.skipClear = true
                 viewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
             }
-            neutralListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultDateDialogClear(dateDialog.position)
-            }
+            onNeutralClick { viewModel.onResultDateDialogClear(dateDialog.position) }
             onDismiss { openState?.clear() }
         }
 
         timeDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ ->
+            onPositiveClick {
                 viewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
             }
             onDismiss { openState?.clear() }
