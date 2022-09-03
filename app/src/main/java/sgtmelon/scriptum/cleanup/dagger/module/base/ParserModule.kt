@@ -26,13 +26,9 @@ class ParserModule {
     fun provideBackupParser(
         dataSource: BackupDataSource,
         hashMaker: BackupHashMaker,
-        colorConverter: ColorConverter,
-        typeConverter: NoteTypeConverter,
-        stringConverter: StringConverter
+        jsonConverter: BackupJsonConverter
     ): BackupParser {
-        return BackupParserImpl(
-            dataSource, hashMaker, colorConverter, typeConverter, stringConverter
-        )
+        return BackupParserImpl(dataSource, hashMaker, jsonConverter)
     }
 
     @Provides
