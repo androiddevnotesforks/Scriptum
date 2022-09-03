@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.data.room.backup
 
-import java.security.MessageDigest
 import org.json.JSONArray
 import org.json.JSONObject
 import sgtmelon.common.test.annotation.RunPrivate
@@ -27,6 +26,7 @@ import sgtmelon.scriptum.infrastructure.utils.record
  */
 class BackupParserImpl(
     private val dataSource: BackupDataSource,
+    private val hashMaker: BackupHashMaker,
     private val selector: BackupParserSelector,
     private val colorConverter: ColorConverter,
     private val typeConverter: NoteTypeConverter,
@@ -37,7 +37,7 @@ class BackupParserImpl(
         val data = collectDatabase(model)
 
         put(dataSource.versionKey, VERSION)
-        put(dataSource.hashKey, getHash(data))
+        put(dataSource.hashKey, hashMaker.get(data))
         put(dataSource.databaseKey, data)
     }.toString()
 
@@ -130,7 +130,7 @@ class BackupParserImpl(
             val hash = jsonObject.getString(dataSource.hashKey)
             val database = jsonObject.getString(dataSource.databaseKey)
 
-            if (hash != getHash(database)) return null
+            if (hash != hashMaker.get(database)) return null
 
             return selector.parse(database, version)
         } catch (e: Throwable) {
@@ -139,22 +139,6 @@ class BackupParserImpl(
 
         return null
     }
-
-
-    @RunPrivate fun getHash(data: String): String {
-        val messageDigest = MessageDigest.getInstance("SHA-256")
-        val hash = messageDigest.digest(data.toByteArray())
-
-        return hashToHex(hash)
-    }
-
-    @RunPrivate fun hashToHex(hash: ByteArray): String = StringBuilder().apply {
-        for (it in hash.map { Integer.toHexString(0xFF and it.toInt()) }) {
-            if (it.length == 1) append('0')
-
-            append(it)
-        }
-    }.toString()
 
     companion object {
         /**
