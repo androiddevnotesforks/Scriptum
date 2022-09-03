@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.system.dataSource
 
 import android.content.Context
 import android.os.Environment
-import android.util.Log
 import androidx.core.content.ContextCompat
 import java.io.BufferedReader
 import java.io.BufferedWriter
@@ -15,8 +14,10 @@ import java.io.OutputStream
 import java.io.OutputStreamWriter
 import sgtmelon.common.utils.getTime
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
+import sgtmelon.scriptum.infrastructure.model.exception.FilesException
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import sgtmelon.scriptum.infrastructure.model.type.FileType
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * Class for help control manipulations with files.
@@ -40,8 +41,8 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
             inputStream.close()
 
             return result
-        } catch (e: Exception) {
-            Log.e(TAG, e.toString())
+        } catch (e: Throwable) {
+            FilesException(e).record()
         }
 
         return null
@@ -73,8 +74,8 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
             outputStream.close()
 
             return file.path
-        } catch (e: Exception) {
-            Log.e(TAG, e.toString())
+        } catch (e: Throwable) {
+            FilesException(e).record()
         }
 
         return null
@@ -119,9 +120,4 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
             }
         }
     }
-
-    companion object {
-        private val TAG = FileDataSourceImpl::class.java.simpleName
-    }
-
 }

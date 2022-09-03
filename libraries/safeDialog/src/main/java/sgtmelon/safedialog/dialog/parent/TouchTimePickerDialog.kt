@@ -26,7 +26,7 @@ internal class TouchTimePickerDialog(
 
             val timePicker = timePickerField?.get(this) as? TimePicker
             timePicker?.setOnTimeChangedListener(this)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             e.printStackTrace()
         }
     }
