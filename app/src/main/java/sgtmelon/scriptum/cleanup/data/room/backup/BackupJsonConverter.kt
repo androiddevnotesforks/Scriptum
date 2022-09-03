@@ -18,6 +18,8 @@ class BackupJsonConverter(
     private val stringConverter: StringConverter
 ) {
 
+    //region toJson
+
     @Throws(JSONException::class)
     fun toJson(entity: NoteEntity): JSONObject {
         return JSONObject()
@@ -69,5 +71,62 @@ class BackupJsonConverter(
             .put(DbData.Alarm.ID, entity.id)
             .put(DbData.Alarm.NOTE_ID, entity.noteId)
             .put(DbData.Alarm.DATE, entity.date)
+    }
+
+    //endregion
+
+    fun getNoteV1(jsonObject: JSONObject): NoteEntity? {
+        val type = typeConverter.toEnum(jsonObject.getInt(DbData.Note.TYPE)) ?: return null
+        val color = colorConverter.toEnum(jsonObject.getInt(DbData.Note.COLOR)) ?: return null
+
+        return NoteEntity(
+            jsonObject.getLong(DbData.Note.ID),
+            jsonObject.getString(DbData.Note.CREATE),
+            jsonObject.getString(DbData.Note.CHANGE),
+            jsonObject.getString(DbData.Note.NAME),
+            jsonObject.getString(DbData.Note.TEXT),
+            color,
+            type,
+            jsonObject.getLong(DbData.Note.RANK_ID),
+            jsonObject.getInt(DbData.Note.RANK_PS),
+            jsonObject.getBoolean(DbData.Note.BIN),
+            jsonObject.getBoolean(DbData.Note.STATUS)
+        )
+    }
+
+    fun getRollV1(jsonObject: JSONObject): RollEntity {
+        return RollEntity(
+            jsonObject.getLong(DbData.Roll.ID),
+            jsonObject.getLong(DbData.Roll.NOTE_ID),
+            jsonObject.getInt(DbData.Roll.POSITION),
+            jsonObject.getBoolean(DbData.Roll.CHECK),
+            jsonObject.getString(DbData.Roll.TEXT)
+        )
+    }
+
+    fun getRollVisibleV1(jsonObject: JSONObject): RollVisibleEntity {
+        return RollVisibleEntity(
+            jsonObject.getLong(DbData.RollVisible.ID),
+            jsonObject.getLong(DbData.RollVisible.NOTE_ID),
+            jsonObject.getBoolean(DbData.RollVisible.VALUE)
+        )
+    }
+
+    fun getRankV1(jsonObject: JSONObject): RankEntity {
+        return RankEntity(
+            jsonObject.getLong(DbData.Rank.ID),
+            stringConverter.toList(jsonObject.getString(DbData.Rank.NOTE_ID)),
+            jsonObject.getInt(DbData.Rank.POSITION),
+            jsonObject.getString(DbData.Rank.NAME),
+            jsonObject.getBoolean(DbData.Rank.VISIBLE)
+        )
+    }
+
+    fun getAlarmV1(jsonObject: JSONObject): AlarmEntity {
+        return AlarmEntity(
+            jsonObject.getLong(DbData.Alarm.ID),
+            jsonObject.getLong(DbData.Alarm.NOTE_ID),
+            jsonObject.getString(DbData.Alarm.DATE)
+        )
     }
 }
