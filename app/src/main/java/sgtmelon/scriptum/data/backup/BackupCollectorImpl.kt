@@ -1,12 +1,12 @@
-package sgtmelon.scriptum.cleanup.data.room.backup
+package sgtmelon.scriptum.data.backup
 
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
-import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
+import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
 import sgtmelon.scriptum.infrastructure.utils.record
 

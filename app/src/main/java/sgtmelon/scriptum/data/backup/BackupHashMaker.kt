@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.room.backup
+package sgtmelon.scriptum.data.backup
 
 import java.security.MessageDigest
 import sgtmelon.common.test.annotation.RunPrivate

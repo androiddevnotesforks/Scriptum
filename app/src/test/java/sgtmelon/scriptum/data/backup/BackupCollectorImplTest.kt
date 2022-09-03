@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.room.backup
+package sgtmelon.scriptum.data.backup
 
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -13,9 +13,9 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
-import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
+import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.test.common.nextString
 
 class BackupCollectorImplTest : ParentBackupTest() {

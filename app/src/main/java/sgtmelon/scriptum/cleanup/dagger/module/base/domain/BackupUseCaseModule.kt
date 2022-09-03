@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.dagger.module.base.domain
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupCollector
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
+import sgtmelon.scriptum.data.backup.BackupCollector
+import sgtmelon.scriptum.data.backup.BackupParser
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo

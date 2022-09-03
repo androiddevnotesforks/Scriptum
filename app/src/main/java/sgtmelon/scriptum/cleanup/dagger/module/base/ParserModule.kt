@@ -3,14 +3,14 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupCollector
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupCollectorImpl
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupHashMaker
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupJsonConverter
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserImpl
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
+import sgtmelon.scriptum.data.backup.BackupCollector
+import sgtmelon.scriptum.data.backup.BackupCollectorImpl
+import sgtmelon.scriptum.data.backup.BackupHashMaker
+import sgtmelon.scriptum.data.backup.BackupJsonConverter
+import sgtmelon.scriptum.data.backup.BackupParser
+import sgtmelon.scriptum.data.backup.BackupParserImpl
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 

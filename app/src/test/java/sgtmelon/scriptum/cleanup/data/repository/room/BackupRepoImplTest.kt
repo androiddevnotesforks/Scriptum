@@ -28,9 +28,9 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.domain.model.result.ImportResult
+import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextShortString

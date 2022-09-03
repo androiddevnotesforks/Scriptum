@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.room.backup
+package sgtmelon.scriptum.data.backup
 
 import android.content.Context
 import io.mockk.confirmVerified
@@ -16,8 +16,8 @@ import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
-import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
+import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.test.common.nextString
 

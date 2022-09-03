@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.domain.model.data
 
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserImpl
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.data.backup.BackupParserImpl
 import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**

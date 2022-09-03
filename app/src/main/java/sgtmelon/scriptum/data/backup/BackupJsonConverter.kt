@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.room.backup
+package sgtmelon.scriptum.data.backup
 
 import org.json.JSONException
 import org.json.JSONObject
@@ -75,7 +75,9 @@ class BackupJsonConverter(
 
     //endregion
 
-    fun getNoteV1(jsonObject: JSONObject): NoteEntity? {
+    //region toEntityV1
+
+    fun toNoteV1(jsonObject: JSONObject): NoteEntity? {
         val type = typeConverter.toEnum(jsonObject.getInt(DbData.Note.TYPE)) ?: return null
         val color = colorConverter.toEnum(jsonObject.getInt(DbData.Note.COLOR)) ?: return null
 
@@ -94,7 +96,7 @@ class BackupJsonConverter(
         )
     }
 
-    fun getRollV1(jsonObject: JSONObject): RollEntity {
+    fun toRollV1(jsonObject: JSONObject): RollEntity {
         return RollEntity(
             jsonObject.getLong(DbData.Roll.ID),
             jsonObject.getLong(DbData.Roll.NOTE_ID),
@@ -104,7 +106,7 @@ class BackupJsonConverter(
         )
     }
 
-    fun getRollVisibleV1(jsonObject: JSONObject): RollVisibleEntity {
+    fun toRollVisibleV1(jsonObject: JSONObject): RollVisibleEntity {
         return RollVisibleEntity(
             jsonObject.getLong(DbData.RollVisible.ID),
             jsonObject.getLong(DbData.RollVisible.NOTE_ID),
@@ -112,7 +114,7 @@ class BackupJsonConverter(
         )
     }
 
-    fun getRankV1(jsonObject: JSONObject): RankEntity {
+    fun toRankV1(jsonObject: JSONObject): RankEntity {
         return RankEntity(
             jsonObject.getLong(DbData.Rank.ID),
             stringConverter.toList(jsonObject.getString(DbData.Rank.NOTE_ID)),
@@ -122,11 +124,13 @@ class BackupJsonConverter(
         )
     }
 
-    fun getAlarmV1(jsonObject: JSONObject): AlarmEntity {
+    fun toAlarmV1(jsonObject: JSONObject): AlarmEntity {
         return AlarmEntity(
             jsonObject.getLong(DbData.Alarm.ID),
             jsonObject.getLong(DbData.Alarm.NOTE_ID),
             jsonObject.getString(DbData.Alarm.DATE)
         )
     }
+
+    //endregion
 }
