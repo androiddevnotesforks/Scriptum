@@ -20,7 +20,7 @@ class BackupCollectorImpl(
 ) : BackupCollector {
 
     override fun convert(result: ParserResult.Export): String? {
-        val database = collectDatabase(result) ?: return null
+        val database = convertDatabase(result) ?: return null
 
         try {
             return JSONObject()
@@ -35,13 +35,13 @@ class BackupCollectorImpl(
         return null
     }
 
-    @RunPrivate fun collectDatabase(model: ParserResult.Export): String? {
+    @RunPrivate fun convertDatabase(result: ParserResult.Export): String? {
         try {
-            val noteTable = collectTable(model.noteList) { jsonConverter.toJson(it) }
-            val rollTable = collectTable(model.rollList) { jsonConverter.toJson(it) }
-            val visibleTable = collectTable(model.rollVisibleList) { jsonConverter.toJson(it) }
-            val rankTable = collectTable(model.rankList) { jsonConverter.toJson(it) }
-            val alarmTable = collectTable(model.alarmList) { jsonConverter.toJson(it) }
+            val noteTable = collectTable(result.noteList) { jsonConverter.toJson(it) }
+            val rollTable = collectTable(result.rollList) { jsonConverter.toJson(it) }
+            val visibleTable = collectTable(result.rollVisibleList) { jsonConverter.toJson(it) }
+            val rankTable = collectTable(result.rankList) { jsonConverter.toJson(it) }
+            val alarmTable = collectTable(result.alarmList) { jsonConverter.toJson(it) }
 
             return JSONObject()
                 .put(DbData.Note.TABLE, noteTable)
@@ -58,7 +58,7 @@ class BackupCollectorImpl(
     }
 
     @Throws(JSONException::class)
-    private inline fun <T> collectTable(list: List<T>, toJson: (T) -> JSONObject): String {
+    private inline fun <T> collectTable(list: List<T>, toJson: (entity: T) -> JSONObject): String {
         val array = JSONArray()
 
         for (it in list) {

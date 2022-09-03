@@ -1,21 +1,45 @@
 package sgtmelon.scriptum.cleanup.parent
 
+import org.json.JSONObject
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.data.backup.BackupParserImpl
 import sgtmelon.scriptum.data.backup.BackupParserImplTest
 import sgtmelon.scriptum.data.backup.BackupParserSelectorImplTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.common.nextString
 
 /**
  * Parent test for [BackupParserImplTest] and [BackupParserSelectorImplTest].
  */
 abstract class ParentBackupTest : ParentTest() {
 
-    //region Note
+    //region Json help
+
+    protected val versionKey = nextString()
+    protected val hashKey = nextString()
+    protected val databaseKey = nextString()
+
+    /**
+     * Imitate the backup file content.
+     */
+    protected fun getBackupJson(
+        hash: String,
+        data: String,
+        version: Any = BackupParserImpl.VERSION
+    ) = JSONObject().apply {
+        put(versionKey, version)
+        put(hashKey, hash)
+        put(databaseKey, data)
+    }.toString()
+
+    //endregion
+
+    //region Note data
 
     protected val noteEntityList = listOf(
         NoteEntity(
@@ -52,7 +76,7 @@ abstract class ParentBackupTest : ParentTest() {
 
     //endregion
 
-    //region Roll
+    //region Roll data
 
     protected val rollEntityList = listOf(
         RollEntity(id = 2, noteId = 4212, position = 0, isCheck = true, text = "first"),
@@ -70,7 +94,7 @@ abstract class ParentBackupTest : ParentTest() {
 
     //endregion
 
-    //region RollVisible
+    //region RollVisible data
 
     protected val rollVisibleEntityList = listOf(
         RollVisibleEntity(id = 1012, noteId = 452, value = true),
@@ -88,7 +112,7 @@ abstract class ParentBackupTest : ParentTest() {
 
     //endregion
 
-    //region Rank
+    //region Rank data
 
     protected val rankEntityList = listOf(
         RankEntity(
@@ -115,7 +139,7 @@ abstract class ParentBackupTest : ParentTest() {
 
     //endregion
 
-    //region Alarm
+    //region Alarm data
 
     protected val alarmEntityList = listOf(
         AlarmEntity(id = 12, noteId = 102, date = "first"),

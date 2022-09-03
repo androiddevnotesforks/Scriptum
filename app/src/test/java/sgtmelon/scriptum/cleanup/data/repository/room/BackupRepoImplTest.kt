@@ -90,61 +90,61 @@ class BackupRepoImplTest : ParentRepoTest() {
     //region Insert functions
 
     @Test fun insertData() {
-        val model = mockk<ParserResult.Import>()
+        val result = mockk<ParserResult.Import>()
         val noteList = mockk<MutableList<NoteEntity>>()
         val size = Random.nextInt()
         val removeList = mockk<List<NoteEntity>>()
 
-        every { model.noteList } returns noteList
+        every { result.noteList } returns noteList
         every { noteList.size } returns size
 
-        coEvery { spyRepo.getRemoveNoteList(model) } returns removeList
-        coEvery { spyRepo.clearList(removeList, model) } returns Unit
-        coEvery { spyRepo.clearRankList(model) } returns Unit
-        coEvery { spyRepo.clearAlarmList(model) } returns Unit
-        coEvery { spyRepo.insertNoteList(model) } returns Unit
-        coEvery { spyRepo.insertRollList(model) } returns Unit
-        coEvery { spyRepo.insertRollVisibleList(model) } returns Unit
-        coEvery { spyRepo.insertRankList(model) } returns Unit
-        coEvery { spyRepo.insertAlarmList(model) } returns Unit
+        coEvery { spyRepo.getRemoveNoteList(result) } returns removeList
+        coEvery { spyRepo.clearList(removeList, result) } returns Unit
+        coEvery { spyRepo.clearRankList(result) } returns Unit
+        coEvery { spyRepo.clearAlarmList(result) } returns Unit
+        coEvery { spyRepo.insertNoteList(result) } returns Unit
+        coEvery { spyRepo.insertRollList(result) } returns Unit
+        coEvery { spyRepo.insertRollVisibleList(result) } returns Unit
+        coEvery { spyRepo.insertRankList(result) } returns Unit
+        coEvery { spyRepo.insertAlarmList(result) } returns Unit
 
         runBlocking {
             assertEquals(
-                spyRepo.insertData(model, isSkipImports = false),
+                spyRepo.insertData(result, isSkipImports = false),
                 ImportResult.Simple
             )
         }
 
         val skipResult = ImportResult.Skip(skipCount = 0)
         runBlocking {
-            assertEquals(spyRepo.insertData(model, isSkipImports = true), skipResult)
+            assertEquals(spyRepo.insertData(result, isSkipImports = true), skipResult)
         }
 
         coVerifyOrder {
-            spyRepo.insertData(model, isSkipImports = false)
-            model.noteList
+            spyRepo.insertData(result, isSkipImports = false)
+            result.noteList
             noteList.size
-            spyRepo.clearRankList(model)
-            spyRepo.clearAlarmList(model)
-            spyRepo.insertNoteList(model)
-            spyRepo.insertRollList(model)
-            spyRepo.insertRollVisibleList(model)
-            spyRepo.insertRankList(model)
-            spyRepo.insertAlarmList(model)
+            spyRepo.clearRankList(result)
+            spyRepo.clearAlarmList(result)
+            spyRepo.insertNoteList(result)
+            spyRepo.insertRollList(result)
+            spyRepo.insertRollVisibleList(result)
+            spyRepo.insertRankList(result)
+            spyRepo.insertAlarmList(result)
 
-            spyRepo.insertData(model, isSkipImports = true)
-            model.noteList
+            spyRepo.insertData(result, isSkipImports = true)
+            result.noteList
             noteList.size
-            spyRepo.getRemoveNoteList(model)
-            spyRepo.clearList(removeList, model)
-            spyRepo.clearRankList(model)
-            spyRepo.clearAlarmList(model)
-            spyRepo.insertNoteList(model)
-            spyRepo.insertRollList(model)
-            spyRepo.insertRollVisibleList(model)
-            spyRepo.insertRankList(model)
-            spyRepo.insertAlarmList(model)
-            model.noteList
+            spyRepo.getRemoveNoteList(result)
+            spyRepo.clearList(removeList, result)
+            spyRepo.clearRankList(result)
+            spyRepo.clearAlarmList(result)
+            spyRepo.insertNoteList(result)
+            spyRepo.insertRollList(result)
+            spyRepo.insertRollVisibleList(result)
+            spyRepo.insertRankList(result)
+            spyRepo.insertAlarmList(result)
+            result.noteList
             noteList.size
         }
     }
@@ -373,19 +373,19 @@ class BackupRepoImplTest : ParentRepoTest() {
 
     // TODO #CHECK + null case
     @Test fun insertRollList() {
-        val model = mockk<ParserResult.Import>()
+        val result = mockk<ParserResult.Import>()
         val item = mockk<RollEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
-        every { model.rollList } returns mutableListOf(item)
+        every { result.rollList } returns mutableListOf(item)
         coEvery { rollDataSource.insert(item) } returns newId
 
         runBlocking {
-            repo.insertRollList(model)
+            repo.insertRollList(result)
         }
 
         coVerifySequence {
-            model.rollList
+            result.rollList
 
             item.id = Roll.Default.ID
             rollDataSource.insert(item)
@@ -395,19 +395,19 @@ class BackupRepoImplTest : ParentRepoTest() {
 
     // TODO #CHECK + null case
     @Test fun insertRollVisibleList() {
-        val model = mockk<ParserResult.Import>()
+        val result = mockk<ParserResult.Import>()
         val item = mockk<RollVisibleEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
-        every { model.rollVisibleList } returns mutableListOf(item)
+        every { result.rollVisibleList } returns mutableListOf(item)
         coEvery { rollVisibleDataSource.insert(item) } returns newId
 
         runBlocking {
-            repo.insertRollVisibleList(model)
+            repo.insertRollVisibleList(result)
         }
 
         coVerifySequence {
-            model.rollVisibleList
+            result.rollVisibleList
 
             item.id = RollVisible.Default.ID
             rollVisibleDataSource.insert(item)
@@ -421,19 +421,19 @@ class BackupRepoImplTest : ParentRepoTest() {
 
     // TODO #CHECK + null case
     @Test fun insertAlarmList() {
-        val model = mockk<ParserResult.Import>()
+        val result = mockk<ParserResult.Import>()
         val item = mockk<AlarmEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
-        every { model.alarmList } returns mutableListOf(item)
+        every { result.alarmList } returns mutableListOf(item)
         coEvery { alarmDataSource.insert(item) } returns newId
 
         runBlocking {
-            repo.insertAlarmList(model)
+            repo.insertAlarmList(result)
         }
 
         coVerifySequence {
-            model.alarmList
+            result.alarmList
 
             item.id = Alarm.Default.ID
             alarmDataSource.insert(item)
