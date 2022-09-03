@@ -216,7 +216,7 @@ class BackupParserImplTest : ParentBackupTest() {
 
         mockTag()
         every { spyBackupParser.getHash(roomData) } returns hash
-        every { selector.parseByVersion(roomData, version) } returns model
+        every { selector.parse(roomData, version) } returns model
 
         assertEquals(model, spyBackupParser.parse(data))
 
@@ -227,7 +227,7 @@ class BackupParserImplTest : ParentBackupTest() {
             context.getString(R.string.backup_hash)
             context.getString(R.string.backup_room)
             spyBackupParser.getHash(roomData)
-            selector.parseByVersion(roomData, version)
+            selector.parse(roomData, version)
         }
     }
 

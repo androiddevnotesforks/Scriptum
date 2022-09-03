@@ -41,13 +41,13 @@ class BackupParserSelectorImplTest : ParentBackupTest() {
 
         every { spyBackupSelector.getModelV1(roomData) } returns model
 
-        assertNull(spyBackupSelector.parseByVersion(nextString(), version = -1))
-        assertEquals(model, spyBackupSelector.parseByVersion(roomData, version = 1))
+        assertNull(spyBackupSelector.parse(nextString(), version = -1))
+        assertEquals(model, spyBackupSelector.parse(roomData, version = 1))
 
         verifySequence {
-            spyBackupSelector.parseByVersion(any(), version = -1)
+            spyBackupSelector.parse(any(), version = -1)
 
-            spyBackupSelector.parseByVersion(roomData, version = 1)
+            spyBackupSelector.parse(roomData, version = 1)
             spyBackupSelector.getModelV1(roomData)
         }
     }

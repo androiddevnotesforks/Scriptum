@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.useCase.backup
 
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.domain.model.result.ExportResult
@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.type.FileType
 
 class StartBackupExportUseCaseImpl(
     private val backupRepo: BackupRepo,
-    private val backupParser: IBackupParser,
+    private val backupParser: BackupParser,
     private val fileDataSource: FileDataSource,
     private val cipherDataSource: CipherDataSource
 ) : StartBackupExportUseCase {

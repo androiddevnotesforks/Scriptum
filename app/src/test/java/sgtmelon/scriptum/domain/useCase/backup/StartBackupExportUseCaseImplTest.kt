@@ -11,7 +11,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
@@ -27,7 +27,7 @@ class StartBackupExportUseCaseImplTest : ParentTest() {
 
     @MockK lateinit var backupRepo: BackupRepo
 
-    @MockK lateinit var backupParser: IBackupParser
+    @MockK lateinit var backupParser: BackupParser
     @MockK lateinit var fileDataSource: FileDataSource
     @MockK lateinit var cipherDataSource: CipherDataSource
 

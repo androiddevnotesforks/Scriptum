@@ -27,11 +27,11 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
  */
 class BackupParserImpl(
     private val context: Context,
-    private val selector: IBackupSelector,
+    private val selector: BackupParserSelector,
     private val colorConverter: ColorConverter,
     private val typeConverter: NoteTypeConverter,
     private val stringConverter: StringConverter
-) : IBackupParser {
+) : BackupParser {
 
     override fun collect(model: ParserResult): String = JSONObject().apply {
         val roomData = collectRoom(model)
@@ -132,7 +132,7 @@ class BackupParserImpl(
 
             if (hash != getHash(roomData)) return null
 
-            return selector.parseByVersion(roomData, version)
+            return selector.parse(roomData, version)
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }

@@ -23,17 +23,17 @@ import sgtmelon.scriptum.infrastructure.utils.record
 /**
  * Class for parsing different versions of backup files.
  *
- * Need parse here because it's not common thing, like [IBackupParser.collect]. Parsing may change
+ * Need parse here because it's not common thing, like [BackupParser.collect]. Parsing may change
  * by versions and because of that we can't use here some annotations
- * like in [IBackupParser.collect].
+ * like in [BackupParser.collect].
  */
 class BackupParserSelectorImpl(
     private val colorConverter: ColorConverter,
     private val typeConverter: NoteTypeConverter,
     private val stringConverter: StringConverter
-) : IBackupSelector {
+) : BackupParserSelector {
 
-    override fun parseByVersion(roomData: String, version: Int): ParserResult? {
+    override fun parse(roomData: String, version: Int): ParserResult? {
         return when (version) {
             1 -> getModelV1(roomData)
             else -> null

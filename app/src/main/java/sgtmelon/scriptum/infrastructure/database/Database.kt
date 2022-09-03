@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
-import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -46,7 +46,7 @@ abstract class Database : RoomDatabase() {
         /**
          * !!! CAUTION !!!
          *
-         * After change room version you must provide backport and update [IBackupParser.collect].
+         * After change room version you must provide backport and update [BackupParser.collect].
          */
         const val VERSION = 8
 
