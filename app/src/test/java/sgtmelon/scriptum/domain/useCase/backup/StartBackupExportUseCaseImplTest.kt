@@ -11,7 +11,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupCollector
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
@@ -27,18 +27,18 @@ class StartBackupExportUseCaseImplTest : ParentTest() {
 
     @MockK lateinit var backupRepo: BackupRepo
 
-    @MockK lateinit var backupParser: BackupParser
+    @MockK lateinit var backupCollector: BackupCollector
     @MockK lateinit var fileDataSource: FileDataSource
     @MockK lateinit var cipherDataSource: CipherDataSource
 
     private val startBackupExport by lazy {
-        StartBackupExportUseCaseImpl(backupRepo, backupParser, fileDataSource, cipherDataSource)
+        StartBackupExportUseCaseImpl(backupRepo, backupCollector, fileDataSource, cipherDataSource)
     }
 
     @After override fun tearDown() {
         super.tearDown()
 
-        confirmVerified(backupRepo, backupParser, fileDataSource, cipherDataSource)
+        confirmVerified(backupRepo, backupCollector, fileDataSource, cipherDataSource)
     }
 
     @Test fun invoke() {
@@ -50,7 +50,7 @@ class StartBackupExportUseCaseImplTest : ParentTest() {
         val path = nextString()
 
         coEvery { backupRepo.getData() } returns parserResult
-        every { backupParser.collect(parserResult) } returns data
+        every { backupCollector.convert(parserResult) } returns data
         every { cipherDataSource.encrypt(data) } returns encryptData
         every { fileDataSource.getTimeName(FileType.BACKUP) } returns timeName
         every { fileDataSource.writeFile(timeName, encryptData) } returns null
@@ -68,7 +68,7 @@ class StartBackupExportUseCaseImplTest : ParentTest() {
         coVerifySequence {
             repeat(times = 2) {
                 backupRepo.getData()
-                backupParser.collect(parserResult)
+                backupCollector.convert(parserResult)
                 cipherDataSource.encrypt(data)
                 fileDataSource.getTimeName(FileType.BACKUP)
                 fileDataSource.writeFile(timeName, encryptData)

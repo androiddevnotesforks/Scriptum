@@ -16,16 +16,6 @@ import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
-import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
-import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -57,102 +47,6 @@ class BackupParserImplTest : ParentBackupTest() {
         super.tearDown()
         confirmVerified(context, selector)
     }
-
-    @Test fun collect() {
-        val model = mockk<ParserResult>()
-        val data = getData()
-        val hash = nextString()
-
-        mockTag()
-        every { spyBackupParser.collectDatabase(model) } returns data
-        every { spyBackupParser.getHash(data) } returns hash
-
-        assertEquals(getBackupJson(hash, data), spyBackupParser.collect(model))
-
-        verifySequence {
-            spyBackupParser.collect(model)
-
-            spyBackupParser.collectDatabase(model)
-            context.getString(R.string.backup_version)
-            context.getString(R.string.backup_hash)
-            spyBackupParser.getHash(data)
-            context.getString(R.string.backup_database)
-        }
-    }
-
-    @Test fun collectDatabase() {
-        val model = mockk<ParserResult>()
-
-        val noteList = mockk<List<NoteEntity>>()
-        val rollList = mockk<List<RollEntity>>()
-        val rollVisibleList = mockk<List<RollVisibleEntity>>()
-        val rankList = mockk<List<RankEntity>>()
-        val alarmList = mockk<List<AlarmEntity>>()
-
-        val noteTableData = nextString()
-        val rollTableData = nextString()
-        val rollVisibleTableData = nextString()
-        val rankTableData = nextString()
-        val alarmTableData = nextString()
-
-        val data = JSONObject().apply {
-            put(Note.TABLE, noteTableData)
-            put(Roll.TABLE, rollTableData)
-            put(RollVisible.TABLE, rollVisibleTableData)
-            put(Rank.TABLE, rankTableData)
-            put(Alarm.TABLE, alarmTableData)
-        }.toString()
-
-        every { model.noteList } returns noteList
-        every { model.rollList } returns rollList
-        every { model.rollVisibleList } returns rollVisibleList
-        every { model.rankList } returns rankList
-        every { model.alarmList } returns alarmList
-
-        every { spyBackupParser.collectNoteTable(noteList) } returns noteTableData
-        every { spyBackupParser.collectRollTable(rollList) } returns rollTableData
-        every { spyBackupParser.collectRollVisibleTable(rollVisibleList) } returns rollVisibleTableData
-        every { spyBackupParser.collectRankTable(rankList) } returns rankTableData
-        every { spyBackupParser.collectAlarmTable(alarmList) } returns alarmTableData
-
-        assertEquals(data, spyBackupParser.collectDatabase(model))
-
-        verifySequence {
-            spyBackupParser.collectDatabase(model)
-
-            model.noteList
-            spyBackupParser.collectNoteTable(noteList)
-            model.rollList
-            spyBackupParser.collectRollTable(rollList)
-            model.rollVisibleList
-            spyBackupParser.collectRollVisibleTable(rollVisibleList)
-            model.rankList
-            spyBackupParser.collectRankTable(rankList)
-            model.alarmList
-            spyBackupParser.collectAlarmTable(alarmList)
-        }
-    }
-
-    @Test fun collectNoteTable() {
-        assertEquals(noteListJson, backupParser.collectNoteTable(noteList))
-    }
-
-    @Test fun collectRollTable() {
-        assertEquals(rollListJson, backupParser.collectRollTable(rollList))
-    }
-
-    @Test fun collectRollVisibleTable() {
-        assertEquals(rollVisibleListJson, backupParser.collectRollVisibleTable(rollVisibleList))
-    }
-
-    @Test fun collectRankTable() {
-        assertEquals(rankListJson, backupParser.collectRankTable(rankList))
-    }
-
-    @Test fun collectAlarmTable() {
-        assertEquals(alarmListJson, backupParser.collectAlarmTable(alarmList))
-    }
-
 
     @Test fun parse_badData() {
         val dataError = nextString()

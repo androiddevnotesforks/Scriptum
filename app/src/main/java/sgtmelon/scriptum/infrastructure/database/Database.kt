@@ -46,7 +46,7 @@ abstract class Database : RoomDatabase() {
         /**
          * !!! CAUTION !!!
          *
-         * After change room version you must provide backport and update [BackupParser.collect].
+         * After change room version you must provide backport and update [BackupParser].
          */
         const val VERSION = 8
 
