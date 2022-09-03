@@ -24,7 +24,7 @@ class BackupCollectorImpl(
     private val jsonConverter: EntityJsonConverter
 ) : BackupCollector {
 
-    override fun collect(model: ParserResult): String? {
+    override fun convert(model: ParserResult): String? {
         val database = collectDatabase(model) ?: return null
 
         try {

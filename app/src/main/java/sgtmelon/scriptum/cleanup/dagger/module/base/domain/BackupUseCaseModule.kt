@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.dagger.module.base.domain
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupCollector
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
@@ -25,12 +26,12 @@ class BackupUseCaseModule {
     @Provides
     fun provideStartBackupExportUseCase(
         backupRepo: BackupRepo,
-        backupParser: BackupParser,
+        backupCollector: BackupCollector,
         fileDataSource: FileDataSource,
         cipherDataSource: CipherDataSource
     ): StartBackupExportUseCase {
         return StartBackupExportUseCaseImpl(
-            backupRepo, backupParser, fileDataSource, cipherDataSource
+            backupRepo, backupCollector, fileDataSource, cipherDataSource
         )
     }
 

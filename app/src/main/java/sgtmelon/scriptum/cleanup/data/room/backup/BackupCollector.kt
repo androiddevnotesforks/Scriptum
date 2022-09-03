@@ -4,5 +4,5 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 
 interface BackupCollector {
 
-    fun collect(model: ParserResult): String?
+    fun convert(model: ParserResult): String?
 }
