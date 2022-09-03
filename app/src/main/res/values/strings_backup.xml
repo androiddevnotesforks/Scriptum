@@ -3,6 +3,6 @@
 
     <string name="backup_version" translatable="false">version</string>
     <string name="backup_hash" translatable="false">hash</string>
-    <string name="backup_room" translatable="false">room</string>
+    <string name="backup_database" translatable="false">room</string>
 
 </resources>

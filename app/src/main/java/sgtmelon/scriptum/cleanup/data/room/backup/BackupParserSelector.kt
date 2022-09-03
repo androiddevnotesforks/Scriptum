@@ -4,5 +4,5 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 
 interface BackupParserSelector {
 
-    fun parse(roomData: String, version: Int): ParserResult?
+    fun parse(data: String, version: Int): ParserResult?
 }

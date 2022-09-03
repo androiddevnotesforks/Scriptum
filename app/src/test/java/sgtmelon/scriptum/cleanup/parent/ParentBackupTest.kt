@@ -16,18 +16,18 @@ import sgtmelon.scriptum.infrastructure.model.key.Color
 abstract class ParentBackupTest : ParentTest() {
 
     protected val noteList = listOf(
-            NoteEntity(
-                    id = 11, create = "0", change = "3", name = "6", text = "9", color = Color.RED,
-                    type = NoteType.TEXT, rankId = 10, rankPs = 0, isBin = false, isStatus = true
-            ),
-            NoteEntity(
-                    id = 42, create = "1", change = "4", name = "7", text = "0", color = Color.GREEN,
-                    type = NoteType.ROLL, rankId = 23, rankPs = 10, isBin = true, isStatus = false
-            ),
-            NoteEntity(
-                    id = 98, create = "2", change = "5", name = "8", text = "1", color = Color.YELLOW,
-                    type = NoteType.TEXT, rankId = 0, rankPs = 2, isBin = false, isStatus = true
-            )
+        NoteEntity(
+            id = 11, create = "0", change = "3", name = "6", text = "9", color = Color.RED,
+            type = NoteType.TEXT, rankId = 10, rankPs = 0, isBin = false, isStatus = true
+        ),
+        NoteEntity(
+            id = 42, create = "1", change = "4", name = "7", text = "0", color = Color.GREEN,
+            type = NoteType.ROLL, rankId = 23, rankPs = 10, isBin = true, isStatus = false
+        ),
+        NoteEntity(
+            id = 98, create = "2", change = "5", name = "8", text = "1", color = Color.YELLOW,
+            type = NoteType.TEXT, rankId = 0, rankPs = 2, isBin = false, isStatus = true
+        )
     )
 
     protected val noteListJson = """[
@@ -37,9 +37,9 @@ abstract class ParentBackupTest : ParentTest() {
     ]""".clearAllSpace()
 
     protected val rollList = listOf(
-            RollEntity(id = 2, noteId = 4212, position = 0, isCheck = true, text = "first"),
-            RollEntity(id = 202, noteId = 80, position = 1, isCheck = false, text = "second"),
-            RollEntity(id = 75, noteId = 345, position = 2, isCheck = true, text = "third")
+        RollEntity(id = 2, noteId = 4212, position = 0, isCheck = true, text = "first"),
+        RollEntity(id = 202, noteId = 80, position = 1, isCheck = false, text = "second"),
+        RollEntity(id = 75, noteId = 345, position = 2, isCheck = true, text = "third")
     )
 
     protected val rollListJson = """[
@@ -49,9 +49,9 @@ abstract class ParentBackupTest : ParentTest() {
     ]""".clearAllSpace()
 
     protected val rollVisibleList = listOf(
-            RollVisibleEntity(id = 1012, noteId = 452, value = true),
-            RollVisibleEntity(id = 214, noteId = 168, value = true),
-            RollVisibleEntity(id = 975, noteId = 324, value = false)
+        RollVisibleEntity(id = 1012, noteId = 452, value = true),
+        RollVisibleEntity(id = 214, noteId = 168, value = true),
+        RollVisibleEntity(id = 975, noteId = 324, value = false)
     )
 
     protected val rollVisibleListJson = """[
@@ -61,9 +61,27 @@ abstract class ParentBackupTest : ParentTest() {
     ]""".clearAllSpace()
 
     protected val rankList = listOf(
-            RankEntity(id = 12, noteId = mutableListOf(102, 145, 32), position = 0, name = "first", isVisible = false),
-            RankEntity(id = 24, noteId = mutableListOf(107), position = 1, name = "second", isVisible = true),
-            RankEntity(id = 65, noteId = mutableListOf(198, 123, 282), position = 2, name = "third", isVisible = true)
+        RankEntity(
+            id = 12,
+            noteId = mutableListOf(102, 145, 32),
+            position = 0,
+            name = "first",
+            isVisible = false
+        ),
+        RankEntity(
+            id = 24,
+            noteId = mutableListOf(107),
+            position = 1,
+            name = "second",
+            isVisible = true
+        ),
+        RankEntity(
+            id = 65,
+            noteId = mutableListOf(198, 123, 282),
+            position = 2,
+            name = "third",
+            isVisible = true
+        )
     )
 
     protected val rankListJson = """[
@@ -73,9 +91,9 @@ abstract class ParentBackupTest : ParentTest() {
     ]""".clearAllSpace()
 
     protected val alarmList = listOf(
-            AlarmEntity(id = 12, noteId = 102, date = "first"),
-            AlarmEntity(id = 24, noteId = 107, date = "second"),
-            AlarmEntity(id = 65, noteId = 198, date = "third")
+        AlarmEntity(id = 12, noteId = 102, date = "first"),
+        AlarmEntity(id = 24, noteId = 107, date = "second"),
+        AlarmEntity(id = 65, noteId = 198, date = "third")
     )
 
     protected val alarmListJson = """[
@@ -87,10 +105,9 @@ abstract class ParentBackupTest : ParentTest() {
 
     private fun String.clearAllSpace(): String {
         return trim()
-                .replace("\n".toRegex(), replacement = "")
-                .replace("\\[\\s+\\{".toRegex(), replacement = "[{")
-                .replace("},\\s+\\{".toRegex(), replacement = "},{")
-                .replace("}\\s+]".toRegex(), replacement = "}]")
+            .replace("\n".toRegex(), replacement = "")
+            .replace("\\[\\s+\\{".toRegex(), replacement = "[{")
+            .replace("},\\s+\\{".toRegex(), replacement = "},{")
+            .replace("}\\s+]".toRegex(), replacement = "}]")
     }
-
 }

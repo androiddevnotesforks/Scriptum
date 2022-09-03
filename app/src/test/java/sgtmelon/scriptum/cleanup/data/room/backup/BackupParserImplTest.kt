@@ -51,7 +51,7 @@ class BackupParserImplTest : ParentBackupTest() {
 
     private val tagVersion = nextString()
     private val tagHash = nextString()
-    private val tagRoom = nextString()
+    private val tagDatabase = nextString()
 
     @After override fun tearDown() {
         super.tearDown()
@@ -60,27 +60,27 @@ class BackupParserImplTest : ParentBackupTest() {
 
     @Test fun collect() {
         val model = mockk<ParserResult>()
-        val roomData = getRoomData()
+        val data = getData()
         val hash = nextString()
 
         mockTag()
-        every { spyBackupParser.collectRoom(model) } returns roomData
-        every { spyBackupParser.getHash(roomData) } returns hash
+        every { spyBackupParser.collectDatabase(model) } returns data
+        every { spyBackupParser.getHash(data) } returns hash
 
-        assertEquals(getBackupData(hash, roomData), spyBackupParser.collect(model))
+        assertEquals(getBackupJson(hash, data), spyBackupParser.collect(model))
 
         verifySequence {
             spyBackupParser.collect(model)
 
-            spyBackupParser.collectRoom(model)
+            spyBackupParser.collectDatabase(model)
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)
-            spyBackupParser.getHash(roomData)
-            context.getString(R.string.backup_room)
+            spyBackupParser.getHash(data)
+            context.getString(R.string.backup_database)
         }
     }
 
-    @Test fun collectRoom() {
+    @Test fun collectDatabase() {
         val model = mockk<ParserResult>()
 
         val noteList = mockk<List<NoteEntity>>()
@@ -95,7 +95,7 @@ class BackupParserImplTest : ParentBackupTest() {
         val rankTableData = nextString()
         val alarmTableData = nextString()
 
-        val roomData = JSONObject().apply {
+        val data = JSONObject().apply {
             put(Note.TABLE, noteTableData)
             put(Roll.TABLE, rollTableData)
             put(RollVisible.TABLE, rollVisibleTableData)
@@ -115,10 +115,10 @@ class BackupParserImplTest : ParentBackupTest() {
         every { spyBackupParser.collectRankTable(rankList) } returns rankTableData
         every { spyBackupParser.collectAlarmTable(alarmList) } returns alarmTableData
 
-        assertEquals(roomData, spyBackupParser.collectRoom(model))
+        assertEquals(data, spyBackupParser.collectDatabase(model))
 
         verifySequence {
-            spyBackupParser.collectRoom(model)
+            spyBackupParser.collectDatabase(model)
 
             model.noteList
             spyBackupParser.collectNoteTable(noteList)
@@ -158,7 +158,7 @@ class BackupParserImplTest : ParentBackupTest() {
         val dataError = nextString()
         val versionError = JSONObject().apply { put(tagVersion, nextString()) }.toString()
         val hashError = JSONObject().apply { put(tagVersion, Random.nextInt()) }.toString()
-        val roomError = JSONObject().apply {
+        val databaseError = JSONObject().apply {
             put(tagVersion, Random.nextInt())
             put(tagHash, nextString())
         }.toString()
@@ -168,7 +168,7 @@ class BackupParserImplTest : ParentBackupTest() {
         assertNull(spyBackupParser.parse(dataError))
         assertNull(spyBackupParser.parse(versionError))
         assertNull(spyBackupParser.parse(hashError))
-        assertNull(spyBackupParser.parse(roomError))
+        assertNull(spyBackupParser.parse(databaseError))
 
         verifySequence {
             spyBackupParser.parse(dataError)
@@ -180,54 +180,54 @@ class BackupParserImplTest : ParentBackupTest() {
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)
 
-            spyBackupParser.parse(roomError)
+            spyBackupParser.parse(databaseError)
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)
-            context.getString(R.string.backup_room)
+            context.getString(R.string.backup_database)
         }
     }
 
     @Test fun parse_badHash() {
-        val roomData = getRoomData()
-        val data = getBackupData(nextString(), roomData, Random.nextInt())
+        val data = getData()
+        val backupJson = getBackupJson(nextString(), data, Random.nextInt())
 
         mockTag()
-        every { spyBackupParser.getHash(roomData) } returns nextString()
+        every { spyBackupParser.getHash(data) } returns nextString()
 
-        assertNull(spyBackupParser.parse(data))
+        assertNull(spyBackupParser.parse(backupJson))
 
         verifySequence {
-            spyBackupParser.parse(data)
+            spyBackupParser.parse(backupJson)
 
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)
-            context.getString(R.string.backup_room)
-            spyBackupParser.getHash(roomData)
+            context.getString(R.string.backup_database)
+            spyBackupParser.getHash(data)
         }
     }
 
     @Test fun parse_goodData() {
         val model = mockk<ParserResult>()
-        val roomData = getRoomData()
+        val data = getData()
         val hash = nextString()
         val version = Random.nextInt()
 
-        val data = getBackupData(hash, roomData, version)
+        val backupJson = getBackupJson(hash, data, version)
 
         mockTag()
-        every { spyBackupParser.getHash(roomData) } returns hash
-        every { selector.parse(roomData, version) } returns model
+        every { spyBackupParser.getHash(data) } returns hash
+        every { selector.parse(data, version) } returns model
 
-        assertEquals(model, spyBackupParser.parse(data))
+        assertEquals(model, spyBackupParser.parse(backupJson))
 
         verifySequence {
-            spyBackupParser.parse(data)
+            spyBackupParser.parse(backupJson)
 
             context.getString(R.string.backup_version)
             context.getString(R.string.backup_hash)
-            context.getString(R.string.backup_room)
-            spyBackupParser.getHash(roomData)
-            selector.parse(roomData, version)
+            context.getString(R.string.backup_database)
+            spyBackupParser.getHash(data)
+            selector.parse(data, version)
         }
     }
 
@@ -250,28 +250,29 @@ class BackupParserImplTest : ParentBackupTest() {
     //region Private help functions
 
     /**
-     * Imitate the result of collect room.
+     * Imitate the result of collected database.
      */
-    private fun getRoomData() = StringBuilder().apply {
+    private fun getData() = StringBuilder().apply {
         repeat(times = 5) { append(nextString()) }
     }.toString()
 
     /**
      * Imitate the backup file content.
      */
-    private fun getBackupData(
-        hash: String, roomData: String,
+    private fun getBackupJson(
+        hash: String,
+        data: String,
         version: Any = BackupParserImpl.VERSION
     ) = JSONObject().apply {
         put(tagVersion, version)
         put(tagHash, hash)
-        put(tagRoom, roomData)
+        put(tagDatabase, data)
     }.toString()
 
     private fun mockTag() {
         every { context.getString(R.string.backup_version) } returns tagVersion
         every { context.getString(R.string.backup_hash) } returns tagHash
-        every { context.getString(R.string.backup_room) } returns tagRoom
+        every { context.getString(R.string.backup_database) } returns tagDatabase
     }
 
     //endregion

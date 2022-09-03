@@ -9,6 +9,7 @@ import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
@@ -19,6 +20,8 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
+import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.test.common.nextString
 
 /**
@@ -30,32 +33,38 @@ class BackupParserSelectorImplTest : ParentBackupTest() {
     private val typeConverter = NoteTypeConverter()
     private val stringConverter = StringConverter()
 
-    private val backupSelector by lazy {
+    private val selector by lazy {
         BackupParserSelectorImpl(colorConverter, typeConverter, stringConverter)
     }
-    private val spyBackupSelector by lazy { spyk(backupSelector) }
+    private val spySelector by lazy { spyk(selector) }
 
     @Test fun parseByVersion() {
         val model = mockk<ParserResult>()
-        val roomData = nextString()
+        val data = nextString()
 
-        every { spyBackupSelector.getModelV1(roomData) } returns model
+        every { spySelector.getModelV1(data) } returns model
 
-        assertNull(spyBackupSelector.parse(nextString(), version = -1))
-        assertEquals(model, spyBackupSelector.parse(roomData, version = 1))
+        assertNull(spySelector.parse(nextString(), version = -1))
+        assertEquals(model, spySelector.parse(data, version = 1))
 
         verifySequence {
-            spyBackupSelector.parse(any(), version = -1)
+            spySelector.parse(any(), version = -1)
 
-            spyBackupSelector.parse(roomData, version = 1)
-            spyBackupSelector.getModelV1(roomData)
+            spySelector.parse(data, version = 1)
+            spySelector.getModelV1(data)
         }
     }
 
     //region Version 1
 
     @Test fun getModelV1() {
-        val roomData = JSONObject().apply {
+        FastMock.fireExtensions()
+        every { any<BackupParserException>().record() } returns Unit
+
+        val badData = nextString()
+        assertNull(spySelector.getModelV1(badData))
+
+        val goodData = JSONObject().apply {
             put(Note.TABLE, noteListJson)
             put(Roll.TABLE, rollListJson)
             put(RollVisible.TABLE, rollVisibleListJson)
@@ -65,95 +74,98 @@ class BackupParserSelectorImplTest : ParentBackupTest() {
 
         val model = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
 
-        every { spyBackupSelector.getNoteTableV1(any()) } returns null
+        every { spySelector.getNoteTableV1(any()) } throws Throwable()
 
-        assertNull(spyBackupSelector.getModelV1(roomData))
+        assertNull(spySelector.getModelV1(goodData))
 
-        every { spyBackupSelector.getNoteTableV1(any()) } returns noteList
-        every { spyBackupSelector.getRollTableV1(any()) } returns null
+        every { spySelector.getNoteTableV1(any()) } returns noteList
+        every { spySelector.getRollTableV1(any()) } throws Throwable()
 
-        assertNull(spyBackupSelector.getModelV1(roomData))
+        assertNull(spySelector.getModelV1(goodData))
 
-        every { spyBackupSelector.getRollTableV1(any()) } returns rollList
-        every { spyBackupSelector.getRollVisibleTableV1(any()) } returns null
+        every { spySelector.getRollTableV1(any()) } returns rollList
+        every { spySelector.getRollVisibleTableV1(any()) } throws Throwable()
 
-        assertNull(spyBackupSelector.getModelV1(roomData))
+        assertNull(spySelector.getModelV1(goodData))
 
-        every { spyBackupSelector.getRollVisibleTableV1(any()) } returns rollVisibleList
-        every { spyBackupSelector.getRankTableV1(any()) } returns null
+        every { spySelector.getRollVisibleTableV1(any()) } returns rollVisibleList
+        every { spySelector.getRankTableV1(any()) } throws Throwable()
 
-        assertNull(spyBackupSelector.getModelV1(roomData))
+        assertNull(spySelector.getModelV1(goodData))
 
-        every { spyBackupSelector.getRankTableV1(any()) } returns rankList
-        every { spyBackupSelector.getAlarmTableV1(any()) } returns null
+        every { spySelector.getRankTableV1(any()) } returns rankList
+        every { spySelector.getAlarmTableV1(any()) } throws Throwable()
 
-        assertNull(spyBackupSelector.getModelV1(roomData))
+        assertNull(spySelector.getModelV1(goodData))
 
-        every { spyBackupSelector.getAlarmTableV1(any()) } returns alarmList
+        every { spySelector.getAlarmTableV1(any()) } returns alarmList
 
-        assertEquals(model, spyBackupSelector.getModelV1(roomData))
+        assertEquals(spySelector.getModelV1(goodData), model)
 
         verifySequence {
-            spyBackupSelector.getModelV1(roomData)
-            spyBackupSelector.getNoteTableV1(any())
+            spySelector.getModelV1(badData)
 
-            spyBackupSelector.getModelV1(roomData)
-            spyBackupSelector.getNoteTableV1(any())
-            spyBackupSelector.getRollTableV1(any())
+            spySelector.getModelV1(goodData)
+            spySelector.getNoteTableV1(any())
 
-            spyBackupSelector.getModelV1(roomData)
-            spyBackupSelector.getNoteTableV1(any())
-            spyBackupSelector.getRollTableV1(any())
-            spyBackupSelector.getRollVisibleTableV1(any())
+            spySelector.getModelV1(goodData)
+            spySelector.getNoteTableV1(any())
+            spySelector.getRollTableV1(any())
 
-            spyBackupSelector.getModelV1(roomData)
-            spyBackupSelector.getNoteTableV1(any())
-            spyBackupSelector.getRollTableV1(any())
-            spyBackupSelector.getRollVisibleTableV1(any())
-            spyBackupSelector.getRankTableV1(any())
+            spySelector.getModelV1(goodData)
+            spySelector.getNoteTableV1(any())
+            spySelector.getRollTableV1(any())
+            spySelector.getRollVisibleTableV1(any())
 
-            spyBackupSelector.getModelV1(roomData)
-            spyBackupSelector.getNoteTableV1(any())
-            spyBackupSelector.getRollTableV1(any())
-            spyBackupSelector.getRollVisibleTableV1(any())
-            spyBackupSelector.getRankTableV1(any())
-            spyBackupSelector.getAlarmTableV1(any())
+            spySelector.getModelV1(goodData)
+            spySelector.getNoteTableV1(any())
+            spySelector.getRollTableV1(any())
+            spySelector.getRollVisibleTableV1(any())
+            spySelector.getRankTableV1(any())
 
-            spyBackupSelector.getModelV1(roomData)
-            spyBackupSelector.getNoteTableV1(any())
-            spyBackupSelector.getRollTableV1(any())
-            spyBackupSelector.getRollVisibleTableV1(any())
-            spyBackupSelector.getRankTableV1(any())
-            spyBackupSelector.getAlarmTableV1(any())
+            spySelector.getModelV1(goodData)
+            spySelector.getNoteTableV1(any())
+            spySelector.getRollTableV1(any())
+            spySelector.getRollVisibleTableV1(any())
+            spySelector.getRankTableV1(any())
+            spySelector.getAlarmTableV1(any())
+
+            spySelector.getModelV1(goodData)
+            spySelector.getNoteTableV1(any())
+            spySelector.getRollTableV1(any())
+            spySelector.getRollVisibleTableV1(any())
+            spySelector.getRankTableV1(any())
+            spySelector.getAlarmTableV1(any())
         }
     }
+
+    // TODO add tests with throws exception
 
     // TODO add skip test (if converter return null)
     @Test fun getNoteTableV1() {
         val jsonArray = JSONArray(noteListJson)
-        assertEquals(noteList, backupSelector.getNoteTableV1(jsonArray))
+        assertEquals(selector.getNoteTableV1(jsonArray), noteList)
     }
 
     @Test fun getRollTableV1() {
         val jsonArray = JSONArray(rollListJson)
-        assertEquals(rollList, backupSelector.getRollTableV1(jsonArray))
+        assertEquals(selector.getRollTableV1(jsonArray), rollList)
     }
 
     @Test fun getRollVisibleTableV1() {
         val jsonArray = JSONArray(rollVisibleListJson)
-        assertEquals(rollVisibleList, backupSelector.getRollVisibleTableV1(jsonArray))
+        assertEquals(selector.getRollVisibleTableV1(jsonArray), rollVisibleList)
     }
 
     @Test fun getRankTableV1() {
         val jsonArray = JSONArray(rankListJson)
-        assertEquals(rankList, backupSelector.getRankTableV1(jsonArray))
+        assertEquals(selector.getRankTableV1(jsonArray), rankList)
     }
 
     @Test fun getAlarmTableV1() {
         val jsonArray = JSONArray(alarmListJson)
-        assertEquals(alarmList, backupSelector.getAlarmTableV1(jsonArray))
+        assertEquals(selector.getAlarmTableV1(jsonArray), alarmList)
     }
 
     //endregion
-
 }

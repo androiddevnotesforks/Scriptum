@@ -33,18 +33,18 @@ class BackupParserSelectorImpl(
     private val stringConverter: StringConverter
 ) : BackupParserSelector {
 
-    override fun parse(roomData: String, version: Int): ParserResult? {
+    override fun parse(data: String, version: Int): ParserResult? {
         return when (version) {
-            1 -> getModelV1(roomData)
+            1 -> getModelV1(data)
             else -> null
         }
     }
 
     //region Version 1
 
-    @RunPrivate fun getModelV1(roomData: String): ParserResult? {
+    @RunPrivate fun getModelV1(data: String): ParserResult? {
         try {
-            val jsonObject = JSONObject(roomData)
+            val jsonObject = JSONObject(data)
             val noteTable = JSONArray(jsonObject.getString(Note.TABLE))
             val rollTable = JSONArray(jsonObject.getString(Roll.TABLE))
             val rollVisibleTable = JSONArray(jsonObject.getString(RollVisible.TABLE))

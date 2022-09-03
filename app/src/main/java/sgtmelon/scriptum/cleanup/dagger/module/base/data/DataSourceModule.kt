@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
+import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
@@ -15,6 +16,7 @@ import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
+import sgtmelon.scriptum.infrastructure.backup.dataSource.BackupDataSourceImpl
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
@@ -37,19 +39,27 @@ class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideAlarmDataSource(dao: AlarmDao): AlarmDataSource = AlarmDataSourceImpl(dao)
+    fun provideAlarmDataSource(dao: AlarmDao): AlarmDataSource {
+        return AlarmDataSourceImpl(dao)
+    }
 
     @Provides
     @Singleton
-    fun provideNoteDataSource(dao: NoteDao): NoteDataSource = NoteDataSourceImpl(dao)
+    fun provideNoteDataSource(dao: NoteDao): NoteDataSource {
+        return NoteDataSourceImpl(dao)
+    }
 
     @Provides
     @Singleton
-    fun provideRankDataSource(dao: RankDao): RankDataSource = RankDataSourceImpl(dao)
+    fun provideRankDataSource(dao: RankDao): RankDataSource {
+        return RankDataSourceImpl(dao)
+    }
 
     @Provides
     @Singleton
-    fun provideRollDataSource(dao: RollDao): RollDataSource = RollDataSourceImpl(dao)
+    fun provideRollDataSource(dao: RollDao): RollDataSource {
+        return RollDataSourceImpl(dao)
+    }
 
     @Provides
     @Singleton
@@ -85,5 +95,14 @@ class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideCipherDataSource(): CipherDataSource = CipherDataSourceImpl()
+    fun provideCipherDataSource(): CipherDataSource {
+        return CipherDataSourceImpl()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideBackupDataSource(context: Context): BackupDataSource {
+        return BackupDataSourceImpl(context)
+    }
 }

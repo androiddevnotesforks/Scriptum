@@ -1,12 +1,9 @@
 package sgtmelon.scriptum.cleanup.data.room.backup
 
-import android.content.Context
-import android.util.Log
 import java.security.MessageDigest
 import org.json.JSONArray
 import org.json.JSONObject
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
@@ -20,13 +17,16 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
+import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * Class for help control backup file parsing.
  */
 class BackupParserImpl(
-    private val context: Context,
+    private val dataSource: BackupDataSource,
     private val selector: BackupParserSelector,
     private val colorConverter: ColorConverter,
     private val typeConverter: NoteTypeConverter,
@@ -34,14 +34,14 @@ class BackupParserImpl(
 ) : BackupParser {
 
     override fun collect(model: ParserResult): String = JSONObject().apply {
-        val roomData = collectRoom(model)
+        val data = collectDatabase(model)
 
-        put(context.getString(R.string.backup_version), VERSION)
-        put(context.getString(R.string.backup_hash), getHash(roomData))
-        put(context.getString(R.string.backup_room), roomData)
+        put(dataSource.versionKey, VERSION)
+        put(dataSource.hashKey, getHash(data))
+        put(dataSource.databaseKey, data)
     }.toString()
 
-    @RunPrivate fun collectRoom(model: ParserResult): String = JSONObject().apply {
+    @RunPrivate fun collectDatabase(model: ParserResult): String = JSONObject().apply {
         put(Note.TABLE, collectNoteTable(model.noteList))
         put(Roll.TABLE, collectRollTable(model.rollList))
         put(RollVisible.TABLE, collectRollVisibleTable(model.rollVisibleList))
@@ -124,17 +124,17 @@ class BackupParserImpl(
 
     override fun parse(data: String): ParserResult? {
         try {
-            val dataObject = JSONObject(data)
+            val jsonObject = JSONObject(data)
 
-            val version = dataObject.getInt(context.getString(R.string.backup_version))
-            val hash = dataObject.getString(context.getString(R.string.backup_hash))
-            val roomData = dataObject.getString(context.getString(R.string.backup_room))
+            val version = jsonObject.getInt(dataSource.versionKey)
+            val hash = jsonObject.getString(dataSource.hashKey)
+            val database = jsonObject.getString(dataSource.databaseKey)
 
-            if (hash != getHash(roomData)) return null
+            if (hash != getHash(database)) return null
 
-            return selector.parse(roomData, version)
-        } catch (e: Exception) {
-            Log.e(TAG, e.toString())
+            return selector.parse(database, version)
+        } catch (e: Throwable) {
+            BackupParserException(e).record()
         }
 
         return null
@@ -157,8 +157,6 @@ class BackupParserImpl(
     }.toString()
 
     companion object {
-        private val TAG = BackupParserImpl::class.java.simpleName
-
         /**
          * When update version need add case inside [BackupParserSelectorImpl].
          */
