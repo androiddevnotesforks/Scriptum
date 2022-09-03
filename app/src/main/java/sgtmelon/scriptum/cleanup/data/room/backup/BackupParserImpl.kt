@@ -25,7 +25,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 /**
  * Class for help control backup file parsing.
  */
-class BackupParser(
+class BackupParserImpl(
     private val context: Context,
     private val selector: IBackupSelector,
     private val colorConverter: ColorConverter,
@@ -157,10 +157,10 @@ class BackupParser(
     }.toString()
 
     companion object {
-        private val TAG = BackupParser::class.java.simpleName
+        private val TAG = BackupParserImpl::class.java.simpleName
 
         /**
-         * When update version need add case inside [BackupSelector].
+         * When update version need add case inside [BackupParserSelectorImpl].
          */
         const val VERSION = 1
     }

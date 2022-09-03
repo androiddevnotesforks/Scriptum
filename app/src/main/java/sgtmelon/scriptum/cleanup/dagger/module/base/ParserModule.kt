@@ -4,8 +4,8 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupSelector
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserImpl
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserSelectorImpl
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupSelector
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
@@ -26,7 +26,7 @@ class ParserModule {
         typeConverter: NoteTypeConverter,
         stringConverter: StringConverter
     ): IBackupSelector {
-        return BackupSelector(colorConverter, typeConverter, stringConverter)
+        return BackupParserSelectorImpl(colorConverter, typeConverter, stringConverter)
     }
 
     @Provides
@@ -38,7 +38,7 @@ class ParserModule {
         typeConverter: NoteTypeConverter,
         stringConverter: StringConverter
     ): IBackupParser {
-        return BackupParser(context, selector, colorConverter, typeConverter, stringConverter)
+        return BackupParserImpl(context, selector, colorConverter, typeConverter, stringConverter)
     }
 
 }

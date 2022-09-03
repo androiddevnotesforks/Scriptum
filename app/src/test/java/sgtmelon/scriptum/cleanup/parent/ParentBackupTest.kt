@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.parent
 
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserTest
-import sgtmelon.scriptum.cleanup.data.room.backup.BackupSelectorTest
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserImplTest
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserSelectorImplTest
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -11,7 +11,7 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
- * Parent test for [BackupParserTest] and [BackupSelectorTest].
+ * Parent test for [BackupParserImplTest] and [BackupParserSelectorImplTest].
  */
 abstract class ParentBackupTest : ParentTest() {
 

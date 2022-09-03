@@ -32,19 +32,19 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [BackupParser].
+ * Test for [BackupParserImpl].
  */
-class BackupParserTest : ParentBackupTest() {
+class BackupParserImplTest : ParentBackupTest() {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var selector: BackupSelector
+    @MockK lateinit var selector: BackupParserSelectorImpl
 
     private val colorConverter = ColorConverter()
     private val typeConverter = NoteTypeConverter()
     private val stringConverter = StringConverter()
 
     private val backupParser by lazy {
-        BackupParser(context, selector, colorConverter, typeConverter, stringConverter)
+        BackupParserImpl(context, selector, colorConverter, typeConverter, stringConverter)
     }
 
     private val spyBackupParser by lazy { spyk(backupParser) }
@@ -261,7 +261,7 @@ class BackupParserTest : ParentBackupTest() {
      */
     private fun getBackupData(
         hash: String, roomData: String,
-        version: Any = BackupParser.VERSION
+        version: Any = BackupParserImpl.VERSION
     ) = JSONObject().apply {
         put(tagVersion, version)
         put(tagHash, hash)

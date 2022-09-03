@@ -27,7 +27,7 @@ import sgtmelon.scriptum.infrastructure.utils.record
  * by versions and because of that we can't use here some annotations
  * like in [IBackupParser.collect].
  */
-class BackupSelector(
+class BackupParserSelectorImpl(
     private val colorConverter: ColorConverter,
     private val typeConverter: NoteTypeConverter,
     private val stringConverter: StringConverter

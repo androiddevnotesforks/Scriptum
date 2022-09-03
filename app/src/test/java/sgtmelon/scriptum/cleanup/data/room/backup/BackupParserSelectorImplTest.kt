@@ -22,16 +22,16 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [BackupSelector].
+ * Test for [BackupParserSelectorImpl].
  */
-class BackupSelectorTest : ParentBackupTest() {
+class BackupParserSelectorImplTest : ParentBackupTest() {
 
     private val colorConverter = ColorConverter()
     private val typeConverter = NoteTypeConverter()
     private val stringConverter = StringConverter()
 
     private val backupSelector by lazy {
-        BackupSelector(colorConverter, typeConverter, stringConverter)
+        BackupParserSelectorImpl(colorConverter, typeConverter, stringConverter)
     }
     private val spyBackupSelector by lazy { spyk(backupSelector) }
 
