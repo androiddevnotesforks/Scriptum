@@ -15,6 +15,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 /**
  * Module for provide parser classes.
  */
+// TODO refactor this classes and make them repos or something like this
 @Module
 class ParserModule {
 

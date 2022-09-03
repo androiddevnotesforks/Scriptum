@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.data.room.backup
 
-import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 import sgtmelon.common.test.annotation.RunPrivate
@@ -18,6 +17,8 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * Class for parsing different versions of backup files.
@@ -50,121 +51,146 @@ class BackupSelector(
             val rankTable = JSONArray(jsonObject.getString(Rank.TABLE))
             val alarmTable = JSONArray(jsonObject.getString(Alarm.TABLE))
 
-            val noteList = getNoteTableV1(noteTable) ?: return null
-            val rollList = getRollTableV1(rollTable) ?: return null
-            val rollVisibleList = getRollVisibleTableV1(rollVisibleTable) ?: return null
-            val rankList = getRankTableV1(rankTable) ?: return null
-            val alarmList = getAlarmTableV1(alarmTable) ?: return null
+            val noteList = getNoteTableV1(noteTable)
+            val rollList = getRollTableV1(rollTable)
+            val rollVisibleList = getRollVisibleTableV1(rollVisibleTable)
+            val rankList = getRankTableV1(rankTable)
+            val alarmList = getAlarmTableV1(alarmTable)
 
             return ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
         } catch (e: Throwable) {
-            // TODO send to firebase
-            Log.i(TAG, e.toString())
+            BackupParserException(e).record()
         }
 
         return null
     }
 
-    @RunPrivate fun getNoteTableV1(jsonArray: JSONArray): List<NoteEntity>? {
+    @RunPrivate fun getNoteTableV1(jsonArray: JSONArray): List<NoteEntity> {
         val list = mutableListOf<NoteEntity>()
 
         for (i in 0 until jsonArray.length()) {
-            (jsonArray.get(i) as? JSONObject)?.apply {
-                // TODO may be use not return (continue)?
-                val type = typeConverter.toEnum(getInt(Note.TYPE)) ?: return null
-                // TODO may be use not return (continue)?
-                val color = colorConverter.toEnum(getInt(Note.COLOR)) ?: return null
-
-                list.add(NoteEntity(
-                        getLong(Note.ID),
-                        getString(Note.CREATE),
-                        getString(Note.CHANGE),
-                        getString(Note.NAME),
-                        getString(Note.TEXT),
-                        color,
-                        type,
-                        getLong(Note.RANK_ID),
-                        getInt(Note.RANK_PS),
-                        getBoolean(Note.BIN),
-                        getBoolean(Note.STATUS)
-                ))
-            } ?: return null
+            try {
+                val entity = getNoteEntityV1(jsonArray.getJSONObject(i)) ?: continue
+                list.add(entity)
+            } catch (e: Throwable) {
+                BackupParserException(e).record()
+            }
         }
 
         return list
     }
 
-    @RunPrivate fun getRollTableV1(jsonArray: JSONArray): List<RollEntity>? {
+    @RunPrivate fun getNoteEntityV1(jsonObject: JSONObject): NoteEntity? {
+        val type = typeConverter.toEnum(jsonObject.getInt(Note.TYPE)) ?: return null
+        val color = colorConverter.toEnum(jsonObject.getInt(Note.COLOR)) ?: return null
+
+        return NoteEntity(
+            jsonObject.getLong(Note.ID),
+            jsonObject.getString(Note.CREATE),
+            jsonObject.getString(Note.CHANGE),
+            jsonObject.getString(Note.NAME),
+            jsonObject.getString(Note.TEXT),
+            color,
+            type,
+            jsonObject.getLong(Note.RANK_ID),
+            jsonObject.getInt(Note.RANK_PS),
+            jsonObject.getBoolean(Note.BIN),
+            jsonObject.getBoolean(Note.STATUS)
+        )
+    }
+
+    @RunPrivate fun getRollTableV1(jsonArray: JSONArray): List<RollEntity> {
         val list = mutableListOf<RollEntity>()
 
         for (i in 0 until jsonArray.length()) {
-            (jsonArray.get(i) as? JSONObject)?.apply {
-                list.add(RollEntity(
-                        getLong(Roll.ID),
-                        getLong(Roll.NOTE_ID),
-                        getInt(Roll.POSITION),
-                        getBoolean(Roll.CHECK),
-                        getString(Roll.TEXT)
-                ))
-            } ?: return null
+            try {
+                list.add(getRollEntityV1(jsonArray.getJSONObject(i)))
+            } catch (e: Throwable) {
+                BackupParserException(e).record()
+            }
         }
 
         return list
     }
 
-    @RunPrivate fun getRollVisibleTableV1(jsonArray: JSONArray): List<RollVisibleEntity>? {
+    @RunPrivate fun getRollEntityV1(jsonObject: JSONObject): RollEntity {
+        return RollEntity(
+            jsonObject.getLong(Roll.ID),
+            jsonObject.getLong(Roll.NOTE_ID),
+            jsonObject.getInt(Roll.POSITION),
+            jsonObject.getBoolean(Roll.CHECK),
+            jsonObject.getString(Roll.TEXT)
+        )
+    }
+
+    @RunPrivate fun getRollVisibleTableV1(jsonArray: JSONArray): List<RollVisibleEntity> {
         val list = mutableListOf<RollVisibleEntity>()
 
         for (i in 0 until jsonArray.length()) {
-            (jsonArray.get(i) as? JSONObject)?.apply {
-                list.add(RollVisibleEntity(
-                        getLong(RollVisible.ID),
-                        getLong(RollVisible.NOTE_ID),
-                        getBoolean(RollVisible.VALUE)
-                ))
-            } ?: return null
+            try {
+                list.add(getRollVisibleEntityV1(jsonArray.getJSONObject(i)))
+            } catch (e: Throwable) {
+                BackupParserException(e).record()
+            }
         }
 
         return list
     }
 
-    @RunPrivate fun getRankTableV1(jsonArray: JSONArray): List<RankEntity>? {
+    @RunPrivate fun getRollVisibleEntityV1(jsonObject: JSONObject): RollVisibleEntity {
+        return RollVisibleEntity(
+            jsonObject.getLong(RollVisible.ID),
+            jsonObject.getLong(RollVisible.NOTE_ID),
+            jsonObject.getBoolean(RollVisible.VALUE)
+        )
+    }
+
+    @RunPrivate fun getRankTableV1(jsonArray: JSONArray): List<RankEntity> {
         val list = mutableListOf<RankEntity>()
 
         for (i in 0 until jsonArray.length()) {
-            (jsonArray.get(i) as? JSONObject)?.apply {
-                list.add(RankEntity(
-                        getLong(Rank.ID),
-                        stringConverter.toList(getString(Rank.NOTE_ID)),
-                        getInt(Rank.POSITION),
-                        getString(Rank.NAME),
-                        getBoolean(Rank.VISIBLE)
-                ))
-            } ?: return null
+            try {
+                list.add(getRankEntityV1(jsonArray.getJSONObject(i)))
+            } catch (e: Throwable) {
+                BackupParserException(e).record()
+            }
         }
 
         return list
     }
 
-    @RunPrivate fun getAlarmTableV1(jsonArray: JSONArray): List<AlarmEntity>? {
+    @RunPrivate fun getRankEntityV1(jsonObject: JSONObject): RankEntity {
+        return RankEntity(
+            jsonObject.getLong(Rank.ID),
+            stringConverter.toList(jsonObject.getString(Rank.NOTE_ID)),
+            jsonObject.getInt(Rank.POSITION),
+            jsonObject.getString(Rank.NAME),
+            jsonObject.getBoolean(Rank.VISIBLE)
+        )
+    }
+
+    @RunPrivate fun getAlarmTableV1(jsonArray: JSONArray): List<AlarmEntity> {
         val list = mutableListOf<AlarmEntity>()
 
         for (i in 0 until jsonArray.length()) {
-            (jsonArray.get(i) as? JSONObject)?.apply {
-                list.add(AlarmEntity(
-                        getLong(Alarm.ID),
-                        getLong(Alarm.NOTE_ID),
-                        getString(Alarm.DATE)
-                ))
-            } ?: return null
+            try {
+                list.add(getAlarmEntityV1(jsonArray.getJSONObject(i)))
+            } catch (e: Throwable) {
+                BackupParserException(e).record()
+            }
         }
 
         return list
+    }
+
+    @RunPrivate fun getAlarmEntityV1(jsonObject: JSONObject): AlarmEntity {
+        return AlarmEntity(
+            jsonObject.getLong(Alarm.ID),
+            jsonObject.getLong(Alarm.NOTE_ID),
+            jsonObject.getString(Alarm.DATE)
+        )
     }
 
     //endregion
 
-    companion object {
-        private val TAG = BackupSelector::class.java.simpleName
-    }
 }
