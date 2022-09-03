@@ -15,8 +15,10 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
+import sgtmelon.scriptum.cleanup.extension.getSettingsIntent
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
+import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
@@ -109,12 +111,11 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        val isGranted = grantResults.firstOrNull()?.isGranted() ?: return
-        val result = if (isGranted) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
+        if (grantResults.firstOrNull()?.isGranted() != true) return
 
         when (requestCode) {
-            PermissionRequest.EXPORT -> viewModel.onClickExport(result)
-            PermissionRequest.IMPORT -> viewModel.onClickImport(result)
+            PermissionRequest.EXPORT -> viewModel.onClickExport(PermissionResult.GRANTED)
+            PermissionRequest.IMPORT -> viewModel.onClickImport(PermissionResult.GRANTED)
         }
     }
 
@@ -155,10 +156,11 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
             requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.EXPORT)
         }
-        exportPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
+        exportPermissionDialog.onDismiss { openState.clear() }
 
+        exportDenyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            context?.startActivitySafe(context?.getSettingsIntent(), toastControl)
+        }
         exportDenyDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
         }
@@ -173,6 +175,9 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             openState.clear()
         }
 
+        importDenyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            context?.startActivitySafe(context?.getSettingsIntent(), toastControl)
+        }
         importDenyDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
         }

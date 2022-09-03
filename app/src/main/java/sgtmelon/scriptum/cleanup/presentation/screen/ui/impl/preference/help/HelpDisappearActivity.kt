@@ -61,11 +61,7 @@ class HelpDisappearActivity : AppActivity() {
         startActivitySafe(intent, toastControl)
     }
 
-    private fun onSettingsClick() {
-        if (!startActivitySafe(getSettingsIntent())) {
-            toastControl.show(R.string.error_start_activity)
-        }
-    }
+    private fun onSettingsClick() = startActivitySafe(getSettingsIntent(), toastControl)
 
     private fun setupInsets() {
         parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->

@@ -114,7 +114,7 @@ inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String):
 
 //region Intent functions
 
-fun getSiteIntent(url: String): Intent? {
+internal fun getSiteIntent(url: String): Intent? {
     val uri = url.toUriOrNull() ?: return null
 
     val intent = Intent(Intent.ACTION_VIEW)
@@ -124,23 +124,13 @@ fun getSiteIntent(url: String): Intent? {
 }
 
 /**
- * Intent for open application settings on tap.
+ * Intent for open application settings.
  */
-fun Context.getSettingsIntent(): Intent {
+internal fun Context.getSettingsIntent(): Intent {
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     intent.data = Uri.fromParts("package", packageName, null)
 
     return intent
-}
-
-internal fun Context.startActivitySafe(intent: Intent): Boolean {
-    return try {
-        startActivity(intent)
-        true
-    } catch (e: Throwable) {
-        e.record()
-        false
-    }
 }
 
 internal fun Context.startActivitySafe(intent: Intent?, toastControl: ToastControl) {
@@ -150,6 +140,16 @@ internal fun Context.startActivitySafe(intent: Intent?, toastControl: ToastContr
         }
     } else {
         toastControl.show(R.string.error_something_wrong)
+    }
+}
+
+private fun Context.startActivitySafe(intent: Intent): Boolean {
+    return try {
+        startActivity(intent)
+        true
+    } catch (e: Throwable) {
+        e.record()
+        false
     }
 }
 

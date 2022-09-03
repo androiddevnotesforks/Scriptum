@@ -15,6 +15,10 @@ abstract class BlankEmptyDialog : DialogFragment() {
 
     var dismissListener: DialogInterface.OnDismissListener? = null
 
+    inline fun onDismiss(crossinline func: () -> Unit) {
+        dismissListener = DialogInterface.OnDismissListener { func() }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (savedInstanceState != null) {
             onRestoreContentState(savedInstanceState)
