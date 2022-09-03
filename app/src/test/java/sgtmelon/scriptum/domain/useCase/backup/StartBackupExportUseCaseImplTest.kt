@@ -42,7 +42,7 @@ class StartBackupExportUseCaseImplTest : ParentTest() {
     }
 
     @Test fun invoke() {
-        val parserResult = mockk<ParserResult>()
+        val parserResult = mockk<ParserResult.Export>()
 
         val data = nextString()
         val encryptData = nextString()

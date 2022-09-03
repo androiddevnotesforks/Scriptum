@@ -64,7 +64,9 @@ class BackupRepoImplTest : ParentRepoTest() {
         val rankList = mockk<List<RankEntity>>()
         val alarmList = mockk<List<AlarmEntity>>()
 
-        val parserResult = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
+        val parserResult = ParserResult.Export(
+            noteList, rollList, rollVisibleList, rankList, alarmList
+        )
 
         coEvery { noteDataSource.getList(isBin = false) } returns noteList
         coEvery { rollDataSource.getList(noteIdList) } returns rollList
@@ -88,7 +90,7 @@ class BackupRepoImplTest : ParentRepoTest() {
     //region Insert functions
 
     @Test fun insertData() {
-        val model = mockk<BackupRepoImpl.Model>()
+        val model = mockk<ParserResult.Import>()
         val noteList = mockk<MutableList<NoteEntity>>()
         val size = Random.nextInt()
         val removeList = mockk<List<NoteEntity>>()
@@ -198,7 +200,7 @@ class BackupRepoImplTest : ParentRepoTest() {
             AlarmEntity(id = Random.nextLong(), noteId = Random.nextLong())
         }
 
-        val endModel = BackupRepoImpl.Model(
+        val endResult = ParserResult.Import(
             endNoteList, endRollList, endRollVisibleList, endRankList, endAlarmList
         )
 
@@ -229,13 +231,13 @@ class BackupRepoImplTest : ParentRepoTest() {
             }
         )
 
-        val startModel = BackupRepoImpl.Model(
+        val startResult = ParserResult.Import(
             startNoteList, startRollList, startRollVisibleList, startRankList, startAlarmList
         )
 
-        assertNotEquals(startModel, endModel)
-        repo.clearList(removeList, startModel)
-        assertEquals(startModel, endModel)
+        assertNotEquals(startResult, endResult)
+        repo.clearList(removeList, startResult)
+        assertEquals(startResult, endResult)
     }
 
     @Test fun clearRankList() {
@@ -272,17 +274,17 @@ class BackupRepoImplTest : ParentRepoTest() {
             last().rankPs = Random.nextInt()
         }
 
-        val model = BackupRepoImpl.Model(noteList, mockk(), mockk(), rankList, mockk())
+        val parserResult = ParserResult.Import(noteList, mockk(), mockk(), rankList, mockk())
 
-        assertNotEquals(model.noteList, resultNoteList)
-        assertNotEquals(model.rankList, resultRankList)
+        assertNotEquals(parserResult.noteList, resultNoteList)
+        assertNotEquals(parserResult.rankList, resultRankList)
 
         runBlocking {
-            repo.clearRankList(model)
+            repo.clearRankList(parserResult)
         }
 
-        assertEquals(model.noteList, resultNoteList)
-        assertEquals(model.rankList, resultRankList)
+        assertEquals(parserResult.noteList, resultNoteList)
+        assertEquals(parserResult.rankList, resultRankList)
 
         coVerifySequence {
             rankDataSource.getList()
@@ -304,18 +306,18 @@ class BackupRepoImplTest : ParentRepoTest() {
             add(AlarmEntity(id = Random.nextLong(), date = getRandomPastTime()))
         }
 
-        val model = BackupRepoImpl.Model(mockk(), mockk(), mockk(), mockk(), alarmList)
+        val parserResult = ParserResult.Import(mockk(), mockk(), mockk(), mockk(), alarmList)
 
-        assertNotEquals(model.alarmList, resultAlarmList)
+        assertNotEquals(parserResult.alarmList, resultAlarmList)
 
         runBlocking {
-            spyRepo.clearAlarmList(model)
+            spyRepo.clearAlarmList(parserResult)
         }
 
-        assertEquals(model.alarmList, resultAlarmList)
+        assertEquals(parserResult.alarmList, resultAlarmList)
 
         coVerifySequence {
-            spyRepo.clearAlarmList(model)
+            spyRepo.clearAlarmList(parserResult)
 
             alarmDataSource.getItemList()
 
@@ -371,7 +373,7 @@ class BackupRepoImplTest : ParentRepoTest() {
 
     // TODO #CHECK + null case
     @Test fun insertRollList() {
-        val model = mockk<BackupRepoImpl.Model>()
+        val model = mockk<ParserResult.Import>()
         val item = mockk<RollEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
@@ -393,7 +395,7 @@ class BackupRepoImplTest : ParentRepoTest() {
 
     // TODO #CHECK + null case
     @Test fun insertRollVisibleList() {
-        val model = mockk<BackupRepoImpl.Model>()
+        val model = mockk<ParserResult.Import>()
         val item = mockk<RollVisibleEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 
@@ -419,7 +421,7 @@ class BackupRepoImplTest : ParentRepoTest() {
 
     // TODO #CHECK + null case
     @Test fun insertAlarmList() {
-        val model = mockk<BackupRepoImpl.Model>()
+        val model = mockk<ParserResult.Import>()
         val item = mockk<AlarmEntity>(relaxUnitFun = true)
         val newId = Random.nextLong()
 

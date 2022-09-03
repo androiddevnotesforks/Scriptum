@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.data.backup
 
 import java.security.MessageDigest
-import sgtmelon.common.test.annotation.RunPrivate
 
+/**
+ * Class for getting hash of string data.
+ */
 class BackupHashMaker {
 
     fun get(data: String): String {
@@ -12,7 +14,7 @@ class BackupHashMaker {
         return hashToHex(hash)
     }
 
-    @RunPrivate fun hashToHex(hash: ByteArray): String = StringBuilder().apply {
+    private fun hashToHex(hash: ByteArray): String = StringBuilder().apply {
         for (it in hash.map { Integer.toHexString(0xFF and it.toInt()) }) {
             if (it.length == 1) append('0')
 

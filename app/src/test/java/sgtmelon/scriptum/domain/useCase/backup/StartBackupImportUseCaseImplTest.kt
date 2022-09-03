@@ -6,13 +6,11 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkObject
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.backup.BackupParser
@@ -57,9 +55,8 @@ class StartBackupImportUseCaseImplTest : ParentTest() {
         val item = fileList.random()
         val encryptData = nextString()
         val data = nextString()
-        val parserResult = mockk<ParserResult>()
+        val parserResult = mockk<ParserResult.Import>()
         val isSkipImports = Random.nextBoolean()
-        val backupModel = mockk<BackupRepoImpl.Model>()
 
         val skipResult = ImportResult.Skip(Random.nextInt())
 
@@ -81,18 +78,15 @@ class StartBackupImportUseCaseImplTest : ParentTest() {
             assertEquals(startBackupImport(item.name, fileList), ImportResult.Error)
         }
 
-        mockkObject(BackupRepoImpl.Model)
-        every { BackupRepoImpl.Model[parserResult] } returns backupModel
-
         every { backupParser.convert(data) } returns parserResult
         every { preferencesRepo.isBackupSkipImports } returns isSkipImports
-        coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns ImportResult.Simple
+        coEvery { backupRepo.insertData(parserResult, isSkipImports) } returns ImportResult.Simple
 
         runBlocking {
             assertEquals(startBackupImport(item.name, fileList), ImportResult.Simple)
         }
 
-        coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns skipResult
+        coEvery { backupRepo.insertData(parserResult, isSkipImports) } returns skipResult
 
         runBlocking {
             assertEquals(startBackupImport(item.name, fileList), skipResult)
@@ -110,8 +104,7 @@ class StartBackupImportUseCaseImplTest : ParentTest() {
                 cipherDataSource.decrypt(encryptData)
                 backupParser.convert(data)
                 preferencesRepo.isBackupSkipImports
-                BackupRepoImpl.Model[parserResult]
-                backupRepo.insertData(backupModel, isSkipImports)
+                backupRepo.insertData(parserResult, isSkipImports)
             }
         }
     }
