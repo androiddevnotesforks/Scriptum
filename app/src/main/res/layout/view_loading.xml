@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/loading_parent_container"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_width="match_parent"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:paddingVertical="@dimen/layout_16dp"
-    android:paddingHorizontal="@dimen/layout_24dp">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
 
-    <ProgressBar
-        android:id="@+id/loading_progress_bar"
+    <!--  android:background color same as in all dialogs (see styles_dialog)  -->
+    <LinearLayout
+        android:id="@+id/loading_content_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_0dp"
-        android:layout_marginEnd="@dimen/layout_8dp" />
+        android:layout_gravity="center"
+        android:background="?attr/clPrimary"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/layout_24dp"
+        android:paddingVertical="@dimen/layout_16dp"
+        tools:ignore="UselessParent">
 
-    <TextView
-        android:id="@+id/loading_text"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/layout_8dp"
-        android:layout_marginEnd="@dimen/layout_0dp"
-        android:gravity="center"
-        android:paddingStart="@dimen/layout_24dp"
-        android:paddingEnd="@dimen/layout_24dp"
-        android:text="@string/dialog_text_loading"
-        android:textAppearance="@style/Appearance.Main"
-        android:textSize="@dimen/text_16sp" />
+        <ProgressBar
+            android:id="@+id/loading_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_0dp"
+            android:layout_marginEnd="@dimen/layout_8dp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/layout_8dp"
+            android:layout_marginEnd="@dimen/layout_0dp"
+            android:gravity="center"
+            android:paddingStart="@dimen/layout_24dp"
+            android:paddingEnd="@dimen/layout_24dp"
+            android:text="@string/dialog_text_loading"
+            android:textAppearance="@style/Appearance.Main"
+            android:textSize="@dimen/text_16sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

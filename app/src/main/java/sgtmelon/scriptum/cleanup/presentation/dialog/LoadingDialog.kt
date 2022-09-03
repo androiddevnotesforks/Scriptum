@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
 import sgtmelon.safedialog.utils.applyAnimation
+import sgtmelon.safedialog.utils.applyTransparentBackground
 import sgtmelon.scriptum.R
 import sgtmelon.text.dotanim.DotAnimControl
 import sgtmelon.text.dotanim.DotAnimType
@@ -17,7 +18,7 @@ import sgtmelon.text.dotanim.DotAnimType
 // TODO move into safedialogs
 class LoadingDialog : BlankEmptyDialog(), DotAnimControl.Callback {
 
-    private val loadingText get() = dialog?.findViewById<TextView?>(R.id.loading_text)
+    private val loadingText get() = dialog?.findViewById<TextView>(R.id.loading_text)
 
     private val dotAnimControl = DotAnimControl(DotAnimType.SPAN, callback = this)
 
@@ -28,6 +29,7 @@ class LoadingDialog : BlankEmptyDialog(), DotAnimControl.Callback {
             .setView(R.layout.view_loading)
             .setCancelable(false)
             .create()
+            .applyTransparentBackground()
             .applyAnimation()
     }
 

@@ -11,6 +11,10 @@ fun Dialog.applyAnimation() = apply {
     window?.attributes?.windowAnimations = R.style.SafeDialog_Animation
 }
 
+fun Dialog.applyTransparentBackground() = apply {
+    window?.setBackgroundDrawableResource(android.R.color.transparent)
+}
+
 fun DialogFragment.safeShow(fm: FragmentManager, tag: String?, owner: LifecycleOwner) {
     owner.lifecycleScope.launchWhenResumed {
         if (!isAdded) {
