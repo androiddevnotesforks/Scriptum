@@ -10,13 +10,9 @@ class BackupParserImplTest : ParentBackupTest() {
     //    @MockK lateinit var context: Context
     //    @MockK lateinit var selector: BackupParserSelectorImpl
     //
-    //    private val colorConverter = ColorConverter()
-    //    private val typeConverter = NoteTypeConverter()
-    //    private val stringConverter = StringConverter()
-    //
-    //    private val backupParser by lazy {
-    //        BackupParserImpl(context, selector, colorConverter, typeConverter, stringConverter)
-    //    }
+    //        private val backupParser by lazy {
+    //            BackupParserImpl(context, selector, colorConverter, typeConverter, stringConverter)
+    //        }
     //
     //    private val spyBackupParser by lazy { spyk(backupParser) }
     //
