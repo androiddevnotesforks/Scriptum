@@ -201,7 +201,7 @@ class NotesFragment : ParentFragment(),
 
                 viewModel.onResultOptionsDialog(optionsDialog.position, which)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
+            onDismiss { openState?.clear() }
         }
 
         dateDialog.apply {
@@ -212,14 +212,14 @@ class NotesFragment : ParentFragment(),
             neutralListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultDateDialogClear(dateDialog.position)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
+            onDismiss { openState?.clear() }
         }
 
         timeDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
+            onDismiss { openState?.clear() }
         }
     }
 

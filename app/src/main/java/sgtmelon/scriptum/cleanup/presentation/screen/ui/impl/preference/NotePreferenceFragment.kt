@@ -90,7 +90,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultNoteSort(sortDialog.check)
         }
-        sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        sortDialog.onDismiss { openState.clear() }
 
         colorPreference?.setOnPreferenceClickListener {
             viewModel.onClickNoteColor()
@@ -100,7 +100,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
         colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultNoteColor(colorDialog.check)
         }
-        colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        colorDialog.onDismiss { openState.clear() }
 
         savePeriodPreference?.setOnPreferenceClickListener {
             viewModel.onClickSaveTime()
@@ -110,7 +110,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
         savePeriodDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultSaveTime(savePeriodDialog.check)
         }
-        savePeriodDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        savePeriodDialog.onDismiss { openState.clear() }
     }
 
     override fun updateSortSummary(summary: String) {

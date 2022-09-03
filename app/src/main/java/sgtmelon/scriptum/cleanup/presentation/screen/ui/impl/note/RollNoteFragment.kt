@@ -242,14 +242,14 @@ class RollNoteFragment : ParentFragment(),
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultRankDialog(check = rankDialog.check - 1)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            onDismiss { openState.clear() }
         }
 
         colorDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultColorDialog(colorDialog.check)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            onDismiss { openState.clear() }
         }
 
         dateDialog.apply {
@@ -257,7 +257,7 @@ class RollNoteFragment : ParentFragment(),
                 openState.skipClear = true
                 viewModel.onResultDateDialog(dateDialog.calendar)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            onDismiss { openState.clear() }
             neutralListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultDateDialogClear()
             }
@@ -267,14 +267,14 @@ class RollNoteFragment : ParentFragment(),
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultTimeDialog(timeDialog.calendar)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            onDismiss { openState.clear() }
         }
 
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultConvertDialog()
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            onDismiss { openState.clear() }
         }
     }
 

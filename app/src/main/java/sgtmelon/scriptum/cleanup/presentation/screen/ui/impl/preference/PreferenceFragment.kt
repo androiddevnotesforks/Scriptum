@@ -93,7 +93,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             viewModel.onResultTheme(themeDialog.check)
             activity?.checkThemeChange()
         }
-        themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        themeDialog.onDismiss { openState.clear() }
 
         backupPreference?.setOnPreferenceClickListener {
             val context = context
@@ -145,7 +145,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
-        aboutDialog.dismissListener = DialogInterface.OnDismissListener {
+        aboutDialog.onDismiss {
             openState.clear()
 
             if (aboutDialog.hideOpen) {

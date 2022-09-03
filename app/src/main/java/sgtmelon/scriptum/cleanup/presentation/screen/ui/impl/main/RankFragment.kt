@@ -251,7 +251,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultRenameDialog(position, name)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
+            onDismiss { openState?.clear() }
         }
     }
 

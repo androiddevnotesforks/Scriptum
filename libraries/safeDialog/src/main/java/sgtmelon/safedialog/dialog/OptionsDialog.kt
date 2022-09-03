@@ -18,6 +18,7 @@ class OptionsDialog : BlankEmptyDialog(),
     var title: String = DEF_TITLE
     var itemListener: DialogInterface.OnClickListener? = null
 
+
     private var itemList: List<String> = emptyList()
 
     /**

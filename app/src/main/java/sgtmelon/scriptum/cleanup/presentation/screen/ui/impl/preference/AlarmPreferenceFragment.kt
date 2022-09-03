@@ -140,7 +140,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultRepeat(repeatDialog.check)
         }
-        repeatDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        repeatDialog.onDismiss { openState.clear() }
 
         signalPreference?.setOnPreferenceClickListener {
             viewModel.onClickSignal()
@@ -150,7 +150,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         signalDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultSignal(signalDialog.check)
         }
-        signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        signalDialog.onDismiss { openState.clear() }
 
         melodyPreference?.setOnPreferenceClickListener {
             viewModel.onClickMelody(storagePermissionState.getResult())
@@ -163,9 +163,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
             requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.MELODY)
         }
-        melodyPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
+        melodyPermissionDialog.onDismiss { openState.clear() }
 
         melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
             viewModel.onSelectMelody(i)
@@ -174,7 +172,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             val title = with(melodyDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
             viewModel.onResultMelody(title)
         }
-        melodyDialog.dismissListener = DialogInterface.OnDismissListener {
+        melodyDialog.onDismiss {
             melodyControl.stop()
             openState.clear()
         }
@@ -187,7 +185,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         volumeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultVolume(volumeDialog.progress)
         }
-        volumeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        volumeDialog.onDismiss { openState.clear() }
     }
 
     override fun updateRepeatSummary(summary: String) {

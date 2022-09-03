@@ -117,7 +117,11 @@ class BinFragment : ParentFragment(), IBinFragment {
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
                 openState?.tryInvoke {
-                    clearBinDialog.safeShow(fm, DialogFactory.Main.CLEAR_BIN, owner = this@BinFragment)
+                    clearBinDialog.safeShow(
+                        fm,
+                        DialogFactory.Main.CLEAR_BIN,
+                        owner = this@BinFragment
+                    )
                 }
                 return@setOnMenuItemClickListener true
             }
@@ -126,10 +130,9 @@ class BinFragment : ParentFragment(), IBinFragment {
         itemClearBin = toolbar?.menu?.findItem(R.id.item_clear)
         activity?.let { itemClearBin?.tintIcon(it) }
 
-        clearBinDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ -> viewModel.onClickClearBin() }
-            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
-        }
+        clearBinDialog.positiveListener =
+            DialogInterface.OnClickListener { _, _ -> viewModel.onClickClearBin() }
+        clearBinDialog.onDismiss { openState?.clear() }
     }
 
     override fun setupRecycler() {
@@ -149,12 +152,10 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
     override fun setupDialog() {
-        optionsDialog.apply {
-            itemListener = DialogInterface.OnClickListener { _, which ->
-                viewModel.onResultOptionsDialog(optionsDialog.position, which)
-            }
-            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
+        optionsDialog.itemListener = DialogInterface.OnClickListener { _, which ->
+            viewModel.onResultOptionsDialog(optionsDialog.position, which)
         }
+        optionsDialog.onDismiss { openState?.clear() }
     }
 
 

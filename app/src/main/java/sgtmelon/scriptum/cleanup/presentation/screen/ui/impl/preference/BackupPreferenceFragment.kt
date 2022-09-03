@@ -161,9 +161,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         exportDenyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             context?.startActivitySafe(context?.getSettingsIntent(), toastControl)
         }
-        exportDenyDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
+        exportDenyDialog.onDismiss { openState.clear() }
 
         importPermissionDialog.isCancelable = false
         importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -171,16 +169,12 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
             requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.IMPORT)
         }
-        importPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
+        importPermissionDialog.onDismiss { openState.clear() }
 
         importDenyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             context?.startActivitySafe(context?.getSettingsIntent(), toastControl)
         }
-        importDenyDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
+        importDenyDialog.onDismiss { openState.clear() }
 
         importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             val name = with(importDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
@@ -188,10 +182,10 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             openState.skipClear = true
             viewModel.onResultImport(name)
         }
-        importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        importDialog.onDismiss { openState.clear() }
 
         loadingDialog.isCancelable = false
-        loadingDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        loadingDialog.onDismiss { openState.clear() }
     }
 
     override fun getStoragePermissionResult(): PermissionResult? {
