@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
+package sgtmelon.scriptum.domain.useCase.backup
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -15,22 +15,20 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
-import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
-import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
-import sgtmelon.scriptum.infrastructure.model.type.FileType
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [BackupPreferenceInteractor].
+ * Test for [StartBackupImportUseCaseImpl].
  */
-class BackupPreferenceInteractorTest : ParentTest() {
+class StartBackupImportUseCaseImplTest : ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var backupRepo: BackupRepo
@@ -39,8 +37,8 @@ class BackupPreferenceInteractorTest : ParentTest() {
     @MockK lateinit var fileDataSource: FileDataSource
     @MockK lateinit var cipherDataSource: CipherDataSource
 
-    private val interactor by lazy {
-        BackupPreferenceInteractor(
+    private val startBackupImport by lazy {
+        StartBackupImportUseCaseImpl(
             preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
         )
     }
@@ -51,41 +49,6 @@ class BackupPreferenceInteractorTest : ParentTest() {
         confirmVerified(
             preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
         )
-    }
-
-    @Test fun export() {
-        val parserResult = mockk<ParserResult>()
-
-        val data = nextString()
-        val encryptData = nextString()
-        val timeName = nextString()
-        val path = nextString()
-
-        coEvery { backupRepo.getData() } returns parserResult
-        every { backupParser.collect(parserResult) } returns data
-        every { cipherDataSource.encrypt(data) } returns encryptData
-        every { fileDataSource.getTimeName(FileType.BACKUP) } returns timeName
-        every { fileDataSource.writeFile(timeName, encryptData) } returns null
-
-        runBlocking {
-            assertEquals(interactor.export(), ExportResult.Error)
-        }
-
-        every { fileDataSource.writeFile(timeName, encryptData) } returns path
-
-        runBlocking {
-            assertEquals(interactor.export(), ExportResult.Success(path))
-        }
-
-        coVerifySequence {
-            repeat(times = 2) {
-                backupRepo.getData()
-                backupParser.collect(parserResult)
-                cipherDataSource.encrypt(data)
-                fileDataSource.getTimeName(FileType.BACKUP)
-                fileDataSource.writeFile(timeName, encryptData)
-            }
-        }
     }
 
     @Test fun import() {
@@ -101,13 +64,13 @@ class BackupPreferenceInteractorTest : ParentTest() {
         val skipResult = ImportResult.Skip(Random.nextInt())
 
         runBlocking {
-            assertEquals(interactor.import(wrongName, fileList), ImportResult.Error)
+            assertEquals(startBackupImport(wrongName, fileList), ImportResult.Error)
         }
 
         every { fileDataSource.readFile(item.path) } returns null
 
         runBlocking {
-            assertEquals(interactor.import(item.name, fileList), ImportResult.Error)
+            assertEquals(startBackupImport(item.name, fileList), ImportResult.Error)
         }
 
         every { fileDataSource.readFile(item.path) } returns encryptData
@@ -115,7 +78,7 @@ class BackupPreferenceInteractorTest : ParentTest() {
         every { backupParser.parse(data) } returns null
 
         runBlocking {
-            assertEquals(interactor.import(item.name, fileList), ImportResult.Error)
+            assertEquals(startBackupImport(item.name, fileList), ImportResult.Error)
         }
 
         mockkObject(BackupRepoImpl.Model)
@@ -126,13 +89,13 @@ class BackupPreferenceInteractorTest : ParentTest() {
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns ImportResult.Simple
 
         runBlocking {
-            assertEquals(interactor.import(item.name, fileList), ImportResult.Simple)
+            assertEquals(startBackupImport(item.name, fileList), ImportResult.Simple)
         }
 
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns skipResult
 
         runBlocking {
-            assertEquals(interactor.import(item.name, fileList), skipResult)
+            assertEquals(startBackupImport(item.name, fileList), skipResult)
         }
 
         coVerifySequence {

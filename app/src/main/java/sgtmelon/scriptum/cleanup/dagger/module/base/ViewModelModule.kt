@@ -14,7 +14,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
@@ -73,6 +72,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
+import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
+import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -263,10 +264,13 @@ class ViewModelModule {
     @ActivityScope
     fun provideBackupPreferenceViewModel(
         fragment: BackupPreferenceFragment,
-        interactor: IBackupPreferenceInteractor,
-        getBackupFileList: GetBackupFileListUseCase
+        getBackupFileList: GetBackupFileListUseCase,
+        startBackupExport: StartBackupExportUseCase,
+        startBackupImport: StartBackupImportUseCase
     ): IBackupPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Backup(fragment, interactor, getBackupFileList)
+        val factory = ViewModelFactory.Preference.Backup(
+            fragment, getBackupFileList, startBackupExport, startBackupImport
+        )
         return ViewModelProvider(fragment, factory)[BackupPreferenceViewModel::class.java]
     }
 

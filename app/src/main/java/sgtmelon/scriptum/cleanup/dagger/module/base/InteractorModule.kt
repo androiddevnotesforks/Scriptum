@@ -4,11 +4,9 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
-import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
@@ -16,7 +14,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
@@ -25,11 +22,8 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.RollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.NotificationInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.BackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
-import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
-import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
@@ -113,20 +107,6 @@ class InteractorModule {
     }
 
     //region Preference
-
-    @Provides
-    @ActivityScope
-    fun provideBackupPreferenceInteractor(
-        preferencesRepo: PreferencesRepo,
-        backupRepo: BackupRepo,
-        backupParser: IBackupParser,
-        fileDataSource: FileDataSource,
-        cipherDataSource: CipherDataSource
-    ): IBackupPreferenceInteractor {
-        return BackupPreferenceInteractor(
-            preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
-        )
-    }
 
     @Provides
     @ActivityScope

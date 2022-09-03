@@ -6,22 +6,21 @@ import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
-import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.model.result.ExportResult
+import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
+import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
+import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult as Permission
 
-/**
- * ViewModel for [IBackupPreferenceFragment].
- */
 class BackupPreferenceViewModel(
     callback: IBackupPreferenceFragment,
-    private val interactor: IBackupPreferenceInteractor,
-    private val getBackupFileList: GetBackupFileListUseCase
+    private val getBackupFileList: GetBackupFileListUseCase,
+    private val startBackupExport: StartBackupExportUseCase,
+    private val startBackupImport: StartBackupImportUseCase
 ) : ParentViewModel<IBackupPreferenceFragment>(callback),
     IBackupPreferenceViewModel {
 
@@ -105,7 +104,7 @@ class BackupPreferenceViewModel(
 
     @RunPrivate suspend fun startExport() {
         callback?.showExportLoadingDialog()
-        val result: ExportResult = runBack { interactor.export() }
+        val result = runBack { startBackupExport() }
         callback?.hideExportLoadingDialog()
 
         when (result) {
@@ -168,7 +167,7 @@ class BackupPreferenceViewModel(
     override fun onResultImport(name: String) {
         viewModelScope.launch {
             callback?.showImportLoadingDialog()
-            val result: ImportResult = runBack { interactor.import(name, getBackupFileList()) }
+            val result = runBack { startBackupImport(name, getBackupFileList()) }
             callback?.hideImportLoadingDialog()
 
             when (result) {

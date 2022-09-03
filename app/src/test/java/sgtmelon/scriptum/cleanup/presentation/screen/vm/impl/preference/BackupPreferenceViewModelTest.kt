@@ -17,14 +17,15 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.TestData
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
-import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
-import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
+import sgtmelon.scriptum.domain.model.result.ExportResult
+import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
+import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
+import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import sgtmelon.test.common.nextString
 
@@ -37,19 +38,20 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IBackupPreferenceFragment
-    @MockK lateinit var interactor: IBackupPreferenceInteractor
     @MockK lateinit var getBackupFileList: GetBackupFileListUseCase
+    @MockK lateinit var startBackupExport: StartBackupExportUseCase
+    @MockK lateinit var startBackupImport: StartBackupImportUseCase
 
     private val fileList = TestData.Backup.fileList
 
     private val viewModel by lazy {
-        BackupPreferenceViewModel(callback, interactor, getBackupFileList)
+        BackupPreferenceViewModel(callback, getBackupFileList, startBackupExport, startBackupImport)
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, getBackupFileList)
+        confirmVerified(callback, getBackupFileList, startBackupExport, startBackupImport)
     }
 
     @Test override fun onDestroy() {
@@ -219,11 +221,11 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
     @Test fun startExport() = startCoTest {
         val path = nextString()
 
-        coEvery { interactor.export() } returns ExportResult.Error
+        coEvery { startBackupExport() } returns ExportResult.Error
 
         spyViewModel.startExport()
 
-        coEvery { interactor.export() } returns ExportResult.Success(path)
+        coEvery { startBackupExport() } returns ExportResult.Success(path)
         coEvery { spyViewModel.setupBackground() } returns Unit
 
         spyViewModel.startExport()
@@ -232,7 +234,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.startExport()
             spyViewModel.callback
             callback.showExportLoadingDialog()
-            interactor.export()
+            startBackupExport()
             spyViewModel.callback
             callback.hideExportLoadingDialog()
             spyViewModel.callback
@@ -241,7 +243,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.startExport()
             spyViewModel.callback
             callback.showExportLoadingDialog()
-            interactor.export()
+            startBackupExport()
             spyViewModel.callback
             callback.hideExportLoadingDialog()
             spyViewModel.callback
@@ -331,21 +333,21 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
         val skipCount = Random.nextInt()
 
         coEvery { getBackupFileList() } returns backupFileList
-        coEvery { interactor.import(name, backupFileList) } returns ImportResult.Simple
+        coEvery { startBackupImport(name, backupFileList) } returns ImportResult.Simple
 
         viewModel.onResultImport(name)
 
-        coEvery { interactor.import(name, backupFileList) } returns ImportResult.Skip(skipCount)
+        coEvery { startBackupImport(name, backupFileList) } returns ImportResult.Skip(skipCount)
 
         viewModel.onResultImport(name)
 
-        coEvery { interactor.import(name, backupFileList) } returns ImportResult.Error
+        coEvery { startBackupImport(name, backupFileList) } returns ImportResult.Error
 
         viewModel.onResultImport(name)
 
         coVerifySequence {
             callback.showImportLoadingDialog()
-            interactor.import(name, backupFileList)
+            startBackupImport(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_result)
             callback.sendTidyUpAlarmBroadcast()
@@ -353,7 +355,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             callback.showImportLoadingDialog()
-            interactor.import(name, backupFileList)
+            startBackupImport(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showImportSkipToast(skipCount)
             callback.sendTidyUpAlarmBroadcast()
@@ -361,7 +363,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             callback.showImportLoadingDialog()
-            interactor.import(name, backupFileList)
+            startBackupImport(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_error)
         }

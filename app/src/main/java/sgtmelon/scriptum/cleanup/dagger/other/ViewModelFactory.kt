@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
@@ -54,6 +53,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
+import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
+import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -260,12 +261,15 @@ object ViewModelFactory {
 
         class Backup(
             private val fragment: BackupPreferenceFragment,
-            private val interactor: IBackupPreferenceInteractor,
-            private val getBackupFileList: GetBackupFileListUseCase
+            private val getBackupFileList: GetBackupFileListUseCase,
+            private val startBackupExport: StartBackupExportUseCase,
+            private val startBackupImport: StartBackupImportUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BackupPreferenceViewModel::class) {
-                    BackupPreferenceViewModel(fragment, interactor, getBackupFileList)
+                    BackupPreferenceViewModel(
+                        fragment, getBackupFileList, startBackupExport, startBackupImport
+                    )
                 }
             }
         }

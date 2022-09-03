@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
+import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupSelector
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 class ParserModule {
 
     @Provides
-    @ActivityScope
+    @Singleton
     fun provideBackupSelector(
         colorConverter: ColorConverter,
         typeConverter: NoteTypeConverter,
@@ -29,7 +29,7 @@ class ParserModule {
     }
 
     @Provides
-    @ActivityScope
+    @Singleton
     fun provideBackupParser(
         context: Context,
         selector: IBackupSelector,

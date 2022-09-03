@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.dagger.component.preference
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.base.InteractorModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.ParserModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
@@ -14,8 +13,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPr
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
-    ViewModelModule::class,
-    ParserModule::class
+    ViewModelModule::class
 ])
 interface BackupPreferenceComponent {
 
