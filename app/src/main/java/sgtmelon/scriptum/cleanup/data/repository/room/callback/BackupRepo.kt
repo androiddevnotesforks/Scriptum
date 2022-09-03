@@ -9,7 +9,7 @@ import sgtmelon.scriptum.domain.model.result.ParserResult
  */
 interface BackupRepo {
 
-    suspend fun getData(): ParserResult
+    suspend fun getData(): ParserResult.Export
 
-    suspend fun insertData(model: BackupRepoImpl.Model, isSkipImports: Boolean): ImportResult
+    suspend fun insertData(result: ParserResult.Import, isSkipImports: Boolean): ImportResult
 }

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.domain.useCase.backup
 
-import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.data.backup.BackupParser
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
@@ -31,6 +30,6 @@ class StartBackupImportUseCaseImpl(
         val parserResult = backupParser.convert(data) ?: return ImportResult.Error
         val isSkipImports = preferencesRepo.isBackupSkipImports
 
-        return backupRepo.insertData(BackupRepoImpl.Model[parserResult], isSkipImports)
+        return backupRepo.insertData(parserResult, isSkipImports)
     }
 }

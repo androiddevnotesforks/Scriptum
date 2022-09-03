@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
 import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
- * Class for help control backup file parsing.
+ * Class for parsing application data (rely on different versions).
  */
 class BackupParserImpl(
     private val dataSource: BackupDataSource,
@@ -18,7 +18,7 @@ class BackupParserImpl(
     private val jsonConverter: BackupJsonConverter
 ) : BackupParser {
 
-    override fun convert(data: String): ParserResult? {
+    override fun convert(data: String): ParserResult.Import? {
         try {
             val dataObject = JSONObject(data)
 
@@ -36,7 +36,7 @@ class BackupParserImpl(
         return null
     }
 
-    @RunPrivate fun convert(database: String, version: Int): ParserResult? {
+    @RunPrivate fun convert(database: String, version: Int): ParserResult.Import? {
         return when (version) {
             1 -> getModelV1(database)
             else -> null
@@ -45,7 +45,7 @@ class BackupParserImpl(
 
     //region Version 1
 
-    @RunPrivate fun getModelV1(database: String): ParserResult? {
+    @RunPrivate fun getModelV1(database: String): ParserResult.Import? {
         try {
             val dataObject = JSONObject(database)
             val noteTable = getTable(dataObject, DbData.Note.TABLE)
@@ -60,7 +60,7 @@ class BackupParserImpl(
             val rankList = getTableList(rankTable) { jsonConverter.toRankV1(it) }
             val alarmList = getTableList(alarmTable) { jsonConverter.toAlarmV1(it) }
 
-            return ParserResult(noteList, rollList, visibleList, rankList, alarmList)
+            return ParserResult.Import(noteList, rollList, visibleList, rankList, alarmList)
         } catch (e: Throwable) {
             BackupParserException(e).record()
         }
@@ -75,7 +75,7 @@ class BackupParserImpl(
     private inline fun <T> getTableList(
         tableArray: JSONArray,
         getEntity: (json: JSONObject) -> T?
-    ): List<T> {
+    ): MutableList<T> {
         val list = mutableListOf<T>()
 
         for (i in 0 until tableArray.length()) {

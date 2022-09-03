@@ -38,7 +38,7 @@ class BackupRepoImpl(
     private val alarmDataSource: AlarmDataSource
 ) : BackupRepo {
 
-    override suspend fun getData(): ParserResult {
+    override suspend fun getData(): ParserResult.Export {
         val noteList = noteDataSource.getList(isBin = false)
 
         val noteIdList = noteList.filter { it.type == NoteType.ROLL }.map { it.id }
@@ -48,44 +48,47 @@ class BackupRepoImpl(
         val rankList = rankDataSource.getList()
         val alarmList = alarmDataSource.getList(noteIdList)
 
-        return ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
+        return ParserResult.Export(noteList, rollList, rollVisibleList, rankList, alarmList)
     }
 
     //region Insert function
 
-    override suspend fun insertData(model: Model, isSkipImports: Boolean): ImportResult {
-        val startSize = model.noteList.size
+    override suspend fun insertData(
+        result: ParserResult.Import,
+        isSkipImports: Boolean
+    ): ImportResult {
+        val startSize = result.noteList.size
 
-        if (isSkipImports) clearList(getRemoveNoteList(model), model)
+        if (isSkipImports) clearList(getRemoveNoteList(result), result)
 
-        clearRankList(model)
-        clearAlarmList(model)
+        clearRankList(result)
+        clearAlarmList(result)
 
-        insertNoteList(model)
-        insertRollList(model)
-        insertRollVisibleList(model)
-        insertRankList(model)
-        insertAlarmList(model)
+        insertNoteList(result)
+        insertRollList(result)
+        insertRollVisibleList(result)
+        insertRankList(result)
+        insertAlarmList(result)
 
         return if (isSkipImports) {
-            ImportResult.Skip(skipCount = startSize - model.noteList.size)
+            ImportResult.Skip(skipCount = startSize - result.noteList.size)
         } else {
             ImportResult.Simple
         }
     }
 
     /**
-     * Return list for remove with items from [Model.noteList], which
+     * Return list for remove with items from [ParserResult.Import.noteList], which
      * already exists in [Database].
      */
     @RunPrivate
-    suspend fun getRemoveNoteList(model: Model): List<NoteEntity> {
+    suspend fun getRemoveNoteList(result: ParserResult.Import): List<NoteEntity> {
         val removeList = mutableListOf<NoteEntity>()
 
         val existNoteList = noteDataSource.getList(isBin = false)
         val existRollNoteList = existNoteList.filter { it.type == NoteType.ROLL }
 
-        for (item in model.noteList) {
+        for (item in result.noteList) {
             when (item.type) {
                 NoteType.TEXT -> {
                     if (needSkipTextNote(item, existNoteList)) {
@@ -93,7 +96,7 @@ class BackupRepoImpl(
                     }
                 }
                 NoteType.ROLL -> {
-                    val itemRollList = model.rollList.filter { it.noteId == item.id }
+                    val itemRollList = result.rollList.filter { it.noteId == item.id }
                     if (needSkipRollNote(item, itemRollList, existRollNoteList)) {
                         removeList.add(item)
                     }
@@ -149,62 +152,62 @@ class BackupRepoImpl(
      * Remove every mention about items of [removeNoteList] inside lists.
      */
     @RunPrivate
-    fun clearList(removeNoteList: List<NoteEntity>, model: Model) {
+    fun clearList(removeNoteList: List<NoteEntity>, result: ParserResult.Import) {
         for (item in removeNoteList) {
             if (item.type == NoteType.ROLL) {
-                model.rollList.removeAll { it.noteId == item.id }
-                model.rollVisibleList.removeAll { it.noteId == item.id }
+                result.rollList.removeAll { it.noteId == item.id }
+                result.rollVisibleList.removeAll { it.noteId == item.id }
             }
 
-            for (it in model.rankList.filter { it.noteId.contains(item.id) }) {
+            for (it in result.rankList.filter { it.noteId.contains(item.id) }) {
                 it.noteId.remove(item.id)
             }
 
-            model.alarmList.removeAll { it.noteId == item.id }
+            result.alarmList.removeAll { it.noteId == item.id }
         }
 
-        model.noteList.removeAll(removeNoteList)
+        result.noteList.removeAll(removeNoteList)
     }
 
     /**
-     * Return list for remove with items from [Model.rankList], which
+     * Return list for remove with items from [ParserResult.Import.rankList], which
      * already exists in [Database].
      *
      * Also update [NoteEntity.rankId] and [NoteEntity.rankPs] (if need) for
-     * items in [Model.noteList].
+     * items in [ParserResult.Import.noteList].
      */
     @RunPrivate
-    suspend fun clearRankList(model: Model) {
+    suspend fun clearRankList(result: ParserResult.Import) {
         val removeList = mutableListOf<RankEntity>()
         val existRankList = rankDataSource.getList()
 
-        for (item in model.rankList) {
+        for (item in result.rankList) {
             val index = existRankList.indexOfFirst { it.name == item.name }
             val existItem = existRankList.getOrNull(index) ?: continue
 
             removeList.add(item)
 
-            for (it in model.noteList.filter { it.rankId == item.id }) {
+            for (it in result.noteList.filter { it.rankId == item.id }) {
                 it.rankId = existItem.id
                 it.rankPs = index
             }
         }
 
-        model.rankList.removeAll(removeList)
+        result.rankList.removeAll(removeList)
     }
 
     /**
-     * Return list for remove with items from [Model.alarmList], which
+     * Return list for remove with items from [ParserResult.Import.alarmList], which
      * already past.
      *
-     * Also change time of [Model.alarmList] items, if user have same date in [Database].
+     * Also change time of [ParserResult.Import.alarmList] items, if user have same date in [Database].
      */
     @RunPrivate
-    suspend fun clearAlarmList(model: Model) {
+    suspend fun clearAlarmList(result: ParserResult.Import) {
         val removeList = mutableListOf<AlarmEntity>()
         val notificationList = alarmDataSource.getItemList()
 
-        for (item in model.alarmList) {
+        for (item in result.alarmList) {
             val calendar = item.date.getCalendarOrNull() ?: continue
 
             if (calendar.beforeNow()) {
@@ -215,7 +218,7 @@ class BackupRepoImpl(
             moveNotificationTime(item, calendar, notificationList)
         }
 
-        model.alarmList.removeAll(removeList)
+        result.alarmList.removeAll(removeList)
     }
 
     @RunPrivate
@@ -231,14 +234,14 @@ class BackupRepoImpl(
 
 
     /**
-     * Insert notes from [Model.noteList] to [Database].
+     * Insert notes from [ParserResult.Import.noteList] to [Database].
      *
      * Also update (if need) noteId for items in other lists.
      *
      * Need reset [NoteEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertNoteList(model: Model) {
+    suspend fun insertNoteList(result: ParserResult.Import) {
         /**
          * Need for prevent overriding already updated items.
          * Because new noteId may be equals oldNoteId for next item.
@@ -247,16 +250,16 @@ class BackupRepoImpl(
         val skipVisibleIdList = mutableListOf<Long>()
         val skipAlarmIdList = mutableListOf<Long>()
 
-        for (item in model.noteList) {
+        for (item in result.noteList) {
             val oldNoteId = item.id
 
             /** Catch of insert errors happen inside dataSource. */
             item.id = noteDataSource.insert(item.copy(id = Note.Default.ID)) ?: continue
 
-            updateRollLink(oldNoteId, item.id, model.rollList, skipRollIdList)
-            updateRollVisibleLink(oldNoteId, item.id, model.rollVisibleList, skipVisibleIdList)
-            updateRankLink(oldNoteId, item.id, model.rankList)
-            updateAlarmList(oldNoteId, item.id, model.alarmList, skipAlarmIdList)
+            updateRollLink(oldNoteId, item.id, result.rollList, skipRollIdList)
+            updateRollVisibleLink(oldNoteId, item.id, result.rollVisibleList, skipVisibleIdList)
+            updateRankLink(oldNoteId, item.id, result.rankList)
+            updateAlarmList(oldNoteId, item.id, result.alarmList, skipAlarmIdList)
         }
     }
 
@@ -323,41 +326,41 @@ class BackupRepoImpl(
     }
 
     /**
-     * Insert roll items from [Model.rollList] to [Database].
+     * Insert roll items from [ParserResult.Import.rollList] to [Database].
      *
      * Need reset [RollEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertRollList(model: Model) {
-        for (it in model.rollList) {
+    suspend fun insertRollList(result: ParserResult.Import) {
+        for (it in result.rollList) {
             it.id = rollDataSource.insert(it.copy(id = Roll.Default.ID))
         }
     }
 
     /**
-     * Insert rollVisible items from [Model.rollVisibleList] to [Database].
+     * Insert rollVisible items from [ParserResult.Import.rollVisibleList] to [Database].
      *
      * Need reset [RollVisibleEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertRollVisibleList(model: Model) {
-        for (it in model.rollVisibleList) {
+    suspend fun insertRollVisibleList(result: ParserResult.Import) {
+        for (it in result.rollVisibleList) {
             /** Catch of insert errors happen inside dataSource. */
             it.id = rollVisibleDataSource.insert(it.copy(id = RollVisible.Default.ID)) ?: continue
         }
     }
 
     /**
-     * Insert rank items from [Model.rankList] to [Database].
+     * Insert rank items from [ParserResult.Import.rankList] to [Database].
      *
-     * Also update (if need) rankId and position for items from [Model.noteList].
+     * Also update (if need) rankId and position for items from [ParserResult.Import.noteList].
      *
      * Need reset [RankEntity.id] for prevent unique id exception.
      * And update [RankEntity.position].
      */
-    // TODO if existRankList contain same name as inside [model.rankList]. Need add check for this.
+    // TODO if existRankList contain same name as inside [result.rankList]. Need add check for this.
     @RunPrivate
-    suspend fun insertRankList(model: Model) {
+    suspend fun insertRankList(result: ParserResult.Import) {
         val existRankList = rankDataSource.getList().toMutableList()
 
         /**
@@ -366,7 +369,7 @@ class BackupRepoImpl(
          */
         val skipIdList = mutableListOf<Long>()
 
-        for (item in model.rankList) {
+        for (item in result.rankList) {
             val oldId = item.id
 
             /** Catch of insert errors happen inside dataSource. */
@@ -376,7 +379,7 @@ class BackupRepoImpl(
 
             existRankList.add(item)
 
-            for (it in model.noteList.filter {
+            for (it in result.noteList.filter {
                 !skipIdList.contains(it.id) && it.rankId == oldId
             }) {
                 skipIdList.add(it.id)
@@ -386,41 +389,20 @@ class BackupRepoImpl(
         }
 
         if (skipIdList.isNotEmpty()) {
-            noteDataSource.update(model.noteList)
+            noteDataSource.update(result.noteList)
         }
     }
 
     /**
-     * Insert alarm items from [Model.noteList] to [Database].
+     * Insert alarm items from [ParserResult.Import.noteList] to [Database].
      *
      * Need reset [AlarmEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertAlarmList(model: Model) {
-        for (it in model.alarmList) {
+    suspend fun insertAlarmList(result: ParserResult.Import) {
+        for (it in result.alarmList) {
             /** Catch of insert errors happen inside dataSource. */
             it.id = alarmDataSource.insert(it.copy(id = Alarm.Default.ID)) ?: continue
-        }
-    }
-
-    // TODO may be use only ParserREsult?
-    data class Model(
-        val noteList: MutableList<NoteEntity>,
-        val rollList: MutableList<RollEntity>,
-        val rollVisibleList: MutableList<RollVisibleEntity>,
-        val rankList: MutableList<RankEntity>,
-        val alarmList: MutableList<AlarmEntity>
-    ) {
-        companion object {
-            operator fun get(parserResult: ParserResult): Model = with(parserResult) {
-                return Model(
-                    noteList.toMutableList(),
-                    rollList.toMutableList(),
-                    rollVisibleList.toMutableList(),
-                    rankList.toMutableList(),
-                    alarmList.toMutableList()
-                )
-            }
         }
     }
 

@@ -19,8 +19,8 @@ class BackupCollectorImpl(
     private val jsonConverter: BackupJsonConverter
 ) : BackupCollector {
 
-    override fun convert(model: ParserResult): String? {
-        val database = collectDatabase(model) ?: return null
+    override fun convert(result: ParserResult.Export): String? {
+        val database = collectDatabase(result) ?: return null
 
         try {
             return JSONObject()
@@ -35,7 +35,7 @@ class BackupCollectorImpl(
         return null
     }
 
-    @RunPrivate fun collectDatabase(model: ParserResult): String? {
+    @RunPrivate fun collectDatabase(model: ParserResult.Export): String? {
         try {
             val noteTable = collectTable(model.noteList) { jsonConverter.toJson(it) }
             val rollTable = collectTable(model.rollList) { jsonConverter.toJson(it) }
