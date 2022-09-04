@@ -29,9 +29,6 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractorImpl
 
-/**
- * Module for provide interactor's
- */
 @Module
 class InteractorModule {
 

@@ -8,9 +8,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPre
 import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.SystemPresenter
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 
-/**
- * Module for provide presenter's
- */
 @Module
 class PresenterModule {
 

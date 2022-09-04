@@ -29,9 +29,6 @@ import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
-/**
- * Module for provide repo's
- */
 @Module
 class RepoModule {
 

@@ -43,16 +43,16 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
     RoomModule::class,
     ConverterModule::class,
 
-    DataSourceModule::class,
-    RepositoryModule::class,
-
     NoteUseCaseModule::class,
     BackupUseCaseModule::class,
     GetSummaryUseCaseModule::class,
     UseCaseModule::class,
 
-    RepoModule::class,
-    BackupModule::class
+    DataSourceModule::class,
+    RepositoryModule::class,
+    BackupModule::class,
+
+    RepoModule::class
 ])
 interface ScriptumComponent {
 

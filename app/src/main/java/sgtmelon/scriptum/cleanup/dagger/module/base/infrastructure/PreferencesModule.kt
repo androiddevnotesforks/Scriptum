@@ -12,9 +12,6 @@ import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
-/**
- * Module for provide Preferences staff.
- */
 @Module
 class PreferencesModule {
 

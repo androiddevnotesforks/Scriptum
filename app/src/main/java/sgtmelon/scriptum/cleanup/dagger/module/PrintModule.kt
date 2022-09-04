@@ -10,9 +10,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.AppViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
-/**
- * Module for [PrintDevelopActivity].
- */
 @Module
 class PrintModule {
 

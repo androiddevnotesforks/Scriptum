@@ -83,9 +83,6 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseC
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
-/**
- * Module for provide viewModel's.
- */
 @Module
 class ViewModelModule {
 

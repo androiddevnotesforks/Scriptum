@@ -14,10 +14,6 @@ import sgtmelon.scriptum.data.backup.BackupParserImpl
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
-/**
- * Module for provide parser classes.
- */
-// TODO refactor this classes and make them repos or something like this
 @Module
 class BackupModule {
 
@@ -33,18 +29,18 @@ class BackupModule {
 
     @Provides
     @Singleton
-    fun provideBackupHashMaker(): BackupHashMaker {
-        return BackupHashMaker()
-    }
-
-    @Provides
-    @Singleton
     fun provideBackupCollector(
         dataSource: BackupDataSource,
         hashMaker: BackupHashMaker,
         jsonConverter: BackupJsonConverter
     ): BackupCollector {
         return BackupCollectorImpl(dataSource, hashMaker, jsonConverter)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBackupHashMaker(): BackupHashMaker {
+        return BackupHashMaker()
     }
 
     @Provides

@@ -15,9 +15,6 @@ import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 
-/**
- * Module for provide converters
- */
 @Module
 class ConverterModule {
 
