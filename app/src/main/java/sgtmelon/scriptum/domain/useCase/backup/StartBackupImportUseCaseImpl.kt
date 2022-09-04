@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.useCase.backup
 
+import android.util.Log
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.data.backup.BackupParser
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
@@ -22,6 +23,7 @@ class StartBackupImportUseCaseImpl(
      * [fileList] - list of backup files with extension [FileType.BACKUP]
      */
     override suspend operator fun invoke(name: String, fileList: List<FileItem>): ImportResult {
+        Log.i("HERE", "start backup import")
         val item = fileList.firstOrNull { it.name == name } ?: return ImportResult.Error
 
         val encryptData = fileDataSource.readFile(item.path) ?: return ImportResult.Error

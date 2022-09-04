@@ -170,10 +170,10 @@ class BackupRepoImpl(
     }
 
     /**
-     * Return list for remove with items from [ParserResult.Import.rankList], which
-     * already exists in [Database].
+     * Remove entities from [ParserResult.Import.rankList], which already exists in [Database]
+     * (unique name).
      *
-     * Also update [NoteEntity.rankId] and [NoteEntity.rankPs] (if need) for
+     * And update [NoteEntity.rankId]/[NoteEntity.rankPs] (if needed) for
      * items in [ParserResult.Import.noteList].
      */
     @RunPrivate
@@ -181,14 +181,16 @@ class BackupRepoImpl(
         val removeList = mutableListOf<RankEntity>()
         val existRankList = rankDataSource.getList()
 
-        for (item in result.rankList) {
-            val index = existRankList.indexOfFirst { it.name == item.name }
-            val existItem = existRankList.getOrNull(index) ?: continue
+        for (entity in result.rankList) {
+            val index = existRankList.indexOfFirst {
+                entity.name.uppercase() == it.name.uppercase()
+            }
+            val existEntity = existRankList.getOrNull(index) ?: continue
 
-            removeList.add(item)
+            removeList.add(entity)
 
-            for (it in result.noteList.filter { it.rankId == item.id }) {
-                it.rankId = existItem.id
+            for (it in result.noteList.filter { it.rankId == entity.id }) {
+                it.rankId = existEntity.id
                 it.rankPs = index
             }
         }
@@ -242,6 +244,8 @@ class BackupRepoImpl(
      */
     @RunPrivate
     suspend fun insertNoteList(result: ParserResult.Import) {
+        val existRankList = rankDataSource.getList()
+
         /**
          * Need for prevent overriding already updated items.
          * Because new noteId may be equals oldNoteId for next item.
@@ -258,9 +262,11 @@ class BackupRepoImpl(
 
             updateRollLink(oldNoteId, item.id, result.rollList, skipRollIdList)
             updateRollVisibleLink(oldNoteId, item.id, result.rollVisibleList, skipVisibleIdList)
-            updateRankLink(oldNoteId, item.id, result.rankList)
+            updateRankLink(oldNoteId, item, result.rankList, existRankList)
             updateAlarmList(oldNoteId, item.id, result.alarmList, skipAlarmIdList)
         }
+
+        rankDataSource.update(existRankList)
     }
 
     @RunPrivate
@@ -299,15 +305,35 @@ class BackupRepoImpl(
 
     /**
      * Note may be connected only to one rank (or not connected at all).
+     *
+     * [existRankList] - for searching connection in existing (inside database) rank.
+     *
+     * We clean up [rankList] inside [clearRankList] (if some ranks already exists). There we
+     * update connection note-rank by updating [NoteEntity.rankId]. Here we can simply find
+     * needed [RankEntity] inside [existRankList] by this id connection.
      */
     @RunPrivate
-    fun updateRankLink(oldNoteId: Long, newNoteId: Long, rankList: List<RankEntity>) {
-        val entity = rankList.firstOrNull {
-            it.id == newNoteId && it.noteId.contains(oldNoteId)
-        } ?: return
+    fun updateRankLink(
+        oldNoteId: Long,
+        noteEntity: NoteEntity,
+        rankList: List<RankEntity>,
+        existRankList: List<RankEntity>
+    ) {
+        /**
+         * - [NoteEntity] connected to [RankEntity] via [NoteEntity.rankId]
+         * - [RankEntity] connected to [NoteEntity] via [RankEntity.noteId] list
+         */
+        val rankEntity = rankList.firstOrNull {
+            noteEntity.rankId == it.id && it.noteId.contains(oldNoteId)
+        }
 
-        entity.noteId.remove(oldNoteId)
-        entity.noteId.add(newNoteId)
+        if (rankEntity != null) {
+            rankEntity.noteId.remove(oldNoteId)
+            rankEntity.noteId.add(noteEntity.id)
+        } else {
+            val existRankEntity = existRankList.firstOrNull { it.id == noteEntity.rankId }
+            existRankEntity?.noteId?.add(noteEntity.id)
+        }
     }
 
     @RunPrivate
@@ -358,7 +384,6 @@ class BackupRepoImpl(
      * Need reset [RankEntity.id] for prevent unique id exception.
      * And update [RankEntity.position].
      */
-    // TODO if existRankList contain same name as inside [result.rankList]. Need add check for this.
     @RunPrivate
     suspend fun insertRankList(result: ParserResult.Import) {
         val existRankList = rankDataSource.getList().toMutableList()
