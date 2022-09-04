@@ -56,25 +56,29 @@ class RankDaoTest : ParentRoomTest() {
     /**
      * Check OnConflictStrategy.IGNORE on inserting with same [RankEntity.id].
      */
-    @Test fun insertWithSameId() = inRoomTest {
-        insert(firstRank)
+    @Test fun insertWithSameId() {
+        inRoomTest {
+            insert(firstRank)
 
-        val conflict = firstRank.copy(isVisible = !firstRank.isVisible)
-        assertEquals(rankDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
+            val conflict = firstRank.copy(isVisible = !firstRank.isVisible)
+            assertEquals(rankDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
 
-        assertEquals(rankDao.get(firstRank.id), firstRank)
+            assertEquals(rankDao.get(firstRank.id), firstRank)
+        }
     }
 
     /**
      * Check what every [RankEntity.name] must be unique.
      */
-    @Test fun insertWithNoteIdUnique() = inRoomTest {
-        insert(firstRank)
+    @Test fun insertWithNoteIdUnique() {
+        inRoomTest {
+            insert(firstRank)
 
-        val unique = secondRank.copy(name = firstRank.name)
-        assertEquals(rankDao.insert(unique), DaoConst.UNIQUE_ERROR_ID)
+            val unique = secondRank.copy(name = firstRank.name)
+            assertEquals(rankDao.insert(unique), DaoConst.UNIQUE_ERROR_ID)
 
-        assertEquals(rankDao.get(firstRank.id), firstRank)
+            assertEquals(rankDao.get(firstRank.id), firstRank)
+        }
     }
 
     @Test fun insertSafe() = inRoomTest {
@@ -196,131 +200,4 @@ class RankDaoTest : ParentRoomTest() {
 
         assertEquals(rankDao.getId(entity.position), entity.id)
     }
-
-    //region Clean up
-
-    //    private val firstRank = RankEntity(id = 1, noteId = arrayListOf(), position = 1, name = "123")
-    //
-    //    private val secondRank = RankEntity(
-    //        id = 2, noteId = arrayListOf(), position = 0, name = "234", isVisible = false
-    //    )
-    //
-    //    private val thirdRank = RankEntity(id = 3, noteId = arrayListOf(), position = 2, name = "345")
-    //
-    //    private fun inRankDao(func: suspend IRankDao.() -> Unit) = inRoomTest {
-    //        rankDao.apply { func() }
-    //    }
-    //
-    //    private suspend fun IRankDao.insertAll(): List<RankEntity> {
-    //        return arrayListOf(firstRank, secondRank, thirdRank).apply {
-    //            for (it in this) {
-    //                assertNotNull(safeInsert(it))
-    //            }
-    //
-    //            sortBy { it.position }
-    //        }
-    //    }
-    //
-    //    // Dao common functions
-    //
-    //    @Test fun insertWithUnique() = inRankDao {
-    //        assertEquals(1, insert(firstRank))
-    //
-    //        val sameId = secondRank.copy(id = firstRank.id)
-    //
-    //        assertEquals(DaoConst.UNIQUE_ERROR_ID, insert(sameId))
-    //        assertNull(safeInsert(sameId))
-    //
-    //        val sameName = secondRank.copy(name = firstRank.name)
-    //
-    //        assertEquals(DaoConst.UNIQUE_ERROR_ID, insert(sameName))
-    //    }
-    //
-    //    @Test fun delete() = inRankDao {
-    //        assertNotNull(safeInsert(firstRank))
-    //        delete(firstRank.name)
-    //        assertNull(get(firstRank.id))
-    //    }
-    //
-    //    @Test fun update() = inRankDao {
-    //        assertNotNull(safeInsert(firstRank))
-    //
-    //        firstRank.copy(name = "12345", isVisible = false).let {
-    //            update(it)
-    //            assertEquals(it, get(it.id))
-    //        }
-    //    }
-    //
-    //    @Test fun updateByList() = inRankDao {
-    //        assertNotNull(safeInsert(firstRank))
-    //        assertNotNull(safeInsert(secondRank))
-    //
-    //        val updateList = arrayListOf(firstRank.copy(position = 0), secondRank.copy(position = 1))
-    //
-    //        update(updateList)
-    //
-    //        for (it in updateList) {
-    //            assertEquals(it, get(it.id))
-    //        }
-    //    }
-    //
-    //    @Test fun updateWithUnique() = inRankDao {
-    //        assertNotNull(safeInsert(firstRank))
-    //        assertNotNull(safeInsert(secondRank))
-    //
-    //        secondRank.copy(id = firstRank.id).let {
-    //            update(it)
-    //            assertEquals(secondRank, get(secondRank.id))
-    //
-    //            update(arrayListOf(firstRank, it))
-    //            assertEquals(secondRank, get(secondRank.id))
-    //        }
-    //
-    //        secondRank.copy(name = firstRank.name).let {
-    //            update(it)
-    //            assertEquals(secondRank, get(secondRank.id))
-    //
-    //            update(arrayListOf(firstRank, it))
-    //            assertEquals(secondRank, get(secondRank.id))
-    //        }
-    //    }
-    //
-    //    // Dao get functions
-    //
-    //    @Test fun getCount() = inRankDao {
-    //        assertEquals(insertAll().size, getCount())
-    //    }
-    //
-    //    @Test fun getOnWrongId() = inRankDao { assertNull(get(Random.nextLong())) }
-    //
-    //    @Test fun getOnCorrectId() = inRankDao {
-    //        insertAll()
-    //
-    //        assertEquals(secondRank, get(secondRank.id))
-    //        assertEquals(thirdRank, get(thirdRank.id))
-    //    }
-    //
-    //    @Test fun getList() = inRankDao { assertEquals(insertAll(), get()) }
-    //
-    //    @Test fun getIdVisibleList() = inRankDao {
-    //        assertEquals(insertAll().filter { it.isVisible }.map { it.id }, getIdVisibleList())
-    //    }
-    //
-    //    @Test fun getIdList() = inRankDao {
-    //        assertEquals(insertAll().map { it.id }, getIdList())
-    //    }
-    //
-    //    @Test fun getNameList() = inRankDao {
-    //        assertEquals(insertAll().map { it.name }, getNameList())
-    //    }
-    //
-    //    @Test fun getId() = inRankDao {
-    //        assertNull(getId(Random.nextInt()))
-    //
-    //        for ((i, id) in insertAll().map { it.id }.withIndex()) {
-    //            assertEquals(id, getId(i))
-    //        }
-    //    }
-
-    //endregion
 }

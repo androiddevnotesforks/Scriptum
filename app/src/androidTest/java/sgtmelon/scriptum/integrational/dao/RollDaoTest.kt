@@ -142,15 +142,17 @@ class RollDaoTest : ParentRoomTest() {
     /**
      * Check OnConflictStrategy.IGNORE on inserting with same [RollEntity.id].
      */
-    @Test fun insertWithSameId() = inRoomTest {
-        val (note, rollList) = firstPair
-        insertRelation(note, rollList)
+    @Test fun insertWithSameId() {
+        inRoomTest {
+            val (note, rollList) = firstPair
+            insertRelation(note, rollList)
 
-        val roll = rollList.random()
-        val conflict = roll.copy(isCheck = !roll.isCheck)
-        assertEquals(rollDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
+            val roll = rollList.random()
+            val conflict = roll.copy(isCheck = !roll.isCheck)
+            assertEquals(rollDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
 
-        assertEquals(rollDao.getList(note.id).first { it.id == roll.id }, roll)
+            assertEquals(rollDao.getList(note.id).first { it.id == roll.id }, roll)
+        }
     }
 
     /**
@@ -159,9 +161,11 @@ class RollDaoTest : ParentRoomTest() {
      *
      * This test check this situation.
      */
-    @Test fun insertSafe_throwsCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteConstraintException::class.java)
-        rollDao.insert(firstPair.second.random())
+    @Test fun insertSafe_throwsCheck() {
+        inRoomTest {
+            exceptionRule.expect(SQLiteConstraintException::class.java)
+            rollDao.insert(firstPair.second.random())
+        }
     }
 
     @Test fun insertSafe() = inRoomTest {
@@ -360,40 +364,4 @@ class RollDaoTest : ParentRoomTest() {
         val resultList = rollList.filter { !it.isCheck }.take(PREVIEW_SIZE)
         assertEquals(rollDao.getPreviewHideList(note.id), resultList)
     }
-
-
-    //region clean up
-
-    //
-    //    @Test fun deleteCrowd() = inRoomTest {
-    //        val noteId = firstModel.entity.id
-    //        val rollList = List(CROWD_SIZE) { getRandomRoll(it.toLong(), it, noteId) }
-    //        val model = firstModel.copy(rollList = rollList)
-    //
-    //        insertRollRelation(model)
-    //
-    //        val saveList = model.rollList.filter { it.isCheck }
-    //
-    //        rollDao.safeDelete(noteId, saveList.map { it.id!! })
-    //
-    //        assertEquals(saveList, rollDao.getList(noteId))
-    //    }
-    //
-    //    @Test fun deleteByListCrowd() = inRoomTest {
-    //        val noteId = firstModel.entity.id
-    //        val rollList = List(CROWD_SIZE) { getRandomRoll(it.toLong(), it, noteId) }
-    //        val model = firstModel.copy(rollList = rollList)
-    //
-    //        insertRollRelation(model)
-    //
-    //        val filterValue = Random.nextBoolean()
-    //        val deleteList = ArrayList(rollList.filter { it.isCheck == filterValue })
-    //        val saveList = ArrayList(rollList).apply { removeAll(deleteList.toSet()) }
-    //
-    //        rollDao.safeDelete(deleteList.map { it.id!! })
-    //
-    //        assertEquals(saveList, rollDao.getList(noteId))
-    //    }
-
-    //endregion
 }

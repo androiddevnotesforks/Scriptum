@@ -20,11 +20,8 @@ class CipherDataSourceTest : ParentTest() {
         assertEquals(dataSource.decrypt(dataSource.encrypt(decryptText)), decryptText)
     }
 
-    @Test fun encryptWithEmptyText() {
-        assertEquals(dataSource.encrypt(text = ""), "")
-    }
+    @Test fun encryptWithEmptyText() = assertEquals(dataSource.encrypt(text = ""), "")
 
-    @Test fun decryptWithEmptyText() {
-        assertEquals(dataSource.decrypt(text = ""), "")
-    }
+    @Test fun decryptWithEmptyText() = assertEquals(dataSource.decrypt(text = ""), "")
+
 }

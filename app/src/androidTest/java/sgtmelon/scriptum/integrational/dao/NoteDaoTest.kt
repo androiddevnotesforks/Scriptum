@@ -94,13 +94,15 @@ class NoteDaoTest : ParentRoomTest() {
     /**
      * Check OnConflictStrategy.IGNORE on inserting with same [NoteEntity.id].
      */
-    @Test fun insertWithSameId() = inRoomTest {
-        insert(firstNote)
+    @Test fun insertWithSameId() {
+        inRoomTest {
+            insert(firstNote)
 
-        val conflict = firstNote.copy(text = nextString(), name = nextString())
-        assertEquals(noteDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
+            val conflict = firstNote.copy(text = nextString(), name = nextString())
+            assertEquals(noteDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
 
-        assertEquals(noteDao.get(firstNote.id), firstNote)
+            assertEquals(noteDao.get(firstNote.id), firstNote)
+        }
     }
 
     @Test fun insertSafe() = inRoomTest {

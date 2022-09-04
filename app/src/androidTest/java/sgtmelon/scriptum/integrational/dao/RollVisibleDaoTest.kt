@@ -98,25 +98,29 @@ class RollVisibleDaoTest : ParentRoomTest() {
     /**
      * Check OnConflictStrategy.IGNORE on inserting with same [RollVisibleEntity.id].
      */
-    @Test fun insertWithSameId() = inRoomTest {
-        insertRelation(firstNote, firstVisible)
+    @Test fun insertWithSameId() {
+        inRoomTest {
+            insertRelation(firstNote, firstVisible)
 
-        val conflict = firstVisible.copy(value = !firstVisible.value)
-        assertEquals(rollVisibleDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
+            val conflict = firstVisible.copy(value = !firstVisible.value)
+            assertEquals(rollVisibleDao.insert(conflict), DaoConst.UNIQUE_ERROR_ID)
 
-        assertEquals(rollVisibleDao.getVisible(firstVisible.noteId), firstVisible.value)
+            assertEquals(rollVisibleDao.getVisible(firstVisible.noteId), firstVisible.value)
+        }
     }
 
     /**
      * Check what only one [RollVisibleEntity] may be attached to one [NoteEntity].
      */
-    @Test fun insertWithNoteIdUnique() = inRoomTest {
-        insertRelation(firstNote, firstVisible)
+    @Test fun insertWithNoteIdUnique() {
+        inRoomTest {
+            insertRelation(firstNote, firstVisible)
 
-        val unique = secondVisible.copy(noteId = firstNote.id)
-        assertEquals(rollVisibleDao.insert(unique), DaoConst.UNIQUE_ERROR_ID)
+            val unique = secondVisible.copy(noteId = firstNote.id)
+            assertEquals(rollVisibleDao.insert(unique), DaoConst.UNIQUE_ERROR_ID)
 
-        assertEquals(rollVisibleDao.getVisible(firstVisible.noteId), firstVisible.value)
+            assertEquals(rollVisibleDao.getVisible(firstVisible.noteId), firstVisible.value)
+        }
     }
 
     /**
@@ -125,9 +129,11 @@ class RollVisibleDaoTest : ParentRoomTest() {
      *
      * This test check this situation.
      */
-    @Test fun insertSafe_throwsCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteConstraintException::class.java)
-        rollVisibleDao.insert(firstVisible)
+    @Test fun insertSafe_throwsCheck() {
+        inRoomTest {
+            exceptionRule.expect(SQLiteConstraintException::class.java)
+            rollVisibleDao.insert(firstVisible)
+        }
     }
 
     @Test fun insertSafe() = inRoomTest {

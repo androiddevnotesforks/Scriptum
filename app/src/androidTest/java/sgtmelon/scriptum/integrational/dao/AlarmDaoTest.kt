@@ -113,25 +113,29 @@ class AlarmDaoTest : ParentRoomTest() {
     /**
      * Check OnConflictStrategy.REPLACE on inserting with same [AlarmEntity.id].
      */
-    @Test fun insertWithConflict_replace() = inRoomTest {
-        insertRelation(firstNote, firstAlarm)
+    @Test fun insertWithConflict_replace() {
+        inRoomTest {
+            insertRelation(firstNote, firstAlarm)
 
-        val conflict = secondAlarm.copy(id = firstAlarm.id, noteId = firstAlarm.noteId)
-        assertEquals(alarmDao.insert(conflict), firstAlarm.id)
+            val conflict = secondAlarm.copy(id = firstAlarm.id, noteId = firstAlarm.noteId)
+            assertEquals(alarmDao.insert(conflict), firstAlarm.id)
 
-        assertEquals(alarmDao.get(firstAlarm.noteId), conflict)
+            assertEquals(alarmDao.get(firstAlarm.noteId), conflict)
+        }
     }
 
     /**
      * Check what only one [AlarmEntity] may be attached to one [NoteEntity].
      */
-    @Test fun insertWithNoteIdUnique() = inRoomTest {
-        insertRelation(firstNote, firstAlarm)
+    @Test fun insertWithNoteIdUnique() {
+        inRoomTest {
+            insertRelation(firstNote, firstAlarm)
 
-        val unique = secondAlarm.copy(noteId = firstNote.id)
-        assertEquals(alarmDao.insert(unique), unique.id)
+            val unique = secondAlarm.copy(noteId = firstNote.id)
+            assertEquals(alarmDao.insert(unique), unique.id)
 
-        assertEquals(alarmDao.get(firstAlarm.noteId), unique)
+            assertEquals(alarmDao.get(firstAlarm.noteId), unique)
+        }
     }
 
     /**
@@ -140,9 +144,11 @@ class AlarmDaoTest : ParentRoomTest() {
      *
      * This test check this situation.
      */
-    @Test fun insertSafe_throwsCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteConstraintException::class.java)
-        alarmDao.insert(firstAlarm)
+    @Test fun insertSafe_throwsCheck() {
+        inRoomTest {
+            exceptionRule.expect(SQLiteConstraintException::class.java)
+            alarmDao.insert(firstAlarm)
+        }
     }
 
     @Test fun insertSafe() = inRoomTest {
