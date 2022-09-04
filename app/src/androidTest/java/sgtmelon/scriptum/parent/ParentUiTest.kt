@@ -5,8 +5,6 @@ import androidx.test.rule.ActivityTestRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.common.test.idling.impl.WaitIdlingResource
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
@@ -18,6 +16,8 @@ import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.di.ParentInjector
+import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.impl.WaitIdlingResource
 
 /**
  * Parent class for UI tests.

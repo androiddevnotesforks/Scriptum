@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import javax.inject.Inject
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.test.idling.impl.WaitIdlingResource
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
@@ -32,6 +31,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.Hel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.model.firebase.FireKey
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.test.idling.impl.WaitIdlingResource
 import android.graphics.Color as AndroidColor
 
 /**

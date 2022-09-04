@@ -1,6 +1,6 @@
-package sgtmelon.common.test.idling.callback
+package sgtmelon.test.idling.callback
 
-import sgtmelon.common.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.impl.AppIdlingResource
 
 /**
  * Interface for work with [AppIdlingResource].

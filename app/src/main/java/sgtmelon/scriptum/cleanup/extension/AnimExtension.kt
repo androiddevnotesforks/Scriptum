@@ -10,8 +10,8 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
-import sgtmelon.common.test.addIdlingListener
 import sgtmelon.scriptum.R
+import sgtmelon.test.idling.addIdlingListener
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)

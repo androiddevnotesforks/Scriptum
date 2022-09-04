@@ -1,9 +1,9 @@
-package sgtmelon.common.test.idling.impl
+package sgtmelon.test.idling.impl
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
-import sgtmelon.common.BuildConfig
-import sgtmelon.common.test.idling.callback.WaitIdlingCallback
+import sgtmelon.test.idling.BuildConfig
+import sgtmelon.test.idling.callback.WaitIdlingCallback
 
 /**
  * [IdlingResource] which will idle when [waitMillis] left.

@@ -76,6 +76,8 @@ dependencies {
     implementation project(':libraries:safeDialog')
     implementation project(':libraries:textDotAnim')
     implementation project(':common')
+    implementation project(':tests:idling')
+
     testImplementation project(path: ':tests:common')
     androidTestImplementation project(path: ':tests:common')
 

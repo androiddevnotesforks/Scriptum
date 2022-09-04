@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import sgtmelon.common.test.addIdlingListener
 import sgtmelon.scriptum.R
+import sgtmelon.test.idling.addIdlingListener
 
 fun Activity.beforeFinish(func: () -> Unit) {
     func()

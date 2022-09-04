@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
-import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -39,6 +38,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragm
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
+import sgtmelon.test.idling.impl.AppIdlingResource
 
 /**
  * Fragment which displays list of categories - [RankItem].

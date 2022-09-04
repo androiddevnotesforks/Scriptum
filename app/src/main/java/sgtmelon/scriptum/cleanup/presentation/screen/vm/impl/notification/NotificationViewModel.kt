@@ -3,19 +3,19 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.utils.getCalendar
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.runBack
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
+import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.test.idling.impl.AppIdlingResource
 
 /**
  * ViewModel for [INotificationActivity].

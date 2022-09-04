@@ -1,9 +1,9 @@
-package sgtmelon.common.test.idling.impl
+package sgtmelon.test.idling.impl
 
 import android.util.Log
 import androidx.test.espresso.IdlingRegistry
-import sgtmelon.common.BuildConfig
-import sgtmelon.common.test.idling.callback.AppIdlingCallback
+import sgtmelon.test.idling.BuildConfig
+import sgtmelon.test.idling.callback.AppIdlingCallback
 
 /**
  * Class for maintain test work while app is freeze without Thread.sleep(...).

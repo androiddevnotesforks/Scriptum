@@ -6,7 +6,6 @@ import java.util.Calendar
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.test.annotation.RunProtected
-import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.launchBack
@@ -33,6 +32,7 @@ import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.idling.impl.AppIdlingResource
 
 /**
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].

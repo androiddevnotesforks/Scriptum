@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import sgtmelon.common.test.addIdlingListener
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
 import sgtmelon.scriptum.cleanup.extension.getCompatColor
 import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.idling.addIdlingListener
 
 /**
  * Holder for app color, use in [ColorAdapter].

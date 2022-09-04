@@ -10,8 +10,6 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import java.util.Calendar
 import javax.inject.Inject
-import sgtmelon.common.test.addIdlingListener
-import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
@@ -43,6 +41,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteF
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.idling.addIdlingListener
+import sgtmelon.test.idling.impl.AppIdlingResource
 
 /**
  * Fragment for display text note.

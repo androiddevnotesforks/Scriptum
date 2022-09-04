@@ -21,9 +21,7 @@ import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import java.util.Calendar
 import javax.inject.Inject
-import sgtmelon.common.test.addIdlingListener
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
@@ -60,6 +58,8 @@ import sgtmelon.scriptum.cleanup.presentation.view.RippleContainer
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.test.idling.addIdlingListener
+import sgtmelon.test.idling.impl.AppIdlingResource
 import android.graphics.Color as AndroidColor
 
 /**
