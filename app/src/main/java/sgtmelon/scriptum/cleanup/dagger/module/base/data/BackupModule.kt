@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.dagger.module.base
+package sgtmelon.scriptum.cleanup.dagger.module.base.data
 
 import dagger.Module
 import dagger.Provides
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
  */
 // TODO refactor this classes and make them repos or something like this
 @Module
-class ParserModule {
+class BackupModule {
 
     @Provides
     @Singleton

@@ -19,8 +19,8 @@ import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.DevelopPref
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PrintDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.ServiceDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.service.SystemComponent
-import sgtmelon.scriptum.cleanup.dagger.module.base.ParserModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.RepoModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.BackupModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.BackupUseCaseModule
@@ -52,7 +52,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
     UseCaseModule::class,
 
     RepoModule::class,
-    ParserModule::class
+    BackupModule::class
 ])
 interface ScriptumComponent {
 
