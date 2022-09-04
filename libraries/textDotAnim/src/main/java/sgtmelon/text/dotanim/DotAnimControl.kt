@@ -11,7 +11,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import androidx.annotation.Size
 import androidx.annotation.StringRes
-import sgtmelon.common.test.addIdlingListener
+import sgtmelon.test.idling.addIdlingListener
 
 /**
  * Class for help animate [TextView] ending with loading dots.
