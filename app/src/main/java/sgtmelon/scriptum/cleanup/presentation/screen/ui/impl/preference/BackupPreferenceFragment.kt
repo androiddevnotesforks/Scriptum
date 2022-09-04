@@ -69,6 +69,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             .inject(fragment = this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -103,6 +104,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         openState.save(outState)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

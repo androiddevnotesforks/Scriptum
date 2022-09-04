@@ -20,6 +20,7 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
 
     val toastControl by lazy { ToastControl(context) }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         toastControl.initLazy()

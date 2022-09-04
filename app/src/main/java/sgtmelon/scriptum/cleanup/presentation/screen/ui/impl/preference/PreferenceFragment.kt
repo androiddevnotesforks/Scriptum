@@ -58,6 +58,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             .inject(fragment = this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         openState.get(savedInstanceState)

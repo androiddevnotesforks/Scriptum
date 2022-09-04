@@ -20,6 +20,7 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
         setPreferencesFromResource(R.xml.preference_help, rootKey)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         onSetup()

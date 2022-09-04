@@ -76,6 +76,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             .inject(fragment = this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -112,6 +113,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         openState.save(outState)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,

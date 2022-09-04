@@ -50,6 +50,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
             .inject(fragment = this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

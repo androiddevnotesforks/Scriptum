@@ -34,7 +34,7 @@ dependencies {
     implementation project(':common')
     testImplementation project(path: ':tests:common')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.10"
 
     implementation "com.google.android.material:material:1.5.0"
 

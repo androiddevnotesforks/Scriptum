@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
+import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
@@ -13,7 +14,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
-import javax.inject.Inject
 
 /**
  * Fragment of develop preferences.
@@ -53,6 +53,7 @@ class DevelopFragment : ParentPreferenceFragment(),
             .inject(fragment = this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.onSetup()
