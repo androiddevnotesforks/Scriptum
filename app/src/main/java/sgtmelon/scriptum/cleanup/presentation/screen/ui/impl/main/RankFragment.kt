@@ -38,7 +38,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragm
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * Fragment which displays list of categories - [RankItem].
@@ -62,7 +62,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     private val adapter by lazy {
         RankAdapter(object : IconBlockCallback {
             override fun setEnabled(isEnabled: Boolean) {
-                AppIdlingResource.getInstance().changeWork(!isEnabled, IdlingTag.Anim.ICON)
+                getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
 
                 openState?.value = !isEnabled
                 openState?.tag = if (isEnabled) OpenState.Tag.ND else OpenState.Tag.ANIM

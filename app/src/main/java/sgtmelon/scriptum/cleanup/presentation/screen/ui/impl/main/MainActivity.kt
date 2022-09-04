@@ -34,7 +34,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment].
@@ -75,7 +75,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
         registerReceiver(mainReceiver, IntentFilter(Filter.MAIN))
 
-        AppIdlingResource.getInstance().stopWork(IdlingTag.Intro.FINISH)
+        getIdling().stop(IdlingTag.Intro.FINISH)
     }
 
     override fun onResume() {

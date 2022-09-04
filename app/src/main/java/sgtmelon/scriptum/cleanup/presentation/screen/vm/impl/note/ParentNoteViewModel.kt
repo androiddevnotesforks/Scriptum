@@ -32,7 +32,7 @@ import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
@@ -99,7 +99,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     abstract fun cacheData()
 
     override fun onSetup(bundle: Bundle?) {
-        AppIdlingResource.getInstance().startWork(IdlingTag.Note.LOAD_DATA)
+        getIdling().start(IdlingTag.Note.LOAD_DATA)
 
         getBundleData(bundle)
         setupBeforeInitialize()
@@ -109,7 +109,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
                 setupAfterInitialize()
             }
 
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Note.LOAD_DATA)
+            getIdling().stop(IdlingTag.Note.LOAD_DATA)
         }
     }
 

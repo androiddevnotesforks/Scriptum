@@ -18,7 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * ViewModel for [IAlarmActivity].
@@ -103,7 +103,7 @@ class AlarmViewModel(
     override fun onStart() {
         val signalState = preferencesRepo.signalState
 
-        AppIdlingResource.getInstance().startWork(IdlingTag.Alarm.START)
+        getIdling().start(IdlingTag.Alarm.START)
 
         callback?.apply {
             startRippleAnimation(noteItem.color)
@@ -120,7 +120,7 @@ class AlarmViewModel(
             startLongWaitHandler(CANCEL_DELAY, longWaitRunnable)
         }
 
-        AppIdlingResource.getInstance().stopWork(IdlingTag.Alarm.START)
+        getIdling().stop(IdlingTag.Alarm.START)
     }
 
     override fun onClickNote() {

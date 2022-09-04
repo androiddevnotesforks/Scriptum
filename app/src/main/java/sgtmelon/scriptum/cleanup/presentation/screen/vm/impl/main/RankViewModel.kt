@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * ViewModel for [IRankFragment].
@@ -91,7 +91,7 @@ class RankViewModel(
     }
 
     override fun onUpdateData() {
-        AppIdlingResource.getInstance().startWork(IdlingTag.Rank.LOAD_DATA)
+        getIdling().start(IdlingTag.Rank.LOAD_DATA)
 
         fun updateList() = callback?.apply {
             notifyList(itemList)
@@ -119,7 +119,7 @@ class RankViewModel(
 
             updateList()
 
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Rank.LOAD_DATA)
+            getIdling().stop(IdlingTag.Rank.LOAD_DATA)
         }
     }
 

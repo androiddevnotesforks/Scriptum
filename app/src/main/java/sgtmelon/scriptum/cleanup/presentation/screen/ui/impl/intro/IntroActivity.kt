@@ -26,7 +26,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * Activity with start intro.
@@ -111,7 +111,7 @@ class IntroActivity : ParentActivity(), IIntroActivity {
 
     override fun setupViewPager(isLastPage: Boolean) {
         endButton.setOnClickListener {
-            AppIdlingResource.getInstance().startWork(IdlingTag.Intro.FINISH)
+            getIdling().start(IdlingTag.Intro.FINISH)
             beforeFinish { viewModel.onClickEnd() }
         }
 

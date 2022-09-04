@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * ViewModel for [INotificationActivity].
@@ -82,7 +82,7 @@ class NotificationViewModel(
      * Get count before load all data because it's faster.
      */
     override fun onUpdateData() {
-        AppIdlingResource.getInstance().startWork(IdlingTag.Notification.LOAD_DATA)
+        getIdling().start(IdlingTag.Notification.LOAD_DATA)
 
         fun updateList() = callback?.apply {
             notifyList(itemList)
@@ -110,7 +110,7 @@ class NotificationViewModel(
 
             updateList()
 
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Notification.LOAD_DATA)
+            getIdling().stop(IdlingTag.Notification.LOAD_DATA)
         }
     }
 

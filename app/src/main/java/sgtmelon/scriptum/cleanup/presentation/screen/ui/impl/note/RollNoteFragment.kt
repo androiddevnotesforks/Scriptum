@@ -62,7 +62,7 @@ import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
 import sgtmelon.test.idling.addIdlingListener
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * Fragment for display roll note.
@@ -197,7 +197,7 @@ class RollNoteFragment : ParentFragment(),
     override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
 
     override fun setEnabled(isEnabled: Boolean) {
-        AppIdlingResource.getInstance().changeWork(!isEnabled, IdlingTag.Anim.ICON)
+        getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
         openState.value = !isEnabled
     }
 

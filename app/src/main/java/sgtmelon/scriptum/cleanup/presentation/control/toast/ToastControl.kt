@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.control.toast
 import android.content.Context
 import android.widget.Toast
 import androidx.annotation.StringRes
-import sgtmelon.test.idling.impl.WaitIdlingResource
+import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Class for displaying toast's with on time destroy for prevent memory leaks.
@@ -37,11 +37,13 @@ class ToastControl(val context: Context?) : IToastControl {
      * Run idling while toast is shown.
      */
     private fun runToastIdling(length: Int) {
-        WaitIdlingResource.getInstance().startWork(waitMillis = when (length) {
-            Toast.LENGTH_SHORT -> 2000
-            Toast.LENGTH_LONG -> 3500
-            else -> return
-        })
+        getWaitIdling().start(
+            waitMillis = when (length) {
+                Toast.LENGTH_SHORT -> 2000
+                Toast.LENGTH_LONG -> 3500
+                else -> return
+            }
+        )
     }
 
     fun onDestroy() {

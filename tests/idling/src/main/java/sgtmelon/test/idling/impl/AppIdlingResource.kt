@@ -16,8 +16,8 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
      * isEmpty    - don't need wait operation end.
      * isNotEmpty - otherwise need wait.
      *
-     * List created for cases when [startWork] calls from different places in one time.
-     * And [stopWork] may come not at the same time.
+     * List created for cases when [start] calls from different places in one time.
+     * And [stop] may come not at the same time.
      */
     private val idleList = mutableListOf<String>()
 
@@ -25,18 +25,20 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
 
     override fun isIdleNow() = idleList.isEmpty()
 
-    override fun startWork(tag: String) {
+    override fun start(tag: String) {
         if (!BuildConfig.DEBUG) return
 
         idleList.add(tag)
     }
 
-    override fun stopWork(tag: String) {
+    override fun stop(tag: String) {
         if (!BuildConfig.DEBUG) return
 
-        val index = idleList.indexOfFirst { it == tag }
+        val index = idleList.indexOfLast { it == tag }
         if (index in idleList.indices) {
             idleList.removeAt(index)
+        } else {
+            Log.e(TAG, "Not find idling tag: $tag")
         }
 
         if (isIdleNow) {
@@ -44,8 +46,8 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
         }
     }
 
-    override fun changeWork(isWork: Boolean, tag: String) {
-        if (isWork) startWork(tag) else stopWork(tag)
+    override fun change(isWork: Boolean, tag: String) {
+        if (isWork) start(tag) else stop(tag)
     }
 
     override fun unregister() {

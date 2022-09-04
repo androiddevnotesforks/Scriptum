@@ -33,7 +33,7 @@ class WaitIdlingResource : ParentIdlingResource(), WaitIdlingCallback {
         return isIdle
     }
 
-    override fun startWork(waitMillis: Long) {
+    override fun start(waitMillis: Long) {
         if (!BuildConfig.DEBUG) return
 
         this.startTime = System.currentTimeMillis()

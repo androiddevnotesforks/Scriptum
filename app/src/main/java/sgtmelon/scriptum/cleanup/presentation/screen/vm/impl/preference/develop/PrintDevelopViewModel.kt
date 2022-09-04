@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.deve
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * ViewModel for [IPrintDevelopActivity].
@@ -46,7 +46,7 @@ class PrintDevelopViewModel(
     override fun onUpdateData() {
         val type = type ?: return
 
-        AppIdlingResource.getInstance().startWork(IdlingTag.Print.LOAD_DATA)
+        getIdling().start(IdlingTag.Print.LOAD_DATA)
 
         callback?.beforeLoad()
 
@@ -68,7 +68,7 @@ class PrintDevelopViewModel(
             runBack { itemList.clearAdd(interactor.getList(type)) }
             updateList()
 
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Print.LOAD_DATA)
+            getIdling().stop(IdlingTag.Print.LOAD_DATA)
         }
     }
 }

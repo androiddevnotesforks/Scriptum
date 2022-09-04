@@ -16,8 +16,8 @@ import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.di.ParentInjector
-import sgtmelon.test.idling.impl.AppIdlingResource
-import sgtmelon.test.idling.impl.WaitIdlingResource
+import sgtmelon.test.idling.getIdling
+import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Parent class for UI tests.
@@ -45,8 +45,8 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     private fun setupIdling() {
-        WaitIdlingResource.getInstance().register()
-        AppIdlingResource.getInstance().register()
+        getWaitIdling().register()
+        getIdling().register()
     }
 
     private fun setupDevice() {
@@ -107,8 +107,8 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     private fun teardownIdling() {
-        WaitIdlingResource.getInstance().unregister()
-        AppIdlingResource.getInstance().unregister()
+        getWaitIdling().unregister()
+        getIdling().unregister()
     }
 
     private fun teardownCompanionData() {

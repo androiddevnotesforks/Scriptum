@@ -42,7 +42,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteV
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.idling.addIdlingListener
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 
 /**
  * Fragment for display text note.
@@ -133,7 +133,7 @@ class TextNoteFragment : ParentFragment(),
     override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
 
     override fun setEnabled(isEnabled: Boolean) {
-        AppIdlingResource.getInstance().changeWork(!isEnabled, IdlingTag.Anim.ICON)
+        getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
         openState.value = !isEnabled
     }
 

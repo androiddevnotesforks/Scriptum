@@ -18,7 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 
 /**
@@ -45,7 +45,7 @@ class BinViewModel(
 
 
     override fun onUpdateData() {
-        AppIdlingResource.getInstance().startWork(IdlingTag.Bin.LOAD_DATA)
+        getIdling().start(IdlingTag.Bin.LOAD_DATA)
 
         fun updateList() = callback?.apply {
             notifyList(itemList)
@@ -74,7 +74,7 @@ class BinViewModel(
 
             updateList()
 
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Bin.LOAD_DATA)
+            getIdling().stop(IdlingTag.Bin.LOAD_DATA)
         }
     }
 

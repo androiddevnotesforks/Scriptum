@@ -59,7 +59,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.test.idling.addIdlingListener
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 import android.graphics.Color as AndroidColor
 
 /**
@@ -262,11 +262,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     private fun waitLayoutConfigure() {
-        AppIdlingResource.getInstance().startWork(IdlingTag.Alarm.CONFIGURE)
+        getIdling().start(IdlingTag.Alarm.CONFIGURE)
 
         parentContainer?.afterLayoutConfiguration {
             viewModel.onStart()
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Alarm.CONFIGURE)
+            getIdling().stop(IdlingTag.Alarm.CONFIGURE)
         }
     }
 

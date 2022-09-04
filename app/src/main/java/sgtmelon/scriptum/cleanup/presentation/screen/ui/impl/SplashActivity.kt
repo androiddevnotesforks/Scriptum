@@ -31,7 +31,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.Hel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.model.firebase.FireKey
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.test.idling.impl.WaitIdlingResource
+import sgtmelon.test.idling.getWaitIdling
 import android.graphics.Color as AndroidColor
 
 /**
@@ -108,22 +108,22 @@ class SplashActivity : ParentActivity(),
     override fun openMainScreen() = beforeFinish { startActivity(MainActivity[this]) }
 
     override fun openAlarmScreen(id: Long) = beforeFinish {
-        WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
+        getWaitIdling().start(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
     override fun openNoteScreen(id: Long, color: Int, type: Int) = beforeFinish {
-        WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
+        getWaitIdling().start(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }
 
     override fun openNotificationScreen() = beforeFinish {
-        WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
+        getWaitIdling().start(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 
     override fun openHelpDisappearScreen() = beforeFinish {
-        WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
+        getWaitIdling().start(waitMillis = 3000)
         startActivities(arrayOf(
             MainActivity[this],
             PreferenceActivity[this, PreferenceScreen.PREFERENCE],

@@ -21,7 +21,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
-import sgtmelon.test.idling.impl.AppIdlingResource
+import sgtmelon.test.idling.getIdling
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Options
 
 /**
@@ -48,7 +48,7 @@ class NotesViewModel(
 
 
     override fun onUpdateData() {
-        AppIdlingResource.getInstance().startWork(IdlingTag.Notes.LOAD_DATA)
+        getIdling().start(IdlingTag.Notes.LOAD_DATA)
 
         /**
          * If was rotation need show list. After that fetch updates.
@@ -82,7 +82,7 @@ class NotesViewModel(
                 onBindingList()
             }
 
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Notes.LOAD_DATA)
+            getIdling().stop(IdlingTag.Notes.LOAD_DATA)
         }
     }
 
