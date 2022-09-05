@@ -51,17 +51,6 @@ class NotificationInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getList() = startCoTest {
-        val list = mockk<List<NotificationItem>>()
-
-        coEvery { alarmRepo.getList() } returns list
-        assertEquals(interactor.getList(), list)
-
-        coVerifySequence {
-            alarmRepo.getList()
-        }
-    }
-
 
     @Test fun setNotification() = startCoTest {
         val notificationItem = mockk<NotificationItem>()

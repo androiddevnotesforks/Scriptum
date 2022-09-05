@@ -32,6 +32,7 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationListUseCase
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
@@ -47,8 +48,11 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: INotificationActivity
     @MockK lateinit var interactor: INotificationInteractor
+    @MockK lateinit var getNotificationList: GetNotificationListUseCase
 
-    private val viewModel by lazy { NotificationViewModel(callback, interactor) }
+    private val viewModel by lazy {
+        NotificationViewModel(callback, interactor, getNotificationList)
+    }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setUp() {
@@ -60,7 +64,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor)
+        confirmVerified(callback, interactor, getNotificationList)
     }
 
     @Test override fun onDestroy() {
@@ -180,7 +184,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         val itemList = data.itemList
 
         coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns itemList
+        coEvery { getNotificationList() } returns itemList
 
         viewModel.itemList.clear()
         viewModel.onUpdateData()
@@ -189,7 +193,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
             interactor.getCount()
             callback.hideEmptyInfo()
             callback.showProgress()
-            interactor.getList()
+            getNotificationList()
             updateList(itemList)
         }
     }
@@ -212,7 +216,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         val returnList = data.itemList.apply { shuffle() }
 
         coEvery { interactor.getCount() } returns returnList.size
-        coEvery { interactor.getList() } returns returnList
+        coEvery { getNotificationList() } returns returnList
 
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
@@ -221,7 +225,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             updateList(any())
             interactor.getCount()
-            interactor.getList()
+            getNotificationList()
             updateList(returnList)
         }
     }

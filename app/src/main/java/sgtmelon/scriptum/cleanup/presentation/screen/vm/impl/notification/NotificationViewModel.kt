@@ -15,6 +15,7 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationListUseCase
 import sgtmelon.test.idling.getIdling
 
 /**
@@ -22,7 +23,8 @@ import sgtmelon.test.idling.getIdling
  */
 class NotificationViewModel(
     callback: INotificationActivity,
-    private val interactor: INotificationInteractor
+    private val interactor: INotificationInteractor,
+    private val getNotificationList: GetNotificationListUseCase
 ) : ParentViewModel<INotificationActivity>(callback),
         INotificationViewModel {
 
@@ -105,7 +107,7 @@ class NotificationViewModel(
                     callback?.showProgress()
                 }
 
-                runBack { itemList.clearAdd(interactor.getList()) }
+                runBack { itemList.clearAdd(getNotificationList()) }
             }
 
             updateList()

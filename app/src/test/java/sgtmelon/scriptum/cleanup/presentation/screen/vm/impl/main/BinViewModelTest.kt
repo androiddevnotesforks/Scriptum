@@ -39,6 +39,7 @@ class BinViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IBinFragment
     @MockK lateinit var interactor: IBinInteractor
+
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
@@ -50,7 +51,7 @@ class BinViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor)
+        confirmVerified(callback, interactor, getCopyText, restoreNote, clearNote)
     }
 
     @Test override fun onDestroy() {

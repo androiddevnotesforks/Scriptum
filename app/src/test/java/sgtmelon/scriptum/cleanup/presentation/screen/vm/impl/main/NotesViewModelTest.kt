@@ -67,7 +67,10 @@ class NotesViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, preferencesRepo, interactor, calendar)
+        confirmVerified(
+            callback, preferencesRepo, interactor, calendar,
+            getCopyText, deleteNote, setNotification
+        )
     }
 
     @Test override fun onDestroy() {
