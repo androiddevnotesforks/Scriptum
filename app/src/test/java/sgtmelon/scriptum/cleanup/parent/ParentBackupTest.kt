@@ -27,12 +27,12 @@ abstract class ParentBackupTest : ParentTest() {
      */
     protected fun getBackupJson(
         hash: String,
-        data: String,
+        database: String,
         version: Any = BackupParserImpl.VERSION
     ) = JSONObject().apply {
         put(versionKey, version)
         put(hashKey, hash)
-        put(databaseKey, data)
+        put(databaseKey, database)
     }.toString()
 
     //endregion

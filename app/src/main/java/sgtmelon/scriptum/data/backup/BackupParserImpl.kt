@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.data.backup
 
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.domain.model.result.ParserResult
@@ -36,7 +36,7 @@ class BackupParserImpl(
         return null
     }
 
-    @RunPrivate fun convert(database: String, version: Int): ParserResult.Import? {
+    private fun convert(database: String, version: Int): ParserResult.Import? {
         return when (version) {
             1 -> getModelV1(database)
             else -> null
@@ -45,29 +45,25 @@ class BackupParserImpl(
 
     //region Version 1
 
-    @RunPrivate fun getModelV1(database: String): ParserResult.Import? {
-        try {
-            val dataObject = JSONObject(database)
-            val noteTable = getTable(dataObject, DbData.Note.TABLE)
-            val rollTable = getTable(dataObject, DbData.Roll.TABLE)
-            val visibleTable = getTable(dataObject, DbData.RollVisible.TABLE)
-            val rankTable = getTable(dataObject, DbData.Rank.TABLE)
-            val alarmTable = getTable(dataObject, DbData.Alarm.TABLE)
+    @Throws(JSONException::class)
+    private fun getModelV1(database: String): ParserResult.Import {
+        val dataObject = JSONObject(database)
+        val noteTable = getTable(dataObject, DbData.Note.TABLE)
+        val rollTable = getTable(dataObject, DbData.Roll.TABLE)
+        val visibleTable = getTable(dataObject, DbData.RollVisible.TABLE)
+        val rankTable = getTable(dataObject, DbData.Rank.TABLE)
+        val alarmTable = getTable(dataObject, DbData.Alarm.TABLE)
 
-            val noteList = getTableList(noteTable) { jsonConverter.toNoteV1(it) }
-            val rollList = getTableList(rollTable) { jsonConverter.toRollV1(it) }
-            val visibleList = getTableList(visibleTable) { jsonConverter.toRollVisibleV1(it) }
-            val rankList = getTableList(rankTable) { jsonConverter.toRankV1(it) }
-            val alarmList = getTableList(alarmTable) { jsonConverter.toAlarmV1(it) }
+        val noteList = getTableList(noteTable) { jsonConverter.toNoteV1(it) }
+        val rollList = getTableList(rollTable) { jsonConverter.toRollV1(it) }
+        val visibleList = getTableList(visibleTable) { jsonConverter.toRollVisibleV1(it) }
+        val rankList = getTableList(rankTable) { jsonConverter.toRankV1(it) }
+        val alarmList = getTableList(alarmTable) { jsonConverter.toAlarmV1(it) }
 
-            return ParserResult.Import(noteList, rollList, visibleList, rankList, alarmList)
-        } catch (e: Throwable) {
-            BackupParserException(e).record()
-        }
-
-        return null
+        return ParserResult.Import(noteList, rollList, visibleList, rankList, alarmList)
     }
 
+    @Throws(JSONException::class)
     private fun getTable(dataObject: JSONObject, key: String): JSONArray {
         return JSONArray(dataObject.getString(key))
     }
