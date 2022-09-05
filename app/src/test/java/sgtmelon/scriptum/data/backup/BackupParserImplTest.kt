@@ -1,11 +1,124 @@
 package sgtmelon.scriptum.data.backup
 
+import io.mockk.confirmVerified
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import kotlin.random.Random
+import org.json.JSONObject
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertNull
+import org.junit.Test
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
+import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
+import sgtmelon.scriptum.domain.model.result.ParserResult
+import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
+import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [BackupParserImpl].
  */
 class BackupParserImplTest : ParentBackupTest() {
+
+    @MockK lateinit var dataSource: BackupDataSource
+    @MockK lateinit var hashMaker: BackupHashMaker
+    @MockK lateinit var jsonConverter: BackupJsonConverter
+
+    private val parser by lazy { BackupParserImpl(dataSource, hashMaker, jsonConverter) }
+    private val spyParser by lazy { spyk(parser) }
+
+    @After override fun tearDown() {
+        super.tearDown()
+        confirmVerified(dataSource, hashMaker, jsonConverter)
+    }
+
+    @Test fun `convert with throw`() {
+        every { dataSource.versionKey } returns versionKey
+        every { dataSource.hashKey } returns hashKey
+        every { dataSource.databaseKey } returns databaseKey
+
+        FastMock.fireExtensions()
+        every { any<BackupParserException>().record() } returns Unit
+
+        val jsonObject = JSONObject()
+
+        assertNull(parser.convert(nextString()))
+
+        jsonObject.put(versionKey, Random.nextInt())
+        assertNull(parser.convert(jsonObject.toString()))
+
+        jsonObject.put(hashKey, nextString())
+        assertNull(parser.convert(jsonObject.toString()))
+
+        verifySequence {
+            dataSource.versionKey
+            dataSource.hashKey
+
+            dataSource.versionKey
+            dataSource.hashKey
+            dataSource.databaseKey
+        }
+    }
+
+    @Test fun `convert with bad hash`() {
+        val hash = nextString()
+        val falseHash = nextString()
+        val database = nextString()
+        val data = getBackupJson(hash, database)
+
+        assertNotEquals(hash, falseHash)
+
+        every { dataSource.versionKey } returns versionKey
+        every { dataSource.hashKey } returns hashKey
+        every { dataSource.databaseKey } returns databaseKey
+        every { hashMaker.get(database) } returns falseHash
+
+        assertNull(parser.convert(data))
+
+        verifySequence {
+            dataSource.versionKey
+            dataSource.hashKey
+            dataSource.databaseKey
+            hashMaker.get(database)
+        }
+    }
+
+    @Test fun convert() {
+        val version = Random.nextInt()
+        val hash = nextString()
+        val database = nextString()
+        val data = getBackupJson(hash, database, version)
+        val result = mockk<ParserResult.Import>()
+
+        every { dataSource.versionKey } returns versionKey
+        every { dataSource.hashKey } returns hashKey
+        every { dataSource.databaseKey } returns databaseKey
+        every { hashMaker.get(database) } returns hash
+
+        every { spyParser.convert(database, version) } returns null
+        assertNull(spyParser.convert(data))
+
+        every { spyParser.convert(database, version) } returns result
+        assertEquals(spyParser.convert(data), result)
+
+        verifySequence {
+            repeat(times = 2) {
+                spyParser.convert(data)
+                dataSource.versionKey
+                dataSource.hashKey
+                dataSource.databaseKey
+                hashMaker.get(database)
+                spyParser.convert(database, version)
+            }
+        }
+    }
+
 
     //    @MockK lateinit var context: Context
     //    @MockK lateinit var selector: BackupParserSelectorImpl
@@ -20,10 +133,10 @@ class BackupParserImplTest : ParentBackupTest() {
     //    private val tagHash = nextString()
     //    private val tagDatabase = nextString()
     //
-    //    @After override fun tearDown() {
-    //        super.tearDown()
-    //        confirmVerified(context, selector)
-    //    }
+    //
+    //
+    //
+    //
     //
     //    @Test fun parse_badData() {
     //        val dataError = nextString()
