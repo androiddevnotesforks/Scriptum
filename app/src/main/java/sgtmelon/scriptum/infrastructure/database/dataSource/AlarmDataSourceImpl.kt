@@ -28,6 +28,8 @@ class AlarmDataSourceImpl(private val dao: AlarmDao) : AlarmDataSource {
 
     override suspend fun getItemList(): List<NotificationItem> = dao.getItemList()
 
+    override suspend fun getDateList(): List<String> = dao.getDateList()
+
     override suspend fun getCount(): Int = dao.getCount()
 
     override suspend fun getCount(noteIdList: List<Long>): Int = dao.getCountSafe(noteIdList)

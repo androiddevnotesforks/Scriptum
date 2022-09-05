@@ -168,6 +168,20 @@ class AlarmDataSourceImplTest : ParentTest() {
         }
     }
 
+    @Test fun getDateList() {
+        val list = mockk<List<String>>()
+
+        coEvery { dao.getDateList() } returns list
+
+        runBlocking {
+            assertEquals(dataSource.getDateList(), list)
+        }
+
+        coVerifySequence {
+            dao.getDateList()
+        }
+    }
+
     @Test fun getCount() {
         val count = Random.nextInt()
 

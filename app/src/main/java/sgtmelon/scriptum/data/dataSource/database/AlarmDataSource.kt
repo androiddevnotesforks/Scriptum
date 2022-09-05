@@ -21,6 +21,8 @@ interface AlarmDataSource {
 
     suspend fun getItemList(): List<NotificationItem>
 
+    suspend fun getDateList(): List<String>
+
     suspend fun getCount(): Int
 
     suspend fun getCount(noteIdList: List<Long>): Int
