@@ -27,6 +27,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNot
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IParentNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
@@ -47,7 +48,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     private val deleteNote: DeleteNoteUseCase,
     private val restoreNote: RestoreNoteUseCase,
     private val clearNote: ClearNoteUseCase,
-    private val setNotification: SetNotificationUseCase
+    private val setNotification: SetNotificationUseCase,
+    private val getNotificationDateList: GetNotificationDateListUseCase
 ) : ParentViewModel<C>(callback),
     IParentNoteViewModel {
 
@@ -238,7 +240,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onResultDateDialog(calendar: Calendar) {
         viewModelScope.launchBack {
-            callback?.showTimeDialog(calendar, interactor.getDateList())
+            callback?.showTimeDialog(calendar, getNotificationDateList())
         }
     }
 

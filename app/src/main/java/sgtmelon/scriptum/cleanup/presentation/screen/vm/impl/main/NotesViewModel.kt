@@ -19,6 +19,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -34,7 +35,8 @@ class NotesViewModel(
     private val interactor: INotesInteractor,
     private val getCopyText: GetCopyTextUseCase,
     private val deleteNote: DeleteNoteUseCase,
-    private val setNotification: SetNotificationUseCase
+    private val setNotification: SetNotificationUseCase,
+    private val getNotificationDateList: GetNotificationDateListUseCase
 ) : ParentViewModel<INotesFragment>(callback),
     INotesViewModel {
 
@@ -187,7 +189,7 @@ class NotesViewModel(
 
     override fun onResultDateDialog(calendar: Calendar, p: Int) {
         viewModelScope.launch {
-            val dateList = runBack { interactor.getDateList() }
+            val dateList = runBack { getNotificationDateList() }
             callback?.showTimeDialog(calendar, dateList, p)
         }
     }

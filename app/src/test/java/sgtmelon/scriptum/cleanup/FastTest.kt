@@ -27,7 +27,6 @@ import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
@@ -35,6 +34,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
@@ -56,10 +56,13 @@ object FastTest {
         private val parentCallback: INoteConnector,
         private val colorConverter: ColorConverter,
         private val interactor: IParentNoteInteractor<N>,
+
         private val deleteNote: DeleteNoteUseCase,
         private val restoreNote: RestoreNoteUseCase,
         private val clearNote: ClearNoteUseCase,
         private val setNotification: SetNotificationUseCase,
+        private val getNotificationDateList: GetNotificationDateListUseCase,
+
         private val saveControl: SaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
@@ -458,14 +461,14 @@ object FastTest {
             val calendar = mockk<Calendar>()
             val dateList = mockk<List<String>>()
 
-            coEvery { interactor.getDateList() } returns dateList
+            coEvery { getNotificationDateList() } returns dateList
 
             viewModel.onResultDateDialog(calendar)
 
             coVerifySequence {
                 verifyInit()
 
-                interactor.getDateList()
+                getNotificationDateList()
                 callback.showTimeDialog(calendar, dateList)
             }
         }
@@ -1246,34 +1249,6 @@ object FastTest {
         //endregion
 
         //region Date work
-
-        suspend inline fun getDateList(
-            alarmRepo: AlarmRepo,
-            callFunc: () -> List<String>
-        ) {
-            val size = getRandomSize()
-            val itemList = List<NotificationItem>(size) { mockk() }
-            val alarmList = List<NotificationItem.Alarm>(size) { mockk() }
-            val dateList = List(size) { nextString() }
-
-            coEvery { alarmRepo.getList() } returns itemList
-
-            for ((i, item) in itemList.withIndex()) {
-                every { item.alarm } returns alarmList[i]
-                every { alarmList[i].date } returns dateList[i]
-            }
-
-            assertEquals(dateList, callFunc())
-
-            coVerifySequence {
-                alarmRepo.getList()
-
-                for ((i, item) in itemList.withIndex()) {
-                    item.alarm
-                    alarmList[i].date
-                }
-            }
-        }
 
         suspend inline fun <reified T : NoteItem> clearDate(
             alarmRepo: AlarmRepo,

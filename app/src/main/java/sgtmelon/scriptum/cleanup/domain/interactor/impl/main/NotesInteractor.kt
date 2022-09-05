@@ -57,11 +57,6 @@ class NotesInteractor(
     }
 
 
-    /**
-     * TODO make common
-     */
-    override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
-
     override suspend fun clearDate(item: NoteItem) = alarmRepo.delete(item.id)
 
 

@@ -31,6 +31,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -54,13 +55,14 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
+    @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
 
     @MockK lateinit var calendar: Calendar
 
     private val viewModel by lazy {
         NotesViewModel(
             callback, preferencesRepo, interactor,
-            getCopyText, deleteNote, setNotification
+            getCopyText, deleteNote, setNotification, getNotificationDateList
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
@@ -69,7 +71,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         super.tearDown()
         confirmVerified(
             callback, preferencesRepo, interactor, calendar,
-            getCopyText, deleteNote, setNotification
+            getCopyText, deleteNote, setNotification, getNotificationDateList
         )
     }
 
@@ -490,11 +492,11 @@ class NotesViewModelTest : ParentViewModelTest() {
         val p = Random.nextInt()
         val dateList = data.dateList
 
-        coEvery { interactor.getDateList() } returns dateList
+        coEvery { getNotificationDateList() } returns dateList
         viewModel.onResultDateDialog(calendar, p)
 
         coVerifySequence {
-            interactor.getDateList()
+            getNotificationDateList()
             callback.showTimeDialog(calendar, dateList, p)
         }
     }

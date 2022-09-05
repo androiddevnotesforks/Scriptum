@@ -145,10 +145,6 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getDateList() = startCoTest {
-        FastTest.Interactor.getDateList(alarmRepo) { interactor.getDateList() }
-    }
-
     @Test fun clearDate() = startCoTest {
         FastTest.Interactor.clearDate<NoteItem>(alarmRepo) { interactor.clearDate(it) }
     }

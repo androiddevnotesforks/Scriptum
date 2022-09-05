@@ -33,11 +33,6 @@ class TextNoteInteractor(
 
     override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
 
-    /**
-     * TODO make common
-     */
-    override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
-
     override suspend fun clearDate(item: NoteItem.Text) = alarmRepo.delete(item.id)
 
 

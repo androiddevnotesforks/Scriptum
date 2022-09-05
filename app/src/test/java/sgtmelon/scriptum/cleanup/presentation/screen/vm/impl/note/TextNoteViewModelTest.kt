@@ -37,6 +37,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.verifyDeepCopy
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
@@ -64,6 +65,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var restoreNote: RestoreNoteUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
+    @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
 
     @MockK lateinit var saveControl: SaveControl
     @MockK lateinit var inputControl: IInputControl
@@ -71,7 +73,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         TextNoteViewModel(
             callback, parentCallback, colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote, setNotification
+            deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList
         )
     }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
@@ -79,7 +81,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.ViewModel(
             callback, parentCallback, colorConverter, interactor,
-            deleteNote, restoreNote, clearNote, setNotification,
+            deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }, { mockkInit() }, { verifyInit() }
         )
@@ -121,7 +123,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         confirmVerified(
             callback, parentCallback,
             colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote, setNotification,
+            deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList,
             saveControl, inputControl
         )
     }

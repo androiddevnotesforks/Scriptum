@@ -22,8 +22,6 @@ interface INotesInteractor : IParentInteractor {
     suspend fun convertNote(item: NoteItem): NoteItem
 
 
-    suspend fun getDateList(): List<String>
-
     suspend fun clearDate(item: NoteItem)
 
 

@@ -16,6 +16,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
@@ -34,10 +35,11 @@ class TextNoteViewModel(
     deleteNote: DeleteNoteUseCase,
     restoreNote: RestoreNoteUseCase,
     clearNote: ClearNoteUseCase,
-    setNotification: SetNotificationUseCase
+    setNotification: SetNotificationUseCase,
+    getNotificationDateList: GetNotificationDateListUseCase
 ) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(
     callback, parentCallback, colorConverter, preferencesRepo, interactor,
-    deleteNote, restoreNote, clearNote, setNotification
+    deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList
 ), ITextNoteViewModel {
 
     override fun cacheData() {
