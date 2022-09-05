@@ -83,12 +83,6 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun setDate() = startCoTest {
-        FastTest.Interactor.setDate<NoteItem.Text>(alarmRepo) { item, calendar ->
-            interactor.setDate(item, calendar)
-        }
-    }
-
 
     @Test fun convertNote() = startCoTest {
         val item = mockk<NoteItem.Text>()

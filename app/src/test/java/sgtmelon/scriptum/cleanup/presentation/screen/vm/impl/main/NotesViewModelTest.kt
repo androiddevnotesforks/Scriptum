@@ -31,6 +31,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Sort
@@ -49,13 +50,18 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: INotesFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: INotesInteractor
+
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
+    @MockK lateinit var setNotification: SetNotificationUseCase
 
     @MockK lateinit var calendar: Calendar
 
     private val viewModel by lazy {
-        NotesViewModel(callback, preferencesRepo, interactor, getCopyText, deleteNote)
+        NotesViewModel(
+            callback, preferencesRepo, interactor,
+            getCopyText, deleteNote, setNotification
+        )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
@@ -544,7 +550,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             calendar.beforeNow()
 
             calendar.beforeNow()
-            interactor.setDate(item, calendar)
+            setNotification(item, calendar)
             callback.notifyItemChanged(itemList, index)
 
             item.id

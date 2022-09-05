@@ -22,14 +22,14 @@ import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [NotifyAlarmUseCaseImpl].
+ * Test for [SetNotificationUseCaseImpl].
  */
-class NotifyAlarmUseCaseImplTest : ParentTest() {
+class SetNotificationUseCaseImplTest : ParentTest() {
 
     @MockK lateinit var dataSource: AlarmDataSource
     @MockK lateinit var converter: AlarmConverter
 
-    private val useCase by lazy { NotifyAlarmUseCaseImpl(dataSource, converter) }
+    private val useCase by lazy { SetNotificationUseCaseImpl(dataSource, converter) }
     private val spyUseCase by lazy { spyk(useCase) }
 
     @After override fun tearDown() {

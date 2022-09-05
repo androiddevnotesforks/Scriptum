@@ -19,6 +19,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
 import sgtmelon.test.idling.getIdling
@@ -32,7 +33,8 @@ class NotesViewModel(
     private val preferencesRepo: PreferencesRepo,
     private val interactor: INotesInteractor,
     private val getCopyText: GetCopyTextUseCase,
-    private val deleteNote: DeleteNoteUseCase
+    private val deleteNote: DeleteNoteUseCase,
+    private val setNotification: SetNotificationUseCase
 ) : ParentViewModel<INotesFragment>(callback),
     INotesViewModel {
 
@@ -211,7 +213,7 @@ class NotesViewModel(
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            runBack { interactor.setDate(item, calendar) }
+            runBack { setNotification(item, calendar) }
             callback?.notifyItemChanged(itemList, p)
 
             callback?.sendSetAlarmBroadcast(item.id, calendar)

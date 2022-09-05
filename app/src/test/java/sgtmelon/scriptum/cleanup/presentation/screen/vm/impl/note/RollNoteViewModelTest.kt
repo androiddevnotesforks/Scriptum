@@ -46,6 +46,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.verifyDeepCopy
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
@@ -67,9 +68,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var colorConverter: ColorConverter
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: IRollNoteInteractor
+
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
+    @MockK lateinit var setNotification: SetNotificationUseCase
 
     @MockK lateinit var saveControl: SaveControl
     @MockK lateinit var inputControl: IInputControl
@@ -77,7 +80,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         RollNoteViewModel(
             callback, parentCallback, colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote
+            deleteNote, restoreNote, clearNote, setNotification
         )
     }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
@@ -85,7 +88,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.ViewModel(
             callback, parentCallback, colorConverter, interactor,
-            deleteNote, restoreNote, clearNote,
+            deleteNote, restoreNote, clearNote, setNotification,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }, { mockkInit() }, { verifyInit() }
         )
@@ -127,7 +130,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         confirmVerified(
             callback, parentCallback,
             colorConverter, preferencesRepo, interactor,
-            inputControl, saveControl
+            deleteNote, restoreNote, clearNote, setNotification,
+            saveControl, inputControl
         )
     }
 

@@ -9,10 +9,10 @@ import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 /**
  * Insert or update existing alarm.
  */
-class NotifyAlarmUseCaseImpl(
+class SetNotificationUseCaseImpl(
     private val dataSource: AlarmDataSource,
     private val converter: AlarmConverter
-) : NotifyAlarmUseCase {
+) : SetNotificationUseCase {
 
     override suspend operator fun invoke(item: NoteItem, calendar: Calendar) {
         invoke(item, calendar.getText())

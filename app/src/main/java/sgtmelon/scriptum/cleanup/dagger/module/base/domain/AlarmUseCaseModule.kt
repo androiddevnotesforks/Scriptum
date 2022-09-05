@@ -10,8 +10,8 @@ import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationListUseCas
 import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationListUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationUseCaseImpl
-import sgtmelon.scriptum.domain.useCase.database.alarm.NotifyAlarmUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.NotifyAlarmUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCaseImpl
 
 @Module
 class AlarmUseCaseModule {
@@ -20,8 +20,8 @@ class AlarmUseCaseModule {
     fun provideNotifyAlarmUseCase(
         dataSource: AlarmDataSource,
         converter: AlarmConverter
-    ): NotifyAlarmUseCase {
-        return NotifyAlarmUseCaseImpl(dataSource, converter)
+    ): SetNotificationUseCase {
+        return SetNotificationUseCaseImpl(dataSource, converter)
     }
 
     @Provides

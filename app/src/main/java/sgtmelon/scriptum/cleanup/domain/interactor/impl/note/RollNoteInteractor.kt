@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.note
 
-import java.util.Calendar
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
@@ -57,10 +56,6 @@ class RollNoteInteractor(
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
     override suspend fun clearDate(item: NoteItem.Roll) = alarmRepo.delete(item.id)
-
-    override suspend fun setDate(item: NoteItem.Roll, calendar: Calendar) {
-        alarmRepo.insertOrUpdate(item, calendar)
-    }
 
 
     override suspend fun convertNote(item: NoteItem.Roll) {

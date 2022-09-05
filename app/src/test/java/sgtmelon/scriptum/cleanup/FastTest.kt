@@ -19,7 +19,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
-import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
@@ -36,6 +35,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
+import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
@@ -59,6 +59,7 @@ object FastTest {
         private val deleteNote: DeleteNoteUseCase,
         private val restoreNote: RestoreNoteUseCase,
         private val clearNote: ClearNoteUseCase,
+        private val setNotification: SetNotificationUseCase,
         private val saveControl: SaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
@@ -539,7 +540,7 @@ object FastTest {
                 calendar.beforeNow()
                 spyViewModel.interactor
                 spyViewModel.noteItem
-                interactor.setDate(noteItem, calendar)
+                setNotification(noteItem, calendar)
                 spyViewModel.cacheData()
                 spyViewModel.callback
                 spyViewModel.noteItem
@@ -1288,27 +1289,6 @@ object FastTest {
             coVerifySequence {
                 item.id
                 alarmRepo.delete(id)
-            }
-        }
-
-        suspend inline fun <reified T : NoteItem> setDate(
-            alarmRepo: AlarmRepo,
-            callFunc: (item: T, calendar: Calendar) -> Unit
-        ) {
-            val item = mockk<T>()
-            val calendar = mockk<Calendar>()
-            val date = nextString()
-            val id = Random.nextLong()
-
-            FastMock.timeExtension()
-            every { calendar.getText() } returns date
-            every { item.id } returns id
-
-            callFunc(item, calendar)
-
-            coVerifySequence {
-                calendar.getText()
-                alarmRepo.insertOrUpdate(item, date)
             }
         }
 

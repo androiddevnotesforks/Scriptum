@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 /**
  * Interface for communicate with [AlarmRepoImpl]
  */
+@Deprecated("Use useCases")
 interface AlarmRepo {
 
     suspend fun insertOrUpdate(item: NoteItem, calendar: Calendar)

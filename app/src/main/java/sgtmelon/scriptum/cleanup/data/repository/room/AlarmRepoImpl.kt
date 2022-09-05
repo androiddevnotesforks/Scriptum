@@ -11,6 +11,7 @@ import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 /**
  * Repository for work with alarm.
  */
+@Deprecated("Use useCases")
 class AlarmRepoImpl(
     private val dataSource: AlarmDataSource,
     private val converter: AlarmConverter

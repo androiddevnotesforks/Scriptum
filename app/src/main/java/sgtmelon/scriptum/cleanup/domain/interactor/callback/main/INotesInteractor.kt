@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.callback.main
 
-import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -26,8 +25,6 @@ interface INotesInteractor : IParentInteractor {
     suspend fun getDateList(): List<String>
 
     suspend fun clearDate(item: NoteItem)
-
-    suspend fun setDate(item: NoteItem, calendar: Calendar)
 
 
     suspend fun getNotification(noteId: Long): NotificationItem?
