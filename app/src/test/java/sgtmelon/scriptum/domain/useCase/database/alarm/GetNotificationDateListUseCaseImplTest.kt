@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.useCase.database.alarm
 
+import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
@@ -25,8 +26,10 @@ class GetNotificationDateListUseCaseImplTest : ParentTest() {
         confirmVerified(dataSource)
     }
 
-    @Test fun delete() {
+    @Test fun invoke() {
         val dateList = mockk<List<String>>()
+
+        coEvery { dataSource.getDateList() } returns dateList
 
         runBlocking {
             assertEquals(useCase(), dateList)
