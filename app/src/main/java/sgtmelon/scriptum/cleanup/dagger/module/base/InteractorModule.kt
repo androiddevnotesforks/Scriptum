@@ -12,7 +12,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteracto
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.BinInteractor
@@ -20,7 +19,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.RankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.RollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
@@ -83,15 +81,6 @@ class InteractorModule {
     }
 
     //endregion
-
-    @Provides
-    @ActivityScope
-    fun provideAlarmInteractor(
-        alarmRepo: AlarmRepo,
-        noteRepo: NoteRepo
-    ): IAlarmInteractor {
-        return AlarmInteractor(alarmRepo, noteRepo)
-    }
 
     @Provides
     @ActivityScope

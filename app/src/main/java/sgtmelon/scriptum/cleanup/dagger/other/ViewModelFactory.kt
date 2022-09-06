@@ -3,13 +3,13 @@ package sgtmelon.scriptum.cleanup.dagger.other
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
@@ -55,7 +55,11 @@ import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.DeleteNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -143,13 +147,14 @@ object ViewModelFactory {
             private val interactor: INotesInteractor,
             private val getCopyText: GetCopyTextUseCase,
             private val deleteNote: DeleteNoteUseCase,
-            private val setNotification: SetNotificationUseCase
+            private val setNotification: SetNotificationUseCase,
+            private val getNotificationDateList: GetNotificationDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModel::class) {
                     NotesViewModel(
                         fragment, preferencesRepo, interactor,
-                        getCopyText, deleteNote, setNotification
+                        getCopyText, deleteNote, setNotification, getNotificationDateList
                     )
                 }
             }
@@ -193,14 +198,16 @@ object ViewModelFactory {
             private val deleteNote: DeleteNoteUseCase,
             private val restoreNote: RestoreNoteUseCase,
             private val clearNote: ClearNoteUseCase,
-            private val setNotification: SetNotificationUseCase
+            private val setNotification: SetNotificationUseCase,
+            private val getNotificationDateList: GetNotificationDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
                     TextNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, deleteNote, restoreNote, clearNote, setNotification
+                        interactor, deleteNote, restoreNote, clearNote, setNotification,
+                        getNotificationDateList
                     )
                 }
             }
@@ -214,14 +221,16 @@ object ViewModelFactory {
             private val deleteNote: DeleteNoteUseCase,
             private val restoreNote: RestoreNoteUseCase,
             private val clearNote: ClearNoteUseCase,
-            private val setNotification: SetNotificationUseCase
+            private val setNotification: SetNotificationUseCase,
+            private val getNotificationDateList: GetNotificationDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
                     RollNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, deleteNote, restoreNote, clearNote, setNotification
+                        interactor, deleteNote, restoreNote, clearNote, setNotification,
+                        getNotificationDateList
                     )
                 }
             }
@@ -231,23 +240,30 @@ object ViewModelFactory {
     class Alarm(
         private val activity: AlarmActivity,
         private val preferencesRepo: PreferencesRepo,
-        private val interactor: IAlarmInteractor,
-        private val getMelodyList: GetMelodyListUseCase
+        private val noteRepo: NoteRepo,
+        private val getMelodyList: GetMelodyListUseCase,
+        private val setNotification: SetNotificationUseCase,
+        private val deleteNotification: DeleteNotificationUseCase,
+        private val shiftDateOnExist: ShiftDateIfExistUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AlarmViewModel::class) {
-                AlarmViewModel(activity, preferencesRepo, interactor, getMelodyList)
+                AlarmViewModel(
+                    activity, preferencesRepo, noteRepo, getMelodyList,
+                    setNotification, deleteNotification, shiftDateOnExist
+                )
             }
         }
     }
 
     class Notification(
         private val activity: NotificationActivity,
-        private val interactor: INotificationInteractor
+        private val interactor: INotificationInteractor,
+        private val getNotificationList: GetNotificationListUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(NotificationViewModel::class) {
-                NotificationViewModel(activity, interactor)
+                NotificationViewModel(activity, interactor, getNotificationList)
             }
         }
     }

@@ -6,13 +6,13 @@ import dagger.Provides
 import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
@@ -74,7 +74,11 @@ import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.DeleteNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
@@ -134,11 +138,12 @@ class ViewModelModule {
         interactor: INotesInteractor,
         getCopyText: GetCopyTextUseCase,
         deleteNote: DeleteNoteUseCase,
-        setNotification: SetNotificationUseCase
+        setNotification: SetNotificationUseCase,
+        getNotificationDateList: GetNotificationDateListUseCase
     ): INotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
             fragment, preferencesRepo, interactor,
-            getCopyText, deleteNote, setNotification
+            getCopyText, deleteNote, setNotification, getNotificationDateList
         )
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }
@@ -186,11 +191,12 @@ class ViewModelModule {
         deleteNote: DeleteNoteUseCase,
         restoreNote: RestoreNoteUseCase,
         clearNote: ClearNoteUseCase,
-        setNotification: SetNotificationUseCase
+        setNotification: SetNotificationUseCase,
+        getNotificationDateList: GetNotificationDateListUseCase
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             fragment, colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote, setNotification
+            deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList
         )
         val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
@@ -209,11 +215,12 @@ class ViewModelModule {
         deleteNote: DeleteNoteUseCase,
         restoreNote: RestoreNoteUseCase,
         clearNote: ClearNoteUseCase,
-        setNotification: SetNotificationUseCase
+        setNotification: SetNotificationUseCase,
+        getNotificationDateList: GetNotificationDateListUseCase
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             fragment, colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote, setNotification
+            deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList
         )
         val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
@@ -229,11 +236,15 @@ class ViewModelModule {
     fun provideAlarmViewModel(
         activity: AlarmActivity,
         preferencesRepo: PreferencesRepo,
-        interactor: IAlarmInteractor,
-        getMelodyList: GetMelodyListUseCase
+        noteRepo: NoteRepo,
+        getMelodyList: GetMelodyListUseCase,
+        setNotification: SetNotificationUseCase,
+        deleteNotification: DeleteNotificationUseCase,
+        shiftDateOnExist: ShiftDateIfExistUseCase
     ): IAlarmViewModel {
         val factory = ViewModelFactory.Alarm(
-            activity, preferencesRepo, interactor, getMelodyList
+            activity, preferencesRepo, noteRepo, getMelodyList,
+            setNotification, deleteNotification, shiftDateOnExist
         )
 
         return ViewModelProvider(activity, factory)[AlarmViewModel::class.java]
@@ -243,9 +254,10 @@ class ViewModelModule {
     @ActivityScope
     fun provideNotificationViewModel(
         activity: NotificationActivity,
-        interactor: INotificationInteractor
+        interactor: INotificationInteractor,
+        getNotificationList: GetNotificationListUseCase
     ): INotificationViewModel {
-        val factory = ViewModelFactory.Notification(activity, interactor)
+        val factory = ViewModelFactory.Notification(activity, interactor, getNotificationList)
         return ViewModelProvider(activity, factory)[NotificationViewModel::class.java]
     }
 

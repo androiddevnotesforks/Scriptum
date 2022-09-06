@@ -5,9 +5,10 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Intent
@@ -16,6 +17,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IA
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.database.alarm.DeleteNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.database.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.test.idling.getIdling
@@ -26,8 +30,11 @@ import sgtmelon.test.idling.getIdling
 class AlarmViewModel(
     callback: IAlarmActivity,
     private val preferencesRepo: PreferencesRepo,
-    private val interactor: IAlarmInteractor,
-    private val getMelodyList: GetMelodyListUseCase
+    private val noteRepo: NoteRepo,
+    private val getMelodyList: GetMelodyListUseCase,
+    private val setNotification: SetNotificationUseCase,
+    private val deleteNotification: DeleteNotificationUseCase,
+    private val shiftDateOnExist: ShiftDateIfExistUseCase
 ) : ParentViewModel<IAlarmActivity>(callback),
         IAlarmViewModel {
 
@@ -61,13 +68,21 @@ class AlarmViewModel(
                 callback?.setupPlayer(melodyUri, volume, isVolumeIncrease)
             }
 
-            /**
-             * If first open.
-             */
+            /** If first open. */
             if (!::noteItem.isInitialized) {
-                runBack { interactor.getModel(id) }?.let {
-                    noteItem = it
-                } ?: run {
+                val item = runBack {
+                    /**
+                     * Delete before return noteModel. This is need for hide alarm icon and
+                     * decrement notification info count (next alarms count).
+                     */
+                    deleteNotification(id)
+
+                    return@runBack noteRepo.getItem(id, isOptimal = true)
+                }
+
+                if (item != null) {
+                    noteItem = item
+                } else {
                     callback?.finish()
                     return@launch
                 }
@@ -94,7 +109,6 @@ class AlarmViewModel(
         }
 
         callback?.releasePhone()
-        interactor.onDestroy()
     }
 
 
@@ -152,14 +166,17 @@ class AlarmViewModel(
      */
     @RunPrivate fun repeatFinish(repeat: Repeat) {
         val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
+        val minute = valueArray.getOrNull(repeat.ordinal) ?: return
+        val calendar = getCalendarWithAdd(minute)
 
         viewModelScope.launch {
-            val calendar = runBack { interactor.setupRepeat(noteItem, valueArray, repeat) }
-
-            if (calendar != null) {
-                callback?.sendSetAlarmBroadcast(id, calendar, showToast = false)
-                callback?.sendNotifyInfoBroadcast()
+            runBack {
+                shiftDateOnExist(calendar)
+                setNotification(noteItem, calendar)
             }
+
+            callback?.sendSetAlarmBroadcast(id, calendar, showToast = false)
+            callback?.sendNotifyInfoBroadcast()
 
             callback?.showRepeatToast(repeat)
             callback?.sendUpdateBroadcast(id)
