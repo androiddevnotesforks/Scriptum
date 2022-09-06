@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.domain.useCase.database.alarm
 
-import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 
 class GetNotificationDateListUseCaseImpl(
-    private val dataSource: AlarmDataSource
+    private val repository: AlarmRepo
 ) : GetNotificationDateListUseCase {
 
-    override suspend operator fun invoke(): List<String> = dataSource.getDateList()
+    override suspend operator fun invoke(): List<String> = repository.getDateList()
 }

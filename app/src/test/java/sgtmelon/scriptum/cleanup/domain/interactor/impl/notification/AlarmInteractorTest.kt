@@ -29,7 +29,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.test.common.nextString
 
 /**
  * Test for [AlarmInteractor].
@@ -76,14 +75,12 @@ class AlarmInteractorTest : ParentInteractorTest() {
         val minute = valueArray[repeat.ordinal]
 
         val calendar = mockk<Calendar>()
-        val calendarText = nextString()
         val id = Random.nextLong()
 
         coEvery { spyInteractor.checkDateExist(calendar) } returns Unit
 
         FastMock.timeExtension()
         every { getCalendarWithAdd(minute) } returns calendar
-        every { calendar.getText() } returns calendarText
         every { item.id } returns id
 
         assertNull(spyInteractor.setupRepeat(item, intArrayOf(), repeat))
@@ -95,8 +92,7 @@ class AlarmInteractorTest : ParentInteractorTest() {
             spyInteractor.setupRepeat(item, valueArray, repeat)
             getCalendarWithAdd(minute)
             spyInteractor.checkDateExist(calendar)
-            calendar.getText()
-            alarmRepo.insertOrUpdate(item, calendarText)
+            alarmRepo.insertOrUpdate(item, calendar)
         }
     }
 

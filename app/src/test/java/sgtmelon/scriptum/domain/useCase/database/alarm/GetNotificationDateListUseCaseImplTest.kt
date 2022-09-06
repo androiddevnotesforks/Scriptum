@@ -9,34 +9,34 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.parent.ParentTest
-import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 
 /**
  * Test for [GetNotificationDateListUseCaseImpl].
  */
 class GetNotificationDateListUseCaseImplTest : ParentTest() {
 
-    @MockK lateinit var dataSource: AlarmDataSource
+    @MockK lateinit var repository: AlarmRepo
 
-    private val useCase by lazy { GetNotificationDateListUseCaseImpl(dataSource) }
+    private val useCase by lazy { GetNotificationDateListUseCaseImpl(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(dataSource)
+        confirmVerified(repository)
     }
 
     @Test fun invoke() {
         val dateList = mockk<List<String>>()
 
-        coEvery { dataSource.getDateList() } returns dateList
+        coEvery { repository.getDateList() } returns dateList
 
         runBlocking {
             assertEquals(useCase(), dateList)
         }
 
         coVerifySequence {
-            dataSource.getDateList()
+            repository.getDateList()
         }
     }
 }

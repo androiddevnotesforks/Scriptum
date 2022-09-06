@@ -73,10 +73,6 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         FastTest.Interactor.getRankId(rankRepo) { interactor.getRankId(it) }
     }
 
-    @Test fun getDateList() = startCoTest {
-        FastTest.Interactor.getDateList(alarmRepo) { interactor.getDateList() }
-    }
-
     @Test fun clearDate() = startCoTest {
         FastTest.Interactor.clearDate<NoteItem.Text>(alarmRepo) {
             interactor.clearDate(it)

@@ -7,21 +7,21 @@ import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.parent.ParentTest
-import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 
 /**
  * Test for [DeleteNotificationUseCaseImpl].
  */
 class DeleteNotificationUseCaseImplTest : ParentTest() {
 
-    @MockK lateinit var dataSource: AlarmDataSource
+    @MockK lateinit var repository: AlarmRepo
 
-    private val useCase by lazy { DeleteNotificationUseCaseImpl(dataSource) }
+    private val useCase by lazy { DeleteNotificationUseCaseImpl(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(dataSource)
+        confirmVerified(repository)
     }
 
     @Test fun delete() {
@@ -32,7 +32,7 @@ class DeleteNotificationUseCaseImplTest : ParentTest() {
         }
 
         coVerifySequence {
-            dataSource.delete(id)
+            repository.delete(id)
         }
     }
 }

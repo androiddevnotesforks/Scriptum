@@ -11,7 +11,6 @@ import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 /**
  * Repository for work with alarm.
  */
-@Deprecated("Use useCases")
 class AlarmRepoImpl(
     private val dataSource: AlarmDataSource,
     private val converter: AlarmConverter
@@ -39,4 +38,6 @@ class AlarmRepoImpl(
     override suspend fun getItem(noteId: Long): NotificationItem? = dataSource.getItem(noteId)
 
     override suspend fun getList(): List<NotificationItem> = dataSource.getItemList()
+
+    override suspend fun getDateList(): List<String> = dataSource.getDateList()
 }

@@ -2,8 +2,7 @@ package sgtmelon.scriptum.cleanup.dagger.module.base.domain
 
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
-import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.domain.useCase.database.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.database.alarm.DeleteNotificationUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
@@ -19,32 +18,29 @@ import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCaseImp
 class AlarmUseCaseModule {
 
     @Provides
-    fun provideNotifyAlarmUseCase(
-        dataSource: AlarmDataSource,
-        converter: AlarmConverter
-    ): SetNotificationUseCase {
-        return SetNotificationUseCaseImpl(dataSource, converter)
+    fun provideNotifyAlarmUseCase(repository: AlarmRepo): SetNotificationUseCase {
+        return SetNotificationUseCaseImpl(repository)
     }
 
     @Provides
-    fun provideDeleteNotificationUseCase(dataSource: AlarmDataSource): DeleteNotificationUseCase {
-        return DeleteNotificationUseCaseImpl(dataSource)
+    fun provideDeleteNotificationUseCase(repository: AlarmRepo): DeleteNotificationUseCase {
+        return DeleteNotificationUseCaseImpl(repository)
     }
 
     @Provides
-    fun provideGetNotificationUseCase(dataSource: AlarmDataSource): GetNotificationUseCase {
-        return GetNotificationUseCaseImpl(dataSource)
+    fun provideGetNotificationUseCase(repository: AlarmRepo): GetNotificationUseCase {
+        return GetNotificationUseCaseImpl(repository)
     }
 
     @Provides
-    fun provideGetNotificationListUseCase(dataSource: AlarmDataSource): GetNotificationListUseCase {
-        return GetNotificationListUseCaseImpl(dataSource)
+    fun provideGetNotificationListUseCase(repository: AlarmRepo): GetNotificationListUseCase {
+        return GetNotificationListUseCaseImpl(repository)
     }
 
     @Provides
     fun provideGetNotificationDateListUseCase(
-        dataSource: AlarmDataSource
+        repository: AlarmRepo
     ): GetNotificationDateListUseCase {
-        return GetNotificationDateListUseCaseImpl(dataSource)
+        return GetNotificationDateListUseCaseImpl(repository)
     }
 }
