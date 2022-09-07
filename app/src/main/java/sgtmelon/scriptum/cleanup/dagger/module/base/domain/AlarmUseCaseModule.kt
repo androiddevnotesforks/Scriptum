@@ -3,16 +3,16 @@ package sgtmelon.scriptum.cleanup.dagger.module.base.domain
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
-import sgtmelon.scriptum.domain.useCase.database.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.DeleteNotificationUseCaseImpl
-import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCaseImpl
-import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationListUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationListUseCaseImpl
-import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationUseCaseImpl
-import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCaseImpl
 
 @Module
 class AlarmUseCaseModule {

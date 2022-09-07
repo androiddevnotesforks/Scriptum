@@ -37,11 +37,11 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.verifyDeepCopy
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString

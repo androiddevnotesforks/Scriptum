@@ -17,9 +17,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IA
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.useCase.database.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.ShiftDateIfExistUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.test.idling.getIdling

@@ -15,9 +15,9 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.test.idling.getIdling
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 

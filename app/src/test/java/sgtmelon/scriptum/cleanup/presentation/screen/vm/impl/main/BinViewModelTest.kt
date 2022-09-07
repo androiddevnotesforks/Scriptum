@@ -24,9 +24,9 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
-import sgtmelon.scriptum.domain.useCase.database.note.ClearNoteUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.test.common.nextString
 
 /**

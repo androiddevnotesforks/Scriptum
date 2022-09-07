@@ -31,10 +31,10 @@ import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.useCase.database.alarm.GetNotificationDateListUseCase
-import sgtmelon.scriptum.domain.useCase.database.alarm.SetNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.DeleteNoteUseCase
-import sgtmelon.scriptum.domain.useCase.database.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.test.common.nextString
 
