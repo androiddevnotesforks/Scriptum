@@ -14,6 +14,7 @@ import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
+import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
@@ -31,7 +32,7 @@ class ShiftDateIfExistUseCaseImplTest : ParentTest() {
     }
 
     @Test fun invoke() {
-        val dateList = List(size = 3) { getCalendarWithAdd(it).getText() }
+        val dateList = List(getRandomSize()) { getCalendarWithAdd(it).getText() }
 
         val currentCalendar = getNewCalendar().clearSeconds()
         val minute = currentCalendar.get(Calendar.MINUTE)
@@ -56,7 +57,7 @@ class ShiftDateIfExistUseCaseImplTest : ParentTest() {
         val addMinutes = 60 - calendar.get(Calendar.MINUTE)
         val overflowHour = calendar.get(Calendar.HOUR) + 1
 
-        val dateList = List(size = 3) { getCalendarWithAdd(min = addMinutes + it).getText() }
+        val dateList = List(getRandomSize()) { getCalendarWithAdd(min = addMinutes + it).getText() }
 
         val currentCalendar = getCalendarWithAdd(addMinutes)
         val minute = currentCalendar.get(Calendar.MINUTE)
