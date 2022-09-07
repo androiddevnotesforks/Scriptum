@@ -10,7 +10,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
-import java.util.Calendar
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
@@ -21,17 +20,19 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.TestData
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
-import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -53,19 +54,28 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IAlarmActivity
     @MockK lateinit var preferencesRepo: PreferencesRepo
-    @MockK lateinit var interactor: IAlarmInteractor
+    @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var getMelodyList: GetMelodyListUseCase
+    @MockK lateinit var setNotification: SetNotificationUseCase
+    @MockK lateinit var deleteNotification: DeleteNotificationUseCase
+    @MockK lateinit var shiftDateOnExist: ShiftDateIfExistUseCase
 
     @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy {
-        AlarmViewModel(callback, preferencesRepo, interactor, getMelodyList)
+        AlarmViewModel(
+            callback, preferencesRepo, noteRepo, getMelodyList,
+            setNotification, deleteNotification, shiftDateOnExist
+        )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, getMelodyList, bundle)
+        confirmVerified(
+            callback, preferencesRepo, noteRepo, getMelodyList,
+            setNotification, deleteNotification, shiftDateOnExist
+        )
     }
 
     @Test override fun onDestroy() {
@@ -90,97 +100,98 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
 
             callback.releasePhone()
-            interactor.onDestroy()
         }
     }
 
     //endregion
 
     @Test fun onSetup_onFirstStart_withGoodModel() = startCoTest {
-        val id = Random.nextLong()
-        val noteItem = data.thirdNote
-
-        val melodyList = mockk<List<MelodyItem>>()
-        val uri = nextString()
-        val volume = Random.nextInt()
-        val isVolumeIncrease = Random.nextBoolean()
-
-        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
-        coEvery { getMelodyList() } returns melodyList
-        coEvery { preferencesRepo.getMelodyUri(melodyList) } returns uri
-        every { preferencesRepo.volume } returns volume
-        every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
-        coEvery { interactor.getModel(id) } returns noteItem
-
-        viewModel.onSetup(bundle)
-
-        coVerifySequence {
-            bundle.getLong(Note.Intent.ID, Note.Default.ID)
-            callback.apply {
-                acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                setupView()
-                setupInsets()
-
-                getMelodyList()
-                preferencesRepo.getMelodyUri(melodyList)
-                preferencesRepo.volume
-                preferencesRepo.isVolumeIncrease
-                setupPlayer(uri, volume, isVolumeIncrease)
-            }
-
-            interactor.getModel(id)
-            callback.sendNotifyInfoBroadcast()
-            callback.apply {
-                prepareLogoAnimation()
-                notifyList(noteItem)
-            }
-        }
+        TODO()
+        //        val id = Random.nextLong()
+        //        val noteItem = data.thirdNote
+        //
+        //        val melodyList = mockk<List<MelodyItem>>()
+        //        val uri = nextString()
+        //        val volume = Random.nextInt()
+        //        val isVolumeIncrease = Random.nextBoolean()
+        //
+        //        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
+        //        coEvery { getMelodyList() } returns melodyList
+        //        coEvery { preferencesRepo.getMelodyUri(melodyList) } returns uri
+        //        every { preferencesRepo.volume } returns volume
+        //        every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
+        //        coEvery { interactor.getModel(id) } returns noteItem
+        //
+        //        viewModel.onSetup(bundle)
+        //
+        //        coVerifySequence {
+        //            bundle.getLong(Note.Intent.ID, Note.Default.ID)
+        //            callback.apply {
+        //                acquirePhone(AlarmViewModel.CANCEL_DELAY)
+        //                setupView()
+        //                setupInsets()
+        //
+        //                getMelodyList()
+        //                preferencesRepo.getMelodyUri(melodyList)
+        //                preferencesRepo.volume
+        //                preferencesRepo.isVolumeIncrease
+        //                setupPlayer(uri, volume, isVolumeIncrease)
+        //            }
+        //
+        //            interactor.getModel(id)
+        //            callback.sendNotifyInfoBroadcast()
+        //            callback.apply {
+        //                prepareLogoAnimation()
+        //                notifyList(noteItem)
+        //            }
+        //        }
     }
 
     @Test fun onSetup_onFirstStart_withBadModel() = startCoTest {
-        val id = Random.nextLong()
-
-        val melodyList = mockk<List<MelodyItem>>()
-        val uri = nextString()
-        val volume = Random.nextInt()
-        val isVolumeIncrease = Random.nextBoolean()
-
-        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
-        coEvery { getMelodyList() } returns melodyList
-        coEvery { preferencesRepo.getMelodyUri(melodyList) } returns uri
-        every { preferencesRepo.volume } returns volume
-        every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
-        coEvery { interactor.getModel(any()) } returns null
-
-        viewModel.id = Note.Default.ID
-        viewModel.onSetup()
-        viewModel.id = Note.Default.ID
-        viewModel.onSetup(bundle)
-
-        coVerifySequence {
-            repeat(times = 2) {
-                if (!it.isDivideEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
-
-                callback.apply {
-                    acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                    setupView()
-                    setupInsets()
-
-                    getMelodyList()
-                    preferencesRepo.getMelodyUri(melodyList)
-                    preferencesRepo.volume
-                    preferencesRepo.isVolumeIncrease
-                    setupPlayer(uri, volume, isVolumeIncrease)
-                }
-
-                if (it.isDivideEntirely()) {
-                    interactor.getModel(Note.Default.ID)
-                } else {
-                    interactor.getModel(id)
-                }
-                callback.finish()
-            }
-        }
+        TODO()
+        //        val id = Random.nextLong()
+        //
+        //        val melodyList = mockk<List<MelodyItem>>()
+        //        val uri = nextString()
+        //        val volume = Random.nextInt()
+        //        val isVolumeIncrease = Random.nextBoolean()
+        //
+        //        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
+        //        coEvery { getMelodyList() } returns melodyList
+        //        coEvery { preferencesRepo.getMelodyUri(melodyList) } returns uri
+        //        every { preferencesRepo.volume } returns volume
+        //        every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
+        //        coEvery { interactor.getModel(any()) } returns null
+        //
+        //        viewModel.id = Note.Default.ID
+        //        viewModel.onSetup()
+        //        viewModel.id = Note.Default.ID
+        //        viewModel.onSetup(bundle)
+        //
+        //        coVerifySequence {
+        //            repeat(times = 2) {
+        //                if (!it.isDivideEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
+        //
+        //                callback.apply {
+        //                    acquirePhone(AlarmViewModel.CANCEL_DELAY)
+        //                    setupView()
+        //                    setupInsets()
+        //
+        //                    getMelodyList()
+        //                    preferencesRepo.getMelodyUri(melodyList)
+        //                    preferencesRepo.volume
+        //                    preferencesRepo.isVolumeIncrease
+        //                    setupPlayer(uri, volume, isVolumeIncrease)
+        //                }
+        //
+        //                if (it.isDivideEntirely()) {
+        //                    interactor.getModel(Note.Default.ID)
+        //                } else {
+        //                    interactor.getModel(id)
+        //                }
+        //                callback.finish()
+        //            }
+        //        }
     }
 
     @Test fun onSetup_onSecondStart() {
@@ -363,38 +374,39 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun repeatFinish() {
-        val id = Random.nextLong()
-        val item = mockk<NoteItem>()
-        val repeat = mockk<Repeat>()
-        val repeatArray = IntArray(getRandomSize()) { Random.nextInt() }
-        val calendar = mockk<Calendar>()
-
-        every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
-
-        viewModel.id = id
-        viewModel.noteItem = item
-
-        coEvery { interactor.setupRepeat(item, repeatArray, repeat) } returns null
-        viewModel.repeatFinish(repeat)
-
-        coEvery { interactor.setupRepeat(item, repeatArray, repeat) } returns calendar
-        viewModel.repeatFinish(repeat)
-
-        coVerifySequence {
-            callback.getIntArray(R.array.pref_alarm_repeat_array)
-            interactor.setupRepeat(item, repeatArray, repeat)
-            callback.showRepeatToast(repeat)
-            callback.sendUpdateBroadcast(id)
-            callback.finish()
-
-            callback.getIntArray(R.array.pref_alarm_repeat_array)
-            interactor.setupRepeat(item, repeatArray, repeat)
-            callback.sendSetAlarmBroadcast(id, calendar, showToast = false)
-            callback.sendNotifyInfoBroadcast()
-            callback.showRepeatToast(repeat)
-            callback.sendUpdateBroadcast(id)
-            callback.finish()
-        }
+        TODO()
+        //        val id = Random.nextLong()
+        //        val item = mockk<NoteItem>()
+        //        val repeat = mockk<Repeat>()
+        //        val repeatArray = IntArray(getRandomSize()) { Random.nextInt() }
+        //        val calendar = mockk<Calendar>()
+        //
+        //        every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
+        //
+        //        viewModel.id = id
+        //        viewModel.noteItem = item
+        //
+        //        coEvery { interactor.setupRepeat(item, repeatArray, repeat) } returns null
+        //        viewModel.repeatFinish(repeat)
+        //
+        //        coEvery { interactor.setupRepeat(item, repeatArray, repeat) } returns calendar
+        //        viewModel.repeatFinish(repeat)
+        //
+        //        coVerifySequence {
+        //            callback.getIntArray(R.array.pref_alarm_repeat_array)
+        //            interactor.setupRepeat(item, repeatArray, repeat)
+        //            callback.showRepeatToast(repeat)
+        //            callback.sendUpdateBroadcast(id)
+        //            callback.finish()
+        //
+        //            callback.getIntArray(R.array.pref_alarm_repeat_array)
+        //            interactor.setupRepeat(item, repeatArray, repeat)
+        //            callback.sendSetAlarmBroadcast(id, calendar, showToast = false)
+        //            callback.sendNotifyInfoBroadcast()
+        //            callback.showRepeatToast(repeat)
+        //            callback.sendUpdateBroadcast(id)
+        //            callback.finish()
+        //        }
     }
 
     @Test fun onReceiveUnbindNote() {

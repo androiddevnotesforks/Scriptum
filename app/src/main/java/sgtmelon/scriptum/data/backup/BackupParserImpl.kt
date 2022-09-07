@@ -89,7 +89,9 @@ class BackupParserImpl(
     //endregion
 
     companion object {
-        /** When update version need add case inside [convert] func. */
+        /**
+         * When update version need add case inside [convert] func.
+         */
         const val VERSION = 1
     }
 }

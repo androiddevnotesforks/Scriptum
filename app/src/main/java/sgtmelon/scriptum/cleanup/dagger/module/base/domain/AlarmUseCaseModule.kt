@@ -13,6 +13,8 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCaseImpl
 
 @Module
 class AlarmUseCaseModule {
@@ -42,5 +44,10 @@ class AlarmUseCaseModule {
         repository: AlarmRepo
     ): GetNotificationDateListUseCase {
         return GetNotificationDateListUseCaseImpl(repository)
+    }
+
+    @Provides
+    fun provideShiftDateOnExistUseCase(repository: AlarmRepo): ShiftDateIfExistUseCase {
+        return ShiftDateIfExistUseCaseImpl(repository)
     }
 }
