@@ -50,7 +50,6 @@ class CorrectPositionsUseCaseImplTest : ParentTest() {
         }
     }
 
-
     @Test fun `invoke not shuffled`() {
         val listSize = getRandomSize()
 

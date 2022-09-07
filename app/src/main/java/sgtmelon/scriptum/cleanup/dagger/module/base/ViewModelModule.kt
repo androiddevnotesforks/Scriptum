@@ -86,6 +86,7 @@ import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
+import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 @Module
@@ -124,9 +125,10 @@ class ViewModelModule {
     @ActivityScope
     fun provideRankViewModel(
         fragment: RankFragment,
-        interactor: IRankInteractor
+        interactor: IRankInteractor,
+        correctPositions: CorrectPositionsUseCase
     ): IRankViewModel {
-        val factory = ViewModelFactory.MainScreen.Rank(fragment, interactor)
+        val factory = ViewModelFactory.MainScreen.Rank(fragment, interactor, correctPositions)
         return ViewModelProvider(fragment, factory)[RankViewModel::class.java]
     }
 

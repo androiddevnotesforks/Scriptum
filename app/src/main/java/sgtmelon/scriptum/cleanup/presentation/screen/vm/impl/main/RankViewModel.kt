@@ -11,7 +11,6 @@ import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.clearSpace
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
 import sgtmelon.test.idling.getIdling
 
 /**
@@ -27,7 +27,8 @@ import sgtmelon.test.idling.getIdling
  */
 class RankViewModel(
     callback: IRankFragment,
-    private val interactor: IRankInteractor
+    private val interactor: IRankInteractor,
+    private val correctPositions: CorrectPositionsUseCase
 ) : ParentViewModel<IRankFragment>(callback),
         IRankViewModel {
 
@@ -384,30 +385,4 @@ class RankViewModel(
 
         return animationArray
     }
-
-    /**
-     * Return list of [NoteItem.id] which need update.
-     */
-    // TODO move this complicated logic inside another class (repo)
-    @RunPrivate
-    fun correctPositions(list: List<RankItem>): List<Long> {
-        val noteIdSet = mutableSetOf<Long>()
-
-        for ((i , item) in list.withIndex()) {
-            /**
-             * If [RankItem.position] incorrect (out of order) when update it.
-             */
-            if (item.position != i) {
-                item.position = i
-
-                /**
-                 * Add id to [Set] of [NoteItem.id] where need to update [NoteItem.rankPs].
-                 */
-                noteIdSet.addAll(item.noteId)
-            }
-        }
-
-        return noteIdSet.toList()
-    }
-
 }
