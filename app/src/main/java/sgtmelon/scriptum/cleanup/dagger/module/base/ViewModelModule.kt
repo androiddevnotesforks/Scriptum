@@ -242,11 +242,11 @@ class ViewModelModule {
         getMelodyList: GetMelodyListUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
-        shiftDateOnExist: ShiftDateIfExistUseCase
+        shiftDateIfExist: ShiftDateIfExistUseCase
     ): IAlarmViewModel {
         val factory = ViewModelFactory.Alarm(
             activity, preferencesRepo, noteRepo, getMelodyList,
-            setNotification, deleteNotification, shiftDateOnExist
+            setNotification, deleteNotification, shiftDateIfExist
         )
 
         return ViewModelProvider(activity, factory)[AlarmViewModel::class.java]

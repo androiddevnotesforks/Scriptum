@@ -246,13 +246,13 @@ object ViewModelFactory {
         private val getMelodyList: GetMelodyListUseCase,
         private val setNotification: SetNotificationUseCase,
         private val deleteNotification: DeleteNotificationUseCase,
-        private val shiftDateOnExist: ShiftDateIfExistUseCase
+        private val shiftDateIfExist: ShiftDateIfExistUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AlarmViewModel::class) {
                 AlarmViewModel(
                     activity, preferencesRepo, noteRepo, getMelodyList,
-                    setNotification, deleteNotification, shiftDateOnExist
+                    setNotification, deleteNotification, shiftDateIfExist
                 )
             }
         }

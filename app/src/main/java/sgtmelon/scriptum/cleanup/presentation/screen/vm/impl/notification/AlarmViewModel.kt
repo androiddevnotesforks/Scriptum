@@ -34,7 +34,7 @@ class AlarmViewModel(
     private val getMelodyList: GetMelodyListUseCase,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
-    private val shiftDateOnExist: ShiftDateIfExistUseCase
+    private val shiftDateIfExist: ShiftDateIfExistUseCase
 ) : ParentViewModel<IAlarmActivity>(callback),
         IAlarmViewModel {
 
@@ -171,7 +171,7 @@ class AlarmViewModel(
 
         viewModelScope.launch {
             runBack {
-                shiftDateOnExist(calendar)
+                shiftDateIfExist(calendar)
                 setNotification(noteItem, calendar)
             }
 

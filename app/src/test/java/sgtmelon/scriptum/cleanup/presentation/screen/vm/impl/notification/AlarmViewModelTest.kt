@@ -58,14 +58,14 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @MockK lateinit var getMelodyList: GetMelodyListUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
-    @MockK lateinit var shiftDateOnExist: ShiftDateIfExistUseCase
+    @MockK lateinit var shiftDateIfExist: ShiftDateIfExistUseCase
 
     @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy {
         AlarmViewModel(
             callback, preferencesRepo, noteRepo, getMelodyList,
-            setNotification, deleteNotification, shiftDateOnExist
+            setNotification, deleteNotification, shiftDateIfExist
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
@@ -74,7 +74,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         super.tearDown()
         confirmVerified(
             callback, preferencesRepo, noteRepo, getMelodyList,
-            setNotification, deleteNotification, shiftDateOnExist
+            setNotification, deleteNotification, shiftDateIfExist
         )
     }
 

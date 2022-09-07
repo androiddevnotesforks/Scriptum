@@ -42,9 +42,35 @@ class ShiftDateIfExistUseCaseImplTest : ParentTest() {
             useCase(currentCalendar)
         }
 
-        /** Get error on last hour minutes. */
+        /** Dividing needed because otherwise you will get error on last hour minutes. */
         val expected = (minute + dateList.size) % 60
         assertEquals(expected, currentCalendar.get(Calendar.MINUTE))
+
+        coVerifySequence {
+            repository.getDateList()
+        }
+    }
+
+    @Test fun `invoke hour overflow`() {
+        val calendar = getNewCalendar().clearSeconds()
+        val addMinutes = 60 - calendar.get(Calendar.MINUTE)
+        val overflowHour = calendar.get(Calendar.HOUR) + 1
+
+        val dateList = List(size = 3) { getCalendarWithAdd(min = addMinutes + it).getText() }
+
+        val currentCalendar = getCalendarWithAdd(addMinutes)
+        val minute = currentCalendar.get(Calendar.MINUTE)
+
+        coEvery { repository.getDateList() } returns dateList
+
+        runBlocking {
+            useCase(currentCalendar)
+        }
+
+        /** Dividing needed because otherwise you will get error on last hour minutes. */
+        val expectedMinutes = (minute + dateList.size) % 60
+        assertEquals(expectedMinutes, currentCalendar.get(Calendar.MINUTE))
+        assertEquals(overflowHour, currentCalendar.get(Calendar.HOUR))
 
         coVerifySequence {
             repository.getDateList()
