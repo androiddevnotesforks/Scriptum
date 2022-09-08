@@ -11,12 +11,12 @@ import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import javax.inject.Inject
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
-import sgtmelon.scriptum.cleanup.extension.getColorAttr
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.extension.updatePadding
 import sgtmelon.scriptum.cleanup.presentation.adapter.IntroPageAdapter

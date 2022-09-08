@@ -8,8 +8,8 @@ import androidx.annotation.ColorRes
 import com.google.android.material.shape.MaterialShapeDrawable
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import sgtmelon.scriptum.cleanup.extension.getColorAttr
-import sgtmelon.scriptum.cleanup.extension.getCompatColor
+import sgtmelon.extensions.getColorAttr
+import sgtmelon.extensions.getColorCompat
 
 /**
  * Matcher for check background color.
@@ -33,7 +33,7 @@ class BackgroundColorMatcher(
         index = 1
         val context = item.context ?: return false
         val color = when {
-            colorId != null -> context.getCompatColor(colorId)
+            colorId != null -> context.getColorCompat(colorId)
             attrColor != null -> context.getColorAttr(attrColor)
             else -> throw IllegalAccessException()
         }

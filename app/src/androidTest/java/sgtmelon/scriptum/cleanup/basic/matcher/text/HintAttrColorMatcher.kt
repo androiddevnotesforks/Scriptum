@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import sgtmelon.scriptum.cleanup.extension.getColorAttr
+import sgtmelon.extensions.getColorAttr
 
 /**
  * Matcher for check hint color via attr

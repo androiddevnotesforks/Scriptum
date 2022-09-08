@@ -7,9 +7,9 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
-import sgtmelon.scriptum.cleanup.extension.getColorAttr
 import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.infrastructure.model.key.Theme

@@ -6,10 +6,10 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import org.hamcrest.Description
+import sgtmelon.extensions.getColorAttr
+import sgtmelon.extensions.getColorCompat
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.extensions.setColorFilterCompat
-import sgtmelon.scriptum.cleanup.extension.getColorAttr
-import sgtmelon.scriptum.cleanup.extension.getCompatColor
 
 /**
  * Matcher for check android:src which gets with [resourceId].
@@ -33,7 +33,7 @@ class DrawableMatcher(
         val actual = item.drawable
 
         when {
-            colorId != null -> expected.setColorFilterCompat(context.getCompatColor(colorId))
+            colorId != null -> expected.setColorFilterCompat(context.getColorCompat(colorId))
             attrColor != null -> expected.setColorFilterCompat(context.getColorAttr(attrColor))
         }
 

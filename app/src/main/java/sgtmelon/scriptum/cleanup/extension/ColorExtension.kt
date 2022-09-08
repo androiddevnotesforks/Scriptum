@@ -8,6 +8,9 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.DrawableCompat
+import sgtmelon.extensions.getColorAttr
+import sgtmelon.extensions.getColorCompat
+import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.extensions.setColorFilterCompat
 import sgtmelon.scriptum.R
@@ -28,10 +31,10 @@ fun Context.getNoteToolbarColor(theme: ThemeDisplayed, color: Color, needDark: B
     val ordinal = color.ordinal
 
     return if (theme == ThemeDisplayed.LIGHT) {
-        if (needDark) getCompatColor(dark[ordinal])
-        else getCompatColor(light[ordinal])
+        if (needDark) getColorCompat(dark[ordinal])
+        else getColorCompat(light[ordinal])
     } else {
-        if (needDark) getCompatColor(dark[ordinal])
+        if (needDark) getColorCompat(dark[ordinal])
         else getColorAttr(R.attr.clPrimary)
     }
 }
@@ -40,17 +43,19 @@ fun Context.getNoteToolbarColor(theme: ThemeDisplayed, color: Color, needDark: B
  * Get note color for cards
  */
 @ColorInt
-fun Context.getNoteCardColor(color: Color): Int = getCompatColor(light[color.ordinal])
+fun Context.getNoteCardColor(color: Color): Int = getColorCompat(light[color.ordinal])
 
 @ColorInt
 fun Context.getAppSimpleColor(color: Color, shade: ColorShade): Int {
     val ordinal = color.ordinal
 
-    return getCompatColor(when (shade) {
-        ColorShade.LIGHT -> light[ordinal]
-        ColorShade.ACCENT -> accent[ordinal]
-        ColorShade.DARK -> dark[ordinal]
-    })
+    return getColorCompat(
+        when (shade) {
+            ColorShade.LIGHT -> light[ordinal]
+            ColorShade.ACCENT -> accent[ordinal]
+            ColorShade.DARK -> dark[ordinal]
+        }
+    )
 }
 
 fun MenuItem.tintIcon(context: Context) {
@@ -72,6 +77,6 @@ fun Context.getTintDrawable(@DrawableRes id: Int, @AttrRes tint: Int = R.attr.cl
 fun Drawable.setColor(context: Context, colorItem: ColorItem) {
     if (this !is GradientDrawable) return
 
-    setColor(context.getCompatColor(colorItem.fill))
-    setStroke(context.getDimen(value = 1f), context.getCompatColor(colorItem.stroke))
+    setColor(context.getColorCompat(colorItem.fill))
+    setStroke(context.getDimen(value = 1f), context.getColorCompat(colorItem.stroke))
 }

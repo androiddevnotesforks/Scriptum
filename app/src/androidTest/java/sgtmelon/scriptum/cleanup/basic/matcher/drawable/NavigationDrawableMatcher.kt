@@ -5,9 +5,9 @@ import androidx.annotation.AttrRes
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 import org.hamcrest.Description
+import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.extensions.setColorFilterCompat
-import sgtmelon.scriptum.cleanup.extension.getColorAttr
 
 /**
  * Matcher for check toolbar navigation icon.

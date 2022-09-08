@@ -12,6 +12,7 @@ import androidx.databinding.BindingAdapter
 import sgtmelon.common.utils.formatFuture
 import sgtmelon.common.utils.formatPast
 import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem

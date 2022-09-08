@@ -11,13 +11,7 @@ import android.net.Uri
 import android.os.PowerManager
 import android.os.Vibrator
 import android.provider.Settings
-import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
@@ -26,8 +20,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.utils.record
 
-fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
-
 fun Context.geDisplayedTheme(): ThemeDisplayed? {
     return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
         Configuration.UI_MODE_NIGHT_NO -> ThemeDisplayed.LIGHT
@@ -35,35 +27,6 @@ fun Context.geDisplayedTheme(): ThemeDisplayed? {
         else -> null
     }
 }
-
-//region Get resource value
-
-@ColorInt
-fun Context.getColorAttr(@AttrRes attr: Int): Int {
-    val typedValue = TypedValue()
-
-    theme.resolveAttribute(attr, typedValue, true)
-
-    return getCompatColor(typedValue.resourceId)
-}
-
-@DimenRes
-fun Context.getDimenAttr(@AttrRes attr: Int): Int {
-    val typedValue = TypedValue()
-
-    theme.resolveAttribute(attr, typedValue, true)
-
-    return typedValue.resourceId
-}
-
-fun Context.getDimen(value: Float): Int {
-    val unit = TypedValue.COMPLEX_UNIT_DIP
-    val metrics = resources.displayMetrics
-
-    return TypedValue.applyDimension(unit, value, metrics).toInt()
-}
-
-//endregion
 
 fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {}) {
     sendBroadcast(Intent(place).apply {

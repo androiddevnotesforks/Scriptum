@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import sgtmelon.extensions.getColorCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
-import sgtmelon.scriptum.cleanup.extension.getCompatColor
 import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.idling.addIdlingListener
@@ -28,7 +28,7 @@ class ColorHolder(itemView: View) : ParentHolder(itemView) {
     fun bindColor(color: Color) {
         val colorItem = backgroundView.bindIndicatorColor(color)
         if (colorItem != null) {
-            checkImage.setColorFilter(context.getCompatColor(colorItem.content))
+            checkImage.setColorFilter(context.getColorCompat(colorItem.content))
         }
 
         // TODO record exception

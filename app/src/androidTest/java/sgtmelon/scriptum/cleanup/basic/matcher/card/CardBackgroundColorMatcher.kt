@@ -4,8 +4,8 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
+import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.getColorAttr
 import sgtmelon.scriptum.cleanup.extension.getNoteCardColor
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
