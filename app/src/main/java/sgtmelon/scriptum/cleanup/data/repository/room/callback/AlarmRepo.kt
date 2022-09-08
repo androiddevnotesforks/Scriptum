@@ -1,12 +1,9 @@
 package sgtmelon.scriptum.cleanup.data.repository.room.callback
 
-import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 
 interface AlarmRepo {
-
-    suspend fun insertOrUpdate(item: NoteItem, calendar: Calendar)
 
     suspend fun insertOrUpdate(item: NoteItem, date: String)
 

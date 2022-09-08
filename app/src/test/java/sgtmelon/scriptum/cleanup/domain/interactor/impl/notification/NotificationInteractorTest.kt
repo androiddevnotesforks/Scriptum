@@ -93,21 +93,4 @@ class NotificationInteractorTest : ParentInteractorTest() {
             }
         }
     }
-
-    @Test fun cancelNotification() = startCoTest {
-        val item = mockk<NotificationItem>()
-        val note = mockk<NotificationItem.Note>()
-        val id = Random.nextLong()
-
-        every { item.note } returns note
-        every { note.id } returns id
-
-        interactor.cancelNotification(item)
-
-        coVerifySequence {
-            item.note
-            note.id
-            alarmRepo.delete(id)
-        }
-    }
 }

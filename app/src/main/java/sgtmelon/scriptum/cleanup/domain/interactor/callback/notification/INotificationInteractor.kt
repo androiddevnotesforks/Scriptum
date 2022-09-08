@@ -14,7 +14,4 @@ interface INotificationInteractor : IParentInteractor {
 
 
     suspend fun setNotification(item: NotificationItem): NotificationItem?
-
-    suspend fun cancelNotification(item: NotificationItem)
-
 }

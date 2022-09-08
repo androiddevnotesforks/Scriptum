@@ -261,11 +261,12 @@ object ViewModelFactory {
     class Notification(
         private val activity: NotificationActivity,
         private val interactor: INotificationInteractor,
-        private val getNotificationList: GetNotificationListUseCase
+        private val getList: GetNotificationListUseCase,
+        private val deleteNotification: DeleteNotificationUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(NotificationViewModel::class) {
-                NotificationViewModel(activity, interactor, getNotificationList)
+                NotificationViewModel(activity, interactor, getList, deleteNotification)
             }
         }
     }

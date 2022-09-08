@@ -98,6 +98,8 @@ class SystemReceiver : BroadcastReceiver() {
 
         interface Alarm {
             fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean = true)
+
+            fun sendCancelAlarmBroadcast(item: NoteItem) = sendCancelAlarmBroadcast(item.id)
             fun sendCancelAlarmBroadcast(id: Long)
         }
 

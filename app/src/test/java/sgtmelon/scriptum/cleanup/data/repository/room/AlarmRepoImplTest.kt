@@ -7,15 +7,12 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
-import java.util.Calendar
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -36,27 +33,6 @@ class AlarmRepoImplTest : ParentRepoTest() {
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(converter)
-    }
-
-    @Test fun `insertOrUpdate via calendar`() {
-        val item = mockk<NoteItem>()
-        val calendar = mockk<Calendar>()
-        val date = nextString()
-
-        FastMock.timeExtension()
-        every { calendar.getText() } returns date
-        coEvery { spyRepo.insertOrUpdate(item, date) } returns Unit
-
-        runBlocking {
-            spyRepo.insertOrUpdate(item, calendar)
-        }
-
-        coVerifySequence {
-            spyRepo.insertOrUpdate(item, calendar)
-
-            calendar.getText()
-            spyRepo.insertOrUpdate(item, date)
-        }
     }
 
     @Test fun insertOrUpdate() {

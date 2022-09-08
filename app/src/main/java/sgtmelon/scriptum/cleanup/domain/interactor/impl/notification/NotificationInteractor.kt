@@ -21,6 +21,7 @@ class NotificationInteractor(
     override suspend fun getCount(): Int = bindRepo.getNotificationsCount()
 
 
+    // tODO заменить обращение alarmRepo.getItem на возврат id из insertOrUpdate
     override suspend fun setNotification(item: NotificationItem): NotificationItem? {
         val noteId = item.note.id
         val noteItem = noteRepo.getItem(noteId, isOptimal = true) ?: return null
@@ -32,7 +33,4 @@ class NotificationInteractor(
          */
         return alarmRepo.getItem(noteId)
     }
-
-    override suspend fun cancelNotification(item: NotificationItem) = alarmRepo.delete(item.note.id)
-
 }
