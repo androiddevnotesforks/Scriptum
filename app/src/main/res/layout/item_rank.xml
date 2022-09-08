@@ -115,7 +115,7 @@
             android:layout_marginStart="@dimen/item_content_between_space"
             android:layout_marginEnd="@dimen/item_content_horizontal_space"
             android:contentDescription="@null"
-            android:tint="?attr/clContent"
+            app:tint="?attr/clContent"
             app:srcCompat="@drawable/ic_cancel_enter" />
 
     </LinearLayout>

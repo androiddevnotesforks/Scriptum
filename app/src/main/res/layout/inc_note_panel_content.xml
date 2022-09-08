@@ -59,7 +59,7 @@
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_restore"
                 android:onClick='@{() -> menuCallback.onMenuRestore()}'
-                android:tint="?attr/clContent"
+                app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_restore" />
 
             <ImageButton
@@ -67,7 +67,7 @@
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_restore_open"
                 android:onClick='@{() -> menuCallback.onMenuRestoreOpen()}'
-                android:tint="?attr/clContent"
+                app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_restore_open" />
 
             <ImageButton
@@ -75,7 +75,7 @@
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_clear"
                 android:onClick='@{() -> menuCallback.onMenuClear()}'
-                android:tint="?attr/clAccent"
+                app:tint="?attr/clAccent"
                 app:srcCompat="@drawable/ic_clear" />
 
         </LinearLayout>
@@ -129,7 +129,7 @@
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_color"
                 android:onClick='@{() -> menuCallback.onMenuColor()}'
-                android:tint="?attr/clContent"
+                app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_palette" />
 
             <View
@@ -184,7 +184,7 @@
                 style="@style/Button.Small"
                 android:contentDescription='@{item.type == Type.TEXT ? @string/description_note_convert_text : @string/description_note_convert_roll}'
                 android:onClick='@{() -> menuCallback.onMenuConvert()}'
-                android:tint="?attr/clContent"
+                app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_convert" />
 
             <ImageButton
@@ -192,7 +192,7 @@
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_delete"
                 android:onClick='@{() -> menuCallback.onMenuDelete()}'
-                android:tint="?attr/clContent"
+                app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_bin" />
 
             <View
