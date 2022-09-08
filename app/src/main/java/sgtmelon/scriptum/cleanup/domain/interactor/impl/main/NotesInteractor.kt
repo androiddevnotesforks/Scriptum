@@ -1,12 +1,10 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
@@ -15,7 +13,6 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
  */
 class NotesInteractor(
     private val preferenceRepo: PreferencesRepo,
-    private val alarmRepo: AlarmRepo,
     private val noteRepo: NoteRepo
 ) : ParentInteractor(),
     INotesInteractor {
@@ -54,10 +51,5 @@ class NotesInteractor(
         while (list.isNotEmpty() && list.size > previewSize) {
             list.removeAt(list.lastIndex)
         }
-    }
-
-
-    override suspend fun getNotification(noteId: Long): NotificationItem? {
-        return alarmRepo.getItem(noteId)
     }
 }

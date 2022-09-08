@@ -347,6 +347,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             callback.showImportLoadingDialog()
+            getBackupFileList()
             startBackupImport(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_result)
@@ -355,6 +356,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             callback.showImportLoadingDialog()
+            getBackupFileList()
             startBackupImport(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showImportSkipToast(skipCount)
@@ -363,6 +365,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             callback.showImportLoadingDialog()
+            getBackupFileList()
             startBackupImport(name, backupFileList)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_error)

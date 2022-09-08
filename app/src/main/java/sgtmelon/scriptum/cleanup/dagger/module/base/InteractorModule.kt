@@ -41,10 +41,9 @@ class InteractorModule {
     @ActivityScope
     fun provideNotesInteractor(
         preferencesRepo: PreferencesRepo,
-        noteRepo: NoteRepo,
-        alarmRepo: AlarmRepo,
+        noteRepo: NoteRepo
     ): INotesInteractor {
-        return NotesInteractor(preferencesRepo, alarmRepo, noteRepo)
+        return NotesInteractor(preferencesRepo, noteRepo)
     }
 
     @Provides

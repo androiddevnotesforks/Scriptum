@@ -12,14 +12,11 @@ import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastTest
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
@@ -34,17 +31,14 @@ class NotesInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var noteRepo: NoteRepo
-    @MockK lateinit var alarmRepo: AlarmRepo
     @MockK lateinit var rankRepo: RankRepo
 
-    private val interactor by lazy {
-        NotesInteractor(preferencesRepo, alarmRepo, noteRepo)
-    }
+    private val interactor by lazy { NotesInteractor(preferencesRepo, noteRepo) }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferencesRepo, noteRepo, alarmRepo, rankRepo)
+        confirmVerified(preferencesRepo, noteRepo, rankRepo)
     }
 
     @Test fun getCount() = startCoTest {
@@ -141,23 +135,6 @@ class NotesInteractorTest : ParentInteractorTest() {
             item.list
             item.list
             item.list
-        }
-    }
-
-
-    @Test fun getNotification() = startCoTest {
-        val id = Random.nextLong()
-        val item = mockk<NotificationItem>()
-
-        coEvery { alarmRepo.getItem(id) } returns null
-        assertNull(interactor.getNotification(id))
-
-        coEvery { alarmRepo.getItem(id) } returns item
-        assertEquals(item, interactor.getNotification(id))
-
-        coVerifySequence {
-            alarmRepo.getItem(id)
-            alarmRepo.getItem(id)
         }
     }
 }

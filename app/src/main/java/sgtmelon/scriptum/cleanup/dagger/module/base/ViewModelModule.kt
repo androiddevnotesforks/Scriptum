@@ -74,6 +74,7 @@ import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
@@ -142,12 +143,13 @@ class ViewModelModule {
         deleteNote: DeleteNoteUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
+        getNotification: GetNotificationUseCase,
         getNotificationDateList: GetNotificationDateListUseCase
     ): INotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
             fragment, preferencesRepo, interactor,
             getCopyText, deleteNote, setNotification, deleteNotification,
-            getNotificationDateList
+            getNotification, getNotificationDateList
         )
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }

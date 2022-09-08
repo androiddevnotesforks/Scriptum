@@ -55,6 +55,7 @@ import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
@@ -151,6 +152,7 @@ object ViewModelFactory {
             private val deleteNote: DeleteNoteUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
+            private val getNotification: GetNotificationUseCase,
             private val getNotificationDateList: GetNotificationDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -158,7 +160,7 @@ object ViewModelFactory {
                     NotesViewModel(
                         fragment, preferencesRepo, interactor,
                         getCopyText, deleteNote, setNotification, deleteNotification,
-                        getNotificationDateList
+                        getNotification, getNotificationDateList
                     )
                 }
             }

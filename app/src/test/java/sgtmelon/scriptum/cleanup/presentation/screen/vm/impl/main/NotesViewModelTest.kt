@@ -33,6 +33,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
@@ -57,6 +58,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
+    @MockK lateinit var getNotification: GetNotificationUseCase
     @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
 
     @MockK lateinit var calendar: Calendar
@@ -65,7 +67,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         NotesViewModel(
             callback, preferencesRepo, interactor,
             getCopyText, deleteNote, setNotification, deleteNotification,
-            getNotificationDateList
+            getNotification, getNotificationDateList
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
@@ -75,7 +77,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         confirmVerified(
             callback, preferencesRepo, interactor, calendar,
             getCopyText, deleteNote, setNotification, deleteNotification,
-            getNotificationDateList
+            getNotification, getNotificationDateList
         )
     }
 
@@ -593,11 +595,11 @@ class NotesViewModelTest : ParentViewModelTest() {
         val p = itemList.indices.random()
         val item = itemList[p]
 
-        coEvery { interactor.getNotification(item.id) } returns null
+        coEvery { getNotification(item.id) } returns null
 
         viewModel.onReceiveUpdateAlarm(item.id)
 
-        coEvery { interactor.getNotification(item.id) } returns notificationItem
+        coEvery { getNotification(item.id) } returns notificationItem
 
         viewModel.onReceiveUpdateAlarm(item.id)
         item.apply {
@@ -606,9 +608,9 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
 
         coVerifySequence {
-            interactor.getNotification(item.id)
+            getNotification(item.id)
 
-            interactor.getNotification(item.id)
+            getNotification(item.id)
             callback.notifyItemChanged(itemList, p)
         }
     }
