@@ -1,4 +1,4 @@
-@file:JvmName(name = "TimeExtensionUtils")
+@file:JvmName(name = "TimeExtensionsUtils")
 
 package sgtmelon.extensions
 
@@ -31,12 +31,6 @@ fun getClearCalendar(addMinutes: Int): Calendar {
     return getClearCalendar().apply {
         add(Calendar.MINUTE, addMinutes)
     }
-}
-
-private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_FULL, Locale.getDefault())
-
-fun Context?.is24Format(): Boolean {
-    return if (this != null) DateFormatAndroid.is24HourFormat(this) else true
 }
 
 fun getCalendarText(): String = getCalendar().toText()
@@ -74,7 +68,11 @@ fun String.toCalendarOrNull(): Calendar? {
 
 fun Calendar.toText(): String = getDateFormat().format(this.time)
 
+private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_FULL, Locale.getDefault())
+
 //endregion
+
+fun Context.is24HourFormat(): Boolean = DateFormatAndroid.is24HourFormat(this)
 
 fun Calendar.isBeforeNow() = this.before(getCalendar())
 

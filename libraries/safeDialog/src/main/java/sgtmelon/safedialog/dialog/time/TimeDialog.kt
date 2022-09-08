@@ -6,7 +6,7 @@ import android.os.Bundle
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.extensions.clearSeconds
-import sgtmelon.extensions.is24Format
+import sgtmelon.extensions.is24HourFormat
 import sgtmelon.extensions.isAfterNow
 import sgtmelon.extensions.toText
 import sgtmelon.safedialog.BuildConfig
@@ -64,10 +64,11 @@ class TimeDialog : BlankDateTimeDialog(), TimeTestCallback {
             callback = this
         }
 
-        return TouchTimePickerDialog(requireContext(), this,
+        return TouchTimePickerDialog(
+            requireContext(), this,
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
-            context.is24Format(),
+            requireContext().is24HourFormat(),
             touchChangeListener
         ).applyAnimation()
     }

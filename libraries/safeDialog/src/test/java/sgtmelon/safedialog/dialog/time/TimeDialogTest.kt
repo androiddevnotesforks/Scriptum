@@ -19,7 +19,7 @@ import sgtmelon.test.common.nextString
 class TimeDialogTest : ParentTest() {
 
     @Test fun getPositiveEnabled() {
-        mockkStatic("sgtmelon.extensions.TimeExtensionUtils")
+        mockkStatic("sgtmelon.extensions.TimeExtensionsUtils")
 
         val calendar = mockk<Calendar>()
         val dateList = List(size = 5) { nextString() }
