@@ -24,8 +24,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
-import sgtmelon.text.dotanim.DotAnimControl
-import sgtmelon.text.dotanim.DotAnimType
+import sgtmelon.textDotAnim.DotAnimControl
+import sgtmelon.textDotAnim.DotAnimType
 
 /**
  * Fragment of backup preferences.

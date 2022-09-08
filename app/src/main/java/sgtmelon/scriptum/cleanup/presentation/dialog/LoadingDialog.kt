@@ -9,8 +9,8 @@ import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.applyTransparentBackground
 import sgtmelon.scriptum.R
-import sgtmelon.text.dotanim.DotAnimControl
-import sgtmelon.text.dotanim.DotAnimType
+import sgtmelon.textDotAnim.DotAnimControl
+import sgtmelon.textDotAnim.DotAnimType
 
 /**
  * Dialog with endless progress bar and loading text.

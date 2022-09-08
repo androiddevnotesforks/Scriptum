@@ -27,8 +27,6 @@ class CardRadiusMatcher(@DimenRes private val radiusId: Int) : TypeSafeMatcher<V
     }
 
     override fun describeTo(description: Description?) {
-        description?.appendText(
-            "Expected radius: $expected | actual radius: $actual"
-        )
+        description?.appendText("Expected radius: $expected | actual radius: $actual")
     }
 }

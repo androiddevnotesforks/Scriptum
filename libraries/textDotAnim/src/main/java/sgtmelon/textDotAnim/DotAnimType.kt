@@ -1,7 +1,7 @@
-package sgtmelon.text.dotanim
+package sgtmelon.textDotAnim
 
-import sgtmelon.text.dotanim.DotAnimType.COUNT
-import sgtmelon.text.dotanim.DotAnimType.SPAN
+import sgtmelon.textDotAnim.DotAnimType.COUNT
+import sgtmelon.textDotAnim.DotAnimType.SPAN
 
 /**
  * Class identifying type of animation for [DotAnimControl].

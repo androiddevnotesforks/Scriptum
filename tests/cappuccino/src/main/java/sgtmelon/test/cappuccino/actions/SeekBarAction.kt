@@ -19,5 +19,4 @@ class SeekBarAction(private val progress: Int) : ViewAction {
     override fun getDescription(): String = "Set progress ($progress) on SeekBar"
 
     override fun getConstraints(): Matcher<View> = isAssignableFrom(SeekBar::class.java)
-
 }

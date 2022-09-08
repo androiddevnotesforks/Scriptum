@@ -14,8 +14,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
-import sgtmelon.text.dotanim.DotAnimControl
-import sgtmelon.text.dotanim.DotAnimType
+import sgtmelon.textDotAnim.DotAnimControl
+import sgtmelon.textDotAnim.DotAnimType
 
 /**
  * Fragment of service preferences.

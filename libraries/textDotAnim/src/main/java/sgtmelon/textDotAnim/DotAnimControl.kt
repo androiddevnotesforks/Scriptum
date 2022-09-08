@@ -1,4 +1,4 @@
-package sgtmelon.text.dotanim
+package sgtmelon.textDotAnim
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.annotation.Size
 import androidx.annotation.StringRes
 import sgtmelon.test.idling.addIdlingListener
+import sgtmelon.text.dotanim.R
 
 /**
  * Class for help animate [TextView] ending with loading dots.
