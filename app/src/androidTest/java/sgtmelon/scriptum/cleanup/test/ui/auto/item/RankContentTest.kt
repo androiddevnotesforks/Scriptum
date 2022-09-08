@@ -34,23 +34,6 @@ class RankContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun visibleLongClick() = db.fillRank(ITEM_COUNT).let { list ->
-        launch {
-            mainScreen {
-                rankScreen {
-                    for (i1 in list.indices) {
-                        onLongClickVisible(i1)
-
-                        for ((i2, it) in list.withIndex()) {
-                            it.isVisible = i1 == i2
-                            onAssertItem(it, i2)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 
     @Test fun itemBind() = db.insertRankForNotes().let {
         launch {

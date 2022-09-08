@@ -18,7 +18,6 @@ import kotlin.math.max
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -527,29 +526,6 @@ class RankViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onLongClickVisible() = startCoTest {
-        viewModel.onLongClickVisible(Random.nextInt())
-
-        val itemList = data.itemList
-        val p = itemList.indices.random()
-        val animationArray = BooleanArray(size = 5) { Random.nextBoolean() }
-
-        every { spyViewModel.switchVisible(itemList, p) } returns animationArray
-
-        spyViewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, spyViewModel.itemList)
-
-        spyViewModel.onLongClickVisible(p)
-
-        coVerifyOrder {
-            spyViewModel.switchVisible(itemList, p)
-            callback.notifyDataSetChanged(itemList, animationArray)
-
-            interactor.update(itemList)
-            callback.sendNotifyNotesBroadcast()
-        }
-    }
-
     @Test fun onClickCancel() = startCoTest {
         viewModel.onClickCancel(Random.nextInt())
 
@@ -863,42 +839,6 @@ class RankViewModelTest : ParentViewModelTest() {
         val nameList = itemList.map { it.name.uppercase() }
 
         assertEquals(nameList, viewModel.getNameList(itemList))
-    }
-
-    @Test fun switchVisible() = with(TestData.Rank) {
-        var list = itemList
-        var p = 0
-        var animationArray = booleanArrayOf(false, false, true, false)
-
-        assertArrayEquals(animationArray, viewModel.switchVisible(list, p))
-        assertVisible(list, p)
-
-        list = itemList
-        p = 1
-        animationArray = booleanArrayOf(true, true, true, false)
-
-        assertArrayEquals(animationArray, viewModel.switchVisible(list, p))
-        assertVisible(list, p)
-
-        list = itemList
-        p = 2
-        animationArray = booleanArrayOf(true, false, false, false)
-
-        assertArrayEquals(animationArray, viewModel.switchVisible(list, p))
-        assertVisible(list, p)
-
-        list = itemList
-        p = 3
-        animationArray = booleanArrayOf(true, false, true, true)
-
-        assertArrayEquals(animationArray, viewModel.switchVisible(list, p))
-        assertVisible(list, p)
-    }
-
-    private fun assertVisible(list: List<RankItem>, p: Int) {
-        for ((i, item) in list.withIndex()) {
-            assertEquals(i == p, item.isVisible)
-        }
     }
 
     //endregion

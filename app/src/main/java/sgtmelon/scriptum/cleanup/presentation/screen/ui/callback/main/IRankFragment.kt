@@ -56,8 +56,6 @@ interface IRankFragment : SystemReceiver.Bridge.Bind {
 
     fun notifyList(list: List<RankItem>)
 
-    fun notifyDataSetChanged(list: List<RankItem>, startAnim: BooleanArray)
-
     fun notifyItemChanged(list: List<RankItem>, p: Int)
 
     fun notifyItemRemoved(list: List<RankItem>, p: Int)

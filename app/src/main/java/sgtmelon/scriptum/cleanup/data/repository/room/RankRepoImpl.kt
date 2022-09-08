@@ -75,10 +75,6 @@ class RankRepoImpl(
 
     override suspend fun update(item: RankItem) = rankDataSource.update(converter.toEntity(item))
 
-    override suspend fun update(list: List<RankItem>) {
-        rankDataSource.update(converter.toEntity(list))
-    }
-
     override suspend fun updatePositions(list: List<RankItem>, noteIdList: List<Long>) {
         updateRankPositionsForNotes(list, noteIdList)
         rankDataSource.update(converter.toEntity(list))

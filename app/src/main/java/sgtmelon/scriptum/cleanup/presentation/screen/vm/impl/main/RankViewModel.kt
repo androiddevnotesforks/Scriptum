@@ -198,20 +198,6 @@ class RankViewModel(
         }
     }
 
-    override fun onLongClickVisible(p: Int) {
-        if (p !in itemList.indices) return
-
-        val animationArray = switchVisible(itemList, p)
-
-        callback?.notifyDataSetChanged(itemList, animationArray)
-
-        viewModelScope.launch {
-            runBack { interactor.update(itemList) }
-
-            callback?.sendNotifyNotesBroadcast()
-        }
-    }
-
     override fun onClickCancel(p: Int) {
         val item = itemList.validRemoveAt(p) ?: return
         val noteIdList = correctPositions(itemList)
@@ -356,33 +342,4 @@ class RankViewModel(
     // TODO #REFACTOR join with variable
     @RunPrivate
     fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.uppercase() }
-
-    /**
-     * Switch visible for all list. Make visible only item with position equal [p].
-     * Other items make invisible.
-     *
-     * [p] - position of long click.
-     *
-     * Return array with information about item icon animation (need start or not).
-     */
-    @RunPrivate
-    fun switchVisible(list: List<RankItem>, p: Int): BooleanArray {
-        val animationArray = BooleanArray(list.size)
-
-        for ((i , item) in list.withIndex()) {
-            if (i == p) {
-                if (!item.isVisible) {
-                    item.isVisible = true
-                    animationArray[i] = true
-                }
-            } else {
-                if (item.isVisible) {
-                    item.isVisible = false
-                    animationArray[i] = true
-                }
-            }
-        }
-
-        return animationArray
-    }
 }

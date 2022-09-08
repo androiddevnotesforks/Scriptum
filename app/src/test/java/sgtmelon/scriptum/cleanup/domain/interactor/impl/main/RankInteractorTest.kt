@@ -102,16 +102,6 @@ class RankInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun updateList() = startCoTest {
-        val list = mockk<List<RankItem>>()
-
-        interactor.update(list)
-
-        coVerifySequence {
-            rankRepo.update(list)
-        }
-    }
-
     @Test fun updatePosition() = startCoTest {
         val list = mockk<List<RankItem>>()
         val idList = mockk<List<Long>>()

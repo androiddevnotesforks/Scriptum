@@ -82,10 +82,6 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
                     }
                 }
             }
-        }, object : ItemListener.LongClick {
-            override fun onItemLongClick(view: View, p: Int) {
-                openState?.tryInvoke { viewModel.onLongClickVisible(p) }
-            }
         })
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }
@@ -375,20 +371,6 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     }
 
     override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
-
-    override fun notifyDataSetChanged(list: List<RankItem>, startAnim: BooleanArray) {
-        adapter.setList(list)
-        adapter.startAnimArray = startAnim
-        recyclerView?.post { adapter.notifyDataSetChanged() }
-
-        /**
-         * If don't have animation, when [OpenState.value] set in [IconBlockCallback]
-         * will not call. That code prevent this bug.
-         */
-        if (!startAnim.contains(true)) {
-            openState?.clear()
-        }
-    }
 
     override fun notifyItemChanged(list: List<RankItem>, p: Int) {
         adapter.setList(list).notifyItemChanged(p)

@@ -51,7 +51,7 @@ class NoteAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = list.getOrNull(position)
+        val item = list.getOrNull(position) ?: return
 
         when (holder) {
             is NoteTextHolder -> if (item is NoteItem.Text) holder.bind(item)

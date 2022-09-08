@@ -258,22 +258,6 @@ class RankRepoImplTest : ParentRepoTest() {
         }
     }
 
-    @Test fun `update list`() {
-        val itemList = mockk<List<RankItem>>()
-        val entityList = mockk<MutableList<RankEntity>>()
-
-        every { converter.toEntity(itemList) } returns entityList
-
-        runBlocking {
-            repository.update(itemList)
-        }
-
-        coVerifySequence {
-            converter.toEntity(itemList)
-            rankDataSource.update(entityList)
-        }
-    }
-
     @Test fun updatePosition() {
         val rankList = mockk<List<RankItem>>()
         val noteIdList = mockk<List<Long>>()

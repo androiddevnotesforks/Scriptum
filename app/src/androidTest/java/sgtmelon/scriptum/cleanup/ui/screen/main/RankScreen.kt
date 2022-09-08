@@ -14,7 +14,6 @@ import sgtmelon.scriptum.cleanup.ui.part.panel.SnackbarPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.RankToolbar
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.longClick
 
 /**
  * Class for UI control of [RankFragment].
@@ -54,12 +53,6 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         if (p == null) return@apply
 
         getItem(p).visibleButton.click()
-    }
-
-    fun onLongClickVisible(p: Int? = random) = apply {
-        if (p == null) return@apply
-
-        getItem(p).visibleButton.longClick()
     }
 
     fun onClickCancel(p: Int? = random, isWait: Boolean = false) = apply {

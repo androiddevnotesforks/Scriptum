@@ -23,8 +23,6 @@ interface IRankInteractor : IParentInteractor {
 
     suspend fun update(item: RankItem)
 
-    suspend fun update(list: List<RankItem>)
-
     suspend fun updatePositions(list: List<RankItem>, noteIdList: List<Long>)
 
 }

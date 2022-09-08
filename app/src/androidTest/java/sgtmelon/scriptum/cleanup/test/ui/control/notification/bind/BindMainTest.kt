@@ -84,18 +84,6 @@ class BindMainTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun rankHideShowOnLongClick() = insertRankWithStatusNote().let {
-        launch {
-            mainScreen {
-                notesScreen()
-                rankScreen { onSee { onClickVisible() } }
-                notesScreen(isEmpty = true, isHide = true)
-                rankScreen { onSee { onLongClickVisible() } }
-                notesScreen { openNoteDialog(it) { onSee { onBind() } } }
-            }
-        }
-    }
-
     @Test fun rankCancel() = insertRankWithStatusNote().let {
         launch {
             mainScreen {

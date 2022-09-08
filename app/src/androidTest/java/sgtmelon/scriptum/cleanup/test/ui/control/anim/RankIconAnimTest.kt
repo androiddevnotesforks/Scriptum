@@ -17,11 +17,6 @@ class RankIconAnimTest : ParentUiTest() {
         launch { mainScreen { rankScreen { repeat(REPEAT_COUNT) { onClickVisible() } } } }
     }
 
-    @Test fun visibleLongClick() = db.fillRank(REPEAT_COUNT).let {
-        launch { mainScreen { rankScreen { for (i in it.indices) onLongClickVisible(i) } } }
-    }
-
-
     companion object {
         private const val REPEAT_COUNT = 7
     }

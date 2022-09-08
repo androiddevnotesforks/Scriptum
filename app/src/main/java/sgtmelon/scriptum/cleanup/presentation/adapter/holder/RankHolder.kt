@@ -5,22 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import kotlin.math.min
+import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
-import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import kotlin.math.min
 
 /**
- * Holder for category items ([RankItem]), use inside [RankAdapter].
+ * Holder for category items - [RankItem], use inside [RankAdapter].
  */
 class RankHolder(
     itemView: View,
     private val clickListener: ItemListener.ActionClick,
-    private val longClickListener: ItemListener.LongClick,
     private val dragListener: ItemListener.Drag?,
     blockCallback: IconBlockCallback
 ) : ParentHolder(itemView),
@@ -48,19 +47,15 @@ class RankHolder(
 
         visibleButton.setBlockCallback(blockCallback)
 
-        visibleButton.setOnLongClickListener { v ->
-            checkNoPosition { longClickListener.onItemLongClick(v, it) }
-        }
-
         clickView.setOnTouchListener(this)
         cancelButton.setOnTouchListener(this)
         visibleButton.setOnTouchListener(this)
     }
 
-    fun bind(item: RankItem, startAnim: Boolean) {
+    fun bind(item: RankItem) {
         updateContent(item)
 
-        visibleButton.setDrawable(item.isVisible, startAnim)
+        visibleButton.setDrawable(item.isVisible, needAnim = false)
         visibleButton.setOnClickListener { v ->
             checkNoPosition {
                 clickListener.onItemClick(v, it) {

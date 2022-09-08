@@ -33,8 +33,6 @@ interface IRankViewModel : IParentViewModel,
 
     fun onClickVisible(p: Int)
 
-    fun onLongClickVisible(p: Int)
-
     fun onClickCancel(p: Int)
 
     fun onItemAnimationFinished()
