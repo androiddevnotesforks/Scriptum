@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.runBack
+import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Print.Intent

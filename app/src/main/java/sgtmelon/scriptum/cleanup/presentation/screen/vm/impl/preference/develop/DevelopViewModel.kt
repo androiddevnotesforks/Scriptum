@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.utils.runBack
+import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment

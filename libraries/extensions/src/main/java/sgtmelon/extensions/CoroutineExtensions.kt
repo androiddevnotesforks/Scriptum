@@ -1,16 +1,16 @@
-package sgtmelon.common.utils
+package sgtmelon.extensions
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import sgtmelon.common.test.annotation.RunPrivate
 
 /**
  * Variable only for coroutine tests.
  */
-@RunPrivate var isCoTesting = false
+@Deprecated("Try do something without it")
+var isCoTesting = false
 
 /**
  * Use this function for hard calculation operations.

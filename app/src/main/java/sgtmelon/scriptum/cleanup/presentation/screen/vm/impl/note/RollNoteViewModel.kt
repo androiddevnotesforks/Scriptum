@@ -4,8 +4,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.launchBack
-import sgtmelon.common.utils.runBack
+import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction

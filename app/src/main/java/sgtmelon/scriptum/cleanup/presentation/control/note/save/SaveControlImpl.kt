@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import sgtmelon.common.utils.runMain
+import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.utils.record

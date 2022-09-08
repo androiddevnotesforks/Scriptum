@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import kotlin.math.max
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.launchBack
-import sgtmelon.common.utils.runBack
+import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar

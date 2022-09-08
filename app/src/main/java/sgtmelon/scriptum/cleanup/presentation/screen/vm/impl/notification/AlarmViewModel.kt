@@ -5,8 +5,8 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.runBack
 import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
@@ -71,6 +71,10 @@ class AlarmViewModel(
             /** If first open. */
             if (!::noteItem.isInitialized) {
                 val item = runBack {
+                    /**
+                     * Delete before return noteModel. This is need for hide alarm icon and
+                     * decrement notification info count (next alarms count).
+                     */
                     /**
                      * Delete before return noteModel. This is need for hide alarm icon and
                      * decrement notification info count (next alarms count).
