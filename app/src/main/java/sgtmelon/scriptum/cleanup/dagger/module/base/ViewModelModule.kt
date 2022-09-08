@@ -263,11 +263,12 @@ class ViewModelModule {
     fun provideNotificationViewModel(
         activity: NotificationActivity,
         interactor: INotificationInteractor,
-        getList: GetNotificationListUseCase,
-        deleteNotification: DeleteNotificationUseCase
+        setNotification: SetNotificationUseCase,
+        deleteNotification: DeleteNotificationUseCase,
+        getList: GetNotificationListUseCase
     ): INotificationViewModel {
         val factory = ViewModelFactory.Notification(
-            activity, interactor, getList, deleteNotification
+            activity, interactor, setNotification, deleteNotification, getList
         )
         return ViewModelProvider(activity, factory)[NotificationViewModel::class.java]
     }

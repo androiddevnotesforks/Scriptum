@@ -84,12 +84,8 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideNotificationInteractor(
-        noteRepo: NoteRepo,
-        alarmRepo: AlarmRepo,
-        bindRepo: BindRepo
-    ): INotificationInteractor {
-        return NotificationInteractor(noteRepo, alarmRepo, bindRepo)
+    fun provideNotificationInteractor(bindRepo: BindRepo): INotificationInteractor {
+        return NotificationInteractor(bindRepo)
     }
 
     //region Preference

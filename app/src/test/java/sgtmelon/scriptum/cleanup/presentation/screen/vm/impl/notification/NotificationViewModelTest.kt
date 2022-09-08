@@ -34,6 +34,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
@@ -49,11 +50,12 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: INotificationActivity
     @MockK lateinit var interactor: INotificationInteractor
-    @MockK lateinit var getList: GetNotificationListUseCase
+    @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
+    @MockK lateinit var getList: GetNotificationListUseCase
 
     private val viewModel by lazy {
-        NotificationViewModel(callback, interactor, getList, deleteNotification)
+        NotificationViewModel(callback, interactor, setNotification, deleteNotification, getList)
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
@@ -66,7 +68,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, getList, deleteNotification)
+        confirmVerified(callback, interactor, setNotification, deleteNotification, getList)
     }
 
     @Test override fun onDestroy() {
@@ -385,12 +387,12 @@ class NotificationViewModelTest : ParentViewModelTest() {
         val note = mockk<NotificationItem.Note>()
         val id = Random.nextLong()
 
-        coEvery { interactor.setNotification(item) } returns null
+        coEvery { setNotification(item) } returns null
 
         viewModel.snackbarActionBackground(item, position)
         assertTrue(viewModel.itemList.isEmpty())
 
-        coEvery { interactor.setNotification(item) } returns newItem
+        coEvery { setNotification(item) } returns newItem
         every { newItem.alarm } returns alarm
         every { alarm.date } returns date
         FastMock.timeExtension()
@@ -402,9 +404,9 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.snackbarActionBackground(item, position)
 
         coVerifySequence {
-            interactor.setNotification(item)
+            setNotification(item)
 
-            interactor.setNotification(item)
+            setNotification(item)
             callback.setList(resultList)
             newItem.alarm
             alarm.date

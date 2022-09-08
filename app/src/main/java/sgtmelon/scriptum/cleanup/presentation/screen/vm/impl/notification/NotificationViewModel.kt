@@ -17,6 +17,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IN
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.test.idling.getIdling
 
 /**
@@ -25,8 +26,9 @@ import sgtmelon.test.idling.getIdling
 class NotificationViewModel(
     callback: INotificationActivity,
     private val interactor: INotificationInteractor,
-    private val getList: GetNotificationListUseCase,
-    private val deleteNotification: DeleteNotificationUseCase
+    private val setNotification: SetNotificationUseCase,
+    private val deleteNotification: DeleteNotificationUseCase,
+    private val getList: GetNotificationListUseCase
 ) : ParentViewModel<INotificationActivity>(callback),
         INotificationViewModel {
 
@@ -184,7 +186,7 @@ class NotificationViewModel(
      * After insert need update item in list (due to new item id).
      */
     @RunPrivate suspend fun snackbarActionBackground(item: NotificationItem, position: Int) {
-        val newItem = runBack { interactor.setNotification(item) } ?: return
+        val newItem = runBack { setNotification(item) } ?: return
 
         itemList[position] = newItem
         callback?.setList(itemList)
