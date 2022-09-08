@@ -78,11 +78,11 @@ fun ImageButton.bindEnabled(enabled: Boolean) {
 }
 
 /**
- * Change state of [CheckBox] with anim or simple value set
+ * Change state of [CheckBox] via simple set
  */
-@BindingAdapter(value = ["checkToggle", "checkState"])
-fun CheckBox.bindCheck(checkToggle: Boolean, checkState: Boolean) {
-    if (checkToggle) toggle() else isChecked = checkState
+@BindingAdapter(value = ["checkState"])
+fun CheckBox.bindCheck(checkState: Boolean) {
+    isChecked = checkState
 }
 
 //endregion

@@ -63,8 +63,6 @@ interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
 
     fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
 
-    fun changeCheckToggle(state: Boolean)
-
     fun updateNoteState(noteState: NoteState)
 
     fun updateProgress(progress: Int, max: Int)

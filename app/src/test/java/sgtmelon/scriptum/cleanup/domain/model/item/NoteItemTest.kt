@@ -297,20 +297,6 @@ class NoteItemTest : ParentTest() {
         }
     }
 
-    @Test fun onItemLongCheck() {
-        rollItem.deepCopy(change = changeText).apply {
-            assertTrue(onItemLongCheck())
-            assertChangeTime(this)
-            assertEquals("3/3", text)
-
-            change = changeText
-
-            assertFalse(onItemLongCheck())
-            assertChangeTime(this)
-            assertEquals("0/3", text)
-        }
-    }
-
 
     @Test fun `onSave for roll`() {
         rollItem.deepCopy(change = changeText, name = nameSpace).apply {

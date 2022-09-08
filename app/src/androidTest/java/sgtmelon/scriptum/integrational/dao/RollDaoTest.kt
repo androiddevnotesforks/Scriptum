@@ -205,18 +205,6 @@ class RollDaoTest : ParentRoomTest() {
         assertEquals(rollDao.getList(note.id).first { it.id == update.id }, update)
     }
 
-    @Test fun updateAllCheck() = inRoomTest {
-        val (note, rollList) = firstPair
-        insertRelation(note, rollList)
-
-        val isCheck = Random.nextBoolean()
-        val updateList = rollList.map { it.copy(isCheck = isCheck) }
-
-        rollDao.updateAllCheck(note.id, isCheck)
-
-        assertEquals(rollDao.getList(note.id), updateList)
-    }
-
     @Test fun delete() = inRoomTest {
         val (note, rollList) = firstPair
         insertRelation(note, rollList)

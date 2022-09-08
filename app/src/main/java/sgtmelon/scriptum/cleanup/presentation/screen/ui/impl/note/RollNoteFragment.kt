@@ -112,13 +112,6 @@ class RollNoteFragment : ParentFragment(),
                     viewModel.onClickItemCheck(p)
                 }
             }
-        }, object : ItemListener.LongClick {
-            override fun onItemLongClick(view: View, p: Int) {
-                openState.tryCall {
-                    openState.block(animTime)
-                    viewModel.onLongClickItemCheck()
-                }
-            }
         })
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
@@ -477,10 +470,6 @@ class RollNoteFragment : ParentFragment(),
             adapter.setList(list)
             recyclerView?.post { adapter.notifyDataSetChanged() }
         }
-    }
-
-    override fun changeCheckToggle(state: Boolean) {
-        adapter.isToggleCheck = state
     }
 
     override fun updateNoteState(noteState: NoteState) {

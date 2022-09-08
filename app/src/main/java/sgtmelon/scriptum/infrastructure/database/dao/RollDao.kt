@@ -33,9 +33,6 @@ interface RollDao {
     @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :isCheck WHERE RL_ID = :id")
     suspend fun updateCheck(id: Long, isCheck: Boolean)
 
-    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :isCheck WHERE RL_NOTE_ID = :noteId")
-    suspend fun updateAllCheck(noteId: Long, isCheck: Boolean)
-
     /**
      * Delete all items from note.
      */

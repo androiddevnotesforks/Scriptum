@@ -55,8 +55,6 @@ interface NoteRepo {
 
     suspend fun updateRollCheck(item: NoteItem.Roll, p: Int)
 
-    suspend fun updateRollCheck(item: NoteItem.Roll, isCheck: Boolean)
-
     suspend fun updateNote(item: NoteItem)
 
     suspend fun setRollVisible(item: NoteItem.Roll)

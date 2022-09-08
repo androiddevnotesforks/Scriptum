@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter
 
 import android.view.ViewGroup
-import android.widget.CheckBox
 import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
@@ -19,8 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragme
  */
 class RollAdapter(
     private val rollWriteCallback: RollWriteHolder.Callback,
-    private val clickListener: ItemListener.ActionClick,
-    private val longClickListener: ItemListener.LongClick
+    private val clickListener: ItemListener.ActionClick
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
     var dragListener: ItemListener.Drag? = null
@@ -28,11 +26,6 @@ class RollAdapter(
 
     var noteState: NoteState? = null
 
-    /**
-     * Variable for choose method of set check:
-     * Set true if need  [CheckBox.toggle] otherwise will call [CheckBox.setChecked].
-     */
-    var isToggleCheck: Boolean = false
     var cursorPosition = ND_CURSOR
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
@@ -40,17 +33,14 @@ class RollAdapter(
             parent.inflateBinding(R.layout.item_roll_write),
             dragListener, rollWriteCallback, inputControl
         )
-        else -> RollReadHolder(
-            parent.inflateBinding(R.layout.item_roll_read),
-            clickListener, longClickListener
-        )
+        else -> RollReadHolder(parent.inflateBinding(R.layout.item_roll_read), clickListener)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = list[position]
 
         when (holder) {
-            is RollReadHolder -> holder.bind(item, noteState, isToggleCheck)
+            is RollReadHolder -> holder.bind(item, noteState)
             is RollWriteHolder -> {
                 holder.bind(item)
 

@@ -10,8 +10,6 @@ interface RollDataSource {
 
     suspend fun updateCheck(id: Long, isCheck: Boolean)
 
-    suspend fun updateAllCheck(noteId: Long, isCheck: Boolean)
-
     suspend fun delete(noteId: Long)
 
     suspend fun delete(noteId: Long, excludeIdList: List<Long>)

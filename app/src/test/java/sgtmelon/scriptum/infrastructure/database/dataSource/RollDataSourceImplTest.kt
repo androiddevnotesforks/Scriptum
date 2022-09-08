@@ -83,19 +83,6 @@ class RollDataSourceImplTest : ParentTest() {
         }
     }
 
-    @Test fun updateAllCheck() {
-        val id = Random.nextLong()
-        val isCheck = Random.nextBoolean()
-
-        runBlocking {
-            dataSource.updateAllCheck(id, isCheck)
-        }
-
-        coVerifySequence {
-            dao.updateAllCheck(id, isCheck)
-        }
-    }
-
     @Test fun delete() {
         val noteId = Random.nextLong()
 

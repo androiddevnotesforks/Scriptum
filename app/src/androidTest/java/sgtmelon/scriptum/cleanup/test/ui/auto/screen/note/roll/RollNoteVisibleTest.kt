@@ -129,22 +129,6 @@ class RollNoteVisibleTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemLongCheck() = db.insertRoll().let {
-        launch {
-            mainScreen {
-                notesScreen {
-                    openRollNote(it) {
-                        repeat(times = 2) { onLongClickCheck() }
-                        onClickVisible()
-
-                        onLongClickCheck()
-                        onClickVisible()
-                    }
-                }
-            }
-        }
-    }
-
     @Test fun itemSwipe() = db.insertRoll().let {
         launch {
             mainScreen {

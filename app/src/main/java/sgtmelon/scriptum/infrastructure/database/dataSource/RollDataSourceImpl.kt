@@ -17,10 +17,6 @@ class RollDataSourceImpl(private val dao: RollDao) : RollDataSource {
 
     override suspend fun updateCheck(id: Long, isCheck: Boolean) = dao.updateCheck(id, isCheck)
 
-    override suspend fun updateAllCheck(noteId: Long, isCheck: Boolean) {
-        dao.updateAllCheck(noteId, isCheck)
-    }
-
     override suspend fun delete(noteId: Long) = dao.delete(noteId)
 
     override suspend fun delete(noteId: Long, excludeIdList: List<Long>) {

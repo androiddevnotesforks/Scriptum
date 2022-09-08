@@ -40,13 +40,6 @@ class RollNoteInteractor(
         noteRepo.updateRollCheck(noteItem, p)
     }
 
-    /**
-     * Update all rolls rely on checks.
-     */
-    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean) {
-        noteRepo.updateRollCheck(noteItem, isCheck)
-    }
-
 
     override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
 

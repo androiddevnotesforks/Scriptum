@@ -89,17 +89,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun updateRollCheck_byCheck() = startCoTest {
-        val item = mockk<NoteItem.Roll>()
-        val isCheck = Random.nextBoolean()
-
-        interactor.updateRollCheck(item, isCheck)
-
-        coVerifySequence {
-            noteRepo.updateRollCheck(item, isCheck)
-        }
-    }
-
 
     @Test fun getRankId() = startCoTest {
         FastTest.Interactor.getRankId(rankRepo) { interactor.getRankId(it) }

@@ -16,10 +16,6 @@
         <variable
             name="isBin"
             type="boolean" />
-
-        <variable
-            name="isToggleCheck"
-            type="boolean" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -40,7 +36,6 @@
                     android:id="@+id/roll_read_check"
                     style="@style/Button.Roll.Read"
                     app:checkState='@{item.check}'
-                    app:checkToggle='@{isToggleCheck}'
                     tools:checked="true" />
 
                 <ImageButton

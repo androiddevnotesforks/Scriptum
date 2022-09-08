@@ -56,26 +56,6 @@ class RollNoteContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemOnLongClickCheck() = db.createRoll().let {
-        launch {
-            mainScreen {
-                notesScreen(isEmpty = true) {
-                    openAddDialog {
-                        createRoll(it) {
-                            repeat(times = 5) { enterPanel { onAdd(nextString()) } }
-                            onAssertAll()
-
-                            controlPanel { onSave() }
-                            repeat(times = 3) {
-                                onLongClickCheck().onClickCheck().onLongClickCheck()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     @Test fun itemOnEmptyDelete() = db.createRoll().let {
         launch {
             mainScreen {

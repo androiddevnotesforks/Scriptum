@@ -3,19 +3,18 @@ package sgtmelon.scriptum.cleanup.presentation.adapter.holder
 import android.view.View
 import android.widget.CheckBox
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.databinding.ItemRollReadBinding
 
 /**
  * Holder of note roll row read state, use in [RollAdapter].
  */
 class RollReadHolder(
     private val binding: ItemRollReadBinding,
-    private val clickListener: ItemListener.ActionClick,
-    private val longClickListener: ItemListener.LongClick
+    private val clickListener: ItemListener.ActionClick
 ) : ParentHolder(binding.root) {
 
     /**
@@ -28,15 +27,11 @@ class RollReadHolder(
         clickView.setOnClickListener { v ->
             checkNoPosition { clickListener.onItemClick(v, it) { rollCheck.toggle() } }
         }
-        clickView.setOnLongClickListener { v ->
-            checkNoPosition { longClickListener.onItemLongClick(v, it) }
-        }
     }
 
-    fun bind(item: RollItem, noteState: NoteState?, isToggleCheck: Boolean) = binding.apply {
+    fun bind(item: RollItem, noteState: NoteState?) = binding.apply {
         this.item = item
         this.isBin = noteState?.isBin == true
-        this.isToggleCheck = isToggleCheck
     }.executePendingBindings()
 
 }

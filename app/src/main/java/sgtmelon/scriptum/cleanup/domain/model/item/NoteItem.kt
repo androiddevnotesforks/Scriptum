@@ -274,18 +274,6 @@ sealed class NoteItem(
             updateComplete()
         }
 
-        /**
-         * If have some unchecked items - need turn them to true. Otherwise uncheck all items.
-         */
-        fun onItemLongCheck(): Boolean {
-            val check = list.any { !it.isCheck }
-
-            updateTime()
-            updateCheck(check)
-
-            return check
-        }
-
 
         fun onSave() {
             list.apply {

@@ -21,7 +21,4 @@ interface IRollNoteViewModel : IParentNoteViewModel,
     fun onClickAdd(simpleClick: Boolean)
 
     fun onClickItemCheck(p: Int)
-
-    fun onLongClickItemCheck()
-
 }

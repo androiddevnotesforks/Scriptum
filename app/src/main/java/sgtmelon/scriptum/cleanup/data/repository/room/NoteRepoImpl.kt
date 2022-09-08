@@ -284,11 +284,6 @@ class NoteRepoImpl(
         noteDataSource.update(noteConverter.toEntity(item))
     }
 
-    override suspend fun updateRollCheck(item: NoteItem.Roll, isCheck: Boolean) {
-        rollDataSource.updateAllCheck(item.id, isCheck)
-        noteDataSource.update(noteConverter.toEntity(item))
-    }
-
     override suspend fun updateNote(item: NoteItem) {
         noteDataSource.update(noteConverter.toEntity(item))
     }

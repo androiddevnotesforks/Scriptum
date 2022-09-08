@@ -22,7 +22,6 @@ import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.swipeItem
 import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
@@ -156,21 +155,6 @@ class RollNoteScreen(
                 if (item.isVisible) {
                     getItem(p).assert(item.list[correctPosition])
                 }
-            }
-            State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
-        }
-    }
-
-    fun onLongClickCheck(p: Int? = random) = apply {
-        if (p == null) return@apply
-
-        when (state) {
-            State.READ, State.BIN -> {
-                getItem(p).clickButton.longClick()
-
-                item.onItemLongCheck()
-
-                onAssertAll()
             }
             State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
         }

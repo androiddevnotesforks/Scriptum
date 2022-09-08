@@ -252,29 +252,6 @@ class RollNoteViewModel(
         }
     }
 
-    override fun onLongClickItemCheck() {
-        if (noteState.isEdit) return
-
-        val isCheck = noteItem.onItemLongCheck()
-        cacheData()
-
-        callback?.apply {
-            changeCheckToggle(state = true)
-            notifyDataRangeChanged(getAdapterList())
-            changeCheckToggle(state = false)
-
-            with(noteItem) { updateProgress(getCheck(), list.size) }
-        }
-
-        if (!noteItem.isVisible) notifyListByVisible()
-
-        viewModelScope.launch {
-            runBack { interactor.updateRollCheck(noteItem, isCheck) }
-
-            callback?.sendNotifyNotesBroadcast()
-        }
-    }
-
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this

@@ -785,28 +785,6 @@ class NoteRepoImplTest : ParentRepoTest() {
         }
     }
 
-    @Test fun `updateRollCheck for list`() {
-        val item = mockk<NoteItem.Roll>()
-        val id = Random.nextLong()
-        val entity = mockk<NoteEntity>()
-
-        val isCheck = Random.nextBoolean()
-
-        every { item.id } returns id
-        every { noteConverter.toEntity(item) } returns entity
-
-        runBlocking {
-            repository.updateRollCheck(item, isCheck)
-        }
-
-        coVerifySequence {
-            item.id
-            rollDataSource.updateAllCheck(id, isCheck)
-            noteConverter.toEntity(item)
-            noteDataSource.update(entity)
-        }
-    }
-
     @Test fun updateNote() {
         val item = mockk<NoteItem.Roll>()
         val entity = mockk<NoteEntity>()
