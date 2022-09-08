@@ -196,11 +196,13 @@ class ViewModelModule {
         restoreNote: RestoreNoteUseCase,
         clearNote: ClearNoteUseCase,
         setNotification: SetNotificationUseCase,
+        deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationDateListUseCase
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             fragment, colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList
+            deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
+            getNotificationDateList
         )
         val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
@@ -220,11 +222,13 @@ class ViewModelModule {
         restoreNote: RestoreNoteUseCase,
         clearNote: ClearNoteUseCase,
         setNotification: SetNotificationUseCase,
+        deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationDateListUseCase
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             fragment, colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList
+            deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
+            getNotificationDateList
         )
         val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)

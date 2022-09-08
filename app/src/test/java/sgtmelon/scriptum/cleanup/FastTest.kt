@@ -19,7 +19,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
@@ -34,6 +33,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
+import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
@@ -61,6 +61,7 @@ object FastTest {
         private val restoreNote: RestoreNoteUseCase,
         private val clearNote: ClearNoteUseCase,
         private val setNotification: SetNotificationUseCase,
+        private val deleteNotification: DeleteNotificationUseCase,
         private val getNotificationDateList: GetNotificationDateListUseCase,
 
         private val saveControl: SaveControl,
@@ -492,7 +493,7 @@ object FastTest {
 
                 spyViewModel.interactor
                 spyViewModel.noteItem
-                interactor.clearDate(noteItem)
+                deleteNotification(noteItem)
 
                 spyViewModel.callback
                 spyViewModel.noteItem
@@ -1235,27 +1236,6 @@ object FastTest {
                 }
 
                 rankRepo.updateConnection(item)
-            }
-        }
-
-        //endregion
-
-        //region Date work
-
-        suspend inline fun <reified T : NoteItem> clearDate(
-            alarmRepo: AlarmRepo,
-            callFunc: (item: T) -> Unit
-        ) {
-            val item = mockk<T>()
-            val id = Random.nextLong()
-
-            every { item.id } returns id
-
-            callFunc(item)
-
-            coVerifySequence {
-                item.id
-                alarmRepo.delete(id)
             }
         }
 

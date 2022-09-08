@@ -41,13 +41,13 @@ class NoteRepoImplTest : ParentRepoTest() {
     private val noteConverter = mockk<NoteConverter>()
     private val rollConverter = mockk<RollConverter>()
 
-    private val repo by lazy {
+    private val repository by lazy {
         NoteRepoImpl(
             noteDataSource, rollDataSource, rollVisibleDataSource, rankDataSource, alarmDataSource,
             noteConverter, rollConverter
         )
     }
-    private val spyRepo by lazy { spyk(repo) }
+    private val spyRepository by lazy { spyk(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -68,7 +68,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         } returns firstCount
 
         runBlocking {
-            assertEquals(repo.getCount(isBin = true), firstCount)
+            assertEquals(repository.getCount(isBin = true), firstCount)
         }
 
         coEvery { rankDataSource.getIdVisibleList() } returns secondIdList
@@ -77,7 +77,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         } returns secondCount
 
         runBlocking {
-            assertEquals(repo.getCount(isBin = false), secondCount)
+            assertEquals(repository.getCount(isBin = false), secondCount)
         }
 
         coVerifySequence {
@@ -99,36 +99,42 @@ class NoteRepoImplTest : ParentRepoTest() {
         val itemList = MutableList<NoteItem>(size) { mockk() }
 
         coEvery { noteDataSource.getList(sort, isBin) } returns entityList
-        coEvery { spyRepo.filterVisible(entityList) } returns entityList
+        coEvery { spyRepository.filterVisible(entityList) } returns entityList
 
         for ((i, entity) in entityList.withIndex()) {
-            coEvery { spyRepo.transformNoteEntity(entity, isOptimal) } returns itemList[i]
+            coEvery { spyRepository.transformNoteEntity(entity, isOptimal) } returns itemList[i]
         }
 
-        coEvery { spyRepo.correctRankSort(itemList, sort) } returns itemList
+        coEvery { spyRepository.correctRankSort(itemList, sort) } returns itemList
 
         runBlocking {
-            assertEquals(spyRepo.getList(sort, isBin, isOptimal, filterVisible = false), itemList)
-            assertEquals(spyRepo.getList(sort, isBin, isOptimal, filterVisible = true), itemList)
+            assertEquals(
+                spyRepository.getList(sort, isBin, isOptimal, filterVisible = false),
+                itemList
+            )
+            assertEquals(
+                spyRepository.getList(sort, isBin, isOptimal, filterVisible = true),
+                itemList
+            )
         }
 
         coVerifySequence {
-            spyRepo.getList(sort, isBin, isOptimal, filterVisible = false)
+            spyRepository.getList(sort, isBin, isOptimal, filterVisible = false)
 
             noteDataSource.getList(sort, isBin)
             for (entity in entityList) {
-                spyRepo.transformNoteEntity(entity, isOptimal)
+                spyRepository.transformNoteEntity(entity, isOptimal)
             }
-            spyRepo.correctRankSort(itemList, sort)
+            spyRepository.correctRankSort(itemList, sort)
 
-            spyRepo.getList(sort, isBin, isOptimal, filterVisible = true)
+            spyRepository.getList(sort, isBin, isOptimal, filterVisible = true)
 
             noteDataSource.getList(sort, isBin)
-            spyRepo.filterVisible(entityList)
+            spyRepository.filterVisible(entityList)
             for (entity in entityList) {
-                spyRepo.transformNoteEntity(entity, isOptimal)
+                spyRepository.transformNoteEntity(entity, isOptimal)
             }
-            spyRepo.correctRankSort(itemList, sort)
+            spyRepository.correctRankSort(itemList, sort)
         }
     }
 
@@ -149,7 +155,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         val resultList = entityList.filterIndexed { i, _ -> isVisibleList[i] }
 
         runBlocking {
-            assertEquals(repo.filterVisible(entityList), resultList)
+            assertEquals(repository.filterVisible(entityList), resultList)
         }
 
         coVerifySequence {
@@ -168,9 +174,9 @@ class NoteRepoImplTest : ParentRepoTest() {
             TestData.Note.firstNote.deepCopy(id = Random.nextLong())
         }
 
-        assertNotEquals(finishList, repo.correctRankSort(startList, Sort.COLOR))
-        assertEquals(finishList, repo.correctRankSort(startList, Sort.RANK))
-        assertEquals(simpleList, repo.correctRankSort(simpleList, Sort.RANK))
+        assertNotEquals(finishList, repository.correctRankSort(startList, Sort.COLOR))
+        assertEquals(finishList, repository.correctRankSort(startList, Sort.RANK))
+        assertEquals(simpleList, repository.correctRankSort(simpleList, Sort.RANK))
     }
 
     @Test fun getItem() {
@@ -182,22 +188,22 @@ class NoteRepoImplTest : ParentRepoTest() {
         coEvery { noteDataSource.get(id) } returns null
 
         runBlocking {
-            assertNull(repo.getItem(id, isOptimal))
+            assertNull(repository.getItem(id, isOptimal))
         }
 
         coEvery { noteDataSource.get(id) } returns entity
-        coEvery { spyRepo.transformNoteEntity(entity, isOptimal) } returns item
+        coEvery { spyRepository.transformNoteEntity(entity, isOptimal) } returns item
 
         runBlocking {
-            assertEquals(item, spyRepo.getItem(id, isOptimal))
+            assertEquals(item, spyRepository.getItem(id, isOptimal))
         }
 
         coVerifyOrder {
             noteDataSource.get(id)
 
-            spyRepo.getItem(id, isOptimal)
+            spyRepository.getItem(id, isOptimal)
             noteDataSource.get(id)
-            spyRepo.transformNoteEntity(entity, isOptimal)
+            spyRepository.transformNoteEntity(entity, isOptimal)
         }
     }
 
@@ -214,22 +220,22 @@ class NoteRepoImplTest : ParentRepoTest() {
 
         every { entity.id } returns id
         coEvery { rollVisibleDataSource.getVisible(id) } returns isVisible
-        coEvery { spyRepo.getPreview(id, isVisible, isOptimal) } returns previewList
+        coEvery { spyRepository.getPreview(id, isVisible, isOptimal) } returns previewList
         every { rollConverter.toItem(previewList) } returns rollList
         coEvery { alarmDataSource.get(id) } returns alarmEntity
         every { noteConverter.toItem(entity, isVisible, rollList, alarmEntity) } returns item
 
         runBlocking {
-            assertEquals(spyRepo.transformNoteEntity(entity, isOptimal), item)
+            assertEquals(spyRepository.transformNoteEntity(entity, isOptimal), item)
         }
 
         coVerifySequence {
-            spyRepo.transformNoteEntity(entity, isOptimal)
+            spyRepository.transformNoteEntity(entity, isOptimal)
 
             entity.id
             rollVisibleDataSource.getVisible(id)
             entity.id
-            spyRepo.getPreview(id, isVisible, isOptimal)
+            spyRepository.getPreview(id, isVisible, isOptimal)
             rollConverter.toItem(previewList)
             entity.id
             alarmDataSource.get(id)
@@ -248,7 +254,7 @@ class NoteRepoImplTest : ParentRepoTest() {
 
         runBlocking {
             assertEquals(
-                repo.getPreview(id, isVisible = Random.nextBoolean(), isOptimal = false),
+                repository.getPreview(id, isVisible = Random.nextBoolean(), isOptimal = false),
                 firstList
             )
         }
@@ -256,22 +262,22 @@ class NoteRepoImplTest : ParentRepoTest() {
         coEvery { rollDataSource.getPreviewList(id) } returns secondList
 
         runBlocking {
-            assertEquals(repo.getPreview(id, isVisible = null, isOptimal = true), secondList)
-            assertEquals(repo.getPreview(id, isVisible = true, isOptimal = true), secondList)
+            assertEquals(repository.getPreview(id, isVisible = null, isOptimal = true), secondList)
+            assertEquals(repository.getPreview(id, isVisible = true, isOptimal = true), secondList)
         }
 
         coEvery { rollDataSource.getPreviewHideList(id) } returns thirdList
         every { thirdList.isEmpty() } returns false
 
         runBlocking {
-            assertEquals(repo.getPreview(id, isVisible = false, isOptimal = true), thirdList)
+            assertEquals(repository.getPreview(id, isVisible = false, isOptimal = true), thirdList)
         }
 
         coEvery { rollDataSource.getPreviewHideList(id) } returns thirdList
         every { thirdList.isEmpty() } returns true
 
         runBlocking {
-            assertEquals(repo.getPreview(id, isVisible = false, isOptimal = true), secondList)
+            assertEquals(repository.getPreview(id, isVisible = false, isOptimal = true), secondList)
         }
 
         coVerifySequence {
@@ -296,7 +302,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { rollConverter.toItem(entityList) } returns itemList
 
         runBlocking {
-            assertEquals(repo.getRollList(noteId), itemList)
+            assertEquals(repository.getRollList(noteId), itemList)
         }
 
         coVerifySequence {
@@ -323,7 +329,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         }
 
         runBlocking {
-            assertEquals(repo.isListHide(), isVisibleList.any { !it })
+            assertEquals(repository.isListHide(), isVisibleList.any { !it })
         }
 
         coVerifySequence {
@@ -353,20 +359,20 @@ class NoteRepoImplTest : ParentRepoTest() {
         }
 
         coEvery { noteDataSource.getList(isBin = true) } returns itemList
-        coEvery { spyRepo.clearConnection(any(), any()) } returns Unit
+        coEvery { spyRepository.clearConnection(any(), any()) } returns Unit
 
         runBlocking {
-            spyRepo.clearBin()
+            spyRepository.clearBin()
         }
 
         coVerifySequence {
-            spyRepo.clearBin()
+            spyRepository.clearBin()
 
             noteDataSource.getList(true)
             for ((i, item) in itemList.withIndex()) {
                 item.id
                 item.rankId
-                spyRepo.clearConnection(i.toLong(), indexToId(i))
+                spyRepository.clearConnection(i.toLong(), indexToId(i))
             }
             noteDataSource.delete(itemList)
         }
@@ -383,7 +389,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { noteConverter.toEntity(deleteItem) } returns entity
 
         runBlocking {
-            repo.deleteNote(item)
+            repository.deleteNote(item)
         }
 
         coVerifySequence {
@@ -406,7 +412,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { noteConverter.toEntity(restoreItem) } returns entity
 
         runBlocking {
-            repo.restoreNote(item)
+            repository.restoreNote(item)
         }
 
         coVerifySequence {
@@ -424,19 +430,19 @@ class NoteRepoImplTest : ParentRepoTest() {
 
         every { item.id } returns id
         every { item.rankId } returns rankId
-        coEvery { spyRepo.clearConnection(id, rankId) } returns Unit
+        coEvery { spyRepository.clearConnection(id, rankId) } returns Unit
         every { noteConverter.toEntity(item) } returns entity
 
         runBlocking {
-            spyRepo.clearNote(item)
+            spyRepository.clearNote(item)
         }
 
         coVerifySequence {
-            spyRepo.clearNote(item)
+            spyRepository.clearNote(item)
 
             item.id
             item.rankId
-            spyRepo.clearConnection(id, rankId)
+            spyRepository.clearConnection(id, rankId)
             noteConverter.toEntity(item)
             noteDataSource.delete(entity)
         }
@@ -451,7 +457,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         coEvery { rankDataSource.get(rankId) } returns null
 
         runBlocking {
-            repo.clearConnection(noteId, rankId)
+            repository.clearConnection(noteId, rankId)
         }
 
         coEvery { rankDataSource.get(rankId) } returns entity
@@ -459,7 +465,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { noteIdList.remove(noteId) } returns Random.nextBoolean()
 
         runBlocking {
-            repo.clearConnection(noteId, rankId)
+            repository.clearConnection(noteId, rankId)
         }
 
         coVerifySequence {
@@ -498,7 +504,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { noteConverter.toEntity(finishItem) } returns finishEntity
 
         runBlocking {
-            assertEquals(repo.convertNote(startItem), finishItem)
+            assertEquals(repository.convertNote(startItem), finishItem)
         }
 
         coVerifySequence {
@@ -533,7 +539,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { finishItem.id } returns id
 
         runBlocking {
-            assertEquals(repo.convertNote(startItem, useCache = true), finishItem)
+            assertEquals(repository.convertNote(startItem, useCache = true), finishItem)
         }
 
         every { startItem.id } returns id
@@ -542,7 +548,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { startItem.onConvert(itemList) } returns finishItem
 
         runBlocking {
-            assertEquals(repo.convertNote(startItem, useCache = false), finishItem)
+            assertEquals(repository.convertNote(startItem, useCache = false), finishItem)
         }
 
         coVerifySequence {
@@ -573,20 +579,20 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { noteConverter.toEntity(item) } returns entity
 
         runBlocking {
-            repo.saveNote(item, isCreate = false)
+            repository.saveNote(item, isCreate = false)
         }
 
         coEvery { noteDataSource.insert(entity) } returns null
 
         runBlocking {
-            repo.saveNote(item, isCreate = true)
+            repository.saveNote(item, isCreate = true)
         }
 
         coEvery { noteDataSource.insert(entity) } returns id
         every { item.id = id } returns Unit
 
         runBlocking {
-            repo.saveNote(item, isCreate = true)
+            repository.saveNote(item, isCreate = true)
         }
 
         coVerifySequence {
@@ -616,7 +622,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         coEvery { noteDataSource.insert(entity) } returns null
 
         runBlocking {
-            repo.saveNote(item, isCreate = true)
+            repository.saveNote(item, isCreate = true)
         }
 
         coEvery { noteDataSource.insert(entity) } returns id
@@ -631,7 +637,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         }
 
         runBlocking {
-            repo.saveNote(item, isCreate = true)
+            repository.saveNote(item, isCreate = true)
         }
 
         /**
@@ -693,7 +699,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         coEvery { rollDataSource.delete(id, idSaveList) } returns Unit
 
         runBlocking {
-            repo.saveNote(item, isCreate = false)
+            repository.saveNote(item, isCreate = false)
         }
 
         /**
@@ -740,7 +746,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { list.size } returns 0
 
         runBlocking {
-            repo.updateRollCheck(item, p)
+            repository.updateRollCheck(item, p)
         }
 
         every { list.size } returns 11
@@ -748,7 +754,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { rollItem.id } returns null
 
         runBlocking {
-            repo.updateRollCheck(item, p)
+            repository.updateRollCheck(item, p)
         }
 
         every { rollItem.id } returns rollId
@@ -756,7 +762,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { noteConverter.toEntity(item) } returns entity
 
         runBlocking {
-            repo.updateRollCheck(item, p)
+            repository.updateRollCheck(item, p)
         }
 
         coVerifySequence {
@@ -790,7 +796,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { noteConverter.toEntity(item) } returns entity
 
         runBlocking {
-            repo.updateRollCheck(item, isCheck)
+            repository.updateRollCheck(item, isCheck)
         }
 
         coVerifySequence {
@@ -808,7 +814,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { noteConverter.toEntity(item) } returns entity
 
         runBlocking {
-            repo.updateNote(item)
+            repository.updateNote(item)
         }
 
         coVerifySequence {
@@ -829,19 +835,19 @@ class NoteRepoImplTest : ParentRepoTest() {
         coEvery { rollVisibleDataSource.insert(entity) } returns Random.nextLong()
 
         runBlocking {
-            repo.setRollVisible(item)
+            repository.setRollVisible(item)
         }
 
         coEvery { rollVisibleDataSource.getVisible(id) } returns isVisible
 
         runBlocking {
-            repo.setRollVisible(item)
+            repository.setRollVisible(item)
         }
 
         every { item.isVisible } returns isVisible
 
         runBlocking {
-            repo.setRollVisible(item)
+            repository.setRollVisible(item)
         }
 
         coVerifySequence {

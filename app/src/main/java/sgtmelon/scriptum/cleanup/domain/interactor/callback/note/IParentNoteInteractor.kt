@@ -15,8 +15,6 @@ interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     suspend fun getRankId(check: Int): Long
 
-    suspend fun clearDate(item: N)
-
 
     suspend fun convertNote(item: N)
 

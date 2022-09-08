@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
@@ -44,10 +45,12 @@ class RollNoteViewModel(
     restoreNote: RestoreNoteUseCase,
     clearNote: ClearNoteUseCase,
     setNotification: SetNotificationUseCase,
+    deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationDateListUseCase
 ) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(
     callback, parentCallback, colorConverter, preferencesRepo, interactor,
-    deleteNote, restoreNote, clearNote, setNotification, getNotificationDateList
+    deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
+    getNotificationDateList
 ), IRollNoteViewModel {
 
     /**

@@ -105,12 +105,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         FastTest.Interactor.getRankId(rankRepo) { interactor.getRankId(it) }
     }
 
-    @Test fun clearDate() = startCoTest {
-        FastTest.Interactor.clearDate<NoteItem.Roll>(alarmRepo) {
-            interactor.clearDate(it)
-        }
-    }
-
 
     @Test fun convertNote() = startCoTest {
         val item = mockk<NoteItem.Roll>()

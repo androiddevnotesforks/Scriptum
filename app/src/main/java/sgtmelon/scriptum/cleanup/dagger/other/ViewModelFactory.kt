@@ -203,6 +203,7 @@ object ViewModelFactory {
             private val restoreNote: RestoreNoteUseCase,
             private val clearNote: ClearNoteUseCase,
             private val setNotification: SetNotificationUseCase,
+            private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -211,7 +212,7 @@ object ViewModelFactory {
                     TextNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         interactor, deleteNote, restoreNote, clearNote, setNotification,
-                        getNotificationDateList
+                        deleteNotification, getNotificationDateList
                     )
                 }
             }
@@ -226,6 +227,7 @@ object ViewModelFactory {
             private val restoreNote: RestoreNoteUseCase,
             private val clearNote: ClearNoteUseCase,
             private val setNotification: SetNotificationUseCase,
+            private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -234,7 +236,7 @@ object ViewModelFactory {
                     RollNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         interactor, deleteNote, restoreNote, clearNote, setNotification,
-                        getNotificationDateList
+                        deleteNotification, getNotificationDateList
                     )
                 }
             }

@@ -73,12 +73,6 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         FastTest.Interactor.getRankId(rankRepo) { interactor.getRankId(it) }
     }
 
-    @Test fun clearDate() = startCoTest {
-        FastTest.Interactor.clearDate<NoteItem.Text>(alarmRepo) {
-            interactor.clearDate(it)
-        }
-    }
-
 
     @Test fun convertNote() = startCoTest {
         val item = mockk<NoteItem.Text>()

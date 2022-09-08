@@ -41,13 +41,13 @@ import sgtmelon.test.common.nextString
  */
 class BackupRepoImplTest : ParentRepoTest() {
 
-    private val repo by lazy {
+    private val repository by lazy {
         BackupRepoImpl(
             noteDataSource, rollDataSource, rollVisibleDataSource,
             rankDataSource, alarmDataSource
         )
     }
-    private val spyRepo by lazy { spyk(repo) }
+    private val spyRepository by lazy { spyk(repository) }
 
     @Test fun getData() {
         val noteList = listOf(
@@ -75,7 +75,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         coEvery { alarmDataSource.getList(noteIdList) } returns alarmList
 
         runBlocking {
-            assertEquals(repo.getData(), parserResult)
+            assertEquals(repository.getData(), parserResult)
         }
 
         coVerifySequence {
@@ -98,52 +98,52 @@ class BackupRepoImplTest : ParentRepoTest() {
         every { result.noteList } returns noteList
         every { noteList.size } returns size
 
-        coEvery { spyRepo.getRemoveNoteList(result) } returns removeList
-        coEvery { spyRepo.clearList(removeList, result) } returns Unit
-        coEvery { spyRepo.clearRankList(result) } returns Unit
-        coEvery { spyRepo.clearAlarmList(result) } returns Unit
-        coEvery { spyRepo.insertNoteList(result) } returns Unit
-        coEvery { spyRepo.insertRollList(result) } returns Unit
-        coEvery { spyRepo.insertRollVisibleList(result) } returns Unit
-        coEvery { spyRepo.insertRankList(result) } returns Unit
-        coEvery { spyRepo.insertAlarmList(result) } returns Unit
+        coEvery { spyRepository.getRemoveNoteList(result) } returns removeList
+        coEvery { spyRepository.clearList(removeList, result) } returns Unit
+        coEvery { spyRepository.clearRankList(result) } returns Unit
+        coEvery { spyRepository.clearAlarmList(result) } returns Unit
+        coEvery { spyRepository.insertNoteList(result) } returns Unit
+        coEvery { spyRepository.insertRollList(result) } returns Unit
+        coEvery { spyRepository.insertRollVisibleList(result) } returns Unit
+        coEvery { spyRepository.insertRankList(result) } returns Unit
+        coEvery { spyRepository.insertAlarmList(result) } returns Unit
 
         runBlocking {
             assertEquals(
-                spyRepo.insertData(result, isSkipImports = false),
+                spyRepository.insertData(result, isSkipImports = false),
                 ImportResult.Simple
             )
         }
 
         val skipResult = ImportResult.Skip(skipCount = 0)
         runBlocking {
-            assertEquals(spyRepo.insertData(result, isSkipImports = true), skipResult)
+            assertEquals(spyRepository.insertData(result, isSkipImports = true), skipResult)
         }
 
         coVerifyOrder {
-            spyRepo.insertData(result, isSkipImports = false)
+            spyRepository.insertData(result, isSkipImports = false)
             result.noteList
             noteList.size
-            spyRepo.clearRankList(result)
-            spyRepo.clearAlarmList(result)
-            spyRepo.insertNoteList(result)
-            spyRepo.insertRollList(result)
-            spyRepo.insertRollVisibleList(result)
-            spyRepo.insertRankList(result)
-            spyRepo.insertAlarmList(result)
+            spyRepository.clearRankList(result)
+            spyRepository.clearAlarmList(result)
+            spyRepository.insertNoteList(result)
+            spyRepository.insertRollList(result)
+            spyRepository.insertRollVisibleList(result)
+            spyRepository.insertRankList(result)
+            spyRepository.insertAlarmList(result)
 
-            spyRepo.insertData(result, isSkipImports = true)
+            spyRepository.insertData(result, isSkipImports = true)
             result.noteList
             noteList.size
-            spyRepo.getRemoveNoteList(result)
-            spyRepo.clearList(removeList, result)
-            spyRepo.clearRankList(result)
-            spyRepo.clearAlarmList(result)
-            spyRepo.insertNoteList(result)
-            spyRepo.insertRollList(result)
-            spyRepo.insertRollVisibleList(result)
-            spyRepo.insertRankList(result)
-            spyRepo.insertAlarmList(result)
+            spyRepository.getRemoveNoteList(result)
+            spyRepository.clearList(removeList, result)
+            spyRepository.clearRankList(result)
+            spyRepository.clearAlarmList(result)
+            spyRepository.insertNoteList(result)
+            spyRepository.insertRollList(result)
+            spyRepository.insertRollVisibleList(result)
+            spyRepository.insertRankList(result)
+            spyRepository.insertAlarmList(result)
             result.noteList
             noteList.size
         }
@@ -165,11 +165,11 @@ class BackupRepoImplTest : ParentRepoTest() {
         every { item.name } returns name
         every { item.text } returns text
 
-        assertFalse(repo.needSkipTextNote(item, list))
+        assertFalse(repository.needSkipTextNote(item, list))
 
         list.add(item)
 
-        assertTrue(repo.needSkipTextNote(item, list))
+        assertTrue(repository.needSkipTextNote(item, list))
     }
 
     @Test fun needSkipRollNote() {
@@ -236,7 +236,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         )
 
         assertNotEquals(startResult, endResult)
-        repo.clearList(removeList, startResult)
+        repository.clearList(removeList, startResult)
         assertEquals(startResult, endResult)
     }
 
@@ -280,7 +280,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         assertNotEquals(parserResult.rankList, resultRankList)
 
         runBlocking {
-            repo.clearRankList(parserResult)
+            repository.clearRankList(parserResult)
         }
 
         assertEquals(parserResult.noteList, resultNoteList)
@@ -295,7 +295,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         val existList = mockk<List<NotificationItem>>()
 
         coEvery { alarmDataSource.getItemList() } returns existList
-        every { spyRepo.moveNotificationTime(any(), any(), existList) } returns Unit
+        every { spyRepository.moveNotificationTime(any(), any(), existList) } returns Unit
 
         val resultAlarmList = List(size = 5) {
             AlarmEntity(id = Random.nextLong(), date = getRandomFutureTime())
@@ -311,18 +311,18 @@ class BackupRepoImplTest : ParentRepoTest() {
         assertNotEquals(parserResult.alarmList, resultAlarmList)
 
         runBlocking {
-            spyRepo.clearAlarmList(parserResult)
+            spyRepository.clearAlarmList(parserResult)
         }
 
         assertEquals(parserResult.alarmList, resultAlarmList)
 
         coVerifySequence {
-            spyRepo.clearAlarmList(parserResult)
+            spyRepository.clearAlarmList(parserResult)
 
             alarmDataSource.getItemList()
 
             for (it in resultAlarmList) {
-                spyRepo.moveNotificationTime(it, any(), existList)
+                spyRepository.moveNotificationTime(it, any(), existList)
             }
         }
     }
@@ -345,7 +345,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         assertNotEquals(item.date, resultDate)
         assertNotEquals(startCalendar.get(Calendar.MINUTE), resultCalendar.get(Calendar.MINUTE))
 
-        repo.moveNotificationTime(item, startCalendar, list)
+        repository.moveNotificationTime(item, startCalendar, list)
 
         assertEquals(item.date, resultDate)
         assertEquals(startCalendar.get(Calendar.MINUTE), resultCalendar.get(Calendar.MINUTE))
@@ -381,7 +381,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         coEvery { rollDataSource.insert(item) } returns newId
 
         runBlocking {
-            repo.insertRollList(result)
+            repository.insertRollList(result)
         }
 
         coVerifySequence {
@@ -403,7 +403,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         coEvery { rollVisibleDataSource.insert(item) } returns newId
 
         runBlocking {
-            repo.insertRollVisibleList(result)
+            repository.insertRollVisibleList(result)
         }
 
         coVerifySequence {
@@ -429,7 +429,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         coEvery { alarmDataSource.insert(item) } returns newId
 
         runBlocking {
-            repo.insertAlarmList(result)
+            repository.insertAlarmList(result)
         }
 
         coVerifySequence {

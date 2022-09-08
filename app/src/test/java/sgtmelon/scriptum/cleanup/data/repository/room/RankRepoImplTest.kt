@@ -35,10 +35,10 @@ class RankRepoImplTest : ParentRepoTest() {
 
     private val converter: RankConverter = mockk()
 
-    private val repo by lazy {
+    private val repository by lazy {
         RankRepoImpl(noteDataSource, rankDataSource, alarmDataSource, converter)
     }
-    private val spyRepo by lazy { spyk(repo) }
+    private val spyRepository by lazy { spyk(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -51,7 +51,7 @@ class RankRepoImplTest : ParentRepoTest() {
         coEvery { rankDataSource.getCount() } returns count
 
         runBlocking {
-            assertEquals(repo.getCount(), count)
+            assertEquals(repository.getCount(), count)
         }
 
         coVerifySequence {
@@ -81,7 +81,7 @@ class RankRepoImplTest : ParentRepoTest() {
         }
 
         runBlocking {
-            assertEquals(repo.getList(), itemList)
+            assertEquals(repository.getList(), itemList)
         }
 
         coVerifySequence {
@@ -106,7 +106,7 @@ class RankRepoImplTest : ParentRepoTest() {
         coEvery { rankDataSource.getIdVisibleList() } returns idVisibleList
 
         runBlocking {
-            assertEquals(repo.getIdVisibleList(), idVisibleList)
+            assertEquals(repository.getIdVisibleList(), idVisibleList)
         }
 
         coVerifySequence {
@@ -127,13 +127,13 @@ class RankRepoImplTest : ParentRepoTest() {
         coEvery { rankDataSource.insert(entity) } returns null
 
         runBlocking {
-            assertNull(repo.insert(name))
+            assertNull(repository.insert(name))
         }
 
         coEvery { rankDataSource.insert(entity) } returns id
 
         runBlocking {
-            assertEquals(repo.insert(name), item)
+            assertEquals(repository.insert(name), item)
         }
 
         coVerifySequence {
@@ -174,7 +174,7 @@ class RankRepoImplTest : ParentRepoTest() {
         coEvery { rankDataSource.insert(rankEntity) } returns if (Random.nextBoolean()) id else null
 
         runBlocking {
-            repo.insert(rankItem)
+            repository.insert(rankItem)
         }
 
         coVerifySequence {
@@ -220,7 +220,7 @@ class RankRepoImplTest : ParentRepoTest() {
         }
 
         runBlocking {
-            repo.delete(item)
+            repository.delete(item)
         }
 
         coVerifySequence {
@@ -249,7 +249,7 @@ class RankRepoImplTest : ParentRepoTest() {
         every { converter.toEntity(item) } returns entity
 
         runBlocking {
-            repo.update(item)
+            repository.update(item)
         }
 
         coVerifySequence {
@@ -265,7 +265,7 @@ class RankRepoImplTest : ParentRepoTest() {
         every { converter.toEntity(itemList) } returns entityList
 
         runBlocking {
-            repo.update(itemList)
+            repository.update(itemList)
         }
 
         coVerifySequence {
@@ -280,17 +280,17 @@ class RankRepoImplTest : ParentRepoTest() {
 
         val entityList = mockk<MutableList<RankEntity>>()
 
-        coEvery { spyRepo.updateRankPositionsForNotes(rankList, noteIdList) } returns Unit
+        coEvery { spyRepository.updateRankPositionsForNotes(rankList, noteIdList) } returns Unit
         every { converter.toEntity(rankList) } returns entityList
 
         runBlocking {
-            spyRepo.updatePositions(rankList, noteIdList)
+            spyRepository.updatePositions(rankList, noteIdList)
         }
 
         coVerifySequence {
-            spyRepo.updatePositions(rankList, noteIdList)
+            spyRepository.updatePositions(rankList, noteIdList)
 
-            spyRepo.updateRankPositionsForNotes(rankList, noteIdList)
+            spyRepository.updateRankPositionsForNotes(rankList, noteIdList)
             converter.toEntity(rankList)
             rankDataSource.update(entityList)
         }
@@ -308,7 +308,7 @@ class RankRepoImplTest : ParentRepoTest() {
         every { noteIdList.isEmpty() } returns true
 
         runBlocking {
-            repo.updateRankPositionsForNotes(list, noteIdList)
+            repository.updateRankPositionsForNotes(list, noteIdList)
         }
 
         every { noteIdList.isEmpty() } returns false
@@ -326,7 +326,7 @@ class RankRepoImplTest : ParentRepoTest() {
         }
 
         runBlocking {
-            repo.updateRankPositionsForNotes(list, noteIdList)
+            repository.updateRankPositionsForNotes(list, noteIdList)
         }
 
         coVerifySequence {
@@ -367,21 +367,21 @@ class RankRepoImplTest : ParentRepoTest() {
         every { noteItem.id } returns id
         every { noteItem.rankId } returns rankId
         coEvery { rankDataSource.getList() } returns getList
-        every { spyRepo.calculateCheckArray(getList, rankId) } returns checkArray
-        every { spyRepo.updateNoteId(getList, checkArray, id) } returns updateList
+        every { spyRepository.calculateCheckArray(getList, rankId) } returns checkArray
+        every { spyRepository.updateNoteId(getList, checkArray, id) } returns updateList
 
         runBlocking {
-            spyRepo.updateConnection(noteItem)
+            spyRepository.updateConnection(noteItem)
         }
 
         coVerifySequence {
-            spyRepo.updateConnection(noteItem)
+            spyRepository.updateConnection(noteItem)
 
             rankDataSource.getList()
             noteItem.rankId
-            spyRepo.calculateCheckArray(getList, rankId)
+            spyRepository.calculateCheckArray(getList, rankId)
             noteItem.id
-            spyRepo.updateNoteId(getList, checkArray, id)
+            spyRepository.updateNoteId(getList, checkArray, id)
             rankDataSource.update(updateList)
         }
     }
@@ -389,7 +389,7 @@ class RankRepoImplTest : ParentRepoTest() {
     @Test fun calculateCheckArray() {
         val list = RankConverter().toEntity(TestData.Rank.itemList)
 
-        with(repo) {
+        with(repository) {
             var array = booleanArrayOf(false, false, false, false)
             assertArrayEquals(array, calculateCheckArray(list, rankId = 0))
 
@@ -410,7 +410,7 @@ class RankRepoImplTest : ParentRepoTest() {
     @Test fun updateNoteId() {
         fun getList() = RankConverter().toEntity(TestData.Rank.itemList)
 
-        with(repo) {
+        with(repository) {
             val list = getList()
             val id = Random.nextLong()
             val array = booleanArrayOf()
@@ -418,7 +418,7 @@ class RankRepoImplTest : ParentRepoTest() {
             updateNoteId(list, array, id)
         }
 
-        with(repo) {
+        with(repository) {
             val id = Random.nextLong()
             fun assertUnique(list: List<RankEntity>, array: BooleanArray, id: Long) {
                 for ((i, bool) in array.withIndex()) {
@@ -463,7 +463,7 @@ class RankRepoImplTest : ParentRepoTest() {
             }
         }
 
-        with(repo) {
+        with(repository) {
             val list = getList()
             val id = list.first().noteId.random()
             val array = booleanArrayOf(true, false, false, false)
@@ -474,7 +474,7 @@ class RankRepoImplTest : ParentRepoTest() {
             assertTrue(list.first().noteId.contains(id))
         }
 
-        with(repo) {
+        with(repository) {
             val list = getList()
             val id = list.first().noteId.random()
             val array = booleanArrayOf(false, false, false, false)
@@ -495,7 +495,7 @@ class RankRepoImplTest : ParentRepoTest() {
         coEvery { rankDataSource.getNameList() } returns nameList.takeLast(n = size - 1)
 
         runBlocking {
-            assertArrayEquals(repo.getDialogItemArray(nameList.first()), nameArray)
+            assertArrayEquals(repository.getDialogItemArray(nameList.first()), nameArray)
         }
 
         coVerifySequence {
@@ -511,19 +511,19 @@ class RankRepoImplTest : ParentRepoTest() {
         val position = Random.nextInt()
 
         runBlocking {
-            assertEquals(repo.getId(defaultPosition), defaultId)
+            assertEquals(repository.getId(defaultPosition), defaultId)
         }
 
         coEvery { rankDataSource.getId(position) } returns null
 
         runBlocking {
-            assertEquals(repo.getId(position), defaultId)
+            assertEquals(repository.getId(position), defaultId)
         }
 
         coEvery { rankDataSource.getId(position) } returns id
 
         runBlocking {
-            assertEquals(repo.getId(position), id)
+            assertEquals(repository.getId(position), id)
         }
 
         coVerifySequence {

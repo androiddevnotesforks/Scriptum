@@ -27,8 +27,8 @@ class AlarmRepoImplTest : ParentRepoTest() {
 
     @MockK lateinit var converter: AlarmConverter
 
-    private val repo by lazy { AlarmRepoImpl(alarmDataSource, converter) }
-    private val spyRepo by lazy { spyk(repo) }
+    private val repository by lazy { AlarmRepoImpl(alarmDataSource, converter) }
+    private val spyRepository by lazy { spyk(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -51,19 +51,19 @@ class AlarmRepoImplTest : ParentRepoTest() {
         coEvery { alarmDataSource.insert(entity) } returns null
 
         runBlocking {
-            repo.insertOrUpdate(item, date)
+            repository.insertOrUpdate(item, date)
         }
 
         coEvery { alarmDataSource.insert(entity) } returns insertId
 
         runBlocking {
-            repo.insertOrUpdate(item, date)
+            repository.insertOrUpdate(item, date)
         }
 
         every { item.haveAlarm() } returns true
 
         runBlocking {
-            repo.insertOrUpdate(item, date)
+            repository.insertOrUpdate(item, date)
         }
 
         coVerifySequence {
@@ -89,7 +89,7 @@ class AlarmRepoImplTest : ParentRepoTest() {
         val id = Random.nextLong()
 
         runBlocking {
-            repo.delete(id)
+            repository.delete(id)
         }
 
         coVerifySequence {
@@ -105,13 +105,13 @@ class AlarmRepoImplTest : ParentRepoTest() {
         coEvery { alarmDataSource.getItem(id) } returns null
 
         runBlocking {
-            assertNull(repo.getItem(id))
+            assertNull(repository.getItem(id))
         }
 
         coEvery { alarmDataSource.getItem(id) } returns item
 
         runBlocking {
-            assertEquals(item, repo.getItem(id))
+            assertEquals(item, repository.getItem(id))
         }
 
         coVerifySequence {
@@ -126,7 +126,7 @@ class AlarmRepoImplTest : ParentRepoTest() {
         coEvery { alarmDataSource.getItemList() } returns itemList
 
         runBlocking {
-            assertEquals(repo.getList(), itemList)
+            assertEquals(repository.getList(), itemList)
         }
 
         coVerifySequence {
@@ -140,7 +140,7 @@ class AlarmRepoImplTest : ParentRepoTest() {
         coEvery { alarmDataSource.getDateList() } returns dateList
 
         runBlocking {
-            assertEquals(repo.getList(), dateList)
+            assertEquals(repository.getList(), dateList)
         }
 
         coVerifySequence {

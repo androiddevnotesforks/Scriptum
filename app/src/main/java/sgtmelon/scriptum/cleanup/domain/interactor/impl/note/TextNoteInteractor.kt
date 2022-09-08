@@ -33,8 +33,6 @@ class TextNoteInteractor(
 
     override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
 
-    override suspend fun clearDate(item: NoteItem.Text) = alarmRepo.delete(item.id)
-
 
     override suspend fun convertNote(item: NoteItem.Text) {
         noteRepo.convertNote(item)

@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
  */
 class BindRepoImplTest : ParentRepoTest() {
 
-    private val repo by lazy { BindRepoImpl(noteDataSource, alarmDataSource) }
+    private val repository by lazy { BindRepoImpl(noteDataSource, alarmDataSource) }
 
     @Test fun unbindNote() {
         val id = Random.nextLong()
@@ -25,21 +25,21 @@ class BindRepoImplTest : ParentRepoTest() {
         coEvery { noteDataSource.get(id) } returns null
 
         runBlocking {
-            repo.unbindNote(id)
+            repository.unbindNote(id)
         }
 
         coEvery { noteDataSource.get(id) } returns noteEntity
         every { noteEntity.isStatus } returns false
 
         runBlocking {
-            repo.unbindNote(id)
+            repository.unbindNote(id)
         }
 
         every { noteEntity.isStatus } returns true
         every { noteEntity.isStatus = false } returns Unit
 
         runBlocking {
-            repo.unbindNote(id)
+            repository.unbindNote(id)
         }
 
         coVerifySequence {
@@ -61,7 +61,7 @@ class BindRepoImplTest : ParentRepoTest() {
         coEvery { alarmDataSource.getCount() } returns count
 
         runBlocking {
-            assertEquals(repo.getNotificationsCount(), count)
+            assertEquals(repository.getNotificationsCount(), count)
         }
 
         coVerifySequence {
