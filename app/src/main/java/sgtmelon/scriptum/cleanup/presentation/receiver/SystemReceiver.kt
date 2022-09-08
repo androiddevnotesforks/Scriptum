@@ -9,6 +9,8 @@ import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Eternal
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Values
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 
@@ -98,13 +100,17 @@ class SystemReceiver : BroadcastReceiver() {
 
         interface Alarm {
             fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean = true)
+            fun sendCancelAlarmBroadcast(id: Long)
 
             fun sendCancelAlarmBroadcast(item: NoteItem) = sendCancelAlarmBroadcast(item.id)
-            fun sendCancelAlarmBroadcast(id: Long)
+            fun sendCancelAlarmBroadcast(item: NotificationItem) =
+                sendCancelAlarmBroadcast(item.note.id)
         }
 
         interface Bind {
             fun sendNotifyNotesBroadcast()
+
+            fun sendCancelNoteBroadcast(item: NoteItem) = sendCancelNoteBroadcast(item.id)
             fun sendCancelNoteBroadcast(id: Long)
 
             /**

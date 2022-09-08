@@ -467,7 +467,6 @@ class NotesViewModelTest : ParentViewModelTest() {
         val itemList = List<NoteItem>(getRandomSize()) { mockk() }
         val index = itemList.indices.random()
         val item = itemList[index]
-        val id = Random.nextLong()
 
         val resultList = ArrayList(itemList)
         resultList.removeAt(index)
@@ -475,7 +474,6 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        every { item.id } returns id
         viewModel.onMenuDelete(index)
 
         coVerifySequence {
@@ -483,8 +481,8 @@ class NotesViewModelTest : ParentViewModelTest() {
 
             deleteNote(item)
 
-            callback.sendCancelAlarmBroadcast(id)
-            callback.sendCancelNoteBroadcast(id)
+            callback.sendCancelAlarmBroadcast(item)
+            callback.sendCancelNoteBroadcast(item)
             callback.sendNotifyInfoBroadcast()
         }
 
@@ -511,12 +509,10 @@ class NotesViewModelTest : ParentViewModelTest() {
         val itemList = List<NoteItem>(getRandomSize()) { mockk() }
         val index = itemList.indices.random()
         val item = itemList[index]
-        val id = Random.nextLong()
 
         viewModel.itemList.clearAdd(itemList)
 
         every { item.clearAlarm() } returns item
-        every { item.id } returns id
 
         viewModel.onResultDateDialogClear(index)
 
@@ -526,8 +522,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
             deleteNotification(item)
 
-            item.id
-            callback.sendCancelAlarmBroadcast(id)
+            callback.sendCancelAlarmBroadcast(item)
             callback.sendNotifyInfoBroadcast()
         }
 

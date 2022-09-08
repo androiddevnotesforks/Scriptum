@@ -289,7 +289,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
             deleteNotification(item)
 
             callback.apply {
-                callback.sendCancelAlarmBroadcast(item.note.id)
+                callback.sendCancelAlarmBroadcast(item)
                 sendNotifyInfoBroadcast(itemList.size)
                 notifyItemRemoved(itemList, p)
                 showSnackbar()

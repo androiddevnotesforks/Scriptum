@@ -248,7 +248,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         viewModelScope.launch {
             runBack { interactor.clearDate(noteItem) }
 
-            callback?.sendCancelAlarmBroadcast(noteItem.id)
+            callback?.sendCancelAlarmBroadcast(noteItem)
             callback?.sendNotifyInfoBroadcast()
         }
 
@@ -426,8 +426,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         viewModelScope.launch {
             runBack { deleteNote(noteItem) }
 
-            callback?.sendCancelAlarmBroadcast(noteItem.id)
-            callback?.sendCancelNoteBroadcast(noteItem.id)
+            callback?.sendCancelAlarmBroadcast(noteItem)
+            callback?.sendCancelNoteBroadcast(noteItem)
             callback?.sendNotifyInfoBroadcast()
 
             parentCallback?.finish()

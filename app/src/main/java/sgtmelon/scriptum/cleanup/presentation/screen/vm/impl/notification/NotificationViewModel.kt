@@ -133,7 +133,7 @@ class NotificationViewModel(
         viewModelScope.launch {
             runBack { deleteNotification(item) }
 
-            callback?.sendCancelAlarmBroadcast(item.note.id)
+            callback?.sendCancelAlarmBroadcast(item)
             callback?.sendNotifyInfoBroadcast(itemList.size)
         }
 

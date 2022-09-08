@@ -182,8 +182,8 @@ class NotesViewModel(
         viewModelScope.launch {
             runBack { deleteNote(item) }
 
-            callback?.sendCancelAlarmBroadcast(item.id)
-            callback?.sendCancelNoteBroadcast(item.id)
+            callback?.sendCancelAlarmBroadcast(item)
+            callback?.sendCancelNoteBroadcast(item)
             callback?.sendNotifyInfoBroadcast()
         }
     }
@@ -206,7 +206,7 @@ class NotesViewModel(
         viewModelScope.launch {
             runBack { deleteNotification(item) }
 
-            callback?.sendCancelAlarmBroadcast(item.id)
+            callback?.sendCancelAlarmBroadcast(item)
             callback?.sendNotifyInfoBroadcast()
         }
     }

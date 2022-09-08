@@ -476,9 +476,6 @@ object FastTest {
         fun onResultDateDialogClear(noteItem: N, restoreItem: N) {
             mockkInit()
 
-            val id = Random.nextLong()
-
-            every { noteItem.id } returns id
             every { noteItem.clearAlarm() } returns noteItem
             every { spyViewModel.cacheData() } returns Unit
 
@@ -499,8 +496,7 @@ object FastTest {
 
                 spyViewModel.callback
                 spyViewModel.noteItem
-                noteItem.id
-                callback.sendCancelAlarmBroadcast(id)
+                callback.sendCancelAlarmBroadcast(noteItem)
                 spyViewModel.callback
                 callback.sendNotifyInfoBroadcast()
 
@@ -1030,7 +1026,6 @@ object FastTest {
             mockkInit()
 
             val noteState = mockk<NoteState>()
-            val id = Random.nextLong()
 
             viewModel.noteItem = noteItem
             viewModel.noteState = noteState
@@ -1049,7 +1044,6 @@ object FastTest {
 
             every { callback.isDialogOpen } returns false
             every { noteState.isEdit } returns false
-            every { noteItem.id } returns id
             viewModel.onMenuDelete()
 
             coVerifySequence {
@@ -1063,10 +1057,8 @@ object FastTest {
                 callback.isDialogOpen
                 noteState.isEdit
                 deleteNote(noteItem)
-                noteItem.id
-                callback.sendCancelAlarmBroadcast(id)
-                noteItem.id
-                callback.sendCancelNoteBroadcast(id)
+                callback.sendCancelAlarmBroadcast(noteItem)
+                callback.sendCancelNoteBroadcast(noteItem)
                 callback.sendNotifyInfoBroadcast()
                 parentCallback.finish()
             }
