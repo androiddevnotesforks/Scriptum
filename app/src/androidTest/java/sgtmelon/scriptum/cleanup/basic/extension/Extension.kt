@@ -4,12 +4,12 @@ import org.junit.Assert.assertNotEquals
 
 // TODO remove
 
-fun waitBefore(time: Long, func: () -> Unit = {}) {
+inline fun waitBefore(time: Long, func: () -> Unit = {}) {
     Thread.sleep(time)
     func()
 }
 
-fun waitAfter(time: Long, func: () -> Unit = {}) {
+inline fun waitAfter(time: Long, func: () -> Unit = {}) {
     func()
     Thread.sleep(time)
 }
