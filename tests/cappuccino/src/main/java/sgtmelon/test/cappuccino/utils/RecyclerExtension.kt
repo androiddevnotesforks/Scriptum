@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.extension
+package sgtmelon.test.cappuccino.utils
 
 import android.view.View
 import android.widget.ListView
