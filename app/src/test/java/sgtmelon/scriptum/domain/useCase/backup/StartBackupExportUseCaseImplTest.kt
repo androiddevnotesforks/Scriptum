@@ -17,7 +17,6 @@ import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
-import sgtmelon.scriptum.infrastructure.model.type.FileType
 import sgtmelon.test.common.nextString
 
 /**
@@ -52,7 +51,7 @@ class StartBackupExportUseCaseImplTest : ParentTest() {
         coEvery { backupRepo.getData() } returns parserResult
         every { backupCollector.convert(parserResult) } returns data
         every { cipherDataSource.encrypt(data) } returns encryptData
-        every { fileDataSource.getTimeName(FileType.BACKUP) } returns timeName
+        every { fileDataSource.getBackupName() } returns timeName
         every { fileDataSource.writeFile(timeName, encryptData) } returns null
 
         runBlocking {
@@ -70,7 +69,7 @@ class StartBackupExportUseCaseImplTest : ParentTest() {
                 backupRepo.getData()
                 backupCollector.convert(parserResult)
                 cipherDataSource.encrypt(data)
-                fileDataSource.getTimeName(FileType.BACKUP)
+                fileDataSource.getBackupName()
                 fileDataSource.writeFile(timeName, encryptData)
             }
         }

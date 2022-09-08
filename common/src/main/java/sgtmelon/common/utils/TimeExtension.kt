@@ -23,6 +23,11 @@ fun getClearCalendar(): Calendar {
     return getCalendar().clearSeconds()
 }
 
+fun Calendar.clearSeconds() = apply {
+    set(Calendar.SECOND, 0)
+    set(Calendar.MILLISECOND, 0)
+}
+
 fun getClearCalendar(addMinutes: Int): Calendar {
     return getClearCalendar().apply {
         add(Calendar.MINUTE, addMinutes)
@@ -36,10 +41,6 @@ fun Context?.is24Format(): Boolean {
 }
 
 fun getCalendarText(): String = getCalendar().toText()
-
-fun Calendar.isToday() = DateUtils.isToday(timeInMillis)
-
-fun Calendar.isThisYear() = get(Calendar.YEAR) == getCalendar().get(Calendar.YEAR)
 
 //region Converting
 
@@ -80,6 +81,8 @@ fun Calendar.isBeforeNow() = this.before(getCalendar())
 
 fun Calendar.isAfterNow() = this.after(getCalendar())
 
+//region Formatting
+
 fun Calendar.formatFuture(
     context: Context,
     maxResolution: Long = DateUtils.WEEK_IN_MILLIS
@@ -88,11 +91,6 @@ fun Calendar.formatFuture(
         context, timeInMillis,
         DateUtils.DAY_IN_MILLIS, maxResolution, 0
     ).toString()
-}
-
-fun Calendar.clearSeconds() = apply {
-    set(Calendar.SECOND, 0)
-    set(Calendar.MILLISECOND, 0)
 }
 
 fun Calendar.formatPast(): String {
@@ -105,6 +103,12 @@ fun Calendar.formatPast(): String {
         else -> DateFormat.getDateInstance(DateFormat.SHORT).format(time)
     }
 }
+
+private fun Calendar.isToday() = DateUtils.isToday(timeInMillis)
+
+private fun Calendar.isThisYear() = get(Calendar.YEAR) == getCalendar().get(Calendar.YEAR)
+
+//endregion
 
 //region ONLY TESTS
 

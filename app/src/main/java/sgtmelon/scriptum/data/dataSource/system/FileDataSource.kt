@@ -2,7 +2,6 @@ package sgtmelon.scriptum.data.dataSource.system
 
 import java.io.File
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
-import sgtmelon.scriptum.infrastructure.model.type.FileType
 
 interface FileDataSource {
 
@@ -17,9 +16,7 @@ interface FileDataSource {
 
     fun writeFile(name: String, data: String): String?
 
-    fun getTimeName(@FileType type: String): String
-
+    fun getBackupName(): String
 
     suspend fun getBackupFileList(): List<FileItem>
-
 }

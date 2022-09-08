@@ -20,7 +20,7 @@ import sgtmelon.scriptum.infrastructure.model.type.FileType
 import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
- * Class for help control manipulations with files.
+ * Class for working and any manipulations with files.
  */
 class FileDataSourceImpl(private val context: Context) : FileDataSource {
 
@@ -87,8 +87,9 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
         bufferedWriter.close()
     }
 
-    override fun getTimeName(@FileType type: String): String = getCalendarText().plus(type)
+    override fun getBackupName(): String = getTimeName(FileType.BACKUP)
 
+    private fun getTimeName(@FileType type: String): String = getCalendarText().plus(type)
 
     override suspend fun getBackupFileList(): List<FileItem> = getFileList(FileType.BACKUP)
 
