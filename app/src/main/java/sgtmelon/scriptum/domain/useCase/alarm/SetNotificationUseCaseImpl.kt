@@ -2,10 +2,10 @@ package sgtmelon.scriptum.domain.useCase.alarm
 
 import java.util.Calendar
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**
  * Insert or update existing alarm.

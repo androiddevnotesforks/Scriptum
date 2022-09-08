@@ -13,9 +13,9 @@ import sgtmelon.common.utils.clearSeconds
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**
  * Test fun [ShiftDateIfExistUseCaseImpl].

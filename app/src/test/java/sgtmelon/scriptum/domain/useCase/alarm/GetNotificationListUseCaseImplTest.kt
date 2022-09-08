@@ -9,9 +9,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**
  * Test for [GetNotificationListUseCaseImpl].

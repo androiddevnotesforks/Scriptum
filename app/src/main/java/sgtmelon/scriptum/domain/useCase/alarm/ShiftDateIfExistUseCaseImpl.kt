@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.useCase.alarm
 
 import java.util.Calendar
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
+import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 class ShiftDateIfExistUseCaseImpl(val repository: AlarmRepo) : ShiftDateIfExistUseCase {
 

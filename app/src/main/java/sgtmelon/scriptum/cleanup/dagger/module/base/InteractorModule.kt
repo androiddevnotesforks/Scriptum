@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
@@ -22,6 +21,7 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor

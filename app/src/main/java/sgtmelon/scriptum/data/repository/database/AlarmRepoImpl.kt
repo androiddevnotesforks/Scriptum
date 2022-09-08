@@ -1,6 +1,5 @@
-package sgtmelon.scriptum.cleanup.data.repository.room
+package sgtmelon.scriptum.data.repository.database
 
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -29,7 +28,6 @@ class AlarmRepoImpl(
     }
 
     override suspend fun delete(noteId: Long) = dataSource.delete(noteId)
-
 
     override suspend fun getItem(noteId: Long): NotificationItem? = dataSource.getItem(noteId)
 

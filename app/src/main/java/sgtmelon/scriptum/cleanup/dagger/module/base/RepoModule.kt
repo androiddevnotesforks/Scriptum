@@ -3,12 +3,10 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.BindRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.NoteRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.RankRepoImpl
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
@@ -23,6 +21,8 @@ import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
+import sgtmelon.scriptum.data.repository.database.AlarmRepo
+import sgtmelon.scriptum.data.repository.database.AlarmRepoImpl
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.data.repository.database.DevelopRepoImpl
 import sgtmelon.scriptum.infrastructure.preferences.Preferences

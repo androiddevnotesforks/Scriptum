@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.domain.useCase.alarm
 
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.AlarmRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 class DeleteNotificationUseCaseImpl(
     private val repository: AlarmRepo
