@@ -6,7 +6,6 @@ import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
 import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
@@ -29,6 +28,7 @@ import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [AlarmActivity].

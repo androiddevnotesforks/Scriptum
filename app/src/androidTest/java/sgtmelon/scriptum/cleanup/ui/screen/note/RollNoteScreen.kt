@@ -1,12 +1,7 @@
 package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
-import sgtmelon.scriptum.cleanup.basic.extension.imeOption
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.longClick
-import sgtmelon.scriptum.cleanup.basic.extension.swipeItem
-import sgtmelon.scriptum.cleanup.basic.extension.typeText
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
@@ -31,6 +26,11 @@ import sgtmelon.scriptum.cleanup.ui.part.info.RollNoteInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
+import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.longClick
+import sgtmelon.test.cappuccino.utils.swipeItem
+import sgtmelon.test.cappuccino.utils.typeText
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment].

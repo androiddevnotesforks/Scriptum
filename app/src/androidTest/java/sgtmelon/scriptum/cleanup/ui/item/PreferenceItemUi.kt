@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.ui.item
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isChecked
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
@@ -11,6 +10,7 @@ import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [ParentPreferenceFragment].

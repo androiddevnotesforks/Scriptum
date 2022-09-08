@@ -4,11 +4,11 @@ import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isChecked
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
 import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Parent class for UI control of [SingleDialog] with fixed size.

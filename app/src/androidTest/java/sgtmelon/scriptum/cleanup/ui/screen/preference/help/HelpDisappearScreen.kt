@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.screen.preference.help
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
 import sgtmelon.scriptum.cleanup.basic.extension.withMenuDrawable
@@ -10,6 +9,7 @@ import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [HelpDisappearActivity].

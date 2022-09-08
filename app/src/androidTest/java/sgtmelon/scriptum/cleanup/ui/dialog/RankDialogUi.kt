@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isChecked
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
@@ -11,6 +10,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [SingleDialog] with rank list.

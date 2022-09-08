@@ -3,12 +3,8 @@ package sgtmelon.scriptum.cleanup.ui.part.toolbar
 import android.view.inputmethod.EditorInfo
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
-import sgtmelon.scriptum.cleanup.basic.extension.imeOption
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.longClick
-import sgtmelon.scriptum.cleanup.basic.extension.typeText
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
 import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
@@ -21,6 +17,10 @@ import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.main.RankScreen
+import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.longClick
+import sgtmelon.test.cappuccino.utils.typeText
 
 /**
  * Part of UI abstraction for [RankScreen]

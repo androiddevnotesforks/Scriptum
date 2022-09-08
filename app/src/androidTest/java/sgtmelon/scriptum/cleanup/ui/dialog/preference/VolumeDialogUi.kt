@@ -2,16 +2,16 @@ package sgtmelon.scriptum.cleanup.ui.dialog.preference
 
 import androidx.annotation.IntRange
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.setProgress
 import sgtmelon.scriptum.cleanup.basic.extension.withProgress
 import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.setProgress
 
 /**
  * Class for UI control of [VolumeDialog].

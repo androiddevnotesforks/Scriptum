@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.dialog.preference
 
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.withDrawable
 import sgtmelon.scriptum.cleanup.basic.extension.withSize
@@ -10,6 +9,7 @@ import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [AboutDialog].

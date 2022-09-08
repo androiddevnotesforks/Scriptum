@@ -1,11 +1,8 @@
 package sgtmelon.scriptum.cleanup.ui.screen
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.swipeLeft
-import sgtmelon.scriptum.cleanup.basic.extension.swipeRight
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.domain.model.data.IntroData
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
@@ -13,6 +10,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroFragment
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.main.MainScreen
+import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.swipeLeft
+import sgtmelon.test.cappuccino.utils.swipeRight
 
 /**
  * Class for UI control of [IntroActivity], [IntroFragment].

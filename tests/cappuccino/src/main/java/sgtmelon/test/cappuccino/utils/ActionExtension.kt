@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.extension
+package sgtmelon.test.cappuccino.utils
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -37,9 +37,7 @@ fun Matcher<View>.swipeUp() = also { actionOnView(it, ViewActions.swipeUp()) }
 
 fun Matcher<View>.swipeDown() = also { actionOnView(it, ViewActions.swipeDown()) }
 
-/**
- * RecyclerView
- */
+//region RecyclerView
 
 fun Matcher<View>.scrollTo(itemMatcher: Matcher<View>) = also {
     actionOnView(it, RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(itemMatcher))
@@ -63,5 +61,7 @@ fun Matcher<View>.swipeItem(p: Int) = also {
 
     onView(it).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(p, action))
 }
+
+//endregion
 
 fun Matcher<View>.setProgress(progress: Int) = also { actionOnView(it, SeekBarAction(progress)) }

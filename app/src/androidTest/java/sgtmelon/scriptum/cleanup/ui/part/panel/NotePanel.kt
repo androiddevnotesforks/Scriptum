@@ -5,10 +5,8 @@ import java.util.Calendar
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.longClick
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
 import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
 import sgtmelon.scriptum.cleanup.basic.extension.withDrawableAttr
@@ -31,6 +29,8 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.longClick
 
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].

@@ -1,10 +1,8 @@
 package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.imeOption
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isFocused
-import sgtmelon.scriptum.cleanup.basic.extension.typeText
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
@@ -25,6 +23,8 @@ import sgtmelon.scriptum.cleanup.ui.IPressBack
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
+import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.typeText
 
 /**
  * Class for UI control of [NoteActivity], [TextNoteFragment].

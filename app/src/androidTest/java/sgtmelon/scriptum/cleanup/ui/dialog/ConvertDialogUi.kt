@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
 import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
@@ -11,6 +10,7 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert.

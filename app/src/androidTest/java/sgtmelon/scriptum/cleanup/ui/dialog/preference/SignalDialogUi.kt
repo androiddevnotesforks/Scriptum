@@ -2,9 +2,9 @@ package sgtmelon.scriptum.cleanup.ui.dialog.preference
 
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentMultipleDialogUi
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [MultipleDialog] which open from [AlarmPreferenceFragment] for select

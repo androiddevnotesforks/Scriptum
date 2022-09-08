@@ -2,11 +2,8 @@ package sgtmelon.scriptum.cleanup.ui.part.toolbar
 
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
-import sgtmelon.scriptum.cleanup.basic.extension.imeOption
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isFocused
-import sgtmelon.scriptum.cleanup.basic.extension.typeText
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
 import sgtmelon.scriptum.cleanup.basic.extension.withCursor
@@ -22,6 +19,9 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.typeText
 
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].

@@ -2,11 +2,11 @@ package sgtmelon.scriptum.cleanup.ui.dialog.preference
 
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentSelectDialogUi
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [SingleDialog] which open from [PreferenceFragment] for select theme.

@@ -3,13 +3,9 @@ package sgtmelon.scriptum.cleanup.ui.part.panel
 import android.view.inputmethod.EditorInfo
 import kotlin.random.Random
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
-import sgtmelon.scriptum.cleanup.basic.extension.imeOption
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
 import sgtmelon.scriptum.cleanup.basic.extension.isFocused
-import sgtmelon.scriptum.cleanup.basic.extension.longClick
-import sgtmelon.scriptum.cleanup.basic.extension.typeText
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
 import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
@@ -26,6 +22,10 @@ import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
+import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.longClick
+import sgtmelon.test.cappuccino.utils.typeText
 
 /**
  * Part of UI abstraction for [RollNoteScreen]

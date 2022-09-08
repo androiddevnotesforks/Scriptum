@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.ui.dialog.sheet
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
 import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control [RepeatSheetDialog].

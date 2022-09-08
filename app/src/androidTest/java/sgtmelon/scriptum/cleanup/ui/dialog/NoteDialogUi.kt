@@ -4,7 +4,6 @@ import java.util.Calendar
 import sgtmelon.extensions.toText
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
 import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
@@ -14,6 +13,7 @@ import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.time.DateTimeCallback
+import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note.

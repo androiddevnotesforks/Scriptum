@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.longClick
 import sgtmelon.scriptum.cleanup.basic.extension.withMenuDrawable
 import sgtmelon.scriptum.cleanup.basic.extension.withMenuTitle
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -18,6 +16,8 @@ import sgtmelon.scriptum.cleanup.ui.screen.NotificationScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.PreferenceScreen
+import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.longClick
 
 /**
  * Class for UI control of [NotesFragment].

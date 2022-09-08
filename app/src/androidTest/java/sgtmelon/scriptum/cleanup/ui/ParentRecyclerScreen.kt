@@ -4,10 +4,10 @@ import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.cleanup.basic.extension.getCount
 import sgtmelon.scriptum.cleanup.basic.extension.getRandomPosition
-import sgtmelon.scriptum.cleanup.basic.extension.swipeDown
-import sgtmelon.scriptum.cleanup.basic.extension.swipeUp
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.testData.Scroll
+import sgtmelon.test.cappuccino.utils.swipeDown
+import sgtmelon.test.cappuccino.utils.swipeUp
 
 /**
  * Parent class for screens which contains [RecyclerView].
