@@ -145,10 +145,6 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun clearDate() = startCoTest {
-        FastTest.Interactor.clearDate<NoteItem>(alarmRepo) { interactor.clearDate(it) }
-    }
-
     @Test fun getNotification() = startCoTest {
         val id = Random.nextLong()
         val item = mockk<NotificationItem>()

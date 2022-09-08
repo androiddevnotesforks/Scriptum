@@ -31,6 +31,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
@@ -55,6 +56,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
+    @MockK lateinit var deleteNotification: DeleteNotificationUseCase
     @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
 
     @MockK lateinit var calendar: Calendar
@@ -62,7 +64,8 @@ class NotesViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         NotesViewModel(
             callback, preferencesRepo, interactor,
-            getCopyText, deleteNote, setNotification, getNotificationDateList
+            getCopyText, deleteNote, setNotification, deleteNotification,
+            getNotificationDateList
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
@@ -71,7 +74,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         super.tearDown()
         confirmVerified(
             callback, preferencesRepo, interactor, calendar,
-            getCopyText, deleteNote, setNotification, getNotificationDateList
+            getCopyText, deleteNote, setNotification, deleteNotification,
+            getNotificationDateList
         )
     }
 
@@ -520,7 +524,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             item.clearAlarm()
             callback.notifyItemChanged(itemList, index)
 
-            interactor.clearDate(item)
+            deleteNotification(item)
 
             item.id
             callback.sendCancelAlarmBroadcast(id)

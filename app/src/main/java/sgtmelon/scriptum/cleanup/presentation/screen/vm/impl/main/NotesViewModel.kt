@@ -19,6 +19,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
@@ -36,6 +37,7 @@ class NotesViewModel(
     private val getCopyText: GetCopyTextUseCase,
     private val deleteNote: DeleteNoteUseCase,
     private val setNotification: SetNotificationUseCase,
+    private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationDateList: GetNotificationDateListUseCase
 ) : ParentViewModel<INotesFragment>(callback),
     INotesViewModel {
@@ -202,7 +204,7 @@ class NotesViewModel(
         callback?.notifyItemChanged(itemList, p)
 
         viewModelScope.launch {
-            runBack { interactor.clearDate(item) }
+            runBack { deleteNotification(item) }
 
             callback?.sendCancelAlarmBroadcast(item.id)
             callback?.sendNotifyInfoBroadcast()

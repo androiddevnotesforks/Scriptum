@@ -141,11 +141,13 @@ class ViewModelModule {
         getCopyText: GetCopyTextUseCase,
         deleteNote: DeleteNoteUseCase,
         setNotification: SetNotificationUseCase,
+        deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationDateListUseCase
     ): INotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
             fragment, preferencesRepo, interactor,
-            getCopyText, deleteNote, setNotification, getNotificationDateList
+            getCopyText, deleteNote, setNotification, deleteNotification,
+            getNotificationDateList
         )
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }

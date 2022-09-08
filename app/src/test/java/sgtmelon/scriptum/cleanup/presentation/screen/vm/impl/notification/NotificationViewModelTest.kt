@@ -66,7 +66,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, getList)
+        confirmVerified(callback, interactor, getList, deleteNotification)
     }
 
     @Test override fun onDestroy() {

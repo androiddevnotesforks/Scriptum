@@ -150,13 +150,15 @@ object ViewModelFactory {
             private val getCopyText: GetCopyTextUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val setNotification: SetNotificationUseCase,
+            private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModel::class) {
                     NotesViewModel(
                         fragment, preferencesRepo, interactor,
-                        getCopyText, deleteNote, setNotification, getNotificationDateList
+                        getCopyText, deleteNote, setNotification, deleteNotification,
+                        getNotificationDateList
                     )
                 }
             }

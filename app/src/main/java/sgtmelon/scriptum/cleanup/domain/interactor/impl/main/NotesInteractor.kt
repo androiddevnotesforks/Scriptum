@@ -57,9 +57,6 @@ class NotesInteractor(
     }
 
 
-    override suspend fun clearDate(item: NoteItem) = alarmRepo.delete(item.id)
-
-
     override suspend fun getNotification(noteId: Long): NotificationItem? {
         return alarmRepo.getItem(noteId)
     }
