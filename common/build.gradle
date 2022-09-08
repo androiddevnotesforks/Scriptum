@@ -9,9 +9,6 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 32
-
-        buildConfigField "String", "DATE_FORMAT_FULL", '"yyyy-MM-dd HH:mm:ss"'
-        buildConfigField "String", "DATE_FORMAT_SHORT", '"d MMM"'
     }
 
     buildTypes {

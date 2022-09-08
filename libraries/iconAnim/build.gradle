@@ -34,7 +34,6 @@ dependencies {
     implementation project(':common')
     implementation project(':libraries:extensions')
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
-
     implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
 }

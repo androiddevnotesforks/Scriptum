@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.card
+package sgtmelon.test.cappuccino.matchers.card
 
 import android.view.View
 import androidx.annotation.AttrRes

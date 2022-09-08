@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.drawable
+package sgtmelon.scriptum.cleanup.basic.matcher
 
 import android.graphics.drawable.ColorDrawable
 import android.view.View

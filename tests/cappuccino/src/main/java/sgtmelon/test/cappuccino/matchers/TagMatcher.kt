@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher
+package sgtmelon.test.cappuccino.matchers
 
 import android.view.View
 import org.hamcrest.Description
@@ -13,5 +13,4 @@ class TagMatcher(private val tag: Any) : TypeSafeMatcher<View>() {
     override fun describeTo(description: Description?) {
         description?.appendText("Expected: tag = $tag | Actual tag = $actualTag")
     }
-
 }

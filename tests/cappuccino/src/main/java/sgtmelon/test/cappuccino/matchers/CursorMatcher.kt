@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher
+package sgtmelon.test.cappuccino.matchers
 
 import android.view.View
 import android.widget.EditText
@@ -6,7 +6,7 @@ import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
 /**
- * Matcher for check cursor position.
+ * Matcher for check cursor position inside [EditText].
  */
 class CursorMatcher(private val position: Int) : TypeSafeMatcher<View>() {
 
@@ -22,5 +22,4 @@ class CursorMatcher(private val position: Int) : TypeSafeMatcher<View>() {
         description?.appendText("\nExpected: cursor = $position")
         description?.appendText(" | Actual: cursor = $positionActual")
     }
-
 }

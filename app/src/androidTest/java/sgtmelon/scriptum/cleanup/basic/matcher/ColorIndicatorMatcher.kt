@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.drawable
+package sgtmelon.scriptum.cleanup.basic.matcher
 
 import android.view.View
 import androidx.annotation.IdRes
@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.extension.setColor
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.test.cappuccino.matchers.drawable.ParentImageMatcher
 
 /**
  * Matcher for check android:background which gets with [resourceId].
@@ -28,6 +29,8 @@ class ColorIndicatorMatcher(
     }
 
     override fun matchesSafely(item: View?): Boolean {
+        val resourceId = resourceId
+
         if (item !is View) return false
 
         setSize(item)

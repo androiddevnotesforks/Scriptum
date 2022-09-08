@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.cleanup.basic.extension.scrollTo
-import sgtmelon.scriptum.cleanup.basic.matcher.RecyclerItemMatcher
+import sgtmelon.test.cappuccino.matchers.RecyclerItemMatcher
 
 /**
  * Parent class for children of [ParentRecyclerScreen] and for describes [RecyclerView] items.

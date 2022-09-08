@@ -6,7 +6,7 @@ import sgtmelon.safedialog.dialog.parent.BlankMenuSheetDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.swipeDown
-import sgtmelon.scriptum.cleanup.basic.extension.withBackground
+import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundDrawable
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 
@@ -24,7 +24,7 @@ abstract class ParentSheetDialogUi(
     fun onCloseSwipe() = waitClose { navigationView.swipeDown() }
 
     @CallSuper open fun assert() {
-        navigationContainer.isDisplayed().withBackground(R.drawable.bg_sheet_dialog)
+        navigationContainer.isDisplayed().withBackgroundDrawable(R.drawable.bg_sheet_dialog)
         navigationView.isDisplayed()
     }
 }

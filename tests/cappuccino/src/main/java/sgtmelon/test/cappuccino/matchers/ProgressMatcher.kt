@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher
+package sgtmelon.test.cappuccino.matchers
 
 import android.view.View
 import android.widget.ProgressBar
@@ -29,5 +29,4 @@ class ProgressMatcher(
         description?.appendText("\nExpected: progress = $progress, max = $max")
         description?.appendText(" | Actual: progress = $actualProgress, max = $actualMax")
     }
-
 }

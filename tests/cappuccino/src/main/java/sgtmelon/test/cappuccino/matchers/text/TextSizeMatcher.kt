@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.text
+package sgtmelon.test.cappuccino.matchers.text
 
 import android.view.View
 import android.widget.TextView
@@ -7,7 +7,7 @@ import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
 /**
- * Matcher for text size
+ * Matcher for text size inside [TextView]..
  */
 class TextSizeMatcher(@DimenRes private val dimenId: Int) : TypeSafeMatcher<View>() {
 
@@ -22,5 +22,4 @@ class TextSizeMatcher(@DimenRes private val dimenId: Int) : TypeSafeMatcher<View
     override fun describeTo(description: Description?) {
         description?.appendText("\nView with dimenId = $dimenId")
     }
-
 }

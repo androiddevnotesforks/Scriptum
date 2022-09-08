@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.text
+package sgtmelon.test.cappuccino.matchers.text
 
 import android.view.View
 import androidx.annotation.IdRes
@@ -11,8 +11,8 @@ import org.hamcrest.TypeSafeMatcher
  * Matcher for check toolbar menuItem title.
  */
 class MenuItemTitleMatcher(
-        @IdRes private val itemId: Int,
-        @StringRes private val stringId: Int
+    @IdRes private val itemId: Int,
+    @StringRes private val stringId: Int
 ) : TypeSafeMatcher<View>() {
 
     private var title: String? = null
@@ -31,8 +31,6 @@ class MenuItemTitleMatcher(
 
     override fun describeTo(description: Description?) {
         description?.appendText("\nView with itemId = $itemId | titleId = $stringId")
-
         description?.appendText("\nExpected: title = $title | Actual: title = $actualTitle")
     }
-
 }

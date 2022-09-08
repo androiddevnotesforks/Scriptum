@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.layout
+package sgtmelon.test.cappuccino.matchers.layout
 
 import android.view.View
 import androidx.annotation.AttrRes
@@ -13,10 +13,10 @@ import sgtmelon.extensions.getDimenAttr
  * If [widthId]/[widthAttr] or [heightId]/[heightAttr] is null => skip size check.
  */
 class SizeMatcher(
-        @DimenRes private val widthId: Int?,
-        @DimenRes private val heightId: Int?,
-        @AttrRes private val widthAttr: Int?,
-        @AttrRes private val heightAttr: Int?
+    @DimenRes private val widthId: Int?,
+    @DimenRes private val heightId: Int?,
+    @AttrRes private val widthAttr: Int?,
+    @AttrRes private val heightAttr: Int?
 ) : TypeSafeMatcher<View>() {
 
     private var width: Int? = null

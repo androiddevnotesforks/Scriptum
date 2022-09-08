@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher
+package sgtmelon.test.cappuccino.matchers
 
 import android.view.View
 import androidx.annotation.StringRes
@@ -9,8 +9,8 @@ import org.hamcrest.TypeSafeMatcher
  * Matcher for check contentDescription.
  */
 class ContentDescriptionMatcher(
-        @StringRes private val stringId: Int?,
-        private val string: String?
+    @StringRes private val stringId: Int?,
+    private val string: String?
 ) : TypeSafeMatcher<View>() {
 
     init {
@@ -34,5 +34,4 @@ class ContentDescriptionMatcher(
     override fun describeTo(description: Description?) {
         description?.appendText("\nView with contentDescription stringId = $stringId | string = $string")
     }
-
 }

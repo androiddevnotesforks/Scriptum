@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher
+package sgtmelon.test.cappuccino.matchers
 
 import android.view.View
 import org.hamcrest.Description

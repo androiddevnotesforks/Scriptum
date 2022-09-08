@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.drawable
+package sgtmelon.test.cappuccino.matchers.drawable
 
 import android.graphics.drawable.ColorDrawable
 import android.view.View
@@ -15,9 +15,9 @@ import sgtmelon.extensions.getColorCompat
  * Matcher for check background color.
  */
 class BackgroundColorMatcher(
-        @ColorRes private val colorId: Int?,
-        @AttrRes private val attrColor: Int?
-): TypeSafeMatcher<View>() {
+    @ColorRes private val colorId: Int?,
+    @AttrRes private val attrColor: Int?
+) : TypeSafeMatcher<View>() {
 
     init {
         if (colorId == null && attrColor == null) throw IllegalAccessException()

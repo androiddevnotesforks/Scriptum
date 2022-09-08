@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.card
+package sgtmelon.scriptum.cleanup.basic.matcher
 
 import android.view.View
 import androidx.cardview.widget.CardView

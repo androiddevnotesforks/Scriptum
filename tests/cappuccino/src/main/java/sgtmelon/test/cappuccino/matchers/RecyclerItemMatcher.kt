@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher
+package sgtmelon.test.cappuccino.matchers
 
 import android.util.SparseArray
 import android.view.View
@@ -65,8 +65,11 @@ class RecyclerItemMatcher(private val listMatcher: Matcher<View>) {
         }
     }
 
-    fun atItemChild(itemMatcher: Matcher<View>,
-                    childMatcher: Matcher<View>) = object : TypeSafeMatcher<View>() {
+    fun atItemChild(
+        itemMatcher: Matcher<View>,
+        childMatcher: Matcher<View>
+    ) = object : TypeSafeMatcher<View>() {
+
         var childView: View? = null
 
         override fun describeTo(description: Description?) {

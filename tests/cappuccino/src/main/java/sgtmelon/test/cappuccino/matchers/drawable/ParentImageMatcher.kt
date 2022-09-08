@@ -1,17 +1,18 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.drawable
+package sgtmelon.test.cappuccino.matchers.drawable
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.view.View
-import androidx.annotation.IdRes
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
 /**
  * Parent class for matchers which need to compare images.
  */
-abstract class ParentImageMatcher(@IdRes protected val resourceId: Int?) : TypeSafeMatcher<View>() {
+abstract class ParentImageMatcher(
+    protected val resourceId: Int?
+) : TypeSafeMatcher<View>() {
 
     private var viewWidth = ND_SIZE
     private var viewHeight = ND_SIZE

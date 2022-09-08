@@ -6,8 +6,8 @@ import androidx.annotation.DimenRes
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
-import sgtmelon.scriptum.cleanup.basic.matcher.layout.SizeCodeMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.layout.SizeMatcher
+import sgtmelon.test.cappuccino.matchers.layout.SizeCodeMatcher
+import sgtmelon.test.cappuccino.matchers.layout.SizeMatcher
 
 fun Matcher<View>.instanceOf(type: Class<*>) = also { matchOnView(it, Matchers.instanceOf(type)) }
 

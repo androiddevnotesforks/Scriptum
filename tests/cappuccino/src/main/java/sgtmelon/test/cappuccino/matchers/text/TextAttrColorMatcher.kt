@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.text
+package sgtmelon.test.cappuccino.matchers.text
 
 import android.view.View
 import android.widget.TextView
@@ -8,7 +8,7 @@ import org.hamcrest.TypeSafeMatcher
 import sgtmelon.extensions.getColorAttr
 
 /**
- * Matcher for check text color via attr
+ * Matcher for check text color via attr inside [TextView].
  */
 class TextAttrColorMatcher(@AttrRes private val attrColor: Int):  TypeSafeMatcher<View>() {
 
@@ -24,5 +24,4 @@ class TextAttrColorMatcher(@AttrRes private val attrColor: Int):  TypeSafeMatche
     override fun describeTo(description: Description?) {
         description?.appendText("\nView with text attrColor = $attrColor")
     }
-
 }

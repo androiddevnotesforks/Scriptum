@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.card
+package sgtmelon.test.cappuccino.matchers.card
 
 import android.view.View
 import androidx.annotation.DimenRes
@@ -8,7 +8,7 @@ import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
 /**
- * Matcher for [CardView].
+ * Matcher for compare [CardView] radius.
  */
 class CardRadiusMatcher(@DimenRes private val radiusId: Int) : TypeSafeMatcher<View>() {
 

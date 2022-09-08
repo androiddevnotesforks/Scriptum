@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.drawable
+package sgtmelon.test.cappuccino.matchers.drawable
 
 import android.view.View
 import android.widget.ImageView

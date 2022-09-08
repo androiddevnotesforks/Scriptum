@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.card
+package sgtmelon.test.cappuccino.matchers.card
 
 import android.view.View
 import androidx.annotation.DimenRes
@@ -8,7 +8,7 @@ import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
 /**
- * Matcher for [CardView].
+ * Matcher for compare [CardView] elevation.
  */
 class CardElevationMatcher(@DimenRes private val elevationId: Int) : TypeSafeMatcher<View>() {
 
@@ -27,8 +27,6 @@ class CardElevationMatcher(@DimenRes private val elevationId: Int) : TypeSafeMat
     }
 
     override fun describeTo(description: Description?) {
-        description?.appendText(
-            "Expected elevation: $expected | actual elevation: $actual"
-        )
+        description?.appendText("Expected elevation: $expected | actual elevation: $actual")
     }
 }

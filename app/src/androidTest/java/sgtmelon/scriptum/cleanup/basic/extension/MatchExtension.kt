@@ -14,28 +14,28 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.matcher.ContentDescriptionMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.CursorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.FocusMather
-import sgtmelon.scriptum.cleanup.basic.matcher.ProgressMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.TagMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.card.CardBackgroundAttrMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.card.CardBackgroundColorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.card.CardElevationMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.card.CardRadiusMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.drawable.BackgroundAppColorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.drawable.BackgroundColorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.drawable.BackgroundMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.drawable.ColorIndicatorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.drawable.DrawableMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.drawable.MenuItemDrawableMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.drawable.NavigationDrawableMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.text.HintAttrColorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.text.MenuItemTitleMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.text.TextAttrColorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.text.TextSizeMatcher
+import sgtmelon.scriptum.cleanup.basic.matcher.BackgroundAppColorMatcher
+import sgtmelon.scriptum.cleanup.basic.matcher.CardBackgroundColorMatcher
+import sgtmelon.scriptum.cleanup.basic.matcher.ColorIndicatorMatcher
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.test.cappuccino.matchers.ContentDescriptionMatcher
+import sgtmelon.test.cappuccino.matchers.CursorMatcher
+import sgtmelon.test.cappuccino.matchers.FocusMather
+import sgtmelon.test.cappuccino.matchers.ProgressMatcher
+import sgtmelon.test.cappuccino.matchers.TagMatcher
+import sgtmelon.test.cappuccino.matchers.card.CardBackgroundAttrMatcher
+import sgtmelon.test.cappuccino.matchers.card.CardElevationMatcher
+import sgtmelon.test.cappuccino.matchers.card.CardRadiusMatcher
+import sgtmelon.test.cappuccino.matchers.drawable.BackgroundColorMatcher
+import sgtmelon.test.cappuccino.matchers.drawable.BackgroundDrawableMatcher
+import sgtmelon.test.cappuccino.matchers.drawable.DrawableMatcher
+import sgtmelon.test.cappuccino.matchers.drawable.MenuItemDrawableMatcher
+import sgtmelon.test.cappuccino.matchers.drawable.NavigationDrawableMatcher
+import sgtmelon.test.cappuccino.matchers.text.HintAttrColorMatcher
+import sgtmelon.test.cappuccino.matchers.text.MenuItemTitleMatcher
+import sgtmelon.test.cappuccino.matchers.text.TextAttrColorMatcher
+import sgtmelon.test.cappuccino.matchers.text.TextSizeMatcher
 
 fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
     onView(viewMatcher).check(matches(checkMatcher))
@@ -140,8 +140,8 @@ fun Matcher<View>.withContentDescription(string: String) = also {
 }
 
 
-fun Matcher<View>.withBackground(@DrawableRes resourceId: Int) = also {
-    matchOnView(it, BackgroundMatcher(resourceId))
+fun Matcher<View>.withBackgroundDrawable(@DrawableRes drawableId: Int) = also {
+    matchOnView(it, BackgroundDrawableMatcher(drawableId))
 }
 
 fun Matcher<View>.withBackgroundColor(@ColorRes colorId: Int) = also {

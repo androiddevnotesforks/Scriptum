@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher.layout
+package sgtmelon.test.cappuccino.matchers.layout
 
 import android.view.View
 import android.view.ViewGroup.LayoutParams
@@ -11,8 +11,8 @@ import org.hamcrest.TypeSafeMatcher
  * if [width]/[height] is null -> skip size check.
  */
 class SizeCodeMatcher(
-        private val width: Int?,
-        private val height: Int?
+    private val width: Int?,
+    private val height: Int?
 ) : TypeSafeMatcher<View>() {
 
     private var actualWidth: Int? = null
