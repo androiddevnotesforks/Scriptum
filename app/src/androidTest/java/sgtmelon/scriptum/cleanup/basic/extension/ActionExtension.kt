@@ -10,7 +10,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import kotlin.random.Random
 import org.hamcrest.Matcher
-import sgtmelon.scriptum.cleanup.basic.actions.SeekBarAction
+import sgtmelon.test.cappuccino.actions.SeekBarAction
 
 
 private fun actionOnView(viewMatcher: Matcher<View>, vararg action: ViewAction) {

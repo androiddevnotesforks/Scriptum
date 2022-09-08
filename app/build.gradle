@@ -80,6 +80,7 @@ dependencies {
 
     testImplementation project(path: ':tests:common')
     androidTestImplementation project(path: ':tests:common')
+    androidTestImplementation project(path: ':tests:cappuccino')
 
     //region Kotlin
 

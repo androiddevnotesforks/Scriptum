@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.actions
+package sgtmelon.test.cappuccino.actions
 
 import android.view.View
 import android.widget.SeekBar
