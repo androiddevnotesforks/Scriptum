@@ -2,9 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.dialog.sheet
 
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
@@ -12,6 +9,9 @@ import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isEnabled
+import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
  * Class for UI control [AddSheetDialog].

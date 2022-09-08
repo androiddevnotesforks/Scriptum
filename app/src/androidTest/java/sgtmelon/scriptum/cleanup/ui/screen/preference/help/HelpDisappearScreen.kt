@@ -1,15 +1,15 @@
 package sgtmelon.scriptum.cleanup.ui.screen.preference.help
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
-import sgtmelon.scriptum.cleanup.basic.extension.withMenuDrawable
-import sgtmelon.scriptum.cleanup.basic.extension.withMenuTitle
-import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withMenuDrawable
+import sgtmelon.test.cappuccino.utils.withMenuTitle
+import sgtmelon.test.cappuccino.utils.withText
 
 /**
  * Class for UI control of [HelpDisappearActivity].
@@ -51,7 +51,7 @@ class HelpDisappearScreen : ParentUi() {
         parentContainer.isDisplayed()
 
         toolbar.contentContainer
-            .withMenuDrawable(R.id.item_video_lesson, R.drawable.ic_video)
+            .withMenuDrawable(R.id.item_video_lesson, R.drawable.ic_video, R.attr.clContent)
             .withMenuTitle(R.id.item_video_lesson, R.string.menu_video_lesson)
         videoItem.isDisplayed()
 

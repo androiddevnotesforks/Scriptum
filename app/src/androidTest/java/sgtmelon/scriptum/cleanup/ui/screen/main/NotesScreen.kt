@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.withMenuDrawable
-import sgtmelon.scriptum.cleanup.basic.extension.withMenuTitle
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.cleanup.testData.State
@@ -17,7 +14,10 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.PreferenceScreen
 import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick
+import sgtmelon.test.cappuccino.utils.withMenuDrawable
+import sgtmelon.test.cappuccino.utils.withMenuTitle
 
 /**
  * Class for UI control of [NotesFragment].
@@ -97,9 +97,9 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
 
         toolbar.assert()
         toolbar.contentContainer
-            .withMenuDrawable(R.id.item_notification, R.drawable.ic_notifications)
+            .withMenuDrawable(R.id.item_notification, R.drawable.ic_notifications, R.attr.clContent)
             .withMenuTitle(R.id.item_notification, R.string.menu_notifications)
-            .withMenuDrawable(R.id.item_preference, R.drawable.ic_preference)
+            .withMenuDrawable(R.id.item_preference, R.drawable.ic_preference, R.attr.clContent)
             .withMenuTitle(R.id.item_preference, R.string.menu_preference)
 
         notificationMenuItem.isDisplayed()

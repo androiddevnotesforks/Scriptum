@@ -10,12 +10,12 @@ import androidx.test.espresso.action.ViewActions
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isEnabled
+import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
  * Parent class for UI control of all list dialogs.

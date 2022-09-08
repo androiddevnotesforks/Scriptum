@@ -1,17 +1,7 @@
 package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isFocused
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
-import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
-import sgtmelon.scriptum.cleanup.basic.extension.withCursor
-import sgtmelon.scriptum.cleanup.basic.extension.withHint
-import sgtmelon.scriptum.cleanup.basic.extension.withSize
-import sgtmelon.scriptum.cleanup.basic.extension.withSizeAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
@@ -24,7 +14,17 @@ import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isFocused
 import sgtmelon.test.cappuccino.utils.typeText
+import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withBackgroundColor
+import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withCursor
+import sgtmelon.test.cappuccino.utils.withHint
+import sgtmelon.test.cappuccino.utils.withSize
+import sgtmelon.test.cappuccino.utils.withSizeAttr
+import sgtmelon.test.cappuccino.utils.withText
 
 /**
  * Class for UI control of [NoteActivity], [TextNoteFragment].

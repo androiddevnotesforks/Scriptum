@@ -1,13 +1,13 @@
 package sgtmelon.test.cappuccino.matchers.drawable
 
 import android.view.View
-import androidx.annotation.IdRes
+import androidx.annotation.DrawableRes
 import sgtmelon.extensions.getDrawableCompat
 
 /**
  * Matcher for check android:background which gets with [resourceId].
  */
-class BackgroundDrawableMatcher(@IdRes resourceId: Int) : ParentImageMatcher(resourceId) {
+class BackgroundDrawableMatcher(@DrawableRes resourceId: Int) : ParentImageMatcher(resourceId) {
 
     override fun matchesSafely(item: View?): Boolean {
         if (item !is View) return false

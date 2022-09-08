@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.withMenuDrawable
-import sgtmelon.scriptum.cleanup.basic.extension.withMenuTitle
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.cleanup.testData.SimpleInfoPage
@@ -17,7 +14,10 @@ import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick
+import sgtmelon.test.cappuccino.utils.withMenuDrawable
+import sgtmelon.test.cappuccino.utils.withMenuTitle
 
 /**
  * Class for UI control of [BinFragment].
@@ -90,7 +90,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
         if (!isEmpty) {
             toolbar.contentContainer
-                .withMenuDrawable(R.id.item_clear, R.drawable.ic_clear)
+                .withMenuDrawable(R.id.item_clear, R.drawable.ic_clear, R.attr.clContent)
                 .withMenuTitle(R.id.item_clear, R.string.menu_clear_bin)
 
             clearMenuItem.isDisplayed()

@@ -3,12 +3,12 @@ package sgtmelon.scriptum.cleanup.ui.part.info
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
-import sgtmelon.scriptum.cleanup.basic.extension.withDrawableAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
-import sgtmelon.scriptum.cleanup.basic.extension.withTextSize
 import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withDrawableAttr
+import sgtmelon.test.cappuccino.utils.withTextColor
+import sgtmelon.test.cappuccino.utils.withTextSize
 
 /**
  * Part of UI abstraction for control roll note list info.

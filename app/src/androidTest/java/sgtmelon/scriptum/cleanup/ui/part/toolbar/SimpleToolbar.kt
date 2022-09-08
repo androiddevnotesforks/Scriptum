@@ -6,9 +6,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withChild
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withNavigationDrawable
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withNavigationDrawable
 
 /**
  * Part of UI abstraction for describe simple toolbar.
@@ -20,7 +20,7 @@ class SimpleToolbar(@StringRes titleId: Int, private val withBack: Boolean) : Pa
     )
 
     fun assert() {
-        val backIconDrawable = if (withBack) R.drawable.ic_cancel_exit else null
+        val backIconDrawable = if (withBack) sgtmelon.iconanim.R.drawable.ic_cancel_exit else null
         val backIconTint = if (withBack) R.attr.clContent else null
 
         contentContainer.isDisplayed()

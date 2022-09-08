@@ -1,19 +1,19 @@
 package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isSelected
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
-import sgtmelon.scriptum.cleanup.basic.extension.withSize
-import sgtmelon.scriptum.cleanup.basic.extension.withSizeAttr
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.dialog.sheet.AddSheetDialogUi
 import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isSelected
 import sgtmelon.test.cappuccino.utils.longClick
+import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withContentDescription
+import sgtmelon.test.cappuccino.utils.withSize
+import sgtmelon.test.cappuccino.utils.withSizeAttr
 
 /**
  * Class for UI control of [MainActivity].

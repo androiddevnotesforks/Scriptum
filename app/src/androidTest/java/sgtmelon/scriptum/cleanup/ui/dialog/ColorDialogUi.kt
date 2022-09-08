@@ -3,13 +3,7 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
 import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
-import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
-import sgtmelon.scriptum.cleanup.basic.extension.withDrawableColor
-import sgtmelon.scriptum.cleanup.basic.extension.withSize
-import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
@@ -19,6 +13,12 @@ import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.getCount
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isEnabled
+import sgtmelon.test.cappuccino.utils.withContentDescription
+import sgtmelon.test.cappuccino.utils.withDrawableColor
+import sgtmelon.test.cappuccino.utils.withSize
+import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
  * Class for UI control of [ColorDialog].

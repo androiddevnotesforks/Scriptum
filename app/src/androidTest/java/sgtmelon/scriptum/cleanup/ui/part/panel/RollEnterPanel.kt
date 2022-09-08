@@ -3,18 +3,6 @@ package sgtmelon.scriptum.cleanup.ui.part.panel
 import android.view.inputmethod.EditorInfo
 import kotlin.random.Random
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.isFocused
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
-import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
-import sgtmelon.scriptum.cleanup.basic.extension.withCursor
-import sgtmelon.scriptum.cleanup.basic.extension.withDrawableAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withHint
-import sgtmelon.scriptum.cleanup.basic.extension.withImeAction
-import sgtmelon.scriptum.cleanup.basic.extension.withSize
-import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.clearSpace
@@ -24,8 +12,20 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isEnabled
+import sgtmelon.test.cappuccino.utils.isFocused
 import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.typeText
+import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withBackgroundColor
+import sgtmelon.test.cappuccino.utils.withContentDescription
+import sgtmelon.test.cappuccino.utils.withCursor
+import sgtmelon.test.cappuccino.utils.withDrawableAttr
+import sgtmelon.test.cappuccino.utils.withHint
+import sgtmelon.test.cappuccino.utils.withImeAction
+import sgtmelon.test.cappuccino.utils.withSize
+import sgtmelon.test.cappuccino.utils.withText
 
 /**
  * Part of UI abstraction for [RollNoteScreen]

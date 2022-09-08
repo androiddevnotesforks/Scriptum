@@ -2,15 +2,7 @@ package sgtmelon.scriptum.cleanup.ui.part.toolbar
 
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isFocused
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
-import sgtmelon.scriptum.cleanup.basic.extension.withCursor
-import sgtmelon.scriptum.cleanup.basic.extension.withHint
-import sgtmelon.scriptum.cleanup.basic.extension.withImeAction
-import sgtmelon.scriptum.cleanup.basic.extension.withNavigationDrawable
-import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.State
@@ -21,7 +13,15 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isFocused
 import sgtmelon.test.cappuccino.utils.typeText
+import sgtmelon.test.cappuccino.utils.withBackgroundColor
+import sgtmelon.test.cappuccino.utils.withCursor
+import sgtmelon.test.cappuccino.utils.withHint
+import sgtmelon.test.cappuccino.utils.withImeAction
+import sgtmelon.test.cappuccino.utils.withNavigationDrawable
+import sgtmelon.test.cappuccino.utils.withText
 
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].

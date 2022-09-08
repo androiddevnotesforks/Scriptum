@@ -4,11 +4,11 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import sgtmelon.safedialog.dialog.parent.BlankMenuSheetDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundDrawable
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.swipeDown
+import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
 
 /**
  * Parent class for UI control [BlankMenuSheetDialog].

@@ -4,19 +4,19 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isChecked
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
-import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
-import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
-import sgtmelon.scriptum.cleanup.basic.extension.withDrawableAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withHint
-import sgtmelon.scriptum.cleanup.basic.extension.withImeAction
-import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
+import sgtmelon.test.cappuccino.utils.isChecked
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withBackgroundColor
+import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withContentDescription
+import sgtmelon.test.cappuccino.utils.withDrawableAttr
+import sgtmelon.test.cappuccino.utils.withHint
+import sgtmelon.test.cappuccino.utils.withImeAction
+import sgtmelon.test.cappuccino.utils.withText
 
 /**
  * Class for UI control of [RollAdapter].

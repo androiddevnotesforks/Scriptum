@@ -4,12 +4,12 @@ import android.view.View
 import androidx.annotation.IdRes
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.withDrawableAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withSize
-import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
-import sgtmelon.scriptum.cleanup.basic.extension.withTextSize
 import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withDrawableAttr
+import sgtmelon.test.cappuccino.utils.withSize
+import sgtmelon.test.cappuccino.utils.withTextColor
+import sgtmelon.test.cappuccino.utils.withTextSize
 
 /**
  * Parent class for UI abstraction of info

@@ -6,14 +6,7 @@ import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
-import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
-import sgtmelon.scriptum.cleanup.basic.extension.withDrawableAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withDrawableColor
-import sgtmelon.scriptum.cleanup.basic.extension.withSize
-import sgtmelon.scriptum.cleanup.basic.extension.withTag
-import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
@@ -29,6 +22,13 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withContentDescription
+import sgtmelon.test.cappuccino.utils.withDrawableAttr
+import sgtmelon.test.cappuccino.utils.withDrawableColor
+import sgtmelon.test.cappuccino.utils.withSize
+import sgtmelon.test.cappuccino.utils.withTag
+import sgtmelon.test.cappuccino.utils.withText
 
 /**
  * Class for UI control of [AlarmActivity].

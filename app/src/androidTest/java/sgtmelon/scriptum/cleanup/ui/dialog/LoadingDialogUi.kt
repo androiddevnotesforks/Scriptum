@@ -2,14 +2,14 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 
 import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withParent
-import sgtmelon.scriptum.cleanup.basic.extension.withSizeCode
-import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withParent
+import sgtmelon.test.cappuccino.utils.withSizeCode
+import sgtmelon.test.cappuccino.utils.withText
 
 /**
  * Class for UI control of [LoadingDialog].

@@ -3,24 +3,24 @@ package sgtmelon.scriptum.cleanup.ui.part.toolbar
 import android.view.inputmethod.EditorInfo
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
-import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
-import sgtmelon.scriptum.cleanup.basic.extension.withContentDescription
-import sgtmelon.scriptum.cleanup.basic.extension.withDrawableAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withHint
-import sgtmelon.scriptum.cleanup.basic.extension.withImeAction
-import sgtmelon.scriptum.cleanup.basic.extension.withNavigationDrawable
-import sgtmelon.scriptum.cleanup.basic.extension.withText
 import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.main.RankScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.typeText
+import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withBackgroundColor
+import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withContentDescription
+import sgtmelon.test.cappuccino.utils.withDrawableAttr
+import sgtmelon.test.cappuccino.utils.withHint
+import sgtmelon.test.cappuccino.utils.withImeAction
+import sgtmelon.test.cappuccino.utils.withNavigationDrawable
+import sgtmelon.test.cappuccino.utils.withText
 
 /**
  * Part of UI abstraction for [RankScreen]

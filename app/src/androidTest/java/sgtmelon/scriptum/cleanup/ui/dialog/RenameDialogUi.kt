@@ -2,20 +2,20 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundColor
-import sgtmelon.scriptum.cleanup.basic.extension.withHint
-import sgtmelon.scriptum.cleanup.basic.extension.withImeAction
-import sgtmelon.scriptum.cleanup.basic.extension.withText
-import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.typeText
+import sgtmelon.test.cappuccino.utils.withBackgroundColor
+import sgtmelon.test.cappuccino.utils.withHint
+import sgtmelon.test.cappuccino.utils.withImeAction
+import sgtmelon.test.cappuccino.utils.withText
+import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
  * Class for UI control of [RenameDialog].

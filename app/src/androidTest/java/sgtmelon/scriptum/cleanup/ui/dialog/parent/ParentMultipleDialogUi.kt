@@ -4,11 +4,11 @@ import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isChecked
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
-import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.test.cappuccino.utils.click
+import sgtmelon.test.cappuccino.utils.isChecked
+import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isEnabled
+import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
  * Class for UI control of [MultipleDialog] with fixed size.

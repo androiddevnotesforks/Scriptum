@@ -1,15 +1,8 @@
 package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAttr
-import sgtmelon.scriptum.cleanup.basic.extension.withMenuDrawable
-import sgtmelon.scriptum.cleanup.basic.extension.withMenuTitle
-import sgtmelon.scriptum.cleanup.basic.extension.withProgress
-import sgtmelon.scriptum.cleanup.basic.extension.withSize
-import sgtmelon.scriptum.cleanup.basic.extension.withSizeAttr
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
@@ -28,9 +21,16 @@ import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
+import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.swipeItem
 import sgtmelon.test.cappuccino.utils.typeText
+import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withMenuDrawable
+import sgtmelon.test.cappuccino.utils.withMenuTitle
+import sgtmelon.test.cappuccino.utils.withProgress
+import sgtmelon.test.cappuccino.utils.withSize
+import sgtmelon.test.cappuccino.utils.withSizeAttr
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment].
