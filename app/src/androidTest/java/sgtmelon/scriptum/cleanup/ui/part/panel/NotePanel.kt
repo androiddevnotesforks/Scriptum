@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.ui.part.panel
 
 import androidx.annotation.AttrRes
 import java.util.Calendar
-import sgtmelon.common.utils.getText
-import sgtmelon.common.utils.getTime
+import sgtmelon.common.utils.getCalendarText
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
@@ -76,14 +76,14 @@ class NotePanel<T : ParentUi, N : NoteItem>(
      */
     fun onRestore() = callback.throwOnWrongState(State.BIN) {
         restoreButton.click()
-        callback.item.change = getTime()
+        callback.item.change = getCalendarText()
     }
 
     fun onRestoreOpen() = apply {
         callback.throwOnWrongState(State.BIN) {
             restoreOpenButton.click()
             callback.apply {
-                item.change = getTime()
+                item.change = getCalendarText()
                 state = State.READ
             }.fullAssert()
         }
@@ -193,7 +193,7 @@ class NotePanel<T : ParentUi, N : NoteItem>(
 
     fun onDelete() = callback.throwOnWrongState(State.READ) {
         deleteButton.click()
-        callback.item.change = getTime()
+        callback.item.change = getCalendarText()
     }
 
     fun onEdit() = apply {
@@ -218,7 +218,7 @@ class NotePanel<T : ParentUi, N : NoteItem>(
     override fun onTimeDialogResult(calendar: Calendar) {
         callback.apply {
             item.alarmId = 1
-            item.alarmDate = calendar.getText()
+            item.alarmDate = calendar.toText()
 
             fullAssert()
         }

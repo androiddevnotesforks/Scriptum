@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.system
 
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.beforeNow
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.isBeforeNow
 import sgtmelon.common.utils.runMain
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
@@ -33,9 +33,9 @@ class SystemInteractor(
     override suspend fun tidyUpAlarm() {
         for (it in alarmRepo.getList()) {
             val id = it.note.id
-            val calendar = it.alarm.date.getCalendar()
+            val calendar = it.alarm.date.toCalendar()
 
-            if (calendar.beforeNow()) {
+            if (calendar.isBeforeNow()) {
                 runMain { callback?.cancelAlarm(id) }
                 alarmRepo.delete(id)
             } else {

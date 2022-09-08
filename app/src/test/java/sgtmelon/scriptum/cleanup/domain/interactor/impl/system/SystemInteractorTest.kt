@@ -15,8 +15,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.beforeNow
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.isBeforeNow
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
@@ -80,8 +80,8 @@ class SystemInteractorTest : ParentInteractorTest() {
             every { noteList[i].id } returns idList[i]
             every { item.alarm } returns alarmList[i]
             every { alarmList[i].date } returns dateList[i]
-            every { dateList[i].getCalendar() } returns calendarList[i]
-            every { calendarList[i].beforeNow() } returns beforeList[i]
+            every { dateList[i].toCalendar() } returns calendarList[i]
+            every { calendarList[i].isBeforeNow() } returns beforeList[i]
         }
 
         interactor.tidyUpAlarm()
@@ -95,9 +95,9 @@ class SystemInteractorTest : ParentInteractorTest() {
 
                 item.alarm
                 alarmList[i].date
-                dateList[i].getCalendar()
+                dateList[i].toCalendar()
 
-                calendarList[i].beforeNow()
+                calendarList[i].isBeforeNow()
                 if (beforeList[i]) {
                     callback.cancelAlarm(idList[i])
                     alarmRepo.delete(idList[i])

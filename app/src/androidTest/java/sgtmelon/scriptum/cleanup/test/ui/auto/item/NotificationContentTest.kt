@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.item
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.getCalendarWithAdd
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.getClearCalendar
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.item.NotificationItemUi
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -21,7 +21,7 @@ class NotificationContentTest : ParentUiTest() {
 
     @Test fun time() = onAssertList(ArrayList<NoteItem>().also { list ->
         for (it in nextArray) {
-            list.add(db.insertNotification(date = getCalendarWithAdd(it).getText()))
+            list.add(db.insertNotification(date = getClearCalendar(it).toText()))
         }
     })
 
@@ -34,7 +34,7 @@ class NotificationContentTest : ParentUiTest() {
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for ((i, it) in Color.values().withIndex()) {
-                val date = getCalendarWithAdd(min = NEXT_HOUR + i * NEXT_HOUR).getText()
+                val date = getClearCalendar(addMinutes = NEXT_HOUR + i * NEXT_HOUR).toText()
                 val noteItem = db.insertText(db.textNote.copy(name = "", color = it))
 
                 list.add(db.insertNotification(noteItem, date))

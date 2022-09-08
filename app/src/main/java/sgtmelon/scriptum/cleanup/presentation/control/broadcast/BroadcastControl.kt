@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.control.broadcast
 import android.content.Context
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Filter
@@ -64,7 +64,7 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
     override fun sendSetAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
         context?.sendTo(Filter.SYSTEM, Command.System.SET_ALARM) {
             putExtra(IntentData.Note.Intent.ID, id)
-            putExtra(IntentData.Eternal.Intent.DATE, calendar.getText())
+            putExtra(IntentData.Eternal.Intent.DATE, calendar.toText())
             putExtra(IntentData.Eternal.Intent.TOAST, showToast)
         }
     }

@@ -2,9 +2,9 @@ package sgtmelon.scriptum.cleanup.data.repository.room
 
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.beforeNow
-import sgtmelon.common.utils.getCalendarOrNull
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.isBeforeNow
+import sgtmelon.common.utils.toCalendarOrNull
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -210,9 +210,9 @@ class BackupRepoImpl(
         val notificationList = alarmDataSource.getItemList()
 
         for (item in result.alarmList) {
-            val calendar = item.date.getCalendarOrNull() ?: continue
+            val calendar = item.date.toCalendarOrNull() ?: continue
 
-            if (calendar.beforeNow()) {
+            if (calendar.isBeforeNow()) {
                 removeList.add(item)
                 continue
             }
@@ -231,7 +231,7 @@ class BackupRepoImpl(
         list: List<NotificationItem>
     ) {
         while (list.any { it.alarm.date == item.date }) {
-            item.date = calendar.apply { add(Calendar.MINUTE, 1) }.getText()
+            item.date = calendar.apply { add(Calendar.MINUTE, 1) }.toText()
         }
     }
 

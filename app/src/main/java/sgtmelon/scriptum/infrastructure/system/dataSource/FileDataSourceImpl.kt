@@ -12,7 +12,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStream
 import java.io.OutputStreamWriter
-import sgtmelon.common.utils.getTime
+import sgtmelon.common.utils.getCalendarText
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.infrastructure.model.exception.FilesException
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
@@ -87,7 +87,7 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
         bufferedWriter.close()
     }
 
-    override fun getTimeName(@FileType type: String): String = getTime().plus(type)
+    override fun getTimeName(@FileType type: String): String = getCalendarText().plus(type)
 
 
     override suspend fun getBackupFileList(): List<FileItem> = getFileList(FileType.BACKUP)

@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.beforeNow
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.isBeforeNow
 import sgtmelon.common.utils.runBack
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
@@ -139,7 +139,7 @@ class NotesViewModel(
     @RunPrivate fun onMenuNotification(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
-        callback?.showDateDialog(item.alarmDate.getCalendar(), item.haveAlarm(), p)
+        callback?.showDateDialog(item.alarmDate.toCalendar(), item.haveAlarm(), p)
     }
 
     @RunPrivate fun onMenuBind(p: Int) {
@@ -214,7 +214,7 @@ class NotesViewModel(
     }
 
     override fun onResultTimeDialog(calendar: Calendar, p: Int) {
-        if (calendar.beforeNow()) return
+        if (calendar.isBeforeNow()) return
 
         val item = itemList.getOrNull(p) ?: return
 

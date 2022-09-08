@@ -5,10 +5,10 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunNone
-import sgtmelon.common.utils.afterNow
 import sgtmelon.common.utils.clearSeconds
-import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.is24Format
+import sgtmelon.common.utils.isAfterNow
+import sgtmelon.common.utils.toText
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.callback.TimeTestCallback
@@ -112,7 +112,7 @@ class TimeDialog : BlankDateTimeDialog(), TimeTestCallback {
         private const val DEF_POSITION = -1
 
         fun getPositiveEnabled(calendar: Calendar, dateList: List<String>): Boolean {
-            return calendar.afterNow() && !dateList.contains(calendar.getText())
+            return calendar.isAfterNow() && !dateList.contains(calendar.toText())
         }
     }
 }

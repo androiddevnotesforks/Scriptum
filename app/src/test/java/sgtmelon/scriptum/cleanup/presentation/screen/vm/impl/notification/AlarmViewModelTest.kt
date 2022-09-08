@@ -19,7 +19,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getClearCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
@@ -397,7 +397,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { repeat.ordinal } returns ordinal
         FastMock.timeExtension()
-        every { getCalendarWithAdd(minute) } returns calendar
+        every { getClearCalendar(minute) } returns calendar
         coEvery { shiftDateIfExist(calendar) } returns Unit
         coEvery { setNotification(item, calendar) } returns Unit
 
@@ -409,7 +409,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             callback.getIntArray(R.array.pref_alarm_repeat_array)
 
             callback.getIntArray(R.array.pref_alarm_repeat_array)
-            getCalendarWithAdd(minute)
+            getClearCalendar(minute)
             shiftDateIfExist(calendar)
             setNotification(item, calendar)
             callback.sendSetAlarmBroadcast(id, calendar, showToast = false)

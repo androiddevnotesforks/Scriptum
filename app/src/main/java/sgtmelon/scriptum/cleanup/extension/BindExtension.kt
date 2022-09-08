@@ -11,7 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import sgtmelon.common.utils.formatFuture
 import sgtmelon.common.utils.formatPast
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -90,7 +90,7 @@ fun CheckBox.bindCheck(checkToggle: Boolean, checkState: Boolean) {
 @BindingAdapter(value = ["pastTime"])
 fun TextView.bindPastTime(dateTime: String) {
     text = try {
-        dateTime.getCalendar().formatPast()
+        dateTime.toCalendar().formatPast()
     } catch (e: Throwable) {
         e.printStackTrace()
         null
@@ -100,7 +100,7 @@ fun TextView.bindPastTime(dateTime: String) {
 @BindingAdapter(value = ["futureTime"])
 fun TextView.bindFutureTime(dateTime: String) {
     text = try {
-        dateTime.getCalendar().formatFuture(context)
+        dateTime.toCalendar().formatFuture(context)
     } catch (e: Throwable) {
         e.printStackTrace()
         null

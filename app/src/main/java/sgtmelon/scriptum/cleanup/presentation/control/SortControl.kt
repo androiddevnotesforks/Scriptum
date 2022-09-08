@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.control
 
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 
@@ -18,8 +18,8 @@ object SortControl {
      */
     // TODO move inside useCase
     suspend fun sortList(list: List<NoteItem>, sort: Sort): List<NoteItem> = when (sort) {
-        Sort.CHANGE -> list.sortedByDescending { it.change.getCalendar().timeInMillis }
-        Sort.CREATE -> list.sortedByDescending { it.create.getCalendar().timeInMillis }
+        Sort.CHANGE -> list.sortedByDescending { it.change.toCalendar().timeInMillis }
+        Sort.CREATE -> list.sortedByDescending { it.create.toCalendar().timeInMillis }
         Sort.RANK -> list.sortedWith(Comparator<NoteItem> { o1, o2 ->
             return@Comparator when {
                 !o1.haveRank() && o2.haveRank() -> 1
@@ -29,12 +29,12 @@ object SortControl {
                 else -> 0
             }
         }.thenByDescending {
-            it.change.getCalendar().timeInMillis
+            it.change.toCalendar().timeInMillis
         })
         Sort.COLOR -> list.sortedWith(compareBy<NoteItem> {
             it.color
         }.thenByDescending {
-            it.change.getCalendar().timeInMillis
+            it.change.toCalendar().timeInMillis
         })
     }
 

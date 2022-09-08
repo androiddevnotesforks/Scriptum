@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import java.util.Calendar
-import sgtmelon.common.utils.getCalendarOrNull
+import sgtmelon.common.utils.toCalendarOrNull
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Eternal
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Command
@@ -31,7 +31,7 @@ class SystemReceiver : BroadcastReceiver() {
                 val date = intent.getStringExtra(Eternal.Intent.DATE)
                 val showToast = intent.getBooleanExtra(Eternal.Intent.TOAST, Eternal.Default.TOAST)
 
-                val calendar = date?.getCalendarOrNull()
+                val calendar = date?.toCalendarOrNull()
 
                 if (id == Note.Default.ID || calendar == null) return
 

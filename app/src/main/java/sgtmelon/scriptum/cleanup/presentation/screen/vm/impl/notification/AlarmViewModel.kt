@@ -5,7 +5,7 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getClearCalendar
 import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
@@ -167,7 +167,7 @@ class AlarmViewModel(
     @RunPrivate fun repeatFinish(repeat: Repeat) {
         val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
         val minute = valueArray.getOrNull(repeat.ordinal) ?: return
-        val calendar = getCalendarWithAdd(minute)
+        val calendar = getClearCalendar(minute)
 
         viewModelScope.launch {
             runBack {

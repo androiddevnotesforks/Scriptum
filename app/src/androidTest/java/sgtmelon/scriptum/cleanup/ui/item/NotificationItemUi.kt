@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.ui.item
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.common.utils.formatFuture
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
@@ -44,7 +44,7 @@ class NotificationItemUi(
 
         nameText.isDisplayed().withText(name, R.attr.clContent, R.dimen.text_16sp)
 
-        val date = item.alarmDate.getCalendar().formatFuture(context)
+        val date = item.alarmDate.toCalendar().formatFuture(context)
         dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
 
         colorView.isDisplayed()

@@ -9,7 +9,7 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import java.util.Calendar
-import sgtmelon.common.utils.getNewCalendar
+import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.extension.getAlarmService
 import sgtmelon.scriptum.cleanup.extension.initLazy
@@ -84,7 +84,7 @@ class EternalService : Service(),
         /**
          * Fire next [EternalService] after 5 seconds.
          */
-        val calendar = getNewCalendar()
+        val calendar = getCalendar()
         calendar.add(Calendar.SECOND, 5)
 
         val service = applicationContext.getAlarmService()

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.test.parent.situation
 
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.time.TimeDialogUi
 
@@ -34,7 +34,7 @@ interface IDateTimeDialogTest {
     fun timeApplyEnableList()
 
     fun DateDialogUi.runTimeApplyEnableList(alarmDate: String) {
-        val calendar = alarmDate.getCalendar()
+        val calendar = alarmDate.toCalendar()
         val dateList = arrayListOf(alarmDate)
 
         onDate(calendar).onClickApply(dateList) { onTime(calendar) }

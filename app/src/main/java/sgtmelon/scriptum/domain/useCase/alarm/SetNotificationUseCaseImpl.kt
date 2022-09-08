@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.useCase.alarm
 
 import java.util.Calendar
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -24,7 +24,7 @@ class SetNotificationUseCaseImpl(
     }
 
     override suspend operator fun invoke(item: NoteItem, calendar: Calendar) {
-        invoke(item, calendar.getText())
+        invoke(item, calendar.toText())
     }
 
     override suspend operator fun invoke(item: NoteItem, date: String) {

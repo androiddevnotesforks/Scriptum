@@ -8,8 +8,8 @@ import java.util.Calendar
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.common.utils.afterNow
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.isAfterNow
+import sgtmelon.common.utils.toText
 import sgtmelon.safedialog.ParentTest
 import sgtmelon.test.common.nextString
 
@@ -24,32 +24,32 @@ class TimeDialogTest : ParentTest() {
         val calendar = mockk<Calendar>()
         val dateList = List(size = 5) { nextString() }
 
-        every { calendar.afterNow() } returns false
-        every { calendar.getText() } returns dateList.random()
+        every { calendar.isAfterNow() } returns false
+        every { calendar.toText() } returns dateList.random()
 
         assertFalse(TimeDialog.getPositiveEnabled(calendar, dateList))
 
-        every { calendar.getText() } returns nextString()
+        every { calendar.toText() } returns nextString()
 
         assertFalse(TimeDialog.getPositiveEnabled(calendar, dateList))
 
-        every { calendar.afterNow() } returns true
-        every { calendar.getText() } returns dateList.random()
+        every { calendar.isAfterNow() } returns true
+        every { calendar.toText() } returns dateList.random()
 
         assertFalse(TimeDialog.getPositiveEnabled(calendar, dateList))
 
-        every { calendar.getText() } returns nextString()
+        every { calendar.toText() } returns nextString()
 
         assertTrue(TimeDialog.getPositiveEnabled(calendar, dateList))
 
         verifySequence {
             repeat(times = 2) {
-                calendar.afterNow()
+                calendar.isAfterNow()
             }
 
             repeat(times = 2) {
-                calendar.afterNow()
-                calendar.getText()
+                calendar.isAfterNow()
+                calendar.toText()
             }
         }
     }

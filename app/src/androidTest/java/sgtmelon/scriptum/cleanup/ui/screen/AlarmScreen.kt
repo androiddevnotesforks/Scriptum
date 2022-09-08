@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.ui.screen
 
 import java.util.Calendar
-import sgtmelon.common.utils.getCalendarWithAdd
-import sgtmelon.common.utils.getNewCalendar
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.getClearCalendar
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.basic.extension.click
@@ -78,7 +78,7 @@ class AlarmScreen(
          * If click happen in corner seconds value (like 0.59) and calendar will be receiver in
          * another minute (like 1.10) this may lead false tests.
          */
-        while (getNewCalendar().get(Calendar.SECOND) > 50) {
+        while (getCalendar().get(Calendar.SECOND) > 50) {
             waitBefore(time = 5000)
         }
 
@@ -94,13 +94,13 @@ class AlarmScreen(
     fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }
 
     private fun onRepeat(): Calendar {
-        val calendar = getCalendarWithAdd(min = repeatArray[preferences.repeat])
+        val calendar = getClearCalendar(addMinutes = repeatArray[preferences.repeat])
 
-        while (dateList?.contains(calendar.getText()) == true) {
+        while (dateList?.contains(calendar.toText()) == true) {
             calendar.add(Calendar.MINUTE, 1)
         }
 
-        item.alarmDate = calendar.getText()
+        item.alarmDate = calendar.toText()
 
         return calendar
     }

@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.testData
 
 import android.content.Context
 import kotlin.random.Random
-import sgtmelon.common.utils.getTime
+import sgtmelon.common.utils.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
@@ -21,8 +21,8 @@ class DbWeightDelegator(
 
     val textNote: NoteEntity
         get() = NoteEntity().apply {
-            create = getTime()
-            change = getTime()
+            create = getCalendarText()
+            change = getCalendarText()
             name = context.getString(R.string.test_note_name)
             text = "${context.getString(R.string.test_note_text)}\n\n".repeat(n = 100)
             color = Color.values().random()

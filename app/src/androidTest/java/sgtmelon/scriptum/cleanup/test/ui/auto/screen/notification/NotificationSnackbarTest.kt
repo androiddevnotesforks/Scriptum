@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification
 
 import org.junit.Test
-import sgtmelon.common.utils.getCalendarWithAdd
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.getClearCalendar
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.cleanup.testData.Scroll
@@ -216,7 +216,7 @@ class NotificationSnackbarTest : ParentUiTest() {
 
     private fun fillScreen(count: Int): MutableList<NoteItem> = ArrayList<NoteItem>().apply {
         repeat(count) {
-            val date = getCalendarWithAdd(min = NEXT_HOUR + it * NEXT_HOUR).getText()
+            val date = getClearCalendar(addMinutes = NEXT_HOUR + it * NEXT_HOUR).toText()
             val color = Color.values().random()
             val item = with(db) { insertText(textNote.copy(name = "", color = color)) }
 

@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.common.utils.getTime
+import sgtmelon.common.utils.getCalendarText
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.Complete
@@ -48,7 +48,8 @@ class NoteItemTest : ParentTest() {
 
     //endregion
 
-    private fun assertChangeTime(noteItem: NoteItem) = assertEquals(getTime(), noteItem.change)
+    private fun assertChangeTime(noteItem: NoteItem) =
+        assertEquals(getCalendarText(), noteItem.change)
 
     @Test fun noteType() {
         assertEquals(textItem.type, NoteType.TEXT)
@@ -122,7 +123,7 @@ class NoteItemTest : ParentTest() {
     @Test fun `default values for text`() {
         NoteItem.Text(color = Color.BLUE).apply {
             assertEquals(Note.Default.ID, id)
-            assertEquals(getTime(), create)
+            assertEquals(getCalendarText(), create)
             assertEquals(Note.Default.CHANGE, change)
             assertEquals(Note.Default.NAME, name)
             assertEquals(Note.Default.TEXT, text)
@@ -191,7 +192,7 @@ class NoteItemTest : ParentTest() {
     @Test fun `defaultValues for roll`() {
         NoteItem.Roll(color = Color.BLUE).apply {
             assertEquals(Note.Default.ID, id)
-            assertEquals(getTime(), create)
+            assertEquals(getCalendarText(), create)
             assertEquals(Note.Default.CHANGE, change)
             assertEquals(Note.Default.NAME, name)
             assertEquals(Note.Default.TEXT, text)

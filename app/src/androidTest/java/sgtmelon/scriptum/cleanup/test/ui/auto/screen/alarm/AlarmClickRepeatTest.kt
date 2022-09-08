@@ -3,9 +3,9 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.alarm
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.getCalendarWithAdd
-import sgtmelon.common.utils.getNewCalendar
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.getClearCalendar
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -41,7 +41,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
         preferencesRepo.repeat = Repeat.MIN_10
 
         launchAlarm(it) {
-            val existDate = getCalendarWithAdd(min = 10).getText()
+            val existDate = getClearCalendar(addMinutes = 10).toText()
             db.insertNotification(date = existDate)
 
             openAlarm(it, listOf(existDate)) { onClickRepeat() }
@@ -59,7 +59,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
         val note = db.insertRoll(db.rollNote.copy(color = Color.RED))
 
         launchAlarm(it) {
-            var repeatCalendar = getNewCalendar()
+            var repeatCalendar = getCalendar()
             openAlarm(it) {
                 repeatCalendar = onClickRepeat()
             }
@@ -69,7 +69,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
                     onAssertItem(note, p = 0)
                     openNoteDialog(note, p = 0) {
                         onNotification {
-                            onClickApply(listOf(repeatCalendar.getText())) {
+                            onClickApply(listOf(repeatCalendar.toText())) {
                                 onTime(repeatCalendar).assert()
                             }
                         }

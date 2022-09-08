@@ -21,7 +21,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
@@ -396,7 +396,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         every { newItem.alarm } returns alarm
         every { alarm.date } returns date
         FastMock.timeExtension()
-        every { date.getCalendar() } returns calendar
+        every { date.toCalendar() } returns calendar
         every { newItem.note } returns note
         every { note.id } returns id
 
@@ -410,7 +410,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
             callback.setList(resultList)
             newItem.alarm
             alarm.date
-            date.getCalendar()
+            date.toCalendar()
             newItem.note
             note.id
             callback.sendSetAlarmBroadcast(id, calendar, showToast = false)

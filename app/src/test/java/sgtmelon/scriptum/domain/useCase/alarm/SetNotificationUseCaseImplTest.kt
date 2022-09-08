@@ -14,7 +14,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -108,7 +108,7 @@ class SetNotificationUseCaseImplTest : ParentTest() {
         val date = nextString()
 
         FastMock.timeExtension()
-        every { calendar.getText() } returns date
+        every { calendar.toText() } returns date
         coEvery { spyUseCase(item, date) } returns Unit
 
         runBlocking {
@@ -118,7 +118,7 @@ class SetNotificationUseCaseImplTest : ParentTest() {
         coVerifySequence {
             spyUseCase(item, calendar)
 
-            calendar.getText()
+            calendar.toText()
             spyUseCase(item, date)
         }
     }

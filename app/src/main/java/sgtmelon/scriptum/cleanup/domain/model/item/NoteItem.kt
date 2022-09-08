@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
 import kotlin.math.min
-import sgtmelon.common.utils.getTime
+import sgtmelon.common.utils.getCalendarText
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
@@ -44,7 +44,7 @@ sealed class NoteItem(
 
     fun switchStatus() = apply { isStatus = !isStatus }
 
-    fun updateTime() = apply { change = getTime() }
+    fun updateTime() = apply { change = getCalendarText() }
 
     fun haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
 
@@ -124,7 +124,7 @@ sealed class NoteItem(
 
     class Text(
         id: Long = Note.Default.ID,
-        create: String = getTime(),
+        create: String = getCalendarText(),
         change: String = Note.Default.CHANGE,
         name: String = Note.Default.NAME,
         text: String = Note.Default.TEXT,
@@ -197,7 +197,7 @@ sealed class NoteItem(
 
     class Roll(
         id: Long = Note.Default.ID,
-        create: String = getTime(),
+        create: String = getCalendarText(),
         change: String = Note.Default.CHANGE,
         name: String = Note.Default.NAME,
         text: String = Note.Default.TEXT,

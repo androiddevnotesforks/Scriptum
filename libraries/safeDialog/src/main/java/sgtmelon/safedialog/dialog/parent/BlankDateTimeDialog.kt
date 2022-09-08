@@ -5,12 +5,11 @@ import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.widget.DatePicker
 import android.widget.TimePicker
-import sgtmelon.common.utils.clearSeconds
-import sgtmelon.common.utils.getNewCalendar
+import java.util.Calendar
+import sgtmelon.common.utils.getClearCalendar
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.safedialog.dialog.time.TimeDialog
-import java.util.Calendar
 
 /**
  * Base class for work with [DateDialog] and [TimeDialog].
@@ -19,9 +18,9 @@ abstract class BlankDateTimeDialog : BlankDialog(),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
-    protected val defaultTime get() = getNewCalendar().clearSeconds().timeInMillis
+    protected val defaultTime get() = getClearCalendar().timeInMillis
 
-    var calendar: Calendar = getNewCalendar().clearSeconds()
+    var calendar: Calendar = getClearCalendar()
         private set
 
     /**

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.dialog.sheet
 
-import sgtmelon.common.utils.getTime
+import sgtmelon.common.utils.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
@@ -36,7 +36,7 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
          * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
          * of actual note creation was ~01:.. (after [DbDelegator] note was created).
          */
-        item.create = getTime()
+        item.create = getCalendarText()
 
         textButton.click()
         TextNoteScreen(func, State.NEW, item, isRankEmpty)
@@ -52,7 +52,7 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
          * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
          * of actual note creation was ~01:.. (after [DbDelegator] note was created).
          */
-        item.create = getTime()
+        item.create = getCalendarText()
 
         rollButton.click()
         RollNoteScreen(func, State.NEW, item, isRankEmpty)

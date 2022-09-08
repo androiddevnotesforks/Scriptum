@@ -14,26 +14,37 @@ import android.text.format.DateFormat as DateFormatAndroid
 // TODO add unit tests
 // TODO make all access to calendar - suspendable
 
-fun getNewCalendar(): Calendar = Calendar.getInstance()
+fun getCalendar(): Calendar = Calendar.getInstance()
 
-fun getCalendarWithAdd(min: Int): Calendar = getNewCalendar().clearSeconds().apply {
-    add(Calendar.MINUTE, min)
+/**
+ * Calendar of current time but with clear millis/seconds (which equals 0/0).
+ */
+fun getClearCalendar(): Calendar {
+    return getCalendar().clearSeconds()
 }
 
-fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
+fun getClearCalendar(addMinutes: Int): Calendar {
+    return getClearCalendar().apply {
+        add(Calendar.MINUTE, addMinutes)
+    }
+}
+
+private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
 
 fun Context?.is24Format(): Boolean {
     return if (this != null) DateFormatAndroid.is24HourFormat(this) else true
 }
 
-fun getTime(): String = getNewCalendar().getText()
+fun getCalendarText(): String = getCalendar().toText()
 
 fun Calendar.isToday() = DateUtils.isToday(timeInMillis)
 
-fun Calendar.isThisYear() = get(Calendar.YEAR) == getNewCalendar().get(Calendar.YEAR)
+fun Calendar.isThisYear() = get(Calendar.YEAR) == getCalendar().get(Calendar.YEAR)
 
-fun String.getCalendar(): Calendar {
-    val calendar = getNewCalendar()
+//region Converting
+
+fun String.toCalendar(): Calendar {
+    val calendar = getCalendar()
 
     if (isEmpty()) return calendar
 
@@ -46,10 +57,10 @@ fun String.getCalendar(): Calendar {
     return calendar
 }
 
-fun String.getCalendarOrNull(): Calendar? {
+fun String.toCalendarOrNull(): Calendar? {
     if (isEmpty()) return null
 
-    val calendar = getNewCalendar()
+    val calendar = sgtmelon.common.utils.getCalendar()
 
     try {
         getDateFormat().parse(this)?.let { calendar.time = it }
@@ -61,16 +72,21 @@ fun String.getCalendarOrNull(): Calendar? {
     return calendar
 }
 
-fun Calendar.getText(): String = getDateFormat().format(this.time)
+fun Calendar.toText(): String = getDateFormat().format(this.time)
 
-fun Calendar.beforeNow() = this.before(getNewCalendar())
+//endregion
 
-fun Calendar.afterNow() = this.after(getNewCalendar())
+fun Calendar.isBeforeNow() = this.before(getCalendar())
 
-fun Calendar.formatFuture(context: Context,
-                          maxResolution: Long = DateUtils.WEEK_IN_MILLIS) : String {
-    return DateUtils.getRelativeDateTimeString(context, timeInMillis,
-            DateUtils.DAY_IN_MILLIS, maxResolution, 0
+fun Calendar.isAfterNow() = this.after(getCalendar())
+
+fun Calendar.formatFuture(
+    context: Context,
+    maxResolution: Long = DateUtils.WEEK_IN_MILLIS
+): String {
+    return DateUtils.getRelativeDateTimeString(
+        context, timeInMillis,
+        DateUtils.DAY_IN_MILLIS, maxResolution, 0
     ).toString()
 }
 
@@ -82,26 +98,33 @@ fun Calendar.clearSeconds() = apply {
 fun Calendar.formatPast(): String {
     return when {
         isToday() -> DateFormat.getTimeInstance(DateFormat.SHORT).format(time)
-        isThisYear() -> SimpleDateFormat(BuildConfig.DATE_FORMAT_DATE_MEDIUM, Locale.getDefault()).format(time)
+        isThisYear() -> SimpleDateFormat(
+            BuildConfig.DATE_FORMAT_DATE_MEDIUM,
+            Locale.getDefault()
+        ).format(time)
         else -> DateFormat.getDateInstance(DateFormat.SHORT).format(time)
     }
 }
+
+//region ONLY TESTS
 
 /**
  * TODO Think about this methods. Where you can move them, or make visible only for tests/
  */
 fun getRandomFutureTime(): String {
-    return getNewCalendar().clearSeconds().apply {
+    return getClearCalendar().apply {
         add(Calendar.MINUTE, (1..60).random())
         add(Calendar.HOUR_OF_DAY, (1..12).random())
         add(Calendar.DAY_OF_YEAR, (10..30).random())
-    }.getText()
+    }.toText()
 }
 
 fun getRandomPastTime(): String {
-    return getNewCalendar().clearSeconds().apply {
+    return getClearCalendar().apply {
         add(Calendar.MINUTE, -(1..60).random())
         add(Calendar.HOUR_OF_DAY, -(1..12).random())
         add(Calendar.DAY_OF_YEAR, -(10..30).random())
-    }.getText()
+    }.toText()
 }
+
+//endregion

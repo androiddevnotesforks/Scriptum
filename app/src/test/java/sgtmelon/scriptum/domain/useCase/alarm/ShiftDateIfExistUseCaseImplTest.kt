@@ -9,10 +9,8 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.common.utils.clearSeconds
-import sgtmelon.common.utils.getCalendarWithAdd
-import sgtmelon.common.utils.getNewCalendar
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.getClearCalendar
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
@@ -32,9 +30,9 @@ class ShiftDateIfExistUseCaseImplTest : ParentTest() {
     }
 
     @Test fun invoke() {
-        val dateList = List(getRandomSize()) { getCalendarWithAdd(it).getText() }
+        val dateList = List(getRandomSize()) { getClearCalendar(it).toText() }
 
-        val currentCalendar = getNewCalendar().clearSeconds()
+        val currentCalendar = getClearCalendar()
         val minute = currentCalendar.get(Calendar.MINUTE)
 
         coEvery { repository.getDateList() } returns dateList
@@ -53,13 +51,16 @@ class ShiftDateIfExistUseCaseImplTest : ParentTest() {
     }
 
     @Test fun `invoke hour overflow`() {
-        val calendar = getNewCalendar().clearSeconds()
+        val calendar = getClearCalendar()
         val addMinutes = 60 - calendar.get(Calendar.MINUTE)
         val overflowHour = calendar.get(Calendar.HOUR) + 1
 
-        val dateList = List(getRandomSize()) { getCalendarWithAdd(min = addMinutes + it).getText() }
+        val dateList = List(getRandomSize()) {
+            getClearCalendar(addMinutes = addMinutes + it)
+                .toText()
+        }
 
-        val currentCalendar = getCalendarWithAdd(addMinutes)
+        val currentCalendar = getClearCalendar(addMinutes)
         val minute = currentCalendar.get(Calendar.MINUTE)
 
         coEvery { repository.getDateList() } returns dateList

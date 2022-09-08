@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.ui.dialog
 
 import java.util.Calendar
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.toText
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.click
@@ -94,7 +94,7 @@ class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTime
     }
 
     override fun onTimeDialogResult(calendar: Calendar) {
-        item.alarmDate = calendar.getText()
+        item.alarmDate = calendar.toText()
     }
 
     fun assert() {

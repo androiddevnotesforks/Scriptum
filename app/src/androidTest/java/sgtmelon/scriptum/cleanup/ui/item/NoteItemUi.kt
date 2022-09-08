@@ -5,7 +5,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import org.hamcrest.Matcher
 import sgtmelon.common.utils.formatPast
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
@@ -192,10 +192,10 @@ class NoteItemUi(
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(R.drawable.ic_rank, R.attr.clIndicator)
 
-                val change = item.change.getCalendar().formatPast()
+                val change = item.change.toCalendar().formatPast()
                 changeText.isDisplayed().withText(change, R.attr.clContentSecond, R.dimen.text_12sp)
 
-                val create = item.create.getCalendar().formatPast()
+                val create = item.create.toCalendar().formatPast()
                 createText.isDisplayed().withText(create, R.attr.clContentSecond, R.dimen.text_12sp)
             }
         }

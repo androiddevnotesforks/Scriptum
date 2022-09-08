@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main
 
-import sgtmelon.common.utils.getCalendarWithAdd
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.getClearCalendar
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
@@ -67,7 +67,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (it in lastArray) {
-                val time = getCalendarWithAdd(it).getText()
+                val time = getClearCalendar(it).toText()
 
                 val note = when (type) {
                     NoteType.TEXT -> when (sort) {

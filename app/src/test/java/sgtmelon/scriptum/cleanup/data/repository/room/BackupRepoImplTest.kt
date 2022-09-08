@@ -14,10 +14,10 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getClearCalendar
 import sgtmelon.common.utils.getRandomFutureTime
 import sgtmelon.common.utils.getRandomPastTime
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -333,14 +333,14 @@ class BackupRepoImplTest : ParentRepoTest() {
             val color = Color.values().random()
             return@List NotificationItem(
                 NotificationItem.Note(Random.nextLong(), nextString(), color, type),
-                NotificationItem.Alarm(Random.nextLong(), getCalendarWithAdd(it).getText())
+                NotificationItem.Alarm(Random.nextLong(), getClearCalendar(it).toText())
             )
         }
 
-        val startCalendar = getCalendarWithAdd(min = 1)
-        val resultCalendar = getCalendarWithAdd(min = list.size)
-        val resultDate = resultCalendar.getText()
-        val item = AlarmEntity(date = startCalendar.getText())
+        val startCalendar = getClearCalendar(addMinutes = 1)
+        val resultCalendar = getClearCalendar(addMinutes = list.size)
+        val resultDate = resultCalendar.toText()
+        val item = AlarmEntity(date = startCalendar.toText())
 
         assertNotEquals(item.date, resultDate)
         assertNotEquals(startCalendar.get(Calendar.MINUTE), resultCalendar.get(Calendar.MINUTE))

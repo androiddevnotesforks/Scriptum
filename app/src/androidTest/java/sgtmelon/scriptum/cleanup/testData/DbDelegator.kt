@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.testData
 
 import kotlin.random.Random
-import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getCalendarText
+import sgtmelon.common.utils.getClearCalendar
 import sgtmelon.common.utils.getRandomFutureTime
-import sgtmelon.common.utils.getText
-import sgtmelon.common.utils.getTime
+import sgtmelon.common.utils.toText
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
@@ -43,8 +43,8 @@ class DbDelegator(
      */
     val textNote: NoteEntity
         get() = NoteEntity().apply {
-            create = getTime()
-            change = getTime()
+            create = getCalendarText()
+            change = getCalendarText()
             name = nextString()
             text = nextString().repeat(n = (1 until 10).random())
             color = Color.values().random()
@@ -56,8 +56,8 @@ class DbDelegator(
      */
     val rollNote: NoteEntity
         get() = NoteEntity().apply {
-            create = getTime()
-            change = getTime()
+            create = getCalendarText()
+            change = getCalendarText()
             name = nextString()
             color = Color.values().random()
             type = NoteType.ROLL
@@ -282,13 +282,13 @@ class DbDelegator(
 
     fun fillNotes(count: Int = 10) = ArrayList<NoteItem>().apply {
         for (i in count downTo 0) {
-            add(insertNote(getCalendarWithAdd(i).getText()))
+            add(insertNote(getClearCalendar(i).toText()))
         }
     }
 
     fun fillBin(count: Int = 10) = ArrayList<NoteItem>().apply {
         for (i in count downTo 0) {
-            add(insertNoteToBin(getCalendarWithAdd(i).getText()))
+            add(insertNoteToBin(getClearCalendar(i).toText()))
         }
     }
 

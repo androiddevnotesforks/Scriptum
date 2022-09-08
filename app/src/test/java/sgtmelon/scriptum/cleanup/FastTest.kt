@@ -17,8 +17,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
-import sgtmelon.common.utils.beforeNow
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.isBeforeNow
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
@@ -516,7 +516,7 @@ object FastTest {
             val id = Random.nextLong()
 
             FastMock.timeExtension()
-            every { calendar.beforeNow() } returns true
+            every { calendar.isBeforeNow() } returns true
             every { spyViewModel.cacheData() } returns Unit
             every { noteItem.id } returns id
 
@@ -524,7 +524,7 @@ object FastTest {
             spyViewModel.restoreItem = restoreItem
             spyViewModel.onResultTimeDialog(calendar)
 
-            every { calendar.beforeNow() } returns false
+            every { calendar.isBeforeNow() } returns false
 
             spyViewModel.onResultTimeDialog(calendar)
 
@@ -534,10 +534,10 @@ object FastTest {
                 spyViewModel.noteItem = noteItem
                 spyViewModel.restoreItem = restoreItem
                 spyViewModel.onResultTimeDialog(calendar)
-                calendar.beforeNow()
+                calendar.isBeforeNow()
 
                 spyViewModel.onResultTimeDialog(calendar)
-                calendar.beforeNow()
+                calendar.isBeforeNow()
                 spyViewModel.interactor
                 spyViewModel.noteItem
                 setNotification(noteItem, calendar)
@@ -920,7 +920,7 @@ object FastTest {
             every { noteItem.haveAlarm() } returns haveAlarm
 
             FastMock.timeExtension()
-            every { alarmDate.getCalendar() } returns calendar
+            every { alarmDate.toCalendar() } returns calendar
 
             viewModel.noteItem = noteItem
             viewModel.noteState = noteState
@@ -937,7 +937,7 @@ object FastTest {
                 noteState.isEdit
 
                 noteItem.alarmDate
-                alarmDate.getCalendar()
+                alarmDate.toCalendar()
                 noteItem.haveAlarm()
                 callback.showDateDialog(calendar, haveAlarm)
 

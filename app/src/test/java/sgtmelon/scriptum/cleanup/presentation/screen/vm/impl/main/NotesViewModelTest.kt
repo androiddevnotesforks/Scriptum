@@ -17,8 +17,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.beforeNow
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.isBeforeNow
+import sgtmelon.common.utils.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
@@ -368,7 +368,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         every { item.alarmDate } returns alarmDate
         FastMock.timeExtension()
-        every { alarmDate.getCalendar() } returns calendar
+        every { alarmDate.toCalendar() } returns calendar
         every { item.haveAlarm() } returns haveAlarm
 
         viewModel.itemList.clearAdd(itemList)
@@ -376,7 +376,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             item.alarmDate
-            alarmDate.getCalendar()
+            alarmDate.toCalendar()
             item.haveAlarm()
             callback.showDateDialog(calendar, haveAlarm, index)
         }
@@ -540,10 +540,10 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         FastMock.timeExtension()
 
-        every { calendar.beforeNow() } returns true
+        every { calendar.isBeforeNow() } returns true
         viewModel.onResultTimeDialog(calendar, Random.nextInt())
 
-        every { calendar.beforeNow() } returns false
+        every { calendar.isBeforeNow() } returns false
         viewModel.onResultTimeDialog(calendar, Random.nextInt())
 
         every { item.id } returns id
@@ -551,11 +551,11 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onResultTimeDialog(calendar, index)
 
         coVerifySequence {
-            calendar.beforeNow()
+            calendar.isBeforeNow()
 
-            calendar.beforeNow()
+            calendar.isBeforeNow()
 
-            calendar.beforeNow()
+            calendar.isBeforeNow()
             setNotification(item, calendar)
             callback.notifyItemChanged(itemList, index)
 
