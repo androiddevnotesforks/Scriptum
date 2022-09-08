@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.parent
 
 import org.junit.After
-import sgtmelon.scriptum.parent.automator.RotateAutomator
+import sgtmelon.test.cappuccino.automator.RotateAutomator
 
 /**
  * Parent class for automatic Rotation tests.

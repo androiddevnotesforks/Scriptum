@@ -1,8 +1,8 @@
-package sgtmelon.scriptum.parent.automator
+package sgtmelon.test.cappuccino.automator
 
 import androidx.test.uiautomator.UiDevice
 import kotlin.random.Random
-import sgtmelon.scriptum.parent.utils.await
+import sgtmelon.test.cappuccino.utils.await
 
 class RotateAutomator(private val uiDevice: UiDevice) {
 
