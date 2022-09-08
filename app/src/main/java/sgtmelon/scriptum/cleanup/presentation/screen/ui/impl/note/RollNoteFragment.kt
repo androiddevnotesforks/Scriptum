@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +33,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
-import sgtmelon.scriptum.cleanup.extension.addTextChangedListener
 import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
@@ -283,7 +283,7 @@ class RollNoteFragment : ParentFragment(),
             )
             imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
-            addTextChangedListener(on = { onBindingEnter() })
+            doOnTextChanged { _, _, _, _ -> onBindingEnter() }
             setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
         }
 

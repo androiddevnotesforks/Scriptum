@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.addTextChangedListener
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
@@ -204,7 +204,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
 
         nameEnter = view?.findViewById(R.id.toolbar_rank_enter)
         nameEnter?.apply {
-            addTextChangedListener(on = { viewModel.onUpdateToolbar() })
+            doOnTextChanged { _, _, _, _ -> viewModel.onUpdateToolbar() }
             setOnEditorActionListener { _, i, _ ->
                 val result = openState?.tryReturnInvoke { viewModel.onEditorClick(i) } ?: false
 
