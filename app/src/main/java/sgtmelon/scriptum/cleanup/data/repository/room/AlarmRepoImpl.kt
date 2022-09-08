@@ -14,7 +14,7 @@ class AlarmRepoImpl(
     private val converter: AlarmConverter
 ) : AlarmRepo {
 
-    override suspend fun insertOrUpdate(item: NoteItem, date: String) {
+    override suspend fun insertOrUpdate(item: NoteItem, date: String): Long? {
         item.alarmDate = date
 
         val entity = converter.toEntity(item)
@@ -22,8 +22,10 @@ class AlarmRepoImpl(
             dataSource.update(entity)
         } else {
             /** Catch of insert errors happen inside dataSource. */
-            item.alarmId = dataSource.insert(entity) ?: return
+            item.alarmId = dataSource.insert(entity) ?: return null
         }
+
+        return item.alarmId
     }
 
     override suspend fun delete(noteId: Long) = dataSource.delete(noteId)
