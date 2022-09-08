@@ -8,8 +8,8 @@ import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
-import sgtmelon.common.utils.getDrawableCompat
-import sgtmelon.common.utils.setColorFilterCompat
+import sgtmelon.extensions.getDrawableCompat
+import sgtmelon.extensions.setColorFilterCompat
 import sgtmelon.iconanim.R
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback

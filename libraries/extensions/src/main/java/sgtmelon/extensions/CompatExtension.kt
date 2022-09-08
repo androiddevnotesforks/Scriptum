@@ -1,4 +1,4 @@
-package sgtmelon.common.utils
+package sgtmelon.extensions
 
 import android.content.Context
 import android.graphics.drawable.Drawable

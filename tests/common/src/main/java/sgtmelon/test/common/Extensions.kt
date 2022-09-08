@@ -20,3 +20,7 @@ fun nextIntOrNull() = if (Random.nextBoolean()) Random.nextInt() else null
 fun Int.isDivideEntirely(number: Int = 2): Boolean = this % number == 0
 
 fun Long.isDivideEntirely(number: Long = 2): Boolean = this % number == 0L
+
+//region Time functions
+
+//endregion

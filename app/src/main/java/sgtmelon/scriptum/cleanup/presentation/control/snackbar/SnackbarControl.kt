@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
-import sgtmelon.common.utils.getDrawableCompat
+import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
