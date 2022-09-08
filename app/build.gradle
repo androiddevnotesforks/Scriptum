@@ -79,6 +79,7 @@ dependencies {
     implementation project(':common')
 
     implementation project(':tests:idling')
+    implementation project(':tests:prod')
     testImplementation project(path: ':tests:common')
     androidTestImplementation project(path: ':tests:common')
     androidTestImplementation project(path: ':tests:cappuccino')

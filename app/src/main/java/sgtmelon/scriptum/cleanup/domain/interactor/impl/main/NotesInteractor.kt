@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Interactor for [INotesViewModel].

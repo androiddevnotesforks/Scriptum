@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.launch
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.runBack
 import sgtmelon.extensions.toCalendar
@@ -26,6 +25,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.test.idling.getIdling
+import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Options
 
 /**

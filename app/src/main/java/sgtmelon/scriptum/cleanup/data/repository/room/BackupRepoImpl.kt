@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
 import java.util.Calendar
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.toCalendarOrNull
 import sgtmelon.extensions.toText
@@ -26,6 +25,7 @@ import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.database.Database
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Repository for work with backup data.

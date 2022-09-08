@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.test.idling.getIdling
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [IAlarmActivity].

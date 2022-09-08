@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.text.format.DateUtils
 import java.util.Calendar
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.formatFuture
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
@@ -13,6 +12,7 @@ import sgtmelon.scriptum.cleanup.extension.getAlarmService
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IAlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.toast.IToastControl
 import sgtmelon.scriptum.cleanup.presentation.receiver.action.AlarmActionReceiver
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Class for help control [AlarmManager]

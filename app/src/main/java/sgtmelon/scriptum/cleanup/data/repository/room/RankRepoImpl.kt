@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -11,6 +10,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Repository for work with ranks.

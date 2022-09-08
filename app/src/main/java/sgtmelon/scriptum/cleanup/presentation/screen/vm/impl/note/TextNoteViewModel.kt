@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [ITextNoteFragment].

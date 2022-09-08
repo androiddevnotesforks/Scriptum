@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.test.idling.getIdling
+import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 
 /**

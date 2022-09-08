@@ -9,7 +9,6 @@ import android.os.Build.VERSION_CODES
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
@@ -22,6 +21,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
 import sgtmelon.scriptum.cleanup.presentation.receiver.action.UnbindActionReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Factory for create notifications
@@ -105,7 +105,10 @@ object NotificationFactory {
         /**
          * If [NoteType.ROLL] - title will starts with amount of done list items.
          */
-        @RunPrivate fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
+        @RunPrivate fun getStatusTitle(
+            context: Context,
+            item: NoteItem
+        ): String = with(item) {
             val titleStart = if (type == NoteType.ROLL) "$text | " else ""
 
             return titleStart.plus(name.ifEmpty { context.getString(R.string.hint_text_name) })

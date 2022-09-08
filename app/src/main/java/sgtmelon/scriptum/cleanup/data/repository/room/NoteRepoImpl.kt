@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
@@ -17,6 +16,7 @@ import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Repository for work with notes.

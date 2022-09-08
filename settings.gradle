@@ -1,8 +1,11 @@
 include ':app', ':common'
+
 include ':libraries:safeDialog'
 include ':libraries:iconAnim'
 include ':libraries:textDotAnim'
+include ':libraries:extensions'
+
 include ':tests:common'
 include ':tests:idling'
 include ':tests:cappuccino'
-include ':libraries:extensions'
+include ':tests:prod'

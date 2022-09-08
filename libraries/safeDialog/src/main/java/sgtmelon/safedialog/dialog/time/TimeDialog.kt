@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import java.util.Calendar
-import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.extensions.clearSeconds
 import sgtmelon.extensions.is24HourFormat
 import sgtmelon.extensions.isAfterNow
@@ -16,6 +15,7 @@ import sgtmelon.safedialog.dialog.parent.BlankDateTimeDialog
 import sgtmelon.safedialog.dialog.parent.TouchTimePickerDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.safeShow
+import sgtmelon.test.prod.RunNone
 
 /**
  * Dialog for choose time

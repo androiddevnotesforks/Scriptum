@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.runBack
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.test.idling.getIdling
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [INotificationActivity].
@@ -33,7 +33,8 @@ class NotificationViewModel(
         INotificationViewModel {
 
     @RunPrivate val itemList: MutableList<NotificationItem> = mutableListOf()
-    @RunPrivate val cancelList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
+    @RunPrivate val cancelList: MutableList<Pair<Int, NotificationItem>> =
+        mutableListOf()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
@@ -185,7 +186,10 @@ class NotificationViewModel(
     /**
      * After insert need update item in list (due to new item id).
      */
-    @RunPrivate suspend fun snackbarActionBackground(item: NotificationItem, position: Int) {
+    @RunPrivate suspend fun snackbarActionBackground(
+        item: NotificationItem,
+        position: Int
+    ) {
         val newItem = runBack { setNotification(item) } ?: return
 
         itemList[position] = newItem

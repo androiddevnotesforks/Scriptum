@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.system
 
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.runMain
 import sgtmelon.extensions.toCalendar
@@ -14,6 +13,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPre
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Interactor for [ISystemPresenter]

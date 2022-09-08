@@ -2,12 +2,12 @@ package sgtmelon.scriptum.cleanup.presentation.control.broadcast
 
 import android.content.Context
 import java.util.Calendar
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.cleanup.extension.sendTo
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Class for control broadcast messaging

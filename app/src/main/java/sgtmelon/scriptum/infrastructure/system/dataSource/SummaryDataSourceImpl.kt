@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.system.dataSource
 
 import android.content.res.Resources
 import java.util.Locale
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
@@ -13,6 +12,7 @@ import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Provide summary/description for preference keys.

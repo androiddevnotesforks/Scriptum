@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import java.util.Calendar
-import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.extensions.clearSeconds
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
@@ -15,6 +14,7 @@ import sgtmelon.safedialog.dialog.callback.DateTestCallback
 import sgtmelon.safedialog.dialog.parent.BlankDateTimeDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.safeShow
+import sgtmelon.test.prod.RunNone
 
 /**
  * Dialog for choose date

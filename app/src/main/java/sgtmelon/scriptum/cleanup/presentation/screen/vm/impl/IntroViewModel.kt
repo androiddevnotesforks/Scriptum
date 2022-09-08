@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
 
 import android.os.Bundle
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [IIntroActivity].

@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.input
 
 import android.util.Log
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * Class for control input data inside note and work with undo/redo.

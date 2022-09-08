@@ -5,7 +5,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlin.math.max
 import kotlinx.coroutines.launch
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
@@ -21,6 +20,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewM
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
 import sgtmelon.test.idling.getIdling
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [IRankFragment].
@@ -33,7 +33,8 @@ class RankViewModel(
         IRankViewModel {
 
     @RunPrivate val itemList: MutableList<RankItem> = mutableListOf()
-    @RunPrivate val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
+    @RunPrivate val cancelList: MutableList<Pair<Int, RankItem>> =
+        mutableListOf()
 
     private val nameList: List<String> get() = getNameList(itemList)
 

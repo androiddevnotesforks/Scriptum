@@ -3,13 +3,13 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
 import android.os.Bundle
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [IMainActivity].

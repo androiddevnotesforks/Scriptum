@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.annotation.IntRange
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
+import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [IAlarmPreferenceFragment].
