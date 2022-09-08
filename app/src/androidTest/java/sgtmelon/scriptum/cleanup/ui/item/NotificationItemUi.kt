@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.ui.item
 
 import android.view.View
 import org.hamcrest.Matcher
-import sgtmelon.common.utils.formatFuture
-import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.formatFuture
+import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground

@@ -11,6 +11,9 @@ android {
         targetSdk 32
 
         consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField "String", "DATE_FORMAT_FULL", '"yyyy-MM-dd HH:mm:ss"'
+        buildConfigField "String", "DATE_FORMAT_SHORT", '"d MMM"'
     }
 
     buildTypes {

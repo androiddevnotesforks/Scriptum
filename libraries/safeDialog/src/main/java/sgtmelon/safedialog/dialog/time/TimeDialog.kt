@@ -5,10 +5,10 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunNone
-import sgtmelon.common.utils.clearSeconds
-import sgtmelon.common.utils.is24Format
-import sgtmelon.common.utils.isAfterNow
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.clearSeconds
+import sgtmelon.extensions.is24Format
+import sgtmelon.extensions.isAfterNow
+import sgtmelon.extensions.toText
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.callback.TimeTestCallback

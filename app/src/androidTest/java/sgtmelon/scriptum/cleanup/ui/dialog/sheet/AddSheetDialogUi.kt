@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.dialog.sheet
 
-import sgtmelon.common.utils.getCalendarText
+import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed

@@ -3,9 +3,9 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.alarm
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.getCalendar
-import sgtmelon.common.utils.getClearCalendar
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.getCalendar
+import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.infrastructure.model.key.Color

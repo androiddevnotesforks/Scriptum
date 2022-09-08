@@ -14,10 +14,8 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.common.utils.getClearCalendar
-import sgtmelon.common.utils.getRandomFutureTime
-import sgtmelon.common.utils.getRandomPastTime
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -32,6 +30,8 @@ import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.common.getRandomFutureTime
+import sgtmelon.test.common.getRandomPastTime
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString

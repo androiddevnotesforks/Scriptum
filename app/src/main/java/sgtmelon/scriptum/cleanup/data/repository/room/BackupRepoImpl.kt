@@ -2,9 +2,9 @@ package sgtmelon.scriptum.cleanup.data.repository.room
 
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.isBeforeNow
-import sgtmelon.common.utils.toCalendarOrNull
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.isBeforeNow
+import sgtmelon.extensions.toCalendarOrNull
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity

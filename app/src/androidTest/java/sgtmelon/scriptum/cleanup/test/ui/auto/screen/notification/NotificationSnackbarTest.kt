@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification
 
 import org.junit.Test
-import sgtmelon.common.utils.getClearCalendar
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.cleanup.testData.Scroll

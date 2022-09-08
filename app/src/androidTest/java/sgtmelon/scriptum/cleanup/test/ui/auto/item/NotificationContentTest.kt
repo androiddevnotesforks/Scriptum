@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.item
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.getClearCalendar
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.item.NotificationItemUi
 import sgtmelon.scriptum.infrastructure.model.key.Color

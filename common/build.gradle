@@ -10,8 +10,8 @@ android {
         minSdk 21
         targetSdk 32
 
-        buildConfigField "String", "DATE_FORMAT_DB", '"yyyy-MM-dd HH:mm:ss"'
-        buildConfigField "String", "DATE_FORMAT_DATE_MEDIUM", '"d MMM"'
+        buildConfigField "String", "DATE_FORMAT_FULL", '"yyyy-MM-dd HH:mm:ss"'
+        buildConfigField "String", "DATE_FORMAT_SHORT", '"d MMM"'
     }
 
     buildTypes {

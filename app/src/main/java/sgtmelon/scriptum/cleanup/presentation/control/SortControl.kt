@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.control
 
-import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 

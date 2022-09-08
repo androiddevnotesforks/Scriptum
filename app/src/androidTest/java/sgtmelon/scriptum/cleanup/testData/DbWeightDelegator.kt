@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.testData
 
 import android.content.Context
 import kotlin.random.Random
-import sgtmelon.common.utils.getCalendarText
+import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity

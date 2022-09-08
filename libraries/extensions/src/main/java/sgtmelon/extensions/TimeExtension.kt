@@ -1,6 +1,6 @@
 @file:JvmName(name = "TimeExtensionUtils")
 
-package sgtmelon.common.utils
+package sgtmelon.extensions
 
 import android.content.Context
 import android.text.format.DateUtils
@@ -8,7 +8,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import sgtmelon.common.BuildConfig
 import android.text.format.DateFormat as DateFormatAndroid
 
 // TODO add unit tests
@@ -34,7 +33,7 @@ fun getClearCalendar(addMinutes: Int): Calendar {
     }
 }
 
-private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
+private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_FULL, Locale.getDefault())
 
 fun Context?.is24Format(): Boolean {
     return if (this != null) DateFormatAndroid.is24HourFormat(this) else true
@@ -61,7 +60,7 @@ fun String.toCalendar(): Calendar {
 fun String.toCalendarOrNull(): Calendar? {
     if (isEmpty()) return null
 
-    val calendar = sgtmelon.common.utils.getCalendar()
+    val calendar = getCalendar()
 
     try {
         getDateFormat().parse(this)?.let { calendar.time = it }
@@ -97,7 +96,7 @@ fun Calendar.formatPast(): String {
     return when {
         isToday() -> DateFormat.getTimeInstance(DateFormat.SHORT).format(time)
         isThisYear() -> SimpleDateFormat(
-            BuildConfig.DATE_FORMAT_DATE_MEDIUM,
+            BuildConfig.DATE_FORMAT_SHORT,
             Locale.getDefault()
         ).format(time)
         else -> DateFormat.getDateInstance(DateFormat.SHORT).format(time)
@@ -107,28 +106,5 @@ fun Calendar.formatPast(): String {
 private fun Calendar.isToday() = DateUtils.isToday(timeInMillis)
 
 private fun Calendar.isThisYear() = get(Calendar.YEAR) == getCalendar().get(Calendar.YEAR)
-
-//endregion
-
-//region ONLY TESTS
-
-/**
- * TODO Think about this methods. Where you can move them, or make visible only for tests/
- */
-fun getRandomFutureTime(): String {
-    return getClearCalendar().apply {
-        add(Calendar.MINUTE, (1..60).random())
-        add(Calendar.HOUR_OF_DAY, (1..12).random())
-        add(Calendar.DAY_OF_YEAR, (10..30).random())
-    }.toText()
-}
-
-fun getRandomPastTime(): String {
-    return getClearCalendar().apply {
-        add(Calendar.MINUTE, -(1..60).random())
-        add(Calendar.HOUR_OF_DAY, -(1..12).random())
-        add(Calendar.DAY_OF_YEAR, -(10..30).random())
-    }.toText()
-}
 
 //endregion

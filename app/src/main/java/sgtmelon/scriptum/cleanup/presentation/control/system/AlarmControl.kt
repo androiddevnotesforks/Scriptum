@@ -6,7 +6,7 @@ import android.content.Context
 import android.text.format.DateUtils
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.formatFuture
+import sgtmelon.extensions.formatFuture
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getAlarmService

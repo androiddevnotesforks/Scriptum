@@ -1,7 +1,10 @@
 package sgtmelon.test.common
 
+import java.util.Calendar
 import java.util.UUID
 import kotlin.random.Random
+import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.toText
 
 //region Random functions
 
@@ -22,5 +25,21 @@ fun Int.isDivideEntirely(number: Int = 2): Boolean = this % number == 0
 fun Long.isDivideEntirely(number: Long = 2): Boolean = this % number == 0L
 
 //region Time functions
+
+fun getRandomFutureTime(): String {
+    return getClearCalendar().apply {
+        add(Calendar.MINUTE, (1..60).random())
+        add(Calendar.HOUR_OF_DAY, (1..12).random())
+        add(Calendar.DAY_OF_YEAR, (10..30).random())
+    }.toText()
+}
+
+fun getRandomPastTime(): String {
+    return getClearCalendar().apply {
+        add(Calendar.MINUTE, -(1..60).random())
+        add(Calendar.HOUR_OF_DAY, -(1..12).random())
+        add(Calendar.DAY_OF_YEAR, -(10..30).random())
+    }.toText()
+}
 
 //endregion

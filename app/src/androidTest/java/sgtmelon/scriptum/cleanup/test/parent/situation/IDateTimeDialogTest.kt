@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.test.parent.situation
 
-import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.time.TimeDialogUi
 

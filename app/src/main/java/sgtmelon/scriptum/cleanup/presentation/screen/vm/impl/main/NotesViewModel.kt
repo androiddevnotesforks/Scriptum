@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.isBeforeNow
 import sgtmelon.common.utils.runBack
-import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.isBeforeNow
+import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag

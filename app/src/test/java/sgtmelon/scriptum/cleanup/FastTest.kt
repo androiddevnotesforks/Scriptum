@@ -17,8 +17,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
-import sgtmelon.common.utils.isBeforeNow
-import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.isBeforeNow
+import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor

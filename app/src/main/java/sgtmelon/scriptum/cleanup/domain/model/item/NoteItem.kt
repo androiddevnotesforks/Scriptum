@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
 import kotlin.math.min
-import sgtmelon.common.utils.getCalendarText
+import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible

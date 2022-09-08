@@ -5,8 +5,8 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.getClearCalendar
 import sgtmelon.common.utils.runBack
+import sgtmelon.extensions.getClearCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag

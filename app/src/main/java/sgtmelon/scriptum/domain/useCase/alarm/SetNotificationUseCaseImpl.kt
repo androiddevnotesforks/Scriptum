@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.useCase.alarm
 
 import java.util.Calendar
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.ui.dialog.time
 
 import java.util.Calendar
-import sgtmelon.common.utils.getClearCalendar
+import sgtmelon.extensions.getClearCalendar
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.click

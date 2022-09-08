@@ -6,10 +6,10 @@ import java.util.Calendar
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.test.annotation.RunProtected
-import sgtmelon.common.utils.isBeforeNow
 import sgtmelon.common.utils.launchBack
 import sgtmelon.common.utils.runBack
-import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.isBeforeNow
+import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag

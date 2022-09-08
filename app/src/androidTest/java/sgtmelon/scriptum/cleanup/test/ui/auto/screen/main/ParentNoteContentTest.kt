@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main
 
-import sgtmelon.common.utils.getClearCalendar
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage

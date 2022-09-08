@@ -12,7 +12,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStream
 import java.io.OutputStreamWriter
-import sgtmelon.common.utils.getCalendarText
+import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.infrastructure.model.exception.FilesException
 import sgtmelon.scriptum.infrastructure.model.item.FileItem

@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.system
 
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.utils.isBeforeNow
 import sgtmelon.common.utils.runMain
-import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.isBeforeNow
+import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo

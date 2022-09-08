@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import java.util.Calendar
-import sgtmelon.common.utils.toCalendarOrNull
+import sgtmelon.extensions.toCalendarOrNull
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Eternal
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Command

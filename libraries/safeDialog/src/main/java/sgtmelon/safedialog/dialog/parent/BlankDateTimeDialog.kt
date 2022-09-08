@@ -6,7 +6,7 @@ import android.content.DialogInterface
 import android.widget.DatePicker
 import android.widget.TimePicker
 import java.util.Calendar
-import sgtmelon.common.utils.getClearCalendar
+import sgtmelon.extensions.getClearCalendar
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.safedialog.dialog.time.TimeDialog

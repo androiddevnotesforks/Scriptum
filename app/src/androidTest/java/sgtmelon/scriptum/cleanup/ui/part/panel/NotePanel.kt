@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.ui.part.panel
 
 import androidx.annotation.AttrRes
 import java.util.Calendar
-import sgtmelon.common.utils.getCalendarText
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.getCalendarText
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed

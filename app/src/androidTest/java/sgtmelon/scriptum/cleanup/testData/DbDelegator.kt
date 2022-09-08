@@ -1,10 +1,9 @@
 package sgtmelon.scriptum.cleanup.testData
 
 import kotlin.random.Random
-import sgtmelon.common.utils.getCalendarText
-import sgtmelon.common.utils.getClearCalendar
-import sgtmelon.common.utils.getRandomFutureTime
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.getCalendarText
+import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.RoomWorker
+import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.nextString
 
 /**

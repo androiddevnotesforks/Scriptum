@@ -8,8 +8,8 @@ import java.util.Calendar
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.common.utils.isAfterNow
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.isAfterNow
+import sgtmelon.extensions.toText
 import sgtmelon.safedialog.ParentTest
 import sgtmelon.test.common.nextString
 
@@ -19,7 +19,7 @@ import sgtmelon.test.common.nextString
 class TimeDialogTest : ParentTest() {
 
     @Test fun getPositiveEnabled() {
-        mockkStatic("sgtmelon.common.utils.TimeExtensionUtils")
+        mockkStatic("sgtmelon.extensions.TimeExtensionUtils")
 
         val calendar = mockk<Calendar>()
         val dateList = List(size = 5) { nextString() }

@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import java.util.Calendar
 import sgtmelon.common.test.annotation.RunNone
-import sgtmelon.common.utils.clearSeconds
+import sgtmelon.extensions.clearSeconds
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.SavedTag

@@ -9,7 +9,7 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import java.util.Calendar
-import sgtmelon.common.utils.getCalendar
+import sgtmelon.extensions.getCalendar
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.extension.getAlarmService
 import sgtmelon.scriptum.cleanup.extension.initLazy

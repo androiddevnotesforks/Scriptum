@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.ui.screen
 
 import java.util.Calendar
-import sgtmelon.common.utils.getCalendar
-import sgtmelon.common.utils.getClearCalendar
-import sgtmelon.common.utils.toText
+import sgtmelon.extensions.getCalendar
+import sgtmelon.extensions.getClearCalendar
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.basic.extension.click

@@ -4,8 +4,8 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import org.hamcrest.Matcher
-import sgtmelon.common.utils.formatPast
-import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.formatPast
+import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
