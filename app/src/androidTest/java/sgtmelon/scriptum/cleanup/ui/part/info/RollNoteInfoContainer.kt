@@ -6,7 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.withDrawableAttr
+import sgtmelon.test.cappuccino.utils.withDrawable
 import sgtmelon.test.cappuccino.utils.withTextColor
 import sgtmelon.test.cappuccino.utils.withTextSize
 
@@ -35,7 +35,7 @@ class RollNoteInfoContainer(isListEmpty: Boolean, isListHide: Boolean) : ParentU
         includeContainer.isDisplayed(isVisible)
 
         iconImage.isDisplayed(isVisible = false)
-            .withDrawableAttr(resourceId = null)
+            .withDrawable(resourceId = null)
 
         titleText?.isDisplayed(isVisible)
             ?.withTextColor(R.attr.clContent)

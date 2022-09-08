@@ -7,10 +7,11 @@ import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import sgtmelon.test.cappuccino.matchers.ContentDescriptionMatcher
 import sgtmelon.test.cappuccino.matchers.CursorMatcher
@@ -32,17 +33,14 @@ import sgtmelon.test.cappuccino.matchers.text.TextSizeMatcher
 
 
 fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
-    Espresso.onView(viewMatcher).check(ViewAssertions.matches(checkMatcher))
+    onView(viewMatcher).check(ViewAssertions.matches(checkMatcher))
 }
 
 fun Matcher<View>.isDisplayed(
     isVisible: Boolean = true,
     onVisible: Matcher<View>.() -> Unit = {}
 ) = also {
-    matchOnView(
-        it,
-        if (isVisible) ViewMatchers.isDisplayed() else CoreMatchers.not(ViewMatchers.isDisplayed())
-    )
+    matchOnView(it, if (isVisible) ViewMatchers.isDisplayed() else not(ViewMatchers.isDisplayed()))
 
     if (isVisible) apply(onVisible)
 }
@@ -51,26 +49,17 @@ fun Matcher<View>.isEnabled(
     isEnabled: Boolean = true,
     onEnabled: Matcher<View>.() -> Unit = {}
 ) = also {
-    matchOnView(
-        it,
-        if (isEnabled) ViewMatchers.isEnabled() else CoreMatchers.not(ViewMatchers.isEnabled())
-    )
+    matchOnView(it, if (isEnabled) ViewMatchers.isEnabled() else not(ViewMatchers.isEnabled()))
 
     if (isEnabled) apply(onEnabled)
 }
 
 fun Matcher<View>.isSelected(isSelected: Boolean = true) = also {
-    matchOnView(
-        it,
-        if (isSelected) ViewMatchers.isSelected() else CoreMatchers.not(ViewMatchers.isSelected())
-    )
+    matchOnView(it, if (isSelected) ViewMatchers.isSelected() else not(ViewMatchers.isSelected()))
 }
 
 fun Matcher<View>.isChecked(isChecked: Boolean = true) = also {
-    matchOnView(
-        it,
-        if (isChecked) ViewMatchers.isChecked() else CoreMatchers.not(ViewMatchers.isChecked())
-    )
+    matchOnView(it, if (isChecked) ViewMatchers.isChecked() else not(ViewMatchers.isChecked()))
 }
 
 fun Matcher<View>.isFocused(isFocused: Boolean = true) = also {
@@ -121,7 +110,12 @@ fun Matcher<View>.withHint(
     @AttrRes attrColor: Int? = null,
     @DimenRes dimenId: Int? = null
 ) = also {
-    matchOnView(it, CoreMatchers.allOf(ViewMatchers.withHint(stringId), ViewMatchers.withText("")))
+    val allMatcher = CoreMatchers.allOf(
+        ViewMatchers.withHint(stringId),
+        ViewMatchers.withText("")
+    )
+
+    matchOnView(it, allMatcher)
 
     if (attrColor != null) withHintColor(attrColor)
     if (dimenId != null) withTextSize(dimenId)
@@ -166,14 +160,14 @@ fun Matcher<View>.withDrawable(
 }
 
 fun Matcher<View>.withDrawableColor(
-    @IdRes resourceId: Int? = null,
+    @IdRes resourceId: Int,
     @ColorRes colorId: Int? = null
 ) = also {
     matchOnView(it, DrawableMatcher(resourceId, colorId, null))
 }
 
 fun Matcher<View>.withDrawableAttr(
-    @IdRes resourceId: Int?,
+    @IdRes resourceId: Int,
     @AttrRes attrColor: Int? = null
 ) = also {
     matchOnView(it, DrawableMatcher(resourceId, null, attrColor))
