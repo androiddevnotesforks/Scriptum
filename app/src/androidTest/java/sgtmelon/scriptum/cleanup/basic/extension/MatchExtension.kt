@@ -7,8 +7,6 @@ import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
@@ -36,11 +34,7 @@ import sgtmelon.test.cappuccino.matchers.text.HintAttrColorMatcher
 import sgtmelon.test.cappuccino.matchers.text.MenuItemTitleMatcher
 import sgtmelon.test.cappuccino.matchers.text.TextAttrColorMatcher
 import sgtmelon.test.cappuccino.matchers.text.TextSizeMatcher
-
-fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
-    onView(viewMatcher).check(matches(checkMatcher))
-}
-
+import sgtmelon.test.cappuccino.utils.matchOnView
 
 fun Matcher<View>.isDisplayed(
     isVisible: Boolean = true,
