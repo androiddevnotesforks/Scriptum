@@ -12,6 +12,7 @@ import androidx.databinding.BindingAdapter
 import sgtmelon.common.utils.formatFuture
 import sgtmelon.common.utils.formatPast
 import sgtmelon.common.utils.toCalendar
+import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -40,7 +41,7 @@ fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
         return
     }
 
-    setImageDrawable(context.getDrawable(drawableId))
+    setImageDrawable(context.getDrawableCompat(drawableId))
     setColorFilter(context.getColorAttr(color))
 }
 

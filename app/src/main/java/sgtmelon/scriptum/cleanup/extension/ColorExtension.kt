@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.extension
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.MenuItem
@@ -9,6 +8,8 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.DrawableCompat
+import sgtmelon.extensions.getDrawableCompat
+import sgtmelon.extensions.setColorFilterCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.accent
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.dark
@@ -61,9 +62,9 @@ fun MenuItem.tintIcon(context: Context) {
 }
 
 fun Context.getTintDrawable(@DrawableRes id: Int, @AttrRes tint: Int = R.attr.clContent): Drawable? {
-    val drawable = getDrawable(id) ?: return null
+    val drawable = getDrawableCompat(id) ?: return null
 
-    drawable.setColorFilter(getColorAttr(tint), PorterDuff.Mode.SRC_ATOP)
+    drawable.setColorFilterCompat(getColorAttr(tint))
 
     return drawable
 }

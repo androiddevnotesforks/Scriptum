@@ -1,12 +1,13 @@
 package sgtmelon.scriptum.cleanup.basic.matcher.drawable
 
-import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import org.hamcrest.Description
+import sgtmelon.extensions.getDrawableCompat
+import sgtmelon.extensions.setColorFilterCompat
 import sgtmelon.scriptum.cleanup.extension.getColorAttr
 import sgtmelon.scriptum.cleanup.extension.getCompatColor
 
@@ -28,16 +29,12 @@ class DrawableMatcher(
         if (resourceId == null) return item.drawable == null
 
         val context = item.context ?: return false
-        val expected = context.getDrawable(resourceId)?.mutate() ?: return false
+        val expected = context.getDrawableCompat(resourceId)?.mutate() ?: return false
         val actual = item.drawable
 
         when {
-            colorId != null -> {
-                expected.setColorFilter(context.getCompatColor(colorId), PorterDuff.Mode.SRC_ATOP)
-            }
-            attrColor != null -> {
-                expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
-            }
+            colorId != null -> expected.setColorFilterCompat(context.getCompatColor(colorId))
+            attrColor != null -> expected.setColorFilterCompat(context.getColorAttr(attrColor))
         }
 
         /**

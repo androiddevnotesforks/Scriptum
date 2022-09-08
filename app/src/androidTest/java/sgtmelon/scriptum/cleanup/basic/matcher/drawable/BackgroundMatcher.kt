@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.basic.matcher.drawable
 
 import android.view.View
 import androidx.annotation.IdRes
+import sgtmelon.extensions.getDrawableCompat
 
 /**
  * Matcher for check android:background which gets with [resourceId].
@@ -16,7 +17,7 @@ class BackgroundMatcher(@IdRes resourceId: Int) : ParentImageMatcher(resourceId)
         setSize(item)
 
         val context = item.context ?: return false
-        val expected = context.getDrawable(resourceId)?.mutate() ?: return false
+        val expected = context.getDrawableCompat(resourceId)?.mutate() ?: return false
 
         return compare(expected, item.background)
     }

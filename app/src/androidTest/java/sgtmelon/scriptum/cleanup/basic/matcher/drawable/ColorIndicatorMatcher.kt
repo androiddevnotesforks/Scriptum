@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.basic.matcher.drawable
 import android.view.View
 import androidx.annotation.IdRes
 import org.hamcrest.Description
+import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.extension.setColor
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -34,7 +35,7 @@ class ColorIndicatorMatcher(
         if (resourceId == null) return item.background == null
 
         val context = item.context ?: return false
-        val expected = context.getDrawable(resourceId)?.mutate() ?: return false
+        val expected = context.getDrawableCompat(resourceId)?.mutate() ?: return false
 
         expected.setColor(context, colorItem)
 
