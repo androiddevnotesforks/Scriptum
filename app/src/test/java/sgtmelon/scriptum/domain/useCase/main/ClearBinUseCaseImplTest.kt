@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.useCase.bin
+package sgtmelon.scriptum.domain.useCase.main
 
 import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK

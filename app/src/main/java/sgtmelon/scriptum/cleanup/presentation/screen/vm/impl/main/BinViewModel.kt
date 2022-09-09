@@ -14,7 +14,7 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import sgtmelon.scriptum.domain.useCase.bin.ClearBinUseCase
+import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase

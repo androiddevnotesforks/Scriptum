@@ -61,7 +61,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
-import sgtmelon.scriptum.domain.useCase.bin.ClearBinUseCase
+import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase

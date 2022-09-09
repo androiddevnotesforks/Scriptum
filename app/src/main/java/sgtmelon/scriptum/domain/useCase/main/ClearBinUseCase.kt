@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.useCase.bin
+package sgtmelon.scriptum.domain.useCase.main
 
 interface ClearBinUseCase {
 
