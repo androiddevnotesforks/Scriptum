@@ -12,13 +12,13 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
- * Test for [DeleteNoteUseCaseImpl].
+ * Test for [ClearNoteUseCase].
  */
-class DeleteNoteUseCaseImplTest : ParentTest() {
+class ClearNoteUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: NoteRepo
 
-    private val useCase by lazy { DeleteNoteUseCaseImpl(repository) }
+    private val useCase by lazy { ClearNoteUseCase(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -33,7 +33,7 @@ class DeleteNoteUseCaseImplTest : ParentTest() {
         }
 
         coVerifySequence {
-            repository.deleteNote(item)
+            repository.clearNote(item)
         }
     }
 }

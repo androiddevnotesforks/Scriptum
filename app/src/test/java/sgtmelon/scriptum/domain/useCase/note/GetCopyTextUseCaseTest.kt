@@ -21,13 +21,13 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [GetCopyTextUseCaseImpl].
+ * Test for [GetCopyTextUseCase].
  */
-class GetCopyTextUseCaseImplTest : ParentTest() {
+class GetCopyTextUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: NoteRepo
 
-    private val useCase by lazy { GetCopyTextUseCaseImpl(repository) }
+    private val useCase by lazy { GetCopyTextUseCase(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
