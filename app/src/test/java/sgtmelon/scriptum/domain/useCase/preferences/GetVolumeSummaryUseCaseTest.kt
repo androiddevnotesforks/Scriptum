@@ -13,19 +13,19 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetVolumeSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetVolumeSummaryUseCase
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [GetVolumeSummaryUseCaseImpl].
+ * Test for [GetVolumeSummaryUseCase].
  */
-class GetVolumeSummaryUseCaseImplTest : ParentTest() {
+class GetVolumeSummaryUseCaseTest : ParentTest() {
 
     @MockK lateinit var summaryDataSource: SummaryDataSource
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
     private val getSummary: GetSummaryUseCase by lazy {
-        GetVolumeSummaryUseCaseImpl(summaryDataSource, preferencesRepo)
+        GetVolumeSummaryUseCase(summaryDataSource, preferencesRepo)
     }
     private val spyGetSummary by lazy { spyk(getSummary) }
 

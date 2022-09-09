@@ -7,44 +7,44 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSavePeriodSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetDefaultColorSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
-import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [GetSavePeriodSummaryUseCaseImpl]
+ * Test for [GetDefaultColorSummaryUseCase].
  */
-class GetSavePeriodSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<SavePeriodConverter>() {
+class GetDefaultColorSummaryUseCaseTest : ParentEnumSummaryUseCaseTest<ColorConverter>() {
 
-    @MockK override lateinit var converter: SavePeriodConverter
+    @MockK override lateinit var converter: ColorConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetSavePeriodSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        GetDefaultColorSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
-        val savePeriod = mockk<SavePeriod>()
+        val color = mockk<Color>()
         val summary = nextString()
 
-        every { preferencesRepo.savePeriod } returns savePeriod
-        every { summaryDataSource.getSavePeriod(savePeriod) } returns summary
+        every { preferencesRepo.defaultColor } returns color
+        every { summaryDataSource.getColor(color) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
-            preferencesRepo.savePeriod
-            summaryDataSource.getSavePeriod(savePeriod)
+            preferencesRepo.defaultColor
+            summaryDataSource.getColor(color)
         }
     }
 
     @Test override fun `get summary with data set`() {
         val value = Random.nextInt()
-        val savePeriod = mockk<SavePeriod>()
+        val color = mockk<Color>()
         val summary = nextString()
 
-        every { converter.toEnum(value) } returns savePeriod
+        every { converter.toEnum(value) } returns color
         every { spyGetSummary() } returns summary
 
         assertEquals(spyGetSummary(value), summary)
@@ -52,7 +52,7 @@ class GetSavePeriodSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<SavePer
         verifySequence {
             spyGetSummary(value)
             converter.toEnum(value)
-            preferencesRepo.savePeriod = savePeriod
+            preferencesRepo.defaultColor = color
             spyGetSummary()
         }
     }

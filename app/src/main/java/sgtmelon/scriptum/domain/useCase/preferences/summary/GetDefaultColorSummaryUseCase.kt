@@ -4,15 +4,17 @@ import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
-class GetDefaultColorSummaryUseCaseImpl(
+class GetDefaultColorSummaryUseCase(
     private val summaryDataSource: SummaryDataSource,
     private val preferencesRepo: PreferencesRepo,
     private val converter: ColorConverter
 ) : GetSummaryUseCase {
 
-    override fun invoke(): String = summaryDataSource.getColor(preferencesRepo.defaultColor)
+    override operator fun invoke(): String {
+        return summaryDataSource.getColor(preferencesRepo.defaultColor)
+    }
 
-    override fun invoke(value: Int): String {
+    override operator fun invoke(value: Int): String {
         val color = converter.toEnum(value)
         if (color != null) {
             preferencesRepo.defaultColor = color

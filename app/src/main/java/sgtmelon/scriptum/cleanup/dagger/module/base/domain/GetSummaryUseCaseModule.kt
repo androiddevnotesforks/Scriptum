@@ -5,14 +5,14 @@ import dagger.Provides
 import javax.inject.Named
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetDefaultColorSummaryUseCaseImpl
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetRepeatSummaryUseCaseImpl
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSavePeriodSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetDefaultColorSummaryUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetRepeatSummaryUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSavePeriodSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSortSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSortSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetThemeSummaryUseCaseImpl
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetVolumeSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetThemeSummaryUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetVolumeSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
@@ -29,7 +29,7 @@ class GetSummaryUseCaseModule {
         preferencesRepo: PreferencesRepo,
         converter: ThemeConverter
     ): GetSummaryUseCase {
-        return GetThemeSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        return GetThemeSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
@@ -39,7 +39,7 @@ class GetSummaryUseCaseModule {
         preferencesRepo: PreferencesRepo,
         converter: SortConverter
     ): GetSummaryUseCase {
-        return GetSortSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        return GetSortSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
@@ -49,7 +49,7 @@ class GetSummaryUseCaseModule {
         preferencesRepo: PreferencesRepo,
         converter: ColorConverter
     ): GetSummaryUseCase {
-        return GetDefaultColorSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        return GetDefaultColorSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
@@ -59,7 +59,7 @@ class GetSummaryUseCaseModule {
         preferencesRepo: PreferencesRepo,
         converter: SavePeriodConverter
     ): GetSummaryUseCase {
-        return GetSavePeriodSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        return GetSavePeriodSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
@@ -69,7 +69,7 @@ class GetSummaryUseCaseModule {
         preferencesRepo: PreferencesRepo,
         converter: RepeatConverter
     ): GetSummaryUseCase {
-        return GetRepeatSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        return GetRepeatSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Provides
@@ -78,7 +78,7 @@ class GetSummaryUseCaseModule {
         summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo
     ): GetSummaryUseCase {
-        return GetVolumeSummaryUseCaseImpl(summaryDataSource, preferencesRepo)
+        return GetVolumeSummaryUseCase(summaryDataSource, preferencesRepo)
     }
 
     @Provides

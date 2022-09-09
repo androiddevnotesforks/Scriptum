@@ -7,45 +7,44 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetRepeatSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetThemeSummaryUseCase
+import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.test.common.nextString
 
-
 /**
- * Test for [GetRepeatSummaryUseCaseImpl].
+ * Test for [GetThemeSummaryUseCase].
  */
-class GetRepeatSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<RepeatConverter>() {
+class GetThemeSummaryUseCaseTest : ParentEnumSummaryUseCaseTest<ThemeConverter>() {
 
-    @MockK override lateinit var converter: RepeatConverter
+    @MockK override lateinit var converter: ThemeConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetRepeatSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        GetThemeSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
-        val repeat = mockk<Repeat>()
+        val theme = mockk<Theme>()
         val summary = nextString()
 
-        every { preferencesRepo.repeat } returns repeat
-        every { summaryDataSource.getRepeat(repeat) } returns summary
+        every { preferencesRepo.theme } returns theme
+        every { summaryDataSource.getTheme(theme) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
-            preferencesRepo.repeat
-            summaryDataSource.getRepeat(repeat)
+            preferencesRepo.theme
+            summaryDataSource.getTheme(theme)
         }
     }
 
     @Test override fun `get summary with data set`() {
         val value = Random.nextInt()
-        val repeat = mockk<Repeat>()
+        val theme = mockk<Theme>()
         val summary = nextString()
 
-        every { converter.toEnum(value) } returns repeat
+        every { converter.toEnum(value) } returns theme
         every { spyGetSummary() } returns summary
 
         assertEquals(spyGetSummary(value), summary)
@@ -53,7 +52,7 @@ class GetRepeatSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<RepeatConve
         verifySequence {
             spyGetSummary(value)
             converter.toEnum(value)
-            preferencesRepo.repeat = repeat
+            preferencesRepo.theme = theme
             spyGetSummary()
         }
     }

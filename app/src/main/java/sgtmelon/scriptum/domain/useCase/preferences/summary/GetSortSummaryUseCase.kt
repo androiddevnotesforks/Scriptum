@@ -4,15 +4,15 @@ import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 
-class GetSortSummaryUseCaseImpl(
+class GetSortSummaryUseCase(
     private val summaryDataSource: SummaryDataSource,
     private val preferencesRepo: PreferencesRepo,
     private val converter: SortConverter
 ) : GetSummaryUseCase {
 
-    override fun invoke(): String = summaryDataSource.getSort(preferencesRepo.sort)
+    override operator fun invoke(): String = summaryDataSource.getSort(preferencesRepo.sort)
 
-    override fun invoke(value: Int): String {
+    override operator fun invoke(value: Int): String {
         val sort = converter.toEnum(value)
         if (sort != null) {
             preferencesRepo.sort = sort

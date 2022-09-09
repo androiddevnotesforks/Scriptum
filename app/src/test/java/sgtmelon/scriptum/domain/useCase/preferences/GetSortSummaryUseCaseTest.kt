@@ -7,44 +7,44 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetDefaultColorSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSortSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [GetDefaultColorSummaryUseCaseImpl].
+ * Test for [GetSortSummaryUseCase].
  */
-class GetDefaultColorSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<ColorConverter>() {
+class GetSortSummaryUseCaseTest : ParentEnumSummaryUseCaseTest<SortConverter>() {
 
-    @MockK override lateinit var converter: ColorConverter
+    @MockK override lateinit var converter: SortConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetDefaultColorSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        GetSortSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
-        val color = mockk<Color>()
+        val sort = mockk<Sort>()
         val summary = nextString()
 
-        every { preferencesRepo.defaultColor } returns color
-        every { summaryDataSource.getColor(color) } returns summary
+        every { preferencesRepo.sort } returns sort
+        every { summaryDataSource.getSort(sort) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
-            preferencesRepo.defaultColor
-            summaryDataSource.getColor(color)
+            preferencesRepo.sort
+            summaryDataSource.getSort(sort)
         }
     }
 
     @Test override fun `get summary with data set`() {
         val value = Random.nextInt()
-        val color = mockk<Color>()
+        val sort = mockk<Sort>()
         val summary = nextString()
 
-        every { converter.toEnum(value) } returns color
+        every { converter.toEnum(value) } returns sort
         every { spyGetSummary() } returns summary
 
         assertEquals(spyGetSummary(value), summary)
@@ -52,7 +52,7 @@ class GetDefaultColorSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<Color
         verifySequence {
             spyGetSummary(value)
             converter.toEnum(value)
-            preferencesRepo.defaultColor = color
+            preferencesRepo.sort = sort
             spyGetSummary()
         }
     }

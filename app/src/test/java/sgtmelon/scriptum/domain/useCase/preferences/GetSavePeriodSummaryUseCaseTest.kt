@@ -7,44 +7,44 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSortSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSavePeriodSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [GetSortSummaryUseCaseImpl].
+ * Test for [GetSavePeriodSummaryUseCase]
  */
-class GetSortSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<SortConverter>() {
+class GetSavePeriodSummaryUseCaseTest : ParentEnumSummaryUseCaseTest<SavePeriodConverter>() {
 
-    @MockK override lateinit var converter: SortConverter
+    @MockK override lateinit var converter: SavePeriodConverter
 
     override val getSummary: GetSummaryUseCase by lazy {
-        GetSortSummaryUseCaseImpl(summaryDataSource, preferencesRepo, converter)
+        GetSavePeriodSummaryUseCase(summaryDataSource, preferencesRepo, converter)
     }
 
     @Test override fun `simple summary get`() {
-        val sort = mockk<Sort>()
+        val savePeriod = mockk<SavePeriod>()
         val summary = nextString()
 
-        every { preferencesRepo.sort } returns sort
-        every { summaryDataSource.getSort(sort) } returns summary
+        every { preferencesRepo.savePeriod } returns savePeriod
+        every { summaryDataSource.getSavePeriod(savePeriod) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
-            preferencesRepo.sort
-            summaryDataSource.getSort(sort)
+            preferencesRepo.savePeriod
+            summaryDataSource.getSavePeriod(savePeriod)
         }
     }
 
     @Test override fun `get summary with data set`() {
         val value = Random.nextInt()
-        val sort = mockk<Sort>()
+        val savePeriod = mockk<SavePeriod>()
         val summary = nextString()
 
-        every { converter.toEnum(value) } returns sort
+        every { converter.toEnum(value) } returns savePeriod
         every { spyGetSummary() } returns summary
 
         assertEquals(spyGetSummary(value), summary)
@@ -52,7 +52,7 @@ class GetSortSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<SortConverter
         verifySequence {
             spyGetSummary(value)
             converter.toEnum(value)
-            preferencesRepo.sort = sort
+            preferencesRepo.savePeriod = savePeriod
             spyGetSummary()
         }
     }
