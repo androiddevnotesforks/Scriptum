@@ -1,10 +1,17 @@
 package sgtmelon.scriptum.domain.useCase.preferences
 
+import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 
-interface GetMelodyListUseCase {
+class GetMelodyListUseCase(private val dataSource: RingtoneDataSource) {
 
-    suspend operator fun invoke(): List<MelodyItem>
+    private var list: List<MelodyItem>? = null
 
-    fun reset()
+    suspend operator fun invoke(): List<MelodyItem> {
+        return list ?: dataSource.getAlarmList().also { list = it }
+    }
+
+    fun reset() {
+        list = null
+    }
 }

@@ -11,17 +11,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
-import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 
 /**
- * Test for [GetMelodyListUseCaseImpl].
+ * Test for [GetMelodyListUseCase].
  */
-class GetMelodyListUseCaseImplTest : ParentTest() {
+class GetMelodyListUseCaseTest : ParentTest() {
 
     @MockK lateinit var dataSource: RingtoneDataSource
 
-    private val getMelodyList by lazy { GetMelodyListUseCaseImpl(dataSource) }
+    private val getMelodyList by lazy { GetMelodyListUseCase(dataSource) }
 
     @After override fun tearDown() {
         super.tearDown()
