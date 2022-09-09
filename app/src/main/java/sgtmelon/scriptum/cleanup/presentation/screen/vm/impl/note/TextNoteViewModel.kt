@@ -22,6 +22,7 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.test.prod.RunPrivate
 
@@ -41,11 +42,12 @@ class TextNoteViewModel(
     setNotification: SetNotificationUseCase,
     deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationDateListUseCase,
+    getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(
     callback, parentCallback, colorConverter, preferencesRepo, interactor,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList
+    getNotificationDateList, getRankId
 ), ITextNoteViewModel {
 
     override fun cacheData() {

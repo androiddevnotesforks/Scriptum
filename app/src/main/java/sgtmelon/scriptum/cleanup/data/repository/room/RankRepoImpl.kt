@@ -137,14 +137,5 @@ class RankRepoImpl(
 
     override suspend fun getNameList(): List<String> = rankDataSource.getNameList()
 
-    /**
-     * Return rank id by [position].
-     */
-    override suspend fun getId(position: Int): Long {
-        return if (position == Note.Default.RANK_PS) {
-            Note.Default.RANK_ID
-        } else {
-            rankDataSource.getId(position) ?: Note.Default.RANK_ID
-        }
-    }
+    override suspend fun getId(position: Int): Long? = rankDataSource.getId(position)
 }

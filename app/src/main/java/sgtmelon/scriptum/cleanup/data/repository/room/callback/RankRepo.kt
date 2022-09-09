@@ -31,5 +31,5 @@ interface RankRepo {
 
     suspend fun getNameList(): List<String>
 
-    suspend fun getId(position: Int): Long
+    suspend fun getId(position: Int): Long?
 }

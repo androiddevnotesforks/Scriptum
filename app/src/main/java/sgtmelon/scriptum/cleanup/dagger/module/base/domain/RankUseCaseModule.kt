@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
@@ -37,6 +38,11 @@ class RankUseCaseModule {
     @Provides
     fun provideCorrectPositionsUseCase(): CorrectPositionsUseCase {
         return CorrectPositionsUseCase()
+    }
+
+    @Provides
+    fun provideGetRankIdUseCase(repository: RankRepo): GetRankIdUseCase {
+        return GetRankIdUseCase(repository)
     }
 
     @Provides

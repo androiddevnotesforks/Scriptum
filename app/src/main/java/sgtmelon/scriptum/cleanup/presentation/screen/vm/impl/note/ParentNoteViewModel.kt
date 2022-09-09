@@ -32,6 +32,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.idling.getIdling
@@ -53,7 +54,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     private val clearNote: ClearNoteUseCase,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
-    private val getNotificationDateList: GetNotificationDateListUseCase
+    private val getNotificationDateList: GetNotificationDateListUseCase,
+    private val getRankId: GetRankIdUseCase
 ) : ParentViewModel<C>(callback),
     IParentNoteViewModel {
 
@@ -226,7 +228,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onResultRankDialog(check: Int) {
         viewModelScope.launch {
-            val rankId = runBack { interactor.getRankId(check) }
+            val rankId = runBack { getRankId(check) }
 
             inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 

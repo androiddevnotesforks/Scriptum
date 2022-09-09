@@ -35,9 +35,6 @@ class RollNoteInteractor(
     }
 
 
-    override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
-
-
     override suspend fun convertNote(item: NoteItem.Roll) {
         noteRepo.convertNote(item, useCache = true)
     }

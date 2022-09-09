@@ -39,6 +39,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
@@ -64,6 +65,7 @@ object FastTest {
         private val setNotification: SetNotificationUseCase,
         private val deleteNotification: DeleteNotificationUseCase,
         private val getNotificationDateList: GetNotificationDateListUseCase,
+        private val getRankId: GetRankIdUseCase,
 
         private val saveControl: SaveControl,
         private val inputControl: IInputControl,
@@ -429,7 +431,7 @@ object FastTest {
 
             val access = mockk<InputControl.Access>()
 
-            coEvery { interactor.getRankId(newRankPs) } returns newRankId
+            coEvery { getRankId(newRankPs) } returns newRankId
             every { noteItem.rankId } returns oldRankId
             every { noteItem.rankPs } returns oldRankPs
             every { noteItem.rankId = newRankId } returns Unit
@@ -442,7 +444,7 @@ object FastTest {
             coVerifySequence {
                 verifyInit()
 
-                interactor.getRankId(newRankPs)
+                getRankId(newRankPs)
 
                 noteItem.rankId
                 noteItem.rankPs
@@ -1173,18 +1175,6 @@ object FastTest {
     object Interactor {
 
         //region Note
-
-        suspend fun getRankId(rankRepo: RankRepo, callFunc: suspend (check: Int) -> Long) {
-            val check = Random.nextInt()
-            val id = Random.nextLong()
-
-            coEvery { rankRepo.getId(check) } returns id
-            assertEquals(id, callFunc(check))
-
-            coVerifySequence {
-                rankRepo.getId(check)
-            }
-        }
 
         suspend inline fun <reified T : NoteItem> saveNote(
             noteRepo: NoteRepo,

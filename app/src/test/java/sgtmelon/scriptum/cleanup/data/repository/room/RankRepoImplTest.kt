@@ -486,20 +486,13 @@ class RankRepoImplTest : ParentRepoTest() {
     }
 
     @Test fun getId() {
-        val defaultId = Note.Default.RANK_ID
-        val id = Random.nextLong()
-
-        val defaultPosition = Note.Default.RANK_PS
         val position = Random.nextInt()
-
-        runBlocking {
-            assertEquals(repository.getId(defaultPosition), defaultId)
-        }
+        val id = Random.nextLong()
 
         coEvery { rankDataSource.getId(position) } returns null
 
         runBlocking {
-            assertEquals(repository.getId(position), defaultId)
+            assertNull(repository.getId(position))
         }
 
         coEvery { rankDataSource.getId(position) } returns id

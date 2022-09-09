@@ -24,8 +24,6 @@ class TextNoteInteractor(
         return noteItem
     }
 
-    override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
-
 
     override suspend fun convertNote(item: NoteItem.Text) {
         noteRepo.convertNote(item)

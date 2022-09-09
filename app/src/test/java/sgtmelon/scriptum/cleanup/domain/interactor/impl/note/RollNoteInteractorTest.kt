@@ -82,11 +82,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getRankId() = startCoTest {
-        FastTest.Interactor.getRankId(rankRepo) { interactor.getRankId(it) }
-    }
-
-
     @Test fun convertNote() = startCoTest {
         val item = mockk<NoteItem.Roll>()
 

@@ -44,6 +44,7 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
@@ -70,6 +71,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
     @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
+    @MockK lateinit var getRankId: GetRankIdUseCase
     @MockK lateinit var getRankDialogNames: GetRankDialogNamesUseCase
 
     @MockK lateinit var saveControl: SaveControl
@@ -79,7 +81,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         TextNoteViewModel(
             callback, parentCallback, colorConverter, preferencesRepo, interactor,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankDialogNames
+            getNotificationDateList, getRankId, getRankDialogNames
         )
     }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
@@ -88,7 +90,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         FastTest.ViewModel(
             callback, parentCallback, colorConverter, interactor,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList,
+            getNotificationDateList, getRankId,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }, { mockkInit() }, { verifyInit() }
         )
@@ -131,7 +133,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             callback, parentCallback,
             colorConverter, preferencesRepo, interactor,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankDialogNames,
+            getNotificationDateList, getRankId, getRankDialogNames,
             saveControl, inputControl
         )
     }
