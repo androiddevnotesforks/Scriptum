@@ -13,7 +13,4 @@ interface IBinInteractor : IParentInteractor {
     suspend fun getCount(): Int
 
     suspend fun getList(): MutableList<NoteItem>
-
-    suspend fun clearBin()
-
 }

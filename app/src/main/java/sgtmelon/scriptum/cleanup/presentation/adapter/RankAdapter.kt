@@ -9,10 +9,9 @@ import sgtmelon.scriptum.cleanup.extension.inflateView
 import sgtmelon.scriptum.cleanup.presentation.adapter.diff.RankDiff
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 
 /**
- * Adapter which displays list of ranks for [RankFragment].
+ * Adapter which displays list of categories (ranks).
  */
 class RankAdapter(
     private val blockCallback: IconBlockCallback,

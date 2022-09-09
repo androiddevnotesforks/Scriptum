@@ -14,6 +14,7 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.useCase.bin.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
@@ -29,6 +30,7 @@ class BinViewModel(
     private val interactor: IBinInteractor,
     private val getCopyText: GetCopyTextUseCase,
     private val restoreNote: RestoreNoteUseCase,
+    private val clearBin: ClearBinUseCase,
     private val clearNote: ClearNoteUseCase
 ) : ParentViewModel<IBinFragment>(callback),
         IBinViewModel {
@@ -79,7 +81,7 @@ class BinViewModel(
     }
 
     override fun onClickClearBin() {
-        viewModelScope.launchBack { interactor.clearBin() }
+        viewModelScope.launchBack { clearBin() }
 
         itemList.clear()
 

@@ -71,12 +71,4 @@ class BinInteractorTest : ParentInteractorTest() {
             noteRepo.getList(secondSort, isBin = true, isOptimal = true, filterVisible = false)
         }
     }
-
-    @Test fun clearBin() = startCoTest {
-        interactor.clearBin()
-
-        coVerifySequence {
-            noteRepo.clearBin()
-        }
-    }
 }

@@ -22,7 +22,4 @@ class BinInteractor(
         val sort = preferencesRepo.sort
         return noteRepo.getList(sort, isBin = true, isOptimal = true, filterVisible = false)
     }
-
-    override suspend fun clearBin() = noteRepo.clearBin()
-
 }

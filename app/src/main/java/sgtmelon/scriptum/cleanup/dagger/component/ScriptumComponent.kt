@@ -25,6 +25,7 @@ import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.AlarmUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.BackupUseCaseModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.domain.BinUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.GetSummaryUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.NoteUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.domain.RankUseCaseModule
@@ -45,6 +46,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
     RoomModule::class,
     ConverterModule::class,
 
+    BinUseCaseModule::class,
     NoteUseCaseModule::class,
     RankUseCaseModule::class,
     AlarmUseCaseModule::class,

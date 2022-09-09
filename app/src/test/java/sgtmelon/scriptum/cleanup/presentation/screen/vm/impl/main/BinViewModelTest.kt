@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
+import sgtmelon.scriptum.domain.useCase.bin.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
@@ -42,16 +43,17 @@ class BinViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
+    @MockK lateinit var clearBin: ClearBinUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
 
     private val viewModel by lazy {
-        BinViewModel(callback, interactor, getCopyText, restoreNote, clearNote)
+        BinViewModel(callback, interactor, getCopyText, restoreNote, clearBin, clearNote)
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, getCopyText, restoreNote, clearNote)
+        confirmVerified(callback, interactor, getCopyText, restoreNote, clearBin, clearNote)
     }
 
     @Test override fun onDestroy() {
@@ -161,7 +163,7 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onClickClearBin()
 
         coVerifySequence {
-            interactor.clearBin()
+            clearBin()
 
             callback.apply {
                 notifyDataSetChanged(listOf())

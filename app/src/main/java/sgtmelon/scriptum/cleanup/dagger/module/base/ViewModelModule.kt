@@ -80,6 +80,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
+import sgtmelon.scriptum.domain.useCase.bin.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
@@ -161,10 +162,11 @@ class ViewModelModule {
         interactor: IBinInteractor,
         getCopyText: GetCopyTextUseCase,
         restoreNote: RestoreNoteUseCase,
+        clearBin: ClearBinUseCase,
         clearNote: ClearNoteUseCase
     ): IBinViewModel {
         val factory = ViewModelFactory.MainScreen.Bin(
-            fragment, interactor, getCopyText, restoreNote, clearNote
+            fragment, interactor, getCopyText, restoreNote, clearBin, clearNote
         )
         return ViewModelProvider(fragment, factory)[BinViewModel::class.java]
     }
