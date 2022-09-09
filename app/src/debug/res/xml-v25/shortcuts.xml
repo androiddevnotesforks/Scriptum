@@ -4,6 +4,7 @@
     <!--  Location: bottom  -->
     <shortcut android:enabled="true"
         android:shortcutId="create_roll_shortcut"
+        android:icon="@drawable/ic_add"
         android:shortcutLongLabel="@string/shortcut_medium_roll_label"
         android:shortcutShortLabel="@string/shortcut_short_roll_label">
 
@@ -19,6 +20,7 @@
     <!--  Location: top  -->
     <shortcut android:enabled="true"
         android:shortcutId="create_text_shortcut"
+        android:icon="@drawable/ic_add"
         android:shortcutLongLabel="@string/shortcut_medium_text_label"
         android:shortcutShortLabel="@string/shortcut_short_text_label">
 
