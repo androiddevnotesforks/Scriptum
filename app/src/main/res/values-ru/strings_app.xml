@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Shortcuts  -->
+    <string name="shortcut_short_text_label">Текстовая</string>
+    <string name="shortcut_short_roll_label">Список</string>
+    <string name="shortcut_medium_text_label">Создать текстовую заметка</string>
+    <string name="shortcut_medium_roll_label">Создать список</string>
+
     <!-- Titles -->
     <string name="title_rank">Категории</string>
     <string name="title_notes">Заметки</string>

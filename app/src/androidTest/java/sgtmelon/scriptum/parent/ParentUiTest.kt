@@ -175,5 +175,7 @@ abstract class ParentUiTest : ParentTest() {
         SplashScreen(after)
     }
 
+    // TODO create tests of note creation from shortcuts
+
     //endregion
 }

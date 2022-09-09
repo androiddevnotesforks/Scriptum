@@ -12,6 +12,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
@@ -124,12 +125,19 @@ class SplashActivity : ParentActivity(),
 
     override fun openHelpDisappearScreen() = beforeFinish {
         getWaitIdling().start(waitMillis = 3000)
-        startActivities(arrayOf(
-            MainActivity[this],
-            PreferenceActivity[this, PreferenceScreen.PREFERENCE],
-            PreferenceActivity[this, PreferenceScreen.HELP],
-            HelpDisappearActivity[this]
-        ))
+        startActivities(
+            arrayOf(
+                MainActivity[this],
+                PreferenceActivity[this, PreferenceScreen.PREFERENCE],
+                PreferenceActivity[this, PreferenceScreen.HELP],
+                HelpDisappearActivity[this]
+            )
+        )
+    }
+
+    override fun openCreateNoteScreen(type: NoteType) = beforeFinish {
+        getWaitIdling().start(waitMillis = 3000)
+        startActivities(arrayOf(MainActivity[this], NoteActivity[this, type.ordinal]))
     }
 
     //region Broadcast functions
@@ -178,6 +186,16 @@ class SplashActivity : ParentActivity(),
         fun getHelpDisappearInstance(context: Context): Intent {
             return Intent(context, SplashActivity::class.java)
                 .putExtra(OpenFrom.INTENT_KEY, OpenFrom.HELP_DISAPPEAR)
+        }
+
+        fun getCreateTextInstance(context: Context): Intent {
+            return Intent(context, SplashActivity::class.java)
+                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.CREATE_TEXT)
+        }
+
+        fun getCreateRollInstance(context: Context): Intent {
+            return Intent(context, SplashActivity::class.java)
+                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.CREATE_ROLL)
         }
     }
 

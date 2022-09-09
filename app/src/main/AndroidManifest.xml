@@ -26,10 +26,15 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@style/App.Screen.Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
@@ -72,7 +77,8 @@
             android:configChanges="keyboardHidden"
             android:exported="false"
             android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity">
-            <intent-filter>
+
+        <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -83,7 +89,8 @@
             android:exported="false"
             android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
+
+        <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -101,7 +108,8 @@
             android:name="sgtmelon.scriptum.cleanup.presentation.receiver.BootReceiver"
             android:exported="false"
             android:enabled="true">
-            <intent-filter>
+
+        <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
@@ -111,7 +119,5 @@
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />
-
     </application>
-
 </manifest>

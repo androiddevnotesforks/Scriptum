@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
 import android.os.Bundle
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -19,6 +20,7 @@ class SplashViewModel(
     /**
      * Don't use coroutines here. Activity will be quickly destroyed.
      */
+    // TODO tests for new screen open
     override fun onSetup(bundle: Bundle?) {
         callback?.sendTidyUpAlarmBroadcast()
         callback?.sendNotifyNotesBroadcast()
@@ -32,6 +34,8 @@ class SplashViewModel(
                 OpenFrom.BIND -> onBindStart(bundle)
                 OpenFrom.NOTIFICATIONS -> callback?.openNotificationScreen()
                 OpenFrom.HELP_DISAPPEAR -> callback?.openHelpDisappearScreen()
+                OpenFrom.CREATE_TEXT -> callback?.openCreateNoteScreen(NoteType.TEXT)
+                OpenFrom.CREATE_ROLL -> callback?.openCreateNoteScreen(NoteType.ROLL)
                 else -> onSimpleStart()
             }
         }

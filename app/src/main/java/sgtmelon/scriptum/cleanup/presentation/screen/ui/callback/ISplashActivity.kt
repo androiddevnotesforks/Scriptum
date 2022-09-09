@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback
 
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
@@ -21,4 +22,6 @@ interface ISplashActivity : SystemReceiver.Bridge.TidyUp,
     fun openNotificationScreen()
 
     fun openHelpDisappearScreen()
+
+    fun openCreateNoteScreen(type: NoteType)
 }

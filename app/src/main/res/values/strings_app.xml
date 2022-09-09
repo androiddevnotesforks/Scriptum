@@ -3,6 +3,12 @@
 
     <string name="app_name" translatable="false">Scriptum</string>
 
+    <!--  Shortcuts  -->
+    <string name="shortcut_short_text_label">Text</string>
+    <string name="shortcut_short_roll_label">List</string>
+    <string name="shortcut_medium_text_label">Create text note</string>
+    <string name="shortcut_medium_roll_label">Create list note</string>
+
     <!-- Titles -->
     <string name="title_rank">Categories</string>
     <string name="title_notes">Notes</string>

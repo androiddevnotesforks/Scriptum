@@ -35,4 +35,12 @@ class SplashTest : ParentUiTest() {
 
     // TODO finish test
     @Test fun helpDisappearOpen() = launchHelpDisappear { TODO() }
+
+    @Test fun createTextOpen() {
+        TODO()
+    }
+
+    @Test fun createRollOpen() {
+        TODO()
+    }
 }
