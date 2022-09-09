@@ -22,6 +22,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.test.idling.getIdling
@@ -35,6 +36,7 @@ class NotesViewModel(
     callback: INotesFragment,
     private val preferencesRepo: PreferencesRepo,
     private val interactor: INotesInteractor,
+    private val getList: GetNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
     private val deleteNote: DeleteNoteUseCase,
     private val setNotification: SetNotificationUseCase,
@@ -79,7 +81,7 @@ class NotesViewModel(
                     callback?.showProgress()
                 }
 
-                runBack { itemList.clearAdd(interactor.getList()) }
+                runBack { itemList.clearAdd(getList(isBin = false)) }
             }
 
             callback?.apply {

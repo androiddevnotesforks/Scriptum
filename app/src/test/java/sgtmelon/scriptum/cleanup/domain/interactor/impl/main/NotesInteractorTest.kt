@@ -21,7 +21,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
  * Test for [NotesInteractor].
@@ -49,23 +48,6 @@ class NotesInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             noteRepo.getCount(isBin = false)
-        }
-    }
-
-    @Test fun getList() = startCoTest {
-        val sort = mockk<Sort>()
-        val list = mockk<MutableList<NoteItem>>()
-
-        every { preferencesRepo.sort } returns sort
-        coEvery {
-            noteRepo.getList(sort, isBin = false, isOptimal = true, filterVisible = true)
-        } returns list
-
-        interactor.getList()
-
-        coVerifySequence {
-            preferencesRepo.sort
-            noteRepo.getList(sort, isBin = false, isOptimal = true, filterVisible = true)
         }
     }
 

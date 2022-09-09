@@ -81,6 +81,7 @@ import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
@@ -140,6 +141,7 @@ class ViewModelModule {
         fragment: NotesFragment,
         preferencesRepo: PreferencesRepo,
         interactor: INotesInteractor,
+        getList: GetNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
         deleteNote: DeleteNoteUseCase,
         setNotification: SetNotificationUseCase,
@@ -149,7 +151,7 @@ class ViewModelModule {
     ): INotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
             fragment, preferencesRepo, interactor,
-            getCopyText, deleteNote, setNotification, deleteNotification,
+            getList, getCopyText, deleteNote, setNotification, deleteNotification,
             getNotification, getNotificationDateList
         )
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
@@ -160,13 +162,14 @@ class ViewModelModule {
     fun provideBinViewModel(
         fragment: BinFragment,
         interactor: IBinInteractor,
+        getList: GetNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
         restoreNote: RestoreNoteUseCase,
         clearBin: ClearBinUseCase,
         clearNote: ClearNoteUseCase
     ): IBinViewModel {
         val factory = ViewModelFactory.MainScreen.Bin(
-            fragment, interactor, getCopyText, restoreNote, clearBin, clearNote
+            fragment, interactor, getList, getCopyText, restoreNote, clearBin, clearNote
         )
         return ViewModelProvider(fragment, factory)[BinViewModel::class.java]
     }

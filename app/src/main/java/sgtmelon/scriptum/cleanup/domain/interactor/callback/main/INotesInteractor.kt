@@ -12,8 +12,6 @@ interface INotesInteractor : IParentInteractor {
 
     suspend fun getCount(): Int
 
-    suspend fun getList(): MutableList<NoteItem>
-
     suspend fun isListHide(): Boolean
 
     suspend fun updateNote(item: NoteItem)

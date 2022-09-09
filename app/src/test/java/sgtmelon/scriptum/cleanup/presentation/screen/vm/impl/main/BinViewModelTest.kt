@@ -25,6 +25,7 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
@@ -41,19 +42,22 @@ class BinViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: IBinFragment
     @MockK lateinit var interactor: IBinInteractor
 
+    @MockK lateinit var getList: GetNoteListUseCase
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
     @MockK lateinit var clearBin: ClearBinUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
 
     private val viewModel by lazy {
-        BinViewModel(callback, interactor, getCopyText, restoreNote, clearBin, clearNote)
+        BinViewModel(callback, interactor, getList, getCopyText, restoreNote, clearBin, clearNote)
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, getCopyText, restoreNote, clearBin, clearNote)
+        confirmVerified(
+            callback, interactor, getList, getCopyText, restoreNote, clearBin, clearNote
+        )
     }
 
     @Test override fun onDestroy() {
@@ -77,10 +81,10 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
-        val itemList = MutableList<NoteItem>(getRandomSize()) { mockk() }
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
 
         coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns itemList
+        coEvery { getList(isBin = true) } returns itemList
 
         viewModel.itemList.clear()
         viewModel.onUpdateData()
@@ -89,7 +93,7 @@ class BinViewModelTest : ParentViewModelTest() {
             interactor.getCount()
             callback.hideEmptyInfo()
             callback.showProgress()
-            interactor.getList()
+            getList(isBin = true)
             updateList(itemList)
         }
     }
@@ -110,10 +114,10 @@ class BinViewModelTest : ParentViewModelTest() {
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
         val startList = List<NoteItem>(getRandomSize()) { mockk() }
-        val returnList = MutableList<NoteItem>(getRandomSize()) { mockk() }
+        val returnList = List<NoteItem>(getRandomSize()) { mockk() }
 
         coEvery { interactor.getCount() } returns returnList.size
-        coEvery { interactor.getList() } returns returnList
+        coEvery { getList(isBin = true) } returns returnList
 
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
@@ -123,7 +127,7 @@ class BinViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             updateList(any())
             interactor.getCount()
-            interactor.getList()
+            getList(isBin = true)
             updateList(returnList)
         }
 

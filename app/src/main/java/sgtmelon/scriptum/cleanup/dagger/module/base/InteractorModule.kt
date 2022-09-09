@@ -48,11 +48,8 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideBinInteractor(
-        preferencesRepo: PreferencesRepo,
-        noteRepo: NoteRepo
-    ): IBinInteractor {
-        return BinInteractor(preferencesRepo, noteRepo)
+    fun provideBinInteractor(noteRepo: NoteRepo): IBinInteractor {
+        return BinInteractor(noteRepo)
     }
 
     //endregion

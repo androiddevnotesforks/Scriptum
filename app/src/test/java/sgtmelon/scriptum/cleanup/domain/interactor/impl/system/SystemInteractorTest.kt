@@ -110,7 +110,7 @@ class SystemInteractorTest : ParentInteractorTest() {
 
     @Test fun notifyNotesBind() = startCoTest {
         val sort = mockk<Sort>()
-        val itemList = mockk<MutableList<NoteItem>>()
+        val list = mockk<List<NoteItem>>()
         val rankIdVisibleList = mockk<List<Long>>()
         val filterList = mockk<List<NoteItem>>()
 
@@ -118,8 +118,8 @@ class SystemInteractorTest : ParentInteractorTest() {
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         coEvery {
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
-        } returns itemList
-        coEvery { spyInteractor.getFilterList(itemList, rankIdVisibleList) } returns filterList
+        } returns list
+        coEvery { spyInteractor.getFilterList(list, rankIdVisibleList) } returns filterList
 
         spyInteractor.notifyNotesBind()
 
@@ -129,7 +129,7 @@ class SystemInteractorTest : ParentInteractorTest() {
             preferencesRepo.sort
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
             rankRepo.getIdVisibleList()
-            spyInteractor.getFilterList(itemList, rankIdVisibleList)
+            spyInteractor.getFilterList(list, rankIdVisibleList)
 
             callback.notifyNotesBind(filterList)
         }

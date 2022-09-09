@@ -17,7 +17,7 @@ interface NoteRepo {
         isBin: Boolean,
         isOptimal: Boolean,
         filterVisible: Boolean
-    ): MutableList<NoteItem>
+    ): List<NoteItem>
 
     suspend fun getItem(noteId: Long, isOptimal: Boolean): NoteItem?
 

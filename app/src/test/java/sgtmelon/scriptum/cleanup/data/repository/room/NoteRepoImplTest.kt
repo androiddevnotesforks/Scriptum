@@ -109,12 +109,10 @@ class NoteRepoImplTest : ParentRepoTest() {
 
         runBlocking {
             assertEquals(
-                spyRepository.getList(sort, isBin, isOptimal, filterVisible = false),
-                itemList
+                spyRepository.getList(sort, isBin, isOptimal, filterVisible = false), itemList
             )
             assertEquals(
-                spyRepository.getList(sort, isBin, isOptimal, filterVisible = true),
-                itemList
+                spyRepository.getList(sort, isBin, isOptimal, filterVisible = true), itemList
             )
         }
 

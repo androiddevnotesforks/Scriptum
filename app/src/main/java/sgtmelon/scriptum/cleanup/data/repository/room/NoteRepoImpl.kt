@@ -58,7 +58,7 @@ class NoteRepoImpl(
         isBin: Boolean,
         isOptimal: Boolean,
         filterVisible: Boolean
-    ): MutableList<NoteItem> {
+    ): List<NoteItem> {
         var entityList = noteDataSource.getList(sort, isBin)
 
         if (filterVisible) entityList = filterVisible(entityList)

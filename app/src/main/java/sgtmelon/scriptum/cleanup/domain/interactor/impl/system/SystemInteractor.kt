@@ -49,10 +49,10 @@ class SystemInteractor(
      */
     override suspend fun notifyNotesBind() {
         val sort = preferenceRepo.sort
-        val itemList = noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
+        val list = noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
         val rankIdVisibleList = rankRepo.getIdVisibleList()
 
-        val filterList = getFilterList(itemList, rankIdVisibleList)
+        val filterList = getFilterList(list, rankIdVisibleList)
 
         callback?.notifyNotesBind(filterList)
     }

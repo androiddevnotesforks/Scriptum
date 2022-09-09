@@ -35,6 +35,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Sort
@@ -54,6 +55,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: INotesInteractor
 
+    @MockK lateinit var getList: GetNoteListUseCase
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
@@ -66,7 +68,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         NotesViewModel(
             callback, preferencesRepo, interactor,
-            getCopyText, deleteNote, setNotification, deleteNotification,
+            getList, getCopyText, deleteNote, setNotification, deleteNotification,
             getNotification, getNotificationDateList
         )
     }
@@ -76,7 +78,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         super.tearDown()
         confirmVerified(
             callback, preferencesRepo, interactor, calendar,
-            getCopyText, deleteNote, setNotification, deleteNotification,
+            getList, getCopyText, deleteNote, setNotification, deleteNotification,
             getNotification, getNotificationDateList
         )
     }
@@ -102,11 +104,11 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
-        val itemList = MutableList<NoteItem>(getRandomSize()) { mockk() }
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
         val isListHide = Random.nextBoolean()
 
         coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns itemList
+        coEvery { getList(isBin = false) } returns itemList
         coEvery { interactor.isListHide() } returns isListHide
 
         viewModel.itemList.clear()
@@ -116,7 +118,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             interactor.getCount()
             callback.hideEmptyInfo()
             callback.showProgress()
-            interactor.getList()
+            getList(isBin = false)
 
             interactor.isListHide()
             callback.notifyList(itemList)
@@ -146,11 +148,11 @@ class NotesViewModelTest : ParentViewModelTest() {
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
         val startList = List<NoteItem>(getRandomSize()) { mockk() }
-        val returnList = MutableList<NoteItem>(getRandomSize()) { mockk() }
+        val returnList = List<NoteItem>(getRandomSize()) { mockk() }
         val isListHide = Random.nextBoolean()
 
         coEvery { interactor.getCount() } returns returnList.size
-        coEvery { interactor.getList() } returns returnList
+        coEvery { getList(isBin = false) } returns returnList
         coEvery { interactor.isListHide() } returns isListHide
 
         viewModel.itemList.clearAdd(startList)
@@ -162,7 +164,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.notifyList(returnList)
             callback.onBindingList()
             interactor.getCount()
-            interactor.getList()
+            getList(isBin = false)
             interactor.isListHide()
             callback.notifyList(returnList)
             callback.setupBinding(isListHide)
@@ -494,7 +496,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultDateDialog() = startCoTest {
         val p = Random.nextInt()
-        val dateList = data.dateList
+        val dateList = mockk<List<String>>()
 
         coEvery { getNotificationDateList() } returns dateList
         viewModel.onResultDateDialog(calendar, p)

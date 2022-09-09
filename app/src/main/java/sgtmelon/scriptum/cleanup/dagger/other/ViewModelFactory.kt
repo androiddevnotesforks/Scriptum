@@ -62,6 +62,7 @@ import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
@@ -149,6 +150,7 @@ object ViewModelFactory {
             private val fragment: NotesFragment,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: INotesInteractor,
+            private val getList: GetNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val setNotification: SetNotificationUseCase,
@@ -160,7 +162,7 @@ object ViewModelFactory {
                 return modelClass.create(NotesViewModel::class) {
                     NotesViewModel(
                         fragment, preferencesRepo, interactor,
-                        getCopyText, deleteNote, setNotification, deleteNotification,
+                        getList, getCopyText, deleteNote, setNotification, deleteNotification,
                         getNotification, getNotificationDateList
                     )
                 }
@@ -170,6 +172,7 @@ object ViewModelFactory {
         class Bin(
             private val fragment: BinFragment,
             private val interactor: IBinInteractor,
+            private val getList: GetNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
             private val restoreNote: RestoreNoteUseCase,
             private val clearBin: ClearBinUseCase,
@@ -178,7 +181,8 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BinViewModel::class) {
                     BinViewModel(
-                        fragment, interactor, getCopyText, restoreNote, clearBin, clearNote
+                        fragment, interactor,
+                        getList, getCopyText, restoreNote, clearBin, clearNote
                     )
                 }
             }

@@ -15,6 +15,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
@@ -28,6 +29,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 class BinViewModel(
     callback: IBinFragment,
     private val interactor: IBinInteractor,
+    private val getList: GetNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
     private val restoreNote: RestoreNoteUseCase,
     private val clearBin: ClearBinUseCase,
@@ -71,7 +73,7 @@ class BinViewModel(
                     callback?.showProgress()
                 }
 
-                runBack { itemList.clearAdd(interactor.getList()) }
+                runBack { itemList.clearAdd(getList(isBin = true)) }
             }
 
             updateList()

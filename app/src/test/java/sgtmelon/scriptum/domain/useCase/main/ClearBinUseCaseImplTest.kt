@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.domain.useCase.main
 
 import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -19,6 +20,7 @@ class ClearBinUseCaseImplTest : ParentTest() {
 
     @After override fun tearDown() {
         super.tearDown()
+        confirmVerified(repository)
     }
 
     @Test fun invoke() {

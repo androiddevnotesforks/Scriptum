@@ -16,6 +16,7 @@ import sgtmelon.test.common.nextString
 /**
  * Class which provide data for tests.
  */
+@Deprecated("Use mockk staff if it is possible")
 object TestData {
 
     // TODO replace item manipulations with mockkObject calls
