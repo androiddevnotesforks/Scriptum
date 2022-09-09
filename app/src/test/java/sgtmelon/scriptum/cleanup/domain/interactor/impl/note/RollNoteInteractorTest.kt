@@ -16,7 +16,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
-import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**
  * Test for [RollNoteInteractor].
@@ -26,17 +25,16 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     // TODO many items are common with [TextNoteInteractor]
 
-    @MockK lateinit var alarmRepo: AlarmRepo
     @MockK lateinit var rankRepo: RankRepo
     @MockK lateinit var noteRepo: NoteRepo
 
     private val interactor by lazy {
-        RollNoteInteractor(alarmRepo, rankRepo, noteRepo)
+        RollNoteInteractor(rankRepo, noteRepo)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(alarmRepo, rankRepo, noteRepo)
+        confirmVerified(rankRepo, noteRepo)
     }
 
 
@@ -58,12 +56,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
             noteRepo.getItem(id, isOptimal = false)
             noteRepo.getItem(id, isOptimal = false)
             noteRepo.getItem(id, isOptimal = false)
-        }
-    }
-
-    @Test fun getRankDialogItemArray() = startCoTest {
-        FastTest.Interactor.getRankDialogItemArray(rankRepo) {
-            interactor.getRankDialogItemArray(it)
         }
     }
 

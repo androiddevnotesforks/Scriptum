@@ -73,6 +73,7 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseC
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
@@ -228,7 +229,8 @@ object ViewModelFactory {
             private val clearNote: ClearNoteUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationDateListUseCase
+            private val getNotificationDateList: GetNotificationDateListUseCase,
+            private val getRankDialogNames: GetRankDialogNamesUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModel::class) {
@@ -236,7 +238,8 @@ object ViewModelFactory {
                     TextNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         interactor, updateNote, deleteNote, restoreNote, clearNote,
-                        setNotification, deleteNotification, getNotificationDateList
+                        setNotification, deleteNotification, getNotificationDateList,
+                        getRankDialogNames
                     )
                 }
             }
@@ -253,7 +256,8 @@ object ViewModelFactory {
             private val clearNote: ClearNoteUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationDateListUseCase
+            private val getNotificationDateList: GetNotificationDateListUseCase,
+            private val getRankDialogNames: GetRankDialogNamesUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModel::class) {
@@ -261,7 +265,8 @@ object ViewModelFactory {
                     RollNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         interactor, updateNote, deleteNote, restoreNote, clearNote,
-                        setNotification, deleteNotification, getNotificationDateList
+                        setNotification, deleteNotification, getNotificationDateList,
+                        getRankDialogNames
                     )
                 }
             }

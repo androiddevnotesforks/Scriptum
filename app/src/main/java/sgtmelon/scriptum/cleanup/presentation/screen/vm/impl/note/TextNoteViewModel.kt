@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
@@ -22,6 +21,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.test.prod.RunPrivate
 
@@ -40,7 +40,8 @@ class TextNoteViewModel(
     clearNote: ClearNoteUseCase,
     setNotification: SetNotificationUseCase,
     deleteNotification: DeleteNotificationUseCase,
-    getNotificationDateList: GetNotificationDateListUseCase
+    getNotificationDateList: GetNotificationDateListUseCase,
+    private val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(
     callback, parentCallback, colorConverter, preferencesRepo, interactor,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
@@ -62,8 +63,7 @@ class TextNoteViewModel(
          * If first open
          */
         if (!isNoteInitialized()) {
-            val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return false
-            rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
+            rankDialogItemArray = runBack { getRankDialogNames() }
 
             if (id == Default.ID) {
                 noteItem = NoteItem.Text.getCreate(preferencesRepo.defaultColor)

@@ -92,6 +92,7 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseC
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
@@ -217,12 +218,13 @@ class ViewModelModule {
         clearNote: ClearNoteUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
-        getNotificationDateList: GetNotificationDateListUseCase
+        getNotificationDateList: GetNotificationDateListUseCase,
+        getRankDialogNames: GetRankDialogNamesUseCase
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             fragment, colorConverter, preferencesRepo, interactor,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList
+            getNotificationDateList, getRankDialogNames
         )
         val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
@@ -244,12 +246,13 @@ class ViewModelModule {
         clearNote: ClearNoteUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
-        getNotificationDateList: GetNotificationDateListUseCase
+        getNotificationDateList: GetNotificationDateListUseCase,
+        getRankDialogNames: GetRankDialogNamesUseCase
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             fragment, colorConverter, preferencesRepo, interactor,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList
+            getNotificationDateList, getRankDialogNames
         )
         val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)

@@ -34,6 +34,7 @@ import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ContextModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.RoomModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.StringModule
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 
 /**
@@ -42,6 +43,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 @Singleton
 @Component(modules = [
     ContextModule::class,
+    StringModule::class,
     PreferencesModule::class,
     RoomModule::class,
     ConverterModule::class,

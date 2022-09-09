@@ -29,7 +29,7 @@ interface RankRepo {
     suspend fun updateConnection(item: NoteItem)
 
 
-    suspend fun getDialogItemArray(emptyName: String): Array<String>
+    suspend fun getNameList(): List<String>
 
     suspend fun getId(position: Int): Long
 }

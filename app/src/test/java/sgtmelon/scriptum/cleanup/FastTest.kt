@@ -12,7 +12,6 @@ import io.mockk.verifyOrder
 import io.mockk.verifySequence
 import java.util.Calendar
 import kotlin.random.Random
-import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -1174,25 +1173,6 @@ object FastTest {
     object Interactor {
 
         //region Note
-
-        /**
-         * Can't mockk Arrays. Don't try.
-         */
-        suspend fun getRankDialogItemArray(
-            rankRepo: RankRepo,
-            callFunc: suspend (name: String) -> Array<String>
-        ) {
-            val emptyName = nextString()
-            val size = getRandomSize()
-            val itemArray = Array(size) { nextString() }
-
-            coEvery { rankRepo.getDialogItemArray(emptyName) } returns itemArray
-            assertArrayEquals(itemArray, callFunc(emptyName))
-
-            coVerifySequence {
-                rankRepo.getDialogItemArray(emptyName)
-            }
-        }
 
         suspend fun getRankId(rankRepo: RankRepo, callFunc: suspend (check: Int) -> Long) {
             val check = Random.nextInt()

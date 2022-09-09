@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
 
-import androidx.annotation.StringRes
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
@@ -26,8 +25,6 @@ interface INoteConnector {
 
     fun isOrientationChanging(): Boolean
 
-
-    fun getString(@StringRes resId: Int): String
 
     fun finish()
 

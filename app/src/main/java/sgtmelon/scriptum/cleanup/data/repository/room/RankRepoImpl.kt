@@ -135,16 +135,7 @@ class RankRepoImpl(
         return list
     }
 
-
-    /**
-     * Return array with all rank names.
-     */
-    override suspend fun getDialogItemArray(emptyName: String): Array<String> {
-        return ArrayList<String>().apply {
-            add(emptyName)
-            addAll(rankDataSource.getNameList())
-        }.toTypedArray()
-    }
+    override suspend fun getNameList(): List<String> = rankDataSource.getNameList()
 
     /**
      * Return rank id by [position].

@@ -12,7 +12,7 @@
     <string name="dialog_title_color">Цвет</string>
     <string name="dialog_title_rank">Категории</string>
 
-    <string name="dialog_item_rank">Без категории</string>
+    <string name="dialog_item_rank_empty">Без категории</string>
 
     <string name="dialog_title_convert">Конвертировать</string>
     <string name="dialog_text_convert_text">

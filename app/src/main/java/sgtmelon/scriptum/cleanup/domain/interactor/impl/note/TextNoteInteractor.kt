@@ -6,13 +6,11 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
-import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**
  * Interactor for [ITextNoteViewModel].
  */
 class TextNoteInteractor(
-    private val alarmRepo: AlarmRepo,
     private val rankRepo: RankRepo,
     private val noteRepo: NoteRepo
 ) : ParentInteractor(),
@@ -25,11 +23,6 @@ class TextNoteInteractor(
 
         return noteItem
     }
-
-    override suspend fun getRankDialogItemArray(emptyName: String): Array<String> {
-        return rankRepo.getDialogItemArray(emptyName)
-    }
-
 
     override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
 

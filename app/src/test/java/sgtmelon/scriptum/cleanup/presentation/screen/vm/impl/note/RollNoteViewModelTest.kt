@@ -22,7 +22,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
@@ -53,6 +52,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
@@ -79,6 +79,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
     @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
+    @MockK lateinit var getRankDialogNames: GetRankDialogNamesUseCase
 
     @MockK lateinit var saveControl: SaveControl
     @MockK lateinit var inputControl: IInputControl
@@ -87,7 +88,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         RollNoteViewModel(
             callback, parentCallback, colorConverter, preferencesRepo, interactor,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList
+            getNotificationDateList, getRankDialogNames
         )
     }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
@@ -139,7 +140,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             callback, parentCallback,
             colorConverter, preferencesRepo, interactor,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList,
+            getNotificationDateList, getRankDialogNames,
             saveControl, inputControl
         )
     }
@@ -175,7 +176,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun tryInitializeNote() = startCoTest {
-        val name = nextString()
         val itemArray = Array(size = 10) { nextString() }
         val defaultColor = mockk<Color>()
         val noteItem = mockk<NoteItem.Roll>()
@@ -187,8 +187,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         assertTrue(spyViewModel.tryInitializeNote())
 
         every { spyViewModel.isNoteInitialized() } returns false
-        every { parentCallback.getString(R.string.dialog_item_rank) } returns name
-        coEvery { interactor.getRankDialogItemArray(name) } returns itemArray
+        coEvery { getRankDialogNames() } returns itemArray
         every { preferencesRepo.defaultColor } returns defaultColor
         mockkObject(NoteItem.Roll)
         every { NoteItem.Roll.getCreate(defaultColor) } returns noteItem
@@ -213,10 +212,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
             spyViewModel.tryInitializeNote()
             spyViewModel.isNoteInitialized()
-            spyViewModel.parentCallback
-            parentCallback.getString(R.string.dialog_item_rank)
-            spyViewModel.interactor
-            interactor.getRankDialogItemArray(name)
+            getRankDialogNames()
             spyViewModel.rankDialogItemArray = itemArray
             spyViewModel.id
             spyViewModel.interactor
@@ -229,10 +225,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.id = id
             spyViewModel.tryInitializeNote()
             spyViewModel.isNoteInitialized()
-            spyViewModel.parentCallback
-            parentCallback.getString(R.string.dialog_item_rank)
-            spyViewModel.interactor
-            interactor.getRankDialogItemArray(name)
+            getRankDialogNames()
             spyViewModel.rankDialogItemArray = itemArray
             spyViewModel.id
             spyViewModel.interactor
@@ -243,10 +236,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
             spyViewModel.tryInitializeNote()
             spyViewModel.isNoteInitialized()
-            spyViewModel.parentCallback
-            parentCallback.getString(R.string.dialog_item_rank)
-            spyViewModel.interactor
-            interactor.getRankDialogItemArray(name)
+            getRankDialogNames()
             spyViewModel.rankDialogItemArray = itemArray
             spyViewModel.id
             spyViewModel.interactor

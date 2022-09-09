@@ -30,7 +30,7 @@ class RankDialogUi(
 
     private val titleText = getViewByText(R.string.dialog_title_rank)
 
-    private val noCategoryButton = getViewByText(R.string.dialog_item_rank)
+    private val noCategoryButton = getViewByText(R.string.dialog_item_rank_empty)
 
     private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
     private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)

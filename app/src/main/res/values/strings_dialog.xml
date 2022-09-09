@@ -11,7 +11,7 @@
 
     <string name="dialog_title_color">Color</string>
     <string name="dialog_title_rank">Categories</string>
-    <string name="dialog_item_rank">Without category</string>
+    <string name="dialog_item_rank_empty">Without category</string>
 
     <string name="dialog_title_convert">Convert</string>
     <string name="dialog_text_convert_text">

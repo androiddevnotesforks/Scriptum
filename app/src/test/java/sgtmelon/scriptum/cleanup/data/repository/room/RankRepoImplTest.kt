@@ -471,15 +471,13 @@ class RankRepoImplTest : ParentRepoTest() {
     }
 
 
-    @Test fun getDialogItemArray() {
-        val size = getRandomSize()
-        val nameList = List(size) { nextString() }
-        val nameArray = nameList.toTypedArray()
+    @Test fun getNameList() {
+        val nameList = mockk<List<String>>()
 
-        coEvery { rankDataSource.getNameList() } returns nameList.takeLast(n = size - 1)
+        coEvery { rankDataSource.getNameList() } returns nameList
 
         runBlocking {
-            assertArrayEquals(repository.getDialogItemArray(nameList.first()), nameArray)
+            assertEquals(repository.getNameList(), nameList)
         }
 
         coVerifySequence {

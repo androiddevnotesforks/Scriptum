@@ -56,21 +56,19 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideTextNoteInteractor(
-        alarmRepo: AlarmRepo,
         rankRepo: RankRepo,
         noteRepo: NoteRepo
     ): ITextNoteInteractor {
-        return TextNoteInteractor(alarmRepo, rankRepo, noteRepo)
+        return TextNoteInteractor(rankRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
     fun provideRollNoteInteractor(
-        alarmRepo: AlarmRepo,
         rankRepo: RankRepo,
         noteRepo: NoteRepo
     ): IRollNoteInteractor {
-        return RollNoteInteractor(alarmRepo, rankRepo, noteRepo)
+        return RollNoteInteractor(rankRepo, noteRepo)
     }
 
     //endregion

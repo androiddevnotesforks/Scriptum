@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
@@ -30,6 +29,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.test.prod.RunPrivate
 
@@ -48,7 +48,8 @@ class RollNoteViewModel(
     clearNote: ClearNoteUseCase,
     setNotification: SetNotificationUseCase,
     deleteNotification: DeleteNotificationUseCase,
-    getNotificationDateList: GetNotificationDateListUseCase
+    getNotificationDateList: GetNotificationDateListUseCase,
+    private val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(
     callback, parentCallback, colorConverter, preferencesRepo, interactor,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
@@ -82,8 +83,7 @@ class RollNoteViewModel(
          * If first open.
          */
         if (!isNoteInitialized()) {
-            val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return false
-            rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
+            rankDialogItemArray = runBack { getRankDialogNames() }
 
             if (id == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
