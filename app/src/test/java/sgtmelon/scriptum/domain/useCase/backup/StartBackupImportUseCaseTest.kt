@@ -24,9 +24,9 @@ import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [StartBackupImportUseCaseImpl].
+ * Test for [StartBackupImportUseCase].
  */
-class StartBackupImportUseCaseImplTest : ParentTest() {
+class StartBackupImportUseCaseTest : ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var backupRepo: BackupRepo
@@ -36,7 +36,7 @@ class StartBackupImportUseCaseImplTest : ParentTest() {
     @MockK lateinit var cipherDataSource: CipherDataSource
 
     private val startBackupImport by lazy {
-        StartBackupImportUseCaseImpl(
+        StartBackupImportUseCase(
             preferencesRepo, backupRepo, backupParser, fileDataSource, cipherDataSource
         )
     }

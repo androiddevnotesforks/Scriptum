@@ -20,9 +20,9 @@ import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [StartBackupImportUseCaseImpl].
+ * Test for [StartBackupImportUseCase].
  */
-class StartBackupExportUseCaseImplTest : ParentTest() {
+class StartBackupExportUseCaseTest : ParentTest() {
 
     @MockK lateinit var backupRepo: BackupRepo
 
@@ -31,7 +31,7 @@ class StartBackupExportUseCaseImplTest : ParentTest() {
     @MockK lateinit var cipherDataSource: CipherDataSource
 
     private val startBackupExport by lazy {
-        StartBackupExportUseCaseImpl(backupRepo, backupCollector, fileDataSource, cipherDataSource)
+        StartBackupExportUseCase(backupRepo, backupCollector, fileDataSource, cipherDataSource)
     }
 
     @After override fun tearDown() {

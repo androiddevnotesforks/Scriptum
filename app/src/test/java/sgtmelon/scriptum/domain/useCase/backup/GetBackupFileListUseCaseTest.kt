@@ -14,13 +14,13 @@ import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
 
 /**
- * Test for [GetBackupFileListUseCaseImpl].
+ * Test for [GetBackupFileListUseCase].
  */
-class GetBackupFileListUseCaseImplTest : ParentTest() {
+class GetBackupFileListUseCaseTest : ParentTest() {
 
     @MockK lateinit var dataSource: FileDataSource
 
-    private val getBackupFileList by lazy { GetBackupFileListUseCaseImpl(dataSource) }
+    private val getBackupFileList by lazy { GetBackupFileListUseCase(dataSource) }
 
     @After override fun tearDown() {
         super.tearDown()
