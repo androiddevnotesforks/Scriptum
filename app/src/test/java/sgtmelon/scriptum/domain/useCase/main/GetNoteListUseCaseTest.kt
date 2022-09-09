@@ -17,14 +17,14 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
- * Test for [GetNoteListUseCaseImpl].
+ * Test for [GetNoteListUseCase].
  */
-class GetNoteListUseCaseImplTest : ParentTest() {
+class GetNoteListUseCaseTest : ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var noteRepo: NoteRepo
 
-    private val useCase by lazy { GetNoteListUseCaseImpl(preferencesRepo, noteRepo) }
+    private val useCase by lazy { GetNoteListUseCase(preferencesRepo, noteRepo) }
 
     @After override fun tearDown() {
         super.tearDown()

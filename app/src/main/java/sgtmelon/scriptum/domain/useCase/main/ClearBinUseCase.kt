@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.domain.useCase.main
 
-interface ClearBinUseCase {
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 
-    suspend operator fun invoke()
+class ClearBinUseCase(private val repository: NoteRepo) {
+
+    suspend operator fun invoke() = repository.clearBin()
 }

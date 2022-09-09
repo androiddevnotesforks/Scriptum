@@ -10,13 +10,13 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
- * Test for [ClearBinUseCaseImpl].
+ * Test for [ClearBinUseCase].
  */
-class ClearBinUseCaseImplTest : ParentTest() {
+class ClearBinUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: NoteRepo
 
-    private val useCase by lazy { ClearBinUseCaseImpl(repository) }
+    private val useCase by lazy { ClearBinUseCase(repository) }
 
     @After override fun tearDown() {
         super.tearDown()

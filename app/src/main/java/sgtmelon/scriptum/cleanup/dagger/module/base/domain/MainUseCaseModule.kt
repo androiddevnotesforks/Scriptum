@@ -5,9 +5,7 @@ import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
-import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
-import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCaseImpl
 
 @Module
 class MainUseCaseModule {
@@ -17,11 +15,11 @@ class MainUseCaseModule {
         preferencesRepo: PreferencesRepo,
         noteRepo: NoteRepo
     ): GetNoteListUseCase {
-        return GetNoteListUseCaseImpl(preferencesRepo, noteRepo)
+        return GetNoteListUseCase(preferencesRepo, noteRepo)
     }
 
     @Provides
     fun provideClearBinUseCase(repository: NoteRepo): ClearBinUseCase {
-        return ClearBinUseCaseImpl(repository)
+        return ClearBinUseCase(repository)
     }
 }
