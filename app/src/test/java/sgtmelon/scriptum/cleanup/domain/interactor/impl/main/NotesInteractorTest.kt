@@ -13,14 +13,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
-import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * Test for [NotesInteractor].
@@ -28,16 +25,14 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 @ExperimentalCoroutinesApi
 class NotesInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var noteRepo: NoteRepo
-    @MockK lateinit var rankRepo: RankRepo
 
-    private val interactor by lazy { NotesInteractor(preferencesRepo, noteRepo) }
+    private val interactor by lazy { NotesInteractor(noteRepo) }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferencesRepo, noteRepo, rankRepo)
+        confirmVerified(noteRepo)
     }
 
     @Test fun getCount() = startCoTest {
@@ -60,10 +55,6 @@ class NotesInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.isListHide()
         }
-    }
-
-    @Test fun updateNote() = startCoTest {
-        FastTest.Interactor.updateNote<NoteItem>(noteRepo) { interactor.updateNote(it) }
     }
 
     @Test fun convertNote_text() = startCoTest {

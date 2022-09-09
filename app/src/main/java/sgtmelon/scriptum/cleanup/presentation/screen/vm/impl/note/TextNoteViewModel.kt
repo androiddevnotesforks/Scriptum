@@ -21,6 +21,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.test.prod.RunPrivate
 
@@ -33,6 +34,7 @@ class TextNoteViewModel(
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     interactor: ITextNoteInteractor,
+    updateNote: UpdateNoteUseCase,
     deleteNote: DeleteNoteUseCase,
     restoreNote: RestoreNoteUseCase,
     clearNote: ClearNoteUseCase,
@@ -41,7 +43,7 @@ class TextNoteViewModel(
     getNotificationDateList: GetNotificationDateListUseCase
 ) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(
     callback, parentCallback, colorConverter, preferencesRepo, interactor,
-    deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
+    updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList
 ), ITextNoteViewModel {
 

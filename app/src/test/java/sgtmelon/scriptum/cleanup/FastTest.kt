@@ -39,6 +39,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
@@ -57,6 +58,7 @@ object FastTest {
         private val colorConverter: ColorConverter,
         private val interactor: IParentNoteInteractor<N>,
 
+        private val updateNote: UpdateNoteUseCase,
         private val deleteNote: DeleteNoteUseCase,
         private val restoreNote: RestoreNoteUseCase,
         private val clearNote: ClearNoteUseCase,
@@ -628,7 +630,7 @@ object FastTest {
                 noteState.isBin = false
                 noteItem.onRestore()
                 spyViewModel.setupEditMode(isEdit = false)
-                interactor.updateNote(noteItem)
+                updateNote(noteItem)
             }
         }
 
@@ -993,7 +995,7 @@ object FastTest {
                 verifyDeepCopy(noteItem)
                 noteState.isEdit
                 callback.onBindingEdit(noteItem, isEditMode = false)
-                interactor.updateNote(noteItem)
+                updateNote(noteItem)
                 callback.sendNotifyNotesBroadcast()
             }
 
@@ -1201,21 +1203,6 @@ object FastTest {
 
             coVerifySequence {
                 rankRepo.getId(check)
-            }
-        }
-
-        suspend inline fun <reified T : NoteItem> updateNote(
-            noteRepo: NoteRepo,
-            callFunc: (T) -> Unit
-        ) {
-            val item = mockk<T>()
-
-            coEvery { noteRepo.updateNote(item) } returns mockk()
-
-            callFunc(item)
-
-            coVerifySequence {
-                noteRepo.updateNote(item)
             }
         }
 

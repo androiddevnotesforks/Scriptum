@@ -52,6 +52,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
@@ -71,6 +72,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: IRollNoteInteractor
 
+    @MockK lateinit var updateNote: UpdateNoteUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
@@ -84,7 +86,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         RollNoteViewModel(
             callback, parentCallback, colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
+            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList
         )
     }
@@ -93,7 +95,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.ViewModel(
             callback, parentCallback, colorConverter, interactor,
-            deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
+            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }, { mockkInit() }, { verifyInit() }
@@ -136,7 +138,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         confirmVerified(
             callback, parentCallback,
             colorConverter, preferencesRepo, interactor,
-            deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
+            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList,
             saveControl, inputControl
         )

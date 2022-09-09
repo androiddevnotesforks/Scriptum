@@ -18,8 +18,6 @@ interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     suspend fun convertNote(item: N)
 
-    suspend fun updateNote(item: N)
-
     suspend fun saveNote(item: N, isCreate: Boolean)
 
 }

@@ -67,6 +67,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -152,6 +153,7 @@ object ViewModelFactory {
             private val interactor: INotesInteractor,
             private val getList: GetNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
+            private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
@@ -162,8 +164,8 @@ object ViewModelFactory {
                 return modelClass.create(NotesViewModel::class) {
                     NotesViewModel(
                         fragment, preferencesRepo, interactor,
-                        getList, getCopyText, deleteNote, setNotification, deleteNotification,
-                        getNotification, getNotificationDateList
+                        getList, getCopyText, updateNote, deleteNote, setNotification,
+                        deleteNotification, getNotification, getNotificationDateList
                     )
                 }
             }
@@ -209,6 +211,7 @@ object ViewModelFactory {
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: ITextNoteInteractor,
+            private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val restoreNote: RestoreNoteUseCase,
             private val clearNote: ClearNoteUseCase,
@@ -221,8 +224,8 @@ object ViewModelFactory {
                     val parentCallback = fragment.context as? INoteConnector
                     TextNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, deleteNote, restoreNote, clearNote, setNotification,
-                        deleteNotification, getNotificationDateList
+                        interactor, updateNote, deleteNote, restoreNote, clearNote,
+                        setNotification, deleteNotification, getNotificationDateList
                     )
                 }
             }
@@ -233,6 +236,7 @@ object ViewModelFactory {
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: IRollNoteInteractor,
+            private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val restoreNote: RestoreNoteUseCase,
             private val clearNote: ClearNoteUseCase,
@@ -245,8 +249,8 @@ object ViewModelFactory {
                     val parentCallback = fragment.context as? INoteConnector
                     RollNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, deleteNote, restoreNote, clearNote, setNotification,
-                        deleteNotification, getNotificationDateList
+                        interactor, updateNote, deleteNote, restoreNote, clearNote,
+                        setNotification, deleteNotification, getNotificationDateList
                     )
                 }
             }

@@ -31,6 +31,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.idling.getIdling
@@ -46,6 +47,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     @RunProtected val colorConverter: ColorConverter,
     @RunProtected val preferencesRepo: PreferencesRepo,
     @RunProtected val interactor: I,
+    private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,
     private val restoreNote: RestoreNoteUseCase,
     private val clearNote: ClearNoteUseCase,
@@ -313,7 +315,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         setupEditMode(isEdit = false)
         mayAnimateIcon = true
 
-        viewModelScope.launchBack { interactor.updateNote(noteItem) }
+        viewModelScope.launchBack { updateNote(noteItem) }
     }
 
     override fun onMenuClear() {
@@ -410,7 +412,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         callback?.onBindingEdit(noteItem, noteState.isEdit)
 
         viewModelScope.launch {
-            runBack { interactor.updateNote(noteItem) }
+            runBack { updateNote(noteItem) }
 
             callback?.sendNotifyNotesBroadcast()
         }

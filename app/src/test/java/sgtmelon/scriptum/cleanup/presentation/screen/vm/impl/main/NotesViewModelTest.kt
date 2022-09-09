@@ -38,6 +38,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.test.common.nextString
 
@@ -57,6 +58,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var getList: GetNoteListUseCase
     @MockK lateinit var getCopyText: GetCopyTextUseCase
+    @MockK lateinit var updateNote: UpdateNoteUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
@@ -68,7 +70,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         NotesViewModel(
             callback, preferencesRepo, interactor,
-            getList, getCopyText, deleteNote, setNotification, deleteNotification,
+            getList, getCopyText, updateNote, deleteNote, setNotification, deleteNotification,
             getNotification, getNotificationDateList
         )
     }
@@ -78,7 +80,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         super.tearDown()
         confirmVerified(
             callback, preferencesRepo, interactor, calendar,
-            getList, getCopyText, deleteNote, setNotification, deleteNotification,
+            getList, getCopyText, updateNote, deleteNote, setNotification, deleteNotification,
             getNotification, getNotificationDateList
         )
     }
@@ -403,7 +405,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             callback.notifyItemChanged(itemList, index)
 
-            interactor.updateNote(item)
+            updateNote(item)
             callback.sendNotifyNotesBroadcast()
 
         }

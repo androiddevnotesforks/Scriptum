@@ -25,6 +25,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Options
@@ -38,6 +39,7 @@ class NotesViewModel(
     private val interactor: INotesInteractor,
     private val getList: GetNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
+    private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
@@ -150,7 +152,7 @@ class NotesViewModel(
         callback?.notifyItemChanged(itemList, p)
 
         viewModelScope.launch {
-            runBack { interactor.updateNote(item) }
+            runBack { updateNote(item) }
 
             callback?.sendNotifyNotesBroadcast()
         }
