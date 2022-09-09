@@ -25,14 +25,14 @@ import sgtmelon.test.common.nextLongOrNull
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [SetNotificationUseCaseImpl].
+ * Test for [SetNotificationUseCase].
  */
-class SetNotificationUseCaseImplTest : ParentTest() {
+class SetNotificationUseCaseTest : ParentTest() {
 
     @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var alarmRepo: AlarmRepo
 
-    private val useCase by lazy { SetNotificationUseCaseImpl(noteRepo, alarmRepo) }
+    private val useCase by lazy { SetNotificationUseCase(noteRepo, alarmRepo) }
     private val spyUseCase by lazy { spyk(useCase) }
 
     @After override fun tearDown() {

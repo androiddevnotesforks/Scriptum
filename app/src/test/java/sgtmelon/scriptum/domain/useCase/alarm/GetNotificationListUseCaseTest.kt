@@ -14,13 +14,13 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**
- * Test for [GetNotificationListUseCaseImpl].
+ * Test for [GetNotificationListUseCase].
  */
-class GetNotificationListUseCaseImplTest : ParentTest() {
+class GetNotificationListUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 
-    private val useCase by lazy { GetNotificationListUseCaseImpl(repository) }
+    private val useCase by lazy { GetNotificationListUseCase(repository) }
 
     @After override fun tearDown() {
         super.tearDown()

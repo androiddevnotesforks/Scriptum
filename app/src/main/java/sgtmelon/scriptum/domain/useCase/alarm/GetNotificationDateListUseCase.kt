@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.domain.useCase.alarm
 
-interface GetNotificationDateListUseCase {
+import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
-    suspend operator fun invoke(): List<String>
+class GetNotificationDateListUseCase(private val repository: AlarmRepo) {
+
+    suspend operator fun invoke(): List<String> = repository.getDateList()
 }

@@ -5,21 +5,24 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**
- * Test for [GetNotificationDateListUseCaseImpl].
+ * Test for [GetNotificationUseCase].
  */
-class GetNotificationDateListUseCaseImplTest : ParentTest() {
+class GetNotificationUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 
-    private val useCase by lazy { GetNotificationDateListUseCaseImpl(repository) }
+    private val useCase by lazy { GetNotificationUseCase(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -27,16 +30,24 @@ class GetNotificationDateListUseCaseImplTest : ParentTest() {
     }
 
     @Test fun invoke() {
-        val dateList = mockk<List<String>>()
+        val id = Random.nextLong()
+        val item = mockk<NotificationItem>()
 
-        coEvery { repository.getDateList() } returns dateList
+        coEvery { repository.getItem(id) } returns null
 
         runBlocking {
-            assertEquals(useCase(), dateList)
+            assertNull(useCase(id))
+        }
+
+        coEvery { repository.getItem(id) } returns item
+
+        runBlocking {
+            assertEquals(item, useCase(id))
         }
 
         coVerifySequence {
-            repository.getDateList()
+            repository.getItem(id)
+            repository.getItem(id)
         }
     }
 }

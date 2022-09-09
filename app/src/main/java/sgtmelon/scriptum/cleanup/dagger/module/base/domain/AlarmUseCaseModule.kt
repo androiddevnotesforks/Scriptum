@@ -5,17 +5,11 @@ import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCaseImpl
 
 @Module
 class AlarmUseCaseModule {
@@ -25,33 +19,33 @@ class AlarmUseCaseModule {
         noteRepo: NoteRepo,
         alarmRepo: AlarmRepo
     ): SetNotificationUseCase {
-        return SetNotificationUseCaseImpl(noteRepo, alarmRepo)
+        return SetNotificationUseCase(noteRepo, alarmRepo)
     }
 
     @Provides
     fun provideDeleteNotificationUseCase(repository: AlarmRepo): DeleteNotificationUseCase {
-        return DeleteNotificationUseCaseImpl(repository)
+        return DeleteNotificationUseCase(repository)
     }
 
     @Provides
     fun provideGetNotificationUseCase(repository: AlarmRepo): GetNotificationUseCase {
-        return GetNotificationUseCaseImpl(repository)
+        return GetNotificationUseCase(repository)
     }
 
     @Provides
     fun provideGetNotificationListUseCase(repository: AlarmRepo): GetNotificationListUseCase {
-        return GetNotificationListUseCaseImpl(repository)
+        return GetNotificationListUseCase(repository)
     }
 
     @Provides
     fun provideGetNotificationDateListUseCase(
         repository: AlarmRepo
     ): GetNotificationDateListUseCase {
-        return GetNotificationDateListUseCaseImpl(repository)
+        return GetNotificationDateListUseCase(repository)
     }
 
     @Provides
     fun provideShiftDateOnExistUseCase(repository: AlarmRepo): ShiftDateIfExistUseCase {
-        return ShiftDateIfExistUseCaseImpl(repository)
+        return ShiftDateIfExistUseCase(repository)
     }
 }

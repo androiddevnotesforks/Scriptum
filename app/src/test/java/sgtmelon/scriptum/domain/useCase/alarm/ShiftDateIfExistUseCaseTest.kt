@@ -16,13 +16,13 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**
- * Test fun [ShiftDateIfExistUseCaseImpl].
+ * Test fun [ShiftDateIfExistUseCase].
  */
-class ShiftDateIfExistUseCaseImplTest : ParentTest() {
+class ShiftDateIfExistUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 
-    private val useCase by lazy { ShiftDateIfExistUseCaseImpl(repository) }
+    private val useCase by lazy { ShiftDateIfExistUseCase(repository) }
 
     @After override fun tearDown() {
         super.tearDown()
