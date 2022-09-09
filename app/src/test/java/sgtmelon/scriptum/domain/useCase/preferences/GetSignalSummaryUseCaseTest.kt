@@ -12,20 +12,20 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [GetSignalSummaryUseCaseImpl].
+ * Test for [GetSignalSummaryUseCase].
  */
-class GetSignalSummaryUseCaseImplTest : ParentTest(),
+class GetSignalSummaryUseCaseTest : ParentTest(),
     GetSummaryUseCaseTest {
 
     @MockK lateinit var summaryDataSource: SummaryDataSource
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
     private val getSummary by lazy {
-        GetSignalSummaryUseCaseImpl(summaryDataSource, preferencesRepo)
+        GetSignalSummaryUseCase(summaryDataSource, preferencesRepo)
     }
     private val spyGetSummary by lazy { spyk(getSummary) }
 

@@ -9,7 +9,6 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetDefaultColorSumma
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetRepeatSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSavePeriodSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
-import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSortSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetThemeSummaryUseCaseImpl
@@ -87,6 +86,6 @@ class GetSummaryUseCaseModule {
         summaryDataSource: SummaryDataSource,
         preferencesRepo: PreferencesRepo
     ) : GetSignalSummaryUseCase {
-        return GetSignalSummaryUseCaseImpl(summaryDataSource, preferencesRepo)
+        return GetSignalSummaryUseCase(summaryDataSource, preferencesRepo)
     }
 }
