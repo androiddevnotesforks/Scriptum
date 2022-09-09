@@ -14,17 +14,6 @@ class RankInteractor(private val rankRepo: RankRepo) : ParentInteractor(),
 
     override suspend fun getCount(): Int = rankRepo.getCount()
 
-    override suspend fun getList(): MutableList<RankItem> = rankRepo.getList()
-
-
-    override suspend fun insert(name: String): RankItem? = rankRepo.insert(name)
-
-    override suspend fun insert(item: RankItem) = rankRepo.insert(item)
-
-    override suspend fun delete(item: RankItem) = rankRepo.delete(item)
-
-    override suspend fun update(item: RankItem) = rankRepo.update(item)
-
     override suspend fun updatePositions(list: List<RankItem>, noteIdList: List<Long>) {
         rankRepo.updatePositions(list, noteIdList)
     }

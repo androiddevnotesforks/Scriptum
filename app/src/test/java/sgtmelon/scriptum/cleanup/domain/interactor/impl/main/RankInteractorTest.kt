@@ -9,12 +9,10 @@ import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
-import sgtmelon.test.common.nextString
 
 /**
  * Test for [RankInteractor].
@@ -40,65 +38,6 @@ class RankInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             rankRepo.getCount()
-        }
-    }
-
-    @Test fun getList() = startCoTest {
-        val list = mockk<MutableList<RankItem>>()
-
-        coEvery { rankRepo.getList() } returns list
-        assertEquals(list, interactor.getList())
-
-        coVerifySequence {
-            rankRepo.getList()
-        }
-    }
-
-
-    @Test fun insert_byName() = startCoTest {
-        val id = Random.nextLong()
-        val name = nextString()
-        val item = RankItem(id, name = name)
-
-        coEvery { rankRepo.insert(name) } returns null
-        assertNull(interactor.insert(name))
-
-        coEvery { rankRepo.insert(name) } returns item
-        assertEquals(interactor.insert(name), item)
-
-        coVerifySequence {
-            rankRepo.insert(name)
-            rankRepo.insert(name)
-        }
-    }
-
-    @Test fun insert_byItem() = startCoTest {
-        val item = mockk<RankItem>()
-
-        interactor.insert(item)
-
-        coVerifySequence {
-            rankRepo.insert(item)
-        }
-    }
-
-    @Test fun delete() = startCoTest {
-        val item = mockk<RankItem>()
-
-        interactor.delete(item)
-
-        coVerifySequence {
-            rankRepo.delete(item)
-        }
-    }
-
-    @Test fun updateItem() = startCoTest {
-        val item = mockk<RankItem>()
-
-        interactor.update(item)
-
-        coVerifySequence {
-            rankRepo.update(item)
         }
     }
 

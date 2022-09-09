@@ -62,7 +62,7 @@ class RankRepoImplTest : ParentRepoTest() {
     @Test fun getList() {
         val entityList = mockk<List<RankEntity>>()
         val size = getRandomSize()
-        val itemList = MutableList<RankItem>(size) { mockk() }
+        val itemList = List<RankItem>(size) { mockk() }
 
         val noteIdList = List<MutableList<Long>>(size) { mockk() }
         val bindCountList = List(size) { Random.nextInt() }

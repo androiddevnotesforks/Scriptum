@@ -12,17 +12,6 @@ interface IRankInteractor : IParentInteractor {
 
     suspend fun getCount(): Int
 
-    suspend fun getList(): MutableList<RankItem>
-
-
-    suspend fun insert(name: String): RankItem?
-
-    suspend fun insert(item: RankItem)
-
-    suspend fun delete(item: RankItem)
-
-    suspend fun update(item: RankItem)
-
     suspend fun updatePositions(list: List<RankItem>, noteIdList: List<Long>)
 
 }

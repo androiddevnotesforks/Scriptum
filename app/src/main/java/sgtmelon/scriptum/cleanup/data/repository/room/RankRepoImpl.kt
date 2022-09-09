@@ -24,7 +24,7 @@ class RankRepoImpl(
 
     override suspend fun getCount(): Int = rankDataSource.getCount()
 
-    override suspend fun getList(): MutableList<RankItem> {
+    override suspend fun getList(): List<RankItem> {
         val list = converter.toItem(rankDataSource.getList())
 
         for (item in list) {

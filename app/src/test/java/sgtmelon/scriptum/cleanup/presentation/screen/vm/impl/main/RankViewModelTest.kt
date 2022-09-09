@@ -38,6 +38,10 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
+import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
+import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
@@ -53,11 +57,19 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IRankFragment
     @MockK lateinit var interactor: IRankInteractor
+    @MockK lateinit var getList: GetRankListUseCase
+    @MockK lateinit var insertRank: InsertRankUseCase
+    @MockK lateinit var deleteRank: DeleteRankUseCase
+    @MockK lateinit var updateRank: UpdateRankUseCase
     @MockK lateinit var correctPositions: CorrectPositionsUseCase
 
     @MockK lateinit var openState: OpenState
 
-    private val viewModel by lazy { RankViewModel(callback, interactor, correctPositions) }
+    private val viewModel by lazy {
+        RankViewModel(
+            callback, interactor, getList, insertRank, deleteRank, updateRank, correctPositions
+        )
+    }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setUp() {
@@ -73,7 +85,10 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, correctPositions, openState)
+        confirmVerified(
+            callback, interactor, getList, insertRank, deleteRank, updateRank,
+            correctPositions, openState
+        )
     }
 
     @Test override fun onDestroy() {
@@ -191,7 +206,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val itemList = data.itemList
 
         coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns itemList
+        coEvery { getList() } returns itemList
 
         viewModel.itemList.clear()
         viewModel.onUpdateData()
@@ -200,7 +215,7 @@ class RankViewModelTest : ParentViewModelTest() {
             interactor.getCount()
             callback.hideEmptyInfo()
             callback.showProgress()
-            interactor.getList()
+            getList()
             updateList(itemList)
         }
     }
@@ -223,7 +238,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val returnList = data.itemList.apply { shuffle() }
 
         coEvery { interactor.getCount() } returns returnList.size
-        coEvery { interactor.getList() } returns returnList
+        coEvery { getList() } returns returnList
 
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
@@ -232,7 +247,7 @@ class RankViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             updateList(any())
             interactor.getCount()
-            interactor.getList()
+            getList()
             updateList(returnList)
         }
     }
@@ -335,7 +350,7 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.onResultRenameDialog(p, newName)
 
         coVerifySequence {
-            interactor.update(item)
+            updateRank(item)
 
             callback.getEnterText()
             callback.onBindingToolbar(isClearEnable = true, isAddEnable = false)
@@ -415,7 +430,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
-        coEvery { interactor.insert(name) } returns item
+        coEvery { insertRank(name) } returns item
 
         val p = itemList.size
         val resultList = ArrayList(itemList).apply { add(p, item) }
@@ -435,7 +450,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.clearEnter()
             spyViewModel.getNameList(any())
             callback.dismissSnackbar()
-            interactor.insert(name)
+            insertRank(name)
 
             correctPositions(resultList)
             interactor.updatePositions(resultList, noteIdList)
@@ -450,7 +465,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
-        coEvery { interactor.insert(name) } returns item
+        coEvery { insertRank(name) } returns item
 
         val p = 0
         val resultList = ArrayList(itemList).apply { add(p, item) }
@@ -470,7 +485,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.clearEnter()
             spyViewModel.getNameList(any())
             callback.dismissSnackbar()
-            interactor.insert(name)
+            insertRank(name)
 
             correctPositions(resultList)
             interactor.updatePositions(resultList, noteIdList)
@@ -484,7 +499,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
         every { spyViewModel.getNameList(itemList) } returns emptyList()
         every { callback.clearEnter() } returns name
-        coEvery { interactor.insert(name) } returns null
+        coEvery { insertRank(name) } returns null
 
         spyViewModel.itemList.clearAdd(itemList)
 
@@ -500,7 +515,7 @@ class RankViewModelTest : ParentViewModelTest() {
                 callback.clearEnter()
                 spyViewModel.getNameList(itemList)
                 callback.dismissSnackbar()
-                interactor.insert(name)
+                insertRank(name)
             }
         }
     }
@@ -521,7 +536,7 @@ class RankViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             callback.setList(itemList)
 
-            interactor.update(item)
+            updateRank(item)
             callback.sendNotifyNotesBroadcast()
         }
     }
@@ -554,7 +569,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.notifyItemRemoved(itemList, p)
             callback.showSnackbar()
 
-            interactor.delete(item)
+            deleteRank(item)
             interactor.updatePositions(itemList, noteIdList)
 
             callback.sendNotifyNotesBroadcast()
@@ -614,7 +629,7 @@ class RankViewModelTest : ParentViewModelTest() {
                 showSnackbar()
             }
 
-            interactor.insert(item)
+            insertRank(item)
             correctPositions(resultList)
             interactor.updatePositions(resultList, noteIdList)
             callback.setList(resultList)
@@ -652,7 +667,7 @@ class RankViewModelTest : ParentViewModelTest() {
         coVerifyOrder {
             callback.notifyItemInsertedScroll(resultList, resultList.lastIndex)
 
-            interactor.insert(item)
+            insertRank(item)
             correctPositions(resultList)
             interactor.updatePositions(resultList, noteIdList)
             callback.setList(resultList)
@@ -690,7 +705,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.notifyItemInsertedScroll(resultList, resultList.lastIndex)
             callback.onBindingList()
 
-            interactor.insert(item)
+            insertRank(item)
             correctPositions(resultList)
             interactor.updatePositions(resultList, noteIdList)
             callback.setList(resultList)

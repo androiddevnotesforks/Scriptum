@@ -11,7 +11,7 @@ interface RankRepo {
 
     suspend fun getCount(): Int
 
-    suspend fun getList(): MutableList<RankItem>
+    suspend fun getList(): List<RankItem>
 
     suspend fun getIdVisibleList(): List<Long>
 

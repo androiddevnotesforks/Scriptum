@@ -91,6 +91,10 @@ import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
+import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
+import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 @Module
@@ -130,9 +134,15 @@ class ViewModelModule {
     fun provideRankViewModel(
         fragment: RankFragment,
         interactor: IRankInteractor,
+        getList: GetRankListUseCase,
+        insertRank: InsertRankUseCase,
+        deleteRank: DeleteRankUseCase,
+        updateRank: UpdateRankUseCase,
         correctPositions: CorrectPositionsUseCase
     ): IRankViewModel {
-        val factory = ViewModelFactory.MainScreen.Rank(fragment, interactor, correctPositions)
+        val factory = ViewModelFactory.MainScreen.Rank(
+            fragment, interactor, getList, insertRank, deleteRank, updateRank, correctPositions
+        )
         return ViewModelProvider(fragment, factory)[RankViewModel::class.java]
     }
 

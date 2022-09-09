@@ -19,6 +19,10 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragm
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
+import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
+import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
@@ -28,13 +32,16 @@ import sgtmelon.test.prod.RunPrivate
 class RankViewModel(
     callback: IRankFragment,
     private val interactor: IRankInteractor,
+    private val getList: GetRankListUseCase,
+    private val insertRank: InsertRankUseCase,
+    private val deleteRank: DeleteRankUseCase,
+    private val updateRank: UpdateRankUseCase,
     private val correctPositions: CorrectPositionsUseCase
 ) : ParentViewModel<IRankFragment>(callback),
         IRankViewModel {
 
     @RunPrivate val itemList: MutableList<RankItem> = mutableListOf()
-    @RunPrivate val cancelList: MutableList<Pair<Int, RankItem>> =
-        mutableListOf()
+    @RunPrivate val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
 
     private val nameList: List<String> get() = getNameList(itemList)
 
@@ -116,7 +123,7 @@ class RankViewModel(
                     callback?.showProgress()
                 }
 
-                runBack { itemList.clearAdd(interactor.getList()) }
+                runBack { itemList.clearAdd(getList()) }
             }
 
             updateList()
@@ -145,7 +152,7 @@ class RankViewModel(
     override fun onResultRenameDialog(p: Int, name: String) {
         val item = itemList.getOrNull(p)?.apply { this.name = name } ?: return
 
-        viewModelScope.launchBack { interactor.update(item) }
+        viewModelScope.launchBack { updateRank(item) }
 
         onUpdateToolbar()
         callback?.notifyItemChanged(itemList, p)
@@ -176,7 +183,7 @@ class RankViewModel(
         callback?.dismissSnackbar()
 
         viewModelScope.launch {
-            val item = runBack { interactor.insert(name) } ?: return@launch
+            val item = runBack { insertRank(name) } ?: return@launch
             val p = if (simpleClick) itemList.size else 0
 
             itemList.add(p, item)
@@ -193,7 +200,7 @@ class RankViewModel(
         callback?.setList(itemList)
 
         viewModelScope.launch {
-            runBack { interactor.update(item) }
+            runBack { updateRank(item) }
 
             callback?.sendNotifyNotesBroadcast()
         }
@@ -213,7 +220,7 @@ class RankViewModel(
 
         viewModelScope.launch {
             launchBack {
-                interactor.delete(item)
+                deleteRank(item)
                 interactor.updatePositions(itemList, noteIdList)
             }
 
@@ -270,7 +277,7 @@ class RankViewModel(
          */
         viewModelScope.launch {
             runBack {
-                interactor.insert(item)
+                insertRank(item)
                 interactor.updatePositions(itemList, correctPositions(itemList))
             }
 

@@ -14,5 +14,4 @@ class NotificationInteractor(
     INotificationInteractor {
 
     override suspend fun getCount(): Int = bindRepo.getNotificationsCount()
-
 }
