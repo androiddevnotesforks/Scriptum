@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -121,10 +122,20 @@ class MainActivity : AppActivity(), IMainActivity {
         return super.dispatchTouchEvent(ev)
     }
 
+    private fun openAddDialog() {
+        openState.tryInvoke { addDialog.safeShow(fm, DialogFactory.Main.ADD, owner = this) }
+    }
+
     override fun setupNavigation(@IdRes itemId: Int) {
-        fab?.setOnClickListener {
-            openState.tryInvoke { addDialog.safeShow(fm, DialogFactory.Main.ADD, owner = this) }
-        }
+        val testAnim = findViewById<View>(R.id.test_anim)
+        val gradient = testAnim?.background as? AnimationDrawable
+        gradient?.setEnterFadeDuration(resources.getInteger(R.integer.gradient_enter_time))
+        gradient?.setExitFadeDuration(resources.getInteger(R.integer.gradient_exit_time))
+        gradient?.start()
+
+        findViewById<View>(R.id.test_anim_click).setOnClickListener { openAddDialog() }
+
+        fab?.setOnClickListener { openAddDialog() }
 
         val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()
         menuNavigation?.setOnNavigationItemSelectedListener {

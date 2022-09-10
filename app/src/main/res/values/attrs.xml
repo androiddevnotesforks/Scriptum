@@ -13,6 +13,10 @@
         <!--  Color for accent ripple effect on click  -->
         <attr name="clAccentRipple" format="color" />
 
+        <!--  Color for create smooth gradients related with clAccent  -->
+        <attr name="clAccentGradientStart" format="color" />
+        <attr name="clAccentGradientEnd" format="color" />
+
         <!--  Color for main app views: toolbar, panels, etc.  -->
         <attr name="clPrimary" format="color" />
 

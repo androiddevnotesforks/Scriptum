@@ -13,6 +13,10 @@
     <integer name="color_fade_time">200</integer>
     <integer name="color_transition_time">200</integer>
 
+    <integer name="gradient_enter_time">10</integer>
+    <integer name="gradient_exit_time">1500</integer>
+    <integer name="gradient_state_time">1500</integer>
+
     <integer name="recycler_enter_time">250</integer>
 
     <integer name="placeholder_fade_time">500</integer>

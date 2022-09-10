@@ -35,6 +35,39 @@
             app:srcCompat="@drawable/ic_add"
             app:useCompatPadding="false" />
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="@dimen/layout_16dp"
+            android:layout_marginEnd="@dimen/layout_16dp"
+            android:layout_marginBottom="@dimen/layout_16dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="@dimen/elevation_6dp">
+
+            <View
+                android:id="@+id/test_anim"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_fab_anim" />
+
+            <View
+                android:id="@+id/test_anim_click"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_add"
+                app:tint="?attr/clBackgroundView" />
+
+        </androidx.cardview.widget.CardView>
+
     </FrameLayout>
 
     <View

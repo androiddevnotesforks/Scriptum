@@ -7,6 +7,8 @@
 
         <item name="clAccent">@color/accent_light</item>
         <item name="clAccentRipple">@color/accent_ripple_light</item>
+        <item name="clAccentGradientStart">@color/accent_gradient_start_light</item>
+        <item name="clAccentGradientEnd">@color/accent_gradient_end_light</item>
 
         <item name="clPrimary">@color/primary_light</item>
 
@@ -62,6 +64,8 @@
 
         <item name="clAccent">@color/accent_dark</item>
         <item name="clAccentRipple">@color/accent_ripple_dark</item>
+        <item name="clAccentGradientStart">@color/accent_gradient_start_dark</item>
+        <item name="clAccentGradientEnd">@color/accent_gradient_end_dark</item>
 
         <item name="clPrimary">@color/primary_dark</item>
 

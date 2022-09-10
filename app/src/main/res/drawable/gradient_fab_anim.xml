@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/gradient_fab_normal"
+        android:duration="@integer/gradient_state_time" />
+
+    <item android:drawable="@drawable/gradient_fab_start"
+        android:duration="@integer/gradient_state_time" />
+
+    <item android:drawable="@drawable/gradient_fab_normal"
+        android:duration="@integer/gradient_state_time" />
+
+    <item android:drawable="@drawable/gradient_fab_end"
+        android:duration="@integer/gradient_state_time" />
+
+</animation-list>
