@@ -188,14 +188,14 @@ class SplashActivity : ParentActivity(),
                 .putExtra(OpenFrom.INTENT_KEY, OpenFrom.HELP_DISAPPEAR)
         }
 
-        fun getCreateTextInstance(context: Context): Intent {
-            return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.CREATE_TEXT)
-        }
+        fun getCreateNoteInstance(context: Context, type: NoteType): Intent {
+            val key = when (type) {
+                NoteType.TEXT -> OpenFrom.CREATE_TEXT
+                NoteType.ROLL -> OpenFrom.CREATE_ROLL
+            }
 
-        fun getCreateRollInstance(context: Context): Intent {
             return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.CREATE_ROLL)
+                .putExtra(OpenFrom.INTENT_KEY, key)
         }
     }
 

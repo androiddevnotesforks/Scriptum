@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.other
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.parent.ParentUiTest
 
@@ -34,13 +35,15 @@ class SplashTest : ParentUiTest() {
     }
 
     // TODO finish test
-    @Test fun helpDisappearOpen() = launchHelpDisappear { TODO() }
+    @Test fun helpDisappearOpen() = launchHelpDisappear { openHelpDisappear { TODO() } }
 
-    @Test fun createTextOpen() {
-        TODO()
+    @Test fun createTextOpen() = launchCreateNote(NoteType.TEXT) {
+        openCreateText(db.createText()) { onPressBack() }
+        mainScreen()
     }
 
-    @Test fun createRollOpen() {
-        TODO()
+    @Test fun createRollOpen() = launchCreateNote(NoteType.ROLL) {
+        openCreateRoll(db.createRoll()) { onPressBack() }
+        mainScreen()
     }
 }

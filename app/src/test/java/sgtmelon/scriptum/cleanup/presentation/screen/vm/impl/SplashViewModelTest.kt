@@ -12,6 +12,7 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -159,6 +160,36 @@ class SplashViewModelTest : ParentViewModelTest() {
 
             bundle.getString(OpenFrom.INTENT_KEY)
             callback.openHelpDisappearScreen()
+        }
+    }
+
+    @Test fun onSetup_createTextStart() {
+        every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.CREATE_TEXT
+
+        viewModel.onSetup(bundle)
+
+        verifySequence {
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
+
+            bundle.getString(OpenFrom.INTENT_KEY)
+            callback.openCreateNoteScreen(NoteType.TEXT)
+        }
+    }
+
+    @Test fun onSetup_createRollStart() {
+        every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.CREATE_ROLL
+
+        viewModel.onSetup(bundle)
+
+        verifySequence {
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
+
+            bundle.getString(OpenFrom.INTENT_KEY)
+            callback.openCreateNoteScreen(NoteType.ROLL)
         }
     }
 

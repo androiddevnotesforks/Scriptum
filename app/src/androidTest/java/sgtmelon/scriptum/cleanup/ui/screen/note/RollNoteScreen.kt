@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.screen.note
 
+import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
@@ -10,6 +11,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.IKeyboardClose
 import sgtmelon.scriptum.cleanup.ui.IPressBack
@@ -286,6 +288,14 @@ class RollNoteScreen(
             item: NoteItem.Roll,
             isRankEmpty: Boolean
         ): RollNoteScreen {
+            /**
+             * Was assertion error in tests where time difference was 1 minute. I think it was
+             * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
+             * of actual note creation was ~01:.. (after [DbDelegator] note was created).
+             */
+            if (state == State.NEW) {
+                item.create = getCalendarText()
+            }
             return RollNoteScreen(state, item, isRankEmpty).fullAssert().apply(func)
         }
     }

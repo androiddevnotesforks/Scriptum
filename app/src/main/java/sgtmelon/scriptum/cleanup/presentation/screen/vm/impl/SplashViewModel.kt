@@ -20,7 +20,6 @@ class SplashViewModel(
     /**
      * Don't use coroutines here. Activity will be quickly destroyed.
      */
-    // TODO tests for new screen open
     override fun onSetup(bundle: Bundle?) {
         callback?.sendTidyUpAlarmBroadcast()
         callback?.sendNotifyNotesBroadcast()

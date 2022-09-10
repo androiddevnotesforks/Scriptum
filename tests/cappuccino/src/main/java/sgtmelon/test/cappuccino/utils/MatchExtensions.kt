@@ -160,14 +160,14 @@ fun Matcher<View>.withDrawable(
 }
 
 fun Matcher<View>.withDrawableColor(
-    @IdRes resourceId: Int,
+    @IdRes resourceId: Int?,
     @ColorRes colorId: Int? = null
 ) = also {
     matchOnView(it, DrawableMatcher(resourceId, colorId, null))
 }
 
 fun Matcher<View>.withDrawableAttr(
-    @IdRes resourceId: Int,
+    @IdRes resourceId: Int?,
     @AttrRes attrColor: Int? = null
 ) = also {
     matchOnView(it, DrawableMatcher(resourceId, null, attrColor))

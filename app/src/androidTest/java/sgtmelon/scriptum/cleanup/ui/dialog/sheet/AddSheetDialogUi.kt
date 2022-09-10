@@ -1,10 +1,8 @@
 package sgtmelon.scriptum.cleanup.ui.dialog.sheet
 
-import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
-import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
@@ -31,13 +29,6 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) {
-        /**
-         * Was assertion error in tests where time difference was 1 minute. I think it was
-         * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
-         * of actual note creation was ~01:.. (after [DbDelegator] note was created).
-         */
-        item.create = getCalendarText()
-
         textButton.click()
         TextNoteScreen(func, State.NEW, item, isRankEmpty)
     }
@@ -47,13 +38,6 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) {
-        /**
-         * Was assertion error in tests where time difference was 1 minute. I think it was
-         * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
-         * of actual note creation was ~01:.. (after [DbDelegator] note was created).
-         */
-        item.create = getCalendarText()
-
         rollButton.click()
         RollNoteScreen(func, State.NEW, item, isRankEmpty)
     }

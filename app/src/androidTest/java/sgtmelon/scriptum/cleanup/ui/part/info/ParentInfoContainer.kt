@@ -37,5 +37,4 @@ abstract class ParentInfoContainer(@IdRes private val iconId: Int? = null) : Par
             .withTextColor(R.attr.clContentSecond)
             .withTextSize(R.dimen.text_14sp)
     }
-
 }
