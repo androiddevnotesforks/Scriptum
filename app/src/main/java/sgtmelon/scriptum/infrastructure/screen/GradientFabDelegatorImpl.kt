@@ -5,12 +5,19 @@ import android.graphics.drawable.AnimationDrawable
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getScaleXAnimator
@@ -22,6 +29,9 @@ internal class GradientFabDelegatorImpl(
     private val onClick: (view: View) -> Unit
 ) : DefaultLifecycleObserver,
     GradientFabDelegator {
+
+    private val ioScope = CoroutineScope(Dispatchers.IO)
+    private var changeJob: Job? = null
 
     private var parentCard: CardView? = null
     private var gradientView: View? = null
@@ -63,6 +73,9 @@ internal class GradientFabDelegatorImpl(
 
         changePlay(isPlay = false)
         gradientDrawable = null
+
+        changeJob?.cancel()
+        changeJob = null
     }
 
     override fun onResume(owner: LifecycleOwner) {
@@ -89,6 +102,16 @@ internal class GradientFabDelegatorImpl(
         this.isVisible = isVisible
         this.lastVisibleState = isVisible
 
+        changeJob?.cancel()
+        changeJob = ioScope.launch {
+            delay(ANIM_LAG)
+            runMain { runChangeVisibility(isVisible) }
+            changeJob = null
+        }
+    }
+
+    @MainThread
+    private fun runChangeVisibility(isVisible: Boolean) {
         parentCard?.isEnabled = isVisible
         clickView?.isEnabled = isVisible
         startCardAnimation(isVisible)
@@ -116,5 +139,9 @@ internal class GradientFabDelegatorImpl(
                 getScaleYAnimator(parentCard, scale).apply { interpolator = scaleInterpolator }
             )
         }.start()
+    }
+
+    companion object {
+        private const val ANIM_LAG = 100L
     }
 }
