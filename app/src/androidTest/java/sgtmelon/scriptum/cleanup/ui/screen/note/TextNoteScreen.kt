@@ -21,7 +21,7 @@ import sgtmelon.test.cappuccino.utils.isFocused
 import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
-import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withCursor
 import sgtmelon.test.cappuccino.utils.withHint
 import sgtmelon.test.cappuccino.utils.withSize
@@ -152,7 +152,7 @@ class TextNoteScreen(
         fragmentContainer.isDisplayed()
 
         parentContainer.isDisplayed()
-        contentCard.isDisplayed().withCardBackground(
+        contentCard.isDisplayed().withCard(
             R.attr.clBackgroundView,
             R.dimen.text_card_radius,
             R.dimen.text_card_elevation

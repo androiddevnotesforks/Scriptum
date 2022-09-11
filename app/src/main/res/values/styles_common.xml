@@ -37,10 +37,6 @@
 
     <!-- -->
 
-    <style name="App.Style.Fab" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:tint">?attr/clBackgroundView</item>
-    </style>
-
     <style name="App.Theme.BottomSheet" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/App.Style.BottomSheet</item>
     </style>

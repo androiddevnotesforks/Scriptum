@@ -11,7 +11,7 @@ import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
-import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withHint
@@ -56,7 +56,7 @@ class RollItemUi(
     }
 
     override fun assert(item: RollItem) {
-        parentCard.isDisplayed().withCardBackground(
+        parentCard.isDisplayed().withCard(
             R.attr.clBackgroundView,
             R.dimen.item_card_radius,
             R.dimen.item_card_elevation

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.screen.main
 
+import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
@@ -8,12 +9,17 @@ import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.dialog.sheet.AddSheetDialogUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.isSelected
 import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withCardElevation
+import sgtmelon.test.cappuccino.utils.withCardRadius
 import sgtmelon.test.cappuccino.utils.withContentDescription
+import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withSizeAttr
+import sgtmelon.test.cappuccino.utils.withSizeCode
 
 /**
  * Class for UI control of [MainActivity].
@@ -31,7 +37,9 @@ class MainScreen : ParentUi() {
     private val notesMenuItem = getViewById(R.id.item_page_notes)
     private val binMenuItem = getViewById(R.id.item_page_bin)
 
-    private val addFab = getViewById(R.id.main_add_fab)
+    private val fabCard = getViewById(R.id.gradient_fab_card)
+    private val fabClick = getViewById(R.id.gradient_fab_click)
+    private val fabIcon = getViewById(R.id.gradient_fab_icon)
 
     //endregion
 
@@ -69,7 +77,7 @@ class MainScreen : ParentUi() {
     }
 
     fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply {
-        addFab.click()
+        fabClick.click()
         AddSheetDialogUi(func)
     }
 
@@ -113,8 +121,20 @@ class MainScreen : ParentUi() {
         }
 
         if (isFabVisible != null) {
-            addFab.isDisplayed(isFabVisible)
-                .withContentDescription(R.string.description_add_note)
+            fabCard.isDisplayed(isFabVisible) {
+                withSize(R.dimen.gradient_fab_size, R.dimen.gradient_fab_size)
+                withCardRadius(R.dimen.gradient_fab_radius)
+                withCardElevation(R.dimen.gradient_fab_elevation)
+
+                fabClick.isDisplayed()
+                    .isEnabled()
+                    .withSizeCode(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+
+                fabIcon.isDisplayed()
+                    .withSize(R.dimen.gradient_fab_image_size, R.dimen.gradient_fab_image_size)
+                    .withDrawableAttr(R.drawable.ic_add, R.attr.clBackgroundView)
+                    .withContentDescription(R.string.description_add_note)
+            }.isEnabled(isFabVisible)
         }
     }
 

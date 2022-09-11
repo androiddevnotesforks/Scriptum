@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
@@ -38,7 +38,7 @@ class RankItemUi(
     private val bindImage by lazy { getChild(getViewById(R.id.rank_bind_image)) }
 
     override fun assert(item: RankItem) {
-        parentCard.isDisplayed().withCardBackground(
+        parentCard.isDisplayed().withCard(
             R.attr.clBackgroundView,
             R.dimen.item_card_radius,
             R.dimen.item_card_elevation

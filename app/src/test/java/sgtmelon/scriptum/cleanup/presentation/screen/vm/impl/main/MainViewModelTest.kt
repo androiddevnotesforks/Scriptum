@@ -71,25 +71,25 @@ class MainViewModelTest : ParentViewModelTest() {
             bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_rank)
             callback.setupInsets()
-            callback.setFabState(state = false)
+            callback.changeFabVisible(isVisible = false)
 
             bundle.getBoolean(Intent.FIRST_START)
             bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
-            callback.setFabState(state = true)
+            callback.changeFabVisible(isVisible = true)
 
             bundle.getBoolean(Intent.FIRST_START)
             bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_bin)
             callback.setupInsets()
-            callback.setFabState(state = false)
+            callback.changeFabVisible(isVisible = false)
 
             bundle.getBoolean(Intent.FIRST_START)
             bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
-            callback.setFabState(state = true)
+            callback.changeFabVisible(isVisible = true)
         }
     }
 
@@ -156,13 +156,13 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onSelectItem(itemId = -1)
 
         verifySequence {
-            callback.setFabState(state = false)
+            callback.changeFabVisible(isVisible = false)
             callback.showPage(MainPage.RANK, MainPage.RANK)
 
-            callback.setFabState(state = true)
+            callback.changeFabVisible(isVisible = true)
             callback.showPage(MainPage.BIN, MainPage.NOTES)
 
-            callback.setFabState(state = false)
+            callback.changeFabVisible(isVisible = false)
             callback.showPage(MainPage.NOTES, MainPage.BIN)
         }
     }
@@ -181,14 +181,14 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onFabStateChange(state = true)
 
         verifySequence {
-            callback.setFabState(state = false)
-            callback.setFabState(state = false)
+            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = false)
 
-            callback.setFabState(state = false)
-            callback.setFabState(state = true)
+            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = true)
 
-            callback.setFabState(state = false)
-            callback.setFabState(state = false)
+            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = false)
         }
     }
 

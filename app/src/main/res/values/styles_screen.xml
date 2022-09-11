@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="App.Screen.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--  Otherwise it will be override some app colors (e.g. fab accent color)  -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
         <item name="clNavigationBar">@color/navigation_bar_light</item>
         <item name="clNavigationBarDivider">@color/navigation_bar_divider_light</item>
 
@@ -34,7 +37,6 @@
 
         <item name="styleToolbar">@style/App.Style.Toolbar</item>
         <item name="themePopup">@style/App.Theme.Popup</item>
-        <item name="styleFab">@style/App.Style.Fab</item>
         <item name="styleSheet">@style/App.Style.SheetDialog</item>
         <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
 
@@ -59,6 +61,9 @@
     </style>
 
     <style name="App.Screen.Dark" parent="Theme.AppCompat.NoActionBar">
+        <!--  Otherwise it will be override some app colors (e.g. fab accent color)  -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
         <item name="clNavigationBar">@color/navigation_bar_dark</item>
         <item name="clNavigationBarDivider">@color/navigation_bar_divider_dark</item>
 
@@ -91,7 +96,6 @@
 
         <item name="styleToolbar">@style/App.Style.Toolbar</item>
         <item name="themePopup">@style/App.Theme.Popup</item>
-        <item name="styleFab">@style/App.Style.Fab</item>
         <item name="styleSheet">@style/App.Style.SheetDialog</item>
         <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
 

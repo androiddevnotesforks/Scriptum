@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withMenuDrawable
 import sgtmelon.test.cappuccino.utils.withMenuTitle
 import sgtmelon.test.cappuccino.utils.withText
@@ -55,7 +55,7 @@ class HelpDisappearScreen : ParentUi() {
             .withMenuTitle(R.id.item_video_lesson, R.string.menu_video_lesson)
         videoItem.isDisplayed()
 
-        contentCard.isDisplayed().withCardBackground(
+        contentCard.isDisplayed().withCard(
             R.attr.clBackgroundView,
             R.dimen.text_card_radius,
             R.dimen.text_card_elevation
@@ -66,7 +66,7 @@ class HelpDisappearScreen : ParentUi() {
             R.dimen.text_18sp
         )
 
-        buttonCard.isDisplayed().withCardBackground(
+        buttonCard.isDisplayed().withCard(
             R.attr.clBackgroundView,
             R.dimen.text_card_radius,
             R.dimen.text_card_elevation

@@ -23,7 +23,7 @@ interface IMainActivity : MainScreenReceiver.BindCallback,
 
     fun onFabStateChange(state: Boolean)
 
-    fun setFabState(state: Boolean)
+    fun changeFabVisible(isVisible: Boolean)
 
     fun scrollTop(mainPage: MainPage)
 

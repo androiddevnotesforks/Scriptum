@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
@@ -34,7 +34,7 @@ class NotificationItemUi(
     val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
     override fun assert(item: NoteItem) {
-        parentCard.isDisplayed().withCardBackground(
+        parentCard.isDisplayed().withCard(
             R.attr.clBackgroundView,
             R.dimen.item_card_radius,
             R.dimen.item_card_elevation

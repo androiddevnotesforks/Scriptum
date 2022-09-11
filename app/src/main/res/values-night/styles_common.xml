@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="App.Style.Fab" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:tint">?attr/clBackgroundView</item>
-    </style>
-
     <style name="App.Theme.Popup" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:textColorPrimary">?attr/clContent</item>
         <item name="android:textColorSecondary">?attr/clContent</item>

@@ -14,7 +14,7 @@ import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
-import sgtmelon.test.cappuccino.utils.withCardBackground
+import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withHint
@@ -87,7 +87,7 @@ class RankToolbar : ParentUi(), IKeyboardOption {
             .withBackgroundAttr(R.attr.colorPrimary)
             .withNavigationDrawable(resourceId = null)
 
-        parentCard.isDisplayed().withCardBackground(
+        parentCard.isDisplayed().withCard(
             R.attr.clBackgroundEnter,
             R.dimen.radius_8dp,
             R.dimen.elevation_2dp

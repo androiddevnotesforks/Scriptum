@@ -189,13 +189,25 @@ fun Matcher<View>.withMenuDrawable(
 }
 
 
-fun Matcher<View>.withCardBackground(
+fun Matcher<View>.withCard(
     @AttrRes attrColor: Int,
     @DimenRes radiusId: Int,
     @DimenRes elevationId: Int
 ) = also {
+    withCardBackground(attrColor)
+    withCardRadius(radiusId)
+    withCardElevation(elevationId)
+}
+
+fun Matcher<View>.withCardBackground(@AttrRes attrColor: Int) = also {
     matchOnView(it, CardBackgroundAttrMatcher(attrColor))
+}
+
+fun Matcher<View>.withCardRadius(@DimenRes radiusId: Int) = also {
     matchOnView(it, CardRadiusMatcher(radiusId))
+}
+
+fun Matcher<View>.withCardElevation(@DimenRes elevationId: Int) = also {
     matchOnView(it, CardElevationMatcher(elevationId))
 }
 

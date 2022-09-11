@@ -64,4 +64,11 @@
 
     <dimen name="view_volume_seek_space">10dp</dimen>
 
+    <!--  Fab sizes  -->
+    <!--  TODO optimization for different screens  -->
+    <dimen name="gradient_fab_size">56dp</dimen>
+    <dimen name="gradient_fab_radius">28dp</dimen>
+    <dimen name="gradient_fab_elevation">6dp</dimen>
+    <dimen name="gradient_fab_image_size">24dp</dimen>
+
 </resources>

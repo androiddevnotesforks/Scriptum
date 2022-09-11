@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_main">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/gradient_fab_card"
+        android:layout_width="@dimen/gradient_fab_size"
+        android:layout_height="@dimen/gradient_fab_size"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/layout_16dp"
+        app:cardCornerRadius="@dimen/gradient_fab_radius"
+        app:cardElevation="@dimen/gradient_fab_elevation">
+
+        <View
+            android:id="@+id/gradient_fab_anim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_fab_anim" />
+
+        <View
+            android:id="@+id/gradient_fab_click"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground" />
+
+        <ImageView
+            android:id="@+id/gradient_fab_icon"
+            android:layout_width="@dimen/gradient_fab_image_size"
+            android:layout_height="@dimen/gradient_fab_image_size"
+            android:layout_gravity="center"
+            android:contentDescription="@string/description_add_note"
+            android:src="@drawable/ic_add"
+            app:tint="?attr/clBackgroundView" />
+
+    </androidx.cardview.widget.CardView>
+
+</merge>

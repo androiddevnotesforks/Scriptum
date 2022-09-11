@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -60,7 +60,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
     private val toolbarHolder by lazy { findViewById<View?>(R.id.main_toolbar_holder) }
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.main_parent_container) }
-    private val fab by lazy { findViewById<FloatingActionButton?>(R.id.main_add_fab) }
+    private val fab by lazy { findViewById<CardView?>(R.id.gradient_fab_card) }
     private val menuNavigation by lazy { findViewById<BottomNavigationView>(R.id.main_menu_navigation) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,13 +127,13 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun setupNavigation(@IdRes itemId: Int) {
-        val testAnim = findViewById<View>(R.id.test_anim)
-        val gradient = testAnim?.background as? AnimationDrawable
-        gradient?.setEnterFadeDuration(resources.getInteger(R.integer.gradient_enter_time))
-        gradient?.setExitFadeDuration(resources.getInteger(R.integer.gradient_exit_time))
-        gradient?.start()
-
-        findViewById<View>(R.id.test_anim_click).setOnClickListener { openAddDialog() }
+        //        val testAnim = findViewById<View>(R.id.test_anim)
+        //        val gradient = testAnim?.background as? AnimationDrawable
+        //        gradient?.setEnterFadeDuration(resources.getInteger(R.integer.gradient_enter_time))
+        //        gradient?.setExitFadeDuration(resources.getInteger(R.integer.gradient_exit_time))
+        //        gradient?.start()
+        //
+        //        findViewById<View>(R.id.test_anim_click).setOnClickListener { openAddDialog() }
 
         fab?.setOnClickListener { openAddDialog() }
 
@@ -173,8 +173,8 @@ class MainActivity : AppActivity(), IMainActivity {
 
     override fun onFabStateChange(state: Boolean) = viewModel.onFabStateChange(state)
 
-    override fun setFabState(state: Boolean) {
-        fab?.setState(state)
+    override fun changeFabVisible(isVisible: Boolean) {
+        //        fab?.setState(state)
     }
 
     override fun scrollTop(mainPage: MainPage) = onFragmentAdd(mainPage) {
