@@ -4,13 +4,19 @@
     <item android:drawable="@drawable/gradient_fab_normal"
         android:duration="@integer/gradient_state_time" />
 
-    <item android:drawable="@drawable/gradient_fab_start"
+    <item android:drawable="@drawable/gradient_fab_left"
+        android:duration="@integer/gradient_state_time" />
+
+    <item android:drawable="@drawable/gradient_fab_top"
         android:duration="@integer/gradient_state_time" />
 
     <item android:drawable="@drawable/gradient_fab_normal"
         android:duration="@integer/gradient_state_time" />
 
-    <item android:drawable="@drawable/gradient_fab_end"
+    <item android:drawable="@drawable/gradient_fab_right"
+        android:duration="@integer/gradient_state_time" />
+
+    <item android:drawable="@drawable/gradient_fab_bottom"
         android:duration="@integer/gradient_state_time" />
 
 </animation-list>
