@@ -1,12 +1,20 @@
 package sgtmelon.scriptum.infrastructure.screen
 
+import android.animation.AnimatorSet
 import android.graphics.drawable.AnimationDrawable
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
+import sgtmelon.scriptum.cleanup.extension.getScaleXAnimator
+import sgtmelon.scriptum.cleanup.extension.getScaleYAnimator
 
 internal class GradientFabDelegatorImpl(
     private val activity: AppCompatActivity,
@@ -20,6 +28,8 @@ internal class GradientFabDelegatorImpl(
     private var clickView: View? = null
 
     private var gradientDrawable: AnimationDrawable? = null
+
+    private var lastVisibleState = isVisible
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
@@ -39,9 +49,9 @@ internal class GradientFabDelegatorImpl(
     private fun setupGradient() {
         val resources = activity.resources
 
-        val gradient = gradientView?.background as? AnimationDrawable
-        gradient?.setEnterFadeDuration(resources.getInteger(R.integer.gradient_enter_time))
-        gradient?.setExitFadeDuration(resources.getInteger(R.integer.gradient_exit_time))
+        gradientDrawable = gradientView?.background as? AnimationDrawable
+        gradientDrawable?.setEnterFadeDuration(resources.getInteger(R.integer.gradient_enter_time))
+        gradientDrawable?.setExitFadeDuration(resources.getInteger(R.integer.gradient_exit_time))
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -74,23 +84,37 @@ internal class GradientFabDelegatorImpl(
     }
 
     override fun changeVisibility(isVisible: Boolean) {
-        this.isVisible = isVisible
+        if (lastVisibleState == isVisible) return
 
-        changePlay(isVisible)
+        this.isVisible = isVisible
+        this.lastVisibleState = isVisible
 
         parentCard?.isEnabled = isVisible
         clickView?.isEnabled = isVisible
-
-        if (isVisible) show() else hide()
+        startCardAnimation(isVisible)
     }
 
-    // TODO animation
-    private fun show() {
-        parentCard?.visibility = View.VISIBLE
-    }
+    private fun startCardAnimation(isVisible: Boolean) {
+        val parentCard = parentCard ?: return
 
-    // TODO animation
-    private fun hide() {
-        parentCard?.visibility = View.GONE
+        val duration = activity.resources.getInteger(R.integer.fade_anim_time).toLong()
+
+        val alpha = if (isVisible) 1f else 0f
+        val scale = if (isVisible) 1f else 0.2f
+        val alphaInterpolator = DecelerateInterpolator()
+        val scaleInterpolator = AccelerateInterpolator()
+
+        AnimatorSet().apply {
+            this.duration = duration
+
+            doOnStart { if (isVisible) parentCard.visibility = View.VISIBLE }
+            doOnEnd { if (!isVisible) parentCard.visibility = View.GONE }
+
+            playTogether(
+                getAlphaAnimator(parentCard, alpha).apply { interpolator = alphaInterpolator },
+                getScaleXAnimator(parentCard, scale).apply { interpolator = scaleInterpolator },
+                getScaleYAnimator(parentCard, scale).apply { interpolator = scaleInterpolator }
+            )
+        }.start()
     }
 }
