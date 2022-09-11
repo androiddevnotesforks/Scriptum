@@ -169,16 +169,16 @@ class MainViewModelTest : ParentViewModelTest() {
 
     @Test fun onFabStateChange() {
         viewModel.pageFrom = MainPage.RANK
-        viewModel.onFabStateChange(state = false)
-        viewModel.onFabStateChange(state = true)
+        viewModel.onFabStateChange(isVisible = false)
+        viewModel.onFabStateChange(isVisible = true)
 
         viewModel.pageFrom = MainPage.NOTES
-        viewModel.onFabStateChange(state = false)
-        viewModel.onFabStateChange(state = true)
+        viewModel.onFabStateChange(isVisible = false)
+        viewModel.onFabStateChange(isVisible = true)
 
         viewModel.pageFrom = MainPage.BIN
-        viewModel.onFabStateChange(state = false)
-        viewModel.onFabStateChange(state = true)
+        viewModel.onFabStateChange(isVisible = false)
+        viewModel.onFabStateChange(isVisible = true)
 
         verifySequence {
             callback.changeFabVisible(isVisible = false)

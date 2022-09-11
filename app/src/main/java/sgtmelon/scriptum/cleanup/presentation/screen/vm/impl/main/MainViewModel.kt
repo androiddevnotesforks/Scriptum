@@ -36,7 +36,7 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
         callback?.setupInsets()
 
         if (bundle != null) {
-            callback?.changeFabVisible(pageFrom.isStartPage())
+            callback?.changeFabVisible(pageFrom.isStartPage(), withGap = false)
         }
     }
 
@@ -63,7 +63,7 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
             isFirstStart = false
 
             callback?.apply {
-                changeFabVisible(pageTo.isStartPage())
+                changeFabVisible(pageTo.isStartPage(), withGap = false)
                 showPage(pageFrom, pageTo)
             }
         }
@@ -83,8 +83,8 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
     /**
      * Change FAB state consider on [pageFrom].
      */
-    override fun onFabStateChange(state: Boolean) {
-        callback?.changeFabVisible(pageFrom.isStartPage() && state)
+    override fun onFabStateChange(isVisible: Boolean, withGap: Boolean) {
+        callback?.changeFabVisible(isVisible = isVisible && pageFrom.isStartPage(), withGap)
     }
 
     override fun onResultAddDialog(@IdRes itemId: Int) {

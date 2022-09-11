@@ -141,7 +141,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
     //endregion
 
     private fun showFragment(@FragmentFactory.Note.Tag key: String, fragment: Fragment) {
-        holderShowControl.show()
+        holderShowControl.display()
 
         lifecycleScope.launchWhenResumed {
             fm.beginTransaction()

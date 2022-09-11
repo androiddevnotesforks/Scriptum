@@ -18,7 +18,7 @@ interface IMainViewModel : IParentViewModel,
 
     fun onSelectItem(@IdRes itemId: Int)
 
-    fun onFabStateChange(state: Boolean)
+    fun onFabStateChange(isVisible: Boolean, withGap: Boolean)
 
     fun onResultAddDialog(@IdRes itemId: Int)
 

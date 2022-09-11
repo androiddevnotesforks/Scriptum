@@ -12,12 +12,6 @@ import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getScaleXAnimator
@@ -30,8 +24,7 @@ internal class GradientFabDelegatorImpl(
 ) : DefaultLifecycleObserver,
     GradientFabDelegator {
 
-    private val ioScope = CoroutineScope(Dispatchers.IO)
-    private var changeJob: Job? = null
+    private val overlayJob = DelayJobDelegator(ANIM_GAP)
 
     private var parentCard: CardView? = null
     private var gradientView: View? = null
@@ -40,6 +33,10 @@ internal class GradientFabDelegatorImpl(
     private var gradientDrawable: AnimationDrawable? = null
 
     private var lastVisibleState = isVisible
+
+    init {
+        activity.lifecycle.addObserver(overlayJob)
+    }
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
@@ -73,9 +70,6 @@ internal class GradientFabDelegatorImpl(
 
         changePlay(isPlay = false)
         gradientDrawable = null
-
-        changeJob?.cancel()
-        changeJob = null
     }
 
     override fun onResume(owner: LifecycleOwner) {
@@ -96,17 +90,16 @@ internal class GradientFabDelegatorImpl(
         }
     }
 
-    override fun changeVisibility(isVisible: Boolean) {
+    override fun changeVisibility(isVisible: Boolean, withGap: Boolean) {
         if (lastVisibleState == isVisible) return
 
         this.isVisible = isVisible
         this.lastVisibleState = isVisible
 
-        changeJob?.cancel()
-        changeJob = ioScope.launch {
-            delay(ANIM_LAG)
-            runMain { runChangeVisibility(isVisible) }
-            changeJob = null
+        if (withGap) {
+            overlayJob.run { runChangeVisibility(isVisible) }
+        } else {
+            runChangeVisibility(isVisible)
         }
     }
 
@@ -142,6 +135,6 @@ internal class GradientFabDelegatorImpl(
     }
 
     companion object {
-        private const val ANIM_LAG = 100L
+        private const val ANIM_GAP = 100L
     }
 }

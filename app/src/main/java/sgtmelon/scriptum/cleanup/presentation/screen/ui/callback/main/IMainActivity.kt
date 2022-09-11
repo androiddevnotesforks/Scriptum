@@ -21,9 +21,9 @@ interface IMainActivity : MainScreenReceiver.BindCallback,
     fun setupInsets()
 
 
-    fun onFabStateChange(state: Boolean)
+    fun onFabStateChange(isVisible: Boolean, withGap: Boolean)
 
-    fun changeFabVisible(isVisible: Boolean)
+    fun changeFabVisible(isVisible: Boolean, withGap: Boolean)
 
     fun scrollTop(mainPage: MainPage)
 

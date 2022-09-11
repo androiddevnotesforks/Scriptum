@@ -182,11 +182,12 @@ class NotesFragment : ParentFragment(),
                      */
                     val isTopScroll = dy <= 0
 
-                    callback?.onFabStateChange(isTopScroll)
+                    callback?.onFabStateChange(isTopScroll, withGap = true)
 
+                    // TODO apply DelayJobDelegator with subscribe on lifecycle
                     fabHandler.removeCallbacksAndMessages(null)
                     fabHandler.postDelayed({
-                        callback?.onFabStateChange(state = true)
+                        callback?.onFabStateChange(isVisible = true, withGap = true)
                     }, FAB_STANDSTILL_TIME)
                 }
             })

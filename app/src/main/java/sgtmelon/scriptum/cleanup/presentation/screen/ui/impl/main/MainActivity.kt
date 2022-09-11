@@ -94,7 +94,7 @@ class MainActivity : AppActivity(), IMainActivity {
         /**
          * Show FAB on return to screen if it possible.
          */
-        onFabStateChange(state = true)
+        onFabStateChange(isVisible = true, withGap = false)
     }
 
     override fun onDestroy() {
@@ -162,10 +162,12 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
 
-    override fun onFabStateChange(state: Boolean) = viewModel.onFabStateChange(state)
+    override fun onFabStateChange(isVisible: Boolean, withGap: Boolean) {
+        viewModel.onFabStateChange(isVisible, withGap)
+    }
 
-    override fun changeFabVisible(isVisible: Boolean) {
-        fabDelegator?.changeVisibility(isVisible)
+    override fun changeFabVisible(isVisible: Boolean, withGap: Boolean) {
+        fabDelegator?.changeVisibility(isVisible, withGap)
     }
 
     override fun scrollTop(mainPage: MainPage) = onFragmentAdd(mainPage) {
@@ -177,7 +179,7 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
-        holderControl.show()
+        holderControl.display()
 
         with(fm) {
             beginTransaction().apply {
