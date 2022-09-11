@@ -9,10 +9,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -35,6 +33,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
+import sgtmelon.scriptum.infrastructure.screen.GradientFabDelegator
+import sgtmelon.scriptum.infrastructure.screen.GradientFabDelegatorImpl
 import sgtmelon.test.idling.getIdling
 
 /**
@@ -60,20 +60,23 @@ class MainActivity : AppActivity(), IMainActivity {
 
     private val toolbarHolder by lazy { findViewById<View?>(R.id.main_toolbar_holder) }
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.main_parent_container) }
-    private val fab by lazy { findViewById<CardView?>(R.id.gradient_fab_card) }
     private val menuNavigation by lazy { findViewById<BottomNavigationView>(R.id.main_menu_navigation) }
+
+    private var fabDelegator: GradientFabDelegator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getMainBuilder().set(activity = this).build()
-                .inject(activity = this)
+            .inject(activity = this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        fabDelegator = GradientFabDelegatorImpl(activity = this) {
+            openAddDialog()
+        }.also { lifecycle.addObserver(it) }
+
         openState.get(savedInstanceState)
-
         viewModel.onSetup(savedInstanceState)
-
         registerReceiver(mainReceiver, IntentFilter(Filter.MAIN))
 
         getIdling().stop(IdlingTag.Intro.FINISH)
@@ -98,9 +101,7 @@ class MainActivity : AppActivity(), IMainActivity {
         super.onDestroy()
 
         openState.clearBlockCallback()
-
         holderControl.onDestroy()
-
         viewModel.onDestroy()
         unregisterReceiver(mainReceiver)
     }
@@ -127,16 +128,6 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun setupNavigation(@IdRes itemId: Int) {
-        //        val testAnim = findViewById<View>(R.id.test_anim)
-        //        val gradient = testAnim?.background as? AnimationDrawable
-        //        gradient?.setEnterFadeDuration(resources.getInteger(R.integer.gradient_enter_time))
-        //        gradient?.setExitFadeDuration(resources.getInteger(R.integer.gradient_exit_time))
-        //        gradient?.start()
-        //
-        //        findViewById<View>(R.id.test_anim_click).setOnClickListener { openAddDialog() }
-
-        fab?.setOnClickListener { openAddDialog() }
-
         val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()
         menuNavigation?.setOnNavigationItemSelectedListener {
             return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
@@ -174,7 +165,7 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun onFabStateChange(state: Boolean) = viewModel.onFabStateChange(state)
 
     override fun changeFabVisible(isVisible: Boolean) {
-        //        fab?.setState(state)
+        fabDelegator?.changeVisibility(isVisible)
     }
 
     override fun scrollTop(mainPage: MainPage) = onFragmentAdd(mainPage) {
@@ -250,11 +241,6 @@ class MainActivity : AppActivity(), IMainActivity {
         MainPage.RANK -> FragmentFactory.Main.Tag.RANK
         MainPage.NOTES -> FragmentFactory.Main.Tag.NOTES
         MainPage.BIN -> FragmentFactory.Main.Tag.BIN
-    }
-
-    private fun FloatingActionButton.setState(isVisible: Boolean) {
-        if (isVisible) show() else hide()
-        isEnabled = isVisible
     }
 
     /**
