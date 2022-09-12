@@ -59,10 +59,10 @@ fun Context.getAppSimpleColor(color: Color, shade: ColorShade): Int {
 }
 
 fun MenuItem.tintIcon(context: Context) {
+    val icon = this.icon ?: return
+
     val wrapDrawable = DrawableCompat.wrap(icon)
-
     DrawableCompat.setTint(wrapDrawable, context.getColorAttr(R.attr.clContent))
-
     this.icon = wrapDrawable
 }
 

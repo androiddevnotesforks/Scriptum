@@ -102,13 +102,13 @@ fun View.requestApplyInsetsWhenAttached() {
         requestApplyInsets()
     } else {
         addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-            override fun onViewDetachedFromWindow(v: View?) {
-                v?.addOnAttachStateChangeListener(this)
+            override fun onViewDetachedFromWindow(v: View) {
+                v.addOnAttachStateChangeListener(this)
             }
 
-            override fun onViewAttachedToWindow(v: View?) {
-                v?.removeOnAttachStateChangeListener(this)
-                v?.requestApplyInsets()
+            override fun onViewAttachedToWindow(v: View) {
+                v.removeOnAttachStateChangeListener(this)
+                v.requestApplyInsets()
             }
         })
     }

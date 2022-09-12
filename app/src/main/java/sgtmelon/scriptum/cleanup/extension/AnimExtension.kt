@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.extension
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.View
@@ -10,6 +9,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
+import androidx.core.animation.addListener
 import sgtmelon.scriptum.R
 import sgtmelon.test.idling.addIdlingListener
 
@@ -54,8 +54,6 @@ inline fun View.animateAlpha(
         this.duration = duration
 
         addIdlingListener()
-        addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) = onEnd()
-        })
+        addListener(onEnd = { onEnd() })
     }.start()
 }
