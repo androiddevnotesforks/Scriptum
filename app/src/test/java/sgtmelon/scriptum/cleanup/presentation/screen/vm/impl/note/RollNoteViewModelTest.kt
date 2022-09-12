@@ -52,6 +52,8 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -77,6 +79,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
+    @MockK lateinit var updateVisible: UpdateRollVisibleUseCase
+    @MockK lateinit var updateCheck: UpdateRollCheckUseCase
+
     @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
     @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
@@ -89,8 +94,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         RollNoteViewModel(
             callback, parentCallback, colorConverter, preferencesRepo, interactor,
-            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames
+            updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
+            setNotification, deleteNotification, getNotificationDateList, getRankId,
+            getRankDialogNames
         )
     }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
@@ -139,10 +145,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         super.tearDown()
 
         confirmVerified(
-            callback, parentCallback,
-            colorConverter, preferencesRepo, interactor,
-            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames,
+            callback, parentCallback, colorConverter, preferencesRepo, interactor,
+            updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
+            setNotification, deleteNotification, getNotificationDateList, getRankId,
+            getRankDialogNames,
             saveControl, inputControl
         )
     }
@@ -436,7 +442,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
             spyViewModel.interactor
             spyViewModel.noteItem
-            interactor.setVisible(noteItem)
+            updateVisible(noteItem)
             spyViewModel.noteState
             noteState.isEdit
 
@@ -461,7 +467,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
             spyViewModel.interactor
             spyViewModel.noteItem
-            interactor.setVisible(noteItem)
+            updateVisible(noteItem)
             spyViewModel.noteState
             noteState.isEdit
             spyViewModel.callback
@@ -791,7 +797,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             list.size
             callback.updateProgress(check, size)
             spyViewModel.noteItem
-            interactor.updateRollCheck(noteItem, absolutePosition)
+            updateCheck(noteItem, absolutePosition)
             spyViewModel.callback
             callback.sendNotifyNotesBroadcast()
 
@@ -814,7 +820,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             list.size
             callback.updateProgress(check, size)
             spyViewModel.noteItem
-            interactor.updateRollCheck(noteItem, absolutePosition)
+            updateCheck(noteItem, absolutePosition)
             spyViewModel.callback
             callback.sendNotifyNotesBroadcast()
         }
@@ -1685,7 +1691,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             parentCallback.onUpdateNoteId(id)
             spyViewModel.interactor
             spyViewModel.noteItem
-            interactor.setVisible(noteItem)
+            updateVisible(noteItem)
             spyViewModel.callback
             spyViewModel.getAdapterList()
             callback.setList(adapterList)

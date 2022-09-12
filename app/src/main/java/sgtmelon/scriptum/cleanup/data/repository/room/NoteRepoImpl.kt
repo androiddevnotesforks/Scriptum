@@ -288,7 +288,7 @@ class NoteRepoImpl(
         noteDataSource.update(noteConverter.toEntity(item))
     }
 
-    override suspend fun setRollVisible(item: NoteItem.Roll) {
+    override suspend fun insertOrUpdateVisible(item: NoteItem.Roll) {
         val value = rollVisibleDataSource.getVisible(item.id)
 
         if (value == null) {

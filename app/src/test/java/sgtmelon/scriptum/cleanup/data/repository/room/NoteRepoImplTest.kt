@@ -799,7 +799,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         }
     }
 
-    @Test fun setRollVisible() {
+    @Test fun insertOrUpdateVisible() {
         val item = mockk<NoteItem.Roll>()
         val id = Random.nextLong()
         val isVisible = Random.nextBoolean()
@@ -811,19 +811,19 @@ class NoteRepoImplTest : ParentRepoTest() {
         coEvery { rollVisibleDataSource.insert(entity) } returns Random.nextLong()
 
         runBlocking {
-            repository.setRollVisible(item)
+            repository.insertOrUpdateVisible(item)
         }
 
         coEvery { rollVisibleDataSource.getVisible(id) } returns isVisible
 
         runBlocking {
-            repository.setRollVisible(item)
+            repository.insertOrUpdateVisible(item)
         }
 
         every { item.isVisible } returns isVisible
 
         runBlocking {
-            repository.setRollVisible(item)
+            repository.insertOrUpdateVisible(item)
         }
 
         coVerifySequence {

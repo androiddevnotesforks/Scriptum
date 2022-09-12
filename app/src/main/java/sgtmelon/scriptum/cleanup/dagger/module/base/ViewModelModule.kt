@@ -87,6 +87,8 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -246,16 +248,19 @@ class ViewModelModule {
         deleteNote: DeleteNoteUseCase,
         restoreNote: RestoreNoteUseCase,
         clearNote: ClearNoteUseCase,
+        updateVisible: UpdateRollVisibleUseCase,
+        updateCheck: UpdateRollCheckUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationDateListUseCase,
         getRankId: GetRankIdUseCase,
-        getRankDialogNames: GetRankDialogNamesUseCase
+        getRankDialogNames: GetRankDialogNamesUseCase,
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             fragment, colorConverter, preferencesRepo, interactor,
-            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames
+            updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
+            setNotification, deleteNotification, getNotificationDateList, getRankId,
+            getRankDialogNames
         )
         val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModel::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)

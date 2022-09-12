@@ -68,6 +68,8 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -256,11 +258,13 @@ object ViewModelFactory {
             private val deleteNote: DeleteNoteUseCase,
             private val restoreNote: RestoreNoteUseCase,
             private val clearNote: ClearNoteUseCase,
+            private val updateVisible: UpdateRollVisibleUseCase,
+            private val updateCheck: UpdateRollCheckUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationDateListUseCase,
             private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase
+            private val getRankDialogNames: GetRankDialogNamesUseCase,
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModel::class) {
@@ -268,8 +272,8 @@ object ViewModelFactory {
                     RollNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         interactor, updateNote, deleteNote, restoreNote, clearNote,
-                        setNotification, deleteNotification, getNotificationDateList, getRankId,
-                        getRankDialogNames
+                        updateVisible, updateCheck, setNotification, deleteNotification,
+                        getNotificationDateList, getRankId, getRankDialogNames
                     )
                 }
             }

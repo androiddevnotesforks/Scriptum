@@ -7,9 +7,4 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteV
 /**
  * Interface for communication [IRollNoteViewModel] with [RollNoteInteractor].
  */
-interface IRollNoteInteractor : IParentNoteInteractor<NoteItem.Roll> {
-
-    suspend fun setVisible(noteItem: NoteItem.Roll)
-
-    suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
-}
+interface IRollNoteInteractor : IParentNoteInteractor<NoteItem.Roll>

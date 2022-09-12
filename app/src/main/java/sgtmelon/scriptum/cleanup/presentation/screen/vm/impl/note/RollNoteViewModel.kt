@@ -29,6 +29,8 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
+import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -47,6 +49,8 @@ class RollNoteViewModel(
     deleteNote: DeleteNoteUseCase,
     restoreNote: RestoreNoteUseCase,
     clearNote: ClearNoteUseCase,
+    private val updateVisible: UpdateRollVisibleUseCase,
+    private val updateCheck: UpdateRollCheckUseCase,
     setNotification: SetNotificationUseCase,
     deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationDateListUseCase,
@@ -169,7 +173,7 @@ class RollNoteViewModel(
          */
         if (!noteState.isCreate) {
             viewModelScope.launch {
-                runBack { interactor.setVisible(noteItem) }
+                runBack { updateVisible(noteItem) }
 
                 if (!noteState.isEdit) {
                     callback?.sendNotifyNotesBroadcast()
@@ -250,7 +254,7 @@ class RollNoteViewModel(
         with(noteItem) { callback?.updateProgress(getCheck(), list.size) }
 
         viewModelScope.launch {
-            runBack { interactor.updateRollCheck(noteItem, absolutePosition) }
+            runBack { updateCheck(noteItem, absolutePosition) }
 
             callback?.sendNotifyNotesBroadcast()
         }
@@ -418,7 +422,7 @@ class RollNoteViewModel(
              * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of
              * not created note.
              */
-            runBack { interactor.setVisible(noteItem) }
+            runBack { updateVisible(noteItem) }
         }
 
         callback?.setList(getAdapterList())

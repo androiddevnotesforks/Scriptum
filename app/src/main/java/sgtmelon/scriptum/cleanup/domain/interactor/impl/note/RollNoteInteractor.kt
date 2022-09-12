@@ -25,16 +25,6 @@ class RollNoteInteractor(
     }
 
 
-    override suspend fun setVisible(noteItem: NoteItem.Roll) = noteRepo.setRollVisible(noteItem)
-
-    /**
-     * Update single roll.
-     */
-    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int) {
-        noteRepo.updateRollCheck(noteItem, p)
-    }
-
-
     override suspend fun convertNote(item: NoteItem.Roll) {
         noteRepo.convertNote(item, useCache = true)
     }

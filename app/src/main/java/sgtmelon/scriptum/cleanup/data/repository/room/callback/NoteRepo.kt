@@ -57,6 +57,6 @@ interface NoteRepo {
 
     suspend fun updateNote(item: NoteItem)
 
-    suspend fun setRollVisible(item: NoteItem.Roll)
+    suspend fun insertOrUpdateVisible(item: NoteItem.Roll)
 
 }

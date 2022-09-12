@@ -59,29 +59,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
-
-    @Test fun setVisible() = startCoTest {
-        val item = mockk<NoteItem.Roll>()
-
-        interactor.setVisible(item)
-
-        coVerifySequence {
-            noteRepo.setRollVisible(item)
-        }
-    }
-
-    @Test fun updateRollCheck_byPosition() = startCoTest {
-        val item = mockk<NoteItem.Roll>()
-        val p = Random.nextInt()
-
-        interactor.updateRollCheck(item, p)
-
-        coVerifySequence {
-            noteRepo.updateRollCheck(item, p)
-        }
-    }
-
-
     @Test fun convertNote() = startCoTest {
         val item = mockk<NoteItem.Roll>()
 
