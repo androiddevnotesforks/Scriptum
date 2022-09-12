@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.graphics.drawable.AnimationDrawable
 import android.view.View
@@ -8,8 +9,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.animation.doOnEnd
-import androidx.core.animation.doOnStart
+import androidx.core.animation.addListener
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import sgtmelon.scriptum.R
@@ -24,7 +24,7 @@ internal class GradientFabDelegatorImpl(
 ) : DefaultLifecycleObserver,
     GradientFabDelegator {
 
-    private val overlayJob = DelayJobDelegator(ANIM_GAP)
+    private val overlayJob = DelayJobDelegator(GAP_DURATION)
 
     private var parentCard: CardView? = null
     private var gradientView: View? = null
@@ -32,7 +32,8 @@ internal class GradientFabDelegatorImpl(
 
     private var gradientDrawable: AnimationDrawable? = null
 
-    private var lastVisibleState = isVisible
+    /** Instance of last run animator from [runChangeVisibility]. */
+    private var lastAnimator: Animator? = null
 
     init {
         activity.lifecycle.addObserver(overlayJob)
@@ -90,11 +91,15 @@ internal class GradientFabDelegatorImpl(
         }
     }
 
+    /**
+     * [withGap] needed for understanding: this will be repeatable call or single. If repeatable
+     * when need skip some calls (which happen during [GAP_DURATION]).
+     */
     override fun changeVisibility(isVisible: Boolean, withGap: Boolean) {
-        if (lastVisibleState == isVisible) return
+        /** Prevent repeatable calls with same [isVisible] key. */
+        if (this.isVisible == isVisible) return
 
         this.isVisible = isVisible
-        this.lastVisibleState = isVisible
 
         if (withGap) {
             overlayJob.run { runChangeVisibility(isVisible) }
@@ -107,34 +112,41 @@ internal class GradientFabDelegatorImpl(
     private fun runChangeVisibility(isVisible: Boolean) {
         parentCard?.isEnabled = isVisible
         clickView?.isEnabled = isVisible
-        startCardAnimation(isVisible)
+
+        /**
+         * Need cancel previous animation before starting new, because otherwise it may cause
+         * some lags related with animator listener.
+         */
+        lastAnimator?.cancel()
+        lastAnimator = AnimatorSet().setupCardAnimator(isVisible)
+        lastAnimator?.start()
     }
 
-    private fun startCardAnimation(isVisible: Boolean) {
-        val parentCard = parentCard ?: return
+    private fun AnimatorSet.setupCardAnimator(isVisible: Boolean): AnimatorSet {
+        val parentCard = parentCard ?: return this
 
-        val duration = activity.resources.getInteger(R.integer.fade_anim_time).toLong()
-
+        val duration = activity.resources.getInteger(R.integer.fab_change_time).toLong()
         val alpha = if (isVisible) 1f else 0f
         val scale = if (isVisible) 1f else 0.2f
+
         val alphaInterpolator = DecelerateInterpolator()
         val scaleInterpolator = AccelerateInterpolator()
 
-        AnimatorSet().apply {
-            this.duration = duration
+        setDuration(duration).addListener(
+            onStart = { if (isVisible) parentCard.visibility = View.VISIBLE },
+            onEnd = { if (!isVisible) parentCard.visibility = View.GONE }
+        )
 
-            doOnStart { if (isVisible) parentCard.visibility = View.VISIBLE }
-            doOnEnd { if (!isVisible) parentCard.visibility = View.GONE }
+        playTogether(
+            getAlphaAnimator(parentCard, alpha).apply { interpolator = alphaInterpolator },
+            getScaleXAnimator(parentCard, scale).apply { interpolator = scaleInterpolator },
+            getScaleYAnimator(parentCard, scale).apply { interpolator = scaleInterpolator }
+        )
 
-            playTogether(
-                getAlphaAnimator(parentCard, alpha).apply { interpolator = alphaInterpolator },
-                getScaleXAnimator(parentCard, scale).apply { interpolator = scaleInterpolator },
-                getScaleYAnimator(parentCard, scale).apply { interpolator = scaleInterpolator }
-            )
-        }.start()
+        return this
     }
 
     companion object {
-        private const val ANIM_GAP = 100L
+        private const val GAP_DURATION = 70L
     }
 }

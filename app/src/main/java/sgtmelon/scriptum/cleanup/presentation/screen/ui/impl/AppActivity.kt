@@ -2,11 +2,11 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl
 
 import android.content.Intent
 import android.os.Bundle
+import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IAppViewModel
-import javax.inject.Inject
 
 /**
  * Parent activity for application, which need extends when need change theme.
@@ -40,10 +40,10 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
 
         val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        overridePendingTransition(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
         finish()
 
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        overridePendingTransition(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
         startActivity(intent)
     }
 }

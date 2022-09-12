@@ -128,7 +128,7 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun setupNavigation(@IdRes itemId: Int) {
-        val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()
+        val animTime = resources.getInteger(R.integer.fragment_fade_time).toLong()
         menuNavigation?.setOnNavigationItemSelectedListener {
             return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
                 openState.block(animTime)
@@ -183,7 +183,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
         with(fm) {
             beginTransaction().apply {
-                setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
 
                 if (findFragmentByTag(pageFrom.getFragmentTag()) != null) {
                     val fragmentFrom = pageFrom.getFragmentByName()

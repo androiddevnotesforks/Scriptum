@@ -145,7 +145,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
 
         lifecycleScope.launchWhenResumed {
             fm.beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
                 .replace(R.id.note_fragment_container, fragment, key)
                 .commit()
         }

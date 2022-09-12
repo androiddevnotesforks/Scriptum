@@ -98,7 +98,7 @@ class SplashActivity : ParentActivity(),
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        overridePendingTransition(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
     }
 
     /**

@@ -177,9 +177,7 @@ class NotesFragment : ParentFragment(),
 
             it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    /**
-                     * Visible only if scroll to top.
-                     */
+                    /** Visible only if scroll to top. */
                     val isTopScroll = dy <= 0
 
                     callback?.onFabStateChange(isTopScroll, withGap = true)
