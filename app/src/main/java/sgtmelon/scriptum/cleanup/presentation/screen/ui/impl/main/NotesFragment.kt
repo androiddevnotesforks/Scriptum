@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +36,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
+import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
 
 /**
@@ -83,10 +83,8 @@ class NotesFragment : ParentFragment(),
     private var progressBar: View? = null
     private var recyclerView: RecyclerView? = null
 
-    /**
-     * Handler for show addFab after long standstill.
-     */
-    private val fabHandler = Handler()
+    /** Delay for showing add-note-FAB after long standstill. */
+    private val fabDelayJob = DelayJobDelegator(FAB_STANDSTILL_TIME)
 
     //endregion
 
@@ -116,11 +114,6 @@ class NotesFragment : ParentFragment(),
     override fun onResume() {
         super.onResume()
         viewModel.onUpdateData()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        fabHandler.removeCallbacksAndMessages(null)
     }
 
     override fun onDestroy() {
@@ -181,12 +174,9 @@ class NotesFragment : ParentFragment(),
                     val isTopScroll = dy <= 0
 
                     callback?.onFabStateChange(isTopScroll, withGap = true)
-
-                    // TODO apply DelayJobDelegator with subscribe on lifecycle
-                    fabHandler.removeCallbacksAndMessages(null)
-                    fabHandler.postDelayed({
-                        callback?.onFabStateChange(isVisible = true, withGap = true)
-                    }, FAB_STANDSTILL_TIME)
+                    fabDelayJob.run {
+                        callback?.onFabStateChange(isVisible = true, withGap = false)
+                    }
                 }
             })
         }
