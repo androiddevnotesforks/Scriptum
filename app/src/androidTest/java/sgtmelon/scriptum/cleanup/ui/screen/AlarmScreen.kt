@@ -8,7 +8,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.AlarmViewModel
@@ -19,8 +18,7 @@ import sgtmelon.scriptum.cleanup.ui.dialog.sheet.RepeatSheetDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
+import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleConverter
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withContentDescription
@@ -37,6 +35,8 @@ class AlarmScreen(
     private val item: NoteItem,
     private val dateList: List<String>?
 ) : ParentRecyclerScreen(R.id.alarm_recycler), IPressBack {
+
+    private val converter = RippleConverter()
 
     private val repeatArray = context.resources.getIntArray(R.array.pref_alarm_repeat_array)
 
@@ -111,7 +111,7 @@ class AlarmScreen(
     fun assert() = apply {
         parentContainer.isDisplayed()
 
-        val fillColor = context.getAppSimpleColor(item.color, getRippleShade(appTheme))
+        val fillColor = context.getAppSimpleColor(item.color, converter.getRippleShade(appTheme))
         rippleContainer.isDisplayed().withTag(fillColor)
 
         logoView.isDisplayed()
@@ -138,17 +138,6 @@ class AlarmScreen(
             return AlarmScreen(item, dateList)
                 .assert()
                 .apply(func)
-        }
-    }
-
-    /**
-     * @Test - duplicate of original function in [RippleContainer].
-     */
-    // TODO add converter and apply it for RippleContainer
-    private fun getRippleShade(theme: ThemeDisplayed): ColorShade {
-        return when (theme) {
-            ThemeDisplayed.LIGHT -> ColorShade.ACCENT
-            ThemeDisplayed.DARK -> ColorShade.DARK
         }
     }
 }

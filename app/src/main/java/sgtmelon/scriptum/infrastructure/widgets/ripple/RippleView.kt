@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
+import androidx.annotation.ColorInt
 import kotlin.math.min
 import sgtmelon.scriptum.R
 
@@ -12,19 +13,27 @@ import sgtmelon.scriptum.R
  */
 class RippleView(context: Context) : View(context) {
 
-    var paint: Paint? = null
-
     init {
         visibility = INVISIBLE
     }
 
-    override fun onDraw(canvas: Canvas) = (min(width, height) / 2).toFloat().let {
-        /**
-         * Remove from radius small space for prevent cutting circle sides. 
-         * Because of that we need circle a bit smaller then view.  
-         */
-        val radius = it - resources.getDimension(R.dimen.radius_2dp)
-        canvas.drawCircle(it, it, radius, paint ?: return@let)
+    private val paint = Paint()
+
+    fun setup(paintStyle: Paint.Style, @ColorInt fillColor: Int) = apply {
+        paint.isAntiAlias = true
+        paint.style = paintStyle
+        paint.strokeWidth = resources.getDimension(R.dimen.stroke_4dp)
+        paint.color = fillColor
     }
 
+    /**
+     * Remove from radius small space for prevent cutting of circle sides.
+     * That's why we draw circle a bit smaller then view.
+     */
+    override fun onDraw(canvas: Canvas) {
+        val center = (min(width, height) / 2).toFloat()
+        val radius = center - resources.getDimension(R.dimen.radius_2dp)
+
+        canvas.drawCircle(center, center, radius, paint)
+    }
 }

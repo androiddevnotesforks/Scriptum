@@ -2,21 +2,13 @@ package sgtmelon.scriptum.infrastructure.widgets.ripple
 
 import android.animation.Animator
 import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
-import androidx.annotation.StringDef
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * ViewGroup element for create ripple animation.
@@ -29,9 +21,7 @@ class RippleContainer @JvmOverloads constructor(
 
     private var isAnimate = false
 
-    /**
-     * Prevent calling any animation functions before [setupAnimation].
-     */
+    /** Prevent calling any animation functions before [setupAnimation]. */
     private var isConfigure = false
 
     private val animatorList = ArrayList<Animator>()
@@ -39,50 +29,34 @@ class RippleContainer @JvmOverloads constructor(
 
     private val viewList = ArrayList<RippleView>()
 
-    private var params: RippleParams? = null
-
     /**
-     * Call func before [startAnimation].
+     * Call this func before [startAnimation].
      *
-     * Element, which center will be start position for ripple, pass throw [hookView].
+     * [color] - should be used for create ripple.
+     * [hookView] - element, which center (x/y) will be start position for [RippleView].
      */
-    fun setupAnimation(noteColor: Color, hookView: View) = apply {
+    fun setupAnimation(color: Color, hookView: View) = apply {
         if (isConfigure) return@apply
 
+        val converter = RippleConverter()
         val theme = context.geDisplayedTheme() ?: return@apply
-        val shade = getRippleShade(theme)
-        val fillColor = context.getAppSimpleColor(noteColor, shade)
+        val paintStyle = converter.getPaintStyle(theme)
+        val rippleShade = converter.getRippleShade(theme)
+        val fillColor = context.getAppSimpleColor(color, rippleShade)
 
+        /** This needed for UI testing: assert final ripple color. */
         tag = fillColor
 
-        params = RippleParams(theme, hookView, parentView = this).also {
-            animatorList.apply {
-                add(hookView.getAnimator(Anim.SCALE_X, NO_DELAY, it.delay, *LOGO_PULSE))
-                add(hookView.getAnimator(Anim.SCALE_Y, NO_DELAY, it.delay, *LOGO_PULSE))
-            }
+        val settings = RippleSettings(theme, hookView, parentView = this)
+        val animatorProvider = RippleAnimationProvider(settings)
 
-            val paint = Paint().apply {
-                isAntiAlias = true
+        animatorList.addAll(animatorProvider.getLogoAnimators(hookView))
 
-                style = getPaintStyle(theme)
-                strokeWidth = resources.getDimension(R.dimen.stroke_4dp)
-                color = fillColor
-            }
-
-            for (i in 0 until it.count) {
-                val view = RippleView(context).apply { this.paint = paint }
-
-                addView(view, it.childParams)
-                viewList.add(view)
-
-                val delay = i * it.delay
-
-                animatorList.apply {
-                    add(view.getAnimator(Anim.SCALE_X, delay, it.duration, SCALE_FROM, it.scaleTo))
-                    add(view.getAnimator(Anim.SCALE_Y, delay, it.duration, SCALE_FROM, it.scaleTo))
-                    add(view.getAnimator(Anim.ALPHA, delay, it.duration, ALPHA_FROM, ALPHA_TO))
-                }
-            }
+        for (i in 0 until settings.viewCount) {
+            val view = RippleView(context).setup(paintStyle, fillColor)
+            addView(view, settings.childParams)
+            viewList.add(view)
+            animatorList.addAll(animatorProvider.getItemAnimators(view, i))
         }
 
         animatorSet.playTogether(animatorList)
@@ -90,85 +64,26 @@ class RippleContainer @JvmOverloads constructor(
         isConfigure = true
     }
 
-    // TODO add converter and apply it for ui test AlarmScreen
-    private fun getRippleShade(theme: ThemeDisplayed): ColorShade {
-        return if (theme == ThemeDisplayed.LIGHT) ColorShade.ACCENT else ColorShade.DARK
-    }
-
-    // TODO add converter
-    private fun getPaintStyle(theme: ThemeDisplayed): Paint.Style {
-        return if (theme == ThemeDisplayed.LIGHT) Paint.Style.STROKE else Paint.Style.FILL
-    }
-
     fun startAnimation() {
-        if (!isConfigure) return
+        if (!isConfigure || isAnimate) return
 
-        if (!isAnimate) {
-            isAnimate = true
-
-            for (it in viewList) {
-                it.visibility = View.VISIBLE
-            }
-            animatorSet.start()
+        for (it in viewList) {
+            it.visibility = View.VISIBLE
         }
+
+        isAnimate = true
+        animatorSet.start()
     }
 
     fun stopAnimation() {
-        if (!isConfigure) return
+        if (!isConfigure || !isAnimate) return
 
-        if (isAnimate) {
-            isAnimate = false
-
-            for (it in viewList) {
-                it.visibility = View.INVISIBLE
-            }
-            animatorSet.end()
-
-            animatorList.clear()
+        for (it in viewList) {
+            it.visibility = View.INVISIBLE
         }
+
+        isAnimate = false
+        animatorSet.end()
+        animatorList.clear()
     }
-
-    @StringDef(Anim.SCALE_X, Anim.SCALE_Y, Anim.ALPHA)
-    private annotation class Anim {
-        companion object {
-            const val SCALE_X = "ScaleX"
-            const val SCALE_Y = "ScaleY"
-            const val ALPHA = "Alpha"
-        }
-    }
-
-    /**
-     * Strange bug without 'when' and with lift return (try replace with 'if' and you will see).
-     */
-    @Suppress("LiftReturnOrAssignment")
-    private fun View.getAnimator(
-        @Anim animName: String,
-        startDelay: Long,
-        duration: Long,
-        vararg values: Float
-    ): ObjectAnimator {
-        return ObjectAnimator.ofFloat(this, animName, *values).apply {
-            repeatCount = ObjectAnimator.INFINITE
-            repeatMode = ObjectAnimator.RESTART
-
-            when (animName) {
-                Anim.ALPHA -> interpolator = DecelerateInterpolator()
-                else -> interpolator = AccelerateDecelerateInterpolator()
-            }
-
-            this.startDelay = startDelay
-            this.duration = duration
-        }
-    }
-
-    private companion object {
-        const val NO_DELAY = 0L
-
-        const val SCALE_FROM = 1f
-        const val ALPHA_FROM = 0.7f
-        const val ALPHA_TO = 0f
-
-        val LOGO_PULSE = floatArrayOf(1f, 0.95f, 1f)
-    }
-
 }
