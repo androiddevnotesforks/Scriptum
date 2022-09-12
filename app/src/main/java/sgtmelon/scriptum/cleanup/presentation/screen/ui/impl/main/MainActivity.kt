@@ -33,7 +33,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
-import sgtmelon.scriptum.infrastructure.screen.GradientFabDelegator
 import sgtmelon.scriptum.infrastructure.screen.GradientFabDelegatorImpl
 import sgtmelon.test.idling.getIdling
 
@@ -62,7 +61,7 @@ class MainActivity : AppActivity(), IMainActivity {
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.main_parent_container) }
     private val menuNavigation by lazy { findViewById<BottomNavigationView>(R.id.main_menu_navigation) }
 
-    private var fabDelegator: GradientFabDelegator? = null
+    private var fabDelegator: GradientFabDelegatorImpl? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getMainBuilder().set(activity = this).build()

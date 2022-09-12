@@ -21,8 +21,7 @@ internal class GradientFabDelegatorImpl(
     private val activity: AppCompatActivity,
     private var isVisible: Boolean = true,
     private val onClick: (view: View) -> Unit
-) : DefaultLifecycleObserver,
-    GradientFabDelegator {
+) : DefaultLifecycleObserver {
 
     private val overlayJob = DelayJobDelegator(GAP_DURATION)
 
@@ -95,7 +94,7 @@ internal class GradientFabDelegatorImpl(
      * [withGap] needed for understanding: this will be repeatable call or single. If repeatable
      * when need skip some calls (which happen during [GAP_DURATION]).
      */
-    override fun changeVisibility(isVisible: Boolean, withGap: Boolean) {
+    fun changeVisibility(isVisible: Boolean, withGap: Boolean) {
         /** Prevent repeatable calls with same [isVisible] key. */
         if (this.isVisible == isVisible) return
 
