@@ -73,7 +73,7 @@
     <string name="dialog_menu_status_bind">Bind to status bar</string>
     <string name="dialog_menu_status_unbind">Unbind from status bar</string>
     <string name="dialog_menu_convert_roll">Convert to text</string>
-    <string name="dialog_menu_convert_text">Convert to roll</string>
+    <string name="dialog_menu_convert_text">Convert to list</string>
 
     <string-array name="dialog_menu_text">
         <item/>

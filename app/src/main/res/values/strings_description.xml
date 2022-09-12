@@ -15,7 +15,7 @@
     <string name="description_note_notification">Notification</string>
     <string name="description_note_bind">Bind to status bar</string>
     <string name="description_note_unbind">Unbind from status bar</string>
-    <string name="description_note_convert_text">Convert to roll</string>
+    <string name="description_note_convert_text">Convert to list</string>
     <string name="description_note_convert_roll">Convert to text</string>
     <string name="description_note_delete">Delete</string>
 
