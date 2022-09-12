@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.model.data
 
 import android.content.BroadcastReceiver
 import androidx.annotation.StringDef
+import sgtmelon.scriptum.BuildConfig
 
 /**
  * Keys for work with [BroadcastReceiver]
@@ -11,7 +12,8 @@ object ReceiverData {
     @StringDef(Filter.MAIN, Filter.NOTE, Filter.SYSTEM, Filter.ETERNAL, Filter.DEVELOP)
     annotation class Filter {
         companion object {
-            private const val PREFIX = "RECEIVER_FILTER"
+            /** appId needed for preventing calls between different builds (e.g. ".debug") */
+            private const val PREFIX = "${BuildConfig.APPLICATION_ID}_RECEIVER_FILTER"
 
             const val MAIN = "${PREFIX}_MAIN"
             const val NOTE = "${PREFIX}_NOTE"
@@ -70,5 +72,4 @@ object ReceiverData {
             const val COMMAND = "${PREFIX}_COMMAND"
         }
     }
-
 }
