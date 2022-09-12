@@ -17,7 +17,7 @@ import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getScaleXAnimator
 import sgtmelon.scriptum.cleanup.extension.getScaleYAnimator
 
-internal class GradientFabDelegatorImpl(
+internal class GradientFabDelegator(
     private val activity: AppCompatActivity,
     private var isVisible: Boolean = true,
     private val onClick: (view: View) -> Unit
