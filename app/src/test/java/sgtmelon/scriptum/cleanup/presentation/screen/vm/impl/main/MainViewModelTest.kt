@@ -71,25 +71,25 @@ class MainViewModelTest : ParentViewModelTest() {
             bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_rank)
             callback.setupInsets()
-            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = false, withGap = false)
 
             bundle.getBoolean(Intent.FIRST_START)
             bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
-            callback.changeFabVisible(isVisible = true)
+            callback.changeFabVisible(isVisible = true, withGap = false)
 
             bundle.getBoolean(Intent.FIRST_START)
             bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_bin)
             callback.setupInsets()
-            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = false, withGap = false)
 
             bundle.getBoolean(Intent.FIRST_START)
             bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
-            callback.changeFabVisible(isVisible = true)
+            callback.changeFabVisible(isVisible = true, withGap = false)
         }
     }
 
@@ -156,39 +156,41 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onSelectItem(itemId = -1)
 
         verifySequence {
-            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = false, withGap = false)
             callback.showPage(MainPage.RANK, MainPage.RANK)
 
-            callback.changeFabVisible(isVisible = true)
+            callback.changeFabVisible(isVisible = true, withGap = false)
             callback.showPage(MainPage.BIN, MainPage.NOTES)
 
-            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = false, withGap = false)
             callback.showPage(MainPage.NOTES, MainPage.BIN)
         }
     }
 
     @Test fun onFabStateChange() {
+        val withGap = Random.nextBoolean()
+
         viewModel.pageFrom = MainPage.RANK
-        viewModel.onFabStateChange(isVisible = false)
-        viewModel.onFabStateChange(isVisible = true)
+        viewModel.onFabStateChange(isVisible = false, withGap)
+        viewModel.onFabStateChange(isVisible = true, withGap)
 
         viewModel.pageFrom = MainPage.NOTES
-        viewModel.onFabStateChange(isVisible = false)
-        viewModel.onFabStateChange(isVisible = true)
+        viewModel.onFabStateChange(isVisible = false, withGap)
+        viewModel.onFabStateChange(isVisible = true, withGap)
 
         viewModel.pageFrom = MainPage.BIN
-        viewModel.onFabStateChange(isVisible = false)
-        viewModel.onFabStateChange(isVisible = true)
+        viewModel.onFabStateChange(isVisible = false, withGap)
+        viewModel.onFabStateChange(isVisible = true, withGap)
 
         verifySequence {
-            callback.changeFabVisible(isVisible = false)
-            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = false, withGap)
+            callback.changeFabVisible(isVisible = false, withGap)
 
-            callback.changeFabVisible(isVisible = false)
-            callback.changeFabVisible(isVisible = true)
+            callback.changeFabVisible(isVisible = false, withGap)
+            callback.changeFabVisible(isVisible = true, withGap)
 
-            callback.changeFabVisible(isVisible = false)
-            callback.changeFabVisible(isVisible = false)
+            callback.changeFabVisible(isVisible = false, withGap)
+            callback.changeFabVisible(isVisible = false, withGap)
         }
     }
 

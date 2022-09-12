@@ -13,7 +13,7 @@ import sgtmelon.extensions.runMain
 /**
  * Delegator for start some function with [gapTime] delay.
  */
-class DelayJobDelegator(private val gapTime: Long) : DefaultLifecycleObserver {
+internal class DelayJobDelegator(private val gapTime: Long) : DefaultLifecycleObserver {
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
     private var job: Job? = null
