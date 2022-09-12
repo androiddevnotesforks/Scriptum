@@ -30,7 +30,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.listener.RecyclerOverScrollListener
 
 /**
  * Screen for print data of data base and preference.

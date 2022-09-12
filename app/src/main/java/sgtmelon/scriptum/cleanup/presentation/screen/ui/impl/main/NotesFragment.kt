@@ -37,7 +37,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.Preferen
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
-import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.listener.RecyclerOverScrollListener
 
 /**
  * Fragment which displays list of notes - [NoteItem].

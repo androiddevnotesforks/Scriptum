@@ -53,10 +53,10 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IA
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
-import sgtmelon.scriptum.cleanup.presentation.view.RippleContainer
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate

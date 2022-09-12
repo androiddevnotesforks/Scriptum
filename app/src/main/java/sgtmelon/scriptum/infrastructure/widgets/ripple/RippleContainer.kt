@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.view
+package sgtmelon.scriptum.infrastructure.widgets.ripple
 
 import android.animation.Animator
 import android.animation.AnimatorSet

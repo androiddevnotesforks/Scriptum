@@ -60,7 +60,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteF
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.listener.RecyclerOverScrollListener
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
 

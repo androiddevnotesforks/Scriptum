@@ -37,7 +37,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding
-import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.listener.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
 
 /**

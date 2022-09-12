@@ -12,7 +12,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.AlarmViewModel
-import sgtmelon.scriptum.cleanup.presentation.view.RippleContainer
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.IPressBack
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
@@ -21,6 +20,7 @@ import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withContentDescription

@@ -38,7 +38,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.listener.RecyclerOverScrollListener
 
 /**
  * Screen with list of notifications.

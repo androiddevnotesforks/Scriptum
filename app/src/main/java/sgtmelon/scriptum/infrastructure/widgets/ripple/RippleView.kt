@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.presentation.view
+package sgtmelon.scriptum.infrastructure.widgets.ripple
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
-import sgtmelon.scriptum.R
 import kotlin.math.min
+import sgtmelon.scriptum.R
 
 /**
  * View element which uses inside [RippleContainer].
