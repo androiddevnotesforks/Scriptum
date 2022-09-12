@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.widgets.listener
+package sgtmelon.scriptum.infrastructure.widgets.listeners
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager

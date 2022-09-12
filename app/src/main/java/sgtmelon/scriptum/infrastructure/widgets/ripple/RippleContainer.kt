@@ -48,15 +48,15 @@ class RippleContainer @JvmOverloads constructor(
         tag = fillColor
 
         val settings = RippleSettings(theme, hookView, parentView = this)
-        val animatorProvider = RippleAnimationProvider(settings)
+        val animatorProvider = RippleAnimatorProvider(settings)
 
-        animatorList.addAll(animatorProvider.getLogoAnimators(hookView))
+        animatorList.addAll(animatorProvider.getLogoList(hookView))
 
         for (i in 0 until settings.viewCount) {
             val view = RippleView(context).setup(paintStyle, fillColor)
             addView(view, settings.childParams)
             viewList.add(view)
-            animatorList.addAll(animatorProvider.getItemAnimators(view, i))
+            animatorList.addAll(animatorProvider.getItemList(view, i))
         }
 
         animatorSet.playTogether(animatorList)

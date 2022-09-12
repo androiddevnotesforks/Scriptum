@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.updatePadding
 import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
-import sgtmelon.scriptum.infrastructure.widgets.listener.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**
  * Parent class for preference fragments.

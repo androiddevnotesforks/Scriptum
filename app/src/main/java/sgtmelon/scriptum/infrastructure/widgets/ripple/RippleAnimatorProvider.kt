@@ -9,16 +9,16 @@ import androidx.annotation.StringDef
 /**
  * Class for working with ripple animation.
  */
-class RippleAnimationProvider(private val settings: RippleSettings) {
+class RippleAnimatorProvider(private val settings: RippleSettings) {
 
-    fun getLogoAnimators(hookView: View): List<ObjectAnimator> = with(settings) {
+    fun getLogoList(hookView: View): List<ObjectAnimator> = with(settings) {
         return listOf(
             hookView.getAnimator(Anim.SCALE_X, logoDelay, delay, *logoPulse),
             hookView.getAnimator(Anim.SCALE_Y, logoDelay, delay, *logoPulse)
         )
     }
 
-    fun getItemAnimators(view: View, position: Int): List<ObjectAnimator> = with(settings) {
+    fun getItemList(view: View, position: Int): List<ObjectAnimator> = with(settings) {
         val delay = settings.getDelay(position)
 
         return listOf(
@@ -51,10 +51,9 @@ class RippleAnimationProvider(private val settings: RippleSettings) {
              * Strange bug without 'when' and with lift return (try replace with 'if'
              * and you will see).
              */
-            @Suppress("LiftReturnOrAssignment")
-            when (animName) {
-                Anim.ALPHA -> interpolator = DecelerateInterpolator()
-                else -> interpolator = AccelerateDecelerateInterpolator()
+            interpolator = when (animName) {
+                Anim.ALPHA -> DecelerateInterpolator()
+                else -> AccelerateDecelerateInterpolator()
             }
 
             this.startDelay = startDelay
