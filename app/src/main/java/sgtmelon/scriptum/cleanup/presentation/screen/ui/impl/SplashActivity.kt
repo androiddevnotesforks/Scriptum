@@ -28,8 +28,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
+import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
-import sgtmelon.scriptum.infrastructure.model.firebase.FireKey
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.test.idling.getWaitIdling
 import sgtmelon.test.prod.RunPrivate
@@ -69,11 +69,13 @@ class SplashActivity : ParentActivity(),
     private fun setCrashlyticsKeys() {
         val instance = FirebaseCrashlytics.getInstance()
 
-        instance.setCustomKey(FireKey.RUN_TYPE, when {
-            BuildConfig.DEBUG && isTesting -> RunType.TEST.toString()
-            BuildConfig.DEBUG && !isTesting -> RunType.DEBUG.toString()
-            else -> RunType.RELEASE.toString()
-        })
+        instance.setCustomKey(
+            FireData.RUN_TYPE, when {
+                BuildConfig.DEBUG && isTesting -> RunType.TEST.toString()
+                BuildConfig.DEBUG && !isTesting -> RunType.DEBUG.toString()
+                else -> RunType.RELEASE.toString()
+            }
+        )
     }
 
     override fun onDestroy() {
