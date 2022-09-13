@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.broadcast
+package sgtmelon.scriptum.infrastructure.system.delegators
 
 import android.content.Context
 import java.util.Calendar
@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 
 /**
- * Class for control broadcast messaging
+ * Class, which delegate send of broadcast messages.
  */
 class BroadcastDelegator(private val context: Context?) {
 

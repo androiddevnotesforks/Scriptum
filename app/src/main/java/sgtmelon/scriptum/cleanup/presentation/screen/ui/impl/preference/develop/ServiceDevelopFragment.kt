@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -14,6 +13,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.deve
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.textDotAnim.DotAnimControl
 import sgtmelon.textDotAnim.DotAnimType
 
