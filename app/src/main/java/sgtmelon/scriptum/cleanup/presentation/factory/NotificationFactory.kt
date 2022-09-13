@@ -18,9 +18,9 @@ import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getNotificationService
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
-import sgtmelon.scriptum.cleanup.presentation.receiver.action.UnbindActionReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
+import sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver
 import sgtmelon.test.prod.RunPrivate
 
 /**
