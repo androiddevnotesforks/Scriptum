@@ -24,7 +24,7 @@ internal class GradientFabDelegator(
     private val onClick: (view: View) -> Unit
 ) : DefaultLifecycleObserver {
 
-    private val overlayJob = DelayJobDelegator(GAP_DURATION)
+    private val overlayJob = DelayJobDelegator()
 
     private var parentCard: CardView? = null
     private var gradientView: View? = null
@@ -102,7 +102,7 @@ internal class GradientFabDelegator(
         this.isVisible = isVisible
 
         if (withGap) {
-            overlayJob.run { runChangeVisibility(isVisible) }
+            overlayJob.run(GAP_DURATION) { runChangeVisibility(isVisible) }
         } else {
             runChangeVisibility(isVisible)
         }

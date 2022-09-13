@@ -84,7 +84,7 @@ class NotesFragment : ParentFragment(),
     private var recyclerView: RecyclerView? = null
 
     /** Delay for showing add-note-FAB after long standstill. */
-    private val fabDelayJob = DelayJobDelegator(FAB_STANDSTILL_TIME)
+    private val fabDelayJob = DelayJobDelegator()
 
     //endregion
 
@@ -174,7 +174,7 @@ class NotesFragment : ParentFragment(),
                     val isTopScroll = dy <= 0
 
                     callback?.onFabStateChange(isTopScroll, withGap = true)
-                    fabDelayJob.run {
+                    fabDelayJob.run(FAB_STANDSTILL_TIME) {
                         callback?.onFabStateChange(isVisible = true, withGap = false)
                     }
                 }

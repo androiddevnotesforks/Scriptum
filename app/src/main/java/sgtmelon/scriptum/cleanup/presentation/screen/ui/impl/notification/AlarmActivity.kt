@@ -38,10 +38,9 @@ import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.PowerControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.VibratorControl
+import sgtmelon.scriptum.cleanup.presentation.control.system.VibratorDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IPowerControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IVibratorControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
@@ -69,14 +68,13 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     @Inject internal lateinit var viewModel: IAlarmViewModel
 
-    private val vibratorHandler = Handler()
     private val longWaitHandler = Handler()
 
     /**
      * [initLazy] not require because activity configChanges under control.
      */
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
-    private val vibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
+    private val vibrator by lazy { VibratorDelegator(context = this) }
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
@@ -155,7 +153,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         super.onDestroy()
 
         longWaitHandler.removeCallbacksAndMessages(null)
-        vibratorHandler.removeCallbacksAndMessages(null)
 
         viewModel.onDestroy()
         rippleContainer?.stopAnimation()
@@ -303,18 +300,14 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         longWaitHandler.postDelayed(r, delay)
     }
 
-    override fun startVibratorHandler(delay: Long, r: Runnable) {
-        vibratorHandler.postDelayed(r, delay)
-    }
 
+    override fun startMelody() = melodyControl.start()
 
-    override fun melodyStart() = melodyControl.start()
+    override fun stopMelody() = melodyControl.stop()
 
-    override fun melodyStop() = melodyControl.stop()
+    override fun startVibrator() = vibrator.startRepeat()
 
-    override fun vibrateStart(pattern: LongArray) = vibratorControl.start(pattern)
-
-    override fun vibrateCancel() = vibratorControl.cancel()
+    override fun cancelVibrator() = vibrator.cancel()
 
 
     override fun showRepeatToast(repeat: Repeat) {

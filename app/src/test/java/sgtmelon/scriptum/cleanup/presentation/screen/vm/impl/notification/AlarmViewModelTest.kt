@@ -97,11 +97,11 @@ class AlarmViewModelTest : ParentViewModelTest() {
             preferencesRepo.signalState
 
             if (state.isMelody) {
-                callback.melodyStop()
+                callback.stopMelody()
             }
 
             if (state.isVibration) {
-                callback.vibrateCancel()
+                callback.cancelVibrator()
             }
 
             callback.releasePhone()
@@ -301,11 +301,11 @@ class AlarmViewModelTest : ParentViewModelTest() {
             startButtonFadeInAnimation()
 
             if (state.isMelody) {
-                melodyStart()
+                startMelody()
             }
 
             if (state.isVibration) {
-                startVibratorHandler(AlarmViewModel.START_DELAY, any())
+                callback.startVibrator()
             }
 
             startLongWaitHandler(AlarmViewModel.CANCEL_DELAY, any())

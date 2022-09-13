@@ -43,12 +43,6 @@ class AlarmViewModel(
     @RunPrivate lateinit var noteItem: NoteItem
 
     private val longWaitRunnable = Runnable { repeatFinish(preferencesRepo.repeat) }
-    private val vibratorRunnable = object : Runnable {
-        override fun run() {
-            callback.vibrateStart(vibratorPattern)
-            callback.startVibratorHandler(vibratorPattern.sum(), r = this)
-        }
-    }
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
@@ -105,11 +99,11 @@ class AlarmViewModel(
         val signalState = preferencesRepo.signalState
 
         if (signalState.isMelody) {
-            callback?.melodyStop()
+            callback?.stopMelody()
         }
 
         if (signalState.isVibration) {
-            callback?.vibrateCancel()
+            callback?.cancelVibrator()
         }
 
         callback?.releasePhone()
@@ -128,11 +122,11 @@ class AlarmViewModel(
             startButtonFadeInAnimation()
 
             if (signalState.isMelody) {
-                melodyStart()
+                startMelody()
             }
 
             if (signalState.isVibration) {
-                startVibratorHandler(START_DELAY, vibratorRunnable)
+                callback?.startVibrator()
             }
 
             startLongWaitHandler(CANCEL_DELAY, longWaitRunnable)
@@ -197,10 +191,7 @@ class AlarmViewModel(
         callback?.notifyList(noteItem.apply { isStatus = false })
     }
 
-    private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
-
     companion object {
-        @RunPrivate const val START_DELAY = 0L
         @RunPrivate const val CANCEL_DELAY = 20000L
     }
 }

@@ -11,26 +11,29 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runMain
 
 /**
- * Delegator for start some function with [gapTime] delay.
+ * Delegator for start some function with delay.
  */
-internal class DelayJobDelegator(private val gapTime: Long) : DefaultLifecycleObserver {
+internal class DelayJobDelegator : DefaultLifecycleObserver {
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
     private var job: Job? = null
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
-
-        job?.cancel()
-        job = null
+        cancel()
     }
 
-    fun run(@MainThread func: () -> Unit) {
+    fun run(gapTime: Long, @MainThread func: () -> Unit) {
         job?.cancel()
         job = ioScope.launch {
             delay(gapTime)
             runMain { func() }
             job = null
         }
+    }
+
+    fun cancel() {
+        job?.cancel()
+        job = null
     }
 }

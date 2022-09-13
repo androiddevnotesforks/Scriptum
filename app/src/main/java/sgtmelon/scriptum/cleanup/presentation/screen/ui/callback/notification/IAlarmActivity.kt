@@ -45,16 +45,14 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
 
     fun startLongWaitHandler(delay: Long, r: Runnable)
 
-    fun startVibratorHandler(delay: Long, r: Runnable)
 
+    fun startMelody()
 
-    fun melodyStart()
+    fun stopMelody()
 
-    fun melodyStop()
+    fun startVibrator()
 
-    fun vibrateStart(pattern: LongArray)
-
-    fun vibrateCancel()
+    fun cancelVibrator()
 
 
     fun showRepeatToast(repeat: Repeat)
