@@ -11,7 +11,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getAlarmService
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IAlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.toast.IToastControl
-import sgtmelon.scriptum.cleanup.presentation.receiver.action.AlarmActionReceiver
+import sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver
 import sgtmelon.test.prod.RunPrivate
 
 /**

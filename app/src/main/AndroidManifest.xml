@@ -95,7 +95,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.action.AlarmActionReceiver" />
+        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver" />
         <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.action.UnbindActionReceiver" />
 
         <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver" />
