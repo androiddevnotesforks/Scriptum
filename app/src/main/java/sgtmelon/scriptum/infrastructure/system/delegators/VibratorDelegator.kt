@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.system
+package sgtmelon.scriptum.infrastructure.system.delegators
 
 import android.content.Context
 import android.os.Build

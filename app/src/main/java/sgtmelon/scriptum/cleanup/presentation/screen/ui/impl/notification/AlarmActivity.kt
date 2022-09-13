@@ -37,7 +37,6 @@ import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.PowerControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.VibratorDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IPowerControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
@@ -55,6 +54,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
+import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
 import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
