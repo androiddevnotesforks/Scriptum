@@ -91,7 +91,7 @@ class AlarmScreen(
         RepeatSheetDialogUi(func)
     }
 
-    fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }
+    fun waitRepeat() = waitBefore(AlarmViewModel.FINISH_TIME) { onRepeat() }
 
     private fun onRepeat(): Calendar {
         val calendar = getClearCalendar(addMinutes = repeatArray[preferences.repeat])

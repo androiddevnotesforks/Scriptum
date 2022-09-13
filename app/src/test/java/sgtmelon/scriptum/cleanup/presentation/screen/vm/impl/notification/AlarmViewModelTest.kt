@@ -132,7 +132,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
-                acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                acquirePhone(AlarmViewModel.FINISH_TIME)
                 setupView()
                 setupInsets()
 
@@ -179,7 +179,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 if (!it.isDivideEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
 
                 callback.apply {
-                    acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                    acquirePhone(AlarmViewModel.FINISH_TIME)
                     setupView()
                     setupInsets()
 
@@ -224,7 +224,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
-                acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                acquirePhone(AlarmViewModel.FINISH_TIME)
                 setupView()
                 setupInsets()
 
@@ -240,7 +240,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
 
             callback.apply {
-                acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                acquirePhone(AlarmViewModel.FINISH_TIME)
                 setupView()
                 setupInsets()
 
@@ -308,7 +308,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 callback.startVibrator()
             }
 
-            startLongWaitHandler(AlarmViewModel.CANCEL_DELAY, any())
+            startFinishTimer(AlarmViewModel.FINISH_TIME)
         }
     }
 
@@ -333,14 +333,14 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val repeat = mockk<Repeat>()
 
         every { preferencesRepo.repeat } returns repeat
-        every { spyViewModel.repeatFinish(repeat) } returns Unit
+        every { spyViewModel.finishWithRepeat(repeat) } returns Unit
 
         spyViewModel.onClickRepeat()
 
         verifySequence {
             spyViewModel.onClickRepeat()
             preferencesRepo.repeat
-            spyViewModel.repeatFinish(repeat)
+            spyViewModel.finishWithRepeat(repeat)
         }
     }
 
@@ -351,12 +351,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { spyViewModel.getRepeatById(itemId) } returns null
         every { preferencesRepo.repeat } returns repeatFirst
-        every { spyViewModel.repeatFinish(repeatFirst) } returns Unit
+        every { spyViewModel.finishWithRepeat(repeatFirst) } returns Unit
 
         spyViewModel.onResultRepeatDialog(itemId)
 
         every { spyViewModel.getRepeatById(itemId) } returns repeatSecond
-        every { spyViewModel.repeatFinish(repeatSecond) } returns Unit
+        every { spyViewModel.finishWithRepeat(repeatSecond) } returns Unit
 
         spyViewModel.onResultRepeatDialog(itemId)
 
@@ -364,11 +364,11 @@ class AlarmViewModelTest : ParentViewModelTest() {
             spyViewModel.onResultRepeatDialog(itemId)
             spyViewModel.getRepeatById(itemId)
             preferencesRepo.repeat
-            spyViewModel.repeatFinish(repeatFirst)
+            spyViewModel.finishWithRepeat(repeatFirst)
 
             spyViewModel.onResultRepeatDialog(itemId)
             spyViewModel.getRepeatById(itemId)
-            spyViewModel.repeatFinish(repeatSecond)
+            spyViewModel.finishWithRepeat(repeatSecond)
         }
     }
 
@@ -381,7 +381,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.getRepeatById(itemId = -1))
     }
 
-    @Test fun repeatFinish() {
+    @Test fun finishWithRepeat() {
         val id = Random.nextLong()
         val item = mockk<NoteItem>()
         val repeat = mockk<Repeat>()
@@ -393,7 +393,9 @@ class AlarmViewModelTest : ParentViewModelTest() {
         every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
         every { repeat.ordinal } returns -1
 
-        viewModel.repeatFinish(repeat)
+        TODO("add case with null repeat")
+
+        viewModel.finishWithRepeat(repeat)
 
         every { repeat.ordinal } returns ordinal
         FastMock.timeExtension()
@@ -403,7 +405,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         viewModel.id = id
         viewModel.noteItem = item
-        viewModel.repeatFinish(repeat)
+        viewModel.finishWithRepeat(repeat)
 
         coVerifySequence {
             callback.getIntArray(R.array.pref_alarm_repeat_array)

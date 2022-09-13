@@ -43,8 +43,7 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
     fun openNoteScreen(item: NoteItem)
 
 
-    fun startLongWaitHandler(delay: Long, r: Runnable)
-
+    fun startFinishTimer(time: Long)
 
     fun startMelody()
 

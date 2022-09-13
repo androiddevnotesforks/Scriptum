@@ -24,7 +24,7 @@ internal class GradientFabDelegator(
     private val onClick: (view: View) -> Unit
 ) : DefaultLifecycleObserver {
 
-    private val overlayJob = DelayJobDelegator()
+    private val overlayJob = DelayJobDelegator(activity.lifecycle)
 
     private var parentCard: CardView? = null
     private var gradientView: View? = null
@@ -36,7 +36,7 @@ internal class GradientFabDelegator(
     private var lastAnimator: Animator? = null
 
     init {
-        activity.lifecycle.addObserver(overlayJob)
+        activity.lifecycle.addObserver(this)
     }
 
     override fun onCreate(owner: LifecycleOwner) {

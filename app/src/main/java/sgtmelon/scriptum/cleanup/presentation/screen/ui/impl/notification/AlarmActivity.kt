@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -54,6 +53,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
 import sgtmelon.test.idling.addIdlingListener
@@ -68,8 +68,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     @Inject internal lateinit var viewModel: IAlarmViewModel
 
-    private val longWaitHandler = Handler()
-
     /**
      * [initLazy] not require because activity configChanges under control.
      */
@@ -77,6 +75,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val vibrator by lazy { VibratorDelegator(context = this) }
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
     private val broadcast by lazy { BroadcastDelegator(context = this) }
+    private val finishTimer = DelayJobDelegator(lifecycle)
 
     private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
 
@@ -108,9 +107,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     //endregion
 
-    /**
-     * Variable for detect layout is completely configure and ready for animation.
-     */
+    /** Variable for detect layout is completely configure and ready for animation. */
     private var isLayoutConfigure = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,8 +148,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        longWaitHandler.removeCallbacksAndMessages(null)
 
         viewModel.onDestroy()
         rippleContainer?.stopAnimation()
@@ -296,10 +291,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun openNoteScreen(item: NoteItem) = startActivity(NoteActivity[this, item])
 
 
-    override fun startLongWaitHandler(delay: Long, r: Runnable) {
-        longWaitHandler.postDelayed(r, delay)
+    override fun startFinishTimer(time: Long) {
+        finishTimer.run(time) { viewModel.finishWithRepeat() }
     }
-
 
     override fun startMelody() = melodyControl.start()
 

@@ -84,7 +84,7 @@ class NotesFragment : ParentFragment(),
     private var recyclerView: RecyclerView? = null
 
     /** Delay for showing add-note-FAB after long standstill. */
-    private val fabDelayJob = DelayJobDelegator()
+    private val fabDelayJob = DelayJobDelegator(lifecycle)
 
     //endregion
 

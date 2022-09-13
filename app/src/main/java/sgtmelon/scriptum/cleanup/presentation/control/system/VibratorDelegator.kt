@@ -13,9 +13,16 @@ import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
 class VibratorDelegator(context: Context?) {
 
     private val manager = context?.getVibratorService()
-    private val repeatDelayJob = DelayJobDelegator()
+    private val repeatDelayJob = DelayJobDelegator(lifecycle = null)
 
-    fun startSingle(pattern: LongArray = defaultPattern) {
+    fun startRepeat(pattern: LongArray = defaultPattern) {
+        startSingle(pattern)
+        repeatDelayJob.run(pattern.sum()) {
+            startRepeat(pattern)
+        }
+    }
+
+    private fun startSingle(pattern: LongArray = defaultPattern) {
         if (manager?.hasVibrator() == false) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -23,13 +30,6 @@ class VibratorDelegator(context: Context?) {
             manager?.vibrate(vibe)
         } else {
             manager?.vibrate(pattern, -1)
-        }
-    }
-
-    fun startRepeat(pattern: LongArray = defaultPattern) {
-        startSingle(pattern)
-        repeatDelayJob.run(pattern.sum()) {
-            startRepeat(pattern)
         }
     }
 

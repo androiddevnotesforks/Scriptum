@@ -70,9 +70,7 @@ class MainActivity : AppActivity(), IMainActivity {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fabDelegator = GradientFabDelegator(activity = this) {
-            openAddDialog()
-        }.also { lifecycle.addObserver(it) }
+        fabDelegator = GradientFabDelegator(activity = this) { openAddDialog() }
 
         openState.get(savedInstanceState)
         viewModel.onSetup(savedInstanceState)

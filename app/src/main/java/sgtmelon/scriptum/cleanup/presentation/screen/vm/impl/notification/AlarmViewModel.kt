@@ -42,13 +42,11 @@ class AlarmViewModel(
 
     @RunPrivate lateinit var noteItem: NoteItem
 
-    private val longWaitRunnable = Runnable { repeatFinish(preferencesRepo.repeat) }
-
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
 
         callback?.apply {
-            acquirePhone(CANCEL_DELAY)
+            acquirePhone(FINISH_TIME)
             setupView()
             setupInsets()
         }
@@ -129,7 +127,7 @@ class AlarmViewModel(
                 callback?.startVibrator()
             }
 
-            startLongWaitHandler(CANCEL_DELAY, longWaitRunnable)
+            startFinishTimer(FINISH_TIME)
         }
 
         getIdling().stop(IdlingTag.Alarm.START)
@@ -144,11 +142,9 @@ class AlarmViewModel(
         callback?.finish()
     }
 
-    override fun onClickRepeat() = repeatFinish(preferencesRepo.repeat)
+    override fun onClickRepeat() = finishWithRepeat()
 
-    override fun onResultRepeatDialog(@IdRes itemId: Int) {
-        repeatFinish(repeat = getRepeatById(itemId) ?: preferencesRepo.repeat)
-    }
+    override fun onResultRepeatDialog(@IdRes itemId: Int) = finishWithRepeat(getRepeatById(itemId))
 
     @RunPrivate fun getRepeatById(@IdRes itemId: Int): Repeat? = when (itemId) {
         R.id.item_repeat_0 -> Repeat.MIN_10
@@ -160,11 +156,14 @@ class AlarmViewModel(
     }
 
     /**
-     * Call this when need set alarm repeat with screen finish.
+     * Call this when need set alarm repeat with screen finish. If [repeat] is null when will
+     * use value saved preferences.
      */
-    @RunPrivate fun repeatFinish(repeat: Repeat) {
+    override fun finishWithRepeat(repeat: Repeat?) {
+        val actualRepeat = repeat ?: preferencesRepo.repeat
+
         val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
-        val minute = valueArray.getOrNull(repeat.ordinal) ?: return
+        val minute = valueArray.getOrNull(actualRepeat.ordinal) ?: return
         val calendar = getClearCalendar(minute)
 
         viewModelScope.launch {
@@ -176,7 +175,7 @@ class AlarmViewModel(
             callback?.sendSetAlarmBroadcast(id, calendar, showToast = false)
             callback?.sendNotifyInfoBroadcast()
 
-            callback?.showRepeatToast(repeat)
+            callback?.showRepeatToast(actualRepeat)
             callback?.sendUpdateBroadcast(id)
             callback?.finish()
         }
@@ -192,6 +191,6 @@ class AlarmViewModel(
     }
 
     companion object {
-        @RunPrivate const val CANCEL_DELAY = 20000L
+        @RunPrivate const val FINISH_TIME = 20000L
     }
 }
