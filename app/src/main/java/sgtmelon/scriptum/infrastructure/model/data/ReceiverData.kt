@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.data
+package sgtmelon.scriptum.infrastructure.model.data
 
 import android.content.BroadcastReceiver
 import sgtmelon.scriptum.BuildConfig

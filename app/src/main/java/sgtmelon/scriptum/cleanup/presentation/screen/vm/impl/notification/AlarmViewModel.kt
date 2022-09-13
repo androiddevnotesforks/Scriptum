@@ -9,8 +9,6 @@ import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
@@ -20,6 +18,8 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate

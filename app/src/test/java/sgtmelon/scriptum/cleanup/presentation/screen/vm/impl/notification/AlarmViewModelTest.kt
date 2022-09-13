@@ -24,7 +24,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
@@ -34,6 +33,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState

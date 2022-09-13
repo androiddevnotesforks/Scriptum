@@ -15,7 +15,6 @@ import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
-import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
@@ -33,6 +32,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.screen.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
 

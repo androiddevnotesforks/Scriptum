@@ -10,8 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Preference
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
@@ -22,6 +20,8 @@ import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**

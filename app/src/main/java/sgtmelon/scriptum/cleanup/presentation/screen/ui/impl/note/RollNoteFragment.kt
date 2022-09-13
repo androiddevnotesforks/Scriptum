@@ -26,7 +26,6 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
@@ -59,6 +58,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 import sgtmelon.test.idling.addIdlingListener

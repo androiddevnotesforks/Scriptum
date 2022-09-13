@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
-import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
@@ -26,6 +24,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**

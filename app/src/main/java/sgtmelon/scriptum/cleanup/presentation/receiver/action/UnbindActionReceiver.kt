@@ -7,10 +7,10 @@ import android.content.Intent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 
 /**
  * Receiver for handle click on unbind button in [BindControl].

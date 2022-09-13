@@ -9,7 +9,6 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.clearSpace
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Snackbar
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 

@@ -15,8 +15,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.utils.record
 

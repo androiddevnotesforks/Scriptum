@@ -26,7 +26,6 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -57,6 +56,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
 

@@ -28,7 +28,6 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
@@ -42,6 +41,7 @@ import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Snackbar
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 

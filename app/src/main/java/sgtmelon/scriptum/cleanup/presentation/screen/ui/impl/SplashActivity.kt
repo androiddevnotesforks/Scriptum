@@ -10,7 +10,6 @@ import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
@@ -29,6 +28,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.firebase.FireKey
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.test.idling.getWaitIdling

@@ -10,13 +10,13 @@ import android.os.Build
 import android.os.IBinder
 import java.util.Calendar
 import sgtmelon.extensions.getCalendar
-import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.extension.getAlarmService
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.receiver.EternalReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
 /**

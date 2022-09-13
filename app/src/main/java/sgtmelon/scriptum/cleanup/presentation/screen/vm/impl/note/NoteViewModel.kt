@@ -2,14 +2,14 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 
 import android.os.Bundle
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.prod.RunPrivate
 

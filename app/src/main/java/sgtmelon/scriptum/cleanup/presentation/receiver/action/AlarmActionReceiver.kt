@@ -4,9 +4,9 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 
 
 /**

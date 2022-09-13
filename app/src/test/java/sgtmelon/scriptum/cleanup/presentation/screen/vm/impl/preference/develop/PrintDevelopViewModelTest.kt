@@ -16,8 +16,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Print.Default
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Print.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.extension.clearAdd
@@ -25,6 +23,8 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Default
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Intent
 
 /**
  * Test for [PrintDevelopViewModel].

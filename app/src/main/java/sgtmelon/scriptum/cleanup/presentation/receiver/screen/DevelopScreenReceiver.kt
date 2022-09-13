@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.presentation.receiver.screen
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Command
-import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Values
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
 
 /**
  * Receiver for developer commands.

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
@@ -29,6 +28,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.deve
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
+import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 

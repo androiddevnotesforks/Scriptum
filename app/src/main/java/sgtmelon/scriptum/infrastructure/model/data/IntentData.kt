@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.data
+package sgtmelon.scriptum.infrastructure.model.data
 
 /**
  * Object for store information between screens and save it inside onSavedState.

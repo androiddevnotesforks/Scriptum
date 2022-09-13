@@ -5,7 +5,6 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.test.prod.RunPrivate
 
 /**

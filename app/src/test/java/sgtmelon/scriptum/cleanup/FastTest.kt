@@ -21,7 +21,6 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -41,6 +40,7 @@ import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.common.nextString
 
