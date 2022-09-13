@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.system.delegators
 
 import android.content.Context
 import android.os.PowerManager
-import sgtmelon.scriptum.cleanup.extension.getPowerService
+import sgtmelon.extensions.getPowerService
 
 /**
  * Class, which delegate work of [powerManager].

@@ -1,17 +1,10 @@
 package sgtmelon.scriptum.cleanup.extension
 
-import android.app.AlarmManager
-import android.app.NotificationManager
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.media.AudioManager
 import android.net.Uri
-import android.os.PowerManager
-import android.os.Vibrator
 import android.provider.Settings
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
@@ -38,38 +31,6 @@ inline fun Context.sendTo(place: String, command: String, extras: Intent.() -> U
 fun Context.isPortraitMode(): Boolean {
     return resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 }
-
-//region Get system services
-
-fun Context.getNotificationService(): NotificationManager? {
-    return getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-}
-
-fun Context.getAlarmService(): AlarmManager? {
-    return getSystemService(Context.ALARM_SERVICE) as? AlarmManager
-}
-
-fun Context.getPowerService(): PowerManager? {
-    return getSystemService(Context.POWER_SERVICE) as? PowerManager
-}
-
-fun Context.getInputService(): InputMethodManager? {
-    return getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-}
-
-fun Context.getClipboardService(): ClipboardManager? {
-    return getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-}
-
-fun Context.getAudioService(): AudioManager? {
-    return getSystemService(Context.AUDIO_SERVICE) as? AudioManager
-}
-
-fun Context.getVibratorService(): Vibrator? {
-    return getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
-}
-
-//endregion
 
 inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String): F? {
     return findFragmentByTag(tag) as? F

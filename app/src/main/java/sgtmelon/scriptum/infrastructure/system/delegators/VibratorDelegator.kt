@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import sgtmelon.scriptum.cleanup.extension.getVibratorService
+import sgtmelon.extensions.getVibratorService
 import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
 
 /**

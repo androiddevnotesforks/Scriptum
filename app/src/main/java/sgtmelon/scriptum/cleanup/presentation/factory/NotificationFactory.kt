@@ -9,13 +9,13 @@ import android.os.Build.VERSION_CODES
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
+import sgtmelon.extensions.getNotificationService
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
-import sgtmelon.scriptum.cleanup.extension.getNotificationService
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity

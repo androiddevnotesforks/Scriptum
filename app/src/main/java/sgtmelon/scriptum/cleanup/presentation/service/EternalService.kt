@@ -10,8 +10,8 @@ import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import java.util.Calendar
+import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
-import sgtmelon.scriptum.cleanup.extension.getAlarmService
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic

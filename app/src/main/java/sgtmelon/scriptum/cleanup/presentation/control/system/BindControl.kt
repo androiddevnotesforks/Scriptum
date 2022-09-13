@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.IntDef
 import androidx.annotation.StringDef
+import sgtmelon.extensions.getNotificationService
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.getNotificationService
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IBindControl

@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.presentation.control.system
 import android.content.ClipData
 import android.content.Context
 import androidx.annotation.MainThread
+import sgtmelon.extensions.getClipboardService
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.getClipboardService
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IClipboardControl
 import sgtmelon.scriptum.cleanup.presentation.control.toast.IToastControl
 

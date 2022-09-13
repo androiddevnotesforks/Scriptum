@@ -6,9 +6,9 @@ import android.content.Context
 import android.text.format.DateUtils
 import java.util.Calendar
 import sgtmelon.extensions.formatFuture
+import sgtmelon.extensions.getAlarmService
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.getAlarmService
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IAlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.toast.IToastControl
 import sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver

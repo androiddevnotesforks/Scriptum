@@ -9,7 +9,7 @@ import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Handler
-import sgtmelon.scriptum.cleanup.extension.getAudioService
+import sgtmelon.extensions.getAudioService
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 
 /**
