@@ -36,7 +36,6 @@ import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
@@ -72,7 +71,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      */
     private val phoneAwake by lazy { PhoneAwakeDelegator(context = this) }
     private val finishTimer = DelayJobDelegator(lifecycle)
-    private val melodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
+    private val melodyControl by lazy { MelodyControl(context = this) }
     private val vibrator by lazy { VibratorDelegator(context = this) }
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 

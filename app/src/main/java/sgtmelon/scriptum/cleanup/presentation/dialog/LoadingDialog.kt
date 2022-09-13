@@ -9,18 +9,18 @@ import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.applyTransparentBackground
 import sgtmelon.scriptum.R
-import sgtmelon.textDotAnim.DotAnimControl
 import sgtmelon.textDotAnim.DotAnimType
+import sgtmelon.textDotAnim.DotAnimation
 
 /**
  * Dialog with endless progress bar and loading text.
  */
 // TODO move into safedialogs
-class LoadingDialog : BlankEmptyDialog(), DotAnimControl.Callback {
+class LoadingDialog : BlankEmptyDialog(), DotAnimation.Callback {
 
     private val loadingText get() = dialog?.findViewById<TextView>(R.id.loading_text)
 
-    private val dotAnimControl = DotAnimControl(DotAnimType.SPAN, callback = this)
+    private val dotAnimation = DotAnimation(DotAnimType.SPAN, callback = this)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
@@ -38,13 +38,13 @@ class LoadingDialog : BlankEmptyDialog(), DotAnimControl.Callback {
 
         val context = context
         if (context != null) {
-            dotAnimControl.start(context, R.string.dialog_text_loading)
+            dotAnimation.start(context, R.string.dialog_text_loading)
         }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        dotAnimControl.stop()
+        dotAnimation.stop()
     }
 
     override fun onDotAnimUpdate(text: CharSequence) {

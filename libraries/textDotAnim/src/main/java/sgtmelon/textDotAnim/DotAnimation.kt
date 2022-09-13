@@ -17,7 +17,7 @@ import sgtmelon.text.dotanim.R
 /**
  * Class for help animate [TextView] ending with loading dots.
  */
-class DotAnimControl(private val type: DotAnimType, private val callback: Callback) {
+class DotAnimation(private val type: DotAnimType, private val callback: Callback) {
 
     private var animator: ValueAnimator? = null
 

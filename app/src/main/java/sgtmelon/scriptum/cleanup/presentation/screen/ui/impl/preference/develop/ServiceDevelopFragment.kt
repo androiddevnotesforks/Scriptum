@@ -14,15 +14,15 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.deve
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
-import sgtmelon.textDotAnim.DotAnimControl
 import sgtmelon.textDotAnim.DotAnimType
+import sgtmelon.textDotAnim.DotAnimation
 
 /**
  * Fragment of service preferences.
  */
 class ServiceDevelopFragment : ParentPreferenceFragment(),
     IServiceDevelopFragment,
-    DotAnimControl.Callback {
+    DotAnimation.Callback {
 
     @Inject internal lateinit var viewModel: IServiceDevelopViewModel
 
@@ -37,7 +37,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     private val notifyAlarm by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_alarm)) }
 
     private val broadcast by lazy { BroadcastDelegator(context) }
-    private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
     private val receiver by lazy { DevelopScreenReceiver[viewModel] }
 
@@ -122,10 +122,10 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     override fun startPingSummary() {
         val context = context ?: return
 
-        dotAnimControl.start(context, R.string.pref_summary_eternal_search)
+        dotAnimation.start(context, R.string.pref_summary_eternal_search)
     }
 
-    override fun stopPingSummary() = dotAnimControl.stop()
+    override fun stopPingSummary() = dotAnimation.stop()
 
     override fun onDotAnimUpdate(text: CharSequence) {
         refreshPreference?.summary = text

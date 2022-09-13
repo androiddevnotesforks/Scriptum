@@ -10,13 +10,11 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Handler
 import sgtmelon.extensions.getAudioService
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 
 /**
- * Class for help control [MediaPlayer] and [AudioManager]
+ * Class, which delegates work of [MediaPlayer] and [AudioManager]
  */
-class MelodyControl(private val context: Context?) : IMelodyControl,
-    AudioManager.OnAudioFocusChangeListener {
+class MelodyControl(private val context: Context?) : AudioManager.OnAudioFocusChangeListener {
 
     private val audioManager = context?.getAudioService()
 
@@ -66,7 +64,7 @@ class MelodyControl(private val context: Context?) : IMelodyControl,
     }
 
 
-    override fun setupVolume(volume: Int, increase: Boolean) {
+    fun setupVolume(volume: Int, increase: Boolean) {
         if (maxVolume == null || minVolume == null) return
 
         if (increase) {
@@ -82,7 +80,7 @@ class MelodyControl(private val context: Context?) : IMelodyControl,
         }
     }
 
-    override fun setupPlayer(uri: Uri, isLooping: Boolean) {
+    fun setupPlayer(uri: Uri, isLooping: Boolean) {
         if (context == null) return
 
         mediaPlayer = MediaPlayer().apply {
@@ -96,7 +94,7 @@ class MelodyControl(private val context: Context?) : IMelodyControl,
     }
 
 
-    override fun start() {
+    fun start() {
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
             audioFocusRequest?.let { audioManager?.requestAudioFocus(it) }
         } else {
@@ -108,7 +106,7 @@ class MelodyControl(private val context: Context?) : IMelodyControl,
         mediaPlayer?.start()
     }
 
-    override fun stop() {
+    fun stop() {
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
             audioFocusRequest?.let { audioManager?.abandonAudioFocusRequest(it) }
         } else {
@@ -118,7 +116,7 @@ class MelodyControl(private val context: Context?) : IMelodyControl,
         mediaPlayer?.stop()
     }
 
-    override fun release() {
+    fun release() {
         mediaPlayer?.release()
 
         increaseHandler.removeCallbacksAndMessages(null)

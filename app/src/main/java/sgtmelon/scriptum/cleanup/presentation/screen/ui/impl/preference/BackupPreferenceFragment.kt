@@ -24,15 +24,15 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
-import sgtmelon.textDotAnim.DotAnimControl
 import sgtmelon.textDotAnim.DotAnimType
+import sgtmelon.textDotAnim.DotAnimation
 
 /**
  * Fragment of backup preferences.
  */
 class BackupPreferenceFragment : ParentPreferenceFragment(),
     IBackupPreferenceFragment,
-    DotAnimControl.Callback {
+    DotAnimation.Callback {
 
     @Inject internal lateinit var viewModel: IBackupPreferenceViewModel
 
@@ -58,7 +58,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
 
     private val broadcast by lazy { BroadcastDelegator(context) }
-    private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
     //region System
 
@@ -251,10 +251,10 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     override fun startImportSummarySearch() {
         val context = context ?: return
 
-        dotAnimControl.start(context, R.string.pref_summary_backup_import_search)
+        dotAnimation.start(context, R.string.pref_summary_backup_import_search)
     }
 
-    override fun stopImportSummarySearch() = dotAnimControl.stop()
+    override fun stopImportSummarySearch() = dotAnimation.stop()
 
     override fun onDotAnimUpdate(text: CharSequence) {
         importPreference?.summary = text

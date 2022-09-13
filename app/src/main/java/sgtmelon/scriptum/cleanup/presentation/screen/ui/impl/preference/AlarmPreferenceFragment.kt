@@ -18,22 +18,21 @@ import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.textDotAnim.DotAnimControl
 import sgtmelon.textDotAnim.DotAnimType
+import sgtmelon.textDotAnim.DotAnimation
 
 /**
  * Fragment of notification (alarm) preferences.
  */
 class AlarmPreferenceFragment : ParentPreferenceFragment(),
     IAlarmPreferenceFragment,
-    DotAnimControl.Callback {
+    DotAnimation.Callback {
 
     @Inject internal lateinit var viewModel: IAlarmPreferenceViewModel
 
@@ -64,8 +63,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    private val melodyControl: IMelodyControl by lazy { MelodyControl(context) }
-    private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
+    private val melodyControl by lazy { MelodyControl(context) }
+    private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
     //region System
 
@@ -234,10 +233,10 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     override fun startMelodySummarySearch() {
         val context = context ?: return
 
-        dotAnimControl.start(context, R.string.pref_summary_alarm_melody_search)
+        dotAnimation.start(context, R.string.pref_summary_alarm_melody_search)
     }
 
-    override fun stopMelodySummarySearch() = dotAnimControl.stop()
+    override fun stopMelodySummarySearch() = dotAnimation.stop()
 
     override fun onDotAnimUpdate(text: CharSequence) {
         melodyPreference?.summary = text

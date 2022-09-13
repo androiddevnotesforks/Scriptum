@@ -4,7 +4,7 @@ import sgtmelon.textDotAnim.DotAnimType.COUNT
 import sgtmelon.textDotAnim.DotAnimType.SPAN
 
 /**
- * Class identifying type of animation for [DotAnimControl].
+ * Class identifying type of animation for [DotAnimation].
  *
  * Description:
  * [COUNT] - create strings with different count of dots.
