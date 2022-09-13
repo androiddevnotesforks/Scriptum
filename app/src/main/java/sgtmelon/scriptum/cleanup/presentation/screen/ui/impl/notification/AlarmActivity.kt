@@ -36,7 +36,7 @@ import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.PowerControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.VibratorControl
@@ -78,7 +78,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val vibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
-    private val broadcastControl by lazy { BroadcastControl[this] }
+    private val broadcastDelegator by lazy { BroadcastDelegator[this] }
 
     private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
 
@@ -328,10 +328,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     //region Broadcast functions
 
-    override fun sendUpdateBroadcast(id: Long) = broadcastControl.sendUpdateAlarmUI(id)
+    override fun sendUpdateBroadcast(id: Long) = broadcastDelegator.sendUpdateAlarmUI(id)
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcastControl.sendSetAlarm(id, calendar, showToast)
+        broadcastDelegator.sendSetAlarm(id, calendar, showToast)
     }
 
     /**
@@ -349,7 +349,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
 
     //endregion
 

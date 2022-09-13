@@ -24,9 +24,9 @@ class AlarmActionReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        operator fun get(context: Context, id: Long): PendingIntent {
+        operator fun get(context: Context, noteId: Long): PendingIntent {
             val intent = Intent(context, AlarmActionReceiver::class.java)
-                .putExtra(Note.Intent.ID, id)
+                .putExtra(Note.Intent.ID, noteId)
 
             val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
@@ -34,7 +34,7 @@ class AlarmActionReceiver : BroadcastReceiver() {
                 PendingIntent.FLAG_UPDATE_CURRENT
             }
 
-            return PendingIntent.getBroadcast(context, id.toInt(), intent, flags)
+            return PendingIntent.getBroadcast(context, noteId.toInt(), intent, flags)
         }
     }
 }

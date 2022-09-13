@@ -7,7 +7,7 @@ import java.util.Calendar
 import sgtmelon.extensions.toCalendarOrNull
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Eternal
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
@@ -88,7 +88,7 @@ class SystemReceiver : BroadcastReceiver() {
     }
 
     /**
-     * Interface for fast data pass to this class. ALso see [BroadcastControl].
+     * Interface for fast data pass to this class. ALso see [BroadcastDelegator].
      */
     interface Bridge {
 

@@ -4,16 +4,13 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import android.os.Build
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 
 /**
- * Receiver for handle click on unbind button in [BindControl].
+ * Receiver for catch user click on "unbind" button inside statusBar notification.
  */
 class UnbindActionReceiver : BroadcastReceiver() {
 
@@ -21,25 +18,25 @@ class UnbindActionReceiver : BroadcastReceiver() {
         if (context == null || intent == null) return
 
         val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
-
-        if (id == Note.Default.ID) return
-
-        GlobalScope.launch(Dispatchers.IO) {
-            val broadcastControl = BroadcastControl[context]
-
-            broadcastControl.sendCancelNoteBind(id)
-            broadcastControl.sendUnbindNoteUI(id)
+        if (id != Note.Default.ID) {
+            val broadcast = BroadcastDelegator(context)
+            broadcast.sendCancelNoteBind(id)
+            broadcast.sendUnbindNoteUi(id)
         }
     }
 
     companion object {
-        operator fun get(context: Context, noteItem: NoteItem): PendingIntent {
+        operator fun get(context: Context, item: NoteItem): PendingIntent {
             val intent = Intent(context, UnbindActionReceiver::class.java)
-                .putExtra(Note.Intent.ID, noteItem.id)
+                .putExtra(Note.Intent.ID, item.id)
 
-            return PendingIntent.getBroadcast(
-                context, noteItem.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
-            )
+            val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+
+            return PendingIntent.getBroadcast(context, item.id.toInt(), intent, flags)
         }
     }
 }

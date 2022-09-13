@@ -41,7 +41,7 @@ import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.extension.setFirstRunAnimation
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
@@ -77,7 +77,7 @@ class RollNoteFragment : ParentFragment(),
 
     @Inject internal lateinit var viewModel: IRollNoteViewModel
 
-    private val broadcastControl by lazy { BroadcastControl[context] }
+    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
 
     private var toolbarTintControl: IToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
@@ -145,7 +145,7 @@ class RollNoteFragment : ParentFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        broadcastControl.initLazy()
+        broadcastDelegator.initLazy()
 
         openState.get(savedInstanceState)
 
@@ -564,16 +564,16 @@ class RollNoteFragment : ParentFragment(),
     //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcastControl.sendSetAlarm(id, calendar, showToast)
+        broadcastDelegator.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun sendCancelAlarmBroadcast(id: Long) = broadcastControl.sendCancelAlarm(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = broadcastDelegator.sendCancelAlarm(id)
 
-    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
 
-    override fun sendCancelNoteBroadcast(id: Long) = broadcastControl.sendCancelNoteBind(id)
+    override fun sendCancelNoteBroadcast(id: Long) = broadcastDelegator.sendCancelNoteBind(id)
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
 
     //endregion
 

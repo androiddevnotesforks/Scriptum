@@ -7,7 +7,7 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.initLazy
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -44,7 +44,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     //endregion
 
-    private val broadcastControl by lazy { BroadcastControl[context] }
+    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
 
     //region System
 
@@ -59,7 +59,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        broadcastControl.initLazy()
+        broadcastDelegator.initLazy()
 
         openState.get(savedInstanceState)
     }
@@ -142,7 +142,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     //region Broadcast functions
 
-    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
 
     /**
      * Not used here.

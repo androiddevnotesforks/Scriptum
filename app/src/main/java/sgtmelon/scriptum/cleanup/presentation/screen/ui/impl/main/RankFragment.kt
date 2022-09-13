@@ -24,7 +24,7 @@ import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarCallback
 import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarControl
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
@@ -54,7 +54,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
 
     @Inject internal lateinit var viewModel: IRankViewModel
 
-    private val broadcastControl by lazy { BroadcastControl[context] }
+    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
 
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
@@ -122,7 +122,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        broadcastControl.initLazy()
+        broadcastDelegator.initLazy()
 
         /**
          * Inside [savedInstanceState] saved snackbar data.
@@ -404,7 +404,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
 
     //region Broadcast functions
 
-    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
 
     /**
      * Not used here.

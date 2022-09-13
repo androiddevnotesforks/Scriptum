@@ -12,12 +12,12 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * Class for control broadcast messaging
  */
-class BroadcastControl(private val context: Context?) : IBroadcastControl {
+class BroadcastDelegator(private val context: Context?) : IBroadcastControl {
 
     /**
      * Function for let UI know about note unbind (throw status bar notification).
      */
-    override fun sendUnbindNoteUI(id: Long) {
+    override fun sendUnbindNoteUi(id: Long) {
         context?.sendTo(Filter.MAIN, Command.UI.UNBIND_NOTE) {
             putExtra(IntentData.Note.Intent.ID, id)
         }
@@ -101,7 +101,7 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
         @RunPrivate var instance: IBroadcastControl? = null
 
         operator fun get(context: Context?): IBroadcastControl {
-            return instance ?: BroadcastControl(context).also { instance = it }
+            return instance ?: BroadcastDelegator(context).also { instance = it }
         }
     }
 

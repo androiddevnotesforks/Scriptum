@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -36,7 +36,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     private val notifyInfo by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_info)) }
     private val notifyAlarm by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_alarm)) }
 
-    private val broadcastControl by lazy { BroadcastControl[context] }
+    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
     private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
 
     private val receiver by lazy { DevelopScreenReceiver[viewModel] }
@@ -82,23 +82,23 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         }
 
         alarmClear?.setOnPreferenceClickListener {
-            broadcastControl.sendClearAlarm()
+            broadcastDelegator.sendClearAlarm()
             return@setOnPreferenceClickListener true
         }
         notificationClear?.setOnPreferenceClickListener {
-            broadcastControl.sendClearBind()
+            broadcastDelegator.sendClearBind()
             return@setOnPreferenceClickListener true
         }
         notifyNotes?.setOnPreferenceClickListener {
-            broadcastControl.sendNotifyNotesBind()
+            broadcastDelegator.sendNotifyNotesBind()
             return@setOnPreferenceClickListener true
         }
         notifyInfo?.setOnPreferenceClickListener {
-            broadcastControl.sendNotifyInfoBind(count = null)
+            broadcastDelegator.sendNotifyInfoBind(count = null)
             return@setOnPreferenceClickListener true
         }
         notifyAlarm?.setOnPreferenceClickListener {
-            broadcastControl.sendTidyUpAlarm()
+            broadcastDelegator.sendTidyUpAlarm()
             return@setOnPreferenceClickListener true
         }
     }
@@ -131,9 +131,9 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         refreshPreference?.summary = text
     }
 
-    override fun sendPingBroadcast() = broadcastControl.sendEternalPing()
+    override fun sendPingBroadcast() = broadcastDelegator.sendEternalPing()
 
-    override fun sendKillBroadcast() = broadcastControl.sendEternalKill()
+    override fun sendKillBroadcast() = broadcastDelegator.sendEternalKill()
 
     override fun runService() {
         val context = context?.applicationContext ?: return

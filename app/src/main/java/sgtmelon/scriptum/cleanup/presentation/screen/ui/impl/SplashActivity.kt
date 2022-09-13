@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
@@ -48,7 +48,7 @@ class SplashActivity : ParentActivity(),
 
     @Inject internal lateinit var viewModel: ISplashViewModel
 
-    private val broadcastControl by lazy { BroadcastControl[this] }
+    private val broadcastDelegator by lazy { BroadcastDelegator[this] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getSplashBuilder().set(activity = this).build()
@@ -144,16 +144,16 @@ class SplashActivity : ParentActivity(),
 
     //region Broadcast functions
 
-    override fun sendTidyUpAlarmBroadcast() = broadcastControl.sendTidyUpAlarm()
+    override fun sendTidyUpAlarmBroadcast() = broadcastDelegator.sendTidyUpAlarm()
 
-    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
 
     /**
      * Not used here.
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
 
     //endregion
 

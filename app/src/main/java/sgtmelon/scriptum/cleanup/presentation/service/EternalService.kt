@@ -13,7 +13,7 @@ import java.util.Calendar
 import sgtmelon.extensions.getCalendar
 import sgtmelon.scriptum.cleanup.extension.getAlarmService
 import sgtmelon.scriptum.cleanup.extension.initLazy
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
@@ -30,7 +30,7 @@ class EternalService : Service(),
 
     private val receiver by lazy { EternalReceiver[this] }
 
-    private val broadcastControl by lazy { BroadcastControl(context = this) }
+    private val broadcastDelegator by lazy { BroadcastDelegator(context = this) }
 
     //region System
 
@@ -56,7 +56,7 @@ class EternalService : Service(),
         systemLogic.onCreate(context = this)
         registerReceiver(receiver, IntentFilter(ReceiverData.Filter.ETERNAL))
 
-        broadcastControl.initLazy()
+        broadcastDelegator.initLazy()
     }
 
     override fun onDestroy() {
@@ -96,7 +96,7 @@ class EternalService : Service(),
 
     override fun killService() = stopSelf()
 
-    override fun sendEternalPongBroadcast() = broadcastControl.sendEternalPong()
+    override fun sendEternalPongBroadcast() = broadcastDelegator.sendEternalPong()
 
     companion object {
         /**

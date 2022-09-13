@@ -18,7 +18,7 @@ import sgtmelon.scriptum.cleanup.extension.getSettingsIntent
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
-import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -57,7 +57,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
     private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
 
-    private val broadcastControl by lazy { BroadcastControl[context] }
+    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
     private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
 
     //region System
@@ -73,7 +73,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        broadcastControl.initLazy()
+        broadcastDelegator.initLazy()
 
         openState.get(savedInstanceState)
     }
@@ -293,16 +293,16 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //region Broadcast functions
 
-    override fun sendTidyUpAlarmBroadcast() = broadcastControl.sendTidyUpAlarm()
+    override fun sendTidyUpAlarmBroadcast() = broadcastDelegator.sendTidyUpAlarm()
 
-    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
 
     /**
      * Not used here.
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
 
     //endregion
 

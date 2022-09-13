@@ -3,11 +3,11 @@ package sgtmelon.scriptum.cleanup.presentation.control.broadcast
 import java.util.Calendar
 
 /**
- * Interface for [BroadcastControl]
+ * Interface for [BroadcastDelegator]
  */
 interface IBroadcastControl {
 
-    fun sendUnbindNoteUI(id: Long)
+    fun sendUnbindNoteUi(id: Long)
 
     fun sendUpdateAlarmUI(id: Long)
 
