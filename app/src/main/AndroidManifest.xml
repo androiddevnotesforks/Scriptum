@@ -105,11 +105,11 @@
         <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.EternalReceiver" />
 
         <receiver
-            android:name="sgtmelon.scriptum.cleanup.presentation.receiver.BootReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:name="sgtmelon.scriptum.infrastructure.receiver.system.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
 
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>

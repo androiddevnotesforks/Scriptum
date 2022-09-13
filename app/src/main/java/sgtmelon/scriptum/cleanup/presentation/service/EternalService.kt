@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
 import java.util.Calendar
 import sgtmelon.extensions.getCalendar
 import sgtmelon.scriptum.cleanup.extension.getAlarmService
@@ -99,17 +100,13 @@ class EternalService : Service(),
 
     companion object {
         /**
-         * Start this foreground service only on API which has channel notifications
-         * (for disable it in settings). It means API >= Oreo (26).
+         * Start this foreground service only on API which has channel notifications (for
+         * ability to disable it in settings). It means: API >= Oreo (26).
          */
+        @RequiresApi(Build.VERSION_CODES.O)
         fun start(context: Context) {
             val intent = Intent(context, EternalService::class.java)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(intent)
-            } else {
-                context.startService(intent)
-            }
+            context.startForegroundService(intent)
         }
     }
 }

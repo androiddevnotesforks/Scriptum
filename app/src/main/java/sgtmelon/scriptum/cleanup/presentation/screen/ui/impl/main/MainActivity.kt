@@ -33,7 +33,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
-import sgtmelon.scriptum.infrastructure.screen.GradientFabDelegator
+import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
 
 /**

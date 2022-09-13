@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.receiver
+package sgtmelon.scriptum.infrastructure.receiver.system
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,19 +7,15 @@ import android.os.Build
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
 
 /**
- * Receiver which look for device boot.
+ * Receiver, which will looking for a device boot.
  */
 class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        /**
-         * Skip [EternalService.start] on low API.
-         */
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        if (context == null || intent?.action != Intent.ACTION_BOOT_COMPLETED) return
 
-        if (context == null || intent == null) return
-
-        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
+        /** Skip [EternalService.start] on low API (explanation behind the link). */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             EternalService.start(context)
         }
     }

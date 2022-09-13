@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen
+package sgtmelon.scriptum.infrastructure.widgets.delegators
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -16,6 +16,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getScaleXAnimator
 import sgtmelon.scriptum.cleanup.extension.getScaleYAnimator
+import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
 
 internal class GradientFabDelegator(
     private val activity: AppCompatActivity,
