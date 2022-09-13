@@ -36,9 +36,8 @@ import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.PowerControl
+import sgtmelon.scriptum.cleanup.presentation.control.system.PhoneAwakeDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IPowerControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
@@ -71,11 +70,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     /**
      * [initLazy] not require because activity configChanges under control.
      */
+    private val phoneAwake by lazy { PhoneAwakeDelegator(context = this) }
+    private val finishTimer = DelayJobDelegator(lifecycle)
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val vibrator by lazy { VibratorDelegator(context = this) }
-    private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
     private val broadcast by lazy { BroadcastDelegator(context = this) }
-    private val finishTimer = DelayJobDelegator(lifecycle)
 
     private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
 
@@ -135,7 +134,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun onPause() {
         super.onPause()
-        if (!powerControl.isScreenOn) finish()
+
+        if (!phoneAwake.isAwake) {
+            finish()
+        }
     }
 
     override fun onStop() {
@@ -174,11 +176,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun setNavigationDividerColor(theme: ThemeDisplayed) {
         window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
     }
-
-
-    override fun acquirePhone(timeout: Long) = powerControl.acquire(timeout)
-
-    override fun releasePhone() = powerControl.release()
 
 
     override fun setupView() {
@@ -290,6 +287,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun openNoteScreen(item: NoteItem) = startActivity(NoteActivity[this, item])
 
+
+    override fun wakePhone(timeout: Long) = phoneAwake.wakeUp(timeout)
+
+    override fun releasePhone() = phoneAwake.release()
 
     override fun startFinishTimer(time: Long) {
         finishTimer.run(time) { viewModel.finishWithRepeat() }

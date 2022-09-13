@@ -14,17 +14,6 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
     SystemReceiver.Bridge.Bind {
 
-    /**
-     * Awake phone if it sleeps
-     */
-    fun acquirePhone(timeout: Long)
-
-    /**
-     * Comeback phone to sleep if it need
-     */
-    fun releasePhone()
-
-
     fun setupView()
 
     fun setupInsets()
@@ -42,6 +31,10 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
 
     fun openNoteScreen(item: NoteItem)
 
+
+    fun wakePhone(timeout: Long)
+
+    fun releasePhone()
 
     fun startFinishTimer(time: Long)
 

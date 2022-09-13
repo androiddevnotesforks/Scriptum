@@ -132,7 +132,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
-                acquirePhone(AlarmViewModel.FINISH_TIME)
+                wakePhone(AlarmViewModel.FINISH_TIME)
                 setupView()
                 setupInsets()
 
@@ -179,7 +179,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 if (!it.isDivideEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
 
                 callback.apply {
-                    acquirePhone(AlarmViewModel.FINISH_TIME)
+                    wakePhone(AlarmViewModel.FINISH_TIME)
                     setupView()
                     setupInsets()
 
@@ -224,7 +224,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
-                acquirePhone(AlarmViewModel.FINISH_TIME)
+                wakePhone(AlarmViewModel.FINISH_TIME)
                 setupView()
                 setupInsets()
 
@@ -240,7 +240,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
 
             callback.apply {
-                acquirePhone(AlarmViewModel.FINISH_TIME)
+                wakePhone(AlarmViewModel.FINISH_TIME)
                 setupView()
                 setupInsets()
 

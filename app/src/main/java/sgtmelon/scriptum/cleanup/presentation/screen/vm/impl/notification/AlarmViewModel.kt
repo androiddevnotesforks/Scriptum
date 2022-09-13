@@ -46,7 +46,7 @@ class AlarmViewModel(
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
 
         callback?.apply {
-            acquirePhone(FINISH_TIME)
+            wakePhone(FINISH_TIME)
             setupView()
             setupInsets()
         }
