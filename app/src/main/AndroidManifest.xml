@@ -102,10 +102,10 @@
         <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver" />
         <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver" />
 
-        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.EternalReceiver" />
+        <receiver android:name=".infrastructure.receiver.service.EternalReceiver" />
 
         <receiver
-            android:name="sgtmelon.scriptum.infrastructure.receiver.system.BootReceiver"
+            android:name=".infrastructure.receiver.system.BootReceiver"
             android:enabled="true"
             android:exported="false">
 

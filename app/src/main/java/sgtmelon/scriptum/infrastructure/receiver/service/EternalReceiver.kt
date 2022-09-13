@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.receiver
+package sgtmelon.scriptum.infrastructure.receiver.service
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
 /**
  * Receiver for [EternalService] commands.
  */
-class EternalReceiver : BroadcastReceiver() {
+class EternalReceiver() : BroadcastReceiver() {
 
     private var callback: Callback? = null
 
@@ -23,16 +23,11 @@ class EternalReceiver : BroadcastReceiver() {
         }
     }
 
-    /**
-     * Callback which will call after getting [Intent] inside [onReceive].
-     */
+    /** Callback, which will be called after getting an [Intent] inside [onReceive] function. */
     interface Callback {
-
         fun killService()
-
         fun sendEternalPongBroadcast()
     }
-
 
     companion object {
         operator fun get(callback: Callback): EternalReceiver {

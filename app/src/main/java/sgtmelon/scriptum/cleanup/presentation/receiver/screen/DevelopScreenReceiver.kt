@@ -21,9 +21,7 @@ class DevelopScreenReceiver : BroadcastReceiver() {
         }
     }
 
-    /**
-     * Callback which will call after getting [Intent] inside [onReceive].
-     */
+    /** Callback, which will be called after getting an [Intent] inside [onReceive] function. */
     interface Callback {
         fun onReceiveEternalServicePong()
     }
