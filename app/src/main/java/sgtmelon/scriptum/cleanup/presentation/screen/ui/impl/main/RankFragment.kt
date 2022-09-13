@@ -54,7 +54,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
 
     @Inject internal lateinit var viewModel: IRankViewModel
 
-    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
+    private val broadcast by lazy { BroadcastDelegator(context) }
 
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
@@ -122,7 +122,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        broadcastDelegator.initLazy()
+        broadcast.initLazy()
 
         /**
          * Inside [savedInstanceState] saved snackbar data.
@@ -404,7 +404,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
 
     //region Broadcast functions
 
-    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
 
     /**
      * Not used here.

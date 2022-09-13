@@ -44,7 +44,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     //endregion
 
-    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
+    private val broadcast by lazy { BroadcastDelegator(context) }
 
     //region System
 
@@ -59,7 +59,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        broadcastDelegator.initLazy()
+        broadcast.initLazy()
 
         openState.get(savedInstanceState)
     }
@@ -142,7 +142,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     //region Broadcast functions
 
-    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
 
     /**
      * Not used here.

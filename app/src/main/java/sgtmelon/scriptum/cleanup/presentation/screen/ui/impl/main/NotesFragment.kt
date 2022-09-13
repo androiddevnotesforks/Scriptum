@@ -55,7 +55,7 @@ class NotesFragment : ParentFragment(),
 
     @Inject internal lateinit var viewModel: INotesViewModel
 
-    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
+    private val broadcast by lazy { BroadcastDelegator(context) }
     private val clipboardControl by lazy { ClipboardControl[context, toastControl] }
 
     private val openState get() = callback?.openState
@@ -105,7 +105,7 @@ class NotesFragment : ParentFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        broadcastDelegator.initLazy()
+        broadcast.initLazy()
         clipboardControl.initLazy()
 
         viewModel.onSetup()
@@ -312,16 +312,16 @@ class NotesFragment : ParentFragment(),
     //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcastDelegator.sendSetAlarm(id, calendar, showToast)
+        broadcast.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun sendCancelAlarmBroadcast(id: Long) = broadcastDelegator.sendCancelAlarm(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = broadcast.sendCancelAlarm(id)
 
-    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
 
-    override fun sendCancelNoteBroadcast(id: Long) = broadcastDelegator.sendCancelNoteBind(id)
+    override fun sendCancelNoteBroadcast(id: Long) = broadcast.sendCancelNoteBind(id)
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
 
     //endregion
 

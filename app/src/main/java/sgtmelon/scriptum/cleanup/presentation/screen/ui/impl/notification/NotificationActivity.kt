@@ -51,7 +51,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
 
     @Inject internal lateinit var viewModel: INotificationViewModel
 
-    private val broadcastDelegator by lazy { BroadcastDelegator[this] }
+    private val broadcast by lazy { BroadcastDelegator(context = this) }
 
     private val openState = OpenState()
 
@@ -89,7 +89,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         super.onCreate(savedInstanceState)
         binding = inflateBinding(R.layout.activity_notification)
 
-        broadcastDelegator.initLazy()
+        broadcast.initLazy()
 
         openState.get(savedInstanceState)
 
@@ -290,10 +290,10 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcastDelegator.sendSetAlarm(id, calendar, showToast)
+        broadcast.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun sendCancelAlarmBroadcast(id: Long) = broadcastDelegator.sendCancelAlarm(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = broadcast.sendCancelAlarm(id)
 
     /**
      * Not used here.
@@ -305,7 +305,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
 
     //endregion
 

@@ -57,7 +57,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
     private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
 
-    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
+    private val broadcast by lazy { BroadcastDelegator(context) }
     private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
 
     //region System
@@ -73,7 +73,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        broadcastDelegator.initLazy()
+        broadcast.initLazy()
 
         openState.get(savedInstanceState)
     }
@@ -293,16 +293,16 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //region Broadcast functions
 
-    override fun sendTidyUpAlarmBroadcast() = broadcastDelegator.sendTidyUpAlarm()
+    override fun sendTidyUpAlarmBroadcast() = broadcast.sendTidyUpAlarm()
 
-    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
 
     /**
      * Not used here.
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
 
     //endregion
 

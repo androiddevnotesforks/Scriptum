@@ -28,7 +28,7 @@ fun Context.geDisplayedTheme(): ThemeDisplayed? {
     }
 }
 
-fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {}) {
+inline fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {}) {
     sendBroadcast(Intent(place).apply {
         putExtra(ReceiverData.Values.COMMAND, command)
         putExtras(Intent().apply(extras))

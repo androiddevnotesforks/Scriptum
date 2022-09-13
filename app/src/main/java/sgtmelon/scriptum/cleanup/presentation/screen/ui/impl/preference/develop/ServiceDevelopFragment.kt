@@ -36,7 +36,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     private val notifyInfo by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_info)) }
     private val notifyAlarm by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_alarm)) }
 
-    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
+    private val broadcast by lazy { BroadcastDelegator(context) }
     private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
 
     private val receiver by lazy { DevelopScreenReceiver[viewModel] }
@@ -82,23 +82,23 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         }
 
         alarmClear?.setOnPreferenceClickListener {
-            broadcastDelegator.sendClearAlarm()
+            broadcast.sendClearAlarm()
             return@setOnPreferenceClickListener true
         }
         notificationClear?.setOnPreferenceClickListener {
-            broadcastDelegator.sendClearBind()
+            broadcast.sendClearBind()
             return@setOnPreferenceClickListener true
         }
         notifyNotes?.setOnPreferenceClickListener {
-            broadcastDelegator.sendNotifyNotesBind()
+            broadcast.sendNotifyNotesBind()
             return@setOnPreferenceClickListener true
         }
         notifyInfo?.setOnPreferenceClickListener {
-            broadcastDelegator.sendNotifyInfoBind(count = null)
+            broadcast.sendNotifyInfoBind(count = null)
             return@setOnPreferenceClickListener true
         }
         notifyAlarm?.setOnPreferenceClickListener {
-            broadcastDelegator.sendTidyUpAlarm()
+            broadcast.sendTidyUpAlarm()
             return@setOnPreferenceClickListener true
         }
     }
@@ -131,9 +131,9 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         refreshPreference?.summary = text
     }
 
-    override fun sendPingBroadcast() = broadcastDelegator.sendEternalPing()
+    override fun sendPingBroadcast() = broadcast.sendEternalPing()
 
-    override fun sendKillBroadcast() = broadcastDelegator.sendEternalKill()
+    override fun sendKillBroadcast() = broadcast.sendEternalKill()
 
     override fun runService() {
         val context = context?.applicationContext ?: return

@@ -48,7 +48,7 @@ class SplashActivity : ParentActivity(),
 
     @Inject internal lateinit var viewModel: ISplashViewModel
 
-    private val broadcastDelegator by lazy { BroadcastDelegator[this] }
+    private val broadcast by lazy { BroadcastDelegator(context = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getSplashBuilder().set(activity = this).build()
@@ -144,16 +144,16 @@ class SplashActivity : ParentActivity(),
 
     //region Broadcast functions
 
-    override fun sendTidyUpAlarmBroadcast() = broadcastDelegator.sendTidyUpAlarm()
+    override fun sendTidyUpAlarmBroadcast() = broadcast.sendTidyUpAlarm()
 
-    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
 
     /**
      * Not used here.
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
 
     //endregion
 

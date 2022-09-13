@@ -78,7 +78,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val vibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
-    private val broadcastDelegator by lazy { BroadcastDelegator[this] }
+    private val broadcast by lazy { BroadcastDelegator(context = this) }
 
     private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
 
@@ -328,10 +328,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     //region Broadcast functions
 
-    override fun sendUpdateBroadcast(id: Long) = broadcastDelegator.sendUpdateAlarmUI(id)
+    override fun sendUpdateBroadcast(id: Long) = broadcast.sendUpdateAlarmUi(id)
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcastDelegator.sendSetAlarm(id, calendar, showToast)
+        broadcast.sendSetAlarm(id, calendar, showToast)
     }
 
     /**
@@ -349,7 +349,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
 
     //endregion
 

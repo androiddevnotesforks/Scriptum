@@ -30,7 +30,7 @@ class EternalService : Service(),
 
     private val receiver by lazy { EternalReceiver[this] }
 
-    private val broadcastDelegator by lazy { BroadcastDelegator(context = this) }
+    private val broadcast by lazy { BroadcastDelegator(context = this) }
 
     //region System
 
@@ -56,7 +56,7 @@ class EternalService : Service(),
         systemLogic.onCreate(context = this)
         registerReceiver(receiver, IntentFilter(ReceiverData.Filter.ETERNAL))
 
-        broadcastDelegator.initLazy()
+        broadcast.initLazy()
     }
 
     override fun onDestroy() {
@@ -96,7 +96,7 @@ class EternalService : Service(),
 
     override fun killService() = stopSelf()
 
-    override fun sendEternalPongBroadcast() = broadcastDelegator.sendEternalPong()
+    override fun sendEternalPongBroadcast() = broadcast.sendEternalPong()
 
     companion object {
         /**

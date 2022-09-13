@@ -77,7 +77,7 @@ class RollNoteFragment : ParentFragment(),
 
     @Inject internal lateinit var viewModel: IRollNoteViewModel
 
-    private val broadcastDelegator by lazy { BroadcastDelegator[context] }
+    private val broadcast by lazy { BroadcastDelegator(context) }
 
     private var toolbarTintControl: IToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
@@ -145,7 +145,7 @@ class RollNoteFragment : ParentFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        broadcastDelegator.initLazy()
+        broadcast.initLazy()
 
         openState.get(savedInstanceState)
 
@@ -564,16 +564,16 @@ class RollNoteFragment : ParentFragment(),
     //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcastDelegator.sendSetAlarm(id, calendar, showToast)
+        broadcast.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun sendCancelAlarmBroadcast(id: Long) = broadcastDelegator.sendCancelAlarm(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = broadcast.sendCancelAlarm(id)
 
-    override fun sendNotifyNotesBroadcast() = broadcastDelegator.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
 
-    override fun sendCancelNoteBroadcast(id: Long) = broadcastDelegator.sendCancelNoteBind(id)
+    override fun sendCancelNoteBroadcast(id: Long) = broadcast.sendCancelNoteBind(id)
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastDelegator.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
 
     //endregion
 
