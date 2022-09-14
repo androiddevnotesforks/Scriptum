@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.system
+package sgtmelon.scriptum.infrastructure.system.delegators.melody
 
 import android.content.Context
 import android.media.AudioAttributes
@@ -13,7 +13,6 @@ import androidx.lifecycle.LifecycleOwner
 import sgtmelon.extensions.getAudioService
 import sgtmelon.extensions.getPercent
 import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
-import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayParams
 
 /**
  * Class, which delegates work of [MediaPlayer] and [AudioManager].
