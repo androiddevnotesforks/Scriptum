@@ -12,9 +12,9 @@ import android.os.Handler
 import sgtmelon.extensions.getAudioService
 
 /**
- * Class, which delegates work of [MediaPlayer] and [AudioManager]
+ * Class, which delegates work of [MediaPlayer] and [AudioManager].
  */
-class MelodyControl(private val context: Context?) : AudioManager.OnAudioFocusChangeListener {
+class MelodyPlayDelegator(private val context: Context?) : AudioManager.OnAudioFocusChangeListener {
 
     private val audioManager = context?.getAudioService()
 

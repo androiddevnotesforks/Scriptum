@@ -35,7 +35,7 @@ import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
+import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyPlayDelegator
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
@@ -71,7 +71,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      */
     private val phoneAwake by lazy { PhoneAwakeDelegator(context = this) }
     private val finishTimer = DelayJobDelegator(lifecycle)
-    private val melodyControl by lazy { MelodyControl(context = this) }
+    private val melodyPlay by lazy { MelodyPlayDelegator(context = this) }
     private val vibrator by lazy { VibratorDelegator(context = this) }
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
@@ -153,7 +153,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         viewModel.onDestroy()
         rippleContainer?.stopAnimation()
 
-        melodyControl.release()
+        melodyPlay.release()
 
         unregisterReceiver(noteReceiver)
     }
@@ -217,7 +217,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun setupPlayer(stringUri: String, volume: Int, increase: Boolean){
         val uri = stringUri.toUriOrNull() ?: return
 
-        with(melodyControl) {
+        with(melodyPlay) {
             setupVolume(volume, increase)
             setupPlayer(uri, isLooping = true)
         }
@@ -295,9 +295,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         finishTimer.run(time) { viewModel.finishWithRepeat() }
     }
 
-    override fun startMelody() = melodyControl.start()
+    override fun startMelody() = melodyPlay.start()
 
-    override fun stopMelody() = melodyControl.stop()
+    override fun stopMelody() = melodyPlay.stop()
 
     override fun startVibrator() = vibrator.startRepeat()
 

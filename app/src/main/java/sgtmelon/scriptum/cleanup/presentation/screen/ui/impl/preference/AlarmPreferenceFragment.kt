@@ -17,7 +17,7 @@ import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.extension.toUriOrNull
-import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
+import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyPlayDelegator
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -63,7 +63,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    private val melodyControl by lazy { MelodyControl(context) }
+    private val melodyPlay by lazy { MelodyPlayDelegator(context) }
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
     //region System
@@ -79,7 +79,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        melodyControl.initLazy()
+        melodyPlay.initLazy()
 
         openState.get(savedInstanceState)
     }
@@ -104,7 +104,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         super.onDestroy()
 
         viewModel.onDestroy()
-        melodyControl.release()
+        melodyPlay.release()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -182,7 +182,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
                 }
             }
             onDismiss {
-                melodyControl.stop()
+                melodyPlay.stop()
                 openState.clear()
             }
         }
@@ -259,7 +259,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     override fun playMelody(stringUri: String) {
         val uri = stringUri.toUriOrNull() ?: return
 
-        with(melodyControl) {
+        with(melodyPlay) {
             stop()
             setupPlayer(uri, isLooping = false)
             start()
