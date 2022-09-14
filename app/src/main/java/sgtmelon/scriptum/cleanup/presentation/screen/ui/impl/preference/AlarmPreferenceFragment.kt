@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.Manifest
 import android.content.DialogInterface
+import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
@@ -63,7 +64,9 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    private val melodyPlay by lazy { MelodyPlayDelegator(context) }
+    private val melodyPlay by lazy {
+        MelodyPlayDelegator(context, lifecycle, AudioManager.STREAM_MUSIC)
+    }
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
     //region System
@@ -104,7 +107,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         super.onDestroy()
 
         viewModel.onDestroy()
-        melodyPlay.release()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -261,7 +263,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
         with(melodyPlay) {
             stop()
-            setupPlayer(uri, isLooping = false)
+            setupPlayer(context, uri, isLooping = false)
             start()
         }
     }

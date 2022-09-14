@@ -74,9 +74,9 @@ class PreferencesImpl(
         get() = preferences.getString(key.melodyUri, def.melodyUri) ?: def.melodyUri
         set(value) = edit { putString(key.melodyUri, value) }
 
-    override var volume: Int
-        get() = preferences.getInt(key.volume, def.volume)
-        set(value) = edit { putInt(key.volume, value) }
+    override var volumePercent: Int
+        get() = preferences.getInt(key.volumePercent, def.volumePercent)
+        set(value) = edit { putInt(key.volumePercent, value) }
 
     /**
      * Change of this variable happen inside preference.xml screen (or inside UI tests).

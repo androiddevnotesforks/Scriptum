@@ -168,14 +168,14 @@ class PreferencesDataSourceImplTest : ParentTest() {
 
     @Test fun getVolume() = getTest(
         Random.nextInt(),
-        { preferences.volume },
-        { dataSource.volume }
+        { preferences.volumePercent },
+        { dataSource.volumePercent }
     )
 
     @Test fun setVolume() = setTest(
         Random.nextInt(),
-        { preferences.volume = it },
-        { dataSource.volume = it }
+        { preferences.volumePercent = it },
+        { dataSource.volumePercent = it }
     )
 
     @Test fun isVolumeIncrease() = getTest(

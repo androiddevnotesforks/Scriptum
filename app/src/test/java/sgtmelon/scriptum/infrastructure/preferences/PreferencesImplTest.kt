@@ -288,15 +288,15 @@ class PreferencesImplTest : ParentTest() {
 
     @Test fun getVolume() = getTest(
         Pair(Random.nextInt(), Random.nextInt()),
-        { keyProvider.volume },
-        { defProvider.volume },
-        { preferences.volume }
+        { keyProvider.volumePercent },
+        { defProvider.volumePercent },
+        { preferences.volumePercent }
     )
 
     @Test fun setVolume() = setTest(
         Random.nextInt(),
-        { keyProvider.volume },
-        { preferences.volume = it }
+        { keyProvider.volumePercent },
+        { preferences.volumePercent = it }
     )
 
     @Test fun isVolumeIncrease() = getTest(

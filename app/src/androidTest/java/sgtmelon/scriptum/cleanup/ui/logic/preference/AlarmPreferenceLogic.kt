@@ -46,7 +46,7 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
         list.add(Summary.Text(R.string.pref_title_alarm_melody, melodyItem.title, isMelody))
         list.add(Summary.Text(
             R.string.pref_title_alarm_volume,
-            provider.getVolume(preferencesRepo.volume),
+            provider.getVolume(preferencesRepo.volumePercent),
             isMelody
         ))
         list.add(Switch(

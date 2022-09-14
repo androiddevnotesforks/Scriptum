@@ -188,9 +188,9 @@ class DevelopRepoImplTest : ParentRepoTest() {
         every { def.melodyUri } returns melodyUri.second
         every { preferences.melodyUri } returns melodyUri.third
 
-        every { key.volume } returns volume.first
-        every { def.volume } returns volume.second
-        every { preferences.volume } returns volume.third
+        every { key.volumePercent } returns volume.first
+        every { def.volumePercent } returns volume.second
+        every { preferences.volumePercent } returns volume.third
 
         every { key.isVolumeIncrease } returns volumeIncrease.first
         every { def.isVolumeIncrease } returns volumeIncrease.second
@@ -264,9 +264,9 @@ class DevelopRepoImplTest : ParentRepoTest() {
             key.melodyUri
             def.melodyUri
             preferences.melodyUri
-            key.volume
-            def.volume
-            preferences.volume
+            key.volumePercent
+            def.volumePercent
+            preferences.volumePercent
             key.isVolumeIncrease
             def.isVolumeIncrease
             preferences.isVolumeIncrease

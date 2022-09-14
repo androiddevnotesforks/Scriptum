@@ -45,7 +45,7 @@ interface PreferencesRepo {
 
     suspend fun getMelodyCheck(melodyList: List<MelodyItem>): Int?
 
-    var volume: Int
+    var volumePercent: Int
 
     val isVolumeIncrease: Boolean
 

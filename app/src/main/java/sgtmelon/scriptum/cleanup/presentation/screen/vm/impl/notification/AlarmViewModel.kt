@@ -55,9 +55,9 @@ class AlarmViewModel(
             val melodyUri = runBack { preferencesRepo.getMelodyUri(getMelodyList()) }
 
             if (melodyUri != null) {
-                val volume = preferencesRepo.volume
+                val volumePercent = preferencesRepo.volumePercent
                 val isVolumeIncrease = preferencesRepo.isVolumeIncrease
-                callback?.setupPlayer(melodyUri, volume, isVolumeIncrease)
+                callback?.setupPlayer(melodyUri, volumePercent, isVolumeIncrease)
             }
 
             /** If first open. */
@@ -120,7 +120,7 @@ class AlarmViewModel(
             startButtonFadeInAnimation()
 
             if (signalState.isMelody) {
-                startMelody()
+                startMelody(preferencesRepo.isVolumeIncrease)
             }
 
             if (signalState.isVibration) {

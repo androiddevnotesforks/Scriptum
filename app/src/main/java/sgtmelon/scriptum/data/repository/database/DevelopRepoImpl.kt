@@ -68,7 +68,11 @@ class DevelopRepoImpl(
             PrintItem.Preference.Key(key.repeat, def.repeat, preferences.repeat),
             PrintItem.Preference.Key(key.signal, def.signal, preferences.signal),
             PrintItem.Preference.Key(key.melodyUri, def.melodyUri, preferences.melodyUri),
-            PrintItem.Preference.Key(key.volume, def.volume, preferences.volume),
+            PrintItem.Preference.Key(
+                key.volumePercent,
+                def.volumePercent,
+                preferences.volumePercent
+            ),
             PrintItem.Preference.Key(
                 key.isVolumeIncrease, def.isVolumeIncrease, preferences.isVolumeIncrease
             ),

@@ -375,33 +375,33 @@ class PreferencesRepoImplTest : ParentTest() {
 
     @Test fun getVolume() = getTest(
         Random.nextInt(),
-        { dataSource.volume },
-        { repo.volume }
+        { dataSource.volumePercent },
+        { repo.volumePercent }
     )
 
     @Test fun setVolume() = setTest(
         (10..100).random(),
-        { dataSource.volume = it },
-        { repo.volume = it }
+        { dataSource.volumePercent = it },
+        { repo.volumePercent = it }
     )
 
     @Test fun `setVolume min value`() {
         val value = (-100..9).random()
 
-        repo.volume = value
+        repo.volumePercent = value
 
         verifySequence {
-            dataSource.volume = 10
+            dataSource.volumePercent = 10
         }
     }
 
     @Test fun `setVolume max value`() {
         val value = (101..1000).random()
 
-        repo.volume = value
+        repo.volumePercent = value
 
         verifySequence {
-            dataSource.volume = 100
+            dataSource.volumePercent = 100
         }
     }
 

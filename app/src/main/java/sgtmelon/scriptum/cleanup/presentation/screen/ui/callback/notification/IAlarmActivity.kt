@@ -18,7 +18,7 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
 
     fun setupInsets()
 
-    fun setupPlayer(stringUri: String, volume: Int, increase: Boolean)
+    fun setupPlayer(stringUri: String, volumePercent: Int, isIncrease: Boolean)
 
     fun prepareLogoAnimation()
 
@@ -38,7 +38,7 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
 
     fun startFinishTimer(time: Long)
 
-    fun startMelody()
+    fun startMelody(isIncrease: Boolean)
 
     fun stopMelody()
 

@@ -41,7 +41,7 @@ interface Preferences {
 
     var melodyUri: String
 
-    var volume: Int
+    var volumePercent: Int
 
     /**
      * Change of this variable happen inside preference.xml screen (or inside UI tests).

@@ -69,10 +69,10 @@ class PreferencesDataSourceImpl(
             preferences.melodyUri = value
         }
 
-    override var volume: Int
-        get() = preferences.volume
+    override var volumePercent: Int
+        get() = preferences.volumePercent
         set(value) {
-            preferences.volume = value
+            preferences.volumePercent = value
         }
 
     override val isVolumeIncrease: Boolean get() = preferences.isVolumeIncrease

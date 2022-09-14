@@ -68,7 +68,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         assertEquals(repeat, providerKey.repeat)
         assertEquals(signal, providerKey.signal)
         assertEquals(melodyUri, providerKey.melodyUri)
-        assertEquals(volume, providerKey.volume)
+        assertEquals(volume, providerKey.volumePercent)
         assertEquals(isVolumeIncrease, providerKey.isVolumeIncrease)
         assertEquals(isDeveloper, providerKey.isDeveloper)
 

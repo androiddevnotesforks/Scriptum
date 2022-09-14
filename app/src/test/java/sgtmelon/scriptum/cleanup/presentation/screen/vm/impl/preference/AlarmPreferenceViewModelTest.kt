@@ -390,12 +390,12 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onClickVolume() {
         val value = Random.nextInt()
 
-        every { preferencesRepo.volume } returns value
+        every { preferencesRepo.volumePercent } returns value
 
         viewModel.onClickVolume()
 
         verifySequence {
-            preferencesRepo.volume
+            preferencesRepo.volumePercent
             callback.showVolumeDialog(value)
         }
     }

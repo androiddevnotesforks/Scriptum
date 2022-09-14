@@ -163,7 +163,7 @@ class AlarmPreferenceViewModel(
     }
 
     override fun onClickVolume() {
-        callback?.showVolumeDialog(preferencesRepo.volume)
+        callback?.showVolumeDialog(preferencesRepo.volumePercent)
     }
 
     override fun onResultVolume(@IntRange(from = 10, to = 100) value: Int) {

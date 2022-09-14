@@ -69,7 +69,7 @@ class PreferencesDefProviderTest : ParentTest() {
         assertEquals(repeat, providerDef.repeat)
         assertEquals(signal, providerDef.signal)
         assertEquals(melodyUri, providerDef.melodyUri)
-        assertEquals(volume, providerDef.volume)
+        assertEquals(volume, providerDef.volumePercent)
         assertEquals(isVolumeIncrease, providerDef.isVolumeIncrease)
         assertEquals(isDeveloper, providerDef.isDeveloper)
 

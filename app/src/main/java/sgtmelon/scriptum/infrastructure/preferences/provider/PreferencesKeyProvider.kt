@@ -23,7 +23,7 @@ class PreferencesKeyProvider(resources: Resources) {
     val repeat: String = resources.getString(R.string.pref_key_alarm_repeat)
     val signal: String = resources.getString(R.string.pref_key_alarm_signal)
     val melodyUri: String = resources.getString(R.string.pref_key_alarm_melody)
-    val volume: String = resources.getString(R.string.pref_key_alarm_volume)
+    val volumePercent: String = resources.getString(R.string.pref_key_alarm_volume)
     val isVolumeIncrease: String = resources.getString(R.string.pref_key_alarm_increase)
 
     val isDeveloper: String = resources.getString(R.string.pref_key_other_develop)

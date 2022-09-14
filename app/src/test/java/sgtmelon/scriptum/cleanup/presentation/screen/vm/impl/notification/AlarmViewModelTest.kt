@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
 
 import android.os.Bundle
-import io.mockk.MockKVerificationScope
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
@@ -116,13 +115,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         val melodyList = mockk<List<MelodyItem>>()
         val uri = nextString()
-        val volume = Random.nextInt()
+        val volumePercent = Random.nextInt()
         val isVolumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { getMelodyList() } returns melodyList
         coEvery { preferencesRepo.getMelodyUri(melodyList) } returns uri
-        every { preferencesRepo.volume } returns volume
+        every { preferencesRepo.volumePercent } returns volumePercent
         every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
         coEvery { deleteNotification(id) } returns Unit
         coEvery { noteRepo.getItem(id, isOptimal = true) } returns noteItem
@@ -138,9 +137,9 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                 getMelodyList()
                 preferencesRepo.getMelodyUri(melodyList)
-                preferencesRepo.volume
+                preferencesRepo.volumePercent
                 preferencesRepo.isVolumeIncrease
-                setupPlayer(uri, volume, isVolumeIncrease)
+                setupPlayer(uri, volumePercent, isVolumeIncrease)
             }
 
             deleteNotification(id)
@@ -158,13 +157,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         val melodyList = mockk<List<MelodyItem>>()
         val uri = nextString()
-        val volume = Random.nextInt()
+        val volumePercent = Random.nextInt()
         val isVolumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { getMelodyList() } returns melodyList
         coEvery { preferencesRepo.getMelodyUri(melodyList) } returns uri
-        every { preferencesRepo.volume } returns volume
+        every { preferencesRepo.volumePercent } returns volumePercent
         every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
         coEvery { deleteNotification(any<Long>()) } returns Unit
         coEvery { noteRepo.getItem(any(), isOptimal = true) } returns null
@@ -185,9 +184,9 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                     getMelodyList()
                     preferencesRepo.getMelodyUri(melodyList)
-                    preferencesRepo.volume
+                    preferencesRepo.volumePercent
                     preferencesRepo.isVolumeIncrease
-                    setupPlayer(uri, volume, isVolumeIncrease)
+                    setupPlayer(uri, volumePercent, isVolumeIncrease)
                 }
 
                 if (it.isDivideEntirely()) {
@@ -208,13 +207,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         val melodyList = mockk<List<MelodyItem>>()
         val uri = nextString()
-        val volume = Random.nextInt()
+        val volumePercent = Random.nextInt()
         val isVolumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { getMelodyList() } returns melodyList
         coEvery { preferencesRepo.getMelodyUri(melodyList) } returns uri
-        every { preferencesRepo.volume } returns volume
+        every { preferencesRepo.volumePercent } returns volumePercent
         every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
 
         viewModel.noteItem = noteItem
@@ -231,9 +230,9 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 getMelodyList()
                 preferencesRepo.getMelodyUri(melodyList)
 
-                preferencesRepo.volume
+                preferencesRepo.volumePercent
                 preferencesRepo.isVolumeIncrease
-                setupPlayer(uri, volume, isVolumeIncrease)
+                setupPlayer(uri, volumePercent, isVolumeIncrease)
 
                 prepareLogoAnimation()
                 notifyList(noteItem)
@@ -246,9 +245,9 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                 getMelodyList()
                 preferencesRepo.getMelodyUri(melodyList)
-                preferencesRepo.volume
+                preferencesRepo.volumePercent
                 preferencesRepo.isVolumeIncrease
-                setupPlayer(uri, volume, isVolumeIncrease)
+                setupPlayer(uri, volumePercent, isVolumeIncrease)
 
                 prepareLogoAnimation()
                 notifyList(noteItem)
@@ -269,6 +268,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     @Test fun `onStart first signal`() {
         val firstNote = data.firstNote.deepCopy()
+        val isVolumeIncrease = Random.nextBoolean()
 
         every { preferencesRepo.signalState } returns firstSignal
 
@@ -276,24 +276,26 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onStart()
 
         verifySequence {
-            verifyOnStart(firstNote, firstSignal)
+            verifyOnStart(firstNote, isVolumeIncrease, firstSignal)
         }
     }
 
     @Test fun `onStart second signal`() {
         val secondNote = data.secondNote.deepCopy()
+        val isVolumeIncrease = Random.nextBoolean()
 
         every { preferencesRepo.signalState } returns secondSignal
+        every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
 
         viewModel.noteItem = secondNote
         viewModel.onStart()
 
         verifySequence {
-            verifyOnStart(secondNote, secondSignal)
+            verifyOnStart(secondNote, isVolumeIncrease, secondSignal)
         }
     }
 
-    private fun MockKVerificationScope.verifyOnStart(noteItem: NoteItem, state: SignalState) {
+    private fun verifyOnStart(noteItem: NoteItem, isVolumeIncrease: Boolean, state: SignalState) {
         preferencesRepo.signalState
 
         callback.apply {
@@ -301,7 +303,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
             startButtonFadeInAnimation()
 
             if (state.isMelody) {
-                startMelody()
+                preferencesRepo.isVolumeIncrease
+                startMelody(isVolumeIncrease)
             }
 
             if (state.isVibration) {

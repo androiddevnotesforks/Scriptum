@@ -9,10 +9,12 @@ class GetVolumeSummaryUseCase(
     private val preferencesRepo: PreferencesRepo
 ) : GetSummaryUseCase {
 
-    override operator fun invoke(): String = summaryDataSource.getVolume(preferencesRepo.volume)
+    override operator fun invoke(): String {
+        return summaryDataSource.getVolume(preferencesRepo.volumePercent)
+    }
 
     override operator fun invoke(@IntRange(from = 10, to = 100) value: Int): String {
-        preferencesRepo.volume = value
+        preferencesRepo.volumePercent = value
         return invoke()
     }
 }

@@ -32,7 +32,7 @@ interface PreferencesDataSource {
 
     var melodyUri: String
 
-    var volume: Int
+    var volumePercent: Int
 
     val isVolumeIncrease: Boolean
 

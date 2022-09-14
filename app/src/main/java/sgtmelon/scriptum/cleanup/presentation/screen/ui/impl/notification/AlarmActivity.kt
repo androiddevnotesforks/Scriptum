@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -71,7 +72,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      */
     private val phoneAwake by lazy { PhoneAwakeDelegator(context = this) }
     private val finishTimer = DelayJobDelegator(lifecycle)
-    private val melodyPlay by lazy { MelodyPlayDelegator(context = this) }
+    private val melodyPlay by lazy {
+        MelodyPlayDelegator(context = this, lifecycle, AudioManager.STREAM_ALARM)
+    }
     private val vibrator by lazy { VibratorDelegator(context = this) }
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
@@ -153,8 +156,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         viewModel.onDestroy()
         rippleContainer?.stopAnimation()
 
-        melodyPlay.release()
-
         unregisterReceiver(noteReceiver)
     }
 
@@ -214,13 +215,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
     }
 
-    override fun setupPlayer(stringUri: String, volume: Int, increase: Boolean){
+    override fun setupPlayer(stringUri: String, volumePercent: Int, isIncrease: Boolean) {
         val uri = stringUri.toUriOrNull() ?: return
 
-        with(melodyPlay) {
-            setupVolume(volume, increase)
-            setupPlayer(uri, isLooping = true)
-        }
+        melodyPlay.setupVolume(volumePercent, isIncrease)
+        melodyPlay.setupPlayer(context = this@AlarmActivity, uri, isLooping = true)
     }
 
     override fun prepareLogoAnimation() {
@@ -295,7 +294,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         finishTimer.run(time) { viewModel.finishWithRepeat() }
     }
 
-    override fun startMelody() = melodyPlay.start()
+    override fun startMelody(isIncrease: Boolean) = melodyPlay.start(isIncrease)
 
     override fun stopMelody() = melodyPlay.stop()
 

@@ -35,17 +35,17 @@ class GetVolumeSummaryUseCaseTest : ParentTest() {
     }
 
     @Test fun `simple summary get`() {
-        val volume = Random.nextInt()
+        val volumePercent = Random.nextInt()
         val summary = nextString()
 
-        every { preferencesRepo.volume } returns volume
-        every { summaryDataSource.getVolume(volume) } returns summary
+        every { preferencesRepo.volumePercent } returns volumePercent
+        every { summaryDataSource.getVolume(volumePercent) } returns summary
 
         assertEquals(getSummary(), summary)
 
         verifySequence {
-            preferencesRepo.volume
-            summaryDataSource.getVolume(volume)
+            preferencesRepo.volumePercent
+            summaryDataSource.getVolume(volumePercent)
         }
     }
 
@@ -59,7 +59,7 @@ class GetVolumeSummaryUseCaseTest : ParentTest() {
 
         verifySequence {
             spyGetSummary(value)
-            preferencesRepo.volume = value
+            preferencesRepo.volumePercent = value
             spyGetSummary()
         }
     }

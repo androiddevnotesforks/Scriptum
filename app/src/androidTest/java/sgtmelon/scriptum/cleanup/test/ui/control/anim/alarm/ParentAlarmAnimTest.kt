@@ -22,7 +22,7 @@ abstract class ParentAlarmAnimTest(
 
         with(preferences) {
             signal = SignalConverter().toString(BooleanArray(size = 2) { Random.nextBoolean() })
-            volume = Random.nextInt(from = 50, until = 100)
+            volumePercent = Random.nextInt(from = 50, until = 100)
             isVolumeIncrease = Random.nextBoolean()
         }
 

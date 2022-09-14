@@ -19,8 +19,8 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 class VolumeDialogUi : ParentUi(),
     IDialogUi {
 
-    private val initValue = preferences.volume
-    private var value = preferences.volume
+    private val initValue = preferences.volumePercent
+    private var value = preferences.volumePercent
 
     //region Views
 
