@@ -93,21 +93,6 @@ class AlarmViewModel(
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        val signalState = preferencesRepo.signalState
-
-        if (signalState.isMelody) {
-            callback?.stopMelody()
-        }
-
-        if (signalState.isVibration) {
-            callback?.cancelVibrator()
-        }
-
-        callback?.releasePhone()
-    }
-
-
     override fun onSaveData(bundle: Bundle) = with(bundle) { putLong(Intent.ID, id) }
 
     override fun onStart() {

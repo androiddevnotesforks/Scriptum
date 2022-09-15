@@ -40,8 +40,8 @@ class MelodyPlayParams(
     /** This value needed for save initial volume level. */
     val initialVolume = audioManager.getStreamVolume(streamType)
 
-    val maxVolume = audioManager.getStreamMaxVolume(streamType)
-    val minVolume = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    private val maxVolume = audioManager.getStreamMaxVolume(streamType)
+    private val minVolume = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         audioManager.getStreamMinVolume(streamType)
     } else {
         0

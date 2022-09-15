@@ -153,7 +153,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun onDestroy() {
         super.onDestroy()
 
-        viewModel.onDestroy()
+        vibrator.cancel()
+        phoneAwake.release()
         rippleContainer?.stopAnimation()
 
         unregisterReceiver(noteReceiver)
@@ -288,19 +289,13 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun wakePhone(timeout: Long) = phoneAwake.wakeUp(timeout)
 
-    override fun releasePhone() = phoneAwake.release()
-
     override fun startFinishTimer(time: Long) {
         finishTimer.run(time) { viewModel.finishWithRepeat() }
     }
 
     override fun startMelody(isIncrease: Boolean) = melodyPlay.start(isIncrease)
 
-    override fun stopMelody() = melodyPlay.stop()
-
     override fun startVibrator() = vibrator.startRepeat()
-
-    override fun cancelVibrator() = vibrator.cancel()
 
 
     override fun showRepeatToast(repeat: Repeat) {

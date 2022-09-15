@@ -34,17 +34,11 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
 
     fun wakePhone(timeout: Long)
 
-    fun releasePhone()
-
     fun startFinishTimer(time: Long)
 
     fun startMelody(isIncrease: Boolean)
 
-    fun stopMelody()
-
     fun startVibrator()
-
-    fun cancelVibrator()
 
 
     fun showRepeatToast(repeat: Repeat)

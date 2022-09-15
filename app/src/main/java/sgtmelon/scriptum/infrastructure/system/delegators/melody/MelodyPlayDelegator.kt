@@ -10,6 +10,8 @@ import android.os.Build.VERSION_CODES
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import kotlin.math.ceil
+import kotlin.math.max
 import sgtmelon.extensions.getAudioService
 import sgtmelon.extensions.getPercent
 import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
@@ -43,12 +45,16 @@ class MelodyPlayDelegator(
         MelodyPlayParams(it, streamType, this)
     }
 
-    /** Variable for detect: was changed volume or not. */
-    private var isVolumeChanged = false
-
+    /**
+     * [increaseCurrent] - from there need start volume increase.
+     * [increaseMax] - maximum, which may be reached from [increaseCurrent].
+     * [isVolumeChanged] - detect was changed volume or not.
+     */
     private var increaseCurrent = 0
     private var increaseMax = 0
-    private val increaseDelayJob = DelayJobDelegator(lifecycle)
+    private var isVolumeChanged = false
+
+    private val increaseDelayJob = DelayJobDelegator(lifecycle = null)
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -57,18 +63,17 @@ class MelodyPlayDelegator(
     fun setupVolume(volumePercent: Int, isIncrease: Boolean) {
         val (minVolume, maxVolume) = params?.minMaxVolumePair ?: return
 
+        /** Round result volume towards greater value. */
+        val volume = ceil(maxVolume.getPercent(volumePercent)).toInt()
+
         if (isIncrease) {
             /** Preparation before [start] call. */
             increaseCurrent = minVolume
-            increaseMax = maxVolume.getPercent(volumePercent)
-
-            if (increaseMax < minVolume) {
-                increaseMax = minVolume
-            }
+            increaseMax = max(minVolume, volume)
 
             setVolume(minVolume)
         } else {
-            setVolume(maxVolume.getPercent(volumePercent))
+            setVolume(volume)
         }
     }
 
@@ -104,6 +109,8 @@ class MelodyPlayDelegator(
     }
 
     fun start(isIncrease: Boolean = false) {
+        val mediaPlayer = mediaPlayer ?: return
+
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
             val focusRequest = params?.focusRequest
             if (focusRequest != null) {
@@ -114,7 +121,7 @@ class MelodyPlayDelegator(
             audioManager?.requestAudioFocus(this, streamType, durationHint)
         }
 
-        mediaPlayer?.start()
+        mediaPlayer.start()
 
         if (isIncrease) {
             startVolumeIncrease()
@@ -122,13 +129,20 @@ class MelodyPlayDelegator(
     }
 
     private fun startVolumeIncrease() {
-        if (params?.maxVolume == null || increaseCurrent >= increaseMax) return
+        /** If reach maximum - break this loop. */
+        if (increaseCurrent >= increaseMax) return
 
         setVolume(increaseCurrent++)
-        increaseDelayJob.run(INCREASE_GAP) { startVolumeIncrease() }
+        increaseDelayJob.run(INCREASE_GAP) {
+            startVolumeIncrease()
+        }
     }
 
     fun stop() {
+        val mediaPlayer = mediaPlayer ?: return
+
+        if (!mediaPlayer.isPlaying) return
+
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
             val focusRequest = params?.focusRequest
             if (focusRequest != null) {
@@ -138,22 +152,29 @@ class MelodyPlayDelegator(
             audioManager?.abandonAudioFocus(this)
         }
 
-        mediaPlayer?.stop()
+        mediaPlayer.stop()
+        increaseDelayJob.cancel()
     }
 
     fun release() {
-        mediaPlayer?.release()
+        val mediaPlayer = mediaPlayer ?: return
+
+        stop()
+        mediaPlayer.release()
 
         /** Setup volume, which was during initialization (only if it was changed). */
         val initialVolume = params?.initialVolume
         if (initialVolume != null && isVolumeChanged) {
             setVolume(initialVolume)
         }
+
+        /** If note set null when may get error after next call to mediaPlayer. */
+        this.mediaPlayer = null
     }
 
     override fun onAudioFocusChange(focusChange: Int) = Unit
 
     companion object {
-        private const val INCREASE_GAP = 2500L
+        private const val INCREASE_GAP = 3000L
     }
 }

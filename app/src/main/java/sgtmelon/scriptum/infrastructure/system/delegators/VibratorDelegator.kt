@@ -15,6 +15,8 @@ class VibratorDelegator(context: Context?) {
     private val manager = context?.getVibratorService()
     private val repeatDelayJob = DelayJobDelegator(lifecycle = null)
 
+    private var isVibrate = false
+
     fun startRepeat(pattern: LongArray = defaultPattern) {
         startSingle(pattern)
         repeatDelayJob.run(pattern.sum()) {
@@ -25,6 +27,8 @@ class VibratorDelegator(context: Context?) {
     private fun startSingle(pattern: LongArray = defaultPattern) {
         if (manager?.hasVibrator() == false) return
 
+        isVibrate = true
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val vibe = VibrationEffect.createWaveform(pattern, VibrationEffect.DEFAULT_AMPLITUDE)
             manager?.vibrate(vibe)
@@ -34,6 +38,9 @@ class VibratorDelegator(context: Context?) {
     }
 
     fun cancel() {
+        if (!isVibrate) return
+
+        isVibrate = false
         manager?.cancel()
         repeatDelayJob.cancel()
     }
