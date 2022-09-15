@@ -15,7 +15,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extensions.getClearCalendar
@@ -82,30 +81,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         )
     }
 
-    @Test override fun onDestroy() {
-        assertNotNull(viewModel.callback)
-
-        val state = listOf(firstSignal, secondSignal).random()
-        every { preferencesRepo.signalState } returns state
-
-        viewModel.onDestroy()
-
-        assertNull(viewModel.callback)
-
-        verifySequence {
-            preferencesRepo.signalState
-
-            if (state.isMelody) {
-                callback.stopMelody()
-            }
-
-            if (state.isVibration) {
-                callback.cancelVibrator()
-            }
-
-            callback.releasePhone()
-        }
-    }
+    override fun onDestroy() = Unit
 
     //endregion
 

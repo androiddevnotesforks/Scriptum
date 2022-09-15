@@ -168,7 +168,7 @@ class MelodyPlayDelegator(
             setVolume(initialVolume)
         }
 
-        /** If note set null when may get error after next call to mediaPlayer. */
+        /** If not set null when you may get error after next call to mediaPlayer. */
         this.mediaPlayer = null
     }
 
