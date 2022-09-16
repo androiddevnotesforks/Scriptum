@@ -12,6 +12,7 @@ import sgtmelon.test.prod.RunProtected
 abstract class ParentViewModel<C>(private var callbackField: C?) : ViewModel(),
     IParentViewModel {
 
+    @Deprecated("Remove callback from viewModels (cause it's not presenter)")
     @RunProtected val callback: C? get() = callbackField
 
     override fun onDestroy(func: () -> Unit) {
