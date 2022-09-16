@@ -13,7 +13,6 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
-import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -38,6 +38,7 @@ class NotesViewModel(
     private val preferencesRepo: PreferencesRepo,
     private val interactor: INotesInteractor,
     private val getList: GetNoteListUseCase,
+    private val sortList: SortNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
     private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,
@@ -161,7 +162,7 @@ class NotesViewModel(
         viewModelScope.launch {
             itemList[p] = runBack { interactor.convertNote(item) }
 
-            val sortList = runBack { SortControl.sortList(itemList, preferencesRepo.sort) }
+            val sortList = runBack { sortList(itemList, preferencesRepo.sort) }
             callback?.notifyList(itemList.clearAdd(sortList))
 
             callback?.sendNotifyNotesBroadcast()

@@ -63,6 +63,7 @@ import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
@@ -167,6 +168,7 @@ object ViewModelFactory {
             private val preferencesRepo: PreferencesRepo,
             private val interactor: INotesInteractor,
             private val getList: GetNoteListUseCase,
+            private val sortList: SortNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
             private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
@@ -179,7 +181,7 @@ object ViewModelFactory {
                 return modelClass.create(NotesViewModel::class) {
                     NotesViewModel(
                         fragment, preferencesRepo, interactor,
-                        getList, getCopyText, updateNote, deleteNote, setNotification,
+                        getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
                         deleteNotification, getNotification, getNotificationDateList
                     )
                 }

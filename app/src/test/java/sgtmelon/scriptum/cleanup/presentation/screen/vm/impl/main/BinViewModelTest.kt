@@ -16,7 +16,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -170,7 +169,7 @@ class BinViewModelTest : ParentViewModelTest() {
             clearBin()
 
             callback.apply {
-                notifyDataSetChanged(listOf())
+                notifyList(listOf())
                 notifyMenuClearBin()
                 onBindingList()
             }
@@ -180,35 +179,36 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onShowOptionsDialog() {
-        viewModel.onShowOptionsDialog(, Random.nextInt())
-
-        val p = 0
-        val itemArray = Array(getRandomSize()) { nextString() }
-
-        val item = mockk<NoteItem>()
-        val untitledName = nextString()
-        val name = nextString()
-
-        viewModel.itemList.add(item)
-
-        every { item.name } returns ""
-        every { callback.getString(R.string.hint_text_name) } returns untitledName
-        every { callback.getStringArray(R.array.dialog_menu_bin) } returns itemArray
-        viewModel.onShowOptionsDialog(, p)
-
-        every { item.name } returns name
-        viewModel.onShowOptionsDialog(, p)
-
-        verifySequence {
-            item.name
-            callback.getString(R.string.hint_text_name)
-            callback.getStringArray(R.array.dialog_menu_bin)
-            callback.showOptionsDialog(untitledName, itemArray, p)
-
-            item.name
-            callback.getStringArray(R.array.dialog_menu_bin)
-            callback.showOptionsDialog(name, itemArray, p)
-        }
+        TODO()
+        //        viewModel.onShowOptionsDialog(mockk(), Random.nextInt())
+        //
+        //        val p = 0
+        //        val itemArray = Array(getRandomSize()) { nextString() }
+        //
+        //        val item = mockk<NoteItem>()
+        //        val untitledName = nextString()
+        //        val name = nextString()
+        //
+        //        viewModel.itemList.add(item)
+        //
+        //        every { item.name } returns ""
+        //        every { callback.getString(R.string.hint_text_name) } returns untitledName
+        //        every { callback.getStringArray(R.array.dialog_menu_bin) } returns itemArray
+        //        viewModel.onShowOptionsDialog(, p)
+        //
+        //        every { item.name } returns name
+        //        viewModel.onShowOptionsDialog(, p)
+        //
+        //        verifySequence {
+        //            item.name
+        //            callback.getString(R.string.hint_text_name)
+        //            callback.getStringArray(R.array.dialog_menu_bin)
+        //            callback.showOptionsDialog(untitledName, itemArray, p)
+        //
+        //            item.name
+        //            callback.getStringArray(R.array.dialog_menu_bin)
+        //            callback.showOptionsDialog(name, itemArray, p)
+        //        }
     }
 
     @Test fun onResultOptionsDialog() {
@@ -258,7 +258,7 @@ class BinViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             restoreNote(item)
 
-            callback.notifyItemRemoved(resultList, index)
+            callback.notifyList(resultList)
             callback.notifyMenuClearBin()
         }
 
@@ -306,7 +306,7 @@ class BinViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             clearNote(item)
 
-            callback.notifyItemRemoved(resultList, index)
+            callback.notifyList(resultList)
             callback.notifyMenuClearBin()
         }
 

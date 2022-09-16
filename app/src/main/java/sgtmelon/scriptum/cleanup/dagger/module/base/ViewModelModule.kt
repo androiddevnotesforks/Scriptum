@@ -82,6 +82,7 @@ import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
@@ -157,6 +158,7 @@ class ViewModelModule {
         preferencesRepo: PreferencesRepo,
         interactor: INotesInteractor,
         getList: GetNoteListUseCase,
+        sortList: SortNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
@@ -167,8 +169,8 @@ class ViewModelModule {
     ): INotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
             fragment, preferencesRepo, interactor,
-            getList, getCopyText, updateNote, deleteNote, setNotification, deleteNotification,
-            getNotification, getNotificationDateList
+            getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
+            deleteNotification, getNotification, getNotificationDateList
         )
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }

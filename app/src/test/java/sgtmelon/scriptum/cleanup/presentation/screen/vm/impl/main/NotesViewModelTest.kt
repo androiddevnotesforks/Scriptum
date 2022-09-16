@@ -6,7 +6,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.spyk
 import io.mockk.verifySequence
 import java.util.Calendar
@@ -19,7 +18,6 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
@@ -28,7 +26,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -36,6 +33,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -57,6 +55,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var interactor: INotesInteractor
 
     @MockK lateinit var getList: GetNoteListUseCase
+    @MockK lateinit var sortList: SortNoteListUseCase
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var updateNote: UpdateNoteUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
@@ -70,8 +69,8 @@ class NotesViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         NotesViewModel(
             callback, preferencesRepo, interactor,
-            getList, getCopyText, updateNote, deleteNote, setNotification, deleteNotification,
-            getNotification, getNotificationDateList
+            getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
+            deleteNotification, getNotification, getNotificationDateList
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
@@ -80,8 +79,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         super.tearDown()
         confirmVerified(
             callback, preferencesRepo, interactor, calendar,
-            getList, getCopyText, updateNote, deleteNote, setNotification, deleteNotification,
-            getNotification, getNotificationDateList
+            getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
+            deleteNotification, getNotification, getNotificationDateList
         )
     }
 
@@ -201,104 +200,105 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onShowOptionsDialog() {
-        viewModel.onShowOptionsDialog(, Random.nextInt())
-
-        val itemArray0 = Array(getRandomSize()) { nextString() }
-        val itemArray1 = Array(getRandomSize()) { nextString() }
-        val itemArray2 = Array(getRandomSize()) { nextString() }
-        val itemArray3 = Array(getRandomSize()) { nextString() }
-
-        val textItem = mockk<NoteItem.Text>()
-        val rollItem = mockk<NoteItem.Roll>()
-        val untitledName = nextString()
-        val name = nextString()
-
-        val updateString = nextString()
-        val setString = nextString()
-        val unbindString = nextString()
-        val bindString = nextString()
-
-        viewModel.itemList.clear()
-        viewModel.itemList.addAll(listOf(textItem, rollItem))
-
-        every { callback.getString(R.string.hint_text_name) } returns untitledName
-
-        every { callback.getString(R.string.dialog_menu_notification_update) } returns updateString
-        every { callback.getString(R.string.dialog_menu_notification_set) } returns setString
-        every { callback.getString(R.string.dialog_menu_status_unbind) } returns unbindString
-        every { callback.getString(R.string.dialog_menu_status_bind) } returns bindString
-
-        every { textItem.name } returns ""
-        every { callback.getStringArray(R.array.dialog_menu_text) } returns itemArray0.copyOf()
-        every { textItem.haveAlarm() } returns false
-        every { textItem.isStatus } returns true
-        viewModel.onShowOptionsDialog(, p = 0)
-
-        every { textItem.name } returns name
-        every { callback.getStringArray(R.array.dialog_menu_text) } returns itemArray1.copyOf()
-        every { textItem.haveAlarm() } returns true
-        every { textItem.isStatus } returns false
-        viewModel.onShowOptionsDialog(, p = 0)
-
-        every { rollItem.name } returns ""
-        every { callback.getStringArray(R.array.dialog_menu_roll) } returns itemArray2.copyOf()
-        every { rollItem.haveAlarm() } returns false
-        every { rollItem.isStatus } returns false
-        viewModel.onShowOptionsDialog(, p = 1)
-
-        every { rollItem.name } returns name
-        every { callback.getStringArray(R.array.dialog_menu_roll) } returns itemArray3.copyOf()
-        every { rollItem.haveAlarm() } returns true
-        every { rollItem.isStatus } returns true
-        viewModel.onShowOptionsDialog(, p = 1)
-
-        verifySequence {
-            textItem.name
-            callback.getString(R.string.hint_text_name)
-            callback.getStringArray(R.array.dialog_menu_text)
-            textItem.haveAlarm()
-            callback.getString(R.string.dialog_menu_notification_set)
-            textItem.isStatus
-            callback.getString(R.string.dialog_menu_status_unbind)
-            callback.showOptionsDialog(untitledName, itemArray0.copyOf().apply {
-                set(Options.Notes.NOTIFICATION, setString)
-                set(Options.Notes.BIND, unbindString)
-            }, p = 0)
-
-            textItem.name
-            callback.getStringArray(R.array.dialog_menu_text)
-            textItem.haveAlarm()
-            callback.getString(R.string.dialog_menu_notification_update)
-            textItem.isStatus
-            callback.getString(R.string.dialog_menu_status_bind)
-            callback.showOptionsDialog(name, itemArray1.copyOf().apply {
-                set(Options.Notes.NOTIFICATION, updateString)
-                set(Options.Notes.BIND, bindString)
-            }, p = 0)
-
-            rollItem.name
-            callback.getString(R.string.hint_text_name)
-            callback.getStringArray(R.array.dialog_menu_roll)
-            rollItem.haveAlarm()
-            callback.getString(R.string.dialog_menu_notification_set)
-            rollItem.isStatus
-            callback.getString(R.string.dialog_menu_status_bind)
-            callback.showOptionsDialog(untitledName, itemArray2.copyOf().apply {
-                set(Options.Notes.NOTIFICATION, setString)
-                set(Options.Notes.BIND, bindString)
-            }, p = 1)
-
-            rollItem.name
-            callback.getStringArray(R.array.dialog_menu_roll)
-            rollItem.haveAlarm()
-            callback.getString(R.string.dialog_menu_notification_update)
-            rollItem.isStatus
-            callback.getString(R.string.dialog_menu_status_unbind)
-            callback.showOptionsDialog(name, itemArray3.copyOf().apply {
-                set(Options.Notes.NOTIFICATION, updateString)
-                set(Options.Notes.BIND, unbindString)
-            }, p = 1)
-        }
+        TODO()
+        //        viewModel.onShowOptionsDialog(, Random.nextInt())
+        //
+        //        val itemArray0 = Array(getRandomSize()) { nextString() }
+        //        val itemArray1 = Array(getRandomSize()) { nextString() }
+        //        val itemArray2 = Array(getRandomSize()) { nextString() }
+        //        val itemArray3 = Array(getRandomSize()) { nextString() }
+        //
+        //        val textItem = mockk<NoteItem.Text>()
+        //        val rollItem = mockk<NoteItem.Roll>()
+        //        val untitledName = nextString()
+        //        val name = nextString()
+        //
+        //        val updateString = nextString()
+        //        val setString = nextString()
+        //        val unbindString = nextString()
+        //        val bindString = nextString()
+        //
+        //        viewModel.itemList.clear()
+        //        viewModel.itemList.addAll(listOf(textItem, rollItem))
+        //
+        //        every { callback.getString(R.string.hint_text_name) } returns untitledName
+        //
+        //        every { callback.getString(R.string.dialog_menu_notification_update) } returns updateString
+        //        every { callback.getString(R.string.dialog_menu_notification_set) } returns setString
+        //        every { callback.getString(R.string.dialog_menu_status_unbind) } returns unbindString
+        //        every { callback.getString(R.string.dialog_menu_status_bind) } returns bindString
+        //
+        //        every { textItem.name } returns ""
+        //        every { callback.getStringArray(R.array.dialog_menu_text) } returns itemArray0.copyOf()
+        //        every { textItem.haveAlarm() } returns false
+        //        every { textItem.isStatus } returns true
+        //        viewModel.onShowOptionsDialog(, p = 0)
+        //
+        //        every { textItem.name } returns name
+        //        every { callback.getStringArray(R.array.dialog_menu_text) } returns itemArray1.copyOf()
+        //        every { textItem.haveAlarm() } returns true
+        //        every { textItem.isStatus } returns false
+        //        viewModel.onShowOptionsDialog(, p = 0)
+        //
+        //        every { rollItem.name } returns ""
+        //        every { callback.getStringArray(R.array.dialog_menu_roll) } returns itemArray2.copyOf()
+        //        every { rollItem.haveAlarm() } returns false
+        //        every { rollItem.isStatus } returns false
+        //        viewModel.onShowOptionsDialog(, p = 1)
+        //
+        //        every { rollItem.name } returns name
+        //        every { callback.getStringArray(R.array.dialog_menu_roll) } returns itemArray3.copyOf()
+        //        every { rollItem.haveAlarm() } returns true
+        //        every { rollItem.isStatus } returns true
+        //        viewModel.onShowOptionsDialog(, p = 1)
+        //
+        //        verifySequence {
+        //            textItem.name
+        //            callback.getString(R.string.hint_text_name)
+        //            callback.getStringArray(R.array.dialog_menu_text)
+        //            textItem.haveAlarm()
+        //            callback.getString(R.string.dialog_menu_notification_set)
+        //            textItem.isStatus
+        //            callback.getString(R.string.dialog_menu_status_unbind)
+        //            callback.showOptionsDialog(untitledName, itemArray0.copyOf().apply {
+        //                set(Options.Notes.NOTIFICATION, setString)
+        //                set(Options.Notes.BIND, unbindString)
+        //            }, p = 0)
+        //
+        //            textItem.name
+        //            callback.getStringArray(R.array.dialog_menu_text)
+        //            textItem.haveAlarm()
+        //            callback.getString(R.string.dialog_menu_notification_update)
+        //            textItem.isStatus
+        //            callback.getString(R.string.dialog_menu_status_bind)
+        //            callback.showOptionsDialog(name, itemArray1.copyOf().apply {
+        //                set(Options.Notes.NOTIFICATION, updateString)
+        //                set(Options.Notes.BIND, bindString)
+        //            }, p = 0)
+        //
+        //            rollItem.name
+        //            callback.getString(R.string.hint_text_name)
+        //            callback.getStringArray(R.array.dialog_menu_roll)
+        //            rollItem.haveAlarm()
+        //            callback.getString(R.string.dialog_menu_notification_set)
+        //            rollItem.isStatus
+        //            callback.getString(R.string.dialog_menu_status_bind)
+        //            callback.showOptionsDialog(untitledName, itemArray2.copyOf().apply {
+        //                set(Options.Notes.NOTIFICATION, setString)
+        //                set(Options.Notes.BIND, bindString)
+        //            }, p = 1)
+        //
+        //            rollItem.name
+        //            callback.getStringArray(R.array.dialog_menu_roll)
+        //            rollItem.haveAlarm()
+        //            callback.getString(R.string.dialog_menu_notification_update)
+        //            rollItem.isStatus
+        //            callback.getString(R.string.dialog_menu_status_unbind)
+        //            callback.showOptionsDialog(name, itemArray3.copyOf().apply {
+        //                set(Options.Notes.NOTIFICATION, updateString)
+        //                set(Options.Notes.BIND, unbindString)
+        //            }, p = 1)
+        //        }
     }
 
     @Test fun onResultOptionsDialog() {
@@ -385,7 +385,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onMenuBind(index)
 
         coVerifySequence {
-            callback.notifyItemChanged(itemList, index)
+            callback.notifyList(itemList)
 
             updateNote(item)
             callback.sendNotifyNotesBroadcast()
@@ -406,8 +406,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         coEvery { interactor.convertNote(item) } returns convertItem
         every { preferencesRepo.sort } returns sort
-        mockkObject(SortControl)
-        coEvery { SortControl.sortList(any(), sort) } returns resultList
+        coEvery { sortList(any(), sort) } returns resultList
 
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -417,7 +416,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             interactor.convertNote(item)
             preferencesRepo.sort
-            SortControl.sortList(any(), sort)
+            sortList(any(), sort)
 
             callback.notifyList(resultList)
             callback.sendNotifyNotesBroadcast()
@@ -465,7 +464,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onMenuDelete(index)
 
         coVerifySequence {
-            callback.notifyItemRemoved(resultList, index)
+            callback.notifyList(resultList)
 
             deleteNote(item)
 
@@ -506,7 +505,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             item.clearAlarm()
-            callback.notifyItemChanged(itemList, index)
+            callback.notifyList(itemList)
 
             deleteNotification(item)
 
@@ -543,7 +542,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
             calendar.isBeforeNow()
             setNotification(item, calendar)
-            callback.notifyItemChanged(itemList, index)
+            callback.notifyList(itemList)
 
             item.id
             callback.sendSetAlarmBroadcast(id, calendar)
@@ -567,7 +566,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onReceiveUnbindNote(item.id)
         item.isStatus = false
 
-        verifySequence { callback.notifyItemChanged(itemList, p) }
+        verifySequence { callback.notifyList(itemList) }
     }
 
     @Test fun onReceiveUpdateAlarm() = startCoTest {
@@ -597,7 +596,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             getNotification(item.id)
 
             getNotification(item.id)
-            callback.notifyItemChanged(itemList, p)
+            callback.notifyList(itemList)
         }
     }
 }

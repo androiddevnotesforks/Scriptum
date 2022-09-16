@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 
 @Module
 class MainUseCaseModule {
@@ -16,6 +17,11 @@ class MainUseCaseModule {
         noteRepo: NoteRepo
     ): GetNoteListUseCase {
         return GetNoteListUseCase(preferencesRepo, noteRepo)
+    }
+
+    @Provides
+    fun provideSortNoteListUseCase(): SortNoteListUseCase {
+        return SortNoteListUseCase()
     }
 
     @Provides
