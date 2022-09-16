@@ -35,7 +35,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
-import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
@@ -56,7 +56,7 @@ class NotesFragment : ParentFragment(),
     @Inject internal lateinit var viewModel: INotesViewModel
 
     private val broadcast by lazy { BroadcastDelegator(context) }
-    private val clipboardControl by lazy { ClipboardControl[context, toastControl] }
+    private val clipboardControl by lazy { ClipboardControl[context, toast] }
 
     private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }

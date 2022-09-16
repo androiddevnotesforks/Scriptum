@@ -6,14 +6,14 @@ import androidx.annotation.MainThread
 import sgtmelon.extensions.getClipboardService
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IClipboardControl
-import sgtmelon.scriptum.cleanup.presentation.control.toast.IToastControl
+import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 
 /**
  * Class for help control clipboard
  */
 class ClipboardControl(
     private val context: Context?,
-    private val toastControl: IToastControl
+    private val toast: ToastDelegator
 ) : IClipboardControl {
 
     private val manager = context?.getClipboardService()
@@ -25,7 +25,7 @@ class ClipboardControl(
             val clipData = ClipData.newPlainText(context.getString(R.string.clipboard_label), text)
             it.setPrimaryClip(clipData)
 
-            toastControl.show(context.getString(R.string.toast_text_copy))
+            toast.show(context, context.getString(R.string.toast_text_copy))
         }
     }
 
@@ -37,8 +37,8 @@ class ClipboardControl(
     }
 
     companion object {
-        operator fun get(context: Context?, toastControl: IToastControl): IClipboardControl {
-            return ClipboardControl(context, toastControl)
+        operator fun get(context: Context?, toast: ToastDelegator): IClipboardControl {
+            return ClipboardControl(context, toast)
         }
     }
 }

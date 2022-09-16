@@ -14,7 +14,7 @@ import kotlin.math.ceil
 import kotlin.math.max
 import sgtmelon.extensions.getAudioService
 import sgtmelon.extensions.getPercent
-import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
 
 /**
  * Class, which delegates work of [MediaPlayer] and [AudioManager].

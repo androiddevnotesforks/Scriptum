@@ -134,9 +134,7 @@ class DevelopFragment : ParentPreferenceFragment(),
         }
     }
 
-    override fun showToast(@StringRes stringId: Int) {
-        toastControl.show(stringId)
-    }
+    override fun showToast(@StringRes stringId: Int) = toast.show(context, stringId)
 
 
     override fun openPrintScreen(type: PrintType) {

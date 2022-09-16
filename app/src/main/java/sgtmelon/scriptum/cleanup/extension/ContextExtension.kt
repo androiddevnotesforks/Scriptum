@@ -8,7 +8,7 @@ import android.provider.Settings
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
+import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.utils.record
@@ -57,13 +57,13 @@ internal fun Context.getSettingsIntent(): Intent {
     return intent
 }
 
-internal fun Context.startActivitySafe(intent: Intent?, toastControl: ToastControl) {
+internal fun Context.startActivitySafe(intent: Intent?, toast: ToastDelegator) {
     if (intent != null) {
         if (!startActivitySafe(intent)) {
-            toastControl.show(R.string.error_start_activity)
+            toast.show(context = this, R.string.error_start_activity)
         }
     } else {
-        toastControl.show(R.string.error_something_wrong)
+        toast.show(context = this, R.string.error_something_wrong)
     }
 }
 

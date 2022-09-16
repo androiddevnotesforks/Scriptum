@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IAlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IBindControl
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
+import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPresenter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -22,7 +22,7 @@ class SystemLogic : ISystemLogic {
 
     @Inject internal lateinit var presenter: ISystemPresenter
 
-    private lateinit var toastControl: ToastControl
+    private val toast = ToastDelegator(lifecycle = null)
     private lateinit var bindControl: IBindControl
     private lateinit var alarmControl: IAlarmControl
 
@@ -34,9 +34,8 @@ class SystemLogic : ISystemLogic {
 
         context.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.SYSTEM))
 
-        toastControl = ToastControl(context)
         bindControl = BindControl[context]
-        alarmControl = AlarmControl[context, toastControl]
+        alarmControl = AlarmControl[context, toast]
 
         presenter.onSetup()
     }
@@ -44,8 +43,7 @@ class SystemLogic : ISystemLogic {
     override fun onDestroy(context: Context) {
         presenter.onDestroy()
         context.unregisterReceiver(receiver)
-
-        toastControl.onDestroy()
+        toast.cancel()
     }
 
     //region Bridge functions

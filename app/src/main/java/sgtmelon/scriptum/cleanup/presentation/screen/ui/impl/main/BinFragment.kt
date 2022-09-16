@@ -44,7 +44,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     @Inject internal lateinit var viewModel: IBinViewModel
 
-    private val clipboardControl by lazy { ClipboardControl[context, toastControl] }
+    private val clipboardControl by lazy { ClipboardControl[context, toast] }
 
     private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }

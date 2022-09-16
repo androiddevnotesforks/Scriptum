@@ -43,6 +43,6 @@ interface IParentNoteFragment<N : NoteItem> : SystemReceiver.Bridge.Alarm,
     fun showConvertDialog()
 
 
-    fun showSaveToast(success: Boolean)
+    fun showSaveToast(isSuccess: Boolean)
 
 }

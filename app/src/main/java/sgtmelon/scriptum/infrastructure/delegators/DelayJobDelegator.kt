@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen
+package sgtmelon.scriptum.infrastructure.delegators
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.DefaultLifecycleObserver

@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
+import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
  */
 abstract class ParentActivity : AppCompatActivity(), IAppActivity {
 
-    val toastControl by lazy { ToastControl(context = this) }
+    protected val toast = ToastDelegator(lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +31,6 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        toastControl.onDestroy()
     }
 
     override fun setupTheme(theme: Theme) {

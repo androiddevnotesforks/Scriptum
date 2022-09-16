@@ -44,12 +44,12 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IA
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
+import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.screen.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
@@ -307,7 +307,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         val repeatArray = resources.getStringArray(R.array.pref_alarm_repeat)
         val repeatText = repeatArray.getOrNull(repeat.ordinal) ?: return
 
-        toastControl.show(getString(R.string.toast_alarm_repeat, repeatText))
+        toast.show(context = this, getString(R.string.toast_alarm_repeat, repeatText))
     }
 
     override fun getIntArray(@ArrayRes arrayId: Int): IntArray = resources.getIntArray(arrayId)

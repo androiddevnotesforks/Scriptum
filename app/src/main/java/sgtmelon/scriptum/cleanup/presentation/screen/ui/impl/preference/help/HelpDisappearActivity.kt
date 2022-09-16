@@ -58,10 +58,10 @@ class HelpDisappearActivity : AppActivity() {
 
     private fun onVideoClick() {
         val intent = getSiteIntent(getString(R.string.help_notification_disappear_video_url))
-        startActivitySafe(intent, toastControl)
+        startActivitySafe(intent, toast)
     }
 
-    private fun onSettingsClick() = startActivitySafe(getSettingsIntent(), toastControl)
+    private fun onSettingsClick() = startActivitySafe(getSettingsIntent(), toast)
 
     private fun setupInsets() {
         parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->

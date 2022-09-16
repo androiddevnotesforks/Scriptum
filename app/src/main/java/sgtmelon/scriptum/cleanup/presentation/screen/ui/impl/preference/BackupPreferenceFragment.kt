@@ -124,18 +124,18 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //region Toast functions
 
-    override fun showToast(@StringRes stringId: Int) = toastControl.show(stringId)
+    override fun showToast(@StringRes stringId: Int) = toast.show(context, stringId)
 
     override fun showExportPathToast(path: String) {
         val text = getString(R.string.pref_toast_export_result, path)
 
-        toastControl.show(text, Toast.LENGTH_LONG)
+        toast.show(context, text, Toast.LENGTH_LONG)
     }
 
     override fun showImportSkipToast(count: Int) {
         val text = getString(R.string.pref_toast_import_result_skip, count)
 
-        toastControl.show(text, Toast.LENGTH_LONG)
+        toast.show(context, text, Toast.LENGTH_LONG)
     }
 
     //endregion
@@ -167,7 +167,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         exportDenyDialog.apply {
             onPositiveClick {
                 val context = context
-                context?.startActivitySafe(context.getSettingsIntent(), toastControl)
+                context?.startActivitySafe(context.getSettingsIntent(), toast)
             }
             onDismiss { openState.clear() }
         }
@@ -188,7 +188,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         importDenyDialog.apply {
             onPositiveClick {
                 val context = context
-                context?.startActivitySafe(context.getSettingsIntent(), toastControl)
+                context?.startActivitySafe(context.getSettingsIntent(), toast)
             }
             onDismiss { openState.clear() }
         }

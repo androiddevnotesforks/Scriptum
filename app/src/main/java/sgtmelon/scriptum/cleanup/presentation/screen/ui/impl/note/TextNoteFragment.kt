@@ -331,10 +331,9 @@ class TextNoteFragment : ParentFragment(),
     }
 
 
-    override fun showSaveToast(success: Boolean) {
-        val text = if (success) R.string.toast_note_save_done else R.string.toast_note_save_error
-
-        toastControl.show(text)
+    override fun showSaveToast(isSuccess: Boolean) {
+        val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
+        toast.show(context, text)
     }
 
     //region Broadcast functions

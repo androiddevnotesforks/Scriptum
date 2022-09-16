@@ -132,7 +132,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    override fun showToast(@StringRes stringId: Int) = toastControl.show(stringId)
+    override fun showToast(@StringRes stringId: Int) = toast.show(context, stringId)
 
     override fun setup() {
         repeatPreference?.setOnPreferenceClickListener {
