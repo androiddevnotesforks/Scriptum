@@ -9,11 +9,11 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IAlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IBindControl
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPresenter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 
 /**
  * Class with logic for alarm/notification setup/cancel.

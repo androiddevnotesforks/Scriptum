@@ -6,7 +6,7 @@ import androidx.annotation.MainThread
 import sgtmelon.extensions.getClipboardService
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IClipboardControl
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
+import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 
 /**
  * Class for help control clipboard

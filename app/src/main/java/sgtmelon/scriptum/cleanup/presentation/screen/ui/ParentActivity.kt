@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 
 /**
  * Parent class for all activities.

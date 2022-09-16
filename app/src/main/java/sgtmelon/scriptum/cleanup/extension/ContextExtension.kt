@@ -8,9 +8,9 @@ import android.provider.Settings
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.utils.record
 
 fun Context.geDisplayedTheme(): ThemeDisplayed? {

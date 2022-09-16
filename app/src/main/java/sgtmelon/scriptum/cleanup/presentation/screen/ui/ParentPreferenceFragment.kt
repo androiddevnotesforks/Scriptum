@@ -5,8 +5,8 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.updatePadding
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
+import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**

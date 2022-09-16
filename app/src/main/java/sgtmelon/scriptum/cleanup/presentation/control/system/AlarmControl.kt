@@ -10,8 +10,8 @@ import sgtmelon.extensions.getAlarmService
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IAlarmControl
-import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastDelegator
 import sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver
+import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.test.prod.RunPrivate
 
 /**
