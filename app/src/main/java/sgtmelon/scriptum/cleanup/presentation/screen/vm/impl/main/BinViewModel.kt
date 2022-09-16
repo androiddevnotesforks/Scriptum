@@ -88,20 +88,16 @@ class BinViewModel(
         itemList.clear()
 
         callback?.apply {
-            notifyDataSetChanged(itemList)
+            notifyList(itemList)
             notifyMenuClearBin()
             onBindingList()
         }
     }
 
-    override fun onClickNote(p: Int) {
-        callback?.openNoteScreen(item = itemList.getOrNull(p) ?: return)
-    }
-
-    override fun onShowOptionsDialog(p: Int) {
+    @Deprecated("Move preparation before show dialog inside some delegator, which will call from UI")
+    override fun onShowOptionsDialog(item: NoteItem, p: Int) {
         val callback = callback ?: return
 
-        val item = itemList.getOrNull(p) ?: return
         val title = item.name.ifEmpty { callback.getString(R.string.hint_text_name) }
         val itemArray = callback.getStringArray(R.array.dialog_menu_bin)
 
@@ -121,7 +117,7 @@ class BinViewModel(
 
         viewModelScope.launchBack { restoreNote(item) }
 
-        callback?.notifyItemRemoved(itemList, p)
+        callback?.notifyList(itemList)
         callback?.notifyMenuClearBin()
     }
 
@@ -139,7 +135,7 @@ class BinViewModel(
 
         viewModelScope.launchBack { clearNote(item) }
 
-        callback?.notifyItemRemoved(itemList, p)
+        callback?.notifyList(itemList)
         callback?.notifyMenuClearBin()
     }
 }

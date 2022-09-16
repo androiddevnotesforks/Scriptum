@@ -29,6 +29,7 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
 
     fun startButtonFadeInAnimation()
 
+    @Deprecated("Create delegator for screens open")
     fun openNoteScreen(item: NoteItem)
 
 

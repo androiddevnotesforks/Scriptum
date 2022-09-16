@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 /**
  * Parent class of [DiffUtil.Callback].
  */
+@Deprecated("Use DiffUtil.ItemCallback")
 abstract class ParentDiff<T> : DiffUtil.Callback() {
 
     protected val oldList: MutableList<T> = ArrayList()

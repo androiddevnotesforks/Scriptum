@@ -17,8 +17,6 @@ interface IAlarmViewModel : IParentViewModel, NoteScreenReceiver.Callback {
 
     fun onStart()
 
-    fun onClickNote()
-
     fun onClickDisable()
 
     fun onClickRepeat()

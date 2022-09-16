@@ -10,6 +10,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.touch.EdgeDragTouchHelper
 // TODO remove/rebuild
 interface ItemListener {
 
+    @Deprecated("Create unique interface for each viewHolder")
     interface Click {
         /**
          * Interface for control click on list item with position == [p].
@@ -19,6 +20,7 @@ interface ItemListener {
 
     }
 
+    @Deprecated("Create unique interface for each viewHolder")
     interface LongClick {
         /**
          * Interface for control long click on list item with position == [p].

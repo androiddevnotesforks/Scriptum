@@ -98,21 +98,18 @@ class NotesViewModel(
         }
     }
 
-
-    override fun onClickNote(p: Int) {
-        callback?.openNoteScreen(item = itemList.getOrNull(p) ?: return)
-    }
-
-    override fun onShowOptionsDialog(p: Int) {
+    @Deprecated("Move preparation before show dialog inside some delegator, which will call from UI")
+    override fun onShowOptionsDialog(item: NoteItem, p: Int) {
         val callback = callback ?: return
-        val item = itemList.getOrNull(p) ?: return
 
         val title = item.name.ifEmpty { callback.getString(R.string.hint_text_name) }
 
-        val itemArray: Array<String> = callback.getStringArray(when (item) {
-            is NoteItem.Text -> R.array.dialog_menu_text
-            is NoteItem.Roll -> R.array.dialog_menu_roll
-        })
+        val itemArray: Array<String> = callback.getStringArray(
+            when (item) {
+                is NoteItem.Text -> R.array.dialog_menu_text
+                is NoteItem.Roll -> R.array.dialog_menu_roll
+            }
+        )
 
         itemArray[Options.NOTIFICATION] = if (item.haveAlarm()) {
             callback.getString(R.string.dialog_menu_notification_update)
@@ -149,7 +146,7 @@ class NotesViewModel(
     @RunPrivate fun onMenuBind(p: Int) {
         val item = itemList.getOrNull(p)?.switchStatus() ?: return
 
-        callback?.notifyItemChanged(itemList, p)
+        callback?.notifyList(itemList)
 
         viewModelScope.launch {
             runBack { updateNote(item) }
@@ -183,7 +180,7 @@ class NotesViewModel(
     @RunPrivate fun onMenuDelete(p: Int) {
         val item = itemList.validRemoveAt(p) ?: return
 
-        callback?.notifyItemRemoved(itemList, p)
+        callback?.notifyList(itemList)
 
         viewModelScope.launch {
             runBack { deleteNote(item) }
@@ -207,7 +204,7 @@ class NotesViewModel(
 
         item.clearAlarm()
 
-        callback?.notifyItemChanged(itemList, p)
+        callback?.notifyList(itemList)
 
         viewModelScope.launch {
             runBack { deleteNotification(item) }
@@ -224,7 +221,7 @@ class NotesViewModel(
 
         viewModelScope.launch {
             runBack { setNotification(item, calendar) }
-            callback?.notifyItemChanged(itemList, p)
+            callback?.notifyList(itemList)
 
             callback?.sendSetAlarmBroadcast(item.id, calendar)
             callback?.sendNotifyInfoBroadcast()
@@ -237,7 +234,7 @@ class NotesViewModel(
         val noteItem = itemList.getOrNull(p) ?: return
 
         noteItem.isStatus = false
-        callback?.notifyItemChanged(itemList, p)
+        callback?.notifyList(itemList)
     }
 
     override fun onReceiveUpdateAlarm(id: Long) {
@@ -252,7 +249,7 @@ class NotesViewModel(
                 alarmDate = item.alarm.date
             }
 
-            callback?.notifyItemChanged(itemList, p)
+            callback?.notifyList(itemList)
         }
     }
 }

@@ -12,6 +12,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.diff.ParentDiff
  * @param <D>   - diff callback
  * @param <VH>  - holder for model
  */
+@Deprecated("Use standard realization")
 abstract class ParentDiffAdapter<T, D : ParentDiff<T>, VH : RecyclerView.ViewHolder> :
         RecyclerView.Adapter<VH>() {
 

@@ -22,9 +22,9 @@ import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -66,12 +66,14 @@ class NotesFragment : ParentFragment(),
     private val timeDialog by lazy { dialogFactory.getTimeDialog() }
 
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(object : ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) {
-                openState?.tryInvoke { viewModel.onClickNote(p) }
+        NoteAdapter(object : NoteItemClickCallback {
+            override fun onItemClick(item: NoteItem) {
+                openState?.tryInvoke { openNoteScreen(item) }
             }
-        }, object : ItemListener.LongClick {
-            override fun onItemLongClick(view: View, p: Int) = viewModel.onShowOptionsDialog(p)
+
+            override fun onItemLongClick(item: NoteItem, p: Int) {
+                viewModel.onShowOptionsDialog(item, p)
+            }
         })
     }
 
@@ -297,14 +299,6 @@ class NotesFragment : ParentFragment(),
 
 
     override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
-
-    override fun notifyItemChanged(list: List<NoteItem>, p: Int) {
-        adapter.setList(list).notifyItemChanged(p)
-    }
-
-    override fun notifyItemRemoved(list: List<NoteItem>, p: Int) {
-        adapter.setList(list).notifyItemRemoved(p)
-    }
 
 
     override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)

@@ -179,23 +179,8 @@ class BinViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.itemList.isEmpty())
     }
 
-    @Test fun onClickNote() {
-        viewModel.onClickNote(Random.nextInt())
-
-        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
-        val index = itemList.indices.random()
-        val item = itemList[index]
-
-        viewModel.itemList.clearAdd(itemList)
-        viewModel.onClickNote(index)
-
-        verifySequence { callback.openNoteScreen(item) }
-
-        assertEquals(itemList, viewModel.itemList)
-    }
-
     @Test fun onShowOptionsDialog() {
-        viewModel.onShowOptionsDialog(Random.nextInt())
+        viewModel.onShowOptionsDialog(, Random.nextInt())
 
         val p = 0
         val itemArray = Array(getRandomSize()) { nextString() }
@@ -209,10 +194,10 @@ class BinViewModelTest : ParentViewModelTest() {
         every { item.name } returns ""
         every { callback.getString(R.string.hint_text_name) } returns untitledName
         every { callback.getStringArray(R.array.dialog_menu_bin) } returns itemArray
-        viewModel.onShowOptionsDialog(p)
+        viewModel.onShowOptionsDialog(, p)
 
         every { item.name } returns name
-        viewModel.onShowOptionsDialog(p)
+        viewModel.onShowOptionsDialog(, p)
 
         verifySequence {
             item.name

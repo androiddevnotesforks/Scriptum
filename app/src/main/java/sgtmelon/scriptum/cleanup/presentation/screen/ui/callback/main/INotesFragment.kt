@@ -37,6 +37,7 @@ interface INotesFragment : SystemReceiver.Bridge.Alarm,
 
     fun scrollTop()
 
+    @Deprecated("Create delegator for screens open")
     fun openNoteScreen(item: NoteItem)
 
 
@@ -48,10 +49,6 @@ interface INotesFragment : SystemReceiver.Bridge.Alarm,
 
 
     fun notifyList(list: List<NoteItem>)
-
-    fun notifyItemChanged(list: List<NoteItem>, p: Int)
-
-    fun notifyItemRemoved(list: List<NoteItem>, p: Int)
 
 
     fun getStringArray(@ArrayRes arrayId: Int): Array<String>

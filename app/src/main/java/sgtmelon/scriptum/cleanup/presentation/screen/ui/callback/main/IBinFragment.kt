@@ -30,6 +30,7 @@ interface IBinFragment : ClipboardControl.Bridge {
 
     fun scrollTop()
 
+    @Deprecated("Create delegator for screens open")
     fun openNoteScreen(item: NoteItem)
 
     fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int)
@@ -38,10 +39,6 @@ interface IBinFragment : ClipboardControl.Bridge {
     fun notifyMenuClearBin()
 
     fun notifyList(list: List<NoteItem>)
-
-    fun notifyDataSetChanged(list: List<NoteItem>)
-
-    fun notifyItemRemoved(list: List<NoteItem>, p: Int)
 
 
     fun getString(@StringRes resId: Int): String

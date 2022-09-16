@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
  */
 abstract class ParentHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
+    @Deprecated("Pass items inside callback, not position")
     protected fun checkNoPosition(func: (Int) -> Unit): Boolean {
         val position = adapterPosition
 
-        if (position== RecyclerView.NO_POSITION) return false
+        if (position == RecyclerView.NO_POSITION) return false
 
         func(position)
         return true

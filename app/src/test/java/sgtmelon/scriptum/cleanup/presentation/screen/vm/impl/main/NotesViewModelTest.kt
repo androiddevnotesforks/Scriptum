@@ -200,26 +200,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
-
-    @Test fun onClickNote() {
-        viewModel.onClickNote(Random.nextInt())
-
-        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
-        val index = itemList.indices.random()
-        val item = itemList[index]
-
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        viewModel.onClickNote(index)
-
-        verifySequence { callback.openNoteScreen(item) }
-
-        assertEquals(itemList, viewModel.itemList)
-    }
-
     @Test fun onShowOptionsDialog() {
-        viewModel.onShowOptionsDialog(Random.nextInt())
+        viewModel.onShowOptionsDialog(, Random.nextInt())
 
         val itemArray0 = Array(getRandomSize()) { nextString() }
         val itemArray1 = Array(getRandomSize()) { nextString() }
@@ -250,25 +232,25 @@ class NotesViewModelTest : ParentViewModelTest() {
         every { callback.getStringArray(R.array.dialog_menu_text) } returns itemArray0.copyOf()
         every { textItem.haveAlarm() } returns false
         every { textItem.isStatus } returns true
-        viewModel.onShowOptionsDialog(p = 0)
+        viewModel.onShowOptionsDialog(, p = 0)
 
         every { textItem.name } returns name
         every { callback.getStringArray(R.array.dialog_menu_text) } returns itemArray1.copyOf()
         every { textItem.haveAlarm() } returns true
         every { textItem.isStatus } returns false
-        viewModel.onShowOptionsDialog(p = 0)
+        viewModel.onShowOptionsDialog(, p = 0)
 
         every { rollItem.name } returns ""
         every { callback.getStringArray(R.array.dialog_menu_roll) } returns itemArray2.copyOf()
         every { rollItem.haveAlarm() } returns false
         every { rollItem.isStatus } returns false
-        viewModel.onShowOptionsDialog(p = 1)
+        viewModel.onShowOptionsDialog(, p = 1)
 
         every { rollItem.name } returns name
         every { callback.getStringArray(R.array.dialog_menu_roll) } returns itemArray3.copyOf()
         every { rollItem.haveAlarm() } returns true
         every { rollItem.isStatus } returns true
-        viewModel.onShowOptionsDialog(p = 1)
+        viewModel.onShowOptionsDialog(, p = 1)
 
         verifySequence {
             textItem.name

@@ -1,35 +1,33 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter.holder
 
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.cleanup.extension.checkNoPosition
+import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
+import sgtmelon.scriptum.cleanup.presentation.adapter.callback.UnbindCallback
+import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 
-/**
- * Holder for roll note, use in [NoteAdapter]
- */
 class NoteRollHolder(
-    private val binding: ItemNoteRollBinding,
-    private val clickListener: ItemListener.Click,
-    private val longClickListener: ItemListener.LongClick?
-) : ParentHolder(binding.root) {
+    private val binding: ItemNoteRollBinding
+) : RecyclerView.ViewHolder(binding.root),
+    UnbindCallback {
 
     private val clickView: View = itemView.findViewById(R.id.note_roll_click_container)
 
-    init {
-        clickView.apply {
-            setOnClickListener { v -> checkNoPosition { clickListener.onItemClick(v, it) } }
-
-            if (longClickListener == null) return@apply
-
-            setOnLongClickListener { v ->
-                checkNoPosition { longClickListener.onItemLongClick(v, it) }
-            }
+    fun bind(item: NoteItem.Roll, callback: NoteItemClickCallback) {
+        clickView.setOnClickListener { callback.onItemClick(item) }
+        clickView.setOnLongClickListener {
+            checkNoPosition { callback.onItemLongClick(item, it) }
+            return@setOnLongClickListener true
         }
+
+        binding.apply { this.item = item }.executePendingBindings()
     }
 
-    fun bind(item: NoteItem.Roll) = binding.apply { this.item = item }.executePendingBindings()
-
+    override fun unbind() {
+        clickView.setOnClickListener(null)
+        clickView.setOnLongClickListener(null)
+    }
 }

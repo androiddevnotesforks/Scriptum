@@ -118,11 +118,6 @@ class AlarmViewModel(
         getIdling().stop(IdlingTag.Alarm.START)
     }
 
-    override fun onClickNote() {
-        callback?.openNoteScreen(noteItem)
-        callback?.finish()
-    }
-
     override fun onClickDisable() {
         callback?.finish()
     }

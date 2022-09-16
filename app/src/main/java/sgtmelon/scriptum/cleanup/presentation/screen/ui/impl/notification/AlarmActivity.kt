@@ -36,8 +36,8 @@ import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
@@ -86,10 +86,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
 
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(object : ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
-                viewModel.onClickNote()
-            }
+        NoteAdapter(object : NoteItemClickCallback {
+            override fun onItemClick(item: NoteItem) = openNoteScreen(item)
+
+            override fun onItemLongClick(item: NoteItem, p: Int) = Unit
         })
     }
 
@@ -284,7 +284,12 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }.start()
     }
 
-    override fun openNoteScreen(item: NoteItem) = startActivity(NoteActivity[this, item])
+    // TODO need openState?
+    @Deprecated("Create delegator for screens open")
+    override fun openNoteScreen(item: NoteItem) {
+        startActivity(NoteActivity[this, item])
+        finish()
+    }
 
 
     override fun wakePhone(timeout: Long) = phoneAwake.wakeUp(timeout)
