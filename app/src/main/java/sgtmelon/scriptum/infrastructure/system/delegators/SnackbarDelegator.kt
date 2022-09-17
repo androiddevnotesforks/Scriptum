@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.snackbar
+package sgtmelon.scriptum.infrastructure.system.delegators
 
 import android.view.ViewGroup
 import android.widget.TextView
