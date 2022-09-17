@@ -24,8 +24,7 @@ import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarCallback
-import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarControl
+import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
@@ -43,8 +42,10 @@ import sgtmelon.test.idling.getIdling
 /**
  * Fragment which displays list of categories - [RankItem].
  */
-class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCallback,
-    SnackbarCallback {
+class RankFragment : ParentFragment(),
+    IRankFragment,
+    MainScreenReceiver.BindCallback,
+    SnackbarDelegator.Callback {
 
     //region Variables
 
@@ -86,7 +87,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }
 
-    private val snackbarControl = SnackbarControl(
+    private val snackbar = SnackbarDelegator(
         R.string.snackbar_message_rank, R.string.snackbar_action_cancel, callback = this
     )
 
@@ -147,7 +148,8 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
      */
     override fun onStop() {
         super.onStop()
-        dismissSnackbar(withCallback = false)
+        // TODO На сколько я понимаю, после поворота экрана будет восстановлен snackbar и поэтому не нужно чтобы отработал dismissResult
+        snackbar.dismiss(skipDismissResult = true)
     }
 
     /**
@@ -313,10 +315,10 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     }
 
     override fun showSnackbar() {
-        recyclerContainer?.let { snackbarControl.show(it, withInsets = false) }
+        recyclerContainer?.let { snackbar.show(it, withInsets = false) }
     }
 
-    override fun dismissSnackbar(withCallback: Boolean) = snackbarControl.dismiss(withCallback)
+    override fun dismissSnackbar() = snackbar.dismiss(skipDismissResult = false)
 
 
     override fun onSnackbarAction() {

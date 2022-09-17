@@ -27,8 +27,7 @@ import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.extension.updatePadding
 import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarCallback
-import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarControl
+import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarDelegator
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
@@ -43,7 +42,9 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
 /**
  * Screen with list of notifications.
  */
-class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallback {
+class NotificationActivity : AppActivity(),
+    INotificationActivity,
+    SnackbarDelegator.Callback {
 
     //region Variables
 
@@ -67,9 +68,8 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     }
     private val layoutManager by lazy { LinearLayoutManager(this) }
 
-    private val snackbarControl = SnackbarControl(
-        R.string.snackbar_message_notification, R.string.snackbar_action_cancel,
-        callback = this
+    private val snackbar = SnackbarDelegator(
+        R.string.snackbar_message_notification, R.string.snackbar_action_cancel, callback = this
     )
 
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_parent_container) }
@@ -111,7 +111,8 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
 
     override fun onStop() {
         super.onStop()
-        snackbarControl.dismiss(withCallback = false)
+        // TODO На сколько я понимаю, после поворота экрана будет восстановлен snackbar и поэтому не нужно чтобы отработал dismissResult
+        snackbar.dismiss(skipDismissResult = true)
     }
 
     override fun onDestroy() {
@@ -250,7 +251,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     override fun openNoteScreen(item: NotificationItem) = startActivity(NoteActivity[this, item])
 
     override fun showSnackbar() {
-        recyclerContainer?.let { snackbarControl.show(it, withInsets = true) }
+        recyclerContainer?.let { snackbar.show(it, withInsets = true) }
     }
 
     override fun onSnackbarAction() = openState.tryInvoke { viewModel.onSnackbarAction() }

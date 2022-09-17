@@ -11,14 +11,11 @@ import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 
-/**
- * Class for help control showing snackbar's.
- */
-class SnackbarControl(
+class SnackbarDelegator(
     @StringRes private val messageId: Int,
     @StringRes private val actionId: Int,
-    private val callback: SnackbarCallback
-) : ISnackbarControl {
+    private val callback: Callback
+) {
 
     private var snackbar: Snackbar? = null
 
@@ -26,20 +23,15 @@ class SnackbarControl(
         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
             super.onDismissed(transientBottomBar, event)
 
-            /**
-             * If user not click on action button (this mean: timeout dismiss, dismiss by swipe).
-             */
+            /** If user not click on action button (in case: timeout dismiss, dismiss by swipe). */
             if (event != DISMISS_EVENT_ACTION) {
                 callback.onSnackbarDismiss()
             }
         }
     }
 
-
-    override fun show(parent: ViewGroup, withInsets: Boolean) {
-        /**
-         * Need remove callback before dismiss for prevent call [Snackbar.Callback.onDismissed].
-         */
+    fun show(parent: ViewGroup, withInsets: Boolean) {
+        /** Need remove callback before dismiss for preventing [Snackbar.Callback.onDismissed]. */
         snackbar?.removeCallback(dismissCallback)
         snackbar?.dismiss()
 
@@ -60,30 +52,32 @@ class SnackbarControl(
         }
     }
 
-    override fun dismiss() {
-        snackbar?.dismiss()
+    private fun Snackbar.setupTheme() = apply {
+        val context = view.context
+        val background = context.getDrawableCompat(R.drawable.bg_snackbar)
+        val textColor = context.getColorAttr(R.attr.clContent)
+        val actionColor = context.getColorAttr(R.attr.clAccent)
+
+        view.background = background
+        view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+            .setTextColor(textColor)
+        setActionTextColor(actionColor)
     }
 
     /**
-     * If without callback it mean that [SnackbarCallback.onSnackbarDismiss] will not
-     * call on dismiss.
+     * [skipDismissResult] means that [Callback.onSnackbarDismiss] will not be called
+     * on [snackbar] dismiss.
      */
-    override fun dismiss(withCallback: Boolean) {
-        if (!withCallback) {
+    fun dismiss(skipDismissResult: Boolean) {
+        if (skipDismissResult) {
             snackbar?.removeCallback(dismissCallback)
         }
 
         snackbar?.dismiss()
     }
 
-    private fun Snackbar.setupTheme() = apply {
-        val background = view.context.getDrawableCompat(R.drawable.bg_snackbar)
-        val textColor = view.context.getColorAttr(R.attr.clContent)
-        val actionColor = view.context.getColorAttr(R.attr.clAccent)
-
-        view.background = background
-        view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-            .setTextColor(textColor)
-        setActionTextColor(actionColor)
+    interface Callback {
+        fun onSnackbarAction()
+        fun onSnackbarDismiss()
     }
 }

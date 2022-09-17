@@ -40,7 +40,7 @@ interface IRankFragment : SystemReceiver.Bridge.Bind {
 
     fun showSnackbar()
 
-    fun dismissSnackbar(withCallback: Boolean = true)
+    fun dismissSnackbar()
 
 
     fun getEnterText(): String
