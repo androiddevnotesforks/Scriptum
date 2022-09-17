@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -177,39 +179,48 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
-        holderControl.display()
-
         lifecycleScope.launchWhenResumed {
+            holderControl.display()
+
             val fm = fm
             fm.beginTransaction()
                 .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
-                .apply {
-                    if (fm.findFragmentByTag(pageFrom.getFragmentTag()) != null) {
-                        val fragmentFrom = pageFrom.getFragmentByName()
-
-                        hide(fragmentFrom)
-                        fragmentFrom.onPause()
-
-                        /**
-                         * Dismiss without callback happen inside [Fragment.onStop] function.
-                         * So be careful when call it manually.
-                         */
-                        if (fragmentFrom is RankFragment) {
-                            fragmentFrom.dismissSnackbar()
-                        }
-                    }
-
-                    val fragmentTo = pageTo.getFragmentByName()
-                    val fragmentToTag = pageTo.getFragmentTag()
-
-                    if (fm.findFragmentByTag(fragmentToTag) != null) {
-                        show(fragmentTo)
-                        fragmentTo.onResume()
-                    } else {
-                        add(R.id.main_fragment_container, fragmentTo, fragmentToTag)
-                    }
-                }.commit()
+                .changeMainFragments(fm, pageFrom, pageTo)
+                .commit()
         }
+    }
+
+    private fun FragmentTransaction.changeMainFragments(
+        fm: FragmentManager,
+        pageFrom: MainPage,
+        pageTo: MainPage
+    ): FragmentTransaction {
+        if (fm.findFragmentByTag(pageFrom.getFragmentTag()) != null) {
+            val fragmentFrom = pageFrom.getFragmentByName()
+
+            hide(fragmentFrom)
+            fragmentFrom.onPause()
+
+            /**
+             * Dismiss without callback happen inside [Fragment.onStop] function.
+             * So be careful when call it manually.
+             */
+            if (fragmentFrom is RankFragment) {
+                fragmentFrom.dismissSnackbar()
+            }
+        }
+
+        val fragmentTo = pageTo.getFragmentByName()
+        val fragmentToTag = pageTo.getFragmentTag()
+
+        if (fm.findFragmentByTag(fragmentToTag) != null) {
+            show(fragmentTo)
+            fragmentTo.onResume()
+        } else {
+            add(R.id.main_fragment_container, fragmentTo, fragmentToTag)
+        }
+
+        return this
     }
 
     override fun openNoteScreen(noteType: NoteType) = openState.tryInvoke {
