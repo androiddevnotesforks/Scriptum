@@ -209,3 +209,25 @@ fun View.updateMargin(
 }
 
 enum class InsetsDir { LEFT, TOP, RIGHT, BOTTOM }
+
+/**
+ * Functions for setup simple Insets for [View], for remove repeatable code and decrease
+ * possible errors count.
+ */
+fun View.setPaddingInsets(vararg insetsDirs: InsetsDir) {
+    doOnApplyWindowInsets { view, insets, _, padding, _ ->
+        for (dir in insetsDirs) {
+            view.updatePadding(dir, insets, padding)
+        }
+        return@doOnApplyWindowInsets insets
+    }
+}
+
+fun View.setMarginInsets(vararg insetsDirs: InsetsDir) {
+    doOnApplyWindowInsets { view, insets, _, _, margin ->
+        for (dir in insetsDirs) {
+            view.updateMargin(dir, insets, margin)
+        }
+        return@doOnApplyWindowInsets insets
+    }
+}

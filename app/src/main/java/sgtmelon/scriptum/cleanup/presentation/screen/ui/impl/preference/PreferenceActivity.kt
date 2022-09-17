@@ -12,10 +12,9 @@ import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.isPortraitMode
-import sgtmelon.scriptum.cleanup.extension.updateMargin
+import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -91,12 +90,7 @@ class PreferenceActivity : AppActivity() {
      * [InsetsDir.BOTTOM] setup in [ParentPreferenceFragment].
      */
     private fun setupInsets() {
-        parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
-            view.updateMargin(InsetsDir.LEFT, insets, margin)
-            view.updateMargin(InsetsDir.TOP, insets, margin)
-            view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            return@doOnApplyWindowInsets insets
-        }
+        parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
     }
 
     private fun showFragment() {

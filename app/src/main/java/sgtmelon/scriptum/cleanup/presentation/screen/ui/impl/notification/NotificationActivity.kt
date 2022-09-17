@@ -18,14 +18,13 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isPortraitMode
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
-import sgtmelon.scriptum.cleanup.extension.updateMargin
-import sgtmelon.scriptum.cleanup.extension.updatePadding
+import sgtmelon.scriptum.cleanup.extension.setMarginInsets
+import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -188,17 +187,8 @@ class NotificationActivity : AppActivity(),
     }
 
     override fun setupInsets() {
-        parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
-            view.updateMargin(InsetsDir.LEFT, insets, margin)
-            view.updateMargin(InsetsDir.TOP, insets, margin)
-            view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            return@doOnApplyWindowInsets insets
-        }
-
-        recyclerView?.doOnApplyWindowInsets { view, insets, _, padding, _ ->
-            view.updatePadding(InsetsDir.BOTTOM, insets, padding)
-            return@doOnApplyWindowInsets insets
-        }
+        parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
+        recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
     }
 
     /**

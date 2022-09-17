@@ -29,12 +29,11 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getAlphaInterpolator
 import sgtmelon.scriptum.cleanup.extension.initLazy
+import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.toUriOrNull
-import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
@@ -211,15 +210,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      * This activity not rotatable (don't need setup margin for left and right).
      */
     override fun setupInsets() {
-        logoView?.doOnApplyWindowInsets { view, insets, _, _, margin ->
-            view.updateMargin(InsetsDir.TOP, insets, margin)
-            return@doOnApplyWindowInsets insets
-        }
-
-        buttonContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
-            return@doOnApplyWindowInsets insets
-        }
+        logoView?.setMarginInsets(InsetsDir.TOP)
+        buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
     }
 
     override fun setupPlayer(stringUri: String, volumePercent: Int, isIncrease: Boolean) {

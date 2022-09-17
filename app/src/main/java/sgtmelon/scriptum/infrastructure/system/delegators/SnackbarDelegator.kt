@@ -8,8 +8,7 @@ import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
-import sgtmelon.scriptum.cleanup.extension.updateMargin
+import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 
 class SnackbarDelegator(
     @StringRes private val messageId: Int,
@@ -43,12 +42,7 @@ class SnackbarDelegator(
             .show()
 
         if (withInsets) {
-            snackbar?.view?.doOnApplyWindowInsets { view, insets, _, _, margin ->
-                view.updateMargin(InsetsDir.LEFT, insets, margin)
-                view.updateMargin(InsetsDir.RIGHT, insets, margin)
-                view.updateMargin(InsetsDir.BOTTOM, insets, margin)
-                return@doOnApplyWindowInsets insets
-            }
+            snackbar?.view?.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)
         }
     }
 

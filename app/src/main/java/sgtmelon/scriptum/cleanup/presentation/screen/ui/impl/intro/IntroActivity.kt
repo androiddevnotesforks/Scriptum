@@ -16,9 +16,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
-import sgtmelon.scriptum.cleanup.extension.updateMargin
-import sgtmelon.scriptum.cleanup.extension.updatePadding
+import sgtmelon.scriptum.cleanup.extension.setMarginInsets
+import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.IntroPageAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -130,27 +129,9 @@ class IntroActivity : ParentActivity(), IIntroActivity {
     }
 
     override fun setupInsets() {
-        viewPager.doOnApplyWindowInsets { view, insets, _, padding, _ ->
-            view.updatePadding(InsetsDir.LEFT, insets, padding)
-            view.updatePadding(InsetsDir.TOP, insets, padding)
-            view.updatePadding(InsetsDir.RIGHT, insets, padding)
-            view.updatePadding(InsetsDir.BOTTOM, insets, padding)
-            return@doOnApplyWindowInsets insets
-        }
-
-        pageContainer.doOnApplyWindowInsets { view, insets, _, _, margin ->
-            view.updateMargin(InsetsDir.LEFT, insets, margin)
-            view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
-            return@doOnApplyWindowInsets insets
-        }
-
-        endButton.doOnApplyWindowInsets { view, insets, _, _, margin ->
-            view.updateMargin(InsetsDir.LEFT, insets, margin)
-            view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
-            return@doOnApplyWindowInsets insets
-        }
+        viewPager.setPaddingInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT, InsetsDir.BOTTOM)
+        pageContainer.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)
+        endButton.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)
     }
 
     override fun getCurrentPosition(): Int = viewPager.currentItem

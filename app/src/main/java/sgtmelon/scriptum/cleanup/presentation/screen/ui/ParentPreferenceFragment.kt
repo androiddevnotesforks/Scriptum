@@ -3,8 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
-import sgtmelon.scriptum.cleanup.extension.updatePadding
+import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
@@ -33,9 +32,6 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
     }
 
     private fun setupInsets() {
-        listView.doOnApplyWindowInsets { view, insets, _, padding, _ ->
-            view.updatePadding(InsetsDir.BOTTOM, insets, padding)
-            return@doOnApplyWindowInsets insets
-        }
+        listView.setPaddingInsets(InsetsDir.BOTTOM)
     }
 }

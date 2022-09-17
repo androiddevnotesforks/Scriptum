@@ -16,12 +16,11 @@ import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.isPortraitMode
-import sgtmelon.scriptum.cleanup.extension.updateMargin
-import sgtmelon.scriptum.cleanup.extension.updatePadding
+import sgtmelon.scriptum.cleanup.extension.setMarginInsets
+import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.PrintAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
@@ -130,17 +129,8 @@ class PrintDevelopActivity : AppActivity(), IPrintDevelopActivity {
     }
 
     override fun setupInsets() {
-        parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
-            view.updateMargin(InsetsDir.LEFT, insets, margin)
-            view.updateMargin(InsetsDir.TOP, insets, margin)
-            view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            return@doOnApplyWindowInsets insets
-        }
-
-        recyclerView?.doOnApplyWindowInsets { view, insets, _, padding, _ ->
-            view.updatePadding(InsetsDir.BOTTOM, insets, padding)
-            return@doOnApplyWindowInsets insets
-        }
+        parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
+        recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
     }
 
     /**
