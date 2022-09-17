@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
 
 import android.os.Bundle
-import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.getClearCalendar
@@ -118,23 +117,6 @@ class AlarmViewModel(
         getIdling().stop(IdlingTag.Alarm.START)
     }
 
-    override fun onClickDisable() {
-        callback?.finish()
-    }
-
-    override fun onClickRepeat() = finishWithRepeat()
-
-    override fun onResultRepeatDialog(@IdRes itemId: Int) = finishWithRepeat(getRepeatById(itemId))
-
-    @RunPrivate fun getRepeatById(@IdRes itemId: Int): Repeat? = when (itemId) {
-        R.id.item_repeat_0 -> Repeat.MIN_10
-        R.id.item_repeat_1 -> Repeat.MIN_30
-        R.id.item_repeat_2 -> Repeat.MIN_60
-        R.id.item_repeat_3 -> Repeat.MIN_180
-        R.id.item_repeat_4 -> Repeat.MIN_1440
-        else -> null
-    }
-
     /**
      * Call this when need set alarm repeat with screen finish. If [repeat] is null when will
      * use value saved preferences.
@@ -154,7 +136,6 @@ class AlarmViewModel(
 
             callback?.sendSetAlarmBroadcast(id, calendar, showToast = false)
             callback?.sendNotifyInfoBroadcast()
-
             callback?.showRepeatToast(actualRepeat)
             callback?.sendUpdateBroadcast(id)
             callback?.finish()

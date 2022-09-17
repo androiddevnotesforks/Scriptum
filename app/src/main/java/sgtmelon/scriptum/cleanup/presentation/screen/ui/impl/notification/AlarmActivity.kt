@@ -45,6 +45,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -116,7 +117,15 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
+        setupScreen()
+        setContentView(R.layout.activity_alarm)
 
+        viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
+
+        registerReceiver(noteReceiver, IntentFilter(Filter.NOTE))
+    }
+
+    private fun setupScreen() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
@@ -126,12 +135,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
             window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
         }
-
-        setContentView(R.layout.activity_alarm)
-
-        viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
-
-        registerReceiver(noteReceiver, IntentFilter(Filter.NOTE))
     }
 
     override fun onPause() {
@@ -187,16 +190,19 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             it.adapter = adapter
         }
 
-        disableButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickDisable() } }
-        repeatButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickRepeat() } }
+        disableButton?.setOnClickListener { openState.tryInvoke { finish() } }
+        repeatButton?.setOnClickListener { openState.tryInvoke { viewModel.finishWithRepeat() } }
         moreButton?.setOnClickListener {
             openState.tryInvoke {
                 repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this)
             }
         }
 
+        val repeatData = RepeatSheetData()
         repeatDialog.apply {
-            onItemSelected(owner = this@AlarmActivity) { viewModel.onResultRepeatDialog(it.itemId) }
+            onItemSelected(owner = this@AlarmActivity) {
+                viewModel.finishWithRepeat(repeatData.convert(it.itemId))
+            }
             onDismiss { openState.clear() }
         }
     }

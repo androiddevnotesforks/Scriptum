@@ -13,9 +13,7 @@ import java.util.Calendar
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.scriptum.R
@@ -289,75 +287,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
             startFinishTimer(AlarmViewModel.FINISH_TIME)
         }
-    }
-
-    @Test fun onClickNote() {
-        val noteItem = data.firstNote.deepCopy()
-
-        viewModel.noteItem = noteItem
-        viewModel.onClickNote()
-
-        verifySequence {
-            callback.openNoteScreen(noteItem)
-            callback.finish()
-        }
-    }
-
-    @Test fun onClickDisable() {
-        viewModel.onClickDisable()
-        verifySequence { callback.finish() }
-    }
-
-    @Test fun onClickRepeat() {
-        val repeat = mockk<Repeat>()
-
-        every { preferencesRepo.repeat } returns repeat
-        every { spyViewModel.finishWithRepeat(repeat) } returns Unit
-
-        spyViewModel.onClickRepeat()
-
-        verifySequence {
-            spyViewModel.onClickRepeat()
-            preferencesRepo.repeat
-            spyViewModel.finishWithRepeat(repeat)
-        }
-    }
-
-    @Test fun onResultRepeatDialog() {
-        val itemId = Random.nextInt()
-        val repeatFirst = mockk<Repeat>()
-        val repeatSecond = mockk<Repeat>()
-
-        every { spyViewModel.getRepeatById(itemId) } returns null
-        every { preferencesRepo.repeat } returns repeatFirst
-        every { spyViewModel.finishWithRepeat(repeatFirst) } returns Unit
-
-        spyViewModel.onResultRepeatDialog(itemId)
-
-        every { spyViewModel.getRepeatById(itemId) } returns repeatSecond
-        every { spyViewModel.finishWithRepeat(repeatSecond) } returns Unit
-
-        spyViewModel.onResultRepeatDialog(itemId)
-
-        verifySequence {
-            spyViewModel.onResultRepeatDialog(itemId)
-            spyViewModel.getRepeatById(itemId)
-            preferencesRepo.repeat
-            spyViewModel.finishWithRepeat(repeatFirst)
-
-            spyViewModel.onResultRepeatDialog(itemId)
-            spyViewModel.getRepeatById(itemId)
-            spyViewModel.finishWithRepeat(repeatSecond)
-        }
-    }
-
-    @Test fun getRepeatById() {
-        assertEquals(Repeat.MIN_10, viewModel.getRepeatById(R.id.item_repeat_0))
-        assertEquals(Repeat.MIN_30, viewModel.getRepeatById(R.id.item_repeat_1))
-        assertEquals(Repeat.MIN_60, viewModel.getRepeatById(R.id.item_repeat_2))
-        assertEquals(Repeat.MIN_180, viewModel.getRepeatById(R.id.item_repeat_3))
-        assertEquals(Repeat.MIN_1440, viewModel.getRepeatById(R.id.item_repeat_4))
-        assertNull(viewModel.getRepeatById(itemId = -1))
     }
 
     @Test fun finishWithRepeat() {
