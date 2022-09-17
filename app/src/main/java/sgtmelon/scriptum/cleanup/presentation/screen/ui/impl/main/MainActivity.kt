@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
@@ -178,37 +179,36 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
         holderControl.display()
 
-        with(fm) {
-            beginTransaction().apply {
-                setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
+        lifecycleScope.launchWhenResumed {
+            val fm = fm
+            fm.beginTransaction()
+                .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
+                .apply {
+                    if (fm.findFragmentByTag(pageFrom.getFragmentTag()) != null) {
+                        val fragmentFrom = pageFrom.getFragmentByName()
 
-                if (findFragmentByTag(pageFrom.getFragmentTag()) != null) {
-                    val fragmentFrom = pageFrom.getFragmentByName()
+                        hide(fragmentFrom)
+                        fragmentFrom.onPause()
 
-                    hide(fragmentFrom)
-                    fragmentFrom.onPause()
-
-                    /**
-                     * Dismiss without callback happen inside [Fragment.onStop] function.
-                     * So be careful when call it manually.
-                     */
-                    if (fragmentFrom is RankFragment) {
-                        fragmentFrom.dismissSnackbar()
+                        /**
+                         * Dismiss without callback happen inside [Fragment.onStop] function.
+                         * So be careful when call it manually.
+                         */
+                        if (fragmentFrom is RankFragment) {
+                            fragmentFrom.dismissSnackbar()
+                        }
                     }
-                }
 
-                val fragmentTo = pageTo.getFragmentByName()
-                val fragmentToTag = pageTo.getFragmentTag()
+                    val fragmentTo = pageTo.getFragmentByName()
+                    val fragmentToTag = pageTo.getFragmentTag()
 
-                if (findFragmentByTag(fragmentToTag) != null) {
-                    show(fragmentTo)
-                    fragmentTo.onResume()
-                } else {
-                    add(R.id.main_fragment_container, fragmentTo, fragmentToTag)
-                }
-
-                commit()
-            }
+                    if (fm.findFragmentByTag(fragmentToTag) != null) {
+                        show(fragmentTo)
+                        fragmentTo.onResume()
+                    } else {
+                        add(R.id.main_fragment_container, fragmentTo, fragmentToTag)
+                    }
+                }.commit()
         }
     }
 
