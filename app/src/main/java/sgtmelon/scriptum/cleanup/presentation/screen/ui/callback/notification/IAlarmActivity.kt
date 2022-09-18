@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
     SystemReceiver.Bridge.Bind {
 
-    fun setupPlayer(stringUri: String, volumePercent: Int, isIncrease: Boolean)
+    fun setupPlayer(stringUri: String, volumePercent: Int, isVolumeIncrease: Boolean)
 
     fun prepareLogoAnimation()
 

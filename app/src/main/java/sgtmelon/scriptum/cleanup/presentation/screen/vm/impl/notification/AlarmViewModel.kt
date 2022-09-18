@@ -36,7 +36,9 @@ class AlarmViewModel(
     private val deleteNotification: DeleteNotificationUseCase,
     private val shiftDateIfExist: ShiftDateIfExistUseCase
 ) : ParentViewModel<IAlarmActivity>(callback),
-        IAlarmViewModel {
+    IAlarmViewModel {
+
+    //region Cleanup
 
     @RunPrivate var id: Long = Default.ID
 
@@ -46,14 +48,6 @@ class AlarmViewModel(
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
 
         viewModelScope.launch {
-            val melodyUri = runBack { preferencesRepo.getMelodyUri(getMelodyList()) }
-
-            if (melodyUri != null) {
-                val volumePercent = preferencesRepo.volumePercent
-                val isVolumeIncrease = preferencesRepo.isVolumeIncrease
-                callback?.setupPlayer(melodyUri, volumePercent, isVolumeIncrease)
-            }
-
             /** If first open. */
             if (!::noteItem.isInitialized) {
                 val item = runBack {
@@ -76,11 +70,20 @@ class AlarmViewModel(
                     callback?.finish()
                     return@launch
                 }
+            }
 
-                callback?.sendNotifyInfoBroadcast()
+            val signalState = preferencesRepo.signalState
+            if (signalState.isMelody) {
+                val melodyUri = runBack { preferencesRepo.getMelodyUri(getMelodyList()) }
+                if (melodyUri != null) {
+                    val volumePercent = preferencesRepo.volumePercent
+                    val isVolumeIncrease = preferencesRepo.isVolumeIncrease
+                    callback?.setupPlayer(melodyUri, volumePercent, isVolumeIncrease)
+                }
             }
 
             callback?.apply {
+                sendNotifyInfoBroadcast()
                 prepareLogoAnimation()
                 notifyList(noteItem)
             }
@@ -101,7 +104,7 @@ class AlarmViewModel(
             }
 
             if (signalState.isVibration) {
-                callback?.startVibrator()
+                startVibrator()
             }
 
             startFinishTimer(AlarmActivity.TIMEOUT_TIME)
@@ -143,4 +146,6 @@ class AlarmViewModel(
 
         callback?.notifyList(noteItem.apply { isStatus = false })
     }
+
+    //endregion
 }

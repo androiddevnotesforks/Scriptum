@@ -234,10 +234,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
 
 
-    override fun setupPlayer(stringUri: String, volumePercent: Int, isIncrease: Boolean) {
+    override fun setupPlayer(stringUri: String, volumePercent: Int, isVolumeIncrease: Boolean) {
         val uri = stringUri.toUriOrNull() ?: return
 
-        melodyPlay.setupVolume(volumePercent, isIncrease)
+        melodyPlay.setupVolume(volumePercent, isVolumeIncrease)
         melodyPlay.setupPlayer(context = this@AlarmActivity, uri, isLooping = true)
     }
 

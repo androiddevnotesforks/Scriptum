@@ -16,6 +16,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
@@ -151,6 +152,9 @@ class PreferencesRepoImpl(
         }
 
     override val isVolumeIncrease: Boolean get() = dataSource.isVolumeIncrease
+
+    override val alarmState: AlarmState
+        get() = AlarmState(signalState, volumePercent, isVolumeIncrease)
 
     // Developer settings
 

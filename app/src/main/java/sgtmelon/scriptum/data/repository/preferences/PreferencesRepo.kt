@@ -6,6 +6,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
@@ -48,6 +49,8 @@ interface PreferencesRepo {
     var volumePercent: Int
 
     val isVolumeIncrease: Boolean
+
+    val alarmState: AlarmState
 
     // Developer settings
 

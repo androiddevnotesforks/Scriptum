@@ -32,6 +32,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.test.common.nextString
@@ -410,6 +411,27 @@ class PreferencesRepoImplTest : ParentTest() {
         { dataSource.isVolumeIncrease },
         { repo.isVolumeIncrease }
     )
+
+    @Test fun alarmState() {
+        val signalState = mockk<SignalState>()
+        val volumePercent = Random.nextInt()
+        val isVolumeIncrease = Random.nextBoolean()
+
+        val alarmState = AlarmState(signalState, volumePercent, isVolumeIncrease)
+
+        every { spyRepo.signalState } returns signalState
+        every { spyRepo.volumePercent } returns volumePercent
+        every { spyRepo.isVolumeIncrease } returns isVolumeIncrease
+
+        assertEquals(spyRepo.alarmState, alarmState)
+
+        verifySequence {
+            spyRepo.alarmState
+            spyRepo.signalState
+            spyRepo.volumePercent
+            spyRepo.isVolumeIncrease
+        }
+    }
 
     // Developer settings
 

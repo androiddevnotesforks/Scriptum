@@ -15,6 +15,7 @@ import sgtmelon.scriptum.infrastructure.utils.record
 @Deprecated("Use createOnUi")
 fun Any.initLazy() = this.run {}
 
+@Deprecated("Use UriConverter")
 fun String.toUriOrNull(): Uri? {
     return try {
         Uri.parse(this)
