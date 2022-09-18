@@ -10,6 +10,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -43,12 +44,6 @@ class AlarmViewModel(
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
-
-        callback?.apply {
-            wakePhone(FINISH_TIME)
-            setupView()
-            setupInsets()
-        }
 
         viewModelScope.launch {
             val melodyUri = runBack { preferencesRepo.getMelodyUri(getMelodyList()) }
@@ -92,8 +87,6 @@ class AlarmViewModel(
         }
     }
 
-    override fun onSaveData(bundle: Bundle) = with(bundle) { putLong(Intent.ID, id) }
-
     override fun onStart() {
         val signalState = preferencesRepo.signalState
 
@@ -111,7 +104,7 @@ class AlarmViewModel(
                 callback?.startVibrator()
             }
 
-            startFinishTimer(FINISH_TIME)
+            startFinishTimer(AlarmActivity.TIMEOUT_TIME)
         }
 
         getIdling().stop(IdlingTag.Alarm.START)
@@ -149,9 +142,5 @@ class AlarmViewModel(
         if (this.id != id) return
 
         callback?.notifyList(noteItem.apply { isStatus = false })
-    }
-
-    companion object {
-        @RunPrivate const val FINISH_TIME = 20000L
     }
 }

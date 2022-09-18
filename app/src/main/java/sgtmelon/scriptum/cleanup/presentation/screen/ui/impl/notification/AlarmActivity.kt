@@ -62,6 +62,17 @@ import android.graphics.Color as AndroidColor
 
 /**
  * Screen with notification opened by timer.
+ *
+ * Scenario of this screen:
+ * - This screen not support rotation changes - so we don't care about activity lifecycle.
+ * - Ways to disable alarm:
+ *      - Open note
+ *      - Click disable button
+ *      - Close app / disable phone screen
+ * - Ways to postpone alarm:
+ *      - Click postpone
+ *      - Select custom postpone
+ *      - Timer is over
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
@@ -95,6 +106,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     //region Views
 
+    // TODO add viewBinding
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.alarm_parent_container) }
     private val rippleContainer by lazy { findViewById<RippleContainer?>(R.id.alarm_ripple_container) }
 
@@ -119,7 +131,19 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         setupScreen()
         setContentView(R.layout.activity_alarm)
 
-        viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
+        //        val noteId = AlarmBundleProvider().getNoteId(intent.extras)
+        //        if (noteId == null) {
+        //            finish()
+        //            return
+        //        } else {
+        //            viewModel.setup(noteId)
+        //        }
+
+        phoneAwake.wakeUp(TIMEOUT_TIME)
+        setupView()
+        setupInsets()
+
+        viewModel.onSetup(bundle = intent.extras)
 
         registerReceiver(noteReceiver, IntentFilter(Filter.NOTE))
     }
@@ -134,6 +158,39 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
             window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
         }
+    }
+
+    private fun setupView() {
+        parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
+
+        recyclerView?.let {
+            it.layoutManager = LinearLayoutManager(this)
+            it.adapter = adapter
+        }
+
+        disableButton?.setOnClickListener { openState.tryInvoke { finish() } }
+        repeatButton?.setOnClickListener { openState.tryInvoke { viewModel.finishWithRepeat() } }
+        moreButton?.setOnClickListener {
+            openState.tryInvoke {
+                repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this)
+            }
+        }
+
+        val repeatData = RepeatSheetData()
+        repeatDialog.apply {
+            onItemSelected(owner = this@AlarmActivity) {
+                viewModel.finishWithRepeat(repeatData.convert(it.itemId))
+            }
+            onDismiss { openState.clear() }
+        }
+    }
+
+    /**
+     * This activity not rotatable (don't need setup margin for left and right).
+     */
+    private fun setupInsets() {
+        logoView?.setMarginInsets(InsetsDir.TOP)
+        buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
     }
 
     override fun onPause() {
@@ -162,11 +219,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         unregisterReceiver(noteReceiver)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.onSaveData(outState)
-    }
-
     override fun setStatusBarColor() {
         window.statusBarColor = AndroidColor.TRANSPARENT
     }
@@ -181,38 +233,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
 
-    override fun setupView() {
-        parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
-
-        recyclerView?.let {
-            it.layoutManager = LinearLayoutManager(this)
-            it.adapter = adapter
-        }
-
-        disableButton?.setOnClickListener { openState.tryInvoke { finish() } }
-        repeatButton?.setOnClickListener { openState.tryInvoke { viewModel.finishWithRepeat() } }
-        moreButton?.setOnClickListener {
-            openState.tryInvoke {
-                repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this)
-            }
-        }
-
-        val repeatData = RepeatSheetData()
-        repeatDialog.apply {
-            onItemSelected(owner = this@AlarmActivity) {
-                viewModel.finishWithRepeat(repeatData.convert(it.itemId))
-            }
-            onDismiss { openState.clear() }
-        }
-    }
-
-    /**
-     * This activity not rotatable (don't need setup margin for left and right).
-     */
-    override fun setupInsets() {
-        logoView?.setMarginInsets(InsetsDir.TOP)
-        buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
-    }
 
     override fun setupPlayer(stringUri: String, volumePercent: Int, isIncrease: Boolean) {
         val uri = stringUri.toUriOrNull() ?: return
@@ -289,9 +309,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         finish()
     }
 
-
-    override fun wakePhone(timeout: Long) = phoneAwake.wakeUp(timeout)
-
     override fun startFinishTimer(time: Long) {
         finishTimer.run(time) { viewModel.finishWithRepeat() }
     }
@@ -339,6 +356,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     companion object {
         @RunPrivate var isFinishOnStop = true
+
+        const val TIMEOUT_TIME = 20000L
 
         operator fun get(context: Context, id: Long): Intent {
             return Intent(context, AlarmActivity::class.java)

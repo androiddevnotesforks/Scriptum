@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 /**
  * Parent interface for communicate with children of [ParentViewModel].
  */
+@Deprecated("Remove this")
 interface IParentViewModel {
 
     @Deprecated("Add converter for bundle data and pass inside viewModels only needed data")

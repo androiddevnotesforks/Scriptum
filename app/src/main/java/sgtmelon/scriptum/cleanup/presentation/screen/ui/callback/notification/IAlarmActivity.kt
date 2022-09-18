@@ -14,10 +14,6 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
     SystemReceiver.Bridge.Bind {
 
-    fun setupView()
-
-    fun setupInsets()
-
     fun setupPlayer(stringUri: String, volumePercent: Int, isIncrease: Boolean)
 
     fun prepareLogoAnimation()
@@ -32,8 +28,6 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
     @Deprecated("Create delegator for screens open")
     fun openNoteScreen(item: NoteItem)
 
-
-    fun wakePhone(timeout: Long)
 
     fun startFinishTimer(time: Long)
 

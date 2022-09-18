@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.IPressBack
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
@@ -91,7 +90,7 @@ class AlarmScreen(
         RepeatSheetDialogUi(func)
     }
 
-    fun waitRepeat() = waitBefore(AlarmViewModel.FINISH_TIME) { onRepeat() }
+    fun waitRepeat() = waitBefore(AlarmActivity.TIMEOUT_TIME) { onRepeat() }
 
     private fun onRepeat(): Calendar {
         val calendar = getClearCalendar(addMinutes = repeatArray[preferences.repeat])

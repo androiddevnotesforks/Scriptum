@@ -9,6 +9,7 @@ import sgtmelon.test.prod.RunProtected
  *
  * [C] is the interface for communicate with UI. Same like in [IParentViewModel].
  */
+@Deprecated("Use simple ViewModel")
 abstract class ParentViewModel<C>(private var callbackField: C?) : ViewModel(),
     IParentViewModel {
 

@@ -79,7 +79,7 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
     }
 
     /**
-     * Set system colors from xml not working.
+     * Set system colors via xml not working.
      */
     override fun changeSystemColor() {
         val theme = geDisplayedTheme() ?: return

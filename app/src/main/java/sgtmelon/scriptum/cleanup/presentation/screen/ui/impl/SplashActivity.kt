@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import javax.inject.Inject
@@ -91,10 +92,9 @@ class SplashActivity : ParentActivity(),
         window.navigationBarColor = AndroidColor.TRANSPARENT
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun setNavigationDividerColor(theme: ThemeDisplayed) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = AndroidColor.TRANSPARENT
-        }
+        window.navigationBarDividerColor = AndroidColor.TRANSPARENT
     }
 
 

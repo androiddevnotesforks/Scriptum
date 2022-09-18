@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
@@ -105,7 +106,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
-                wakePhone(AlarmViewModel.FINISH_TIME)
+                wakePhone(AlarmActivity.TIMEOUT_TIME)
                 setupView()
                 setupInsets()
 
@@ -152,7 +153,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 if (!it.isDivideEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
 
                 callback.apply {
-                    wakePhone(AlarmViewModel.FINISH_TIME)
+                    wakePhone(AlarmActivity.TIMEOUT_TIME)
                     setupView()
                     setupInsets()
 
@@ -197,7 +198,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
-                wakePhone(AlarmViewModel.FINISH_TIME)
+                wakePhone(AlarmActivity.TIMEOUT_TIME)
                 setupView()
                 setupInsets()
 
@@ -213,7 +214,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
 
             callback.apply {
-                wakePhone(AlarmViewModel.FINISH_TIME)
+                wakePhone(AlarmActivity.TIMEOUT_TIME)
                 setupView()
                 setupInsets()
 
@@ -285,7 +286,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 callback.startVibrator()
             }
 
-            startFinishTimer(AlarmViewModel.FINISH_TIME)
+            startFinishTimer(AlarmActivity.TIMEOUT_TIME)
         }
     }
 

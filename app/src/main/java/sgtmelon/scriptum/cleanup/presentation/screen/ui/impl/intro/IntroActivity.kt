@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.viewpager2.widget.ViewPager2
 import javax.inject.Inject
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
@@ -101,10 +102,9 @@ class IntroActivity : ParentActivity(), IIntroActivity {
         window.navigationBarColor = Color.TRANSPARENT
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun setNavigationDividerColor(theme: ThemeDisplayed) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = Color.TRANSPARENT
-        }
+        window.navigationBarDividerColor = Color.TRANSPARENT
     }
 
 
