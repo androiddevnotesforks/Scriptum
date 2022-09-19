@@ -11,14 +11,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.animation.AccelerateInterpolator
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.AutoTransition
-import androidx.transition.Transition
-import androidx.transition.TransitionListenerAdapter
-import androidx.transition.TransitionManager
 import javax.inject.Inject
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.safedialog.utils.safeShow
@@ -48,6 +43,7 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.screen.data.AlarmAnimations
 import sgtmelon.scriptum.infrastructure.screen.data.AlarmBundleProvider
 import sgtmelon.scriptum.infrastructure.screen.data.AlarmScreenState
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
@@ -157,7 +153,7 @@ class AlarmActivity : AppActivity() {
 
     private fun setupObservers(noteId: Long) {
         viewModel.setup(noteId)
-        viewModel.noteItem.observe(this) { notifyList(it) }
+        viewModel.noteItem.observe(this) { notifyItem(it) }
         viewModel.state.observe(this) {
             when (it) {
                 is AlarmScreenState.Setup -> onSetupState(it)
@@ -220,7 +216,7 @@ class AlarmActivity : AppActivity() {
         }
 
         broadcast.sendNotifyInfoBind(count = null)
-        prepareLogoAnimation()
+        startContentAnimation()
     }
 
     private fun setupView() {
@@ -228,6 +224,7 @@ class AlarmActivity : AppActivity() {
 
         recyclerView?.let {
             it.layoutManager = LinearLayoutManager(this)
+            it.setHasFixedSize(true)
             it.adapter = adapter
         }
 
@@ -239,10 +236,9 @@ class AlarmActivity : AppActivity() {
             }
         }
 
-        val repeatData = RepeatSheetData()
         repeatDialog.apply {
             onItemSelected(owner = this@AlarmActivity) {
-                startPostpone(repeatData.convert(it.itemId))
+                startPostpone(RepeatSheetData().convert(it.itemId))
             }
             onDismiss { openState.clear() }
         }
@@ -261,43 +257,29 @@ class AlarmActivity : AppActivity() {
         val alarmState = viewModel.alarmState
 
         melodyPlay.setupVolume(alarmState.volumePercent, alarmState.isVolumeIncrease)
-        melodyPlay.setupPlayer(context = this@AlarmActivity, uri, isLooping = true)
+        melodyPlay.setupPlayer(context = this, uri, isLooping = true)
     }
 
-    private fun prepareLogoAnimation() {
-        val parentContainer = parentContainer ?: return
-        val logoView = logoView ?: return
-
-        val transition = AutoTransition()
-            .setInterpolator(AccelerateInterpolator())
-            .addTarget(logoView)
-            .addIdlingListener()
-            .addListener(object : TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition) = onLogoTransitionEnd()
-            })
-
-        TransitionManager.beginDelayedTransition(parentContainer, transition)
-
-        recyclerView?.visibility = View.VISIBLE
-        buttonContainer?.visibility = View.VISIBLE
+    private fun startContentAnimation() {
+        AlarmAnimations().startContentAnimation(
+            parentContainer, logoView, { onLogoTransitionEnd() }
+        ) {
+            recyclerView?.visibility = View.VISIBLE
+            buttonContainer?.visibility = View.VISIBLE
+        }
     }
 
-    private fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
+    private fun notifyItem(item: NoteItem) = adapter.notifyList(arrayListOf(item))
 
     private fun onLogoTransitionEnd() {
         if (isLayoutConfigure) {
             onStartState()
         } else {
-            waitLayoutConfigure()
-        }
-    }
-
-    private fun waitLayoutConfigure() {
-        getIdling().start(IdlingTag.Alarm.CONFIGURE)
-
-        parentContainer?.afterLayoutConfiguration {
-            onStartState()
-            getIdling().stop(IdlingTag.Alarm.CONFIGURE)
+            getIdling().start(IdlingTag.Alarm.CONFIGURE)
+            parentContainer?.afterLayoutConfiguration {
+                onStartState()
+                getIdling().stop(IdlingTag.Alarm.CONFIGURE)
+            }
         }
     }
 
@@ -306,12 +288,11 @@ class AlarmActivity : AppActivity() {
     //region Start state
 
     private fun onStartState() {
-        val item = viewModel.noteItem.value ?: return
         val alarmState = viewModel.alarmState
 
         getIdling().start(IdlingTag.Alarm.START)
 
-        startRippleAnimation(item)
+        startRippleAnimation()
         startButtonFadeInAnimation()
 
         if (alarmState.signalState.isMelody) {
@@ -328,9 +309,11 @@ class AlarmActivity : AppActivity() {
         getIdling().stop(IdlingTag.Alarm.START)
     }
 
-    private fun startRippleAnimation(item: NoteItem) {
+    private fun startRippleAnimation() {
+        val noteItem = viewModel.noteItem.value ?: return
         val logoView = logoView ?: return
-        rippleContainer?.setupAnimation(item.color, logoView)?.startAnimation()
+
+        rippleContainer?.setupAnimation(noteItem.color, logoView)?.startAnimation()
     }
 
     private fun startButtonFadeInAnimation() {

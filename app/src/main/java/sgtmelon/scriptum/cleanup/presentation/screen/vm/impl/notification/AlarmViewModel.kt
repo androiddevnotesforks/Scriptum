@@ -63,7 +63,7 @@ class AlarmViewModel(
             null
         }
 
-        state.postValue(AlarmScreenState.Setup(melodyUri))
+        state.postValue(AlarmScreenState.Setup(item, melodyUri))
     }
 
     override fun postpone(repeat: Repeat?, timeArray: IntArray) {

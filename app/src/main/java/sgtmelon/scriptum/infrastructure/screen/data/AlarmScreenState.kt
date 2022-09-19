@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.data
 
 import java.util.Calendar
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 
@@ -9,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
  */
 sealed class AlarmScreenState {
 
-    class Setup(val melodyUri: String?) : AlarmScreenState()
+    class Setup(val noteItem: NoteItem, val melodyUri: String?) : AlarmScreenState()
 
     class Postpone(
         val noteId: Long,
