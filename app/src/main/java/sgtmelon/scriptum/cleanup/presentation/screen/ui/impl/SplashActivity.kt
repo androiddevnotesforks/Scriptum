@@ -2,9 +2,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import javax.inject.Inject
@@ -30,11 +28,10 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.Hel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
+import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.test.idling.getWaitIdling
 import sgtmelon.test.prod.RunPrivate
-import android.graphics.Color as AndroidColor
 
 /**
  * Start screen of application.
@@ -44,8 +41,13 @@ class SplashActivity : ParentActivity(),
     ISplashActivity {
 
     init {
+        // TODO it's needed for above API21?
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
+
+    override val statusBar = WindowUiKeys.StatusBar.Transparent
+    override val navigation = WindowUiKeys.Navigation.Transparent
+    override val navDivider = WindowUiKeys.NavDivider.Transparent
 
     @Inject internal lateinit var viewModel: ISplashViewModel
 
@@ -82,19 +84,6 @@ class SplashActivity : ParentActivity(),
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
-    }
-
-    override fun setStatusBarColor() {
-        window.statusBarColor = AndroidColor.TRANSPARENT
-    }
-
-    override fun setNavigationColor(theme: ThemeDisplayed) {
-        window.navigationBarColor = AndroidColor.TRANSPARENT
-    }
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
-        window.navigationBarDividerColor = AndroidColor.TRANSPARENT
     }
 
 

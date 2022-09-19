@@ -2,17 +2,12 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.viewpager2.widget.ViewPager2
 import javax.inject.Inject
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
-import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
@@ -25,13 +20,18 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.test.idling.getIdling
 
 /**
  * Activity with start intro.
  */
 class IntroActivity : ParentActivity(), IIntroActivity {
+
+    override val background = WindowUiKeys.Background.Dark
+    override val statusBar = WindowUiKeys.StatusBar.Transparent
+    override val navigation = WindowUiKeys.Navigation.Transparent
+    override val navDivider = WindowUiKeys.NavDivider.Transparent
 
     @Inject internal lateinit var viewModel: IIntroViewModel
 
@@ -88,23 +88,6 @@ class IntroActivity : ParentActivity(), IIntroActivity {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
-    }
-
-    override fun setWindowBackground() {
-        window.setBackgroundDrawable(ColorDrawable(getColorAttr(R.attr.colorPrimaryDark)))
-    }
-
-    override fun setStatusBarColor() {
-        window.statusBarColor = Color.TRANSPARENT
-    }
-
-    override fun setNavigationColor(theme: ThemeDisplayed) {
-        window.navigationBarColor = Color.TRANSPARENT
-    }
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
-        window.navigationBarDividerColor = Color.TRANSPARENT
     }
 
 

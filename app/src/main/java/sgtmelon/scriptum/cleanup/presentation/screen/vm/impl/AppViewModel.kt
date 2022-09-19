@@ -19,8 +19,6 @@ class AppViewModel(
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupTheme(theme)
-        callback?.changeControlColor()
-        callback?.changeSystemColor()
     }
 
     override fun isThemeChange(): Boolean = theme != preferencesRepo.theme

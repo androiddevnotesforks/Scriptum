@@ -7,8 +7,8 @@ import android.view.Window
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.domain.model.state.MenuColorState
-import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
+import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
@@ -25,7 +25,7 @@ class ToolbarTintControl(
 ) : ParentTintControl(context),
     IToolbarTintControl {
 
-    private val theme: ThemeDisplayed? = context.geDisplayedTheme()
+    private val theme: ThemeDisplayed? = context.getDisplayedTheme()
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 

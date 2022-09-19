@@ -6,8 +6,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.RelativeLayout
-import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
+import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
@@ -39,7 +39,7 @@ class RippleContainer @JvmOverloads constructor(
         if (isConfigure) return@apply
 
         val converter = RippleConverter()
-        val theme = context.geDisplayedTheme() ?: return@apply
+        val theme = context.getDisplayedTheme() ?: return@apply
         val paintStyle = converter.getPaintStyle(theme)
         val rippleShade = converter.getRippleShade(theme)
         val fillColor = context.getAppSimpleColor(color, rippleShade)

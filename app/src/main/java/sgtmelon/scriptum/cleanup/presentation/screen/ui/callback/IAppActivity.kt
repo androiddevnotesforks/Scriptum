@@ -10,8 +10,4 @@ import sgtmelon.scriptum.infrastructure.model.key.Theme
 interface IAppActivity {
 
     fun setupTheme(theme: Theme)
-
-    fun changeControlColor()
-
-    fun changeSystemColor()
 }

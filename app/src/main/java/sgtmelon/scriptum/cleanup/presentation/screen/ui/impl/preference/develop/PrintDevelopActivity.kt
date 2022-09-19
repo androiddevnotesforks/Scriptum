@@ -2,15 +2,12 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
-import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
@@ -18,7 +15,6 @@ import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
-import sgtmelon.scriptum.cleanup.extension.isPortraitMode
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.PrintAdapter
@@ -28,13 +24,16 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**
  * Screen for print data of data base and preference.
  */
 class PrintDevelopActivity : AppActivity(), IPrintDevelopActivity {
+
+    override val navigation = WindowUiKeys.Navigation.RotationCatch
+    override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
     private var binding: ActivityDevelopPrintBinding? = null
 
@@ -73,30 +72,6 @@ class PrintDevelopActivity : AppActivity(), IPrintDevelopActivity {
         super.onSaveInstanceState(outState)
         viewModel.onSaveData(outState)
     }
-
-    /**
-     * Make navigation translucent in portrait orientation.
-     */
-    override fun setNavigationColor(theme: ThemeDisplayed) {
-        if (isPortraitMode()) {
-            window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
-        } else {
-            super.setNavigationColor(theme)
-        }
-    }
-
-    /**
-     * Make navigation translucent in portrait orientation.
-     */
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
-        if (isPortraitMode()) {
-            window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
-        } else {
-            super.setNavigationDividerColor(theme)
-        }
-    }
-
 
     override fun setupView(type: PrintType) {
         val toolbar = toolbar ?: return

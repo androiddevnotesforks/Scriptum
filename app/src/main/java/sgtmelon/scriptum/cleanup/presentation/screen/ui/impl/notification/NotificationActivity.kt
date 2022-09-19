@@ -2,17 +2,14 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Calendar
 import javax.inject.Inject
-import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
@@ -21,7 +18,6 @@ import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.initLazy
-import sgtmelon.scriptum.cleanup.extension.isPortraitMode
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
@@ -33,9 +29,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
+import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**
@@ -44,6 +40,9 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
 class NotificationActivity : AppActivity(),
     INotificationActivity,
     SnackbarDelegator.Callback {
+
+    override val navigation = WindowUiKeys.Navigation.RotationCatch
+    override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
     //region Variables
 
@@ -133,29 +132,6 @@ class NotificationActivity : AppActivity(),
         super.onSaveInstanceState(outState)
         openState.save(outState)
         viewModel.onSaveData(outState)
-    }
-
-    /**
-     * Make navigation translucent in portrait orientation.
-     */
-    override fun setNavigationColor(theme: ThemeDisplayed) {
-        if (isPortraitMode()) {
-            window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
-        } else {
-            super.setNavigationColor(theme)
-        }
-    }
-
-    /**
-     * Make navigation translucent in portrait orientation.
-     */
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
-        if (isPortraitMode()) {
-            window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
-        } else {
-            super.setNavigationDividerColor(theme)
-        }
     }
 
     //endregion

@@ -2,18 +2,14 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
-import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
-import sgtmelon.scriptum.cleanup.extension.isPortraitMode
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
@@ -21,12 +17,15 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 
 /**
  * Screen for display [PreferenceFragment].
  */
 class PreferenceActivity : AppActivity() {
+
+    override val navigation = WindowUiKeys.Navigation.RotationCatch
+    override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
     private val parentContainer by lazy { findViewById<ViewGroup>(R.id.preference_parent_container) }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
@@ -101,29 +100,6 @@ class PreferenceActivity : AppActivity() {
             fm.beginTransaction()
                 .replace(R.id.preference_fragment_container, fragment, tag)
                 .commit()
-        }
-    }
-
-    /**
-     * Make navigation translucent in portrait orientation.
-     */
-    override fun setNavigationColor(theme: ThemeDisplayed) {
-        if (isPortraitMode()) {
-            window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
-        } else {
-            super.setNavigationColor(theme)
-        }
-    }
-
-    /**
-     * Make navigation translucent in portrait orientation.
-     */
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
-        if (isPortraitMode()) {
-            window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
-        } else {
-            super.setNavigationDividerColor(theme)
         }
     }
 

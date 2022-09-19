@@ -14,11 +14,16 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.utils.record
 
-fun Context.geDisplayedTheme(): ThemeDisplayed? {
-    return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+fun Context.getDisplayedTheme(): ThemeDisplayed? {
+    val uiMode = resources.configuration.uiMode
+
+    return when (uiMode and Configuration.UI_MODE_NIGHT_MASK) {
         Configuration.UI_MODE_NIGHT_NO -> ThemeDisplayed.LIGHT
         Configuration.UI_MODE_NIGHT_YES -> ThemeDisplayed.DARK
-        else -> null
+        else -> run {
+            NullPointerException("Unknown configuration! Received null for uiMode=$uiMode").record()
+            return@run null
+        }
     }
 }
 

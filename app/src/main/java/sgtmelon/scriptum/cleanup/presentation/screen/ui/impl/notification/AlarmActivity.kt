@@ -4,18 +4,15 @@ import android.animation.AnimatorSet
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
-import sgtmelon.extensions.getColorAttr
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
@@ -42,7 +39,6 @@ import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmAnimations
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmBundleProvider
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmScreenState
@@ -50,6 +46,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
+import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
@@ -72,6 +69,10 @@ import sgtmelon.test.prod.RunPrivate
  * TODO описать полностью функционал экрана после проверки его работы
  */
 class AlarmActivity : AppActivity() {
+
+    override val statusBar = WindowUiKeys.StatusBar.Transparent
+    override val navigation = WindowUiKeys.Navigation.RotationCatch
+    override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
     @Inject internal lateinit var viewModel: IAlarmViewModel
 
@@ -187,19 +188,6 @@ class AlarmActivity : AppActivity() {
         rippleContainer?.stopAnimation()
 
         unregisterReceiver(noteReceiver)
-    }
-
-    override fun setStatusBarColor() {
-        window.statusBarColor = Color.TRANSPARENT
-    }
-
-    override fun setNavigationColor(theme: ThemeDisplayed) {
-        window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
-        window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
     }
 
     //endregion

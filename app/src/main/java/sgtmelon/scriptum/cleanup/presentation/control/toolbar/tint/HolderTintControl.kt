@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint
 import android.content.Context
 import android.view.View
 import android.view.Window
-import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
+import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
@@ -17,7 +17,7 @@ class HolderTintControl(
 ) : ParentTintControl(context),
         IHolderTintControl {
 
-    private val theme: ThemeDisplayed? = context.geDisplayedTheme()
+    private val theme: ThemeDisplayed? = context.getDisplayedTheme()
 
     override fun setupColor(color: Color) {
         if (theme == null || theme == ThemeDisplayed.DARK) return

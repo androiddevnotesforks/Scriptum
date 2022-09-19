@@ -11,6 +11,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IAppViewModel
 /**
  * Parent activity for application, which need extends when need change theme.
  */
+@Deprecated("Merge it with ParentActivity")
 abstract class AppActivity : ParentActivity(), IAppActivity {
 
     @Inject internal lateinit var appViewModel: IAppViewModel
