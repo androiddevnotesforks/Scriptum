@@ -43,9 +43,9 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.screen.data.AlarmAnimations
-import sgtmelon.scriptum.infrastructure.screen.data.AlarmBundleProvider
-import sgtmelon.scriptum.infrastructure.screen.data.AlarmScreenState
+import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmAnimations
+import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmBundleProvider
+import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmScreenState
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
@@ -372,7 +372,7 @@ class AlarmActivity : AppActivity() {
     // TODO тут надо openState?
     // TODO убрать лишнюю функцию
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
-        startActivity(NoteActivity[this, item])
+        openState.tryInvoke { startActivity(NoteActivity[this, item]) }
     }
 
     companion object {

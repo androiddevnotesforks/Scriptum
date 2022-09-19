@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.data
+package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem

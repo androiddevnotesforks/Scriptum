@@ -1,11 +1,12 @@
-package sgtmelon.scriptum.infrastructure.screen.data
+package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import android.os.Bundle
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 
 /**
- * Data provider for
+ * Bundle data provider for [AlarmActivity] screen.
  */
 class AlarmBundleProvider {
 

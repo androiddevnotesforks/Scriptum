@@ -38,7 +38,7 @@ class OpenState {
      */
     var skipClear = false
 
-    fun tryInvoke(func: () -> Unit) {
+    inline fun tryInvoke(func: () -> Unit) {
         if (!changeEnabled) return
 
         if (!value) {
@@ -47,7 +47,7 @@ class OpenState {
         }
     }
 
-    fun tryInvoke(@Tag tag: String, func: () -> Unit) {
+    inline fun tryInvoke(@Tag tag: String, func: () -> Unit) {
         if (!changeEnabled) return
 
         if (!value || this.tag == tag) {
@@ -56,7 +56,7 @@ class OpenState {
         }
     }
 
-    fun <T> tryReturnInvoke(func: () -> T): T? {
+    inline fun <T> tryReturnInvoke(func: () -> T): T? {
         if (!changeEnabled) return null
 
         if (!value) {
@@ -70,7 +70,7 @@ class OpenState {
     /**
      * Try call func if it possible.
      */
-    fun tryCall(func: () -> Unit) {
+    inline fun tryCall(func: () -> Unit) {
         if (!changeEnabled) return
 
         if (!value) {

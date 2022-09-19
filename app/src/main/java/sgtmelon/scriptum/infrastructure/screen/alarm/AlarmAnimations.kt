@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.data
+package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import android.view.View
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
+package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +16,6 @@ import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
-import sgtmelon.scriptum.infrastructure.screen.data.AlarmScreenState
 import sgtmelon.scriptum.infrastructure.utils.record
 
 class AlarmViewModel(
@@ -96,7 +95,7 @@ class AlarmViewModel(
     override fun onReceiveUnbindNote(noteId: Long) {
         val noteItem = noteItem.value ?: return
 
-        if (noteItem.isStatus && noteItem.id != noteId) return
+        if (!noteItem.isStatus || noteItem.id != noteId) return
 
         noteItem.isStatus = false
         this.noteItem.postValue(noteItem)

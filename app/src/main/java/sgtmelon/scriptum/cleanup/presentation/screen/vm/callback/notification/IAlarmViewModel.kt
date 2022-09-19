@@ -5,7 +5,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
-import sgtmelon.scriptum.infrastructure.screen.data.AlarmScreenState
+import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmScreenState
 
 interface IAlarmViewModel : NoteScreenReceiver.Callback {
 
