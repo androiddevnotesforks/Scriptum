@@ -1,16 +1,21 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification
 
+import androidx.lifecycle.LiveData
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.state.AlarmState
+import sgtmelon.scriptum.infrastructure.screen.data.AlarmScreenState
 
-/**
- * Interface for communication [IAlarmActivity] with [AlarmViewModel].
- */
-interface IAlarmViewModel : IParentViewModel, NoteScreenReceiver.Callback {
+interface IAlarmViewModel : NoteScreenReceiver.Callback {
 
-    fun onStart()
+    val state: LiveData<AlarmScreenState>
 
-    fun finishWithRepeat(repeat: Repeat? = null)
+    val noteItem: LiveData<NoteItem>
 
+    val alarmState: AlarmState
+
+    fun setup(noteId: Long)
+
+    fun postpone(repeat: Repeat?, timeArray: IntArray)
 }

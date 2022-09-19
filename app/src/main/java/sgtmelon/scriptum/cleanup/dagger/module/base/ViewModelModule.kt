@@ -285,7 +285,7 @@ class ViewModelModule {
         shiftDateIfExist: ShiftDateIfExistUseCase
     ): IAlarmViewModel {
         val factory = ViewModelFactory.Alarm(
-            activity, preferencesRepo, noteRepo, getMelodyList,
+            preferencesRepo, noteRepo, getMelodyList,
             setNotification, deleteNotification, shiftDateIfExist
         )
 

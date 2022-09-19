@@ -29,7 +29,7 @@ class NoteScreenReceiver : BroadcastReceiver() {
      * Interface for update UI elements
      */
     interface Callback {
-        fun onReceiveUnbindNote(id: Long)
+        fun onReceiveUnbindNote(noteId: Long)
     }
 
     companion object {

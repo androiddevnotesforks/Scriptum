@@ -9,9 +9,13 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
  */
 sealed class AlarmScreenState {
 
-    class Setup(val melodyUri: String) : AlarmScreenState()
+    class Setup(val melodyUri: String?) : AlarmScreenState()
 
-    object Start : AlarmScreenState()
+    class Postpone(
+        val noteId: Long,
+        val repeat: Repeat,
+        val calendar: Calendar
+    ) : AlarmScreenState()
 
-    class Postpone(val noteId: Long, repeat: Repeat, calendar: Calendar) : AlarmScreenState()
+    object Close : AlarmScreenState()
 }

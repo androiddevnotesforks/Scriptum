@@ -8,6 +8,7 @@ import android.provider.Settings
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
@@ -39,7 +40,7 @@ inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String):
 //region Intent functions
 
 internal fun getSiteIntent(url: String): Intent? {
-    val uri = url.toUriOrNull() ?: return null
+    val uri = UriConverter().toUri(url) ?: return null
 
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = uri

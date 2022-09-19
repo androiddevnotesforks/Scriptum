@@ -116,16 +116,17 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
             rollNoteFragment ?: RollNoteFragment[id, color]
         } else {
             RollNoteFragment[id, color]
-        })
+        }
+        )
     }
 
     override fun onPressBackText() = textNoteFragment?.onPressBack() ?: false
 
     override fun onPressBackRoll() = rollNoteFragment?.onPressBack() ?: false
 
-    override fun onReceiveUnbindNote(id: Long) {
-        textNoteFragment?.onReceiveUnbindNote(id)
-        rollNoteFragment?.onReceiveUnbindNote(id)
+    override fun onReceiveUnbindNote(noteId: Long) {
+        textNoteFragment?.onReceiveUnbindNote(noteId)
+        rollNoteFragment?.onReceiveUnbindNote(noteId)
     }
 
     //region Parent callback

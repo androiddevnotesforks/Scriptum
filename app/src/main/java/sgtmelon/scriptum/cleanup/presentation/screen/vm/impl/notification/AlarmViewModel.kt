@@ -1,151 +1,104 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
 
-import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import sgtmelon.extensions.getClearCalendar
-import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.R
+import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.test.idling.getIdling
-import sgtmelon.test.prod.RunPrivate
+import sgtmelon.scriptum.infrastructure.model.state.AlarmState
+import sgtmelon.scriptum.infrastructure.screen.data.AlarmScreenState
+import sgtmelon.scriptum.infrastructure.utils.record
 
-/**
- * ViewModel for [IAlarmActivity].
- */
 class AlarmViewModel(
-    callback: IAlarmActivity,
     private val preferencesRepo: PreferencesRepo,
     private val noteRepo: NoteRepo,
     private val getMelodyList: GetMelodyListUseCase,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val shiftDateIfExist: ShiftDateIfExistUseCase
-) : ParentViewModel<IAlarmActivity>(callback),
+) : ViewModel(),
     IAlarmViewModel {
 
-    //region Cleanup
+    private var noteId: Long = Default.ID
 
-    @RunPrivate var id: Long = Default.ID
-
-    @RunPrivate lateinit var noteItem: NoteItem
-
-    override fun onSetup(bundle: Bundle?) {
-        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
-
-        viewModelScope.launch {
-            /** If first open. */
-            if (!::noteItem.isInitialized) {
-                val item = runBack {
-                    /**
-                     * Delete before return noteModel. This is need for hide alarm icon and
-                     * decrement notification info count (next alarms count).
-                     */
-                    /**
-                     * Delete before return noteModel. This is need for hide alarm icon and
-                     * decrement notification info count (next alarms count).
-                     */
-                    deleteNotification(id)
-
-                    return@runBack noteRepo.getItem(id, isOptimal = true)
-                }
-
-                if (item != null) {
-                    noteItem = item
-                } else {
-                    callback?.finish()
-                    return@launch
-                }
-            }
-
-            val signalState = preferencesRepo.signalState
-            if (signalState.isMelody) {
-                val melodyUri = runBack { preferencesRepo.getMelodyUri(getMelodyList()) }
-                if (melodyUri != null) {
-                    val volumePercent = preferencesRepo.volumePercent
-                    val isVolumeIncrease = preferencesRepo.isVolumeIncrease
-                    callback?.setupPlayer(melodyUri, volumePercent, isVolumeIncrease)
-                }
-            }
-
-            callback?.apply {
-                sendNotifyInfoBroadcast()
-                prepareLogoAnimation()
-                notifyList(noteItem)
-            }
-        }
+    override fun setup(noteId: Long) {
+        this.noteId = noteId
+        viewModelScope.launchBack { fetchData() }
     }
 
-    override fun onStart() {
-        val signalState = preferencesRepo.signalState
+    override val state: MutableLiveData<AlarmScreenState> = MutableLiveData()
 
-        getIdling().start(IdlingTag.Alarm.START)
+    override val noteItem: MutableLiveData<NoteItem> = MutableLiveData()
 
-        callback?.apply {
-            startRippleAnimation(noteItem.color)
-            startButtonFadeInAnimation()
+    override val alarmState: AlarmState get() = preferencesRepo.alarmState
 
-            if (signalState.isMelody) {
-                startMelody(preferencesRepo.isVolumeIncrease)
-            }
+    private suspend fun fetchData() {
+        /**
+         * Delete before setting [noteItem]. This is need for hide alarm icon and
+         * decrement statusBar notification info count (about future alarms).
+         */
+        deleteNotification(noteId)
 
-            if (signalState.isVibration) {
-                startVibrator()
-            }
-
-            startFinishTimer(AlarmActivity.TIMEOUT_TIME)
+        val item = noteRepo.getItem(noteId, isOptimal = true)
+        if (item != null) {
+            noteItem.postValue(item)
+        } else {
+            state.postValue(AlarmScreenState.Close)
+            return
         }
 
-        getIdling().stop(IdlingTag.Alarm.START)
+        val melodyUri = if (preferencesRepo.signalState.isMelody) {
+            preferencesRepo.getMelodyUri(getMelodyList())
+        } else {
+            null
+        }
+
+        state.postValue(AlarmScreenState.Setup(melodyUri))
     }
 
-    /**
-     * Call this when need set alarm repeat with screen finish. If [repeat] is null when will
-     * use value saved preferences.
-     */
-    override fun finishWithRepeat(repeat: Repeat?) {
+    override fun postpone(repeat: Repeat?, timeArray: IntArray) {
         val actualRepeat = repeat ?: preferencesRepo.repeat
 
-        val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
-        val minute = valueArray.getOrNull(actualRepeat.ordinal) ?: return
-        val calendar = getClearCalendar(minute)
+        val noteItem = noteItem.value
+        val minute = timeArray.getOrNull(actualRepeat.ordinal)
 
-        viewModelScope.launch {
-            runBack {
-                shiftDateIfExist(calendar)
-                setNotification(noteItem, calendar)
-            }
+        if (noteItem == null || minute == null) {
+            NullPointerException(
+                "noteItem=${noteItem == null} | minute=${minute == null} | repeat=$actualRepeat"
+            ).record()
+            state.postValue(AlarmScreenState.Close)
+            return
+        }
 
-            callback?.sendSetAlarmBroadcast(id, calendar, showToast = false)
-            callback?.sendNotifyInfoBroadcast()
-            callback?.showRepeatToast(actualRepeat)
-            callback?.sendUpdateBroadcast(id)
-            callback?.finish()
+        viewModelScope.launchBack {
+            val calendar = getClearCalendar(minute)
+
+            shiftDateIfExist(calendar)
+            setNotification(noteItem, calendar)
+            state.postValue(AlarmScreenState.Postpone(noteId, actualRepeat, calendar))
         }
     }
 
     /**
-     * Calls on note notification cancel from status bar for update bind indicator.
+     * Calls on note notification cancel (unbind) from statusBar. This needed for update
+     * bind indicator.
      */
-    override fun onReceiveUnbindNote(id: Long) {
-        if (this.id != id) return
+    override fun onReceiveUnbindNote(noteId: Long) {
+        val noteItem = noteItem.value ?: return
 
-        callback?.notifyList(noteItem.apply { isStatus = false })
+        if (noteItem.isStatus && noteItem.id != noteId) return
+
+        noteItem.isStatus = false
+        this.noteItem.postValue(noteItem)
     }
-
-    //endregion
 }

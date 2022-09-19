@@ -130,7 +130,7 @@ class TextNoteFragment : ParentFragment(),
 
     //region Callback functions
 
-    override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
+    override fun onReceiveUnbindNote(noteId: Long) = viewModel.onReceiveUnbindNote(noteId)
 
     override fun setEnabled(isEnabled: Boolean) {
         getIdling().change(!isEnabled, IdlingTag.Anim.ICON)

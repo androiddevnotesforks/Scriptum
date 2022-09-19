@@ -143,9 +143,9 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coEvery { deleteNotification(any<Long>()) } returns Unit
         coEvery { noteRepo.getItem(any(), isOptimal = true) } returns null
 
-        viewModel.id = Note.Default.ID
+        viewModel.noteId = Note.Default.ID
         viewModel.onSetup()
-        viewModel.id = Note.Default.ID
+        viewModel.noteId = Note.Default.ID
         viewModel.onSetup(bundle)
 
         coVerifySequence {
@@ -235,7 +235,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { bundle.putLong(Note.Intent.ID, any()) } returns Unit
 
-        viewModel.id = id
+        viewModel.noteId = id
         viewModel.onSaveData(bundle)
 
         verifySequence { bundle.putLong(Note.Intent.ID, id) }
@@ -312,7 +312,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coEvery { shiftDateIfExist(calendar) } returns Unit
         coEvery { setNotification(item, calendar) } returns Unit
 
-        viewModel.id = id
+        viewModel.noteId = id
         viewModel.noteItem = item
         viewModel.finishWithRepeat(repeat)
 
@@ -337,7 +337,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.noteItem = noteItem
         viewModel.onReceiveUnbindNote(noteItem.id)
 
-        viewModel.id = noteItem.id
+        viewModel.noteId = noteItem.id
         viewModel.onReceiveUnbindNote(noteItem.id)
 
         assertFalse(noteItem.isStatus)

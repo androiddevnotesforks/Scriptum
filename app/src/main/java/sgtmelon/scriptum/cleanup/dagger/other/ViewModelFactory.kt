@@ -22,7 +22,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
@@ -283,7 +282,6 @@ object ViewModelFactory {
     }
 
     class Alarm(
-        private val activity: AlarmActivity,
         private val preferencesRepo: PreferencesRepo,
         private val noteRepo: NoteRepo,
         private val getMelodyList: GetMelodyListUseCase,
@@ -294,7 +292,7 @@ object ViewModelFactory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AlarmViewModel::class) {
                 AlarmViewModel(
-                    activity, preferencesRepo, noteRepo, getMelodyList,
+                    preferencesRepo, noteRepo, getMelodyList,
                     setNotification, deleteNotification, shiftDateIfExist
                 )
             }

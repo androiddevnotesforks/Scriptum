@@ -5,9 +5,9 @@ import sgtmelon.scriptum.infrastructure.utils.record
 
 class UriConverter {
 
-    fun toUri(uri: String): Uri? {
+    fun toUri(value: String): Uri? {
         return try {
-            Uri.parse(uri)
+            Uri.parse(value)
         } catch (e: Throwable) {
             e.record()
             null

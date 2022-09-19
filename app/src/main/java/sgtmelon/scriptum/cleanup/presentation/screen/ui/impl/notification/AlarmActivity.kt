@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
-import androidx.annotation.ArrayRes
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +19,6 @@ import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
-import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.safedialog.utils.safeShow
@@ -29,27 +28,28 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
+import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getAlphaInterpolator
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
-import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
+import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
-import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.screen.data.AlarmBundleProvider
+import sgtmelon.scriptum.infrastructure.screen.data.AlarmScreenState
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
@@ -58,7 +58,6 @@ import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
-import android.graphics.Color as AndroidColor
 
 /**
  * Screen with notification opened by timer.
@@ -73,14 +72,17 @@ import android.graphics.Color as AndroidColor
  *      - Click postpone
  *      - Select custom postpone
  *      - Timer is over
+ *
+ * TODO описать полностью функционал экрана после проверки его работы
  */
-class AlarmActivity : AppActivity(), IAlarmActivity {
+class AlarmActivity : AppActivity() {
 
     @Inject internal lateinit var viewModel: IAlarmViewModel
 
     /**
      * [initLazy] not require because activity configChanges under control.
      */
+    // TODO init on UI
     private val phoneAwake by lazy { PhoneAwakeDelegator(context = this) }
     private val finishTimer = DelayJobDelegator(lifecycle)
     private val melodyPlay by lazy {
@@ -89,6 +91,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val vibrator by lazy { VibratorDelegator(context = this) }
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
+    // TODO create separate receiver for this functional
     private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
 
     private val openState = OpenState()
@@ -96,13 +99,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val dialogFactory by lazy { DialogFactory.Alarm(fm = fm) }
     private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
 
-    private val adapter: NoteAdapter by lazy {
-        NoteAdapter(object : NoteItemClickCallback {
-            override fun onItemClick(item: NoteItem) = openNoteScreen(item)
-
-            override fun onItemLongClick(item: NoteItem, p: Int) = Unit
-        })
-    }
+    private val adapter = NoteAdapter(object : NoteItemClickCallback {
+        override fun onItemClick(item: NoteItem) = openNoteScreen(item)
+        override fun onItemLongClick(item: NoteItem, p: Int) = Unit
+    })
 
     //region Views
 
@@ -123,6 +123,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     /** Variable for detect layout is completely configure and ready for animation. */
     private var isLayoutConfigure = false
 
+    //region System
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getAlarmBuilder().set(activity = this).build()
             .inject(activity = this)
@@ -131,19 +133,12 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         setupScreen()
         setContentView(R.layout.activity_alarm)
 
-        //        val noteId = AlarmBundleProvider().getNoteId(intent.extras)
-        //        if (noteId == null) {
-        //            finish()
-        //            return
-        //        } else {
-        //            viewModel.setup(noteId)
-        //        }
+        val noteId = AlarmBundleProvider().getNoteId(intent.extras) ?: run {
+            finish()
+            return
+        }
 
-        phoneAwake.wakeUp(TIMEOUT_TIME)
-        setupView()
-        setupInsets()
-
-        viewModel.onSetup(bundle = intent.extras)
+        setupObservers(noteId)
 
         registerReceiver(noteReceiver, IntentFilter(Filter.NOTE))
     }
@@ -160,37 +155,16 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
     }
 
-    private fun setupView() {
-        parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
-
-        recyclerView?.let {
-            it.layoutManager = LinearLayoutManager(this)
-            it.adapter = adapter
-        }
-
-        disableButton?.setOnClickListener { openState.tryInvoke { finish() } }
-        repeatButton?.setOnClickListener { openState.tryInvoke { viewModel.finishWithRepeat() } }
-        moreButton?.setOnClickListener {
-            openState.tryInvoke {
-                repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this)
+    private fun setupObservers(noteId: Long) {
+        viewModel.setup(noteId)
+        viewModel.noteItem.observe(this) { notifyList(it) }
+        viewModel.state.observe(this) {
+            when (it) {
+                is AlarmScreenState.Setup -> onSetupState(it)
+                is AlarmScreenState.Postpone -> onPostponeState(it)
+                is AlarmScreenState.Close -> finish()
             }
         }
-
-        val repeatData = RepeatSheetData()
-        repeatDialog.apply {
-            onItemSelected(owner = this@AlarmActivity) {
-                viewModel.finishWithRepeat(repeatData.convert(it.itemId))
-            }
-            onDismiss { openState.clear() }
-        }
-    }
-
-    /**
-     * This activity not rotatable (don't need setup margin for left and right).
-     */
-    private fun setupInsets() {
-        logoView?.setMarginInsets(InsetsDir.TOP)
-        buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
     }
 
     override fun onPause() {
@@ -220,7 +194,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     override fun setStatusBarColor() {
-        window.statusBarColor = AndroidColor.TRANSPARENT
+        window.statusBarColor = Color.TRANSPARENT
     }
 
     override fun setNavigationColor(theme: ThemeDisplayed) {
@@ -232,16 +206,65 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
     }
 
+    //endregion
 
+    //region Setup state
 
-    override fun setupPlayer(stringUri: String, volumePercent: Int, isVolumeIncrease: Boolean) {
-        val uri = stringUri.toUriOrNull() ?: return
+    private fun onSetupState(state: AlarmScreenState.Setup) {
+        phoneAwake.wakeUp(TIMEOUT_TIME)
+        setupView()
+        setupInsets()
 
-        melodyPlay.setupVolume(volumePercent, isVolumeIncrease)
+        if (state.melodyUri != null) {
+            setupPlayer(state.melodyUri)
+        }
+
+        broadcast.sendNotifyInfoBind(count = null)
+        prepareLogoAnimation()
+    }
+
+    private fun setupView() {
+        parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
+
+        recyclerView?.let {
+            it.layoutManager = LinearLayoutManager(this)
+            it.adapter = adapter
+        }
+
+        disableButton?.setOnClickListener { openState.tryInvoke { finish() } }
+        repeatButton?.setOnClickListener { openState.tryInvoke { startPostpone() } }
+        moreButton?.setOnClickListener {
+            openState.tryInvoke {
+                repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this)
+            }
+        }
+
+        val repeatData = RepeatSheetData()
+        repeatDialog.apply {
+            onItemSelected(owner = this@AlarmActivity) {
+                startPostpone(repeatData.convert(it.itemId))
+            }
+            onDismiss { openState.clear() }
+        }
+    }
+
+    /**
+     * This activity not rotatable (don't need setup margin for left and right).
+     */
+    private fun setupInsets() {
+        logoView?.setMarginInsets(InsetsDir.TOP)
+        buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
+    }
+
+    private fun setupPlayer(stringUri: String) {
+        val uri = UriConverter().toUri(stringUri) ?: return
+        val alarmState = viewModel.alarmState
+
+        melodyPlay.setupVolume(alarmState.volumePercent, alarmState.isVolumeIncrease)
         melodyPlay.setupPlayer(context = this@AlarmActivity, uri, isLooping = true)
     }
 
-    override fun prepareLogoAnimation() {
+    private fun prepareLogoAnimation() {
         val parentContainer = parentContainer ?: return
         val logoView = logoView ?: return
 
@@ -259,9 +282,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
+    private fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
+
     private fun onLogoTransitionEnd() {
         if (isLayoutConfigure) {
-            viewModel.onStart()
+            onStartState()
         } else {
             waitLayoutConfigure()
         }
@@ -271,20 +296,44 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         getIdling().start(IdlingTag.Alarm.CONFIGURE)
 
         parentContainer?.afterLayoutConfiguration {
-            viewModel.onStart()
+            onStartState()
             getIdling().stop(IdlingTag.Alarm.CONFIGURE)
         }
     }
 
-    override fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
+    //endregion
 
-    override fun startRippleAnimation(color: Color) {
-        val logoView = logoView ?: return
+    //region Start state
 
-        rippleContainer?.setupAnimation(color, logoView)?.startAnimation()
+    private fun onStartState() {
+        val item = viewModel.noteItem.value ?: return
+        val alarmState = viewModel.alarmState
+
+        getIdling().start(IdlingTag.Alarm.START)
+
+        startRippleAnimation(item)
+        startButtonFadeInAnimation()
+
+        if (alarmState.signalState.isMelody) {
+            melodyPlay.start(alarmState.isVolumeIncrease)
+        }
+
+        if (alarmState.signalState.isVibration) {
+            vibrator.startRepeat()
+        }
+
+        /** Start count down for finish this screen. */
+        finishTimer.run(TIMEOUT_TIME) { startPostpone() }
+
+        getIdling().stop(IdlingTag.Alarm.START)
     }
 
-    override fun startButtonFadeInAnimation() {
+    private fun startRippleAnimation(item: NoteItem) {
+        val logoView = logoView ?: return
+        rippleContainer?.setupAnimation(item.color, logoView)?.startAnimation()
+    }
+
+    private fun startButtonFadeInAnimation() {
         val recyclerView = recyclerView ?: return
         val buttonContainer = buttonContainer ?: return
 
@@ -302,57 +351,46 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }.start()
     }
 
-    // TODO need openState?
-    @Deprecated("Create delegator for screens open")
-    override fun openNoteScreen(item: NoteItem) {
-        startActivity(NoteActivity[this, item])
+    //endregion
+
+    //region Postpone state
+
+    /**
+     * Call this when need set alarm repeat with screen finish. If [repeat] is null when will
+     * be used value from preferences.
+     */
+    private fun startPostpone(repeat: Repeat? = null) {
+        val timeArray = resources.getIntArray(R.array.pref_alarm_repeat_array)
+        viewModel.postpone(repeat, timeArray)
+    }
+
+    private fun onPostponeState(state: AlarmScreenState.Postpone) {
+        with(state) {
+            broadcast.sendSetAlarm(noteId, calendar, showToast = false)
+            broadcast.sendNotifyInfoBind(count = null)
+            showRepeatToast(repeat)
+            // TODO move broadcast upper (above showRepeatToast)?
+            broadcast.sendUpdateAlarmUi(state.noteId)
+        }
+
         finish()
     }
 
-    override fun startFinishTimer(time: Long) {
-        finishTimer.run(time) { viewModel.finishWithRepeat() }
-    }
-
-    override fun startMelody(isIncrease: Boolean) = melodyPlay.start(isIncrease)
-
-    override fun startVibrator() = vibrator.startRepeat()
-
-
-    override fun showRepeatToast(repeat: Repeat) {
+    // TODO check how it will be working after finish
+    private fun showRepeatToast(repeat: Repeat) {
         val repeatArray = resources.getStringArray(R.array.pref_alarm_repeat)
         val repeatText = repeatArray.getOrNull(repeat.ordinal) ?: return
 
         toast.show(context = this, getString(R.string.toast_alarm_repeat, repeatText))
     }
 
-    override fun getIntArray(@ArrayRes arrayId: Int): IntArray = resources.getIntArray(arrayId)
-
-    //region Broadcast functions
-
-    override fun sendUpdateBroadcast(id: Long) = broadcast.sendUpdateAlarmUi(id)
-
-    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcast.sendSetAlarm(id, calendar, showToast)
-    }
-
-    /**
-     * Not used here.
-     */
-    override fun sendCancelAlarmBroadcast(id: Long) = Unit
-
-    /**
-     * Not used here.
-     */
-    override fun sendNotifyNotesBroadcast() = Unit
-
-    /**
-     * Not used here.
-     */
-    override fun sendCancelNoteBroadcast(id: Long) = Unit
-
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
-
     //endregion
+
+    // TODO тут надо openState?
+    // TODO убрать лишнюю функцию
+    private fun openNoteScreen(item: NoteItem) = beforeFinish {
+        startActivity(NoteActivity[this, item])
+    }
 
     companion object {
         @RunPrivate var isFinishOnStop = true
