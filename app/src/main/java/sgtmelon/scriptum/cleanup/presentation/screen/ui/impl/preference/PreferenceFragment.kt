@@ -25,7 +25,7 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
  */
 class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
-    @Inject internal lateinit var viewModel: IPreferenceViewModel
+    @Inject lateinit var viewModel: IPreferenceViewModel
 
     private val openState = OpenState()
 

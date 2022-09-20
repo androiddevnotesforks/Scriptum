@@ -20,7 +20,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
  */
 class SystemLogic : ISystemLogic {
 
-    @Inject internal lateinit var presenter: ISystemPresenter
+    @Inject lateinit var presenter: ISystemPresenter
 
     private val toast = ToastDelegator(lifecycle = null)
     private lateinit var bindControl: IBindControl

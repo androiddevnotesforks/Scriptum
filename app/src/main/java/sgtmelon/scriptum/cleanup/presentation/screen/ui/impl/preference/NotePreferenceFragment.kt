@@ -22,7 +22,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
  */
 class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragment {
 
-    @Inject internal lateinit var viewModel: INotePreferenceViewModel
+    @Inject lateinit var viewModel: INotePreferenceViewModel
 
     private val openState = OpenState()
 

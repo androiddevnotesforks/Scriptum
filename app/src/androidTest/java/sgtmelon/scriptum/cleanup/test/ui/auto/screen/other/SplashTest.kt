@@ -37,12 +37,12 @@ class SplashTest : ParentUiTest() {
     // TODO finish test
     @Test fun helpDisappearOpen() = launchHelpDisappear { openHelpDisappear { TODO() } }
 
-    @Test fun createTextOpen() = launchCreateNote(NoteType.TEXT) {
+    @Test fun createTextOpen() = launchNewNote(NoteType.TEXT) {
         openCreateText(db.createText()) { onPressBack() }
         mainScreen()
     }
 
-    @Test fun createRollOpen() = launchCreateNote(NoteType.ROLL) {
+    @Test fun createRollOpen() = launchNewNote(NoteType.ROLL) {
         openCreateRoll(db.createRoll()) { onPressBack() }
         mainScreen()
     }

@@ -53,7 +53,7 @@ class RankFragment : ParentFragment(),
 
     private var binding: FragmentRankBinding? = null
 
-    @Inject internal lateinit var viewModel: IRankViewModel
+    @Inject lateinit var viewModel: IRankViewModel
 
     private val broadcast by lazy { BroadcastDelegator(context) }
 

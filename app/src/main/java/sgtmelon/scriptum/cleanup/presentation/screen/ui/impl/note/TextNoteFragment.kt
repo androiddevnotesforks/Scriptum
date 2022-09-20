@@ -54,7 +54,7 @@ class TextNoteFragment : ParentFragment(),
 
     private var binding: FragmentTextNoteBinding? = null
 
-    @Inject internal lateinit var viewModel: ITextNoteViewModel
+    @Inject lateinit var viewModel: ITextNoteViewModel
 
     private val broadcast by lazy { BroadcastDelegator(context) }
 

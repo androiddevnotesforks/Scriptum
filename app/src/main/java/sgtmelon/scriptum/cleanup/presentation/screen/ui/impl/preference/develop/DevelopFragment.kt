@@ -10,10 +10,10 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 
 /**
  * Fragment of develop preferences.
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.deve
 class DevelopFragment : ParentPreferenceFragment(),
     IDevelopFragment {
 
-    @Inject internal lateinit var viewModel: IDevelopViewModel
+    @Inject lateinit var viewModel: IDevelopViewModel
 
     //region Preferences
 
@@ -145,7 +145,6 @@ class DevelopFragment : ParentPreferenceFragment(),
 
     override fun openAlarmScreen(noteId: Long) {
         val context = context ?: return
-
-        startActivity(SplashActivity.getAlarmInstance(context, noteId))
+        startActivity(InstanceFactory.Splash.getAlarm(context, noteId))
     }
 }

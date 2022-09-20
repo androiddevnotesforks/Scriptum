@@ -75,7 +75,7 @@ class RollNoteFragment : ParentFragment(),
 
     private var binding: FragmentRollNoteBinding? = null
 
-    @Inject internal lateinit var viewModel: IRollNoteViewModel
+    @Inject lateinit var viewModel: IRollNoteViewModel
 
     private val broadcast by lazy { BroadcastDelegator(context) }
 

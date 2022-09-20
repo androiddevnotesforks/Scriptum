@@ -40,7 +40,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     //region Variables
 
-    @Inject internal lateinit var viewModel: INoteViewModel
+    @Inject lateinit var viewModel: INoteViewModel
 
     private val holderShowControl by lazy {
         HolderShowControl[binding?.toolbarHolder, binding?.panelHolder]

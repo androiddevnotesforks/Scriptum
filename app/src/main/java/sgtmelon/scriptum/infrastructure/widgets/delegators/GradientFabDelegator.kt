@@ -16,7 +16,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getScaleXAnimator
 import sgtmelon.scriptum.cleanup.extension.getScaleYAnimator
-import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 
 internal class GradientFabDelegator(
     private val activity: AppCompatActivity,

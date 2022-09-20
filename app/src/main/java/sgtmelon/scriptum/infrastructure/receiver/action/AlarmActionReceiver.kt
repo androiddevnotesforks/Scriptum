@@ -5,8 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 
 /**
@@ -17,9 +17,9 @@ class AlarmActionReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
-        val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
-        if (id != Note.Default.ID) {
-            context.startActivity(SplashActivity.getAlarmInstance(context, id))
+        val noteId = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
+        if (noteId != Note.Default.ID) {
+            context.startActivity(InstanceFactory.Splash.getAlarm(context, noteId))
         }
     }
 

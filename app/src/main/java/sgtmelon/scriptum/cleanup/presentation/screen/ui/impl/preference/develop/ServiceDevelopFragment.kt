@@ -24,7 +24,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     IServiceDevelopFragment,
     DotAnimation.Callback {
 
-    @Inject internal lateinit var viewModel: IServiceDevelopViewModel
+    @Inject lateinit var viewModel: IServiceDevelopViewModel
 
     private val refreshPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_refresh)) }
     private val runPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_run)) }

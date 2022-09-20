@@ -23,5 +23,5 @@ interface ISplashActivity : SystemReceiver.Bridge.TidyUp,
 
     fun openHelpDisappearScreen()
 
-    fun openCreateNoteScreen(type: NoteType)
+    fun openNewNoteScreen(type: NoteType)
 }

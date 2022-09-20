@@ -174,7 +174,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             bundle.getString(OpenFrom.INTENT_KEY)
-            callback.openCreateNoteScreen(NoteType.TEXT)
+            callback.openNewNoteScreen(NoteType.TEXT)
         }
     }
 
@@ -189,7 +189,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             bundle.getString(OpenFrom.INTENT_KEY)
-            callback.openCreateNoteScreen(NoteType.ROLL)
+            callback.openNewNoteScreen(NoteType.ROLL)
         }
     }
 

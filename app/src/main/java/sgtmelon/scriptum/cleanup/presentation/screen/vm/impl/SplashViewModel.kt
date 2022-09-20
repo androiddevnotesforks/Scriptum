@@ -33,8 +33,8 @@ class SplashViewModel(
                 OpenFrom.BIND -> onBindStart(bundle)
                 OpenFrom.NOTIFICATIONS -> callback?.openNotificationScreen()
                 OpenFrom.HELP_DISAPPEAR -> callback?.openHelpDisappearScreen()
-                OpenFrom.CREATE_TEXT -> callback?.openCreateNoteScreen(NoteType.TEXT)
-                OpenFrom.CREATE_ROLL -> callback?.openCreateNoteScreen(NoteType.ROLL)
+                OpenFrom.CREATE_TEXT -> callback?.openNewNoteScreen(NoteType.TEXT)
+                OpenFrom.CREATE_ROLL -> callback?.openNewNoteScreen(NoteType.ROLL)
                 else -> onSimpleStart()
             }
         }

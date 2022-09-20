@@ -13,6 +13,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
     OpenFrom.ALARM, OpenFrom.BIND, OpenFrom.NOTIFICATIONS, OpenFrom.HELP_DISAPPEAR,
     OpenFrom.CREATE_TEXT, OpenFrom.CREATE_ROLL
 )
+// TODO move from cleanup
 annotation class OpenFrom {
     companion object {
         const val INTENT_KEY = "OPEN_FROM_INTENT_KEY"

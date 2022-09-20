@@ -28,7 +28,6 @@ import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
-import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
@@ -43,6 +42,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
+import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
@@ -70,7 +70,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    @Inject internal lateinit var viewModel: AlarmViewModel
+    @Inject lateinit var viewModel: AlarmViewModel
 
     /**
      * [initLazy] not require because activity configChanges under control.

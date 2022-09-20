@@ -45,7 +45,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
     override val layoutId: Int = R.layout.activity_main
 
-    @Inject internal lateinit var viewModel: IMainViewModel
+    @Inject lateinit var viewModel: IMainViewModel
 
     private val holderControl by lazy { HolderShowControl[binding?.toolbarHolder] }
 

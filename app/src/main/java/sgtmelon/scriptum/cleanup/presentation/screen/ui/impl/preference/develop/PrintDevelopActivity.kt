@@ -34,7 +34,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    @Inject internal lateinit var viewModel: IPrintDevelopViewModel
+    @Inject lateinit var viewModel: IPrintDevelopViewModel
 
     // TODO remove and use binding
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }

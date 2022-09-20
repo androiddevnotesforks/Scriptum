@@ -23,7 +23,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.St
 abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
     ThemeChangeCallback {
 
-    @Inject internal lateinit var themeViewModel: ThemeViewModel
+    @Inject lateinit var themeViewModel: ThemeViewModel
 
     /** Keys which describes UI-look of system window. */
     protected open val background: Background = Background.Standard

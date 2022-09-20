@@ -46,7 +46,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     //region Variables
 
-    @Inject internal lateinit var viewModel: INotificationViewModel
+    @Inject lateinit var viewModel: INotificationViewModel
 
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 

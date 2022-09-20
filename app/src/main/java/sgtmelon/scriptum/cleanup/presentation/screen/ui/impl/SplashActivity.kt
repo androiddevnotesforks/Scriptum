@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -9,8 +7,6 @@ import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
@@ -26,7 +22,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.Preferen
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.model.data.FireData
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
@@ -46,7 +41,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
-    @Inject internal lateinit var viewModel: ISplashViewModel
+    @Inject lateinit var viewModel: ISplashViewModel
 
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
@@ -123,7 +118,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
         )
     }
 
-    override fun openCreateNoteScreen(type: NoteType) = beforeFinish {
+    override fun openNewNoteScreen(type: NoteType) = beforeFinish {
         getWaitIdling().start(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type.ordinal]))
     }
@@ -144,47 +139,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     //endregion
 
     companion object {
-        /**
-         * Variable for detect test running.
-         */
+        /** Variable for detect test running. */
         @RunPrivate var isTesting = false
-
-        fun getAlarmInstance(context: Context, id: Long): Intent {
-            val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-
-            return Intent(context, SplashActivity::class.java)
-                .addFlags(flags)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
-                .putExtra(Note.Intent.ID, id)
-        }
-
-        fun getBindInstance(context: Context, item: NoteItem): Intent {
-            return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
-                .putExtra(Note.Intent.ID, item.id)
-                .putExtra(Note.Intent.COLOR, item.color)
-                .putExtra(Note.Intent.TYPE, item.type.ordinal)
-        }
-
-        fun getNotificationInstance(context: Context): Intent {
-            return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.NOTIFICATIONS)
-        }
-
-        fun getHelpDisappearInstance(context: Context): Intent {
-            return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.HELP_DISAPPEAR)
-        }
-
-        fun getCreateNoteInstance(context: Context, type: NoteType): Intent {
-            val key = when (type) {
-                NoteType.TEXT -> OpenFrom.CREATE_TEXT
-                NoteType.ROLL -> OpenFrom.CREATE_ROLL
-            }
-
-            return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, key)
-        }
     }
-
 }

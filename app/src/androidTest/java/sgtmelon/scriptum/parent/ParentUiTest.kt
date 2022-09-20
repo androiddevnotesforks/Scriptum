@@ -13,6 +13,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.SplashScreen
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
@@ -144,7 +145,7 @@ abstract class ParentUiTest : ParentTest() {
         noinline after: SplashScreen.() -> Unit
     ) {
         before()
-        testRule.launchActivity(SplashActivity.getAlarmInstance(context, item.id))
+        testRule.launchActivity(InstanceFactory.Splash.getAlarm(context, item.id))
         SplashScreen(after)
     }
 
@@ -154,7 +155,7 @@ abstract class ParentUiTest : ParentTest() {
         noinline after: SplashScreen.() -> Unit
     ) {
         before()
-        testRule.launchActivity(SplashActivity.getBindInstance(context, item))
+        testRule.launchActivity(InstanceFactory.Splash.getBind(context, item))
         SplashScreen(after)
     }
 
@@ -163,7 +164,7 @@ abstract class ParentUiTest : ParentTest() {
         noinline after: SplashScreen.() -> Unit
     ) {
         before()
-        testRule.launchActivity(SplashActivity.getNotificationInstance(context))
+        testRule.launchActivity(InstanceFactory.Splash.getNotification(context))
         SplashScreen(after)
     }
 
@@ -172,17 +173,17 @@ abstract class ParentUiTest : ParentTest() {
         noinline after: SplashScreen.() -> Unit
     ) {
         before()
-        testRule.launchActivity(SplashActivity.getHelpDisappearInstance(context))
+        testRule.launchActivity(InstanceFactory.Splash.getHelpDisappear(context))
         SplashScreen(after)
     }
 
-    protected inline fun launchCreateNote(
+    protected inline fun launchNewNote(
         type: NoteType,
         before: () -> Unit = {},
         noinline after: SplashScreen.() -> Unit
     ) {
         before()
-        testRule.launchActivity(SplashActivity.getCreateNoteInstance(context, type))
+        testRule.launchActivity(InstanceFactory.Splash.getNewNote(context, type))
         SplashScreen(after)
     }
 

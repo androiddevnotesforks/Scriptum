@@ -5,7 +5,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import sgtmelon.extensions.getVibratorService
-import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 
 /**
  * Class, which delegates [Vibrator] functions.

@@ -34,7 +34,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     IBackupPreferenceFragment,
     DotAnimation.Callback {
 
-    @Inject internal lateinit var viewModel: IBackupPreferenceViewModel
+    @Inject lateinit var viewModel: IBackupPreferenceViewModel
 
     private val openState = OpenState()
     private val storagePermissionState by lazy {

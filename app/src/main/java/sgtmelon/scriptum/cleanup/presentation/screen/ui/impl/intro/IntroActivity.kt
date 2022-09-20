@@ -33,7 +33,7 @@ class IntroActivity : ThemeActivity<ActivityIntroBinding>(), IIntroActivity {
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
-    @Inject internal lateinit var viewModel: IIntroViewModel
+    @Inject lateinit var viewModel: IIntroViewModel
 
     private val pagerAdapter = IntroPageAdapter(supportFragmentManager, lifecycle)
 

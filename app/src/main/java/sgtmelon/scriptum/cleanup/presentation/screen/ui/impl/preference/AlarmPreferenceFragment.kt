@@ -35,7 +35,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     IAlarmPreferenceFragment,
     DotAnimation.Callback {
 
-    @Inject internal lateinit var viewModel: IAlarmPreferenceViewModel
+    @Inject lateinit var viewModel: IAlarmPreferenceViewModel
 
     private val openState = OpenState()
     private val storagePermissionState by lazy {
