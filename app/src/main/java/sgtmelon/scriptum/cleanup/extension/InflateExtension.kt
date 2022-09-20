@@ -8,10 +8,10 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-const val NO_LAYOUT = -1
+const val NO_ID_LAYOUT = -1
 
 fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T? {
-    if (layoutId == NO_LAYOUT) return null
+    if (layoutId == NO_ID_LAYOUT) return null
 
     return DataBindingUtil.setContentView(this, layoutId)
 }
