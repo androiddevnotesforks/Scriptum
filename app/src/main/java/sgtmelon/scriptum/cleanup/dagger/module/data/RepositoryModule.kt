@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.dagger.module.base.data
+package sgtmelon.scriptum.cleanup.dagger.module.data
 
 import dagger.Module
 import dagger.Provides

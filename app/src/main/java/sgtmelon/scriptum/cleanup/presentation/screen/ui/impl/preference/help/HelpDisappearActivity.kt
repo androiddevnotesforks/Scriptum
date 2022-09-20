@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.extension.updateMargin
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 
 /**
  * Screen with help about disappearing notifications

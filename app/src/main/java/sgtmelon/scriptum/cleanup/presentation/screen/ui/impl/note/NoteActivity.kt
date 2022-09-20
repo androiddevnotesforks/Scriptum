@@ -20,13 +20,13 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowCon
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].

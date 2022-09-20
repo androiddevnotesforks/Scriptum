@@ -16,7 +16,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
@@ -28,6 +27,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.Hel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.test.idling.getWaitIdling

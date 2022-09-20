@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.ui.logic.preference
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.domain.UseCaseModule
+import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
+import sgtmelon.scriptum.cleanup.dagger.module.domain.UseCaseModule
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Header
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Summary

@@ -14,9 +14,9 @@ import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 
 /**

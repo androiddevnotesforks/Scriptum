@@ -2,9 +2,9 @@ package sgtmelon.scriptum.cleanup.dagger.component.service
 
 import dagger.BindsInstance
 import dagger.Subcomponent
+import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
+import sgtmelon.scriptum.cleanup.dagger.module.PresenterModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.dagger.module.base.InteractorModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.PresenterModule
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 
 /**

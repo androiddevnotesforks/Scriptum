@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui
+package sgtmelon.scriptum.infrastructure.screen.theme
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ThemeViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiDelegator
@@ -20,6 +20,8 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.St
  * Parent activity class, which work with application theming and system bars.
  */
 abstract class ThemeActivity : AppCompatActivity() {
+
+    // TODO описать полностью функционал экрана после проверки его работы
 
     protected val toast = ToastDelegator(lifecycle)
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
+package sgtmelon.scriptum.infrastructure.screen.theme
 
 import io.mockk.confirmVerified
 import io.mockk.every

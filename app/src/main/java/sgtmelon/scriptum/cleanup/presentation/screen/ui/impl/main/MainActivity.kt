@@ -31,11 +31,11 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowCon
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
 

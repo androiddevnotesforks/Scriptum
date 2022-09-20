@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.dagger.module.base.domain
+package sgtmelon.scriptum.cleanup.dagger.module.domain
 
 import dagger.Module
 import dagger.Provides

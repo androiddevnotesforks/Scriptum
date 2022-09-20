@@ -4,11 +4,11 @@ import android.app.Instrumentation
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.ConverterModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.PreferencesModule
-import sgtmelon.scriptum.cleanup.dagger.module.base.infrastructure.RoomModule
+import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
+import sgtmelon.scriptum.cleanup.dagger.module.data.RepositoryModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ConverterModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.PreferencesModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.RoomModule
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.testData.DbWeightDelegator
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo

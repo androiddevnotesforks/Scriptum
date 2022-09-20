@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.dagger.module.base
+package sgtmelon.scriptum.cleanup.dagger.module
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
@@ -36,7 +36,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ThemeViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
@@ -55,7 +54,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.deve
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ThemeViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
@@ -104,17 +102,19 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 @Module
 class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideAppViewModel(
+    fun provideThemeViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo
     ): ThemeViewModel {
-        val factory = ViewModelFactory.App(preferencesRepo)
+        val factory = ViewModelFactory.Theme(preferencesRepo)
         return ViewModelProvider(owner, factory)[ThemeViewModelImpl::class.java]
     }
 

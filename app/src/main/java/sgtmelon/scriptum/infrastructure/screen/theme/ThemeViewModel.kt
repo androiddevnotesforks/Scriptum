@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback
+package sgtmelon.scriptum.infrastructure.screen.theme
 
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 

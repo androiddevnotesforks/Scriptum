@@ -31,7 +31,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ThemeViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
@@ -80,6 +79,7 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 /**
  * ViewModel factory for create ViewModels with constructor parameters.
@@ -97,7 +97,7 @@ object ViewModelFactory {
 
     //endregion
 
-    class App(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
+    class Theme(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(ThemeViewModelImpl::class) {
                 ThemeViewModelImpl(preferencesRepo)
