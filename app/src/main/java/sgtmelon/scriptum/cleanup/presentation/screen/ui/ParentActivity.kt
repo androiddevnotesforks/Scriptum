@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import javax.inject.Inject
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
@@ -34,6 +35,8 @@ abstract class ParentActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        inject(ScriptumApplication.component)
+
         setupTheme(appViewModel.theme)
 
         /** Setup this staff after [setupTheme]. */
@@ -45,6 +48,8 @@ abstract class ParentActivity : AppCompatActivity() {
         super.onResume()
         onThemeChange()
     }
+
+    abstract fun inject(component: ScriptumComponent)
 
     private fun setupTheme(theme: Theme) {
         val mode = when (theme) {

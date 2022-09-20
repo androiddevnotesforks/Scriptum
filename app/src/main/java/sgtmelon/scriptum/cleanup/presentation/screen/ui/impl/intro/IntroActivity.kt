@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import javax.inject.Inject
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
@@ -16,7 +17,6 @@ import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.IntroPageAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
@@ -71,16 +71,18 @@ class IntroActivity : ParentActivity(), IIntroActivity {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getIntroBuilder()
-            .set(activity = this)
-            .set(owner = this)
-            .build()
-            .inject(activity = this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
         viewModel.onSetup(savedInstanceState)
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getIntroBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
+            .inject(activity = this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

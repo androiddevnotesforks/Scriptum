@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
@@ -30,7 +31,6 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCall
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
@@ -123,12 +123,6 @@ class AlarmActivity : ParentActivity() {
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getAlarmBuilder()
-            .set(activity = this)
-            .set(owner = this)
-            .build()
-            .inject(activity = this)
-
         super.onCreate(savedInstanceState)
         setupScreen()
         setContentView(R.layout.activity_alarm)
@@ -141,6 +135,14 @@ class AlarmActivity : ParentActivity() {
         setupObservers(noteId)
 
         registerReceiver(noteReceiver, IntentFilter(Filter.NOTE))
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getAlarmBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
+            .inject(activity = this)
     }
 
     private fun setupScreen() {

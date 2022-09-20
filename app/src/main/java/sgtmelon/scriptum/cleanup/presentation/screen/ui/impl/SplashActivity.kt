@@ -8,6 +8,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
@@ -16,7 +17,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
@@ -54,12 +54,6 @@ class SplashActivity : ParentActivity(),
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getSplashBuilder()
-            .set(activity = this)
-            .set(owner = this)
-            .build()
-            .inject(activity = this)
-
         super.onCreate(savedInstanceState)
 
         setCrashlyticsKeys()
@@ -70,6 +64,14 @@ class SplashActivity : ParentActivity(),
         hideKeyboard()
 
         viewModel.onSetup(intent.extras)
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getSplashBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
+            .inject(activity = this)
     }
 
     private fun setCrashlyticsKeys() {

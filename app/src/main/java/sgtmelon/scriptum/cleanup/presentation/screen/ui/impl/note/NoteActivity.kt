@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
@@ -20,7 +21,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.HolderTintCon
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
@@ -58,12 +58,6 @@ class NoteActivity : ParentActivity(),
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getNoteBuilder()
-            .set(activity = this)
-            .set(owner = this)
-            .build()
-            .inject(activity = this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
@@ -75,6 +69,14 @@ class NoteActivity : ParentActivity(),
         }
 
         registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getNoteBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
+            .inject(activity = this)
     }
 
     override fun onDestroy() {

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.getSettingsIntent
@@ -16,7 +17,6 @@ import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 
 /**
  * Screen with help about disappearing notifications
@@ -28,17 +28,19 @@ class HelpDisappearActivity : ParentActivity() {
     private val settingsButton by lazy { findViewById<View>(R.id.disappear_settings_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getHelpDescriptionBuilder()
-            .set(activity = this)
-            .set(owner = this)
-            .build()
-            .inject(activity = this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_disappear)
 
         setupView()
         setupInsets()
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getHelpDescriptionBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
+            .inject(activity = this)
     }
 
     private fun setupView() {
