@@ -100,8 +100,8 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.alarm.IAlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
@@ -296,7 +296,7 @@ class ViewModelModule {
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         shiftDateIfExist: ShiftDateIfExistUseCase
-    ): IAlarmViewModel {
+    ): AlarmViewModel {
         val factory = ViewModelFactory.Alarm(
             preferencesRepo, noteRepo, getMelodyList,
             setNotification, deleteNotification, shiftDateIfExist

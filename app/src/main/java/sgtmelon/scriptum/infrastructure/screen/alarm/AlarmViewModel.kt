@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 
-interface IAlarmViewModel : NoteScreenReceiver.Callback {
+interface AlarmViewModel : NoteScreenReceiver.Callback {
 
     val state: LiveData<AlarmScreenState>
 

@@ -40,7 +40,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmAnimations
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmBundleProvider
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmScreenState
-import sgtmelon.scriptum.infrastructure.screen.alarm.IAlarmViewModel
+import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
@@ -74,7 +74,7 @@ class AlarmActivity : ThemeActivity() {
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    @Inject internal lateinit var viewModel: IAlarmViewModel
+    @Inject internal lateinit var viewModel: AlarmViewModel
 
     /**
      * [initLazy] not require because activity configChanges under control.

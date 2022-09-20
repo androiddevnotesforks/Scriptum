@@ -25,7 +25,7 @@ class AlarmViewModelImpl(
     private val deleteNotification: DeleteNotificationUseCase,
     private val shiftDateIfExist: ShiftDateIfExistUseCase
 ) : ViewModel(),
-    IAlarmViewModel {
+    AlarmViewModel {
 
     private var noteId: Long = Default.ID
 
