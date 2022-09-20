@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification
 
-import android.animation.AnimatorSet
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -22,8 +21,6 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
-import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
-import sgtmelon.scriptum.cleanup.extension.getAlphaInterpolator
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
@@ -48,7 +45,6 @@ import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
-import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
@@ -119,6 +115,8 @@ class AlarmActivity : ThemeActivity() {
 
     /** Variable for detect layout is completely configure and ready for animation. */
     private var isLayoutConfigure = false
+
+    private val animations = AlarmAnimations()
 
     //region System
 
@@ -209,7 +207,7 @@ class AlarmActivity : ThemeActivity() {
         }
 
         broadcast.sendNotifyInfoBind(count = null)
-        startContentAnimation()
+        startLogoShiftAnimation()
     }
 
     private fun setupView() {
@@ -253,8 +251,8 @@ class AlarmActivity : ThemeActivity() {
         melodyPlay.setupPlayer(context = this, uri, isLooping = true)
     }
 
-    private fun startContentAnimation() {
-        AlarmAnimations().startContentAnimation(
+    private fun startLogoShiftAnimation() {
+        animations.startLogoShiftAnimation(
             parentContainer, logoView, { onLogoTransitionEnd() }
         ) {
             recyclerView?.visibility = View.VISIBLE
@@ -286,7 +284,7 @@ class AlarmActivity : ThemeActivity() {
         getIdling().start(IdlingTag.Alarm.START)
 
         startRippleAnimation()
-        startButtonFadeInAnimation()
+        animations.startContentAnimation(recyclerView, buttonContainer)
 
         if (alarmState.signalState.isMelody) {
             melodyPlay.start(alarmState.isVolumeIncrease)
@@ -309,24 +307,6 @@ class AlarmActivity : ThemeActivity() {
         rippleContainer?.setupAnimation(noteItem.color, logoView)?.startAnimation()
     }
 
-    private fun startButtonFadeInAnimation() {
-        val recyclerView = recyclerView ?: return
-        val buttonContainer = buttonContainer ?: return
-
-        AnimatorSet().apply {
-            interpolator = getAlphaInterpolator(isVisible = true)
-            startDelay = resources.getInteger(R.integer.alarm_show_delay).toLong()
-            duration = resources.getInteger(R.integer.alarm_show_time).toLong()
-
-            playTogether(
-                getAlphaAnimator(recyclerView, alphaTo = 1f),
-                getAlphaAnimator(buttonContainer, alphaTo = 1f)
-            )
-
-            addIdlingListener()
-        }.start()
-    }
-
     //endregion
 
     //region Postpone state
@@ -340,19 +320,16 @@ class AlarmActivity : ThemeActivity() {
         viewModel.postpone(repeat, timeArray)
     }
 
-    private fun onPostponeState(state: AlarmScreenState.Postpone) {
+    private fun onPostponeState(state: AlarmScreenState.Postpone) = beforeFinish {
         with(state) {
             broadcast.sendSetAlarm(noteId, calendar, showToast = false)
             broadcast.sendNotifyInfoBind(count = null)
+            broadcast.sendUpdateAlarmUi(noteId)
             showRepeatToast(repeat)
-            // TODO move broadcast upper (above showRepeatToast)?
-            broadcast.sendUpdateAlarmUi(state.noteId)
         }
-
-        finish()
     }
 
-    // TODO check how it will be working after finish
+    // TODO check how it will be working after finish \ may be send toast into systemLogic and show from there?
     private fun showRepeatToast(repeat: Repeat) {
         val repeatArray = resources.getStringArray(R.array.pref_alarm_repeat)
         val repeatText = repeatArray.getOrNull(repeat.ordinal) ?: return
@@ -362,8 +339,6 @@ class AlarmActivity : ThemeActivity() {
 
     //endregion
 
-    // TODO тут надо openState?
-    // TODO убрать лишнюю функцию
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
         openState.tryInvoke { startActivity(NoteActivity[this, item]) }
     }

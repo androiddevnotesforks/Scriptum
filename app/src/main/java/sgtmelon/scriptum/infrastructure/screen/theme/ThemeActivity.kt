@@ -21,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.St
  */
 abstract class ThemeActivity : AppCompatActivity() {
 
-    // TODO описать полностью функционал экрана после проверки его работы
+    // TODO view binding?
 
     protected val toast = ToastDelegator(lifecycle)
 

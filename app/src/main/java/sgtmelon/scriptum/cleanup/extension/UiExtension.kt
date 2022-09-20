@@ -19,7 +19,7 @@ import sgtmelon.extensions.getInputService
 import sgtmelon.scriptum.R
 import sgtmelon.test.idling.addIdlingListener
 
-fun Activity.beforeFinish(func: () -> Unit) {
+inline fun Activity.beforeFinish(func: () -> Unit) {
     func()
     finish()
 }
@@ -42,7 +42,7 @@ fun Activity.hideKeyboard() {
 /**
  * Function for detect when layout completely configure.
  */
-fun ViewGroup.afterLayoutConfiguration(func: () -> Unit) {
+inline fun ViewGroup.afterLayoutConfiguration(crossinline func: () -> Unit) {
     viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             viewTreeObserver?.removeOnGlobalLayoutListener(this)

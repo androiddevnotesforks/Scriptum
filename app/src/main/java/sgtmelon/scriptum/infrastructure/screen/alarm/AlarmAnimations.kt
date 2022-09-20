@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.alarm
 
+import android.animation.AnimatorSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
@@ -7,11 +8,14 @@ import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
+import sgtmelon.scriptum.cleanup.extension.getAlphaInterpolator
 import sgtmelon.test.idling.addIdlingListener
 
 class AlarmAnimations {
 
-    inline fun startContentAnimation(
+    inline fun startLogoShiftAnimation(
         parentContainer: ViewGroup?,
         targetView: View?,
         crossinline onEnd: () -> Unit,
@@ -32,4 +36,22 @@ class AlarmAnimations {
         changeUi()
     }
 
+    fun startContentAnimation(recyclerView: View?, buttonContainer: View?) {
+        if (recyclerView == null || buttonContainer == null) return
+
+        val resources = recyclerView.context.resources
+
+        AnimatorSet().apply {
+            interpolator = getAlphaInterpolator(isVisible = true)
+            startDelay = resources.getInteger(R.integer.alarm_show_delay).toLong()
+            duration = resources.getInteger(R.integer.alarm_show_time).toLong()
+
+            playTogether(
+                getAlphaAnimator(recyclerView, alphaTo = 1f),
+                getAlphaAnimator(buttonContainer, alphaTo = 1f)
+            )
+
+            addIdlingListener()
+        }.start()
+    }
 }
