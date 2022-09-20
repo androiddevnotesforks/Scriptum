@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
@@ -105,7 +104,7 @@ class DevelopFragment : ParentPreferenceFragment(),
         introPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(IntroActivity[context])
+                startActivity(InstanceFactory.Intro[context])
             }
 
             return@setOnPreferenceClickListener true

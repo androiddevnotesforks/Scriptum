@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import javax.inject.Inject
@@ -130,15 +128,4 @@ class IntroActivity : ThemeActivity<ActivityIntroBinding>(), IIntroActivity {
 
     override fun openMainScreen() = startActivity(MainActivity[this])
 
-    companion object {
-        /**
-         * After call [get] and [Intent] run application will be restarted with only this screen.
-         */
-        operator fun get(context: Context): Intent {
-            return Intent(context, IntroActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-    }
 }

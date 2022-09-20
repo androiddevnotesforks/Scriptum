@@ -13,7 +13,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.extension.NO_ID_LAYOUT
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
@@ -21,6 +20,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
@@ -84,10 +84,8 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
         overridePendingTransition(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
     }
 
-    /**
-     * [beforeFinish] not needed because inside [IntroActivity.get] happen clear start.
-     */
-    override fun openIntroScreen() = startActivity(IntroActivity[this])
+    /** [beforeFinish] not needed because [InstanceFactory.Intro] launch clear start. */
+    override fun openIntroScreen() = startActivity(InstanceFactory.Intro[this])
 
     override fun openMainScreen() = beforeFinish { startActivity(MainActivity[this]) }
 
