@@ -43,7 +43,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewM
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
@@ -101,7 +100,8 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
+import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.alarm.IAlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
@@ -302,7 +302,7 @@ class ViewModelModule {
             setNotification, deleteNotification, shiftDateIfExist
         )
 
-        return ViewModelProvider(activity, factory)[AlarmViewModel::class.java]
+        return ViewModelProvider(activity, factory)[AlarmViewModelImpl::class.java]
     }
 
     @Provides

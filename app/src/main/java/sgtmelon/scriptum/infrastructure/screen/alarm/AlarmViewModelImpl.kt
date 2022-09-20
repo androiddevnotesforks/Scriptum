@@ -7,7 +7,6 @@ import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
@@ -18,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.utils.record
 
-class AlarmViewModel(
+class AlarmViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
     private val noteRepo: NoteRepo,
     private val getMelodyList: GetMelodyListUseCase,

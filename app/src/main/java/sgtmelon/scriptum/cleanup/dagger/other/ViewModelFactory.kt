@@ -78,7 +78,7 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
+import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 /**
@@ -286,8 +286,8 @@ object ViewModelFactory {
         private val shiftDateIfExist: ShiftDateIfExistUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(AlarmViewModel::class) {
-                AlarmViewModel(
+            return modelClass.create(AlarmViewModelImpl::class) {
+                AlarmViewModelImpl(
                     preferencesRepo, noteRepo, getMelodyList,
                     setNotification, deleteNotification, shiftDateIfExist
                 )

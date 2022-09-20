@@ -31,7 +31,6 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCall
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
@@ -41,6 +40,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmAnimations
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmBundleProvider
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmScreenState
+import sgtmelon.scriptum.infrastructure.screen.alarm.IAlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator

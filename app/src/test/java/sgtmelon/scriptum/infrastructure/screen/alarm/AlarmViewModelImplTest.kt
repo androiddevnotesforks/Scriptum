@@ -22,10 +22,10 @@ import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 
 /**
- * Test for [AlarmViewModel].
+ * Test for [AlarmViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class AlarmViewModelTest : ParentCoTest() {
+class AlarmViewModelImplTest : ParentCoTest() {
 
     //region Setup
 
@@ -39,7 +39,7 @@ class AlarmViewModelTest : ParentCoTest() {
     @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy {
-        AlarmViewModel(
+        AlarmViewModelImpl(
             preferencesRepo, noteRepo, getMelodyList, setNotification, deleteNotification,
             shiftDateIfExist
         )
