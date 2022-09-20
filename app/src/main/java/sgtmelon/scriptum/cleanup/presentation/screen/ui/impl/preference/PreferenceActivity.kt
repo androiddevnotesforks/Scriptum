@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
@@ -111,13 +109,4 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
 
     //endregion
 
-    companion object {
-        operator fun get(
-            context: Context,
-            screen: PreferenceScreen
-        ): Intent {
-            return Intent(context, PreferenceActivity::class.java)
-                .putExtra(Preference.Intent.SCREEN, screen.ordinal)
-        }
-    }
 }

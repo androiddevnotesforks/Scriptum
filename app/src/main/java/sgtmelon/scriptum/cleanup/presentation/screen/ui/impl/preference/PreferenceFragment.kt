@@ -17,6 +17,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 
@@ -99,7 +100,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         backupPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(PreferenceActivity[context, PreferenceScreen.BACKUP])
+                startActivity(InstanceFactory.Preference[context, PreferenceScreen.BACKUP])
             }
 
             return@setOnPreferenceClickListener true
@@ -108,7 +109,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         notePreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(PreferenceActivity[context, PreferenceScreen.NOTE])
+                startActivity(InstanceFactory.Preference[context, PreferenceScreen.NOTE])
             }
 
             return@setOnPreferenceClickListener true
@@ -117,7 +118,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         alarmPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(PreferenceActivity[context, PreferenceScreen.ALARM])
+                startActivity(InstanceFactory.Preference[context, PreferenceScreen.ALARM])
             }
 
             return@setOnPreferenceClickListener true
@@ -133,7 +134,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         findPreference<Preference>(getString(R.string.pref_key_other_help))?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(PreferenceActivity[context, PreferenceScreen.HELP])
+                startActivity(InstanceFactory.Preference[context, PreferenceScreen.HELP])
             }
 
             return@setOnPreferenceClickListener true
@@ -182,7 +183,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         developerPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(PreferenceActivity[context, PreferenceScreen.DEVELOP])
+                startActivity(InstanceFactory.Preference[context, PreferenceScreen.DEVELOP])
             }
 
             return@setOnPreferenceClickListener true

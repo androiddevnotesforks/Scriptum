@@ -18,9 +18,10 @@ class NoteScreenReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.getStringExtra(Values.COMMAND)) {
             Command.UI.UNBIND_NOTE -> {
-                val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
-
-                if (id != Note.Default.ID) callback?.onReceiveUnbindNote(id)
+                val noteId = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
+                if (noteId != Note.Default.ID) {
+                    callback?.onReceiveUnbindNote(noteId)
+                }
             }
         }
     }

@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
@@ -74,12 +72,6 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
             view.updateMargin(InsetsDir.BOTTOM, insets, margin, !isFirstTime)
             return@doOnApplyWindowInsets insets
-        }
-    }
-
-    companion object {
-        operator fun get(context: Context): Intent {
-            return Intent(context, HelpDisappearActivity::class.java)
         }
     }
 }

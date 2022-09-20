@@ -30,11 +30,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
@@ -140,10 +138,11 @@ class NotesFragment : ParentFragment(),
 
             setOnMenuItemClickListener {
                 openState?.tryInvoke {
-                    startActivity(when (it.itemId) {
-                        R.id.item_notification -> NotificationActivity[context]
-                        else -> PreferenceActivity[context, PreferenceScreen.PREFERENCE]
-                    })
+                    startActivity(
+                        when (it.itemId) {
+                            R.id.item_notification -> InstanceFactory.Notification[context]
+                            else -> InstanceFactory.Preference[context, PreferenceScreen.PREFERENCE]
+                        })
                 }
 
                 return@setOnMenuItemClickListener true
@@ -268,7 +267,7 @@ class NotesFragment : ParentFragment(),
     }
 
     override fun openNoteScreen(item: NoteItem) {
-        startActivity(NoteActivity[context ?: return, item])
+        startActivity(InstanceFactory.Note[context ?: return, item])
     }
 
 

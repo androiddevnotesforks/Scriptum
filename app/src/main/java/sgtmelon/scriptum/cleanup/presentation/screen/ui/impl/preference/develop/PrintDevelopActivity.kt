@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -19,7 +17,6 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.PrintAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
-import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
@@ -138,12 +135,5 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
 
     override fun notifyList(list: List<PrintItem>) {
         adapter.setList(list).notifyDataSetChanged()
-    }
-
-    companion object {
-        operator fun get(context: Context, type: PrintType): Intent {
-            return Intent(context, PrintDevelopActivity::class.java)
-                .putExtra(IntentData.Print.Intent.TYPE, type.ordinal)
-        }
     }
 }

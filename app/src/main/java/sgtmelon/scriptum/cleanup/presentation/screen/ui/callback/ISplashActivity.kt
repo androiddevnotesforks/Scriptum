@@ -15,9 +15,9 @@ interface ISplashActivity : SystemReceiver.Bridge.TidyUp,
 
     fun openMainScreen()
 
-    fun openAlarmScreen(id: Long)
+    fun openAlarmScreen(noteId: Long)
 
-    fun openNoteScreen(id: Long, color: Int, type: Int)
+    fun openNoteScreen(noteId: Long, color: Int, type: Int)
 
     fun openNotificationScreen()
 

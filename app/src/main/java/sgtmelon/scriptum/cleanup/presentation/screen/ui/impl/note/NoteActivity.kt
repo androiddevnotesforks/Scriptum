@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note
 
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,8 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.initLazy
@@ -23,7 +19,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -160,28 +155,4 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
                 .commit()
         }
     }
-
-    companion object {
-        operator fun get(context: Context, item: NotificationItem) =
-                get(context, item.note.type.ordinal, item.note.id, item.note.color.ordinal)
-
-        operator fun get(context: Context, item: NoteItem) =
-                get(context, item.type.ordinal, item.id, item.color.ordinal)
-
-        /**
-         * If [id] and [color] isDefault - it means that note will be create, not open.
-         */
-        operator fun get(
-            context: Context,
-            type: Int,
-            id: Long = Note.Default.ID,
-            color: Int = Note.Default.COLOR
-        ): Intent {
-            return Intent(context, NoteActivity::class.java)
-                .putExtra(Note.Intent.ID, id)
-                .putExtra(Note.Intent.COLOR, color)
-                .putExtra(Note.Intent.TYPE, type)
-        }
-    }
-
 }

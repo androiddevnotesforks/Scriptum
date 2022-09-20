@@ -27,7 +27,7 @@ interface INoteActivity {
 
     fun onPressBackRoll(): Boolean
 
-    fun onReceiveUnbindNote(id: Long)
+    fun onReceiveUnbindNote(noteId: Long)
 
     fun finish()
 

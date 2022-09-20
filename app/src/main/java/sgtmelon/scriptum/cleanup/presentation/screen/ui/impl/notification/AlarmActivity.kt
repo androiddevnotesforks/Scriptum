@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification
 
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Build
@@ -25,11 +23,10 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmAnimations
@@ -323,17 +320,12 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     //endregion
 
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
-        openState.tryInvoke { startActivity(NoteActivity[this, item]) }
+        openState.tryInvoke { startActivity(InstanceFactory.Note[this, item]) }
     }
 
     companion object {
         @RunPrivate var isFinishOnStop = true
 
         const val TIMEOUT_TIME = 20000L
-
-        operator fun get(context: Context, id: Long): Intent {
-            return Intent(context, AlarmActivity::class.java)
-                .putExtra(Note.Intent.ID, id)
-        }
     }
 }

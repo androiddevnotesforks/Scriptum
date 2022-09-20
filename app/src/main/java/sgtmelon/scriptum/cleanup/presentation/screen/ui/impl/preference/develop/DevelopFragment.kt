@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 
@@ -119,7 +118,7 @@ class DevelopFragment : ParentPreferenceFragment(),
         eternalPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(PreferenceActivity[context, PreferenceScreen.SERVICE])
+                startActivity(InstanceFactory.Preference[context, PreferenceScreen.SERVICE])
             }
 
             return@setOnPreferenceClickListener true
@@ -139,7 +138,7 @@ class DevelopFragment : ParentPreferenceFragment(),
     override fun openPrintScreen(type: PrintType) {
         val context = context ?: return
 
-        startActivity(PrintDevelopActivity[context, type])
+        startActivity(InstanceFactory.Preference.Develop.Print[context, type])
     }
 
     override fun openAlarmScreen(noteId: Long) {

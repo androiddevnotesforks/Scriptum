@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -23,9 +21,9 @@ import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
@@ -215,7 +213,9 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
         }
     }
 
-    override fun openNoteScreen(item: NotificationItem) = startActivity(NoteActivity[this, item])
+    override fun openNoteScreen(item: NotificationItem) {
+        startActivity(InstanceFactory.Note[this, item])
+    }
 
     override fun showSnackbar() {
         binding?.recyclerContainer?.let { snackbar.show(it, withInsets = true) }
@@ -277,7 +277,4 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     //endregion
 
-    companion object {
-        operator fun get(context: Context) = Intent(context, NotificationActivity::class.java)
-    }
 }

@@ -26,9 +26,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**
@@ -214,7 +214,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
     override fun openNoteScreen(item: NoteItem) {
-        startActivity(NoteActivity[context ?: return, item])
+        startActivity(InstanceFactory.Note[context ?: return, item])
     }
 
     override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {

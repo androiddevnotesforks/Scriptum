@@ -4,10 +4,20 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
+import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
+import sgtmelon.scriptum.infrastructure.model.data.IntentData
 
 /**
  * Factory for build intents.
@@ -22,15 +32,15 @@ object InstanceFactory {
             return Intent(context, SplashActivity::class.java)
                 .addFlags(flags)
                 .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
-                .putExtra(Note.Intent.ID, noteId)
+                .putExtra(IntentData.Note.Intent.ID, noteId)
         }
 
         fun getBind(context: Context, item: NoteItem): Intent {
             return Intent(context, SplashActivity::class.java)
                 .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
-                .putExtra(Note.Intent.ID, item.id)
-                .putExtra(Note.Intent.COLOR, item.color)
-                .putExtra(Note.Intent.TYPE, item.type.ordinal)
+                .putExtra(IntentData.Note.Intent.ID, item.id)
+                .putExtra(IntentData.Note.Intent.COLOR, item.color)
+                .putExtra(IntentData.Note.Intent.TYPE, item.type.ordinal)
         }
 
         fun getNotification(context: Context): Intent {
@@ -65,6 +75,107 @@ object InstanceFactory {
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+    }
+
+    object Main {
+
+        operator fun get(context: Context) = Intent(context, MainActivity::class.java)
+    }
+
+    object Note {
+
+        operator fun get(context: Context, item: NotificationItem) =
+            get(context, item.note.type.ordinal, item.note.id, item.note.color.ordinal)
+
+        operator fun get(context: Context, item: NoteItem) =
+            get(context, item.type.ordinal, item.id, item.color.ordinal)
+
+        /**
+         * If [id] and [color] have default values - it means that note will be created,
+         * otherwise it will be opened.
+         */
+        operator fun get(
+            context: Context,
+            type: Int,
+            id: Long = IntentData.Note.Default.ID,
+            color: Int = IntentData.Note.Default.COLOR
+        ): Intent {
+            return Intent(context, NoteActivity::class.java)
+                .putExtra(IntentData.Note.Intent.ID, id)
+                .putExtra(IntentData.Note.Intent.COLOR, color)
+                .putExtra(IntentData.Note.Intent.TYPE, type)
+        }
+    }
+
+    object Alarm {
+
+        operator fun get(context: Context, id: Long): Intent {
+            return Intent(context, AlarmActivity::class.java)
+                .putExtra(IntentData.Note.Intent.ID, id)
+        }
+    }
+
+    object Notification {
+
+        operator fun get(context: Context) = Intent(context, NotificationActivity::class.java)
+    }
+
+
+    object Preference {
+
+        operator fun get(
+            context: Context,
+            screen: PreferenceScreen
+        ): Intent {
+            return Intent(context, PreferenceActivity::class.java)
+                .putExtra(IntentData.Preference.Intent.SCREEN, screen.ordinal)
+        }
+
+        object HelpDisappear {
+
+            operator fun get(context: Context): Intent {
+                return Intent(context, HelpDisappearActivity::class.java)
+            }
+        }
+
+        object Develop {
+
+            object Print {
+
+                operator fun get(context: Context, type: PrintType): Intent {
+                    return Intent(context, PrintDevelopActivity::class.java)
+                        .putExtra(IntentData.Print.Intent.TYPE, type.ordinal)
+                }
+            }
+        }
+    }
+
+    object Chains {
+
+        fun toAlarm(context: Context, noteId: Long): Array<Intent> {
+            return arrayOf(Main[context], Alarm[context, noteId])
+        }
+
+        fun toNote(context: Context, noteId: Long, color: Int, type: Int): Array<Intent> {
+            return arrayOf(Main[context], Note[context, type, noteId, color])
+        }
+
+        fun toNotifications(context: Context): Array<Intent> {
+            return arrayOf(Main[context], Notification[context])
+        }
+
+        fun toHelpDisappear(context: Context): Array<Intent> {
+            return arrayOf(
+                Main[context],
+                Preference[context, PreferenceScreen.PREFERENCE],
+                Preference[context, PreferenceScreen.HELP],
+                Preference.HelpDisappear[context]
+            )
+        }
+
+        fun toNewNote(context: Context, type: NoteType): Array<Intent> {
+            return arrayOf(Main[context], Note[context, type.ordinal])
         }
     }
 }

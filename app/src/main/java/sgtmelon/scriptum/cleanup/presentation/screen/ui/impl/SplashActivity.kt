@@ -8,17 +8,10 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.extension.NO_ID_LAYOUT
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
@@ -87,38 +80,31 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     /** [beforeFinish] not needed because [InstanceFactory.Intro] launch clear start. */
     override fun openIntroScreen() = startActivity(InstanceFactory.Intro[this])
 
-    override fun openMainScreen() = beforeFinish { startActivity(MainActivity[this]) }
+    override fun openMainScreen() = beforeFinish { startActivity(InstanceFactory.Main[this]) }
 
-    override fun openAlarmScreen(id: Long) = beforeFinish {
+    override fun openAlarmScreen(noteId: Long) = beforeFinish {
         getWaitIdling().start(waitMillis = 3000)
-        startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
+        startActivities(InstanceFactory.Chains.toAlarm(context = this, noteId))
     }
 
-    override fun openNoteScreen(id: Long, color: Int, type: Int) = beforeFinish {
+    override fun openNoteScreen(noteId: Long, color: Int, type: Int) = beforeFinish {
         getWaitIdling().start(waitMillis = 3000)
-        startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
+        startActivities(InstanceFactory.Chains.toNote(context = this, noteId, color, type))
     }
 
     override fun openNotificationScreen() = beforeFinish {
         getWaitIdling().start(waitMillis = 3000)
-        startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
+        startActivities(InstanceFactory.Chains.toNotifications(context = this))
     }
 
     override fun openHelpDisappearScreen() = beforeFinish {
         getWaitIdling().start(waitMillis = 3000)
-        startActivities(
-            arrayOf(
-                MainActivity[this],
-                PreferenceActivity[this, PreferenceScreen.PREFERENCE],
-                PreferenceActivity[this, PreferenceScreen.HELP],
-                HelpDisappearActivity[this]
-            )
-        )
+        startActivities(InstanceFactory.Chains.toHelpDisappear(context = this))
     }
 
     override fun openNewNoteScreen(type: NoteType) = beforeFinish {
         getWaitIdling().start(waitMillis = 3000)
-        startActivities(arrayOf(MainActivity[this], NoteActivity[this, type.ordinal]))
+        startActivities(InstanceFactory.Chains.toNewNote(context = this, type))
     }
 
     //region Broadcast functions

@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
 import android.os.Bundle
@@ -30,9 +28,9 @@ import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.databinding.ActivityMainBinding
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
@@ -227,7 +225,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     }
 
     override fun openNoteScreen(noteType: NoteType) = openState.tryInvoke {
-        startActivity(NoteActivity[this, noteType.ordinal])
+        startActivity(InstanceFactory.Note[this, noteType.ordinal])
     }
 
     //region Receiver callback
@@ -270,14 +268,10 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     /**
      * Call [func] only if correct fragment added.
      */
-    private fun onFragmentAdd(mainPage: MainPage, func: () -> Unit) {
+    private inline fun onFragmentAdd(mainPage: MainPage, func: () -> Unit) {
         if (fm.findFragmentByTag(mainPage.getFragmentTag()) == null) return
 
         func()
-    }
-
-    companion object {
-        operator fun get(context: Context) = Intent(context, MainActivity::class.java)
     }
 
 }

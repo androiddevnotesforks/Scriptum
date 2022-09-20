@@ -7,6 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getSiteIntent
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 
 /**
  * Fragment of help preferences.
@@ -30,7 +31,7 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
         notificationPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(HelpDisappearActivity[context])
+                startActivity(InstanceFactory.Preference.HelpDisappear[context])
             }
 
             return@setOnPreferenceClickListener true
