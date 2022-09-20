@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
@@ -13,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
  */
 abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
 
-    protected val activity get() = getActivity() as? AppActivity
+    protected val activity get() = getActivity() as? ParentActivity
     protected val fm get() = parentFragmentManager
 
     protected val toast = ToastDelegator(lifecycle)

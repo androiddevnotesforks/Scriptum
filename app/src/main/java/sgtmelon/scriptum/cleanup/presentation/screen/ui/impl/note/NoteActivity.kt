@@ -19,10 +19,10 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowCon
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
@@ -31,7 +31,10 @@ import sgtmelon.scriptum.infrastructure.model.key.Color
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].
  */
-class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenReceiver.Callback {
+class NoteActivity : ParentActivity(),
+    INoteActivity,
+    INoteConnector,
+    NoteScreenReceiver.Callback {
 
     //region Variables
 

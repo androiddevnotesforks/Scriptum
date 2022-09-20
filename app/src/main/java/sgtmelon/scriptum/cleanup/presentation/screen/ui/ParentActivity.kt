@@ -24,11 +24,13 @@ abstract class ParentActivity : AppCompatActivity() {
 
     @Inject internal lateinit var appViewModel: IAppViewModel
 
-    /** Keys which describes UI look of system window. */
+    /** Keys which describes UI-look of system window. */
     protected open val background: Background = Background.Standard
     protected open val statusBar: StatusBar = StatusBar.Standard
     protected open val navigation: Navigation = Navigation.Standard
     protected open val navDivider: NavDivider = NavDivider.Standard
+
+    protected val fm get() = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

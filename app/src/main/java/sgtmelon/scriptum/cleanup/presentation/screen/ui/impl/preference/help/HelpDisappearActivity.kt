@@ -15,13 +15,13 @@ import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.extension.updateMargin
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 
 /**
  * Screen with help about disappearing notifications
  */
-class HelpDisappearActivity : AppActivity() {
+class HelpDisappearActivity : ParentActivity() {
 
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.disappear_parent_container) }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
