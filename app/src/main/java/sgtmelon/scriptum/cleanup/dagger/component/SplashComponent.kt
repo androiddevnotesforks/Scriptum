@@ -1,10 +1,11 @@
 package sgtmelon.scriptum.cleanup.dagger.component
 
+import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.ViewModelModule
+import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 
 /**
@@ -23,6 +24,9 @@ interface SplashComponent {
     interface Builder {
         @BindsInstance
         fun set(activity: SplashActivity): Builder
+
+        @BindsInstance
+        fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): SplashComponent
     }

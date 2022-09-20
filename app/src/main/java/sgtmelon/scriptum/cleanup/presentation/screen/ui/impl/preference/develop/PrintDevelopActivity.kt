@@ -49,7 +49,10 @@ class PrintDevelopActivity : AppActivity(), IPrintDevelopActivity {
     private val adapter = PrintAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getPrintBuilder().set(activity = this).build()
+        ScriptumApplication.component.getPrintBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)

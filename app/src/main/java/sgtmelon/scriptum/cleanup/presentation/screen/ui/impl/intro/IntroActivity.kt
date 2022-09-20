@@ -71,7 +71,10 @@ class IntroActivity : ParentActivity(), IIntroActivity {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getIntroBuilder().set(activity = this).build()
+        ScriptumApplication.component.getIntroBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)

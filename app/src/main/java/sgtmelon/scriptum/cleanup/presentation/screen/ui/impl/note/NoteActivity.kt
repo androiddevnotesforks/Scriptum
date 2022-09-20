@@ -55,7 +55,10 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getNoteBuilder().set(activity = this).build()
+        ScriptumApplication.component.getNoteBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)

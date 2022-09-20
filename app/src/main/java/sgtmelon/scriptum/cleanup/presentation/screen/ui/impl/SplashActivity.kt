@@ -54,7 +54,10 @@ class SplashActivity : ParentActivity(),
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getSplashBuilder().set(activity = this).build()
+        ScriptumApplication.component.getSplashBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)

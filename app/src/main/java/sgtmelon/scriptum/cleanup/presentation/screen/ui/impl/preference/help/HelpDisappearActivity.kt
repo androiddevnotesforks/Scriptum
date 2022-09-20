@@ -28,7 +28,10 @@ class HelpDisappearActivity : AppActivity() {
     private val settingsButton by lazy { findViewById<View>(R.id.disappear_settings_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getHelpDescriptionBuilder().set(activity = this).build()
+        ScriptumApplication.component.getHelpDescriptionBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)

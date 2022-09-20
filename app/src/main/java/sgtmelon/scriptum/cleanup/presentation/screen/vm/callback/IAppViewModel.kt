@@ -1,12 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback
 
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.AppViewModel
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 
-/**
- * Interface for communication [IAppActivity] with [AppViewModel].
- */
-interface IAppViewModel : IParentViewModel {
+interface IAppViewModel {
 
-    fun isThemeChange(): Boolean
+    val theme: Theme
+
+    fun isThemeChanged(): Boolean
 }

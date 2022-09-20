@@ -23,7 +23,13 @@ class MenuItemDrawableMatcher(
 
         val itemIcon = item.menu.findItem(itemId).icon
 
-        if (resourceId == null) return itemIcon == null
+        if (resourceId == null) {
+            return itemIcon == null
+        }
+
+        if (itemIcon == null) {
+            throw NullPointerException("Icon is null, but resourceId - not.")
+        }
 
         val context = item.context ?: return false
         val expected = context.getDrawableCompat(resourceId)?.mutate() ?: return false

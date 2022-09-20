@@ -44,7 +44,9 @@ class PreferenceActivity : AppActivity() {
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getAppBuilder().set(activity = this).build()
+        ScriptumApplication.component.getMainPreferenceBuilder()
+            .set(owner = this)
+            .build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)

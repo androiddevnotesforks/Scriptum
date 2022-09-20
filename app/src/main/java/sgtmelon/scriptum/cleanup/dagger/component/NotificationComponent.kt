@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.dagger.component
 
+import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.dagger.module.NotificationModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.ViewModelModule
+import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 
 /**
@@ -14,8 +14,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
-    ViewModelModule::class,
-    NotificationModule::class
+    ViewModelModule::class
 ])
 interface NotificationComponent {
 
@@ -25,6 +24,9 @@ interface NotificationComponent {
     interface Builder {
         @BindsInstance
         fun set(activity: NotificationActivity): Builder
+
+        @BindsInstance
+        fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): NotificationComponent
     }

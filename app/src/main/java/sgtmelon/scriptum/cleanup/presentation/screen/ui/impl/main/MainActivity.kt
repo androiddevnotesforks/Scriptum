@@ -67,7 +67,10 @@ class MainActivity : AppActivity(), IMainActivity {
     private var fabDelegator: GradientFabDelegator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getMainBuilder().set(activity = this).build()
+        ScriptumApplication.component.getMainBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)

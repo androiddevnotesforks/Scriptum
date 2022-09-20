@@ -1,26 +1,20 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
 
-import android.os.Bundle
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
+import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 
-/**
- * ViewModel for [IAppActivity].
- */
-class AppViewModel(
-    callback: IAppActivity,
-    private val preferencesRepo: PreferencesRepo
-) : ParentViewModel<IAppActivity>(callback),
-        IAppViewModel {
+class AppViewModel(private val preferencesRepo: PreferencesRepo) : ViewModel(),
+    IAppViewModel {
 
-    private val theme: Theme = preferencesRepo.theme
+    override var theme: Theme = preferencesRepo.theme
 
-    override fun onSetup(bundle: Bundle?) {
-        callback?.setupTheme(theme)
+    override fun isThemeChanged(): Boolean {
+        val newTheme = preferencesRepo.theme
+        val isChanged = theme != newTheme
+        theme = newTheme
+
+        return isChanged
     }
-
-    override fun isThemeChange(): Boolean = theme != preferencesRepo.theme
-
 }

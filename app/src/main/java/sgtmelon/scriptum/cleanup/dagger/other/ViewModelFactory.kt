@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
@@ -98,13 +97,10 @@ object ViewModelFactory {
 
     //endregion
 
-    class App(
-        private val activity: IAppActivity,
-        private val preferencesRepo: PreferencesRepo
-    ) : ViewModelProvider.Factory {
+    class App(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AppViewModel::class) {
-                AppViewModel(activity, preferencesRepo)
+                AppViewModel(preferencesRepo)
             }
         }
     }

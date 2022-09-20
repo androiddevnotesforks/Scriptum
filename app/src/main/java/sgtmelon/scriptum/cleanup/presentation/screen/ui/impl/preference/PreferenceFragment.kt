@@ -91,7 +91,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
         themeDialog.onPositiveClick {
             viewModel.onResultTheme(themeDialog.check)
-            activity?.checkThemeChange()
+            activity?.onThemeChange()
         }
         themeDialog.onDismiss { openState.clear() }
 

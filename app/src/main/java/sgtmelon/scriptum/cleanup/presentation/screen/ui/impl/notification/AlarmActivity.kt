@@ -123,7 +123,10 @@ class AlarmActivity : AppActivity() {
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ScriptumApplication.component.getAlarmBuilder().set(activity = this).build()
+        ScriptumApplication.component.getAlarmBuilder()
+            .set(activity = this)
+            .set(owner = this)
+            .build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)

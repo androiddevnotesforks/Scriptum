@@ -13,6 +13,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.note.TextNoteComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.AlarmPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.BackupPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.HelpDescriptionComponent
+import sgtmelon.scriptum.cleanup.dagger.component.preference.MainPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.NotePreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.PreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.DevelopPreferenceComponent
@@ -64,8 +65,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 ])
 interface ScriptumComponent {
 
-    fun getAppBuilder(): AppComponent.Builder
-
     fun getSplashBuilder(): SplashComponent.Builder
 
     fun getIntroBuilder(): IntroComponent.Builder
@@ -92,6 +91,8 @@ interface ScriptumComponent {
     fun getAlarmBuilder(): AlarmComponent.Builder
 
     //region Preferences
+
+    fun getMainPreferenceBuilder(): MainPreferenceComponent.Builder
 
     fun getPreferenceBuilder(): PreferenceComponent.Builder
 
