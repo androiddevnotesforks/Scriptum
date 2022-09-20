@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/intro_parent_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/intro_view_pager"
+    <LinearLayout
+        android:id="@+id/intro_parent_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:padding="@dimen/layout_8dp" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!--  Need container for work properly (it's related with layout_gravity)  -->
-        <FrameLayout
-            android:id="@+id/intro_page_container"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:padding="@dimen/layout_8dp" />
 
-            <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
-                android:id="@+id/intro_page_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/layout_8dp"
-                android:layout_gravity="center"
-                app:spi_dotColor="?attr/clDisable"
-                app:spi_dotSelectedColor="?attr/clContent"
-                app:spi_dotSelectedSize="@dimen/page_indicator_select_size"
-                app:spi_dotSize="@dimen/page_indicator_size"
-                app:spi_dotSpacing="@dimen/page_indicator_space" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--  Need container for work properly (it's related with layout_gravity)  -->
+            <FrameLayout
+                android:id="@+id/page_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+                    android:id="@+id/page_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/layout_8dp"
+                    app:spi_dotColor="?attr/clDisable"
+                    app:spi_dotSelectedColor="?attr/clContent"
+                    app:spi_dotSelectedSize="@dimen/page_indicator_select_size"
+                    app:spi_dotSize="@dimen/page_indicator_size"
+                    app:spi_dotSpacing="@dimen/page_indicator_space" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/end_button"
+                style="@style/Button.Borderless"
+                android:layout_width="match_parent"
+                android:text="@string/info_intro_button"
+                tools:visibility="invisible" />
 
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/intro_end_button"
-            style="@style/Button.Borderless"
-            tools:visibility="invisible"
-            android:layout_width="match_parent"
-            android:text="@string/info_intro_button" />
+    </LinearLayout>
 
-    </FrameLayout>
-
-</LinearLayout>
+</layout>

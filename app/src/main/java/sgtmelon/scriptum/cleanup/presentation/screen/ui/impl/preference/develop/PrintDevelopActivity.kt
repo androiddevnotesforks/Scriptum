@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -15,7 +13,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
-import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.PrintAdapter
@@ -30,27 +27,23 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
 /**
  * Screen for print data of data base and preference.
  */
-class PrintDevelopActivity : ThemeActivity(), IPrintDevelopActivity {
+class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrintDevelopActivity {
+
+    override val layoutId: Int = R.layout.activity_develop_print
 
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    private var binding: ActivityDevelopPrintBinding? = null
-
     @Inject internal lateinit var viewModel: IPrintDevelopViewModel
 
-    private val parentContainer by lazy { findViewById<ViewGroup>(R.id.print_parent_container) }
+    // TODO remove and use binding
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
-
     private val emptyInfoView by lazy { findViewById<View>(R.id.print_info_include) }
-    private val progressBar by lazy { findViewById<View>(R.id.print_progress) }
-    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.print_recycler) }
 
     private val adapter = PrintAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = inflateBinding(R.layout.activity_develop_print)
 
         viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
     }
@@ -80,7 +73,7 @@ class PrintDevelopActivity : ThemeActivity(), IPrintDevelopActivity {
 
     override fun setupView(type: PrintType) {
         val toolbar = toolbar ?: return
-        val recyclerView = recyclerView ?: return
+        val recyclerView = binding?.recyclerView ?: return
 
         val titleText = getString(when (type) {
             PrintType.NOTE, PrintType.BIN -> R.string.pref_title_print_note
@@ -109,8 +102,8 @@ class PrintDevelopActivity : ThemeActivity(), IPrintDevelopActivity {
     }
 
     override fun setupInsets() {
-        parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
-        recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
+        binding?.parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
+        binding?.recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
     }
 
     /**
@@ -118,24 +111,24 @@ class PrintDevelopActivity : ThemeActivity(), IPrintDevelopActivity {
      */
     override fun beforeLoad() {
         emptyInfoView?.visibility = View.GONE
-        progressBar?.visibility = View.GONE
+        binding?.progressBar?.visibility = View.GONE
     }
 
     override fun showProgress() {
-        progressBar?.visibility = View.VISIBLE
+        binding?.progressBar?.visibility = View.VISIBLE
     }
 
     override fun onBindingList() {
-        progressBar?.visibility = View.GONE
+        binding?.progressBar?.visibility = View.GONE
 
         if (adapter.itemCount == 0) {
             emptyInfoView?.visibility = View.VISIBLE
-            recyclerView?.visibility = View.INVISIBLE
+            binding?.recyclerView?.visibility = View.INVISIBLE
 
             emptyInfoView?.alpha = 0f
             emptyInfoView?.animateAlpha(isVisible = true)
         } else {
-            recyclerView?.visibility = View.VISIBLE
+            binding?.recyclerView?.visibility = View.VISIBLE
 
             emptyInfoView?.animateAlpha(isVisible = false) {
                 emptyInfoView?.visibility = View.GONE

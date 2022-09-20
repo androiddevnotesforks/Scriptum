@@ -18,7 +18,7 @@ class HelpDisappearScreen : ParentUi() {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.disappear_parent_container)
+    private val parentContainer = getViewById(R.id.parent_container)
 
     private val toolbar = SimpleToolbar(
         R.string.pref_title_help_notification_disappear,
@@ -26,11 +26,11 @@ class HelpDisappearScreen : ParentUi() {
     )
     private val videoItem = getViewById(R.id.item_video_lesson)
 
-    private val contentCard = getViewById(R.id.disappear_content_card)
-    private val guideText = getViewById(R.id.disappear_content_text)
+    private val contentCard = getViewById(R.id.content_card)
+    private val guideText = getViewById(R.id.content_text)
 
-    private val buttonCard = getViewById(R.id.disappear_settings_button_card)
-    private val settingsButton = getViewById(R.id.disappear_settings_button)
+    private val buttonCard = getViewById(R.id.button_card)
+    private val settingsButton = getViewById(R.id.settings_button)
 
     //endregion
 

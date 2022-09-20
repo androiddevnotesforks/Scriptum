@@ -18,7 +18,7 @@ class SimpleInfoContainer(page: SimpleInfoPage) : ParentInfoContainer(
         when (page) {
             SimpleInfoPage.RANK -> R.id.rank_info_include
             SimpleInfoPage.BIN -> R.id.bin_info_include
-            SimpleInfoPage.NOTIFICATION -> R.id.notification_info_include
+            SimpleInfoPage.NOTIFICATION -> R.id.info_include
         }
     )
 

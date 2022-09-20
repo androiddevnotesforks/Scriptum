@@ -1,46 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_parent_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/parent_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <View
-            android:id="@+id/main_toolbar_holder"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/clPrimary" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity">
 
         <FrameLayout
-            android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <include layout="@layout/inc_gradient_fab" />
+            <View
+                android:id="@+id/toolbar_holder"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/clPrimary" />
 
-    </FrameLayout>
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    <View
-        android:id="@+id/main_divider_view"
-        style="@style/Divider.Horizontal" />
+            <include layout="@layout/inc_gradient_fab" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_menu_navigation"
-        android:theme="@style/BottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/clPrimary"
-        app:itemIconTint="@drawable/se_menu_main_item"
-        app:itemTextColor="@drawable/se_menu_main_item"
-        app:labelVisibilityMode="selected"
-        app:menu="@menu/activity_main" />
+        </FrameLayout>
 
-</LinearLayout>
+        <View
+            android:id="@+id/divider_view"
+            style="@style/Divider.Horizontal" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/menu_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/clPrimary"
+            android:theme="@style/BottomNavigationView"
+            app:itemIconTint="@drawable/se_menu_main_item"
+            app:itemTextColor="@drawable/se_menu_main_item"
+            app:labelVisibilityMode="selected"
+            app:menu="@menu/activity_main" />
+
+    </LinearLayout>
+
+</layout>

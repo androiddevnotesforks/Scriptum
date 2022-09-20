@@ -1,58 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/disappear_parent_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include layout="@layout/inc_toolbar_simple" />
-
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/parent_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity">
+
+        <include layout="@layout/inc_toolbar_simple" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/content_card"
+                style="@style/Card.Text"
+                android:layout_height="match_parent">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                    <TextView
+                        android:id="@+id/content_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:gravity="top"
+                        android:padding="@dimen/text_card_space"
+                        android:text="@string/help_notification_disappear"
+                        android:textColor="?attr/clContent"
+                        android:textSize="@dimen/text_card_text" />
+
+                </ScrollView>
+
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/disappear_content_card"
+            android:id="@+id/button_card"
             style="@style/Card.Text"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp">
 
-            <ScrollView
+            <TextView
+                android:id="@+id/settings_button"
+                style="@style/Button.Borderless"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
-
-                <TextView
-                    android:id="@+id/disappear_content_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:gravity="top"
-                    android:padding="@dimen/text_card_space"
-                    android:text="@string/help_notification_disappear"
-                    android:textColor="?attr/clContent"
-                    android:textSize="@dimen/text_card_text" />
-
-            </ScrollView>
+                android:text="@string/help_settings_button" />
 
         </androidx.cardview.widget.CardView>
 
-    </FrameLayout>
+    </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/disappear_settings_button_card"
-        style="@style/Card.Text"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp">
-
-        <TextView
-            android:id="@+id/disappear_settings_button"
-            style="@style/Button.Borderless"
-            android:layout_width="match_parent"
-            android:text="@string/help_settings_button" />
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+</layout>

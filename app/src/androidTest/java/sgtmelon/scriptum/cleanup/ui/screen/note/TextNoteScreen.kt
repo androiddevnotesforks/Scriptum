@@ -44,9 +44,9 @@ class TextNoteScreen(
 
     //region Views
 
-    private val toolbarHolder = getViewById(R.id.note_toolbar_holder)
-    private val panelHolder = getViewById(R.id.note_panel_holder)
-    private val fragmentContainer = getViewById(R.id.note_fragment_container)
+    private val toolbarHolder = getViewById(R.id.toolbar_holder)
+    private val panelHolder = getViewById(R.id.panel_holder)
+    private val fragmentContainer = getViewById(R.id.fragment_container)
 
     private val parentContainer = getViewById(R.id.text_note_parent_container)
 

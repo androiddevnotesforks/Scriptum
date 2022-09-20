@@ -7,13 +7,11 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -34,6 +32,7 @@ import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
+import sgtmelon.scriptum.databinding.ActivityMainBinding
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
@@ -42,11 +41,13 @@ import sgtmelon.test.idling.getIdling
 /**
  * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment].
  */
-class MainActivity : ThemeActivity(), IMainActivity {
+class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
+
+    override val layoutId: Int = R.layout.activity_main
 
     @Inject internal lateinit var viewModel: IMainViewModel
 
-    private val holderControl by lazy { HolderShowControl[toolbarHolder] }
+    private val holderControl by lazy { HolderShowControl[binding?.toolbarHolder] }
 
     private val mainReceiver by lazy { MainScreenReceiver[viewModel, viewModel] }
 
@@ -60,15 +61,10 @@ class MainActivity : ThemeActivity(), IMainActivity {
     private val dialogFactory by lazy { DialogFactory.Main(context = this, fm = fm) }
     private val addDialog by lazy { dialogFactory.getAddDialog() }
 
-    private val toolbarHolder by lazy { findViewById<View?>(R.id.main_toolbar_holder) }
-    private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.main_parent_container) }
-    private val menuNavigation by lazy { findViewById<BottomNavigationView>(R.id.main_menu_navigation) }
-
     private var fabDelegator: GradientFabDelegator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         fabDelegator = GradientFabDelegator(activity = this) { openAddDialog() }
 
@@ -105,6 +101,8 @@ class MainActivity : ThemeActivity(), IMainActivity {
     override fun onDestroy() {
         super.onDestroy()
 
+        fabDelegator = null
+
         openState.clearBlockCallback()
         holderControl.onDestroy()
         viewModel.onDestroy()
@@ -134,7 +132,7 @@ class MainActivity : ThemeActivity(), IMainActivity {
 
     override fun setupNavigation(@IdRes itemId: Int) {
         val animTime = resources.getInteger(R.integer.fragment_fade_time).toLong()
-        menuNavigation?.setOnNavigationItemSelectedListener {
+        binding?.menuNavigation?.setOnNavigationItemSelectedListener {
             return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
                 openState.block(animTime)
                 viewModel.onSelectItem(it.itemId)
@@ -142,7 +140,7 @@ class MainActivity : ThemeActivity(), IMainActivity {
                 return@tryReturnInvoke true
             } ?: false
         }
-        menuNavigation?.selectedItemId = itemId
+        binding?.menuNavigation?.selectedItemId = itemId
 
         addDialog.apply {
             onItemSelected(owner = this@MainActivity) { viewModel.onResultAddDialog(it.itemId) }
@@ -151,7 +149,7 @@ class MainActivity : ThemeActivity(), IMainActivity {
     }
 
     override fun setupInsets() {
-        parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
+        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
@@ -160,7 +158,7 @@ class MainActivity : ThemeActivity(), IMainActivity {
              * Need use this function (not [View.updateMargin]), because otherwise snackbar
              * inside [RankFragment] will handle this inset (and this cause strange bottom padding)
              */
-            view.addSystemInsetsMargin(InsetsDir.BOTTOM, menuNavigation)
+            view.addSystemInsetsMargin(InsetsDir.BOTTOM, binding?.menuNavigation)
 
             return@doOnApplyWindowInsets insets
         }
@@ -222,7 +220,7 @@ class MainActivity : ThemeActivity(), IMainActivity {
             show(fragmentTo)
             fragmentTo.onResume()
         } else {
-            add(R.id.main_fragment_container, fragmentTo, fragmentToTag)
+            add(R.id.fragment_container, fragmentTo, fragmentToTag)
         }
 
         return this

@@ -33,7 +33,7 @@ import sgtmelon.test.cappuccino.utils.withText
 class AlarmScreen(
     private val item: NoteItem,
     private val dateList: List<String>?
-) : ParentRecyclerScreen(R.id.alarm_recycler), IPressBack {
+) : ParentRecyclerScreen(R.id.recycler_view), IPressBack {
 
     private val converter = RippleConverter()
 
@@ -41,14 +41,14 @@ class AlarmScreen(
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.alarm_parent_container)
-    private val rippleContainer = getViewById(R.id.alarm_ripple_container)
-    private val logoView = getViewById(R.id.alarm_logo_view)
-    private val buttonContainer = getViewById(R.id.alarm_button_container)
+    private val parentContainer = getViewById(R.id.parent_container)
+    private val rippleContainer = getViewById(R.id.ripple_container)
+    private val logoView = getViewById(R.id.logo_view)
+    private val buttonContainer = getViewById(R.id.button_container)
 
-    private val disableButton = getViewById(R.id.alarm_disable_button)
-    private val repeatButton = getViewById(R.id.alarm_repeat_button)
-    private val moreButton = getViewById(R.id.alarm_more_button)
+    private val disableButton = getViewById(R.id.disable_button)
+    private val repeatButton = getViewById(R.id.repeat_button)
+    private val moreButton = getViewById(R.id.more_button)
 
     private fun getItem() = NoteItemUi(recyclerView, p = 0)
 

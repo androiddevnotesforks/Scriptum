@@ -18,6 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 
 /**
  * Fragment of preference.
@@ -91,7 +92,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
         themeDialog.onPositiveClick {
             viewModel.onResultTheme(themeDialog.check)
-            activity?.onThemeChange()
+            (activity as? ThemeChangeCallback)?.checkThemeChange()
         }
         themeDialog.onDismiss { openState.clear() }
 

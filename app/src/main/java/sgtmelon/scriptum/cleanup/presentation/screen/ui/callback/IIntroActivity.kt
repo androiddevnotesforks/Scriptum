@@ -12,7 +12,7 @@ interface IIntroActivity {
 
     fun setupInsets()
 
-    fun getCurrentPosition(): Int
+    fun getCurrentPosition(): Int?
 
     fun getItemCount(): Int
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
+import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -31,17 +31,23 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].
  */
-class NoteActivity : ThemeActivity(),
+class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     INoteActivity,
     INoteConnector,
     NoteScreenReceiver.Callback {
+
+    override val layoutId: Int = R.layout.activity_note
 
     //region Variables
 
     @Inject internal lateinit var viewModel: INoteViewModel
 
-    private val holderShowControl by lazy { HolderShowControl[toolbarHolder, panelHolder] }
-    private val holderTintControl by lazy { HolderTintControl[this, window, toolbarHolder] }
+    private val holderShowControl by lazy {
+        HolderShowControl[binding?.toolbarHolder, binding?.panelHolder]
+    }
+    private val holderTintControl by lazy {
+        HolderTintControl[this, window, binding?.toolbarHolder]
+    }
 
     private val fragmentFactory = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
@@ -49,17 +55,12 @@ class NoteActivity : ThemeActivity(),
 
     private val noteReceiver by lazy { NoteScreenReceiver[this] }
 
-    private val parentContainer by lazy { findViewById<View?>(R.id.note_parent_container) }
-    private val toolbarHolder by lazy { findViewById<View?>(R.id.note_toolbar_holder) }
-    private val panelHolder by lazy { findViewById<View?>(R.id.note_panel_holder) }
-
     //endregion
 
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_note)
 
         holderTintControl.initLazy()
 
@@ -102,7 +103,7 @@ class NoteActivity : ThemeActivity(),
     override fun updateHolder(color: Color) = holderTintControl.setupColor(color)
 
     override fun setupInsets() {
-        parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
+        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
@@ -155,7 +156,7 @@ class NoteActivity : ThemeActivity(),
         lifecycleScope.launchWhenResumed {
             fm.beginTransaction()
                 .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
-                .replace(R.id.note_fragment_container, fragment, key)
+                .replace(R.id.fragment_container, fragment, key)
                 .commit()
         }
     }

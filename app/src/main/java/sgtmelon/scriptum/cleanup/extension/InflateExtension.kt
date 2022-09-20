@@ -8,13 +8,19 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T {
+const val NO_LAYOUT = -1
+
+fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T? {
+    if (layoutId == NO_LAYOUT) return null
+
     return DataBindingUtil.setContentView(this, layoutId)
 }
 
-fun <T : ViewDataBinding> LayoutInflater.inflateBinding(@LayoutRes layoutId: Int,
-                                                        parent: ViewGroup?,
-                                                        attachToParent: Boolean = false): T {
+fun <T : ViewDataBinding> LayoutInflater.inflateBinding(
+    @LayoutRes layoutId: Int,
+    parent: ViewGroup?,
+    attachToParent: Boolean = false
+): T {
     return DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
 }
 

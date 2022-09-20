@@ -21,7 +21,7 @@ class RippleContainer @JvmOverloads constructor(
 
     private var isAnimate = false
 
-    /** Prevent calling any animation functions before [setupAnimation]. */
+    /** Prevent calling any animation functions before [setup]. */
     private var isConfigure = false
 
     private val animatorList = ArrayList<Animator>()
@@ -35,7 +35,7 @@ class RippleContainer @JvmOverloads constructor(
      * [color] - should be used for create ripple.
      * [hookView] - element, which center (x/y) will be start position for [RippleView].
      */
-    fun setupAnimation(color: Color, hookView: View) = apply {
+    fun setup(color: Color, hookView: View) = apply {
         if (isConfigure) return@apply
 
         val converter = RippleConverter()

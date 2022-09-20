@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.databinding.ViewDataBinding
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
@@ -14,8 +15,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
+import sgtmelon.scriptum.cleanup.extension.NO_LAYOUT
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
-import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
@@ -37,13 +38,15 @@ import sgtmelon.test.prod.RunPrivate
  * Start screen of application.
  */
 // TODO lint
-class SplashActivity : ThemeActivity(),
+class SplashActivity : ThemeActivity<ViewDataBinding>(),
     ISplashActivity {
 
     init {
         // TODO it's needed for above API21?
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
+
+    override val layoutId: Int = NO_LAYOUT
 
     override val statusBar = WindowUiKeys.StatusBar.Transparent
     override val navigation = WindowUiKeys.Navigation.Transparent
@@ -57,11 +60,6 @@ class SplashActivity : ThemeActivity(),
         super.onCreate(savedInstanceState)
 
         setCrashlyticsKeys()
-
-        /**
-         * If keyboard was open in another app.
-         */
-        hideKeyboard()
 
         viewModel.onSetup(intent.extras)
     }

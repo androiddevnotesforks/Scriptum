@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import sgtmelon.scriptum.R
@@ -14,6 +13,7 @@ import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
+import sgtmelon.scriptum.databinding.ActivityPreferenceBinding
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -22,12 +22,14 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 /**
  * Screen for display [PreferenceFragment].
  */
-class PreferenceActivity : ThemeActivity() {
+class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
+
+    override val layoutId: Int = R.layout.activity_preference
 
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    private val parentContainer by lazy { findViewById<ViewGroup>(R.id.preference_parent_container) }
+    // TODO remove and use binding
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
 
     private var screen: PreferenceScreen? = null
@@ -90,10 +92,10 @@ class PreferenceActivity : ThemeActivity() {
     }
 
     /**
-     * [InsetsDir.BOTTOM] setup in [ParentPreferenceFragment].
+     * [InsetsDir.BOTTOM] will be set in [ParentPreferenceFragment] (list padding).
      */
     private fun setupInsets() {
-        parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
+        binding?.parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
     }
 
     private fun showFragment() {
@@ -102,7 +104,7 @@ class PreferenceActivity : ThemeActivity() {
 
         lifecycleScope.launchWhenResumed {
             fm.beginTransaction()
-                .replace(R.id.preference_fragment_container, fragment, tag)
+                .replace(R.id.fragment_container, fragment, tag)
                 .commit()
         }
     }

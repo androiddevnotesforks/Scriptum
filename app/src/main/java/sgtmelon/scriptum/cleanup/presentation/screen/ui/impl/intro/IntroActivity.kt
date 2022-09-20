@@ -3,11 +3,8 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import javax.inject.Inject
-import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
@@ -19,6 +16,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.IntroPageAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
+import sgtmelon.scriptum.databinding.ActivityIntroBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.test.idling.getIdling
@@ -26,7 +24,9 @@ import sgtmelon.test.idling.getIdling
 /**
  * Activity with start intro.
  */
-class IntroActivity : ThemeActivity(), IIntroActivity {
+class IntroActivity : ThemeActivity<ActivityIntroBinding>(), IIntroActivity {
+
+    override val layoutId: Int = R.layout.activity_intro
 
     override val background = WindowUiKeys.Background.Dark
     override val statusBar = WindowUiKeys.StatusBar.Transparent
@@ -36,11 +36,6 @@ class IntroActivity : ThemeActivity(), IIntroActivity {
     @Inject internal lateinit var viewModel: IIntroViewModel
 
     private val pagerAdapter = IntroPageAdapter(supportFragmentManager, lifecycle)
-
-    private val viewPager by lazy { findViewById<ViewPager2>(R.id.intro_view_pager) }
-    private val pageContainer by lazy { findViewById<ViewGroup>(R.id.intro_page_container) }
-    private val pageIndicator by lazy { findViewById<ScrollingPagerIndicator>(R.id.intro_page_indicator) }
-    private val endButton by lazy { findViewById<View>(R.id.intro_end_button) }
 
     private val pageChangeListener = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrolled(
@@ -54,15 +49,15 @@ class IntroActivity : ThemeActivity(), IIntroActivity {
                 pagerAdapter.notifyItem(position + 1, positionOffset)
             }
 
-            endButton.isEnabled = position == pagerAdapter.itemCount - 1
+            binding?.endButton?.isEnabled = position == pagerAdapter.itemCount - 1
 
             if (position == pagerAdapter.itemCount - 2) {
-                pageIndicator.apply {
+                binding?.pageIndicator?.apply {
                     alpha = 1 - 2 * positionOffset
                     translationY = -positionOffset * height
                 }
 
-                endButton.apply {
+                binding?.endButton?.apply {
                     alpha = positionOffset
                     translationY = height - positionOffset * height
                 }
@@ -97,32 +92,39 @@ class IntroActivity : ThemeActivity(), IIntroActivity {
 
 
     override fun setupViewPager(isLastPage: Boolean) {
-        endButton.setOnClickListener {
+        binding?.endButton?.setOnClickListener {
             getIdling().start(IdlingTag.Intro.FINISH)
             beforeFinish { viewModel.onClickEnd() }
         }
 
-        viewPager.adapter = pagerAdapter
-        viewPager.offscreenPageLimit = pagerAdapter.itemCount
-        viewPager.registerOnPageChangeCallback(pageChangeListener)
-
-        pageIndicator.attachToPager(viewPager)
+        val viewPager = binding?.viewPager
+        if (viewPager != null) {
+            viewPager.adapter = pagerAdapter
+            viewPager.offscreenPageLimit = pagerAdapter.itemCount
+            viewPager.registerOnPageChangeCallback(pageChangeListener)
+            binding?.pageIndicator?.attachToPager(viewPager)
+        }
 
         if (isLastPage) {
-            pageIndicator.alpha = 0f
+            binding?.pageIndicator?.alpha = 0f
         } else {
-            endButton.alpha = 0f
-            endButton.isEnabled = false
+            binding?.endButton?.alpha = 0f
+            binding?.endButton?.isEnabled = false
         }
     }
 
     override fun setupInsets() {
-        viewPager.setPaddingInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT, InsetsDir.BOTTOM)
-        pageContainer.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)
-        endButton.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)
+        binding?.viewPager?.setPaddingInsets(
+            InsetsDir.LEFT,
+            InsetsDir.TOP,
+            InsetsDir.RIGHT,
+            InsetsDir.BOTTOM
+        )
+        binding?.pageContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)
+        binding?.endButton?.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)
     }
 
-    override fun getCurrentPosition(): Int = viewPager.currentItem
+    override fun getCurrentPosition(): Int? = binding?.viewPager?.currentItem
 
     override fun getItemCount(): Int = pagerAdapter.itemCount
 

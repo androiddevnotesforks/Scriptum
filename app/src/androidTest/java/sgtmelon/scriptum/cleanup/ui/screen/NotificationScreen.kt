@@ -21,11 +21,11 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
 /**
  * Class for UI control of [NotificationActivity].
  */
-class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPressBack {
+class NotificationScreen : ParentRecyclerScreen(R.id.recycler_view), IPressBack {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.notification_parent_container)
+    private val parentContainer = getViewById(R.id.parent_container)
     private val toolbar = SimpleToolbar(R.string.title_notification, withBack = true)
 
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.NOTIFICATION)

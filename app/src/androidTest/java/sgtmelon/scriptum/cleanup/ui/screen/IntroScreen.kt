@@ -21,13 +21,13 @@ class IntroScreen : ParentUi() {
 
     //region Views
 
-    private val viewPager = getViewById(R.id.intro_view_pager)
-    private val pageIndicator = getViewById(R.id.intro_page_indicator)
+    private val viewPager = getViewById(R.id.view_pager)
+    private val pageIndicator = getViewById(R.id.page_indicator)
 
     private fun getTitleText(p: Int) = getView(R.id.info_title_text, IntroData.title[p])
     private fun getDetailsText(p: Int) = getView(R.id.info_details_text, IntroData.details[p])
 
-    private val endButton = getView(R.id.intro_end_button, R.string.info_intro_button)
+    private val endButton = getView(R.id.end_button, R.string.info_intro_button)
 
     //endregion
 

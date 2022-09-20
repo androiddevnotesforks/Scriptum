@@ -28,10 +28,10 @@ class MainScreen : ParentUi() {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.main_parent_container)
-    private val toolbarHolder = getViewById(R.id.main_toolbar_holder)
-    private val dividerView = getViewById(R.id.main_divider_view)
-    private val menuNavigation = getViewById(R.id.main_menu_navigation)
+    private val parentContainer = getViewById(R.id.parent_container)
+    private val toolbarHolder = getViewById(R.id.toolbar_holder)
+    private val dividerView = getViewById(R.id.divider_view)
+    private val menuNavigation = getViewById(R.id.menu_navigation)
 
     private val rankMenuItem = getViewById(R.id.item_page_rank)
     private val notesMenuItem = getViewById(R.id.item_page_notes)

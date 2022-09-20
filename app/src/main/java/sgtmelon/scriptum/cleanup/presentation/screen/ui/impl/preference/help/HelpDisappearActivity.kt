@@ -3,8 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -16,20 +14,21 @@ import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.extension.updateMargin
+import sgtmelon.scriptum.databinding.ActivityHelpDisappearBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 
 /**
  * Screen with help about disappearing notifications
  */
-class HelpDisappearActivity : ThemeActivity() {
+class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
 
-    private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.disappear_parent_container) }
+    override val layoutId: Int = R.layout.activity_help_disappear
+
+    // TODO remove and use binding
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
-    private val settingsButton by lazy { findViewById<View>(R.id.disappear_settings_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_help_disappear)
 
         setupView()
         setupInsets()
@@ -58,7 +57,7 @@ class HelpDisappearActivity : ThemeActivity() {
             menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
         }
 
-        settingsButton.setOnClickListener { onSettingsClick() }
+        binding?.settingsButton?.setOnClickListener { onSettingsClick() }
     }
 
     private fun onVideoClick() {
@@ -69,7 +68,7 @@ class HelpDisappearActivity : ThemeActivity() {
     private fun onSettingsClick() = startActivitySafe(getSettingsIntent(), toast)
 
     private fun setupInsets() {
-        parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
+        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)

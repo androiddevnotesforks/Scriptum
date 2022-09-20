@@ -24,7 +24,7 @@ abstract class ParentPreferenceScreen<L : ParentPreferenceLogic>(
 
     private val recyclerView = getViewById(R.id.recycler_view)
 
-    private val parentContainer = getViewById(R.id.preference_parent_container)
+    private val parentContainer = getViewById(R.id.parent_container)
     private val toolbar = SimpleToolbar(titleId, withBack = true)
 
     protected fun getItem(p: Int) = PreferenceItemUi(recyclerView, p)

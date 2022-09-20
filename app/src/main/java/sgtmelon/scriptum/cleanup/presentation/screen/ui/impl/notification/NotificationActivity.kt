@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,6 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
-import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
@@ -37,16 +35,16 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
 /**
  * Screen with list of notifications.
  */
-class NotificationActivity : ThemeActivity(),
+class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     INotificationActivity,
     SnackbarDelegator.Callback {
+
+    override val layoutId: Int = R.layout.activity_notification
 
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
     //region Variables
-
-    private var binding: ActivityNotificationBinding? = null
 
     @Inject internal lateinit var viewModel: INotificationViewModel
 
@@ -70,11 +68,8 @@ class NotificationActivity : ThemeActivity(),
         R.string.snackbar_message_notification, R.string.snackbar_action_cancel, callback = this
     )
 
-    private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_parent_container) }
-    private val recyclerContainer by lazy { findViewById<ViewGroup?>(R.id.notification_recycler_container) }
-    private val emptyInfoView by lazy { findViewById<View?>(R.id.notification_info_include) }
-    private val progressBar by lazy { findViewById<View?>(R.id.notification_progress) }
-    private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.notification_recycler) }
+    // TODO remove and use binding
+    private val emptyInfoView by lazy { findViewById<View?>(R.id.info_include) }
 
     //endregion
 
@@ -82,7 +77,6 @@ class NotificationActivity : ThemeActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = inflateBinding(R.layout.activity_notification)
 
         broadcast.initLazy()
 
@@ -150,7 +144,7 @@ class NotificationActivity : ThemeActivity(),
     }
 
     override fun setupRecycler() {
-        recyclerView?.let {
+        binding?.recyclerView?.let {
             it.setDefaultAnimator {
                 onBindingList()
 
@@ -168,8 +162,8 @@ class NotificationActivity : ThemeActivity(),
     }
 
     override fun setupInsets() {
-        parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
-        recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
+        binding?.parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
+        binding?.recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
     }
 
     /**
@@ -177,11 +171,11 @@ class NotificationActivity : ThemeActivity(),
      */
     override fun prepareForLoad() {
         emptyInfoView?.visibility = View.GONE
-        progressBar?.visibility = View.GONE
+        binding?.progressBar?.visibility = View.GONE
     }
 
     override fun showProgress() {
-        progressBar?.visibility = View.VISIBLE
+        binding?.progressBar?.visibility = View.VISIBLE
     }
 
     override fun hideEmptyInfo() {
@@ -190,17 +184,18 @@ class NotificationActivity : ThemeActivity(),
 
 
     override fun onBindingList() {
-        progressBar?.visibility = View.GONE
+        binding?.progressBar?.visibility = View.GONE
 
         if (adapter.itemCount == 0) {
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
             if (emptyInfoView?.visibility == View.VISIBLE
-                    && recyclerView?.visibility == View.INVISIBLE) return
+                && binding?.recyclerView?.visibility == View.INVISIBLE
+            ) return
 
             emptyInfoView?.visibility = View.VISIBLE
-            recyclerView?.visibility = View.INVISIBLE
+            binding?.recyclerView?.visibility = View.INVISIBLE
 
             emptyInfoView?.alpha = 0f
             emptyInfoView?.animateAlpha(isVisible = true)
@@ -209,9 +204,10 @@ class NotificationActivity : ThemeActivity(),
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
             if (emptyInfoView?.visibility == View.GONE
-                    && recyclerView?.visibility == View.VISIBLE) return
+                && binding?.recyclerView?.visibility == View.VISIBLE
+            ) return
 
-            recyclerView?.visibility = View.VISIBLE
+            binding?.recyclerView?.visibility = View.VISIBLE
 
             emptyInfoView?.animateAlpha(isVisible = false) {
                 emptyInfoView?.visibility = View.GONE
@@ -222,7 +218,7 @@ class NotificationActivity : ThemeActivity(),
     override fun openNoteScreen(item: NotificationItem) = startActivity(NoteActivity[this, item])
 
     override fun showSnackbar() {
-        recyclerContainer?.let { snackbar.show(it, withInsets = true) }
+        binding?.recyclerContainer?.let { snackbar.show(it, withInsets = true) }
     }
 
     override fun onSnackbarAction() = openState.tryInvoke { viewModel.onSnackbarAction() }
@@ -254,7 +250,7 @@ class NotificationActivity : ThemeActivity(),
          *  Then [p] = 0 and firstVisiblePosition = 0.
          */
         if (p <= firstVisiblePosition || p > lastVisiblePosition) {
-            recyclerView?.smoothScrollToPosition(p)
+            binding?.recyclerView?.smoothScrollToPosition(p)
         }
     }
 

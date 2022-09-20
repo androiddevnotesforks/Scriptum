@@ -7,10 +7,8 @@ import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -28,6 +26,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCall
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.delegators.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
@@ -44,7 +43,6 @@ import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
-import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleContainer
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
@@ -64,7 +62,9 @@ import sgtmelon.test.prod.RunPrivate
  *
  * TODO описать полностью функционал экрана после проверки его работы
  */
-class AlarmActivity : ThemeActivity() {
+class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
+
+    override val layoutId: Int = R.layout.activity_alarm
 
     override val statusBar = WindowUiKeys.StatusBar.Transparent
     override val navigation = WindowUiKeys.Navigation.RotationCatch
@@ -97,22 +97,6 @@ class AlarmActivity : ThemeActivity() {
         override fun onItemLongClick(item: NoteItem, p: Int) = Unit
     })
 
-    //region Views
-
-    // TODO add viewBinding
-    private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.alarm_parent_container) }
-    private val rippleContainer by lazy { findViewById<RippleContainer?>(R.id.alarm_ripple_container) }
-
-    private val logoView by lazy { findViewById<View?>(R.id.alarm_logo_view) }
-    private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.alarm_recycler) }
-
-    private val buttonContainer by lazy { findViewById<ViewGroup?>(R.id.alarm_button_container) }
-    private val disableButton by lazy { findViewById<View?>(R.id.alarm_disable_button) }
-    private val repeatButton by lazy { findViewById<View?>(R.id.alarm_repeat_button) }
-    private val moreButton by lazy { findViewById<View?>(R.id.alarm_more_button) }
-
-    //endregion
-
     /** Variable for detect layout is completely configure and ready for animation. */
     private var isLayoutConfigure = false
 
@@ -123,7 +107,6 @@ class AlarmActivity : ThemeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupScreen()
-        setContentView(R.layout.activity_alarm)
 
         val noteId = AlarmBundleProvider().getNoteId(intent.extras) ?: run {
             finish()
@@ -188,7 +171,7 @@ class AlarmActivity : ThemeActivity() {
 
         vibrator.cancel()
         phoneAwake.release()
-        rippleContainer?.stopAnimation()
+        binding?.rippleContainer?.stopAnimation()
 
         unregisterReceiver(noteReceiver)
     }
@@ -211,17 +194,17 @@ class AlarmActivity : ThemeActivity() {
     }
 
     private fun setupView() {
-        parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
+        binding?.parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
 
-        recyclerView?.let {
+        binding?.recyclerView?.let {
             it.layoutManager = LinearLayoutManager(this)
             it.setHasFixedSize(true)
             it.adapter = adapter
         }
 
-        disableButton?.setOnClickListener { openState.tryInvoke { finish() } }
-        repeatButton?.setOnClickListener { openState.tryInvoke { startPostpone() } }
-        moreButton?.setOnClickListener {
+        binding?.disableButton?.setOnClickListener { openState.tryInvoke { finish() } }
+        binding?.repeatButton?.setOnClickListener { openState.tryInvoke { startPostpone() } }
+        binding?.moreButton?.setOnClickListener {
             openState.tryInvoke {
                 repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this)
             }
@@ -239,8 +222,8 @@ class AlarmActivity : ThemeActivity() {
      * This activity not rotatable (don't need setup margin for left and right).
      */
     private fun setupInsets() {
-        logoView?.setMarginInsets(InsetsDir.TOP)
-        buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
+        binding?.logoView?.setMarginInsets(InsetsDir.TOP)
+        binding?.buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
     }
 
     private fun setupPlayer(stringUri: String) {
@@ -253,10 +236,10 @@ class AlarmActivity : ThemeActivity() {
 
     private fun startLogoShiftAnimation() {
         animations.startLogoShiftAnimation(
-            parentContainer, logoView, { onLogoTransitionEnd() }
+            binding?.parentContainer, binding?.logoView, { onLogoTransitionEnd() }
         ) {
-            recyclerView?.visibility = View.VISIBLE
-            buttonContainer?.visibility = View.VISIBLE
+            binding?.recyclerView?.visibility = View.VISIBLE
+            binding?.buttonContainer?.visibility = View.VISIBLE
         }
     }
 
@@ -267,7 +250,7 @@ class AlarmActivity : ThemeActivity() {
             onStartState()
         } else {
             getIdling().start(IdlingTag.Alarm.CONFIGURE)
-            parentContainer?.afterLayoutConfiguration {
+            binding?.parentContainer?.afterLayoutConfiguration {
                 onStartState()
                 getIdling().stop(IdlingTag.Alarm.CONFIGURE)
             }
@@ -284,7 +267,7 @@ class AlarmActivity : ThemeActivity() {
         getIdling().start(IdlingTag.Alarm.START)
 
         startRippleAnimation()
-        animations.startContentAnimation(recyclerView, buttonContainer)
+        animations.startContentAnimation(binding?.recyclerView, binding?.buttonContainer)
 
         if (alarmState.signalState.isMelody) {
             melodyPlay.start(alarmState.isVolumeIncrease)
@@ -302,9 +285,9 @@ class AlarmActivity : ThemeActivity() {
 
     private fun startRippleAnimation() {
         val noteItem = viewModel.noteItem.value ?: return
-        val logoView = logoView ?: return
+        val logoView = binding?.logoView ?: return
 
-        rippleContainer?.setupAnimation(noteItem.color, logoView)?.startAnimation()
+        binding?.rippleContainer?.setup(noteItem.color, logoView)?.startAnimation()
     }
 
     //endregion

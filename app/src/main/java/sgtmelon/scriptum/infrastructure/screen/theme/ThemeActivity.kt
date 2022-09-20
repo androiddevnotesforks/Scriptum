@@ -2,13 +2,14 @@ package sgtmelon.scriptum.infrastructure.screen.theme
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.databinding.ViewDataBinding
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.screen.parent.ParentActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.Background
@@ -19,11 +20,8 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.St
 /**
  * Parent activity class, which work with application theming and system bars.
  */
-abstract class ThemeActivity : AppCompatActivity() {
-
-    // TODO view binding?
-
-    protected val toast = ToastDelegator(lifecycle)
+abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
+    ThemeChangeCallback {
 
     @Inject internal lateinit var themeViewModel: ThemeViewModel
 
@@ -34,6 +32,8 @@ abstract class ThemeActivity : AppCompatActivity() {
     protected open val navDivider: NavDivider = NavDivider.Standard
 
     protected val fm get() = supportFragmentManager
+
+    protected val toast = ToastDelegator(lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ abstract class ThemeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        onThemeChange()
+        checkThemeChange()
     }
 
     abstract fun inject(component: ScriptumComponent)
@@ -63,7 +63,7 @@ abstract class ThemeActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(mode)
     }
 
-    fun onThemeChange() {
+    override fun checkThemeChange() {
         if (!themeViewModel.isThemeChanged()) return
 
         val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
