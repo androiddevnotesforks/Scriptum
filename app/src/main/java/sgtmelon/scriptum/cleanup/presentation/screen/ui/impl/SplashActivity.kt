@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
@@ -37,7 +37,7 @@ import sgtmelon.test.prod.RunPrivate
  * Start screen of application.
  */
 // TODO lint
-class SplashActivity : ParentActivity(),
+class SplashActivity : ThemeActivity(),
     ISplashActivity {
 
     init {

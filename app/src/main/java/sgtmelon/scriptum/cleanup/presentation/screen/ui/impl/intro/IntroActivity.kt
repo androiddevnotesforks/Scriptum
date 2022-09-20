@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.IntroPageAdapter
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
@@ -26,7 +26,7 @@ import sgtmelon.test.idling.getIdling
 /**
  * Activity with start intro.
  */
-class IntroActivity : ParentActivity(), IIntroActivity {
+class IntroActivity : ThemeActivity(), IIntroActivity {
 
     override val background = WindowUiKeys.Background.Dark
     override val statusBar = WindowUiKeys.StatusBar.Transparent

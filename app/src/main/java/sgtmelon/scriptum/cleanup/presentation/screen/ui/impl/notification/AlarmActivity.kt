@@ -30,7 +30,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
@@ -68,7 +68,7 @@ import sgtmelon.test.prod.RunPrivate
  *
  * TODO описать полностью функционал экрана после проверки его работы
  */
-class AlarmActivity : ParentActivity() {
+class AlarmActivity : ThemeActivity() {
 
     override val statusBar = WindowUiKeys.StatusBar.Transparent
     override val navigation = WindowUiKeys.Navigation.RotationCatch

@@ -34,9 +34,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.Preferen
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ThemeViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
@@ -53,9 +53,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPre
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.AppViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ThemeViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
@@ -113,9 +113,9 @@ class ViewModelModule {
     fun provideAppViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo
-    ): IAppViewModel {
+    ): ThemeViewModel {
         val factory = ViewModelFactory.App(preferencesRepo)
-        return ViewModelProvider(owner, factory)[AppViewModel::class.java]
+        return ViewModelProvider(owner, factory)[ThemeViewModelImpl::class.java]
     }
 
     @Provides

@@ -19,7 +19,7 @@ import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.PrintAdapter
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
@@ -30,7 +30,7 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
 /**
  * Screen for print data of data base and preference.
  */
-class PrintDevelopActivity : ParentActivity(), IPrintDevelopActivity {
+class PrintDevelopActivity : ThemeActivity(), IPrintDevelopActivity {
 
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch

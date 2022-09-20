@@ -12,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
  */
 abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
 
-    protected val activity get() = getActivity() as? ParentActivity
+    protected val activity get() = getActivity() as? ThemeActivity
     protected val fm get() = parentFragmentManager
 
     protected val toast = ToastDelegator(lifecycle)

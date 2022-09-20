@@ -24,7 +24,7 @@ import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
@@ -37,7 +37,7 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
 /**
  * Screen with list of notifications.
  */
-class NotificationActivity : ParentActivity(),
+class NotificationActivity : ThemeActivity(),
     INotificationActivity,
     SnackbarDelegator.Callback {
 

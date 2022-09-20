@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IAppViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiDelegator
@@ -17,13 +17,13 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.Na
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.StatusBar
 
 /**
- * Parent class for all activities.
+ * Parent activity class, which work with application theming and system bars.
  */
-abstract class ParentActivity : AppCompatActivity() {
+abstract class ThemeActivity : AppCompatActivity() {
 
     protected val toast = ToastDelegator(lifecycle)
 
-    @Inject internal lateinit var appViewModel: IAppViewModel
+    @Inject internal lateinit var themeViewModel: ThemeViewModel
 
     /** Keys which describes UI-look of system window. */
     protected open val background: Background = Background.Standard
@@ -37,7 +37,7 @@ abstract class ParentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         inject(ScriptumApplication.component)
 
-        setupTheme(appViewModel.theme)
+        setupTheme(themeViewModel.theme)
 
         /** Setup this staff after [setupTheme]. */
         val windowUi = WindowUiDelegator(window, background, statusBar, navigation, navDivider)
@@ -62,7 +62,7 @@ abstract class ParentActivity : AppCompatActivity() {
     }
 
     fun onThemeChange() {
-        if (!appViewModel.isThemeChanged()) return
+        if (!themeViewModel.isThemeChanged()) return
 
         val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 

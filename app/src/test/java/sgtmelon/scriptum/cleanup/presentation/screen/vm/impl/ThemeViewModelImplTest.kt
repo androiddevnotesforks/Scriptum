@@ -18,17 +18,17 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 
 /**
- * Test for [AppViewModel].
+ * Test for [ThemeViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class AppViewModelTest : ParentViewModelTest() {
+class ThemeViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
     @MockK lateinit var callback: IAppActivity
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
-    private val viewModel by lazy { AppViewModel(callback, preferencesRepo) }
+    private val viewModel by lazy { ThemeViewModelImpl(callback, preferencesRepo) }
 
     @After override fun tearDown() {
         super.tearDown()

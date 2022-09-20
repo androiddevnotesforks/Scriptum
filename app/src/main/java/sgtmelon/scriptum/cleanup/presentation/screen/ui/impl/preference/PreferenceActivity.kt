@@ -13,8 +13,8 @@ import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ThemeActivity
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
@@ -22,7 +22,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 /**
  * Screen for display [PreferenceFragment].
  */
-class PreferenceActivity : ParentActivity() {
+class PreferenceActivity : ThemeActivity() {
 
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch

@@ -29,9 +29,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.Preferen
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.AppViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ThemeViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
@@ -99,8 +99,8 @@ object ViewModelFactory {
 
     class App(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(AppViewModel::class) {
-                AppViewModel(preferencesRepo)
+            return modelClass.create(ThemeViewModelImpl::class) {
+                ThemeViewModelImpl(preferencesRepo)
             }
         }
     }
