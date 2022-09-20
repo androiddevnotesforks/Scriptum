@@ -21,7 +21,6 @@ class ThemeViewModelImplTest : ParentTest() {
 
     //region Setup
 
-
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
     private val viewModel by lazy { ThemeViewModelImpl(preferencesRepo) }
