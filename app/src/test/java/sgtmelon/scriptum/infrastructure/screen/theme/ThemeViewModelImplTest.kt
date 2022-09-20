@@ -5,61 +5,43 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verifySequence
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 
 /**
  * Test for [ThemeViewModelImpl].
  */
-@ExperimentalCoroutinesApi
-class ThemeViewModelImplTest : ParentViewModelTest() {
+class ThemeViewModelImplTest : ParentTest() {
 
     //region Setup
 
-    @MockK lateinit var callback: IAppActivity
+
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
-    private val viewModel by lazy { ThemeViewModelImpl(callback, preferencesRepo) }
+    private val viewModel by lazy { ThemeViewModelImpl(preferencesRepo) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, preferencesRepo)
-    }
-
-    @Test override fun onDestroy() {
-        every { preferencesRepo.theme } returns mockk()
-
-        assertNotNull(viewModel.callback)
-        viewModel.onDestroy()
-        assertNull(viewModel.callback)
-
-        verifySequence {
-            preferencesRepo.theme
-        }
+        confirmVerified(preferencesRepo)
     }
 
     //endregion
 
-    @Test fun onSetup() {
-        val theme = mockk<Theme>()
+    @Test fun init() {
+        val initTheme = mockk<Theme>()
 
-        every { preferencesRepo.theme } returns theme
-        viewModel.onSetup()
+        every { preferencesRepo.theme } returns initTheme
+
+        assertEquals(viewModel.theme, initTheme)
 
         verifySequence {
             preferencesRepo.theme
-            callback.setupTheme(theme)
-            callback.changeControlColor()
-            callback.changeSystemColor()
         }
     }
 
@@ -68,15 +50,19 @@ class ThemeViewModelImplTest : ParentViewModelTest() {
         val secondTheme = mockk<Theme>()
 
         every { preferencesRepo.theme } returns firstTheme
-        assertFalse(viewModel.isThemeChange())
+
+        assertEquals(viewModel.theme, firstTheme)
+        assertFalse(viewModel.isThemeChanged())
 
         every { preferencesRepo.theme } returns secondTheme
-        assertTrue(viewModel.isThemeChange())
+
+        assertEquals(viewModel.theme, firstTheme)
+        assertTrue(viewModel.isThemeChanged())
+        assertEquals(viewModel.theme, secondTheme)
 
         verifySequence {
             preferencesRepo.theme
             preferencesRepo.theme
-
             preferencesRepo.theme
         }
     }
