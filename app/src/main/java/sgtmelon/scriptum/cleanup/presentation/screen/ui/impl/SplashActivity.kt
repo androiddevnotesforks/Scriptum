@@ -34,6 +34,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
+    // TODO remove callback and move parsing inside activity or delegator
     @Inject lateinit var viewModel: ISplashViewModel
 
     private val broadcast by lazy { BroadcastDelegator(context = this) }

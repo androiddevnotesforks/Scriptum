@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.Hel
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 
 /**
- * Factory for build intents.
+ * Factory for build intents and get access to them from one place.
  */
 object InstanceFactory {
 
