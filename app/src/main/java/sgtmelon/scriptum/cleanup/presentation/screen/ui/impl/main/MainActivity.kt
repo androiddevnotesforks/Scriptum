@@ -26,13 +26,13 @@ import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.databinding.ActivityMainBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
@@ -48,8 +48,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
     private val holderControl by lazy { HolderShowControl[binding?.toolbarHolder] }
 
-    private val mainReceiver by lazy { MainScreenReceiver[viewModel] }
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
+    private val updateAlarmReceiver by lazy { UpdateAlarmReceiver[viewModel] }
 
     private val fragmentFactory = FragmentFactory.Main(fm)
     private val rankFragment by lazy { fragmentFactory.getRankFragment() }
@@ -71,8 +71,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         openState.get(savedInstanceState)
         viewModel.onSetup(savedInstanceState)
 
-        registerReceiver(mainReceiver, IntentFilter(Filter.MAIN))
         registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
+        registerReceiver(updateAlarmReceiver, IntentFilter(Filter.MAIN))
 
         getIdling().stop(IdlingTag.Intro.FINISH)
     }
@@ -109,8 +109,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         holderControl.onDestroy()
         viewModel.onDestroy()
 
-        unregisterReceiver(mainReceiver)
         unregisterReceiver(unbindNoteReceiver)
+        unregisterReceiver(updateAlarmReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -241,8 +241,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
     }
 
-    override fun onReceiveUpdateAlarm(id: Long) {
-        onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUpdateAlarm(id) }
+    override fun onReceiveUpdateAlarm(noteId: Long) {
+        onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUpdateAlarm(noteId) }
     }
 
     //endregion

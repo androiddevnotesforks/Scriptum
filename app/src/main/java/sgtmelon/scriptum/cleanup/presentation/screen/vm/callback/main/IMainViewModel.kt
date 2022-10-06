@@ -2,16 +2,16 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main
 
 import android.os.Bundle
 import androidx.annotation.IdRes
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
+import sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver
 
 /**
  * Interface for communication [IMainActivity] with [MainViewModel].
  */
 interface IMainViewModel : IParentViewModel,
-    MainScreenReceiver.AlarmCallback {
+    UpdateAlarmReceiver.Callback {
 
     fun onSaveData(bundle: Bundle)
 

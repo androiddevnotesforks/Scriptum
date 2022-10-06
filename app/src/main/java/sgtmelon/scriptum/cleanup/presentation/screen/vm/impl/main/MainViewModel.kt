@@ -99,8 +99,10 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
 
     //region Receiver callback
 
-    override fun onReceiveUpdateAlarm(id: Long) {
-        if (!pageFrom.isStartPage()) callback?.onReceiveUpdateAlarm(id)
+    // TODO почему именно должна быть не начальная страница? Типа иначе данные подтянутся из бд?
+    // TODO если может быть не начальная страница, то надо ли обновлять данные в категориях (иконка уведомления)
+    override fun onReceiveUpdateAlarm(noteId: Long) {
+        if (!pageFrom.isStartPage()) callback?.onReceiveUpdateAlarm(noteId)
     }
 
     //endregion

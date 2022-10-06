@@ -97,10 +97,11 @@
 
         <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver" />
         <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver" />
+
         <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver" />
+        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver" />
 
         <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver" />
-        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver" />
 
         <receiver android:name=".infrastructure.receiver.service.EternalReceiver" />
 

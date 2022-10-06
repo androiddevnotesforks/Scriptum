@@ -25,7 +25,6 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
@@ -34,6 +33,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesView
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
@@ -44,7 +44,7 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
 class NotesFragment : ParentFragment(),
     INotesFragment,
     UnbindNoteReceiver.Callback,
-    MainScreenReceiver.AlarmCallback {
+    UpdateAlarmReceiver.Callback {
 
     //region Variables
 
@@ -128,7 +128,7 @@ class NotesFragment : ParentFragment(),
 
     override fun onReceiveUnbindNote(noteId: Long) = viewModel.onReceiveUnbindNote(noteId)
 
-    override fun onReceiveUpdateAlarm(id: Long) = viewModel.onReceiveUpdateAlarm(id)
+    override fun onReceiveUpdateAlarm(noteId: Long) = viewModel.onReceiveUpdateAlarm(noteId)
 
     //endregion
 

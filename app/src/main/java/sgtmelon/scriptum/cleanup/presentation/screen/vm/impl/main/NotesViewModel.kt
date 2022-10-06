@@ -238,8 +238,8 @@ class NotesViewModel(
         callback?.notifyList(itemList)
     }
 
-    override fun onReceiveUpdateAlarm(id: Long) {
-        val p = itemList.indexOfFirst { it.id == id }
+    override fun onReceiveUpdateAlarm(noteId: Long) {
+        val p = itemList.indexOfFirst { it.id == noteId }
         val noteItem = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {

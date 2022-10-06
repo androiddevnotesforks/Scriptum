@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.test.ui.control.notification.bind
 
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
+import sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver
 
 /**
- * Test for UI realisation of [MainScreenReceiver.BindCallback].
+ * Test for UI realisation of [UpdateAlarmReceiver.BindCallback].
  */
 class UnbindReceiverTest : ParentNotificationTest() {
 
