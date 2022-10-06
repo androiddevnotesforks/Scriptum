@@ -12,9 +12,9 @@ import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.IntroPageAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.databinding.ActivityIntroBinding
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.test.idling.getIdling
@@ -126,6 +126,6 @@ class IntroActivity : ThemeActivity<ActivityIntroBinding>(), IIntroActivity {
 
     override fun getItemCount(): Int = pagerAdapter.itemCount
 
-    override fun openMainScreen() = startActivity(MainActivity[this])
+    override fun openMainScreen() = startActivity(InstanceFactory.Main[this])
 
 }

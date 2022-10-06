@@ -4,7 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.graphics.drawable.AnimationDrawable
 import android.view.View
-import android.view.animation.AccelerateInterpolator
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
@@ -130,7 +130,7 @@ internal class GradientFabDelegator(
         val scale = if (isVisible) 1f else 0.2f
 
         val alphaInterpolator = DecelerateInterpolator()
-        val scaleInterpolator = AccelerateInterpolator()
+        val scaleInterpolator = AccelerateDecelerateInterpolator()
 
         setDuration(duration).addListener(
             onStart = { if (isVisible) parentCard.visibility = View.VISIBLE },
@@ -147,6 +147,6 @@ internal class GradientFabDelegator(
     }
 
     companion object {
-        private const val GAP_DURATION = 70L
+        private const val GAP_DURATION = 75L
     }
 }

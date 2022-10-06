@@ -10,7 +10,7 @@
     <integer name="note_change_time">200</integer>
 
     <integer name="fragment_fade_time">200</integer>
-    <integer name="fab_change_time">150</integer>
+    <integer name="fab_change_time">200</integer>
     <integer name="color_fade_time">200</integer>
     <integer name="color_transition_time">200</integer>
 
