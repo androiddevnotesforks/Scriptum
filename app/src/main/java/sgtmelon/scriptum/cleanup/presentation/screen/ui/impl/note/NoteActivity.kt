@@ -14,13 +14,13 @@ import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 
 /**
@@ -29,7 +29,7 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     INoteActivity,
     INoteConnector,
-    NoteScreenReceiver.Callback {
+    UnbindNoteReceiver.Callback {
 
     override val layoutId: Int = R.layout.activity_note
 
@@ -48,7 +48,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
     private val rollNoteFragment get() = fragmentFactory.getRollNoteFragment()
 
-    private val noteReceiver by lazy { NoteScreenReceiver[this] }
+    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
 
     //endregion
 
@@ -64,7 +64,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
             onSetupFragment(checkCache = savedInstanceState != null)
         }
 
-        registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
+        registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -81,7 +81,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         holderShowControl.onDestroy()
 
         viewModel.onDestroy()
-        unregisterReceiver(noteReceiver)
+        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

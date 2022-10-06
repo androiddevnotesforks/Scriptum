@@ -33,6 +33,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
@@ -42,7 +43,7 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
  */
 class NotesFragment : ParentFragment(),
     INotesFragment,
-    MainScreenReceiver.BindCallback,
+    UnbindNoteReceiver.Callback,
     MainScreenReceiver.AlarmCallback {
 
     //region Variables
@@ -125,7 +126,7 @@ class NotesFragment : ParentFragment(),
 
     //region Receiver functions
 
-    override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
+    override fun onReceiveUnbindNote(noteId: Long) = viewModel.onReceiveUnbindNote(noteId)
 
     override fun onReceiveUpdateAlarm(id: Long) = viewModel.onReceiveUpdateAlarm(id)
 

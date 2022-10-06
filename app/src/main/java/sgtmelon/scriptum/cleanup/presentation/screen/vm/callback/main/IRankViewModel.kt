@@ -2,16 +2,16 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main
 
 import android.os.Bundle
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
+import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 
 /**
  * Interface for communication [IRankFragment] with [RankViewModel].
  */
 interface IRankViewModel : IParentViewModel,
-    MainScreenReceiver.BindCallback,
+    UnbindNoteReceiver.Callback,
     RankTouchControl.Callback {
 
     fun onSaveData(bundle: Bundle)

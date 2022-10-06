@@ -22,13 +22,13 @@ import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmAnimations
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmBundleProvider
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmScreenState
@@ -81,8 +81,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     private val vibrator by lazy { VibratorDelegator(context = this) }
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
-    // TODO create separate receiver for this functional
-    private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
+    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
     private val openState = OpenState()
 
@@ -112,7 +111,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
         setupObservers(noteId)
 
-        registerReceiver(noteReceiver, IntentFilter(Filter.NOTE))
+        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.ALARM))
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -170,7 +169,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         phoneAwake.release()
         binding?.rippleContainer?.stopAnimation()
 
-        unregisterReceiver(noteReceiver)
+        unregisterReceiver(unbindNoteReceiver)
     }
 
     //endregion

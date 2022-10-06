@@ -32,6 +32,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewM
 import sgtmelon.scriptum.databinding.ActivityMainBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
@@ -47,7 +48,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
     private val holderControl by lazy { HolderShowControl[binding?.toolbarHolder] }
 
-    private val mainReceiver by lazy { MainScreenReceiver[viewModel, viewModel] }
+    private val mainReceiver by lazy { MainScreenReceiver[viewModel] }
+    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
 
     private val fragmentFactory = FragmentFactory.Main(fm)
     private val rankFragment by lazy { fragmentFactory.getRankFragment() }
@@ -68,7 +70,9 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
         openState.get(savedInstanceState)
         viewModel.onSetup(savedInstanceState)
+
         registerReceiver(mainReceiver, IntentFilter(Filter.MAIN))
+        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
 
         getIdling().stop(IdlingTag.Intro.FINISH)
     }
@@ -104,7 +108,9 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         openState.clearBlockCallback()
         holderControl.onDestroy()
         viewModel.onDestroy()
+
         unregisterReceiver(mainReceiver)
+        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -230,9 +236,9 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
     //region Receiver callback
 
-    override fun onReceiveUnbindNote(id: Long) {
-        onFragmentAdd(MainPage.RANK) { rankFragment.onReceiveUnbindNote(id) }
-        onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(id) }
+    override fun onReceiveUnbindNote(noteId: Long) {
+        onFragmentAdd(MainPage.RANK) { rankFragment.onReceiveUnbindNote(noteId) }
+        onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
     }
 
     override fun onReceiveUpdateAlarm(id: Long) {

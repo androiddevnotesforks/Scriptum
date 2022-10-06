@@ -13,7 +13,6 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
  */
 class MainScreenReceiver : BroadcastReceiver() {
 
-    private var bindCallback: BindCallback? = null
     private var alarmCallback: AlarmCallback? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -22,18 +21,8 @@ class MainScreenReceiver : BroadcastReceiver() {
         if (id == Note.Default.ID) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
-            Command.UI.UNBIND_NOTE -> bindCallback?.onReceiveUnbindNote(id)
             Command.UI.UPDATE_ALARM -> alarmCallback?.onReceiveUpdateAlarm(id)
         }
-    }
-
-    /**
-     * Interface for update UI elements.
-     *
-     * Calls on note notification cancel from status bar for update bind indicator.
-     */
-    interface BindCallback {
-        fun onReceiveUnbindNote(id: Long)
     }
 
     /**
@@ -50,11 +39,9 @@ class MainScreenReceiver : BroadcastReceiver() {
 
     companion object {
         operator fun get(
-            bindCallback: BindCallback,
             alarmCallback: AlarmCallback
         ): MainScreenReceiver {
             return MainScreenReceiver().apply {
-                this.bindCallback = bindCallback
                 this.alarmCallback = alarmCallback
             }
         }

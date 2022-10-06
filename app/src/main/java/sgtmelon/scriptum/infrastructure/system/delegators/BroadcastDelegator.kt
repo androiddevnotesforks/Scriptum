@@ -15,11 +15,9 @@ class BroadcastDelegator(private val context: Context?) {
 
     /** Function for let UI know about note unbind action. */
     fun sendUnbindNoteUi(noteId: Long) {
-        context?.sendTo(Filter.MAIN, Command.UI.UNBIND_NOTE) {
-            putExtra(IntentData.Note.Intent.ID, noteId)
-        }
+        val places = listOf(Filter.MAIN, Filter.NOTE, Filter.ALARM)
 
-        context?.sendTo(Filter.NOTE, Command.UI.UNBIND_NOTE) {
+        context?.sendTo(places, Command.UI.UNBIND_NOTE) {
             putExtra(IntentData.Note.Intent.ID, noteId)
         }
     }

@@ -289,10 +289,10 @@ class RankViewModel(
     override fun onSnackbarDismiss() = cancelList.clear()
 
 
-    override fun onReceiveUnbindNote(id: Long) {
+    override fun onReceiveUnbindNote(noteId: Long) {
         viewModelScope.launch {
             for (item in itemList) {
-                if (!item.noteId.contains(id)) continue
+                if (!item.noteId.contains(noteId)) continue
 
                 /**
                  * Decrement [RankItem.bindCount] without using interactor.

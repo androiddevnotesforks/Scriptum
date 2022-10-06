@@ -32,7 +32,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIco
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.IToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
@@ -40,6 +39,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteV
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
@@ -49,7 +49,7 @@ import sgtmelon.test.idling.getIdling
  */
 class TextNoteFragment : ParentFragment(),
     ITextNoteFragment,
-    NoteScreenReceiver.Callback,
+    UnbindNoteReceiver.Callback,
     IconBlockCallback {
 
     private var binding: FragmentTextNoteBinding? = null

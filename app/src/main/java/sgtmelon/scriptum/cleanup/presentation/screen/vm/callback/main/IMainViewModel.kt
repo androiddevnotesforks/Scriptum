@@ -11,8 +11,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
  * Interface for communication [IMainActivity] with [MainViewModel].
  */
 interface IMainViewModel : IParentViewModel,
-    MainScreenReceiver.AlarmCallback,
-    MainScreenReceiver.BindCallback {
+    MainScreenReceiver.AlarmCallback {
 
     fun onSaveData(bundle: Bundle)
 

@@ -230,8 +230,8 @@ class NotesViewModel(
     }
 
 
-    override fun onReceiveUnbindNote(id: Long) {
-        val p = itemList.indexOfFirst { it.id == id }
+    override fun onReceiveUnbindNote(noteId: Long) {
+        val p = itemList.indexOfFirst { it.id == noteId }
         val noteItem = itemList.getOrNull(p) ?: return
 
         noteItem.isStatus = false

@@ -99,10 +99,6 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
 
     //region Receiver callback
 
-    override fun onReceiveUnbindNote(id: Long) {
-        callback?.onReceiveUnbindNote(id)
-    }
-
     override fun onReceiveUpdateAlarm(id: Long) {
         if (!pageFrom.isStartPage()) callback?.onReceiveUpdateAlarm(id)
     }

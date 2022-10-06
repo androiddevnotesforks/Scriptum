@@ -34,6 +34,12 @@ inline fun Context.sendTo(place: String, command: String, extras: Intent.() -> U
     })
 }
 
+inline fun Context.sendTo(places: List<String>, command: String, extras: Intent.() -> Unit = {}) {
+    for (place in places) {
+        sendTo(place, command, extras)
+    }
+}
+
 fun Context.isPortraitMode(): Boolean {
     return resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 }

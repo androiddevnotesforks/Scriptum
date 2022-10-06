@@ -11,8 +11,10 @@ object ReceiverData {
     /** appId needed for preventing calls between different builds (e.g. ".debug") */
     object Filter {
         private const val PREFIX = "${BuildConfig.APPLICATION_ID}_RECEIVER_FILTER"
+
         const val MAIN = "${PREFIX}_MAIN"
         const val NOTE = "${PREFIX}_NOTE"
+        const val ALARM = "${PREFIX}_ALARM"
         const val SYSTEM = "${PREFIX}_SYSTEM"
         const val ETERNAL = "${PREFIX}_ETERNAL"
         const val DEVELOP = "${PREFIX}_DEVELOP"
