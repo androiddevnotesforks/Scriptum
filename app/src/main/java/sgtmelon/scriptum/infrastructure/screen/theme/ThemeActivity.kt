@@ -39,6 +39,7 @@ abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
         super.onCreate(savedInstanceState)
         inject(ScriptumApplication.component)
 
+        setupInsets()
         setupTheme(themeViewModel.theme)
 
         /** Setup this staff after [setupTheme]. */
@@ -52,6 +53,11 @@ abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
     }
 
     abstract fun inject(component: ScriptumComponent)
+
+    /**
+     * Setup spaces from android bars and other staff for current screen.
+     */
+    open fun setupInsets() = Unit
 
     private fun setupTheme(theme: Theme) {
         val mode = when (theme) {

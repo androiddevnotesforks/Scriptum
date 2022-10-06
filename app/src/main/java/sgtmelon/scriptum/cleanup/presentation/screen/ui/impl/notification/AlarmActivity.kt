@@ -122,6 +122,14 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             .inject(activity = this)
     }
 
+    /**
+     * This activity not rotatable (don't need setup margin for left and right).
+     */
+    override fun setupInsets() {
+        binding?.logoView?.setMarginInsets(InsetsDir.TOP)
+        binding?.buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
+    }
+
     private fun setupScreen() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
@@ -179,7 +187,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     private fun onSetupState(state: AlarmScreenState.Setup) {
         phoneAwake.wakeUp(TIMEOUT_TIME)
         setupView()
-        setupInsets()
 
         if (state.melodyUri != null) {
             setupPlayer(state.melodyUri)
@@ -212,14 +219,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             }
             onDismiss { openState.clear() }
         }
-    }
-
-    /**
-     * This activity not rotatable (don't need setup margin for left and right).
-     */
-    private fun setupInsets() {
-        binding?.logoView?.setMarginInsets(InsetsDir.TOP)
-        binding?.buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
     }
 
     private fun setupPlayer(stringUri: String) {

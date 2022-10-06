@@ -40,6 +40,16 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
             .inject(activity = this)
     }
 
+    override fun setupInsets() {
+        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
+            view.updateMargin(InsetsDir.LEFT, insets, margin)
+            view.updateMargin(InsetsDir.TOP, insets, margin)
+            view.updateMargin(InsetsDir.RIGHT, insets, margin)
+            view.updateMargin(InsetsDir.BOTTOM, insets, margin, !isFirstTime)
+            return@doOnApplyWindowInsets insets
+        }
+    }
+
     private fun setupView() {
         toolbar.apply {
             title = getString(R.string.pref_title_help_notification_disappear)
@@ -65,13 +75,4 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
 
     private fun onSettingsClick() = startActivitySafe(getSettingsIntent(), toast)
 
-    private fun setupInsets() {
-        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
-            view.updateMargin(InsetsDir.LEFT, insets, margin)
-            view.updateMargin(InsetsDir.TOP, insets, margin)
-            view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin, !isFirstTime)
-            return@doOnApplyWindowInsets insets
-        }
-    }
 }

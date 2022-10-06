@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
-import sgtmelon.scriptum.cleanup.extension.setMarginInsets
+import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.databinding.ActivityPreferenceBinding
@@ -41,18 +41,14 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
 
     //endregion
 
-    //region System
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_preference)
 
         val bundle = savedInstanceState ?: intent.extras
         val typeOrdinal = bundle?.getInt(Preference.Intent.SCREEN, Default.SCREEN) ?: Default.SCREEN
         screen = PreferenceScreen.values().getOrNull(typeOrdinal) ?: return
 
         setupView()
-        setupInsets()
         showFragment()
     }
 
@@ -61,6 +57,13 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             .set(owner = this)
             .build()
             .inject(activity = this)
+    }
+
+    /**
+     * [InsetsDir.BOTTOM] will be set in [ParentPreferenceFragment] (list padding).
+     */
+    override fun setupInsets() {
+        binding?.parentContainer?.setPaddingInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -89,13 +92,6 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
         }
     }
 
-    /**
-     * [InsetsDir.BOTTOM] will be set in [ParentPreferenceFragment] (list padding).
-     */
-    private fun setupInsets() {
-        binding?.parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
-    }
-
     private fun showFragment() {
         val tag = tag ?: return
         val fragment = fragment ?: return
@@ -106,7 +102,4 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
                 .commit()
         }
     }
-
-    //endregion
-
 }
