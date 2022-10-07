@@ -18,6 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.Preferen
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
+import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Factory for build intents and get access to them from one place.
@@ -153,19 +154,26 @@ object InstanceFactory {
 
     object Chains {
 
+        /** Idling before open chain of screens, needed for Android (UI) tests */
+        private fun waitOpen() = getWaitIdling().start(waitMillis = 3000)
+
         fun toAlarm(context: Context, noteId: Long): Array<Intent> {
+            waitOpen()
             return arrayOf(Main[context], Alarm[context, noteId])
         }
 
         fun toNote(context: Context, noteId: Long, color: Int, type: Int): Array<Intent> {
+            waitOpen()
             return arrayOf(Main[context], Note[context, type, noteId, color])
         }
 
         fun toNotifications(context: Context): Array<Intent> {
+            waitOpen()
             return arrayOf(Main[context], Notification[context])
         }
 
         fun toHelpDisappear(context: Context): Array<Intent> {
+            waitOpen()
             return arrayOf(
                 Main[context],
                 Preference[context, PreferenceScreen.PREFERENCE],
@@ -175,6 +183,7 @@ object InstanceFactory {
         }
 
         fun toNewNote(context: Context, type: NoteType): Array<Intent> {
+            waitOpen()
             return arrayOf(Main[context], Note[context, type.ordinal])
         }
     }

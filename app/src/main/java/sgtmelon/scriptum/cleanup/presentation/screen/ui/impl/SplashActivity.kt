@@ -18,7 +18,6 @@ import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
-import sgtmelon.test.idling.getWaitIdling
 import sgtmelon.test.prod.RunPrivate
 
 /**
@@ -84,27 +83,22 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     override fun openMainScreen() = beforeFinish { startActivity(InstanceFactory.Main[this]) }
 
     override fun openAlarmScreen(noteId: Long) = beforeFinish {
-        getWaitIdling().start(waitMillis = 3000)
         startActivities(InstanceFactory.Chains.toAlarm(context = this, noteId))
     }
 
     override fun openNoteScreen(noteId: Long, color: Int, type: Int) = beforeFinish {
-        getWaitIdling().start(waitMillis = 3000)
         startActivities(InstanceFactory.Chains.toNote(context = this, noteId, color, type))
     }
 
     override fun openNotificationScreen() = beforeFinish {
-        getWaitIdling().start(waitMillis = 3000)
         startActivities(InstanceFactory.Chains.toNotifications(context = this))
     }
 
     override fun openHelpDisappearScreen() = beforeFinish {
-        getWaitIdling().start(waitMillis = 3000)
         startActivities(InstanceFactory.Chains.toHelpDisappear(context = this))
     }
 
     override fun openNewNoteScreen(type: NoteType) = beforeFinish {
-        getWaitIdling().start(waitMillis = 3000)
         startActivities(InstanceFactory.Chains.toNewNote(context = this, type))
     }
 
