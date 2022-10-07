@@ -15,7 +15,6 @@ import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.getSettingsIntent
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
@@ -23,7 +22,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
-import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 
@@ -57,7 +55,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
     private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
 
-    private val broadcast by lazy { BroadcastDelegator(context) }
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
     //region System
@@ -72,8 +69,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        broadcast.initLazy()
 
         openState.get(savedInstanceState)
     }
@@ -124,18 +119,18 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //region Toast functions
 
-    override fun showToast(@StringRes stringId: Int) = toast.show(context, stringId)
+    override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
 
     override fun showExportPathToast(path: String) {
         val text = getString(R.string.pref_toast_export_result, path)
 
-        toast.show(context, text, Toast.LENGTH_LONG)
+        delegators.toast.show(context, text, Toast.LENGTH_LONG)
     }
 
     override fun showImportSkipToast(count: Int) {
         val text = getString(R.string.pref_toast_import_result_skip, count)
 
-        toast.show(context, text, Toast.LENGTH_LONG)
+        delegators.toast.show(context, text, Toast.LENGTH_LONG)
     }
 
     //endregion
@@ -167,7 +162,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         exportDenyDialog.apply {
             onPositiveClick {
                 val context = context
-                context?.startActivitySafe(context.getSettingsIntent(), toast)
+                context?.startActivitySafe(context.getSettingsIntent(), delegators.toast)
             }
             onDismiss { openState.clear() }
         }
@@ -188,7 +183,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         importDenyDialog.apply {
             onPositiveClick {
                 val context = context
-                context?.startActivitySafe(context.getSettingsIntent(), toast)
+                context?.startActivitySafe(context.getSettingsIntent(), delegators.toast)
             }
             onDismiss { openState.clear() }
         }
@@ -293,16 +288,18 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //region Broadcast functions
 
-    override fun sendTidyUpAlarmBroadcast() = broadcast.sendTidyUpAlarm()
+    override fun sendTidyUpAlarmBroadcast() = delegators.broadcast.sendTidyUpAlarm()
 
-    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
 
     /**
      * Not used here.
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) {
+        delegators.broadcast.sendNotifyInfoBind(count)
+    }
 
     //endregion
 

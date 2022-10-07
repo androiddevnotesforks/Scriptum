@@ -14,7 +14,6 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
@@ -25,7 +24,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IN
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
-import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
@@ -45,8 +43,6 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     //region Variables
 
     @Inject lateinit var viewModel: INotificationViewModel
-
-    private val broadcast by lazy { BroadcastDelegator(context = this) }
 
     private val openState = OpenState()
 
@@ -75,8 +71,6 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        broadcast.initLazy()
 
         openState.get(savedInstanceState)
 
@@ -258,22 +252,20 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcast.sendSetAlarm(id, calendar, showToast)
+        delegators.broadcast.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun sendCancelAlarmBroadcast(id: Long) = broadcast.sendCancelAlarm(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = delegators.broadcast.sendCancelAlarm(id)
 
-    /**
-     * Not used here.
-     */
+    /** Not used here. */
     override fun sendNotifyNotesBroadcast() = Unit
 
-    /**
-     * Not used here.
-     */
+    /** Not used here. */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) {
+        delegators.broadcast.sendNotifyInfoBind(count)
+    }
 
     //endregion
 

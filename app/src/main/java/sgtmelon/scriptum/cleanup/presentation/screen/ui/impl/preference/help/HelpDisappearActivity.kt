@@ -70,9 +70,9 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
 
     private fun onVideoClick() {
         val intent = getSiteIntent(getString(R.string.help_notification_disappear_video_url))
-        startActivitySafe(intent, toast)
+        startActivitySafe(intent, delegators.toast)
     }
 
-    private fun onSettingsClick() = startActivitySafe(getSettingsIntent(), toast)
+    private fun onSettingsClick() = startActivitySafe(getSettingsIntent(), delegators.toast)
 
 }

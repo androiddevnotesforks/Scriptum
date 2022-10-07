@@ -17,7 +17,6 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
@@ -34,9 +33,6 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmBundleProvider
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmScreenState
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
-import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
-import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
-import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
@@ -69,17 +65,10 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     @Inject lateinit var viewModel: AlarmViewModel
 
-    /**
-     * [initLazy] not require because activity configChanges under control.
-     */
-    // TODO init on UI
-    private val phoneAwake by lazy { PhoneAwakeDelegator(context = this) }
-    private val finishTimer = DelayJobDelegator(lifecycle)
     private val melodyPlay by lazy {
         MelodyPlayDelegator(context = this, lifecycle, AudioManager.STREAM_ALARM)
     }
-    private val vibrator by lazy { VibratorDelegator(context = this) }
-    private val broadcast by lazy { BroadcastDelegator(context = this) }
+    private val finishTimer = DelayJobDelegator(lifecycle)
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
@@ -142,6 +131,10 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         }
     }
 
+    private fun setupDelegators() {
+
+    }
+
     private fun setupObservers(noteId: Long) {
         viewModel.setup(noteId)
         viewModel.noteItem.observe(this) { notifyItem(it) }
@@ -157,7 +150,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun onPause() {
         super.onPause()
 
-        if (!phoneAwake.isAwake) {
+        if (!delegators.phoneAwake.isAwake) {
             finish()
         }
     }
@@ -173,8 +166,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun onDestroy() {
         super.onDestroy()
 
-        vibrator.cancel()
-        phoneAwake.release()
+        delegators.vibrator.cancel()
+        delegators.phoneAwake.release()
         binding?.rippleContainer?.stopAnimation()
 
         unregisterReceiver(unbindNoteReceiver)
@@ -185,14 +178,14 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     //region Setup state
 
     private fun onSetupState(state: AlarmScreenState.Setup) {
-        phoneAwake.wakeUp(TIMEOUT_TIME)
+        delegators.phoneAwake.wakeUp(TIMEOUT_TIME)
         setupView()
 
         if (state.melodyUri != null) {
             setupPlayer(state.melodyUri)
         }
 
-        broadcast.sendNotifyInfoBind(count = null)
+        delegators.broadcast.sendNotifyInfoBind(count = null)
         startLogoShiftAnimation()
     }
 
@@ -246,6 +239,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         } else {
             getIdling().start(IdlingTag.Alarm.CONFIGURE)
             binding?.parentContainer?.afterLayoutConfiguration {
+                isLayoutConfigure = true
                 onStartState()
                 getIdling().stop(IdlingTag.Alarm.CONFIGURE)
             }
@@ -269,7 +263,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         }
 
         if (alarmState.signalState.isVibration) {
-            vibrator.startRepeat()
+            delegators.vibrator.startRepeat()
         }
 
         /** Start count down for finish this screen. */
@@ -300,9 +294,9 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private fun onPostponeState(state: AlarmScreenState.Postpone) = beforeFinish {
         with(state) {
-            broadcast.sendSetAlarm(noteId, calendar, showToast = false)
-            broadcast.sendNotifyInfoBind(count = null)
-            broadcast.sendUpdateAlarmUi(noteId)
+            delegators.broadcast.sendSetAlarm(noteId, calendar, showToast = false)
+            delegators.broadcast.sendNotifyInfoBind(count = null)
+            delegators.broadcast.sendUpdateAlarmUi(noteId)
             showRepeatToast(repeat)
         }
     }
@@ -312,7 +306,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         val repeatArray = resources.getStringArray(R.array.pref_alarm_repeat)
         val repeatText = repeatArray.getOrNull(repeat.ordinal) ?: return
 
-        toast.show(context = this, getString(R.string.toast_alarm_repeat, repeatText))
+        delegators.toast.show(context = this, getString(R.string.toast_alarm_repeat, repeatText))
     }
 
     //endregion

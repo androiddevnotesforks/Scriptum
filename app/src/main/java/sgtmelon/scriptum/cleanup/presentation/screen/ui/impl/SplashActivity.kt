@@ -16,7 +16,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewMode
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
-import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.test.prod.RunPrivate
 
@@ -35,8 +34,6 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
 
     // TODO remove callback and move parsing inside activity or delegator
     @Inject lateinit var viewModel: ISplashViewModel
-
-    private val broadcast by lazy { BroadcastDelegator(context = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,16 +101,18 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
 
     //region Broadcast functions
 
-    override fun sendTidyUpAlarmBroadcast() = broadcast.sendTidyUpAlarm()
+    override fun sendTidyUpAlarmBroadcast() = delegators.broadcast.sendTidyUpAlarm()
 
-    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
 
     /**
      * Not used here.
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) {
+        delegators.broadcast.sendNotifyInfoBind(count)
+    }
 
     //endregion
 

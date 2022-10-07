@@ -6,7 +6,6 @@ import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -15,7 +14,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INot
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 
 /**
  * Fragment of note preferences.
@@ -44,8 +42,6 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     //endregion
 
-    private val broadcast by lazy { BroadcastDelegator(context) }
-
     //region System
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -58,8 +54,6 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        broadcast.initLazy()
 
         openState.get(savedInstanceState)
     }
@@ -142,7 +136,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     //region Broadcast functions
 
-    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
 
     /**
      * Not used here.

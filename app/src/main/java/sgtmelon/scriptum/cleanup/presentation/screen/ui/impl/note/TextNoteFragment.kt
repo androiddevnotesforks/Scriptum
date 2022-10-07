@@ -22,7 +22,6 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
@@ -40,7 +39,6 @@ import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
 
@@ -55,8 +53,6 @@ class TextNoteFragment : ParentFragment(),
     private var binding: FragmentTextNoteBinding? = null
 
     @Inject lateinit var viewModel: ITextNoteViewModel
-
-    private val broadcast by lazy { BroadcastDelegator(context) }
 
     private var toolbarTintControl: IToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
@@ -92,8 +88,6 @@ class TextNoteFragment : ParentFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        broadcast.initLazy()
 
         openState.get(savedInstanceState)
 
@@ -333,22 +327,24 @@ class TextNoteFragment : ParentFragment(),
 
     override fun showSaveToast(isSuccess: Boolean) {
         val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
-        toast.show(context, text)
+        delegators.toast.show(context, text)
     }
 
     //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcast.sendSetAlarm(id, calendar, showToast)
+        delegators.broadcast.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun sendCancelAlarmBroadcast(id: Long) = broadcast.sendCancelAlarm(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = delegators.broadcast.sendCancelAlarm(id)
 
-    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
 
-    override fun sendCancelNoteBroadcast(id: Long) = broadcast.sendCancelNoteBind(id)
+    override fun sendCancelNoteBroadcast(id: Long) = delegators.broadcast.sendCancelNoteBind(id)
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) {
+        delegators.broadcast.sendNotifyInfoBind(count)
+    }
 
     //endregion
 

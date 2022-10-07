@@ -83,7 +83,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //endregion
 
-    override fun showToast(@StringRes stringId: Int) = toast.show(context, stringId)
+    override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
 
     override fun setupApp() {
         themePreference?.setOnPreferenceClickListener {
@@ -170,11 +170,11 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             if (intent != null) {
                 startActivity(intent)
             } else {
-                toast.show(context, R.string.error_something_wrong)
+                delegators.toast.show(context, R.string.error_something_wrong)
             }
         } catch (e: ActivityNotFoundException) {
             val intent = getSiteIntent(BuildConfig.BROWSER_URL.plus(packageName))
-            context.startActivitySafe(intent, toast)
+            context.startActivitySafe(intent, delegators.toast)
         }
     }
 

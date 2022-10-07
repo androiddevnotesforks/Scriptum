@@ -46,6 +46,6 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
         val context = context ?: return
 
         val intent = getSiteIntent(BuildConfig.PRIVACY_POLICY_URL)
-        context.startActivitySafe(intent, toast)
+        context.startActivitySafe(intent, delegators.toast)
     }
 }

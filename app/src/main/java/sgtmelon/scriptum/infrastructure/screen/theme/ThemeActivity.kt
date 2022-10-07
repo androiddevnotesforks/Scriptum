@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentActivity
-import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.Background
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.NavDivider
@@ -32,8 +31,6 @@ abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
     protected open val navDivider: NavDivider = NavDivider.Standard
 
     protected val fm get() = supportFragmentManager
-
-    protected val toast = ToastDelegator(lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

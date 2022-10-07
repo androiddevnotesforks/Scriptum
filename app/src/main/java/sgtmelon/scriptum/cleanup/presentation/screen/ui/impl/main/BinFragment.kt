@@ -15,12 +15,10 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
-import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -43,8 +41,6 @@ class BinFragment : ParentFragment(), IBinFragment {
     private var binding: FragmentBinBinding? = null
 
     @Inject lateinit var viewModel: IBinViewModel
-
-    private val clipboardControl by lazy { ClipboardControl[context, toast] }
 
     private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
@@ -93,9 +89,6 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        clipboardControl.initLazy()
-
         viewModel.onSetup()
     }
 
@@ -236,6 +229,6 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun getStringArray(@ArrayRes arrayId: Int): Array<String> = resources.getStringArray(arrayId)
 
 
-    override fun copyClipboard(text: String) = clipboardControl.copy(text)
+    override fun copyClipboard(text: String) = delegators.clipboard.copy(text)
 
 }

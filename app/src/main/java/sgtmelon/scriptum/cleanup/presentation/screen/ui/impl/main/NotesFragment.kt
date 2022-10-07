@@ -18,12 +18,10 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
-import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -33,7 +31,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesView
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
@@ -51,9 +48,6 @@ class NotesFragment : ParentFragment(),
     private var binding: FragmentNotesBinding? = null
 
     @Inject lateinit var viewModel: INotesViewModel
-
-    private val broadcast by lazy { BroadcastDelegator(context) }
-    private val clipboardControl by lazy { ClipboardControl[context, toast] }
 
     private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
@@ -103,10 +97,6 @@ class NotesFragment : ParentFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        broadcast.initLazy()
-        clipboardControl.initLazy()
-
         viewModel.onSetup()
     }
 
@@ -302,20 +292,22 @@ class NotesFragment : ParentFragment(),
     //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        broadcast.sendSetAlarm(id, calendar, showToast)
+        delegators.broadcast.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun sendCancelAlarmBroadcast(id: Long) = broadcast.sendCancelAlarm(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = delegators.broadcast.sendCancelAlarm(id)
 
-    override fun sendNotifyNotesBroadcast() = broadcast.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
 
-    override fun sendCancelNoteBroadcast(id: Long) = broadcast.sendCancelNoteBind(id)
+    override fun sendCancelNoteBroadcast(id: Long) = delegators.broadcast.sendCancelNoteBind(id)
 
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcast.sendNotifyInfoBind(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) {
+        delegators.broadcast.sendNotifyInfoBind(count)
+    }
 
     //endregion
 
-    override fun copyClipboard(text: String) = clipboardControl.copy(text)
+    override fun copyClipboard(text: String) = delegators.clipboard.copy(text)
 
 
     companion object {
