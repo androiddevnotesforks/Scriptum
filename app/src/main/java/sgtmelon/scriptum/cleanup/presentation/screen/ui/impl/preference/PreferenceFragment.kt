@@ -32,10 +32,10 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //region Dialogs
 
-    private val dialogFactory by lazy { DialogFactory.Preference.Main(context, fm) }
+    private val dialogs by lazy { DialogFactory.Preference.Main(context, fm) }
 
-    private val themeDialog by lazy { dialogFactory.getThemeDialog() }
-    private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
+    private val themeDialog by lazy { dialogs.getThemeDialog() }
+    private val aboutDialog by lazy { dialogs.getAboutDialog() }
 
     //endregion
 

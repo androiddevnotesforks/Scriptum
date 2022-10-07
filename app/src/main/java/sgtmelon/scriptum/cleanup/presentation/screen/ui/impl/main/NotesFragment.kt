@@ -50,11 +50,11 @@ class NotesFragment : ParentFragment(),
     @Inject lateinit var viewModel: INotesViewModel
 
     private val openState get() = callback?.openState
-    private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
+    private val dialogs by lazy { DialogFactory.Main(context, fm) }
 
-    private val optionsDialog by lazy { dialogFactory.getOptionsDialog() }
-    private val dateDialog by lazy { dialogFactory.getDateDialog() }
-    private val timeDialog by lazy { dialogFactory.getTimeDialog() }
+    private val optionsDialog by lazy { dialogs.getOptionsDialog() }
+    private val dateDialog by lazy { dialogs.getDateDialog() }
+    private val timeDialog by lazy { dialogs.getTimeDialog() }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteItemClickCallback {

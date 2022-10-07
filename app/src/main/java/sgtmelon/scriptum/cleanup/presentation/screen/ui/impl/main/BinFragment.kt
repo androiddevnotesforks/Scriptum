@@ -43,10 +43,10 @@ class BinFragment : ParentFragment(), IBinFragment {
     @Inject lateinit var viewModel: IBinViewModel
 
     private val openState get() = callback?.openState
-    private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
+    private val dialogs by lazy { DialogFactory.Main(context, fm) }
 
-    private val optionsDialog by lazy { dialogFactory.getOptionsDialog() }
-    private val clearBinDialog by lazy { dialogFactory.getClearBinDialog() }
+    private val optionsDialog by lazy { dialogs.getOptionsDialog() }
+    private val clearBinDialog by lazy { dialogs.getClearBinDialog() }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteItemClickCallback {

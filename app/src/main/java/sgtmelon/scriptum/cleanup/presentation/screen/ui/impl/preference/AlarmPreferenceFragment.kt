@@ -44,13 +44,13 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //region Dialogs
 
-    private val dialogFactory by lazy { DialogFactory.Preference.Alarm(context, fm) }
+    private val dialogs by lazy { DialogFactory.Preference.Alarm(context, fm) }
 
-    private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
-    private val signalDialog by lazy { dialogFactory.getSignalDialog() }
-    private val melodyPermissionDialog by lazy { dialogFactory.getMelodyPermissionDialog() }
-    private val melodyDialog by lazy { dialogFactory.getMelodyDialog() }
-    private val volumeDialog by lazy { dialogFactory.getVolumeDialog() }
+    private val repeatDialog by lazy { dialogs.getRepeatDialog() }
+    private val signalDialog by lazy { dialogs.getSignalDialog() }
+    private val melodyPermissionDialog by lazy { dialogs.getMelodyPermissionDialog() }
+    private val melodyDialog by lazy { dialogs.getMelodyDialog() }
+    private val volumeDialog by lazy { dialogs.getVolumeDialog() }
 
     //endregion
 

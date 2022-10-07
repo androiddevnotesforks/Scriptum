@@ -74,8 +74,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private val openState = OpenState()
 
-    private val dialogFactory by lazy { DialogFactory.Alarm(fm = fm) }
-    private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
+    private val dialogs by lazy { DialogFactory.Alarm(fm = fm) }
+    private val repeatDialog by lazy { dialogs.getRepeatDialog() }
 
     private val adapter = NoteAdapter(object : NoteItemClickCallback {
         override fun onItemClick(item: NoteItem) = openNoteScreen(item)

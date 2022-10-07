@@ -80,14 +80,14 @@ class RollNoteFragment : ParentFragment(),
     private var visibleIconControl: IconChangeCallback? = null
 
     private val openState = OpenState()
-    private val dialogFactory by lazy { DialogFactory.Note(context, fm) }
+    private val dialogs by lazy { DialogFactory.Note(context, fm) }
 
-    private val rankDialog by lazy { dialogFactory.getRankDialog() }
-    private val colorDialog by lazy { dialogFactory.getColorDialog() }
+    private val rankDialog by lazy { dialogs.getRankDialog() }
+    private val colorDialog by lazy { dialogs.getColorDialog() }
 
-    private val dateDialog by lazy { dialogFactory.getDateDialog() }
-    private val timeDialog by lazy { dialogFactory.getTimeDialog() }
-    private val convertDialog by lazy { dialogFactory.getConvertDialog(NoteType.ROLL) }
+    private val dateDialog by lazy { dialogs.getDateDialog() }
+    private val timeDialog by lazy { dialogs.getTimeDialog() }
+    private val convertDialog by lazy { dialogs.getConvertDialog(NoteType.ROLL) }
 
     private val animTime by lazy {
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L

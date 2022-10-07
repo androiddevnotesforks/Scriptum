@@ -56,8 +56,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
     override val openState = OpenState()
 
-    private val dialogFactory by lazy { DialogFactory.Main(context = this, fm = fm) }
-    private val addDialog by lazy { dialogFactory.getAddDialog() }
+    private val dialogs by lazy { DialogFactory.Main(context = this, fm = fm) }
+    private val addDialog by lazy { dialogs.getAddDialog() }
 
     private var fabDelegator: GradientFabDelegator? = null
 
