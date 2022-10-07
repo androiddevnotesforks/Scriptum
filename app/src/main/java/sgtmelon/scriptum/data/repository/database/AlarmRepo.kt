@@ -12,8 +12,6 @@ interface AlarmRepo {
 
     suspend fun delete(noteId: Long)
 
-    suspend fun getItem(noteId: Long): NotificationItem?
-
     suspend fun getList(): List<NotificationItem>
 
     suspend fun getDateList(): List<String>

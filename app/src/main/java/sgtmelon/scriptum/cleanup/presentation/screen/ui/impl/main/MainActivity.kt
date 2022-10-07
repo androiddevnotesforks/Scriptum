@@ -32,7 +32,6 @@ import sgtmelon.scriptum.databinding.ActivityMainBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
@@ -49,7 +48,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     private val holderControl by lazy { HolderShowControl[binding?.toolbarHolder] }
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
-    private val updateAlarmReceiver by lazy { UpdateAlarmReceiver[viewModel] }
 
     private val fragmentFactory = FragmentFactory.Main(fm)
     private val rankFragment by lazy { fragmentFactory.getRankFragment() }
@@ -72,7 +70,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         viewModel.onSetup(savedInstanceState)
 
         registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
-        registerReceiver(updateAlarmReceiver, IntentFilter(Filter.MAIN))
 
         getIdling().stop(IdlingTag.Intro.FINISH)
     }
@@ -110,7 +107,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         viewModel.onDestroy()
 
         unregisterReceiver(unbindNoteReceiver)
-        unregisterReceiver(updateAlarmReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -239,10 +235,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     override fun onReceiveUnbindNote(noteId: Long) {
         onFragmentAdd(MainPage.RANK) { rankFragment.onReceiveUnbindNote(noteId) }
         onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
-    }
-
-    override fun onReceiveUpdateAlarm(noteId: Long) {
-        onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUpdateAlarm(noteId) }
     }
 
     //endregion

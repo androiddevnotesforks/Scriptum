@@ -132,27 +132,6 @@ class AlarmDataSourceImplTest : ParentTest() {
         }
     }
 
-    @Test fun getItem() {
-        val id = Random.nextLong()
-        val item = mockk<NotificationItem>()
-
-        coEvery { dao.getItem(id) } returns null
-
-        runBlocking {
-            assertNull(dataSource.getItem(id))
-        }
-
-        coEvery { dao.getItem(id) } returns item
-
-        runBlocking {
-            assertEquals(dataSource.getItem(id), item)
-        }
-
-        coVerifySequence {
-            dao.getItem(id)
-            dao.getItem(id)
-        }
-    }
 
     @Test fun getItemList() {
         val list = mockk<List<NotificationItem>>()

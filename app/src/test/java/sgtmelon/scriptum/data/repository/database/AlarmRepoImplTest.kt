@@ -101,28 +101,6 @@ class AlarmRepoImplTest : ParentRepoTest() {
     }
 
 
-    @Test fun getItem() {
-        val id = Random.nextLong()
-        val item = mockk<NotificationItem>()
-
-        coEvery { alarmDataSource.getItem(id) } returns null
-
-        runBlocking {
-            assertNull(repository.getItem(id))
-        }
-
-        coEvery { alarmDataSource.getItem(id) } returns item
-
-        runBlocking {
-            assertEquals(item, repository.getItem(id))
-        }
-
-        coVerifySequence {
-            alarmDataSource.getItem(id)
-            alarmDataSource.getItem(id)
-        }
-    }
-
     @Test fun getList() {
         val itemList = mockk<List<NotificationItem>>()
 

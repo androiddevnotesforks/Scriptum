@@ -40,13 +40,6 @@ interface AlarmDao {
     @Query(
         value = """SELECT NT_ID, NT_NAME, NT_COLOR, NT_TYPE, AL_ID, AL_DATE
         FROM NOTE_TABLE, ALARM_TABLE 
-        WHERE NT_ID = AL_NOTE_ID AND NT_ID = :noteId"""
-    )
-    suspend fun getItem(noteId: Long): NotificationItem?
-
-    @Query(
-        value = """SELECT NT_ID, NT_NAME, NT_COLOR, NT_TYPE, AL_ID, AL_DATE
-        FROM NOTE_TABLE, ALARM_TABLE 
         WHERE NT_ID = AL_NOTE_ID
         ORDER BY DATE(AL_DATE) ASC, TIME(AL_DATE) ASC"""
     )

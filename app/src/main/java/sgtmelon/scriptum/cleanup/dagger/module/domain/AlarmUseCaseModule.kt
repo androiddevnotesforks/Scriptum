@@ -7,7 +7,6 @@ import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 
@@ -25,11 +24,6 @@ class AlarmUseCaseModule {
     @Provides
     fun provideDeleteNotificationUseCase(repository: AlarmRepo): DeleteNotificationUseCase {
         return DeleteNotificationUseCase(repository)
-    }
-
-    @Provides
-    fun provideGetNotificationUseCase(repository: AlarmRepo): GetNotificationUseCase {
-        return GetNotificationUseCase(repository)
     }
 
     @Provides

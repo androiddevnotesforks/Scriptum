@@ -217,16 +217,6 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmDao.getListSafe(noteList.map { it.id }).size, noteList.size)
     }
 
-    @Test fun getItem() = inRoomTest {
-        assertNull(alarmDao.getItem(Random.nextLong()))
-
-        insertRelation(firstNote, firstAlarm)
-        assertEquals(alarmDao.getItem(firstAlarm.noteId), firstNotification)
-
-        insertRelation(secondNote, secondAlarm)
-        assertEquals(alarmDao.getItem(secondAlarm.noteId), secondNotification)
-    }
-
     @Test fun getItemList() = inRoomTest {
         assertTrue(alarmDao.getItemList().isEmpty())
 

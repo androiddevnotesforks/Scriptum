@@ -70,7 +70,9 @@ object InstanceFactory {
 
     object Intro {
 
-        /** After launch this instance application will be restarted with only this screen. */
+        /**
+         * After launch this instance application will be restarted with only this screen.
+         */
         operator fun get(context: Context): Intent {
             return Intent(context, IntroActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -154,27 +156,28 @@ object InstanceFactory {
 
     object Chains {
 
-        /** Idling before open chain of screens, needed for Android (UI) tests */
-        private fun waitOpen() = getWaitIdling().start(waitMillis = 3000)
+        /**
+         * Idling before open chain of screens, needed for Android (UI) tests
+         */
+        private inline fun <T> waitOpen(func: () -> T): T {
+            getWaitIdling().start(waitMillis = 3000)
+            return func()
+        }
 
-        fun toAlarm(context: Context, noteId: Long): Array<Intent> {
-            waitOpen()
-            return arrayOf(Main[context], Alarm[context, noteId])
+        fun toAlarm(context: Context, noteId: Long): Array<Intent> = waitOpen {
+            arrayOf(Main[context], Alarm[context, noteId])
         }
 
         fun toNote(context: Context, noteId: Long, color: Int, type: Int): Array<Intent> {
-            waitOpen()
-            return arrayOf(Main[context], Note[context, type, noteId, color])
+            return waitOpen { arrayOf(Main[context], Note[context, type, noteId, color]) }
         }
 
-        fun toNotifications(context: Context): Array<Intent> {
-            waitOpen()
-            return arrayOf(Main[context], Notification[context])
+        fun toNotifications(context: Context): Array<Intent> = waitOpen {
+            arrayOf(Main[context], Notification[context])
         }
 
-        fun toHelpDisappear(context: Context): Array<Intent> {
-            waitOpen()
-            return arrayOf(
+        fun toHelpDisappear(context: Context): Array<Intent> = waitOpen {
+            arrayOf(
                 Main[context],
                 Preference[context, PreferenceScreen.PREFERENCE],
                 Preference[context, PreferenceScreen.HELP],
@@ -182,9 +185,8 @@ object InstanceFactory {
             )
         }
 
-        fun toNewNote(context: Context, type: NoteType): Array<Intent> {
-            waitOpen()
-            return arrayOf(Main[context], Note[context, type.ordinal])
+        fun toNewNote(context: Context, type: NoteType): Array<Intent> = waitOpen {
+            arrayOf(Main[context], Note[context, type.ordinal])
         }
     }
 }

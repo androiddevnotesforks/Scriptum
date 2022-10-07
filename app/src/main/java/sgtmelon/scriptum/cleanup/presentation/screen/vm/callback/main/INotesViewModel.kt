@@ -7,14 +7,12 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver
 
 /**
  * Interface for communication [INotesFragment] with [NotesViewModel].
  */
 interface INotesViewModel : IParentViewModel,
-    UnbindNoteReceiver.Callback,
-    UpdateAlarmReceiver.Callback {
+    UnbindNoteReceiver.Callback {
 
     fun onUpdateData()
 

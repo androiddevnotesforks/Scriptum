@@ -5,13 +5,11 @@ import androidx.annotation.IdRes
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
-import sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver
 
 /**
  * Interface for communication [IMainActivity] with [MainViewModel].
  */
-interface IMainViewModel : IParentViewModel,
-    UpdateAlarmReceiver.Callback {
+interface IMainViewModel : IParentViewModel {
 
     fun onSaveData(bundle: Bundle)
 

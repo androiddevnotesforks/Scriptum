@@ -29,8 +29,6 @@ class AlarmRepoImpl(
 
     override suspend fun delete(noteId: Long) = dataSource.delete(noteId)
 
-    override suspend fun getItem(noteId: Long): NotificationItem? = dataSource.getItem(noteId)
-
     override suspend fun getList(): List<NotificationItem> = dataSource.getItemList()
 
     override suspend fun getDateList(): List<String> = dataSource.getDateList()

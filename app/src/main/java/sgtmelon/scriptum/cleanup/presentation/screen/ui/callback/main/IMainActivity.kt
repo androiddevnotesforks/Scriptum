@@ -7,13 +7,11 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver
 
 /**
  * Interface for communication [IMainViewModel] with [MainActivity].
  */
-interface IMainActivity : UnbindNoteReceiver.Callback,
-    UpdateAlarmReceiver.Callback {
+interface IMainActivity : UnbindNoteReceiver.Callback {
 
     val openState: OpenState
 
