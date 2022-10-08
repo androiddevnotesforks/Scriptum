@@ -5,10 +5,10 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.inflateView
 import sgtmelon.scriptum.cleanup.presentation.adapter.diff.RankDiff
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.infrastructure.utils.inflateView
 
 /**
  * Adapter which displays list of categories (ranks).

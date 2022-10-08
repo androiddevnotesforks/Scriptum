@@ -5,7 +5,6 @@ import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
-import sgtmelon.scriptum.cleanup.extension.inflateView
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintAlarmHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintNoteHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintRankHolder
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.Pr
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefPathHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefTitleHolder
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
+import sgtmelon.scriptum.infrastructure.utils.inflateView
 
 /**
  * Adapter which displays print list of db entities or preference keys for [PrintDevelopActivity].

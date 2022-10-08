@@ -18,7 +18,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
-import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
@@ -33,6 +32,7 @@ import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
+import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
 

@@ -1,6 +1,7 @@
-package sgtmelon.scriptum.cleanup.extension
+package sgtmelon.scriptum.infrastructure.utils
 
 import android.app.Activity
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,12 +25,15 @@ fun <T : ViewDataBinding> LayoutInflater.inflateBinding(
     return DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
 }
 
-fun <T : ViewDataBinding> ViewGroup.inflateBinding(@LayoutRes layoutId: Int,
-                                                   attachToParent: Boolean = false): T {
-    val inflater = LayoutInflater.from(context)
-    return DataBindingUtil.inflate(inflater, layoutId, this, attachToParent)
+fun <T : ViewDataBinding> ViewGroup.inflateBinding(
+    @LayoutRes layoutId: Int,
+    attachToParent: Boolean = false
+): T {
+    return DataBindingUtil.inflate(context.getInflater(), layoutId, this, attachToParent)
 }
 
 fun ViewGroup.inflateView(@LayoutRes layout: Int, attachToRoot: Boolean = false): View {
-    return LayoutInflater.from(context).inflate(layout, this, attachToRoot)
+    return context.getInflater().inflate(layout, this, attachToRoot)
 }
+
+fun Context.getInflater(): LayoutInflater = LayoutInflater.from(this)

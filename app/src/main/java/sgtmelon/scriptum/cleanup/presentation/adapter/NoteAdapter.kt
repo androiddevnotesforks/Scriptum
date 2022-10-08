@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.adapter.diff.NoteDiff
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.NoteTextHolder
+import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
  * Adapter for display list of [NoteItem]'s.

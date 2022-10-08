@@ -4,11 +4,11 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import sgtmelon.scriptum.cleanup.presentation.adapter.diff.NotificationDiff
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.NotificationHolder
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
  * Adapter which displays list of notifications for [NotificationActivity]

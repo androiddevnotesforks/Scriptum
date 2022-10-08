@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.IncInfoBinding
-import sgtmelon.scriptum.cleanup.domain.model.data.IntroData
-import sgtmelon.scriptum.cleanup.extension.inflateBinding
 import kotlin.math.max
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.model.data.IntroData
+import sgtmelon.scriptum.databinding.IncInfoBinding
+import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
  * Fragment page for [IntroActivity].

@@ -2,11 +2,11 @@ package sgtmelon.scriptum.cleanup.presentation.adapter
 
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.inflateView
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ColorHolder
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.utils.inflateView
 
 /**
  * Adapter which displays list of application colors for [ColorDialog].
