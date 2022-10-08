@@ -18,7 +18,6 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.extension.inflateBinding
@@ -38,6 +37,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteV
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling

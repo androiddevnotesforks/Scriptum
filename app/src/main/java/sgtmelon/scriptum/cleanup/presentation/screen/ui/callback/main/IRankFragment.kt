@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
+import sgtmelon.scriptum.infrastructure.model.state.OpenState
 
 /**
  * Interface for communication [IRankViewModel] with [RankFragment].

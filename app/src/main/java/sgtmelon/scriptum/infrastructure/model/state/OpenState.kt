@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.state
+package sgtmelon.scriptum.infrastructure.model.state
 
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle

@@ -30,7 +30,6 @@ import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.getRandomSize
@@ -42,6 +41,7 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Snackbar
+import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 

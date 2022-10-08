@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
+import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentActivity
 
 /**
