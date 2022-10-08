@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.factory
+package sgtmelon.scriptum.infrastructure.factory
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
 
 /**
- * Factory for create/get dialogs
+ * Factory for create/get dialogs.
  */
 object DialogFactory {
 

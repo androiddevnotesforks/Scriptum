@@ -45,13 +45,13 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.VisibleIconCo
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.IToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
-import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color

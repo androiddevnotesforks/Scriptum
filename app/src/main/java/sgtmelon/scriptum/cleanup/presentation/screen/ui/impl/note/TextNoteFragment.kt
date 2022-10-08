@@ -27,12 +27,12 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTe
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.IToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintControl
-import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
+import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color

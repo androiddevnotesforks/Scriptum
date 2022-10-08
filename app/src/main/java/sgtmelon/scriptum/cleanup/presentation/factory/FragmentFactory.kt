@@ -19,7 +19,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpPreferenceFragment
 
 /**
- * Factory for create/get fragments
+ * Factory for create/get fragments.
  */
 object FragmentFactory {
 
