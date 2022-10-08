@@ -35,11 +35,9 @@ class NoteAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = getItem(position)
-
-        when (holder) {
-            is NoteTextHolder -> if (item is NoteItem.Text) holder.bind(item, callback)
-            is NoteRollHolder -> if (item is NoteItem.Roll) holder.bind(item, callback)
+        when (val item = getItem(position)) {
+            is NoteItem.Text -> (holder as? NoteTextHolder)?.bind(item, callback)
+            is NoteItem.Roll -> (holder as? NoteRollHolder)?.bind(item, callback)
         }
     }
 
