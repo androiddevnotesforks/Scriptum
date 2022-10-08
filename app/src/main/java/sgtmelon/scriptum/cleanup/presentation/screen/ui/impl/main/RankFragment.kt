@@ -50,7 +50,7 @@ class RankFragment : ParentFragment(),
 
     @Inject lateinit var viewModel: IRankViewModel
 
-    private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
+    private val renameDialog by lazy { DialogFactory.Main(context, fm).getRename() }
 
     private val adapter by lazy {
         RankAdapter(object : IconBlockCallback {

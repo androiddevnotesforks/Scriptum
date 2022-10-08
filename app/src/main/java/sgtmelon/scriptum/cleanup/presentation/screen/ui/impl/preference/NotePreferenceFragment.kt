@@ -25,9 +25,9 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     private val dialogs by lazy { DialogFactory.Preference.Notes(context, fm) }
 
-    private val sortDialog by lazy { dialogs.getSortDialog() }
-    private val colorDialog by lazy { dialogs.getColorDialog() }
-    private val savePeriodDialog by lazy { dialogs.getSavePeriodDialog() }
+    private val sortDialog by lazy { dialogs.getSort() }
+    private val colorDialog by lazy { dialogs.getColor() }
+    private val savePeriodDialog by lazy { dialogs.getSavePeriod() }
 
     //endregion
 

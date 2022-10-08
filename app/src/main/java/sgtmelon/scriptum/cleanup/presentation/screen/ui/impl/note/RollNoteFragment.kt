@@ -81,12 +81,11 @@ class RollNoteFragment : ParentFragment(),
 
     private val dialogs by lazy { DialogFactory.Note(context, fm) }
 
-    private val rankDialog by lazy { dialogs.getRankDialog() }
-    private val colorDialog by lazy { dialogs.getColorDialog() }
-
-    private val dateDialog by lazy { dialogs.getDateDialog() }
-    private val timeDialog by lazy { dialogs.getTimeDialog() }
-    private val convertDialog by lazy { dialogs.getConvertDialog(NoteType.ROLL) }
+    private val rankDialog by lazy { dialogs.getRank() }
+    private val colorDialog by lazy { dialogs.getColor() }
+    private val dateDialog by lazy { dialogs.getDate() }
+    private val timeDialog by lazy { dialogs.getTime() }
+    private val convertDialog by lazy { dialogs.getConvert(NoteType.ROLL) }
 
     private val animTime by lazy {
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L

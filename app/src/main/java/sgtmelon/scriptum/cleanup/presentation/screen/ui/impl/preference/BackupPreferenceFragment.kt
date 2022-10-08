@@ -42,12 +42,12 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     private val dialogs by lazy { DialogFactory.Preference.Backup(context, fm) }
 
-    private val exportPermissionDialog by lazy { dialogs.getExportPermissionDialog() }
-    private val exportDenyDialog by lazy { dialogs.getExportDenyDialog() }
-    private val importPermissionDialog by lazy { dialogs.getImportPermissionDialog() }
-    private val importDenyDialog by lazy { dialogs.getImportDenyDialog() }
-    private val importDialog by lazy { dialogs.getImportDialog() }
-    private val loadingDialog by lazy { dialogs.getLoadingDialog() }
+    private val exportPermissionDialog by lazy { dialogs.getExportPermission() }
+    private val exportDenyDialog by lazy { dialogs.getExportDeny() }
+    private val importPermissionDialog by lazy { dialogs.getImportPermission() }
+    private val importDenyDialog by lazy { dialogs.getImportDeny() }
+    private val importDialog by lazy { dialogs.getImport() }
+    private val loadingDialog by lazy { dialogs.getLoading() }
 
     //endregion
 

@@ -40,8 +40,9 @@ class BinFragment : ParentFragment(), IBinFragment {
     @Inject lateinit var viewModel: IBinViewModel
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
-    private val optionsDialog by lazy { dialogs.getOptionsDialog() }
-    private val clearBinDialog by lazy { dialogs.getClearBinDialog() }
+
+    private val optionsDialog by lazy { dialogs.getOptions() }
+    private val clearBinDialog by lazy { dialogs.getClearBin() }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {

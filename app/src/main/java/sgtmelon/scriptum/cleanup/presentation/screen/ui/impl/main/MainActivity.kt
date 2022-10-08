@@ -53,8 +53,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     private val notesFragment by lazy { fragmentFactory.getNotesFragment() }
     private val binFragment by lazy { fragmentFactory.getBinFragment() }
 
-    private val dialogs by lazy { DialogFactory.Main(context = this, fm = fm) }
-    private val addDialog by lazy { dialogs.getAddDialog() }
+    private val addDialog by lazy { DialogFactory.Main(context = this, fm).getAdd() }
 
     private var fabDelegator: GradientFabDelegator? = null
 

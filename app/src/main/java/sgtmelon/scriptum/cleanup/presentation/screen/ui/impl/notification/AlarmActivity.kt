@@ -71,8 +71,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val dialogs by lazy { DialogFactory.Alarm(fm = fm) }
-    private val repeatDialog by lazy { dialogs.getRepeatDialog() }
+    private val repeatDialog by lazy { DialogFactory.Alarm(fm).getRepeat() }
 
     private val adapter = NoteAdapter(object : NoteClickListener {
         override fun onItemClick(item: NoteItem) = openNoteScreen(item)
