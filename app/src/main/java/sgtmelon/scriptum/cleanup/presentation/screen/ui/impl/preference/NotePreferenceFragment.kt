@@ -5,7 +5,6 @@ import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -21,8 +20,6 @@ import sgtmelon.scriptum.infrastructure.model.key.Sort
 class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragment {
 
     @Inject lateinit var viewModel: INotePreferenceViewModel
-
-    private val openState = OpenState()
 
     //region Dialogs
 
@@ -51,13 +48,6 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
             .inject(fragment = this)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        openState.get(savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.onSetup()
@@ -66,11 +56,6 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        openState.save(outState)
     }
 
     //endregion
@@ -83,7 +68,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
         sortDialog.apply {
             onPositiveClick { viewModel.onResultNoteSort(sortDialog.check) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         colorPreference?.setOnPreferenceClickListener {
@@ -93,7 +78,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
         colorDialog.apply {
             onPositiveClick { viewModel.onResultNoteColor(colorDialog.check) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         savePeriodPreference?.setOnPreferenceClickListener {
@@ -103,7 +88,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
         savePeriodDialog.apply {
             onPositiveClick { viewModel.onResultSaveTime(savePeriodDialog.check) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
     }
 
@@ -111,7 +96,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
         sortPreference?.summary = summary
     }
 
-    override fun showSortDialog(sort: Sort) = openState.tryInvoke {
+    override fun showSortDialog(sort: Sort) = open.attempt {
         sortDialog.setArguments(sort.ordinal)
             .safeShow(fm, DialogFactory.Preference.Notes.SORT, owner = this)
     }
@@ -120,7 +105,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
         colorPreference?.summary = summary
     }
 
-    override fun showColorDialog(color: Color) = openState.tryInvoke {
+    override fun showColorDialog(color: Color) = open.attempt {
         colorDialog.setArguments(color)
             .safeShow(fm, DialogFactory.Preference.Notes.COLOR, owner = this)
     }
@@ -129,7 +114,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
         savePeriodPreference?.summary = summary
     }
 
-    override fun showSaveTimeDialog(savePeriod: SavePeriod) = openState.tryInvoke {
+    override fun showSaveTimeDialog(savePeriod: SavePeriod) = open.attempt {
         savePeriodDialog.setArguments(savePeriod.ordinal)
             .safeShow(fm, DialogFactory.Preference.Notes.SAVE_PERIOD, owner = this)
     }

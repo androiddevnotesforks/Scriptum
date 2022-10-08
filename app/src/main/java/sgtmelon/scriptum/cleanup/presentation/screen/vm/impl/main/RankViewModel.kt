@@ -317,11 +317,11 @@ class RankViewModel(
             callback?.dismissSnackbar()
         }
 
-        callback?.openState?.value = inAction
+        callback?.openState?.isBlocked = inAction
     }
 
     override fun onTouchGetDrag(): Boolean {
-        val value = callback?.openState?.value != true
+        val value = callback?.openState?.isBlocked != true
 
         if (value) callback?.hideKeyboard()
 

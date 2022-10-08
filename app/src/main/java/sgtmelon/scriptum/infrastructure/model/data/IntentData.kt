@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.model.data
 
+
 /**
  * Object for store information between screens and save it inside onSavedState.
  * Also it used inside application receivers.
@@ -76,6 +77,16 @@ object IntentData {
         object Default {
             const val COUNT = -1
             const val TOAST = true
+        }
+    }
+
+    object Open {
+
+        object Intent {
+            private const val KEY_PREFIX = "OPEN_STATE"
+            const val KEY_CHANGE = "${KEY_PREFIX}_CHANGE"
+            const val KEY_VALUE = "${KEY_PREFIX}_VALUE"
+            const val KEY_TAG = "${KEY_PREFIX}_TAG"
         }
     }
 }

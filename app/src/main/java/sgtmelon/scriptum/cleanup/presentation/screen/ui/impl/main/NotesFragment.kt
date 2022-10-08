@@ -43,15 +43,14 @@ class NotesFragment : ParentFragment(),
 
     //region Variables
 
+    // TODO separate callback (only for work with fab)
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
     private var binding: FragmentNotesBinding? = null
 
     @Inject lateinit var viewModel: INotesViewModel
 
-    private val openState get() = callback?.openState
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
-
     private val optionsDialog by lazy { dialogs.getOptionsDialog() }
     private val dateDialog by lazy { dialogs.getDateDialog() }
     private val timeDialog by lazy { dialogs.getTimeDialog() }
@@ -59,7 +58,7 @@ class NotesFragment : ParentFragment(),
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteItemClickCallback {
             override fun onItemClick(item: NoteItem) {
-                openState?.tryInvoke { openNoteScreen(item) }
+                parentOpen?.attempt { openNoteScreen(item) }
             }
 
             override fun onItemLongClick(item: NoteItem, p: Int) {
@@ -124,12 +123,13 @@ class NotesFragment : ParentFragment(),
             inflateMenu(R.menu.fragment_notes)
 
             setOnMenuItemClickListener {
-                openState?.tryInvoke {
+                parentOpen?.attempt {
                     startActivity(
                         when (it.itemId) {
                             R.id.item_notification -> InstanceFactory.Notification[context]
                             else -> InstanceFactory.Preference[context, PreferenceScreen.PREFERENCE]
-                        })
+                        }
+                    )
                 }
 
                 return@setOnMenuItemClickListener true
@@ -173,26 +173,29 @@ class NotesFragment : ParentFragment(),
     override fun setupDialog() {
         optionsDialog.apply {
             onItem {
-                if (it == Options.Notes.NOTIFICATION) openState?.skipClear = true
+                if (it == Options.Notes.NOTIFICATION) {
+                    parentOpen?.skipClear = true
+                }
+
                 viewModel.onResultOptionsDialog(optionsDialog.position, it)
             }
-            onDismiss { openState?.clear() }
+            onDismiss { parentOpen?.clear() }
         }
 
         dateDialog.apply {
             onPositiveClick {
-                openState?.skipClear = true
+                parentOpen?.skipClear = true
                 viewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
             }
             onNeutralClick { viewModel.onResultDateDialogClear(dateDialog.position) }
-            onDismiss { openState?.clear() }
+            onDismiss { parentOpen?.clear() }
         }
 
         timeDialog.apply {
             onPositiveClick {
                 viewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
             }
-            onDismiss { openState?.clear() }
+            onDismiss { parentOpen?.clear() }
         }
     }
 
@@ -259,8 +262,8 @@ class NotesFragment : ParentFragment(),
 
 
     override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
-        openState?.tryInvoke {
-            openState?.tag = OpenState.Tag.DIALOG
+        parentOpen?.attempt {
+            parentOpen?.tag = OpenState.Tag.DIALOG
 
             optionsDialog.title = title
             optionsDialog.setArguments(itemArray, p)
@@ -269,14 +272,14 @@ class NotesFragment : ParentFragment(),
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
-        openState?.tryInvoke(OpenState.Tag.DIALOG) {
+        parentOpen?.attempt(OpenState.Tag.DIALOG) {
             dateDialog.setArguments(calendar, resetVisible, p)
                 .safeShow(fm, DialogFactory.Main.DATE, owner = this)
         }
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
-        openState?.tryInvoke(OpenState.Tag.DIALOG) {
+        parentOpen?.attempt(OpenState.Tag.DIALOG) {
             activity?.hideKeyboard()
             timeDialog.setArguments(calendar, dateList, p)
                 .safeShow(fm, DialogFactory.Main.TIME, owner = this)

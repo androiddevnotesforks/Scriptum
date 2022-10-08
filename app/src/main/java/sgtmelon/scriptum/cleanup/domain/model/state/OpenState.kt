@@ -1,99 +1,75 @@
 package sgtmelon.scriptum.cleanup.domain.model.state
 
-import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
-import androidx.annotation.StringDef
-import androidx.fragment.app.Fragment
-import sgtmelon.test.prod.RunPrivate
+import androidx.lifecycle.Lifecycle
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Open
+import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 
 /**
- * State for dialogs which give us know open them or not.
+ * Class which help prevent double click, different actions in single time.
  */
-@Deprecated("Remove this, don't block user")
-class OpenState {
+class OpenState(lifecycle: Lifecycle) {
+
+    // TODO check how it works with rotation (open dialog - rotate - check ability to click)
+
+    private val blockTimer = DelayJobDelegator(lifecycle)
+
+    /** Value for control block state. If something was opened - TRUE, else - FALSE. */
+    var isBlocked: Boolean = false
+
+    /** Variable for control ability to change [isBlocked] value. */
+    var isChangeEnabled: Boolean = true
+
+    /** Use for chains (e.g. dialogs, for block actions between dialogs close/open). */
+    var tag: String = Tag.ND
 
     /**
-     * Value for [block] realisation.
-     */
-    @RunPrivate var blockHandler = Handler()
-
-    /**
-     * Value for control open. If something was opened - TRUE, else - FALSE.
-     */
-    var value: Boolean = false
-
-    /**
-     * Variable for control changing of [value].
-     */
-    var changeEnabled: Boolean = true
-
-    /**
-     * Use for open dialog chain (for block actions during dialogs close/open)
-     */
-    @Tag var tag: String = Tag.ND
-
-    /**
-     * Use when need skip next [clear], e.g. on dialog dismiss when user [tag]
+     * Use when need skip next [clear]. For example, on dialog dismiss when we are using [tag].
+     * In positive situation (when need open dialogs chain) - [skipClear] helps us,
+     * otherwise - [clear] happened.
      */
     var skipClear = false
 
-    inline fun tryInvoke(func: () -> Unit) {
-        if (!changeEnabled) return
-
-        if (!value) {
-            value = true
-            func()
-        }
-    }
-
-    inline fun tryInvoke(@Tag tag: String, func: () -> Unit) {
-        if (!changeEnabled) return
-
-        if (!value || this.tag == tag) {
-            value = true
-            func()
-        }
-    }
-
-    inline fun <T> tryReturnInvoke(func: () -> T): T? {
-        if (!changeEnabled) return null
-
-        if (!value) {
-            value = true
-            return func()
-        }
-
-        return null
-    }
-
     /**
-     * Try call func if it possible.
+     * [withSwitch] == false - means call [func] without future block.
      */
-    inline fun tryCall(func: () -> Unit) {
-        if (!changeEnabled) return
+    inline fun attempt(withSwitch: Boolean = true, func: () -> Unit) {
+        if (!isChangeEnabled || isBlocked) return
 
-        if (!value) {
+        if (withSwitch) {
+            isBlocked = true
+        }
+
+        func()
+    }
+
+    inline fun attempt(tag: String, func: () -> Unit) {
+        if (!isChangeEnabled) return
+
+        if (!isBlocked || this.tag == tag) {
+            isBlocked = true
             func()
         }
     }
 
+    inline fun <T> returnAttempt(func: () -> T): T? {
+        if (!isChangeEnabled || isBlocked) return null
+
+        isBlocked = true
+        return func()
+    }
+
     /**
-     * Use when need block [OpenState] for [time].
+     * Use when need block calls for [time] period.
      */
     fun block(time: Long) {
-        /**
-         * Need deny any changes in [OpenState] what can happen in postDelayed time.
-         */
-        changeEnabled = false
+        /** Need deny any changes which can happen in await time. */
+        isChangeEnabled = false
 
-        blockHandler.removeCallbacksAndMessages(null)
-        blockHandler.postDelayed({ onBlockRunnable() }, time)
-    }
-
-    @RunPrivate fun onBlockRunnable() {
-        changeEnabled = true
-        clear()
+        blockTimer.run(time) {
+            isChangeEnabled = true
+            clear()
+        }
     }
 
     fun clear() {
@@ -102,48 +78,30 @@ class OpenState {
             return
         }
 
-        if (!changeEnabled) return
+        if (!isChangeEnabled) return
 
-        value = false
+        isBlocked = false
         tag = Tag.ND
     }
 
-    /**
-     * Call in [Activity.onDestroy]/[Fragment.onDestroy] where use [block].
-     */
-    fun clearBlockCallback() = blockHandler.removeCallbacksAndMessages(null)
-
-    fun get(bundle: Bundle?) {
-        bundle?.let {
-            changeEnabled = it.getBoolean(KEY_CHANGE)
-            value = it.getBoolean(KEY_VALUE)
-            tag = it.getString(KEY_TAG) ?: Tag.ND
-        }
+    fun save(bundle: Bundle) {
+        bundle.putBoolean(Open.Intent.KEY_CHANGE, isChangeEnabled)
+        bundle.putBoolean(Open.Intent.KEY_VALUE, isBlocked)
+        bundle.putString(Open.Intent.KEY_TAG, tag)
     }
 
-    fun save(bundle: Bundle) = bundle.let {
-        it.putBoolean(KEY_CHANGE, changeEnabled)
-        it.putBoolean(KEY_VALUE, value)
-        it.putString(KEY_TAG, tag)
+    fun restore(bundle: Bundle?) {
+        if (bundle == null) return
+
+        isChangeEnabled = bundle.getBoolean(Open.Intent.KEY_CHANGE)
+        isBlocked = bundle.getBoolean(Open.Intent.KEY_VALUE)
+        tag = bundle.getString(Open.Intent.KEY_TAG, Tag.ND)
     }
 
-    @StringDef(Tag.ND, Tag.ANIM, Tag.DIALOG, Tag.DIALOG)
-    annotation class Tag {
-        companion object {
-            private const val TAG_PREFIX = "TAG"
-
-            const val ND = "${TAG_PREFIX}_ND"
-            const val ANIM = "${TAG_PREFIX}_ANIMATION"
-            const val DIALOG = "${TAG_PREFIX}_DIALOG"
-        }
+    object Tag {
+        private const val TAG_PREFIX = "TAG"
+        const val ND = "${TAG_PREFIX}_ND"
+        const val ANIM = "${TAG_PREFIX}_ANIMATION"
+        const val DIALOG = "${TAG_PREFIX}_DIALOG"
     }
-
-    companion object {
-        private const val KEY_PREFIX = "OPEN_STATE"
-
-        @RunPrivate const val KEY_CHANGE = "${KEY_PREFIX}_CHANGE"
-        @RunPrivate const val KEY_VALUE = "${KEY_PREFIX}_VALUE"
-        @RunPrivate const val KEY_TAG = "${KEY_PREFIX}_TAG"
-    }
-
 }

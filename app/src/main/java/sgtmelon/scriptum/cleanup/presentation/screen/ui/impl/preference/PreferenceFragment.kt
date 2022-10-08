@@ -9,7 +9,6 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.getSiteIntent
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
@@ -27,8 +26,6 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     @Inject lateinit var viewModel: IPreferenceViewModel
-
-    private val openState = OpenState()
 
     //region Dialogs
 
@@ -60,12 +57,6 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             .inject(fragment = this)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        openState.get(savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.onSetup()
@@ -74,11 +65,6 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        openState.save(outState)
     }
 
     //endregion
@@ -95,7 +81,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             viewModel.onResultTheme(themeDialog.check)
             (activity as? ThemeChangeCallback)?.checkThemeChange()
         }
-        themeDialog.onDismiss { openState.clear() }
+        themeDialog.onDismiss { open.clear() }
 
         backupPreference?.setOnPreferenceClickListener {
             val context = context
@@ -141,14 +127,14 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         }
 
         findPreference<Preference>(getString(R.string.pref_key_other_about))?.setOnPreferenceClickListener {
-            openState.tryInvoke {
+            open.attempt {
                 aboutDialog.safeShow(fm, DialogFactory.Preference.Main.ABOUT, owner = this)
             }
             return@setOnPreferenceClickListener true
         }
 
         aboutDialog.onDismiss {
-            openState.clear()
+            open.clear()
 
             if (aboutDialog.hideOpen) {
                 viewModel.onUnlockDeveloper()
@@ -194,7 +180,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         themePreference?.summary = summary
     }
 
-    override fun showThemeDialog(value: Theme) = openState.tryInvoke {
+    override fun showThemeDialog(value: Theme) = open.attempt {
         themeDialog.setArguments(value.ordinal)
             .safeShow(fm, DialogFactory.Preference.Main.THEME, owner = this)
     }

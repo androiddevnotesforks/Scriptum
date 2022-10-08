@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.ViewDataBinding
 import javax.inject.Inject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiDelegator
@@ -30,11 +28,8 @@ abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
     protected open val navigation: Navigation = Navigation.Standard
     protected open val navDivider: NavDivider = NavDivider.Standard
 
-    protected val fm get() = supportFragmentManager
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        inject(ScriptumApplication.component)
 
         setupInsets()
         setupTheme(themeViewModel.theme)
@@ -48,8 +43,6 @@ abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
         super.onResume()
         checkThemeChange()
     }
-
-    abstract fun inject(component: ScriptumComponent)
 
     /**
      * Setup spaces from android bars and other staff for current screen.

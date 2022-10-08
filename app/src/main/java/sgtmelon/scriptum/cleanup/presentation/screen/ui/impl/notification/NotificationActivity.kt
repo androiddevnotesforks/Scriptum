@@ -10,7 +10,6 @@ import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
@@ -44,11 +43,9 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     @Inject lateinit var viewModel: INotificationViewModel
 
-    private val openState = OpenState()
-
     private val adapter: NotificationAdapter by lazy {
         NotificationAdapter(object: ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
+            override fun onItemClick(view: View, p: Int) = open.attempt {
                 when (view.id) {
                     R.id.notification_click_container -> viewModel.onClickNote(p)
                     R.id.notification_cancel_button -> viewModel.onClickCancel(p)
@@ -72,8 +69,6 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        openState.get(savedInstanceState)
-
         /**
          * Inside [savedInstanceState] saved snackbar data.
          */
@@ -92,9 +87,9 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
         super.onResume()
 
         /**
-         * Clear [openState] after click on item container.
+         * Clear [open] after click on item container.
          */
-        openState.clear()
+        open.clear()
         viewModel.onUpdateData()
     }
 
@@ -121,7 +116,6 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
      */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        openState.save(outState)
         viewModel.onSaveData(outState)
     }
 
@@ -141,9 +135,9 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
                 onBindingList()
 
                 /**
-                 * Clear [openState] after click on item cancel OR [onSnackbarAction].
+                 * Clear [open] after click on item cancel OR [onSnackbarAction].
                  */
-                openState.clear()
+                open.clear()
             }
 
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
@@ -215,7 +209,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
         binding?.recyclerContainer?.let { snackbar.show(it, withInsets = true) }
     }
 
-    override fun onSnackbarAction() = openState.tryInvoke { viewModel.onSnackbarAction() }
+    override fun onSnackbarAction() = open.attempt { viewModel.onSnackbarAction() }
 
     override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
 

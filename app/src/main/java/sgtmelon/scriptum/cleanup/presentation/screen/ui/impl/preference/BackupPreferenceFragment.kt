@@ -34,7 +34,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     @Inject lateinit var viewModel: IBackupPreferenceViewModel
 
-    private val openState = OpenState()
     private val storagePermissionState by lazy {
         PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE, activity)
     }
@@ -66,13 +65,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             .inject(fragment = this)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        openState.get(savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.onSetup()
@@ -92,11 +84,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        openState.save(outState)
     }
 
     @Deprecated("Deprecated in Java")
@@ -156,7 +143,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
                     arrayOf(storagePermissionState.permission), PermissionRequest.EXPORT
                 )
             }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         exportDenyDialog.apply {
@@ -164,7 +151,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
                 val context = context
                 context?.startActivitySafe(context.getSettingsIntent(), delegators.toast)
             }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         importPermissionDialog.apply {
@@ -177,7 +164,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
                     arrayOf(storagePermissionState.permission), PermissionRequest.IMPORT
                 )
             }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         importDenyDialog.apply {
@@ -185,21 +172,21 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
                 val context = context
                 context?.startActivitySafe(context.getSettingsIntent(), delegators.toast)
             }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         importDialog.apply {
             onPositiveClick {
                 val name = itemArray.getOrNull(check) ?: return@onPositiveClick
-                openState.skipClear = true
+                open.skipClear = true
                 viewModel.onResultImport(name)
             }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         loadingDialog.apply {
             isCancelable = false
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
     }
 
@@ -229,7 +216,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         exportDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_DENY, owner = this)
     }
 
-    override fun showExportLoadingDialog() = openState.tryInvoke {
+    override fun showExportLoadingDialog() = open.attempt {
         loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
     }
 
@@ -263,22 +250,26 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         importPreference?.summary = getString(R.string.pref_summary_backup_import_found, count)
     }
 
-    override fun showImportPermissionDialog() = openState.tryInvoke {
-        importPermissionDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this)
+    override fun showImportPermissionDialog() = open.attempt {
+        importPermissionDialog.safeShow(
+            fm,
+            DialogFactory.Preference.Backup.IMPORT_PERMISSION,
+            owner = this
+        )
     }
 
     override fun showImportDenyDialog() {
         importDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_DENY, owner = this)
     }
 
-    override fun showImportDialog(titleArray: Array<String>) = openState.tryInvoke {
-        openState.tag = OpenState.Tag.DIALOG
+    override fun showImportDialog(titleArray: Array<String>) = open.attempt {
+        open.tag = OpenState.Tag.DIALOG
 
         importDialog.itemArray = titleArray
         importDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT, owner = this)
     }
 
-    override fun showImportLoadingDialog() = openState.tryInvoke(OpenState.Tag.DIALOG) {
+    override fun showImportLoadingDialog() = open.attempt(OpenState.Tag.DIALOG) {
         loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
     }
 

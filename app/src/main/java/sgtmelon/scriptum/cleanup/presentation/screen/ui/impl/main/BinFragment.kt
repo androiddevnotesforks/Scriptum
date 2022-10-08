@@ -23,7 +23,6 @@ import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
@@ -36,22 +35,18 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     //region Variables
 
-    private val callback: IMainActivity? by lazy { context as? IMainActivity }
-
     private var binding: FragmentBinBinding? = null
 
     @Inject lateinit var viewModel: IBinViewModel
 
-    private val openState get() = callback?.openState
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
-
     private val optionsDialog by lazy { dialogs.getOptionsDialog() }
     private val clearBinDialog by lazy { dialogs.getClearBinDialog() }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteItemClickCallback {
             override fun onItemClick(item: NoteItem) {
-                openState?.tryInvoke { openNoteScreen(item) }
+                parentOpen?.attempt { openNoteScreen(item) }
             }
 
             override fun onItemLongClick(item: NoteItem, p: Int) {
@@ -110,7 +105,7 @@ class BinFragment : ParentFragment(), IBinFragment {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
-                openState?.tryInvoke {
+                parentOpen?.attempt {
                     clearBinDialog.safeShow(
                         fm,
                         DialogFactory.Main.CLEAR_BIN,
@@ -126,7 +121,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
         clearBinDialog.apply {
             onPositiveClick { viewModel.onClickClearBin() }
-            onDismiss { openState?.clear() }
+            onDismiss { parentOpen?.clear() }
         }
     }
 
@@ -149,7 +144,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun setupDialog() {
         optionsDialog.apply {
             onItem { viewModel.onResultOptionsDialog(optionsDialog.position, it) }
-            onDismiss { openState?.clear() }
+            onDismiss { parentOpen?.clear() }
         }
     }
 
@@ -211,7 +206,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
     override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
-        openState?.tryInvoke {
+        parentOpen?.attempt {
             optionsDialog.title = title
             optionsDialog.setArguments(itemArray, p)
                 .safeShow(fm, DialogFactory.Main.OPTIONS, owner = this)

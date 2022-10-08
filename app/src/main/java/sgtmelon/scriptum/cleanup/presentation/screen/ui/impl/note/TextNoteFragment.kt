@@ -57,8 +57,6 @@ class TextNoteFragment : ParentFragment(),
     private var toolbarTintControl: IToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
 
-
-    private val openState = OpenState()
     private val dialogs by lazy { DialogFactory.Note(context, fm) }
 
     private val rankDialog by lazy { dialogs.getRankDialog() }
@@ -90,8 +88,6 @@ class TextNoteFragment : ParentFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        openState.get(savedInstanceState)
-
         setupView(view)
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
     }
@@ -119,7 +115,6 @@ class TextNoteFragment : ParentFragment(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        openState.save(outState)
         viewModel.onSaveData(outState)
     }
 
@@ -129,12 +124,12 @@ class TextNoteFragment : ParentFragment(),
 
     override fun setEnabled(isEnabled: Boolean) {
         getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
-        openState.value = !isEnabled
+        open.isBlocked = !isEnabled
     }
 
     //endregion
 
-    override val isDialogOpen: Boolean get() = openState.value
+    override val isDialogOpen: Boolean get() = open.isBlocked
 
     override fun hideKeyboard() {
         activity?.hideKeyboard()
@@ -162,31 +157,31 @@ class TextNoteFragment : ParentFragment(),
             itemArray = rankNameArray
 
             onPositiveClick { viewModel.onResultRankDialog(check = rankDialog.check - 1) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         colorDialog.apply {
             onPositiveClick { viewModel.onResultColorDialog(colorDialog.check) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         dateDialog.apply {
             onPositiveClick {
-                openState.skipClear = true
+                open.skipClear = true
                 viewModel.onResultDateDialog(dateDialog.calendar)
             }
             onNeutralClick { viewModel.onResultDateDialogClear() }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         timeDialog.apply {
             onPositiveClick { viewModel.onResultTimeDialog(timeDialog.calendar) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         convertDialog.apply {
             onPositiveClick { viewModel.onResultConvertDialog() }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
     }
 
@@ -292,20 +287,20 @@ class TextNoteFragment : ParentFragment(),
     }
 
 
-    override fun showRankDialog(check: Int) = openState.tryInvoke {
+    override fun showRankDialog(check: Int) = open.attempt {
         hideKeyboard()
         rankDialog.setArguments(check).safeShow(fm, DialogFactory.Note.RANK, owner = this)
     }
 
-    override fun showColorDialog(color: Color) = openState.tryInvoke {
+    override fun showColorDialog(color: Color) = open.attempt {
         toolbarTintControl?.setColorFrom(color)
 
         hideKeyboard()
         colorDialog.setArguments(color).safeShow(fm, DialogFactory.Note.COLOR, owner = this)
     }
 
-    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {
-        openState.tag = OpenState.Tag.DIALOG
+    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = open.attempt {
+        open.tag = OpenState.Tag.DIALOG
 
         hideKeyboard()
         dateDialog.setArguments(calendar, resetVisible)
@@ -313,14 +308,14 @@ class TextNoteFragment : ParentFragment(),
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
-        openState.tryInvoke(OpenState.Tag.DIALOG) {
+        open.attempt(OpenState.Tag.DIALOG) {
             hideKeyboard()
             timeDialog.setArguments(calendar, dateList)
                 .safeShow(fm, DialogFactory.Note.TIME, owner = this)
         }
     }
 
-    override fun showConvertDialog() = openState.tryInvoke {
+    override fun showConvertDialog() = open.attempt {
         hideKeyboard()
         convertDialog.safeShow(fm, DialogFactory.Note.CONVERT, owner = this)
     }

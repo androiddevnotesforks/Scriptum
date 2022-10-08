@@ -17,7 +17,6 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.addSystemInsetsMargin
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
@@ -54,8 +53,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     private val notesFragment by lazy { fragmentFactory.getNotesFragment() }
     private val binFragment by lazy { fragmentFactory.getBinFragment() }
 
-    override val openState = OpenState()
-
     private val dialogs by lazy { DialogFactory.Main(context = this, fm = fm) }
     private val addDialog by lazy { dialogs.getAddDialog() }
 
@@ -66,7 +63,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
         fabDelegator = GradientFabDelegator(activity = this) { openAddDialog() }
 
-        openState.get(savedInstanceState)
         viewModel.onSetup(savedInstanceState)
 
         registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
@@ -86,10 +82,10 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         super.onResume()
 
         /**
-         * Clear [openState] after click on item container.
+         * Clear [open] after click on item container.
          */
-        openState.changeEnabled = true
-        openState.clear()
+        open.isChangeEnabled = true
+        open.clear()
 
         /**
          * Show FAB on return to screen if it possible.
@@ -102,7 +98,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
         fabDelegator = null
 
-        openState.clearBlockCallback()
         holderControl.onDestroy()
         viewModel.onDestroy()
 
@@ -111,7 +106,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        openState.save(outState)
         viewModel.onSaveData(outState)
     }
 
@@ -127,24 +121,24 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     }
 
     private fun openAddDialog() {
-        openState.tryInvoke { addDialog.safeShow(fm, DialogFactory.Main.ADD, owner = this) }
+        open.attempt { addDialog.safeShow(fm, DialogFactory.Main.ADD, owner = this) }
     }
 
     override fun setupNavigation(@IdRes itemId: Int) {
         val animTime = resources.getInteger(R.integer.fragment_fade_time).toLong()
         binding?.menuNavigation?.setOnNavigationItemSelectedListener {
-            return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
-                openState.block(animTime)
+            return@setOnNavigationItemSelectedListener open.returnAttempt {
+                open.block(animTime)
                 viewModel.onSelectItem(it.itemId)
 
-                return@tryReturnInvoke true
+                return@returnAttempt true
             } ?: false
         }
         binding?.menuNavigation?.selectedItemId = itemId
 
         addDialog.apply {
             onItemSelected(owner = this@MainActivity) { viewModel.onResultAddDialog(it.itemId) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
     }
 
@@ -226,7 +220,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         return this
     }
 
-    override fun openNoteScreen(noteType: NoteType) = openState.tryInvoke {
+    override fun openNoteScreen(noteType: NoteType) = open.attempt {
         startActivity(InstanceFactory.Note[this, noteType.ordinal])
     }
 

@@ -13,7 +13,6 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
@@ -37,7 +36,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     @Inject lateinit var viewModel: IAlarmPreferenceViewModel
 
-    private val openState = OpenState()
     private val storagePermissionState by lazy {
         PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE, activity)
     }
@@ -83,8 +81,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         super.onActivityCreated(savedInstanceState)
 
         melodyPlay.initLazy()
-
-        openState.get(savedInstanceState)
     }
 
     override fun onResume() {
@@ -107,11 +103,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         super.onDestroy()
 
         viewModel.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        openState.save(outState)
     }
 
     @Deprecated("Deprecated in Java")
@@ -142,7 +133,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
         repeatDialog.apply {
             onPositiveClick { viewModel.onResultRepeat(repeatDialog.check) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         signalPreference?.setOnPreferenceClickListener {
@@ -152,7 +143,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
         signalDialog.apply {
             onPositiveClick { viewModel.onResultSignal(signalDialog.check) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         melodyPreference?.setOnPreferenceClickListener {
@@ -170,7 +161,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
                     arrayOf(storagePermissionState.permission), PermissionRequest.MELODY
                 )
             }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
 
         melodyDialog.apply {
@@ -185,7 +176,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             }
             onDismiss {
                 melodyPlay.stop()
-                openState.clear()
+                open.clear()
             }
         }
 
@@ -196,7 +187,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
         volumeDialog.apply {
             onPositiveClick { viewModel.onResultVolume(volumeDialog.progress) }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
     }
 
@@ -204,7 +195,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         repeatPreference?.summary = summary
     }
 
-    override fun showRepeatDialog(repeat: Repeat) = openState.tryInvoke {
+    override fun showRepeatDialog(repeat: Repeat) = open.attempt {
         repeatDialog.setArguments(repeat.ordinal)
             .safeShow(fm, DialogFactory.Preference.Alarm.REPEAT, owner = this)
     }
@@ -213,13 +204,17 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         signalPreference?.summary = summary
     }
 
-    override fun showSignalDialog(valueArray: BooleanArray) = openState.tryInvoke {
+    override fun showSignalDialog(valueArray: BooleanArray) = open.attempt {
         signalDialog.setArguments(valueArray)
             .safeShow(fm, DialogFactory.Preference.Alarm.SIGNAL, owner = this)
     }
 
-    override fun showMelodyPermissionDialog() = openState.tryInvoke {
-        melodyPermissionDialog.safeShow(fm, DialogFactory.Preference.Alarm.MELODY_PERMISSION, owner = this)
+    override fun showMelodyPermissionDialog() = open.attempt {
+        melodyPermissionDialog.safeShow(
+            fm,
+            DialogFactory.Preference.Alarm.MELODY_PERMISSION,
+            owner = this
+        )
     }
 
     override fun updateMelodyEnabled(isEnabled: Boolean) {
@@ -252,7 +247,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         melodyPreference?.summary = getString(summaryId)
     }
 
-    override fun showMelodyDialog(titleArray: Array<String>, value: Int) = openState.tryInvoke {
+    override fun showMelodyDialog(titleArray: Array<String>, value: Int) = open.attempt {
         melodyDialog.itemArray = titleArray
         melodyDialog.setArguments(value)
             .safeShow(fm, DialogFactory.Preference.Alarm.MELODY, owner = this)
@@ -272,7 +267,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         volumePreference?.summary = summary
     }
 
-    override fun showVolumeDialog(value: Int) = openState.tryInvoke {
+    override fun showVolumeDialog(value: Int) = open.attempt {
         volumeDialog.setArguments(value)
             .safeShow(fm, DialogFactory.Preference.Alarm.VOLUME, owner = this)
     }

@@ -766,38 +766,38 @@ class RankViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onTouchAction() {
-        every { openState.value = true } returns Unit
+        every { openState.isBlocked = true } returns Unit
         viewModel.onTouchAction(inAction = true)
         assertTrue(viewModel.inTouchAction)
 
-        every { openState.value = false } returns Unit
+        every { openState.isBlocked = false } returns Unit
         viewModel.onTouchAction(inAction = false)
         assertFalse(viewModel.inTouchAction)
 
         verifySequence {
             callback.dismissSnackbar()
             callback.openState
-            openState.value = true
+            openState.isBlocked = true
 
             callback.openState
-            openState.value = false
+            openState.isBlocked = false
         }
     }
 
     @Test fun onTouchGetDrag() {
-        every { openState.value } returns false
+        every { openState.isBlocked } returns false
         assertTrue(viewModel.onTouchGetDrag())
 
-        every { openState.value } returns true
+        every { openState.isBlocked } returns true
         assertFalse(viewModel.onTouchGetDrag())
 
         verifySequence {
             callback.openState
-            openState.value
+            openState.isBlocked
             callback.hideKeyboard()
 
             callback.openState
-            openState.value
+            openState.isBlocked
         }
     }
 

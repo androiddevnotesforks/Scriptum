@@ -13,7 +13,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
@@ -72,8 +71,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val openState = OpenState()
-
     private val dialogs by lazy { DialogFactory.Alarm(fm = fm) }
     private val repeatDialog by lazy { dialogs.getRepeatDialog() }
 
@@ -129,10 +126,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
             window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
         }
-    }
-
-    private fun setupDelegators() {
-
     }
 
     private fun setupObservers(noteId: Long) {
@@ -198,19 +191,17 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             it.adapter = adapter
         }
 
-        binding?.disableButton?.setOnClickListener { openState.tryInvoke { finish() } }
-        binding?.repeatButton?.setOnClickListener { openState.tryInvoke { startPostpone() } }
+        binding?.disableButton?.setOnClickListener { open.attempt { finish() } }
+        binding?.repeatButton?.setOnClickListener { open.attempt { startPostpone() } }
         binding?.moreButton?.setOnClickListener {
-            openState.tryInvoke {
-                repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this)
-            }
+            open.attempt { repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this) }
         }
 
         repeatDialog.apply {
             onItemSelected(owner = this@AlarmActivity) {
                 startPostpone(RepeatSheetData().convert(it.itemId))
             }
-            onDismiss { openState.clear() }
+            onDismiss { open.clear() }
         }
     }
 
@@ -312,7 +303,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     //endregion
 
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
-        openState.tryInvoke { startActivity(InstanceFactory.Note[this, item]) }
+        open.attempt { startActivity(InstanceFactory.Note[this, item]) }
     }
 
     companion object {

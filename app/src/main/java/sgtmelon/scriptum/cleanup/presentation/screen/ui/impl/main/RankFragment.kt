@@ -28,7 +28,6 @@ import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding
@@ -47,13 +46,10 @@ class RankFragment : ParentFragment(),
 
     //region Variables
 
-    private val callback: IMainActivity? by lazy { context as? IMainActivity }
-
     private var binding: FragmentRankBinding? = null
 
     @Inject lateinit var viewModel: IRankViewModel
 
-    override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
 
     private val adapter by lazy {
@@ -61,20 +57,20 @@ class RankFragment : ParentFragment(),
             override fun setEnabled(isEnabled: Boolean) {
                 getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
 
-                openState?.value = !isEnabled
-                openState?.tag = if (isEnabled) OpenState.Tag.ND else OpenState.Tag.ANIM
+                parentOpen?.isBlocked = !isEnabled
+                parentOpen?.tag = if (isEnabled) OpenState.Tag.ND else OpenState.Tag.ANIM
             }
         }, object : ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
                 when (view.id) {
-                    R.id.rank_visible_button -> openState?.tryInvoke(OpenState.Tag.ANIM) {
+                    R.id.rank_visible_button -> parentOpen?.attempt(OpenState.Tag.ANIM) {
                         action()
                         viewModel.onClickVisible(p)
                     }
-                    R.id.rank_click_container -> openState?.tryInvoke {
+                    R.id.rank_click_container -> parentOpen?.attempt {
                         viewModel.onShowRenameDialog(p)
                     }
-                    R.id.rank_cancel_button -> openState?.tryInvoke {
+                    R.id.rank_cancel_button -> parentOpen?.attempt {
                         viewModel.onClickCancel(p)
                     }
                 }
@@ -101,6 +97,8 @@ class RankFragment : ParentFragment(),
     private var recyclerView: RecyclerView? = null
 
     //endregion
+
+    override val openState: OpenState? get() = parentOpen
 
     //region System
 
@@ -172,10 +170,10 @@ class RankFragment : ParentFragment(),
     }
 
     /**
-     * Use [OpenState.tryInvoke] and [OpenState.tryReturnInvoke] because item adding
+     * Use [OpenState.attempt] and [OpenState.returnAttempt] because item adding
      * happen inside coroutine, not main thread.
      *
-     * Reset of [OpenState.value] happen inside [scrollToItem].
+     * Reset of [OpenState.isBlocked] happen inside [scrollToItem].
      */
     override fun setupToolbar() {
         view?.findViewById<Toolbar>(R.id.toolbar_rank_container)?.apply {
@@ -188,10 +186,10 @@ class RankFragment : ParentFragment(),
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
             setOnClickListener {
-                openState?.tryInvoke { viewModel.onClickEnterAdd(simpleClick = true) }
+                parentOpen?.attempt { viewModel.onClickEnterAdd(simpleClick = true) }
             }
             setOnLongClickListener {
-                openState?.tryInvoke { viewModel.onClickEnterAdd(simpleClick = false) }
+                parentOpen?.attempt { viewModel.onClickEnterAdd(simpleClick = false) }
                 return@setOnLongClickListener true
             }
         }
@@ -200,12 +198,12 @@ class RankFragment : ParentFragment(),
         nameEnter?.apply {
             doOnTextChanged { _, _, _, _ -> viewModel.onUpdateToolbar() }
             setOnEditorActionListener { _, i, _ ->
-                val result = openState?.tryReturnInvoke { viewModel.onEditorClick(i) } ?: false
+                val result = parentOpen?.returnAttempt { viewModel.onEditorClick(i) } ?: false
 
                 /**
-                 * If item wasn't add need clear [openState].
+                 * If item wasn't add need clear [parentOpen].
                  */
-                if (!result) openState?.clear()
+                if (!result) parentOpen?.clear()
 
                 return@setOnEditorActionListener result
             }
@@ -238,7 +236,7 @@ class RankFragment : ParentFragment(),
     override fun setupDialog() {
         renameDialog.apply {
             onPositiveClick { viewModel.onResultRenameDialog(position, name) }
-            onDismiss { openState?.clear() }
+            onDismiss { parentOpen?.clear() }
         }
     }
 
@@ -314,7 +312,7 @@ class RankFragment : ParentFragment(),
 
 
     override fun onSnackbarAction() {
-        openState?.tryInvoke { viewModel.onSnackbarAction() }
+        parentOpen?.attempt { viewModel.onSnackbarAction() }
     }
 
     override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
@@ -329,7 +327,7 @@ class RankFragment : ParentFragment(),
     }
 
     override fun scrollToItem(list: MutableList<RankItem>, p: Int, simpleClick: Boolean) {
-        openState?.clear()
+        parentOpen?.clear()
 
         if (list.size == 1) {
             adapter.setList(list).notifyItemInserted(0)
