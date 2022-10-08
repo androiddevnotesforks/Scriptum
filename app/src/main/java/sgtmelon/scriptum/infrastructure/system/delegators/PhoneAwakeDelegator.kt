@@ -5,15 +5,15 @@ import android.os.PowerManager
 import sgtmelon.extensions.getPowerService
 
 /**
- * Class, which delegate work of [powerManager].
+ * Class, which delegate work of [manager].
  */
-class PhoneAwakeDelegator(context: Context?) {
+class PhoneAwakeDelegator(context: Context) {
 
-    private val powerManager = context?.getPowerService()
+    private val manager: PowerManager = context.getPowerService()
 
     private var wakeLock: PowerManager.WakeLock? = null
 
-    val isAwake: Boolean get() = powerManager?.isInteractive == true
+    val isAwake: Boolean get() = manager.isInteractive
 
     fun wakeUp(timeout: Long) {
         if (isAwake) return
@@ -22,7 +22,7 @@ class PhoneAwakeDelegator(context: Context?) {
                 PowerManager.ACQUIRE_CAUSES_WAKEUP or
                 PowerManager.ON_AFTER_RELEASE
 
-        wakeLock = powerManager?.newWakeLock(flags, TAG)
+        wakeLock = manager.newWakeLock(flags, TAG)
         wakeLock?.acquire(timeout)
     }
 

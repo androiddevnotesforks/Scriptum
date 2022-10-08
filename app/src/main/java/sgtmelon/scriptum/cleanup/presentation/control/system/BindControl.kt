@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.control.system
 
+import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.IntDef
@@ -16,9 +17,9 @@ import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Fac
 /**
  * Class for help control [NoteItem] notification bind in statusBar
  */
-class BindControl(private val context: Context?) : IBindControl {
+class BindControl(private val context: Context) : IBindControl {
 
-    private val manager = context?.getNotificationService()
+    private val manager: NotificationManager = context.getNotificationService()
 
     /**
      * Cached note list for binding in status bar.
@@ -55,7 +56,7 @@ class BindControl(private val context: Context?) : IBindControl {
             if (noteItemList.size > 1) {
                 val summaryNotification = Factory.Notes.getBindSummary(context)
 
-                manager?.notify(Tag.NOTE_GROUP, Id.NOTE_GROUP, summaryNotification)
+                manager.notify(Tag.NOTE_GROUP, Id.NOTE_GROUP, summaryNotification)
                 tagIdMap[Tag.NOTE_GROUP] = Id.NOTE_GROUP
             } else {
                 clearRecent(Tag.NOTE_GROUP)
@@ -65,7 +66,7 @@ class BindControl(private val context: Context?) : IBindControl {
         for (item in noteItemList.reversed()) {
             val id = item.id.toInt()
 
-            manager?.notify(Tag.NOTE, id, Factory.Notes[context, item])
+            manager.notify(Tag.NOTE, id, Factory.Notes[context, item])
             noteIdList.add(id)
         }
     }
@@ -82,13 +83,11 @@ class BindControl(private val context: Context?) : IBindControl {
     }
 
     override fun notifyCount(count: Int) {
-        if (context == null) return
-
         if (count != 0) {
-            manager?.notify(Tag.INFO, Id.INFO, Factory.Count[context, Id.INFO, count])
+            manager.notify(Tag.INFO, Id.INFO, Factory.Count[context, Id.INFO, count])
             tagIdMap[Tag.INFO] = Id.INFO
         } else {
-            manager?.cancel(Tag.INFO, Id.INFO)
+            manager.cancel(Tag.INFO, Id.INFO)
         }
     }
 
@@ -102,17 +101,17 @@ class BindControl(private val context: Context?) : IBindControl {
         when (tag) {
             Tag.NOTE -> {
                 for (id in noteIdList) {
-                    manager?.cancel(Tag.NOTE, id)
+                    manager.cancel(Tag.NOTE, id)
                 }
 
                 noteIdList.clear()
             }
             Tag.NOTE_GROUP, Tag.INFO -> {
-                manager?.cancel(tag, tagIdMap.getOrElse(tag) { return })
+                manager.cancel(tag, tagIdMap.getOrElse(tag) { return })
                 tagIdMap.remove(tag)
             }
             null -> {
-                manager?.cancelAll()
+                manager.cancelAll()
                 tagIdMap.clear()
             }
         }
@@ -144,7 +143,7 @@ class BindControl(private val context: Context?) : IBindControl {
     companion object {
         @RunPrivate var instance: IBindControl? = null
 
-        operator fun get(context: Context?): IBindControl {
+        operator fun get(context: Context): IBindControl {
             return instance ?: BindControl(context).also { instance = it }
         }
     }

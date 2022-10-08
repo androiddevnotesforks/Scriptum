@@ -30,12 +30,12 @@ fun Dialog.showKeyboard() = apply {
 
 // TODO work with flag
 fun View.showKeyboard() {
-    context.getInputService()?.showSoftInput(this, 0)
+    context.getInputService().showSoftInput(this, 0)
 }
 
 // TODO work with flag
 fun Activity.hideKeyboard() {
-    getInputService()?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    getInputService().hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 }
 
 

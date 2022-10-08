@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.control.system
 
 import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import androidx.annotation.MainThread
 import sgtmelon.extensions.getClipboardService
@@ -12,16 +13,14 @@ import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
  * Class for help control clipboard
  */
 class ClipboardControl(
-    private val context: Context?,
+    private val context: Context,
     private val toast: ToastDelegator
 ) : IClipboardControl {
 
-    private val manager = context?.getClipboardService()
+    private val manager: ClipboardManager = context.getClipboardService()
 
     override fun copy(text: String) {
-        val context = context ?: return
-
-        manager?.let {
+        manager.let {
             val clipData = ClipData.newPlainText(context.getString(R.string.clipboard_label), text)
             it.setPrimaryClip(clipData)
 
@@ -34,11 +33,5 @@ class ClipboardControl(
      */
     interface Bridge {
         @MainThread fun copyClipboard(text: String)
-    }
-
-    companion object {
-        operator fun get(context: Context?, toast: ToastDelegator): IClipboardControl {
-            return ClipboardControl(context, toast)
-        }
     }
 }
