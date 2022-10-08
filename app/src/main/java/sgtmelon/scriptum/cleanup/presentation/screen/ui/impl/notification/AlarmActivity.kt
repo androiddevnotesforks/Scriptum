@@ -16,10 +16,10 @@ import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.setMarginInsets
-import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
+import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
@@ -74,7 +74,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     private val dialogs by lazy { DialogFactory.Alarm(fm = fm) }
     private val repeatDialog by lazy { dialogs.getRepeatDialog() }
 
-    private val adapter = NoteAdapter(object : NoteItemClickCallback {
+    private val adapter = NoteAdapter(object : NoteClickListener {
         override fun onItemClick(item: NoteItem) = openNoteScreen(item)
         override fun onItemLongClick(item: NoteItem, p: Int) = Unit
     })

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.callback
+package sgtmelon.scriptum.infrastructure.adapter.callback
 
 /**
  * Need copy list inside implementation. Because if you pass same list (without copy) and update

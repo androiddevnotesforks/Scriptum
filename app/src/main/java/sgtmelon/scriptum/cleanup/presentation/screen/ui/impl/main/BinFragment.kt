@@ -16,14 +16,14 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.tintIcon
-import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
+import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
@@ -44,7 +44,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     private val clearBinDialog by lazy { dialogs.getClearBinDialog() }
 
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(object : NoteItemClickCallback {
+        NoteAdapter(object : NoteClickListener {
             override fun onItemClick(item: NoteItem) {
                 parentOpen?.attempt { openNoteScreen(item) }
             }

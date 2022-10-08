@@ -1,13 +1,13 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter
+package sgtmelon.scriptum.infrastructure.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NotifyAdapterCallback
-import sgtmelon.scriptum.cleanup.presentation.adapter.callback.UnbindCallback
+import sgtmelon.scriptum.infrastructure.adapter.callback.NotifyAdapterCallback
+import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 
 /**
- * More stylish version of [ListAdapter] :D
+ * More stylish version of [ListAdapter] :D.
  */
 abstract class ParentListAdapter<T, VH : RecyclerView.ViewHolder>(
     diffCallback: DiffUtil.ItemCallback<T>

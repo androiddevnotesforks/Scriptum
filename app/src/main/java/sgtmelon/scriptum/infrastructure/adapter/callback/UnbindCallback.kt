@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.callback
+package sgtmelon.scriptum.infrastructure.adapter.callback
 
 import androidx.recyclerview.widget.RecyclerView
 

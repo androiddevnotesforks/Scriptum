@@ -18,8 +18,6 @@ import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.tintIcon
-import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.cleanup.presentation.adapter.callback.NoteItemClickCallback
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -27,6 +25,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
+import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
@@ -56,7 +56,7 @@ class NotesFragment : ParentFragment(),
     private val timeDialog by lazy { dialogs.getTimeDialog() }
 
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(object : NoteItemClickCallback {
+        NoteAdapter(object : NoteClickListener {
             override fun onItemClick(item: NoteItem) {
                 parentOpen?.attempt { openNoteScreen(item) }
             }

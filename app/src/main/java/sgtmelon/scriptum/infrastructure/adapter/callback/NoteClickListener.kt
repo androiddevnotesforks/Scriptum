@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.callback
+package sgtmelon.scriptum.infrastructure.adapter.callback
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 
 /**
  * Callback for catch note events.
  */
-interface NoteItemClickCallback {
+interface NoteClickListener {
 
     fun onItemClick(item: NoteItem)
 
