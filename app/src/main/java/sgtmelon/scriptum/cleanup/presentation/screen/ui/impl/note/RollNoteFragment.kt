@@ -46,7 +46,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.IToolbarTintC
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
@@ -56,6 +55,7 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling

@@ -22,7 +22,6 @@ import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding
@@ -30,6 +29,7 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling

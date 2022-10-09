@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui
+package sgtmelon.scriptum.infrastructure.screen.parent
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentActivity
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
