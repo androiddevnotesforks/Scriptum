@@ -8,8 +8,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.getSiteIntent
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 
 /**
  * Fragment of help preferences.

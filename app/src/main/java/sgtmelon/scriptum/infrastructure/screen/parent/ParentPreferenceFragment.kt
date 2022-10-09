@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui
+package sgtmelon.scriptum.infrastructure.screen.parent
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir

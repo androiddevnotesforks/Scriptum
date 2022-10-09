@@ -16,11 +16,11 @@ import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.getSettingsIntent
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 
