@@ -4,16 +4,16 @@ import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.getSettingsIntent
 import sgtmelon.scriptum.cleanup.extension.getSiteIntent
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.extension.tintIcon
-import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.databinding.ActivityHelpDisappearBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
+import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.updateMargin
 
 /**
  * Screen with help about disappearing notifications

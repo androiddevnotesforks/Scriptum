@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.extension
+package sgtmelon.scriptum.infrastructure.utils
 
 import android.animation.ValueAnimator
 import android.graphics.Rect
@@ -17,7 +17,7 @@ fun View.addSystemInsetsPadding(
 ) {
     if (targetView == null) return
 
-    val initialPadding = recordInitialPadding(targetView)
+    val initialPadding = getInitialPadding(targetView)
     doOnApplyWindowInsets { _, insets, _, _, _ ->
         targetView.updatePadding(dir, insets, initialPadding)
 
@@ -30,9 +30,9 @@ fun View.addSystemInsetsPadding(
 }
 
 /**
- * [this] - это должен быть viewGroup
- * [targetView] - view для которой в первую очередь применяется inset
- * [withRemove] - определяет, будет ли затёрт нужный inset после пременения
+ * [this] - must be viewGroup
+ * [targetView] - view, for which need apply insets first.
+ * [withRemove] - describes, will be cleared needed insets after apply or not.
  */
 fun View.addSystemInsetsMargin(
     dir: InsetsDir,
@@ -41,7 +41,7 @@ fun View.addSystemInsetsMargin(
 ) {
     if (targetView == null) return
 
-    val initialMargin = recordInitialMargin(targetView) ?: return
+    val initialMargin = getInitialMargin(targetView) ?: return
     doOnApplyWindowInsets { _, insets, _, _, _ ->
         targetView.updateMargin(dir, insets, initialMargin)
 
@@ -62,8 +62,8 @@ inline fun View.doOnApplyWindowInsets(
         margin: Rect?
     ) -> WindowInsetsCompat
 ) {
-    val initialPadding = recordInitialPadding(this)
-    val initialMargin = recordInitialMargin(this)
+    val initialPadding = getInitialPadding(view = this)
+    val initialMargin = getInitialMargin(view = this)
 
     /**
      * Variable for detect fist applying of insets.
@@ -87,11 +87,11 @@ fun View.removeWindowInsetsListener() {
     ViewCompat.setOnApplyWindowInsetsListener(this, null)
 }
 
-fun recordInitialPadding(view: View): Rect {
+fun getInitialPadding(view: View): Rect {
     return Rect(view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom)
 }
 
-fun recordInitialMargin(view: View): Rect? {
+fun getInitialMargin(view: View): Rect? {
     val params = view.layoutParams as? ViewGroup.MarginLayoutParams ?: return null
 
     return Rect(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin)
@@ -132,7 +132,7 @@ fun View.updatePadding(dir: InsetsDir, insets: WindowInsetsCompat, padding: Rect
     InsetsDir.BOTTOM -> updatePadding(bottom = padding.bottom + insets.systemWindowInsetBottom)
 }
 
-fun View.updatePadding(
+private fun View.updatePadding(
     left: Int = paddingLeft,
     top: Int = paddingTop,
     right: Int = paddingRight,

@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui
 import android.os.Bundle
 import android.view.View
 import androidx.preference.PreferenceFragmentCompat
-import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**

@@ -7,10 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.initLazy
-import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
@@ -22,6 +19,9 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
+import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.updateMargin
 
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].

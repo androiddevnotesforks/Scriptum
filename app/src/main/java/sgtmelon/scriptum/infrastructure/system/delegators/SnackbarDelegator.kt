@@ -7,8 +7,8 @@ import com.google.android.material.snackbar.Snackbar
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 
 class SnackbarDelegator(
     @StringRes private val messageId: Int,

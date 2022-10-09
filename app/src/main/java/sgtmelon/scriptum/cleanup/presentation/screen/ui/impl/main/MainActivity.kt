@@ -16,11 +16,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.addSystemInsetsMargin
-import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
-import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
@@ -32,6 +28,10 @@ import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
+import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.addSystemInsetsMargin
+import sgtmelon.scriptum.infrastructure.utils.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.updateMargin
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
 

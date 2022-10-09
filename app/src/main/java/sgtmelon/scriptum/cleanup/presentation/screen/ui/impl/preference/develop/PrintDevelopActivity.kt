@@ -8,17 +8,17 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
-import sgtmelon.scriptum.cleanup.extension.InsetsDir
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
-import sgtmelon.scriptum.cleanup.extension.setMarginInsets
-import sgtmelon.scriptum.cleanup.extension.setPaddingInsets
 import sgtmelon.scriptum.cleanup.presentation.adapter.PrintAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
+import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**
