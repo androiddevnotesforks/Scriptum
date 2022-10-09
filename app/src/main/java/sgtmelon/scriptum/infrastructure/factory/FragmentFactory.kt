@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.factory
+package sgtmelon.scriptum.infrastructure.factory
 
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
