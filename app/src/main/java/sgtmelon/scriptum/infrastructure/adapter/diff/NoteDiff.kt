@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.diff
+package sgtmelon.scriptum.infrastructure.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 
 /**
- * Diff for [NoteAdapter]
+ * Diff for [NoteAdapter].
  */
 class NoteDiff : DiffUtil.ItemCallback<NoteItem>() {
 
