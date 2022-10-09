@@ -43,12 +43,12 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
         setupRecycler()
     }
 
+    abstract fun inject(component: ScriptumComponent)
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         open.save(outState)
     }
-
-    abstract fun inject(component: ScriptumComponent)
 
     /**
      * Setup spaces from android bars and other staff for current screen.

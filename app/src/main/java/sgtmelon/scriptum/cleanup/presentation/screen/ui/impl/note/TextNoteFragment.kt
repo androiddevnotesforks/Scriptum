@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -14,6 +13,7 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
@@ -28,7 +28,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIco
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.IToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
@@ -38,19 +37,18 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
 
 /**
  * Fragment for display text note.
  */
-class TextNoteFragment : ParentFragment(),
+class TextNoteFragment : ParentFragment<FragmentTextNoteBinding>(),
     ITextNoteFragment,
     UnbindNoteReceiver.Callback,
     IconBlockCallback {
 
-    private var binding: FragmentTextNoteBinding? = null
+    override val layoutId: Int = R.layout.fragment_text_note
 
     @Inject lateinit var viewModel: ITextNoteViewModel
 
@@ -73,17 +71,6 @@ class TextNoteFragment : ParentFragment(),
     private var textEnter: EditText? = null
     private var panelContainer: ViewGroup? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        binding = inflater.inflateBinding(R.layout.fragment_text_note, container)
-
-        ScriptumApplication.component.getTextNoteBuilder().set(fragment = this).build()
-                .inject(fragment = this)
-
-        return binding?.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -91,6 +78,12 @@ class TextNoteFragment : ParentFragment(),
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
     }
 
+    override fun inject(component: ScriptumComponent) {
+        component.getTextNoteBuilder()
+            .set(fragment = this)
+            .build()
+            .inject(fragment = this)
+    }
 
     private fun setupView(view: View) {
         parentContainer = view.findViewById(R.id.text_note_parent_container)

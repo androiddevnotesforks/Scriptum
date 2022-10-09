@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
@@ -25,17 +24,16 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**
  * Fragment which displays list of deleted notes - [NoteItem].
  */
-class BinFragment : ParentFragment(), IBinFragment {
+class BinFragment : ParentFragment<FragmentBinBinding>(), IBinFragment {
+
+    override val layoutId: Int = R.layout.fragment_bin
 
     //region Variables
-
-    private var binding: FragmentBinBinding? = null
 
     @Inject lateinit var viewModel: IBinViewModel
 
@@ -71,21 +69,16 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     //region System
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = inflater.inflateBinding(R.layout.fragment_bin, container)
-
-        ScriptumApplication.component.getBinBuilder().set(fragment = this).build()
-            .inject(fragment = this)
-
-        return binding?.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onSetup()
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getBinBuilder()
+            .set(fragment = this)
+            .build()
+            .inject(fragment = this)
     }
 
     override fun onResume() {

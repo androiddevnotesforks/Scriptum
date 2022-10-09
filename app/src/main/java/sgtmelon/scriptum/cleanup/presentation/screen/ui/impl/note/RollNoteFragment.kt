@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,7 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
@@ -47,7 +47,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintCo
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
@@ -57,7 +56,6 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
@@ -65,13 +63,13 @@ import sgtmelon.test.idling.getIdling
 /**
  * Fragment for display roll note.
  */
-class RollNoteFragment : ParentFragment(),
+class RollNoteFragment : ParentFragment<FragmentRollNoteBinding>(),
     IRollNoteFragment,
     Toolbar.OnMenuItemClickListener,
     UnbindNoteReceiver.Callback,
     IconBlockCallback {
 
-    private var binding: FragmentRollNoteBinding? = null
+    override val layoutId: Int = R.layout.fragment_roll_note
 
     @Inject lateinit var viewModel: IRollNoteViewModel
 
@@ -124,23 +122,18 @@ class RollNoteFragment : ParentFragment(),
 
     private var visibleMenuItem: MenuItem? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = inflater.inflateBinding(R.layout.fragment_roll_note, container)
-
-        ScriptumApplication.component.getRollNoteBuilder().set(fragment = this).build()
-            .inject(fragment = this)
-
-        return binding?.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupView(view)
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getRollNoteBuilder()
+            .set(fragment = this)
+            .build()
+            .inject(fragment = this)
     }
 
     private fun setupView(view: View) {

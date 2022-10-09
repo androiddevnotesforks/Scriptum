@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
@@ -11,6 +10,7 @@ import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
@@ -19,7 +19,6 @@ import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
@@ -31,22 +30,21 @@ import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
 
 /**
  * Fragment which displays list of notes - [NoteItem].
  */
-class NotesFragment : ParentFragment(),
+class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     INotesFragment,
     UnbindNoteReceiver.Callback {
+
+    override val layoutId: Int = R.layout.fragment_notes
 
     //region Variables
 
     // TODO separate callback (only for work with fab)
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
-
-    private var binding: FragmentNotesBinding? = null
 
     @Inject lateinit var viewModel: INotesViewModel
 
@@ -83,21 +81,16 @@ class NotesFragment : ParentFragment(),
 
     //region System
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = inflater.inflateBinding(R.layout.fragment_notes, container)
-
-        ScriptumApplication.component.getNotesBuilder().set(fragment = this).build()
-            .inject(fragment = this)
-
-        return binding?.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onSetup()
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getNotesBuilder()
+            .set(fragment = this)
+            .build()
+            .inject(fragment = this)
     }
 
     override fun onResume() {

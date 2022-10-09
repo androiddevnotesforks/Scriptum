@@ -1,16 +1,28 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentActivity
+import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
  * Parent class for fragments.
  */
-abstract class ParentFragment : Fragment() {
+abstract class ParentFragment<T : ViewDataBinding> : Fragment() {
+
+    @get:LayoutRes
+    abstract val layoutId: Int
+
+    private var _binding: T? = null
+    protected val binding: T? get() = _binding
 
     protected val fm get() = parentFragmentManager
 
@@ -19,6 +31,16 @@ abstract class ParentFragment : Fragment() {
 
     protected val open: OpenState = OpenState(lifecycle)
     protected val parentOpen: OpenState? get() = (activity as? ParentActivity<*>)?.open
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding = inflater.inflateBinding<T>(layoutId, container).also { _binding = it }
+        inject(ScriptumApplication.component)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,4 +54,7 @@ abstract class ParentFragment : Fragment() {
         super.onSaveInstanceState(outState)
         open.save(outState)
     }
+
+    abstract fun inject(component: ScriptumComponent)
+
 }
