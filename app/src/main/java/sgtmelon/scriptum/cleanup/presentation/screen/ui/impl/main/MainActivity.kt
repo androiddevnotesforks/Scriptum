@@ -21,6 +21,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowCon
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.databinding.ActivityMainBinding
+import sgtmelon.scriptum.infrastructure.dialogs.data.AddSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
@@ -136,7 +137,10 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         binding?.menuNavigation?.selectedItemId = itemId
 
         addDialog.apply {
-            onItemSelected(owner = this@MainActivity) { viewModel.onResultAddDialog(it.itemId) }
+            onItemSelected(owner = this@MainActivity) {
+                val type = AddSheetData().convert(itemId) ?: return@onItemSelected
+                openNoteScreen(type)
+            }
             onDismiss { open.clear() }
         }
     }
@@ -157,9 +161,11 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         }
     }
 
-
+    /**
+     * Change FAB state consider on current page.
+     */
     override fun onFabStateChange(isVisible: Boolean, withGap: Boolean) {
-        viewModel.onFabStateChange(isVisible, withGap)
+        changeFabVisible(isVisible = isVisible && viewModel.isStartPage, withGap)
     }
 
     override fun changeFabVisible(isVisible: Boolean, withGap: Boolean) {
@@ -219,7 +225,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         return this
     }
 
-    override fun openNoteScreen(noteType: NoteType) = open.attempt {
+    private fun openNoteScreen(noteType: NoteType) = open.attempt {
         startActivity(InstanceFactory.Note[this, noteType.ordinal])
     }
 

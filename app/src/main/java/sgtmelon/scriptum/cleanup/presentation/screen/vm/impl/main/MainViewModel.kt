@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
-import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
@@ -23,6 +22,8 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
     @RunPrivate var isFirstStart: Boolean = true
 
     @RunPrivate var pageFrom: MainPage = START_PAGE
+
+    override val isStartPage: Boolean get() = pageFrom == START_PAGE
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle != null) {
@@ -78,23 +79,6 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
             R.id.item_page_bin -> MainPage.BIN
             else -> null
         }
-    }
-
-    /**
-     * Change FAB state consider on [pageFrom].
-     */
-    override fun onFabStateChange(isVisible: Boolean, withGap: Boolean) {
-        callback?.changeFabVisible(isVisible = isVisible && pageFrom.isStartPage(), withGap)
-    }
-
-    override fun onResultAddDialog(@IdRes itemId: Int) {
-        callback?.openNoteScreen(noteType = getTypeById(itemId) ?: return)
-    }
-
-    private fun getTypeById(@IdRes itemId: Int): NoteType? = when (itemId) {
-        R.id.item_add_text -> NoteType.TEXT
-        R.id.item_add_roll -> NoteType.ROLL
-        else -> null
     }
 
     private fun MainPage.isStartPage() = this == START_PAGE

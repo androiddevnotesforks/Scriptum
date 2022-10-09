@@ -11,12 +11,10 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
  */
 interface IMainViewModel : IParentViewModel {
 
+    val isStartPage: Boolean
+
     fun onSaveData(bundle: Bundle)
 
     fun onSelectItem(@IdRes itemId: Int)
-
-    fun onFabStateChange(isVisible: Boolean, withGap: Boolean)
-
-    fun onResultAddDialog(@IdRes itemId: Int)
 
 }

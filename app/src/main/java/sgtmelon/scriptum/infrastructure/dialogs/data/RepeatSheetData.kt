@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.dialogs.data
 
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.model.exception.InvalidIdException
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.utils.record
 
@@ -18,7 +19,7 @@ class RepeatSheetData {
         }
 
         if (repeat == null) {
-            NullPointerException("Not found itemId case for converting.").record()
+            InvalidIdException().record()
         }
 
         return repeat
