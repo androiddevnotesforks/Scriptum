@@ -48,10 +48,10 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
 
-    private val fragmentFactory = FragmentFactory.Main(fm)
-    private val rankFragment by lazy { fragmentFactory.getRankFragment() }
-    private val notesFragment by lazy { fragmentFactory.getNotesFragment() }
-    private val binFragment by lazy { fragmentFactory.getBinFragment() }
+    private val fragments = FragmentFactory.Main(fm)
+    private val rankFragment by lazy { fragments.getRank() }
+    private val notesFragment by lazy { fragments.getNotes() }
+    private val binFragment by lazy { fragments.getBin() }
 
     private val addDialog by lazy { DialogFactory.Main(context = this, fm).getAdd() }
 
@@ -238,7 +238,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
         MainPage.BIN -> binFragment
     }
 
-    @FragmentFactory.Main.Tag
     private fun MainPage.getFragmentTag(): String = when (this) {
         MainPage.RANK -> FragmentFactory.Main.Tag.RANK
         MainPage.NOTES -> FragmentFactory.Main.Tag.NOTES
@@ -246,7 +245,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     }
 
     /**
-     * Func return was [MotionEvent] happen on [view]
+     * Func return was [MotionEvent] happen on [view].
      */
     private fun MotionEvent?.onView(view: View?): Boolean {
         if (view == null || this == null) return false

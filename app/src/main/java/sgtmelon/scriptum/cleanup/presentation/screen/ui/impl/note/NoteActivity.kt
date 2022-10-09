@@ -44,9 +44,9 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         HolderTintControl[this, window, binding?.toolbarHolder]
     }
 
-    private val fragmentFactory = FragmentFactory.Note(fm)
-    private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
-    private val rollNoteFragment get() = fragmentFactory.getRollNoteFragment()
+    private val fragments = FragmentFactory.Note(fm)
+    private val textNoteFragment get() = fragments.getTextNote()
+    private val rollNoteFragment get() = fragments.getRollNote()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
 
@@ -108,20 +108,13 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     }
 
     override fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
-        showFragment(FragmentFactory.Note.Tag.TEXT, if (checkCache) {
-            textNoteFragment ?: TextNoteFragment[id, color]
-        } else {
-            TextNoteFragment[id, color]
-        })
+        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment[id, color]
+        showFragment(fragment, FragmentFactory.Note.Tag.TEXT)
     }
 
     override fun showRollFragment(id: Long, color: Color, checkCache: Boolean) {
-        showFragment(FragmentFactory.Note.Tag.ROLL, if (checkCache) {
-            rollNoteFragment ?: RollNoteFragment[id, color]
-        } else {
-            RollNoteFragment[id, color]
-        }
-        )
+        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragment[id, color]
+        showFragment(fragment, FragmentFactory.Note.Tag.ROLL)
     }
 
     override fun onPressBackText() = textNoteFragment?.onPressBack() ?: false
@@ -145,13 +138,13 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     //endregion
 
-    private fun showFragment(@FragmentFactory.Note.Tag key: String, fragment: Fragment) {
+    private fun showFragment(fragment: Fragment, tag: String) {
         holderShowControl.display()
 
         lifecycleScope.launchWhenResumed {
             fm.beginTransaction()
                 .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
-                .replace(R.id.fragment_container, fragment, key)
+                .replace(R.id.fragment_container, fragment, tag)
                 .commit()
         }
     }

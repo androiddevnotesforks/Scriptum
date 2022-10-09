@@ -31,22 +31,17 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
 
     private var screen: PreferenceScreen? = null
-
-    //region Fragment
-
-    private val fragmentFactory = FragmentFactory.Preference(fm)
-
-    private val tag by lazy { fragmentFactory.getTag(screen) }
-    private val fragment by lazy { fragmentFactory.getFragment(screen) }
-
-    //endregion
+    private val fragmentPair by lazy { FragmentFactory.Preference(fm).get(screen) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val bundle = savedInstanceState ?: intent.extras
         val typeOrdinal = bundle?.getInt(Preference.Intent.SCREEN, Default.SCREEN) ?: Default.SCREEN
-        screen = PreferenceScreen.values().getOrNull(typeOrdinal) ?: return
+        screen = PreferenceScreen.values().getOrNull(typeOrdinal) ?: run {
+            finish()
+            return
+        }
 
         setupView()
         showFragment()
@@ -93,8 +88,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
     }
 
     private fun showFragment() {
-        val tag = tag ?: return
-        val fragment = fragment ?: return
+        val (fragment, tag) = fragmentPair ?: return
 
         lifecycleScope.launchWhenResumed {
             fm.beginTransaction()

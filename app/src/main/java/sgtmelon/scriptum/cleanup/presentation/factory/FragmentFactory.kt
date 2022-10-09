@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.factory
 
-import androidx.annotation.StringDef
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.extension.getFragmentByTag
@@ -25,57 +24,53 @@ object FragmentFactory {
 
     class Note(private val fm: FragmentManager) {
 
-        fun getTextNoteFragment(): TextNoteFragment? = fm.getFragmentByTag(Tag.TEXT)
+        fun getTextNote(): TextNoteFragment? = fm.getFragmentByTag(Tag.TEXT)
 
-        fun getRollNoteFragment(): RollNoteFragment? = fm.getFragmentByTag(Tag.ROLL)
+        fun getRollNote(): RollNoteFragment? = fm.getFragmentByTag(Tag.ROLL)
 
-        @StringDef(Tag.TEXT, Tag.ROLL)
-        annotation class Tag {
-            companion object {
-                private const val PREFIX = "FRAGMENT_NOTE"
-
-                const val TEXT = "${PREFIX}_TEXT"
-                const val ROLL = "${PREFIX}_ROLL"
-            }
+        object Tag {
+            private const val PREFIX = "FRAGMENT_NOTE"
+            const val TEXT = "${PREFIX}_TEXT"
+            const val ROLL = "${PREFIX}_ROLL"
         }
     }
 
     class Main(private val fm: FragmentManager) {
 
-        fun getRankFragment(): RankFragment = fm.getFragmentByTag(Tag.RANK) ?: RankFragment()
+        fun getRank(): RankFragment = fm.getFragmentByTag(Tag.RANK) ?: RankFragment()
 
-        fun getNotesFragment(): NotesFragment = fm.getFragmentByTag(Tag.NOTES) ?: NotesFragment()
+        fun getNotes(): NotesFragment = fm.getFragmentByTag(Tag.NOTES) ?: NotesFragment()
 
-        fun getBinFragment(): BinFragment = fm.getFragmentByTag(Tag.BIN) ?: BinFragment()
+        fun getBin(): BinFragment = fm.getFragmentByTag(Tag.BIN) ?: BinFragment()
 
-        @StringDef(Tag.RANK, Tag.NOTES, Tag.BIN)
-        annotation class Tag {
-            companion object {
-                private const val PREFIX = "FRAGMENT_MAIN"
-
-                const val RANK = "${PREFIX}_RANK"
-                const val NOTES = "${PREFIX}_NOTES"
-                const val BIN = "${PREFIX}_BIN"
-            }
+        object Tag {
+            private const val PREFIX = "FRAGMENT_MAIN"
+            const val RANK = "${PREFIX}_RANK"
+            const val NOTES = "${PREFIX}_NOTES"
+            const val BIN = "${PREFIX}_BIN"
         }
     }
 
     class Preference(private val fm: FragmentManager) {
 
-        fun getFragment(screen: PreferenceScreen?): ParentPreferenceFragment? {
-            return when (screen) {
-                PreferenceScreen.PREFERENCE -> getPreferenceFragment()
-                PreferenceScreen.BACKUP -> getBackupFragment()
-                PreferenceScreen.NOTE -> getNoteFragment()
-                PreferenceScreen.ALARM -> getAlarmFragment()
-                PreferenceScreen.HELP -> getHelpFragment()
-                PreferenceScreen.DEVELOP -> getDevelopFragment()
-                PreferenceScreen.SERVICE -> getServiceFragment()
-                null -> null
+        fun get(screen: PreferenceScreen?): Pair<ParentPreferenceFragment, String>? {
+            if (screen == null) return null
+
+            val tag = getTag(screen)
+            val fragment: ParentPreferenceFragment = fm.getFragmentByTag(tag) ?: when (screen) {
+                PreferenceScreen.PREFERENCE -> PreferenceFragment()
+                PreferenceScreen.BACKUP -> BackupPreferenceFragment()
+                PreferenceScreen.NOTE -> NotePreferenceFragment()
+                PreferenceScreen.ALARM -> AlarmPreferenceFragment()
+                PreferenceScreen.HELP -> HelpPreferenceFragment()
+                PreferenceScreen.DEVELOP -> DevelopFragment()
+                PreferenceScreen.SERVICE -> ServiceDevelopFragment()
             }
+
+            return fragment to tag
         }
 
-        fun getTag(screen: PreferenceScreen?): String? {
+        private fun getTag(screen: PreferenceScreen): String {
             return when (screen) {
                 PreferenceScreen.PREFERENCE -> Tag.PREF
                 PreferenceScreen.BACKUP -> Tag.BACKUP
@@ -84,51 +79,18 @@ object FragmentFactory {
                 PreferenceScreen.HELP -> Tag.HELP
                 PreferenceScreen.DEVELOP -> Tag.DEVELOP
                 PreferenceScreen.SERVICE -> Tag.SERVICE
-                null -> null
             }
         }
 
-        private fun getPreferenceFragment(): PreferenceFragment {
-            return fm.getFragmentByTag(Tag.PREF) ?: PreferenceFragment()
-        }
-
-        private fun getBackupFragment(): BackupPreferenceFragment {
-            return fm.getFragmentByTag(Tag.BACKUP) ?: BackupPreferenceFragment()
-        }
-
-        private fun getNoteFragment(): NotePreferenceFragment {
-            return fm.getFragmentByTag(Tag.NOTE) ?: NotePreferenceFragment()
-        }
-
-        private fun getAlarmFragment(): AlarmPreferenceFragment {
-            return fm.getFragmentByTag(Tag.ALARM) ?: AlarmPreferenceFragment()
-        }
-
-        private fun getHelpFragment(): HelpPreferenceFragment {
-            return fm.getFragmentByTag(Tag.HELP) ?: HelpPreferenceFragment()
-        }
-
-        private fun getDevelopFragment(): DevelopFragment {
-            return fm.getFragmentByTag(Tag.DEVELOP) ?: DevelopFragment()
-        }
-
-        private fun getServiceFragment(): ServiceDevelopFragment {
-            return fm.getFragmentByTag(Tag.SERVICE) ?: ServiceDevelopFragment()
-        }
-
-        @StringDef(Tag.PREF, Tag.BACKUP, Tag.NOTE, Tag.ALARM, Tag.HELP, Tag.DEVELOP, Tag.SERVICE)
-        annotation class Tag {
-            companion object {
-                private const val PREFIX = "FRAGMENT_PREFERENCE"
-
-                const val PREF = "${PREFIX}_PREF"
-                const val BACKUP = "${PREFIX}_BACKUP"
-                const val NOTE = "${PREFIX}_NOTE"
-                const val ALARM = "${PREFIX}_ALARM"
-                const val HELP = "${PREFIX}_HELP"
-                const val DEVELOP = "${PREFIX}_DEVELOP"
-                const val SERVICE = "${PREFIX}_SERVICE"
-            }
+        object Tag {
+            private const val PREFIX = "FRAGMENT_PREFERENCE"
+            const val PREF = "${PREFIX}_PREF"
+            const val BACKUP = "${PREFIX}_BACKUP"
+            const val NOTE = "${PREFIX}_NOTE"
+            const val ALARM = "${PREFIX}_ALARM"
+            const val HELP = "${PREFIX}_HELP"
+            const val DEVELOP = "${PREFIX}_DEVELOP"
+            const val SERVICE = "${PREFIX}_SERVICE"
         }
     }
 }
