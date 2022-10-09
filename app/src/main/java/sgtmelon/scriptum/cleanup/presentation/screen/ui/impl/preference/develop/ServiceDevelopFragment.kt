@@ -3,12 +3,13 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
@@ -22,6 +23,8 @@ import sgtmelon.textDotAnim.DotAnimation
 class ServiceDevelopFragment : ParentPreferenceFragment(),
     IServiceDevelopFragment,
     DotAnimation.Callback {
+
+    override val xmlId: Int = R.xml.preference_service
 
     @Inject lateinit var viewModel: IServiceDevelopViewModel
 
@@ -41,19 +44,18 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     //region System
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_service, rootKey)
-
-        ScriptumApplication.component.getServiceBuilder().set(fragment = this).build()
-            .inject(fragment = this)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel.onSetup()
         context?.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.DEVELOP))
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getServiceBuilder()
+            .set(fragment = this)
+            .build()
+            .inject(fragment = this)
     }
 
     override fun onDestroy() {

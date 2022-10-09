@@ -17,8 +17,8 @@ abstract class ParentFragment : Fragment() {
     private lateinit var delegatorFactory: DelegatorFactory
     protected val delegators get() = delegatorFactory
 
-    protected val parentOpen: OpenState? get() = (activity as? ParentActivity<*>)?.open
     protected val open: OpenState = OpenState(lifecycle)
+    protected val parentOpen: OpenState? get() = (activity as? ParentActivity<*>)?.open
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

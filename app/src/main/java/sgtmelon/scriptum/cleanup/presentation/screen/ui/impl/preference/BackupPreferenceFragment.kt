@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.Manifest
 import android.os.Build
-import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.preference.Preference
@@ -10,6 +9,7 @@ import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
@@ -17,7 +17,6 @@ import sgtmelon.scriptum.cleanup.extension.getSettingsIntent
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -31,6 +30,8 @@ import sgtmelon.textDotAnim.DotAnimation
 class BackupPreferenceFragment : ParentPreferenceFragment(),
     IBackupPreferenceFragment,
     DotAnimation.Callback {
+
+    override val xmlId: Int = R.xml.preference_backup
 
     @Inject lateinit var viewModel: IBackupPreferenceViewModel
 
@@ -58,10 +59,10 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //region System
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_backup, rootKey)
-
-        ScriptumApplication.component.getBackupPrefBuilder().set(fragment = this).build()
+    override fun inject(component: ScriptumComponent) {
+        component.getBackupPrefBuilder()
+            .set(fragment = this)
+            .build()
             .inject(fragment = this)
     }
 

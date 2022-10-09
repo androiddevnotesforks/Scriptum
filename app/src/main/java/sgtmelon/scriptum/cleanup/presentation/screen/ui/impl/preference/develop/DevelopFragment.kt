@@ -1,14 +1,15 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
@@ -18,6 +19,8 @@ import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
  */
 class DevelopFragment : ParentPreferenceFragment(),
     IDevelopFragment {
+
+    override val xmlId: Int = R.xml.preference_develop
 
     @Inject lateinit var viewModel: IDevelopViewModel
 
@@ -44,17 +47,16 @@ class DevelopFragment : ParentPreferenceFragment(),
 
     //region System
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_develop, rootKey)
-
-        ScriptumApplication.component.getDevelopBuilder().set(fragment = this).build()
-            .inject(fragment = this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.onSetup()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.onSetup()
+    override fun inject(component: ScriptumComponent) {
+        component.getDevelopBuilder()
+            .set(fragment = this)
+            .build()
+            .inject(fragment = this)
     }
 
     override fun onDestroy() {

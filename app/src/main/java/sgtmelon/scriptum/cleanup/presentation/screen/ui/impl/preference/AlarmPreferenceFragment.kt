@@ -5,19 +5,20 @@ import android.content.DialogInterface
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
@@ -33,6 +34,8 @@ import sgtmelon.textDotAnim.DotAnimation
 class AlarmPreferenceFragment : ParentPreferenceFragment(),
     IAlarmPreferenceFragment,
     DotAnimation.Callback {
+
+    override val xmlId: Int = R.xml.preference_alarm
 
     @Inject lateinit var viewModel: IAlarmPreferenceViewModel
 
@@ -69,18 +72,17 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //region System
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_alarm, rootKey)
-
-        ScriptumApplication.component.getAlarmPrefBuilder().set(fragment = this).build()
-            .inject(fragment = this)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         melodyPlay.initLazy()
+    }
+
+    override fun inject(component: ScriptumComponent) {
+        component.getAlarmPrefBuilder()
+            .set(fragment = this)
+            .build()
+            .inject(fragment = this)
     }
 
     override fun onResume() {

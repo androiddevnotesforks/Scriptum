@@ -1,12 +1,11 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
-import android.os.Bundle
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -18,6 +17,8 @@ import sgtmelon.scriptum.infrastructure.model.key.Sort
  * Fragment of note preferences.
  */
 class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragment {
+
+    override val xmlId: Int = R.xml.preference_note
 
     @Inject lateinit var viewModel: INotePreferenceViewModel
 
@@ -41,10 +42,10 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     //region System
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_note, rootKey)
-
-        ScriptumApplication.component.getNotePrefBuilder().set(fragment = this).build()
+    override fun inject(component: ScriptumComponent) {
+        component.getNotePrefBuilder()
+            .set(fragment = this)
+            .build()
             .inject(fragment = this)
     }
 

@@ -1,18 +1,17 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.content.ActivityNotFoundException
-import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.extension.getSiteIntent
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -24,6 +23,8 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
  * Fragment of preference.
  */
 class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
+
+    override val xmlId: Int = R.xml.preference_main
 
     @Inject lateinit var viewModel: IPreferenceViewModel
 
@@ -50,10 +51,10 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //region System
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_main, rootKey)
-
-        ScriptumApplication.component.getPreferenceBuilder().set(fragment = this).build()
+    override fun inject(component: ScriptumComponent) {
+        component.getPreferenceBuilder()
+            .set(fragment = this)
+            .build()
             .inject(fragment = this)
     }
 

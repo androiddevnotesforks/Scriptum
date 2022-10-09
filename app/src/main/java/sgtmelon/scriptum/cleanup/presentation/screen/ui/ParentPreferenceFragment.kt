@@ -2,7 +2,10 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.CallSuper
+import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
@@ -14,6 +17,9 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
  */
 abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
 
+    @get:XmlRes
+    abstract val xmlId: Int
+
     protected val fm get() = parentFragmentManager
 
     private lateinit var delegatorFactory: DelegatorFactory
@@ -21,19 +27,19 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
 
     protected val open: OpenState = OpenState(lifecycle)
 
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(xmlId, rootKey)
+        inject(ScriptumApplication.component)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         delegatorFactory = DelegatorFactory(view.context, lifecycle)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
         open.restore(savedInstanceState)
 
-        setupRecycler()
         setupInsets()
+        setupRecycler()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -41,12 +47,18 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
         open.save(outState)
     }
 
+    abstract fun inject(component: ScriptumComponent)
+
+    /**
+     * Setup spaces from android bars and other staff for current screen.
+     */
+    @CallSuper
+    open fun setupInsets() {
+        listView.setPaddingInsets(InsetsDir.BOTTOM)
+    }
+
     private fun setupRecycler() {
         listView.clipToPadding = false
         listView.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
-    }
-
-    private fun setupInsets() {
-        listView.setPaddingInsets(InsetsDir.BOTTOM)
     }
 }
