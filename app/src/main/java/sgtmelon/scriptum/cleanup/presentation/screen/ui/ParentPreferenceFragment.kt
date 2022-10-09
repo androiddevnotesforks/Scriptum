@@ -14,10 +14,6 @@ import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollList
  */
 abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
 
-    // TODO сделать доступ к open через интерфейс для фрагментов main экрана
-    // TODO добавить open для родительского фрагмента
-    // TODO проверить save/respore для open
-
     protected val fm get() = parentFragmentManager
 
     private lateinit var delegatorFactory: DelegatorFactory

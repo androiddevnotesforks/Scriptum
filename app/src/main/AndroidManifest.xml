@@ -84,7 +84,7 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
             android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"
@@ -97,9 +97,7 @@
 
         <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver" />
         <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver" />
-
         <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver" />
-        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.screen.UpdateAlarmReceiver" />
 
         <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver" />
 

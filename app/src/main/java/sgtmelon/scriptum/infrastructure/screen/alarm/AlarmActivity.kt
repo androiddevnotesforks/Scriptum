@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification
+package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import android.content.IntentFilter
 import android.media.AudioManager
@@ -27,10 +27,6 @@ import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmAnimations
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmBundleProvider
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmScreenState
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
