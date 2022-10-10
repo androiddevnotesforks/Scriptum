@@ -12,6 +12,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.RankClickListener
 import sgtmelon.test.prod.RunNone
 
 /**
@@ -19,7 +20,6 @@ import sgtmelon.test.prod.RunNone
  */
 class RankHolder(
     itemView: View,
-    private val clickListener: ItemListener.ActionClick,
     private val dragListener: ItemListener.Drag?,
     blockCallback: IconBlockCallback
 ) : ParentHolder(itemView),
@@ -40,11 +40,6 @@ class RankHolder(
     private val cancelButton: ImageButton = itemView.findViewById(R.id.rank_cancel_button)
 
     init {
-        clickView.setOnClickListener { v -> checkNoPosition { clickListener.onItemClick(v, it) } }
-        cancelButton.setOnClickListener { v ->
-            checkNoPosition { clickListener.onItemClick(v, it) }
-        }
-
         visibleButton.setBlockCallback(blockCallback)
 
         clickView.setOnTouchListener(this)
@@ -52,13 +47,16 @@ class RankHolder(
         visibleButton.setOnTouchListener(this)
     }
 
-    fun bind(item: RankItem) {
+    fun bind(item: RankItem, callback: RankClickListener) {
         updateContent(item)
+
+        clickView.setOnClickListener { checkNoPosition { callback.onRankClick(it) } }
+        cancelButton.setOnClickListener { checkNoPosition { callback.onRankCancelClick(it) } }
 
         visibleButton.setDrawable(item.isVisible, needAnim = false)
         visibleButton.setOnClickListener { v ->
             checkNoPosition {
-                clickListener.onItemClick(v, it) {
+                callback.onRankVisibleClick(it) {
                     /**
                      * It's important to update item, because adapter notify
                      * methods will not be called.

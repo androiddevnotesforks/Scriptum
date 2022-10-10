@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
  */
 interface NoteClickListener {
 
-    fun onItemClick(item: NoteItem)
+    fun onNoteClick(item: NoteItem)
 
-    fun onItemLongClick(item: NoteItem, p: Int)
+    fun onNoteLongClick(item: NoteItem, p: Int)
 }

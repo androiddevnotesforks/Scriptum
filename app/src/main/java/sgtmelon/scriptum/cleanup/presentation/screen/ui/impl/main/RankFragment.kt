@@ -21,10 +21,10 @@ import sgtmelon.scriptum.cleanup.extension.hideKeyboard
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding
+import sgtmelon.scriptum.infrastructure.adapter.callback.RankClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -58,20 +58,20 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
                 parentOpen?.isBlocked = !isEnabled
                 parentOpen?.tag = if (isEnabled) OpenState.Tag.ND else OpenState.Tag.ANIM
             }
-        }, object : ItemListener.ActionClick {
-            override fun onItemClick(view: View, p: Int, action: () -> Unit) {
-                when (view.id) {
-                    R.id.rank_visible_button -> parentOpen?.attempt(OpenState.Tag.ANIM) {
-                        action()
-                        viewModel.onClickVisible(p)
-                    }
-                    R.id.rank_click_container -> parentOpen?.attempt {
-                        viewModel.onShowRenameDialog(p)
-                    }
-                    R.id.rank_cancel_button -> parentOpen?.attempt {
-                        viewModel.onClickCancel(p)
-                    }
+        }, object : RankClickListener {
+            override fun onRankVisibleClick(p: Int, action: () -> Unit) {
+                parentOpen?.attempt(OpenState.Tag.ANIM) {
+                    action()
+                    viewModel.onClickVisible(p)
                 }
+            }
+
+            override fun onRankClick(p: Int) {
+                parentOpen?.attempt { viewModel.onShowRenameDialog(p) }
+            }
+
+            override fun onRankCancelClick(p: Int) {
+                parentOpen?.attempt { viewModel.onClickCancel(p) }
             }
         })
     }
@@ -215,7 +215,9 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
 
         recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.let {
-            it.setDefaultAnimator { viewModel.onItemAnimationFinished() }
+            it.setDefaultAnimator(supportsChangeAnimations = false) {
+                viewModel.onItemAnimationFinished()
+            }
 
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
@@ -319,7 +321,7 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
         return name
     }
 
-    override fun scrollToItem(list: MutableList<RankItem>, p: Int, simpleClick: Boolean) {
+    override fun scrollToItem(list: List<RankItem>, p: Int, simpleClick: Boolean) {
         parentOpen?.clear()
 
         if (list.size == 1) {
@@ -356,14 +358,6 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
     }
 
     override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
-
-    override fun notifyItemChanged(list: List<RankItem>, p: Int) {
-        adapter.setList(list).notifyItemChanged(p)
-    }
-
-    override fun notifyItemRemoved(list: List<RankItem>, p: Int) {
-        adapter.setList(list).notifyItemRemoved(p)
-    }
 
     override fun notifyItemMoved(list: List<RankItem>, from: Int, to: Int) {
         adapter.setList(list).notifyItemMoved(from, to)

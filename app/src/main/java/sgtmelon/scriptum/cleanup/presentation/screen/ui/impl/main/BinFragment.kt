@@ -44,11 +44,11 @@ class BinFragment : ParentFragment<FragmentBinBinding>(), IBinFragment {
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {
-            override fun onItemClick(item: NoteItem) {
+            override fun onNoteClick(item: NoteItem) {
                 parentOpen?.attempt { openNoteScreen(item) }
             }
 
-            override fun onItemLongClick(item: NoteItem, p: Int) {
+            override fun onNoteLongClick(item: NoteItem, p: Int) {
                 viewModel.onShowOptionsDialog(item, p)
             }
         })

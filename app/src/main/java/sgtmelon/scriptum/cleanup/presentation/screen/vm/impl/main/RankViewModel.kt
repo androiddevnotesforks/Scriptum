@@ -155,7 +155,7 @@ class RankViewModel(
         viewModelScope.launchBack { updateRank(item) }
 
         onUpdateToolbar()
-        callback?.notifyItemChanged(itemList, p)
+        callback?.notifyList(itemList)
     }
 
 
@@ -215,7 +215,7 @@ class RankViewModel(
          */
         cancelList.add(Pair(p, item))
 
-        callback?.notifyItemRemoved(itemList, p)
+        callback?.notifyList(itemList)
         callback?.showSnackbar()
 
         viewModelScope.launch {

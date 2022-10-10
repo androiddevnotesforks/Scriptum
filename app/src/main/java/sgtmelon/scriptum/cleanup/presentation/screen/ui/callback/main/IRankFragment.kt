@@ -47,7 +47,7 @@ interface IRankFragment : SystemReceiver.Bridge.Bind {
 
     fun clearEnter(): String
 
-    fun scrollToItem(list: MutableList<RankItem>, p: Int, simpleClick: Boolean)
+    fun scrollToItem(list: List<RankItem>, p: Int, simpleClick: Boolean)
 
     fun showRenameDialog(p: Int, name: String, nameList: List<String>)
 
@@ -55,10 +55,6 @@ interface IRankFragment : SystemReceiver.Bridge.Bind {
     fun setList(list: List<RankItem>)
 
     fun notifyList(list: List<RankItem>)
-
-    fun notifyItemChanged(list: List<RankItem>, p: Int)
-
-    fun notifyItemRemoved(list: List<RankItem>, p: Int)
 
     fun notifyItemMoved(list: List<RankItem>, from: Int, to: Int)
 

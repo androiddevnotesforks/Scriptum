@@ -70,8 +70,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     private val repeatDialog by lazy { DialogFactory.Alarm(fm).getRepeat() }
 
     private val adapter = NoteAdapter(object : NoteClickListener {
-        override fun onItemClick(item: NoteItem) = openNoteScreen(item)
-        override fun onItemLongClick(item: NoteItem, p: Int) = Unit
+        override fun onNoteClick(item: NoteItem) = openNoteScreen(item)
+        override fun onNoteLongClick(item: NoteItem, p: Int) = Unit
     })
 
     /** Variable for detect layout is completely configure and ready for animation. */

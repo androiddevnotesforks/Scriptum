@@ -17,9 +17,9 @@ class NoteTextHolder(
     private val clickView: View = itemView.findViewById(R.id.note_text_click_container)
 
     fun bind(item: NoteItem.Text, callback: NoteClickListener) {
-        clickView.setOnClickListener { callback.onItemClick(item) }
+        clickView.setOnClickListener { callback.onNoteClick(item) }
         clickView.setOnLongClickListener {
-            checkNoPosition { callback.onItemLongClick(item, it) }
+            checkNoPosition { callback.onNoteLongClick(item, it) }
             return@setOnLongClickListener true
         }
 
