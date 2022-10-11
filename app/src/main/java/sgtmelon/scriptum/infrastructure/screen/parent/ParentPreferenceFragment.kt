@@ -11,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
-import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
  * Parent class for preference fragments.

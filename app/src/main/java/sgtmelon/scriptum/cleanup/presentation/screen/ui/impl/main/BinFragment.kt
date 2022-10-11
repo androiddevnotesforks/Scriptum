@@ -24,7 +24,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
-import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
  * Fragment which displays list of deleted notes - [NoteItem].

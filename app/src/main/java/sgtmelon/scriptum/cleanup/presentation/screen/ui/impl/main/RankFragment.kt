@@ -31,7 +31,8 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
-import sgtmelon.scriptum.infrastructure.widgets.listeners.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
 
 /**
@@ -366,19 +367,8 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
     override fun notifyItemInsertedScroll(list: List<RankItem>, p: Int) {
         adapter.setList(list).notifyItemInserted(p)
 
-        val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
-        val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
-
-        /**
-         *  FirstVisiblePosition can be equal [p] if:
-         *  - Click on first item remove;
-         *  - Click on snackbar undo.
-         *
-         *  Then [p] = 0 and firstVisiblePosition = 0.
-         */
-        if (p <= firstVisiblePosition || p > lastVisiblePosition) {
-            recyclerView?.smoothScrollToPosition(p)
-        }
+        // TODO finish
+        RecyclerInsertScroll(recyclerView, layoutManager).scroll(list.indices, p)
     }
 
     //region Broadcast functions
