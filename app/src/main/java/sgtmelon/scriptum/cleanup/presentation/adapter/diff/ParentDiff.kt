@@ -3,14 +3,10 @@ package sgtmelon.scriptum.cleanup.presentation.adapter.diff
 import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 
-/**
- * Parent class of [DiffUtil.Callback].
- */
-@Deprecated("Use DiffUtil.ItemCallback")
 abstract class ParentDiff<T> : DiffUtil.Callback() {
 
-    protected val oldList: MutableList<T> = ArrayList()
-    protected val newList: MutableList<T> = ArrayList()
+    private val oldList: MutableList<T> = ArrayList()
+    private val newList: MutableList<T> = ArrayList()
 
     fun setList(oldList: List<T>, newList: List<T>) {
         this.oldList.clearAdd(oldList)
@@ -21,8 +17,14 @@ abstract class ParentDiff<T> : DiffUtil.Callback() {
 
     override fun getNewListSize() = newList.size
 
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return areItemsTheSame(oldList[oldItemPosition], newList[newItemPosition])
+    }
+
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition] == newList[newItemPosition]
     }
+
+    abstract fun areItemsTheSame(oldItem: T, newItem: T): Boolean
 
 }

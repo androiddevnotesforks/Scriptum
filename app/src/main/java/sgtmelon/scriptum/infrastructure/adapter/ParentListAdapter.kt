@@ -19,6 +19,7 @@ abstract class ParentListAdapter<T, VH : RecyclerView.ViewHolder>(
     abstract fun getListCopy(list: List<T>): List<T>
 
     override fun onViewRecycled(holder: VH) {
+        super.onViewRecycled(holder)
         (holder as? UnbindCallback)?.unbind()
     }
 }

@@ -13,6 +13,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.RankClickListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.test.prod.RunNone
 
 /**
@@ -23,7 +24,8 @@ class RankHolder(
     private val dragListener: ItemListener.Drag?,
     blockCallback: IconBlockCallback
 ) : ParentHolder(itemView),
-    View.OnTouchListener {
+    View.OnTouchListener,
+    UnbindCallback {
 
     private val clickView: View = itemView.findViewById(R.id.rank_click_container)
     private val visibleButton: SwitchButton = itemView.findViewById(R.id.rank_visible_button)
@@ -31,7 +33,8 @@ class RankHolder(
     private val nameText: TextView = itemView.findViewById(R.id.rank_name_text)
     private val imageContainer: ViewGroup = itemView.findViewById(R.id.rank_image_container)
 
-    private val notificationContainer: ViewGroup = itemView.findViewById(R.id.rank_notification_container)
+    private val notificationContainer: ViewGroup =
+        itemView.findViewById(R.id.rank_notification_container)
     private val notificationText: TextView = itemView.findViewById(R.id.rank_notification_text)
     private val bindContainer: ViewGroup = itemView.findViewById(R.id.rank_bind_container)
     private val bindText: TextView = itemView.findViewById(R.id.rank_bind_text)
@@ -133,6 +136,10 @@ class RankHolder(
             dragListener?.setDrag(v.id == clickView.id)
         }
         return false
+    }
+
+    override fun unbind() {
+        //        TODO("Not yet implemented")
     }
 
     companion object {

@@ -1,15 +1,13 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter.diff
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 
 /**
- * Diff for [RankAdapter]
+ * Diff for [RankItem].
  */
 class RankDiff : ParentDiff<RankItem>() {
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    override fun areItemsTheSame(oldItem: RankItem, newItem: RankItem): Boolean {
+        return oldItem.id == newItem.id
     }
-
 }
