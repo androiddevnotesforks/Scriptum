@@ -364,10 +364,9 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
         adapter.setList(list).notifyItemMoved(from, to)
     }
 
+    // TODO finish
     override fun notifyItemInsertedScroll(list: List<RankItem>, p: Int) {
         adapter.setList(list).notifyItemInserted(p)
-
-        // TODO finish
         RecyclerInsertScroll(recyclerView, layoutManager).scroll(list.indices, p)
     }
 
