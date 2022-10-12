@@ -29,7 +29,7 @@ interface IRankViewModel : IParentViewModel,
 
     fun onEditorClick(i: Int): Boolean
 
-    fun onClickEnterAdd(simpleClick: Boolean)
+    fun onClickEnterAdd(addToBottom: Boolean)
 
     fun onClickVisible(p: Int)
 

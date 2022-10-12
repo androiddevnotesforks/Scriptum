@@ -47,7 +47,7 @@ interface IRankFragment : SystemReceiver.Bridge.Bind {
 
     fun clearEnter(): String
 
-    fun scrollToItem(list: List<RankItem>, p: Int, simpleClick: Boolean)
+    fun scrollToItem(list: List<RankItem>, p: Int, addToBottom: Boolean)
 
     fun showRenameDialog(p: Int, name: String, nameList: List<String>)
 

@@ -373,7 +373,7 @@ class RankViewModelTest : ParentViewModelTest() {
         every { callback.getEnterText() } returns ""
         assertFalse(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
-        every { spyViewModel.onClickEnterAdd(simpleClick = true) } returns Unit
+        every { spyViewModel.onClickEnterAdd(addToBottom = true) } returns Unit
         every { callback.getEnterText() } returns nextString()
         every { callback.clearEnter() } returns ""
         assertTrue(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
@@ -397,7 +397,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.getEnterText()
 
             callback.getEnterText()
-            spyViewModel.onClickEnterAdd(simpleClick = true)
+            spyViewModel.onClickEnterAdd(addToBottom = true)
 
             callback.getEnterText()
 
@@ -442,7 +442,7 @@ class RankViewModelTest : ParentViewModelTest() {
         spyViewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, spyViewModel.itemList)
 
-        spyViewModel.onClickEnterAdd(simpleClick = true)
+        spyViewModel.onClickEnterAdd(addToBottom = true)
 
         assertEquals(resultList, spyViewModel.itemList)
 
@@ -454,7 +454,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
             correctPositions(resultList)
             interactor.updatePositions(resultList, noteIdList)
-            callback.scrollToItem(resultList, p, simpleClick = true)
+            callback.scrollToItem(resultList, p, addToBottom = true)
         }
     }
 
@@ -477,7 +477,7 @@ class RankViewModelTest : ParentViewModelTest() {
         spyViewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, spyViewModel.itemList)
 
-        spyViewModel.onClickEnterAdd(simpleClick = false)
+        spyViewModel.onClickEnterAdd(addToBottom = false)
 
         assertEquals(resultList, spyViewModel.itemList)
 
@@ -489,7 +489,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
             correctPositions(resultList)
             interactor.updatePositions(resultList, noteIdList)
-            callback.scrollToItem(resultList, p, simpleClick = false)
+            callback.scrollToItem(resultList, p, addToBottom = false)
         }
     }
 
@@ -505,8 +505,8 @@ class RankViewModelTest : ParentViewModelTest() {
 
         assertEquals(itemList, spyViewModel.itemList)
 
-        spyViewModel.onClickEnterAdd(simpleClick = false)
-        spyViewModel.onClickEnterAdd(simpleClick = true)
+        spyViewModel.onClickEnterAdd(addToBottom = false)
+        spyViewModel.onClickEnterAdd(addToBottom = true)
 
         assertEquals(itemList, spyViewModel.itemList)
 

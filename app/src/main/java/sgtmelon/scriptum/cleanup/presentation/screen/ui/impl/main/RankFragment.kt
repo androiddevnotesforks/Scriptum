@@ -180,10 +180,10 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
             setOnClickListener {
-                parentOpen?.attempt { viewModel.onClickEnterAdd(simpleClick = true) }
+                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
             }
             setOnLongClickListener {
-                parentOpen?.attempt { viewModel.onClickEnterAdd(simpleClick = false) }
+                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
                 return@setOnLongClickListener true
             }
         }
@@ -322,7 +322,8 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
         return name
     }
 
-    override fun scrollToItem(list: List<RankItem>, p: Int, simpleClick: Boolean) {
+    override fun scrollToItem(list: List<RankItem>, p: Int, addToBottom: Boolean) {
+        hideKeyboard()
         parentOpen?.clear()
 
         if (list.size == 1) {
@@ -330,7 +331,7 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
             onBindingList()
         } else {
             val fastScroll = with(layoutManager) {
-                return@with if (simpleClick) {
+                return@with if (addToBottom) {
                     findLastVisibleItemPosition() == p - 1
                 } else {
                     findFirstVisibleItemPosition() == p
@@ -339,12 +340,13 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
 
             if (fastScroll) {
                 recyclerView?.scrollToPosition(p)
-                adapter.setList(list).notifyItemInserted(p)
+                //                adapter.setList(list).notifyItemInserted(p)
             } else {
                 recyclerView?.smoothScrollToPosition(p)
-                adapter.setList(list)
-                recyclerView?.post { adapter.notifyDataSetChanged() }
+                //                recyclerView?.post { adapter.notifyDataSetChanged() }
             }
+
+            adapter.setList(list).notifyItemInserted(p)
         }
     }
 

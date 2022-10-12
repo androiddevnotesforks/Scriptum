@@ -170,12 +170,12 @@ class RankViewModel(
 
         if (name.isNullOrEmpty() || nameList.contains(name)) return false
 
-        onClickEnterAdd(simpleClick = true)
+        onClickEnterAdd(addToBottom = true)
 
         return true
     }
 
-    override fun onClickEnterAdd(simpleClick: Boolean) {
+    override fun onClickEnterAdd(addToBottom: Boolean) {
         val name = callback?.clearEnter()?.clearSpace()
 
         if (name.isNullOrEmpty() || nameList.contains(name.uppercase())) return
@@ -184,13 +184,13 @@ class RankViewModel(
 
         viewModelScope.launch {
             val item = runBack { insertRank(name) } ?: return@launch
-            val p = if (simpleClick) itemList.size else 0
+            val p = if (addToBottom) itemList.size else 0
 
             itemList.add(p, item)
 
             runBack { interactor.updatePositions(itemList, correctPositions(itemList)) }
 
-            callback?.scrollToItem(itemList, p, simpleClick)
+            callback?.scrollToItem(itemList, p, addToBottom)
         }
     }
 
