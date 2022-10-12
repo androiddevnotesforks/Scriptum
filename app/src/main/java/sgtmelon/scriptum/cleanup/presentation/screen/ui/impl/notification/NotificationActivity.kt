@@ -25,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
@@ -226,20 +227,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     override fun notifyItemInsertedScroll(list: List<NotificationItem>, p: Int) {
         adapter.setList(list).notifyItemInserted(p)
-
-        val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
-        val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
-
-        /**
-         *  FirstVisiblePosition can be equal [p] if:
-         *  - Click on first item remove;
-         *  - Click on snackbar undo.
-         *
-         *  Then [p] = 0 and firstVisiblePosition = 0.
-         */
-        if (p <= firstVisiblePosition || p > lastVisiblePosition) {
-            binding?.recyclerView?.smoothScrollToPosition(p)
-        }
+        RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(list.indices, p)
     }
 
 
