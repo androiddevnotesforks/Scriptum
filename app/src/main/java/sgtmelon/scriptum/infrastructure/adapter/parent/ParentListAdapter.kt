@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.adapter
+package sgtmelon.scriptum.infrastructure.adapter.parent
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter

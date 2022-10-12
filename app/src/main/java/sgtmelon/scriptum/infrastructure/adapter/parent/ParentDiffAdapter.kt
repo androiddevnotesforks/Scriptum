@@ -1,16 +1,16 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter
+package sgtmelon.scriptum.infrastructure.adapter.parent
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.presentation.adapter.diff.ParentDiff
 import sgtmelon.scriptum.infrastructure.adapter.callback.NotifyAdapterCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
+import sgtmelon.scriptum.infrastructure.adapter.diff.ParentDiff
 
 /**
  * Version of [ListAdapter], but with ability to notify items by yourself.
- * This class not rely only on [DiffUtil]. Sometimes it's needed to skip some diff calculations.
+ * This class not rely only on [DiffUtil], sometimes it's needed to skip some diff calculations.
  */
 abstract class ParentDiffAdapter<T, VH : RecyclerView.ViewHolder>(
     private val diff: ParentDiff<T>

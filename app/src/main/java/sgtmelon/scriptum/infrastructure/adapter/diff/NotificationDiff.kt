@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.diff
+package sgtmelon.scriptum.infrastructure.adapter.diff
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 

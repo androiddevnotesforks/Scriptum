@@ -9,6 +9,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.NoteTextHolder
 import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
 import sgtmelon.scriptum.infrastructure.adapter.diff.NoteDiff
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
