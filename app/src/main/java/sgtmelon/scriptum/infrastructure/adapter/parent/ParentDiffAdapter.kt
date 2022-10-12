@@ -9,8 +9,12 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.diff.ParentDiff
 
 /**
- * Version of [ListAdapter], but with ability to notify items by yourself.
- * This class not rely only on [DiffUtil], sometimes it's needed to skip some diff calculations.
+ * Version of [ListAdapter], but with ability to notify items by yourself. Sometimes it's needed
+ * to skip some diff calculations.
+ *
+ * For example, you need update data inside [list], but without item notify, because it's already
+ * updated inside [RecyclerView.ViewHolder] during action (e.g. click, long click). And this
+ * class make a deal.
  */
 abstract class ParentDiffAdapter<T, VH : RecyclerView.ViewHolder>(
     private val diff: ParentDiff<T>
