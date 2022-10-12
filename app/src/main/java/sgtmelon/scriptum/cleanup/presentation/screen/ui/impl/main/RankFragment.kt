@@ -323,30 +323,13 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
     }
 
     override fun scrollToItem(list: List<RankItem>, p: Int, addToBottom: Boolean) {
-        hideKeyboard()
         parentOpen?.clear()
 
         if (list.size == 1) {
             adapter.setList(list).notifyItemInserted(0)
             onBindingList()
         } else {
-            val fastScroll = with(layoutManager) {
-                return@with if (addToBottom) {
-                    findLastVisibleItemPosition() == p - 1
-                } else {
-                    findFirstVisibleItemPosition() == p
-                }
-            }
-
-            if (fastScroll) {
-                recyclerView?.scrollToPosition(p)
-                //                adapter.setList(list).notifyItemInserted(p)
-            } else {
-                recyclerView?.smoothScrollToPosition(p)
-                //                recyclerView?.post { adapter.notifyDataSetChanged() }
-            }
-
-            adapter.setList(list).notifyItemInserted(p)
+            notifyItemInsertedScroll(list, p)
         }
     }
 

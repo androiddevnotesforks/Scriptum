@@ -180,6 +180,7 @@ class RankViewModel(
 
         if (name.isNullOrEmpty() || nameList.contains(name.uppercase())) return
 
+        callback?.hideKeyboard()
         callback?.dismissSnackbar()
 
         viewModelScope.launch {
