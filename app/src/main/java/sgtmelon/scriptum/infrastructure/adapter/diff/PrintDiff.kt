@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
+import sgtmelon.scriptum.infrastructure.model.item.PrintItem
 
 /**
  * Diff for [PrintItem].

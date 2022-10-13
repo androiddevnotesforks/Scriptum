@@ -1,10 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter
+package sgtmelon.scriptum.infrastructure.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
-import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem.Type
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintAlarmHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintNoteHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintRankHolder
@@ -16,6 +14,9 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.Pr
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefTitleHolder
 import sgtmelon.scriptum.infrastructure.adapter.diff.PrintDiff
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
+import sgtmelon.scriptum.infrastructure.model.item.PrintItem
+import sgtmelon.scriptum.infrastructure.model.item.PrintItem.Type
+import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 import sgtmelon.scriptum.infrastructure.utils.inflateView
 
 /**
@@ -41,7 +42,7 @@ class PrintAdapter : ParentListAdapter<PrintItem, RecyclerView.ViewHolder>(Print
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (Type.values()[viewType]) {
-            Type.NOTE -> PrintNoteHolder(parent.inflateView(R.layout.item_print_note))
+            Type.NOTE -> PrintNoteHolder(parent.inflateBinding(R.layout.item_print_note))
             Type.ROLL -> PrintRollHolder(parent.inflateView(R.layout.item_print_roll))
             Type.VISIBLE -> PrintVisibleHolder(parent.inflateView(R.layout.item_print_visible))
             Type.RANK -> PrintRankHolder(parent.inflateView(R.layout.item_print_rank))
