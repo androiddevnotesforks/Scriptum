@@ -1,22 +1,14 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference
 
-import android.view.View
-import android.widget.TextView
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
-import sgtmelon.scriptum.infrastructure.develop.PrintAdapter
+import sgtmelon.scriptum.databinding.ItemPrintPrefPathBinding
 import sgtmelon.scriptum.infrastructure.develop.PrintItem
 
-/**
- * Holder for developer screens and work inside [PrintAdapter].
- */
-class PrintPrefPathHolder(itemView: View) : ParentHolder(itemView) {
-
-    // TODO add view binding
-
-    private val pathText = itemView.findViewById<TextView>(R.id.print_pref_path_text)
+class PrintPrefPathHolder(
+    private val binding: ItemPrintPrefPathBinding
+) : ParentHolder(binding.root) {
 
     fun bind(item: PrintItem.Preference.Path) {
-        pathText.text = item.file.path
+        binding.pathText.text = item.file.path
     }
 }

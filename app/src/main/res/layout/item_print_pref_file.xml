@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Card.Item.Common">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        style="@style/Container.Print"
-        android:orientation="vertical">
+    <androidx.cardview.widget.CardView style="@style/Card.Item.Common">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/item_content_between_space">
+            style="@style/Container.Print"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/item_content_between_space">
+
+                <TextView
+                    android:id="@+id/name_text"
+                    style="@style/Text.SmallCard.Print"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/item_content_between_space"
+                    tools:text="Name: RHCP" />
+
+                <View style="@style/Divider.Vertical" />
+
+                <TextView
+                    android:id="@+id/size_text"
+                    style="@style/Text.SmallCard.Print"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/item_content_between_space"
+                    tools:text="Size: 10 Mb" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/print_pref_name_text"
+                android:id="@+id/path_text"
                 style="@style/Text.SmallCard.Print"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/item_content_between_space"
-                tools:text="Name: RHCP" />
-
-            <View style="@style/Divider.Vertical" />
-
-            <TextView
-                android:id="@+id/print_pref_size_text"
-                style="@style/Text.SmallCard.Print"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/item_content_between_space"
-                tools:text="Size: 10 Mb" />
+                tools:text="Path: root/android/0/.../" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/print_pref_path_text"
-            style="@style/Text.SmallCard.Print"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Path: root/android/0/.../" />
+    </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</layout>

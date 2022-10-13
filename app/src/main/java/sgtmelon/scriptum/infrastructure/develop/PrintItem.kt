@@ -12,11 +12,11 @@ import java.io.File as JavaFile
 /**
  * Model for store information about entities and preference keys.
  */
-sealed class PrintItem(val type: Type, val id: Any?) {
+sealed class PrintItem(val type: Type, val id: Any) {
 
     data class Note(val entity: NoteEntity) : PrintItem(Type.NOTE, entity.id)
 
-    data class Roll(val entity: RollEntity) : PrintItem(Type.ROLL, entity.id)
+    data class Roll(val entity: RollEntity) : PrintItem(Type.ROLL, id = entity.id ?: -1)
 
     data class Visible(val entity: RollVisibleEntity) : PrintItem(Type.VISIBLE, entity.id)
 

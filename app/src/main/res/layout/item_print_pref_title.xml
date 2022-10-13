@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/item_card_horizontal_margin"
-    android:layout_marginTop="@dimen/item_card_vertical_margin"
-    android:layout_marginEnd="@dimen/item_card_horizontal_margin"
-    android:layout_marginBottom="@dimen/item_card_vertical_margin"
-    android:padding="@dimen/item_container_space">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/print_pref_title_text"
-        style="@style/Text.SmallCard.Title"
-        android:layout_marginBottom="0dp"
-        android:textColor="?attr/clAccent"
-        android:singleLine="false"
-        tools:text="Test title" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/item_card_horizontal_margin"
+        android:layout_marginTop="@dimen/item_card_vertical_margin"
+        android:layout_marginEnd="@dimen/item_card_horizontal_margin"
+        android:layout_marginBottom="@dimen/item_card_vertical_margin"
+        android:padding="@dimen/item_container_space">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/title_text"
+            style="@style/Text.SmallCard.Title"
+            android:layout_marginBottom="0dp"
+            android:singleLine="false"
+            android:textColor="?attr/clAccent"
+            tools:text="Test title" />
+
+    </FrameLayout>
+
+</layout>

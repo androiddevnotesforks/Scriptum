@@ -19,8 +19,6 @@ import sgtmelon.test.idling.addIdlingListener
 // TODO add unbind function
 class ColorHolder(itemView: View) : ParentHolder(itemView) {
 
-    private val context = itemView.context
-
     private val parentContainer: ViewGroup = itemView.findViewById(R.id.color_parent_container)
     private val backgroundView: View = itemView.findViewById(R.id.color_background_view)
 
@@ -33,8 +31,6 @@ class ColorHolder(itemView: View) : ParentHolder(itemView) {
             checkImage.setColorFilter(context.getColorCompat(colorItem.content))
         }
 
-        // TODO record exception
-        val context = itemView.context ?: return
         val colorName = context.resources.getStringArray(R.array.pref_note_color)[color.ordinal]
 
         clickView.contentDescription = context.getString(R.string.description_item_color, colorName)

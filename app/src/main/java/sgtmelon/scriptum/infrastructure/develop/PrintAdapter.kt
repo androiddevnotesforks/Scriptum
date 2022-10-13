@@ -15,7 +15,6 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.Pr
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
 import sgtmelon.scriptum.infrastructure.develop.PrintItem.Type
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
-import sgtmelon.scriptum.infrastructure.utils.inflateView
 
 /**
  * Adapter which displays list of [PrintItem]'s.
@@ -41,14 +40,14 @@ class PrintAdapter : ParentListAdapter<PrintItem, RecyclerView.ViewHolder>(Print
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (Type.values()[viewType]) {
             Type.NOTE -> PrintNoteHolder(parent.inflateBinding(R.layout.item_print_note))
-            Type.ROLL -> PrintRollHolder(parent.inflateView(R.layout.item_print_roll))
-            Type.VISIBLE -> PrintVisibleHolder(parent.inflateView(R.layout.item_print_visible))
-            Type.RANK -> PrintRankHolder(parent.inflateView(R.layout.item_print_rank))
-            Type.ALARM -> PrintAlarmHolder(parent.inflateView(R.layout.item_print_alarm))
-            Type.PREF_TITLE -> PrintPrefTitleHolder(parent.inflateView(R.layout.item_print_pref_title))
-            Type.PREF_KEY -> PrintPrefKeyHolder(parent.inflateView(R.layout.item_print_pref_key))
-            Type.PREF_PATH -> PrintPrefPathHolder(parent.inflateView(R.layout.item_print_pref_path))
-            Type.PREF_FILE -> PrintPrefFileHolder(parent.inflateView(R.layout.item_print_pref_file))
+            Type.ROLL -> PrintRollHolder(parent.inflateBinding(R.layout.item_print_roll))
+            Type.VISIBLE -> PrintVisibleHolder(parent.inflateBinding(R.layout.item_print_visible))
+            Type.RANK -> PrintRankHolder(parent.inflateBinding(R.layout.item_print_rank))
+            Type.ALARM -> PrintAlarmHolder(parent.inflateBinding(R.layout.item_print_alarm))
+            Type.PREF_TITLE -> PrintPrefTitleHolder(parent.inflateBinding(R.layout.item_print_pref_title))
+            Type.PREF_KEY -> PrintPrefKeyHolder(parent.inflateBinding(R.layout.item_print_pref_key))
+            Type.PREF_PATH -> PrintPrefPathHolder(parent.inflateBinding(R.layout.item_print_pref_path))
+            Type.PREF_FILE -> PrintPrefFileHolder(parent.inflateBinding(R.layout.item_print_pref_file))
         }
     }
 
