@@ -138,7 +138,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
         addDialog.apply {
             onItemSelected(owner = this@MainActivity) {
-                val type = AddSheetData().convert(itemId) ?: return@onItemSelected
+                val type = AddSheetData().convert(it.itemId) ?: return@onItemSelected
                 openNoteScreen(type)
             }
             onDismiss { open.clear() }
