@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.item
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.cleanup.ui.item.RankItemUi
+import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**

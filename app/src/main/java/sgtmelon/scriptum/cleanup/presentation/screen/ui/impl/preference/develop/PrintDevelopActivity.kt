@@ -133,7 +133,6 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
         }
     }
 
-    override fun notifyList(list: List<PrintItem>) {
-        adapter.setList(list).notifyDataSetChanged()
-    }
+    override fun notifyList(list: List<PrintItem>) = adapter.notifyList(list)
+
 }

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.holder
+package sgtmelon.scriptum.infrastructure.adapter.holder
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
@@ -6,6 +6,7 @@ import android.view.View
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
@@ -46,36 +47,36 @@ class RankHolder(
         bindContent(item, withAnim = false)
     }
 
-    private fun bindContent(item: RankItem, withAnim: Boolean) {
+    private fun bindContent(item: RankItem, withAnim: Boolean) = with(binding) {
         val visibleDescription = if (item.isVisible) {
             context.getString(R.string.desc_rank_hide, item.name)
         } else {
             context.getString(R.string.desc_rank_show, item.name)
         }
-        binding.visibleButton.contentDescription = visibleDescription
-        binding.visibleButton.setDrawable(item.isVisible, withAnim)
+        visibleButton.contentDescription = visibleDescription
+        visibleButton.setDrawable(item.isVisible, withAnim)
 
-        binding.nameText.text = item.name
+        nameText.text = item.name
 
         notifyIndicators(item)
 
         val cancelDescription = context.getString(R.string.desc_rank_cancel, item.name)
-        binding.cancelButton.contentDescription = cancelDescription
+        cancelButton.contentDescription = cancelDescription
     }
 
-    private fun notifyIndicators(item: RankItem) {
+    private fun notifyIndicators(item: RankItem) = with(binding) {
         val isAlarmVisible = isMaxTest || item.notificationCount != 0
         val isBindVisible = isMaxTest || item.bindCount != 0
 
-        binding.imageContainer.makeVisibleIf(condition = isAlarmVisible || isBindVisible)
+        imageContainer.makeVisibleIf(condition = isAlarmVisible || isBindVisible)
 
-        binding.notificationContainer.makeVisibleIf(isAlarmVisible)
-        binding.notificationText.text = getIndicatorCount(item.notificationCount)
+        notificationContainer.makeVisibleIf(isAlarmVisible)
+        notificationText.text = getIndicatorCount(item.notificationCount)
 
-        binding.bindContainer.makeVisibleIf(isBindVisible)
-        binding.bindText.text = getIndicatorCount(item.bindCount)
+        bindContainer.makeVisibleIf(isBindVisible)
+        bindText.text = getIndicatorCount(item.bindCount)
 
-        binding.countText.text = context.getString(R.string.list_item_rank_count, item.noteId.size)
+        countText.text = context.getString(R.string.list_item_rank_count, item.noteId.size)
     }
 
     private fun getIndicatorCount(count: Int): String {
@@ -99,14 +100,14 @@ class RankHolder(
         }
     }
 
-    override fun unbind() {
-        binding.clickContainer.setOnTouchListener(null)
-        binding.cancelButton.setOnTouchListener(null)
-        binding.visibleButton.setOnTouchListener(null)
+    override fun unbind() = with(binding) {
+        clickContainer.setOnTouchListener(null)
+        cancelButton.setOnTouchListener(null)
+        visibleButton.setOnTouchListener(null)
 
-        binding.clickContainer.setOnClickListener(null)
-        binding.cancelButton.setOnClickListener(null)
-        binding.visibleButton.setOnClickListener(null)
+        clickContainer.setOnClickListener(null)
+        cancelButton.setOnClickListener(null)
+        visibleButton.setOnClickListener(null)
     }
 
     companion object {
