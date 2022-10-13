@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity
+package sgtmelon.scriptum.infrastructure.develop.adapter.holder.entity
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder

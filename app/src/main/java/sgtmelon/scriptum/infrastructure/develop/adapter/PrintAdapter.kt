@@ -1,19 +1,20 @@
-package sgtmelon.scriptum.infrastructure.develop
+package sgtmelon.scriptum.infrastructure.develop.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintAlarmHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintNoteHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintRankHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintRollHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintVisibleHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefFileHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefKeyHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefPathHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefTitleHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
+import sgtmelon.scriptum.infrastructure.develop.PrintItem
 import sgtmelon.scriptum.infrastructure.develop.PrintItem.Type
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.entity.PrintAlarmHolder
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.entity.PrintNoteHolder
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.entity.PrintRankHolder
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.entity.PrintRollHolder
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.entity.PrintVisibleHolder
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.preference.PrintPrefFileHolder
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.preference.PrintPrefKeyHolder
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.preference.PrintPrefPathHolder
+import sgtmelon.scriptum.infrastructure.develop.adapter.holder.preference.PrintPrefTitleHolder
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**

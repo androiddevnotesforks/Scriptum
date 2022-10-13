@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference
+package sgtmelon.scriptum.infrastructure.develop.adapter.holder.preference
 
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
 import sgtmelon.scriptum.databinding.ItemPrintPrefPathBinding
