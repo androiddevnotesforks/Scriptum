@@ -7,7 +7,7 @@ import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
-import sgtmelon.scriptum.infrastructure.model.item.PrintItem
+import sgtmelon.scriptum.infrastructure.develop.PrintItem
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider

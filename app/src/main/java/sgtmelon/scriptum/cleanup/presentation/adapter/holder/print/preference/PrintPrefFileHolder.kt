@@ -6,8 +6,8 @@ import android.widget.TextView
 import java.io.File
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
-import sgtmelon.scriptum.infrastructure.adapter.PrintAdapter
-import sgtmelon.scriptum.infrastructure.model.item.PrintItem
+import sgtmelon.scriptum.infrastructure.develop.PrintAdapter
+import sgtmelon.scriptum.infrastructure.develop.PrintItem
 
 /**
  * Holder for developer screens and work inside [PrintAdapter].

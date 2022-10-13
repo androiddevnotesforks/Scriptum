@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.model.item
+package sgtmelon.scriptum.infrastructure.develop
 
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import java.io.File as JavaFile
 
 /**

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
 import sgtmelon.scriptum.databinding.ItemPrintNoteBinding
-import sgtmelon.scriptum.infrastructure.model.item.PrintItem
+import sgtmelon.scriptum.infrastructure.develop.PrintItem
 
 class PrintNoteHolder(private val binding: ItemPrintNoteBinding) : ParentHolder(binding.root) {
 

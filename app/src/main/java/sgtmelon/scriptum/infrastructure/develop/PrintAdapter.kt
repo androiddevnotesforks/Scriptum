@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.adapter
+package sgtmelon.scriptum.infrastructure.develop
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,10 +12,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.Pr
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefKeyHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefPathHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefTitleHolder
-import sgtmelon.scriptum.infrastructure.adapter.diff.PrintDiff
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
-import sgtmelon.scriptum.infrastructure.model.item.PrintItem
-import sgtmelon.scriptum.infrastructure.model.item.PrintItem.Type
+import sgtmelon.scriptum.infrastructure.develop.PrintItem.Type
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 import sgtmelon.scriptum.infrastructure.utils.inflateView
 

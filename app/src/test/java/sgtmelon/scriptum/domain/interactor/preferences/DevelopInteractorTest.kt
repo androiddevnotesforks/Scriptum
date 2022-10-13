@@ -14,8 +14,8 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
-import sgtmelon.scriptum.infrastructure.model.item.PrintItem
-import sgtmelon.scriptum.infrastructure.model.item.PrintItem.Preference
+import sgtmelon.scriptum.infrastructure.develop.PrintItem
+import sgtmelon.scriptum.infrastructure.develop.PrintItem.Preference
 
 /**
  * Test for [DevelopInteractorImpl].
