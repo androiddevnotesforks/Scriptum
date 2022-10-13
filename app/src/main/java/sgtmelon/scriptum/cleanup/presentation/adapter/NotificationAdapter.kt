@@ -4,17 +4,16 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.NotificationHolder
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.infrastructure.adapter.callback.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.adapter.diff.NotificationDiff
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
- * Adapter which displays list of notifications for [NotificationActivity]
+ * Adapter which displays list of notifications.
  */
 class NotificationAdapter(
-    private val callback: ItemListener.Click
+    private val callback: NotificationClickListener
 ) : ParentDiffAdapter<NotificationItem, NotificationHolder>(NotificationDiff()) {
 
     override fun getListCopy(list: List<NotificationItem>): List<NotificationItem> {

@@ -14,10 +14,10 @@ import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
+import sgtmelon.scriptum.infrastructure.adapter.callback.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
@@ -45,13 +45,9 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     @Inject lateinit var viewModel: INotificationViewModel
 
     private val adapter: NotificationAdapter by lazy {
-        NotificationAdapter(object: ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) = open.attempt {
-                when (view.id) {
-                    R.id.notification_click_container -> viewModel.onClickNote(p)
-                    R.id.notification_cancel_button -> viewModel.onClickCancel(p)
-                }
-            }
+        NotificationAdapter(object : NotificationClickListener {
+            override fun onNotificationClick(item: NotificationItem) = openNoteScreen(item)
+            override fun onNotificationCancel(p: Int) = viewModel.onClickCancel(p)
         })
     }
     private val layoutManager by lazy { LinearLayoutManager(this) }
@@ -202,7 +198,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
         }
     }
 
-    override fun openNoteScreen(item: NotificationItem) {
+    private fun openNoteScreen(item: NotificationItem) {
         startActivity(InstanceFactory.Note[this, item])
     }
 

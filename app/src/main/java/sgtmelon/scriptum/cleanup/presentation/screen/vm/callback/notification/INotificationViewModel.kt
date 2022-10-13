@@ -14,8 +14,6 @@ interface INotificationViewModel : IParentViewModel {
 
     fun onUpdateData()
 
-    fun onClickNote(p: Int)
-
     fun onClickCancel(p: Int)
 
 

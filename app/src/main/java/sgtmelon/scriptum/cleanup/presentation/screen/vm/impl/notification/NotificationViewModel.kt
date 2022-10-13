@@ -121,10 +121,6 @@ class NotificationViewModel(
         }
     }
 
-    override fun onClickNote(p: Int) {
-        callback?.openNoteScreen(item = itemList.getOrNull(p) ?: return)
-    }
-
     override fun onClickCancel(p: Int) {
         val item = itemList.validRemoveAt(p) ?: return
 

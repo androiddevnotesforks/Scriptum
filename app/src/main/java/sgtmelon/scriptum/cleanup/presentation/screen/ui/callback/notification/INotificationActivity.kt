@@ -27,8 +27,6 @@ interface INotificationActivity : SystemReceiver.Bridge.Alarm,
 
     fun onBindingList()
 
-    fun openNoteScreen(item: NotificationItem)
-
 
     fun showSnackbar()
 
