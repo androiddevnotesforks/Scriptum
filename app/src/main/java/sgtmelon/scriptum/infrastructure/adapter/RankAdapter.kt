@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter
+package sgtmelon.scriptum.infrastructure.adapter
 
 import android.view.ViewGroup
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.utils.inflateView
 
 /**
- * Adapter which displays list of categories (ranks).
+ * Adapter which displays list of [RankItem]'s.
  */
 class RankAdapter(
     private val dragListener: ItemListener.Drag,

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Default
-import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
+import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 
 /**
  * Model for store short information about rank, use in [RankAdapter].
