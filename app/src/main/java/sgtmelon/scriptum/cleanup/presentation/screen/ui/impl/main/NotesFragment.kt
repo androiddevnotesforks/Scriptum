@@ -23,7 +23,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
-import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState

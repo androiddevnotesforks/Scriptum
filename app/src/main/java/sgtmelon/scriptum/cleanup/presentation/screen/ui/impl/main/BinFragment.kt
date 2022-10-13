@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
-import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment

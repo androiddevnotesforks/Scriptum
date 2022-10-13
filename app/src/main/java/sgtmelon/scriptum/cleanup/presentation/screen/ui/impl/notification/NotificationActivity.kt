@@ -17,7 +17,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
-import sgtmelon.scriptum.infrastructure.adapter.callback.NotificationClickListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator

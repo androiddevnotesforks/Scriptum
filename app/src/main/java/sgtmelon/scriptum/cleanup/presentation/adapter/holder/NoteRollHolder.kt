@@ -6,8 +6,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.checkNoPosition
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
-import sgtmelon.scriptum.infrastructure.adapter.callback.NoteClickListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 
 class NoteRollHolder(
     private val binding: ItemNoteRollBinding

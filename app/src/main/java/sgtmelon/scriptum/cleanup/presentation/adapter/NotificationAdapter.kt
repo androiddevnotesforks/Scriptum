@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.NotificationHolder
-import sgtmelon.scriptum.infrastructure.adapter.callback.NotificationClickListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.adapter.diff.NotificationDiff
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding

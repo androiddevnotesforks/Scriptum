@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.adapter.callback
+package sgtmelon.scriptum.infrastructure.adapter.callback.click
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 

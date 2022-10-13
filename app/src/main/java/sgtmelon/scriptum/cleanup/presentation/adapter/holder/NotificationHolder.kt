@@ -5,8 +5,8 @@ import android.widget.ImageButton
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.databinding.ItemNotificationBinding
-import sgtmelon.scriptum.infrastructure.adapter.callback.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 
 class NotificationHolder(
     private val binding: ItemNotificationBinding,
