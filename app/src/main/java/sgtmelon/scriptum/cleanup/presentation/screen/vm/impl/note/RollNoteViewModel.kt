@@ -495,7 +495,9 @@ class RollNoteViewModel(
         callback?.setTouchAction(inAction)
     }
 
-    override fun onTouchGetDrag(mayDrag: Boolean): Boolean = noteState.isEdit && mayDrag
+    override fun onTouchGetDrag(isDragAvailable: Boolean): Boolean {
+        return noteState.isEdit && isDragAvailable
+    }
 
     override fun onTouchGetSwipe(): Boolean = noteState.isEdit
 

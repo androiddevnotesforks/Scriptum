@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter.holder
 
+import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
@@ -8,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
  */
 abstract class ParentHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
+    protected val context: Context get() = itemView.context
+
     @Deprecated("Pass items inside callback, not position")
-    protected fun checkNoPosition(func: (Int) -> Unit): Boolean {
+    protected fun checkPosition(func: (Int) -> Unit): Boolean {
         val position = adapterPosition
 
         if (position == RecyclerView.NO_POSITION) return false

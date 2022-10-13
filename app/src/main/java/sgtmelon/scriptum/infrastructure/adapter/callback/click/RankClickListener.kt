@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.adapter.callback.click
 
 interface RankClickListener {
 
-    fun onRankVisibleClick(p: Int, action: () -> Unit)
+    fun onRankVisibleClick(p: Int, onAction: () -> Unit)
 
     fun onRankClick(p: Int)
 

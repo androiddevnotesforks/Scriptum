@@ -2,27 +2,27 @@ package sgtmelon.scriptum.cleanup.presentation.control.touch
 
 import android.graphics.Canvas
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 
 /**
  * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModel]
  */
 class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
-    ItemListener.Drag {
+    ItemDragListener {
 
     /**
      * Variable for control press section. If user use long press on view which don't uses
      * for drag it will be false. More information you can find inside usage links for [setDrag].
      */
-    private var mayDrag = false
+    private var isDragAvailable = false
 
-    override fun setDrag(mayDrag: Boolean) {
-        this.mayDrag = mayDrag
+    override fun setDrag(isDragAvailable: Boolean) {
+        this.isDragAvailable = isDragAvailable
     }
 
     private var dragFrom = RecyclerView.NO_POSITION
@@ -31,7 +31,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val dragFlags = getDrag(callback.onTouchGetDrag(mayDrag))
+        val dragFlags = getDrag(callback.onTouchGetDrag(isDragAvailable))
         val swipeFlags = getSwipe(callback.onTouchGetSwipe())
 
         return makeMovementFlags(dragFlags, swipeFlags)
@@ -122,10 +122,10 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
          *
          * @return true if user can drag/swipe cards.
          *
-         * Pass here [mayDrag] need for detect when to close keyboard. Otherwise keyboard will
+         * Pass here [isDragAvailable] need for detect when to close keyboard. Otherwise keyboard will
          * be closed on long press inside rollEnter.
          */
-        fun onTouchGetDrag(mayDrag: Boolean): Boolean
+        fun onTouchGetDrag(isDragAvailable: Boolean): Boolean
         fun onTouchGetSwipe(): Boolean
 
         /**

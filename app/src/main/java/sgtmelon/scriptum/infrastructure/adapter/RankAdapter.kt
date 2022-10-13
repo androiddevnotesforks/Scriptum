@@ -5,17 +5,17 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RankHolder
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.adapter.diff.RankDiff
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
-import sgtmelon.scriptum.infrastructure.utils.inflateView
+import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
  * Adapter which displays list of [RankItem]'s.
  */
 class RankAdapter(
-    private val dragListener: ItemListener.Drag,
+    private val dragListener: ItemDragListener,
     private val blockCallback: IconBlockCallback,
     private val callback: RankClickListener
 ) : ParentDiffAdapter<RankItem, RankHolder>(RankDiff()) {
@@ -25,7 +25,7 @@ class RankAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankHolder {
-        return RankHolder(parent.inflateView(R.layout.item_rank))
+        return RankHolder(parent.inflateBinding(R.layout.item_rank))
     }
 
     override fun onBindViewHolder(holder: RankHolder, position: Int) {

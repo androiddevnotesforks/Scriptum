@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.item
 
 import android.view.View
-import kotlin.math.min
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
@@ -23,19 +22,19 @@ class RankItemUi(
     position: Int
 ) : ParentRecyclerItem<RankItem>(listMatcher, position) {
 
-    private val parentCard by lazy { getChild(getViewById(R.id.rank_parent_card)) }
+    private val parentCard by lazy { getChild(getViewById(R.id.parent_card)) }
 
-    val visibleButton by lazy { getChild(getViewById(R.id.rank_visible_button)) }
-    val cancelButton by lazy { getChild(getViewById(R.id.rank_cancel_button)) }
+    val visibleButton by lazy { getChild(getViewById(R.id.visible_button)) }
+    val cancelButton by lazy { getChild(getViewById(R.id.cancel_button)) }
 
-    private val nameText by lazy { getChild(getViewById(R.id.rank_name_text)) }
-    private val countText by lazy { getChild(getViewById(R.id.rank_text_count_text)) }
+    private val nameText by lazy { getChild(getViewById(R.id.name_text)) }
+    private val countText by lazy { getChild(getViewById(R.id.count_text)) }
 
-    private val imageContainer by lazy { getChild(getViewById(R.id.rank_image_container)) }
-    private val notificationText by lazy { getChild(getViewById(R.id.rank_notification_text)) }
-    private val notificationImage by lazy { getChild(getViewById(R.id.rank_notification_image)) }
-    private val bindText by lazy { getChild(getViewById(R.id.rank_bind_text)) }
-    private val bindImage by lazy { getChild(getViewById(R.id.rank_bind_image)) }
+    private val imageContainer by lazy { getChild(getViewById(R.id.image_container)) }
+    private val notificationText by lazy { getChild(getViewById(R.id.notification_text)) }
+    private val notificationImage by lazy { getChild(getViewById(R.id.notification_image)) }
+    private val bindText by lazy { getChild(getViewById(R.id.bind_text)) }
+    private val bindImage by lazy { getChild(getViewById(R.id.bind_image)) }
 
     override fun assert(item: RankItem) {
         parentCard.isDisplayed().withCard(
@@ -52,9 +51,9 @@ class RankItemUi(
         }
         val tint = if (isVisible) R.attr.clAccent else R.attr.clContent
         val visibleDescription = if (isVisible) {
-            context.getString(R.string.description_item_rank_hide, item.name)
+            context.getString(R.string.desc_rank_hide, item.name)
         } else {
-            context.getString(R.string.description_item_rank_show, item.name)
+            context.getString(R.string.desc_rank_show, item.name)
         }
         visibleButton.isDisplayed()
             .withDrawableAttr(drawable, tint)
@@ -64,7 +63,7 @@ class RankItemUi(
 
         assertIndicators(item)
 
-        val cancelDescription = context.getString(R.string.description_item_rank_cancel, item.name)
+        val cancelDescription = context.getString(R.string.desc_rank_cancel, item.name)
         cancelButton.isDisplayed()
             .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, R.attr.clContent)
             .withContentDescription(cancelDescription)
@@ -76,31 +75,31 @@ class RankItemUi(
 
         imageContainer.isDisplayed(isVisible = isNotificationVisible || isBindVisible)
 
-        var indicator = if (RankHolder.isMaxTest) {
-            RankHolder.INDICATOR_MAX_COUNT.toString()
-        } else {
-            min(item.notificationCount, RankHolder.INDICATOR_MAX_COUNT).toString()
-        }
-
         notificationText.isDisplayed(isNotificationVisible)
-            .withText(indicator, R.attr.clIndicator, R.dimen.text_14sp)
+            .withText(
+                getIndicatorCount(item.notificationCount),
+                R.attr.clIndicator,
+                R.dimen.text_14sp
+            )
         notificationImage.isDisplayed(isNotificationVisible) {
             withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
         }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clIndicator)
 
-        indicator = if (RankHolder.isMaxTest) {
-            RankHolder.INDICATOR_MAX_COUNT.toString()
-        } else {
-            min(item.bindCount, RankHolder.INDICATOR_MAX_COUNT).toString()
-        }
-
         bindText.isDisplayed(isBindVisible)
-            .withText(indicator, R.attr.clIndicator, R.dimen.text_14sp)
+            .withText(getIndicatorCount(item.bindCount), R.attr.clIndicator, R.dimen.text_14sp)
         bindImage.isDisplayed(isBindVisible) {
             withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
         }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clIndicator)
 
         val text = context.getString(R.string.list_item_rank_count, item.noteId.size)
         countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
+    }
+
+    private fun getIndicatorCount(count: Int): String {
+        return when {
+            RankHolder.isMaxTest -> RankHolder.MAX_COUNT_TEXT
+            count > RankHolder.MAX_COUNT -> RankHolder.MAX_COUNT_TEXT
+            else -> count.toString()
+        }
     }
 }

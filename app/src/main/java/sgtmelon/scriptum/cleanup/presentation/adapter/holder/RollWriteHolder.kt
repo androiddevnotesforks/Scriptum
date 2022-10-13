@@ -16,8 +16,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
+import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 
 /**
  * Holder of note roll row edit state, use in [RollAdapter]
@@ -25,7 +25,7 @@ import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 // TODO add unbind function
 class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
-    private val dragListener: ItemListener.Drag?,
+    private val dragListener: ItemDragListener?,
     private val callback: Callback,
     private val inputControl: IInputControl?
 ) : ParentHolder(binding.root),

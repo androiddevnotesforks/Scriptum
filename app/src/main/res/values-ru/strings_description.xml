@@ -21,9 +21,9 @@
 
     <string name="description_button_alarm_more">Выбрать повтор уведомления</string>
 
-    <string name="description_item_rank_show">Показать категорию с именем: %s</string>
-    <string name="description_item_rank_hide">Скрыть категорию с именем: %s</string>
-    <string name="description_item_rank_cancel">Убрать категорию с именем: %s</string>
+    <string name="desc_rank_show">Показать категорию с именем: %s</string>
+    <string name="desc_rank_hide">Скрыть категорию с именем: %s</string>
+    <string name="desc_rank_cancel">Убрать категорию с именем: %s</string>
 
     <string name="description_item_notification_cancel">Убрать уведомление с именем:</string>
     <string name="description_item_notification_cancel_at">.\nКоторое установлено на:</string>

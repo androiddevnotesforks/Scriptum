@@ -11,6 +11,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
@@ -21,7 +22,7 @@ class RollAdapter(
     private val clickListener: ItemListener.ActionClick
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
-    var dragListener: ItemListener.Drag? = null
+    var dragListener: ItemDragListener? = null
     var inputControl: IInputControl? = null
 
     var noteState: NoteState? = null

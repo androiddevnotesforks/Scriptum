@@ -26,7 +26,7 @@ class RollReadHolder(
 
     init {
         clickView.setOnClickListener { v ->
-            checkNoPosition { clickListener.onItemClick(v, it) { rollCheck.toggle() } }
+            checkPosition { clickListener.onItemClick(v, it) { rollCheck.toggle() } }
         }
     }
 

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.listener
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.cleanup.presentation.control.touch.EdgeDragTouchHelper
 
 /**
  * Interface for different touches on view
@@ -39,13 +38,4 @@ interface ItemListener {
          */
         fun onItemClick(view: View, p: Int, action: () -> Unit = {})
     }
-
-    interface Drag {
-        /**
-         * Interface for control cards drag inside [EdgeDragTouchHelper]. It helps to know
-         * which view can be dragged and which can't.
-         */
-        fun setDrag(mayDrag: Boolean)
-    }
-
 }

@@ -18,7 +18,7 @@ class NotificationHolder(
 
     fun bind(item: NotificationItem, callback: NotificationClickListener) {
         clickView.setOnClickListener { callback.onNotificationClick(item) }
-        cancelButton.setOnClickListener { checkNoPosition { p -> callback.onNotificationCancel(p) } }
+        cancelButton.setOnClickListener { checkPosition { p -> callback.onNotificationCancel(p) } }
 
         // TODO remove databinding and use only view binding
         binding.apply { this.item = item }.executePendingBindings()

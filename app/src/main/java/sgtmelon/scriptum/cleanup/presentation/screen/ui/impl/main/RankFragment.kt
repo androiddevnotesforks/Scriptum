@@ -62,9 +62,9 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
                 parentOpen?.tag = if (isEnabled) OpenState.Tag.ND else OpenState.Tag.ANIM
             }
         }, object : RankClickListener {
-            override fun onRankVisibleClick(p: Int, action: () -> Unit) {
+            override fun onRankVisibleClick(p: Int, onAction: () -> Unit) {
                 parentOpen?.attempt(OpenState.Tag.ANIM) {
-                    action()
+                    onAction()
                     viewModel.onClickVisible(p)
                 }
             }
