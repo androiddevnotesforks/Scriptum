@@ -3,66 +3,41 @@ package sgtmelon.scriptum.cleanup.presentation.adapter
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ColorHolder
-import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.infrastructure.utils.inflateView
+import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
- * Adapter which displays list of application colors for [ColorDialog].
+ * Adapter which displays list of [Color]'s.
  */
 class ColorAdapter(
-    private val clickListener: ItemListener.Click
+    private val callback: ColorClickListener,
+    private var check: Int
 ) : ParentAdapter<Color, ColorHolder>() {
 
     private val visibleArray: BooleanArray
-    private var check: Int = 0
 
     init {
         setList(Color.values().toList())
+
         visibleArray = BooleanArray(itemCount)
-    }
-
-    fun setCheck(check: Int) = apply {
-        this.check = check
-
         visibleArray.fill(element = false)
         visibleArray[check] = true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorHolder {
-        return ColorHolder(parent.inflateView(R.layout.item_color))
+        return ColorHolder(parent.inflateBinding(R.layout.item_color))
     }
 
     override fun onBindViewHolder(holder: ColorHolder, position: Int) {
         holder.bindColor(list[position])
-
-        holder.clickView.setOnClickListener { v ->
-            clickListener.onItemClick(v, position)
-
-            if (check != position) {
-                notifyItemChangedOld(position)
-
-                visibleArray[check] = true
-                holder.animateCheckShow()
-            }
-        }
-
-        if (visibleArray[position]) {
-            if (check != position) {
-                visibleArray[position] = false
-                holder.animateCheckHide()
-            } else {
-                holder.checkShow()
-            }
-        } else {
-            holder.checkHide()
-        }
+        holder.bindClick(visibleArray, check, position, callback) { unselectColor(position) }
+        holder.bindCheck(visibleArray, check, position)
     }
 
-    private fun notifyItemChangedOld(position: Int) {
-        val positionOld = check
+    private fun unselectColor(position: Int) {
+        val updatePosition = check
         check = position
-        notifyItemChanged(positionOld)
+        notifyItemChanged(updatePosition)
     }
 }

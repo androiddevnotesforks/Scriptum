@@ -111,10 +111,10 @@ class ColorDialogUi(
         p: Int
     ) : ParentRecyclerItem<ColorItem>(listMatcher, p) {
 
-        private val parentContainer by lazy { getChild(getViewById(R.id.color_parent_container)) }
-        private val backgroundView by lazy { getChild(getViewById(R.id.color_background_view)) }
-        private val checkImage by lazy { getChild(getViewById(R.id.color_check_image)) }
-        private val clickView by lazy { getChild(getViewById(R.id.color_click_view)) }
+        private val parentContainer by lazy { getChild(getViewById(R.id.parent_container)) }
+        private val backgroundView by lazy { getChild(getViewById(R.id.background_view)) }
+        private val checkImage by lazy { getChild(getViewById(R.id.check_image)) }
+        private val clickView by lazy { getChild(getViewById(R.id.click_view)) }
 
         override fun assert(item: ColorItem) {
             parentContainer.isDisplayed()

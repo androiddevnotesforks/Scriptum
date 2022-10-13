@@ -12,14 +12,14 @@ import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Dialog for display application available colors for notes.
  */
 class ColorDialog : BlankDialog(),
-    ItemListener.Click {
+    ColorClickListener {
 
     private var checkInit: Int = DEF_CHECK
     var check: Int = DEF_CHECK
@@ -58,7 +58,7 @@ class ColorDialog : BlankDialog(),
 
         val columnCount = resources.getInteger(R.integer.color_column_count)
         recyclerView.layoutManager = GridLayoutManager(context, columnCount)
-        recyclerView.adapter = ColorAdapter(clickListener = this@ColorDialog).setCheck(check)
+        recyclerView.adapter = ColorAdapter(callback = this@ColorDialog, check)
 
         (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         recyclerView.setHasFixedSize(true)
@@ -85,7 +85,7 @@ class ColorDialog : BlankDialog(),
         positiveButton?.isEnabled = checkInit != check
     }
 
-    override fun onItemClick(view: View, p: Int) {
+    override fun onColorClick(p: Int) {
         check = p
         changeButtonEnable()
     }

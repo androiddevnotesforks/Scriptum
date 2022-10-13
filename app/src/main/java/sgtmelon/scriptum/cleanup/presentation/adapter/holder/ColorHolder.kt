@@ -1,61 +1,79 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter.holder
 
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.extensions.getColorCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
-import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
+import sgtmelon.scriptum.databinding.ItemColorBinding
+import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
+import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.utils.makeVisibleIf
 import sgtmelon.test.idling.addIdlingListener
 
-/**
- * Holder for app color, use in [ColorAdapter].
- */
-// TODO add view binding
-// TODO add unbind function
-class ColorHolder(itemView: View) : ParentHolder(itemView) {
+class ColorHolder(
+    private val binding: ItemColorBinding
+) : ParentHolder(binding.root),
+    UnbindCallback {
 
-    private val parentContainer: ViewGroup = itemView.findViewById(R.id.color_parent_container)
-    private val backgroundView: View = itemView.findViewById(R.id.color_background_view)
-
-    private val checkImage: ImageView = itemView.findViewById(R.id.color_check_image)
-    val clickView: View = itemView.findViewById(R.id.color_click_view)
-
-    fun bindColor(color: Color) {
+    fun bindColor(color: Color) = with(binding) {
         val colorItem = backgroundView.bindIndicatorColor(color)
         if (colorItem != null) {
             checkImage.setColorFilter(context.getColorCompat(colorItem.content))
         }
 
         val colorName = context.resources.getStringArray(R.array.pref_note_color)[color.ordinal]
-
         clickView.contentDescription = context.getString(R.string.description_item_color, colorName)
     }
 
-    fun checkShow() {
-        checkImage.visibility = View.VISIBLE
+    fun bindClick(
+        visibleArray: BooleanArray,
+        check: Int,
+        position: Int,
+        callback: ColorClickListener,
+        onUpdate: () -> Unit
+    ) {
+        binding.clickView.setOnClickListener {
+            callback.onColorClick(position)
+
+            if (check != position) {
+                onUpdate()
+                visibleArray[check] = true
+                prepareAnimation { changeCheck(isVisible = true) }
+            }
+        }
     }
 
-    fun checkHide() {
-        checkImage.visibility = View.GONE
+    fun bindCheck(visibleArray: BooleanArray, check: Int, position: Int) {
+        if (visibleArray[position]) {
+            if (check != position) {
+                visibleArray[position] = false
+                prepareAnimation { changeCheck(isVisible = false) }
+            } else {
+                changeCheck(isVisible = true)
+            }
+        } else {
+            changeCheck(isVisible = false)
+        }
     }
 
-    fun animateCheckShow() = prepareCheckTransition { checkShow() }
+    private fun changeCheck(isVisible: Boolean) = binding.checkImage.makeVisibleIf(isVisible)
 
-    fun animateCheckHide() = prepareCheckTransition { checkHide() }
-
-    private fun prepareCheckTransition(func: () -> Unit) {
-        val time = context.resources.getInteger(R.integer.color_fade_time)
-        val transition = Fade().setDuration(time.toLong())
-            .addTarget(checkImage)
+    private inline fun prepareAnimation(changeFunc: () -> Unit) {
+        val transition = Fade()
+            .setDuration(context.resources.getInteger(R.integer.color_fade_time).toLong())
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .addTarget(binding.checkImage)
             .addIdlingListener()
 
-        TransitionManager.beginDelayedTransition(parentContainer, transition)
+        TransitionManager.beginDelayedTransition(binding.parentContainer, transition)
 
-        func()
+        changeFunc()
+    }
+
+    override fun unbind() {
+        binding.clickView.setOnClickListener(null)
     }
 }
