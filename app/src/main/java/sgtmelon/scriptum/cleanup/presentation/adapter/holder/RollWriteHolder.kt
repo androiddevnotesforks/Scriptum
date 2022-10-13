@@ -11,17 +11,18 @@ import android.widget.EditText
 import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 
 /**
  * Holder of note roll row edit state, use in [RollAdapter]
  */
+// TODO add unbind function
 class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
     private val dragListener: ItemListener.Drag?,
@@ -56,6 +57,7 @@ class RollWriteHolder(
     fun bind(item: RollItem) {
         inputControl?.isEnabled = false
 
+        // TODO remove databinding and use only view binding
         binding.apply {
             this.item = item
             this.descText = item.text

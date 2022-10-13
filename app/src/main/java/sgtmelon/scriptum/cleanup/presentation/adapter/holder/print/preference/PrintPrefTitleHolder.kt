@@ -12,6 +12,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
  */
 class PrintPrefTitleHolder(itemView: View) : ParentHolder(itemView) {
 
+    // TODO add view binding
+
     private val titleText = itemView.findViewById<TextView>(R.id.print_pref_title_text)
 
     fun bind(item: PrintItem.Preference.Title) {

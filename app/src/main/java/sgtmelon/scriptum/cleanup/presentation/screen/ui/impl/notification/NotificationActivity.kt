@@ -13,10 +13,10 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
-import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
+import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity

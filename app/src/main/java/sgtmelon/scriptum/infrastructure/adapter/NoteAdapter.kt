@@ -13,7 +13,7 @@ import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
- * Adapter for display list of [NoteItem]'s.
+ * Adapter which displays list of [NoteItem]'s.
  */
 class NoteAdapter(
     private val callback: NoteClickListener

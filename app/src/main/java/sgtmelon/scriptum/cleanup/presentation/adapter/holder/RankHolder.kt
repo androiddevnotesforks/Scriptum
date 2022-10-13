@@ -19,12 +19,8 @@ import sgtmelon.test.prod.RunNone
 /**
  * Holder for category items - [RankItem], use inside [RankAdapter].
  */
-class RankHolder(
-    itemView: View,
-    private val dragListener: ItemListener.Drag?,
-    blockCallback: IconBlockCallback
-) : ParentHolder(itemView),
-    View.OnTouchListener,
+// TODO add view binding
+class RankHolder(itemView: View) : ParentHolder(itemView),
     UnbindCallback {
 
     private val clickView: View = itemView.findViewById(R.id.rank_click_container)
@@ -42,16 +38,27 @@ class RankHolder(
 
     private val cancelButton: ImageButton = itemView.findViewById(R.id.rank_cancel_button)
 
-    init {
+    fun bind(
+        item: RankItem,
+        dragListener: ItemListener.Drag,
+        blockCallback: IconBlockCallback,
+        callback: RankClickListener
+    ) {
+        updateContent(item)
+
         visibleButton.setBlockCallback(blockCallback)
 
-        clickView.setOnTouchListener(this)
-        cancelButton.setOnTouchListener(this)
-        visibleButton.setOnTouchListener(this)
-    }
+        val touchListener = View.OnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                dragListener.setDrag(v.id == clickView.id)
+            }
 
-    fun bind(item: RankItem, callback: RankClickListener) {
-        updateContent(item)
+            return@OnTouchListener false
+        }
+
+        clickView.setOnTouchListener(touchListener)
+        cancelButton.setOnTouchListener(touchListener)
+        visibleButton.setOnTouchListener(touchListener)
 
         clickView.setOnClickListener { checkNoPosition { callback.onRankClick(it) } }
         cancelButton.setOnClickListener { checkNoPosition { callback.onRankCancelClick(it) } }
@@ -131,15 +138,14 @@ class RankHolder(
         countText.text = context.getString(R.string.list_item_rank_count, item.noteId.size)
     }
 
-    override fun onTouch(v: View, event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            dragListener?.setDrag(v.id == clickView.id)
-        }
-        return false
-    }
-
     override fun unbind() {
-        //        TODO("Not yet implemented")
+        clickView.setOnTouchListener(null)
+        cancelButton.setOnTouchListener(null)
+        visibleButton.setOnTouchListener(null)
+
+        clickView.setOnClickListener(null)
+        cancelButton.setOnClickListener(null)
+        visibleButton.setOnClickListener(null)
     }
 
     companion object {

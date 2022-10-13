@@ -12,6 +12,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
  */
 class PrintPrefKeyHolder(itemView: View) : ParentHolder(itemView) {
 
+    // TODO add view binding
+
     private val keyText = itemView.findViewById<TextView>(R.id.print_pref_key_text)
     private val defText = itemView.findViewById<TextView>(R.id.print_pref_def_text)
     private val valueText = itemView.findViewById<TextView>(R.id.print_pref_value_text)

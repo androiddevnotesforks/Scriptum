@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import org.json.JSONObject
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
+import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm as AlarmDb

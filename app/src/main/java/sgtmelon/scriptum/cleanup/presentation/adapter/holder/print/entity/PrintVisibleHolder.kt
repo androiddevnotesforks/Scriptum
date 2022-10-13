@@ -12,6 +12,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
  */
 class PrintVisibleHolder(itemView: View) : ParentHolder(itemView) {
 
+    // TODO add view binding
+
     private val idText = itemView.findViewById<TextView>(R.id.print_visible_id_text)
     private val noteIdText = itemView.findViewById<TextView>(R.id.print_visible_note_id_text)
     private val valueText = itemView.findViewById<TextView>(R.id.print_visible_value_text)

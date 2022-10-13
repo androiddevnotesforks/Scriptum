@@ -12,6 +12,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
  */
 class PrintPrefPathHolder(itemView: View) : ParentHolder(itemView) {
 
+    // TODO add view binding
+
     private val pathText = itemView.findViewById<TextView>(R.id.print_pref_path_text)
 
     fun bind(item: PrintItem.Preference.Path) {

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter
+package sgtmelon.scriptum.infrastructure.adapter
 
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
- * Adapter which displays list of notifications.
+ * Adapter which displays list of [NotificationItem]'s.
  */
 class NotificationAdapter(
     private val callback: NotificationClickListener

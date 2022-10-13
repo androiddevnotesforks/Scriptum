@@ -12,6 +12,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
  */
 class PrintAlarmHolder(itemView: View) : ParentHolder(itemView) {
 
+    // TODO add view binding
+
     private val idText = itemView.findViewById<TextView>(R.id.print_alarm_id_text)
     private val noteIdText = itemView.findViewById<TextView>(R.id.print_alarm_note_id_text)
     private val dateText = itemView.findViewById<TextView>(R.id.print_alarm_date_text)

@@ -23,6 +23,7 @@ class NoteRollHolder(
             return@setOnLongClickListener true
         }
 
+        // TODO remove databinding and use only view binding
         binding.apply { this.item = item }.executePendingBindings()
     }
 

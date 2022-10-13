@@ -15,23 +15,21 @@ import sgtmelon.scriptum.infrastructure.utils.inflateView
  * Adapter which displays list of categories (ranks).
  */
 class RankAdapter(
+    private val dragListener: ItemListener.Drag,
     private val blockCallback: IconBlockCallback,
-    private val clickListener: RankClickListener,
+    private val callback: RankClickListener
 ) : ParentDiffAdapter<RankItem, RankHolder>(RankDiff()) {
-
-    var dragListener: ItemListener.Drag? = null
 
     override fun getListCopy(list: List<RankItem>): List<RankItem> {
         return ArrayList(list.map { it.copy() })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankHolder {
-        val itemView = parent.inflateView(R.layout.item_rank)
-        return RankHolder(itemView, dragListener, blockCallback)
+        return RankHolder(parent.inflateView(R.layout.item_rank))
     }
 
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
         val item = list.getOrNull(position) ?: return
-        holder.bind(item, clickListener)
+        holder.bind(item, dragListener, blockCallback, callback)
     }
 }

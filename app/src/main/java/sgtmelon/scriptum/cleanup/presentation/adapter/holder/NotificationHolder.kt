@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 
 class NotificationHolder(
-    private val binding: ItemNotificationBinding,
+    private val binding: ItemNotificationBinding
 ) : ParentHolder(binding.root),
     UnbindCallback {
 

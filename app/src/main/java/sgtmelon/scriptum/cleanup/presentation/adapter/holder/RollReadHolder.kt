@@ -12,6 +12,7 @@ import sgtmelon.scriptum.databinding.ItemRollReadBinding
 /**
  * Holder of note roll row read state, use in [RollAdapter].
  */
+// TODO add unbind function
 class RollReadHolder(
     private val binding: ItemRollReadBinding,
     private val clickListener: ItemListener.ActionClick
@@ -29,6 +30,7 @@ class RollReadHolder(
         }
     }
 
+    // TODO remove databinding and use only view binding
     fun bind(item: RollItem, noteState: NoteState?) = binding.apply {
         this.item = item
         this.isBin = noteState?.isBin == true

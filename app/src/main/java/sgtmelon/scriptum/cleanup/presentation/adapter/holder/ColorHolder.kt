@@ -15,6 +15,8 @@ import sgtmelon.test.idling.addIdlingListener
 /**
  * Holder for app color, use in [ColorAdapter].
  */
+// TODO add view binding
+// TODO add unbind function
 class ColorHolder(itemView: View) : ParentHolder(itemView) {
 
     private val context = itemView.context

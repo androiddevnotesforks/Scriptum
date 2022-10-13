@@ -7,8 +7,8 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
+import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription

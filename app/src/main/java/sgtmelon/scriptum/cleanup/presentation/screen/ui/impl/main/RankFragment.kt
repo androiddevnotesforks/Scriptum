@@ -51,8 +51,10 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
 
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRename() }
 
+    private val touchControl by lazy { RankTouchControl(viewModel) }
+
     private val adapter by lazy {
-        RankAdapter(object : IconBlockCallback {
+        RankAdapter(touchControl, object : IconBlockCallback {
             override fun setEnabled(isEnabled: Boolean) {
                 getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
 
@@ -210,10 +212,6 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
         emptyInfoView = view?.findViewById(R.id.rank_info_include)
         progressBar = view?.findViewById(R.id.rank_progress)
 
-        val touchCallback = RankTouchControl(viewModel)
-
-        adapter.dragListener = touchCallback
-
         recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.let {
             it.setDefaultAnimator(supportsChangeAnimations = false) {
@@ -226,7 +224,7 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
             it.adapter = adapter
         }
 
-        ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
+        ItemTouchHelper(touchControl).attachToRecyclerView(recyclerView)
     }
 
     override fun setupDialog() {

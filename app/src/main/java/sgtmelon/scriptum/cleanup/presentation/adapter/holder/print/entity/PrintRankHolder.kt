@@ -12,6 +12,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
  */
 class PrintRankHolder(itemView: View) : ParentHolder(itemView) {
 
+    // TODO add view binding
+
     private val idText = itemView.findViewById<TextView>(R.id.print_rank_id_text)
     private val positionText = itemView.findViewById<TextView>(R.id.print_rank_position_text)
     private val visibleText = itemView.findViewById<TextView>(R.id.print_rank_visible_text)
