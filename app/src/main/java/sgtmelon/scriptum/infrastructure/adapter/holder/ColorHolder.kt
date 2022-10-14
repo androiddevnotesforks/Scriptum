@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.holder
+package sgtmelon.scriptum.infrastructure.adapter.holder
 
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.transition.Fade
@@ -6,6 +6,7 @@ import androidx.transition.TransitionManager
 import sgtmelon.extensions.getColorCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
 import sgtmelon.scriptum.databinding.ItemColorBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
@@ -61,6 +62,7 @@ class ColorHolder(
 
     private fun changeCheck(isVisible: Boolean) = binding.checkImage.makeVisibleIf(isVisible)
 
+    // TODO move animation into another class
     private inline fun prepareAnimation(changeFunc: () -> Unit) {
         val transition = Fade()
             .setDuration(context.resources.getInteger(R.integer.color_fade_time).toLong())

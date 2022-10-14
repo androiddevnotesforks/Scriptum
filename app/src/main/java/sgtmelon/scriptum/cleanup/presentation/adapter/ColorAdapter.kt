@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.presentation.adapter
 
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ColorHolder
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
+import sgtmelon.scriptum.infrastructure.adapter.holder.ColorHolder
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
