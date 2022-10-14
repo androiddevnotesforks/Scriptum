@@ -4,7 +4,7 @@ import sgtmelon.extensions.getColorCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
 import sgtmelon.scriptum.databinding.ItemColorBinding
-import sgtmelon.scriptum.infrastructure.adapter.animation.ColorAnimations
+import sgtmelon.scriptum.infrastructure.adapter.animation.ColorAnimation
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
@@ -16,7 +16,7 @@ class ColorHolder(
 ) : ParentHolder(binding.root),
     UnbindCallback {
 
-    private val animation = ColorAnimations()
+    private val animation = ColorAnimation()
 
     fun bindColor(color: Color) = with(binding) {
         val colorItem = backgroundView.bindIndicatorColor(color)

@@ -77,7 +77,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     /** Variable for detect layout is completely configure and ready for animation. */
     private var isLayoutConfigure = false
 
-    private val animations = AlarmAnimations()
+    private val animation = AlarmAnimation()
 
     //region System
 
@@ -209,7 +209,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     private fun startLogoShiftAnimation() {
-        animations.startLogoShiftAnimation(
+        animation.startLogoShiftAnimation(
             binding?.parentContainer, binding?.logoView, { onLogoTransitionEnd() }
         ) {
             binding?.recyclerView?.visibility = View.VISIBLE
@@ -242,7 +242,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         getIdling().start(IdlingTag.Alarm.START)
 
         startRippleAnimation()
-        animations.startContentAnimation(binding?.recyclerView, binding?.buttonContainer)
+        animation.startContentAnimation(binding?.recyclerView, binding?.buttonContainer)
 
         if (alarmState.signalState.isMelody) {
             melodyPlay.start(alarmState.isVolumeIncrease)

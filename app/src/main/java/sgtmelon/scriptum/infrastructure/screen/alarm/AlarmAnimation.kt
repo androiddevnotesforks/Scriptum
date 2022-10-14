@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getAlphaInterpolator
 import sgtmelon.test.idling.addIdlingListener
 
-class AlarmAnimations {
+class AlarmAnimation {
 
     inline fun startLogoShiftAnimation(
         parentContainer: ViewGroup?,

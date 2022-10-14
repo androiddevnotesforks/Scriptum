@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ItemColorBinding
 import sgtmelon.test.idling.addIdlingListener
 
-class ColorAnimations {
+class ColorAnimation {
 
     inline fun prepareCheckAnimation(binding: ItemColorBinding, changeUi: () -> Unit) {
         val duration = binding.root.context.resources.getInteger(R.integer.color_fade_time)
