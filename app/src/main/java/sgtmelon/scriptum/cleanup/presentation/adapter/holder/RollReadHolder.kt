@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 
 /**
  * Holder of note roll row read state, use in [RollAdapter].

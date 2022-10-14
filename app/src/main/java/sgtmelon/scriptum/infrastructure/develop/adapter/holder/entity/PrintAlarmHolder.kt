@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.infrastructure.develop.adapter.holder.entity
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
 import sgtmelon.scriptum.databinding.ItemPrintAlarmBinding
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.develop.PrintItem
 
 class PrintAlarmHolder(private val binding: ItemPrintAlarmBinding) : ParentHolder(binding.root) {

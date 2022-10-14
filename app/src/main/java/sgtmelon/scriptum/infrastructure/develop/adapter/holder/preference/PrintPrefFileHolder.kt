@@ -3,8 +3,8 @@ package sgtmelon.scriptum.infrastructure.develop.adapter.holder.preference
 import android.text.format.Formatter
 import java.io.File
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
 import sgtmelon.scriptum.databinding.ItemPrintPrefFileBinding
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.develop.PrintItem
 
 class PrintPrefFileHolder(

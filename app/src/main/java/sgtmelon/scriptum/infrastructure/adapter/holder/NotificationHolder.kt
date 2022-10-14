@@ -9,6 +9,7 @@ import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
 import sgtmelon.scriptum.databinding.ItemNotificationBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 
 class NotificationHolder(
     private val binding: ItemNotificationBinding
