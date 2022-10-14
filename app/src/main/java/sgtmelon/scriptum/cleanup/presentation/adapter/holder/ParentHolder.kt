@@ -11,13 +11,14 @@ abstract class ParentHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     protected val context: Context get() = itemView.context
 
-    @Deprecated("Pass items inside callback, not position")
-    protected fun checkPosition(func: (Int) -> Unit): Boolean {
+    protected inline fun checkPosition(onSuccess: (Int) -> Unit): Boolean {
         val position = adapterPosition
 
-        if (position == RecyclerView.NO_POSITION) return false
+        if (position != RecyclerView.NO_POSITION) {
+            onSuccess(position)
+            return true
+        }
 
-        func(position)
         return true
     }
 }

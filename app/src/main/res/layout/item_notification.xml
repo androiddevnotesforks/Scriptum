@@ -3,19 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem" />
-    </data>
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/notification_parent_card"
+        android:id="@+id/parent_card"
         style="@style/Card.Item.Common">
 
         <LinearLayout
-            android:id="@+id/notification_click_container"
+            android:id="@+id/click_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -24,16 +17,15 @@
             android:weightSum="1">
 
             <View
-                android:id="@+id/notification_color_view"
+                android:id="@+id/color_view"
                 style="@style/View.Color.Vertical"
                 android:layout_marginStart="@dimen/color_vertical_shift_space"
                 android:layout_marginEnd="@dimen/item_content_between_space"
                 android:importantForAccessibility="no"
-                app:indicatorColor='@{item.note.color}'
                 tools:visibility="visible" />
 
             <LinearLayout
-                android:id="@+id/notification_content_container"
+                android:id="@+id/content_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/item_content_half_between_space"
@@ -41,26 +33,24 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/notification_name_text"
+                    android:id="@+id/name_text"
                     style="@style/Text.SmallCard.Title"
-                    android:text='@{item.note.name.isEmpty() ? @string/hint_text_name : item.note.name}'
                     tools:text="@string/preview_notification_name" />
 
                 <TextView
-                    android:id="@+id/notification_date_text"
+                    android:id="@+id/date_text"
                     style="@style/Text.SmallCard.Subtitle"
-                    app:futureTime='@{item.alarm.date}'
                     tools:text="@string/preview_notification_date" />
 
             </LinearLayout>
 
             <!--TODO change size for another screens-->
             <ImageButton
-                android:id="@+id/notification_cancel_button"
+                android:id="@+id/cancel_button"
                 style="@style/Button.Medium"
                 android:layout_marginStart="@dimen/item_content_between_space"
                 android:layout_marginEnd="@dimen/item_content_horizontal_space"
-                android:contentDescription='@{@string/description_item_notification_cancel + " " + (item.note.name.isEmpty() ? @string/hint_text_name : item.note.name) + @string/description_item_notification_cancel_at + " " + item.alarm.date}'
+                android:contentDescription="@null"
                 app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_cancel_enter" />
 

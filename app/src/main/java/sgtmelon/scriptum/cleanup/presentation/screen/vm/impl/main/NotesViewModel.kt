@@ -101,7 +101,7 @@ class NotesViewModel(
     override fun onShowOptionsDialog(item: NoteItem, p: Int) {
         val callback = callback ?: return
 
-        val title = item.name.ifEmpty { callback.getString(R.string.hint_text_name) }
+        val title = item.name.ifEmpty { callback.getString(R.string.empty_note_name) }
 
         val itemArray: Array<String> = callback.getStringArray(
             when (item) {

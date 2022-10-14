@@ -96,13 +96,16 @@
     <string name="hint_enter_rank_new">New category</string>
     <string name="hint_enter_rank_rename">New name for category</string>
     <string name="hint_enter_name">Title of note</string>
-    <string name="hint_text_name">Untitled</string>
+    <string name="hint_text_name">@string/empty_note_name</string>
     <string name="hint_enter_text">Your text</string>
     <string name="hint_enter_roll">Your list item</string>
     <string name="hind_enter_roll_empty">This item will be removed</string>
 
+    <!-- Empty -->
+    <string name="empty_note_name">Untitled</string>
+
     <!-- Items text -->
-    <string name="list_item_rank_count">Notes: %1$d</string>
+    <string name="list_rank_count">Notes: %1$d</string>
 
     <!-- Snackbar text -->
     <string name="snackbar_message_rank">Category is removed</string>

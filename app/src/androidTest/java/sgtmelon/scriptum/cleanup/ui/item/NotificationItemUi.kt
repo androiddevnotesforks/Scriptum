@@ -24,14 +24,14 @@ class NotificationItemUi(
     p: Int
 ) : ParentRecyclerItem<NoteItem>(listMatcher, p) {
 
-    private val parentCard by lazy { getChild(getViewById(R.id.notification_parent_card)) }
+    private val parentCard by lazy { getChild(getViewById(R.id.parent_card)) }
 
-    private val nameText by lazy { getChild(getViewById(R.id.notification_name_text)) }
-    private val dateText by lazy { getChild(getViewById(R.id.notification_date_text)) }
+    private val nameText by lazy { getChild(getViewById(R.id.name_text)) }
+    private val dateText by lazy { getChild(getViewById(R.id.date_text)) }
 
-    private val colorView by lazy { getChild(getViewById(R.id.notification_color_view)) }
+    private val colorView by lazy { getChild(getViewById(R.id.color_view)) }
 
-    val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
+    val cancelButton by lazy { getChild(getViewById(R.id.cancel_button)) }
 
     override fun assert(item: NoteItem) {
         parentCard.isDisplayed().withCard(
@@ -40,27 +40,20 @@ class NotificationItemUi(
             R.dimen.item_card_elevation
         )
 
-        val name = item.name.ifEmpty { context.getString(R.string.hint_text_name) }
-
-        nameText.isDisplayed().withText(name, R.attr.clContent, R.dimen.text_16sp)
-
+        val name = item.name.ifEmpty { context.getString(R.string.empty_note_name) }
         val date = item.alarmDate.toCalendar().formatFuture(context)
-        dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
+        val cancelDesc = context.getString(R.string.desc_notification_cancel, name, item.alarmDate)
 
         colorView.isDisplayed()
             .withSize(widthId = R.dimen.layout_8dp)
             .withColorIndicator(R.drawable.ic_color_indicator, appTheme, item.color)
 
-        val description = context.getString(R.string.description_item_notification_cancel)
-            .plus(other = " ")
-            .plus(name)
-            .plus(context.getString(R.string.description_item_notification_cancel_at))
-            .plus(other = " ")
-            .plus(item.alarmDate)
+        nameText.isDisplayed().withText(name, R.attr.clContent, R.dimen.text_16sp)
+        dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
 
         cancelButton.isDisplayed()
             .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, R.attr.clContent)
-            .withContentDescription(description)
+            .withContentDescription(cancelDesc)
     }
 
 }

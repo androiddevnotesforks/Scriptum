@@ -23,7 +23,7 @@ class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTime
     //region Views
 
     private val titleText = getViewByText(item.name.ifEmpty {
-        context.getString(R.string.hint_text_name)
+        context.getString(R.string.empty_note_name)
     })
 
     private val notificationButton = getViewByText(if (item.haveAlarm()) {

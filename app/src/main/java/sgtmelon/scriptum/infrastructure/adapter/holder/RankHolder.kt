@@ -76,7 +76,7 @@ class RankHolder(
         bindContainer.makeVisibleIf(isBindVisible)
         bindText.text = getIndicatorCount(item.bindCount)
 
-        countText.text = context.getString(R.string.list_item_rank_count, item.noteId.size)
+        countText.text = context.getString(R.string.list_rank_count, item.noteId.size)
     }
 
     private fun getIndicatorCount(count: Int): String {

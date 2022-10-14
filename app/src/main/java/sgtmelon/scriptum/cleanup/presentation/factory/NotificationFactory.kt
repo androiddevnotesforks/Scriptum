@@ -111,7 +111,7 @@ object NotificationFactory {
         ): String = with(item) {
             val titleStart = if (type == NoteType.ROLL) "$text | " else ""
 
-            return titleStart.plus(name.ifEmpty { context.getString(R.string.hint_text_name) })
+            return titleStart.plus(name.ifEmpty { context.getString(R.string.empty_note_name) })
         }
 
         @RunPrivate fun getStatusText(context: Context, item: NoteItem): String {

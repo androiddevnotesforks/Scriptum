@@ -79,13 +79,16 @@
     <string name="hint_enter_rank_new">Новая категория</string>
     <string name="hint_enter_rank_rename">Новое имя для категории</string>
     <string name="hint_enter_name">Название заметки</string>
-    <string name="hint_text_name">Без названия</string>
+    <string name="hint_text_name">@string/empty_note_name</string>
     <string name="hint_enter_text">Ваш текст</string>
     <string name="hint_enter_roll">Ваш пункт</string>
     <string name="hind_enter_roll_empty">Этот пункт будет удалён</string>
 
+    <!-- Empty -->
+    <string name="empty_note_name">Без названия</string>
+
     <!-- Items text -->
-    <string name="list_item_rank_count">Заметок: %1$d</string>
+    <string name="list_rank_count">Заметок: %1$d</string>
 
     <!-- Snackbar text -->
     <string name="snackbar_message_rank">Категория удалена</string>

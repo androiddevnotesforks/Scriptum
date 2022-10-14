@@ -91,7 +91,7 @@ class RankItemUi(
             withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
         }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clIndicator)
 
-        val text = context.getString(R.string.list_item_rank_count, item.noteId.size)
+        val text = context.getString(R.string.list_rank_count, item.noteId.size)
         countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
     }
 
