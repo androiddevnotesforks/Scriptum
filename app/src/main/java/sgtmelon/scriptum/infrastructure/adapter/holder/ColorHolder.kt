@@ -1,23 +1,22 @@
 package sgtmelon.scriptum.infrastructure.adapter.holder
 
-import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.transition.Fade
-import androidx.transition.TransitionManager
 import sgtmelon.extensions.getColorCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ParentHolder
 import sgtmelon.scriptum.databinding.ItemColorBinding
+import sgtmelon.scriptum.infrastructure.adapter.animation.ColorAnimations
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.utils.makeVisibleIf
-import sgtmelon.test.idling.addIdlingListener
 
 class ColorHolder(
     private val binding: ItemColorBinding
 ) : ParentHolder(binding.root),
     UnbindCallback {
+
+    private val animation = ColorAnimations()
 
     fun bindColor(color: Color) = with(binding) {
         val colorItem = backgroundView.bindIndicatorColor(color)
@@ -42,7 +41,7 @@ class ColorHolder(
             if (check != position) {
                 onUpdate()
                 visibleArray[position] = true
-                prepareAnimation { changeCheck(isVisible = true) }
+                animation.prepareCheckAnimation(binding) { changeCheck(isVisible = true) }
             }
         }
     }
@@ -51,7 +50,7 @@ class ColorHolder(
         if (visibleArray[position]) {
             if (check != position) {
                 visibleArray[position] = false
-                prepareAnimation { changeCheck(isVisible = false) }
+                animation.prepareCheckAnimation(binding) { changeCheck(isVisible = false) }
             } else {
                 changeCheck(isVisible = true)
             }
@@ -61,19 +60,6 @@ class ColorHolder(
     }
 
     private fun changeCheck(isVisible: Boolean) = binding.checkImage.makeVisibleIf(isVisible)
-
-    // TODO move animation into another class
-    private inline fun prepareAnimation(changeFunc: () -> Unit) {
-        val transition = Fade()
-            .setDuration(context.resources.getInteger(R.integer.color_fade_time).toLong())
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .addTarget(binding.checkImage)
-            .addIdlingListener()
-
-        TransitionManager.beginDelayedTransition(binding.parentContainer, transition)
-
-        changeFunc()
-    }
 
     override fun unbind() {
         binding.clickView.setOnClickListener(null)
