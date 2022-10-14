@@ -38,7 +38,7 @@ class RollAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = list[position]
+        val item = getItem(position) ?: return
 
         when (holder) {
             is RollReadHolder -> holder.bind(item, noteState)

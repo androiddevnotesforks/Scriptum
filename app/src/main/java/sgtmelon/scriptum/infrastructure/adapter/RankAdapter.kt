@@ -29,7 +29,7 @@ class RankAdapter(
     }
 
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
-        val item = list.getOrNull(position) ?: return
+        val item = getItem(position) ?: return
         holder.bind(item, dragListener, blockCallback, callback)
     }
 }

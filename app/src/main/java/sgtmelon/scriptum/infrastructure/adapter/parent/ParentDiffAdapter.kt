@@ -23,7 +23,9 @@ abstract class ParentDiffAdapter<T, VH : RecyclerView.ViewHolder>(
 
     private var diffResult: DiffUtil.DiffResult? = null
 
-    protected val list: MutableList<T> = ArrayList()
+    private val list: MutableList<T> = ArrayList()
+
+    fun getItem(position: Int): T? = list.getOrNull(position)
 
     fun setList(list: List<T>): RecyclerView.Adapter<VH> {
         diff.setList(this.list, list)

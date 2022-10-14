@@ -30,7 +30,9 @@ class ColorAdapter(
     }
 
     override fun onBindViewHolder(holder: ColorHolder, position: Int) {
-        holder.bindColor(list[position])
+        val item = getItem(position) ?: return
+
+        holder.bindColor(item)
         holder.bindClick(visibleArray, check, position, callback) { unselectColor(position) }
         holder.bindCheck(visibleArray, check, position)
     }

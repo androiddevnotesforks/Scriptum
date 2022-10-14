@@ -25,7 +25,7 @@ class NotificationAdapter(
     }
 
     override fun onBindViewHolder(holder: NotificationHolder, position: Int) {
-        val item = list.getOrNull(position) ?: return
+        val item = getItem(position) ?: return
         holder.bind(item, callback)
     }
 }
