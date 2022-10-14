@@ -11,7 +11,7 @@ import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
+import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.model.key.Color
 

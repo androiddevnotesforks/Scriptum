@@ -29,7 +29,7 @@ class ColorHolder(
     }
 
     fun bindClick(
-        visibleArray: BooleanArray,
+        checkArray: BooleanArray,
         check: Int,
         position: Int,
         callback: ColorClickListener,
@@ -40,16 +40,16 @@ class ColorHolder(
 
             if (check != position) {
                 onUpdate()
-                visibleArray[position] = true
+                checkArray[position] = true
                 animation.prepareCheckAnimation(binding) { changeCheck(isVisible = true) }
             }
         }
     }
 
-    fun bindCheck(visibleArray: BooleanArray, check: Int, position: Int) {
-        if (visibleArray[position]) {
+    fun bindCheck(checkArray: BooleanArray, check: Int, position: Int) {
+        if (checkArray[position]) {
             if (check != position) {
-                visibleArray[position] = false
+                checkArray[position] = false
                 animation.prepareCheckAnimation(binding) { changeCheck(isVisible = false) }
             } else {
                 changeCheck(isVisible = true)

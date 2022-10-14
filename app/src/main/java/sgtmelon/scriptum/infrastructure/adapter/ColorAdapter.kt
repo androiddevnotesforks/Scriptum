@@ -1,7 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter
+package sgtmelon.scriptum.infrastructure.adapter
 
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.presentation.adapter.ParentAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.adapter.holder.ColorHolder
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -15,14 +16,14 @@ class ColorAdapter(
     private var check: Int
 ) : ParentAdapter<Color, ColorHolder>() {
 
-    private val visibleArray: BooleanArray
+    private val checkArray: BooleanArray
 
     init {
         setList(Color.values().toList())
 
-        visibleArray = BooleanArray(itemCount)
-        visibleArray.fill(element = false)
-        visibleArray[check] = true
+        checkArray = BooleanArray(itemCount)
+        checkArray.fill(element = false)
+        checkArray[check] = true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorHolder {
@@ -33,8 +34,8 @@ class ColorAdapter(
         val item = getItem(position) ?: return
 
         holder.bindColor(item)
-        holder.bindClick(visibleArray, check, position, callback) { unselectColor(position) }
-        holder.bindCheck(visibleArray, check, position)
+        holder.bindClick(checkArray, check, position, callback) { unselectColor(position) }
+        holder.bindCheck(checkArray, check, position)
     }
 
     private fun unselectColor(position: Int) {
