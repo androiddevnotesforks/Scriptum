@@ -40,7 +40,7 @@ class ColorHolder(
 
             if (check != position) {
                 onUpdate()
-                visibleArray[check] = true
+                visibleArray[position] = true
                 prepareAnimation { changeCheck(isVisible = true) }
             }
         }
