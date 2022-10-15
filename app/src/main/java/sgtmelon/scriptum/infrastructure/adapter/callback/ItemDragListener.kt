@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.infrastructure.adapter.callback
 
-import sgtmelon.scriptum.cleanup.presentation.control.touch.EdgeDragTouchHelper
+import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
 
 /**
  * Interface for control cards drag inside [EdgeDragTouchHelper]. It helps to know

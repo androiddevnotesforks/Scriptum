@@ -1,9 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.control.touch
+package sgtmelon.scriptum.infrastructure.adapter.touch
 
 import android.graphics.Canvas
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.animation.TouchAnimation
-import sgtmelon.scriptum.infrastructure.adapter.touch.SkipElevationTouchHelper
 
 /**
  * Class with custom [onChildDraw], which prevent item dragging outside of recyclerView.
@@ -79,8 +78,9 @@ abstract class EdgeDragTouchHelper(
     }
 
     interface ParentCallback {
+
         /**
-         * Calls when user start drag/swipe action with card. Also calls when user stop action.
+         * Calls when user start/end drag/swipe action with card.
          */
         fun onTouchAction(inAction: Boolean)
     }

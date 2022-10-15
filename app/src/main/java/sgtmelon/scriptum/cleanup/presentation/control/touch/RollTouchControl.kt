@@ -8,6 +8,7 @@ import kotlin.math.min
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
+import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
 
 /**
  * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModel]
