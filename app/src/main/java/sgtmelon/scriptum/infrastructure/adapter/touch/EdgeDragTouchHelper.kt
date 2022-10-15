@@ -60,11 +60,9 @@ abstract class EdgeDragTouchHelper(
 
         if (actionState.isDrag()) {
             val view = viewHolder.itemView
-            val pieceHeight = view.height / PIECE_RATIO
 
-            val topEdge = recyclerView.top - pieceHeight
-            val bottomEdge = recyclerView.height - view.bottom + pieceHeight
-
+            val topEdge = recyclerView.top - view.height / TOP_EDGE_RATIO
+            val bottomEdge = recyclerView.height - view.bottom + view.height / BOTTOM_EDGE_RATIO
             val lastPosition = (recyclerView.adapter?.itemCount ?: 0) - 1
 
             edgeY = when {
@@ -86,6 +84,7 @@ abstract class EdgeDragTouchHelper(
     }
 
     companion object {
-        private const val PIECE_RATIO = 1.5f
+        private const val TOP_EDGE_RATIO = 1.7f
+        private const val BOTTOM_EDGE_RATIO = 2.2f
     }
 }
