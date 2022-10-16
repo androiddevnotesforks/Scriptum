@@ -47,7 +47,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAla
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.DevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
@@ -64,7 +64,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPre
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.DevelopViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -385,9 +385,9 @@ class ViewModelModule {
     fun provideDevelopViewModel(
         fragment: DevelopFragment,
         interactor: DevelopInteractor
-    ): IDevelopViewModel {
+    ): DevelopViewModel {
         val factory = ViewModelFactory.Develop.Main(fragment, interactor)
-        return ViewModelProvider(fragment, factory)[DevelopViewModel::class.java]
+        return ViewModelProvider(fragment, factory)[DevelopViewModelImpl::class.java]
     }
 
     @Provides

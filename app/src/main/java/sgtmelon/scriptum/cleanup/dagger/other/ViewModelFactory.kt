@@ -43,7 +43,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPre
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.DevelopViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -382,8 +382,8 @@ object ViewModelFactory {
             private val interactor: DevelopInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(DevelopViewModel::class) {
-                    DevelopViewModel(fragment, interactor)
+                return modelClass.create(DevelopViewModelImpl::class) {
+                    DevelopViewModelImpl(fragment, interactor)
                 }
             }
         }

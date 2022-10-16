@@ -18,17 +18,17 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.deve
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 
 /**
- * Test for [DevelopViewModel].
+ * Test for [DevelopViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class DevelopViewModelTest : ParentViewModelTest() {
+class DevelopViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
     @MockK lateinit var callback: IDevelopFragment
     @MockK lateinit var interactor: DevelopInteractor
 
-    private val viewModel by lazy { DevelopViewModel(callback, interactor) }
+    private val viewModel by lazy { DevelopViewModelImpl(callback, interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
