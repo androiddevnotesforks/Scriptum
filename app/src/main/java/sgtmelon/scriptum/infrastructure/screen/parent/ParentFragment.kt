@@ -55,6 +55,11 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment() {
         open.save(outState)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     abstract fun inject(component: ScriptumComponent)
 
 }
