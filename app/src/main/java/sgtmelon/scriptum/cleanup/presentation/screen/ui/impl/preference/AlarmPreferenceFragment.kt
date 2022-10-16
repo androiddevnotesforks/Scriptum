@@ -57,11 +57,11 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //region Preferences
 
-    private val repeatPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_repeat)) }
-    private val signalPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_signal)) }
-    private val melodyPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_melody)) }
-    private val increasePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_increase)) }
-    private val volumePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_volume)) }
+    private val repeatPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_repeat) }
+    private val signalPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_signal) }
+    private val melodyPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_melody) }
+    private val increasePreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_increase) }
+    private val volumePreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_volume) }
 
     //endregion
 

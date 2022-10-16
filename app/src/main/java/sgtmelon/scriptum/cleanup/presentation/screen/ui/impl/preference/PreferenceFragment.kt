@@ -39,13 +39,13 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //region Preferences
 
-    private val themePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_theme)) }
+    private val themePreference by lazy { findPreference<Preference>(R.string.pref_key_app_theme) }
 
-    private val backupPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup)) }
-    private val notePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note)) }
-    private val alarmPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm)) }
+    private val backupPreference by lazy { findPreference<Preference>(R.string.pref_key_backup) }
+    private val notePreference by lazy { findPreference<Preference>(R.string.pref_key_note) }
+    private val alarmPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm) }
 
-    private val developerPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_other_develop)) }
+    private val developerPreference by lazy { findPreference<Preference>(R.string.pref_key_other_develop) }
 
     //endregion
 

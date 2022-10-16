@@ -3,7 +3,9 @@ package sgtmelon.scriptum.infrastructure.screen.parent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.annotation.StringRes
 import androidx.annotation.XmlRes
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -61,5 +63,13 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
     private fun setupRecycler() {
         listView.clipToPadding = false
         listView.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
+    }
+
+    /**
+     * Function which provide preference items by [stringId].
+     * Short realization of parent function for app needs.
+     */
+    fun <T : Preference> findPreference(@StringRes stringId: Int): T? {
+        return findPreference(getString(stringId))
     }
 }

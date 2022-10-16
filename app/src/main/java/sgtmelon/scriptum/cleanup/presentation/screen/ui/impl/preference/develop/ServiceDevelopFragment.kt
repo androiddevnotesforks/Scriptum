@@ -28,15 +28,15 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     @Inject lateinit var viewModel: IServiceDevelopViewModel
 
-    private val refreshPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_refresh)) }
-    private val runPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_run)) }
-    private val killPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_kill)) }
+    private val refreshPreference by lazy { findPreference<Preference>(R.string.pref_key_service_refresh) }
+    private val runPreference by lazy { findPreference<Preference>(R.string.pref_key_service_run) }
+    private val killPreference by lazy { findPreference<Preference>(R.string.pref_key_service_kill) }
 
-    private val alarmClear by lazy { findPreference<Preference>(getString(R.string.pref_key_service_alarm_clear)) }
-    private val notificationClear by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notification_clear)) }
-    private val notifyNotes by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_notes)) }
-    private val notifyInfo by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_info)) }
-    private val notifyAlarm by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_alarm)) }
+    private val alarmClear by lazy { findPreference<Preference>(R.string.pref_key_service_alarm_clear) }
+    private val notificationClear by lazy { findPreference<Preference>(R.string.pref_key_service_notification_clear) }
+    private val notifyNotes by lazy { findPreference<Preference>(R.string.pref_key_service_notify_notes) }
+    private val notifyInfo by lazy { findPreference<Preference>(R.string.pref_key_service_notify_info) }
+    private val notifyAlarm by lazy { findPreference<Preference>(R.string.pref_key_service_notify_alarm) }
 
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 

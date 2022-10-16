@@ -26,22 +26,22 @@ class DevelopFragment : ParentPreferenceFragment(),
 
     //region Preferences
 
-    private val printNotePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_note)) }
-    private val printBinPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_bin)) }
-    private val printRollPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_roll)) }
-    private val printVisiblePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_visible)) }
-    private val printRankPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_rank)) }
-    private val printAlarmPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_alarm)) }
+    private val printNotePreference by lazy { findPreference<Preference>(R.string.pref_key_print_note) }
+    private val printBinPreference by lazy { findPreference<Preference>(R.string.pref_key_print_bin) }
+    private val printRollPreference by lazy { findPreference<Preference>(R.string.pref_key_print_roll) }
+    private val printVisiblePreference by lazy { findPreference<Preference>(R.string.pref_key_print_visible) }
+    private val printRankPreference by lazy { findPreference<Preference>(R.string.pref_key_print_rank) }
+    private val printAlarmPreference by lazy { findPreference<Preference>(R.string.pref_key_print_alarm) }
 
-    private val printKeyPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_key)) }
-    private val printFilePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_file)) }
+    private val printKeyPreference by lazy { findPreference<Preference>(R.string.pref_key_print_key) }
+    private val printFilePreference by lazy { findPreference<Preference>(R.string.pref_key_print_file) }
 
-    private val introPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_screen_intro)) }
-    private val alarmPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_screen_alarm)) }
+    private val introPreference by lazy { findPreference<Preference>(R.string.pref_key_screen_intro) }
+    private val alarmPreference by lazy { findPreference<Preference>(R.string.pref_key_screen_alarm) }
 
-    private val eternalPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_eternal)) }
+    private val eternalPreference by lazy { findPreference<Preference>(R.string.pref_key_service_eternal) }
 
-    private val resetPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_other_reset)) }
+    private val resetPreference by lazy { findPreference<Preference>(R.string.pref_key_other_reset) }
 
     //endregion
 

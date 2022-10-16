@@ -18,8 +18,8 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_help
 
-    private val notificationPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_help_notification_disappear)) }
-    private val policyPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_help_privacy_policy)) }
+    private val notificationPreference by lazy { findPreference<Preference>(R.string.pref_key_help_notification_disappear) }
+    private val policyPreference by lazy { findPreference<Preference>(R.string.pref_key_help_privacy_policy) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

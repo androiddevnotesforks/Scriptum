@@ -52,8 +52,8 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
-    private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
+    private val exportPreference by lazy { findPreference<Preference>(R.string.pref_key_backup_export) }
+    private val importPreference by lazy { findPreference<Preference>(R.string.pref_key_backup_import) }
 
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 

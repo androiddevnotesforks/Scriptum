@@ -34,9 +34,9 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     //region Preferences
 
-    private val sortPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_sort)) }
-    private val colorPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_color)) }
-    private val savePeriodPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
+    private val sortPreference by lazy { findPreference<Preference>(R.string.pref_key_note_sort) }
+    private val colorPreference by lazy { findPreference<Preference>(R.string.pref_key_note_color) }
+    private val savePeriodPreference by lazy { findPreference<Preference>(R.string.pref_key_note_time) }
 
     //endregion
 
