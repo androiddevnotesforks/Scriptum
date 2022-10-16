@@ -6,7 +6,7 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.DevelopFragment
+import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopFragment
 
 /**
  * Component for [DevelopFragment].

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
+package sgtmelon.scriptum.infrastructure.develop.screen.develop
 
 import android.os.Bundle
 import android.view.View
@@ -10,8 +10,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.DevelopViewModel
-import sgtmelon.scriptum.infrastructure.develop.screen.DevelopDataBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener

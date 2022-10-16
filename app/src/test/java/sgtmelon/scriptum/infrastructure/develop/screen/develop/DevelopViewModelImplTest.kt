@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop
+package sgtmelon.scriptum.infrastructure.develop.screen.develop
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence

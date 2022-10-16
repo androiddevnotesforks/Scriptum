@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.DevelopFragment
+import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopFragment
 import sgtmelon.scriptum.parent.ParentUiRotationTest
 
 /**

@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.ui.screen.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.cleanup.ui.logic.preference.DeveloperLogic
+import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopFragment
 
 /**
  * Class for UI control of [DevelopFragment].

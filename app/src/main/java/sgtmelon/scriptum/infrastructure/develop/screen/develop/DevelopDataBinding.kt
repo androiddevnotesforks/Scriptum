@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.develop.screen
+package sgtmelon.scriptum.infrastructure.develop.screen.develop
 
 import androidx.lifecycle.Lifecycle
 import androidx.preference.Preference

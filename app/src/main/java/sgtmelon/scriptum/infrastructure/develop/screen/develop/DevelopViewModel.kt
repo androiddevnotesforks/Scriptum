@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop
+package sgtmelon.scriptum.infrastructure.develop.screen.develop
 
 import kotlinx.coroutines.flow.Flow
 
