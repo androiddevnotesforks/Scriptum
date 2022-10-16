@@ -3,6 +3,8 @@ package sgtmelon.extensions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -28,3 +30,5 @@ suspend inline fun <T> runMain(crossinline func: () -> T): T {
 inline fun CoroutineScope.launchBack(crossinline func: suspend () -> Unit): Job {
     return launch { runBack(func) }
 }
+
+fun <T> Flow<T>.flowOnBack(): Flow<T> = flowOn(Dispatchers.IO)

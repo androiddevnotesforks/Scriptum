@@ -8,13 +8,10 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 
 /**
@@ -25,7 +22,6 @@ class DevelopViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var callback: IDevelopFragment
     @MockK lateinit var interactor: DevelopInteractor
 
     private val viewModel by lazy { DevelopViewModelImpl(callback, interactor) }
@@ -33,12 +29,6 @@ class DevelopViewModelImplTest : ParentViewModelTest() {
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(callback, interactor)
-    }
-
-    @Test override fun onDestroy() {
-        assertNotNull(viewModel.callback)
-        viewModel.onDestroy()
-        assertNull(viewModel.callback)
     }
 
     //endregion
@@ -78,7 +68,7 @@ class DevelopViewModelImplTest : ParentViewModelTest() {
     }
 
     @Test fun onClickReset() {
-        viewModel.onClickReset()
+        viewModel.resetPreferences()
 
         verifySequence {
             interactor.resetPreferences()

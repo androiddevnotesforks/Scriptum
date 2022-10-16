@@ -30,7 +30,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPre
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
@@ -383,11 +382,11 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideDevelopViewModel(
-        fragment: DevelopFragment,
+        owner: ViewModelStoreOwner,
         interactor: DevelopInteractor
     ): DevelopViewModel {
-        val factory = ViewModelFactory.Develop.Main(fragment, interactor)
-        return ViewModelProvider(fragment, factory)[DevelopViewModelImpl::class.java]
+        val factory = ViewModelFactory.Develop.Main(interactor)
+        return ViewModelProvider(owner, factory)[DevelopViewModelImpl::class.java]
     }
 
     @Provides

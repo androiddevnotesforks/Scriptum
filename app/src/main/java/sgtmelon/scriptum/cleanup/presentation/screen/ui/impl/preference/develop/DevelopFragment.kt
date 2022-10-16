@@ -2,14 +2,14 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.StringRes
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.DevelopViewModel
 import sgtmelon.scriptum.infrastructure.develop.screen.DevelopDataBinding
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
@@ -19,8 +19,7 @@ import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 /**
  * Fragment of develop preferences.
  */
-class DevelopFragment : ParentPreferenceFragment(),
-    IDevelopFragment {
+class DevelopFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_develop
 
@@ -37,7 +36,7 @@ class DevelopFragment : ParentPreferenceFragment(),
 
     override fun inject(component: ScriptumComponent) {
         component.getDevelopBuilder()
-            .set(fragment = this)
+            .set(owner = this)
             .build()
             .inject(fragment = this)
     }
@@ -55,13 +54,22 @@ class DevelopFragment : ParentPreferenceFragment(),
         printFileButton?.setOnPrintClickListener(PrintType.FILE)
 
         introButton?.setOnClickListener { startActivity(InstanceFactory.Intro[it.context]) }
-        alarmButton?.setOnClickListener { viewModel.onClickAlarm() }
+        alarmButton?.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.randomNoteId.collect { id ->
+                    startActivity(InstanceFactory.Splash.getAlarm(it.context, id))
+                }
+            }
+        }
 
         eternalButton?.setOnClickListener {
             startActivity(InstanceFactory.Preference[it.context, PreferenceScreen.SERVICE])
         }
 
-        resetButton?.setOnClickListener { viewModel.onClickReset() }
+        resetButton?.setOnClickListener {
+            viewModel.resetPreferences()
+            delegators.toast.show(it.context, R.string.pref_toast_develop_clear)
+        }
     }
 
     private fun Preference.setOnPrintClickListener(type: PrintType) {
@@ -70,11 +78,4 @@ class DevelopFragment : ParentPreferenceFragment(),
         }
     }
 
-
-    override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
-
-    override fun openAlarmScreen(noteId: Long) {
-        val context = context ?: return
-        startActivity(InstanceFactory.Splash.getAlarm(context, noteId))
-    }
 }
