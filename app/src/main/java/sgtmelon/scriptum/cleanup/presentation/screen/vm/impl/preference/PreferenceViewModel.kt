@@ -40,11 +40,11 @@ class PreferenceViewModel(
 
     override fun onUnlockDeveloper() {
         if (preferencesRepo.isDeveloper) {
-            callback?.showToast(R.string.pref_toast_develop_already)
+            callback?.showToast(R.string.toast_dev_already)
         } else {
             preferencesRepo.isDeveloper = true
             callback?.setupDeveloper()
-            callback?.showToast(R.string.pref_toast_develop_unlock)
+            callback?.showToast(R.string.toast_dev_unlock)
         }
     }
 }

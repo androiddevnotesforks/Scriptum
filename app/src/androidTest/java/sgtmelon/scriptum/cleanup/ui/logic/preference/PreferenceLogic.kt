@@ -27,7 +27,7 @@ class PreferenceLogic : ParentPreferenceLogic() {
         )
 
         if (preferences.isDeveloper) {
-            list.add(PreferenceItem.Simple(R.string.pref_title_other_develop))
+            list.add(PreferenceItem.Simple(R.string.pref_title_developer))
         }
 
         return list

@@ -47,7 +47,7 @@ class LoadingDialog : BlankEmptyDialog(), DotAnimation.Callback {
         dotAnimation.stop()
     }
 
-    override fun onDotAnimUpdate(text: CharSequence) {
+    override fun onDotAnimationUpdate(text: CharSequence) {
         loadingText?.text = text
     }
 }

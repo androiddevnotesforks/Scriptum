@@ -55,7 +55,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_key_alarm_melody) } returns melodyUri
         every { resources.getString(R.string.pref_key_alarm_volume) } returns volume
         every { resources.getString(R.string.pref_key_alarm_increase) } returns isVolumeIncrease
-        every { resources.getString(R.string.pref_key_other_develop) } returns isDeveloper
+        every { resources.getString(R.string.pref_key_developer) } returns isDeveloper
 
         assertEquals(isFirstStart, providerKey.isFirstStart)
         assertEquals(theme, providerKey.theme)
@@ -86,7 +86,7 @@ class PreferencesKeyProviderTest : ParentTest() {
             resources.getString(R.string.pref_key_alarm_melody)
             resources.getString(R.string.pref_key_alarm_volume)
             resources.getString(R.string.pref_key_alarm_increase)
-            resources.getString(R.string.pref_key_other_develop)
+            resources.getString(R.string.pref_key_developer)
         }
     }
 }

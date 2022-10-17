@@ -93,7 +93,7 @@ class DotAnimation(private val type: DotAnimType, private val callback: Callback
 
                 val text = list.getOrNull(value)
                 if (text != null) {
-                    callback.onDotAnimUpdate(text)
+                    callback.onDotAnimationUpdate(text)
                 }
             }
         }
@@ -108,7 +108,7 @@ class DotAnimation(private val type: DotAnimType, private val callback: Callback
      * Inside this callback need call [TextView.setText] or something similar.
      */
     interface Callback {
-        fun onDotAnimUpdate(text: CharSequence)
+        fun onDotAnimationUpdate(text: CharSequence)
     }
 
     companion object {

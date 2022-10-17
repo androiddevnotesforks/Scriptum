@@ -72,7 +72,7 @@ class DevelopViewModelImplTest : ParentViewModelTest() {
 
         verifySequence {
             interactor.resetPreferences()
-            callback.showToast(R.string.pref_toast_develop_clear)
+            callback.showToast(R.string.toast_dev_clear)
         }
     }
 }

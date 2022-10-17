@@ -46,7 +46,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     private val notePreference by lazy { findPreference<Preference>(R.string.pref_key_note) }
     private val alarmPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm) }
 
-    private val developerPreference by lazy { findPreference<Preference>(R.string.pref_key_other_develop) }
+    private val developerPreference by lazy { findPreference<Preference>(R.string.pref_key_developer) }
 
     //endregion
 

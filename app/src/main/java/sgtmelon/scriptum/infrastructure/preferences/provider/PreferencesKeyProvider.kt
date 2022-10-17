@@ -26,5 +26,5 @@ class PreferencesKeyProvider(resources: Resources) {
     val volumePercent: String = resources.getString(R.string.pref_key_alarm_volume)
     val isVolumeIncrease: String = resources.getString(R.string.pref_key_alarm_increase)
 
-    val isDeveloper: String = resources.getString(R.string.pref_key_other_develop)
+    val isDeveloper: String = resources.getString(R.string.pref_key_developer)
 }

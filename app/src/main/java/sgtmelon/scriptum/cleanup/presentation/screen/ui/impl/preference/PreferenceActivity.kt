@@ -75,7 +75,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             PreferenceScreen.NOTE -> R.string.pref_title_note
             PreferenceScreen.ALARM -> R.string.pref_title_alarm
             PreferenceScreen.HELP -> R.string.pref_title_other_help
-            PreferenceScreen.DEVELOP -> R.string.pref_title_other_develop
+            PreferenceScreen.DEVELOP -> R.string.pref_title_developer
             PreferenceScreen.SERVICE -> R.string.pref_header_service
             null -> return
         }

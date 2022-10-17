@@ -4,17 +4,17 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopDataBinding
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServicePingState
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.utils.findPreference
+import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 
@@ -22,33 +22,28 @@ import sgtmelon.textDotAnim.DotAnimation
  * Fragment of service preferences.
  */
 class ServiceDevelopFragment : ParentPreferenceFragment(),
-    IServiceDevelopFragment,
-    DotAnimation.Callback {
+    DotAnimation.Callback,
+    DevelopScreenReceiver.Callback {
 
     override val xmlId: Int = R.xml.preference_service
 
+    private val binding = ServiceDevelopDataBinding(lifecycle, fragment = this)
+
     @Inject lateinit var viewModel: IServiceDevelopViewModel
-
-    private val refreshPreference by lazy { findPreference<Preference>(R.string.pref_key_service_refresh) }
-    private val runPreference by lazy { findPreference<Preference>(R.string.pref_key_service_run) }
-    private val killPreference by lazy { findPreference<Preference>(R.string.pref_key_service_kill) }
-
-    private val alarmClear by lazy { findPreference<Preference>(R.string.pref_key_service_alarm_clear) }
-    private val notificationClear by lazy { findPreference<Preference>(R.string.pref_key_service_notification_clear) }
-    private val notifyNotes by lazy { findPreference<Preference>(R.string.pref_key_service_notify_notes) }
-    private val notifyInfo by lazy { findPreference<Preference>(R.string.pref_key_service_notify_info) }
-    private val notifyAlarm by lazy { findPreference<Preference>(R.string.pref_key_service_notify_alarm) }
 
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
-    private val receiver by lazy { DevelopScreenReceiver[viewModel] }
+    private val receiver by lazy { DevelopScreenReceiver[this] }
 
     //region System
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onSetup()
+        setup()
+
+        viewModel.pingState.observe(viewLifecycleOwner) { onChangePingState(it) }
+
         context?.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.DEVELOP))
     }
 
@@ -61,86 +56,75 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-
-        viewModel.onDestroy()
         context?.unregisterReceiver(receiver)
     }
 
     //endregion
 
-    override fun setup() {
-        refreshPreference?.setOnPreferenceClickListener {
-            viewModel.onClickRefresh()
-            return@setOnPreferenceClickListener true
+    private fun setup() = binding.apply {
+        serviceRefreshButton?.setOnClickListener { viewModel.startPing() }
+        serviceRunButton?.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                EternalService.start(it.context)
+                viewModel.startPing()
+            } else {
+                delegators.toast.show(it.context, R.string.toast_dev_low_api)
+            }
         }
-        runPreference?.setOnPreferenceClickListener {
-            viewModel.onClickRun()
-            return@setOnPreferenceClickListener true
-        }
-        killPreference?.setOnPreferenceClickListener {
-            viewModel.onClickKill()
-            return@setOnPreferenceClickListener true
+        serviceKillButton?.setOnClickListener {
+            delegators.broadcast.sendEternalKill()
+            viewModel.startPing()
         }
 
-        alarmClear?.setOnPreferenceClickListener {
-            delegators.broadcast.sendClearAlarm()
-            return@setOnPreferenceClickListener true
-        }
-        notificationClear?.setOnPreferenceClickListener {
-            delegators.broadcast.sendClearBind()
-            return@setOnPreferenceClickListener true
-        }
-        notifyNotes?.setOnPreferenceClickListener {
-            delegators.broadcast.sendNotifyNotesBind()
-            return@setOnPreferenceClickListener true
-        }
-        notifyInfo?.setOnPreferenceClickListener {
-            delegators.broadcast.sendNotifyInfoBind(count = null)
-            return@setOnPreferenceClickListener true
-        }
-        notifyAlarm?.setOnPreferenceClickListener {
-            delegators.broadcast.sendTidyUpAlarm()
-            return@setOnPreferenceClickListener true
+        with(delegators) {
+            notificationClearButton?.setOnClickListener { broadcast.sendClearBind() }
+            alarmClearButton?.setOnClickListener { broadcast.sendClearAlarm() }
+            notifyNotesButton?.setOnClickListener { broadcast.sendNotifyNotesBind() }
+            notifyInfoButton?.setOnClickListener { broadcast.sendNotifyInfoBind(count = null) }
+            notifyAlarmButton?.setOnClickListener { broadcast.sendTidyUpAlarm() }
         }
     }
 
-    override fun updateRefreshEnabled(isEnabled: Boolean) {
-        refreshPreference?.isEnabled = isEnabled
-    }
-
-    override fun resetRefreshSummary() {
-        refreshPreference?.summary = getString(R.string.pref_summary_eternal_refresh)
-    }
-
-    override fun updateRunEnabled(isEnabled: Boolean) {
-        runPreference?.isEnabled = isEnabled
-    }
-
-    override fun updateKillEnabled(isEnabled: Boolean) {
-        killPreference?.isEnabled = isEnabled
-    }
-
-    override fun startPingSummary() {
+    private fun onChangePingState(state: ServicePingState) {
         val context = context ?: return
 
-        dotAnimation.start(context, R.string.pref_summary_eternal_search)
-    }
+        when (state) {
+            ServicePingState.PREPARE -> {
+                binding.serviceRefreshButton?.isEnabled = false
+                binding.serviceRunButton?.isEnabled = false
+                binding.serviceKillButton?.isEnabled = false
 
-    override fun stopPingSummary() = dotAnimation.stop()
-
-    override fun onDotAnimUpdate(text: CharSequence) {
-        refreshPreference?.summary = text
-    }
-
-    override fun sendPingBroadcast() = delegators.broadcast.sendEternalPing()
-
-    override fun sendKillBroadcast() = delegators.broadcast.sendEternalKill()
-
-    override fun runService() {
-        val context = context?.applicationContext ?: return
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            EternalService.start(context)
+                dotAnimation.start(context, R.string.pref_summary_eternal_search)
+            }
+            ServicePingState.PING -> delegators.broadcast.sendEternalPing()
+            ServicePingState.NO_RESPONSE -> onServicePong(isSuccess = false)
         }
+    }
+
+    override fun onDotAnimationUpdate(text: CharSequence) {
+        binding.serviceRefreshButton?.summary = text
+    }
+
+    override fun onReceiveEternalServicePong() {
+        viewModel.cancelPing()
+        onServicePong(isSuccess = true)
+    }
+
+    private fun onServicePong(isSuccess: Boolean) {
+        val context = context ?: return
+
+        dotAnimation.stop()
+
+        binding.serviceRefreshButton?.summary = getString(R.string.pref_summary_eternal_refresh)
+        binding.serviceRefreshButton?.isEnabled = true
+        binding.serviceRunButton?.isEnabled = !isSuccess
+        binding.serviceKillButton?.isEnabled = isSuccess
+
+        val toastId = if (isSuccess) {
+            R.string.toast_dev_service_run
+        } else {
+            R.string.toast_dev_service_fail
+        }
+        delegators.toast.show(context, toastId)
     }
 }

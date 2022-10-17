@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopFragment
 /**
  * Class for UI control of [DevelopFragment].
  */
-class DeveloperScreen : ParentPreferenceScreen<DeveloperLogic>(R.string.pref_title_other_develop) {
+class DeveloperScreen : ParentPreferenceScreen<DeveloperLogic>(R.string.pref_title_developer) {
 
     override val screenLogic = DeveloperLogic()
 

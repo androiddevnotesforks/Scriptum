@@ -66,7 +66,7 @@ class DevelopFragment : ParentPreferenceFragment() {
 
         resetButton?.setOnClickListener {
             viewModel.resetPreferences()
-            delegators.toast.show(it.context, R.string.pref_toast_develop_clear)
+            delegators.toast.show(it.context, R.string.toast_dev_clear)
         }
     }
 
@@ -75,5 +75,4 @@ class DevelopFragment : ParentPreferenceFragment() {
             startActivity(InstanceFactory.Preference.Develop.Print[it.context, type])
         }
     }
-
 }

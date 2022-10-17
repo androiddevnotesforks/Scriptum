@@ -1,81 +1,46 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop
 
-import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import sgtmelon.test.prod.RunPrivate
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServicePingState
 
-/**
- * ViewModel for [IServiceDevelopFragment].
- */
-class ServiceDevelopViewModel(
-    callback: IServiceDevelopFragment
-) : ParentViewModel<IServiceDevelopFragment>(callback),
+class ServiceDevelopViewModel : ViewModel(),
     IServiceDevelopViewModel {
 
     private var pingJob: Job? = null
 
-    override fun onSetup(bundle: Bundle?) {
-        callback?.setup()
-        onClickRefresh()
+    override val pingState: MutableLiveData<ServicePingState> by lazy {
+        MutableLiveData<ServicePingState>().also { startPing() }
     }
 
-    override fun onClickRefresh() {
-        pingJob = viewModelScope.launch { startPing() }
-    }
+    override fun startPing() {
+        pingJob = viewModelScope.launch {
+            pingState.postValue(ServicePingState.PREPARE)
 
-    @RunPrivate suspend fun startPing() {
-        callback?.updateRefreshEnabled(isEnabled = false)
-        callback?.updateRunEnabled(isEnabled = false)
-        callback?.updateKillEnabled(isEnabled = false)
-
-        callback?.startPingSummary()
-
-        runBack {
-            delay(PING_START_DELAY)
-            repeat(PING_REPEAT) {
-                callback?.sendPingBroadcast()
-                delay(PING_TIMEOUT)
+            runBack {
+                delay(PING_START_DELAY)
+                repeat(PING_REPEAT) {
+                    pingState.postValue(ServicePingState.PING)
+                    delay(PING_TIMEOUT)
+                }
             }
+
+            pingState.postValue(ServicePingState.NO_RESPONSE)
         }
-
-        callback?.stopPingSummary()
-        callback?.resetRefreshSummary()
-
-        callback?.updateRefreshEnabled(isEnabled = true)
-        callback?.updateRunEnabled(isEnabled = true)
-        callback?.updateKillEnabled(isEnabled = false)
     }
 
-    override fun onReceiveEternalServicePong() {
+    override fun cancelPing() {
         viewModelScope.launch {
             pingJob?.cancelAndJoin()
             pingJob = null
         }
-
-        callback?.stopPingSummary()
-        callback?.resetRefreshSummary()
-
-        callback?.updateRefreshEnabled(isEnabled = true)
-        callback?.updateRunEnabled(isEnabled = false)
-        callback?.updateKillEnabled(isEnabled = true)
-    }
-
-    override fun onClickRun() {
-        callback?.runService()
-        onClickRefresh()
-    }
-
-    override fun onClickKill() {
-        callback?.sendKillBroadcast()
-        onClickRefresh()
     }
 
     companion object {

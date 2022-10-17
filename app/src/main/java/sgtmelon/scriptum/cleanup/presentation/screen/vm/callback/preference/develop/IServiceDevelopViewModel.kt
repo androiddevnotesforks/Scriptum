@@ -1,20 +1,14 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop
 
-import sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IServiceDevelopFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
+import androidx.lifecycle.LiveData
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServicePingState
 
-/**
- * Interface for communication [IServiceDevelopFragment] with [ServiceDevelopViewModel].
- */
-interface IServiceDevelopViewModel : IParentViewModel,
-    DevelopScreenReceiver.Callback {
+interface IServiceDevelopViewModel {
 
-    fun onClickRefresh()
+    val pingState: LiveData<ServicePingState>
 
-    fun onClickRun()
+    fun startPing()
 
-    fun onClickKill()
+    fun cancelPing()
 
 }

@@ -238,7 +238,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     override fun stopMelodySummarySearch() = dotAnimation.stop()
 
-    override fun onDotAnimUpdate(text: CharSequence) {
+    override fun onDotAnimationUpdate(text: CharSequence) {
         melodyPreference?.summary = text
     }
 

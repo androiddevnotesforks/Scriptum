@@ -76,7 +76,7 @@
 
         <Preference android:key="@string/pref_key_other_reset"
             android:summary="@string/pref_summary_other_reset"
-            android:title="@string/pref_title_other_reset"
+            android:title="@string/pref_title_reset"
             app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
