@@ -36,12 +36,10 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        context?.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.DEVELOP))
 
         setup()
-
         viewModel.pingState.observe(viewLifecycleOwner) { onChangePingState(it) }
-
-        context?.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.DEVELOP))
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -94,6 +92,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
                 dotAnimation.start(context, R.string.pref_summary_eternal_search)
             }
             ServicePingState.PING -> delegators.broadcast.sendEternalPing()
+            ServicePingState.SUCCESS -> onServicePong(isSuccess = true)
             ServicePingState.NO_RESPONSE -> onServicePong(isSuccess = false)
         }
     }
@@ -102,10 +101,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         binding.serviceRefreshButton?.summary = text
     }
 
-    override fun onReceiveEternalServicePong() {
-        viewModel.cancelPing()
-        onServicePong(isSuccess = true)
-    }
+    override fun onReceiveEternalServicePong() = viewModel.interruptPing()
 
     private fun onServicePong(isSuccess: Boolean) {
         val context = context ?: return

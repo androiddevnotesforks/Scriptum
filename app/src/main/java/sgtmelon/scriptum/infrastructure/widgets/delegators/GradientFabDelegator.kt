@@ -117,6 +117,7 @@ internal class GradientFabDelegator(
          * Need cancel previous animation before starting new, because otherwise it may cause
          * some lags related with animator listener.
          */
+        lastAnimator?.removeAllListeners()
         lastAnimator?.cancel()
         lastAnimator = AnimatorSet().setupCardAnimator(isVisible)
         lastAnimator?.start()

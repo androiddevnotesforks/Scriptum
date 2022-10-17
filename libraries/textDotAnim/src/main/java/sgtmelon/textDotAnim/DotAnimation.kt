@@ -83,13 +83,16 @@ class DotAnimation(private val type: DotAnimType, private val callback: Callback
             this.repeatMode = ObjectAnimator.RESTART
 
             addIdlingListener()
-            addUpdateListener {
-                val value = it.animatedValue as? Int
 
-                /**
-                 * Sometimes [ValueAnimator] give a corner value which equals valueTo.
-                 */
-                if (value == null || value == valueTo) return@addUpdateListener
+            var lastValue = -1
+            addUpdateListener {
+                /** Sometimes [ValueAnimator] give a corner value which equals valueTo. */
+                val value = (it.animatedValue as? Int)
+                    ?.takeIf { i -> i != valueTo && i != lastValue }
+                    ?: return@addUpdateListener
+
+                /** Need for skip of duplicated values. */
+                lastValue = value
 
                 val text = list.getOrNull(value)
                 if (text != null) {
@@ -100,6 +103,11 @@ class DotAnimation(private val type: DotAnimType, private val callback: Callback
     }
 
     fun stop() {
+        /**
+         * Need call removeAllListeners before cancel, otherwise without it animator will
+         * not stop correctly.
+         */
+        animator?.removeAllListeners()
         animator?.cancel()
         animator = null
     }

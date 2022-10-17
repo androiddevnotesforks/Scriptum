@@ -8,6 +8,6 @@ interface ServiceDevelopViewModel {
 
     fun startPing()
 
-    fun cancelPing()
+    fun interruptPing()
 
 }

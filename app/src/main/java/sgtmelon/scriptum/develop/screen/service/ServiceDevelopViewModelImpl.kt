@@ -4,10 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import sgtmelon.extensions.runBack
+import sgtmelon.extensions.launchBack
 
 class ServiceDevelopViewModelImpl : ViewModel(),
     ServiceDevelopViewModel {
@@ -19,26 +17,24 @@ class ServiceDevelopViewModelImpl : ViewModel(),
     }
 
     override fun startPing() {
-        pingJob = viewModelScope.launch {
+        pingJob = viewModelScope.launchBack {
             pingState.postValue(ServicePingState.PREPARE)
 
-            runBack {
-                delay(PING_START_DELAY)
-                repeat(PING_REPEAT) {
-                    pingState.postValue(ServicePingState.PING)
-                    delay(PING_TIMEOUT)
-                }
+            delay(PING_START_DELAY)
+            repeat(PING_REPEAT) {
+                pingState.postValue(ServicePingState.PING)
+                delay(PING_TIMEOUT)
             }
 
             pingState.postValue(ServicePingState.NO_RESPONSE)
         }
     }
 
-    override fun cancelPing() {
-        viewModelScope.launch {
-            pingJob?.cancelAndJoin()
-            pingJob = null
-        }
+    override fun interruptPing() {
+        pingJob?.cancel()
+        pingJob = null
+
+        pingState.value = ServicePingState.SUCCESS
     }
 
     companion object {
