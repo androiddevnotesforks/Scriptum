@@ -5,9 +5,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.extension.getDifferentValues
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main.IPreferenceTest
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiRotationTest
 
 /**

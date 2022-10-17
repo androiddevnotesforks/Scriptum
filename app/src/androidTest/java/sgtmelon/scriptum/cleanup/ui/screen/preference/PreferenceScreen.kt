@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.ui.screen.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpPreferenceScreen
+import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
 
 /**
  * Class for UI control of [PreferenceFragment].

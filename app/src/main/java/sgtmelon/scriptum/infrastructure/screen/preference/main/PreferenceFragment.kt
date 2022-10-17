@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.main
 
 import android.os.Bundle
 import android.view.View
@@ -13,7 +13,6 @@ import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.startMarketActivitySafe

@@ -5,11 +5,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.test.parent.situation.IThemeTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**

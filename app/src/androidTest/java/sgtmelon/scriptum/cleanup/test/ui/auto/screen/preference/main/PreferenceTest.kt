@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**

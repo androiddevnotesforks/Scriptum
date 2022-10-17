@@ -58,7 +58,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
@@ -325,7 +325,7 @@ class ViewModelModule {
         @Named("Theme") getSummary: GetSummaryUseCase
     ): IPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Main(preferencesRepo, getSummary)
-        return ViewModelProvider(owner, factory)[PreferenceViewModel::class.java]
+        return ViewModelProvider(owner, factory)[PreferenceViewModelImpl::class.java]
     }
 
     @Provides

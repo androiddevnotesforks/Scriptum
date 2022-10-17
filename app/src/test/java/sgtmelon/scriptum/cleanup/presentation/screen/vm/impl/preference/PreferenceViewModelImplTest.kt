@@ -21,10 +21,10 @@ import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [PreferenceViewModel].
+ * Test for [PreferenceViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class PreferenceViewModelTest : ParentViewModelTest() {
+class PreferenceViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -32,7 +32,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getSummary: GetSummaryUseCase
 
-    private val viewModel by lazy { PreferenceViewModel(callback, preferencesRepo, getSummary) }
+    private val viewModel by lazy { PreferenceViewModelImpl(callback, preferencesRepo, getSummary) }
 
     @After override fun tearDown() {
         super.tearDown()

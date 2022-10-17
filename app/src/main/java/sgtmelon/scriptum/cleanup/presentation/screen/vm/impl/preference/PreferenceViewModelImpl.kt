@@ -7,7 +7,7 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 
-class PreferenceViewModel(
+class PreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
     private val getSummary: GetSummaryUseCase
 ) : ViewModel(),
