@@ -38,7 +38,6 @@
     <string name="pref_title_other_rate">Оценить</string>
     <string name="pref_title_other_help">Помощь</string>
     <string name="pref_title_other_about">О приложении</string>
-    <string name="pref_title_developer">Для разработчика</string>
 
     <string name="pref_title_help_notification_disappear">Почему пропадают уведомления?</string>
     <string name="pref_title_help_privacy_policy">Политика конфиденциальности</string>

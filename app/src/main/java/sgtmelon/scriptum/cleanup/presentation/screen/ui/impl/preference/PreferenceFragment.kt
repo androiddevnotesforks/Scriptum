@@ -8,13 +8,13 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.extension.getSiteIntent
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback

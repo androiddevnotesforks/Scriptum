@@ -12,7 +12,7 @@
 
     <!-- Preference titles -->
 
-    <string name="pref_title_developer">Developer room</string>
+    <string name="pref_title_developer" translatable="false">Developer room</string>
 
     <string name="pref_title_print_note" translatable="false">Note entities</string>
     <string name="pref_title_print_roll" translatable="false">Roll entities</string>
