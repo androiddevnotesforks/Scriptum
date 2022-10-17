@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop
+package sgtmelon.scriptum.infrastructure.develop.screen.print
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +8,6 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServicePingState
 
 class ServiceDevelopViewModel : ViewModel(),
     IServiceDevelopViewModel {

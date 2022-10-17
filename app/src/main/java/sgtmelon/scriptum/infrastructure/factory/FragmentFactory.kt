@@ -12,9 +12,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPre
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpPreferenceFragment
 import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopFragment
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopFragment
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 
 /**

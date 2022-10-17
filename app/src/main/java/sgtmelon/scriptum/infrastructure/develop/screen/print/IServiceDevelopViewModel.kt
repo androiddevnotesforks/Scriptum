@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop
+package sgtmelon.scriptum.infrastructure.develop.screen.print
 
 import androidx.lifecycle.LiveData
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServicePingState
 
 interface IServiceDevelopViewModel {
 

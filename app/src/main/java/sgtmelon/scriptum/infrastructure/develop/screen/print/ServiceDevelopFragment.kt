@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
+package sgtmelon.scriptum.infrastructure.develop.screen.print
 
 import android.content.IntentFilter
 import android.os.Build
@@ -8,10 +8,7 @@ import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopDataBinding
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServicePingState
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
@@ -33,7 +30,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
-    private val receiver by lazy { DevelopScreenReceiver[this] }
+    private val receiver = DevelopScreenReceiver[this]
 
     //region System
 

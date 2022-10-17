@@ -31,7 +31,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPr
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
@@ -47,7 +46,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBac
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
@@ -63,7 +61,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPr
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -97,6 +94,9 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModelImpl
+import sgtmelon.scriptum.infrastructure.develop.screen.print.IServiceDevelopViewModel
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopFragment
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
