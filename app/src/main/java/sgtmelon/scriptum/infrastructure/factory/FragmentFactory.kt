@@ -13,8 +13,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPr
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpPreferenceFragment
-import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopFragment
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopFragment
+import sgtmelon.scriptum.develop.screen.develop.DevelopFragment
+import sgtmelon.scriptum.develop.screen.print.ServiceDevelopFragment
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 
 /**

@@ -14,9 +14,9 @@
     <integer name="pref_note_save_time">0</integer>
 
     <integer-array name="pref_note_save_time_array">
-        <item>60000</item>  <!-- 1 минута -->
-        <item>180000</item> <!-- 3 минуты -->
-        <item>420000</item> <!-- 7 минут -->
+        <item>60000</item>  <!-- 1 minute -->
+        <item>180000</item> <!-- 3 minutes -->
+        <item>420000</item> <!-- 7 minutes -->
     </integer-array>
 
     <integer name="pref_alarm_repeat">0</integer>
@@ -25,7 +25,7 @@
     <integer-array name="pref_alarm_repeat_array">
         <item>10</item>
         <item>30</item>
-        <item>60</item>
+        <item>60</item>     <!-- 1 hour -->
         <item>180</item>    <!-- 3 hour -->
         <item>1440</item>   <!-- 1 day -->
     </integer-array>
@@ -34,10 +34,5 @@
     <string name="pref_alarm_melody" translatable="false"/>
     <integer name="pref_alarm_volume">75</integer>
     <bool name="pref_alarm_increase">false</bool>
-
-    <bool name="pref_other_develop">false</bool>
-
-    <!--  Day of March when we start our relationships with my wife <3  -->
-    <integer name="pref_develop_open">9</integer>
 
 </resources>

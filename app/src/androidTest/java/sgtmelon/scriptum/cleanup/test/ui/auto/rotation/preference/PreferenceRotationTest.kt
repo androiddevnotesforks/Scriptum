@@ -37,15 +37,10 @@ class PreferenceRotationTest : ParentUiRotationTest(), IPreferenceTest {
         assertEquals(value, preferencesRepo.theme)
     }
 
-    @Test fun aboutDialog() = runTest({ preferences.isDeveloper = false }) {
-        val clickTimes = (1..3).random()
-
+    @Test fun aboutDialog() = runTest {
         openAboutDialog {
-            repeat(clickTimes) { clickLogo() }
             rotate.toSide()
-            assertEquals(clickTimes, clickCount)
-            unlockDeveloper()
+            assert()
         }
-        openDeveloper()
     }
 }

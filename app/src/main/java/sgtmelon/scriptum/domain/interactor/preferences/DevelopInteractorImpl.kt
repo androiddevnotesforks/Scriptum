@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.interactor.preferences
 
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
-import sgtmelon.scriptum.infrastructure.develop.PrintItem
+import sgtmelon.scriptum.develop.model.PrintItem
 
 class DevelopInteractorImpl(private val repository: DevelopRepo) : DevelopInteractor {
 

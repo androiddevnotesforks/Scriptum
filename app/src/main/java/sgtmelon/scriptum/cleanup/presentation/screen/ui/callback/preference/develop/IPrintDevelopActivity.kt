@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop
 
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
-import sgtmelon.scriptum.infrastructure.develop.PrintItem
+import sgtmelon.scriptum.develop.model.PrintItem
 
 interface IPrintDevelopActivity {
 

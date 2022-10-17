@@ -28,17 +28,8 @@ class PreferenceTest : ParentUiTest(), IPreferenceTest {
 
     @Test fun openHelp() = runTest { openHelp() }
 
-    @Test fun aboutDialogWork() = runTest({ preferences.isDeveloper = false }) {
-        openAboutDialog { unlockDeveloper() }
-        openDeveloper { onClickClose() }
-        openAboutDialog { unlockDeveloper() }
-    }
-
     @Test fun aboutDialogClose() = runTest {
         openAboutDialog { onCloseSoft() }
         assert()
     }
-
-    @Test fun openDeveloper() = runTest({ preferences.isDeveloper = true }) { openDeveloper() }
-
 }

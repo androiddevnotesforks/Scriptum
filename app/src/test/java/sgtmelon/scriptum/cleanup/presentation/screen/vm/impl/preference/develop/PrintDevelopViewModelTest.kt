@@ -21,8 +21,8 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
+import sgtmelon.scriptum.develop.model.PrintItem
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
-import sgtmelon.scriptum.infrastructure.develop.PrintItem
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Intent
 

@@ -43,6 +43,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePref
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
+import sgtmelon.scriptum.develop.screen.print.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -73,9 +75,6 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModelImpl
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopFragment
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
@@ -395,12 +394,10 @@ object ViewModelFactory {
             }
         }
 
-        class Service(
-            private val fragment: ServiceDevelopFragment
-        ) : ViewModelProvider.Factory {
+        class Service : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(ServiceDevelopViewModelImpl::class) {
-                    ServiceDevelopViewModelImpl(fragment)
+                    ServiceDevelopViewModelImpl()
                 }
             }
         }

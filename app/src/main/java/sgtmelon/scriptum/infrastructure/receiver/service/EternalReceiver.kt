@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
 /**
  * Receiver for [EternalService] commands.
  */
-class EternalReceiver() : BroadcastReceiver() {
+class EternalReceiver : BroadcastReceiver() {
 
     private var callback: Callback? = null
 

@@ -62,6 +62,10 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePref
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
+import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
+import sgtmelon.scriptum.develop.screen.print.ServiceDevelopViewModel
+import sgtmelon.scriptum.develop.screen.print.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -92,11 +96,6 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModel
-import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModelImpl
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopFragment
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModel
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
@@ -401,9 +400,9 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideServiceDevelopViewModel(fragment: ServiceDevelopFragment): ServiceDevelopViewModel {
-        val factory = ViewModelFactory.Develop.Service(fragment)
-        return ViewModelProvider(fragment, factory)[ServiceDevelopViewModelImpl::class.java]
+    fun provideServiceDevelopViewModel(owner: ViewModelStoreOwner): ServiceDevelopViewModel {
+        val factory = ViewModelFactory.Develop.Service()
+        return ViewModelProvider(owner, factory)[ServiceDevelopViewModelImpl::class.java]
     }
 
     //endregion

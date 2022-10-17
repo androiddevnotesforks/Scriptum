@@ -5,7 +5,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentUi
-import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withDrawable
 import sgtmelon.test.cappuccino.utils.withSize
@@ -27,22 +26,6 @@ class AboutDialogUi : ParentUi(), IDialogUi {
     private val emailText = getViewById(R.id.about_email_text)
 
     //endregion
-
-    var clickCount = 0
-        private set
-
-    private val maxClickCount = context.resources.getInteger(R.integer.pref_develop_open)
-
-    fun clickLogo() {
-        logoImage.click()
-        clickCount++
-    }
-
-    fun unlockDeveloper() {
-        while (clickCount != maxClickCount) {
-            clickLogo()
-        }
-    }
 
     fun assert() = apply {
         parentContainer.isDisplayed()

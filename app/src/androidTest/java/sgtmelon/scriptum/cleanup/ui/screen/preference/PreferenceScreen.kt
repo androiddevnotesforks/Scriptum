@@ -46,15 +46,6 @@ class PreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.title_
         AboutDialogUi(func)
     }
 
-    fun openDeveloper(func: DeveloperScreen.() -> Unit = {}) {
-        if (!preferences.isDeveloper) {
-            throw IllegalAccessException("You need turn on developer options")
-        }
-
-        getItem(p = 9).Simple().onItemClick()
-        DeveloperScreen(func)
-    }
-
     companion object {
         operator fun invoke(func: PreferenceScreen.() -> Unit): PreferenceScreen {
             return PreferenceScreen().apply { assert() }.apply(func)

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.data.repository.database
 
-import sgtmelon.scriptum.infrastructure.develop.PrintItem
+import sgtmelon.scriptum.develop.model.PrintItem
 
 interface DevelopRepo {
 
