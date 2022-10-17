@@ -56,7 +56,7 @@ class PreferencesDefProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_alarm_melody) } returns melodyUri
         every { resources.getInteger(R.integer.pref_alarm_volume) } returns volume
         every { resources.getBoolean(R.bool.pref_alarm_increase) } returns isVolumeIncrease
-        every { resources.getBoolean(R.bool.pref_other_develop) } returns isDeveloper
+        every { resources.getBoolean(R.bool.pref_developer) } returns isDeveloper
 
         assertEquals(isFirstStart, providerDef.isFirstStart)
         assertEquals(theme, providerDef.theme)
@@ -87,7 +87,7 @@ class PreferencesDefProviderTest : ParentTest() {
             resources.getString(R.string.pref_alarm_melody)
             resources.getInteger(R.integer.pref_alarm_volume)
             resources.getBoolean(R.bool.pref_alarm_increase)
-            resources.getBoolean(R.bool.pref_other_develop)
+            resources.getBoolean(R.bool.pref_developer)
         }
     }
 }

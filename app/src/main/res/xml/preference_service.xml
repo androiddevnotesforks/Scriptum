@@ -24,23 +24,23 @@
     <PreferenceCategory android:title="@string/pref_header_broadcast"
         app:iconSpaceReserved="false">
 
-        <Preference android:key="@string/pref_key_service_notification_clear"
+        <Preference android:key="@string/pref_key_notification_clear"
             android:title="@string/pref_title_notification_clear"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_service_alarm_clear"
+        <Preference android:key="@string/pref_key_alarm_clear"
             android:title="@string/pref_title_alarm_clear"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_service_notify_notes"
+        <Preference android:key="@string/pref_key_notify_notes"
             android:title="@string/pref_title_notify_notes"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_service_notify_info"
+        <Preference android:key="@string/pref_key_notify_info"
             android:title="@string/pref_title_notify_info"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_service_notify_alarm"
+        <Preference android:key="@string/pref_key_notify_alarm"
             android:title="@string/pref_title_notify_alarm"
             app:iconSpaceReserved="false" />
 

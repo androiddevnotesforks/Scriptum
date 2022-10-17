@@ -95,7 +95,7 @@
 
     <!-- Values -->
 
-    <bool name="pref_other_develop">false</bool>
+    <bool name="pref_developer">false</bool>
 
     <!--  Day of March when we started dating with my wife <3  -->
     <integer name="pref_develop_open">9</integer>

@@ -26,5 +26,5 @@ class PreferencesDefProvider(resources: Resources) {
     val volumePercent: Int = resources.getInteger(R.integer.pref_alarm_volume)
     val isVolumeIncrease: Boolean = resources.getBoolean(R.bool.pref_alarm_increase)
 
-    val isDeveloper: Boolean = resources.getBoolean(R.bool.pref_other_develop)
+    val isDeveloper: Boolean = resources.getBoolean(R.bool.pref_developer)
 }

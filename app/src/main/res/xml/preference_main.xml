@@ -41,10 +41,10 @@
             android:title="@string/pref_title_other_about"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_other_develop"
+        <Preference android:key="@string/pref_key_developer"
+            android:title="@string/pref_title_developer"
             app:iconSpaceReserved="false"
-            app:isPreferenceVisible="@bool/pref_other_develop"
-            android:title="@string/pref_title_developer" />
+            app:isPreferenceVisible="@bool/pref_developer" />
 
     </PreferenceCategory>
 
