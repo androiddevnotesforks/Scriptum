@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.develop.screen.print
+package sgtmelon.scriptum.develop.screen.service
 
 import android.content.IntentFilter
 import android.os.Build

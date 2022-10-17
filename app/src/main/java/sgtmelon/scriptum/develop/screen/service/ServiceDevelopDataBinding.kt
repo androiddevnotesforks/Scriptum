@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.develop.screen.print
+package sgtmelon.scriptum.develop.screen.service
 
 import androidx.lifecycle.Lifecycle
 import androidx.preference.Preference

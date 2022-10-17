@@ -1,3 +1,3 @@
-package sgtmelon.scriptum.develop.screen.print
+package sgtmelon.scriptum.develop.screen.service
 
 enum class ServicePingState { PREPARE, PING, NO_RESPONSE }

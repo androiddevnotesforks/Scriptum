@@ -64,8 +64,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
-import sgtmelon.scriptum.develop.screen.print.ServiceDevelopViewModel
-import sgtmelon.scriptum.develop.screen.print.ServiceDevelopViewModelImpl
+import sgtmelon.scriptum.develop.screen.service.ServiceDevelopViewModel
+import sgtmelon.scriptum.develop.screen.service.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
