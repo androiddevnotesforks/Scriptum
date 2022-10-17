@@ -94,8 +94,8 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModelImpl
-import sgtmelon.scriptum.infrastructure.develop.screen.print.IServiceDevelopViewModel
 import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopFragment
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModel
 import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
@@ -401,7 +401,7 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideServiceDevelopViewModel(fragment: ServiceDevelopFragment): IServiceDevelopViewModel {
+    fun provideServiceDevelopViewModel(fragment: ServiceDevelopFragment): ServiceDevelopViewModel {
         val factory = ViewModelFactory.Develop.Service(fragment)
         return ViewModelProvider(fragment, factory)[ServiceDevelopViewModelImpl::class.java]
     }

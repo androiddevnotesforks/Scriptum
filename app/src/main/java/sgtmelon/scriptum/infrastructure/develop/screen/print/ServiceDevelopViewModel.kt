@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.develop.screen.print
 
 import androidx.lifecycle.LiveData
 
-interface IServiceDevelopViewModel {
+interface ServiceDevelopViewModel {
 
     val pingState: LiveData<ServicePingState>
 

@@ -26,7 +26,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     private val binding = ServiceDevelopDataBinding(lifecycle, fragment = this)
 
-    @Inject lateinit var viewModel: IServiceDevelopViewModel
+    @Inject lateinit var viewModel: ServiceDevelopViewModel
 
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
