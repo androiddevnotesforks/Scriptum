@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.develop.screen.service
 
+import android.content.Context
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
@@ -58,14 +59,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     private fun setup() = binding.apply {
         serviceRefreshButton?.setOnClickListener { viewModel.startPing() }
-        serviceRunButton?.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                EternalService.start(it.context)
-                viewModel.startPing()
-            } else {
-                delegators.toast.show(it.context, R.string.toast_dev_low_api)
-            }
-        }
+        serviceRunButton?.setOnClickListener { startService(it.context) }
         serviceKillButton?.setOnClickListener {
             delegators.broadcast.sendEternalKill()
             viewModel.startPing()
@@ -80,17 +74,18 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         }
     }
 
+    private fun startService(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            EternalService.start(context)
+            viewModel.startPing()
+        } else {
+            delegators.toast.show(context, R.string.toast_dev_low_api)
+        }
+    }
+
     private fun onChangePingState(state: ServicePingState) {
-        val context = context ?: return
-
         when (state) {
-            ServicePingState.PREPARE -> {
-                binding.serviceRefreshButton?.isEnabled = false
-                binding.serviceRunButton?.isEnabled = false
-                binding.serviceKillButton?.isEnabled = false
-
-                dotAnimation.start(context, R.string.pref_summary_eternal_search)
-            }
+            ServicePingState.PREPARE -> onServicePrepare()
             ServicePingState.PING -> delegators.broadcast.sendEternalPing()
             ServicePingState.SUCCESS -> onServicePong(isSuccess = true)
             ServicePingState.NO_RESPONSE -> onServicePong(isSuccess = false)
@@ -101,23 +96,31 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         binding.serviceRefreshButton?.summary = text
     }
 
-    override fun onReceiveEternalServicePong() = viewModel.interruptPing()
+    override fun onReceiveEternalServicePong() {
+        viewModel.interruptPing()
 
-    private fun onServicePong(isSuccess: Boolean) {
-        val context = context ?: return
+        /** Move this toast here, because after rotation it will appears */
+        delegators.toast.show(context, R.string.toast_dev_service_run)
+    }
 
+    private fun onServicePrepare() = with(binding) {
+        dotAnimation.start(context, R.string.pref_summary_eternal_search)
+
+        serviceRefreshButton?.isEnabled = false
+        serviceRunButton?.isEnabled = false
+        serviceKillButton?.isEnabled = false
+    }
+
+    private fun onServicePong(isSuccess: Boolean) = with(binding) {
         dotAnimation.stop()
 
-        binding.serviceRefreshButton?.summary = getString(R.string.pref_summary_eternal_refresh)
-        binding.serviceRefreshButton?.isEnabled = true
-        binding.serviceRunButton?.isEnabled = !isSuccess
-        binding.serviceKillButton?.isEnabled = isSuccess
+        serviceRefreshButton?.summary = getString(R.string.pref_summary_eternal_refresh)
+        serviceRefreshButton?.isEnabled = true
+        serviceRunButton?.isEnabled = !isSuccess
+        serviceKillButton?.isEnabled = isSuccess
 
-        val toastId = if (isSuccess) {
-            R.string.toast_dev_service_run
-        } else {
-            R.string.toast_dev_service_fail
+        if (!isSuccess) {
+            delegators.toast.show(context, R.string.toast_dev_service_fail)
         }
-        delegators.toast.show(context, toastId)
     }
 }

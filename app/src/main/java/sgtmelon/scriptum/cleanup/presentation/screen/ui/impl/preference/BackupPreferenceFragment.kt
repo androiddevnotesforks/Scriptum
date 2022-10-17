@@ -233,8 +233,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun startImportSummarySearch() {
-        val context = context ?: return
-
         dotAnimation.start(context, R.string.pref_summary_backup_import_search)
     }
 

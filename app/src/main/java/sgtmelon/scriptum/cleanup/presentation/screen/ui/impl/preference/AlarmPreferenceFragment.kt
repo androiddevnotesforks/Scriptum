@@ -231,8 +231,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun startMelodySummarySearch() {
-        val context = context ?: return
-
         dotAnimation.start(context, R.string.pref_summary_alarm_melody_search)
     }
 

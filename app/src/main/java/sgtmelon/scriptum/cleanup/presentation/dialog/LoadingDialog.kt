@@ -36,10 +36,7 @@ class LoadingDialog : BlankEmptyDialog(), DotAnimation.Callback {
     override fun setupView() {
         super.setupView()
 
-        val context = context
-        if (context != null) {
-            dotAnimation.start(context, R.string.dialog_text_loading)
-        }
+        dotAnimation.start(context, R.string.dialog_text_loading)
     }
 
     override fun onDismiss(dialog: DialogInterface) {

@@ -21,7 +21,9 @@ class DotAnimation(private val type: DotAnimType, private val callback: Callback
 
     private var animator: ValueAnimator? = null
 
-    fun start(context: Context, @StringRes stringId: Int) = apply {
+    fun start(context: Context?, @StringRes stringId: Int) = apply {
+        if (context == null) return@apply
+
         val textList = when (type) {
             DotAnimType.COUNT -> getCountList(context, stringId)
             DotAnimType.SPAN -> getSpanList(context, stringId)
