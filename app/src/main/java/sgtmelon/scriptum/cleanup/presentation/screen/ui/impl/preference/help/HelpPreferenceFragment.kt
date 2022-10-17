@@ -6,11 +6,10 @@ import androidx.preference.Preference
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.getSiteIntent
-import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.findPreference
+import sgtmelon.scriptum.infrastructure.utils.startSiteActivitySafe
 
 /**
  * Fragment of help preferences.
@@ -45,9 +44,6 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
     }
 
     private fun onPolicyClick() {
-        val context = context ?: return
-
-        val intent = getSiteIntent(BuildConfig.PRIVACY_POLICY_URL)
-        context.startActivitySafe(intent, delegators.toast)
+        context?.startSiteActivitySafe(BuildConfig.PRIVACY_POLICY_URL, delegators.toast)
     }
 }

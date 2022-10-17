@@ -25,7 +25,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
@@ -310,13 +309,12 @@ object ViewModelFactory {
     object Preference {
 
         class Main(
-            private val fragment: PreferenceFragment,
             private val preferencesRepo: PreferencesRepo,
             private val getSummary: GetSummaryUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(PreferenceViewModel::class) {
-                    PreferenceViewModel(fragment, preferencesRepo, getSummary)
+                    PreferenceViewModel(preferencesRepo, getSummary)
                 }
             }
         }

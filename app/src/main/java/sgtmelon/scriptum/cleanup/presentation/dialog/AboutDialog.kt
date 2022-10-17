@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -60,11 +61,12 @@ class AboutDialog : BlankEmptyDialog(),
     override fun onClick(v: View) {
         if (++clickCount == context?.resources?.getInteger(R.integer.pref_develop_open)) {
             hideOpen = true
-            dialog?.cancel()
+            dialog?.dismiss()
         }
     }
 
-    fun clear() {
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
         clickCount = DEF_CLICK
         hideOpen = DEF_HIDE
     }

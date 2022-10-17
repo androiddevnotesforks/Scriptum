@@ -1,10 +1,11 @@
 package sgtmelon.scriptum.infrastructure.system.delegators
 
 import android.content.Context
+import android.content.Intent
 import java.util.Calendar
 import sgtmelon.extensions.toText
-import sgtmelon.scriptum.cleanup.extension.sendTo
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 
@@ -82,4 +83,25 @@ class BroadcastDelegator(private val context: Context) {
     fun sendEternalPong() = context.sendTo(Filter.DEVELOP, Command.Eternal.PONG)
 
     //endregion
+
+    private inline fun Context.sendTo(
+        place: String,
+        command: String,
+        extras: Intent.() -> Unit = {}
+    ) {
+        sendBroadcast(Intent(place).apply {
+            putExtra(ReceiverData.Values.COMMAND, command)
+            putExtras(Intent().apply(extras))
+        })
+    }
+
+    private inline fun Context.sendTo(
+        places: List<String>,
+        command: String,
+        extras: Intent.() -> Unit = {}
+    ) {
+        for (place in places) {
+            sendTo(place, command, extras)
+        }
+    }
 }

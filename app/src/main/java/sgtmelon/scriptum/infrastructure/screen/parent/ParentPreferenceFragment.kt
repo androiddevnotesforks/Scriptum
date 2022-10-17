@@ -41,6 +41,8 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
 
         setupInsets()
         setupRecycler()
+        setup()
+        setupObservers()
     }
 
     abstract fun inject(component: ScriptumComponent)
@@ -62,4 +64,8 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
         listView.clipToPadding = false
         listView.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
     }
+
+    open fun setup() = Unit
+
+    open fun setupObservers() = Unit
 }

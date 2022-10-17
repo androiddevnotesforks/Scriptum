@@ -38,9 +38,6 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context?.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.DEVELOP))
-
-        setup()
-        viewModel.pingState.observe(viewLifecycleOwner) { onChangePingState(it) }
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -57,21 +54,27 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    private fun setup() = binding.apply {
-        serviceRefreshButton?.setOnClickListener { viewModel.startPing() }
-        serviceRunButton?.setOnClickListener { startService(it.context) }
-        serviceKillButton?.setOnClickListener {
-            delegators.broadcast.sendEternalKill()
-            viewModel.startPing()
-        }
+    override fun setup() {
+        binding.apply {
+            serviceRefreshButton?.setOnClickListener { viewModel.startPing() }
+            serviceRunButton?.setOnClickListener { startService(it.context) }
+            serviceKillButton?.setOnClickListener {
+                delegators.broadcast.sendEternalKill()
+                viewModel.startPing()
+            }
 
-        with(delegators) {
-            notificationClearButton?.setOnClickListener { broadcast.sendClearBind() }
-            alarmClearButton?.setOnClickListener { broadcast.sendClearAlarm() }
-            notifyNotesButton?.setOnClickListener { broadcast.sendNotifyNotesBind() }
-            notifyInfoButton?.setOnClickListener { broadcast.sendNotifyInfoBind(count = null) }
-            notifyAlarmButton?.setOnClickListener { broadcast.sendTidyUpAlarm() }
+            delegators.apply {
+                notificationClearButton?.setOnClickListener { broadcast.sendClearBind() }
+                alarmClearButton?.setOnClickListener { broadcast.sendClearAlarm() }
+                notifyNotesButton?.setOnClickListener { broadcast.sendNotifyNotesBind() }
+                notifyInfoButton?.setOnClickListener { broadcast.sendNotifyInfoBind(count = null) }
+                notifyAlarmButton?.setOnClickListener { broadcast.sendTidyUpAlarm() }
+            }
         }
+    }
+
+    override fun setupObservers() {
+        viewModel.pingState.observe(this) { onChangePingState(it) }
     }
 
     private fun startService(context: Context) {
@@ -99,7 +102,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     override fun onReceiveEternalServicePong() {
         viewModel.interruptPing()
 
-        /** Move this toast here, because after rotation it will appears */
+        /** Move this toast here, because after rotation it will appears. */
         delegators.toast.show(context, R.string.toast_dev_service_run)
     }
 

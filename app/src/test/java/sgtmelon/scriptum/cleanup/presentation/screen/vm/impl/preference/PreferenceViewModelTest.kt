@@ -93,7 +93,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         every { getSummary(value) } returns summary
 
-        viewModel.onResultTheme(value)
+        viewModel.updateTheme(value)
 
         verifySequence {
             getSummary(value)
@@ -104,10 +104,10 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onUnlockDeveloper() {
         every { preferencesRepo.isDeveloper } returns false
-        viewModel.onUnlockDeveloper()
+        viewModel.unlockDeveloper()
 
         every { preferencesRepo.isDeveloper } returns true
-        viewModel.onUnlockDeveloper()
+        viewModel.unlockDeveloper()
 
         verifySequence {
             preferencesRepo.isDeveloper

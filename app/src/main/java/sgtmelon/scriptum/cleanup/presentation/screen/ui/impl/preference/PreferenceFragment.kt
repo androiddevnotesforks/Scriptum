@@ -1,189 +1,99 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
-import android.content.ActivityNotFoundException
-import androidx.annotation.StringRes
+import android.os.Bundle
+import android.view.View
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
-import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.getSiteIntent
-import sgtmelon.scriptum.cleanup.extension.startActivitySafe
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
-import sgtmelon.scriptum.infrastructure.utils.findPreference
+import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
+import sgtmelon.scriptum.infrastructure.utils.startMarketActivitySafe
 
-/**
- * Fragment of preference.
- */
-class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
+class PreferenceFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_main
 
+    private val binding = PreferenceDataBinding(lifecycle, fragment = this)
+
     @Inject lateinit var viewModel: IPreferenceViewModel
 
-    //region Dialogs
-
     private val dialogs by lazy { DialogFactory.Preference.Main(context, fm) }
-
     private val themeDialog by lazy { dialogs.getTheme() }
     private val aboutDialog by lazy { dialogs.getAbout() }
 
-    //endregion
-
-    //region Preferences
-
-    private val themePreference by lazy { findPreference<Preference>(R.string.pref_key_app_theme) }
-
-    private val backupPreference by lazy { findPreference<Preference>(R.string.pref_key_backup) }
-    private val notePreference by lazy { findPreference<Preference>(R.string.pref_key_note) }
-    private val alarmPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm) }
-
-    private val developerPreference by lazy { findPreference<Preference>(R.string.pref_key_developer) }
-
-    //endregion
-
-    //region System
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupDialogs()
+    }
 
     override fun inject(component: ScriptumComponent) {
         component.getPreferenceBuilder()
-            .set(fragment = this)
+            .set(owner = this)
             .build()
             .inject(fragment = this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.onSetup()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
-
-    //endregion
-
-    override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
-
-    override fun setupApp() {
-        themePreference?.setOnPreferenceClickListener {
-            viewModel.onClickTheme()
-            return@setOnPreferenceClickListener true
+    override fun setup() {
+        binding.apply {
+            themeButton?.setOnClickListener { showThemeDialog(viewModel.theme) }
+            backupButton?.setOnClickListener { it.openScreen(PreferenceScreen.BACKUP) }
+            noteButton?.setOnClickListener { it.openScreen(PreferenceScreen.NOTE) }
+            alarmButton?.setOnClickListener { it.openScreen(PreferenceScreen.ALARM) }
+            rateButton?.setOnClickListener { it.context.startMarketActivitySafe(delegators.toast) }
+            helpButton?.setOnClickListener { it.openScreen(PreferenceScreen.HELP) }
+            aboutButton?.setOnClickListener { showAboutDialog() }
+            developerButton?.setOnClickListener { it.openScreen(PreferenceScreen.DEVELOP) }
         }
+    }
 
+    private fun Preference.openScreen(key: PreferenceScreen) {
+        startActivity(InstanceFactory.Preference[context, key])
+    }
+
+    override fun setupObservers() {
+        viewModel.isDeveloper.observe(this) { binding.developerButton?.isVisible = it }
+        viewModel.themeSummary.observe(this) { binding.themeButton?.summary = it }
+    }
+
+    private fun setupDialogs() {
         themeDialog.onPositiveClick {
-            viewModel.onResultTheme(themeDialog.check)
+            viewModel.updateTheme(themeDialog.check)
             (activity as? ThemeChangeCallback)?.checkThemeChange()
         }
         themeDialog.onDismiss { open.clear() }
 
-        backupPreference?.setOnPreferenceClickListener {
-            val context = context
-            if (context != null) {
-                startActivity(InstanceFactory.Preference[context, PreferenceScreen.BACKUP])
-            }
-
-            return@setOnPreferenceClickListener true
-        }
-
-        notePreference?.setOnPreferenceClickListener {
-            val context = context
-            if (context != null) {
-                startActivity(InstanceFactory.Preference[context, PreferenceScreen.NOTE])
-            }
-
-            return@setOnPreferenceClickListener true
-        }
-
-        alarmPreference?.setOnPreferenceClickListener {
-            val context = context
-            if (context != null) {
-                startActivity(InstanceFactory.Preference[context, PreferenceScreen.ALARM])
-            }
-
-            return@setOnPreferenceClickListener true
-        }
-    }
-
-    override fun setupOther() {
-        findPreference<Preference>(getString(R.string.pref_key_other_rate))?.setOnPreferenceClickListener {
-            onRateClick()
-            return@setOnPreferenceClickListener true
-        }
-
-        findPreference<Preference>(getString(R.string.pref_key_other_help))?.setOnPreferenceClickListener {
-            val context = context
-            if (context != null) {
-                startActivity(InstanceFactory.Preference[context, PreferenceScreen.HELP])
-            }
-
-            return@setOnPreferenceClickListener true
-        }
-
-        findPreference<Preference>(getString(R.string.pref_key_other_about))?.setOnPreferenceClickListener {
-            open.attempt {
-                aboutDialog.safeShow(fm, DialogFactory.Preference.Main.ABOUT, owner = this)
-            }
-            return@setOnPreferenceClickListener true
-        }
-
         aboutDialog.onDismiss {
             open.clear()
-
             if (aboutDialog.hideOpen) {
-                viewModel.onUnlockDeveloper()
+                unlockDeveloper()
             }
-
-            aboutDialog.clear()
         }
     }
 
-    private fun onRateClick() {
-        val context = context
-        val packageName = context?.packageName ?: return
-
-        /**
-         * If marketUrl is not available -> open it via browser -> if can't - show error to user.
-         */
-        try {
-            val intent = getSiteIntent(BuildConfig.MARKET_URL.plus(packageName))
-            if (intent != null) {
-                startActivity(intent)
-            } else {
-                delegators.toast.show(context, R.string.error_something_wrong)
-            }
-        } catch (e: ActivityNotFoundException) {
-            val intent = getSiteIntent(BuildConfig.BROWSER_URL.plus(packageName))
-            context.startActivitySafe(intent, delegators.toast)
-        }
-    }
-
-    override fun setupDeveloper() {
-        developerPreference?.isVisible = true
-        developerPreference?.setOnPreferenceClickListener {
-            val context = context
-            if (context != null) {
-                startActivity(InstanceFactory.Preference[context, PreferenceScreen.DEVELOP])
-            }
-
-            return@setOnPreferenceClickListener true
-        }
-    }
-
-    override fun updateThemeSummary(summary: String) {
-        themePreference?.summary = summary
-    }
-
-    override fun showThemeDialog(value: Theme) = open.attempt {
+    private fun showThemeDialog(value: Theme) = open.attempt {
         themeDialog.setArguments(value.ordinal)
             .safeShow(fm, DialogFactory.Preference.Main.THEME, owner = this)
+    }
+
+    private fun showAboutDialog() = open.attempt {
+        aboutDialog.safeShow(fm, DialogFactory.Preference.Main.ABOUT, owner = this)
+    }
+
+    private fun unlockDeveloper() {
+        val isDeveloper = viewModel.isDeveloper.value ?: return
+
+        val toastId = if (isDeveloper) R.string.toast_dev_already else R.string.toast_dev_unlock
+        delegators.toast.show(context, toastId)
+
+        viewModel.unlockDeveloper()
     }
 }

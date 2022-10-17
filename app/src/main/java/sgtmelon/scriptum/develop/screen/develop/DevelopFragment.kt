@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.develop.screen.develop
 
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import javax.inject.Inject
@@ -25,13 +23,6 @@ class DevelopFragment : ParentPreferenceFragment() {
 
     @Inject lateinit var viewModel: DevelopViewModel
 
-    //region System
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setup()
-    }
-
     override fun inject(component: ScriptumComponent) {
         component.getDevelopBuilder()
             .set(owner = this)
@@ -39,34 +30,34 @@ class DevelopFragment : ParentPreferenceFragment() {
             .inject(fragment = this)
     }
 
-    //endregion
+    override fun setup() {
+        binding.apply {
+            printNoteButton?.setOnPrintClickListener(PrintType.NOTE)
+            printBinButton?.setOnPrintClickListener(PrintType.BIN)
+            printRollButton?.setOnPrintClickListener(PrintType.ROLL)
+            printVisibleButton?.setOnPrintClickListener(PrintType.VISIBLE)
+            printRankButton?.setOnPrintClickListener(PrintType.RANK)
+            printAlarmButton?.setOnPrintClickListener(PrintType.ALARM)
+            printKeyButton?.setOnPrintClickListener(PrintType.KEY)
+            printFileButton?.setOnPrintClickListener(PrintType.FILE)
 
-    private fun setup() = binding.apply {
-        printNoteButton?.setOnPrintClickListener(PrintType.NOTE)
-        printBinButton?.setOnPrintClickListener(PrintType.BIN)
-        printRollButton?.setOnPrintClickListener(PrintType.ROLL)
-        printVisibleButton?.setOnPrintClickListener(PrintType.VISIBLE)
-        printRankButton?.setOnPrintClickListener(PrintType.RANK)
-        printAlarmButton?.setOnPrintClickListener(PrintType.ALARM)
-        printKeyButton?.setOnPrintClickListener(PrintType.KEY)
-        printFileButton?.setOnPrintClickListener(PrintType.FILE)
-
-        introButton?.setOnClickListener { startActivity(InstanceFactory.Intro[it.context]) }
-        alarmButton?.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.randomNoteId.collect { id ->
-                    startActivity(InstanceFactory.Splash.getAlarm(it.context, id))
+            introButton?.setOnClickListener { startActivity(InstanceFactory.Intro[it.context]) }
+            alarmButton?.setOnClickListener {
+                lifecycleScope.launch {
+                    viewModel.randomNoteId.collect { id ->
+                        startActivity(InstanceFactory.Splash.getAlarm(it.context, id))
+                    }
                 }
             }
-        }
 
-        eternalButton?.setOnClickListener {
-            startActivity(InstanceFactory.Preference[it.context, PreferenceScreen.SERVICE])
-        }
+            eternalButton?.setOnClickListener {
+                startActivity(InstanceFactory.Preference[it.context, PreferenceScreen.SERVICE])
+            }
 
-        resetButton?.setOnClickListener {
-            viewModel.resetPreferences()
-            delegators.toast.show(it.context, R.string.toast_dev_clear)
+            resetButton?.setOnClickListener {
+                viewModel.resetPreferences()
+                delegators.toast.show(it.context, R.string.toast_dev_clear)
+            }
         }
     }
 

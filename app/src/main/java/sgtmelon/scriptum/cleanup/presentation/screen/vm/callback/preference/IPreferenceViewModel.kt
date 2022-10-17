@@ -1,18 +1,18 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
 
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModel
+import androidx.lifecycle.LiveData
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 
-/**
- * Interface for communication [IPreferenceFragment] with [PreferenceViewModel].
- */
-interface IPreferenceViewModel : IParentViewModel {
+interface IPreferenceViewModel {
 
-    fun onClickTheme()
+    val isDeveloper: LiveData<Boolean>
 
-    fun onResultTheme(value: Int)
+    val theme: Theme
 
-    fun onUnlockDeveloper()
+    val themeSummary: LiveData<String>
+
+    fun updateTheme(value: Int)
+
+    fun unlockDeveloper()
 
 }

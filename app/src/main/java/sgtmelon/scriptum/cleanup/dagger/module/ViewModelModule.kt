@@ -29,7 +29,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
@@ -321,12 +320,12 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun providePreferenceViewModel(
-        fragment: PreferenceFragment,
+        owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         @Named("Theme") getSummary: GetSummaryUseCase
     ): IPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Main(fragment, preferencesRepo, getSummary)
-        return ViewModelProvider(fragment, factory)[PreferenceViewModel::class.java]
+        val factory = ViewModelFactory.Preference.Main(preferencesRepo, getSummary)
+        return ViewModelProvider(owner, factory)[PreferenceViewModel::class.java]
     }
 
     @Provides
