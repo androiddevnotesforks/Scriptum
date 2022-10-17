@@ -96,7 +96,7 @@ import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.infrastructure.develop.screen.print.IServiceDevelopViewModel
 import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopFragment
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModel
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
@@ -403,7 +403,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideServiceDevelopViewModel(fragment: ServiceDevelopFragment): IServiceDevelopViewModel {
         val factory = ViewModelFactory.Develop.Service(fragment)
-        return ViewModelProvider(fragment, factory)[ServiceDevelopViewModel::class.java]
+        return ViewModelProvider(fragment, factory)[ServiceDevelopViewModelImpl::class.java]
     }
 
     //endregion

@@ -9,7 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 
-class ServiceDevelopViewModel : ViewModel(),
+class ServiceDevelopViewModelImpl : ViewModel(),
     IServiceDevelopViewModel {
 
     private var pingJob: Job? = null

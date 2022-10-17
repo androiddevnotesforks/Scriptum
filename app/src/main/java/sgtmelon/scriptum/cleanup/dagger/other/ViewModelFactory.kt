@@ -75,7 +75,7 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.develop.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopFragment
-import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModel
+import sgtmelon.scriptum.infrastructure.develop.screen.print.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
@@ -399,8 +399,8 @@ object ViewModelFactory {
             private val fragment: ServiceDevelopFragment
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(ServiceDevelopViewModel::class) {
-                    ServiceDevelopViewModel(fragment)
+                return modelClass.create(ServiceDevelopViewModelImpl::class) {
+                    ServiceDevelopViewModelImpl(fragment)
                 }
             }
         }
