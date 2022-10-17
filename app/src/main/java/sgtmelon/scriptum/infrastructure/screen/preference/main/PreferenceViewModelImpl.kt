@@ -1,8 +1,7 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Theme
@@ -11,7 +10,7 @@ class PreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
     private val getSummary: GetSummaryUseCase
 ) : ViewModel(),
-    IPreferenceViewModel {
+    PreferenceViewModel {
 
     override val isDeveloper: MutableLiveData<Boolean> by lazy {
         MutableLiveData(preferencesRepo.isDeveloper)

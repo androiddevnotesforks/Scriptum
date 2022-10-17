@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.main
 
 import io.mockk.coVerifySequence
 import io.mockk.confirmVerified

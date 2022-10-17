@@ -43,7 +43,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IN
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
@@ -58,7 +57,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
@@ -98,6 +96,8 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceViewModel
+import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
@@ -323,7 +323,7 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         @Named("Theme") getSummary: GetSummaryUseCase
-    ): IPreferenceViewModel {
+    ): PreferenceViewModel {
         val factory = ViewModelFactory.Preference.Main(preferencesRepo, getSummary)
         return ViewModelProvider(owner, factory)[PreferenceViewModelImpl::class.java]
     }

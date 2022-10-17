@@ -39,7 +39,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.PreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
@@ -75,6 +74,7 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 /**

@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.main
 
 import androidx.lifecycle.LiveData
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 
-interface IPreferenceViewModel {
+interface PreferenceViewModel {
 
     val isDeveloper: LiveData<Boolean>
 

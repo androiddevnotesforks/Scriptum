@@ -7,7 +7,6 @@ import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
@@ -23,7 +22,7 @@ class PreferenceFragment : ParentPreferenceFragment() {
 
     private val binding = PreferenceDataBinding(lifecycle, fragment = this)
 
-    @Inject lateinit var viewModel: IPreferenceViewModel
+    @Inject lateinit var viewModel: PreferenceViewModel
 
     private val dialogs by lazy { DialogFactory.Preference.Main(context, fm) }
     private val themeDialog by lazy { dialogs.getTheme() }
