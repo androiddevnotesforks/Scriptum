@@ -4,7 +4,6 @@ import android.Manifest
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
@@ -19,7 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBac
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.utils.findPreference
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
@@ -32,6 +31,8 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     DotAnimation.Callback {
 
     override val xmlId: Int = R.xml.preference_backup
+
+    private val binding = BackupPreferenceDataBinding(lifecycle, fragment = this)
 
     @Inject lateinit var viewModel: IBackupPreferenceViewModel
 
@@ -49,9 +50,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     private val loadingDialog by lazy { dialogs.getLoading() }
 
     //endregion
-
-    private val exportPreference by lazy { findPreference<Preference>(R.string.pref_key_backup_export) }
-    private val importPreference by lazy { findPreference<Preference>(R.string.pref_key_backup_import) }
 
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
@@ -122,12 +120,12 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     //endregion
 
     override fun setup() {
-        exportPreference?.setOnPreferenceClickListener {
+        binding.exportButton?.setOnPreferenceClickListener {
             viewModel.onClickExport()
             return@setOnPreferenceClickListener true
         }
 
-        importPreference?.setOnPreferenceClickListener {
+        binding.importButton?.setOnPreferenceClickListener {
             viewModel.onClickImport()
             return@setOnPreferenceClickListener true
         }
@@ -190,15 +188,15 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     //region Export functions
 
     override fun updateExportEnabled(isEnabled: Boolean) {
-        exportPreference?.isEnabled = isEnabled
+        binding.exportButton?.isEnabled = isEnabled
     }
 
     override fun updateExportSummary(summaryId: Int) {
-        exportPreference?.summary = getString(summaryId)
+        binding.exportButton?.summary = getString(summaryId)
     }
 
     override fun resetExportSummary() {
-        exportPreference?.summary = ""
+        binding.exportButton?.summary = ""
     }
 
     override fun showExportPermissionDialog() {
@@ -220,7 +218,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     //region Import functions
 
     override fun updateImportEnabled(isEnabled: Boolean) {
-        importPreference?.isEnabled = isEnabled
+        binding.importButton?.isEnabled = isEnabled
     }
 
     override fun startImportSummarySearch() {
@@ -230,15 +228,15 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     override fun stopImportSummarySearch() = dotAnimation.stop()
 
     override fun onDotAnimationUpdate(text: CharSequence) {
-        importPreference?.summary = text
+        binding.importButton?.summary = text
     }
 
     override fun updateImportSummary(@StringRes summaryId: Int) {
-        importPreference?.summary = getString(summaryId)
+        binding.importButton?.summary = getString(summaryId)
     }
 
     override fun updateImportSummaryFound(count: Int) {
-        importPreference?.summary = getString(R.string.pref_summary_backup_import_found, count)
+        binding.importButton?.summary = getString(R.string.pref_summary_backup_import_found, count)
     }
 
     override fun showImportPermissionDialog() = open.attempt {
