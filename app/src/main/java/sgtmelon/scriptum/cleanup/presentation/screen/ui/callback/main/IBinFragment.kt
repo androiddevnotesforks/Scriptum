@@ -3,14 +3,13 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 
 /**
  * Interface for communication [IBinViewModel] with [BinFragment].
  */
-interface IBinFragment : ClipboardControl.Bridge {
+interface IBinFragment {
 
     fun setupToolbar()
 
@@ -44,5 +43,7 @@ interface IBinFragment : ClipboardControl.Bridge {
     fun getString(@StringRes resId: Int): String
 
     fun getStringArray(@ArrayRes arrayId: Int): Array<String>
+
+    fun copyClipboard(text: String)
 
 }
