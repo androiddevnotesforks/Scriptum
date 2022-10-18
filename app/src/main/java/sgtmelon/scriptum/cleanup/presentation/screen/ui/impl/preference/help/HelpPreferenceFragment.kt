@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.findPreference
-import sgtmelon.scriptum.infrastructure.utils.startSiteActivitySafe
+import sgtmelon.scriptum.infrastructure.utils.startUrlActivity
 
 /**
  * Fragment of help preferences.
@@ -44,6 +44,6 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
     }
 
     private fun onPolicyClick() {
-        context?.startSiteActivitySafe(BuildConfig.PRIVACY_POLICY_URL, delegators.toast)
+        context?.startUrlActivity(BuildConfig.PRIVACY_POLICY_URL, delegators.toast)
     }
 }

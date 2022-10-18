@@ -14,8 +14,8 @@
     <!-- TODO #RELEASE2 add contentDescription and add them to assertion in tests -->
 
     <LinearLayout
-            android:id="@+id/info_parent_container"
-            style="@style/Container.Info">
+            android:id="@+id/parent_container"
+        style="@style/Container.Info">
 
         <ImageView
                 android:id="@+id/info_image"

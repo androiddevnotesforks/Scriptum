@@ -16,7 +16,7 @@ import sgtmelon.test.cappuccino.utils.withNavigationDrawable
 class SimpleToolbar(@StringRes titleId: Int, private val withBack: Boolean) : ParentToolbar() {
 
     val contentContainer: Matcher<View> = allOf(
-            getViewById(R.id.toolbar_container), withChild(getViewByText(titleId))
+        getViewById(R.id.toolbar), withChild(getViewByText(titleId))
     )
 
     fun assert() {

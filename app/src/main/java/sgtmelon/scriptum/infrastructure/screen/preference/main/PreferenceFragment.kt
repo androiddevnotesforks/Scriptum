@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
-import sgtmelon.scriptum.infrastructure.utils.startMarketActivitySafe
+import sgtmelon.scriptum.infrastructure.utils.startMarketActivity
 
 class PreferenceFragment : ParentPreferenceFragment() {
 
@@ -46,7 +46,7 @@ class PreferenceFragment : ParentPreferenceFragment() {
             backupButton?.setOnClickListener { it.openScreen(PreferenceScreen.BACKUP) }
             noteButton?.setOnClickListener { it.openScreen(PreferenceScreen.NOTE) }
             alarmButton?.setOnClickListener { it.openScreen(PreferenceScreen.ALARM) }
-            rateButton?.setOnClickListener { it.context.startMarketActivitySafe(delegators.toast) }
+            rateButton?.setOnClickListener { it.context.startMarketActivity(delegators.toast) }
             helpButton?.setOnClickListener { it.openScreen(PreferenceScreen.HELP) }
             aboutButton?.setOnClickListener { showAboutDialog() }
             developerButton?.setOnClickListener { it.openScreen(PreferenceScreen.DEVELOP) }

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
@@ -25,9 +24,6 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
     private val bundleProvider = PreferenceBundleProvider()
-
-    // TODO remove and use binding
-    private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +68,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             PreferenceScreen.SERVICE -> R.string.pref_header_service
         }
 
-        toolbar?.apply {
+        binding?.toolbarInclude?.toolbar?.apply {
             title = getString(titleId)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
@@ -10,8 +9,8 @@ import sgtmelon.scriptum.databinding.ActivityHelpDisappearBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.doOnApplyWindowInsets
-import sgtmelon.scriptum.infrastructure.utils.startSettingsActivitySafe
-import sgtmelon.scriptum.infrastructure.utils.startSiteActivitySafe
+import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
+import sgtmelon.scriptum.infrastructure.utils.startUrlActivity
 import sgtmelon.scriptum.infrastructure.utils.updateMargin
 
 /**
@@ -20,9 +19,6 @@ import sgtmelon.scriptum.infrastructure.utils.updateMargin
 class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
 
     override val layoutId: Int = R.layout.activity_help_disappear
-
-    // TODO remove and use binding
-    private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +46,7 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
     }
 
     private fun setupView() {
-        toolbar.apply {
+        binding?.toolbarInclude?.toolbar?.apply {
             title = getString(R.string.pref_title_help_notification_disappear)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
@@ -64,12 +60,12 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
             menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
         }
 
-        binding?.settingsButton?.setOnClickListener { startSettingsActivitySafe(delegators.toast) }
+        binding?.settingsButton?.setOnClickListener { startSettingsActivity(delegators.toast) }
     }
 
     private fun onVideoClick() {
         val url = getString(R.string.help_notification_disappear_video_url)
-        startSiteActivitySafe(url, delegators.toast)
+        startUrlActivity(url, delegators.toast)
     }
 
 }

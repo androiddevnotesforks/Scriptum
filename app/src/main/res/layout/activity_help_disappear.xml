@@ -9,7 +9,9 @@
         android:orientation="vertical"
         tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity">
 
-        <include layout="@layout/inc_toolbar_simple" />
+        <include
+            android:id="@+id/toolbar_include"
+            layout="@layout/inc_toolbar_simple" />
 
         <FrameLayout
             android:layout_width="match_parent"

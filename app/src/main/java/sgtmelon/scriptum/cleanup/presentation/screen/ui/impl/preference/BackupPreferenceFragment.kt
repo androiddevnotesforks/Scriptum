@@ -20,7 +20,7 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.findPreference
-import sgtmelon.scriptum.infrastructure.utils.startSettingsActivitySafe
+import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 
@@ -148,7 +148,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         }
 
         exportDenyDialog.apply {
-            onPositiveClick { context?.startSettingsActivitySafe(delegators.toast) }
+            onPositiveClick { context?.startSettingsActivity(delegators.toast) }
             onDismiss { open.clear() }
         }
 
@@ -166,7 +166,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         }
 
         importDenyDialog.apply {
-            onPositiveClick { context?.startSettingsActivitySafe(delegators.toast) }
+            onPositiveClick { context?.startSettingsActivity(delegators.toast) }
             onDismiss { open.clear() }
         }
 

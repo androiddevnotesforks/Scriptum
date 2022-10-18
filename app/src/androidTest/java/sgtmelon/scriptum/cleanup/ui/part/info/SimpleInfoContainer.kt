@@ -16,8 +16,8 @@ class SimpleInfoContainer(page: SimpleInfoPage) : ParentInfoContainer(
 
     override val includeContainer = getViewById(
         when (page) {
-            SimpleInfoPage.RANK -> R.id.rank_info_include
-            SimpleInfoPage.BIN -> R.id.bin_info_include
+            SimpleInfoPage.RANK -> R.id.info_include
+            SimpleInfoPage.BIN -> R.id.info_include
             SimpleInfoPage.NOTIFICATION -> R.id.info_include
         }
     )

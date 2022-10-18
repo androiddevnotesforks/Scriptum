@@ -112,7 +112,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     //endregion
 
     override fun setupToolbar() {
-        view?.findViewById<Toolbar>(R.id.toolbar_container)?.apply {
+        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
             title = getString(R.string.title_notes)
             inflateMenu(R.menu.fragment_notes)
 
@@ -138,7 +138,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
     override fun setupRecycler() {
         parentContainer = view?.findViewById(R.id.notes_parent_container)
-        emptyInfoView = view?.findViewById(R.id.notes_info_include)
+        emptyInfoView = view?.findViewById(R.id.info_include)
         progressBar = view?.findViewById(R.id.notes_progress)
 
         recyclerView = view?.findViewById(R.id.notes_recycler)

@@ -15,7 +15,7 @@ import sgtmelon.test.cappuccino.utils.withTextSize
  */
 class RollNoteInfoContainer(isListEmpty: Boolean, isListHide: Boolean) : ParentUi() {
 
-    private val includeContainer = getViewById(R.id.roll_note_info_include)
+    private val includeContainer = getViewById(R.id.info_include)
 
     private val iconImage get() = getViewById(R.id.info_image).includeParent(includeContainer)
 

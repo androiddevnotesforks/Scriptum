@@ -56,9 +56,6 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
         R.string.snackbar_message_notification, R.string.snackbar_action_cancel, callback = this
     )
 
-    // TODO remove and use binding
-    private val emptyInfoView by lazy { findViewById<View?>(R.id.info_include) }
-
     //endregion
 
     //region System
@@ -119,7 +116,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     //endregion
 
     override fun setupToolbar() {
-        findViewById<Toolbar>(R.id.toolbar_container).apply {
+        findViewById<Toolbar>(R.id.toolbar).apply {
             title = getString(R.string.title_notification)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
@@ -153,7 +150,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
      * For first time [recyclerView] visibility flag set inside xml file.
      */
     override fun prepareForLoad() {
-        emptyInfoView?.visibility = View.GONE
+        binding?.infoInclude?.parentContainer?.visibility = View.GONE
         binding?.progressBar?.visibility = View.GONE
     }
 
@@ -162,7 +159,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     }
 
     override fun hideEmptyInfo() {
-        emptyInfoView?.visibility = View.GONE
+        binding?.infoInclude?.parentContainer?.visibility = View.GONE
     }
 
 
@@ -173,27 +170,27 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
-            if (emptyInfoView?.visibility == View.VISIBLE
+            if (binding?.infoInclude?.parentContainer?.visibility == View.VISIBLE
                 && binding?.recyclerView?.visibility == View.INVISIBLE
             ) return
 
-            emptyInfoView?.visibility = View.VISIBLE
+            binding?.infoInclude?.parentContainer?.visibility = View.VISIBLE
             binding?.recyclerView?.visibility = View.INVISIBLE
 
-            emptyInfoView?.alpha = 0f
-            emptyInfoView?.animateAlpha(isVisible = true)
+            binding?.infoInclude?.parentContainer?.alpha = 0f
+            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
         } else {
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
-            if (emptyInfoView?.visibility == View.GONE
+            if (binding?.infoInclude?.parentContainer?.visibility == View.GONE
                 && binding?.recyclerView?.visibility == View.VISIBLE
             ) return
 
             binding?.recyclerView?.visibility = View.VISIBLE
 
-            emptyInfoView?.animateAlpha(isVisible = false) {
-                emptyInfoView?.visibility = View.GONE
+            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = false) {
+                binding?.infoInclude?.parentContainer?.visibility = View.GONE
             }
         }
     }

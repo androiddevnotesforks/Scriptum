@@ -209,7 +209,7 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
     override fun setupRecycler() {
         parentContainer = view?.findViewById(R.id.rank_parent_container)
         recyclerContainer = view?.findViewById(R.id.rank_recycler_container)
-        emptyInfoView = view?.findViewById(R.id.rank_info_include)
+        emptyInfoView = view?.findViewById(R.id.info_include)
         progressBar = view?.findViewById(R.id.rank_progress)
 
         recyclerView = view?.findViewById(R.id.rank_recycler)

@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
  */
 class NotesInfoContainer(isHide: Boolean) : ParentInfoContainer(R.mipmap.img_info_notes) {
 
-    override val includeContainer = getViewById(R.id.notes_info_include)
+    override val includeContainer = getViewById(R.id.info_include)
 
     override val titleText = getView(R.id.info_title_text, if (isHide) {
         R.string.info_notes_hide_title

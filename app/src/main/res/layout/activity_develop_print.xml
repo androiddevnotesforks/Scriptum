@@ -15,14 +15,16 @@
         android:orientation="vertical"
         tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity">
 
-        <include layout="@layout/inc_toolbar_simple" />
+        <include
+            android:id="@+id/toolbar_include"
+            layout="@layout/inc_toolbar_simple" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <include
-                android:id="@+id/print_info_include"
+                android:id="@+id/info_include"
                 layout="@layout/inc_info"
                 app:details='@{R.string.info_print_empty_details}'
                 app:title='@{R.string.info_print_empty_title}' />

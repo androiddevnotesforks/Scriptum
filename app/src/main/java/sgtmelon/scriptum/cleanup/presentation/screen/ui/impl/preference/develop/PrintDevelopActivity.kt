@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.Toolbar
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -32,10 +31,6 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
     @Inject lateinit var viewModel: IPrintDevelopViewModel
-
-    // TODO remove and use binding
-    private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
-    private val emptyInfoView by lazy { findViewById<View>(R.id.print_info_include) }
 
     private val adapter = PrintAdapter()
 
@@ -69,7 +64,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
     }
 
     override fun setupView(type: PrintType) {
-        val toolbar = toolbar ?: return
+        val toolbar = binding?.toolbarInclude?.toolbar ?: return
         val recyclerView = binding?.recyclerView ?: return
 
         val titleText = getString(when (type) {
@@ -107,7 +102,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
      * For first time [recyclerView] visibility flag set inside xml file.
      */
     override fun beforeLoad() {
-        emptyInfoView?.visibility = View.GONE
+        binding?.infoInclude?.parentContainer?.visibility = View.GONE
         binding?.progressBar?.visibility = View.GONE
     }
 
@@ -119,16 +114,16 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
         binding?.progressBar?.visibility = View.GONE
 
         if (adapter.itemCount == 0) {
-            emptyInfoView?.visibility = View.VISIBLE
+            binding?.infoInclude?.parentContainer?.visibility = View.VISIBLE
             binding?.recyclerView?.visibility = View.INVISIBLE
 
-            emptyInfoView?.alpha = 0f
-            emptyInfoView?.animateAlpha(isVisible = true)
+            binding?.infoInclude?.parentContainer?.alpha = 0f
+            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
         } else {
             binding?.recyclerView?.visibility = View.VISIBLE
 
-            emptyInfoView?.animateAlpha(isVisible = false) {
-                emptyInfoView?.visibility = View.GONE
+            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = false) {
+                binding?.infoInclude?.parentContainer?.visibility = View.GONE
             }
         }
     }

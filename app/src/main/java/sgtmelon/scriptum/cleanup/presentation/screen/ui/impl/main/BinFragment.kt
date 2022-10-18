@@ -94,7 +94,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(), IBinFragment {
     //endregion
 
     override fun setupToolbar() {
-        toolbar = view?.findViewById(R.id.toolbar_container)
+        toolbar = view?.findViewById(R.id.toolbar)
         toolbar?.apply {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
@@ -121,7 +121,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(), IBinFragment {
 
     override fun setupRecycler() {
         parentContainer = view?.findViewById(R.id.bin_parent_container)
-        emptyInfoView = view?.findViewById(R.id.bin_info_include)
+        emptyInfoView = view?.findViewById(R.id.info_include)
         progressBar = view?.findViewById(R.id.bin_progress)
 
         recyclerView = view?.findViewById(R.id.bin_recycler)

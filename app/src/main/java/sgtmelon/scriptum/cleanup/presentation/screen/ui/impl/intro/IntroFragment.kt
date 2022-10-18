@@ -34,7 +34,7 @@ class IntroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parentContainer = view.findViewById(R.id.info_parent_container)
+        parentContainer = view.findViewById(R.id.parent_container)
 
         page = savedInstanceState?.getInt(PAGE_CURRENT)
                 ?: arguments?.getInt(PAGE_CURRENT)
