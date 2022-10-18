@@ -41,7 +41,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteV
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
@@ -349,7 +349,7 @@ class ViewModelModule {
         @Named("Sort") getSortSummary: GetSummaryUseCase,
         @Named("DefaultColor") getDefaultColorSummary: GetSummaryUseCase,
         @Named("SavePeriod") getSavePeriodSummary: GetSummaryUseCase
-    ): INotePreferenceViewModel {
+    ): NotePreferenceViewModel {
         val factory = ViewModelFactory.Preference.Note(
             preferencesRepo, getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )

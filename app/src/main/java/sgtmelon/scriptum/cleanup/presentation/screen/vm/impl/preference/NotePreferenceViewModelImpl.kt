@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -15,7 +15,7 @@ class NotePreferenceViewModelImpl(
     private val getDefaultColorSummary: GetSummaryUseCase,
     private val getSavePeriodSummary: GetSummaryUseCase
 ) : ViewModel(),
-    INotePreferenceViewModel {
+    NotePreferenceViewModel {
 
     override val sort: Sort get() = preferencesRepo.sort
 

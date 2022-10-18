@@ -6,7 +6,7 @@ import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
@@ -24,7 +24,7 @@ class NotePreferenceFragment : ParentPreferenceFragment() {
 
     private val binding = NotePreferenceDataBinding(lifecycle, fragment = this)
 
-    @Inject lateinit var viewModel: INotePreferenceViewModel
+    @Inject lateinit var viewModel: NotePreferenceViewModel
 
     private val dialogs by lazy { DialogFactory.Preference.Notes(context, fm) }
     private val sortDialog by lazy { dialogs.getSort() }
