@@ -5,10 +5,10 @@ import sgtmelon.scriptum.cleanup.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpPreferenceScreen
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 
 /**
- * Class for UI control of [PreferenceFragment].
+ * Class for UI control of [MenuPreferenceFragment].
  */
 class PreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.title_preference) {
 

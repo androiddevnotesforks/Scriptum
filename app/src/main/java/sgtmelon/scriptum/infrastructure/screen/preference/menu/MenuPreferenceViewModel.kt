@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.infrastructure.screen.preference.main
+package sgtmelon.scriptum.infrastructure.screen.preference.menu
 
 import androidx.lifecycle.LiveData
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 
-interface PreferenceViewModel {
+interface MenuPreferenceViewModel {
 
     val theme: Theme
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.preference.main
+package sgtmelon.scriptum.infrastructure.screen.preference.menu
 
 import android.os.Bundle
 import android.view.View
@@ -19,13 +19,13 @@ import sgtmelon.scriptum.infrastructure.utils.startMarketActivity
 /**
  * Fragment with main preference menu
  */
-class PreferenceFragment : ParentPreferenceFragment() {
+class MenuPreferenceFragment : ParentPreferenceFragment() {
 
-    override val xmlId: Int = R.xml.preference_main
+    override val xmlId: Int = R.xml.preference_menu
 
-    private val binding = PreferenceDataBinding(lifecycle, fragment = this)
+    private val binding = MenuPreferenceDataBinding(lifecycle, fragment = this)
 
-    @Inject lateinit var viewModel: PreferenceViewModel
+    @Inject lateinit var viewModel: MenuPreferenceViewModel
 
     private val dialogs by lazy { DialogFactory.Preference.Main(context, fm) }
     private val themeDialog by lazy { dialogs.getTheme() }

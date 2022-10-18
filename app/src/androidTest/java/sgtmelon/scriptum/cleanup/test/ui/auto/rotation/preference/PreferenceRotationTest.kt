@@ -7,11 +7,11 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main.IPreferenceTest
 import sgtmelon.scriptum.infrastructure.model.key.Theme
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiRotationTest
 
 /**
- * Test of [PreferenceFragment] work with phone rotation.
+ * Test of [MenuPreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
 class PreferenceRotationTest : ParentUiRotationTest(), IPreferenceTest {

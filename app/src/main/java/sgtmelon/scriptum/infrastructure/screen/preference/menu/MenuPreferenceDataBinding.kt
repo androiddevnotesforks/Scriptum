@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.preference.main
+package sgtmelon.scriptum.infrastructure.screen.preference.menu
 
 import androidx.lifecycle.Lifecycle
 import androidx.preference.Preference
@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceBinding
 import sgtmelon.scriptum.infrastructure.utils.findPreference
 
-class PreferenceDataBinding(
+class MenuPreferenceDataBinding(
     lifecycle: Lifecycle,
     fragment: PreferenceFragmentCompat?
 ) : ParentPreferenceBinding(lifecycle, fragment) {

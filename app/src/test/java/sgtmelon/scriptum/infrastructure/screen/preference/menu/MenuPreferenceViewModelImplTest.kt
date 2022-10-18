@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.preference.main
+package sgtmelon.scriptum.infrastructure.screen.preference.menu
 
 import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
@@ -20,17 +20,17 @@ import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [PreferenceViewModelImpl].
+ * Test for [MenuPreferenceViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class PreferenceViewModelImplTest : ParentViewModelTest() {
+class MenuPreferenceViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getSummary: GetSummaryUseCase
 
-    private val viewModel by lazy { PreferenceViewModelImpl(preferencesRepo, getSummary) }
+    private val viewModel by lazy { MenuPreferenceViewModelImpl(preferencesRepo, getSummary) }
 
     @After override fun tearDown() {
         super.tearDown()

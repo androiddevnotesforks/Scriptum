@@ -8,11 +8,11 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
- * Test of [PreferencesImpl.defaultColor] setup for [PreferenceFragment]
+ * Test of [PreferencesImpl.defaultColor] setup for [MenuPreferenceFragment]
  */
 @RunWith(AndroidJUnit4::class)
 class NotePreferenceColorTest : ParentUiTest(),

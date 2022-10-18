@@ -72,7 +72,7 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
@@ -312,8 +312,8 @@ object ViewModelFactory {
             private val getSummary: GetSummaryUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(PreferenceViewModelImpl::class) {
-                    PreferenceViewModelImpl(preferencesRepo, getSummary)
+                return modelClass.create(MenuPreferenceViewModelImpl::class) {
+                    MenuPreferenceViewModelImpl(preferencesRepo, getSummary)
                 }
             }
         }

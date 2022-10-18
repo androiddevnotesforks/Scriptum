@@ -93,8 +93,8 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceViewModel
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModel
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
@@ -322,9 +322,9 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         @Named("Theme") getSummary: GetSummaryUseCase
-    ): PreferenceViewModel {
+    ): MenuPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Main(preferencesRepo, getSummary)
-        return ViewModelProvider(owner, factory)[PreferenceViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[MenuPreferenceViewModelImpl::class.java]
     }
 
     @Provides

@@ -3,11 +3,11 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
- * Test for [PreferenceFragment].
+ * Test for [MenuPreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class PreferenceTest : ParentUiTest(), IPreferenceTest {

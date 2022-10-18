@@ -5,11 +5,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentSelectDialogUi
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.Theme
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.test.cappuccino.utils.click
 
 /**
- * Class for UI control of [SingleDialog] which open from [PreferenceFragment] for select theme.
+ * Class for UI control of [SingleDialog] which open from [MenuPreferenceFragment] for select theme.
  */
 class ThemeDialogUi : ParentSelectDialogUi(
     R.string.pref_title_app_theme,

@@ -9,11 +9,11 @@ import sgtmelon.scriptum.cleanup.test.parent.situation.IThemeTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.Theme
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
- * Test for [PreferenceFragment] and [ThemeDialogUi].
+ * Test for [MenuPreferenceFragment] and [ThemeDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
 class PreferenceThemeTest : ParentUiTest(),

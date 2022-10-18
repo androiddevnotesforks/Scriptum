@@ -6,10 +6,10 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 
 /**
- * Component for [PreferenceFragment].
+ * Component for [MenuPreferenceFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragmen
 ])
 interface PreferenceComponent {
 
-    fun inject(fragment: PreferenceFragment)
+    fun inject(fragment: MenuPreferenceFragment)
 
     @Subcomponent.Builder
     interface Builder {
