@@ -25,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
+import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 
@@ -118,29 +119,22 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
 
     override fun setup() {
-        binding.repeatButton?.setOnPreferenceClickListener {
-            viewModel.onClickRepeat()
-            return@setOnPreferenceClickListener true
-        }
+        binding.repeatButton?.setOnClickListener { viewModel.onClickRepeat() }
 
         repeatDialog.apply {
             onPositiveClick { viewModel.onResultRepeat(repeatDialog.check) }
             onDismiss { open.clear() }
         }
 
-        binding.signalButton?.setOnPreferenceClickListener {
-            viewModel.onClickSignal()
-            return@setOnPreferenceClickListener true
-        }
+        binding.signalButton?.setOnClickListener { viewModel.onClickSignal() }
 
         signalDialog.apply {
             onPositiveClick { viewModel.onResultSignal(signalDialog.check) }
             onDismiss { open.clear() }
         }
 
-        binding.melodyButton?.setOnPreferenceClickListener {
+        binding.melodyButton?.setOnClickListener {
             viewModel.onClickMelody(storagePermissionState.getResult(activity))
-            return@setOnPreferenceClickListener true
         }
 
         melodyPermissionDialog.apply {
@@ -172,10 +166,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             }
         }
 
-        binding.volumeButton?.setOnPreferenceClickListener {
-            viewModel.onClickVolume()
-            return@setOnPreferenceClickListener true
-        }
+        binding.volumeButton?.setOnClickListener { viewModel.onClickVolume() }
 
         volumeDialog.apply {
             onPositiveClick { viewModel.onResultVolume(volumeDialog.progress) }

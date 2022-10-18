@@ -19,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceDataBinding
+import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
@@ -120,15 +121,8 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     //endregion
 
     override fun setup() {
-        binding.exportButton?.setOnPreferenceClickListener {
-            viewModel.onClickExport()
-            return@setOnPreferenceClickListener true
-        }
-
-        binding.importButton?.setOnPreferenceClickListener {
-            viewModel.onClickImport()
-            return@setOnPreferenceClickListener true
-        }
+        binding.exportButton?.setOnClickListener { viewModel.onClickExport() }
+        binding.importButton?.setOnClickListener { viewModel.onClickImport() }
 
         exportPermissionDialog.apply {
             isCancelable = false
