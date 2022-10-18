@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.note
 
 import androidx.lifecycle.LiveData
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 
-interface INotePreferenceViewModel {
+interface NotePreferenceViewModel {
 
     val sort: Sort
 

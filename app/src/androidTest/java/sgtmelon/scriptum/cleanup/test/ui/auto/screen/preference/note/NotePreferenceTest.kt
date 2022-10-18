@@ -5,10 +5,10 @@ import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.note
 
 import android.os.Bundle
 import android.view.View
@@ -6,13 +6,11 @@ import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 
 /**
