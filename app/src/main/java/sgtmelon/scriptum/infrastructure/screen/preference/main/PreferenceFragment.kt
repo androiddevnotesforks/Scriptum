@@ -16,6 +16,9 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.startMarketActivity
 
+/**
+ * Fragment with main preference menu
+ */
 class PreferenceFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_main
