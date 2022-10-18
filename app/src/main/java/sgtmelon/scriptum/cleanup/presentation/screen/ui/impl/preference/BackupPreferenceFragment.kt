@@ -124,8 +124,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     //endregion
 
     override fun setup() {
-        super.setup()
-
         exportPreference?.setOnPreferenceClickListener {
             viewModel.onClickExport()
             return@setOnPreferenceClickListener true

@@ -42,14 +42,12 @@ class NotePreferenceFragment : ParentPreferenceFragment() {
     }
 
     override fun setup() {
-        super.setup()
         binding.sortButton?.setOnClickListener { showSortDialog(viewModel.sort) }
         binding.colorButton?.setOnClickListener { showDefaultColorDialog(viewModel.defaultColor) }
         binding.savePeriodButton?.setOnClickListener { showSavePeriodDialog(viewModel.savePeriod) }
     }
 
     override fun setupObservers() {
-        super.setupObservers()
         viewModel.sortSummary.observe(this) { binding.sortButton?.summary = it }
         viewModel.defaultColorSummary.observe(this) { binding.colorButton?.summary = it }
         viewModel.savePeriodSummary.observe(this) { binding.savePeriodButton?.summary = it }

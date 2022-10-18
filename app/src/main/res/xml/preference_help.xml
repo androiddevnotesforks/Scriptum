@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="screen">
 
-    <Preference android:key="@string/pref_key_help_notification_disappear"
-        android:summary="@string/pref_summary_help_notification_disappear"
-        android:title="@string/pref_title_help_notification_disappear"
+    <Preference android:key="@string/pref_key_help_disappear"
+        android:summary="@string/pref_summary_help_disappear"
+        android:title="@string/pref_title_help_disappear"
         app:iconSpaceReserved="false" />
 
     <PreferenceCategory android:title="@string/pref_header_other"
         app:iconSpaceReserved="false">
 
-        <Preference android:key="@string/pref_key_help_privacy_policy"
+        <Preference android:key="@string/pref_key_help_policy"
             android:title="@string/pref_title_help_privacy_policy"
             app:iconSpaceReserved="false" />
+
+        <!-- TODO contact developer -->
 
     </PreferenceCategory>
 

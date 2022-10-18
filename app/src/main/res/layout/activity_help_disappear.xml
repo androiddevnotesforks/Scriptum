@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity">
+        tools:context="sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity">
 
         <include
             android:id="@+id/toolbar_include"

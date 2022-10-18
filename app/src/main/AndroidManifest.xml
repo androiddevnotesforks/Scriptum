@@ -61,7 +61,7 @@
             android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"/>
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
             android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity"/>

@@ -31,8 +31,6 @@ class DevelopFragment : ParentPreferenceFragment() {
     }
 
     override fun setup() {
-        super.setup()
-
         binding.apply {
             printNoteButton?.setOnPrintClickListener(PrintType.NOTE)
             printBinButton?.setOnPrintClickListener(PrintType.BIN)

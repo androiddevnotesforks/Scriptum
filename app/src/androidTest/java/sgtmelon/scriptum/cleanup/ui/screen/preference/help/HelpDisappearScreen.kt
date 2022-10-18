@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.ui.screen.preference.help
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
+import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withCard
@@ -21,7 +21,7 @@ class HelpDisappearScreen : ParentUi() {
     private val parentContainer = getViewById(R.id.parent_container)
 
     private val toolbar = SimpleToolbar(
-        R.string.pref_title_help_notification_disappear,
+        R.string.pref_title_help_disappear,
         withBack = true
     )
     private val videoItem = getViewById(R.id.item_video_lesson)

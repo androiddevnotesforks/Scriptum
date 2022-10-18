@@ -55,8 +55,6 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     //endregion
 
     override fun setup() {
-        super.setup()
-
         binding.apply {
             serviceRefreshButton?.setOnClickListener { viewModel.startPing() }
             serviceRunButton?.setOnClickListener { startService(it.context) }
@@ -76,7 +74,6 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     }
 
     override fun setupObservers() {
-        super.setupObservers()
         viewModel.pingState.observe(this) { onChangePingState(it) }
     }
 

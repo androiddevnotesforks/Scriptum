@@ -6,28 +6,27 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
+import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
 
 /**
  * Component for [HelpDisappearActivity].
  */
 @ActivityScope
-@Subcomponent(modules = [
-    InteractorModule::class,
-    ViewModelModule::class
-])
-interface HelpDescriptionComponent {
+@Subcomponent(
+    modules = [
+        InteractorModule::class,
+        ViewModelModule::class
+    ]
+)
+interface HelpDisappearComponent {
 
     fun inject(activity: HelpDisappearActivity)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: HelpDisappearActivity): Builder
-
-        @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
-        fun build(): HelpDescriptionComponent
+        fun build(): HelpDisappearComponent
     }
 }

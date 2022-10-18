@@ -39,7 +39,7 @@
     <string name="pref_title_other_help">Помощь</string>
     <string name="pref_title_other_about">О приложении</string>
 
-    <string name="pref_title_help_notification_disappear">Почему пропадают уведомления?</string>
+    <string name="pref_title_help_disappear">Почему пропадают уведомления?</string>
     <string name="pref_title_help_privacy_policy">Политика конфиденциальности</string>
 
     <!-- Preference summaries -->
@@ -80,7 +80,7 @@
         Плавное увеличение громкости начиная с минимальной
     </string>
 
-    <string name="pref_summary_help_notification_disappear">И как исправить это</string>
+    <string name="pref_summary_help_disappear">И как исправить это</string>
 
     <!-- Preference toast text -->
 
