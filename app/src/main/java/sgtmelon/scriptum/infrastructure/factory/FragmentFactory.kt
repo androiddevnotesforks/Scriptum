@@ -8,11 +8,11 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpPreferenceFragment
 import sgtmelon.scriptum.develop.screen.develop.DevelopFragment
 import sgtmelon.scriptum.develop.screen.service.ServiceDevelopFragment
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.getFragmentByTag

@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.ui.screen.preference.help
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpPreferenceFragment
 import sgtmelon.scriptum.cleanup.ui.logic.preference.HelpPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.ParentPreferenceScreen
+import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFragment
 
 /**
  * Class for UI control of [HelpPreferenceFragment].

@@ -1,11 +1,10 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help
+package sgtmelon.scriptum.infrastructure.screen.preference.help
 
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.startUrlActivity
 
