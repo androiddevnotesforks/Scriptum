@@ -9,8 +9,8 @@ import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
-import sgtmelon.scriptum.cleanup.extension.getAlphaInterpolator
+import sgtmelon.scriptum.infrastructure.utils.getAlphaAnimator
+import sgtmelon.scriptum.infrastructure.utils.getAlphaInterpolator
 import sgtmelon.test.idling.addIdlingListener
 
 class AlarmAnimation {
