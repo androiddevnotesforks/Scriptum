@@ -2,13 +2,13 @@ package sgtmelon.scriptum.cleanup.ui.screen.preference
 
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.ui.IPressBack
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.item.PreferenceItemUi
 import sgtmelon.scriptum.cleanup.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
+import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 

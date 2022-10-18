@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference
 
 import android.os.Bundle
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default

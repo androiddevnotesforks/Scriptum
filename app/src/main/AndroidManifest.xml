@@ -55,7 +55,7 @@
             android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"/>
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
             android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"/>
@@ -64,13 +64,13 @@
             android:name="sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity"/>
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
 
         <activity
             android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity"/>
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
 
         <activity
             android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity"
