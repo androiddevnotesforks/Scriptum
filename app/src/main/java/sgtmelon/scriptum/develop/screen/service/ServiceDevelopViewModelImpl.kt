@@ -12,9 +12,7 @@ class ServiceDevelopViewModelImpl : ViewModel(),
 
     private var pingJob: Job? = null
 
-    override val pingState: MutableLiveData<ServicePingState> by lazy {
-        MutableLiveData<ServicePingState>().also { startPing() }
-    }
+    override val pingState by lazy { MutableLiveData<ServicePingState>().also { startPing() } }
 
     override fun startPing() {
         pingJob = viewModelScope.launchBack {

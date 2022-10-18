@@ -12,17 +12,15 @@ class PreferenceViewModelImpl(
 ) : ViewModel(),
     PreferenceViewModel {
 
-    override val isDeveloper: MutableLiveData<Boolean> by lazy {
-        MutableLiveData(preferencesRepo.isDeveloper)
-    }
-
     override val theme: Theme get() = preferencesRepo.theme
 
-    override val themeSummary: MutableLiveData<String> by lazy { MutableLiveData(getSummary()) }
+    override val themeSummary by lazy { MutableLiveData(getSummary()) }
 
     override fun updateTheme(value: Int) {
         themeSummary.postValue(getSummary(value))
     }
+
+    override val isDeveloper by lazy { MutableLiveData(preferencesRepo.isDeveloper) }
 
     override fun unlockDeveloper() {
         if (preferencesRepo.isDeveloper) return

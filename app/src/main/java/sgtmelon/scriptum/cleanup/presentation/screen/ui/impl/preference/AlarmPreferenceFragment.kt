@@ -129,6 +129,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
 
     override fun setup() {
+        super.setup()
+
         repeatPreference?.setOnPreferenceClickListener {
             viewModel.onClickRepeat()
             return@setOnPreferenceClickListener true

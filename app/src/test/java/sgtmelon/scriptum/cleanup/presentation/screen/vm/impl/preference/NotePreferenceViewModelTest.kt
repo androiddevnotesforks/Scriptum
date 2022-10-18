@@ -98,7 +98,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
 
         every { getSortSummary(value) } returns summary
 
-        viewModel.onResultNoteSort(value)
+        viewModel.updateSort(value)
 
         verifySequence {
             getSortSummary(value)
@@ -126,7 +126,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
 
         every { getDefaultColorSummary(value) } returns summary
 
-        viewModel.onResultNoteColor(value)
+        viewModel.updateDefaultColor(value)
 
         verifySequence {
             getDefaultColorSummary(value)
@@ -153,7 +153,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
 
         every { getSavePeriodSummary(value) } returns summary
 
-        viewModel.onResultSaveTime(value)
+        viewModel.updateSavePeriod(value)
 
         verifySequence {
             getSavePeriodSummary(value)

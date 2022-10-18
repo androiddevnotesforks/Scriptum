@@ -5,13 +5,13 @@ import sgtmelon.scriptum.infrastructure.model.key.Theme
 
 interface PreferenceViewModel {
 
-    val isDeveloper: LiveData<Boolean>
-
     val theme: Theme
 
     val themeSummary: LiveData<String>
 
     fun updateTheme(value: Int)
+
+    val isDeveloper: LiveData<Boolean>
 
     fun unlockDeveloper()
 

@@ -1,10 +1,13 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
-import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
+import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 class NotePreferenceViewModel(
     private val preferencesRepo: PreferencesRepo,
@@ -14,36 +17,27 @@ class NotePreferenceViewModel(
 ) : ViewModel(),
     INotePreferenceViewModel {
 
-    override fun onSetup(bundle: Bundle?) {
-        callback?.setup()
+    override val sort: Sort get() = preferencesRepo.sort
 
-        callback?.updateSortSummary(getSortSummary())
-        callback?.updateColorSummary(getDefaultColorSummary())
-        callback?.updateSavePeriodSummary(getSavePeriodSummary())
+    override val sortSummary by lazy { MutableLiveData(getSortSummary()) }
+
+    override fun updateSort(value: Int) {
+        sortSummary.postValue(getSortSummary(value))
     }
 
-    override fun onClickSort() {
-        callback?.showSortDialog(preferencesRepo.sort)
+    override val defaultColor: Color get() = preferencesRepo.defaultColor
+
+    override val defaultColorSummary by lazy { MutableLiveData(getDefaultColorSummary()) }
+
+    override fun updateDefaultColor(value: Int) {
+        defaultColorSummary.postValue(getDefaultColorSummary(value))
     }
 
-    override fun onResultNoteSort(value: Int) {
-        callback?.updateSortSummary(getSortSummary(value))
-        callback?.sendNotifyNotesBroadcast()
-    }
+    override val savePeriod: SavePeriod get() = preferencesRepo.savePeriod
 
-    override fun onClickNoteColor() {
-        callback?.showColorDialog(preferencesRepo.defaultColor)
-    }
+    override val savePeriodSummary by lazy { MutableLiveData(getSavePeriodSummary()) }
 
-    override fun onResultNoteColor(value: Int) {
-        callback?.updateColorSummary(getDefaultColorSummary(value))
-    }
-
-    override fun onClickSaveTime() {
-        callback?.showSaveTimeDialog(preferencesRepo.savePeriod)
-    }
-
-    override fun onResultSaveTime(value: Int) {
-        callback?.updateSavePeriodSummary(getSavePeriodSummary(value))
+    override fun updateSavePeriod(value: Int) {
+        savePeriodSummary.postValue(getSavePeriodSummary(value))
     }
 }

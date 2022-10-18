@@ -41,6 +41,8 @@ class PreferenceFragment : ParentPreferenceFragment() {
     }
 
     override fun setup() {
+        super.setup()
+
         binding.apply {
             themeButton?.setOnClickListener { showThemeDialog(viewModel.theme) }
             backupButton?.setOnClickListener { it.openScreen(PreferenceScreen.BACKUP) }
@@ -58,6 +60,8 @@ class PreferenceFragment : ParentPreferenceFragment() {
     }
 
     override fun setupObservers() {
+        super.setupObservers()
+
         viewModel.isDeveloper.observe(this) { binding.developerButton?.isVisible = it }
         viewModel.themeSummary.observe(this) { binding.themeButton?.summary = it }
     }

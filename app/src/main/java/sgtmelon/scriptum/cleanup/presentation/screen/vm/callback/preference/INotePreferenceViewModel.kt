@@ -1,17 +1,28 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
 
+import androidx.lifecycle.LiveData
+import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.Sort
+
 interface INotePreferenceViewModel {
 
-    fun onClickSort()
+    val sort: Sort
 
-    fun onResultNoteSort(value: Int)
+    val sortSummary: LiveData<String>
 
-    fun onClickNoteColor()
+    fun updateSort(value: Int)
 
-    fun onResultNoteColor(value: Int)
+    val defaultColor: Color
 
-    fun onClickSaveTime()
+    val defaultColorSummary: LiveData<String>
 
-    fun onResultSaveTime(value: Int)
+    fun updateDefaultColor(value: Int)
+
+    val savePeriod: SavePeriod
+
+    val savePeriodSummary: LiveData<String>
+
+    fun updateSavePeriod(value: Int)
 
 }

@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
+import android.os.Bundle
+import android.view.View
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -29,7 +31,10 @@ class NotePreferenceFragment : ParentPreferenceFragment() {
     private val colorDialog by lazy { dialogs.getColor() }
     private val savePeriodDialog by lazy { dialogs.getSavePeriod() }
 
-    //region System
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupDialogs()
+    }
 
     override fun inject(component: ScriptumComponent) {
         component.getNotePrefBuilder()
@@ -38,82 +43,52 @@ class NotePreferenceFragment : ParentPreferenceFragment() {
             .inject(fragment = this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.onSetup()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
-
-    //endregion
-
     override fun setup() {
-        binding.sortButton?.setOnClickListener { viewModel.onClickSort() }
+        super.setup()
+        binding.sortButton?.setOnClickListener { showSortDialog(viewModel.sort) }
+        binding.colorButton?.setOnClickListener { showDefaultColorDialog(viewModel.defaultColor) }
+        binding.savePeriodButton?.setOnClickListener { showSavePeriodDialog(viewModel.savePeriod) }
+    }
 
+    override fun setupObservers() {
+        super.setupObservers()
+        viewModel.sortSummary.observe(this) { binding.sortButton?.summary = it }
+        viewModel.defaultColorSummary.observe(this) { binding.colorButton?.summary = it }
+        viewModel.savePeriodSummary.observe(this) { binding.savePeriodButton?.summary = it }
+    }
+
+    private fun setupDialogs() {
         sortDialog.apply {
-            onPositiveClick { viewModel.onResultNoteSort(sortDialog.check) }
+            onPositiveClick {
+                viewModel.updateSort(sortDialog.check)
+                delegators.broadcast.sendNotifyNotesBind()
+            }
             onDismiss { open.clear() }
         }
-
-        binding.colorButton?.setOnClickListener { viewModel.onClickNoteColor() }
 
         colorDialog.apply {
-            onPositiveClick { viewModel.onResultNoteColor(colorDialog.check) }
+            onPositiveClick { viewModel.updateDefaultColor(colorDialog.check) }
             onDismiss { open.clear() }
         }
-
-        binding.savePeriodButton?.setOnClickListener { viewModel.onClickSaveTime() }
 
         savePeriodDialog.apply {
-            onPositiveClick { viewModel.onResultSaveTime(savePeriodDialog.check) }
+            onPositiveClick { viewModel.updateSavePeriod(savePeriodDialog.check) }
             onDismiss { open.clear() }
         }
     }
 
-    override fun updateSortSummary(summary: String) {
-        binding.sortButton?.summary = summary
-    }
-
-    override fun showSortDialog(sort: Sort) = open.attempt {
+    private fun showSortDialog(sort: Sort) = open.attempt {
         sortDialog.setArguments(sort.ordinal)
             .safeShow(fm, DialogFactory.Preference.Notes.SORT, owner = this)
     }
 
-    override fun updateColorSummary(summary: String) {
-        binding.colorButton?.summary = summary
-    }
-
-    override fun showColorDialog(color: Color) = open.attempt {
+    private fun showDefaultColorDialog(color: Color) = open.attempt {
         colorDialog.setArguments(color)
             .safeShow(fm, DialogFactory.Preference.Notes.COLOR, owner = this)
     }
 
-    override fun updateSavePeriodSummary(summary: String?) {
-        binding.savePeriodButton?.summary = summary
-    }
-
-    override fun showSaveTimeDialog(savePeriod: SavePeriod) = open.attempt {
+    private fun showSavePeriodDialog(savePeriod: SavePeriod) = open.attempt {
         savePeriodDialog.setArguments(savePeriod.ordinal)
             .safeShow(fm, DialogFactory.Preference.Notes.SAVE_PERIOD, owner = this)
     }
-
-    //region Broadcast functions
-
-    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
-
-    /**
-     * Not used here.
-     */
-    override fun sendCancelNoteBroadcast(id: Long) = Unit
-
-    /**
-     * Not used here.
-     */
-    override fun sendNotifyInfoBroadcast(count: Int?) = Unit
-
-    //endregion
-
 }
