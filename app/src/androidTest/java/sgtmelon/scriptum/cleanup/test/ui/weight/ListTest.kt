@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.test.ui.weight
 
-import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.parent.ParentUiWeighTest
+import timber.log.Timber
 
 /**
  * Test recyclerView lists for lags
@@ -96,7 +96,7 @@ class ListTest : ParentUiWeighTest() {
         func()
         endTime = System.currentTimeMillis()
 
-        Log.i(TAG, "Time millis = ${endTime - startTime}")
+        Timber.i(message = "Time millis = ${endTime - startTime}")
     }
 
     companion object {

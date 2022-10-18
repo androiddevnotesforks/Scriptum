@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
+import timber.log.Timber
 
 /**
  * Guideline for maintain project:
@@ -44,6 +45,8 @@ class ScriptumApplication : Application() {
         } else {
             SystemLogic().onCreate(context = this)
         }
+
+        Timber.plant(Timber.DebugTree())
     }
 
     companion object {

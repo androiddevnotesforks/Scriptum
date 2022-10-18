@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.input
 
-import android.util.Log
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.test.prod.RunPrivate
+import timber.log.Timber
 
 /**
  * Class for control input data inside note and work with undo/redo.
@@ -127,10 +127,9 @@ class InputControl : IInputControl {
     @RunPrivate fun listAll() {
         if (!logEnabled) return
 
-        Log.i(TAG, "listAll:")
+        Timber.i(message = "listAll:")
         for (i in list.indices) {
-            val ps = if (position == i) " | cursor = $position" else ""
-            Log.i(TAG, "i = " + i + " | " + list.getOrNull(i).toString() + ps)
+            Timber.i(message = "ps=$position | i=$i | item=${list.getOrNull(i).toString()}")
         }
     }
 
@@ -140,8 +139,6 @@ class InputControl : IInputControl {
     data class Access(val isUndo: Boolean, val isRedo: Boolean)
 
     companion object {
-        private val TAG = InputControl::class.java.simpleName
-
         @RunPrivate const val ND_POSITION = -1
     }
 

@@ -155,5 +155,7 @@ dependencies {
     testImplementation "org.json:json:20211205"
 
     //endregion
-    
+
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
 }

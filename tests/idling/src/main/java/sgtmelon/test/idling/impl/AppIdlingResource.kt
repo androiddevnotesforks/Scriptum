@@ -1,9 +1,9 @@
 package sgtmelon.test.idling.impl
 
-import android.util.Log
 import androidx.test.espresso.IdlingRegistry
 import sgtmelon.test.idling.BuildConfig
 import sgtmelon.test.idling.callback.AppIdlingCallback
+import timber.log.Timber
 
 /**
  * Class for maintain test work while app is freeze without Thread.sleep(...).
@@ -38,7 +38,7 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
         if (index in idleList.indices) {
             idleList.removeAt(index)
         } else {
-            Log.e(TAG, "Not find idling tag: $tag")
+            Timber.e(message = "Not found idling tag: $tag")
         }
 
         if (isIdleNow) {
@@ -51,7 +51,7 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
     }
 
     override fun unregister() {
-        Log.i(TAG, idleList.joinToString())
+        Timber.i(idleList.joinToString())
 
         idleList.clear()
 
