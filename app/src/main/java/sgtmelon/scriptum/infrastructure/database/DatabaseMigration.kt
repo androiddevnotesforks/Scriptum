@@ -179,7 +179,7 @@ object DatabaseMigration {
 
             execSQL("""CREATE TABLE RANK_TABLE (
                     RK_ID INTEGER PRIMARY KEY NOT NULL DEFAULT 0,
-                    RK_NOTE_ID TEXT NOT NULL DEFAULT '${StringConverter.NONE}',
+                    RK_NOTE_ID TEXT NOT NULL DEFAULT '${StringConverter.EMPTY}',
                     RK_POSITION INTEGER NOT NULL DEFAULT 0,
                     RK_NAME TEXT NOT NULL DEFAULT '',
                     RK_VISIBLE INTEGER NOT NULL DEFAULT 1)""")

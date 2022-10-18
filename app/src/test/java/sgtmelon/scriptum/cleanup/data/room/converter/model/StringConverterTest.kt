@@ -18,7 +18,7 @@ class StringConverterTest : ParentTest() {
     private val secondList: List<Long> = arrayListOf()
 
     private val firstString = "1, 2, 3, 4, 5"
-    private val secondString = StringConverter.NONE
+    private val secondString = StringConverter.EMPTY
 
     //endregion
 

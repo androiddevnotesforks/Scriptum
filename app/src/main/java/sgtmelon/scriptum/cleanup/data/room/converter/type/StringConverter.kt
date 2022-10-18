@@ -8,22 +8,22 @@ import androidx.room.TypeConverter
 // TODO #ROOM rename
 class StringConverter {
 
-    @TypeConverter fun toList(string: String): MutableList<Long> = ArrayList<Long>().apply {
-        if (string != NONE && string.isNotEmpty()) {
-            addAll(string.split(SPLIT.toRegex())
-                    .dropLastWhile { it.isEmpty() }
-                    .mapNotNull { it.toLongOrNull() })
+    @TypeConverter
+    fun toList(string: String): MutableList<Long> = ArrayList<Long>().apply {
+        if (string != EMPTY && string.isNotEmpty()) {
+            addAll(string.split(DIVIDER.toRegex())
+                .dropLastWhile { it.isEmpty() }
+                .mapNotNull { it.toLongOrNull() })
         }
     }
 
-    @TypeConverter fun toString(list: List<Long>?): String {
-        return if (list.isNullOrEmpty()) NONE else list.joinToString(SPLIT)
+    @TypeConverter
+    fun toString(list: List<Long>?): String {
+        return if (list.isNullOrEmpty()) EMPTY else list.joinToString(DIVIDER)
     }
 
     companion object {
-        // TODO rename -> DIVIDER
-        const val SPLIT = ", "
-        // TODO rename -> EMPTY
-        const val NONE = "NONE"
+        const val DIVIDER = ", "
+        const val EMPTY = "NONE"
     }
 }

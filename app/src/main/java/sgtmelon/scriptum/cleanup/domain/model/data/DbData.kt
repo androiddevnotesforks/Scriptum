@@ -149,7 +149,7 @@ object DbData {
 
         object Room {
             const val ID = "0"
-            const val NOTE_ID = StringConverter.NONE
+            const val NOTE_ID = StringConverter.EMPTY
             const val POSITION = "0"
             const val NAME = ""
             const val VISIBLE = "1"

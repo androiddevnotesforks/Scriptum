@@ -1,13 +1,10 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter
+package sgtmelon.scriptum.infrastructure.adapter.parent
 
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 
 /**
- * Parent abstract class for adapters with common functions
- *
- * @param <T>   - list model
- * @param <VH>  - holder for model
+ * Parent abstract class for simple adapters.
  */
 abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
