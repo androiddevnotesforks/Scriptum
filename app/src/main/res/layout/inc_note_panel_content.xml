@@ -11,7 +11,7 @@
 
         <import
             alias="Type"
-            type="sgtmelon.scriptum.cleanup.domain.model.key.NoteType" />
+            type="sgtmelon.scriptum.infrastructure.model.key.NoteType" />
 
         <variable
             name="menuCallback"

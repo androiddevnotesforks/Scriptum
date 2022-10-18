@@ -14,10 +14,10 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
-import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Main.Intent
+import sgtmelon.scriptum.infrastructure.model.key.NoteType
 
 /**
  * Test for [MainViewModel].

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.key
+package sgtmelon.scriptum.develop.model
 
 /**
  * Class identifying print type.

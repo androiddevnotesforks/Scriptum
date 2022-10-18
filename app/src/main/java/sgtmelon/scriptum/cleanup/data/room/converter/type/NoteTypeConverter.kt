@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.data.room.converter.type
 
 import androidx.room.TypeConverter
-import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.NoteType
 
 /**
  * Converter from number to [NoteType] and vice versa

@@ -11,11 +11,11 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.develop.model.PrintItem
 import sgtmelon.scriptum.develop.model.PrintItem.Preference
+import sgtmelon.scriptum.develop.model.PrintType
 
 /**
  * Test for [DevelopInteractorImpl].

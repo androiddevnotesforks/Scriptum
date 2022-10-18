@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.other
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
+import sgtmelon.scriptum.infrastructure.model.key.NoteType
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**

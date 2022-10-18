@@ -2,11 +2,11 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
 
 import android.os.Bundle
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
-import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
+import sgtmelon.scriptum.infrastructure.model.key.NoteType
 
 /**
  * ViewModel for [ISplashActivity].

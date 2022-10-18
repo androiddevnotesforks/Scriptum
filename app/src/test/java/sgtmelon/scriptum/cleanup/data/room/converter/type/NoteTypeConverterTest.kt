@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.data.room.converter.type
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.infrastructure.model.key.NoteType
 
 /**
  * Test for [NoteTypeConverter].
