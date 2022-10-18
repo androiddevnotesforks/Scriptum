@@ -53,9 +53,7 @@ object FragmentFactory {
 
     class Preference(private val fm: FragmentManager) {
 
-        fun get(screen: PreferenceScreen?): Pair<ParentPreferenceFragment, String>? {
-            if (screen == null) return null
-
+        fun get(screen: PreferenceScreen): Pair<ParentPreferenceFragment, String> {
             val tag = getTag(screen)
             val fragment: ParentPreferenceFragment = fm.getFragmentByTag(tag) ?: when (screen) {
                 PreferenceScreen.PREFERENCE -> PreferenceFragment()

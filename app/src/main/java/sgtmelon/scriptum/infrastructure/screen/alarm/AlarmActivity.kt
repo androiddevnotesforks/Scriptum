@@ -58,6 +58,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
+    private val bundleProvider = AlarmBundleProvider()
+
     @Inject lateinit var viewModel: AlarmViewModel
 
     private val melodyPlay by lazy {
@@ -85,7 +87,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         super.onCreate(savedInstanceState)
         setupScreen()
 
-        val noteId = AlarmBundleProvider().getNoteId(intent.extras) ?: run {
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
+        val noteId = bundleProvider.noteId ?: run {
             finish()
             return
         }
@@ -109,6 +112,11 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun setupInsets() {
         binding?.logoView?.setMarginInsets(InsetsDir.TOP)
         binding?.buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        bundleProvider.saveData(outState)
     }
 
     private fun setupScreen() {

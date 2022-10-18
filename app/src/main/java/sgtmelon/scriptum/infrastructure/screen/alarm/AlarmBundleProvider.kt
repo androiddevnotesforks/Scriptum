@@ -9,7 +9,15 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
  */
 class AlarmBundleProvider {
 
-    fun getNoteId(bundle: Bundle?): Long? {
+    private var _noteId: Long? = null
+    val noteId: Long? get() = _noteId
+
+    fun getData(bundle: Bundle?): Long? {
         return bundle?.getLong(Intent.ID, Default.ID)?.takeIf { it != Default.ID }
+    }
+
+    fun saveData(outState: Bundle) {
+        val noteId = noteId ?: return
+        outState.putLong(Intent.ID, noteId)
     }
 }

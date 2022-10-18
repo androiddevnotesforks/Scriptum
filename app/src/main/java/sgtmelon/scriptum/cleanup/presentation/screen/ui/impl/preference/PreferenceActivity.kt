@@ -2,14 +2,11 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.lifecycleScope
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.databinding.ActivityPreferenceBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -18,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
 
 /**
- * Screen for display [PreferenceFragment].
+ * Screen for display different [PreferenceScreen]'s.
  */
 class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
 
@@ -27,24 +24,22 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
+    private val bundleProvider = PreferenceBundleProvider()
+
     // TODO remove and use binding
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
-
-    private var screen: PreferenceScreen? = null
-    private val fragmentPair by lazy { FragmentFactory.Preference(fm).get(screen) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val bundle = savedInstanceState ?: intent.extras
-        val typeOrdinal = bundle?.getInt(Preference.Intent.SCREEN, Default.SCREEN) ?: Default.SCREEN
-        screen = PreferenceScreen.values().getOrNull(typeOrdinal) ?: run {
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
+        val screen = bundleProvider.screen ?: run {
             finish()
             return
         }
 
-        setupView()
-        showFragment()
+        setupView(screen)
+        showFragment(screen)
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -63,12 +58,10 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        val ordinal = screen?.ordinal ?: return
-        outState.putInt(Preference.Intent.SCREEN, ordinal)
+        bundleProvider.saveData(outState)
     }
 
-    private fun setupView() {
+    private fun setupView(screen: PreferenceScreen) {
         val titleId = when (screen) {
             PreferenceScreen.PREFERENCE -> R.string.title_preference
             PreferenceScreen.BACKUP -> R.string.pref_title_backup
@@ -77,7 +70,6 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             PreferenceScreen.HELP -> R.string.pref_title_other_help
             PreferenceScreen.DEVELOP -> R.string.pref_title_developer
             PreferenceScreen.SERVICE -> R.string.pref_header_service
-            null -> return
         }
 
         toolbar?.apply {
@@ -87,13 +79,11 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
         }
     }
 
-    private fun showFragment() {
-        val (fragment, tag) = fragmentPair ?: return
+    private fun showFragment(screen: PreferenceScreen) {
+        val (fragment, tag) = FragmentFactory.Preference(fm).get(screen)
 
-        lifecycleScope.launchWhenResumed {
-            fm.beginTransaction()
-                .replace(R.id.fragment_container, fragment, tag)
-                .commit()
-        }
+        fm.beginTransaction()
+            .replace(R.id.fragment_container, fragment, tag)
+            .commit()
     }
 }
