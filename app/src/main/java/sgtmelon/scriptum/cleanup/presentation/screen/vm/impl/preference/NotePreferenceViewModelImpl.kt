@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 
-class NotePreferenceViewModel(
+class NotePreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
     private val getSortSummary: GetSummaryUseCase,
     private val getDefaultColorSummary: GetSummaryUseCase,

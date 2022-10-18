@@ -21,10 +21,10 @@ import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.test.common.nextString
 
 /**
- * ViewModel for [NotePreferenceViewModel].
+ * ViewModel for [NotePreferenceViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class NotePreferenceViewModelTest : ParentViewModelTest() {
+class NotePreferenceViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -34,7 +34,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var getSavePeriodSummary: GetSummaryUseCase
 
     private val viewModel by lazy {
-        NotePreferenceViewModel(
+        NotePreferenceViewModelImpl(
             callback, preferencesRepo,
             getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )

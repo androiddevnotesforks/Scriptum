@@ -55,7 +55,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewMo
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
@@ -354,7 +354,7 @@ class ViewModelModule {
             preferencesRepo, getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
 
-        return ViewModelProvider(owner, factory)[NotePreferenceViewModel::class.java]
+        return ViewModelProvider(owner, factory)[NotePreferenceViewModelImpl::class.java]
     }
 
     @Provides

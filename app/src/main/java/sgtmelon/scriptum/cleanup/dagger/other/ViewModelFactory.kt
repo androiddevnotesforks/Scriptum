@@ -37,7 +37,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewMo
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.NotePreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
@@ -340,8 +340,8 @@ object ViewModelFactory {
             private val getSavePeriodSummary: GetSummaryUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(NotePreferenceViewModel::class) {
-                    NotePreferenceViewModel(
+                return modelClass.create(NotePreferenceViewModelImpl::class) {
+                    NotePreferenceViewModelImpl(
                         preferencesRepo,
                         getSortSummary, getDefaultColorSummary, getSavePeriodSummary
                     )
