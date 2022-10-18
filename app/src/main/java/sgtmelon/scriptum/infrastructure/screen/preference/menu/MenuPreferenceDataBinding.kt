@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.utils.findPreference
 
 class MenuPreferenceDataBinding(
     lifecycle: Lifecycle,
-    fragment: PreferenceFragmentCompat?
+    fragment: PreferenceFragmentCompat
 ) : ParentPreferenceBinding(lifecycle, fragment) {
 
     val themeButton: Preference? get() = fragment?.findPreference(R.string.pref_key_app_theme)

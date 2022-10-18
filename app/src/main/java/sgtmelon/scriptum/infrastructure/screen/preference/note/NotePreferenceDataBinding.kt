@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.utils.findPreference
 
 class NotePreferenceDataBinding(
     lifecycle: Lifecycle,
-    fragment: PreferenceFragmentCompat?
+    fragment: PreferenceFragmentCompat
 ) : ParentPreferenceBinding(lifecycle, fragment) {
 
     val sortButton: Preference? get() = fragment?.findPreference(R.string.pref_key_note_sort)

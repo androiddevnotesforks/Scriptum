@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
@@ -24,8 +23,8 @@ import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
-import sgtmelon.scriptum.infrastructure.utils.findPreference
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 
@@ -37,6 +36,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     DotAnimation.Callback {
 
     override val xmlId: Int = R.xml.preference_alarm
+
+    private val binding = AlarmPreferenceDataBinding(lifecycle, fragment = this)
 
     @Inject lateinit var viewModel: IAlarmPreferenceViewModel
 
@@ -51,16 +52,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     private val melodyPermissionDialog by lazy { dialogs.getMelodyPermission() }
     private val melodyDialog by lazy { dialogs.getMelody() }
     private val volumeDialog by lazy { dialogs.getVolume() }
-
-    //endregion
-
-    //region Preferences
-
-    private val repeatPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_repeat) }
-    private val signalPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_signal) }
-    private val melodyPreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_melody) }
-    private val increasePreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_increase) }
-    private val volumePreference by lazy { findPreference<Preference>(R.string.pref_key_alarm_volume) }
 
     //endregion
 
@@ -127,7 +118,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
 
     override fun setup() {
-        repeatPreference?.setOnPreferenceClickListener {
+        binding.repeatButton?.setOnPreferenceClickListener {
             viewModel.onClickRepeat()
             return@setOnPreferenceClickListener true
         }
@@ -137,7 +128,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             onDismiss { open.clear() }
         }
 
-        signalPreference?.setOnPreferenceClickListener {
+        binding.signalButton?.setOnPreferenceClickListener {
             viewModel.onClickSignal()
             return@setOnPreferenceClickListener true
         }
@@ -147,7 +138,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             onDismiss { open.clear() }
         }
 
-        melodyPreference?.setOnPreferenceClickListener {
+        binding.melodyButton?.setOnPreferenceClickListener {
             viewModel.onClickMelody(storagePermissionState.getResult(activity))
             return@setOnPreferenceClickListener true
         }
@@ -181,7 +172,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             }
         }
 
-        volumePreference?.setOnPreferenceClickListener {
+        binding.volumeButton?.setOnPreferenceClickListener {
             viewModel.onClickVolume()
             return@setOnPreferenceClickListener true
         }
@@ -193,7 +184,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun updateRepeatSummary(summary: String) {
-        repeatPreference?.summary = summary
+        binding.repeatButton?.summary = summary
     }
 
     override fun showRepeatDialog(repeat: Repeat) = open.attempt {
@@ -202,7 +193,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun updateSignalSummary(summary: String) {
-        signalPreference?.summary = summary
+        binding.signalButton?.summary = summary
     }
 
     override fun showSignalDialog(valueArray: BooleanArray) = open.attempt {
@@ -219,13 +210,13 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun updateMelodyEnabled(isEnabled: Boolean) {
-        melodyPreference?.isEnabled = isEnabled
+        binding.melodyButton?.isEnabled = isEnabled
     }
 
     override fun updateMelodyGroupEnabled(isEnabled: Boolean) {
-        melodyPreference?.isEnabled = isEnabled
-        increasePreference?.isEnabled = isEnabled
-        volumePreference?.isEnabled = isEnabled
+        binding.melodyButton?.isEnabled = isEnabled
+        binding.increaseButton?.isEnabled = isEnabled
+        binding.volumeButton?.isEnabled = isEnabled
     }
 
     override fun startMelodySummarySearch() {
@@ -235,15 +226,15 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     override fun stopMelodySummarySearch() = dotAnimation.stop()
 
     override fun onDotAnimationUpdate(text: CharSequence) {
-        melodyPreference?.summary = text
+        binding.melodyButton?.summary = text
     }
 
     override fun updateMelodySummary(summary: String) {
-        melodyPreference?.summary = summary
+        binding.melodyButton?.summary = summary
     }
 
     override fun updateMelodySummary(@StringRes summaryId: Int) {
-        melodyPreference?.summary = getString(summaryId)
+        binding.melodyButton?.summary = getString(summaryId)
     }
 
     override fun showMelodyDialog(titleArray: Array<String>, value: Int) = open.attempt {
@@ -263,7 +254,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun updateVolumeSummary(summary: String) {
-        volumePreference?.summary = summary
+        binding.volumeButton?.summary = summary
     }
 
     override fun showVolumeDialog(value: Int) = open.attempt {
