@@ -1,45 +1,33 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
-import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.utils.findPreference
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceDataBinding
+import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 
 /**
  * Fragment of note preferences.
  */
-class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragment {
+class NotePreferenceFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_note
 
+    private val binding = NotePreferenceDataBinding(lifecycle, fragment = this)
+
     @Inject lateinit var viewModel: INotePreferenceViewModel
 
-    //region Dialogs
-
     private val dialogs by lazy { DialogFactory.Preference.Notes(context, fm) }
-
     private val sortDialog by lazy { dialogs.getSort() }
     private val colorDialog by lazy { dialogs.getColor() }
     private val savePeriodDialog by lazy { dialogs.getSavePeriod() }
-
-    //endregion
-
-    //region Preferences
-
-    private val sortPreference by lazy { findPreference<Preference>(R.string.pref_key_note_sort) }
-    private val colorPreference by lazy { findPreference<Preference>(R.string.pref_key_note_color) }
-    private val savePeriodPreference by lazy { findPreference<Preference>(R.string.pref_key_note_time) }
-
-    //endregion
 
     //region System
 
@@ -63,30 +51,21 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     //endregion
 
     override fun setup() {
-        sortPreference?.setOnPreferenceClickListener {
-            viewModel.onClickSort()
-            return@setOnPreferenceClickListener true
-        }
+        binding.sortButton?.setOnClickListener { viewModel.onClickSort() }
 
         sortDialog.apply {
             onPositiveClick { viewModel.onResultNoteSort(sortDialog.check) }
             onDismiss { open.clear() }
         }
 
-        colorPreference?.setOnPreferenceClickListener {
-            viewModel.onClickNoteColor()
-            return@setOnPreferenceClickListener true
-        }
+        binding.colorButton?.setOnClickListener { viewModel.onClickNoteColor() }
 
         colorDialog.apply {
             onPositiveClick { viewModel.onResultNoteColor(colorDialog.check) }
             onDismiss { open.clear() }
         }
 
-        savePeriodPreference?.setOnPreferenceClickListener {
-            viewModel.onClickSaveTime()
-            return@setOnPreferenceClickListener true
-        }
+        binding.savePeriodButton?.setOnClickListener { viewModel.onClickSaveTime() }
 
         savePeriodDialog.apply {
             onPositiveClick { viewModel.onResultSaveTime(savePeriodDialog.check) }
@@ -95,7 +74,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun updateSortSummary(summary: String) {
-        sortPreference?.summary = summary
+        binding.sortButton?.summary = summary
     }
 
     override fun showSortDialog(sort: Sort) = open.attempt {
@@ -104,7 +83,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun updateColorSummary(summary: String) {
-        colorPreference?.summary = summary
+        binding.colorButton?.summary = summary
     }
 
     override fun showColorDialog(color: Color) = open.attempt {
@@ -113,7 +92,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun updateSavePeriodSummary(summary: String?) {
-        savePeriodPreference?.summary = summary
+        binding.savePeriodButton?.summary = summary
     }
 
     override fun showSaveTimeDialog(savePeriod: SavePeriod) = open.attempt {

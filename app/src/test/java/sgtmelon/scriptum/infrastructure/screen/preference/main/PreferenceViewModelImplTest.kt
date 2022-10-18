@@ -14,7 +14,6 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Theme
@@ -28,15 +27,14 @@ class PreferenceViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var callback: IPreferenceFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getSummary: GetSummaryUseCase
 
-    private val viewModel by lazy { PreferenceViewModelImpl(callback, preferencesRepo, getSummary) }
+    private val viewModel by lazy { PreferenceViewModelImpl(preferencesRepo, getSummary) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, preferencesRepo, getSummary)
+        confirmVerified(preferencesRepo, getSummary)
     }
 
     @Test override fun onDestroy() {
