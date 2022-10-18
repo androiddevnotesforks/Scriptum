@@ -12,8 +12,6 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
-import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
@@ -30,6 +28,8 @@ import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDeleg
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.afterLayoutConfiguration
+import sgtmelon.scriptum.infrastructure.utils.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate

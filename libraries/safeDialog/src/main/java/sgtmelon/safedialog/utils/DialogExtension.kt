@@ -1,6 +1,7 @@
 package sgtmelon.safedialog.utils
 
 import android.app.Dialog
+import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
@@ -29,4 +30,8 @@ fun DialogFragment.safeDismiss(owner: LifecycleOwner) {
             dismiss()
         }
     }
+}
+
+fun Dialog.showKeyboard() = apply {
+    window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 }

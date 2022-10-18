@@ -12,9 +12,9 @@ import sgtmelon.extensions.getColorAttr
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.utils.applyAnimation
+import sgtmelon.safedialog.utils.showKeyboard
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.clearSpace
-import sgtmelon.scriptum.cleanup.extension.showKeyboard
 
 /**
  * Dialog with EditText for rename category.

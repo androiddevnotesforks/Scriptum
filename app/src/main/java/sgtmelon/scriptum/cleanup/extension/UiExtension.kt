@@ -1,12 +1,8 @@
 package sgtmelon.scriptum.cleanup.extension
 
-import android.app.Activity
-import android.app.Dialog
 import android.content.pm.PackageManager
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.AnimRes
@@ -15,41 +11,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import sgtmelon.extensions.getInputService
 import sgtmelon.scriptum.R
 import sgtmelon.test.idling.addIdlingListener
-
-inline fun Activity.beforeFinish(func: () -> Unit) {
-    func()
-    finish()
-}
-
-fun Dialog.showKeyboard() = apply {
-    window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-}
-
-// TODO work with flag
-fun View.showKeyboard() {
-    context.getInputService().showSoftInput(this, 0)
-}
-
-// TODO work with flag
-fun Activity.hideKeyboard() {
-    getInputService().hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-}
-
-
-/**
- * Function for detect when layout completely configure.
- */
-inline fun ViewGroup.afterLayoutConfiguration(crossinline func: () -> Unit) {
-    viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            viewTreeObserver?.removeOnGlobalLayoutListener(this)
-            func()
-        }
-    })
-}
 
 fun ViewGroup.createVisibleAnim(
     target: View?,
