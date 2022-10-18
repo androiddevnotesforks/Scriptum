@@ -8,9 +8,9 @@ import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider.Version
 /**
  * State for permission request
  */
-class PermissionState(val permission: String, private val activity: Activity?) {
+class PermissionState(val permission: String) {
 
-    fun getResult(): PermissionResult? {
+    fun getResult(activity: Activity?): PermissionResult? {
         if (Version.isMarshmallowLess()) return PermissionResult.LOW_API
 
         if (activity == null) return null
@@ -24,7 +24,5 @@ class PermissionState(val permission: String, private val activity: Activity?) {
         } else {
             PermissionResult.GRANTED
         }
-
     }
-
 }

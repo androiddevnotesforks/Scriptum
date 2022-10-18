@@ -35,9 +35,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     @Inject lateinit var viewModel: IBackupPreferenceViewModel
 
-    private val storagePermissionState by lazy {
-        PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE, activity)
-    }
+    private val storagePermissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     //region Dialogs
 
@@ -186,7 +184,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun getStoragePermissionResult(): PermissionResult? {
-        return storagePermissionState.getResult()
+        return storagePermissionState.getResult(activity)
     }
 
     //region Export functions

@@ -17,7 +17,5 @@ object BuildProvider {
         fun isMarshmallowLess(): Boolean {
             return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
         }
-
     }
-
 }

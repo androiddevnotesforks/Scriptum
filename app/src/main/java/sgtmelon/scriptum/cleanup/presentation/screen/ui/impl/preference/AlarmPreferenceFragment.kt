@@ -40,9 +40,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     @Inject lateinit var viewModel: IAlarmPreferenceViewModel
 
-    private val storagePermissionState by lazy {
-        PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE, activity)
-    }
+    private val storagePermissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     //region Dialogs
 
@@ -150,7 +148,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         }
 
         melodyPreference?.setOnPreferenceClickListener {
-            viewModel.onClickMelody(storagePermissionState.getResult())
+            viewModel.onClickMelody(storagePermissionState.getResult(activity))
             return@setOnPreferenceClickListener true
         }
 
