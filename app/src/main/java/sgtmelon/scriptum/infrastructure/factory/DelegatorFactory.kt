@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.factory
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
-import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
+import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
@@ -22,7 +22,7 @@ class DelegatorFactory(private val context: Context, private val lifecycle: Life
     private var _toast: ToastDelegator? = null
     val toast get() = _toast ?: ToastDelegator(lifecycle).also { _toast = it }
 
-    private var _clipboard: ClipboardControl? = null
-    val clipboard get() = _clipboard ?: ClipboardControl(context, toast)
+    private var _clipboard: ClipboardDelegator? = null
+    val clipboard get() = _clipboard ?: ClipboardDelegator(context, toast)
 
 }

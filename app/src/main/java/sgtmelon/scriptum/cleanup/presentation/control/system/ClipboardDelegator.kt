@@ -7,7 +7,7 @@ import sgtmelon.extensions.getClipboardService
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 
-class ClipboardControl(private val context: Context, private val toast: ToastDelegator) {
+class ClipboardDelegator(private val context: Context, private val toast: ToastDelegator) {
 
     private val manager: ClipboardManager = context.getClipboardService()
 
