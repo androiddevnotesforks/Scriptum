@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.system.delegators.melody
 
 import android.content.Context
-import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -22,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
  * [streamType] must be one of [AudioManager].STREAM_ values.
  */
 class MelodyPlayDelegator(
-    context: Context?,
+    private val context: Context,
     lifecycle: Lifecycle,
     private val streamType: Int
 ) : DefaultLifecycleObserver,
@@ -39,11 +38,8 @@ class MelodyPlayDelegator(
 
     //region Variables
 
-    private val audioManager = context?.getAudioService()
-
-    private val params: MelodyPlayParams? = audioManager?.let {
-        MelodyPlayParams(it, streamType, this)
-    }
+    private val audioManager: AudioManager = context.getAudioService()
+    private val params = MelodyPlayParams(audioManager, streamType, listener = this)
 
     /**
      * [increaseCurrent] - from there need start volume increase.
@@ -77,27 +73,13 @@ class MelodyPlayDelegator(
         }
     }
 
-    fun setupPlayer(context: Context?, uri: Uri, isLooping: Boolean) {
-        if (context == null) return
-
-        val attributes = params?.attributes ?: return
-        mediaPlayer = createMediaPlayer(context, attributes, uri, isLooping)
-    }
-
-    private fun createMediaPlayer(
-        context: Context,
-        attributes: AudioAttributes,
-        uri: Uri,
-        isLooping: Boolean
-    ): MediaPlayer {
-        val player = MediaPlayer()
-
-        player.setAudioAttributes(attributes)
-        player.setDataSource(context, uri)
-        player.prepare()
-        player.isLooping = isLooping
-
-        return player
+    fun setupPlayer(uri: Uri, isLooping: Boolean) {
+        mediaPlayer = MediaPlayer().apply {
+            setAudioAttributes(params.attributes)
+            setDataSource(context, uri)
+            prepare()
+            this.isLooping = isLooping
+        }
     }
 
     /**
@@ -105,20 +87,20 @@ class MelodyPlayDelegator(
      */
     private fun setVolume(value: Int) {
         isVolumeChanged = true
-        audioManager?.setStreamVolume(streamType, value, AudioManager.ADJUST_SAME)
+        audioManager.setStreamVolume(streamType, value, AudioManager.ADJUST_SAME)
     }
 
     fun start(isIncrease: Boolean = false) {
         val mediaPlayer = mediaPlayer ?: return
 
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
-            val focusRequest = params?.focusRequest
+            val focusRequest = params.focusRequest
             if (focusRequest != null) {
-                audioManager?.requestAudioFocus(focusRequest)
+                audioManager.requestAudioFocus(focusRequest)
             }
         } else {
             val durationHint = AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
-            audioManager?.requestAudioFocus(this, streamType, durationHint)
+            audioManager.requestAudioFocus(this, streamType, durationHint)
         }
 
         mediaPlayer.start()
@@ -144,12 +126,12 @@ class MelodyPlayDelegator(
         if (!mediaPlayer.isPlaying) return
 
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
-            val focusRequest = params?.focusRequest
+            val focusRequest = params.focusRequest
             if (focusRequest != null) {
-                audioManager?.abandonAudioFocusRequest(focusRequest)
+                audioManager.abandonAudioFocusRequest(focusRequest)
             }
         } else {
-            audioManager?.abandonAudioFocus(this)
+            audioManager.abandonAudioFocus(this)
         }
 
         mediaPlayer.stop()
@@ -163,9 +145,8 @@ class MelodyPlayDelegator(
         mediaPlayer.release()
 
         /** Setup volume, which was during initialization (only if it was changed). */
-        val initialVolume = params?.initialVolume
-        if (initialVolume != null && isVolumeChanged) {
-            setVolume(initialVolume)
+        if (isVolumeChanged) {
+            setVolume(params.initialVolume)
         }
 
         /** If not set null when you may get error after next call to mediaPlayer. */

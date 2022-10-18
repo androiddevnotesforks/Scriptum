@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import android.content.IntentFilter
-import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -24,7 +23,6 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
-import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
@@ -62,9 +60,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     @Inject lateinit var viewModel: AlarmViewModel
 
-    private val melodyPlay by lazy {
-        MelodyPlayDelegator(context = this, lifecycle, AudioManager.STREAM_ALARM)
-    }
     private val finishTimer = DelayJobDelegator(lifecycle)
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
@@ -212,8 +207,10 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         val uri = UriConverter().toUri(stringUri) ?: return
         val alarmState = viewModel.alarmState
 
-        melodyPlay.setupVolume(alarmState.volumePercent, alarmState.isVolumeIncrease)
-        melodyPlay.setupPlayer(context = this, uri, isLooping = true)
+        delegators.alarmPlay.apply {
+            setupVolume(alarmState.volumePercent, alarmState.isVolumeIncrease)
+            setupPlayer(uri, isLooping = true)
+        }
     }
 
     private fun startLogoShiftAnimation() {
@@ -253,7 +250,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         animation.startContentAnimation(binding?.recyclerView, binding?.buttonContainer)
 
         if (alarmState.signalState.isMelody) {
-            melodyPlay.start(alarmState.isVolumeIncrease)
+            delegators.alarmPlay.start(alarmState.isVolumeIncrease)
         }
 
         if (alarmState.signalState.isVibration) {

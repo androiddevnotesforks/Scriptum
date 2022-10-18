@@ -2,10 +2,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.Manifest
 import android.content.DialogInterface
-import android.media.AudioManager
 import android.os.Build
-import android.os.Bundle
-import android.view.View
 import androidx.annotation.StringRes
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeDismiss
@@ -15,7 +12,6 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
@@ -24,7 +20,6 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceDataBinding
-import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
@@ -42,7 +37,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     @Inject lateinit var viewModel: IAlarmPreferenceViewModel
 
-    private val storagePermissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     //region Dialogs
 
@@ -56,18 +51,9 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    private val melodyPlay by lazy {
-        MelodyPlayDelegator(context, lifecycle, AudioManager.STREAM_MUSIC)
-    }
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
     //region System
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        melodyPlay.initLazy()
-    }
 
     override fun inject(component: ScriptumComponent) {
         component.getAlarmPrefBuilder()
@@ -134,7 +120,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         }
 
         binding.melodyButton?.setOnClickListener {
-            viewModel.onClickMelody(storagePermissionState.getResult(activity))
+            viewModel.onClickMelody(permissionState.getResult(activity))
         }
 
         melodyPermissionDialog.apply {
@@ -144,7 +130,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
 
                 requestPermissions(
-                    arrayOf(storagePermissionState.permission), PermissionRequest.MELODY
+                    arrayOf(permissionState.permission), PermissionRequest.MELODY
                 )
             }
             onDismiss { open.clear() }
@@ -161,7 +147,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
                 }
             }
             onDismiss {
-                melodyPlay.stop()
+                delegators.musicPlay.stop()
                 open.clear()
             }
         }
@@ -237,9 +223,9 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     override fun playMelody(stringUri: String) {
         val uri = UriConverter().toUri(stringUri) ?: return
 
-        with(melodyPlay) {
+        delegators.musicPlay.apply {
             stop()
-            setupPlayer(context, uri, isLooping = false)
+            setupPlayer(uri, isLooping = false)
             start()
         }
     }

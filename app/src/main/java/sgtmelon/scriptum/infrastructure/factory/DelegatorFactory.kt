@@ -1,12 +1,14 @@
 package sgtmelon.scriptum.infrastructure.factory
 
 import android.content.Context
+import android.media.AudioManager
 import androidx.lifecycle.Lifecycle
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.ClipboardDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
+import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 
 class DelegatorFactory(private val context: Context, private val lifecycle: Lifecycle) {
 
@@ -23,6 +25,17 @@ class DelegatorFactory(private val context: Context, private val lifecycle: Life
     val toast get() = _toast ?: ToastDelegator(lifecycle).also { _toast = it }
 
     private var _clipboard: ClipboardDelegator? = null
-    val clipboard get() = _clipboard ?: ClipboardDelegator(context, toast)
+    val clipboard get() = _clipboard ?: ClipboardDelegator(context, toast).also { _clipboard = it }
 
+    private var _alarmPlay: MelodyPlayDelegator? = null
+    val alarmPlay: MelodyPlayDelegator
+        get() = _alarmPlay ?: getPlayer(AudioManager.STREAM_ALARM).also { _alarmPlay = it }
+
+    private var _musicPlay: MelodyPlayDelegator? = null
+    val musicPlay: MelodyPlayDelegator
+        get() = _musicPlay ?: getPlayer(AudioManager.STREAM_MUSIC).also { _musicPlay = it }
+
+    private fun getPlayer(streamType: Int): MelodyPlayDelegator {
+        return MelodyPlayDelegator(context, lifecycle, streamType)
+    }
 }
