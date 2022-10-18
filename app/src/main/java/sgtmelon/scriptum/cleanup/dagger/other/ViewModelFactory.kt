@@ -24,7 +24,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
@@ -335,7 +334,6 @@ object ViewModelFactory {
         }
 
         class Note(
-            private val fragment: NotePreferenceFragment,
             private val preferencesRepo: PreferencesRepo,
             private val getSortSummary: GetSummaryUseCase,
             private val getDefaultColorSummary: GetSummaryUseCase,
@@ -344,7 +342,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotePreferenceViewModel::class) {
                     NotePreferenceViewModel(
-                        fragment, preferencesRepo,
+                        preferencesRepo,
                         getSortSummary, getDefaultColorSummary, getSavePeriodSummary
                     )
                 }

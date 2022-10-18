@@ -33,7 +33,7 @@ class NotePreferenceFragment : ParentPreferenceFragment() {
 
     override fun inject(component: ScriptumComponent) {
         component.getNotePrefBuilder()
-            .set(fragment = this)
+            .set(owner = this)
             .build()
             .inject(fragment = this)
     }

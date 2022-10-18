@@ -1,22 +1,17 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
 import android.os.Bundle
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
+import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 
-/**
- * ViewModel for [INotePreferenceFragment].
- */
 class NotePreferenceViewModel(
-    callback: INotePreferenceFragment,
     private val preferencesRepo: PreferencesRepo,
     private val getSortSummary: GetSummaryUseCase,
     private val getDefaultColorSummary: GetSummaryUseCase,
     private val getSavePeriodSummary: GetSummaryUseCase
-) : ParentViewModel<INotePreferenceFragment>(callback),
+) : ViewModel(),
     INotePreferenceViewModel {
 
     override fun onSetup(bundle: Bundle?) {

@@ -28,7 +28,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
@@ -345,18 +344,17 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideNotePreferenceViewModel(
-        fragment: NotePreferenceFragment,
+        owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         @Named("Sort") getSortSummary: GetSummaryUseCase,
         @Named("DefaultColor") getDefaultColorSummary: GetSummaryUseCase,
         @Named("SavePeriod") getSavePeriodSummary: GetSummaryUseCase
     ): INotePreferenceViewModel {
         val factory = ViewModelFactory.Preference.Note(
-            fragment, preferencesRepo,
-            getSortSummary, getDefaultColorSummary, getSavePeriodSummary
+            preferencesRepo, getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
 
-        return ViewModelProvider(fragment, factory)[NotePreferenceViewModel::class.java]
+        return ViewModelProvider(owner, factory)[NotePreferenceViewModel::class.java]
     }
 
     @Provides

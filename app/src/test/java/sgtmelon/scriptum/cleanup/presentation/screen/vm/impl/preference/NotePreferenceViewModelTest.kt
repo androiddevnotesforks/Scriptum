@@ -13,7 +13,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -29,7 +28,6 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var callback: INotePreferenceFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getSortSummary: GetSummaryUseCase
     @MockK lateinit var getDefaultColorSummary: GetSummaryUseCase
