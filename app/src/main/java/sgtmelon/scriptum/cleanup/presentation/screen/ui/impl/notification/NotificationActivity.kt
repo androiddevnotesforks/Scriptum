@@ -11,7 +11,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
-import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll

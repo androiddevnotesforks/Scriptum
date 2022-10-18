@@ -10,7 +10,6 @@ import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.safedialog.dialog.time.TimeDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.getFragmentByTag
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.utils.getFragmentByTag
 
 /**
  * Factory for create/get dialogs.

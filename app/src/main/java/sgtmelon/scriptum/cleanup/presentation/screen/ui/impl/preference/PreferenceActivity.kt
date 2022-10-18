@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.databinding.ActivityPreferenceBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
@@ -11,6 +10,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
 
 /**

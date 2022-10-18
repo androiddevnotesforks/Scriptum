@@ -6,7 +6,6 @@ import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
-import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.develop.model.PrintType
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener

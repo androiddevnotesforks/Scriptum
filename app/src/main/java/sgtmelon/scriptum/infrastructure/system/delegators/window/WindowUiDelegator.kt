@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.system.delegators.window
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -10,7 +11,6 @@ import androidx.annotation.ColorInt
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
-import sgtmelon.scriptum.cleanup.extension.isPortraitMode
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.Background
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.NavDivider
@@ -164,4 +164,7 @@ class WindowUiDelegator(
 
     //endregion
 
+    private fun Context.isPortraitMode(): Boolean {
+        return resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+    }
 }

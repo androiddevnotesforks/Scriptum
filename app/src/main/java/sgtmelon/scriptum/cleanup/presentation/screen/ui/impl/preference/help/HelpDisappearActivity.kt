@@ -3,12 +3,12 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.databinding.ActivityHelpDisappearBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
 import sgtmelon.scriptum.infrastructure.utils.startUrlActivity
 import sgtmelon.scriptum.infrastructure.utils.updateMargin

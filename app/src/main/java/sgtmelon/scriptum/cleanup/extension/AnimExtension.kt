@@ -7,6 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.getAlphaInterpolator
 import sgtmelon.test.idling.addIdlingListener
 
+@Deprecated("Check how will work simple animation (note object animator), may be it's more light")
 inline fun View.animateAlpha(
     isVisible: Boolean,
     duration: Long = context.resources.getInteger(R.integer.info_fade_time).toLong(),

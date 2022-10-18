@@ -15,7 +15,6 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
-import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
+import sgtmelon.scriptum.infrastructure.utils.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**

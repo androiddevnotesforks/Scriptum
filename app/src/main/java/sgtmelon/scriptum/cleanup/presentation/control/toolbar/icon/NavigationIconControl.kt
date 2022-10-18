@@ -4,15 +4,14 @@ import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.iconanim.control.IconAnimControlImpl
 import sgtmelon.iconanim.callback.IconBlockCallback
-
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.iconanim.control.IconAnimControl
+import sgtmelon.iconanim.control.IconAnimControlImpl
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.getTintDrawable
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
 
 /**
  * Class for control toolbar navigation icon changes in [TextNoteFragment], [RollNoteFragment].

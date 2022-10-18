@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.factory
 
 import androidx.fragment.app.FragmentManager
-import sgtmelon.scriptum.cleanup.extension.getFragmentByTag
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.main.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.utils.getFragmentByTag
 
 /**
  * Factory for create/get fragments.

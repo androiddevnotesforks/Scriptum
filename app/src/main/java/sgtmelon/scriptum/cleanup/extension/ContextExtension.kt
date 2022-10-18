@@ -2,8 +2,6 @@ package sgtmelon.scriptum.cleanup.extension
 
 import android.content.Context
 import android.content.res.Configuration
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.utils.record
 
@@ -18,12 +16,4 @@ fun Context.getDisplayedTheme(): ThemeDisplayed? {
             return@run null
         }
     }
-}
-
-fun Context.isPortraitMode(): Boolean {
-    return resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-}
-
-inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String): F? {
-    return findFragmentByTag(tag) as? F
 }

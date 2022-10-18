@@ -1,23 +1,13 @@
 package sgtmelon.scriptum.cleanup.extension
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.view.MenuItem
-import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
-import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getColorCompat
-import sgtmelon.extensions.getDimen
-import sgtmelon.extensions.getDrawableCompat
-import sgtmelon.extensions.setColorFilterCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.accent
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.dark
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.light
-import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
@@ -56,27 +46,4 @@ fun Context.getAppSimpleColor(color: Color, shade: ColorShade): Int {
             ColorShade.DARK -> dark[ordinal]
         }
     )
-}
-
-fun MenuItem.tintIcon(context: Context) {
-    val icon = this.icon ?: return
-
-    val wrapDrawable = DrawableCompat.wrap(icon)
-    DrawableCompat.setTint(wrapDrawable, context.getColorAttr(R.attr.clContent))
-    this.icon = wrapDrawable
-}
-
-fun Context.getTintDrawable(@DrawableRes id: Int, @AttrRes tint: Int = R.attr.clContent): Drawable? {
-    val drawable = getDrawableCompat(id) ?: return null
-
-    drawable.setColorFilterCompat(getColorAttr(tint))
-
-    return drawable
-}
-
-fun Drawable.setColor(context: Context, colorItem: ColorItem) {
-    if (this !is GradientDrawable) return
-
-    setColor(context.getColorCompat(colorItem.fill))
-    setStroke(context.getDimen(value = 1f), context.getColorCompat(colorItem.stroke))
 }
