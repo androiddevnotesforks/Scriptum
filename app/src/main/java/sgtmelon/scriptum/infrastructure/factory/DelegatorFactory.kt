@@ -2,8 +2,8 @@ package sgtmelon.scriptum.infrastructure.factory
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
-import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
+import sgtmelon.scriptum.infrastructure.system.delegators.ClipboardDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.PhoneAwakeDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator

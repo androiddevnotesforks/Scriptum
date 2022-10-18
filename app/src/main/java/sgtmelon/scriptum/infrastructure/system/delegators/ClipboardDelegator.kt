@@ -1,11 +1,10 @@
-package sgtmelon.scriptum.cleanup.presentation.control.system
+package sgtmelon.scriptum.infrastructure.system.delegators
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import sgtmelon.extensions.getClipboardService
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 
 class ClipboardDelegator(private val context: Context, private val toast: ToastDelegator) {
 
