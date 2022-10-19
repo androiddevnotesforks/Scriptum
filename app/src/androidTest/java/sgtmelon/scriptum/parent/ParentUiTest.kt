@@ -118,7 +118,7 @@ abstract class ParentUiTest : ParentTest() {
 
         AlarmActivity.isFinishOnStop = true
 
-        BindControl.instance?.clearRecent()
+        BindControl[context].clearRecent()
         AlarmControl.instance?.clear()
     }
 

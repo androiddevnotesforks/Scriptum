@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IBindControl
-import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
 /**
@@ -41,13 +40,11 @@ class BindControl(private val context: Context) : IBindControl {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Factory.Count.createChannel(context)
             Factory.Notes.createChannel(context)
-            Factory.deleteOldChannel(context)
+            Factory.deleteOldChannels(context)
         }
     }
 
     override fun notifyNotes(itemList: List<NoteItem>) {
-        if (context == null) return
-
         clearRecent(Tag.NOTE)
 
         noteItemList.clearAdd(itemList)
@@ -141,7 +138,7 @@ class BindControl(private val context: Context) : IBindControl {
     }
 
     companion object {
-        @RunPrivate var instance: IBindControl? = null
+        private var instance: IBindControl? = null
 
         operator fun get(context: Context): IBindControl {
             return instance ?: BindControl(context).also { instance = it }

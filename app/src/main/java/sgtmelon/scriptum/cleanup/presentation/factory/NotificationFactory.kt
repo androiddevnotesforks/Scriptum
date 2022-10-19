@@ -29,23 +29,21 @@ import sgtmelon.test.prod.RunPrivate
 object NotificationFactory {
 
     @RequiresApi(VERSION_CODES.O)
-    fun deleteOldChannel(context: Context?) {
-        if (context == null) return
+    fun deleteOldChannels(context: Context) {
+        val service = context.getNotificationService()
 
         val id = context.getString(R.string.notification_old_channel_id)
-        context.getNotificationService()?.deleteNotificationChannel(id)
+        service.deleteNotificationChannel(id)
 
         val infoId = context.getString(R.string.notification_old_info_channel_id)
-        context.getNotificationService()?.deleteNotificationChannel(infoId)
+        service.deleteNotificationChannel(infoId)
     }
 
     object Notes {
 
         @RequiresApi(VERSION_CODES.O)
-        fun createChannel(context: Context?) {
-            if (context == null) return
-
-            context.getNotificationService()?.createNotificationChannel(getChannel(context))
+        fun createChannel(context: Context) {
+            context.getNotificationService().createNotificationChannel(getChannel(context))
         }
 
         @RequiresApi(VERSION_CODES.O)
@@ -150,10 +148,8 @@ object NotificationFactory {
     object Count {
 
         @RequiresApi(VERSION_CODES.O)
-        fun createChannel(context: Context?) {
-            if (context == null) return
-
-            context.getNotificationService()?.createNotificationChannel(getChannel(context))
+        fun createChannel(context: Context) {
+            context.getNotificationService().createNotificationChannel(getChannel(context))
         }
 
         @RequiresApi(VERSION_CODES.O)
@@ -195,10 +191,8 @@ object NotificationFactory {
     object Service {
 
         @RequiresApi(VERSION_CODES.O)
-        fun createChannel(context: Context?) {
-            if (context == null) return
-
-            context.getNotificationService()?.createNotificationChannel(getChannel(context))
+        fun createChannel(context: Context) {
+            context.getNotificationService().createNotificationChannel(getChannel(context))
         }
 
         @RequiresApi(VERSION_CODES.O)
