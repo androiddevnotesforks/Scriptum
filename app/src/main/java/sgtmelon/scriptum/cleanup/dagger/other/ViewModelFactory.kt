@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.dagger.other
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
@@ -22,7 +23,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
@@ -350,18 +350,18 @@ object ViewModelFactory {
         }
 
         class Alarm(
-            private val fragment: AlarmPreferenceFragment,
+            private val lifecycle: Lifecycle,
             private val preferencesRepo: PreferencesRepo,
             private val getRepeatSummary: GetSummaryUseCase,
-            private val getVolumeSummary: GetSummaryUseCase,
             private val getSignalSummary: GetSignalSummaryUseCase,
+            private val getVolumeSummary: GetSummaryUseCase,
             private val getMelodyList: GetMelodyListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(AlarmPreferenceViewModel::class) {
                     AlarmPreferenceViewModel(
-                        fragment,
-                        preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
+                        lifecycle,
+                        preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
                         getMelodyList
                     )
                 }

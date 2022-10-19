@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.dialog.parent.BlankDialog
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.safeShow
 
 /**
@@ -32,6 +32,10 @@ class SingleDialog : BlankDialog() {
         private set
 
     var itemListener: DialogInterface.OnClickListener? = null
+
+    inline fun onItemClick(crossinline func: (i: Int) -> Unit) {
+        itemListener = DialogInterface.OnClickListener { _, i -> func(i) }
+    }
 
     /**
      * Call before [safeShow].

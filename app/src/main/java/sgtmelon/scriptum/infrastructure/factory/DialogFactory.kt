@@ -292,8 +292,8 @@ object DialogFactory {
                 return dialog
             }
 
-            fun getMelodyPermission(): MessageDialog {
-                val dialog = fm.getFragmentByTag(MELODY_PERMISSION) ?: MessageDialog()
+            fun getMelodyAccess(): MessageDialog {
+                val dialog = fm.getFragmentByTag(MELODY_ACCESS) ?: MessageDialog()
 
                 if (context == null) return dialog
 
@@ -329,7 +329,7 @@ object DialogFactory {
 
                 const val REPEAT = "${PREFIX}_REPEAT"
                 const val SIGNAL = "${PREFIX}_SIGNAL"
-                const val MELODY_PERMISSION = "${PREFIX}_MELODY_PERMISSION"
+                const val MELODY_ACCESS = "${PREFIX}_MELODY_ACCESS"
                 const val MELODY = "${PREFIX}_MELODY"
                 const val VOLUME = "${PREFIX}_VOLUME"
             }

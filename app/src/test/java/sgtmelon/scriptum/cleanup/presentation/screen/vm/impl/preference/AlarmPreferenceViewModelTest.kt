@@ -21,7 +21,6 @@ import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
@@ -38,7 +37,6 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var callback: IAlarmPreferenceFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getRepeatSummary: GetSummaryUseCase
     @MockK lateinit var getVolumeSummary: GetSummaryUseCase
@@ -50,7 +48,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         AlarmPreferenceViewModel(
             callback,
-            preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
+            preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
             getMelodyList
         )
     }
@@ -256,7 +254,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.onClickMelody(PermissionResult.LOW_API)
             spyViewModel.prepareMelodyDialog()
 
-            spyViewModel.onClickMelody(PermissionResult.ALLOWED)
+            spyViewModel.onClickMelody(PermissionResult.ASK)
             spyViewModel.callback
             callback.showMelodyPermissionDialog()
 

@@ -17,7 +17,7 @@ class PermissionState(val permission: String) {
 
         return if (activity.checkSelfPermission(permission).notGranted()) {
             if (activity.shouldShowRequestPermissionRationale(permission)) {
-                PermissionResult.ALLOWED
+                PermissionResult.ASK
             } else {
                 PermissionResult.FORBIDDEN
             }

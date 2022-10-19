@@ -96,7 +96,7 @@ class BackupPreferenceViewModel(
      */
     override fun onClickExport(result: Permission) {
         when (result) {
-            Permission.ALLOWED -> callback?.showExportPermissionDialog()
+            Permission.ASK -> callback?.showExportPermissionDialog()
             Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch { startExport() }
             Permission.FORBIDDEN -> callback?.showExportDenyDialog()
         }
@@ -144,7 +144,7 @@ class BackupPreferenceViewModel(
      */
     override fun onClickImport(result: Permission) {
         when (result) {
-            Permission.ALLOWED -> callback?.showImportPermissionDialog()
+            Permission.ASK -> callback?.showImportPermissionDialog()
             Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch {
                 prepareImportDialog()
             }

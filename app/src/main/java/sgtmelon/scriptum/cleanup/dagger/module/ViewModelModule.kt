@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.dagger.module
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.Module
@@ -26,7 +27,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
@@ -360,19 +360,20 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideAlarmPreferenceViewModel(
-        fragment: AlarmPreferenceFragment,
+        lifecycle: Lifecycle,
+        owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         @Named("Repeat") getRepeatSummary: GetSummaryUseCase,
-        @Named("Volume") getVolumeSummary: GetSummaryUseCase,
         getSignalSummary: GetSignalSummaryUseCase,
+        @Named("Volume") getVolumeSummary: GetSummaryUseCase,
         getMelodyList: GetMelodyListUseCase
     ): IAlarmPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Alarm(
-            fragment,
-            preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
+            lifecycle,
+            preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
             getMelodyList
         )
-        return ViewModelProvider(fragment, factory)[AlarmPreferenceViewModel::class.java]
+        return ViewModelProvider(owner, factory)[AlarmPreferenceViewModel::class.java]
     }
 
     @Provides

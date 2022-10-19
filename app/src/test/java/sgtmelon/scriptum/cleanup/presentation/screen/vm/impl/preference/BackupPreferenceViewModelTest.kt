@@ -70,7 +70,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
         coEvery { spyViewModel.setupBackground() } returns Unit
         spyViewModel.onSetup()
 
-        every { callback.getStoragePermissionResult() } returns PermissionResult.ALLOWED
+        every { callback.getStoragePermissionResult() } returns PermissionResult.ASK
         spyViewModel.onSetup()
 
         every { callback.getStoragePermissionResult() } returns PermissionResult.FORBIDDEN
@@ -205,7 +205,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.onClickExport(PermissionResult.LOW_API)
             spyViewModel.startExport()
 
-            spyViewModel.onClickExport(PermissionResult.ALLOWED)
+            spyViewModel.onClickExport(PermissionResult.ASK)
             spyViewModel.callback
             callback.showExportPermissionDialog()
 
@@ -293,7 +293,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.onClickImport(PermissionResult.LOW_API)
             spyViewModel.prepareImportDialog()
 
-            spyViewModel.onClickImport(PermissionResult.ALLOWED)
+            spyViewModel.onClickImport(PermissionResult.ASK)
             spyViewModel.callback
             callback.showImportPermissionDialog()
 

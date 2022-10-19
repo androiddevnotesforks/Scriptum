@@ -38,7 +38,7 @@ class PermissionStateTest : ParentTest() {
         assertEquals(PermissionResult.FORBIDDEN, permissionState.getResult())
 
         every { activity.shouldShowRequestPermissionRationale(permission) } returns true
-        assertEquals(PermissionResult.ALLOWED, permissionState.getResult())
+        assertEquals(PermissionResult.ASK, permissionState.getResult())
 
         assertNull(PermissionState(permission, activity = null).getResult())
     }

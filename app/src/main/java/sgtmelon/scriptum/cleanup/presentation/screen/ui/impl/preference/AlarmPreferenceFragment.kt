@@ -1,10 +1,13 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.Manifest
-import android.content.DialogInterface
 import android.os.Build
-import androidx.annotation.StringRes
+import android.os.Bundle
+import android.view.View
+import androidx.annotation.IntRange
+import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -13,13 +16,14 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.isGranted
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
+import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceDataBinding
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodyState
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
@@ -28,7 +32,6 @@ import sgtmelon.textDotAnim.DotAnimation
  * Fragment of notification (alarm) preferences.
  */
 class AlarmPreferenceFragment : ParentPreferenceFragment(),
-    IAlarmPreferenceFragment,
     DotAnimation.Callback {
 
     override val xmlId: Int = R.xml.preference_alarm
@@ -39,52 +42,35 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    //region Dialogs
-
     private val dialogs by lazy { DialogFactory.Preference.Alarm(context, fm) }
-
     private val repeatDialog by lazy { dialogs.getRepeat() }
     private val signalDialog by lazy { dialogs.getSignal() }
-    private val melodyPermissionDialog by lazy { dialogs.getMelodyPermission() }
+    private val melodyAccessDialog by lazy { dialogs.getMelodyAccess() }
     private val melodyDialog by lazy { dialogs.getMelody() }
     private val volumeDialog by lazy { dialogs.getVolume() }
 
-    //endregion
-
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
-    //region System
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupDialogs()
+    }
 
     override fun inject(component: ScriptumComponent) {
         component.getAlarmPrefBuilder()
-            .set(fragment = this)
+            .set(lifecycle)
+            .set(owner = this)
             .build()
             .inject(fragment = this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onSetup()
     }
 
     override fun onPause() {
         super.onPause()
 
-        viewModel.onPause()
-
-        /**
-         * After call [IAlarmPreferenceViewModel.onPause] this dialog will not have any items.
-         */
+        /** Need restart this dialog after any onPause action. */
         melodyDialog.safeDismiss(owner = this)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        viewModel.onDestroy()
-    }
-
-    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -96,49 +82,108 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         val result = if (isGranted) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
 
         when (requestCode) {
-            PermissionRequest.MELODY -> viewModel.onClickMelody(result)
+            PermissionRequest.MELODY -> onMelodyAccess(result)
         }
+    }
+
+    override fun setup() {
+        binding.repeatButton?.setOnClickListener { showRepeatDialog(viewModel.repeat) }
+        binding.signalButton?.setOnClickListener { showSignalDialog(viewModel.signalTypeCheck) }
+
+        binding.melodyButton?.setOnClickListener {
+            onMelodyAccess(permissionState.getResult(activity))
+        }
+
+        binding.volumeButton?.setOnClickListener { showVolumeDialog(viewModel.volumePercent) }
+    }
+
+    override fun setupObservers() {
+        viewModel.repeatSummary.observe(this) { binding.repeatButton?.summary = it }
+        viewModel.signalSummary.observe(this) { binding.signalButton?.summary = it }
+        viewModel.volumeSummary.observe(this) { binding.volumeButton?.summary = it }
+        viewModel.melodyState.observe(this) { onMelodyState(it) }
+
+        TODO()
+    }
+
+    //region Melody state changed
+
+    private fun onMelodyState(state: MelodyState?) {
+        if (state == null) return
+
+        when (state) {
+            is MelodyState.Enabled -> updateMelodyGroupEnabled(state.isGroupEnabled)
+            is MelodyState.Loading -> {
+                dotAnimation.start(context, R.string.pref_summary_alarm_melody_search)
+
+                /** Make melody preference not enabled in every way, before we load data. */
+                updateMelodyGroupEnabled(state.isGroupEnabled)
+                updateMelodyEnabled(isEnabled = false)
+            }
+            is MelodyState.Finish -> {
+                dotAnimation.stop()
+
+                /** Make visibility like in whole melody group. */
+                updateMelodyEnabled(state.isGroupEnabled)
+                updateMelodySummary(state.melodyItem.title)
+
+            }
+            is MelodyState.Empty -> {
+                dotAnimation.stop()
+
+                updateMelodyEnabled(isEnabled = false)
+                updateMelodySummary(getString(R.string.pref_summary_alarm_melody_empty))
+            }
+        }
+    }
+
+    private fun updateMelodySummary(summary: String) {
+        binding.melodyButton?.summary = summary
+    }
+
+    private fun updateMelodyEnabled(isEnabled: Boolean) {
+        binding.melodyButton?.isEnabled = isEnabled
+    }
+
+    private fun updateMelodyGroupEnabled(isEnabled: Boolean) {
+        binding.melodyButton?.isEnabled = isEnabled
+        binding.increaseButton?.isEnabled = isEnabled
+        binding.volumeButton?.isEnabled = isEnabled
     }
 
     //endregion
 
-    override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
-
-    override fun setup() {
-        binding.repeatButton?.setOnClickListener { viewModel.onClickRepeat() }
-
+    private fun setupDialogs() {
         repeatDialog.apply {
-            onPositiveClick { viewModel.onResultRepeat(repeatDialog.check) }
+            onPositiveClick { viewModel.updateRepeat(repeatDialog.check) }
             onDismiss { open.clear() }
         }
-
-        binding.signalButton?.setOnClickListener { viewModel.onClickSignal() }
 
         signalDialog.apply {
-            onPositiveClick { viewModel.onResultSignal(signalDialog.check) }
+            onPositiveClick { viewModel.updateSignal(signalDialog.check) }
             onDismiss { open.clear() }
         }
 
-        binding.melodyButton?.setOnClickListener {
-            viewModel.onClickMelody(permissionState.getResult(activity))
+        volumeDialog.apply {
+            onPositiveClick { viewModel.updateVolume(volumeDialog.progress) }
+            onDismiss { open.clear() }
         }
 
-        melodyPermissionDialog.apply {
+        melodyAccessDialog.apply {
             isCancelable = false
 
             onPositiveClick {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
-
-                requestPermissions(
-                    arrayOf(permissionState.permission), PermissionRequest.MELODY
-                )
+                requestPermissions(arrayOf(permissionState.permission), PermissionRequest.MELODY)
             }
             onDismiss { open.clear() }
         }
 
         melodyDialog.apply {
-            melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
-                viewModel.onSelectMelody(i)
+            onItemClick {
+                lifecycleScope.launch {
+                    viewModel.getMelody(it).collect { if (it != null) playMelody(it) }
+                }
             }
             onPositiveClick {
                 val title = with(melodyDialog) { itemArray.getOrNull(check) }
@@ -151,77 +196,50 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
                 open.clear()
             }
         }
-
-        binding.volumeButton?.setOnClickListener { viewModel.onClickVolume() }
-
-        volumeDialog.apply {
-            onPositiveClick { viewModel.onResultVolume(volumeDialog.progress) }
-            onDismiss { open.clear() }
-        }
     }
 
-    override fun updateRepeatSummary(summary: String) {
-        binding.repeatButton?.summary = summary
-    }
-
-    override fun showRepeatDialog(repeat: Repeat) = open.attempt {
+    private fun showRepeatDialog(repeat: Repeat) = open.attempt {
         repeatDialog.setArguments(repeat.ordinal)
             .safeShow(fm, DialogFactory.Preference.Alarm.REPEAT, owner = this)
     }
 
-    override fun updateSignalSummary(summary: String) {
-        binding.signalButton?.summary = summary
-    }
-
-    override fun showSignalDialog(valueArray: BooleanArray) = open.attempt {
+    private fun showSignalDialog(valueArray: BooleanArray) = open.attempt {
         signalDialog.setArguments(valueArray)
             .safeShow(fm, DialogFactory.Preference.Alarm.SIGNAL, owner = this)
     }
 
-    override fun showMelodyPermissionDialog() = open.attempt {
-        melodyPermissionDialog.safeShow(
-            fm,
-            DialogFactory.Preference.Alarm.MELODY_PERMISSION,
-            owner = this
-        )
+    private fun showVolumeDialog(@IntRange(from = 10, to = 100) value: Int) = open.attempt {
+        volumeDialog.setArguments(value)
+            .safeShow(fm, DialogFactory.Preference.Alarm.VOLUME, owner = this)
     }
 
-    override fun updateMelodyEnabled(isEnabled: Boolean) {
-        binding.melodyButton?.isEnabled = isEnabled
+    private fun onMelodyAccess(result: PermissionResult?) {
+        if (result == null) return
+
+        /**
+         * Show permission request only on [PermissionResult.ASK] because we can display
+         * melodies which not located on SD card.
+         */
+        when (result) {
+            PermissionResult.ASK -> showMelodyAccessDialog()
+            else -> lifecycleScope.launch {
+                viewModel.melodyTitlesCheckPair.collect { showMelodyDialog(it.first, it.second) }
+            }
+        }
     }
 
-    override fun updateMelodyGroupEnabled(isEnabled: Boolean) {
-        binding.melodyButton?.isEnabled = isEnabled
-        binding.increaseButton?.isEnabled = isEnabled
-        binding.volumeButton?.isEnabled = isEnabled
+    private fun showMelodyAccessDialog() = open.attempt {
+        melodyAccessDialog.safeShow(fm, DialogFactory.Preference.Alarm.MELODY_ACCESS, owner = this)
     }
 
-    override fun startMelodySummarySearch() {
-        dotAnimation.start(context, R.string.pref_summary_alarm_melody_search)
-    }
-
-    override fun stopMelodySummarySearch() = dotAnimation.stop()
-
-    override fun onDotAnimationUpdate(text: CharSequence) {
-        binding.melodyButton?.summary = text
-    }
-
-    override fun updateMelodySummary(summary: String) {
-        binding.melodyButton?.summary = summary
-    }
-
-    override fun updateMelodySummary(@StringRes summaryId: Int) {
-        binding.melodyButton?.summary = getString(summaryId)
-    }
-
-    override fun showMelodyDialog(titleArray: Array<String>, value: Int) = open.attempt {
+    private fun showMelodyDialog(titleArray: Array<String>, value: Int) = open.attempt {
         melodyDialog.itemArray = titleArray
         melodyDialog.setArguments(value)
             .safeShow(fm, DialogFactory.Preference.Alarm.MELODY, owner = this)
     }
 
-    override fun playMelody(stringUri: String) {
-        val uri = UriConverter().toUri(stringUri) ?: return
+    private fun playMelody(item: MelodyItem) {
+        val uri = UriConverter().toUri(item.uri) ?: return
 
         delegators.musicPlay.apply {
             stop()
@@ -230,12 +248,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         }
     }
 
-    override fun updateVolumeSummary(summary: String) {
-        binding.volumeButton?.summary = summary
-    }
+    override fun onDotAnimationUpdate(text: CharSequence) = updateMelodySummary(text.toString())
 
-    override fun showVolumeDialog(value: Int) = open.attempt {
-        volumeDialog.setArguments(value)
-            .safeShow(fm, DialogFactory.Preference.Alarm.VOLUME, owner = this)
-    }
 }

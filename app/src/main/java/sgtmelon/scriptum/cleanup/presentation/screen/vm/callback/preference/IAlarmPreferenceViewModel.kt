@@ -1,35 +1,60 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
 
 import androidx.annotation.IntRange
-import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
+import kotlinx.coroutines.flow.Flow
+import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodyState
+import sgtmelon.scriptum.infrastructure.utils.SingleShootLiveData
 
-/**
- * Interface for communication [IAlarmPreferenceFragment] with [AlarmPreferenceViewModel].
- */
-interface IAlarmPreferenceViewModel : IParentViewModel {
+interface IAlarmPreferenceViewModel {
 
-    fun onPause()
+    val repeat: Repeat
+
+    val repeatSummary: SingleShootLiveData<String>
+
+    fun updateRepeat(value: Int)
+
+    val signalTypeCheck: BooleanArray
+
+    val signalSummary: SingleShootLiveData<String>
+
+    fun updateSignal(value: BooleanArray)
+
+    val volumePercent: Int
+
+    val volumeSummary: SingleShootLiveData<String>
+
+    fun updateVolume(@IntRange(from = 10, to = 100) value: Int)
 
 
-    fun onClickRepeat()
+    val melodyState: SingleShootLiveData<MelodyState>
 
-    fun onResultRepeat(value: Int)
+    val melodyTitlesCheckPair: Flow<Pair<Array<String>, Int>>
 
-    fun onClickSignal()
+    fun getMelody(value: Int): Flow<MelodyItem?>
 
-    fun onResultSignal(valueArray: BooleanArray)
 
-    fun onClickMelody(result: PermissionResult?)
+    // TODO add melody staff
 
-    fun onSelectMelody(value: Int)
+    //    TODO next - remove
 
-    fun onResultMelody(title: String)
+    //    fun onPause()
+    //
+    //    fun onClickRepeat()
+    //
+    //    fun onResultRepeat(value: Int)
+    //
+    //    fun onClickSignal()
+    //
+    //    fun onResultSignal(valueArray: BooleanArray)
 
-    fun onClickVolume()
+    //    fun onClickMelody(result: PermissionResult?)
+    //
+    //    fun onResultMelody(title: String)
 
-    fun onResultVolume(@IntRange(from = 10, to = 100) value: Int)
+    //    fun onClickVolume()
+    //
+    //    fun onResultVolume(@IntRange(from = 10, to = 100) value: Int)
 
 }
