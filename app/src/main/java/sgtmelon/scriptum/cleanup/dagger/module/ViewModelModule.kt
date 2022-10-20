@@ -38,7 +38,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewM
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
@@ -365,7 +365,7 @@ class ViewModelModule {
         getSignalSummary: GetSignalSummaryUseCase,
         @Named("Volume") getVolumeSummary: GetSummaryUseCase,
         getMelodyList: GetMelodyListUseCase
-    ): IAlarmPreferenceViewModel {
+    ): AlarmPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Alarm(
             preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
             getMelodyList

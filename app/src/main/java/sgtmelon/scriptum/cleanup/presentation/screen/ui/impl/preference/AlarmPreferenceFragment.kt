@@ -14,7 +14,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.isGranted
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
@@ -36,7 +36,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     private val binding = AlarmPreferenceDataBinding(fragment = this)
 
-    @Inject lateinit var viewModel: IAlarmPreferenceViewModel
+    @Inject lateinit var viewModel: AlarmPreferenceViewModel
 
     private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 

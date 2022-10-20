@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
 import androidx.annotation.IntRange
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.onBack
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
@@ -25,8 +24,7 @@ class AlarmPreferenceViewModelImpl(
     private val getVolumeSummary: GetSummaryUseCase,
     private val getMelodyList: GetMelodyListUseCase
 ) : ViewModel(),
-    IAlarmPreferenceViewModel,
-    DefaultLifecycleObserver {
+    AlarmPreferenceViewModel {
 
     override val repeat: Repeat get() = preferencesRepo.repeat
 

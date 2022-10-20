@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodySummaryState
 
-interface IAlarmPreferenceViewModel {
+interface AlarmPreferenceViewModel {
 
     val repeat: Repeat
 
