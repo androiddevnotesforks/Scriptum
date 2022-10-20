@@ -19,7 +19,7 @@ class DevelopFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_develop
 
-    private val binding = DevelopDataBinding(lifecycle, fragment = this)
+    private val binding = DevelopDataBinding(fragment = this)
 
     @Inject lateinit var viewModel: DevelopViewModel
 

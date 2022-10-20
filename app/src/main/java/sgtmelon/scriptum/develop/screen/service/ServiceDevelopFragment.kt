@@ -25,7 +25,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
 
     override val xmlId: Int = R.xml.preference_service
 
-    private val binding = ServiceDevelopDataBinding(lifecycle, fragment = this)
+    private val binding = ServiceDevelopDataBinding(fragment = this)
 
     @Inject lateinit var viewModel: ServiceDevelopViewModel
 

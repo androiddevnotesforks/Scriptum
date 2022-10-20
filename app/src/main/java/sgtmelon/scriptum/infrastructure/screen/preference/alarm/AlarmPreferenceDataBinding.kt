@@ -1,20 +1,15 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
-import androidx.lifecycle.Lifecycle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceBinding
 import sgtmelon.scriptum.infrastructure.utils.findPreference
 
-class AlarmPreferenceDataBinding(
-    lifecycle: Lifecycle,
-    fragment: PreferenceFragmentCompat
-) : ParentPreferenceBinding(lifecycle, fragment) {
+class AlarmPreferenceDataBinding(val fragment: PreferenceFragmentCompat) {
 
-    val repeatButton: Preference? get() = fragment?.findPreference(R.string.pref_key_alarm_repeat)
-    val signalButton: Preference? get() = fragment?.findPreference(R.string.pref_key_alarm_signal)
-    val melodyButton: Preference? get() = fragment?.findPreference(R.string.pref_key_alarm_melody)
-    val increaseButton: Preference? get() = fragment?.findPreference(R.string.pref_key_alarm_increase)
-    val volumeButton: Preference? get() = fragment?.findPreference(R.string.pref_key_alarm_volume)
+    val repeatButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_repeat)
+    val signalButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_signal)
+    val melodyButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_melody)
+    val increaseButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_increase)
+    val volumeButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_volume)
 }

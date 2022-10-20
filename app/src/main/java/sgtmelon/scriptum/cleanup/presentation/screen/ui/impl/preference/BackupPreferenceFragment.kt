@@ -33,7 +33,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     override val xmlId: Int = R.xml.preference_backup
 
-    private val binding = BackupPreferenceDataBinding(lifecycle, fragment = this)
+    private val binding = BackupPreferenceDataBinding(fragment = this)
 
     @Inject lateinit var viewModel: IBackupPreferenceViewModel
 

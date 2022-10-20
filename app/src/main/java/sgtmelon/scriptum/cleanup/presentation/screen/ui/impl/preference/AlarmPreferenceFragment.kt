@@ -35,7 +35,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     override val xmlId: Int = R.xml.preference_alarm
 
-    private val binding = AlarmPreferenceDataBinding(lifecycle, fragment = this)
+    private val binding = AlarmPreferenceDataBinding(fragment = this)
 
     @Inject lateinit var viewModel: IAlarmPreferenceViewModel
 
@@ -135,7 +135,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             is MelodyState.Finish -> {
                 dotAnimation.stop()
 
-                /** Make visibility for melody preference like in the whole melody group. */
                 updateMelodyGroupEnabled(state.isGroupEnabled)
                 updateMelodySummary(state.melodyItem.title)
             }

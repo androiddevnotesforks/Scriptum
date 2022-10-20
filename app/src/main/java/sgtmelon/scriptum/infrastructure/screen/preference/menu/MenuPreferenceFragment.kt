@@ -23,7 +23,7 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_menu
 
-    private val binding = MenuPreferenceDataBinding(lifecycle, fragment = this)
+    private val binding = MenuPreferenceDataBinding(fragment = this)
 
     @Inject lateinit var viewModel: MenuPreferenceViewModel
 
