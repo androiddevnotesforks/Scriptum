@@ -52,7 +52,7 @@ class AlarmPreferenceViewModel(
 
     override val repeat: Repeat get() = preferencesRepo.repeat
 
-    override val repeatSummary by lazy { MutableLiveData(getRepeatSummary()) }
+    override val repeatSummary = MutableLiveData(getRepeatSummary())
 
     override fun updateRepeat(value: Int) {
         repeatSummary.postValue(getRepeatSummary(value))
@@ -60,7 +60,7 @@ class AlarmPreferenceViewModel(
 
     override val signalTypeCheck: BooleanArray get() = preferencesRepo.signalTypeCheck
 
-    override val signalSummary by lazy { MutableLiveData(getSignalSummary()) }
+    override val signalSummary = MutableLiveData(getSignalSummary())
 
     override fun updateSignal(value: BooleanArray) {
         signalSummary.postValue(getSignalSummary(value))
@@ -78,7 +78,7 @@ class AlarmPreferenceViewModel(
 
     override val volumePercent: Int get() = preferencesRepo.volumePercent
 
-    override val volumeSummary by lazy { MutableLiveData(getVolumeSummary()) }
+    override val volumeSummary = MutableLiveData(getVolumeSummary())
 
     override fun updateVolume(@IntRange(from = 10, to = 100) value: Int) {
         volumeSummary.postValue(getVolumeSummary(value))

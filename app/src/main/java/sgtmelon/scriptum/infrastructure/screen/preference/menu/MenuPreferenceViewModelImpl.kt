@@ -14,13 +14,13 @@ class MenuPreferenceViewModelImpl(
 
     override val theme: Theme get() = preferencesRepo.theme
 
-    override val themeSummary by lazy { MutableLiveData(getSummary()) }
+    override val themeSummary = MutableLiveData(getSummary())
 
     override fun updateTheme(value: Int) {
         themeSummary.postValue(getSummary(value))
     }
 
-    override val isDeveloper by lazy { MutableLiveData(preferencesRepo.isDeveloper) }
+    override val isDeveloper = MutableLiveData(preferencesRepo.isDeveloper)
 
     override fun unlockDeveloper() {
         if (preferencesRepo.isDeveloper) return

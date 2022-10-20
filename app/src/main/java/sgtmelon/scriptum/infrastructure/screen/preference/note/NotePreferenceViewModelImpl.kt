@@ -18,7 +18,7 @@ class NotePreferenceViewModelImpl(
 
     override val sort: Sort get() = preferencesRepo.sort
 
-    override val sortSummary by lazy { MutableLiveData(getSortSummary()) }
+    override val sortSummary = MutableLiveData(getSortSummary())
 
     override fun updateSort(value: Int) {
         sortSummary.postValue(getSortSummary(value))
@@ -26,7 +26,7 @@ class NotePreferenceViewModelImpl(
 
     override val defaultColor: Color get() = preferencesRepo.defaultColor
 
-    override val defaultColorSummary by lazy { MutableLiveData(getDefaultColorSummary()) }
+    override val defaultColorSummary = MutableLiveData(getDefaultColorSummary())
 
     override fun updateDefaultColor(value: Int) {
         defaultColorSummary.postValue(getDefaultColorSummary(value))
@@ -34,7 +34,7 @@ class NotePreferenceViewModelImpl(
 
     override val savePeriod: SavePeriod get() = preferencesRepo.savePeriod
 
-    override val savePeriodSummary by lazy { MutableLiveData(getSavePeriodSummary()) }
+    override val savePeriodSummary = MutableLiveData(getSavePeriodSummary())
 
     override fun updateSavePeriod(value: Int) {
         savePeriodSummary.postValue(getSavePeriodSummary(value))
