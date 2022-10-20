@@ -4,6 +4,7 @@ import androidx.annotation.IntRange
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,6 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodyState
-import sgtmelon.scriptum.infrastructure.utils.SingleShootLiveData
 
 class AlarmPreferenceViewModel(
     lifecycle: Lifecycle,
@@ -52,7 +52,7 @@ class AlarmPreferenceViewModel(
 
     override val repeat: Repeat get() = preferencesRepo.repeat
 
-    override val repeatSummary by lazy { SingleShootLiveData(getRepeatSummary()) }
+    override val repeatSummary by lazy { MutableLiveData(getRepeatSummary()) }
 
     override fun updateRepeat(value: Int) {
         repeatSummary.postValue(getRepeatSummary(value))
@@ -60,7 +60,7 @@ class AlarmPreferenceViewModel(
 
     override val signalTypeCheck: BooleanArray get() = preferencesRepo.signalTypeCheck
 
-    override val signalSummary by lazy { SingleShootLiveData(getSignalSummary()) }
+    override val signalSummary by lazy { MutableLiveData(getSignalSummary()) }
 
     override fun updateSignal(value: BooleanArray) {
         signalSummary.postValue(getSignalSummary(value))
@@ -78,13 +78,13 @@ class AlarmPreferenceViewModel(
 
     override val volumePercent: Int get() = preferencesRepo.volumePercent
 
-    override val volumeSummary by lazy { SingleShootLiveData(getVolumeSummary()) }
+    override val volumeSummary by lazy { MutableLiveData(getVolumeSummary()) }
 
     override fun updateVolume(@IntRange(from = 10, to = 100) value: Int) {
         volumeSummary.postValue(getVolumeSummary(value))
     }
 
-    override val melodyState = SingleShootLiveData<MelodyState>()
+    override val melodyState = MutableLiveData<MelodyState>()
 
     private suspend fun loadMelody() {
         val state = preferencesRepo.signalState
