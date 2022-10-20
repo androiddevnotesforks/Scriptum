@@ -8,11 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
-import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.R
+import sgtmelon.extensions.onBack
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
@@ -40,11 +37,6 @@ class AlarmPreferenceViewModel(
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-
-        repeatSummary.postValue(getRepeatSummary())
-        signalSummary.postValue(getSignalSummary())
-        volumeSummary.postValue(getVolumeSummary())
-
         viewModelScope.launchBack { loadMelody() }
     }
 
@@ -110,7 +102,8 @@ class AlarmPreferenceViewModel(
         }
     }
 
-    override val melodyTitlesCheckPair: Flow<Pair<Array<String>, Int>>
+    /** Information about melodies naming and chosen one position. */
+    override val selectMelodyData: Flow<Pair<Array<String>, Int>>
         get() = flow {
             val list = getMelodyList()
             val titleArray = list.map { it.title }.toTypedArray()
@@ -121,92 +114,18 @@ class AlarmPreferenceViewModel(
             } else {
                 melodyState.postValue(MelodyState.Enabled(isGroupEnabled = false))
             }
-        }.flowOnBack()
+        }.onBack()
 
-    override fun getMelody(value: Int): Flow<MelodyItem?> = flow {
-        emit(getMelodyList().getOrNull(value))
-    }.flowOnBack()
+    override fun getMelody(p: Int): Flow<MelodyItem> = flow {
+        getMelodyList().getOrNull(p)?.let { emit(it) }
+    }.onBack()
 
-    //region Remove
-
-    //    override fun onSetup(bundle: Bundle?) {
-    //        callback?.setup()
-    //
-    //        callback?.updateRepeatSummary()
-    //        callback?.updateSignalSummary()
-    //        callback?.updateVolumeSummary()
-    //
-    //        viewModelScope.launch { setupBackground() }
-    //    }
-    //
-    //    @RunPrivate suspend fun setupBackground() {
-    //        val state = preferencesRepo.signalState
-    //
-    //        /** Make melody preference not enabled in every way, before we load data. */
-    //        callback?.updateMelodyGroupEnabled(state.isMelody)
-    //        callback?.updateMelodyEnabled(isEnabled = false)
-    //        callback?.startMelodySummarySearch()
-    //
-    //        val melodyItem = runBack {
-    //            val list = getMelodyList()
-    //            val check = preferencesRepo.getMelodyCheck(list) ?: return@runBack null
-    //
-    //            return@runBack list.getOrNull(check)
-    //        }
-    //
-    //        callback?.stopMelodySummarySearch()
-    //
-    //        if (melodyItem != null) {
-    //            callback?.updateMelodyEnabled(state.isMelody)
-    //            callback?.updateMelodySummary(melodyItem.title)
-    //        } else {
-    //            /**
-    //             * Melody preference not enabled in that case.
-    //             */
-    //            callback?.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
-    //        }
-    //    }
-
-
-    //    override fun onClickMelody(result: PermissionResult?) {
-    //        if (result == null) return
-    //
-    //        when (result) {
-    //            PermissionResult.ASK -> callback?.showMelodyPermissionDialog()
-    //            else -> viewModelScope.launch { prepareMelodyDialog() }
-    //        }
-    //    }
-    //
-    //    @RunPrivate suspend fun prepareMelodyDialog() {
-    //        val melodyList = runBack { getMelodyList() }
-    //        val melodyCheck = runBack { preferencesRepo.getMelodyCheck(melodyList) }
-    //
-    //        val titleArray = melodyList.map { it.title }.toTypedArray()
-    //
-    //        if (titleArray.isEmpty() || melodyCheck == null) {
-    //            melodyState.postValue(MelodyState.Enabled(isGroupEnabled = false))
-    //        } else {
-    //            callback?.showMelodyDialog(titleArray, melodyCheck)
-    //        }
-    //    }
-
-    override fun onResultMelody(title: String) {
-        viewModelScope.launch {
-            val resultTitle = runBack { preferencesRepo.setMelodyUri(getMelodyList(), title) }
-
-            when {
-                title == resultTitle -> callback?.updateMelodySummary(title)
-                resultTitle != null -> {
-                    callback?.updateMelodySummary(resultTitle)
-                    callback?.showToast(R.string.pref_toast_melody_replace)
-                }
-                else -> {
-                    callback?.updateMelodyEnabled(isEnabled = false)
-                    callback?.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
-                }
-            }
+    override fun updateMelody(title: String): Flow<String> = flow {
+        val resultTitle = preferencesRepo.setMelodyUri(getMelodyList(), title)
+        if (resultTitle != null) {
+            emit(resultTitle)
+        } else {
+            melodyState.postValue(MelodyState.Empty)
         }
-    }
-
-    //endregion
+    }.onBack()
 }

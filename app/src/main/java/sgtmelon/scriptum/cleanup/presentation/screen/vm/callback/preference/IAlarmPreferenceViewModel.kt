@@ -30,31 +30,9 @@ interface IAlarmPreferenceViewModel {
 
     val melodyState: SingleShootLiveData<MelodyState>
 
-    val melodyTitlesCheckPair: Flow<Pair<Array<String>, Int>>
+    val selectMelodyData: Flow<Pair<Array<String>, Int>>
 
-    fun getMelody(value: Int): Flow<MelodyItem?>
+    fun getMelody(p: Int): Flow<MelodyItem>
 
-
-    // TODO add melody staff
-
-    //    TODO next - remove
-
-    //    fun onPause()
-    //
-    //    fun onClickRepeat()
-    //
-    //    fun onResultRepeat(value: Int)
-    //
-    //    fun onClickSignal()
-    //
-    //    fun onResultSignal(valueArray: BooleanArray)
-
-    //    fun onClickMelody(result: PermissionResult?)
-    //
-    //    fun onResultMelody(title: String)
-
-    //    fun onClickVolume()
-    //
-    //    fun onResultVolume(@IntRange(from = 10, to = 100) value: Int)
-
+    fun updateMelody(title: String): Flow<String>
 }

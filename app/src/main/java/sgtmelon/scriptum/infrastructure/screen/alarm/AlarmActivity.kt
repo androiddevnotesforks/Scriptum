@@ -207,10 +207,9 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         val uri = UriConverter().toUri(stringUri) ?: return
         val alarmState = viewModel.alarmState
 
-        delegators.alarmPlay.apply {
-            setupVolume(alarmState.volumePercent, alarmState.isVolumeIncrease)
-            setupPlayer(uri, isLooping = true)
-        }
+        delegators.alarmPlay
+            .setupVolume(alarmState.volumePercent, alarmState.isVolumeIncrease)
+            .setupPlayer(uri, isLooping = true)
     }
 
     private fun startLogoShiftAnimation() {

@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.develop.screen.develop
 
-import androidx.lifecycle.lifecycleScope
+import android.content.Context
 import androidx.preference.Preference
 import javax.inject.Inject
-import kotlinx.coroutines.launch
+import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.develop.model.PrintType
@@ -42,13 +42,7 @@ class DevelopFragment : ParentPreferenceFragment() {
             printFileButton?.setOnPrintClickListener(PrintType.FILE)
 
             introButton?.setOnClickListener { startActivity(InstanceFactory.Intro[it.context]) }
-            alarmButton?.setOnClickListener {
-                lifecycleScope.launch {
-                    viewModel.randomNoteId.collect { id ->
-                        startActivity(InstanceFactory.Splash.getAlarm(it.context, id))
-                    }
-                }
-            }
+            alarmButton?.setOnClickListener { openRandomAlarm(it.context) }
 
             eternalButton?.setOnClickListener {
                 startActivity(InstanceFactory.Preference[it.context, PreferenceScreen.SERVICE])
@@ -64,6 +58,12 @@ class DevelopFragment : ParentPreferenceFragment() {
     private fun Preference.setOnPrintClickListener(type: PrintType) {
         setOnClickListener {
             startActivity(InstanceFactory.Preference.Develop.Print[it.context, type])
+        }
+    }
+
+    private fun openRandomAlarm(context: Context) {
+        viewModel.randomNoteId.collect(owner = this) { id ->
+            startActivity(InstanceFactory.Splash.getAlarm(context, id))
         }
     }
 }

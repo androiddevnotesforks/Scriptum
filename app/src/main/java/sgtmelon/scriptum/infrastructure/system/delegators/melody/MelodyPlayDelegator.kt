@@ -56,8 +56,8 @@ class MelodyPlayDelegator(
 
     //endregion
 
-    fun setupVolume(volumePercent: Int, isIncrease: Boolean) {
-        val (minVolume, maxVolume) = params?.minMaxVolumePair ?: return
+    fun setupVolume(volumePercent: Int, isIncrease: Boolean) = apply {
+        val (minVolume, maxVolume) = params.minMaxVolumePair
 
         /** Round result volume towards greater value. */
         val volume = ceil(maxVolume.getPercent(volumePercent)).toInt()
@@ -73,7 +73,7 @@ class MelodyPlayDelegator(
         }
     }
 
-    fun setupPlayer(uri: Uri, isLooping: Boolean) {
+    fun setupPlayer(uri: Uri, isLooping: Boolean) = apply {
         mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(params.attributes)
             setDataSource(context, uri)
@@ -90,8 +90,8 @@ class MelodyPlayDelegator(
         audioManager.setStreamVolume(streamType, value, AudioManager.ADJUST_SAME)
     }
 
-    fun start(isIncrease: Boolean = false) {
-        val mediaPlayer = mediaPlayer ?: return
+    fun start(isIncrease: Boolean = false) = apply {
+        val mediaPlayer = mediaPlayer ?: return@apply
 
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
             val focusRequest = params.focusRequest
@@ -120,10 +120,10 @@ class MelodyPlayDelegator(
         }
     }
 
-    fun stop() {
-        val mediaPlayer = mediaPlayer ?: return
+    fun stop() = apply {
+        val mediaPlayer = mediaPlayer ?: return@apply
 
-        if (!mediaPlayer.isPlaying) return
+        if (!mediaPlayer.isPlaying) return@apply
 
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
             val focusRequest = params.focusRequest
@@ -138,8 +138,8 @@ class MelodyPlayDelegator(
         increaseDelayJob.cancel()
     }
 
-    fun release() {
-        val mediaPlayer = mediaPlayer ?: return
+    fun release() = apply {
+        val mediaPlayer = mediaPlayer ?: return@apply
 
         stop()
         mediaPlayer.release()

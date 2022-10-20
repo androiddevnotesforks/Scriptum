@@ -5,9 +5,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IntRange
-import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
-import kotlinx.coroutines.launch
+import sgtmelon.extensions.collect
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -82,7 +81,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         val result = if (isGranted) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
 
         when (requestCode) {
-            PermissionRequest.MELODY -> onMelodyAccess(result)
+            PermissionRequest.MELODY -> onMelodyPermission(result)
         }
     }
 
@@ -91,7 +90,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         binding.signalButton?.setOnClickListener { showSignalDialog(viewModel.signalTypeCheck) }
 
         binding.melodyButton?.setOnClickListener {
-            onMelodyAccess(permissionState.getResult(activity))
+            onMelodyPermission(permissionState.getResult(activity))
         }
 
         binding.volumeButton?.setOnClickListener { showVolumeDialog(viewModel.volumePercent) }
@@ -102,8 +101,21 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         viewModel.signalSummary.observe(this) { binding.signalButton?.summary = it }
         viewModel.volumeSummary.observe(this) { binding.volumeButton?.summary = it }
         viewModel.melodyState.observe(this) { onMelodyState(it) }
+    }
 
-        TODO()
+    private fun onMelodyPermission(result: PermissionResult?) {
+        if (result == null) return
+
+        /**
+         * Show permission request only on [PermissionResult.ASK] because we can display
+         * melodies which not located on SD card.
+         */
+        when (result) {
+            PermissionResult.ASK -> showMelodyAccessDialog()
+            else -> viewModel.selectMelodyData.collect(owner = this) {
+                showMelodyDialog(it.first, it.second)
+            }
+        }
     }
 
     //region Melody state changed
@@ -123,7 +135,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             is MelodyState.Finish -> {
                 dotAnimation.stop()
 
-                /** Make visibility like in whole melody group. */
+                /** Make visibility for melody preference like in the whole melody group. */
                 updateMelodyEnabled(state.isGroupEnabled)
                 updateMelodySummary(state.melodyItem.title)
 
@@ -180,17 +192,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         }
 
         melodyDialog.apply {
-            onItemClick {
-                lifecycleScope.launch {
-                    viewModel.getMelody(it).collect { if (it != null) playMelody(it) }
-                }
-            }
-            onPositiveClick {
-                val title = with(melodyDialog) { itemArray.getOrNull(check) }
-                if (title != null) {
-                    viewModel.onResultMelody(title)
-                }
-            }
+            onItemClick { onMelodyClick(it) }
+            onPositiveClick { onMelodyApply(with(melodyDialog) { itemArray.getOrNull(check) }) }
             onDismiss {
                 delegators.musicPlay.stop()
                 open.clear()
@@ -213,21 +216,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             .safeShow(fm, DialogFactory.Preference.Alarm.VOLUME, owner = this)
     }
 
-    private fun onMelodyAccess(result: PermissionResult?) {
-        if (result == null) return
-
-        /**
-         * Show permission request only on [PermissionResult.ASK] because we can display
-         * melodies which not located on SD card.
-         */
-        when (result) {
-            PermissionResult.ASK -> showMelodyAccessDialog()
-            else -> lifecycleScope.launch {
-                viewModel.melodyTitlesCheckPair.collect { showMelodyDialog(it.first, it.second) }
-            }
-        }
-    }
-
     private fun showMelodyAccessDialog() = open.attempt {
         melodyAccessDialog.safeShow(fm, DialogFactory.Preference.Alarm.MELODY_ACCESS, owner = this)
     }
@@ -238,13 +226,26 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             .safeShow(fm, DialogFactory.Preference.Alarm.MELODY, owner = this)
     }
 
+    private fun onMelodyClick(p: Int) {
+        viewModel.getMelody(p).collect(owner = this) { playMelody(it) }
+    }
+
     private fun playMelody(item: MelodyItem) {
         val uri = UriConverter().toUri(item.uri) ?: return
+        delegators.musicPlay.stop()
+            .setupPlayer(uri, isLooping = false)
+            .start()
+    }
 
-        delegators.musicPlay.apply {
-            stop()
-            setupPlayer(uri, isLooping = false)
-            start()
+    private fun onMelodyApply(title: String?) {
+        if (title == null) return
+
+        viewModel.updateMelody(title).collect(owner = this) {
+            updateMelodySummary(it)
+
+            if (title != it) {
+                delegators.toast.show(context, R.string.pref_toast_melody_replace)
+            }
         }
     }
 
