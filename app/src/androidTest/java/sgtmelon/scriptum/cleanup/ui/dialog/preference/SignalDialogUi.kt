@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.ui.dialog.preference
 
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentMultipleDialogUi
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.test.cappuccino.utils.click
 
 /**

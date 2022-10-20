@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
 import androidx.annotation.IntRange
 import androidx.lifecycle.MutableLiveData
@@ -8,14 +8,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.onBack
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodySummaryState
 
 class AlarmPreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,

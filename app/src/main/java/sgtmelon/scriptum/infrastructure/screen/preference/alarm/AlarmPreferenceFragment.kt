@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
 import android.Manifest
 import android.os.Build
@@ -14,14 +14,11 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.isGranted
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.AlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceDataBinding
-import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodySummaryState
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation

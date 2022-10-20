@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder

@@ -1,11 +1,10 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
 import androidx.annotation.IntRange
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodySummaryState
 
 interface AlarmPreferenceViewModel {
 
