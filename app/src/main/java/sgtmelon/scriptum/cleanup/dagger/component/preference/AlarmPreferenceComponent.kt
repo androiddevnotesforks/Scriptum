@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.dagger.component.preference
 
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
@@ -23,9 +22,6 @@ interface AlarmPreferenceComponent {
 
     @Subcomponent.Builder
     interface Builder {
-        @BindsInstance
-        fun set(lifecycle: Lifecycle): Builder
-
         @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 

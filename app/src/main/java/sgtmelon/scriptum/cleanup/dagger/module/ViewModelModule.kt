@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.dagger.module
 
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.Module
@@ -360,7 +359,6 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideAlarmPreferenceViewModel(
-        lifecycle: Lifecycle,
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         @Named("Repeat") getRepeatSummary: GetSummaryUseCase,
@@ -369,7 +367,6 @@ class ViewModelModule {
         getMelodyList: GetMelodyListUseCase
     ): IAlarmPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Alarm(
-            lifecycle,
             preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
             getMelodyList
         )

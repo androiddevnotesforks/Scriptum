@@ -3,11 +3,11 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.IntRange
 import javax.inject.Inject
 import sgtmelon.extensions.collect
-import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -57,17 +57,9 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     override fun inject(component: ScriptumComponent) {
         component.getAlarmPrefBuilder()
-            .set(lifecycle)
             .set(owner = this)
             .build()
             .inject(fragment = this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        /** Need restart this dialog after any onPause action. */
-        melodyDialog.safeDismiss()
     }
 
     override fun onRequestPermissionsResult(

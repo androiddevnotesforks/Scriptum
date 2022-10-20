@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.dagger.other
 
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
@@ -350,7 +349,6 @@ object ViewModelFactory {
         }
 
         class Alarm(
-            private val lifecycle: Lifecycle,
             private val preferencesRepo: PreferencesRepo,
             private val getRepeatSummary: GetSummaryUseCase,
             private val getSignalSummary: GetSignalSummaryUseCase,
@@ -360,7 +358,6 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(AlarmPreferenceViewModel::class) {
                     AlarmPreferenceViewModel(
-                        lifecycle,
                         preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
                         getMelodyList
                     )
