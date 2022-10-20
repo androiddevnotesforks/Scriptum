@@ -7,11 +7,11 @@ import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
  */
 sealed class MelodyState {
 
-    class Enabled(val isGroupEnabled: Boolean) : MelodyState()
+    data class Enabled(val isGroupEnabled: Boolean) : MelodyState()
 
-    class Loading(val isGroupEnabled: Boolean) : MelodyState()
+    data class Loading(val isGroupEnabled: Boolean) : MelodyState()
 
-    class Finish(val isGroupEnabled: Boolean, val melodyItem: MelodyItem) : MelodyState()
+    data class Finish(val isGroupEnabled: Boolean, val melodyItem: MelodyItem) : MelodyState()
 
     object Empty : MelodyState()
 }

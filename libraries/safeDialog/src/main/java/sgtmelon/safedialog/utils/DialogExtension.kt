@@ -25,10 +25,12 @@ fun DialogFragment.safeShow(fm: FragmentManager, tag: String?, owner: LifecycleO
 }
 
 fun DialogFragment.safeDismiss(owner: LifecycleOwner) {
-    owner.lifecycleScope.launchWhenResumed {
-        if (isAdded) {
-            dismiss()
-        }
+    owner.lifecycleScope.launchWhenResumed { safeDismiss() }
+}
+
+fun DialogFragment.safeDismiss() {
+    if (isAdded) {
+        dismiss()
     }
 }
 

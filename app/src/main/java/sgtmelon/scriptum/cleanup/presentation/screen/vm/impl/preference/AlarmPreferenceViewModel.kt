@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
+import android.util.Log
 import androidx.annotation.IntRange
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
@@ -42,12 +43,11 @@ class AlarmPreferenceViewModel(
 
     /**
      * Need reset list, because user can change permission or delete some files or
-     * remove sd card. It   calls even after permission dialog.
+     * remove sd card. It calls even after permission dialog.
      */
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
         getMelodyList.reset()
-        melodyState.postValue(MelodyState.Enabled(isGroupEnabled = false))
     }
 
     override val repeat: Repeat get() = preferencesRepo.repeat
@@ -87,17 +87,22 @@ class AlarmPreferenceViewModel(
     override val melodyState = MutableLiveData<MelodyState>()
 
     private suspend fun loadMelody() {
+        Log.i("HERE", "loadMelody: 0")
         val state = preferencesRepo.signalState
 
+        Log.i("HERE", "loadMelody: 1 | state=$state")
         melodyState.postValue(MelodyState.Loading(state.isMelody))
 
         val list = getMelodyList()
         val check = preferencesRepo.getMelodyCheck(list)
         val item = if (check != null) list.getOrNull(check) else null
 
+        Log.i("HERE", "loadMelody: 2 | item=$item")
         if (item != null) {
+            Log.i("HERE", "loadMelody: 3")
             melodyState.postValue(MelodyState.Finish(state.isMelody, item))
         } else {
+            Log.i("HERE", "loadMelody: 4")
             melodyState.postValue(MelodyState.Empty)
         }
     }

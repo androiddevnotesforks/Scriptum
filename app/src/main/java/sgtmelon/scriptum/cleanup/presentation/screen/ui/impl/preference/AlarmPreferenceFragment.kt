@@ -67,7 +67,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         super.onPause()
 
         /** Need restart this dialog after any onPause action. */
-        melodyDialog.safeDismiss(owner = this)
+        melodyDialog.safeDismiss()
     }
 
     override fun onRequestPermissionsResult(
@@ -136,9 +136,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
                 dotAnimation.stop()
 
                 /** Make visibility for melody preference like in the whole melody group. */
-                updateMelodyEnabled(state.isGroupEnabled)
+                updateMelodyGroupEnabled(state.isGroupEnabled)
                 updateMelodySummary(state.melodyItem.title)
-
             }
             is MelodyState.Empty -> {
                 dotAnimation.stop()

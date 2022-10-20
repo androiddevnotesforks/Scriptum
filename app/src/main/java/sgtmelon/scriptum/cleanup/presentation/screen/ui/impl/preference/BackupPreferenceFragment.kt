@@ -76,7 +76,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         /**
          * After call [IBackupPreferenceViewModel.onPause] this dialog will not have any items.
          */
-        importDialog.safeDismiss(owner = this)
+        importDialog.safeDismiss()
     }
 
     override fun onDestroy() {
