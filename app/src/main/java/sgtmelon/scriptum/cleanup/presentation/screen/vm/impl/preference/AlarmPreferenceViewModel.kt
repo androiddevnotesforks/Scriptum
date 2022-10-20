@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
-import android.util.Log
 import androidx.annotation.IntRange
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.MutableLiveData
@@ -17,7 +16,7 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseC
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodyState
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodySummaryState
 
 class AlarmPreferenceViewModel(
     private val preferencesRepo: PreferencesRepo,
@@ -45,12 +44,11 @@ class AlarmPreferenceViewModel(
         signalSummary.postValue(getSignalSummary(value))
 
         viewModelScope.launchBack {
-            val state = preferencesRepo.signalState
-
-            melodyState.postValue(MelodyState.Enabled(state.isMelody))
-
-            if (state.isMelody && getMelodyList().isEmpty()) {
-                melodyState.postValue(MelodyState.Empty)
+            if (getMelodyList().isEmpty()) {
+                melodyGroupEnabled.postValue(false)
+                melodySummaryState.postValue(MelodySummaryState.Empty)
+            } else {
+                melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             }
         }
     }
@@ -63,42 +61,43 @@ class AlarmPreferenceViewModel(
         volumeSummary.postValue(getVolumeSummary(value))
     }
 
-    override val melodyState by lazy {
-        MutableLiveData<MelodyState>().also { viewModelScope.launchBack { loadMelody() } }
+    override val melodySummaryState by lazy {
+        MutableLiveData<MelodySummaryState>()
+            .also { viewModelScope.launchBack { loadMelody() } }
     }
 
     private suspend fun loadMelody() {
-        Log.i("HERE", "loadMelody: 0")
-        val state = preferencesRepo.signalState
-
-        Log.i("HERE", "loadMelody: 1 | state=$state")
-        melodyState.postValue(MelodyState.Loading(state.isMelody))
+        melodyGroupEnabled.postValue(false)
+        melodySummaryState.postValue(MelodySummaryState.Loading)
 
         val list = getMelodyList()
         val check = preferencesRepo.getMelodyCheck(list)
         val item = if (check != null) list.getOrNull(check) else null
 
-        Log.i("HERE", "loadMelody: 2 | item=$item")
         if (item != null) {
-            Log.i("HERE", "loadMelody: 3")
-            melodyState.postValue(MelodyState.Finish(state.isMelody, item))
+            melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
+            melodySummaryState.postValue(MelodySummaryState.Finish(item.title))
         } else {
-            Log.i("HERE", "loadMelody: 4")
-            melodyState.postValue(MelodyState.Empty)
+            melodySummaryState.postValue(MelodySummaryState.Empty)
         }
     }
 
-    /** Information about melodies naming and chosen one position. */
+    override val melodyGroupEnabled by lazy { MutableLiveData<Boolean>() }
+
+    /**
+     * Information about melodies naming and chosen current position.
+     */
     override val selectMelodyData: Flow<Pair<Array<String>, Int>>
         get() = flow {
             val list = getMelodyList()
             val titleArray = list.map { it.title }.toTypedArray()
             val check = preferencesRepo.getMelodyCheck(list)
 
-            if (titleArray.isNotEmpty() && check != null) {
-                emit(value = titleArray to check)
+            if (titleArray.isEmpty() || check == null) {
+                melodyGroupEnabled.postValue(false)
+                melodySummaryState.postValue(MelodySummaryState.Empty)
             } else {
-                melodyState.postValue(MelodyState.Enabled(isGroupEnabled = false))
+                emit(value = titleArray to check)
             }
         }.onBack()
 
@@ -106,12 +105,18 @@ class AlarmPreferenceViewModel(
         getMelodyList().getOrNull(p)?.let { emit(it) }
     }.onBack()
 
-    override fun updateMelody(title: String): Flow<String> = flow {
+    /**
+     * Return: success set melody or chosen another one by app.
+     */
+    override fun updateMelody(title: String): Flow<Boolean> = flow {
         val resultTitle = preferencesRepo.setMelodyUri(getMelodyList(), title)
         if (resultTitle != null) {
-            emit(resultTitle)
+            melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
+            melodySummaryState.postValue(MelodySummaryState.Finish(resultTitle))
+            emit(value = title == resultTitle)
         } else {
-            melodyState.postValue(MelodyState.Empty)
+            melodyGroupEnabled.postValue(false)
+            melodySummaryState.postValue(MelodySummaryState.Empty)
         }
     }.onBack()
 }

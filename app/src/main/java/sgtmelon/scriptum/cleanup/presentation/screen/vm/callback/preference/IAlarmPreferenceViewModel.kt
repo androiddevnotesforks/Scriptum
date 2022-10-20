@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodyState
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodySummaryState
 
 interface IAlarmPreferenceViewModel {
 
@@ -27,12 +27,13 @@ interface IAlarmPreferenceViewModel {
 
     fun updateVolume(@IntRange(from = 10, to = 100) value: Int)
 
+    val melodySummaryState: LiveData<MelodySummaryState>
 
-    val melodyState: LiveData<MelodyState>
+    val melodyGroupEnabled: LiveData<Boolean>
 
     val selectMelodyData: Flow<Pair<Array<String>, Int>>
 
     fun getMelody(p: Int): Flow<MelodyItem>
 
-    fun updateMelody(title: String): Flow<String>
+    fun updateMelody(title: String): Flow<Boolean>
 }

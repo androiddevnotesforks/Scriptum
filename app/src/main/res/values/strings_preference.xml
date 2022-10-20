@@ -68,7 +68,7 @@
     <string name="pref_summary_alarm_signal">will be used for notify you</string>
     <string name="pref_summary_alarm_melody">Will be play on notification</string>
     <string name="pref_summary_alarm_melody_search">Check out your melodies</string>
-    <string name="pref_summary_alarm_melody_empty">Sorry, you don\'t have any melodies! :(</string>
+    <string name="pref_summary_alarm_melody_empty">Sorry, we don\'t find any melodies! :(</string>
     <string name="pref_summary_alarm_volume">Percent of volume: %d%%</string>
     <string name="pref_summary_alarm_increase">Smooth volume increase from minimum</string>
 
@@ -86,7 +86,7 @@
     <string name="pref_toast_export_error">An error has occurred! Failed to save file.</string>
 
     <string name="pref_toast_melody_replace">
-        Sorry, we can\'t set selected melody! So we choose another one. :(
+        Sorry, we can\'t apply selected melody! So we choose another one. :(
     </string>
 
     <!-- Preference keys -->

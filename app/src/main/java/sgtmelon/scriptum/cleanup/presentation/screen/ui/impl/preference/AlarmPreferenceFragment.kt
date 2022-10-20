@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.IntRange
 import javax.inject.Inject
@@ -22,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceDataBinding
-import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodyState
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.MelodySummaryState
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
@@ -92,7 +91,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         viewModel.repeatSummary.observe(this) { binding.repeatButton?.summary = it }
         viewModel.signalSummary.observe(this) { binding.signalButton?.summary = it }
         viewModel.volumeSummary.observe(this) { binding.volumeButton?.summary = it }
-        viewModel.melodyState.observe(this) { onMelodyState(it) }
+        viewModel.melodySummaryState.observe(this) { updateMelodySummary(it) }
+        viewModel.melodyGroupEnabled.observe(this) { updateMelodyGroupEnabled(it) }
     }
 
     private fun onMelodyPermission(result: PermissionResult?) {
@@ -112,28 +112,17 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //region Melody state changed
 
-    private fun onMelodyState(state: MelodyState?) {
-        if (state == null) return
-
+    private fun updateMelodySummary(state: MelodySummaryState) {
         when (state) {
-            is MelodyState.Enabled -> updateMelodyGroupEnabled(state.isGroupEnabled)
-            is MelodyState.Loading -> {
+            is MelodySummaryState.Loading -> {
                 dotAnimation.start(context, R.string.pref_summary_alarm_melody_search)
-
-                /** Make melody preference not enabled in every way, before we load data. */
-                updateMelodyGroupEnabled(state.isGroupEnabled)
-                updateMelodyEnabled(isEnabled = false)
             }
-            is MelodyState.Finish -> {
+            is MelodySummaryState.Finish -> {
                 dotAnimation.stop()
-
-                updateMelodyGroupEnabled(state.isGroupEnabled)
-                updateMelodySummary(state.melodyItem.title)
+                updateMelodySummary(state.title)
             }
-            is MelodyState.Empty -> {
+            is MelodySummaryState.Empty -> {
                 dotAnimation.stop()
-
-                updateMelodyEnabled(isEnabled = false)
                 updateMelodySummary(getString(R.string.pref_summary_alarm_melody_empty))
             }
         }
@@ -141,10 +130,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     private fun updateMelodySummary(summary: String) {
         binding.melodyButton?.summary = summary
-    }
-
-    private fun updateMelodyEnabled(isEnabled: Boolean) {
-        binding.melodyButton?.isEnabled = isEnabled
     }
 
     private fun updateMelodyGroupEnabled(isEnabled: Boolean) {
@@ -230,10 +215,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     private fun onMelodyApply(title: String?) {
         if (title == null) return
 
-        viewModel.updateMelody(title).collect(owner = this) {
-            updateMelodySummary(it)
-
-            if (title != it) {
+        viewModel.updateMelody(title).collect(owner = this) { isSuccess ->
+            if (!isSuccess) {
                 delegators.toast.show(context, R.string.pref_toast_melody_replace)
             }
         }
