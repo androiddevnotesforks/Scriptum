@@ -51,7 +51,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -370,7 +370,7 @@ class ViewModelModule {
             preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
             getMelodyList
         )
-        return ViewModelProvider(owner, factory)[AlarmPreferenceViewModel::class.java]
+        return ViewModelProvider(owner, factory)[AlarmPreferenceViewModelImpl::class.java]
     }
 
     @Provides

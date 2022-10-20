@@ -34,7 +34,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -356,8 +356,8 @@ object ViewModelFactory {
             private val getMelodyList: GetMelodyListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(AlarmPreferenceViewModel::class) {
-                    AlarmPreferenceViewModel(
+                return modelClass.create(AlarmPreferenceViewModelImpl::class) {
+                    AlarmPreferenceViewModelImpl(
                         preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
                         getMelodyList
                     )

@@ -30,10 +30,10 @@ import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [AlarmPreferenceViewModel].
+ * Test for [AlarmPreferenceViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class AlarmPreferenceViewModelTest : ParentViewModelTest() {
+class AlarmPreferenceViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -46,7 +46,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     private val melodyList = TestData.Melody.melodyList
 
     private val viewModel by lazy {
-        AlarmPreferenceViewModel(
+        AlarmPreferenceViewModelImpl(
             callback,
             preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
             getMelodyList
