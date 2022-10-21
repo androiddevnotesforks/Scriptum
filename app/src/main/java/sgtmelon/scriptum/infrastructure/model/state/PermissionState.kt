@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.infrastructure.model.state
 
 import android.app.Activity
-import sgtmelon.scriptum.cleanup.extension.notGranted
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider.Version
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.utils.notGranted
 
 /**
  * State for permission request.

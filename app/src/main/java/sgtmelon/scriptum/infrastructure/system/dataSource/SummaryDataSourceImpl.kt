@@ -12,7 +12,6 @@ import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.utils.record
-import sgtmelon.test.prod.RunPrivate
 
 /**
  * Provide summary/description for preference keys.
@@ -111,6 +110,6 @@ class SummaryDataSourceImpl(private val resources: Resources) : SummaryDataSourc
     }
 
     companion object {
-        @RunPrivate const val SIGNAL_DIVIDER = ", "
+        const val SIGNAL_DIVIDER = ", "
     }
 }

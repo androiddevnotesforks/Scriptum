@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.extension
 
-import android.content.pm.PackageManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -30,12 +29,6 @@ fun ViewGroup.createVisibleAnim(
 
     target.visibility = visibility
 }
-
-/**
- * Extension for fast check permission Granted/Denied.
- */
-fun Int.isGranted() = this == PackageManager.PERMISSION_GRANTED
-fun Int.notGranted() = !isGranted()
 
 inline fun RecyclerView.setFirstRunAnimation(
     isFirstRun: Boolean,

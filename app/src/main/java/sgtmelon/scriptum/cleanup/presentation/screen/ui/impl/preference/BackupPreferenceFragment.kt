@@ -10,7 +10,6 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
-import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceDataBinding
+import sgtmelon.scriptum.infrastructure.utils.isGranted
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
