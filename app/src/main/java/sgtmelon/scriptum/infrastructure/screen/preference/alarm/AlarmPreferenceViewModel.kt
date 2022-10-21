@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 
 interface AlarmPreferenceViewModel {
 

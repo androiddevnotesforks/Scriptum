@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
 import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 
 class RepeatConverter : ParentEnumConverter<Repeat>() {
 

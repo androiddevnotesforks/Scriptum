@@ -10,7 +10,7 @@ import org.junit.Test
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetRepeatSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.test.common.nextString
 
 

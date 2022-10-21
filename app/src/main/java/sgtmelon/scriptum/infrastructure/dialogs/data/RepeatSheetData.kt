@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.dialogs.data
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.exception.InvalidIdException
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.utils.record
 
 class RepeatSheetData {

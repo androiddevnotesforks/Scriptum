@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.IAlarmPreferenceTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiRotationTest
 

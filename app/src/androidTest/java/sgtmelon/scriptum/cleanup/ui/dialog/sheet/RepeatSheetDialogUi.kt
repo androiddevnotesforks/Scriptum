@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.ui.dialog.sheet
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled

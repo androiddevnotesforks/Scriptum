@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 
 /**
  * States (work stages) of [AlarmActivity] screen.

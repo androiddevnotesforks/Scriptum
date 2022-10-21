@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.test.parent.situation
 
-import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 
 
 /**
