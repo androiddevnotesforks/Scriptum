@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.ui.dialog.preference
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentSelectDialogUi
-import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
 import sgtmelon.test.cappuccino.utils.click
 

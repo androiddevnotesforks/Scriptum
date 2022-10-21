@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
-import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 
 /**
  * Test for [SavePeriodConverter].

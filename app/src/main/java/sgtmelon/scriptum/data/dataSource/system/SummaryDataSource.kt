@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.data.dataSource.system
 
-import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 
 interface SummaryDataSource {
 

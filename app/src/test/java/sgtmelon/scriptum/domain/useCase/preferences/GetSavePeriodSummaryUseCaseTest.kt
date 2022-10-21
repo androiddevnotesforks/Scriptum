@@ -10,7 +10,7 @@ import org.junit.Test
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSavePeriodSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
-import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.test.common.nextString
 
 /**

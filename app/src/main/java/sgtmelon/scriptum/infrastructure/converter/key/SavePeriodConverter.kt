@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
 import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
-import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 
 class SavePeriodConverter : ParentEnumConverter<SavePeriod>() {
 
