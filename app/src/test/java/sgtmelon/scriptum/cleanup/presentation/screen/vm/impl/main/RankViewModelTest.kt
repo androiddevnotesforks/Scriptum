@@ -333,30 +333,31 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRenameDialog() = startCoTest {
-        val newName = nextString()
-
-        every { callback.getEnterText() } returns newName
-
-        viewModel.onResultRenameDialog(Random.nextInt(), newName)
-
-        val itemList = data.itemList
-
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        val p = itemList.indices.random()
-        val item = itemList[p].apply { name = newName }
-
-        viewModel.onResultRenameDialog(p, newName)
-
-        coVerifySequence {
-            updateRank(item)
-
-            callback.getEnterText()
-            callback.onBindingToolbar(isClearEnable = true, isAddEnable = false)
-
-            callback.notifyItemChanged(itemList, p)
-        }
+        TODO()
+        //        val newName = nextString()
+        //
+        //        every { callback.getEnterText() } returns newName
+        //
+        //        viewModel.onResultRenameDialog(Random.nextInt(), newName)
+        //
+        //        val itemList = data.itemList
+        //
+        //        viewModel.itemList.clearAdd(itemList)
+        //        assertEquals(itemList, viewModel.itemList)
+        //
+        //        val p = itemList.indices.random()
+        //        val item = itemList[p].apply { name = newName }
+        //
+        //        viewModel.onResultRenameDialog(p, newName)
+        //
+        //        coVerifySequence {
+        //            updateRank(item)
+        //
+        //            callback.getEnterText()
+        //            callback.onBindingToolbar(isClearEnable = true, isAddEnable = false)
+        //
+        //            callback.notifyItemChanged(itemList, p)
+        //        }
     }
 
     @Test fun onClickEnterCancel() {
@@ -542,38 +543,39 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickCancel() = startCoTest {
-        viewModel.onClickCancel(Random.nextInt())
-
-        val itemList = data.secondCorrectList
-        val noteIdList = listOf(4L, 6, 1, 2)
-
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        assertEquals(itemList, viewModel.itemList)
-        assertTrue(viewModel.cancelList.isEmpty())
-
-        val p = 1
-        val item = itemList.removeAt(p)
-
-        every { correctPositions(itemList) } returns noteIdList
-
-        viewModel.onClickCancel(p)
-
-        assertEquals(itemList, viewModel.itemList)
-        assertEquals(mutableListOf(Pair(p, item)), viewModel.cancelList)
-
-        coVerifySequence {
-            correctPositions(itemList)
-
-            callback.notifyItemRemoved(itemList, p)
-            callback.showSnackbar()
-
-            deleteRank(item)
-            interactor.updatePositions(itemList, noteIdList)
-
-            callback.sendNotifyNotesBroadcast()
-        }
+        TODO()
+        //        viewModel.onClickCancel(Random.nextInt())
+        //
+        //        val itemList = data.secondCorrectList
+        //        val noteIdList = listOf(4L, 6, 1, 2)
+        //
+        //        viewModel.itemList.clearAdd(itemList)
+        //        assertEquals(itemList, viewModel.itemList)
+        //
+        //        assertEquals(itemList, viewModel.itemList)
+        //        assertTrue(viewModel.cancelList.isEmpty())
+        //
+        //        val p = 1
+        //        val item = itemList.removeAt(p)
+        //
+        //        every { correctPositions(itemList) } returns noteIdList
+        //
+        //        viewModel.onClickCancel(p)
+        //
+        //        assertEquals(itemList, viewModel.itemList)
+        //        assertEquals(mutableListOf(Pair(p, item)), viewModel.cancelList)
+        //
+        //        coVerifySequence {
+        //            correctPositions(itemList)
+        //
+        //            callback.notifyItemRemoved(itemList, p)
+        //            callback.showSnackbar()
+        //
+        //            deleteRank(item)
+        //            interactor.updatePositions(itemList, noteIdList)
+        //
+        //            callback.sendNotifyNotesBroadcast()
+        //        }
     }
 
     @Test fun onItemAnimationFinished() {

@@ -35,129 +35,135 @@ class NotePreferenceViewModelImplTest : ParentViewModelTest() {
 
     private val viewModel by lazy {
         NotePreferenceViewModelImpl(
-            callback, preferencesRepo,
-            getSortSummary, getDefaultColorSummary, getSavePeriodSummary
+            preferencesRepo, getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
     }
 
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(
-            callback, preferencesRepo,
-            getSortSummary, getDefaultColorSummary, getSavePeriodSummary
+            preferencesRepo, getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
     }
 
     @Test override fun onDestroy() {
-        assertNotNull(viewModel.callback)
-        viewModel.onDestroy()
-        assertNull(viewModel.callback)
+        TODO()
+        //        assertNotNull(viewModel.callback)
+        //        viewModel.onDestroy()
+        //        assertNull(viewModel.callback)
     }
 
     //endregion
 
     @Test fun onSetup() {
-        val sortSummary = nextString()
-        val defaultColorSummary = nextString()
-        val savePeriodSummary = nextString()
-
-        every { getSortSummary() } returns sortSummary
-        every { getDefaultColorSummary() } returns defaultColorSummary
-        every { getSavePeriodSummary() } returns savePeriodSummary
-
-        viewModel.onSetup()
-
-        coVerifySequence {
-            callback.setup()
-
-            getSortSummary()
-            callback.updateSortSummary(sortSummary)
-            getDefaultColorSummary()
-            callback.updateColorSummary(defaultColorSummary)
-            getSavePeriodSummary()
-            callback.updateSavePeriodSummary(savePeriodSummary)
-        }
+        TODO()
+        //        val sortSummary = nextString()
+        //        val defaultColorSummary = nextString()
+        //        val savePeriodSummary = nextString()
+        //
+        //        every { getSortSummary() } returns sortSummary
+        //        every { getDefaultColorSummary() } returns defaultColorSummary
+        //        every { getSavePeriodSummary() } returns savePeriodSummary
+        //
+        //        viewModel.onSetup()
+        //
+        //        coVerifySequence {
+        //            callback.setup()
+        //
+        //            getSortSummary()
+        //            callback.updateSortSummary(sortSummary)
+        //            getDefaultColorSummary()
+        //            callback.updateColorSummary(defaultColorSummary)
+        //            getSavePeriodSummary()
+        //            callback.updateSavePeriodSummary(savePeriodSummary)
+        //        }
     }
 
     @Test fun onClickSort() {
-        val value = mockk<Sort>()
-
-        every { preferencesRepo.sort } returns value
-
-        viewModel.onClickSort()
-
-        verifySequence {
-            preferencesRepo.sort
-            callback.showSortDialog(value)
-        }
+        TODO()
+        //        val value = mockk<Sort>()
+        //
+        //        every { preferencesRepo.sort } returns value
+        //
+        //        viewModel.onClickSort()
+        //
+        //        verifySequence {
+        //            preferencesRepo.sort
+        //            callback.showSortDialog(value)
+        //        }
     }
 
     @Test fun onResultNoteSort() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { getSortSummary(value) } returns summary
-
-        viewModel.updateSort(value)
-
-        verifySequence {
-            getSortSummary(value)
-            callback.updateSortSummary(summary)
-            callback.sendNotifyNotesBroadcast()
-        }
+        TODO()
+        //        val value = Random.nextInt()
+        //        val summary = nextString()
+        //
+        //        every { getSortSummary(value) } returns summary
+        //
+        //        viewModel.updateSort(value)
+        //
+        //        verifySequence {
+        //            getSortSummary(value)
+        //            callback.updateSortSummary(summary)
+        //            callback.sendNotifyNotesBroadcast()
+        //        }
     }
 
     @Test fun onClickNoteColor() {
-        val color = mockk<Color>()
-
-        every { preferencesRepo.defaultColor } returns color
-
-        viewModel.onClickNoteColor()
-
-        verifySequence {
-            preferencesRepo.defaultColor
-            callback.showColorDialog(color)
-        }
+        TODO()
+        //        val color = mockk<Color>()
+        //
+        //        every { preferencesRepo.defaultColor } returns color
+        //
+        //        viewModel.onClickNoteColor()
+        //
+        //        verifySequence {
+        //            preferencesRepo.defaultColor
+        //            callback.showColorDialog(color)
+        //        }
     }
 
     @Test fun onResultNoteColor() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { getDefaultColorSummary(value) } returns summary
-
-        viewModel.updateDefaultColor(value)
-
-        verifySequence {
-            getDefaultColorSummary(value)
-            callback.updateColorSummary(summary)
-        }
+        TODO()
+        //        val value = Random.nextInt()
+        //        val summary = nextString()
+        //
+        //        every { getDefaultColorSummary(value) } returns summary
+        //
+        //        viewModel.updateDefaultColor(value)
+        //
+        //        verifySequence {
+        //            getDefaultColorSummary(value)
+        //            callback.updateColorSummary(summary)
+        //        }
     }
 
     @Test fun onClickSaveTime() {
-        val value = mockk<SavePeriod>()
-
-        every { preferencesRepo.savePeriod } returns value
-
-        viewModel.onClickSaveTime()
-
-        verifySequence {
-            preferencesRepo.savePeriod
-            callback.showSaveTimeDialog(value)
-        }
+        TODO()
+        //        val value = mockk<SavePeriod>()
+        //
+        //        every { preferencesRepo.savePeriod } returns value
+        //
+        //        viewModel.onClickSaveTime()
+        //
+        //        verifySequence {
+        //            preferencesRepo.savePeriod
+        //            callback.showSaveTimeDialog(value)
+        //        }
     }
 
     @Test fun onResultSaveTime() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { getSavePeriodSummary(value) } returns summary
-
-        viewModel.updateSavePeriod(value)
-
-        verifySequence {
-            getSavePeriodSummary(value)
-            callback.updateSavePeriodSummary(summary)
-        }
+        TODO()
+        //        val value = Random.nextInt()
+        //        val summary = nextString()
+        //
+        //        every { getSavePeriodSummary(value) } returns summary
+        //
+        //        viewModel.updateSavePeriod(value)
+        //
+        //        verifySequence {
+        //            getSavePeriodSummary(value)
+        //            callback.updateSavePeriodSummary(summary)
+        //        }
     }
 }

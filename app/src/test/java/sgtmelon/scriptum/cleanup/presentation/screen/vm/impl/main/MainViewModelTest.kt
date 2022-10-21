@@ -168,67 +168,71 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onFabStateChange() {
-        val withGap = Random.nextBoolean()
-
-        viewModel.pageFrom = MainPage.RANK
-        viewModel.onFabStateChange(isVisible = false, withGap)
-        viewModel.onFabStateChange(isVisible = true, withGap)
-
-        viewModel.pageFrom = MainPage.NOTES
-        viewModel.onFabStateChange(isVisible = false, withGap)
-        viewModel.onFabStateChange(isVisible = true, withGap)
-
-        viewModel.pageFrom = MainPage.BIN
-        viewModel.onFabStateChange(isVisible = false, withGap)
-        viewModel.onFabStateChange(isVisible = true, withGap)
-
-        verifySequence {
-            callback.changeFabVisible(isVisible = false, withGap)
-            callback.changeFabVisible(isVisible = false, withGap)
-
-            callback.changeFabVisible(isVisible = false, withGap)
-            callback.changeFabVisible(isVisible = true, withGap)
-
-            callback.changeFabVisible(isVisible = false, withGap)
-            callback.changeFabVisible(isVisible = false, withGap)
-        }
+        TODO()
+        //        val withGap = Random.nextBoolean()
+        //
+        //        viewModel.pageFrom = MainPage.RANK
+        //        viewModel.onFabStateChange(isVisible = false, withGap)
+        //        viewModel.onFabStateChange(isVisible = true, withGap)
+        //
+        //        viewModel.pageFrom = MainPage.NOTES
+        //        viewModel.onFabStateChange(isVisible = false, withGap)
+        //        viewModel.onFabStateChange(isVisible = true, withGap)
+        //
+        //        viewModel.pageFrom = MainPage.BIN
+        //        viewModel.onFabStateChange(isVisible = false, withGap)
+        //        viewModel.onFabStateChange(isVisible = true, withGap)
+        //
+        //        verifySequence {
+        //            callback.changeFabVisible(isVisible = false, withGap)
+        //            callback.changeFabVisible(isVisible = false, withGap)
+        //
+        //            callback.changeFabVisible(isVisible = false, withGap)
+        //            callback.changeFabVisible(isVisible = true, withGap)
+        //
+        //            callback.changeFabVisible(isVisible = false, withGap)
+        //            callback.changeFabVisible(isVisible = false, withGap)
+        //        }
     }
 
     @Test fun onResultAddDialog() {
-        viewModel.onResultAddDialog(R.id.item_add_text)
-        viewModel.onResultAddDialog(R.id.item_add_roll)
-        viewModel.onResultAddDialog(itemId = -1)
-
-        verifySequence {
-            callback.openNoteScreen(NoteType.TEXT)
-            callback.openNoteScreen(NoteType.ROLL)
-        }
+        TODO()
+        //        viewModel.onResultAddDialog(R.id.item_add_text)
+        //        viewModel.onResultAddDialog(R.id.item_add_roll)
+        //        viewModel.onResultAddDialog(itemId = -1)
+        //
+        //        verifySequence {
+        //            callback.openNoteScreen(NoteType.TEXT)
+        //            callback.openNoteScreen(NoteType.ROLL)
+        //        }
     }
 
     @Test fun onReceiveUnbindNote() {
-        val firstId = Random.nextLong()
-        val secondId = Random.nextLong()
-
-        viewModel.onReceiveUnbindNote(firstId)
-        viewModel.pageFrom = MainPage.RANK
-        viewModel.onReceiveUnbindNote(secondId)
-
-        verifySequence {
-            callback.onReceiveUnbindNote(firstId)
-            callback.onReceiveUnbindNote(secondId)
-        }
+        TODO()
+        //        val firstId = Random.nextLong()
+        //        val secondId = Random.nextLong()
+        //
+        //        viewModel.onReceiveUnbindNote(firstId)
+        //        viewModel.pageFrom = MainPage.RANK
+        //        viewModel.onReceiveUnbindNote(secondId)
+        //
+        //        verifySequence {
+        //            callback.onReceiveUnbindNote(firstId)
+        //            callback.onReceiveUnbindNote(secondId)
+        //        }
     }
 
     @Test fun onReceiveUpdateAlarm() {
-        val firstId = Random.nextLong()
-        val secondId = Random.nextLong()
-
-        viewModel.onReceiveUpdateAlarm(firstId)
-        viewModel.pageFrom = MainPage.RANK
-        viewModel.onReceiveUpdateAlarm(secondId)
-
-        verifySequence {
-            callback.onReceiveUpdateAlarm(secondId)
-        }
+        TODO()
+        //        val firstId = Random.nextLong()
+        //        val secondId = Random.nextLong()
+        //
+        //        viewModel.onReceiveUpdateAlarm(firstId)
+        //        viewModel.pageFrom = MainPage.RANK
+        //        viewModel.onReceiveUpdateAlarm(secondId)
+        //
+        //        verifySequence {
+        //            callback.onReceiveUpdateAlarm(secondId)
+        //        }
     }
 }

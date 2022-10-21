@@ -258,16 +258,17 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickNote() {
-        viewModel.onClickNote(Random.nextInt())
-
-        val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        val p = itemList.indices.random()
-
-        viewModel.onClickNote(p)
-        verifySequence { callback.openNoteScreen(itemList[p]) }
+        TODO()
+        //        viewModel.onClickNote(Random.nextInt())
+        //
+        //        val itemList = data.itemList
+        //        viewModel.itemList.clearAdd(itemList)
+        //        assertEquals(itemList, viewModel.itemList)
+        //
+        //        val p = itemList.indices.random()
+        //
+        //        viewModel.onClickNote(p)
+        //        verifySequence { callback.openNoteScreen(itemList[p]) }
     }
 
     @Test fun onClickCancel() = startCoTest {

@@ -1907,23 +1907,24 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onTouchGetDrag() {
-        val noteState = mockk<NoteState>()
-
-        viewModel.noteState = noteState
-
-        every { noteState.isEdit } returns false
-        assertFalse(viewModel.onTouchGetDrag(mayDrag = false))
-        assertFalse(viewModel.onTouchGetDrag(mayDrag = true))
-
-        every { noteState.isEdit } returns true
-        assertFalse(viewModel.onTouchGetDrag(mayDrag = false))
-        assertTrue(viewModel.onTouchGetDrag(mayDrag = true))
-
-        verifySequence {
-            repeat(times = 4) {
-                noteState.isEdit
-            }
-        }
+        TODO()
+        //        val noteState = mockk<NoteState>()
+        //
+        //        viewModel.noteState = noteState
+        //
+        //        every { noteState.isEdit } returns false
+        //        assertFalse(viewModel.onTouchGetDrag(mayDrag = false))
+        //        assertFalse(viewModel.onTouchGetDrag(mayDrag = true))
+        //
+        //        every { noteState.isEdit } returns true
+        //        assertFalse(viewModel.onTouchGetDrag(mayDrag = false))
+        //        assertTrue(viewModel.onTouchGetDrag(mayDrag = true))
+        //
+        //        verifySequence {
+        //            repeat(times = 4) {
+        //                noteState.isEdit
+        //            }
+        //        }
     }
 
     @Test fun onTouchGetSwipe() {

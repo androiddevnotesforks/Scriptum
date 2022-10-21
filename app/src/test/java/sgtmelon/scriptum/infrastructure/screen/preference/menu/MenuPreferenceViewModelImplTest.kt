@@ -38,83 +38,89 @@ class MenuPreferenceViewModelImplTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
-        assertNotNull(viewModel.callback)
-        viewModel.onDestroy()
-        assertNull(viewModel.callback)
+        TODO()
+        //        assertNotNull(viewModel.callback)
+        //        viewModel.onDestroy()
+        //        assertNull(viewModel.callback)
     }
 
     //endregion
 
     @Test fun onSetup() {
-        val themeSummary = nextString()
-
-        every { preferencesRepo.isDeveloper } returns false
-        every { getSummary() } returns themeSummary
-        viewModel.onSetup()
-
-        every { preferencesRepo.isDeveloper } returns true
-        viewModel.onSetup()
-
-        coVerifySequence {
-            callback.setupApp()
-            callback.setupOther()
-            preferencesRepo.isDeveloper
-            getSummary()
-            callback.updateThemeSummary(themeSummary)
-
-            callback.setupApp()
-            callback.setupOther()
-            preferencesRepo.isDeveloper
-            callback.setupDeveloper()
-            getSummary()
-            callback.updateThemeSummary(themeSummary)
-        }
+        TODO()
+        //        val themeSummary = nextString()
+        //
+        //        every { preferencesRepo.isDeveloper } returns false
+        //        every { getSummary() } returns themeSummary
+        //        viewModel.onSetup()
+        //
+        //        every { preferencesRepo.isDeveloper } returns true
+        //        viewModel.onSetup()
+        //
+        //        coVerifySequence {
+        //            callback.setupApp()
+        //            callback.setupOther()
+        //            preferencesRepo.isDeveloper
+        //            getSummary()
+        //            callback.updateThemeSummary(themeSummary)
+        //
+        //            callback.setupApp()
+        //            callback.setupOther()
+        //            preferencesRepo.isDeveloper
+        //            callback.setupDeveloper()
+        //            getSummary()
+        //            callback.updateThemeSummary(themeSummary)
+        //        }
     }
 
 
     @Test fun onClickTheme() {
-        val value = mockk<Theme>()
-
-        every { preferencesRepo.theme } returns value
-
-        viewModel.onClickTheme()
-
-        verifySequence {
-            preferencesRepo.theme
-            callback.showThemeDialog(value)
-        }
+        TODO()
+        //        val value = mockk<Theme>()
+        //
+        //        every { preferencesRepo.theme } returns value
+        //
+        //        viewModel.onClickTheme()
+        //
+        //        verifySequence {
+        //            preferencesRepo.theme
+        //            callback.showThemeDialog(value)
+        //        }
     }
 
     @Test fun onResultTheme() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { getSummary(value) } returns summary
-
-        viewModel.updateTheme(value)
-
-        verifySequence {
-            getSummary(value)
-            callback.updateThemeSummary(summary)
-        }
+        TODO()
+        //
+        //        val value = Random.nextInt()
+        //        val summary = nextString()
+        //
+        //        every { getSummary(value) } returns summary
+        //
+        //        viewModel.updateTheme(value)
+        //
+        //        verifySequence {
+        //            getSummary(value)
+        //            callback.updateThemeSummary(summary)
+        //        }
     }
 
 
     @Test fun onUnlockDeveloper() {
-        every { preferencesRepo.isDeveloper } returns false
-        viewModel.unlockDeveloper()
-
-        every { preferencesRepo.isDeveloper } returns true
-        viewModel.unlockDeveloper()
-
-        verifySequence {
-            preferencesRepo.isDeveloper
-            preferencesRepo.isDeveloper = true
-            callback.setupDeveloper()
-            callback.showToast(R.string.toast_dev_unlock)
-
-            preferencesRepo.isDeveloper
-            callback.showToast(R.string.toast_dev_already)
-        }
+        TODO()
+        //        every { preferencesRepo.isDeveloper } returns false
+        //        viewModel.unlockDeveloper()
+        //
+        //        every { preferencesRepo.isDeveloper } returns true
+        //        viewModel.unlockDeveloper()
+        //
+        //        verifySequence {
+        //            preferencesRepo.isDeveloper
+        //            preferencesRepo.isDeveloper = true
+        //            callback.setupDeveloper()
+        //            callback.showToast(R.string.toast_dev_unlock)
+        //
+        //            preferencesRepo.isDeveloper
+        //            callback.showToast(R.string.toast_dev_already)
+        //        }
     }
 }

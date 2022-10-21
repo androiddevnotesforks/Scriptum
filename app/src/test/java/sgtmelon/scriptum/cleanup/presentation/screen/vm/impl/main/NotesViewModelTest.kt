@@ -30,7 +30,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFrag
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
@@ -61,7 +60,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
-    @MockK lateinit var getNotification: GetNotificationUseCase
+//    @MockK lateinit var getNotification: GetNotificationUseCase
     @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
 
     @MockK lateinit var calendar: Calendar
@@ -70,7 +69,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         NotesViewModel(
             callback, preferencesRepo, interactor,
             getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
-            deleteNotification, getNotification, getNotificationDateList
+            deleteNotification, getNotificationDateList
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
@@ -80,7 +79,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         confirmVerified(
             callback, preferencesRepo, interactor, calendar,
             getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
-            deleteNotification, getNotification, getNotificationDateList
+            deleteNotification, getNotificationDateList
         )
     }
 
@@ -570,33 +569,34 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUpdateAlarm() = startCoTest {
-        viewModel.onReceiveUpdateAlarm(Random.nextLong())
-
-        val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        val notificationItem = TestData.Notification.firstNotification
-        val p = itemList.indices.random()
-        val item = itemList[p]
-
-        coEvery { getNotification(item.id) } returns null
-
-        viewModel.onReceiveUpdateAlarm(item.id)
-
-        coEvery { getNotification(item.id) } returns notificationItem
-
-        viewModel.onReceiveUpdateAlarm(item.id)
-        item.apply {
-            alarmId = notificationItem.alarm.id
-            alarmDate = notificationItem.alarm.date
-        }
-
-        coVerifySequence {
-            getNotification(item.id)
-
-            getNotification(item.id)
-            callback.notifyList(itemList)
-        }
+        TODO()
+        //        viewModel.onReceiveUpdateAlarm(Random.nextLong())
+        //
+        //        val itemList = data.itemList
+        //        viewModel.itemList.clearAdd(itemList)
+        //        assertEquals(itemList, viewModel.itemList)
+        //
+        //        val notificationItem = TestData.Notification.firstNotification
+        //        val p = itemList.indices.random()
+        //        val item = itemList[p]
+        //
+        //        coEvery { getNotification(item.id) } returns null
+        //
+        //        viewModel.onReceiveUpdateAlarm(item.id)
+        //
+        //        coEvery { getNotification(item.id) } returns notificationItem
+        //
+        //        viewModel.onReceiveUpdateAlarm(item.id)
+        //        item.apply {
+        //            alarmId = notificationItem.alarm.id
+        //            alarmDate = notificationItem.alarm.date
+        //        }
+        //
+        //        coVerifySequence {
+        //            getNotification(item.id)
+        //
+        //            getNotification(item.id)
+        //            callback.notifyList(itemList)
+        //        }
     }
 }
