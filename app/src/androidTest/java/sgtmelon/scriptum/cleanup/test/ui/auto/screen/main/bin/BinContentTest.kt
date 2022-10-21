@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.bin
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.ParentNoteContentTest
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.screen.main.BinScreen
+import sgtmelon.scriptum.infrastructure.model.key.MainPage
 
 /**
  * Test for [NoteItemUi] inside [BinScreen]
