@@ -5,9 +5,9 @@ import androidx.annotation.ColorInt
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getColorCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.accent
-import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.dark
-import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.light
+import sgtmelon.scriptum.infrastructure.model.data.ColorData.accent
+import sgtmelon.scriptum.infrastructure.model.data.ColorData.dark
+import sgtmelon.scriptum.infrastructure.model.data.ColorData.light
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
