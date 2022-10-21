@@ -17,6 +17,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
+import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.test.common.OverflowDelegator
 
@@ -37,11 +38,10 @@ class AlarmDaoSafeTest : ParentTest() {
 
     @Test fun `insertSafe with throw`() {
         val entity = mockk<AlarmEntity>()
-        val throwable = mockk<Throwable>()
 
-        coEvery { dao.insert(entity) } throws throwable
+        coEvery { dao.insert(entity) } throws mockk()
         FastMock.fireExtensions()
-        every { throwable.record() } returns Unit
+        every { any<DaoForeignException>().record() } returns Unit
 
         runBlocking {
             assertNull(dao.insertSafe(entity))

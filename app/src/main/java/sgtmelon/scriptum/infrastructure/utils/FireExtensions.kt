@@ -1,4 +1,4 @@
-@file:JvmName(name = "FireExtensionUtils")
+@file:JvmName(name = "FireExtensionsUtils")
 
 package sgtmelon.scriptum.infrastructure.utils
 
