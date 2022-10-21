@@ -13,8 +13,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.develop.model.PrintType
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
-import sgtmelon.scriptum.infrastructure.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity

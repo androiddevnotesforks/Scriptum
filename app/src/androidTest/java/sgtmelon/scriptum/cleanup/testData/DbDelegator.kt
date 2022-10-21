@@ -19,8 +19,8 @@ import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes.NotesNoteDialogT
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
-import sgtmelon.scriptum.infrastructure.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.RoomWorker
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.nextString

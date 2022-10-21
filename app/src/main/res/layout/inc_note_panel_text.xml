@@ -12,7 +12,7 @@
 
         <import
             alias="Type"
-            type="sgtmelon.scriptum.infrastructure.model.key.NoteType" />
+            type="sgtmelon.scriptum.infrastructure.model.key.preference.NoteType" />
 
         <variable
             name="menuCallback"
