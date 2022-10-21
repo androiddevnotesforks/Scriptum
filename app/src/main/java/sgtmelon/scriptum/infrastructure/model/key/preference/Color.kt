@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.model.key
+package sgtmelon.scriptum.infrastructure.model.key.preference
 
 /**
  * Describes standard note colors.

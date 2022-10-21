@@ -13,7 +13,7 @@ import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Dialog for display application available colors for notes.

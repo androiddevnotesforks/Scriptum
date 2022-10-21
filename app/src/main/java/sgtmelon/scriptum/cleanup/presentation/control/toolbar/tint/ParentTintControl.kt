@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint
 import android.content.Context
 import android.os.Build
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
-import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Parent class for control tint.

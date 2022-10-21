@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Test for [ColorConverter].

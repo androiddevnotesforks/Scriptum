@@ -4,7 +4,7 @@ import android.os.Bundle
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Interface for communication [INoteActivity] with [NoteViewModel].

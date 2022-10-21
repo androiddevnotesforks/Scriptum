@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.adapter.animation.ColorAnimation
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.makeVisibleIf
 
 class ColorHolder(

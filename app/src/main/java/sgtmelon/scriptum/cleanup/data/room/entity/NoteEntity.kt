@@ -10,8 +10,8 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Room
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Entity with common information about note.

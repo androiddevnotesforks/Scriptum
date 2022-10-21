@@ -17,8 +17,8 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getRankVisibleCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
-import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.parent.ParentRoomTest
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2

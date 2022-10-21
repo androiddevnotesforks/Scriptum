@@ -4,7 +4,7 @@ import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Parent interface for [ITextNoteFragment] and [IRollNoteFragment].

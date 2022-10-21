@@ -9,9 +9,9 @@ import sgtmelon.scriptum.cleanup.domain.model.state.MenuColorState
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
-import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Control note toolbar tint.

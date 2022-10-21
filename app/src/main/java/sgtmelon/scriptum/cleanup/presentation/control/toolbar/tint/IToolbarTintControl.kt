@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint
 
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Interface for [ToolbarTintControl].

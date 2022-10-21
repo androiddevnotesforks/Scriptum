@@ -28,8 +28,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
-import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.getRandomPastTime
 import sgtmelon.test.common.isDivideEntirely

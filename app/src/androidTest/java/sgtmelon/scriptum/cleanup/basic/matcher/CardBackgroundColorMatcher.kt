@@ -7,8 +7,8 @@ import org.hamcrest.TypeSafeMatcher
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.getNoteCardColor
-import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Matcher for check app:cardBackground which gets with [theme] and [color].

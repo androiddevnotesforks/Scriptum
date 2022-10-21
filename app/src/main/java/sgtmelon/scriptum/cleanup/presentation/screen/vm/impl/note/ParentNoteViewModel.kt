@@ -34,7 +34,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.test.prod.RunProtected

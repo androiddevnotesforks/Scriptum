@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.adapter.holder.ColorHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**

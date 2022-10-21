@@ -16,7 +16,7 @@ import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.item.ColorItem
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.setColor
 
 //region Color and Theme

@@ -10,7 +10,7 @@ import org.junit.Test
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetDefaultColorSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.test.common.nextString
 
 /**

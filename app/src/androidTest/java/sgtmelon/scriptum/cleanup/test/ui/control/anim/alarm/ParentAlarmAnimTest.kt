@@ -4,8 +4,8 @@ import kotlin.random.Random
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
-import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.parent.ParentUiTest
 

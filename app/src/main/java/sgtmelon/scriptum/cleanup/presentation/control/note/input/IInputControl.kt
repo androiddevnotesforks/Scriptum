@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.input
 
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Interface for communicate with [InputControl].

@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
-import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.getCount
 import sgtmelon.test.cappuccino.utils.isDisplayed
