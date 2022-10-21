@@ -2,21 +2,21 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.NO_ID_LAYOUT
 import sgtmelon.scriptum.infrastructure.utils.beforeFinish
+import sgtmelon.scriptum.infrastructure.utils.getCrashlytics
 import sgtmelon.test.prod.RunPrivate
 
 /**
@@ -52,15 +52,14 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     }
 
     private fun setCrashlyticsKeys() {
-        val instance = FirebaseCrashlytics.getInstance()
+        val instance = getCrashlytics()
 
-        instance.setCustomKey(
-            FireData.RUN_TYPE, when {
-                BuildConfig.DEBUG && isTesting -> RunType.TEST.toString()
-                BuildConfig.DEBUG && !isTesting -> RunType.DEBUG.toString()
-                else -> RunType.RELEASE.toString()
-            }
-        )
+        val runType = if (BuildConfig.DEBUG) {
+            if (isTesting) RunType.TEST else RunType.DEBUG
+        } else {
+            RunType.RELEASE
+        }
+        instance.setCustomKey(FireData.RUN_TYPE, runType.name)
     }
 
     override fun onDestroy() {

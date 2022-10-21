@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.key.firebase
+package sgtmelon.scriptum.infrastructure.model.key.firebase
 
 /**
  * Class identifying application run type.
