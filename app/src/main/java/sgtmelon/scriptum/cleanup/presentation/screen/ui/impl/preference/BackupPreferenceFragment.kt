@@ -9,16 +9,17 @@ import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
+import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.utils.isGranted
+import sgtmelon.scriptum.infrastructure.utils.requestPermissions
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
@@ -37,7 +38,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     @Inject lateinit var viewModel: IBackupPreferenceViewModel
 
-    private val storagePermissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     //region Dialogs
 
@@ -93,9 +94,10 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
         if (grantResults.firstOrNull()?.isGranted() != true) return
 
-        when (requestCode) {
+        when (PermissionRequest.values()[requestCode]) {
             PermissionRequest.EXPORT -> viewModel.onClickExport(PermissionResult.GRANTED)
             PermissionRequest.IMPORT -> viewModel.onClickImport(PermissionResult.GRANTED)
+            else -> return
         }
     }
 
@@ -128,10 +130,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
             onPositiveClick {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
-
-                requestPermissions(
-                    arrayOf(storagePermissionState.permission), PermissionRequest.EXPORT
-                )
+                requestPermissions(PermissionRequest.EXPORT, permissionState.permission)
             }
             onDismiss { open.clear() }
         }
@@ -146,10 +145,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
             onPositiveClick {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
-
-                requestPermissions(
-                    arrayOf(storagePermissionState.permission), PermissionRequest.IMPORT
-                )
+                requestPermissions(PermissionRequest.IMPORT, permissionState.permission)
             }
             onDismiss { open.clear() }
         }
@@ -175,7 +171,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun getStoragePermissionResult(): PermissionResult? {
-        return storagePermissionState.getResult(activity)
+        return permissionState.getResult(activity)
     }
 
     //region Export functions

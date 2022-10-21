@@ -10,15 +10,16 @@ import sgtmelon.extensions.collect
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.isGranted
+import sgtmelon.scriptum.infrastructure.utils.requestPermissions
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
@@ -68,8 +69,9 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         val isGranted = grantResults.firstOrNull()?.isGranted() ?: return
         val result = if (isGranted) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
 
-        when (requestCode) {
+        when (PermissionRequest.values()[requestCode]) {
             PermissionRequest.MELODY -> onMelodyPermission(result)
+            else -> return
         }
     }
 
@@ -158,7 +160,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
             onPositiveClick {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
-                requestPermissions(arrayOf(permissionState.permission), PermissionRequest.MELODY)
+                requestPermissions(PermissionRequest.MELODY, permissionState.permission)
             }
             onDismiss { open.clear() }
         }

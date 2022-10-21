@@ -17,3 +17,4 @@ inline fun Preference.setOnClickListener(crossinline onClick: (Preference) -> Un
         return@setOnPreferenceClickListener true
     }
 }
+
