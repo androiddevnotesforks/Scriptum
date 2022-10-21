@@ -5,8 +5,4 @@ package sgtmelon.scriptum.infrastructure.model.key
  *
  * Be careful with order.
  */
-enum class SavePeriod {
-    MIN_1,
-    MIN_3,
-    MIN_7
-}
+enum class SavePeriod { MIN_1, MIN_3, MIN_7 }

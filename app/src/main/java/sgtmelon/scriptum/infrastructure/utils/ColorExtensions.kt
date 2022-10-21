@@ -13,7 +13,7 @@ import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.extensions.setColorFilterCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
+import sgtmelon.scriptum.infrastructure.model.item.ColorItem
 
 fun MenuItem.tintIcon(context: Context) {
     val icon = this.icon ?: return

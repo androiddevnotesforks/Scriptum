@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.model.data
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
+import sgtmelon.scriptum.infrastructure.model.item.ColorItem
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 

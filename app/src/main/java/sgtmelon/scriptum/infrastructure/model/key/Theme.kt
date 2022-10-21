@@ -5,8 +5,4 @@ package sgtmelon.scriptum.infrastructure.model.key
  *
  * Be careful with order.
  */
-enum class Theme {
-    LIGHT,
-    DARK,
-    SYSTEM
-}
+enum class Theme { LIGHT, DARK, SYSTEM }

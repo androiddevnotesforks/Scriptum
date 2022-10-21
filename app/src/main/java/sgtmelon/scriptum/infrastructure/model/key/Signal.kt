@@ -5,7 +5,4 @@ package sgtmelon.scriptum.infrastructure.model.key
  *
  * Be careful with order.
  */
-enum class Signal {
-    MELODY,
-    VIBRATION
-}
+enum class Signal { MELODY, VIBRATION }

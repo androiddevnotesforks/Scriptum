@@ -5,12 +5,12 @@ import android.content.Context
 import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.domain.model.state.MenuColorState
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**

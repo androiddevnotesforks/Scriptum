@@ -5,9 +5,4 @@ package sgtmelon.scriptum.infrastructure.model.key
  *
  * Be careful with order.
  */
-enum class Sort {
-    CHANGE,
-    CREATE,
-    RANK,
-    COLOR
-}
+enum class Sort { CHANGE, CREATE, RANK, COLOR }

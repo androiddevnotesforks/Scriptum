@@ -8,8 +8,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.accent
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.dark
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.light
-import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**

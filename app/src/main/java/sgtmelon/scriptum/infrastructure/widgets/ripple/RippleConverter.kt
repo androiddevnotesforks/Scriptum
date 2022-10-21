@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.widgets.ripple
 
 import android.graphics.Paint
-import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
+import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 class RippleConverter {
