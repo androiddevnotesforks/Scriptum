@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.useCase.main
 
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 class SortNoteListUseCase {
 

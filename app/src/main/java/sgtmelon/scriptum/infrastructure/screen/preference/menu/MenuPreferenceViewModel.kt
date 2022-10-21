@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.menu
 
 import androidx.lifecycle.LiveData
-import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 
 interface MenuPreferenceViewModel {
 

@@ -5,7 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.parent.ParentTest
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 /**
  * Test for [SortNoteListUseCase].

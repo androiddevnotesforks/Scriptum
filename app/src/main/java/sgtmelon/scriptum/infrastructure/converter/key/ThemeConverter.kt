@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
 import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
-import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 
 // TODO move into key package (don't forget about tests)
 class ThemeConverter : ParentEnumConverter<Theme>() {

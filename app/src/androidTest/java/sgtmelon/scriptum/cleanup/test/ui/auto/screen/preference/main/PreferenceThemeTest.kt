@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.test.parent.situation.IThemeTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
-import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiTest
 

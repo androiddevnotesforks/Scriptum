@@ -7,7 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.test.parent.situation.ISortTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SortDialogUi
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
 import sgtmelon.scriptum.parent.ParentUiTest
 

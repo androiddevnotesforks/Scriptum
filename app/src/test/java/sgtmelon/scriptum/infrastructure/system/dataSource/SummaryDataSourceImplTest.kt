@@ -13,11 +13,11 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
-import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.test.common.nextString
 

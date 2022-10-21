@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.ViewDataBinding
 import javax.inject.Inject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.Background

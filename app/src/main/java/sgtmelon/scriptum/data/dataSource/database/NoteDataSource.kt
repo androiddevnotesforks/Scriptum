@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.data.dataSource.database
 
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 interface NoteDataSource {
 

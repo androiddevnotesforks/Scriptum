@@ -28,7 +28,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.test.common.nextString
 
 /**

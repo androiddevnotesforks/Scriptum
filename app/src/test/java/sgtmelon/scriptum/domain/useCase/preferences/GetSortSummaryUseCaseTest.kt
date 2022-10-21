@@ -10,7 +10,7 @@ import org.junit.Test
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSortSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.test.common.nextString
 
 /**

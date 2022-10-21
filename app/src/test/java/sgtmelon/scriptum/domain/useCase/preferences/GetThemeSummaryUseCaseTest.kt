@@ -10,7 +10,7 @@ import org.junit.Test
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetThemeSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
-import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.test.common.nextString
 
 /**

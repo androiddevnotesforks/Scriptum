@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.note
 
 import androidx.lifecycle.LiveData
-import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 interface NotePreferenceViewModel {
 

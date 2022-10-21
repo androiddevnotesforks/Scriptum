@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
-import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 
 /**
  * Test for [ThemeConverter].

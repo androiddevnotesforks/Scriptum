@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 /**
  * Test for [SortConverter].

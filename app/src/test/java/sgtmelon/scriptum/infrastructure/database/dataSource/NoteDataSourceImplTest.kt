@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getRankVisibleCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
-import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 /**
  * Test for [NoteDataSourceImpl].
