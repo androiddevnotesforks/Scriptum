@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
-import androidx.annotation.IntRange
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
@@ -24,7 +23,7 @@ interface AlarmPreferenceViewModel {
 
     val volumeSummary: LiveData<String>
 
-    fun updateVolume(@IntRange(from = 10, to = 100) value: Int)
+    fun updateVolume(value: Int)
 
     val melodySummaryState: LiveData<MelodySummaryState>
 

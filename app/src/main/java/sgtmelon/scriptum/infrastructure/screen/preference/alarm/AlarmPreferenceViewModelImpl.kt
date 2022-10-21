@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
-import androidx.annotation.IntRange
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +13,7 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseC
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceTesting as Testing
 
 class AlarmPreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
@@ -28,9 +28,7 @@ class AlarmPreferenceViewModelImpl(
 
     override val repeatSummary = MutableLiveData(getRepeatSummary())
 
-    override fun updateRepeat(value: Int) {
-        repeatSummary.postValue(getRepeatSummary(value))
-    }
+    override fun updateRepeat(value: Int) = repeatSummary.postValue(getRepeatSummary(value))
 
     override val signalTypeCheck: BooleanArray get() = preferencesRepo.signalTypeCheck
 
@@ -40,11 +38,11 @@ class AlarmPreferenceViewModelImpl(
         signalSummary.postValue(getSignalSummary(value))
 
         viewModelScope.launchBack {
-            if (getMelodyList().isEmpty()) {
+            if (getMelodyList().isNotEmpty() && !Testing.showMelodyEmpty) {
+                melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
+            } else {
                 melodyGroupEnabled.postValue(false)
                 melodySummaryState.postValue(MelodySummaryState.Empty)
-            } else {
-                melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             }
         }
     }
@@ -53,9 +51,7 @@ class AlarmPreferenceViewModelImpl(
 
     override val volumeSummary = MutableLiveData(getVolumeSummary())
 
-    override fun updateVolume(@IntRange(from = 10, to = 100) value: Int) {
-        volumeSummary.postValue(getVolumeSummary(value))
-    }
+    override fun updateVolume(value: Int) = volumeSummary.postValue(getVolumeSummary(value))
 
     override val melodySummaryState by lazy {
         MutableLiveData<MelodySummaryState>()
@@ -70,7 +66,7 @@ class AlarmPreferenceViewModelImpl(
         val check = preferencesRepo.getMelodyCheck(list)
         val item = if (check != null) list.getOrNull(check) else null
 
-        if (item != null) {
+        if (item != null && !Testing.showMelodyEmpty) {
             melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             melodySummaryState.postValue(MelodySummaryState.Finish(item.title))
         } else {
@@ -89,11 +85,11 @@ class AlarmPreferenceViewModelImpl(
             val titleArray = list.map { it.title }.toTypedArray()
             val check = preferencesRepo.getMelodyCheck(list)
 
-            if (titleArray.isEmpty() || check == null) {
+            if (titleArray.isNotEmpty() && check != null && !Testing.showMelodyEmpty) {
+                emit(value = titleArray to check)
+            } else {
                 melodyGroupEnabled.postValue(false)
                 melodySummaryState.postValue(MelodySummaryState.Empty)
-            } else {
-                emit(value = titleArray to check)
             }
         }.onBack()
 
@@ -106,10 +102,10 @@ class AlarmPreferenceViewModelImpl(
      */
     override fun updateMelody(title: String): Flow<Boolean> = flow {
         val resultTitle = preferencesRepo.setMelodyUri(getMelodyList(), title)
-        if (resultTitle != null) {
+        if (resultTitle != null && !Testing.showMelodyEmpty) {
             melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             melodySummaryState.postValue(MelodySummaryState.Finish(resultTitle))
-            emit(value = title == resultTitle)
+            emit(value = title == resultTitle && !Testing.isAnotherMelody)
         } else {
             melodyGroupEnabled.postValue(false)
             melodySummaryState.postValue(MelodySummaryState.Empty)
