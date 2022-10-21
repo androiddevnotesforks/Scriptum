@@ -14,7 +14,7 @@ import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.test.prod.RunPrivate
-import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult as Permission
+import sgtmelon.scriptum.infrastructure.model.key.PermissionResult as Permission
 
 class BackupPreferenceViewModel(
     callback: IBackupPreferenceFragment,

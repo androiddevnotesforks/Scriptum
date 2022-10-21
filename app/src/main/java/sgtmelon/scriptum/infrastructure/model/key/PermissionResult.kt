@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.key
+package sgtmelon.scriptum.infrastructure.model.key
 
 /**
  * Class identifying result of permission request:

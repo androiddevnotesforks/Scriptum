@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.state
+package sgtmelon.scriptum.infrastructure.model.state
 
 import android.app.Activity
 import android.content.pm.PackageManager
@@ -8,9 +8,9 @@ import io.mockk.mockkObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider.Version
+import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.test.common.nextString
 
 /**
@@ -21,26 +21,26 @@ class PermissionStateTest : ParentTest() {
     @MockK lateinit var activity: Activity
 
     private val permission = nextString()
-    private val permissionState by lazy { PermissionState(permission, activity) }
+    private val state by lazy { PermissionState(permission) }
 
     @Test fun getResult() {
         mockkObject(Version)
 
         every { Version.isMarshmallowLess() } returns true
-        assertEquals(PermissionResult.LOW_API, permissionState.getResult())
+        assertEquals(state.getResult(activity), PermissionResult.LOW_API)
 
         every { Version.isMarshmallowLess() } returns false
         every { activity.checkSelfPermission(permission) } returns PackageManager.PERMISSION_GRANTED
-        assertEquals(PermissionResult.GRANTED, permissionState.getResult())
+        assertEquals(state.getResult(activity), PermissionResult.GRANTED)
 
         every { activity.checkSelfPermission(permission) } returns PackageManager.PERMISSION_DENIED
         every { activity.shouldShowRequestPermissionRationale(permission) } returns false
-        assertEquals(PermissionResult.FORBIDDEN, permissionState.getResult())
+        assertEquals(state.getResult(activity), PermissionResult.FORBIDDEN)
 
         every { activity.shouldShowRequestPermissionRationale(permission) } returns true
-        assertEquals(PermissionResult.ASK, permissionState.getResult())
+        assertEquals(state.getResult(activity), PermissionResult.ASK)
 
-        assertNull(PermissionState(permission, activity = null).getResult())
+        assertNull(PermissionState(permission).getResult(activity = null))
     }
 
 }

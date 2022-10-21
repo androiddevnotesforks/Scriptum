@@ -1,12 +1,12 @@
-package sgtmelon.scriptum.cleanup.domain.model.state
+package sgtmelon.scriptum.infrastructure.model.state
 
 import android.app.Activity
-import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.extension.notGranted
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider.Version
+import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 
 /**
- * State for permission request
+ * State for permission request.
  */
 class PermissionState(val permission: String) {
 

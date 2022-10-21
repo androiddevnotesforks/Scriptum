@@ -11,13 +11,13 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
-import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
-import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
