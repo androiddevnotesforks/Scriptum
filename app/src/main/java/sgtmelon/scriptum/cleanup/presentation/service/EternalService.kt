@@ -89,7 +89,7 @@ class EternalService : Service(),
         calendar.add(Calendar.SECOND, 5)
 
         val service = applicationContext.getAlarmService()
-        service?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        service.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 
     //endregion

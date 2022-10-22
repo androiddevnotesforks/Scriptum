@@ -23,7 +23,6 @@ class EternalReceiver : BroadcastReceiver() {
         }
     }
 
-    /** Callback, which will be called after getting an [Intent] inside [onReceive] function. */
     interface Callback {
         fun killService()
         fun sendEternalPongBroadcast()

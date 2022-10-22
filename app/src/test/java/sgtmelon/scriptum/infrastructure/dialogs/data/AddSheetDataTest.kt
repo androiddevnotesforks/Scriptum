@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.infrastructure.dialogs.data
 
 import io.mockk.every
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
@@ -10,20 +8,20 @@ import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.exception.InvalidIdException
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.utils.record
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 /**
- * Test for [RepeatSheetData].
+ * Test for [AddSheetData].
  */
-class RepeatSheetDataTest : ParentTest() {
+class AddSheetDataTest : ParentTest() {
 
-    private val data = RepeatSheetData()
+    private val data = AddSheetData()
 
     @Test fun convert() {
-        assertEquals(data.convert(R.id.item_repeat_0), Repeat.MIN_10)
-        assertEquals(data.convert(R.id.item_repeat_1), Repeat.MIN_30)
-        assertEquals(data.convert(R.id.item_repeat_2), Repeat.MIN_60)
-        assertEquals(data.convert(R.id.item_repeat_3), Repeat.MIN_180)
-        assertEquals(data.convert(R.id.item_repeat_4), Repeat.MIN_1440)
+        assertEquals(data.convert(R.id.item_add_text), NoteType.TEXT)
+        assertEquals(data.convert(R.id.item_add_roll), NoteType.ROLL)
 
         FastMock.fireExtensions()
         every { any<InvalidIdException>().record() } returns Unit
