@@ -49,12 +49,17 @@ class DevelopRepoImplTest : ParentRepoTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(key, def, preferences, fileDataSource)
+        confirmVerified(
+            noteDataSource, rollDataSource, rollVisibleDataSource,
+            rankDataSource, alarmDataSource,
+            key, def, preferences, fileDataSource
+        )
     }
 
     @Test fun getPrintNoteList() {
         val isBin = Random.nextBoolean()
         val list = List(getRandomSize()) { mockk<NoteEntity>() }
+        mockkIdList(list, { Random.nextLong() }) { it.id }
         val resultList = list.map { PrintItem.Note(it) }
 
         coEvery { noteDataSource.getList(isBin) } returns list
@@ -70,6 +75,7 @@ class DevelopRepoImplTest : ParentRepoTest() {
 
     @Test fun getPrintRollList() {
         val list = List(getRandomSize()) { mockk<RollEntity>() }
+        mockkIdList(list, { Random.nextLong() }) { it.id }
         val resultList = list.map { PrintItem.Roll(it) }
 
         coEvery { rollDataSource.getList() } returns list
@@ -85,6 +91,7 @@ class DevelopRepoImplTest : ParentRepoTest() {
 
     @Test fun getPrintVisibleList() {
         val list = List(getRandomSize()) { mockk<RollVisibleEntity>() }
+        mockkIdList(list, { Random.nextLong() }) { it.id }
         val resultList = list.map { PrintItem.Visible(it) }
 
         coEvery { rollVisibleDataSource.getList() } returns list
@@ -100,6 +107,7 @@ class DevelopRepoImplTest : ParentRepoTest() {
 
     @Test fun getPrintRankList() {
         val list = List(getRandomSize()) { mockk<RankEntity>() }
+        mockkIdList(list, { Random.nextLong() }) { it.id }
         val resultList = list.map { PrintItem.Rank(it) }
 
         coEvery { rankDataSource.getList() } returns list
@@ -115,6 +123,7 @@ class DevelopRepoImplTest : ParentRepoTest() {
 
     @Test fun getPrintAlarmList() {
         val list = List(getRandomSize()) { mockk<AlarmEntity>() }
+        mockkIdList(list, { Random.nextLong() }) { it.id }
         val resultList = list.map { PrintItem.Alarm(it) }
 
         coEvery { alarmDataSource.getList() } returns list
@@ -278,9 +287,13 @@ class DevelopRepoImplTest : ParentRepoTest() {
 
     @Test fun getPrintFileList() {
         val saveDirectory = mockk<File>()
+        every { saveDirectory.name } returns nextString()
         val externalFiles = List(getRandomSize()) { mockk<File>() }
+        mockkIdList(externalFiles, { nextString() }) { it.name }
         val externalCache = List(getRandomSize()) { mockk<File>() }
+        mockkIdList(externalCache, { nextString() }) { it.name }
         val backupFiles = List(getRandomSize()) { mockk<FileItem>() }
+        mockkIdList(backupFiles, { nextString() }) { it.name }
 
         every { fileDataSource.saveDirectory } returns saveDirectory
         every { fileDataSource.getExternalFiles() } returns externalFiles
@@ -335,4 +348,16 @@ class DevelopRepoImplTest : ParentRepoTest() {
             preferences.clear()
         }
     }
+
+    private inline fun <T, E> mockkIdList(
+        list: List<E>,
+        crossinline getRandomId: () -> T,
+        crossinline getId: (item: E) -> T?
+    ) {
+        val idList = List(list.size) { getRandomId() }
+        for ((i, id) in idList.withIndex()) {
+            every { getId(list[i]) } returns id
+        }
+    }
+
 }
