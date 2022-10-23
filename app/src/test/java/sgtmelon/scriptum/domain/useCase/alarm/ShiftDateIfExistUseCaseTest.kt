@@ -71,8 +71,10 @@ class ShiftDateIfExistUseCaseTest : ParentTest() {
 
         /** Dividing needed because otherwise you will get error on last hour minutes. */
         val expectedMinutes = (minute + dateList.size) % 60
+        val expectedHour = overflowHour % 12
+
         assertEquals(expectedMinutes, currentCalendar.get(Calendar.MINUTE))
-        assertEquals(overflowHour, currentCalendar.get(Calendar.HOUR))
+        assertEquals(expectedHour, currentCalendar.get(Calendar.HOUR))
 
         coVerifySequence {
             repository.getDateList()
