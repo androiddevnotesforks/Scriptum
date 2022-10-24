@@ -1,126 +1,132 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.menu
 
-import io.mockk.coVerifySequence
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlin.random.Random
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
+import sgtmelon.scriptum.testing.getOrAwaitValue
 import sgtmelon.test.common.nextString
 
 /**
  * Test for [MenuPreferenceViewModelImpl].
  */
-@ExperimentalCoroutinesApi
-class MenuPreferenceViewModelImplTest : ParentViewModelTest() {
+class MenuPreferenceViewModelImplTest : ParentTest() {
 
     //region Setup
+
+    @get:Rule var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getSummary: GetSummaryUseCase
 
+    private val startThemeSummary = nextString()
+    private val startDeveloper = Random.nextBoolean()
+
     private val viewModel by lazy { MenuPreferenceViewModelImpl(preferencesRepo, getSummary) }
+
+    @Before override fun setUp() {
+        super.setUp()
+        every { getSummary() } returns startThemeSummary
+        every { preferencesRepo.isDeveloper } returns startDeveloper
+    }
 
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(preferencesRepo, getSummary)
     }
 
-    @Test override fun onDestroy() {
-        TODO()
-        //        assertNotNull(viewModel.callback)
-        //        viewModel.onDestroy()
-        //        assertNull(viewModel.callback)
-    }
-
     //endregion
 
-    @Test fun onSetup() {
-        TODO()
-        //        val themeSummary = nextString()
-        //
-        //        every { preferencesRepo.isDeveloper } returns false
-        //        every { getSummary() } returns themeSummary
-        //        viewModel.onSetup()
-        //
-        //        every { preferencesRepo.isDeveloper } returns true
-        //        viewModel.onSetup()
-        //
-        //        coVerifySequence {
-        //            callback.setupApp()
-        //            callback.setupOther()
-        //            preferencesRepo.isDeveloper
-        //            getSummary()
-        //            callback.updateThemeSummary(themeSummary)
-        //
-        //            callback.setupApp()
-        //            callback.setupOther()
-        //            preferencesRepo.isDeveloper
-        //            callback.setupDeveloper()
-        //            getSummary()
-        //            callback.updateThemeSummary(themeSummary)
-        //        }
+    private fun verifySetup() {
+        getSummary()
+        preferencesRepo.isDeveloper
     }
 
+    @Test fun getTheme() {
+        val value = mockk<Theme>()
 
-    @Test fun onClickTheme() {
-        TODO()
-        //        val value = mockk<Theme>()
-        //
-        //        every { preferencesRepo.theme } returns value
-        //
-        //        viewModel.onClickTheme()
-        //
-        //        verifySequence {
-        //            preferencesRepo.theme
-        //            callback.showThemeDialog(value)
-        //        }
+        every { preferencesRepo.theme } returns value
+
+        assertEquals(viewModel.theme, value)
+
+        verifySequence {
+            verifySetup()
+            preferencesRepo.theme
+        }
     }
 
-    @Test fun onResultTheme() {
-        TODO()
-        //
-        //        val value = Random.nextInt()
-        //        val summary = nextString()
-        //
-        //        every { getSummary(value) } returns summary
-        //
-        //        viewModel.updateTheme(value)
-        //
-        //        verifySequence {
-        //            getSummary(value)
-        //            callback.updateThemeSummary(summary)
-        //        }
+    @Test fun getThemeSummary() {
+        assertEquals(viewModel.themeSummary.value, startThemeSummary)
+
+        verifySequence {
+            verifySetup()
+        }
     }
 
+    @Test fun updateTheme() {
+        val value = Random.nextInt()
+        val summary = nextString()
 
-    @Test fun onUnlockDeveloper() {
-        TODO()
-        //        every { preferencesRepo.isDeveloper } returns false
-        //        viewModel.unlockDeveloper()
-        //
-        //        every { preferencesRepo.isDeveloper } returns true
-        //        viewModel.unlockDeveloper()
-        //
-        //        verifySequence {
-        //            preferencesRepo.isDeveloper
-        //            preferencesRepo.isDeveloper = true
-        //            callback.setupDeveloper()
-        //            callback.showToast(R.string.toast_dev_unlock)
-        //
-        //            preferencesRepo.isDeveloper
-        //            callback.showToast(R.string.toast_dev_already)
-        //        }
+        every { getSummary(value) } returns summary
+
+        viewModel.updateTheme(value)
+
+        assertEquals(viewModel.themeSummary.getOrAwaitValue(), summary)
+
+        verifySequence {
+            verifySetup()
+            getSummary(value)
+        }
+    }
+
+    @Test fun isDeveloper() {
+        assertEquals(viewModel.isDeveloper.value, startDeveloper)
+
+        verifySequence {
+            verifySetup()
+        }
+    }
+
+    @Test fun `unlockDeveloper already developer`() {
+        every { preferencesRepo.isDeveloper } returns true
+
+        viewModel.isDeveloper.postValue(false)
+        assertFalse(viewModel.isDeveloper.getOrAwaitValue())
+        viewModel.unlockDeveloper()
+        assertFalse(viewModel.isDeveloper.getOrAwaitValue())
+
+        verifySequence {
+            verifySetup()
+            preferencesRepo.isDeveloper
+        }
+    }
+
+    @Test fun `unlockDeveloper become a developer`() {
+        every { preferencesRepo.isDeveloper } returns false
+
+        viewModel.isDeveloper.postValue(false)
+        assertFalse(viewModel.isDeveloper.getOrAwaitValue())
+        viewModel.unlockDeveloper()
+        assertTrue(viewModel.isDeveloper.getOrAwaitValue())
+
+        verifySequence {
+            verifySetup()
+            preferencesRepo.isDeveloper
+            preferencesRepo.isDeveloper = true
+        }
     }
 }

@@ -16,9 +16,7 @@ class MenuPreferenceViewModelImpl(
 
     override val themeSummary = MutableLiveData(getSummary())
 
-    override fun updateTheme(value: Int) {
-        themeSummary.postValue(getSummary(value))
-    }
+    override fun updateTheme(value: Int) = themeSummary.postValue(getSummary(value))
 
     override val isDeveloper = MutableLiveData(preferencesRepo.isDeveloper)
 

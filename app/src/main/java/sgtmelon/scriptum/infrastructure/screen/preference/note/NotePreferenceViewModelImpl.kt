@@ -20,9 +20,7 @@ class NotePreferenceViewModelImpl(
 
     override val sortSummary = MutableLiveData(getSortSummary())
 
-    override fun updateSort(value: Int) {
-        sortSummary.postValue(getSortSummary(value))
-    }
+    override fun updateSort(value: Int) = sortSummary.postValue(getSortSummary(value))
 
     override val defaultColor: Color get() = preferencesRepo.defaultColor
 
