@@ -2,7 +2,7 @@
 
 Welcome to the Scriptum app for Android!
 
-This is an open source project developed by Alexey Kuznetsov. The source code of the project is
+This is an open source project developed by Alexey Kuznetsov (Serjant Arbuz). The source code of the project is
 transparent and available on [GitHub](https://github.com/SerjantArbuz/Scriptum). The app is also
 available for download
 in [Google Play](https://play.google.com/store/apps/details?id=sgtmelon.scriptum) store.
