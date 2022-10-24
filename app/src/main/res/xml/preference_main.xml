@@ -29,6 +29,10 @@
     <PreferenceCategory android:title="@string/pref_header_other"
         app:iconSpaceReserved="false">
 
+        <Preference android:key="@string/pref_key_other_policy"
+            android:title="@string/pref_title_help_privacy_policy"
+            app:iconSpaceReserved="false" />
+
         <Preference android:key="@string/pref_key_other_rate"
             android:title="@string/pref_title_other_rate"
             app:iconSpaceReserved="false" />

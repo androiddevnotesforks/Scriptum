@@ -206,13 +206,13 @@
     <string name="pref_key_alarm_volume" translatable="false">key_alarm_volume</string>
     <string name="pref_key_alarm_increase" translatable="false">key_alarm_increase</string>
 
+    <string name="pref_key_other_policy" translatable="false">key_other_policy</string>
     <string name="pref_key_other_rate" translatable="false">key_other_rate</string>
     <string name="pref_key_other_help" translatable="false">key_other_help</string>
     <string name="pref_key_other_about" translatable="false">key_other_about</string>
     <string name="pref_key_other_develop" translatable="false">key_other_develop</string>
 
     <string name="pref_key_help_notification_disappear" translatable="false">key_help_eternal_notification</string>
-    <string name="pref_key_help_privacy_policy" translatable="false">key_help_privacy_policy</string>
 
     <string name="pref_key_print_note" translatable="false">key_print_note</string>
     <string name="pref_key_print_bin" translatable="false">key_print_bin</string>

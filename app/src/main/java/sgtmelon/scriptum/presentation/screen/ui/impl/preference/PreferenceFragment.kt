@@ -126,6 +126,16 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupOther() {
+        findPreference<Preference>(getString(R.string.pref_key_other_policy))?.setOnPreferenceClickListener {
+            val intent = getUrlIntent(BuildConfig.PRIVACY_POLICY_URL)
+            if (intent != null) {
+                startActivitySafe(intent)
+            }
+
+            return@setOnPreferenceClickListener true
+        }
+
+
         findPreference<Preference>(getString(R.string.pref_key_other_rate))?.setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             val packageName = context?.packageName

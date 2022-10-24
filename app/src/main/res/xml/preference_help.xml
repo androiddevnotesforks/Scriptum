@@ -8,13 +8,4 @@
         android:title="@string/pref_title_help_notification_disappear"
         app:iconSpaceReserved="false" />
 
-    <PreferenceCategory android:title="@string/pref_header_other"
-        app:iconSpaceReserved="false">
-
-        <Preference android:key="@string/pref_key_help_privacy_policy"
-            android:title="@string/pref_title_help_privacy_policy"
-            app:iconSpaceReserved="false" />
-
-    </PreferenceCategory>
-
 </androidx.preference.PreferenceScreen>
