@@ -12,10 +12,40 @@ import sgtmelon.scriptum.test.ParentRotationTest
 @RunWith(AndroidJUnit4::class)
 class MainRotationTest : ParentRotationTest() {
 
+    @Test fun rankPage() = launch {
+        mainScreen {
+            rankScreen(isEmpty = true) {
+                automator.rotateSide()
+                assert(isEmpty = true)
+            }
+            assert()
+        }
+    }
+
+    @Test fun notesPage() = launch {
+        mainScreen {
+            notesScreen(isEmpty = true) {
+                automator.rotateSide()
+                assert(isEmpty = true)
+            }
+            assert()
+        }
+    }
+
+    @Test fun binPage() = launch {
+        mainScreen {
+            binScreen(isEmpty = true) {
+                automator.rotateSide()
+                assert(isEmpty = true)
+            }
+            assert()
+        }
+    }
+
     @Test fun addDialog() = launch {
         mainScreen {
             openAddDialog {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert()
             }
         }

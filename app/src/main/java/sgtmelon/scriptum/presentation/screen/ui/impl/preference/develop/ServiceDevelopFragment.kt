@@ -7,7 +7,7 @@ import androidx.preference.Preference
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.domain.model.key.DotAnimType
-import sgtmelon.scriptum.presentation.control.anim.DotAnimControl
+import sgtmelon.scriptum.presentation.control.DotAnimControl
 import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.receiver.screen.DevelopScreenReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment

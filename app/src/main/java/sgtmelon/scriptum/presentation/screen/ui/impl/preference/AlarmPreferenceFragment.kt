@@ -16,9 +16,8 @@ import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toUri
-import sgtmelon.scriptum.presentation.control.anim.DotAnimControl
+import sgtmelon.scriptum.presentation.control.DotAnimControl
 import sgtmelon.scriptum.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
@@ -129,9 +128,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    override fun showToast(@StringRes stringId: Int) {
-        context?.showToast(stringId)
-    }
+    override fun showToast(@StringRes stringId: Int) = toastControl.show(stringId)
 
     override fun setup() {
         repeatPreference?.setOnPreferenceClickListener {

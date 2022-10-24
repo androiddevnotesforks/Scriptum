@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.test
 
 import org.junit.After
-import org.junit.Before
 import sgtmelon.scriptum.basic.automator.RotateAutomator
 
 /**
@@ -11,18 +10,10 @@ import sgtmelon.scriptum.basic.automator.RotateAutomator
  */
 abstract class ParentRotationTest : ParentUiTest() {
 
-    protected var automator: RotateAutomator? = null
-
-    @Before override fun setup() {
-        super.setup()
-
-        automator = RotateAutomator(uiDevice)
-    }
+    protected val automator by lazy { RotateAutomator(uiDevice) }
 
     @After override fun tearDown() {
         super.tearDown()
-
-        automator?.rotateNatural()
-        automator = null
+        automator.rotateNatural()
     }
 }

@@ -16,7 +16,7 @@ class NotificationRotationTest : ParentRotationTest() {
         mainScreen {
             notesScreen(isEmpty = true) {
                 openNotification(isEmpty = true) {
-                    automator?.rotateSide()
+                    automator.rotateSide()
                     assert(isEmpty = true)
                 }
             }
@@ -27,7 +27,7 @@ class NotificationRotationTest : ParentRotationTest() {
         mainScreen {
             notesScreen {
                 openNotification {
-                    automator?.rotateSide()
+                    automator.rotateSide()
                     assert(isEmpty = false)
                 }
             }
@@ -42,9 +42,9 @@ class NotificationRotationTest : ParentRotationTest() {
                         onClickCancel()
 
                         if (time % 2 == 0) {
-                            automator?.rotateSide()
+                            automator.rotateSide()
                         } else {
-                            automator?.rotateNatural()
+                            automator.rotateNatural()
                         }
 
                         getSnackbar().onClickCancel()

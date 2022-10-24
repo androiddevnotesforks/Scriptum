@@ -101,7 +101,7 @@ class SplashActivity : ParentActivity(), ISplashActivity {
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 
-    override fun openHelpDisappearScreen() {
+    override fun openHelpDisappearScreen() = beforeFinish {
         WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
         startActivities(arrayOf(
             MainActivity[this],

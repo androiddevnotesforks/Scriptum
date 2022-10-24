@@ -16,7 +16,7 @@ class NotesRotationTest : ParentRotationTest() {
     @Test fun contentEmpty() = launch {
         mainScreen {
             notesScreen(isEmpty = true) {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert(isEmpty = true)
             }
             assert(isFabVisible = true)
@@ -26,7 +26,7 @@ class NotesRotationTest : ParentRotationTest() {
     @Test fun contentList() = launch({ data.fillNotes() }) {
         mainScreen {
             notesScreen {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert(isEmpty = false)
             }
             assert(isFabVisible = true)
@@ -38,7 +38,7 @@ class NotesRotationTest : ParentRotationTest() {
             mainScreen {
                 notesScreen {
                     openNoteDialog(it) {
-                        automator?.rotateSide()
+                        automator.rotateSide()
                         assert()
                     }
                 }
@@ -51,7 +51,7 @@ class NotesRotationTest : ParentRotationTest() {
             mainScreen {
                 notesScreen {
                     openNoteDialog(it) {
-                        automator?.rotateSide()
+                        automator.rotateSide()
                         assert()
                     }
                 }
@@ -71,7 +71,7 @@ class NotesRotationTest : ParentRotationTest() {
                 notesScreen {
                     openNoteDialog(item) {
                         onNotification {
-                            automator?.rotateSide()
+                            automator.rotateSide()
                             assert()
                         }
                     }
@@ -87,7 +87,7 @@ class NotesRotationTest : ParentRotationTest() {
                     openNoteDialog(it) {
                         onNotification {
                             onClickApply {
-                                automator?.rotateSide()
+                                automator.rotateSide()
                                 assert()
                             }
                         }

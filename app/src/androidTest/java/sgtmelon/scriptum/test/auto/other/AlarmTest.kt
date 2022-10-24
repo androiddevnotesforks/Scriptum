@@ -63,6 +63,11 @@ class AlarmTest : ParentUiTest() {
     /**
      * Check reset seconds on click repeat button. And check alarm receiver work with notes screen.
      */
+    /**
+     * androidx.test.espresso.base.DefaultFailureHandler$AssertionFailedWithCauseError: 'not is enabled' doesn't match the selected view.
+     * Expected: not is enabled
+     * Got: "AppCompatButton{id=16908313, res-name=button1, visibility=VISIBLE, width=66, height=54, has-focus=false, has-focusable=true, has-window-focus=true, is-clickable=true, is-enabled=true, is-focused=false, is-focusable=true, is-layout-requested=false, is-selected=false, layout-params=android.widget.LinearLayout$LayoutParams@1f5f96, tag=null, root-is-layout-requested=false, has-input-connection=false, x=89.0, y=4.0, text=Apply, input-type=0, ime-target=false, has-links=false}"
+     */
     @Test fun clickRepeatCorrectSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
         preferenceRepo.sort = Sort.COLOR
         preferenceRepo.repeat = Repeat.MIN_10

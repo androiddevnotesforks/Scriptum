@@ -9,16 +9,19 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.extension.getAlarmService
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toLowerCase
 import sgtmelon.scriptum.presentation.control.system.callback.IAlarmControl
+import sgtmelon.scriptum.presentation.control.toast.IToastControl
 import sgtmelon.scriptum.presentation.receiver.action.AlarmActionReceiver
 import java.util.*
 
 /**
  * Class for help control [AlarmManager]
  */
-class AlarmControl(private val context: Context?) : IAlarmControl {
+class AlarmControl(
+    private val context: Context?,
+    private val toastControl: IToastControl
+) : IAlarmControl {
 
     private val alarmManager = context?.getAlarmService()
 
@@ -30,7 +33,7 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
 
         if (showToast) {
             val date = calendar.formatFuture(context, DateUtils.DAY_IN_MILLIS).toLowerCase()
-            context.showToast(context.getString(R.string.toast_alarm_set, date))
+            toastControl.show(context.getString(R.string.toast_alarm_set, date))
         }
 
         if (BuildConfig.DEBUG) {
@@ -58,8 +61,8 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
 
         @RunPrivate var instance: IAlarmControl? = null
 
-        operator fun get(context: Context?): IAlarmControl {
-            return instance ?: AlarmControl(context).also { instance = it }
+        operator fun get(context: Context?, toastControl: IToastControl): IAlarmControl {
+            return instance ?: AlarmControl(context, toastControl).also { instance = it }
         }
     }
 

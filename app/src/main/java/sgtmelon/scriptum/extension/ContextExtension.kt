@@ -17,13 +17,14 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.ReceiverData
+import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
+import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 
 fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
 
@@ -133,19 +134,21 @@ fun Context.getSettingsIntent(): Intent {
     return intent
 }
 
-fun AppCompatActivity.startActivitySafe(intent: Intent) {
+fun ParentActivity.startActivitySafe(intent: Intent) {
     try {
         startActivity(intent)
     } catch (e: Throwable) {
-        showToast(R.string.error_something_wrong)
+        // TODO send to firebase
+        toastControl.show(R.string.error_something_wrong)
     }
 }
 
-fun Fragment.startActivitySafe(intent: Intent) {
+fun ParentPreferenceFragment.startActivitySafe(intent: Intent) {
     try {
         startActivity(intent)
     } catch (e: Throwable) {
-        context?.showToast(R.string.error_something_wrong)
+        // TODO send to firebase
+        toastControl.show(R.string.error_something_wrong)
     }
 }
 

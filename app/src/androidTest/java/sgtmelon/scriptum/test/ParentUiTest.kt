@@ -1,12 +1,11 @@
 package sgtmelon.scriptum.test
 
 import android.content.Intent
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.launchActivity
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.UiDevice
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -26,9 +25,11 @@ import kotlin.random.Random
  */
 abstract class ParentUiTest : ParentTest() {
 
-    private var scenario: ActivityScenario<SplashActivity>? = null
+    @get:Rule val testRule = ActivityTestRule(
+        SplashActivity::class.java, true, false
+    )
 
-    protected val uiDevice: UiDevice = UiDevice.getInstance(getInstrumentation())
+    protected val uiDevice: UiDevice get() = UiDevice.getInstance(instrumentation)
 
     //region Setup
 
@@ -96,9 +97,6 @@ abstract class ParentUiTest : ParentTest() {
     @After override fun tearDown() {
         super.tearDown()
 
-        scenario?.close()
-        scenario = null
-
         tearDownIdling()
         tearDownCompanionData()
     }
@@ -124,7 +122,7 @@ abstract class ParentUiTest : ParentTest() {
 
     protected fun launch(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         before()
-        scenario = launchActivity()
+        testRule.launchActivity(Intent())
         SplashScreen(after)
     }
 
@@ -134,7 +132,7 @@ abstract class ParentUiTest : ParentTest() {
         after: SplashScreen.() -> Unit
     ) {
         before()
-        scenario = launchActivity(SplashActivity.getAlarmInstance(context, item.id))
+        testRule.launchActivity(SplashActivity.getAlarmInstance(context, item.id))
         SplashScreen(after)
     }
 
@@ -144,19 +142,19 @@ abstract class ParentUiTest : ParentTest() {
         after: SplashScreen.() -> Unit
     ) {
         before()
-        scenario = launchActivity(SplashActivity.getBindInstance(context, item))
+        testRule.launchActivity(SplashActivity.getBindInstance(context, item))
         SplashScreen(after)
     }
 
     protected fun launchNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         before()
-        scenario = launchActivity(SplashActivity.getNotificationInstance(context))
+        testRule.launchActivity(SplashActivity.getNotificationInstance(context))
         SplashScreen(after)
     }
 
     protected fun launchHelpDisappear(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         before()
-        scenario = launchActivity(SplashActivity.getHelpDisappearInstance(context))
+        testRule.launchActivity(SplashActivity.getHelpDisappearInstance(context))
         SplashScreen(after)
     }
 

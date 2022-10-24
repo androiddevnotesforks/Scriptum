@@ -81,9 +81,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //endregion
 
-    override fun showToast(@StringRes stringId: Int) {
-        context?.showToast(stringId)
-    }
+    override fun showToast(@StringRes stringId: Int) = toastControl.show(stringId)
 
     override fun setupApp() {
         themePreference?.setOnPreferenceClickListener {

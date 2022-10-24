@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!--  Better don't use configChanges: rotation/screenSize  -->
     <application
         android:name=".presentation.screen.ui.ScriptumApplication"
         android:allowBackup="true"
@@ -56,15 +57,9 @@
             </intent-filter>
         </activity>
 
-        <!--
-            configChanges - need for 2 things:
-            1. For catch rotation for save if need (depends on preference).
-            2. For prevent calling onPause inside fragments
-        -->
         <activity
             android:name=".presentation.screen.ui.impl.note.NoteActivity"
             android:exported="false"
-            android:configChanges="orientation|screenSize"
             android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />

@@ -23,8 +23,8 @@ class RollNoteRotationTest : ParentRotationTest() {
             mainScreen {
                 binScreen {
                     openRollNote(it) {
-                        automator?.rotateSide()
-                        assert()
+                        automator.rotateSide()
+                        fullAssert()
                     }
                 }
             }
@@ -37,8 +37,8 @@ class RollNoteRotationTest : ParentRotationTest() {
                 binScreen {
                     openRollNote(it) {
                         controlPanel { onRestoreOpen() }
-                        automator?.rotateSide()
-                        assert()
+                        automator.rotateSide()
+                        fullAssert()
                     }
                 }
             }
@@ -50,8 +50,8 @@ class RollNoteRotationTest : ParentRotationTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        automator?.rotateSide()
-                        assert()
+                        automator.rotateSide()
+                        fullAssert()
                     }
                 }
             }
@@ -63,8 +63,8 @@ class RollNoteRotationTest : ParentRotationTest() {
             mainScreen {
                 notesScreen {
                     openRollNote(it) {
-                        automator?.rotateSide()
-                        assert()
+                        automator.rotateSide()
+                        fullAssert()
                     }
                 }
             }
@@ -77,8 +77,8 @@ class RollNoteRotationTest : ParentRotationTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
-                        automator?.rotateSide()
-                        assert()
+                        automator.rotateSide()
+                        fullAssert()
                     }
                 }
             }
@@ -106,7 +106,7 @@ class RollNoteRotationTest : ParentRotationTest() {
                     openRollNote(item) {
                         controlPanel {
                             onNotification(isUpdateDate) {
-                                automator?.rotateSide()
+                                automator.rotateSide()
                                 assert()
                             }
                         }
@@ -124,7 +124,7 @@ class RollNoteRotationTest : ParentRotationTest() {
                         controlPanel {
                             onNotification {
                                 onClickApply {
-                                    automator?.rotateSide()
+                                    automator.rotateSide()
                                     assert()
                                 }
                             }
@@ -143,7 +143,7 @@ class RollNoteRotationTest : ParentRotationTest() {
                     openRollNote(it) {
                         controlPanel {
                             onConvert {
-                                automator?.rotateSide()
+                                automator.rotateSide()
                                 assert()
                             }
                         }
@@ -159,7 +159,7 @@ class RollNoteRotationTest : ParentRotationTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onConvert { onClickYes() } }
-                        automator?.rotateSide()
+                        automator.rotateSide()
                         afterConvert()
                     }
                 }
@@ -175,7 +175,7 @@ class RollNoteRotationTest : ParentRotationTest() {
                         controlPanel {
                             onColor {
                                 onClickItem()
-                                automator?.rotateSide()
+                                automator.rotateSide()
                                 assert()
                             }
                         }
@@ -193,7 +193,7 @@ class RollNoteRotationTest : ParentRotationTest() {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()
-                                automator?.rotateSide()
+                                automator.rotateSide()
                                 assert()
                             }
                         }

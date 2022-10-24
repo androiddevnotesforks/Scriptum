@@ -13,6 +13,7 @@ import sgtmelon.scriptum.test.auto.error.Description
 @RunWith(AndroidJUnit4::class)
 class BindErrorTest : ParentNotificationTest() {
 
+    // TODO fix bouth
     /**
      * [Description.Note.RestoreChanges]
      */
