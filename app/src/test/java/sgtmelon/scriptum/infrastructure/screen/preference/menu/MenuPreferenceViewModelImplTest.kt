@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.menu
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -12,23 +11,20 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.testing.getOrAwaitValue
+import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
 import sgtmelon.test.common.nextString
 
 /**
  * Test for [MenuPreferenceViewModelImpl].
  */
-class MenuPreferenceViewModelImplTest : ParentTest() {
+class MenuPreferenceViewModelImplTest : ParentLiveDataTest() {
 
     //region Setup
-
-    @get:Rule var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getSummary: GetSummaryUseCase
