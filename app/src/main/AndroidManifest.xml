@@ -2,12 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sgtmelon.scriptum">
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--
+          WRITE_EXTERNAL STORAGE implies READ_EXTERNAL_STORAGE, so you only need one of those,
+          not both
+    -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--  It implies READ_EXTERNAL_STORAGE, so you only need one of those, not both  -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!--  Better don't use configChanges: rotation/screenSize  -->
     <application
@@ -24,6 +27,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
             android:theme="@style/App.Screen.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +38,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.intro.IntroActivity"
             android:configChanges="keyboardHidden"
+            android:exported="true"
             android:parentActivityName=".presentation.screen.ui.impl.SplashActivity"
             android:theme="@style/App.Screen.Intro">
             <intent-filter>
@@ -44,6 +49,7 @@
 
         <activity
             android:name=".presentation.screen.ui.impl.main.MainActivity"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -53,6 +59,7 @@
 
         <activity
             android:name=".presentation.screen.ui.impl.note.NoteActivity"
+            android:exported="false"
             android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
@@ -63,6 +70,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.preference.PreferenceActivity"
             android:configChanges="keyboardHidden"
+            android:exported="true"
             android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -73,6 +81,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.preference.help.HelpDisappearActivity"
             android:configChanges="keyboardHidden"
+            android:exported="true"
             android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -83,6 +92,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.preference.develop.PrintDevelopActivity"
             android:configChanges="keyboardHidden"
+            android:exported="true"
             android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -93,6 +103,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.notification.NotificationActivity"
             android:configChanges="keyboardHidden"
+            android:exported="true"
             android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -103,6 +114,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.notification.AlarmActivity"
             android:configChanges="keyboardHidden"
+            android:exported="true"
             android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -122,6 +134,7 @@
 
         <receiver
             android:name=".presentation.receiver.BootReceiver"
+            android:exported="false"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
