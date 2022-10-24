@@ -19,7 +19,7 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.test.common.nextLongOrNull
 import sgtmelon.test.common.nextString

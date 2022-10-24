@@ -4,7 +4,7 @@ import io.mockk.every
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.exception.InvalidIdException
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.utils.record

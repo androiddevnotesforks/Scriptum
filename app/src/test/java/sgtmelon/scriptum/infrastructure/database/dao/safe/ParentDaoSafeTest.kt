@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException

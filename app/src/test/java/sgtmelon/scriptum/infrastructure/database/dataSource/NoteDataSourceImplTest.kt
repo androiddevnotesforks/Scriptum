@@ -12,7 +12,7 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe

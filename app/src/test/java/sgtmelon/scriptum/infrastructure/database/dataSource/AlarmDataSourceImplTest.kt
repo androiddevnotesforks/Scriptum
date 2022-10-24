@@ -13,7 +13,7 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe

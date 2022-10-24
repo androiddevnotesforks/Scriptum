@@ -12,7 +12,7 @@ import org.junit.Test
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 
 /**

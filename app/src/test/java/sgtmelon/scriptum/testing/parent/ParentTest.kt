@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.parent
+package sgtmelon.scriptum.testing.parent
 
 import androidx.annotation.CallSuper
 import io.mockk.MockKAnnotations

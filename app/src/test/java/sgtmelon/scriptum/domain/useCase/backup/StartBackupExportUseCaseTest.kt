@@ -11,7 +11,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.backup.BackupCollector
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource

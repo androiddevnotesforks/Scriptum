@@ -9,7 +9,7 @@ import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [UpdateRollVisibleUseCase].

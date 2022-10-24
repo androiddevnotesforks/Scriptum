@@ -11,7 +11,7 @@ import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat

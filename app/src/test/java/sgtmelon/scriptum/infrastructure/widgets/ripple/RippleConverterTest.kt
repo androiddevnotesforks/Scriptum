@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.widgets.ripple
 import android.graphics.Paint
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 

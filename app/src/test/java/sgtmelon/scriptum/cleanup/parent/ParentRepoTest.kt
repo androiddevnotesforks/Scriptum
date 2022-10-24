@@ -8,6 +8,7 @@ import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Parent test class for repositories who works with dataSource's.

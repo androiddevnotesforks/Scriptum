@@ -10,7 +10,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 import sgtmelon.test.common.nextString

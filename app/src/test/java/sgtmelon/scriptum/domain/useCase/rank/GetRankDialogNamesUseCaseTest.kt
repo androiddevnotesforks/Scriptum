@@ -10,7 +10,7 @@ import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.getRandomSize
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**

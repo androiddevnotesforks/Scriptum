@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.test.common.nextString

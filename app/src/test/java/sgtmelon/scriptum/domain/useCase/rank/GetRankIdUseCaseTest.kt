@@ -11,7 +11,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
-import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [GetRankIdUseCase].
