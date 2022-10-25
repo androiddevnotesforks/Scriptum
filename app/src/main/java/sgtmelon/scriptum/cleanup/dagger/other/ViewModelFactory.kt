@@ -22,7 +22,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
@@ -34,7 +33,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
@@ -71,6 +69,8 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl

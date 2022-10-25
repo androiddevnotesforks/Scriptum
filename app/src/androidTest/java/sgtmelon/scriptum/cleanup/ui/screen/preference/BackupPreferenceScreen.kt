@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.ui.screen.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.ui.logic.preference.BackupPreferenceLogic
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
 
 /**
  * Class for UI control of [BackupPreferenceFragment].

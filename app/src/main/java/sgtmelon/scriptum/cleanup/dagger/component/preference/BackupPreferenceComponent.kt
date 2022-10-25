@@ -5,7 +5,7 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
 
 /**
  * Component for [BackupPreferenceFragment].

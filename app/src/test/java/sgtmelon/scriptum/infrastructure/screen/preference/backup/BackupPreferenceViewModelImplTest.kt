@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
@@ -17,7 +17,6 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.TestData
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.domain.model.result.ExportResult
@@ -27,6 +26,7 @@ import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.nextString
 
 /**

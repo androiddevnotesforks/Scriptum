@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult

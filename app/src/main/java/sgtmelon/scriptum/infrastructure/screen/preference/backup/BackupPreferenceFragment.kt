@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
+package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
 import android.Manifest
 import android.os.Build
@@ -10,14 +10,12 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceDataBinding
 import sgtmelon.scriptum.infrastructure.utils.isGranted
 import sgtmelon.scriptum.infrastructure.utils.requestPermissions
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener

@@ -2,9 +2,9 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference
 
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModel
 
 /**
  * Interface for communication [BackupPreferenceViewModel] with [BackupPreferenceFragment].
