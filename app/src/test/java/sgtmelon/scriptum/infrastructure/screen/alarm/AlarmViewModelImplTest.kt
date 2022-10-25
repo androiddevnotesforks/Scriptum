@@ -20,12 +20,13 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
+import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
 
 /**
  * Test for [AlarmViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class AlarmViewModelImplTest : ParentCoTest() {
+class AlarmViewModelImplTest : ParentLiveDataTest() {
 
     //region Setup
 
@@ -36,15 +37,12 @@ class AlarmViewModelImplTest : ParentCoTest() {
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
     @MockK lateinit var shiftDateIfExist: ShiftDateIfExistUseCase
 
-    @MockK lateinit var bundle: Bundle
-
     private val viewModel by lazy {
         AlarmViewModelImpl(
             preferencesRepo, noteRepo, getMelodyList, setNotification, deleteNotification,
             shiftDateIfExist
         )
     }
-    private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -56,39 +54,27 @@ class AlarmViewModelImplTest : ParentCoTest() {
 
     //endregion
 
-    @Test fun todo() {
+    @Test fun setup() {
+        TODO()
+    }
+
+    @Test fun getState() {
+        TODO()
+    }
+
+    @Test fun getNoteItem() {
+        TODO()
+    }
+
+    @Test fun getAlarmState() {
+        TODO()
+    }
+
+    @Test fun postpone() {
         TODO()
     }
 
     @Test fun onReceiveUnbindNote() {
-        viewModel.onReceiveUnbindNote(Random.nextLong())
-
-        val noteItem = mockk<NoteItem>()
-        val noteId = Random.nextLong()
-        val fakeNoteId = Random.nextLong()
-
-        assertNotEquals(noteId, fakeNoteId)
-
-        viewModel.noteItem.value = noteItem
-
-        every { noteItem.isStatus } returns false
-        viewModel.onReceiveUnbindNote(fakeNoteId)
-
-        every { noteItem.isStatus } returns true
-        every { noteItem.id } returns noteId
-        viewModel.onReceiveUnbindNote(fakeNoteId)
-
-        viewModel.onReceiveUnbindNote(noteId)
-
-        verifySequence {
-            noteItem.isStatus
-
-            noteItem.isStatus
-            noteItem.id
-
-            noteItem.isStatus
-            noteItem.id
-            noteItem.isStatus = false
-        }
+        TODO()
     }
 }
