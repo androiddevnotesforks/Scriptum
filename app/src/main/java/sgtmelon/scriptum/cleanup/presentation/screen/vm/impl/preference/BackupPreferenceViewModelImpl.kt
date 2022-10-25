@@ -16,7 +16,7 @@ import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult as Permission
 
-class BackupPreferenceViewModel(
+class BackupPreferenceViewModelImpl(
     callback: IBackupPreferenceFragment,
     private val getBackupFileList: GetBackupFileListUseCase,
     private val startBackupExport: StartBackupExportUseCase,

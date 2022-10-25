@@ -30,10 +30,10 @@ import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [BackupPreferenceViewModel].
+ * Test for [BackupPreferenceViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class BackupPreferenceViewModelTest : ParentViewModelTest() {
+class BackupPreferenceViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -45,7 +45,12 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
     private val fileList = TestData.Backup.fileList
 
     private val viewModel by lazy {
-        BackupPreferenceViewModel(callback, getBackupFileList, startBackupExport, startBackupImport)
+        BackupPreferenceViewModelImpl(
+            callback,
+            getBackupFileList,
+            startBackupExport,
+            startBackupImport
+        )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 

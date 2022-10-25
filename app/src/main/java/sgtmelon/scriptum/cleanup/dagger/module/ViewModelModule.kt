@@ -50,7 +50,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
@@ -337,7 +337,7 @@ class ViewModelModule {
         val factory = ViewModelFactory.Preference.Backup(
             fragment, getBackupFileList, startBackupExport, startBackupImport
         )
-        return ViewModelProvider(fragment, factory)[BackupPreferenceViewModel::class.java]
+        return ViewModelProvider(fragment, factory)[BackupPreferenceViewModelImpl::class.java]
     }
 
     @Provides
