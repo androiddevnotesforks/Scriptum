@@ -8,6 +8,5 @@ import sgtmelon.scriptum.infrastructure.utils.findPreference
 class HelpPreferenceDataBinding(val fragment: PreferenceFragmentCompat) {
 
     val disappearButton: Preference? get() = fragment.findPreference(R.string.pref_key_help_disappear)
-    val policyButton: Preference? get() = fragment.findPreference(R.string.pref_key_help_policy)
 
 }

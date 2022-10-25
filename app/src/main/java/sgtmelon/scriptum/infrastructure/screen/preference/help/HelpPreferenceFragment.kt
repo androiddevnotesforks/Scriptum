@@ -23,8 +23,5 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
         binding.disappearButton?.setOnClickListener {
             startActivity(InstanceFactory.Preference.HelpDisappear[it.context])
         }
-        binding.policyButton?.setOnClickListener {
-            it.context.startUrlActivity(BuildConfig.PRIVACY_POLICY_URL, delegators.toast)
-        }
     }
 }

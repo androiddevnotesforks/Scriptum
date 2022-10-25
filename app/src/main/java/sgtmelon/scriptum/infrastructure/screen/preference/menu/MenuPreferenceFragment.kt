@@ -5,6 +5,7 @@ import android.view.View
 import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
+import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -15,6 +16,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.startMarketActivity
+import sgtmelon.scriptum.infrastructure.utils.startUrlActivity
 
 /**
  * Fragment with main preference menu
@@ -49,9 +51,15 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
             backupButton?.setOnClickListener { it.openScreen(PreferenceScreen.BACKUP) }
             noteButton?.setOnClickListener { it.openScreen(PreferenceScreen.NOTE) }
             alarmButton?.setOnClickListener { it.openScreen(PreferenceScreen.ALARM) }
+
+            binding.policyButton?.setOnClickListener {
+                val url = BuildConfig.PRIVACY_POLICY_URL
+                it.context.startUrlActivity(url, delegators.toast)
+            }
             rateButton?.setOnClickListener { it.context.startMarketActivity(delegators.toast) }
             helpButton?.setOnClickListener { it.openScreen(PreferenceScreen.HELP) }
             aboutButton?.setOnClickListener { showAboutDialog() }
+
             developerButton?.setOnClickListener { it.openScreen(PreferenceScreen.DEVELOP) }
         }
     }
