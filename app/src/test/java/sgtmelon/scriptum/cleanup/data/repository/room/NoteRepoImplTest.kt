@@ -26,7 +26,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.move
-import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.test.common.isDivideEntirely

@@ -8,7 +8,7 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo

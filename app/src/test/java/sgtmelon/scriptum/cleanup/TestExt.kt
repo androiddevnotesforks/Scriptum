@@ -3,15 +3,6 @@ package sgtmelon.scriptum.cleanup
 import io.mockk.MockKVerificationScope
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModelTest
-
-/**
- * Need size more than 2 inside:
- * - [NotesViewModelTest.onShowOptionsDialog]
- * - [BinViewModelTest.onShowOptionsDialog]
- */
-fun getRandomSize(): Int = (5..10).random()
 
 fun MockKVerificationScope.verifyDeepCopy(
     item: NoteItem.Text,
