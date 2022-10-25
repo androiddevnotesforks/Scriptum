@@ -1,12 +1,11 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
@@ -16,11 +15,10 @@ import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult as Permission
 
 class BackupPreferenceViewModelImpl(
-    callback: IBackupPreferenceFragment,
     private val getBackupFileList: GetBackupFileListUseCase,
     private val startBackupExport: StartBackupExportUseCase,
     private val startBackupImport: StartBackupImportUseCase
-) : ParentViewModel<IBackupPreferenceFragment>(callback),
+) : ViewModel(),
     BackupPreferenceViewModel {
 
     override fun onSetup(bundle: Bundle?) {

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
 import android.Manifest
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IntRange
@@ -19,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.isGranted
-import sgtmelon.scriptum.infrastructure.utils.requestPermissions
+import sgtmelon.scriptum.infrastructure.utils.requestPermission
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
@@ -157,11 +156,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
         melodyAccessDialog.apply {
             isCancelable = false
-
-            onPositiveClick {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
-                requestPermissions(PermissionRequest.MELODY, permissionState.permission)
-            }
+            onPositiveClick { requestPermission(PermissionRequest.MELODY, permissionState) }
             onDismiss { open.clear() }
         }
 

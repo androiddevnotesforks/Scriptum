@@ -1,9 +1,8 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 
-interface BackupPreferenceViewModel : IParentViewModel {
+interface BackupPreferenceViewModel {
 
     fun onPause()
 

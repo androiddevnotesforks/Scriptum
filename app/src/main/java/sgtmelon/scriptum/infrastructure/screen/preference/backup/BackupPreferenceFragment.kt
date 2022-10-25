@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
 import android.Manifest
-import android.os.Build
+import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import javax.inject.Inject
@@ -9,7 +10,6 @@ import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.isGranted
-import sgtmelon.scriptum.infrastructure.utils.requestPermissions
+import sgtmelon.scriptum.infrastructure.utils.requestPermission
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
@@ -27,7 +27,6 @@ import sgtmelon.textDotAnim.DotAnimation
  * Fragment of backup preferences.
  */
 class BackupPreferenceFragment : ParentPreferenceFragment(),
-    IBackupPreferenceFragment,
     DotAnimation.Callback {
 
     override val xmlId: Int = R.xml.preference_backup
@@ -38,10 +37,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    //region Dialogs
-
     private val dialogs by lazy { DialogFactory.Preference.Backup(context, fm) }
-
     private val exportPermissionDialog by lazy { dialogs.getExportPermission() }
     private val exportDenyDialog by lazy { dialogs.getExportDeny() }
     private val importPermissionDialog by lazy { dialogs.getImportPermission() }
@@ -49,38 +45,18 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     private val importDialog by lazy { dialogs.getImport() }
     private val loadingDialog by lazy { dialogs.getLoading() }
 
-    //endregion
-
     private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
 
-    //region System
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupDialogs()
+    }
 
     override fun inject(component: ScriptumComponent) {
         component.getBackupPrefBuilder()
             .set(fragment = this)
             .build()
             .inject(fragment = this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onSetup()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        viewModel.onPause()
-
-        /**
-         * After call [BackupPreferenceViewModel.onPause] this dialog will not have any items.
-         */
-        importDialog.safeDismiss()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
     }
 
     override fun onRequestPermissionsResult(
@@ -99,37 +75,19 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         }
     }
 
-    //endregion
-
-    //region Toast functions
-
-    override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
-
-    override fun showExportPathToast(path: String) {
-        val text = getString(R.string.pref_toast_export_result, path)
-
-        delegators.toast.show(context, text, Toast.LENGTH_LONG)
-    }
-
-    override fun showImportSkipToast(count: Int) {
-        val text = getString(R.string.pref_toast_import_result_skip, count)
-
-        delegators.toast.show(context, text, Toast.LENGTH_LONG)
-    }
-
-    //endregion
-
     override fun setup() {
         binding.exportButton?.setOnClickListener { viewModel.onClickExport() }
         binding.importButton?.setOnClickListener { viewModel.onClickImport() }
+    }
 
+    override fun setupObservers() {
+        TODO()
+    }
+
+    private fun setupDialogs() {
         exportPermissionDialog.apply {
             isCancelable = false
-
-            onPositiveClick {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
-                requestPermissions(PermissionRequest.EXPORT, permissionState.permission)
-            }
+            onPositiveClick { requestPermission(PermissionRequest.EXPORT, permissionState) }
             onDismiss { open.clear() }
         }
 
@@ -140,11 +98,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
         importPermissionDialog.apply {
             isCancelable = false
-
-            onPositiveClick {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@onPositiveClick
-                requestPermissions(PermissionRequest.IMPORT, permissionState.permission)
-            }
+            onPositiveClick { requestPermission(PermissionRequest.IMPORT, permissionState) }
             onDismiss { open.clear() }
         }
 
@@ -167,6 +121,41 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             onDismiss { open.clear() }
         }
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onSetup()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        viewModel.onPause()
+
+        /**
+         * After call [BackupPreferenceViewModel.onPause] this dialog will not have any items.
+         */
+        importDialog.safeDismiss()
+    }
+
+    //region Toast functions
+
+    override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
+
+    override fun showExportPathToast(path: String) {
+        val text = getString(R.string.pref_toast_export_result, path)
+
+        delegators.toast.show(context, text, Toast.LENGTH_LONG)
+    }
+
+    override fun showImportSkipToast(count: Int) {
+        val text = getString(R.string.pref_toast_import_result_skip, count)
+
+        delegators.toast.show(context, text, Toast.LENGTH_LONG)
+    }
+
+    //endregion
 
     override fun getStoragePermissionResult(): PermissionResult? {
         return permissionState.getResult(activity)
@@ -264,9 +253,8 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
      */
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
-    override fun sendNotifyInfoBroadcast(count: Int?) {
+    override fun sendNotifyInfoBroadcast(count: Int?) =
         delegators.broadcast.sendNotifyInfoBind(count)
-    }
 
     //endregion
 
