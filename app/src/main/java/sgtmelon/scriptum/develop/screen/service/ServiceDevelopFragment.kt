@@ -95,7 +95,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         }
     }
 
-    override fun onDotAnimationUpdate(text: CharSequence) {
+    override fun onDotAnimationUpdate(text: String) {
         binding.serviceRefreshButton?.summary = text
     }
 

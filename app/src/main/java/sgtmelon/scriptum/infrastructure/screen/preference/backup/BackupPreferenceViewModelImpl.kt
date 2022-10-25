@@ -73,80 +73,31 @@ class BackupPreferenceViewModelImpl(
 
     //region Export/import functions
 
-    /**
-     * This functions for check both permissions and if one of them is [Permission.FORBIDDEN]
-     * need call [onClickExport] with that [Permission].
-     */
-    override fun onClickExport() {
-        val storageResult = callback?.getStoragePermissionResult() ?: return
+    override fun startExport() {
+        viewModelScope.launch {
+            callback?.showExportLoadingDialog()
+            val result = runBack { startBackupExport() }
+            callback?.hideExportLoadingDialog()
 
-        if (storageResult == Permission.FORBIDDEN) {
-            onClickExport(Permission.FORBIDDEN)
-        } else {
-            onClickExport(storageResult)
-        }
-    }
+            when (result) {
+                is ExportResult.Success -> {
+                    callback?.showExportPathToast(result.path)
 
-    /**
-     * Call [startExport] only if [result] equals [Permission.LOW_API] or
-     * [Permission.GRANTED]. Otherwise we must show dialog.
-     */
-    override fun onClickExport(result: Permission) {
-        when (result) {
-            Permission.ASK -> callback?.showExportPermissionDialog()
-            Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch { startExport() }
-            Permission.FORBIDDEN -> callback?.showExportDenyDialog()
-        }
-    }
-
-    @RunPrivate suspend fun startExport() {
-        callback?.showExportLoadingDialog()
-        val result = runBack { startBackupExport() }
-        callback?.hideExportLoadingDialog()
-
-        when (result) {
-            is ExportResult.Success -> {
-                callback?.showExportPathToast(result.path)
-
-                /**
-                 * Need update file list for feature import.
-                 */
-                getBackupFileList.reset()
-                setupBackground()
-            }
-            is ExportResult.Error -> {
-                callback?.showToast(R.string.pref_toast_export_error)
+                    /**
+                     * Need update file list for feature import.
+                     */
+                    getBackupFileList.reset()
+                    setupBackground()
+                }
+                is ExportResult.Error -> {
+                    callback?.showToast(R.string.pref_toast_export_error)
+                }
             }
         }
     }
 
-
-    /**
-     * This functions for check both permissions and if one of them is [Permission.FORBIDDEN]
-     * need call [onClickImport] with that [Permission].
-     */
-    override fun onClickImport() {
-        val storageResult = callback?.getStoragePermissionResult() ?: return
-
-        if (storageResult == Permission.FORBIDDEN) {
-            onClickImport(Permission.FORBIDDEN)
-        } else {
-            onClickImport(storageResult)
-        }
-    }
-
-    /**
-     * Call [prepareImportDialog] only if [result] equals [Permission.LOW_API] or
-     * [Permission.GRANTED]. Otherwise we must show dialog.
-     */
-    override fun onClickImport(result: Permission) {
-        when (result) {
-            Permission.ASK -> callback?.showImportPermissionDialog()
-            Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch {
-                prepareImportDialog()
-            }
-            Permission.FORBIDDEN -> callback?.showImportDenyDialog()
-        }
+    override fun startImport() {
+        viewModelScope.launch { prepareImportDialog() }
     }
 
     @RunPrivate suspend fun prepareImportDialog() {

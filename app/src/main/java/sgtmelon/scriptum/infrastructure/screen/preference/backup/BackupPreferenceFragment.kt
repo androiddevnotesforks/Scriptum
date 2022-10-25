@@ -66,62 +66,64 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+        /**
+         * In this case we don't pass [PermissionResult.FORBIDDEN] if permission not granted.
+         * Just skip it, user make a decision.
+         *
+         * [PermissionResult.FORBIDDEN] will be a final stage, when we display deny dialog
+         * (which will open app settings after "OK" click).
+         */
         if (grantResults.firstOrNull()?.isGranted() != true) return
 
         when (PermissionRequest.values()[requestCode]) {
-            PermissionRequest.EXPORT -> viewModel.onClickExport(PermissionResult.GRANTED)
-            PermissionRequest.IMPORT -> viewModel.onClickImport(PermissionResult.GRANTED)
+            PermissionRequest.EXPORT -> onExportPermission(PermissionResult.GRANTED)
+            PermissionRequest.IMPORT -> onImportPermission(PermissionResult.GRANTED)
             else -> return
         }
     }
 
     override fun setup() {
-        binding.exportButton?.setOnClickListener { viewModel.onClickExport() }
-        binding.importButton?.setOnClickListener { viewModel.onClickImport() }
+        binding.exportButton?.setOnClickListener {
+            onExportPermission(permissionState.getResult(activity))
+        }
+        binding.importButton?.setOnClickListener {
+            onImportPermission(permissionState.getResult(activity))
+        }
     }
 
     override fun setupObservers() {
         TODO()
     }
 
-    private fun setupDialogs() {
-        exportPermissionDialog.apply {
-            isCancelable = false
-            onPositiveClick { requestPermission(PermissionRequest.EXPORT, permissionState) }
-            onDismiss { open.clear() }
-        }
+    /**
+     * Start export only if [result] equals [PermissionResult.LOW_API] or
+     * [PermissionResult.GRANTED]. Otherwise we must show dialog.
+     */
+    private fun onExportPermission(result: PermissionResult?) {
+        if (result == null) return
 
-        exportDenyDialog.apply {
-            onPositiveClick { context?.startSettingsActivity(delegators.toast) }
-            onDismiss { open.clear() }
-        }
-
-        importPermissionDialog.apply {
-            isCancelable = false
-            onPositiveClick { requestPermission(PermissionRequest.IMPORT, permissionState) }
-            onDismiss { open.clear() }
-        }
-
-        importDenyDialog.apply {
-            onPositiveClick { context?.startSettingsActivity(delegators.toast) }
-            onDismiss { open.clear() }
-        }
-
-        importDialog.apply {
-            onPositiveClick {
-                val name = itemArray.getOrNull(check) ?: return@onPositiveClick
-                open.skipClear = true
-                viewModel.onResultImport(name)
-            }
-            onDismiss { open.clear() }
-        }
-
-        loadingDialog.apply {
-            isCancelable = false
-            onDismiss { open.clear() }
+        when (result) {
+            PermissionResult.ASK -> showExportPermissionDialog()
+            PermissionResult.FORBIDDEN -> showExportDenyDialog()
+            PermissionResult.LOW_API, PermissionResult.GRANTED -> viewModel.startExport()
         }
     }
 
+    /**
+     * Start import only if [result] equals [PermissionResult.LOW_API] or
+     * [PermissionResult.GRANTED]. Otherwise we must show dialog.
+     */
+    private fun onImportPermission(result: PermissionResult?) {
+        if (result == null) return
+
+        when (result) {
+            PermissionResult.ASK -> showImportPermissionDialog()
+            PermissionResult.FORBIDDEN -> showImportDenyDialog()
+            PermissionResult.LOW_API, PermissionResult.GRANTED -> viewModel.startImport()
+        }
+    }
+
+    //region cleanup
 
     override fun onResume() {
         super.onResume()
@@ -175,18 +177,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         binding.exportButton?.summary = ""
     }
 
-    override fun showExportPermissionDialog() {
-        exportPermissionDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this)
-    }
-
-    override fun showExportDenyDialog() {
-        exportDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_DENY, owner = this)
-    }
-
-    override fun showExportLoadingDialog() = open.attempt {
-        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
-    }
-
     override fun hideExportLoadingDialog() = loadingDialog.safeDismiss(owner = this)
 
     //endregion
@@ -203,10 +193,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     override fun stopImportSummarySearch() = dotAnimation.stop()
 
-    override fun onDotAnimationUpdate(text: CharSequence) {
-        binding.importButton?.summary = text
-    }
-
     override fun updateImportSummary(@StringRes summaryId: Int) {
         binding.importButton?.summary = getString(summaryId)
     }
@@ -215,30 +201,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         binding.importButton?.summary = getString(R.string.pref_summary_backup_import_found, count)
     }
 
-    override fun showImportPermissionDialog() = open.attempt {
-        importPermissionDialog.safeShow(
-            fm,
-            DialogFactory.Preference.Backup.IMPORT_PERMISSION,
-            owner = this
-        )
-    }
-
-    override fun showImportDenyDialog() {
-        importDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_DENY, owner = this)
-    }
-
-    override fun showImportDialog(titleArray: Array<String>) = open.attempt {
-        open.tag = OpenState.Tag.DIALOG
-
-        importDialog.itemArray = titleArray
-        importDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT, owner = this)
-    }
-
-    override fun showImportLoadingDialog() = open.attempt(OpenState.Tag.DIALOG) {
-        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
-    }
-
-    override fun hideImportLoadingDialog() = loadingDialog.safeDismiss(owner = this)
 
     //endregion
 
@@ -257,5 +219,88 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         delegators.broadcast.sendNotifyInfoBind(count)
 
     //endregion
+
+    //endregion
+
+    //region Dialogs
+
+    private fun setupDialogs() {
+        exportPermissionDialog.apply {
+            isCancelable = false
+            onPositiveClick { requestPermission(PermissionRequest.EXPORT, permissionState) }
+            onDismiss { open.clear() }
+        }
+
+        exportDenyDialog.apply {
+            onPositiveClick { context?.startSettingsActivity(delegators.toast) }
+            onDismiss { open.clear() }
+        }
+
+        importPermissionDialog.apply {
+            isCancelable = false
+            onPositiveClick { requestPermission(PermissionRequest.IMPORT, permissionState) }
+            onDismiss { open.clear() }
+        }
+
+        importDenyDialog.apply {
+            onPositiveClick { context?.startSettingsActivity(delegators.toast) }
+            onDismiss { open.clear() }
+        }
+
+        importDialog.apply {
+            onPositiveClick {
+                val name = itemArray.getOrNull(check) ?: return@onPositiveClick
+                open.skipClear = true
+                viewModel.onResultImport(name)
+            }
+            onDismiss { open.clear() }
+        }
+
+        loadingDialog.apply {
+            isCancelable = false
+            onDismiss { open.clear() }
+        }
+    }
+
+    private fun showExportPermissionDialog() = open.attempt {
+        exportPermissionDialog
+            .safeShow(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this)
+    }
+
+    private fun showExportDenyDialog() {
+        exportDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_DENY, owner = this)
+    }
+
+    private fun showExportLoadingDialog() = open.attempt {
+        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
+    }
+
+    private fun showImportPermissionDialog() = open.attempt {
+        importPermissionDialog
+            .safeShow(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this)
+    }
+
+    private fun showImportDenyDialog() {
+        importDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_DENY, owner = this)
+    }
+
+    private fun showImportDialog(titleArray: Array<String>) = open.attempt {
+        open.tag = OpenState.Tag.DIALOG
+
+        importDialog.itemArray = titleArray
+        importDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT, owner = this)
+    }
+
+    private fun showImportLoadingDialog() = open.attempt(OpenState.Tag.DIALOG) {
+        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
+    }
+
+    private fun hideImportLoadingDialog() = loadingDialog.safeDismiss(owner = this)
+
+    //endregion
+
+    override fun onDotAnimationUpdate(text: String) {
+        binding.importButton?.summary = text
+    }
 
 }

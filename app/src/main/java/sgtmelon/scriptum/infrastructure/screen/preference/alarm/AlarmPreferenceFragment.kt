@@ -138,6 +138,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
+    //region Dialogs
+
     private fun setupDialogs() {
         repeatDialog.apply {
             onPositiveClick { viewModel.updateRepeat(repeatDialog.check) }
@@ -216,6 +218,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         }
     }
 
-    override fun onDotAnimationUpdate(text: CharSequence) = updateMelodySummary(text.toString())
+    //endregion
+
+    override fun onDotAnimationUpdate(text: String) = updateMelodySummary(text)
 
 }
