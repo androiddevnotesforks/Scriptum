@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
@@ -22,7 +22,7 @@ class BackupPreferenceViewModelImpl(
     private val startBackupExport: StartBackupExportUseCase,
     private val startBackupImport: StartBackupImportUseCase
 ) : ParentViewModel<IBackupPreferenceFragment>(callback),
-    IBackupPreferenceViewModel {
+    BackupPreferenceViewModel {
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()

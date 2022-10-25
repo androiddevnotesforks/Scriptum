@@ -10,7 +10,7 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
@@ -36,7 +36,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     private val binding = BackupPreferenceDataBinding(fragment = this)
 
-    @Inject lateinit var viewModel: IBackupPreferenceViewModel
+    @Inject lateinit var viewModel: BackupPreferenceViewModel
 
     private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
@@ -75,7 +75,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         viewModel.onPause()
 
         /**
-         * After call [IBackupPreferenceViewModel.onPause] this dialog will not have any items.
+         * After call [BackupPreferenceViewModel.onPause] this dialog will not have any items.
          */
         importDialog.safeDismiss()
     }

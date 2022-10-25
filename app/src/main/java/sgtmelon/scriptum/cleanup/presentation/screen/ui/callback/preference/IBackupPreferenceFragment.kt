@@ -3,11 +3,11 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.BackupPreferenceFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 
 /**
- * Interface for communication [IBackupPreferenceViewModel] with [BackupPreferenceFragment].
+ * Interface for communication [BackupPreferenceViewModel] with [BackupPreferenceFragment].
  */
 interface IBackupPreferenceFragment : SystemReceiver.Bridge.TidyUp,
     SystemReceiver.Bridge.Bind {

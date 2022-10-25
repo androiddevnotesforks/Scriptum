@@ -38,7 +38,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewM
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
@@ -333,7 +333,7 @@ class ViewModelModule {
         getBackupFileList: GetBackupFileListUseCase,
         startBackupExport: StartBackupExportUseCase,
         startBackupImport: StartBackupImportUseCase
-    ): IBackupPreferenceViewModel {
+    ): BackupPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Backup(
             fragment, getBackupFileList, startBackupExport, startBackupImport
         )

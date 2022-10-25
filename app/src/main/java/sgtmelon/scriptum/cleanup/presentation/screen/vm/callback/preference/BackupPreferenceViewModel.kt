@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 
-interface IBackupPreferenceViewModel : IParentViewModel {
+interface BackupPreferenceViewModel : IParentViewModel {
 
     fun onPause()
 
