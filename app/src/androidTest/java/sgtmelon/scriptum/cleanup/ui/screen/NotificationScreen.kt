@@ -4,7 +4,6 @@ import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.cleanup.testData.SimpleInfoPage
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.IPressBack
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.cleanup.ui.part.panel.SnackbarPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 

@@ -76,7 +76,7 @@
             android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
             android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity">

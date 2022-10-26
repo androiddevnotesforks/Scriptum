@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.NotificationViewModel
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModel
 
 /**
  * Interactor for [NotificationViewModel].

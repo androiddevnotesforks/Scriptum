@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification
+package sgtmelon.scriptum.infrastructure.screen.notifications
 
 import android.os.Bundle
 import android.view.View
@@ -13,7 +13,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.NotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener

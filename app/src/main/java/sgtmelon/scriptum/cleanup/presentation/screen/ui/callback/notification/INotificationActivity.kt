@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.NotificationViewModel
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModel
 
 /**
  * Interface for communication [NotificationViewModel] with [NotificationActivity].

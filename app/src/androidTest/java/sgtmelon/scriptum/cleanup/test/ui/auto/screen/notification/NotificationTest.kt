@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
 import sgtmelon.scriptum.parent.ParentUiTest
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 
