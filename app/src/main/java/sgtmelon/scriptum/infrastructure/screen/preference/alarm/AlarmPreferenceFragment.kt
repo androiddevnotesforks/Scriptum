@@ -108,8 +108,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         }
     }
 
-    //region Melody state changed
-
     private fun updateMelodySummary(state: MelodySummaryState) {
         when (state) {
             is MelodySummaryState.Loading -> {
@@ -135,8 +133,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         binding.increaseButton?.isEnabled = isEnabled
         binding.volumeButton?.isEnabled = isEnabled
     }
-
-    //endregion
 
     //region Dialogs
 

@@ -75,6 +75,7 @@
     <string name="pref_summary_help_disappear">And how fix it</string>
 
     <!-- Preference toast text -->
+    <!-- TODO rename toasts -->
 
     <string name="pref_toast_import_error">Sorry, but file is damaged! :(</string>
     <string name="pref_toast_import_result">Data successfully added! :)</string>

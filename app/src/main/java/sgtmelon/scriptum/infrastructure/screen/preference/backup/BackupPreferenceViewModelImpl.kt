@@ -3,14 +3,19 @@ package sgtmelon.scriptum.infrastructure.screen.preference.backup
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import sgtmelon.extensions.runBack
+import sgtmelon.extensions.onBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportDataState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult as Permission
 
@@ -63,75 +68,88 @@ class BackupPreferenceViewModelImpl(
         callback?.updateExportEnabled(isEnabled = true)
     }
 
-    /**
-     * Need reset list, because user can change permission or delete some files or
-     * remove sd card. It calls even after permission dialog.
-     */
-    override fun onPause() {
-        getBackupFileList.reset()
-    }
-
     //region Export/import functions
 
-    override fun startExport() {
-        viewModelScope.launch {
-            callback?.showExportLoadingDialog()
-            val result = runBack { startBackupExport() }
-            callback?.hideExportLoadingDialog()
+    //    override fun prepareImport() {
+    //        viewModelScope.launch { prepareImportDialog() }
+    //    }
 
-            when (result) {
-                is ExportResult.Success -> {
-                    callback?.showExportPathToast(result.path)
+    //    @RunPrivate suspend fun prepareImportDialog() {
+    //        val fileList = runBack { getBackupFileList() }
+    //        val titleArray = fileList.map { it.name }.toTypedArray()
+    //
+    //        if (titleArray.isEmpty()) {
+    //            callback?.updateImportSummary(R.string.pref_summary_backup_import_empty)
+    //            callback?.updateImportEnabled(isEnabled = false)
+    //        } else {
+    //            callback?.showImportDialog(titleArray)
+    //        }
+    //    }
 
-                    /**
-                     * Need update file list for feature import.
-                     */
-                    getBackupFileList.reset()
-                    setupBackground()
-                }
-                is ExportResult.Error -> {
-                    callback?.showToast(R.string.pref_toast_export_error)
-                }
-            }
-        }
-    }
-
-    override fun startImport() {
-        viewModelScope.launch { prepareImportDialog() }
-    }
-
-    @RunPrivate suspend fun prepareImportDialog() {
-        val fileList = runBack { getBackupFileList() }
-        val titleArray = fileList.map { it.name }.toTypedArray()
-
-        if (titleArray.isEmpty()) {
-            callback?.updateImportSummary(R.string.pref_summary_backup_import_empty)
-            callback?.updateImportEnabled(isEnabled = false)
-        } else {
-            callback?.showImportDialog(titleArray)
-        }
-    }
-
-    override fun onResultImport(name: String) {
-        viewModelScope.launch {
-            callback?.showImportLoadingDialog()
-            val result = runBack { startBackupImport(name, getBackupFileList()) }
-            callback?.hideImportLoadingDialog()
-
-            when (result) {
-                is ImportResult.Simple -> callback?.showToast(R.string.pref_toast_import_result)
-                is ImportResult.Skip -> callback?.showImportSkipToast(result.skipCount)
-                is ImportResult.Error -> callback?.showToast(R.string.pref_toast_import_error)
-            }
-
-            if (result == ImportResult.Error) return@launch
-
-            callback?.sendTidyUpAlarmBroadcast()
-            callback?.sendNotifyNotesBroadcast()
-            callback?.sendNotifyInfoBroadcast()
-        }
-    }
+    //    override fun onResultImport(name: String) {
+    //        viewModelScope.launch {
+    //            callback?.showImportLoadingDialog()
+    //            val result = runBack { startBackupImport(name, getBackupFileList()) }
+    //            callback?.hideImportLoadingDialog()
+    //
+    //            when (result) {
+    //                is ImportResult.Simple -> callback?.showToast(R.string.pref_toast_import_result)
+    //                is ImportResult.Skip -> callback?.showImportSkipToast(result.skipCount)
+    //                is ImportResult.Error -> callback?.showToast(R.string.pref_toast_import_error)
+    //            }
+    //
+    //            if (result == ImportResult.Error) return@launch
+    //
+    //            callback?.sendTidyUpAlarmBroadcast()
+    //            callback?.sendNotifyNotesBroadcast()
+    //            callback?.sendNotifyInfoBroadcast()
+    //        }
+    //    }
 
     //endregion
 
+    override fun startExport(): Flow<ExportState> = flow {
+        emit(ExportState.ShowLoading)
+        val result = startBackupExport()
+        emit(ExportState.HideLoading)
+
+        when (result) {
+            is ExportResult.Success -> {
+                emit(ExportState.LoadSuccess(result.path))
+
+                /** Need update file list for feature import. */
+                getBackupFileList.reset()
+                setupBackground()
+            }
+            is ExportResult.Error -> emit(ExportState.LoadError)
+        }
+    }.onBack()
+
+    override val importData: Flow<ImportDataState>
+        get() = flow {
+            val titleArray = getBackupFileList().map { it.name }.toTypedArray()
+            if (titleArray.isEmpty()) {
+                emit(ImportDataState.Empty)
+            } else {
+                emit(ImportDataState.Normal(titleArray))
+            }
+        }.onBack()
+
+    override fun startImport(name: String): Flow<ImportState> = flow {
+        emit(ImportState.ShowLoading)
+        val result = startBackupImport(name, getBackupFileList())
+        emit(ImportState.HideLoading)
+
+        emit(
+            when (result) {
+                is ImportResult.Simple -> ImportState.LoadSuccess
+                is ImportResult.Skip -> ImportState.LoadSkip(result.skipCount)
+                is ImportResult.Error -> ImportState.LoadError
+            }
+        )
+
+        if (result == ImportResult.Error) return@flow
+
+        emit(ImportState.Finish)
+    }.onBack()
 }

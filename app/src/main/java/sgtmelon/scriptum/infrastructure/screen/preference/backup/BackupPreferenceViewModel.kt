@@ -1,13 +1,16 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
+import kotlinx.coroutines.flow.Flow
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportDataState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
+
 interface BackupPreferenceViewModel {
 
-    fun onPause()
+    fun startExport(): Flow<ExportState>
 
-    fun startExport()
+    val importData: Flow<ImportDataState>
 
-    fun startImport()
-
-    fun onResultImport(name: String)
+    fun startImport(name: String): Flow<ImportState>
 
 }

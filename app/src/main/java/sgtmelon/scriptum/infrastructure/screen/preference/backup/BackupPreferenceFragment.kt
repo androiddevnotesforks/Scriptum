@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import javax.inject.Inject
+import sgtmelon.extensions.collect
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -16,6 +17,9 @@ import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportDataState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
 import sgtmelon.scriptum.infrastructure.utils.isGranted
 import sgtmelon.scriptum.infrastructure.utils.requestPermission
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
@@ -105,7 +109,23 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         when (result) {
             PermissionResult.ASK -> showExportPermissionDialog()
             PermissionResult.FORBIDDEN -> showExportDenyDialog()
-            PermissionResult.LOW_API, PermissionResult.GRANTED -> viewModel.startExport()
+            PermissionResult.LOW_API, PermissionResult.GRANTED -> onExportPermissionGranted()
+        }
+    }
+
+    private fun onExportPermissionGranted() {
+        viewModel.startExport().collect(owner = this) {
+            when (it) {
+                is ExportState.ShowLoading -> showExportLoadingDialog()
+                is ExportState.HideLoading -> loadingDialog.safeDismiss(owner = this)
+                is ExportState.LoadSuccess -> {
+                    val text = getString(R.string.pref_toast_export_result, it.path)
+                    delegators.toast.show(context, text, Toast.LENGTH_LONG)
+                }
+                is ExportState.LoadError -> {
+                    delegators.toast.show(context, R.string.pref_toast_export_error)
+                }
+            }
         }
     }
 
@@ -119,7 +139,19 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         when (result) {
             PermissionResult.ASK -> showImportPermissionDialog()
             PermissionResult.FORBIDDEN -> showImportDenyDialog()
-            PermissionResult.LOW_API, PermissionResult.GRANTED -> viewModel.startImport()
+            PermissionResult.LOW_API, PermissionResult.GRANTED -> onImportPermissionGranted()
+        }
+    }
+
+    private fun onImportPermissionGranted() {
+        viewModel.importData.collect(owner = this) {
+            when (it) {
+                is ImportDataState.Empty -> {
+                    updateImportSummary(R.string.pref_summary_backup_import_empty)
+                    updateImportEnabled(isEnabled = false)
+                }
+                is ImportDataState.Normal -> showImportDialog(it.titleArray)
+            }
         }
     }
 
@@ -129,41 +161,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         super.onResume()
         viewModel.onSetup()
     }
-
-    override fun onPause() {
-        super.onPause()
-
-        viewModel.onPause()
-
-        /**
-         * After call [BackupPreferenceViewModel.onPause] this dialog will not have any items.
-         */
-        importDialog.safeDismiss()
-    }
-
-    //region Toast functions
-
-    override fun showToast(@StringRes stringId: Int) = delegators.toast.show(context, stringId)
-
-    override fun showExportPathToast(path: String) {
-        val text = getString(R.string.pref_toast_export_result, path)
-
-        delegators.toast.show(context, text, Toast.LENGTH_LONG)
-    }
-
-    override fun showImportSkipToast(count: Int) {
-        val text = getString(R.string.pref_toast_import_result_skip, count)
-
-        delegators.toast.show(context, text, Toast.LENGTH_LONG)
-    }
-
-    //endregion
-
-    override fun getStoragePermissionResult(): PermissionResult? {
-        return permissionState.getResult(activity)
-    }
-
-    //region Export functions
 
     override fun updateExportEnabled(isEnabled: Boolean) {
         binding.exportButton?.isEnabled = isEnabled
@@ -177,11 +174,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         binding.exportButton?.summary = ""
     }
 
-    override fun hideExportLoadingDialog() = loadingDialog.safeDismiss(owner = this)
-
-    //endregion
-
-    //region Import functions
 
     override fun updateImportEnabled(isEnabled: Boolean) {
         binding.importButton?.isEnabled = isEnabled
@@ -200,25 +192,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     override fun updateImportSummaryFound(count: Int) {
         binding.importButton?.summary = getString(R.string.pref_summary_backup_import_found, count)
     }
-
-
-    //endregion
-
-    //region Broadcast functions
-
-    override fun sendTidyUpAlarmBroadcast() = delegators.broadcast.sendTidyUpAlarm()
-
-    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
-
-    /**
-     * Not used here.
-     */
-    override fun sendCancelNoteBroadcast(id: Long) = Unit
-
-    override fun sendNotifyInfoBroadcast(count: Int?) =
-        delegators.broadcast.sendNotifyInfoBind(count)
-
-    //endregion
 
     //endregion
 
@@ -248,11 +221,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         }
 
         importDialog.apply {
-            onPositiveClick {
-                val name = itemArray.getOrNull(check) ?: return@onPositiveClick
-                open.skipClear = true
-                viewModel.onResultImport(name)
-            }
+            onPositiveClick { onImportApply(itemArray.getOrNull(check)) }
             onDismiss { open.clear() }
         }
 
@@ -267,7 +236,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             .safeShow(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this)
     }
 
-    private fun showExportDenyDialog() {
+    private fun showExportDenyDialog() = open.attempt {
         exportDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_DENY, owner = this)
     }
 
@@ -280,7 +249,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             .safeShow(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this)
     }
 
-    private fun showImportDenyDialog() {
+    private fun showImportDenyDialog() = open.attempt {
         importDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_DENY, owner = this)
     }
 
@@ -291,11 +260,37 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         importDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT, owner = this)
     }
 
+    private fun onImportApply(name: String?) {
+        if (name == null) return
+
+        open.skipClear = true
+
+        viewModel.startImport(name).collect(owner = this) {
+            when (it) {
+                is ImportState.ShowLoading -> showImportLoadingDialog()
+                is ImportState.HideLoading -> loadingDialog.safeDismiss(owner = this)
+                is ImportState.LoadSuccess -> {
+                    delegators.toast.show(context, R.string.pref_toast_import_result)
+                }
+                is ImportState.LoadSkip -> {
+                    val text = getString(R.string.pref_toast_import_result_skip, it.count)
+                    delegators.toast.show(context, text, Toast.LENGTH_LONG)
+                }
+                is ImportState.LoadError -> {
+                    delegators.toast.show(context, R.string.pref_toast_import_error)
+                }
+                is ImportState.Finish -> {
+                    delegators.broadcast.sendTidyUpAlarm()
+                    delegators.broadcast.sendNotifyNotesBind()
+                    delegators.broadcast.sendNotifyInfoBind(count = null)
+                }
+            }
+        }
+    }
+
     private fun showImportLoadingDialog() = open.attempt(OpenState.Tag.DIALOG) {
         loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
     }
-
-    private fun hideImportLoadingDialog() = loadingDialog.safeDismiss(owner = this)
 
     //endregion
 
