@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.Notifi
 /**
  * Interface for communication [INotificationActivity] with [NotificationViewModelImpl].
  */
-interface INotificationViewModel : IParentViewModel {
+interface NotificationViewModel : IParentViewModel {
 
     fun onSaveData(bundle: Bundle)
 

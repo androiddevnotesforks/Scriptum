@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.NotificationViewModel
 
 /**
- * Interface for communication [INotificationViewModel] with [NotificationActivity].
+ * Interface for communication [NotificationViewModel] with [NotificationActivity].
  */
 interface INotificationActivity : SystemReceiver.Bridge.Alarm,
     SystemReceiver.Bridge.Bind {

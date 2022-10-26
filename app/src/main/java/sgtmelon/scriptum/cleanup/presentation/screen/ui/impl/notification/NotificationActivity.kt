@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.NotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
@@ -42,7 +42,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     //region Variables
 
-    @Inject lateinit var viewModel: INotificationViewModel
+    @Inject lateinit var viewModel: NotificationViewModel
 
     private val adapter: NotificationAdapter by lazy {
         NotificationAdapter(object : NotificationClickListener {

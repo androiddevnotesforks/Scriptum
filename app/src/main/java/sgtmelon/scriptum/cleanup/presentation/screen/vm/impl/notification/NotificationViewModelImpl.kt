@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.NotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
@@ -30,7 +30,7 @@ class NotificationViewModelImpl(
     private val deleteNotification: DeleteNotificationUseCase,
     private val getList: GetNotificationListUseCase
 ) : ParentViewModel<INotificationActivity>(callback),
-    INotificationViewModel {
+    NotificationViewModel {
 
     @RunPrivate val itemList: MutableList<NotificationItem> = mutableListOf()
     @RunPrivate val cancelList: MutableList<Pair<Int, NotificationItem>> =

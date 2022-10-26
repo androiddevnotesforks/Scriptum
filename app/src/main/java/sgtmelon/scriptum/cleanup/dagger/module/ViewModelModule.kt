@@ -36,7 +36,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewM
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.NotificationViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
@@ -306,7 +306,7 @@ class ViewModelModule {
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         getList: GetNotificationListUseCase
-    ): INotificationViewModel {
+    ): NotificationViewModel {
         val factory = ViewModelFactory.Notification(
             activity, interactor, setNotification, deleteNotification, getList
         )
