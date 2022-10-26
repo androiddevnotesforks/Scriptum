@@ -192,7 +192,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         binding?.disableButton?.setOnClickListener { open.attempt { finish() } }
         binding?.repeatButton?.setOnClickListener { open.attempt { startPostpone() } }
         binding?.moreButton?.setOnClickListener {
-            open.attempt { repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this) }
+            open.attempt { repeatDialog.safeShow(DialogFactory.Alarm.REPEAT, owner = this) }
         }
 
         repeatDialog.apply {

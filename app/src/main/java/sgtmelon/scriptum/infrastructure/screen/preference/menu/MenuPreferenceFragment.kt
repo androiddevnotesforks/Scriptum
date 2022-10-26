@@ -90,11 +90,11 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
 
     private fun showThemeDialog(value: Theme) = open.attempt {
         themeDialog.setArguments(value.ordinal)
-            .safeShow(fm, DialogFactory.Preference.Main.THEME, owner = this)
+            .safeShow(DialogFactory.Preference.Main.THEME, owner = this)
     }
 
     private fun showAboutDialog() = open.attempt {
-        aboutDialog.safeShow(fm, DialogFactory.Preference.Main.ABOUT, owner = this)
+        aboutDialog.safeShow(DialogFactory.Preference.Main.ABOUT, owner = this)
     }
 
     private fun unlockDeveloper() {

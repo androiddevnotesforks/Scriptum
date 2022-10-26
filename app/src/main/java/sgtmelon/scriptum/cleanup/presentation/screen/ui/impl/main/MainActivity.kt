@@ -121,7 +121,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
     }
 
     private fun openAddDialog() {
-        open.attempt { addDialog.safeShow(fm, DialogFactory.Main.ADD, owner = this) }
+        open.attempt { addDialog.safeShow(DialogFactory.Main.ADD, owner = this) }
     }
 
     override fun setupNavigation(@IdRes itemId: Int) {

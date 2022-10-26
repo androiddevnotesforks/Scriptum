@@ -170,27 +170,27 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     private fun showRepeatDialog(repeat: Repeat) = open.attempt {
         repeatDialog.setArguments(repeat.ordinal)
-            .safeShow(fm, DialogFactory.Preference.Alarm.REPEAT, owner = this)
+            .safeShow(DialogFactory.Preference.Alarm.REPEAT, owner = this)
     }
 
     private fun showSignalDialog(valueArray: BooleanArray) = open.attempt {
         signalDialog.setArguments(valueArray)
-            .safeShow(fm, DialogFactory.Preference.Alarm.SIGNAL, owner = this)
+            .safeShow(DialogFactory.Preference.Alarm.SIGNAL, owner = this)
     }
 
     private fun showVolumeDialog(@IntRange(from = 10, to = 100) value: Int) = open.attempt {
         volumeDialog.setArguments(value)
-            .safeShow(fm, DialogFactory.Preference.Alarm.VOLUME, owner = this)
+            .safeShow(DialogFactory.Preference.Alarm.VOLUME, owner = this)
     }
 
     private fun showMelodyAccessDialog() = open.attempt {
-        melodyAccessDialog.safeShow(fm, DialogFactory.Preference.Alarm.MELODY_ACCESS, owner = this)
+        melodyAccessDialog.safeShow(DialogFactory.Preference.Alarm.MELODY_ACCESS, owner = this)
     }
 
     private fun showMelodyDialog(titleArray: Array<String>, value: Int) = open.attempt {
         melodyDialog.itemArray = titleArray
         melodyDialog.setArguments(value)
-            .safeShow(fm, DialogFactory.Preference.Alarm.MELODY, owner = this)
+            .safeShow(DialogFactory.Preference.Alarm.MELODY, owner = this)
     }
 
     private fun onMelodyClick(p: Int) {

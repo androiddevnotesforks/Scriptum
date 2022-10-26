@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import sgtmelon.safedialog.utils.DialogOwner
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
@@ -16,7 +17,8 @@ import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 /**
  * Parent class for fragments.
  */
-abstract class ParentFragment<T : ViewDataBinding> : Fragment() {
+abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
+    DialogOwner {
 
     @get:LayoutRes
     abstract val layoutId: Int
@@ -24,7 +26,7 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment() {
     private var _binding: T? = null
     protected val binding: T? get() = _binding
 
-    protected val fm get() = parentFragmentManager
+    override val fm get() = parentFragmentManager
 
     private lateinit var delegatorFactory: DelegatorFactory
     protected val delegators get() = delegatorFactory

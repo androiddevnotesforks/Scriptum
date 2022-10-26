@@ -333,7 +333,7 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
 
     override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
         renameDialog.setArguments(p, name, nameList)
-            .safeShow(fm, DialogFactory.Main.RENAME, owner = this)
+            .safeShow(DialogFactory.Main.RENAME, owner = this)
     }
 
 

@@ -218,31 +218,31 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     private fun showExportPermissionDialog() = open.attempt {
         exportPermissionDialog
-            .safeShow(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this)
+            .safeShow(DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this)
     }
 
     private fun showExportDenyDialog() = open.attempt {
-        exportDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_DENY, owner = this)
+        exportDenyDialog.safeShow(DialogFactory.Preference.Backup.EXPORT_DENY, owner = this)
     }
 
     private fun showExportLoadingDialog() = open.attempt {
-        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
+        loadingDialog.safeShow(DialogFactory.Preference.Backup.LOADING, owner = this)
     }
 
     private fun showImportPermissionDialog() = open.attempt {
         importPermissionDialog
-            .safeShow(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this)
+            .safeShow(DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this)
     }
 
     private fun showImportDenyDialog() = open.attempt {
-        importDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_DENY, owner = this)
+        importDenyDialog.safeShow(DialogFactory.Preference.Backup.IMPORT_DENY, owner = this)
     }
 
     private fun showImportDialog(titleArray: Array<String>) = open.attempt {
         open.tag = OpenState.Tag.DIALOG
 
         importDialog.itemArray = titleArray
-        importDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT, owner = this)
+        importDialog.safeShow(DialogFactory.Preference.Backup.IMPORT, owner = this)
     }
 
     private fun onImportApply(name: String?) {
@@ -274,7 +274,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     private fun showImportLoadingDialog() = open.attempt(OpenState.Tag.DIALOG) {
-        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
+        loadingDialog.safeShow(DialogFactory.Preference.Backup.LOADING, owner = this)
     }
 
     //endregion

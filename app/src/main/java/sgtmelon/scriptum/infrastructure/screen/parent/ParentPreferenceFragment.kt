@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
+import sgtmelon.safedialog.utils.DialogOwner
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
@@ -16,12 +17,13 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Parent class for preference fragments.
  */
-abstract class ParentPreferenceFragment : PreferenceFragmentCompat() {
+abstract class ParentPreferenceFragment : PreferenceFragmentCompat(),
+    DialogOwner {
 
     @get:XmlRes
     abstract val xmlId: Int
 
-    protected val fm get() = parentFragmentManager
+    override val fm get() = parentFragmentManager
 
     private lateinit var delegatorFactory: DelegatorFactory
     protected val delegators get() = delegatorFactory

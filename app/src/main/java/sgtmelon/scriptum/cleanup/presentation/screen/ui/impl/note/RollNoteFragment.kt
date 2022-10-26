@@ -505,14 +505,14 @@ class RollNoteFragment : ParentFragment<FragmentRollNoteBinding>(),
 
     override fun showRankDialog(check: Int) = open.attempt {
         hideKeyboard()
-        rankDialog.setArguments(check).safeShow(fm, DialogFactory.Note.RANK, owner = this)
+        rankDialog.setArguments(check).safeShow(DialogFactory.Note.RANK, owner = this)
     }
 
     override fun showColorDialog(color: Color) = open.attempt {
         toolbarTintControl?.setColorFrom(color)
 
         hideKeyboard()
-        colorDialog.setArguments(color).safeShow(fm, DialogFactory.Note.COLOR, owner = this)
+        colorDialog.setArguments(color).safeShow(DialogFactory.Note.COLOR, owner = this)
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = open.attempt {
@@ -520,20 +520,20 @@ class RollNoteFragment : ParentFragment<FragmentRollNoteBinding>(),
 
         hideKeyboard()
         dateDialog.setArguments(calendar, resetVisible)
-            .safeShow(fm, DialogFactory.Note.DATE, owner = this)
+            .safeShow(DialogFactory.Note.DATE, owner = this)
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
         open.attempt(OpenState.Tag.DIALOG) {
             hideKeyboard()
             timeDialog.setArguments(calendar, dateList)
-                .safeShow(fm, DialogFactory.Note.TIME, owner = this)
+                .safeShow(DialogFactory.Note.TIME, owner = this)
         }
     }
 
     override fun showConvertDialog() = open.attempt {
         hideKeyboard()
-        convertDialog.safeShow(fm, DialogFactory.Note.CONVERT, owner = this)
+        convertDialog.safeShow(DialogFactory.Note.CONVERT, owner = this)
     }
 
 

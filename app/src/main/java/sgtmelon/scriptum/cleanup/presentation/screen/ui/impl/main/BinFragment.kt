@@ -101,7 +101,6 @@ class BinFragment : ParentFragment<FragmentBinBinding>(), IBinFragment {
             setOnMenuItemClickListener {
                 parentOpen?.attempt {
                     clearBinDialog.safeShow(
-                        fm,
                         DialogFactory.Main.CLEAR_BIN,
                         owner = this@BinFragment
                     )
@@ -203,7 +202,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(), IBinFragment {
         parentOpen?.attempt {
             optionsDialog.title = title
             optionsDialog.setArguments(itemArray, p)
-                .safeShow(fm, DialogFactory.Main.OPTIONS, owner = this)
+                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
         }
     }
 

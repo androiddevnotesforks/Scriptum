@@ -75,16 +75,16 @@ class NotePreferenceFragment : ParentPreferenceFragment() {
 
     private fun showSortDialog(sort: Sort) = open.attempt {
         sortDialog.setArguments(sort.ordinal)
-            .safeShow(fm, DialogFactory.Preference.Notes.SORT, owner = this)
+            .safeShow(DialogFactory.Preference.Notes.SORT, owner = this)
     }
 
     private fun showDefaultColorDialog(color: Color) = open.attempt {
         colorDialog.setArguments(color)
-            .safeShow(fm, DialogFactory.Preference.Notes.COLOR, owner = this)
+            .safeShow(DialogFactory.Preference.Notes.COLOR, owner = this)
     }
 
     private fun showSavePeriodDialog(savePeriod: SavePeriod) = open.attempt {
         savePeriodDialog.setArguments(savePeriod.ordinal)
-            .safeShow(fm, DialogFactory.Preference.Notes.SAVE_PERIOD, owner = this)
+            .safeShow(DialogFactory.Preference.Notes.SAVE_PERIOD, owner = this)
     }
 }

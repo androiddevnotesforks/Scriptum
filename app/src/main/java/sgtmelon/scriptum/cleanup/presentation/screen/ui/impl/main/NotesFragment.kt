@@ -261,14 +261,14 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
             optionsDialog.title = title
             optionsDialog.setArguments(itemArray, p)
-                .safeShow(fm, DialogFactory.Main.OPTIONS, owner = this)
+                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
         }
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
         parentOpen?.attempt(OpenState.Tag.DIALOG) {
             dateDialog.setArguments(calendar, resetVisible, p)
-                .safeShow(fm, DialogFactory.Main.DATE, owner = this)
+                .safeShow(DialogFactory.Main.DATE, owner = this)
         }
     }
 
@@ -276,7 +276,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         parentOpen?.attempt(OpenState.Tag.DIALOG) {
             activity?.hideKeyboard()
             timeDialog.setArguments(calendar, dateList, p)
-                .safeShow(fm, DialogFactory.Main.TIME, owner = this)
+                .safeShow(DialogFactory.Main.TIME, owner = this)
         }
     }
 
