@@ -14,7 +14,7 @@ class SignalDialogUi(
     override val initCheck: BooleanArray
 ) : ParentMultipleDialogUi(
     R.string.pref_title_alarm_signal,
-    R.array.pref_alarm_signal,
+    R.array.pref_signal,
     needOneSelect = true
 ) {
 

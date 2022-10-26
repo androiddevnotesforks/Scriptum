@@ -134,7 +134,7 @@ object DialogFactory {
                 if (context == null) return dialog
 
                 dialog.title = context.getString(R.string.pref_title_app_theme)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_app_theme)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_theme)
 
                 return dialog
             }
@@ -232,7 +232,7 @@ object DialogFactory {
                 if (context == null) return dialog
 
                 dialog.title = context.getString(R.string.pref_title_note_sort)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_note_sort)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_sort)
 
                 return dialog
             }
@@ -253,7 +253,7 @@ object DialogFactory {
                 if (context == null) return dialog
 
                 dialog.title = context.getString(R.string.pref_title_note_save_period)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_note_save_period)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_save_period)
 
                 return dialog
             }
@@ -275,7 +275,7 @@ object DialogFactory {
                 if (context == null) return dialog
 
                 dialog.title = context.getString(R.string.pref_title_alarm_repeat)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_alarm_repeat)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_repeat)
 
                 return dialog
             }
@@ -287,7 +287,7 @@ object DialogFactory {
 
                 dialog.atLeastOne = true
                 dialog.title = context.getString(R.string.pref_title_alarm_signal)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_alarm_signal)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_signal)
 
                 return dialog
             }

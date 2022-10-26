@@ -16,11 +16,11 @@ class RepeatSheetDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repe
     //region Views
 
     private val titleText = getViewByText(R.string.dialog_title_repeat)
-    private val repeat0Button = getViewByText(R.string.pref_alarm_repeat_0)
-    private val repeat1Button = getViewByText(R.string.pref_alarm_repeat_1)
-    private val repeat2Button = getViewByText(R.string.pref_alarm_repeat_2)
-    private val repeat3Button = getViewByText(R.string.pref_alarm_repeat_3)
-    private val repeat4Button = getViewByText(R.string.pref_alarm_repeat_4)
+    private val repeat0Button = getViewByText(R.string.pref_repeat_0)
+    private val repeat1Button = getViewByText(R.string.pref_repeat_1)
+    private val repeat2Button = getViewByText(R.string.pref_repeat_2)
+    private val repeat3Button = getViewByText(R.string.pref_repeat_3)
+    private val repeat4Button = getViewByText(R.string.pref_repeat_4)
 
     //endregion
 

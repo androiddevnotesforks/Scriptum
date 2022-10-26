@@ -13,7 +13,7 @@ import sgtmelon.test.cappuccino.utils.click
  */
 class ThemeDialogUi : ParentSelectDialogUi(
     R.string.pref_title_app_theme,
-    R.array.pref_app_theme
+    R.array.pref_theme
 ) {
 
     private val converter = ThemeConverter()

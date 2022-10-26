@@ -13,7 +13,7 @@ import sgtmelon.test.cappuccino.utils.click
  */
 class RepeatDialogUi : ParentSelectDialogUi(
     R.string.pref_title_alarm_repeat,
-    R.array.pref_alarm_repeat
+    R.array.pref_repeat
 ) {
 
     override val initCheck: Int = preferences.repeat

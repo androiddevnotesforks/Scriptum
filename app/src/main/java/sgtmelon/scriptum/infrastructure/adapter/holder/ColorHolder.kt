@@ -24,7 +24,7 @@ class ColorHolder(
             checkImage.setColorFilter(context.getColorCompat(colorItem.content))
         }
 
-        val colorName = context.resources.getStringArray(R.array.pref_note_color)[color.ordinal]
+        val colorName = context.resources.getStringArray(R.array.pref_color)[color.ordinal]
         clickView.contentDescription = context.getString(R.string.description_item_color, colorName)
     }
 

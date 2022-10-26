@@ -10,8 +10,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
-import sgtmelon.scriptum.testing.getRandomSize
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
@@ -19,6 +17,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.testing.getRandomSize
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -33,9 +33,9 @@ class SummaryDataSourceImplTest : ParentTest() {
     @Test fun getTheme() {
         val value = Theme.values().random()
         val id = when (value) {
-            Theme.LIGHT -> R.string.pref_app_theme_light
-            Theme.DARK -> R.string.pref_app_theme_dark
-            Theme.SYSTEM -> R.string.pref_app_theme_system
+            Theme.LIGHT -> R.string.pref_theme_light
+            Theme.DARK -> R.string.pref_theme_dark
+            Theme.SYSTEM -> R.string.pref_theme_system
         }
         val summary = nextString()
 
@@ -51,10 +51,10 @@ class SummaryDataSourceImplTest : ParentTest() {
     @Test fun getSort() {
         val value = Sort.values().random()
         val id = when (value) {
-            Sort.CHANGE -> R.string.pref_note_sort_change
-            Sort.CREATE -> R.string.pref_note_sort_create
-            Sort.RANK -> R.string.pref_note_sort_rank
-            Sort.COLOR -> R.string.pref_note_sort_color
+            Sort.CHANGE -> R.string.pref_sort_change
+            Sort.CREATE -> R.string.pref_sort_create
+            Sort.RANK -> R.string.pref_sort_rank
+            Sort.COLOR -> R.string.pref_sort_color
         }
         val summary = nextString()
 
@@ -70,17 +70,17 @@ class SummaryDataSourceImplTest : ParentTest() {
     @Test fun getColor() {
         val value = Color.values().random()
         val id = when (value) {
-            Color.RED -> R.string.pref_note_color_red
-            Color.PURPLE -> R.string.pref_note_color_purple
-            Color.INDIGO -> R.string.pref_note_color_indigo
-            Color.BLUE -> R.string.pref_note_color_blue
-            Color.TEAL -> R.string.pref_note_color_teal
-            Color.GREEN -> R.string.pref_note_color_green
-            Color.YELLOW -> R.string.pref_note_color_yellow
-            Color.ORANGE -> R.string.pref_note_color_orange
-            Color.BROWN -> R.string.pref_note_color_brown
-            Color.BLUE_GREY -> R.string.pref_note_color_blue_gray
-            Color.WHITE -> R.string.pref_note_color_white
+            Color.RED -> R.string.pref_color_red
+            Color.PURPLE -> R.string.pref_color_purple
+            Color.INDIGO -> R.string.pref_color_indigo
+            Color.BLUE -> R.string.pref_color_blue
+            Color.TEAL -> R.string.pref_color_teal
+            Color.GREEN -> R.string.pref_color_green
+            Color.YELLOW -> R.string.pref_color_yellow
+            Color.ORANGE -> R.string.pref_color_orange
+            Color.BROWN -> R.string.pref_color_brown
+            Color.BLUE_GREY -> R.string.pref_color_blue_gray
+            Color.WHITE -> R.string.pref_color_white
         }
         val summary = nextString()
 
@@ -96,9 +96,9 @@ class SummaryDataSourceImplTest : ParentTest() {
     @Test fun getSavePeriod() {
         val value = SavePeriod.values().random()
         val id = when (value) {
-            SavePeriod.MIN_1 -> R.string.pref_note_save_period_1
-            SavePeriod.MIN_3 -> R.string.pref_note_save_period_3
-            SavePeriod.MIN_7 -> R.string.pref_note_save_period_7
+            SavePeriod.MIN_1 -> R.string.pref_save_period_1
+            SavePeriod.MIN_3 -> R.string.pref_save_period_3
+            SavePeriod.MIN_7 -> R.string.pref_save_period_7
         }
         val summary = nextString()
 
@@ -114,11 +114,11 @@ class SummaryDataSourceImplTest : ParentTest() {
     @Test fun getRepeat() {
         val value = Repeat.values().random()
         val id = when (value) {
-            Repeat.MIN_10 -> R.string.pref_alarm_repeat_0
-            Repeat.MIN_30 -> R.string.pref_alarm_repeat_1
-            Repeat.MIN_60 -> R.string.pref_alarm_repeat_2
-            Repeat.MIN_180 -> R.string.pref_alarm_repeat_3
-            Repeat.MIN_1440 -> R.string.pref_alarm_repeat_4
+            Repeat.MIN_10 -> R.string.pref_repeat_0
+            Repeat.MIN_30 -> R.string.pref_repeat_1
+            Repeat.MIN_60 -> R.string.pref_repeat_2
+            Repeat.MIN_180 -> R.string.pref_repeat_3
+            Repeat.MIN_1440 -> R.string.pref_repeat_4
         }
         val summary = nextString()
 
@@ -143,14 +143,14 @@ class SummaryDataSourceImplTest : ParentTest() {
 
         val exception = DifferentSizeException(valueSize, summarySize)
 
-        every { resources.getStringArray(R.array.pref_alarm_signal) } returns summaryArray
+        every { resources.getStringArray(R.array.pref_signal) } returns summaryArray
         FastMock.fireExtensions()
         every { exception.record() } returns Unit
 
         assertEquals(provider.getSignal(valueArray), "")
 
         verifySequence {
-            resources.getStringArray(R.array.pref_alarm_signal)
+            resources.getStringArray(R.array.pref_signal)
             exception.record()
         }
     }
@@ -160,7 +160,7 @@ class SummaryDataSourceImplTest : ParentTest() {
         val valueArray = BooleanArray(size) { Random.nextBoolean() }
         val summaryArray = Array(size) { nextString() }
 
-        every { resources.getStringArray(R.array.pref_alarm_signal) } returns summaryArray
+        every { resources.getStringArray(R.array.pref_signal) } returns summaryArray
 
         val result = valueArray.asSequence()
             .mapIndexed { i, b ->
@@ -176,7 +176,7 @@ class SummaryDataSourceImplTest : ParentTest() {
         assertEquals(provider.getSignal(valueArray), result)
 
         verifySequence {
-            resources.getStringArray(R.array.pref_alarm_signal)
+            resources.getStringArray(R.array.pref_signal)
         }
     }
 

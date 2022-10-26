@@ -12,7 +12,7 @@ import sgtmelon.test.cappuccino.utils.click
  */
 class SortDialogUi : ParentSelectDialogUi(
     R.string.pref_title_note_sort,
-    R.array.pref_note_sort
+    R.array.pref_sort
 ) {
 
     override val initCheck: Int = preferences.sort

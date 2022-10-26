@@ -293,7 +293,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     // TODO check how it will be working after finish \ may be send toast into systemLogic and show from there?
     private fun showRepeatToast(repeat: Repeat) {
-        val repeatArray = resources.getStringArray(R.array.pref_alarm_repeat)
+        val repeatArray = resources.getStringArray(R.array.pref_repeat)
         val repeatText = repeatArray.getOrNull(repeat.ordinal) ?: return
 
         delegators.toast.show(context = this, getString(R.string.toast_alarm_repeat, repeatText))

@@ -20,9 +20,9 @@ class SummaryDataSourceImpl(private val resources: Resources) : SummaryDataSourc
 
     override fun getTheme(theme: Theme): String {
         val id = when (theme) {
-            Theme.LIGHT -> R.string.pref_app_theme_light
-            Theme.DARK -> R.string.pref_app_theme_dark
-            Theme.SYSTEM -> R.string.pref_app_theme_system
+            Theme.LIGHT -> R.string.pref_theme_light
+            Theme.DARK -> R.string.pref_theme_dark
+            Theme.SYSTEM -> R.string.pref_theme_system
         }
 
         return resources.getString(id)
@@ -30,10 +30,10 @@ class SummaryDataSourceImpl(private val resources: Resources) : SummaryDataSourc
 
     override fun getSort(sort: Sort): String {
         val id = when (sort) {
-            Sort.CHANGE -> R.string.pref_note_sort_change
-            Sort.CREATE -> R.string.pref_note_sort_create
-            Sort.RANK -> R.string.pref_note_sort_rank
-            Sort.COLOR -> R.string.pref_note_sort_color
+            Sort.CHANGE -> R.string.pref_sort_change
+            Sort.CREATE -> R.string.pref_sort_create
+            Sort.RANK -> R.string.pref_sort_rank
+            Sort.COLOR -> R.string.pref_sort_color
         }
 
         return resources.getString(id)
@@ -41,17 +41,17 @@ class SummaryDataSourceImpl(private val resources: Resources) : SummaryDataSourc
 
     override fun getColor(color: Color): String {
         val id = when (color) {
-            Color.RED -> R.string.pref_note_color_red
-            Color.PURPLE -> R.string.pref_note_color_purple
-            Color.INDIGO -> R.string.pref_note_color_indigo
-            Color.BLUE -> R.string.pref_note_color_blue
-            Color.TEAL -> R.string.pref_note_color_teal
-            Color.GREEN -> R.string.pref_note_color_green
-            Color.YELLOW -> R.string.pref_note_color_yellow
-            Color.ORANGE -> R.string.pref_note_color_orange
-            Color.BROWN -> R.string.pref_note_color_brown
-            Color.BLUE_GREY -> R.string.pref_note_color_blue_gray
-            Color.WHITE -> R.string.pref_note_color_white
+            Color.RED -> R.string.pref_color_red
+            Color.PURPLE -> R.string.pref_color_purple
+            Color.INDIGO -> R.string.pref_color_indigo
+            Color.BLUE -> R.string.pref_color_blue
+            Color.TEAL -> R.string.pref_color_teal
+            Color.GREEN -> R.string.pref_color_green
+            Color.YELLOW -> R.string.pref_color_yellow
+            Color.ORANGE -> R.string.pref_color_orange
+            Color.BROWN -> R.string.pref_color_brown
+            Color.BLUE_GREY -> R.string.pref_color_blue_gray
+            Color.WHITE -> R.string.pref_color_white
         }
 
         return resources.getString(id)
@@ -59,9 +59,9 @@ class SummaryDataSourceImpl(private val resources: Resources) : SummaryDataSourc
 
     override fun getSavePeriod(savePeriod: SavePeriod): String {
         val id = when (savePeriod) {
-            SavePeriod.MIN_1 -> R.string.pref_note_save_period_1
-            SavePeriod.MIN_3 -> R.string.pref_note_save_period_3
-            SavePeriod.MIN_7 -> R.string.pref_note_save_period_7
+            SavePeriod.MIN_1 -> R.string.pref_save_period_1
+            SavePeriod.MIN_3 -> R.string.pref_save_period_3
+            SavePeriod.MIN_7 -> R.string.pref_save_period_7
         }
 
         return resources.getString(id)
@@ -69,18 +69,18 @@ class SummaryDataSourceImpl(private val resources: Resources) : SummaryDataSourc
 
     override fun getRepeat(repeat: Repeat): String {
         val id = when (repeat) {
-            Repeat.MIN_10 -> R.string.pref_alarm_repeat_0
-            Repeat.MIN_30 -> R.string.pref_alarm_repeat_1
-            Repeat.MIN_60 -> R.string.pref_alarm_repeat_2
-            Repeat.MIN_180 -> R.string.pref_alarm_repeat_3
-            Repeat.MIN_1440 -> R.string.pref_alarm_repeat_4
+            Repeat.MIN_10 -> R.string.pref_repeat_0
+            Repeat.MIN_30 -> R.string.pref_repeat_1
+            Repeat.MIN_60 -> R.string.pref_repeat_2
+            Repeat.MIN_180 -> R.string.pref_repeat_3
+            Repeat.MIN_1440 -> R.string.pref_repeat_4
         }
 
         return resources.getString(id)
     }
 
     override fun getSignal(valueArray: BooleanArray): String {
-        val summaryArray = resources.getStringArray(R.array.pref_alarm_signal)
+        val summaryArray = resources.getStringArray(R.array.pref_signal)
 
         if (summaryArray.size != valueArray.size) {
             DifferentSizeException(valueArray.size, summaryArray.size).record()

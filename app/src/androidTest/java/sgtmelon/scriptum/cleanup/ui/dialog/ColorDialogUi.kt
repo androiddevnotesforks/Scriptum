@@ -127,7 +127,7 @@ class ColorDialogUi(
             checkImage.isDisplayed(item.isCheck).withDrawableColor(R.drawable.ic_check, colorId)
 
             // TODO record exception in real code
-            val colorName = context.resources.getStringArray(R.array.pref_note_color)[item.color.ordinal]
+            val colorName = context.resources.getStringArray(R.array.pref_color)[item.color.ordinal]
             val description = context.getString(R.string.description_item_color, colorName)
             clickView.isDisplayed()
                     .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)

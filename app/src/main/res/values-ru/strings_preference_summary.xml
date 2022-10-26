@@ -3,40 +3,38 @@
 
     <!-- Preference summaries and arrays for dialogs -->
 
-    <string name="pref_app_theme_light">Светлая</string>
-    <string name="pref_app_theme_dark">Тёмная</string>
-    <string name="pref_app_theme_system">Системная</string>
+    <string name="pref_theme_light">Светлая</string>
+    <string name="pref_theme_dark">Тёмная</string>
+    <string name="pref_theme_system">Системная</string>
 
-    <string name="pref_note_sort_change">По времени изменения</string>
-    <string name="pref_note_sort_create">По времени создания</string>
-    <string name="pref_note_sort_rank">По категориям</string>
-    <string name="pref_note_sort_color">По цвету</string>
+    <string name="pref_sort_change">По времени изменения</string>
+    <string name="pref_sort_create">По времени создания</string>
+    <string name="pref_sort_rank">По категориям</string>
+    <string name="pref_sort_color">По цвету</string>
 
-    <string name="pref_note_color_red">Красный</string>
-    <string name="pref_note_color_purple">Фиолетовый</string>
-    <string name="pref_note_color_indigo">Индиго</string>
-    <string name="pref_note_color_blue">Синий</string>
-    <string name="pref_note_color_teal">Бирюзовый</string>
-    <string name="pref_note_color_green">Зелёный</string>
-    <string name="pref_note_color_yellow">Желтый</string>
-    <string name="pref_note_color_orange">Оранжевый</string>
-    <string name="pref_note_color_brown">Коричневый</string>
-    <string name="pref_note_color_blue_gray">Сине-серый</string>
-    <string name="pref_note_color_white">Белый</string>
+    <string name="pref_color_red">Красный</string>
+    <string name="pref_color_purple">Фиолетовый</string>
+    <string name="pref_color_indigo">Индиго</string>
+    <string name="pref_color_blue">Синий</string>
+    <string name="pref_color_teal">Бирюзовый</string>
+    <string name="pref_color_green">Зелёный</string>
+    <string name="pref_color_yellow">Желтый</string>
+    <string name="pref_color_orange">Оранжевый</string>
+    <string name="pref_color_brown">Коричневый</string>
+    <string name="pref_color_blue_gray">Сине-серый</string>
+    <string name="pref_color_white">Белый</string>
 
-    <string name="pref_note_save_period_1">1 минута</string>
-    <string name="pref_note_save_period_3">3 минуты</string>
-    <string name="pref_note_save_period_7">7 минут</string>
+    <string name="pref_save_period_1">1 минута</string>
+    <string name="pref_save_period_3">3 минуты</string>
+    <string name="pref_save_period_7">7 минут</string>
 
-    <string name="pref_alarm_repeat_0">10 минут</string>
-    <string name="pref_alarm_repeat_1">30 минут</string>
-    <string name="pref_alarm_repeat_2">1 час</string>
-    <string name="pref_alarm_repeat_3">3 часа</string>
-    <string name="pref_alarm_repeat_4">1 день</string>
+    <string name="pref_repeat_0">10 минут</string>
+    <string name="pref_repeat_1">30 минут</string>
+    <string name="pref_repeat_2">1 час</string>
+    <string name="pref_repeat_3">3 часа</string>
+    <string name="pref_repeat_4">1 день</string>
 
-    <string-array name="pref_alarm_signal">
-        <item>Мелодия</item>
-        <item>Вибрация</item>
-    </string-array>
+    <string name="pref_signal_melody">Мелодия</string>
+    <string name="pref_signal_vibration">Вибрация</string>
 
 </resources>
