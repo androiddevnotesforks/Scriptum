@@ -23,14 +23,14 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * ViewModel for [INotificationActivity].
  */
-class NotificationViewModel(
+class NotificationViewModelImpl(
     callback: INotificationActivity,
     private val interactor: INotificationInteractor,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getList: GetNotificationListUseCase
 ) : ParentViewModel<INotificationActivity>(callback),
-        INotificationViewModel {
+    INotificationViewModel {
 
     @RunPrivate val itemList: MutableList<NotificationItem> = mutableListOf()
     @RunPrivate val cancelList: MutableList<Pair<Int, NotificationItem>> =

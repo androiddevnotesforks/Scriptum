@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
+package sgtmelon.scriptum.infrastructure.screen.notification
 
 import android.os.Bundle
 import io.mockk.coEvery
@@ -28,21 +28,22 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotifi
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModelImpl
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Snackbar
+import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [NotificationViewModel].
+ * Test for [NotificationViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class NotificationViewModelTest : ParentViewModelTest() {
+class NotificationViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -55,7 +56,13 @@ class NotificationViewModelTest : ParentViewModelTest() {
     @MockK lateinit var getList: GetNotificationListUseCase
 
     private val viewModel by lazy {
-        NotificationViewModel(callback, interactor, setNotification, deleteNotification, getList)
+        NotificationViewModelImpl(
+            callback,
+            interactor,
+            setNotification,
+            deleteNotification,
+            getList
+        )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 

@@ -32,7 +32,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
@@ -296,8 +296,8 @@ object ViewModelFactory {
         private val getList: GetNotificationListUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(NotificationViewModel::class) {
-                NotificationViewModel(
+            return modelClass.create(NotificationViewModelImpl::class) {
+                NotificationViewModelImpl(
                     activity, interactor, setNotification, deleteNotification, getList
                 )
             }

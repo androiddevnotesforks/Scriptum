@@ -47,7 +47,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.NotificationViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
@@ -310,7 +310,7 @@ class ViewModelModule {
         val factory = ViewModelFactory.Notification(
             activity, interactor, setNotification, deleteNotification, getList
         )
-        return ViewModelProvider(activity, factory)[NotificationViewModel::class.java]
+        return ViewModelProvider(activity, factory)[NotificationViewModelImpl::class.java]
     }
 
     //region Preference
