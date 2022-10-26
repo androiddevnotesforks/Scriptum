@@ -13,6 +13,8 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseC
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.MelodySummaryState
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.UpdateMelodyState
 
 class AlarmPreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,

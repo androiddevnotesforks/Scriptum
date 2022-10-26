@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.preference.alarm
+package sgtmelon.scriptum.infrastructure.screen.preference.alarm.state
 
 /**
  * State of loading current melody for alarm.

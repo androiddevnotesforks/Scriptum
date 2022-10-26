@@ -17,6 +17,8 @@ import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.MelodySummaryState
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.UpdateMelodyState
 import sgtmelon.scriptum.infrastructure.utils.isGranted
 import sgtmelon.scriptum.infrastructure.utils.requestPermission
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener

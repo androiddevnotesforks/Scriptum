@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.MelodySummaryState
+import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.UpdateMelodyState
 
 interface AlarmPreferenceViewModel {
 
