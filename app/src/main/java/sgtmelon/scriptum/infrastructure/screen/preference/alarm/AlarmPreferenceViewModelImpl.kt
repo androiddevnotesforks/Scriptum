@@ -99,12 +99,15 @@ class AlarmPreferenceViewModelImpl(
     /**
      * Return: success set melody or chosen another one by app.
      */
-    override fun updateMelody(title: String): Flow<Boolean> = flow {
+    override fun updateMelody(title: String): Flow<UpdateMelodyState> = flow {
         val resultTitle = preferencesRepo.setMelodyUri(getMelodyList(), title)
         if (resultTitle != null) {
             melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             melodySummaryState.postValue(MelodySummaryState.Finish(resultTitle))
-            emit(value = title == resultTitle)
+
+            if (title != resultTitle) {
+                emit(UpdateMelodyState.AutoChoose)
+            }
         } else {
             melodyGroupEnabled.postValue(false)
             melodySummaryState.postValue(MelodySummaryState.Empty)

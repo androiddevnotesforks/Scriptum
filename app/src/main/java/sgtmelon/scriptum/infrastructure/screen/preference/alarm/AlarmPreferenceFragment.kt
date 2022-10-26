@@ -207,9 +207,11 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     private fun onMelodyApply(title: String?) {
         if (title == null) return
 
-        viewModel.updateMelody(title).collect(owner = this) { isSuccess ->
-            if (!isSuccess) {
-                delegators.toast.show(context, R.string.pref_toast_melody_replaced)
+        viewModel.updateMelody(title).collect(owner = this) {
+            when (it) {
+                UpdateMelodyState.AutoChoose -> {
+                    delegators.toast.show(context, R.string.pref_toast_melody_replaced)
+                }
             }
         }
     }

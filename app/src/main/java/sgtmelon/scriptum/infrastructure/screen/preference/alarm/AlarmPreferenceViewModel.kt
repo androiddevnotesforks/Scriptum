@@ -33,5 +33,5 @@ interface AlarmPreferenceViewModel {
 
     fun getMelody(p: Int): Flow<MelodyItem>
 
-    fun updateMelody(title: String): Flow<Boolean>
+    fun updateMelody(title: String): Flow<UpdateMelodyState>
 }
