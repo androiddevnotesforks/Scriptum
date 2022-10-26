@@ -28,7 +28,7 @@ internal class DelayJobDelegator(lifecycle: Lifecycle?) : DefaultLifecycleObserv
         cancel()
     }
 
-    fun run(gapTime: Long, @MainThread func: () -> Unit) {
+    inline fun run(gapTime: Long, @MainThread crossinline func: () -> Unit) {
         job?.cancel()
         job = ioScope.launch {
             delay(gapTime)

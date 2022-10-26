@@ -16,8 +16,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.TestData
-import sgtmelon.scriptum.testing.getRandomSize
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -35,6 +33,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
+import sgtmelon.scriptum.testing.getRandomSize
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -74,7 +74,7 @@ class PreferencesRepoImplTest : ParentTest() {
 
     //region Help functions
 
-    private fun <T> getTest(value: T, getFunc: () -> T, runFunc: () -> T) {
+    private inline fun <T> getTest(value: T, crossinline getFunc: () -> T, runFunc: () -> T) {
         every { getFunc() } returns value
 
         assertEquals(runFunc(), value)
@@ -84,7 +84,11 @@ class PreferencesRepoImplTest : ParentTest() {
         }
     }
 
-    private fun <T> setTest(value: T, setFunc: (value: T) -> Unit, runFunc: (value: T) -> Unit) {
+    private inline fun <T> setTest(
+        value: T,
+        crossinline setFunc: (value: T) -> Unit,
+        runFunc: (value: T) -> Unit
+    ) {
         runFunc(value)
 
         verifySequence {
@@ -94,12 +98,12 @@ class PreferencesRepoImplTest : ParentTest() {
 
     private fun getMelodyList(): List<MelodyItem> = TestData.Melody.melodyList.shuffled()
 
-    private fun <E: Enum<E>> getEnumTest(
+    private inline fun <E : Enum<E>> getEnumTest(
         enumValue: E,
         defEnumValue: E,
         converter: ParentEnumConverter<E>,
-        getFunc: () -> Int,
-        setFunc: (value: Int) -> Unit,
+        crossinline getFunc: () -> Int,
+        crossinline setFunc: (value: Int) -> Unit,
         runFunc: () -> E
     ) {
         val ordinal = Random.nextInt()
@@ -124,10 +128,10 @@ class PreferencesRepoImplTest : ParentTest() {
         }
     }
 
-    private fun <E : Enum<E>> setEnumTest(
+    private inline fun <E : Enum<E>> setEnumTest(
         enumValue: E,
         converter: ParentEnumConverter<E>,
-        setFunc: (value: Int) -> Unit,
+        crossinline setFunc: (value: Int) -> Unit,
         runFunc: (value: E) -> Unit
     ) {
         val ordinal = Random.nextInt()
