@@ -84,12 +84,12 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModel
@@ -329,15 +329,16 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideBackupPreferenceViewModel(
-        fragment: BackupPreferenceFragment,
+        owner: ViewModelStoreOwner,
+        permissionResult: PermissionResult?,
         getBackupFileList: GetBackupFileListUseCase,
         startBackupExport: StartBackupExportUseCase,
         startBackupImport: StartBackupImportUseCase
     ): BackupPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Backup(
-            fragment, getBackupFileList, startBackupExport, startBackupImport
+            permissionResult, getBackupFileList, startBackupExport, startBackupImport
         )
-        return ViewModelProvider(fragment, factory)[BackupPreferenceViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[BackupPreferenceViewModelImpl::class.java]
     }
 
     @Provides

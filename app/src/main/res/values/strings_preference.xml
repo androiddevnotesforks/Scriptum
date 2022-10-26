@@ -8,7 +8,7 @@
     <string name="pref_title_backup">Backup</string>
     <string name="pref_title_backup_export">Save data to file</string>
     <string name="pref_title_backup_import">Load data from file</string>
-    <string name="pref_title_backup_skip">Skip identical notes</string>
+    <string name="pref_title_import_skip">Skip identical notes</string>
 
     <string name="pref_title_note">Notes</string>
     <string name="pref_title_note_sort">Sort notes</string>
@@ -44,16 +44,16 @@
 
     <!-- Preference summaries -->
 
-    <string name="pref_summary_permission_need">Application need a permission</string>
+    <string name="pref_summary_permission_needed">Application need a permission</string>
 
     <string name="pref_summary_app_theme">Selected theme</string>
 
-    <string name="pref_summary_backup_import_search">Searching for a backup files</string>
-    <string name="pref_summary_backup_import_empty">
+    <string name="pref_summary_import_search">Searching for a backup files</string>
+    <string name="pref_summary_import_empty">
         You don\'t have any backup files
     </string>
-    <string name="pref_summary_backup_import_found">Founded files: %d</string>
-    <string name="pref_summary_backup_skip">
+    <string name="pref_summary_import_found">Founded files: %d</string>
+    <string name="pref_summary_import_skip">
         If an application already has a note with the same name and content, then it will not be
         added during backup.
     </string>

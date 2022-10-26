@@ -4,7 +4,6 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.StringRes
 import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.safedialog.utils.safeDismiss
@@ -18,8 +17,9 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
-import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportDataState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportSummaryState
 import sgtmelon.scriptum.infrastructure.utils.isGranted
 import sgtmelon.scriptum.infrastructure.utils.requestPermission
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
@@ -58,7 +58,8 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     override fun inject(component: ScriptumComponent) {
         component.getBackupPrefBuilder()
-            .set(fragment = this)
+            .set(owner = this)
+            .set(permissionState.getResult(activity))
             .build()
             .inject(fragment = this)
     }
@@ -96,7 +97,41 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun setupObservers() {
-        TODO()
+        viewModel.exportSummary.observe(this) { observeExportSummary(it) }
+        viewModel.exportEnabled.observe(this) { binding.exportButton?.isEnabled = it }
+        viewModel.importSummary.observe(this) { observeImportSummary(it) }
+        viewModel.importEnabled.observe(this) { binding.importButton?.isEnabled = it }
+    }
+
+    private fun observeExportSummary(it: ExportSummaryState) {
+        binding.exportButton?.summary = when (it) {
+            ExportSummaryState.Permission -> getString(R.string.pref_summary_permission_needed)
+            ExportSummaryState.Empty -> ""
+        }
+    }
+
+    private fun observeImportSummary(it: ImportSummaryState) {
+        when (it) {
+            is ImportSummaryState.StartSearch -> {
+                dotAnimation.start(context, R.string.pref_summary_import_search)
+            }
+            is ImportSummaryState.Permission -> {
+                dotAnimation.stop()
+                updateImportSummary(getString(R.string.pref_summary_permission_needed))
+            }
+            is ImportSummaryState.Found -> {
+                dotAnimation.stop()
+                updateImportSummary(getString(R.string.pref_summary_import_found, it.count))
+            }
+            is ImportSummaryState.NoFound -> {
+                dotAnimation.stop()
+                updateImportSummary(getString(R.string.pref_summary_import_empty))
+            }
+        }
+    }
+
+    private fun updateImportSummary(text: String) {
+        binding.importButton?.summary = text
     }
 
     /**
@@ -139,61 +174,11 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         when (result) {
             PermissionResult.ASK -> showImportPermissionDialog()
             PermissionResult.FORBIDDEN -> showImportDenyDialog()
-            PermissionResult.LOW_API, PermissionResult.GRANTED -> onImportPermissionGranted()
-        }
-    }
-
-    private fun onImportPermissionGranted() {
-        viewModel.importData.collect(owner = this) {
-            when (it) {
-                is ImportDataState.Empty -> {
-                    updateImportSummary(R.string.pref_summary_backup_import_empty)
-                    updateImportEnabled(isEnabled = false)
-                }
-                is ImportDataState.Normal -> showImportDialog(it.titleArray)
+            PermissionResult.LOW_API, PermissionResult.GRANTED -> {
+                viewModel.importData.collect(owner = this) { showImportDialog(it) }
             }
         }
     }
-
-    //region cleanup
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onSetup()
-    }
-
-    override fun updateExportEnabled(isEnabled: Boolean) {
-        binding.exportButton?.isEnabled = isEnabled
-    }
-
-    override fun updateExportSummary(summaryId: Int) {
-        binding.exportButton?.summary = getString(summaryId)
-    }
-
-    override fun resetExportSummary() {
-        binding.exportButton?.summary = ""
-    }
-
-
-    override fun updateImportEnabled(isEnabled: Boolean) {
-        binding.importButton?.isEnabled = isEnabled
-    }
-
-    override fun startImportSummarySearch() {
-        dotAnimation.start(context, R.string.pref_summary_backup_import_search)
-    }
-
-    override fun stopImportSummarySearch() = dotAnimation.stop()
-
-    override fun updateImportSummary(@StringRes summaryId: Int) {
-        binding.importButton?.summary = getString(summaryId)
-    }
-
-    override fun updateImportSummaryFound(count: Int) {
-        binding.importButton?.summary = getString(R.string.pref_summary_backup_import_found, count)
-    }
-
-    //endregion
 
     //region Dialogs
 

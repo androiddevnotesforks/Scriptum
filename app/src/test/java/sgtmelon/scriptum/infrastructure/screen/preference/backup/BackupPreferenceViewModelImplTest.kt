@@ -106,11 +106,11 @@ class BackupPreferenceViewModelImplTest : ParentViewModelTest() {
                 spyViewModel.callback
                 callback.updateExportEnabled(isEnabled = true)
                 spyViewModel.callback
-                callback.updateExportSummary(R.string.pref_summary_permission_need)
+                callback.updateExportSummary(R.string.pref_summary_permission_needed)
                 spyViewModel.callback
                 callback.updateImportEnabled(isEnabled = true)
                 spyViewModel.callback
-                callback.updateImportSummary(R.string.pref_summary_permission_need)
+                callback.updateImportSummary(R.string.pref_summary_permission_needed)
             }
 
             spyViewModel.onSetup()
@@ -144,7 +144,7 @@ class BackupPreferenceViewModelImplTest : ParentViewModelTest() {
             getBackupFileList()
             callback.stopImportSummarySearch()
             list.isEmpty()
-            callback.updateImportSummary(R.string.pref_summary_backup_import_empty)
+            callback.updateImportSummary(R.string.pref_summary_import_empty)
             callback.updateExportEnabled(isEnabled = true)
 
             callback.updateExportEnabled(isEnabled = false)
@@ -323,7 +323,7 @@ class BackupPreferenceViewModelImplTest : ParentViewModelTest() {
 
         coVerifySequence {
             getBackupFileList()
-            callback.updateImportSummary(R.string.pref_summary_backup_import_empty)
+            callback.updateImportSummary(R.string.pref_summary_import_empty)
             callback.updateImportEnabled(isEnabled = false)
 
             getBackupFileList()

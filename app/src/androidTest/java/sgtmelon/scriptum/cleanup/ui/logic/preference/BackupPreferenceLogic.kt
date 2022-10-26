@@ -21,8 +21,8 @@ class BackupPreferenceLogic : ParentPreferenceLogic() {
 
         list.add(Header(R.string.pref_header_options))
         list.add(Switch(
-            R.string.pref_title_backup_skip,
-            R.string.pref_summary_backup_skip,
+            R.string.pref_title_import_skip,
+            R.string.pref_summary_import_skip,
             preferences.isBackupSkipImports
         ))
 

@@ -1,72 +1,114 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
-import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
+import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.onBack
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
+import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
-import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportDataState
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
-import sgtmelon.test.prod.RunPrivate
-import sgtmelon.scriptum.infrastructure.model.key.PermissionResult as Permission
+import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportSummaryState
 
 class BackupPreferenceViewModelImpl(
+    initPermissionResult: PermissionResult?,
     private val getBackupFileList: GetBackupFileListUseCase,
     private val startBackupExport: StartBackupExportUseCase,
     private val startBackupImport: StartBackupImportUseCase
 ) : ViewModel(),
     BackupPreferenceViewModel {
 
-    override fun onSetup(bundle: Bundle?) {
-        callback?.setup()
+    override val exportSummary: MutableLiveData<ExportSummaryState> = MutableLiveData()
 
-        val result = callback?.getStoragePermissionResult() ?: return
+    override val exportEnabled: MutableLiveData<Boolean> = MutableLiveData()
 
-        val isAllowed = result == Permission.LOW_API || result == Permission.GRANTED
+    override val importSummary: MutableLiveData<ImportSummaryState> = MutableLiveData()
 
-        if (!isAllowed) {
-            callback?.updateExportEnabled(isEnabled = true)
-            callback?.updateExportSummary(R.string.pref_summary_permission_need)
-            callback?.updateImportEnabled(isEnabled = true)
-            callback?.updateImportSummary(R.string.pref_summary_permission_need)
+    override val importEnabled: MutableLiveData<Boolean> = MutableLiveData()
+
+    init {
+        val isAllowed = initPermissionResult.let {
+            it == PermissionResult.LOW_API || it == PermissionResult.GRANTED
+        }
+
+        if (isAllowed) {
+            viewModelScope.launchBack { updateBackupFiles() }
         } else {
-            viewModelScope.launch { setupBackground() }
+            exportEnabled.postValue(true)
+            exportSummary.postValue(ExportSummaryState.Permission)
+            importEnabled.postValue(true)
+            importSummary.postValue(ImportSummaryState.Permission)
         }
     }
 
-    @RunPrivate suspend fun setupBackground() {
-        /**
-         * Need to block export preference, otherwise user may come to coroutines circle.
-         *
-         * When save dialog dismiss -> onResume happen -> and it call [onSetup] -> and launch
-         * the [setupBackground] coroutine (even if last one not ending).
-         */
-        callback?.updateExportEnabled(isEnabled = false)
-        callback?.resetExportSummary()
+    private suspend fun updateBackupFiles() {
+        exportEnabled.postValue(false)
+        exportSummary.postValue(ExportSummaryState.Empty)
+        importEnabled.postValue(false)
+        importSummary.postValue(ImportSummaryState.StartSearch)
 
-        callback?.updateImportEnabled(isEnabled = false)
-        callback?.startImportSummarySearch()
-        val fileList = runBack { getBackupFileList() }
-        callback?.stopImportSummarySearch()
+        val fileList = getBackupFileList()
 
         if (fileList.isEmpty()) {
-            callback?.updateImportSummary(R.string.pref_summary_backup_import_empty)
+            importSummary.postValue(ImportSummaryState.NoFound)
         } else {
-            callback?.updateImportSummaryFound(fileList.size)
-            callback?.updateImportEnabled(isEnabled = true)
+            importSummary.postValue(ImportSummaryState.Found(fileList.size))
+            importEnabled.postValue(true)
         }
 
-        callback?.updateExportEnabled(isEnabled = true)
+        exportEnabled.postValue(true)
     }
+
+    //    override fun onSetup(bundle: Bundle?) {
+    //        callback?.setup()
+    //
+    //        val result = callback?.getStoragePermissionResult() ?: return
+    //
+    //        val isAllowed = result == Permission.LOW_API || result == Permission.GRANTED
+    //
+    //        if (!isAllowed) {
+    //            callback?.updateExportEnabled(isEnabled = true)
+    //            callback?.updateExportSummary(R.string.pref_summary_permission_needed)
+    //            callback?.updateImportEnabled(isEnabled = true)
+    //            callback?.updateImportSummary(R.string.pref_summary_permission_needed)
+    //        } else {
+    //            viewModelScope.launch { setupBackground() }
+    //        }
+    //    }
+
+    //    @RunPrivate suspend fun setupBackground() {
+    //        /**
+    //         * Need to block export preference, otherwise user may come to coroutines circle.
+    //         *
+    //         * When save dialog dismiss -> onResume happen -> and it call [onSetup] -> and launch
+    //         * the [setupBackground] coroutine (even if last one not ending).
+    //         */
+    //        callback?.updateExportEnabled(isEnabled = false)
+    //        callback?.resetExportSummary()
+    //        callback?.updateImportEnabled(isEnabled = false)
+    //        callback?.startImportSummarySearch()
+    //
+    //        val fileList = runBack { getBackupFileList() }
+    //
+    //        callback?.stopImportSummarySearch()
+    //
+    //        if (fileList.isEmpty()) {
+    //            callback?.updateImportSummary(R.string.pref_summary_import_empty)
+    //        } else {
+    //            callback?.updateImportSummaryFound(fileList.size)
+    //            callback?.updateImportEnabled(isEnabled = true)
+    //        }
+    //
+    //        callback?.updateExportEnabled(isEnabled = true)
+    //    }
 
     //region Export/import functions
 
@@ -117,21 +159,23 @@ class BackupPreferenceViewModelImpl(
             is ExportResult.Success -> {
                 emit(ExportState.LoadSuccess(result.path))
 
-                /** Need update file list for feature import. */
+                /** Need update file list for import feature. */
                 getBackupFileList.reset()
-                setupBackground()
+                updateBackupFiles()
             }
             is ExportResult.Error -> emit(ExportState.LoadError)
         }
     }.onBack()
 
-    override val importData: Flow<ImportDataState>
+    override val importData: Flow<Array<String>>
         get() = flow {
             val titleArray = getBackupFileList().map { it.name }.toTypedArray()
+
             if (titleArray.isEmpty()) {
-                emit(ImportDataState.Empty)
+                importSummary.postValue(ImportSummaryState.NoFound)
+                importEnabled.postValue(false)
             } else {
-                emit(ImportDataState.Normal(titleArray))
+                emit(titleArray)
             }
         }.onBack()
 

@@ -67,9 +67,9 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
@@ -318,7 +318,7 @@ object ViewModelFactory {
         }
 
         class Backup(
-            private val fragment: BackupPreferenceFragment,
+            private val permissionResult: PermissionResult?,
             private val getBackupFileList: GetBackupFileListUseCase,
             private val startBackupExport: StartBackupExportUseCase,
             private val startBackupImport: StartBackupImportUseCase
@@ -326,7 +326,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BackupPreferenceViewModelImpl::class) {
                     BackupPreferenceViewModelImpl(
-                        fragment, getBackupFileList, startBackupExport, startBackupImport
+                        permissionResult, getBackupFileList, startBackupExport, startBackupImport
                     )
                 }
             }
