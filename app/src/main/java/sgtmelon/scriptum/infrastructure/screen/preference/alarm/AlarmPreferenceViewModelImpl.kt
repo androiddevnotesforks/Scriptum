@@ -13,7 +13,6 @@ import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseC
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
-import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceTesting as Testing
 
 class AlarmPreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
@@ -38,7 +37,7 @@ class AlarmPreferenceViewModelImpl(
         signalSummary.postValue(getSignalSummary(value))
 
         viewModelScope.launchBack {
-            if (getMelodyList().isNotEmpty() && !Testing.showMelodyEmpty) {
+            if (getMelodyList().isNotEmpty()) {
                 melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             } else {
                 melodyGroupEnabled.postValue(false)
@@ -66,7 +65,7 @@ class AlarmPreferenceViewModelImpl(
         val check = preferencesRepo.getMelodyCheck(list)
         val item = if (check != null) list.getOrNull(check) else null
 
-        if (item != null && !Testing.showMelodyEmpty) {
+        if (item != null) {
             melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             melodySummaryState.postValue(MelodySummaryState.Finish(item.title))
         } else {
@@ -85,7 +84,7 @@ class AlarmPreferenceViewModelImpl(
             val titleArray = list.map { it.title }.toTypedArray()
             val check = preferencesRepo.getMelodyCheck(list)
 
-            if (titleArray.isNotEmpty() && check != null && !Testing.showMelodyEmpty) {
+            if (titleArray.isNotEmpty() && check != null) {
                 emit(value = titleArray to check)
             } else {
                 melodyGroupEnabled.postValue(false)
@@ -102,10 +101,10 @@ class AlarmPreferenceViewModelImpl(
      */
     override fun updateMelody(title: String): Flow<Boolean> = flow {
         val resultTitle = preferencesRepo.setMelodyUri(getMelodyList(), title)
-        if (resultTitle != null && !Testing.showMelodyEmpty) {
+        if (resultTitle != null) {
             melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             melodySummaryState.postValue(MelodySummaryState.Finish(resultTitle))
-            emit(value = title == resultTitle && !Testing.isAnotherMelody)
+            emit(value = title == resultTitle)
         } else {
             melodyGroupEnabled.postValue(false)
             melodySummaryState.postValue(MelodySummaryState.Empty)
