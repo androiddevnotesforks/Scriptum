@@ -43,13 +43,13 @@ class PreferencesKeyProviderTest : ParentTest() {
         val isDeveloper = nextString()
 
         every { resources.getString(R.string.pref_key_first_start) } returns isFirstStart
-        every { resources.getString(R.string.pref_key_app_theme) } returns theme
+        every { resources.getString(R.string.pref_key_theme) } returns theme
         every { resources.getString(R.string.pref_key_backup_skip) } returns isBackupSkipImports
         every { resources.getString(R.string.pref_key_note_sort) } returns sort
         every { resources.getString(R.string.pref_key_note_color) } returns defaultColor
-        every { resources.getString(R.string.pref_key_note_pause) } returns isPauseSaveOn
-        every { resources.getString(R.string.pref_key_note_auto) } returns isAutoSaveOn
-        every { resources.getString(R.string.pref_key_note_time) } returns savePeriod
+        every { resources.getString(R.string.pref_key_note_pause_save) } returns isPauseSaveOn
+        every { resources.getString(R.string.pref_key_note_auto_save) } returns isAutoSaveOn
+        every { resources.getString(R.string.pref_key_note_save_period) } returns savePeriod
         every { resources.getString(R.string.pref_key_alarm_repeat) } returns repeat
         every { resources.getString(R.string.pref_key_alarm_signal) } returns signal
         every { resources.getString(R.string.pref_key_alarm_melody) } returns melodyUri
@@ -74,13 +74,13 @@ class PreferencesKeyProviderTest : ParentTest() {
 
         verifySequence {
             resources.getString(R.string.pref_key_first_start)
-            resources.getString(R.string.pref_key_app_theme)
+            resources.getString(R.string.pref_key_theme)
             resources.getString(R.string.pref_key_backup_skip)
             resources.getString(R.string.pref_key_note_sort)
             resources.getString(R.string.pref_key_note_color)
-            resources.getString(R.string.pref_key_note_pause)
-            resources.getString(R.string.pref_key_note_auto)
-            resources.getString(R.string.pref_key_note_time)
+            resources.getString(R.string.pref_key_note_pause_save)
+            resources.getString(R.string.pref_key_note_auto_save)
+            resources.getString(R.string.pref_key_note_save_period)
             resources.getString(R.string.pref_key_alarm_repeat)
             resources.getString(R.string.pref_key_alarm_signal)
             resources.getString(R.string.pref_key_alarm_melody)

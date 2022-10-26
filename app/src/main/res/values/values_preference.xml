@@ -5,15 +5,15 @@
 
     <integer name="pref_app_theme">2</integer>
 
-    <bool name="pref_backup_import_skip">true</bool>
+    <bool name="pref_backup_skip">true</bool>
 
     <integer name="pref_note_sort">0</integer>
     <integer name="pref_note_color">10</integer>
-    <bool name="pref_note_save_pause">true</bool>
-    <bool name="pref_note_save_auto">true</bool>
-    <integer name="pref_note_save_time">0</integer>
+    <bool name="pref_note_pause_save">true</bool>
+    <bool name="pref_note_auto_save">true</bool>
+    <integer name="pref_note_save_period">0</integer>
 
-    <integer-array name="pref_note_save_time_array">
+    <integer-array name="pref_note_save_period_array">
         <item>60000</item>  <!-- 1 minute -->
         <item>180000</item> <!-- 3 minutes -->
         <item>420000</item> <!-- 7 minutes -->

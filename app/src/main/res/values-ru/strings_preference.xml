@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Preference headers -->
-
-    <string name="pref_header_app">Приложение</string>
-    <string name="pref_header_common">Общее</string>
-    <string name="pref_header_main">Основное</string>
-    <string name="pref_header_save">Сохранение</string>
-
-    <string name="pref_header_melody_options">Параметры мелодии</string>
-    <string name="pref_header_other">Прочее</string>
-    <string name="pref_header_options">Параметры</string>
-
     <!-- Preference titles -->
 
     <string name="pref_title_app_theme">Тема</string>
@@ -41,6 +30,17 @@
 
     <string name="pref_title_help_disappear">Почему пропадают уведомления?</string>
     <string name="pref_title_help_privacy_policy">Политика конфиденциальности</string>
+
+    <!-- Preference headers -->
+
+    <string name="pref_header_app">Приложение</string>
+    <string name="pref_header_common">Общее</string>
+    <string name="pref_header_main">Основное</string>
+    <string name="pref_header_save">Сохранение</string>
+
+    <string name="pref_header_melody_options">Параметры мелодии</string>
+    <string name="pref_header_other">Прочее</string>
+    <string name="pref_header_options">Параметры</string>
 
     <!-- Preference summaries -->
 

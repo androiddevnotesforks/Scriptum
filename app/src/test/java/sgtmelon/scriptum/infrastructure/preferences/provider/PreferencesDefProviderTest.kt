@@ -45,12 +45,12 @@ class PreferencesDefProviderTest : ParentTest() {
 
         every { resources.getBoolean(R.bool.pref_first_start) } returns isFirstStart
         every { resources.getInteger(R.integer.pref_app_theme) } returns theme
-        every { resources.getBoolean(R.bool.pref_backup_import_skip) } returns isBackupSkipImports
+        every { resources.getBoolean(R.bool.pref_backup_skip) } returns isBackupSkipImports
         every { resources.getInteger(R.integer.pref_note_sort) } returns sort
         every { resources.getInteger(R.integer.pref_note_color) } returns defaultColor
-        every { resources.getBoolean(R.bool.pref_note_save_pause) } returns isPauseSaveOn
-        every { resources.getBoolean(R.bool.pref_note_save_auto) } returns isAutoSaveOn
-        every { resources.getInteger(R.integer.pref_note_save_time) } returns savePeriod
+        every { resources.getBoolean(R.bool.pref_note_pause_save) } returns isPauseSaveOn
+        every { resources.getBoolean(R.bool.pref_note_auto_save) } returns isAutoSaveOn
+        every { resources.getInteger(R.integer.pref_note_save_period) } returns savePeriod
         every { resources.getInteger(R.integer.pref_alarm_repeat) } returns repeat
         every { resources.getString(R.string.pref_alarm_signal) } returns signal
         every { resources.getString(R.string.pref_alarm_melody) } returns melodyUri
@@ -76,12 +76,12 @@ class PreferencesDefProviderTest : ParentTest() {
         verifySequence {
             resources.getBoolean(R.bool.pref_first_start)
             resources.getInteger(R.integer.pref_app_theme)
-            resources.getBoolean(R.bool.pref_backup_import_skip)
+            resources.getBoolean(R.bool.pref_backup_skip)
             resources.getInteger(R.integer.pref_note_sort)
             resources.getInteger(R.integer.pref_note_color)
-            resources.getBoolean(R.bool.pref_note_save_pause)
-            resources.getBoolean(R.bool.pref_note_save_auto)
-            resources.getInteger(R.integer.pref_note_save_time)
+            resources.getBoolean(R.bool.pref_note_pause_save)
+            resources.getBoolean(R.bool.pref_note_auto_save)
+            resources.getInteger(R.integer.pref_note_save_period)
             resources.getInteger(R.integer.pref_alarm_repeat)
             resources.getString(R.string.pref_alarm_signal)
             resources.getString(R.string.pref_alarm_melody)

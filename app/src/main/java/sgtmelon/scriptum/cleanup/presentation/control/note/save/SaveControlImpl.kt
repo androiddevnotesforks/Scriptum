@@ -25,7 +25,7 @@ class SaveControlImpl(
     private var job: Job? = null
 
     private val periodTime: Long? = try {
-        val timeArray = resources.getIntArray(R.array.pref_note_save_time_array)
+        val timeArray = resources.getIntArray(R.array.pref_note_save_period_array)
         timeArray[saveState.savePeriod.ordinal].toLong()
     } catch (e: Throwable) {
         e.record()

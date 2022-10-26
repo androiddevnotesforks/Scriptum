@@ -90,43 +90,4 @@
         Sorry, we can\'t apply selected melody! So we choose another one. :(
     </string>
 
-    <!-- Preference keys -->
-
-    <string name="pref_key_first_start" translatable="false">key_first_start</string>
-
-    <string name="pref_key_app_theme" translatable="false">key_app_theme</string>
-
-    <string name="pref_key_backup" translatable="false">key_backup</string>
-    <string name="pref_key_backup_export" translatable="false">key_backup_export</string>
-    <string name="pref_key_backup_import" translatable="false">key_backup_import</string>
-    <string name="pref_key_backup_skip" translatable="false">key_backup_skip</string>
-
-    <string name="pref_key_note" translatable="false">key_note</string>
-    <string name="pref_key_note_sort" translatable="false">key_note_sort</string>
-    <string name="pref_key_note_color" translatable="false">key_note_color</string>
-    <string name="pref_key_note_pause" translatable="false">key_note_pause</string>
-    <string name="pref_key_note_auto" translatable="false">key_note_auto</string>
-    <string name="pref_key_note_time" translatable="false">key_note_time</string>
-
-    <string name="pref_key_alarm" translatable="false">key_alarm</string>
-    <string name="pref_key_alarm_repeat" translatable="false">key_alarm_repeat</string>
-
-    <!--
-          Deprecated:
-          * key_alarm_signal - it was Int inside Preferences and converting into SignalState via
-                               digit converter.
-                               For example (0 - false, 1 - true): 0 - 00, 1 - 01, 2 - 10, ...
-    -->
-    <string name="pref_key_alarm_signal" translatable="false">key_alarm_signal_1</string>
-    <string name="pref_key_alarm_melody" translatable="false">key_alarm_melody</string>
-    <string name="pref_key_alarm_volume" translatable="false">key_alarm_volume</string>
-    <string name="pref_key_alarm_increase" translatable="false">key_alarm_increase</string>
-
-    <string name="pref_key_other_policy" translatable="false">key_other_policy</string>
-    <string name="pref_key_other_rate" translatable="false">key_other_rate</string>
-    <string name="pref_key_other_help" translatable="false">key_other_help</string>
-    <string name="pref_key_other_about" translatable="false">key_other_about</string>
-
-    <string name="pref_key_help_disappear" translatable="false">key_help_eternal_notification</string>
-
 </resources>

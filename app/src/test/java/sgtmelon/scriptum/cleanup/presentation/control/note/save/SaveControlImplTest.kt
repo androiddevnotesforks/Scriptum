@@ -47,7 +47,7 @@ class SaveControlImplTest : ParentCoTest() {
         val savePeriod = mockk<SavePeriod>()
         val ordinal = array.indices.random()
 
-        every { resources.getIntArray(R.array.pref_note_save_time_array) } returns array
+        every { resources.getIntArray(R.array.pref_note_save_period_array) } returns array
         every { saveState.savePeriod } returns savePeriod
         every { savePeriod.ordinal } returns ordinal
 
@@ -55,7 +55,7 @@ class SaveControlImplTest : ParentCoTest() {
     }
 
     private fun verifyPeriodTime(period: SavePeriod) {
-        resources.getIntArray(R.array.pref_note_save_time_array)
+        resources.getIntArray(R.array.pref_note_save_period_array)
         saveState.savePeriod
         period.ordinal
     }
@@ -66,7 +66,7 @@ class SaveControlImplTest : ParentCoTest() {
         val savePeriod = mockk<SavePeriod>()
         val ordinal = Random.nextInt()
 
-        every { resources.getIntArray(R.array.pref_note_save_time_array) } returns intArrayOf()
+        every { resources.getIntArray(R.array.pref_note_save_period_array) } returns intArrayOf()
         every { saveState.savePeriod } returns savePeriod
         every { savePeriod.ordinal } returns ordinal
 
@@ -76,7 +76,7 @@ class SaveControlImplTest : ParentCoTest() {
         saveControl.initLazy()
 
         verifySequence {
-            resources.getIntArray(R.array.pref_note_save_time_array)
+            resources.getIntArray(R.array.pref_note_save_period_array)
             saveState.savePeriod
             savePeriod.ordinal
             any<ArrayIndexOutOfBoundsException>().record()

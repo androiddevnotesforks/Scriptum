@@ -10,15 +10,15 @@ import sgtmelon.scriptum.R
 class PreferencesKeyProvider(resources: Resources) {
 
     val isFirstStart: String = resources.getString(R.string.pref_key_first_start)
-    val theme: String = resources.getString(R.string.pref_key_app_theme)
+    val theme: String = resources.getString(R.string.pref_key_theme)
 
     val isBackupSkipImports: String = resources.getString(R.string.pref_key_backup_skip)
 
     val sort: String = resources.getString(R.string.pref_key_note_sort)
     val defaultColor: String = resources.getString(R.string.pref_key_note_color)
-    val isPauseSaveOn: String = resources.getString(R.string.pref_key_note_pause)
-    val isAutoSaveOn: String = resources.getString(R.string.pref_key_note_auto)
-    val savePeriod: String = resources.getString(R.string.pref_key_note_time)
+    val isPauseSaveOn: String = resources.getString(R.string.pref_key_note_pause_save)
+    val isAutoSaveOn: String = resources.getString(R.string.pref_key_note_auto_save)
+    val savePeriod: String = resources.getString(R.string.pref_key_note_save_period)
 
     val repeat: String = resources.getString(R.string.pref_key_alarm_repeat)
     val signal: String = resources.getString(R.string.pref_key_alarm_signal)

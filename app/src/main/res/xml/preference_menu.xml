@@ -7,7 +7,7 @@
         app:iconSpaceReserved="false">
 
         <Preference android:defaultValue="@integer/pref_app_theme"
-            android:key="@string/pref_key_app_theme"
+            android:key="@string/pref_key_theme"
             android:summary="@string/pref_summary_app_theme"
             android:title="@string/pref_title_app_theme"
             app:iconSpaceReserved="false" />
@@ -29,19 +29,19 @@
     <PreferenceCategory android:title="@string/pref_header_other"
         app:iconSpaceReserved="false">
 
-        <Preference android:key="@string/pref_key_other_policy"
+        <Preference android:key="@string/pref_key_policy"
             android:title="@string/pref_title_help_privacy_policy"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_other_rate"
+        <Preference android:key="@string/pref_key_rate"
             android:title="@string/pref_title_other_rate"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_other_help"
+        <Preference android:key="@string/pref_key_help"
             android:title="@string/pref_title_other_help"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_other_about"
+        <Preference android:key="@string/pref_key_about"
             android:title="@string/pref_title_other_about"
             app:iconSpaceReserved="false" />
 

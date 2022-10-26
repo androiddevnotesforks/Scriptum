@@ -19,7 +19,7 @@
     <PreferenceCategory android:title="@string/pref_header_options"
         app:iconSpaceReserved="false">
 
-        <SwitchPreferenceCompat android:defaultValue="@bool/pref_backup_import_skip"
+        <SwitchPreferenceCompat android:defaultValue="@bool/pref_backup_skip"
             android:key="@string/pref_key_backup_skip"
             android:summary="@string/pref_summary_import_skip"
             android:title="@string/pref_title_import_skip"
