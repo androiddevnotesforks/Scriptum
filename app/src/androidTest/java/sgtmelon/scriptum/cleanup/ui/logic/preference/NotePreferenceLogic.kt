@@ -23,12 +23,12 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
             ),
             PreferenceItem.Header(R.string.pref_header_save),
             PreferenceItem.Switch(
-                R.string.pref_title_note_save_pause,
+                R.string.pref_title_note_pause_save,
                 R.string.pref_summary_note_save_pause,
                 preferences.isPauseSaveOn
             ),
             PreferenceItem.Switch(
-                R.string.pref_title_note_save_auto,
+                R.string.pref_title_note_auto_save,
                 R.string.pref_summary_note_save_auto,
                 preferences.isAutoSaveOn
             ),

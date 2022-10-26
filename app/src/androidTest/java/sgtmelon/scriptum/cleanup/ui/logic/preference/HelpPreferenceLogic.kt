@@ -16,6 +16,6 @@ class HelpPreferenceLogic : ParentPreferenceLogic() {
             R.string.pref_summary_help_disappear
         ),
         PreferenceItem.Header(R.string.pref_header_other),
-        PreferenceItem.Simple(R.string.pref_title_help_privacy_policy)
+        PreferenceItem.Simple(R.string.pref_title_policy)
     )
 }

@@ -21,9 +21,9 @@ class PreferenceLogic : ParentPreferenceLogic() {
             PreferenceItem.Simple(R.string.pref_title_note),
             PreferenceItem.Simple(R.string.pref_title_alarm),
             PreferenceItem.Header(R.string.pref_header_other),
-            PreferenceItem.Simple(R.string.pref_title_other_rate),
-            PreferenceItem.Simple(R.string.pref_title_other_help),
-            PreferenceItem.Simple(R.string.pref_title_other_about)
+            PreferenceItem.Simple(R.string.pref_title_rate),
+            PreferenceItem.Simple(R.string.pref_title_help),
+            PreferenceItem.Simple(R.string.pref_title_about)
         )
 
         if (preferences.isDeveloper) {

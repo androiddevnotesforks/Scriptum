@@ -105,7 +105,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     private fun observeExportSummary(it: ExportSummaryState) {
         binding.exportButton?.summary = when (it) {
-            ExportSummaryState.Permission -> getString(R.string.pref_summary_permission_needed)
+            ExportSummaryState.Permission -> getString(R.string.pref_summary_no_permission)
             ExportSummaryState.Empty -> ""
         }
     }
@@ -117,7 +117,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
             }
             is ImportSummaryState.Permission -> {
                 dotAnimation.stop()
-                updateImportSummary(getString(R.string.pref_summary_permission_needed))
+                updateImportSummary(getString(R.string.pref_summary_no_permission))
             }
             is ImportSummaryState.Found -> {
                 dotAnimation.stop()
@@ -258,7 +258,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
                     delegators.toast.show(context, R.string.pref_toast_import_result)
                 }
                 is ImportState.LoadSkip -> {
-                    val text = getString(R.string.pref_toast_import_result_skip, it.count)
+                    val text = getString(R.string.pref_toast_import_skip, it.count)
                     delegators.toast.show(context, text, Toast.LENGTH_LONG)
                 }
                 is ImportState.LoadError -> {

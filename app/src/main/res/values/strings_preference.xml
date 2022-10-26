@@ -13,8 +13,8 @@
     <string name="pref_title_note">Notes</string>
     <string name="pref_title_note_sort">Sort notes</string>
     <string name="pref_title_note_color">Default note color</string>
-    <string name="pref_title_note_save_pause">On stop</string>
-    <string name="pref_title_note_save_auto">Auto save</string>
+    <string name="pref_title_note_pause_save">On stop</string>
+    <string name="pref_title_note_auto_save">Auto save</string>
     <string name="pref_title_note_save_period">Period of auto save</string>
 
     <string name="pref_title_alarm">Notifications</string>
@@ -24,12 +24,12 @@
     <string name="pref_title_alarm_volume">Volume</string>
     <string name="pref_title_alarm_increase">Volume increase</string>
 
-    <string name="pref_title_other_rate">Rate</string>
-    <string name="pref_title_other_help">Help</string>
-    <string name="pref_title_other_about">About app</string>
+    <string name="pref_title_rate">Rate</string>
+    <string name="pref_title_help">Help</string>
+    <string name="pref_title_about">About app</string>
+    <string name="pref_title_policy">Privacy policy</string>
 
     <string name="pref_title_help_disappear">Why notifications disappear?</string>
-    <string name="pref_title_help_privacy_policy">Privacy policy</string>
 
     <!-- Preference headers -->
 
@@ -44,14 +44,12 @@
 
     <!-- Preference summaries -->
 
-    <string name="pref_summary_permission_needed">Application need a permission</string>
+    <string name="pref_summary_no_permission">Application need a permission</string>
 
     <string name="pref_summary_app_theme">Selected theme</string>
 
     <string name="pref_summary_import_search">Searching for a backup files</string>
-    <string name="pref_summary_import_empty">
-        You don\'t have any backup files
-    </string>
+    <string name="pref_summary_import_empty">You don\'t have any backup files</string>
     <string name="pref_summary_import_found">Founded files: %d</string>
     <string name="pref_summary_import_skip">
         If an application already has a note with the same name and content, then it will not be
@@ -75,18 +73,15 @@
     <string name="pref_summary_help_disappear">And how fix it</string>
 
     <!-- Preference toast text -->
-    <!-- TODO rename toasts -->
 
     <string name="pref_toast_import_error">Sorry, but file is damaged! :(</string>
     <string name="pref_toast_import_result">Data successfully added! :)</string>
-    <string name="pref_toast_import_result_skip">
-        Data successfully added! :)\nSkipped notes: %d
-    </string>
+    <string name="pref_toast_import_skip">Data successfully added! :)\nSkipped notes: %d</string>
 
     <string name="pref_toast_export_result">File successfully saved!\nPath: %s</string>
     <string name="pref_toast_export_error">An error has occurred! Failed to save file.</string>
 
-    <string name="pref_toast_melody_replace">
+    <string name="pref_toast_melody_replaced">
         Sorry, we can\'t apply selected melody! So we choose another one. :(
     </string>
 

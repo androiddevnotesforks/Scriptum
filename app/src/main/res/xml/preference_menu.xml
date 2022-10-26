@@ -30,19 +30,19 @@
         app:iconSpaceReserved="false">
 
         <Preference android:key="@string/pref_key_policy"
-            android:title="@string/pref_title_help_privacy_policy"
+            android:title="@string/pref_title_policy"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_rate"
-            android:title="@string/pref_title_other_rate"
+            android:title="@string/pref_title_rate"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_help"
-            android:title="@string/pref_title_other_help"
+            android:title="@string/pref_title_help"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_about"
-            android:title="@string/pref_title_other_about"
+            android:title="@string/pref_title_about"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_developer"

@@ -13,8 +13,8 @@
     <string name="pref_title_note">Заметки</string>
     <string name="pref_title_note_sort">Сортировка заметок</string>
     <string name="pref_title_note_color">Цвет заметки по-умолчанию</string>
-    <string name="pref_title_note_save_pause">При остановке</string>
-    <string name="pref_title_note_save_auto">Автоматическое сохранение</string>
+    <string name="pref_title_note_pause_save">При остановке</string>
+    <string name="pref_title_note_auto_save">Автоматическое сохранение</string>
     <string name="pref_title_note_save_period">Период автосохранения</string>
 
     <string name="pref_title_alarm">Уведомления</string>
@@ -24,12 +24,12 @@
     <string name="pref_title_alarm_volume">Громкость</string>
     <string name="pref_title_alarm_increase">Нарастание громкости</string>
 
-    <string name="pref_title_other_rate">Оценить</string>
-    <string name="pref_title_other_help">Помощь</string>
-    <string name="pref_title_other_about">О приложении</string>
+    <string name="pref_title_rate">Оценить</string>
+    <string name="pref_title_help">Помощь</string>
+    <string name="pref_title_about">О приложении</string>
+    <string name="pref_title_policy">Политика конфиденциальности</string>
 
     <string name="pref_title_help_disappear">Почему пропадают уведомления?</string>
-    <string name="pref_title_help_privacy_policy">Политика конфиденциальности</string>
 
     <!-- Preference headers -->
 
@@ -44,7 +44,7 @@
 
     <!-- Preference summaries -->
 
-    <string name="pref_summary_permission_needed">Приложению требуется разрешение</string>
+    <string name="pref_summary_no_permission">Приложению требуется разрешение</string>
 
     <string name="pref_summary_app_theme">Выбранная тема</string>
 
@@ -86,14 +86,14 @@
 
     <string name="pref_toast_import_error">Извините, но файл повреждён! :(</string>
     <string name="pref_toast_import_result">Данные успешно добавлены! :)</string>
-    <string name="pref_toast_import_result_skip">
+    <string name="pref_toast_import_skip">
         Данные успешно добавлены! :)\nПропущено заметок: %d
     </string>
 
     <string name="pref_toast_export_result">Файл успешно сохранён!\nПуть: %s</string>
     <string name="pref_toast_export_error">Произошла ошибка! Не удалось сохранить файл.</string>
 
-    <string name="pref_toast_melody_replace">
+    <string name="pref_toast_melody_replaced">
         Извините, мы не смогли установить выбранную мелодию! Так что мы выбрали другую. :(
     </string>
 

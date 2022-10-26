@@ -63,7 +63,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             PreferenceScreen.BACKUP -> R.string.pref_title_backup
             PreferenceScreen.NOTE -> R.string.pref_title_note
             PreferenceScreen.ALARM -> R.string.pref_title_alarm
-            PreferenceScreen.HELP -> R.string.pref_title_other_help
+            PreferenceScreen.HELP -> R.string.pref_title_help
             PreferenceScreen.DEVELOP -> R.string.pref_title_developer
             PreferenceScreen.SERVICE -> R.string.pref_header_service
         }

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFra
  * Class for UI control of [HelpPreferenceFragment].
  */
 class HelpPreferenceScreen :
-    ParentPreferenceScreen<HelpPreferenceLogic>(R.string.pref_title_other_help) {
+    ParentPreferenceScreen<HelpPreferenceLogic>(R.string.pref_title_help) {
 
     override val screenLogic = HelpPreferenceLogic()
 
