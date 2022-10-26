@@ -49,7 +49,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     private val importDialog by lazy { dialogs.getImport() }
     private val loadingDialog by lazy { dialogs.getLoading() }
 
-    private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimation(lifecycle, DotAnimType.COUNT, callback = this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

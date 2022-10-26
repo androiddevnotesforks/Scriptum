@@ -11,13 +11,29 @@ import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import androidx.annotation.Size
 import androidx.annotation.StringRes
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.text.dotanim.R
 
 /**
  * Class for help animate [TextView] ending with loading dots.
  */
-class DotAnimation(private val type: DotAnimType, private val callback: Callback) {
+class DotAnimation(
+    lifecycle: Lifecycle?,
+    private val type: DotAnimType,
+    private val callback: Callback
+) : DefaultLifecycleObserver {
+
+    init {
+        lifecycle?.addObserver(this)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+        stop()
+    }
 
     private var animator: ValueAnimator? = null
 

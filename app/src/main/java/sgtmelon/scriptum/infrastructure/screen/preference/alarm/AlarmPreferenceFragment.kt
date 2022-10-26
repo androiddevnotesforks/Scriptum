@@ -46,7 +46,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     private val melodyDialog by lazy { dialogs.getMelody() }
     private val volumeDialog by lazy { dialogs.getVolume() }
 
-    private val dotAnimation = DotAnimation(DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimation(lifecycle, DotAnimType.COUNT, callback = this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
