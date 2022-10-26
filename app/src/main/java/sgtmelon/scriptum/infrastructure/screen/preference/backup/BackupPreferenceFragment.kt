@@ -279,8 +279,6 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    override fun onDotAnimationUpdate(text: String) {
-        binding.importButton?.summary = text
-    }
+    override fun onDotAnimationUpdate(text: String) = updateImportSummary(text)
 
 }
