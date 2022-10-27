@@ -16,7 +16,7 @@ import sgtmelon.test.idling.addIdlingListener
 fun ViewGroup.createVisibleAnim(
     target: View?,
     isVisible: Boolean,
-    @IntegerRes durationId: Int = R.integer.info_fade_time
+    @IntegerRes durationId: Int = R.integer.list_fade_time
 ) = let {
     val visibility = if (isVisible) View.VISIBLE else View.GONE
 

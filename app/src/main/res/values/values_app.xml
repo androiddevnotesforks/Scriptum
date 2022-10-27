@@ -22,8 +22,7 @@
 
     <integer name="placeholder_fade_time">500</integer>
 
-    <integer name="info_skip_time">0</integer>
-    <integer name="info_fade_time">200</integer>
+    <integer name="list_fade_time">200</integer>
 
     <integer name="alarm_show_delay">500</integer>
     <integer name="alarm_show_time">500</integer>

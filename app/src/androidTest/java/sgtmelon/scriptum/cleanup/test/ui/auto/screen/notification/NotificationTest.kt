@@ -34,6 +34,7 @@ class NotificationTest : ParentUiTest() {
         mainScreen { notesScreen { openNotification { onScrollThrough() } } }
     }
 
+    // TODO case: cancel item, snackbar undo click, open item, close note, check snackbar not shown
 
     @Test fun textNoteOpen() = db.insertText().let {
         launch({ db.insertNotification(it) }) {

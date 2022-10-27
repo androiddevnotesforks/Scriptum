@@ -35,6 +35,9 @@ inline fun CoroutineScope.launchBack(crossinline func: suspend () -> Unit): Job 
 
 fun <T> Flow<T>.onBack(): Flow<T> = flowOn(Dispatchers.IO)
 
+/**
+ * Short collect realization.
+ */
 inline fun <T> Flow<T>.collect(owner: LifecycleOwner, crossinline onCollect: (T) -> Unit) {
     owner.lifecycleScope.launch { collect { onCollect(it) } }
 }

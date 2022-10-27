@@ -4,11 +4,15 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
+import androidx.transition.Fade
+import androidx.transition.Transition
+import sgtmelon.test.idling.addIdlingListener
 
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
@@ -36,4 +40,21 @@ fun getElevationAnimator(view: CardView, @DimenRes elevationTo: Int): Animator {
 
 fun getAlphaInterpolator(isVisible: Boolean): Interpolator {
     return if (isVisible) AccelerateInterpolator() else DecelerateInterpolator()
+}
+
+/**
+ * Transition for animate hide and show of elements related with list (e.g. progressBar,
+ * emptyInfo, recyclerView).
+ */
+fun getListTransition(duration: Int, vararg targets: View): Transition {
+    val transition = Fade()
+        .setDuration(duration.toLong())
+        .setInterpolator(AccelerateDecelerateInterpolator())
+        .addIdlingListener()
+
+    for (view in targets) {
+        transition.addTarget(view)
+    }
+
+    return transition
 }

@@ -56,9 +56,10 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    private val bundleProvider = AlarmBundleProvider()
-
     @Inject lateinit var viewModel: AlarmViewModel
+
+    private val animation = AlarmAnimation()
+    private val bundleProvider = AlarmBundleProvider()
 
     private val finishTimer = DelayJobDelegator(lifecycle)
 
@@ -71,10 +72,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         override fun onNoteLongClick(item: NoteItem, p: Int) = Unit
     })
 
-    /** Variable for detect layout is completely configure and ready for animation. */
+    /** Variable for detect layout is completely configure and ready for [animation]. */
     private var isLayoutConfigure = false
-
-    private val animation = AlarmAnimation()
 
     //region System
 
@@ -213,9 +212,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     private fun startLogoShiftAnimation() {
-        animation.startLogoShiftAnimation(
-            binding?.parentContainer, binding?.logoView, { onLogoTransitionEnd() }
-        ) {
+        animation.startLogoTransition(binding, { onLogoTransitionEnd() }) {
             binding?.recyclerView?.visibility = View.VISIBLE
             binding?.buttonContainer?.visibility = View.VISIBLE
         }
@@ -246,7 +243,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         getIdling().start(IdlingTag.Alarm.START)
 
         startRippleAnimation()
-        animation.startContentAnimation(binding?.recyclerView, binding?.buttonContainer)
+        animation.startContentFade(binding)
 
         if (alarmState.signalState.isMelody) {
             delegators.alarmPlay.start(alarmState.isVolumeIncrease)

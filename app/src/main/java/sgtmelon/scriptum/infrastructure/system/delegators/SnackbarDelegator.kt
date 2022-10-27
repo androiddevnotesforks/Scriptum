@@ -29,6 +29,8 @@ class SnackbarDelegator(
         }
     }
 
+    val isDisplayed: Boolean get() = snackbar.let { it != null && it.isShown }
+
     fun show(parent: ViewGroup, withInsets: Boolean) {
         /** Need remove callback before dismiss for preventing [Snackbar.Callback.onDismissed]. */
         snackbar?.removeCallback(dismissCallback)
@@ -68,6 +70,7 @@ class SnackbarDelegator(
         }
 
         snackbar?.dismiss()
+        snackbar = null
     }
 
     interface Callback {
