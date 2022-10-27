@@ -14,7 +14,8 @@ class RecyclerInsertScroll(
     private val layoutManager: LinearLayoutManager
 ) {
 
-    fun scroll(indices: IntRange, p: Int) {
+    fun scroll(list: List<*>, p: Int) {
+        val indices = list.indices
         val firstVisible = layoutManager.findFirstCompletelyVisibleItemPosition()
         val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
 

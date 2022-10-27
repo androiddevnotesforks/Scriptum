@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import java.util.Calendar
 import sgtmelon.extensions.toText
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
@@ -63,6 +64,8 @@ class BroadcastDelegator(private val context: Context) {
             putExtra(IntentData.Eternal.Intent.TOAST, showToast)
         }
     }
+
+    fun sendCancelAlarm(item: NotificationItem) = sendCancelAlarm(item.note.id)
 
     fun sendCancelAlarm(noteId: Long) {
         context.sendTo(Filter.SYSTEM, Command.System.CANCEL_ALARM) {

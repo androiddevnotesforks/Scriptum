@@ -91,8 +91,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         viewModel.repeatSummary.observe(this) { binding.repeatButton?.summary = it }
         viewModel.signalSummary.observe(this) { binding.signalButton?.summary = it }
         viewModel.volumeSummary.observe(this) { binding.volumeButton?.summary = it }
-        viewModel.melodySummaryState.observe(this) { updateMelodySummary(it) }
-        viewModel.melodyGroupEnabled.observe(this) { updateMelodyGroupEnabled(it) }
+        viewModel.melodySummaryState.observe(this) { observeMelodySummaryState(it) }
+        viewModel.melodyGroupEnabled.observe(this) { observeMelodyGroupEnabled(it) }
     }
 
     private fun onMelodyPermission(result: PermissionResult?) {
@@ -110,7 +110,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         }
     }
 
-    private fun updateMelodySummary(state: MelodySummaryState) {
+    private fun observeMelodySummaryState(state: MelodySummaryState) {
         when (state) {
             is MelodySummaryState.Loading -> {
                 dotAnimation.start(context, R.string.pref_summary_alarm_melody_search)
@@ -130,7 +130,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         binding.melodyButton?.summary = summary
     }
 
-    private fun updateMelodyGroupEnabled(isEnabled: Boolean) {
+    private fun observeMelodyGroupEnabled(isEnabled: Boolean) {
         binding.melodyButton?.isEnabled = isEnabled
         binding.increaseButton?.isEnabled = isEnabled
         binding.volumeButton?.isEnabled = isEnabled

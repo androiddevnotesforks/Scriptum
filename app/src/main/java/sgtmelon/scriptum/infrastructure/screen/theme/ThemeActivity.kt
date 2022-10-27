@@ -32,7 +32,10 @@ abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
         super.onCreate(savedInstanceState)
 
         setupInsets()
+        setupView()
+        setupObservers()
         setupTheme(themeViewModel.theme)
+
 
         /** Setup this staff after [setupTheme]. */
         val windowUi = WindowUiDelegator(window, background, statusBar, navigation, navDivider)
@@ -48,6 +51,10 @@ abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
      * Setup spaces from android bars and other staff for current screen.
      */
     open fun setupInsets() = Unit
+
+    open fun setupView() = Unit
+
+    open fun setupObservers() = Unit
 
     private fun setupTheme(theme: Theme) {
         val mode = when (theme) {

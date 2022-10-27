@@ -1,23 +1,23 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
-import android.os.Bundle
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
+import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 
-/**
- * Interface for communication [INotificationActivity] with [NotificationViewModelImpl].
- */
-interface NotificationViewModel : IParentViewModel {
+interface NotificationViewModel : SnackbarDelegator.Callback {
 
-    fun onSaveData(bundle: Bundle)
+    val showList: LiveData<ShowListState>
 
-    fun onUpdateData()
+    val updateList: UpdateListState
 
-    fun onClickCancel(p: Int)
+    val itemList: LiveData<List<NotificationItem>>
 
+    val showSnackbar: LiveData<Boolean>
 
-    fun onSnackbarAction()
+    fun notifyListState()
 
-    fun onSnackbarDismiss()
+    fun removeNotification(p: Int): Flow<Pair<NotificationItem, Int>>
 
 }

@@ -15,6 +15,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 /**
  * Test for [NotificationInteractor].
  */
+@Deprecated("Don't use it")
 @ExperimentalCoroutinesApi
 class NotificationInteractorTest : ParentInteractorTest() {
 

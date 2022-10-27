@@ -74,7 +74,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     }
 
     override fun setupObservers() {
-        viewModel.pingState.observe(this) { onChangePingState(it) }
+        viewModel.pingState.observe(this) { observePingState(it) }
     }
 
     private fun startService(context: Context) {
@@ -86,7 +86,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         }
     }
 
-    private fun onChangePingState(state: ServicePingState) {
+    private fun observePingState(state: ServicePingState) {
         when (state) {
             ServicePingState.PREPARE -> onServicePrepare()
             ServicePingState.PING -> delegators.broadcast.sendEternalPing()

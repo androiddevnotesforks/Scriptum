@@ -7,6 +7,7 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewMod
 /**
  * Interface for communication [NotificationViewModel] with [NotificationInteractor].
  */
+@Deprecated("Don't use it")
 interface INotificationInteractor : IParentInteractor {
 
     suspend fun getCount(): Int

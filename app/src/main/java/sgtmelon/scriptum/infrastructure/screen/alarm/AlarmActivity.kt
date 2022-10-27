@@ -180,7 +180,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         startLogoShiftAnimation()
     }
 
-    private fun setupView() {
+    override fun setupView() {
         binding?.parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
 
         binding?.recyclerView?.let {

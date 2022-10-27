@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewMod
 /**
  * Interactor for [NotificationViewModel].
  */
+@Deprecated("Don't use it")
 class NotificationInteractor(
     private val bindRepo: BindRepo
 ) : ParentInteractor(),

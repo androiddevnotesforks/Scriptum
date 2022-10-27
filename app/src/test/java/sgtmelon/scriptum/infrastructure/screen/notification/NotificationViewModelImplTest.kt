@@ -29,7 +29,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
@@ -279,7 +278,7 @@ class NotificationViewModelImplTest : ParentViewModelTest() {
     }
 
     @Test fun onClickCancel() = startCoTest {
-        viewModel.onClickCancel(Random.nextInt())
+        viewModel.removeNotification(Random.nextInt())
 
         val itemList = data.itemList
         viewModel.itemList.clearAdd(itemList)
@@ -290,7 +289,7 @@ class NotificationViewModelImplTest : ParentViewModelTest() {
         val p = itemList.indices.random()
         val item = itemList.removeAt(p)
 
-        viewModel.onClickCancel(p)
+        viewModel.removeNotification(p)
 
         assertEquals(itemList, viewModel.itemList)
         assertEquals(mutableListOf(Pair(p, item)), viewModel.cancelList)

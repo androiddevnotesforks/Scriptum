@@ -288,6 +288,7 @@ object ViewModelFactory {
         }
     }
 
+    // TODO remove usless staff
     class Notification(
         private val activity: NotificationActivity,
         private val interactor: INotificationInteractor,
@@ -297,9 +298,7 @@ object ViewModelFactory {
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(NotificationViewModelImpl::class) {
-                NotificationViewModelImpl(
-                    activity, interactor, setNotification, deleteNotification, getList
-                )
+                NotificationViewModelImpl(setNotification, deleteNotification, getList)
             }
         }
     }

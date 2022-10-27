@@ -56,10 +56,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {
-            override fun onNoteClick(item: NoteItem) {
-                parentOpen?.attempt { openNoteScreen(item) }
-            }
-
+            override fun onNoteClick(item: NoteItem) = openNoteScreen(item)
             override fun onNoteLongClick(item: NoteItem, p: Int) {
                 viewModel.onShowOptionsDialog(item, p)
             }
@@ -251,7 +248,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     }
 
     override fun openNoteScreen(item: NoteItem) {
-        startActivity(InstanceFactory.Note[context ?: return, item])
+        parentOpen?.attempt { startActivity(InstanceFactory.Note[context ?: return, item]) }
     }
 
 
