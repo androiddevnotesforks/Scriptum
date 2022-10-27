@@ -8,5 +8,7 @@ sealed class UpdateListState {
 
     class Removed(val p: Int) : UpdateListState()
 
-    class InsertedScroll(val p: Int) : UpdateListState()
+    object SkipInsert : UpdateListState()
+
+    class Insert(val p: Int) : UpdateListState()
 }

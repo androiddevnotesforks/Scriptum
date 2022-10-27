@@ -102,8 +102,17 @@ class NotificationViewModelImpl(
 
         emit(UndoState.NotifyInfoCount(_itemList.size))
 
+        /**
+         * If list size equals 1 -> need just show list without animation, because of
+         * animation glitch.
+         */
+        updateList = if (_itemList.size == 1) {
+            UpdateListState.SkipInsert
+        } else {
+            UpdateListState.Insert(position)
+        }
+
         /** Need set list value on mainThread for prevent postValue overriding. */
-        updateList = UpdateListState.InsertedScroll(position)
         runMain { itemList.value = _itemList }
         notifyShowList()
 
@@ -112,10 +121,10 @@ class NotificationViewModelImpl(
 
         /** After insert need update item in list (due to new item id). */
         val newItem = setNotification(item) ?: return@flow
-
-        /** Need set list value on mainThread for prevent postValue overriding. */
         _itemList[position] = newItem
         updateList = UpdateListState.Set
+
+        /** Need set list value on mainThread for prevent postValue overriding. */
         runMain { itemList.value = _itemList }
 
         val calendar = newItem.alarm.date.toCalendar()

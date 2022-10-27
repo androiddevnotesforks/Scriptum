@@ -146,13 +146,10 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
             is UpdateListState.Set -> adapter.setList(it)
             is UpdateListState.Notify -> adapter.notifyList(it)
             is UpdateListState.Removed -> adapter.setList(it).notifyItemRemoved(state.p)
-            is UpdateListState.InsertedScroll -> {
-                if (it.size > 1) {
-                    adapter.setList(it).notifyItemInserted(state.p)
-                    RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(it, state.p)
-                } else {
-                    adapter.setList(it).notifyDataSetChanged()
-                }
+            is UpdateListState.SkipInsert -> adapter.setList(it).notifyDataSetChanged()
+            is UpdateListState.Insert -> {
+                adapter.setList(it).notifyItemInserted(state.p)
+                RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(it, state.p)
             }
         }
     }
