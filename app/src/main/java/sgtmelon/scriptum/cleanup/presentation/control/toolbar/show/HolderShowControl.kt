@@ -4,6 +4,8 @@ import android.os.Handler
 import android.view.View
 import androidx.annotation.IntegerRes
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.utils.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.makeVisible
 
 /**
  * Class for help control showing placeholders while transition happen.
@@ -18,11 +20,11 @@ class HolderShowControl(
     private val timeValue = viewArray.random()?.context?.resources?.getInteger(time)?.toLong() ?: 0L
 
     private val handler = Handler()
-    private val runnable = { for (it in viewArray) it?.visibility = View.INVISIBLE }
+    private val runnable = { for (it in viewArray) it?.makeInvisible() }
 
     override fun display() {
         for (it in viewArray) {
-            it?.visibility = View.VISIBLE
+            it?.makeVisible()
         }
 
         handler.removeCallbacksAndMessages(null)

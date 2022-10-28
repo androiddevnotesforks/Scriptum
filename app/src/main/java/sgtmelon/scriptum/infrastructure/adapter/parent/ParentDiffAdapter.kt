@@ -3,10 +3,10 @@ package sgtmelon.scriptum.infrastructure.adapter.parent
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.infrastructure.adapter.callback.NotifyAdapterCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.diff.ParentDiff
+import sgtmelon.scriptum.infrastructure.utils.clearAdd
 
 /**
  * Version of [ListAdapter], but with ability to notify items by yourself. Sometimes it's needed

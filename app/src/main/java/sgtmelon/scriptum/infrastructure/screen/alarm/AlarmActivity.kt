@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.alarm
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import javax.inject.Inject
@@ -28,6 +27,7 @@ import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.afterLayoutConfiguration
 import sgtmelon.scriptum.infrastructure.utils.beforeFinish
+import sgtmelon.scriptum.infrastructure.utils.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
@@ -213,8 +213,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private fun startLogoShiftAnimation() {
         animation.startLogoTransition(binding, { onLogoTransitionEnd() }) {
-            binding?.recyclerView?.visibility = View.VISIBLE
-            binding?.buttonContainer?.visibility = View.VISIBLE
+            binding?.recyclerView?.makeVisible()
+            binding?.buttonContainer?.makeVisible()
         }
     }
 

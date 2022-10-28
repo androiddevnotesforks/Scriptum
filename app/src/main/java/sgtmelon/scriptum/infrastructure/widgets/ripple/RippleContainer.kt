@@ -9,6 +9,8 @@ import android.widget.RelativeLayout
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.utils.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.makeVisible
 
 /**
  * ViewGroup element for create ripple animation.
@@ -68,7 +70,7 @@ class RippleContainer @JvmOverloads constructor(
         if (!isConfigure || isAnimate) return
 
         for (it in viewList) {
-            it.visibility = View.VISIBLE
+            it.makeVisible()
         }
 
         isAnimate = true
@@ -79,7 +81,7 @@ class RippleContainer @JvmOverloads constructor(
         if (!isConfigure || !isAnimate) return
 
         for (it in viewList) {
-            it.visibility = View.INVISIBLE
+            it.makeInvisible()
         }
 
         isAnimate = false

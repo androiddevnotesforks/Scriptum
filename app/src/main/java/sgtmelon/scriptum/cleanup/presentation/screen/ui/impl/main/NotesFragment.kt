@@ -28,6 +28,9 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.makeGone
+import sgtmelon.scriptum.infrastructure.utils.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.scriptum.infrastructure.utils.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -199,21 +202,21 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
      * For first time [recyclerView] visibility flag set inside xml file.
      */
     override fun prepareForLoad() {
-        emptyInfoView?.visibility = View.GONE
-        progressBar?.visibility = View.GONE
+        emptyInfoView?.makeGone()
+        progressBar?.makeGone()
     }
 
     override fun showProgress() {
-        progressBar?.visibility = View.VISIBLE
+        progressBar?.makeVisible()
     }
 
     override fun hideEmptyInfo() {
-        emptyInfoView?.visibility = View.GONE
+        emptyInfoView?.makeGone()
     }
 
 
     override fun onBindingList() {
-        progressBar?.visibility = View.GONE
+        progressBar?.makeGone()
 
         /**
          * Case without animation need for best performance, without freeze. Because changes
@@ -224,10 +227,11 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
             if (emptyInfoView?.visibility == View.VISIBLE
-                    && recyclerView?.visibility == View.INVISIBLE) return
+                && recyclerView?.visibility == View.INVISIBLE
+            ) return
 
-            emptyInfoView?.visibility = View.VISIBLE
-            recyclerView?.visibility = View.INVISIBLE
+            emptyInfoView?.makeVisible()
+            recyclerView?.makeInvisible()
 
             emptyInfoView?.alpha = 0f
             emptyInfoView?.animateAlpha(isVisible = true)
@@ -236,10 +240,11 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
             if (emptyInfoView?.visibility == View.GONE
-                    && recyclerView?.visibility == View.VISIBLE) return
+                && recyclerView?.visibility == View.VISIBLE
+            ) return
 
-            emptyInfoView?.visibility = View.GONE
-            recyclerView?.visibility = View.VISIBLE
+            emptyInfoView?.makeGone()
+            recyclerView?.makeVisible()
         }
     }
 

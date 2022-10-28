@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.infrastructure.utils.clearAdd
 
 abstract class ParentDiff<T> : DiffUtil.Callback() {
 

@@ -17,6 +17,8 @@ import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.getAlphaAnimator
 import sgtmelon.scriptum.infrastructure.utils.getScaleXAnimator
 import sgtmelon.scriptum.infrastructure.utils.getScaleYAnimator
+import sgtmelon.scriptum.infrastructure.utils.makeGone
+import sgtmelon.scriptum.infrastructure.utils.makeVisible
 
 internal class GradientFabDelegator(
     private val activity: AppCompatActivity,
@@ -134,8 +136,8 @@ internal class GradientFabDelegator(
         val scaleInterpolator = AccelerateDecelerateInterpolator()
 
         setDuration(duration).addListener(
-            onStart = { if (isVisible) parentCard.visibility = View.VISIBLE },
-            onEnd = { if (!isVisible) parentCard.visibility = View.GONE }
+            onStart = { if (isVisible) parentCard.makeVisible() },
+            onEnd = { if (!isVisible) parentCard.makeGone() }
         )
 
         playTogether(

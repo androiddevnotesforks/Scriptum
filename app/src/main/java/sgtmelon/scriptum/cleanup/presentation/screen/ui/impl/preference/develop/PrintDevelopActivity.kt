@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
 
 import android.os.Bundle
-import android.view.View
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -16,6 +15,9 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
+import sgtmelon.scriptum.infrastructure.utils.makeGone
+import sgtmelon.scriptum.infrastructure.utils.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -102,28 +104,28 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
      * For first time [recyclerView] visibility flag set inside xml file.
      */
     override fun beforeLoad() {
-        binding?.infoInclude?.parentContainer?.visibility = View.GONE
-        binding?.progressBar?.visibility = View.GONE
+        binding?.infoInclude?.parentContainer?.makeGone()
+        binding?.progressBar?.makeGone()
     }
 
     override fun showProgress() {
-        binding?.progressBar?.visibility = View.VISIBLE
+        binding?.progressBar?.makeVisible()
     }
 
     override fun onBindingList() {
-        binding?.progressBar?.visibility = View.GONE
+        binding?.progressBar?.makeGone()
 
         if (adapter.itemCount == 0) {
-            binding?.infoInclude?.parentContainer?.visibility = View.VISIBLE
-            binding?.recyclerView?.visibility = View.INVISIBLE
+            binding?.infoInclude?.parentContainer?.makeVisible()
+            binding?.recyclerView?.makeInvisible()
 
             binding?.infoInclude?.parentContainer?.alpha = 0f
             binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
         } else {
-            binding?.recyclerView?.visibility = View.VISIBLE
+            binding?.recyclerView?.makeVisible()
 
             binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = false) {
-                binding?.infoInclude?.parentContainer?.visibility = View.GONE
+                binding?.infoInclude?.parentContainer?.makeGone()
             }
         }
     }
