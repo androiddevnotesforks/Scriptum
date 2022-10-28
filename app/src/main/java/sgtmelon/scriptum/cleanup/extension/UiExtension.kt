@@ -6,11 +6,11 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.AnimRes
 import androidx.annotation.IntegerRes
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.test.idling.addIdlingListener
 
 fun ViewGroup.createVisibleAnim(
@@ -47,16 +47,5 @@ inline fun RecyclerView.setFirstRunAnimation(
         }
     } else {
         setDefaultAnimator(supportsChangeAnimations, onFinish)
-    }
-}
-
-inline fun RecyclerView.setDefaultAnimator(
-    supportsChangeAnimations: Boolean = true,
-    crossinline onFinish: () -> Unit
-) {
-    itemAnimator = object : DefaultItemAnimator() {
-        override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = onFinish()
-    }.apply {
-        this.supportsChangeAnimations = supportsChangeAnimations
     }
 }

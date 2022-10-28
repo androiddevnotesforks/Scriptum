@@ -7,7 +7,6 @@ import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.makeGone
 import sgtmelon.scriptum.infrastructure.utils.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
@@ -77,13 +77,8 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
         }
 
         binding?.recyclerView?.let {
-            it.setDefaultAnimator {
-                //                viewModel.notifyListState()
-
-                /** Clear [open] after click on item cancel OR [onSnackbarAction]. */
-                open.clear()
-            }
-
+            /** Clear [open] after click on item cancel. */
+            it.setDefaultAnimator { open.clear() }
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager

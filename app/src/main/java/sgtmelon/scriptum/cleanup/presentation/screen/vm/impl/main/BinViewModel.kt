@@ -9,7 +9,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
+import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
@@ -113,7 +113,7 @@ class BinViewModel(
     }
 
     @RunPrivate fun onMenuRestore(p: Int) {
-        val item = itemList.validRemoveAt(p) ?: return
+        val item = itemList.removeAtOrNull(p) ?: return
 
         viewModelScope.launchBack { restoreNote(item) }
 
@@ -131,7 +131,7 @@ class BinViewModel(
     }
 
     @RunPrivate fun onMenuClear(p: Int) {
-        val item = itemList.validRemoveAt(p) ?: return
+        val item = itemList.removeAtOrNull(p) ?: return
 
         viewModelScope.launchBack { clearNote(item) }
 

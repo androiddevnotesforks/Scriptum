@@ -11,7 +11,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
+import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
@@ -177,7 +177,7 @@ class NotesViewModel(
     }
 
     @RunPrivate fun onMenuDelete(p: Int) {
-        val item = itemList.validRemoveAt(p) ?: return
+        val item = itemList.removeAtOrNull(p) ?: return
 
         callback?.notifyList(itemList)
 

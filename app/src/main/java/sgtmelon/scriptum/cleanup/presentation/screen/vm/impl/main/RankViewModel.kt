@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.move
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
+import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
@@ -208,7 +208,7 @@ class RankViewModel(
     }
 
     override fun onClickCancel(p: Int) {
-        val item = itemList.validRemoveAt(p) ?: return
+        val item = itemList.removeAtOrNull(p) ?: return
         val noteIdList = correctPositions(itemList)
 
         /**
@@ -244,7 +244,7 @@ class RankViewModel(
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
 
-        val pair = cancelList.validRemoveAt(index = cancelList.lastIndex) ?: return
+        val pair = cancelList.removeAtOrNull(index = cancelList.lastIndex) ?: return
         val item = pair.second
 
         /**

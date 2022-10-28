@@ -33,9 +33,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
@@ -58,6 +57,7 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.nextString
 
 /**
@@ -1131,11 +1131,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { item.p } returns p
         every { spyViewModel.getAdapterList() } returns returnList
         every { returnList.validIndexOfFirst(rollItem) } returns null
-        every { list.validRemoveAt(p) } returns null
+        every { list.removeAtOrNull(p) } returns null
 
         spyViewModel.onRemoveItem(item)
 
-        every { list.validRemoveAt(p) } returns rollItem
+        every { list.removeAtOrNull(p) } returns rollItem
 
         spyViewModel.onRemoveItem(item)
 
@@ -1171,7 +1171,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             noteItem.list
             item.p
-            list.validRemoveAt(p)
+            list.removeAtOrNull(p)
 
             spyViewModel.onRemoveItem(item)
 
@@ -1183,7 +1183,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             noteItem.list
             item.p
-            list.validRemoveAt(p)
+            list.removeAtOrNull(p)
 
             spyViewModel.onRemoveItem(item)
 
@@ -1195,7 +1195,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             noteItem.list
             item.p
-            list.validRemoveAt(p)
+            list.removeAtOrNull(p)
             spyViewModel.noteItem
             noteItem.isVisible
             spyViewModel.callback
@@ -1212,7 +1212,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             noteItem.list
             item.p
-            list.validRemoveAt(p)
+            list.removeAtOrNull(p)
             spyViewModel.noteItem
             noteItem.isVisible
             spyViewModel.noteItem
@@ -1229,7 +1229,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             noteItem.list
             item.p
-            list.validRemoveAt(p)
+            list.removeAtOrNull(p)
             spyViewModel.noteItem
             noteItem.isVisible
             spyViewModel.noteItem
@@ -1971,12 +1971,12 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         every { spyViewModel.getAbsolutePosition(p) } returns absolutePosition
         every { noteItem.list } returns list
-        every { list.validRemoveAt(absolutePosition) } returns null
+        every { list.removeAtOrNull(absolutePosition) } returns null
 
         spyViewModel.noteItem = noteItem
         spyViewModel.onTouchSwiped(p)
 
-        every { list.validRemoveAt(absolutePosition) } returns item
+        every { list.removeAtOrNull(absolutePosition) } returns item
         every { item.toJson() } returns itemJson
         every { inputControl.access } returns inputAccess
         every { spyViewModel.getAdapterList() } returns newList
@@ -1991,12 +1991,12 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.onTouchSwiped(p)
             spyViewModel.getAbsolutePosition(p)
             noteItem.list
-            list.validRemoveAt(absolutePosition)
+            list.removeAtOrNull(absolutePosition)
 
             spyViewModel.onTouchSwiped(p)
             spyViewModel.getAbsolutePosition(p)
             noteItem.list
-            list.validRemoveAt(absolutePosition)
+            list.removeAtOrNull(absolutePosition)
             item.toJson()
             inputControl.onRollRemove(absolutePosition, itemJson)
             inputControl.access
@@ -2238,7 +2238,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         verifySequence {
             for (item in list.filter { it.isCheck }) {
                 val index = verifyList.indexOf(item)
-                verifyList.validRemoveAt(index)
+                verifyList.removeAtOrNull(index)
                 callback.notifyItemRemoved(resultList, index)
             }
         }

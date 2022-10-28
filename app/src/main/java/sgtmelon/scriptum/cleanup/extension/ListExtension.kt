@@ -4,7 +4,7 @@ package sgtmelon.scriptum.cleanup.extension
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 
-fun <T> MutableList<T>.validRemoveAt(index: Int): T? {
+fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {
     return if (index in indices) removeAt(index) else null
 }
 
@@ -26,7 +26,7 @@ fun <T> List<T>.validIndexOfFirst(predicate: (T) -> Boolean): Int? {
  * Move item by positions. If [to] position not defined, then move to last position.
  */
 fun <T> MutableList<T>.move(from: Int, to: Int = ND_INDEX) {
-    val item = validRemoveAt(from) ?: return
+    val item = removeAtOrNull(from) ?: return
 
     if (to == ND_INDEX) add(item) else add(to, item)
 }

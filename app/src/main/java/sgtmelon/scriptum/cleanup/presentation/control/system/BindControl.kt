@@ -8,8 +8,8 @@ import androidx.annotation.StringDef
 import sgtmelon.extensions.getNotificationService
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IBindControl
 import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
@@ -70,7 +70,7 @@ class BindControl(private val context: Context) : IBindControl {
 
     override fun cancelNote(id: Long) {
         val index = noteItemList.validIndexOfFirst { it.id == id } ?: return
-        noteItemList.validRemoveAt(index) ?: return
+        noteItemList.removeAtOrNull(index) ?: return
 
         /**
          * Need copy [noteItemList] because inside [notifyNotes] happen call of [clearRecent]

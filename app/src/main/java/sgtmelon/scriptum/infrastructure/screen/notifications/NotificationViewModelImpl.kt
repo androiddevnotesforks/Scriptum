@@ -10,13 +10,13 @@ import sgtmelon.extensions.onBack
 import sgtmelon.extensions.runMain
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.utils.clearAdd
+import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
 import sgtmelon.test.idling.getIdling
 
 class NotificationViewModelImpl(
@@ -71,7 +71,7 @@ class NotificationViewModelImpl(
     }
 
     override fun removeNotification(p: Int) = flow {
-        val item = _itemList.validRemoveAt(p) ?: return@flow
+        val item = _itemList.removeAtOrNull(p) ?: return@flow
 
         /** Save item for snackbar undo action. */
         undoList.add(Pair(p, item))
@@ -89,7 +89,7 @@ class NotificationViewModelImpl(
     override fun undoRemove(): Flow<UndoState> = flow {
         if (undoList.isEmpty()) return@flow
 
-        val pair = undoList.validRemoveAt(index = undoList.lastIndex) ?: return@flow
+        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flow
         val item = pair.second
 
         /**

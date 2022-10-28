@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.presentation.control.note.input
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
+import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.test.prod.RunPrivate
@@ -67,7 +67,7 @@ class InputControl : IInputControl {
 
         if (position != lastPosition) {
             for (i in lastPosition downTo position + 1) {
-                list.validRemoveAt(i)
+                list.removeAtOrNull(i)
             }
         }
     }
@@ -77,7 +77,7 @@ class InputControl : IInputControl {
      */
     @RunPrivate fun clearToSize() {
         while (list.size >= BuildProvider.inputControlMaxSize()) {
-            list.validRemoveAt(0)
+            list.removeAtOrNull(0)
             position--
         }
     }

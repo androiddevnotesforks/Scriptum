@@ -15,8 +15,8 @@ import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
@@ -321,7 +321,7 @@ class RollNoteViewModel(
          * Also need remove item at the end. Because [getAdapterList] return list without
          * that item and you will get not valid index of item.
          */
-        noteItem.list.validRemoveAt(item.p) ?: return
+        noteItem.list.removeAtOrNull(item.p) ?: return
 
         if (adapterPosition == null) return
 
@@ -511,7 +511,7 @@ class RollNoteViewModel(
      */
     override fun onTouchSwiped(p: Int) {
         val absolutePosition = getAbsolutePosition(p) ?: return
-        val item = noteItem.list.validRemoveAt(absolutePosition) ?: return
+        val item = noteItem.list.removeAtOrNull(absolutePosition) ?: return
 
         inputControl.onRollRemove(absolutePosition, item.toJson())
 
@@ -604,7 +604,7 @@ class RollNoteViewModel(
         for (item in list.filter { it.isCheck }) {
             val index = list.validIndexOfFirst(item) ?: continue
 
-            list.validRemoveAt(index)
+            list.removeAtOrNull(index)
             callback?.notifyItemRemoved(list, index)
         }
     }
