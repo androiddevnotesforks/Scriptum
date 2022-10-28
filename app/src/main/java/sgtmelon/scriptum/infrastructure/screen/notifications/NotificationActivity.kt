@@ -140,12 +140,17 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
         }
     }
 
+    /**
+     * Use here [UpdateListState.NotifyHard] case, because it will prevent lags during
+     * undo (insert) first item. When empty info hides and list appears. Insert animation
+     * and list fade in animation concurrent with each other and it's looks laggy.
+     */
     private fun observeItemList(it: List<NotificationItem>) {
         when (val state = viewModel.updateList) {
             is UpdateListState.Set -> adapter.setList(it)
             is UpdateListState.Notify -> adapter.notifyList(it)
-            is UpdateListState.Removed -> adapter.setList(it).notifyItemRemoved(state.p)
-            is UpdateListState.SkipInsert -> adapter.setList(it).notifyDataSetChanged()
+            is UpdateListState.NotifyHard -> adapter.setList(it).notifyDataSetChanged()
+            is UpdateListState.Remove -> adapter.setList(it).notifyItemRemoved(state.p)
             is UpdateListState.Insert -> {
                 adapter.setList(it).notifyItemInserted(state.p)
                 RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(it, state.p)

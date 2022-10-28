@@ -6,9 +6,9 @@ sealed class UpdateListState {
 
     object Notify : UpdateListState()
 
-    class Removed(val p: Int) : UpdateListState()
+    object NotifyHard : UpdateListState()
 
-    object SkipInsert : UpdateListState()
+    class Remove(val p: Int) : UpdateListState()
 
     class Insert(val p: Int) : UpdateListState()
 }

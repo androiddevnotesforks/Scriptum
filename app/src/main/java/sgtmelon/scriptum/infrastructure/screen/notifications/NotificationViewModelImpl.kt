@@ -77,7 +77,7 @@ class NotificationViewModelImpl(
         undoList.add(Pair(p, item))
         showSnackbar.postValue(true)
 
-        updateList = UpdateListState.Removed(p)
+        updateList = UpdateListState.Remove(p)
         itemList.postValue(_itemList)
         notifyShowList()
 
@@ -107,7 +107,7 @@ class NotificationViewModelImpl(
          * animation glitch.
          */
         updateList = if (_itemList.size == 1) {
-            UpdateListState.SkipInsert
+            UpdateListState.NotifyHard
         } else {
             UpdateListState.Insert(position)
         }
