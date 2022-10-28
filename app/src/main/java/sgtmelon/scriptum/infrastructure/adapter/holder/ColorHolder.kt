@@ -41,7 +41,7 @@ class ColorHolder(
             if (check != position) {
                 onUpdate()
                 checkArray[position] = true
-                animation.prepareCheckAnimation(binding) { changeCheck(isVisible = true) }
+                animation.startCheckFade(binding) { changeCheck(isVisible = true) }
             }
         }
     }
@@ -50,7 +50,7 @@ class ColorHolder(
         if (checkArray[position]) {
             if (check != position) {
                 checkArray[position] = false
-                animation.prepareCheckAnimation(binding) { changeCheck(isVisible = false) }
+                animation.startCheckFade(binding) { changeCheck(isVisible = false) }
             } else {
                 changeCheck(isVisible = true)
             }

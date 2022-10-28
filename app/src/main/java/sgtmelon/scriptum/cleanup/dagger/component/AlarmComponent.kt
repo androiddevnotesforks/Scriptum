@@ -23,9 +23,6 @@ interface AlarmComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: AlarmActivity): Builder
-
-        @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): AlarmComponent

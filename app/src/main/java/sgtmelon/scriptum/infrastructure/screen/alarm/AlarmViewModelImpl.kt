@@ -31,7 +31,7 @@ class AlarmViewModelImpl(
 
     override fun setup(noteId: Long) {
         this.noteId = noteId
-        viewModelScope.launchBack { fetchData() }
+        viewModelScope.launchBack { fetchData(noteId) }
     }
 
     override val state: MutableLiveData<AlarmScreenState> = MutableLiveData()
@@ -40,7 +40,7 @@ class AlarmViewModelImpl(
 
     override val alarmState: AlarmState get() = preferencesRepo.alarmState
 
-    private suspend fun fetchData() {
+    private suspend fun fetchData(noteId: Long) {
         /**
          * Delete before setting [noteItem]. This is need for hide alarm icon and
          * decrement statusBar notification info count (about future alarms).

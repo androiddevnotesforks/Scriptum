@@ -87,14 +87,13 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             return
         }
 
-        setupObservers(noteId)
+        viewModel.setup(noteId)
 
         registerReceiver(unbindNoteReceiver, IntentFilter(Filter.ALARM))
     }
 
     override fun inject(component: ScriptumComponent) {
         component.getAlarmBuilder()
-            .set(activity = this)
             .set(owner = this)
             .build()
             .inject(activity = this)
@@ -125,8 +124,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         }
     }
 
-    private fun setupObservers(noteId: Long) {
-        viewModel.setup(noteId)
+    override fun setupObservers() {
         viewModel.noteItem.observe(this) { notifyItem(it) }
         viewModel.state.observe(this) {
             when (it) {

@@ -9,7 +9,7 @@ import sgtmelon.test.idling.addIdlingListener
 
 class ColorAnimation {
 
-    inline fun prepareCheckAnimation(binding: ItemColorBinding, changeUi: () -> Unit) {
+    inline fun startCheckFade(binding: ItemColorBinding, changeUi: () -> Unit) {
         val duration = binding.root.context.resources.getInteger(R.integer.color_fade_time)
 
         val transition = Fade()

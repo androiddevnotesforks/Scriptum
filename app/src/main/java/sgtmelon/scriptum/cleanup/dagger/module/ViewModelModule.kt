@@ -80,7 +80,6 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModel
@@ -279,7 +278,7 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideAlarmViewModel(
-        activity: AlarmActivity,
+        owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         noteRepo: NoteRepo,
         getMelodyList: GetMelodyListUseCase,
@@ -292,7 +291,7 @@ class ViewModelModule {
             setNotification, deleteNotification, shiftDateIfExist
         )
 
-        return ViewModelProvider(activity, factory)[AlarmViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[AlarmViewModelImpl::class.java]
     }
 
     @Provides

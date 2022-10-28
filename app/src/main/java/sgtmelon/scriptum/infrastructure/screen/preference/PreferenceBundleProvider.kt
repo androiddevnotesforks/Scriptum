@@ -10,6 +10,8 @@ import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
  */
 class PreferenceBundleProvider {
 
+    // TODO record exception if screen is null after getData
+
     private var _screen: PreferenceScreen? = null
     val screen: PreferenceScreen? get() = _screen
 

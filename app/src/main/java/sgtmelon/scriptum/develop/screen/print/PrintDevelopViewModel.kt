@@ -1,11 +1,16 @@
 package sgtmelon.scriptum.develop.screen.print
 
-import android.os.Bundle
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
+import androidx.lifecycle.LiveData
+import sgtmelon.scriptum.develop.model.PrintItem
+import sgtmelon.scriptum.develop.model.PrintType
+import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 
-interface PrintDevelopViewModel : IParentViewModel {
+interface PrintDevelopViewModel {
 
-    fun onSaveData(bundle: Bundle)
+    fun setup(type: PrintType)
 
-    fun onUpdateData()
+    val showList: LiveData<ShowListState>
+
+    val itemList: LiveData<List<PrintItem>>
+
 }

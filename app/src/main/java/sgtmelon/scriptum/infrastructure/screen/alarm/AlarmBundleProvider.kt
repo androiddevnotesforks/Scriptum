@@ -9,6 +9,8 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
  */
 class AlarmBundleProvider {
 
+    // TODO record exception if noteId is null after getData
+
     private var _noteId: Long? = null
     val noteId: Long? get() = _noteId
 

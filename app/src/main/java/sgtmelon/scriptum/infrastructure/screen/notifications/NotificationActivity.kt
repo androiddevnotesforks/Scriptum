@@ -10,15 +10,13 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
+import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
-import sgtmelon.scriptum.infrastructure.utils.makeGone
-import sgtmelon.scriptum.infrastructure.utils.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
@@ -38,7 +36,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     @Inject lateinit var viewModel: NotificationViewModel
 
-    private val animation = NotificationAnimation()
+    private val animation = ShowListAnimation()
 
     private val adapter: NotificationAdapter by lazy {
         NotificationAdapter(object : NotificationClickListener {
@@ -87,7 +85,9 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     }
 
     override fun setupObservers() {
-        viewModel.showList.observe(this) { observeShowList(it) }
+        viewModel.showList.observe(this) {
+            animation.startListFade(it, binding = binding ?: return@observe)
+        }
         viewModel.itemList.observe(this) { observeItemList(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
@@ -113,26 +113,6 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
          * [snackbar] after screen reopen - [onResume].
          */
         snackbar.dismiss(skipDismissResult = true)
-    }
-
-    private fun observeShowList(it: ShowListState) = animation.startListAnimation(binding) {
-        when (it) {
-            is ShowListState.Loading -> {
-                binding?.progressBar?.makeVisible()
-                binding?.recyclerView?.makeGone()
-                binding?.infoInclude?.parentContainer?.makeGone()
-            }
-            is ShowListState.List -> {
-                binding?.progressBar?.makeGone()
-                binding?.recyclerView?.makeVisible()
-                binding?.infoInclude?.parentContainer?.makeGone()
-            }
-            is ShowListState.Empty -> {
-                binding?.progressBar?.makeGone()
-                binding?.recyclerView?.makeGone()
-                binding?.infoInclude?.parentContainer?.makeVisible()
-            }
-        }
     }
 
     /**
