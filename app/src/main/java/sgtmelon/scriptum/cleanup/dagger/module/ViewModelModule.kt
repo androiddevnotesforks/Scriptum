@@ -47,7 +47,7 @@ import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.develop.screen.print.IPrintDevelopViewModel
 import sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity
-import sgtmelon.scriptum.develop.screen.print.PrintDevelopViewModel
+import sgtmelon.scriptum.develop.screen.print.PrintDevelopViewModelImpl
 import sgtmelon.scriptum.develop.screen.service.ServiceDevelopViewModel
 import sgtmelon.scriptum.develop.screen.service.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
@@ -386,7 +386,7 @@ class ViewModelModule {
         interactor: DevelopInteractor
     ): IPrintDevelopViewModel {
         val factory = ViewModelFactory.Develop.Print(activity, interactor)
-        return ViewModelProvider(activity, factory)[PrintDevelopViewModel::class.java]
+        return ViewModelProvider(activity, factory)[PrintDevelopViewModelImpl::class.java]
     }
 
     @Provides

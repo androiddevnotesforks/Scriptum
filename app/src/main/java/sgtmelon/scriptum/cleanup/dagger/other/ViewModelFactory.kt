@@ -32,7 +32,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewMo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity
-import sgtmelon.scriptum.develop.screen.print.PrintDevelopViewModel
+import sgtmelon.scriptum.develop.screen.print.PrintDevelopViewModelImpl
 import sgtmelon.scriptum.develop.screen.service.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -375,8 +375,8 @@ object ViewModelFactory {
             private val interactor: DevelopInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(PrintDevelopViewModel::class) {
-                    PrintDevelopViewModel(activity, interactor)
+                return modelClass.create(PrintDevelopViewModelImpl::class) {
+                    PrintDevelopViewModelImpl(activity, interactor)
                 }
             }
         }

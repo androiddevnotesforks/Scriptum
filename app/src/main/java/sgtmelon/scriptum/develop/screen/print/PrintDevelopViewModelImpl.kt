@@ -18,7 +18,7 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * ViewModel for [IPrintDevelopActivity].
  */
-class PrintDevelopViewModel(
+class PrintDevelopViewModelImpl(
     callback: IPrintDevelopActivity,
     private val interactor: DevelopInteractor
 ) : ParentViewModel<IPrintDevelopActivity>(callback),
