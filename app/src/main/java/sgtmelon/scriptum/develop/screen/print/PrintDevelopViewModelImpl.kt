@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.develop.screen.print
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.develop.model.PrintItem
 import sgtmelon.scriptum.develop.model.PrintType
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
@@ -15,14 +15,8 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Intent
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
-/**
- * ViewModel for [IPrintDevelopActivity].
- */
-class PrintDevelopViewModelImpl(
-    callback: IPrintDevelopActivity,
-    private val interactor: DevelopInteractor
-) : ParentViewModel<IPrintDevelopActivity>(callback),
-    IPrintDevelopViewModel {
+class PrintDevelopViewModelImpl(private val interactor: DevelopInteractor) : ViewModel(),
+    PrintDevelopViewModel {
 
     @RunPrivate val itemList: MutableList<PrintItem> = ArrayList()
 

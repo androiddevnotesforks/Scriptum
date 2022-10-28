@@ -23,9 +23,6 @@ interface PrintDevelopComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: PrintDevelopActivity): Builder
-
-        @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): PrintDevelopComponent

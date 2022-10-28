@@ -23,14 +23,14 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Screen for print data of data base and preference.
  */
-class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrintDevelopActivity {
+class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
     override val layoutId: Int = R.layout.activity_develop_print
 
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    @Inject lateinit var viewModel: IPrintDevelopViewModel
+    @Inject lateinit var viewModel: PrintDevelopViewModel
 
     private val adapter = PrintAdapter()
 
@@ -42,7 +42,6 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(), IPrin
 
     override fun inject(component: ScriptumComponent) {
         component.getPrintBuilder()
-            .set(activity = this)
             .set(owner = this)
             .build()
             .inject(activity = this)
