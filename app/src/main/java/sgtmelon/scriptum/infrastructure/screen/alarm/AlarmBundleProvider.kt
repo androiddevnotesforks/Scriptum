@@ -12,8 +12,8 @@ class AlarmBundleProvider {
     private var _noteId: Long? = null
     val noteId: Long? get() = _noteId
 
-    fun getData(bundle: Bundle?): Long? {
-        return bundle?.getLong(Intent.ID, Default.ID)?.takeIf { it != Default.ID }
+    fun getData(bundle: Bundle?) {
+        _noteId = bundle?.getLong(Intent.ID, Default.ID)?.takeIf { it != Default.ID }
     }
 
     fun saveData(outState: Bundle) {
