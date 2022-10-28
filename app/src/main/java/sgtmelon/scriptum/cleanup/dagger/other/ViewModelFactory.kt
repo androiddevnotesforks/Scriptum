@@ -20,7 +20,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
@@ -30,9 +29,10 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
+import sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity
+import sgtmelon.scriptum.develop.screen.print.PrintDevelopViewModel
 import sgtmelon.scriptum.develop.screen.service.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase

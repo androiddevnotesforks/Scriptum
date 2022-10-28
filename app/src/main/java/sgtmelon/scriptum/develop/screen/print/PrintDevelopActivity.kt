@@ -1,12 +1,10 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop
+package sgtmelon.scriptum.develop.screen.print
 
 import android.os.Bundle
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
 import sgtmelon.scriptum.develop.adapter.PrintAdapter
 import sgtmelon.scriptum.develop.model.PrintItem

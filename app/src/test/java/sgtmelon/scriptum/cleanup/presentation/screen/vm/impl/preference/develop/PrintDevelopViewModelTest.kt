@@ -17,14 +17,15 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.develop.model.PrintItem
 import sgtmelon.scriptum.develop.model.PrintType
+import sgtmelon.scriptum.develop.screen.print.IPrintDevelopActivity
+import sgtmelon.scriptum.develop.screen.print.PrintDevelopViewModel
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Intent
+import sgtmelon.scriptum.testing.getRandomSize
 
 /**
  * Test for [PrintDevelopViewModel].

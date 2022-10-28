@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop
+package sgtmelon.scriptum.develop.screen.print
 
 import sgtmelon.scriptum.develop.model.PrintItem
 import sgtmelon.scriptum.develop.model.PrintType

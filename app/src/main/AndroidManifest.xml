@@ -70,7 +70,7 @@
             android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity"
+            android:name="sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
             android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
