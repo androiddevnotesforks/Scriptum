@@ -1,9 +1,18 @@
 package sgtmelon.scriptum.infrastructure.screen.preference
 
+import android.os.Bundle
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verifySequence
+import kotlin.math.abs
+import kotlin.random.Random
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Intent
+import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
@@ -18,15 +27,40 @@ class PreferenceBundleProviderTest : ParentTest() {
         assertNull(bundleProvider.screen)
     }
 
-    @Test fun getScreen() {
-        TODO()
+    @Test fun `getData with null bundle`() {
+        bundleProvider.getData(bundle = null)
+        assertNull(bundleProvider.screen)
     }
 
-    @Test fun getData() {
-        TODO()
+    @Test fun `getData with wrong ordinal`() {
+        val bundle = mockk<Bundle>()
+        val ordinal = -abs(Random.nextInt())
+
+        every { bundle.getInt(Intent.SCREEN, Default.SCREEN) } returns ordinal
+
+        bundleProvider.getData(bundle)
+        assertNull(bundleProvider.screen)
+
+        verifySequence {
+            bundle.getInt(Intent.SCREEN, Default.SCREEN)
+        }
     }
 
-    @Test fun saveData() {
-        TODO()
+    @Test fun `getData and save`() {
+        val bundle = mockk<Bundle>()
+        val outState = mockk<Bundle>()
+        val screen = PreferenceScreen.values().random()
+
+        every { bundle.getInt(Intent.SCREEN, Default.SCREEN) } returns screen.ordinal
+        every { outState.putInt(Intent.SCREEN, screen.ordinal) } returns Unit
+
+        bundleProvider.getData(bundle)
+        assertEquals(bundleProvider.screen, screen)
+        bundleProvider.saveData(outState)
+
+        verifySequence {
+            bundle.getInt(Intent.SCREEN, Default.SCREEN)
+            outState.putInt(Intent.SCREEN, screen.ordinal)
+        }
     }
 }
