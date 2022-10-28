@@ -14,7 +14,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteracto
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
@@ -85,7 +84,6 @@ import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
@@ -301,16 +299,13 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideNotificationViewModel(
-        activity: NotificationActivity,
-        interactor: INotificationInteractor,
+        owner: ViewModelStoreOwner,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         getList: GetNotificationListUseCase
     ): NotificationViewModel {
-        val factory = ViewModelFactory.Notification(
-            activity, interactor, setNotification, deleteNotification, getList
-        )
-        return ViewModelProvider(activity, factory)[NotificationViewModelImpl::class.java]
+        val factory = ViewModelFactory.Notification(setNotification, deleteNotification, getList)
+        return ViewModelProvider(owner, factory)[NotificationViewModelImpl::class.java]
     }
 
     //region Preference

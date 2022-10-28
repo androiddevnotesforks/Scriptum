@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteracto
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
@@ -67,7 +66,6 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
@@ -288,10 +286,7 @@ object ViewModelFactory {
         }
     }
 
-    // TODO remove usless staff
     class Notification(
-        private val activity: NotificationActivity,
-        private val interactor: INotificationInteractor,
         private val setNotification: SetNotificationUseCase,
         private val deleteNotification: DeleteNotificationUseCase,
         private val getList: GetNotificationListUseCase

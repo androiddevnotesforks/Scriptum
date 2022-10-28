@@ -59,7 +59,6 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     override fun inject(component: ScriptumComponent) {
         component.getNotificationBuilder()
-            .set(activity = this)
             .set(owner = this)
             .build()
             .inject(activity = this)

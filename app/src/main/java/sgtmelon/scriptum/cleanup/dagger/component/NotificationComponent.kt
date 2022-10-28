@@ -23,9 +23,6 @@ interface NotificationComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: NotificationActivity): Builder
-
-        @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): NotificationComponent

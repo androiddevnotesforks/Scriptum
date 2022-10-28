@@ -1,20 +1,10 @@
 package sgtmelon.scriptum.infrastructure.screen.alarm
 
-import android.os.Bundle
 import io.mockk.confirmVerified
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verifySequence
-import kotlin.random.Random
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
@@ -25,7 +15,6 @@ import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
 /**
  * Test for [AlarmViewModelImpl].
  */
-@ExperimentalCoroutinesApi
 class AlarmViewModelImplTest : ParentLiveDataTest() {
 
     //region Setup
