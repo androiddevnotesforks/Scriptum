@@ -35,6 +35,7 @@ class NotificationTest : ParentUiTest() {
     }
 
     // TODO case: cancel item, snackbar undo click, open item, close note, check snackbar not shown
+    // TODO case: cancel item, open item, wait 20 second, close note, check snackbar visibility
 
     @Test fun textNoteOpen() = db.insertText().let {
         launch({ db.insertNotification(it) }) {
