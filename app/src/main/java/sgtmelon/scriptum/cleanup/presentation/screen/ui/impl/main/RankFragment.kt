@@ -30,6 +30,9 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.isGone
+import sgtmelon.scriptum.infrastructure.utils.isInvisible
+import sgtmelon.scriptum.infrastructure.utils.isVisible
 import sgtmelon.scriptum.infrastructure.utils.makeGone
 import sgtmelon.scriptum.infrastructure.utils.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.makeVisible
@@ -262,9 +265,7 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
-            if (emptyInfoView?.visibility == View.VISIBLE
-                && recyclerView?.visibility == View.INVISIBLE
-            ) return
+            if (emptyInfoView.isVisible() && recyclerView.isInvisible()) return
 
             emptyInfoView?.makeVisible()
             recyclerView?.makeInvisible()
@@ -275,8 +276,7 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
-            if (emptyInfoView?.visibility == View.GONE
-                    && recyclerView?.visibility == View.VISIBLE) return
+            if (emptyInfoView.isGone() && recyclerView.isVisible()) return
 
             recyclerView?.makeVisible()
 

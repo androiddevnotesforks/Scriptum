@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import sgtmelon.scriptum.infrastructure.utils.isVisible
 import sgtmelon.scriptum.infrastructure.utils.showKeyboard
 
 inline fun EditText.addOnNextAction(crossinline func: () -> Unit) {
@@ -28,7 +29,7 @@ fun EditText.requestSelectionFocus() {
 fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, event ->
     if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
 
-    editText?.let { if (it.visibility == View.VISIBLE) it.requestSelectionFocus() }
+    editText?.let { if (it.isVisible()) it.requestSelectionFocus() }
 
     return@setOnTouchListener false
 }
