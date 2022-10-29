@@ -86,7 +86,12 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
 
     override fun setupObservers() {
         viewModel.showList.observe(this) {
-            animation.startListFade(it, binding = binding ?: return@observe)
+            val binding = binding ?: return@observe
+
+            animation.startListFade(
+                it, binding.parentContainer, binding.progressBar,
+                binding.recyclerView, binding.infoInclude.parentContainer
+            )
         }
         viewModel.itemList.observe(this) { observeItemList(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }

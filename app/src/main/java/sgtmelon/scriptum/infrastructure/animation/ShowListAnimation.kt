@@ -7,8 +7,6 @@ import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
-import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.utils.makeGone
 import sgtmelon.scriptum.infrastructure.utils.makeVisible
@@ -16,21 +14,7 @@ import sgtmelon.test.idling.addIdlingListener
 
 class ShowListAnimation {
 
-    fun startListFade(showList: ShowListState, binding: ActivityNotificationBinding) {
-        startListFade(
-            showList, binding.parentContainer, binding.progressBar,
-            binding.recyclerView, binding.infoInclude.parentContainer
-        )
-    }
-
-    fun startListFade(showList: ShowListState, binding: ActivityDevelopPrintBinding) {
-        startListFade(
-            showList, binding.parentContainer, binding.progressBar,
-            binding.recyclerView, binding.infoInclude.parentContainer
-        )
-    }
-
-    private fun startListFade(
+    fun startListFade(
         showList: ShowListState,
         parentContainer: ViewGroup,
         progressBar: View,
