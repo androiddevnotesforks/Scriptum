@@ -11,9 +11,9 @@
     <string name="pref_title_import_skip">Skip identical notes</string>
 
     <string name="pref_title_note">Notes</string>
-    <string name="pref_title_note_sort">Sort notes</string>
-    <string name="pref_title_note_color">Default note color</string>
-    <string name="pref_title_note_pause_save">On stop</string>
+    <string name="pref_title_note_sort">Notes sort</string>
+    <string name="pref_title_note_color">Default color</string>
+    <string name="pref_title_note_pause_save">Save on stop</string>
     <string name="pref_title_note_auto_save">Auto save</string>
     <string name="pref_title_note_save_period">Period of auto save</string>
 
@@ -58,8 +58,8 @@
 
     <string name="pref_summary_note_sort">Will be used by default</string>
     <string name="pref_summary_note_color">Will be used by default</string>
-    <string name="pref_summary_note_save_pause">Will save note changes when you leave application</string>
-    <string name="pref_summary_note_save_auto">Save note changes after period of time</string>
+    <string name="pref_summary_note_save_pause">Changes will be saved if application somehow was stop</string>
+    <string name="pref_summary_note_save_auto">Changes will be saved after period of time</string>
     <string name="pref_summary_note_save_period">Number of minutes</string>
 
     <string name="pref_summary_alarm_signal">The way how we will notify you</string>

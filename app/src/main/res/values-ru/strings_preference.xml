@@ -12,8 +12,8 @@
 
     <string name="pref_title_note">Заметки</string>
     <string name="pref_title_note_sort">Сортировка заметок</string>
-    <string name="pref_title_note_color">Цвет заметки по-умолчанию</string>
-    <string name="pref_title_note_pause_save">При остановке</string>
+    <string name="pref_title_note_color">Цвет по-умолчанию</string>
+    <string name="pref_title_note_pause_save">Сохранение при остановке</string>
     <string name="pref_title_note_auto_save">Автоматическое сохранение</string>
     <string name="pref_title_note_save_period">Период автосохранения</string>
 
@@ -60,11 +60,9 @@
 
     <string name="pref_summary_note_sort">Будет применяться по умолчанию</string>
     <string name="pref_summary_note_color">Будет применяться по умолчанию</string>
-    <string name="pref_summary_note_save_pause">
-        Сохранять изменения в заметке при сворачивании приложения
-    </string>
+    <string name="pref_summary_note_save_pause">Изменения будут сохранены, если приложение каким-либо образом было остановлено</string>
     <string name="pref_summary_note_save_auto">
-        Сохранять изменения в заметке после определенного периода времени
+        Изменения будут сохраняться после определенного периода времени
     </string>
     <string name="pref_summary_note_save_period">Количество минут</string>
 
