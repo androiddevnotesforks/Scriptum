@@ -19,7 +19,7 @@
 
     <string name="pref_title_alarm">Уведомления</string>
     <string name="pref_title_alarm_signal">Тип сигнала</string>
-    <string name="pref_title_alarm_repeat">Время повтора по-умолчанию</string>
+    <string name="pref_title_alarm_repeat">Повторять через</string>
     <string name="pref_title_alarm_melody">Мелодия</string>
     <string name="pref_title_alarm_volume">Громкость</string>
     <string name="pref_title_alarm_increase">Нарастание громкости</string>
@@ -68,15 +68,13 @@
     </string>
     <string name="pref_summary_note_save_period">Количество минут</string>
 
-    <string name="pref_summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
-    <string name="pref_summary_alarm_repeat">Будет применяться, чтобы повторить уведомление</string>
+    <string name="pref_summary_alarm_signal">То, как мы будем вас уведомлять</string>
+    <string name="pref_summary_alarm_repeat">Период, после которого нужно повторить уведомление</string>
     <string name="pref_summary_alarm_melody">Будет играть в уведомлении</string>
-    <string name="pref_summary_alarm_melody_search">Проверяем ваши мелодии</string>
+    <string name="pref_summary_alarm_melody_search">Ищем ваши мелодии</string>
     <string name="pref_summary_alarm_melody_empty">Извините, мы не нашли ни одной мелодии! :(</string>
-    <string name="pref_summary_alarm_volume">Процент громкости: %d%%</string>
-    <string name="pref_summary_alarm_increase">
-        Плавное увеличение громкости начиная с минимальной
-    </string>
+    <string name="pref_summary_alarm_volume">Процент от максимальной громкости: %d%%</string>
+    <string name="pref_summary_alarm_increase">Плавное увеличение громкости начиная с нуля</string>
 
     <string name="pref_summary_help_disappear">И как исправить это</string>
 
