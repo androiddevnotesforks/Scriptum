@@ -357,13 +357,13 @@ class ViewModelModule {
     fun provideAlarmPreferenceViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
-        @Named("Repeat") getRepeatSummary: GetSummaryUseCase,
         getSignalSummary: GetSignalSummaryUseCase,
+        @Named("Repeat") getRepeatSummary: GetSummaryUseCase,
         @Named("Volume") getVolumeSummary: GetSummaryUseCase,
         getMelodyList: GetMelodyListUseCase
     ): AlarmPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Alarm(
-            preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
+            preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary,
             getMelodyList
         )
         return ViewModelProvider(owner, factory)[AlarmPreferenceViewModelImpl::class.java]

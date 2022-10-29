@@ -9,17 +9,17 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.UpdateMelo
 
 interface AlarmPreferenceViewModel {
 
-    val repeat: Repeat
-
-    val repeatSummary: LiveData<String>
-
-    fun updateRepeat(value: Int)
-
     val signalTypeCheck: BooleanArray
 
     val signalSummary: LiveData<String>
 
     fun updateSignal(value: BooleanArray)
+
+    val repeat: Repeat
+
+    val repeatSummary: LiveData<String>
+
+    fun updateRepeat(value: Int)
 
     val volumePercent: Int
 

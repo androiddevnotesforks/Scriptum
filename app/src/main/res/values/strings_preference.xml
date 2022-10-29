@@ -18,8 +18,8 @@
     <string name="pref_title_note_save_period">Period of auto save</string>
 
     <string name="pref_title_alarm">Notifications</string>
-    <string name="pref_title_alarm_repeat">Default repeat time</string>
     <string name="pref_title_alarm_signal">Signal type</string>
+    <string name="pref_title_alarm_repeat">Default repeat time</string>
     <string name="pref_title_alarm_melody">Melody</string>
     <string name="pref_title_alarm_volume">Volume</string>
     <string name="pref_title_alarm_increase">Volume increase</string>
@@ -62,8 +62,8 @@
     <string name="pref_summary_note_save_auto">Save note changes after period of time</string>
     <string name="pref_summary_note_save_period">Number of minutes</string>
 
+    <string name="pref_summary_alarm_signal">Will be used for notify you</string>
     <string name="pref_summary_alarm_repeat">Will be used for repeat notification</string>
-    <string name="pref_summary_alarm_signal">will be used for notify you</string>
     <string name="pref_summary_alarm_melody">Will be play on notification</string>
     <string name="pref_summary_alarm_melody_search">Check out your melodies</string>
     <string name="pref_summary_alarm_melody_empty">Sorry, we didn\'t find any melodies! :(</string>

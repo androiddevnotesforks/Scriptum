@@ -77,8 +77,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun setup() {
-        binding.repeatButton?.setOnClickListener { showRepeatDialog(viewModel.repeat) }
         binding.signalButton?.setOnClickListener { showSignalDialog(viewModel.signalTypeCheck) }
+        binding.repeatButton?.setOnClickListener { showRepeatDialog(viewModel.repeat) }
 
         binding.melodyButton?.setOnClickListener {
             onMelodyPermission(permissionState.getResult(activity))
@@ -88,8 +88,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun setupObservers() {
-        viewModel.repeatSummary.observe(this) { binding.repeatButton?.summary = it }
         viewModel.signalSummary.observe(this) { binding.signalButton?.summary = it }
+        viewModel.repeatSummary.observe(this) { binding.repeatButton?.summary = it }
         viewModel.volumeSummary.observe(this) { binding.volumeButton?.summary = it }
         viewModel.melodySummaryState.observe(this) { observeMelodySummaryState(it) }
         viewModel.melodyGroupEnabled.observe(this) { observeMelodyGroupEnabled(it) }
@@ -139,13 +139,13 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     //region Dialogs
 
     private fun setupDialogs() {
-        repeatDialog.apply {
-            onPositiveClick { viewModel.updateRepeat(repeatDialog.check) }
+        signalDialog.apply {
+            onPositiveClick { viewModel.updateSignal(signalDialog.check) }
             onDismiss { open.clear() }
         }
 
-        signalDialog.apply {
-            onPositiveClick { viewModel.updateSignal(signalDialog.check) }
+        repeatDialog.apply {
+            onPositiveClick { viewModel.updateRepeat(repeatDialog.check) }
             onDismiss { open.clear() }
         }
 
@@ -170,14 +170,14 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         }
     }
 
-    private fun showRepeatDialog(repeat: Repeat) = open.attempt {
-        repeatDialog.setArguments(repeat.ordinal)
-            .safeShow(DialogFactory.Preference.Alarm.REPEAT, owner = this)
-    }
-
     private fun showSignalDialog(valueArray: BooleanArray) = open.attempt {
         signalDialog.setArguments(valueArray)
             .safeShow(DialogFactory.Preference.Alarm.SIGNAL, owner = this)
+    }
+
+    private fun showRepeatDialog(repeat: Repeat) = open.attempt {
+        repeatDialog.setArguments(repeat.ordinal)
+            .safeShow(DialogFactory.Preference.Alarm.REPEAT, owner = this)
     }
 
     private fun showVolumeDialog(@IntRange(from = 10, to = 100) value: Int) = open.attempt {

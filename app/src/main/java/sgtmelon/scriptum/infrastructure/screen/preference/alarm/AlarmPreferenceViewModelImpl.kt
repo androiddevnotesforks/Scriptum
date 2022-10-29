@@ -18,18 +18,12 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.UpdateMelo
 
 class AlarmPreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
-    private val getRepeatSummary: GetSummaryUseCase,
     private val getSignalSummary: GetSignalSummaryUseCase,
+    private val getRepeatSummary: GetSummaryUseCase,
     private val getVolumeSummary: GetSummaryUseCase,
     private val getMelodyList: GetMelodyListUseCase
 ) : ViewModel(),
     AlarmPreferenceViewModel {
-
-    override val repeat: Repeat get() = preferencesRepo.repeat
-
-    override val repeatSummary = MutableLiveData(getRepeatSummary())
-
-    override fun updateRepeat(value: Int) = repeatSummary.postValue(getRepeatSummary(value))
 
     override val signalTypeCheck: BooleanArray get() = preferencesRepo.signalTypeCheck
 
@@ -47,6 +41,12 @@ class AlarmPreferenceViewModelImpl(
             }
         }
     }
+
+    override val repeat: Repeat get() = preferencesRepo.repeat
+
+    override val repeatSummary = MutableLiveData(getRepeatSummary())
+
+    override fun updateRepeat(value: Int) = repeatSummary.postValue(getRepeatSummary(value))
 
     override val volumePercent: Int get() = preferencesRepo.volumePercent
 

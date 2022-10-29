@@ -19,6 +19,7 @@
         <item>420000</item> <!-- 7 minutes -->
     </integer-array>
 
+    <string name="pref_alarm_signal" translatable="false">0, 1</string>
     <integer name="pref_alarm_repeat">0</integer>
 
     <!-- Value in minutes -->
@@ -30,7 +31,6 @@
         <item>1440</item>   <!-- 1 day -->
     </integer-array>
 
-    <string name="pref_alarm_signal" translatable="false">0, 1</string>
     <string name="pref_alarm_melody" translatable="false"/>
     <integer name="pref_alarm_volume">75</integer>
     <bool name="pref_alarm_increase">false</bool>

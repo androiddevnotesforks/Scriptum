@@ -345,15 +345,15 @@ object ViewModelFactory {
 
         class Alarm(
             private val preferencesRepo: PreferencesRepo,
-            private val getRepeatSummary: GetSummaryUseCase,
             private val getSignalSummary: GetSignalSummaryUseCase,
+            private val getRepeatSummary: GetSummaryUseCase,
             private val getVolumeSummary: GetSummaryUseCase,
             private val getMelodyList: GetMelodyListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(AlarmPreferenceViewModelImpl::class) {
                     AlarmPreferenceViewModelImpl(
-                        preferencesRepo, getRepeatSummary, getSignalSummary, getVolumeSummary,
+                        preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary,
                         getMelodyList
                     )
                 }

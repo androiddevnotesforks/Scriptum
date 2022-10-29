@@ -18,7 +18,6 @@
     <string name="pref_key_note_save_period" translatable="false">key_note_time</string>
 
     <string name="pref_key_alarm" translatable="false">key_alarm</string>
-    <string name="pref_key_alarm_repeat" translatable="false">key_alarm_repeat</string>
 
     <!--
           Deprecated:
@@ -27,6 +26,7 @@
                                For example (0 - false, 1 - true): 0 - 00, 1 - 01, 2 - 10, ...
     -->
     <string name="pref_key_alarm_signal" translatable="false">key_alarm_signal_1</string>
+    <string name="pref_key_alarm_repeat" translatable="false">key_alarm_repeat</string>
     <string name="pref_key_alarm_melody" translatable="false">key_alarm_melody</string>
     <string name="pref_key_alarm_volume" translatable="false">key_alarm_volume</string>
     <string name="pref_key_alarm_increase" translatable="false">key_alarm_increase</string>

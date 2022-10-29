@@ -269,17 +269,6 @@ object DialogFactory {
 
         class Alarm(private val context: Context?, private val fm: FragmentManager) {
 
-            fun getRepeat(): SingleDialog {
-                val dialog = fm.getFragmentByTag(REPEAT) ?: SingleDialog()
-
-                if (context == null) return dialog
-
-                dialog.title = context.getString(R.string.pref_title_alarm_repeat)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_repeat)
-
-                return dialog
-            }
-
             fun getSignal(): MultipleDialog {
                 val dialog = fm.getFragmentByTag(SIGNAL) ?: MultipleDialog()
 
@@ -288,6 +277,17 @@ object DialogFactory {
                 dialog.atLeastOne = true
                 dialog.title = context.getString(R.string.pref_title_alarm_signal)
                 dialog.itemArray = context.resources.getStringArray(R.array.pref_signal)
+
+                return dialog
+            }
+
+            fun getRepeat(): SingleDialog {
+                val dialog = fm.getFragmentByTag(REPEAT) ?: SingleDialog()
+
+                if (context == null) return dialog
+
+                dialog.title = context.getString(R.string.pref_title_alarm_repeat)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_repeat)
 
                 return dialog
             }
@@ -327,8 +327,8 @@ object DialogFactory {
             companion object {
                 private const val PREFIX = "DIALOG_PREF_ALARM"
 
-                const val REPEAT = "${PREFIX}_REPEAT"
                 const val SIGNAL = "${PREFIX}_SIGNAL"
+                const val REPEAT = "${PREFIX}_REPEAT"
                 const val MELODY_ACCESS = "${PREFIX}_MELODY_ACCESS"
                 const val MELODY = "${PREFIX}_MELODY"
                 const val VOLUME = "${PREFIX}_VOLUME"
