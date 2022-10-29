@@ -280,6 +280,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideAlarmViewModel(
         owner: ViewModelStoreOwner,
+        noteId: Long,
         preferencesRepo: PreferencesRepo,
         noteRepo: NoteRepo,
         getMelodyList: GetMelodyListUseCase,
@@ -288,7 +289,7 @@ class ViewModelModule {
         shiftDateIfExist: ShiftDateIfExistUseCase
     ): AlarmViewModel {
         val factory = ViewModelFactory.Alarm(
-            preferencesRepo, noteRepo, getMelodyList,
+            noteId, preferencesRepo, noteRepo, getMelodyList,
             setNotification, deleteNotification, shiftDateIfExist
         )
 

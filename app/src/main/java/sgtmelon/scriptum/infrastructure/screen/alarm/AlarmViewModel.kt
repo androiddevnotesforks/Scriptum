@@ -14,7 +14,5 @@ interface AlarmViewModel : UnbindNoteReceiver.Callback {
 
     val alarmState: AlarmState
 
-    fun setup(noteId: Long)
-
     fun postpone(repeat: Repeat?, timeArray: IntArray)
 }

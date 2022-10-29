@@ -269,6 +269,7 @@ object ViewModelFactory {
     }
 
     class Alarm(
+        private val noteId: Long,
         private val preferencesRepo: PreferencesRepo,
         private val noteRepo: NoteRepo,
         private val getMelodyList: GetMelodyListUseCase,
@@ -279,7 +280,7 @@ object ViewModelFactory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AlarmViewModelImpl::class) {
                 AlarmViewModelImpl(
-                    preferencesRepo, noteRepo, getMelodyList,
+                    noteId, preferencesRepo, noteRepo, getMelodyList,
                     setNotification, deleteNotification, shiftDateIfExist
                 )
             }

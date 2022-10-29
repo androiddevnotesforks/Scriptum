@@ -78,23 +78,19 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
         setupScreen()
-
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
-        val noteId = bundleProvider.noteId ?: run {
-            finish()
-            return
-        }
-
-        viewModel.setup(noteId)
 
         registerReceiver(unbindNoteReceiver, IntentFilter(Filter.ALARM))
     }
 
     override fun inject(component: ScriptumComponent) {
+        val noteId = bundleProvider.noteId ?: return run { finish() }
+
         component.getAlarmBuilder()
             .set(owner = this)
+            .set(noteId)
             .build()
             .inject(activity = this)
     }

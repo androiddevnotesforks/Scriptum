@@ -45,8 +45,8 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
         val type = bundleProvider.type ?: return run { finish() }
 
         component.getPrintBuilder()
-            .set(type)
             .set(owner = this)
+            .set(type)
             .build()
             .inject(activity = this)
     }

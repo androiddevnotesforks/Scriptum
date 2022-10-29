@@ -12,12 +12,12 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.utils.record
 
 class AlarmViewModelImpl(
+    private val noteId: Long,
     private val preferencesRepo: PreferencesRepo,
     private val noteRepo: NoteRepo,
     private val getMelodyList: GetMelodyListUseCase,
@@ -27,10 +27,7 @@ class AlarmViewModelImpl(
 ) : ViewModel(),
     AlarmViewModel {
 
-    private var noteId: Long = Default.ID
-
-    override fun setup(noteId: Long) {
-        this.noteId = noteId
+    init {
         viewModelScope.launchBack { fetchData(noteId) }
     }
 
