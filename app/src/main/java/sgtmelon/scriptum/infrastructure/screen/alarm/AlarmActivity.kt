@@ -158,6 +158,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         delegators.phoneAwake.release()
         binding?.rippleContainer?.stopAnimation()
 
+        // TODO safe unregister receiver
         unregisterReceiver(unbindNoteReceiver)
     }
 

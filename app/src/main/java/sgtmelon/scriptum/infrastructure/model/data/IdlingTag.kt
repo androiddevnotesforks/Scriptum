@@ -44,9 +44,4 @@ object IdlingTag {
         private const val PREFIX = "NOTE"
         const val LOAD_DATA = "${PREFIX}_LOAD_DATA"
     }
-
-    object Print {
-        private const val PREFIX = "PRINT"
-        const val LOAD_DATA = "${PREFIX}_LOAD_DATA"
-    }
 }

@@ -43,6 +43,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.develop.model.PrintType
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.develop.screen.print.PrintDevelopViewModel
@@ -381,9 +382,10 @@ class ViewModelModule {
     @ActivityScope
     fun providePrintDevelopViewModel(
         owner: ViewModelStoreOwner,
+        type: PrintType,
         interactor: DevelopInteractor
     ): PrintDevelopViewModel {
-        val factory = ViewModelFactory.Develop.Print(interactor)
+        val factory = ViewModelFactory.Develop.Print(type, interactor)
         return ViewModelProvider(owner, factory)[PrintDevelopViewModelImpl::class.java]
     }
 

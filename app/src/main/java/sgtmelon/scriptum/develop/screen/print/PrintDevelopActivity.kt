@@ -34,20 +34,18 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     private val adapter = PrintAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
 
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
-        val type = bundleProvider.type ?: run {
-            finish()
-            return
-        }
-
-        setupView(type)
-        viewModel.setup(type)
+        setupToolbar()
+        setupRecycler()
     }
 
     override fun inject(component: ScriptumComponent) {
+        val type = bundleProvider.type ?: return run { finish() }
+
         component.getPrintBuilder()
+            .set(type)
             .set(owner = this)
             .build()
             .inject(activity = this)
@@ -70,67 +68,39 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
         viewModel.itemList.observe(this) { adapter.notifyList(it) }
     }
 
-    private fun setupView(type: PrintType) {
+    private fun setupToolbar() {
+        val type = bundleProvider.type ?: return
         val toolbar = binding?.toolbarInclude?.toolbar ?: return
-        val recyclerView = binding?.recyclerView ?: return
 
-        val titleText = getString(
-            when (type) {
-                PrintType.NOTE, PrintType.BIN -> R.string.pref_title_print_note
-                PrintType.ROLL -> R.string.pref_title_print_roll
-                PrintType.VISIBLE -> R.string.pref_title_print_visible
-                PrintType.RANK -> R.string.pref_title_print_rank
-                PrintType.ALARM -> R.string.pref_title_print_alarm
-                PrintType.KEY -> R.string.pref_title_print_key
+        val titleId = when (type) {
+            PrintType.NOTE, PrintType.BIN -> R.string.pref_title_print_note
+            PrintType.ROLL -> R.string.pref_title_print_roll
+            PrintType.VISIBLE -> R.string.pref_title_print_visible
+            PrintType.RANK -> R.string.pref_title_print_rank
+            PrintType.ALARM -> R.string.pref_title_print_alarm
+            PrintType.KEY -> R.string.pref_title_print_key
             PrintType.FILE -> R.string.pref_title_print_file
-        }).lowercase()
+        }
+        toolbar.title = getString(R.string.title_print, getString(titleId).lowercase())
 
-        toolbar.title = getString(R.string.title_print, titleText)
-
-        if (type == PrintType.NOTE) {
-            toolbar.subtitle = getString(R.string.pref_summary_print_note)
-        } else if (type == PrintType.BIN) {
-            toolbar.subtitle = getString(R.string.pref_summary_print_bin)
+        val subtitleId = when (type) {
+            PrintType.NOTE -> R.string.pref_summary_print_note
+            PrintType.BIN -> R.string.pref_summary_print_bin
+            else -> null
+        }
+        if (subtitleId != null) {
+            toolbar.subtitle = getString(subtitleId)
         }
 
         toolbar.navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
         toolbar.setNavigationOnClickListener { finish() }
+    }
+
+    private fun setupRecycler() {
+        val recyclerView = binding?.recyclerView ?: return
 
         recyclerView.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
     }
-
-    //    /**
-    //     * For first time [recyclerView] visibility flag set inside xml file.
-    //     */
-    //    override fun beforeLoad() {
-    //        binding?.infoInclude?.parentContainer?.makeGone()
-    //        binding?.progressBar?.makeGone()
-    //    }
-    //
-    //    override fun showProgress() {
-    //        binding?.progressBar?.makeVisible()
-    //    }
-    //
-    //    override fun onBindingList() {
-    //        binding?.progressBar?.makeGone()
-    //
-    //        if (adapter.itemCount == 0) {
-    //            binding?.infoInclude?.parentContainer?.makeVisible()
-    //            binding?.recyclerView?.makeInvisible()
-    //
-    //            binding?.infoInclude?.parentContainer?.alpha = 0f
-    //            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
-    //        } else {
-    //            binding?.recyclerView?.makeVisible()
-    //
-    //            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = false) {
-    //                binding?.infoInclude?.parentContainer?.makeGone()
-    //            }
-    //        }
-    //    }
-    //
-    //    override fun notifyList(list: List<PrintItem>) = adapter.notifyList(list)
-
 }

@@ -30,6 +30,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.develop.model.PrintType
 import sgtmelon.scriptum.develop.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.develop.screen.print.PrintDevelopViewModelImpl
 import sgtmelon.scriptum.develop.screen.service.ServiceDevelopViewModelImpl
@@ -369,10 +370,13 @@ object ViewModelFactory {
             }
         }
 
-        class Print(private val interactor: DevelopInteractor) : ViewModelProvider.Factory {
+        class Print(
+            private val type: PrintType,
+            private val interactor: DevelopInteractor
+        ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(PrintDevelopViewModelImpl::class) {
-                    PrintDevelopViewModelImpl(interactor)
+                    PrintDevelopViewModelImpl(type, interactor)
                 }
             }
         }
