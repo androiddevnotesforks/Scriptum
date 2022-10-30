@@ -80,8 +80,8 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.IMainViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
+import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
@@ -133,7 +133,7 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideMainViewModel(activity: MainActivity): IMainViewModel {
+    fun provideMainViewModel(activity: MainActivity): MainViewModel {
         val factory = ViewModelFactory.MainScreen.Main(activity)
         return ViewModelProvider(activity, factory)[MainViewModelImpl::class.java]
     }

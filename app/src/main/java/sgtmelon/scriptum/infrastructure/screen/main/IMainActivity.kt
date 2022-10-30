@@ -5,7 +5,7 @@ import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 
 /**
- * Interface for communication [IMainViewModel] with [MainActivity].
+ * Interface for communication [MainViewModel] with [MainActivity].
  */
 interface IMainActivity : UnbindNoteReceiver.Callback {
 

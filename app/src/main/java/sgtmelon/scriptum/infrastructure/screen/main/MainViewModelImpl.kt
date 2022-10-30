@@ -12,7 +12,7 @@ import sgtmelon.test.prod.RunPrivate
  * ViewModel for [IMainActivity].
  */
 class MainViewModelImpl(callback: IMainActivity) : ParentViewModel<IMainActivity>(callback),
-    IMainViewModel {
+    MainViewModel {
 
     /**
      * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem].

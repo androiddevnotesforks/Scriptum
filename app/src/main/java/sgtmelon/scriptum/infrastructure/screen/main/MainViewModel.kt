@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewMode
 /**
  * Interface for communication [IMainActivity] with [MainViewModelImpl].
  */
-interface IMainViewModel : IParentViewModel {
+interface MainViewModel : IParentViewModel {
 
     val isStartPage: Boolean
 
