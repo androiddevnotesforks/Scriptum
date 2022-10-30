@@ -32,12 +32,16 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
     }
 
     override fun setupInsets() {
+        super.setupInsets()
+
         binding?.parentContainer?.setMarginInsets(
             InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT, InsetsDir.BOTTOM
         )
     }
 
     override fun setupView() {
+        super.setupView()
+
         binding?.toolbarInclude?.toolbar?.apply {
             title = getString(R.string.pref_title_help_disappear)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)

@@ -52,6 +52,8 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     }
 
     override fun setupInsets() {
+        super.setupInsets()
+
         binding?.parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
         binding?.recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
     }
@@ -62,6 +64,8 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     }
 
     override fun setupObservers() {
+        super.setupObservers()
+
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
 

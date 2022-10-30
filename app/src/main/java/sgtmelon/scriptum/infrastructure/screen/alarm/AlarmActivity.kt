@@ -99,6 +99,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
      * This activity not rotatable (don't need setup margin for left and right).
      */
     override fun setupInsets() {
+        super.setupInsets()
+
         binding?.logoView?.setMarginInsets(InsetsDir.TOP)
         binding?.buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
     }
@@ -121,6 +123,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     override fun setupObservers() {
+        super.setupObservers()
+
         viewModel.noteItem.observe(this) { notifyItem(it) }
         viewModel.state.observe(this) {
             when (it) {
@@ -175,6 +179,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     override fun setupView() {
+        super.setupView()
+
         binding?.parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
 
         binding?.recyclerView?.let {

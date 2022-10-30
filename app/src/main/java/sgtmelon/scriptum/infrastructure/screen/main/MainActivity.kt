@@ -146,6 +146,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     }
 
     override fun setupInsets() {
+        super.setupInsets()
+
         binding?.parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)

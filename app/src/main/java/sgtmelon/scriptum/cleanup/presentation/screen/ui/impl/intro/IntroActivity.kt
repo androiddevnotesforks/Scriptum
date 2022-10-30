@@ -111,11 +111,10 @@ class IntroActivity : ThemeActivity<ActivityIntroBinding>(), IIntroActivity {
     }
 
     override fun setupInsets() {
+        super.setupInsets()
+
         binding?.viewPager?.setPaddingInsets(
-            InsetsDir.LEFT,
-            InsetsDir.TOP,
-            InsetsDir.RIGHT,
-            InsetsDir.BOTTOM
+            InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT, InsetsDir.BOTTOM
         )
         binding?.pageContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)
         binding?.endButton?.setMarginInsets(InsetsDir.LEFT, InsetsDir.RIGHT, InsetsDir.BOTTOM)

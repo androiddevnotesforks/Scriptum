@@ -63,11 +63,15 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     }
 
     override fun setupInsets() {
+        super.setupInsets()
+
         binding?.parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
         binding?.recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
     }
 
     override fun setupView() {
+        super.setupView()
+
         binding?.toolbarInclude?.toolbar?.apply {
             title = getString(R.string.title_notification)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
@@ -85,6 +89,8 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     }
 
     override fun setupObservers() {
+        super.setupObservers()
+
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
 

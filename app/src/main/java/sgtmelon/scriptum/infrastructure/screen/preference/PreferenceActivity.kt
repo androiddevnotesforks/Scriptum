@@ -49,6 +49,8 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
      * [InsetsDir.BOTTOM] will be set in [ParentPreferenceFragment] (list padding).
      */
     override fun setupInsets() {
+        super.setupInsets()
+
         binding?.parentContainer?.setPaddingInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
     }
 

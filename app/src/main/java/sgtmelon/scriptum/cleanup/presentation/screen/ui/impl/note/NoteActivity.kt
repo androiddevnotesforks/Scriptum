@@ -98,6 +98,8 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     override fun updateHolder(color: Color) = holderTintControl.setupColor(color)
 
     override fun setupInsets() {
+        super.setupInsets()
+
         binding?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
