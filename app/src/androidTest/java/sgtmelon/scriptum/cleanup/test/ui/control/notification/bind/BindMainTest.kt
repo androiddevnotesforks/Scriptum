@@ -4,8 +4,8 @@ import kotlin.random.Random
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
+import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 
 /**
  * Test for bind notification inside [MainActivity].

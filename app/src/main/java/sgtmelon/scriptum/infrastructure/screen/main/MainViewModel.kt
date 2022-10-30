@@ -1,10 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
+package sgtmelon.scriptum.infrastructure.screen.main
 
 import android.os.Bundle
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
@@ -14,7 +12,7 @@ import sgtmelon.test.prod.RunPrivate
  * ViewModel for [IMainActivity].
  */
 class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(callback),
-        IMainViewModel {
+    IMainViewModel {
 
     /**
      * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem].

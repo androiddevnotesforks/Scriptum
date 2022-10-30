@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
+package sgtmelon.scriptum.infrastructure.screen.main
 
 import android.content.IntentFilter
 import android.graphics.Rect
@@ -15,8 +15,7 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.databinding.ActivityMainBinding
 import sgtmelon.scriptum.infrastructure.dialogs.data.AddSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory

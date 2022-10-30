@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
+import kotlin.random.Random
 import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
@@ -19,6 +20,7 @@ class AlarmViewModelImplTest : ParentLiveDataTest() {
 
     //region Setup
 
+    private val noteId = Random.nextLong()
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var getMelodyList: GetMelodyListUseCase
@@ -28,7 +30,7 @@ class AlarmViewModelImplTest : ParentLiveDataTest() {
 
     private val viewModel by lazy {
         AlarmViewModelImpl(
-            preferencesRepo, noteRepo, getMelodyList, setNotification, deleteNotification,
+            noteId, preferencesRepo, noteRepo, getMelodyList, setNotification, deleteNotification,
             shiftDateIfExist
         )
     }

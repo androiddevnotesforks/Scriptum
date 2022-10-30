@@ -48,20 +48,20 @@
             android:theme="@style/App.Screen.Intro"/>
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.main.MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"/>
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity" />
 
         <activity
             android:name="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"/>
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity" />
 
         <activity
             android:name="sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity"
@@ -79,9 +79,9 @@
             android:name="sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity">
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity">
 
-        <intent-filter>
+            <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -90,7 +90,7 @@
             android:name="sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity"
             android:screenOrientation="portrait">
 
         <intent-filter>

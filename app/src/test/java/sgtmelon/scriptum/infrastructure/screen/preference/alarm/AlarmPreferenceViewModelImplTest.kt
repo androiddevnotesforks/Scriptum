@@ -43,19 +43,6 @@ class AlarmPreferenceViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    @Test fun getRepeat() {
-        TODO()
-    }
-
-    @Test fun getRepeatSummary() {
-        TODO()
-    }
-
-    @Test fun updateRepeat() {
-        TODO()
-    }
-
-
     @Test fun getSignalTypeCheck() {
         TODO()
     }
@@ -65,6 +52,19 @@ class AlarmPreferenceViewModelImplTest : ParentLiveDataTest() {
     }
 
     @Test fun updateSignal() {
+        TODO()
+    }
+
+
+    @Test fun getRepeat() {
+        TODO()
+    }
+
+    @Test fun getRepeatSummary() {
+        TODO()
+    }
+
+    @Test fun updateRepeat() {
         TODO()
     }
 

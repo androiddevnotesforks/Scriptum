@@ -1,10 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main
+package sgtmelon.scriptum.infrastructure.screen.main
 
 import android.os.Bundle
 import androidx.annotation.IdRes
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.MainViewModel
 
 /**
  * Interface for communication [IMainActivity] with [MainViewModel].

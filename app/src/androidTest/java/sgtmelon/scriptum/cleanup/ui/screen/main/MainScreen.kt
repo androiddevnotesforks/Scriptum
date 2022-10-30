@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.ui.screen.main
 import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.dialog.sheet.AddSheetDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
+import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
