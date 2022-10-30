@@ -100,9 +100,13 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
 
     //region Broadcast functions
 
-    override fun sendTidyUpAlarmBroadcast() = delegators.broadcast.sendTidyUpAlarm()
+    override fun sendTidyUpAlarmBroadcast() {
+        delegators?.broadcast?.sendTidyUpAlarm()
+    }
 
-    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() {
+        delegators?.broadcast?.sendNotifyNotesBind()
+    }
 
     /**
      * Not used here.
@@ -110,7 +114,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     override fun sendCancelNoteBroadcast(id: Long) = Unit
 
     override fun sendNotifyInfoBroadcast(count: Int?) {
-        delegators.broadcast.sendNotifyInfoBind(count)
+        delegators?.broadcast?.sendNotifyInfoBind(count)
     }
 
     //endregion

@@ -52,11 +52,16 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
             menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
         }
 
-        binding?.settingsButton?.setOnClickListener { startSettingsActivity(delegators.toast) }
+        binding?.settingsButton?.setOnClickListener {
+            val toast = delegators?.toast ?: return@setOnClickListener
+            startSettingsActivity(toast)
+        }
     }
 
     private fun onVideoClick() {
+        val toast = delegators?.toast ?: return
+
         val url = getString(R.string.help_notification_disappear_video_url)
-        startUrlActivity(url, delegators.toast)
+        startUrlActivity(url, toast)
     }
 }

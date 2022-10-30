@@ -23,21 +23,20 @@ abstract class ParentActivity<T : ViewDataBinding> : AppCompatActivity(),
 
     override val fm get() = supportFragmentManager
 
-    private lateinit var delegatorFactory: DelegatorFactory
-    protected val delegators get() = delegatorFactory
+    private var _delegators: DelegatorFactory? = null
+    protected val delegators get() = _delegators
 
     val open: OpenState = OpenState(lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = inflateBinding(layoutId)
+        _delegators = DelegatorFactory(context = this, lifecycle)
         inject(ScriptumApplication.component)
 
         open.restore(savedInstanceState)
 
-        delegatorFactory = DelegatorFactory(context = this, lifecycle)
-
-        /** If it was opened in another app. */
+        /** If keyboard was opened in another app. */
         hideKeyboard()
     }
 
@@ -51,5 +50,6 @@ abstract class ParentActivity<T : ViewDataBinding> : AppCompatActivity(),
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        _delegators = null
     }
 }

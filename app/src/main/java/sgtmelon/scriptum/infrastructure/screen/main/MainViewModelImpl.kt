@@ -2,16 +2,13 @@ package sgtmelon.scriptum.infrastructure.screen.main
 
 import android.os.Bundle
 import androidx.annotation.IdRes
+import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.test.prod.RunPrivate
 
-/**
- * ViewModel for [IMainActivity].
- */
-class MainViewModelImpl(callback: IMainActivity) : ParentViewModel<IMainActivity>(callback),
+class MainViewModelImpl : ViewModel(),
     MainViewModel {
 
     /**

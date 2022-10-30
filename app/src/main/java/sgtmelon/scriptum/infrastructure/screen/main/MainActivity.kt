@@ -36,9 +36,10 @@ import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
 
 /**
- * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment].
+ * Screen which displays main menu.
  */
-class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
+class MainActivity : ThemeActivity<ActivityMainBinding>(),
+    UnbindNoteReceiver.Callback {
 
     override val layoutId: Int = R.layout.activity_main
 
@@ -237,6 +238,9 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
     //endregion
 
+
+    //region Extensions and help staff
+
     private fun MainPage.getFragmentByName(): Fragment = when (this) {
         MainPage.RANK -> rankFragment
         MainPage.NOTES -> notesFragment
@@ -268,5 +272,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(), IMainActivity {
 
         func()
     }
+
+    //endregion
 
 }

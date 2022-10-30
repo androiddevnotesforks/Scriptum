@@ -2,12 +2,8 @@ package sgtmelon.scriptum.infrastructure.screen.main
 
 import android.os.Bundle
 import androidx.annotation.IdRes
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 
-/**
- * Interface for communication [IMainActivity] with [MainViewModelImpl].
- */
-interface MainViewModel : IParentViewModel {
+interface MainViewModel {
 
     val isStartPage: Boolean
 
