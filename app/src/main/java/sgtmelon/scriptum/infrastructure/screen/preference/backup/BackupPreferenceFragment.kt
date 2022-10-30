@@ -33,6 +33,8 @@ import sgtmelon.textDotAnim.DotAnimation
 class BackupPreferenceFragment : ParentPreferenceFragment(),
     DotAnimation.Callback {
 
+    // TODO move dialog creation/opening inside another class (this decrease file length)
+
     override val xmlId: Int = R.xml.preference_backup
 
     private val binding = BackupPreferenceDataBinding(fragment = this)

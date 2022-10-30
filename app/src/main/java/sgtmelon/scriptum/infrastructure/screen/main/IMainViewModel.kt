@@ -5,7 +5,7 @@ import androidx.annotation.IdRes
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 
 /**
- * Interface for communication [IMainActivity] with [MainViewModel].
+ * Interface for communication [IMainActivity] with [MainViewModelImpl].
  */
 interface IMainViewModel : IParentViewModel {
 

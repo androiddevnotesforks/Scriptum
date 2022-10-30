@@ -82,7 +82,7 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.IMainViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
@@ -135,7 +135,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideMainViewModel(activity: MainActivity): IMainViewModel {
         val factory = ViewModelFactory.MainScreen.Main(activity)
-        return ViewModelProvider(activity, factory)[MainViewModel::class.java]
+        return ViewModelProvider(activity, factory)[MainViewModelImpl::class.java]
     }
 
     @Provides

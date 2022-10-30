@@ -11,7 +11,7 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * ViewModel for [IMainActivity].
  */
-class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(callback),
+class MainViewModelImpl(callback: IMainActivity) : ParentViewModel<IMainActivity>(callback),
     IMainViewModel {
 
     /**

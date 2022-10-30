@@ -18,10 +18,10 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 
 /**
- * Test for [MainViewModel].
+ * Test for [MainViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class MainViewModelTest : ParentViewModelTest() {
+class MainViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -29,7 +29,7 @@ class MainViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { MainViewModel(callback) }
+    private val viewModel by lazy { MainViewModelImpl(callback) }
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
