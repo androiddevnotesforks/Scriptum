@@ -32,7 +32,9 @@ abstract class ParentActivity<T : ViewDataBinding> : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         _binding = inflateBinding(layoutId)
         _delegators = DelegatorFactory(context = this, lifecycle)
+
         inject(ScriptumApplication.component)
+        registerReceivers()
 
         open.restore(savedInstanceState)
 
@@ -47,9 +49,14 @@ abstract class ParentActivity<T : ViewDataBinding> : AppCompatActivity(),
 
     abstract fun inject(component: ScriptumComponent)
 
+    open fun registerReceivers() = Unit
+
+    open fun unregisterReceivers() = Unit
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
         _delegators = null
+        unregisterReceivers()
     }
 }

@@ -60,12 +60,9 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         fabDelegator = GradientFabDelegator(activity = this) { openAddDialog() }
 
         viewModel.onSetup(savedInstanceState)
-
-        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
 
         getIdling().stop(IdlingTag.Intro.FINISH)
     }
@@ -76,6 +73,16 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
             .set(owner = this)
             .build()
             .inject(activity = this)
+    }
+
+    override fun registerReceivers() {
+        super.registerReceivers()
+        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun onResume() {
@@ -95,13 +102,10 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     override fun onDestroy() {
         super.onDestroy()
-
         fabDelegator = null
 
         holderControl.onDestroy()
         viewModel.onDestroy()
-
-        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

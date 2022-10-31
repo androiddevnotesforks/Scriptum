@@ -81,8 +81,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
         setupScreen()
-
-        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.ALARM))
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -103,6 +101,16 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
         binding?.logoView?.setMarginInsets(InsetsDir.TOP)
         binding?.buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
+    }
+
+    override fun registerReceivers() {
+        super.registerReceivers()
+        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.ALARM))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -157,9 +165,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         delegators?.vibrator?.cancel()
         delegators?.phoneAwake?.release()
         binding?.rippleContainer?.stopAnimation()
-
-        // TODO safe unregister receiver
-        unregisterReceiver(unbindNoteReceiver)
     }
 
     //endregion

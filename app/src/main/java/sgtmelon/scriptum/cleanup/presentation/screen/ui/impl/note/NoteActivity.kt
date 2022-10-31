@@ -63,8 +63,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
             onSetup(bundle = savedInstanceState ?: intent.extras)
             onSetupFragment(checkCache = savedInstanceState != null)
         }
-
-        registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -75,13 +73,22 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
             .inject(activity = this)
     }
 
+    override fun registerReceivers() {
+        super.registerReceivers()
+        registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        unregisterReceiver(unbindNoteReceiver)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
 
         holderShowControl.onDestroy()
 
         viewModel.onDestroy()
-        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
