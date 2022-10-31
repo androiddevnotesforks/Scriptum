@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.dialogs.data
+package sgtmelon.scriptum.infrastructure.converter.dialog
 
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R

@@ -21,6 +21,7 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
 import sgtmelon.scriptum.infrastructure.utils.isGone
 import sgtmelon.scriptum.infrastructure.utils.isInvisible
@@ -35,7 +36,9 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Fragment which displays list of deleted notes - [NoteItem].
  */
-class BinFragment : ParentFragment<FragmentBinBinding>(), IBinFragment {
+class BinFragment : ParentFragment<FragmentBinBinding>(),
+    IBinFragment,
+    ScrollTopCallback {
 
     override val layoutId: Int = R.layout.fragment_bin
 

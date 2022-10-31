@@ -1,14 +1,16 @@
 package sgtmelon.scriptum.infrastructure.screen.main
 
-import android.os.Bundle
-import androidx.annotation.IdRes
+import androidx.lifecycle.LiveData
+import sgtmelon.scriptum.infrastructure.model.key.MainPage
 
 interface MainViewModel {
 
-    val isStartPage: Boolean
+    val previousPage: MainPage?
 
-    fun onSaveData(bundle: Bundle)
+    val currentPage: LiveData<MainPage>
 
-    fun onSelectItem(@IdRes itemId: Int)
+    val isFabPage: Boolean
+
+    fun changePage(page: MainPage)
 
 }

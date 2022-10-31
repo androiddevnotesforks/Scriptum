@@ -14,7 +14,7 @@ import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
-import sgtmelon.scriptum.infrastructure.dialogs.data.RepeatSheetData
+import sgtmelon.scriptum.infrastructure.converter.dialog.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag

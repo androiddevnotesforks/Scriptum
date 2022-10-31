@@ -1,13 +1,10 @@
 package sgtmelon.scriptum.infrastructure.screen.main
 
 import android.content.IntentFilter
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
@@ -17,7 +14,8 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.databinding.ActivityMainBinding
-import sgtmelon.scriptum.infrastructure.dialogs.data.AddSheetData
+import sgtmelon.scriptum.infrastructure.converter.MainPageConverter
+import sgtmelon.scriptum.infrastructure.converter.dialog.AddSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
@@ -26,11 +24,14 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.main.callback.FabShowCallback
+import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.addSystemInsetsMargin
 import sgtmelon.scriptum.infrastructure.utils.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.onView
 import sgtmelon.scriptum.infrastructure.utils.updateMargin
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.test.idling.getIdling
@@ -39,13 +40,12 @@ import sgtmelon.test.idling.getIdling
  * Screen which displays main menu.
  */
 class MainActivity : ThemeActivity<ActivityMainBinding>(),
-    UnbindNoteReceiver.Callback {
+    UnbindNoteReceiver.Callback,
+    FabShowCallback {
 
     override val layoutId: Int = R.layout.activity_main
 
     @Inject lateinit var viewModel: MainViewModel
-
-    private val holderControl by lazy { HolderShowControl[binding?.toolbarHolder] }
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
 
@@ -56,13 +56,16 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     private val addDialog by lazy { DialogFactory.Main(context = this, fm).getAdd() }
 
+    private val holderControl by lazy { HolderShowControl[binding?.toolbarHolder] }
     private var fabDelegator: GradientFabDelegator? = null
+
+    private val pageConverter = MainPageConverter()
+
+    //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fabDelegator = GradientFabDelegator(activity = this) { openAddDialog() }
-
-        viewModel.onSetup(savedInstanceState)
 
         getIdling().stop(IdlingTag.Intro.FINISH)
     }
@@ -73,80 +76,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
             .set(owner = this)
             .build()
             .inject(activity = this)
-    }
-
-    override fun registerReceivers() {
-        super.registerReceivers()
-        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        unregisterReceiver(unbindNoteReceiver)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        /**
-         * Clear [open] after click on item container.
-         */
-        open.isChangeEnabled = true
-        open.clear()
-
-        /**
-         * Show FAB on return to screen if it possible.
-         */
-        onFabStateChange(isVisible = true, withGap = false)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        fabDelegator = null
-
-        holderControl.onDestroy()
-        viewModel.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.onSaveData(outState)
-    }
-
-    /**
-     * If touch was outside of [RankFragment.enterCard], when need hide keyboard
-     */
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (ev?.action != MotionEvent.ACTION_DOWN) return super.dispatchTouchEvent(ev)
-
-        rankFragment.enterCard?.let { if (!ev.onView(it)) hideKeyboard() }
-
-        return super.dispatchTouchEvent(ev)
-    }
-
-    private fun openAddDialog() {
-        open.attempt { addDialog.safeShow(DialogFactory.Main.ADD, owner = this) }
-    }
-
-    override fun setupNavigation(@IdRes itemId: Int) {
-        val animTime = resources.getInteger(R.integer.fragment_fade_time).toLong()
-        binding?.menuNavigation?.setOnNavigationItemSelectedListener {
-            return@setOnNavigationItemSelectedListener open.returnAttempt {
-                open.block(animTime)
-                viewModel.onSelectItem(it.itemId)
-
-                return@returnAttempt true
-            } ?: false
-        }
-        binding?.menuNavigation?.selectedItemId = itemId
-
-        addDialog.apply {
-            onItemSelected(owner = this@MainActivity) {
-                val type = AddSheetData().convert(it.itemId) ?: return@onItemSelected
-                openNoteScreen(type)
-            }
-            onDismiss { open.clear() }
-        }
     }
 
     override fun setupInsets() {
@@ -167,118 +96,190 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         }
     }
 
-    /**
-     * Change FAB state consider on current page.
-     */
-    override fun onFabStateChange(isVisible: Boolean, withGap: Boolean) {
-        changeFabVisible(isVisible = isVisible && viewModel.isStartPage, withGap)
-    }
+    override fun setupObservers() {
+        super.setupObservers()
 
-    override fun changeFabVisible(isVisible: Boolean, withGap: Boolean) {
-        fabDelegator?.changeVisibility(isVisible, withGap)
-    }
-
-    override fun scrollTop(mainPage: MainPage) = onFragmentAdd(mainPage) {
-        when (mainPage) {
-            MainPage.RANK -> rankFragment.scrollTop()
-            MainPage.NOTES -> notesFragment.scrollTop()
-            MainPage.BIN -> binFragment.scrollTop()
+        viewModel.currentPage.observe(this) {
+            showPage(viewModel.previousPage, it)
+            changeFabVisibility()
         }
     }
 
-    override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
+    override fun setupView() {
+        super.setupView()
+
+        // TODO check how will work reselect
+        // tODO check set current item
+        // TODO блокировать "open" только если смена страницы (не при скроллинге)
+        val changePageTime = resources.getInteger(R.integer.fragment_fade_time).toLong()
+        binding?.menuNavigation?.setOnItemSelectedListener {
+            val page = pageConverter.convert(it) ?: return@setOnItemSelectedListener false
+
+            open.returnAttempt {
+                open.block(changePageTime)
+                viewModel.changePage(page)
+                return@returnAttempt true
+            } ?: false
+        }
+        binding?.menuNavigation?.setOnItemReselectedListener {
+            val page = viewModel.currentPage.value ?: return@setOnItemReselectedListener
+            scrollTop(page)
+        }
+        binding?.menuNavigation?.selectedItemId = pageConverter.convert(viewModel.currentPage.value)
+
+        addDialog.onItemSelected(owner = this) {
+            val type = AddSheetData().convert(it.itemId) ?: return@onItemSelected
+            openNoteScreen(type)
+        }
+        addDialog.onDismiss { open.clear() }
+    }
+
+    override fun registerReceivers() {
+        super.registerReceivers()
+        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        unregisterReceiver(unbindNoteReceiver)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /** Clear [open] after click on item container. */
+        open.isChangeEnabled = true
+        open.clear()
+
+        /** Show FAB (if it is possible) after returning to the screen. */
+        changeFabVisibility()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        fabDelegator = null
+
+        holderControl.onDestroy()
+    }
+
+    //endregion
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action != MotionEvent.ACTION_DOWN) return super.dispatchTouchEvent(ev)
+
+        // TODO check work
+        /** If touch action was outside of enter field, when hide keyboard. */
+        if (viewModel.currentPage.value == MainPage.RANK) {
+            if (!ev.onView(rankFragment.enterCard)) {
+                hideKeyboard()
+            }
+        }
+
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun showPage(pageFrom: MainPage?, pageTo: MainPage) {
         lifecycleScope.launchWhenResumed {
             holderControl.display()
 
-            val fm = fm
             fm.beginTransaction()
                 .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
-                .changeMainFragments(fm, pageFrom, pageTo)
+                .hidePreviousFragment(pageFrom)
+                .showNextFragment(pageTo)
                 .commit()
         }
     }
 
-    private fun FragmentTransaction.changeMainFragments(
-        fm: FragmentManager,
-        pageFrom: MainPage,
-        pageTo: MainPage
-    ): FragmentTransaction {
-        if (fm.findFragmentByTag(pageFrom.getFragmentTag()) != null) {
-            val fragmentFrom = pageFrom.getFragmentByName()
+    // TODO check scroll
+    private fun scrollTop(mainPage: MainPage) {
+        ifFragmentAdded(mainPage) { (it as? ScrollTopCallback)?.scrollTop() }
+    }
 
-            hide(fragmentFrom)
-            fragmentFrom.onPause()
+    //region Cleanup
 
-            /**
-             * Dismiss without callback happen inside [Fragment.onStop] function.
-             * So be careful when call it manually.
-             */
-            if (fragmentFrom is RankFragment) {
-                fragmentFrom.dismissSnackbar()
-            }
-        }
-
-        val fragmentTo = pageTo.getFragmentByName()
-        val fragmentToTag = pageTo.getFragmentTag()
-
-        if (fm.findFragmentByTag(fragmentToTag) != null) {
-            show(fragmentTo)
-            fragmentTo.onResume()
-        } else {
-            add(R.id.fragment_container, fragmentTo, fragmentToTag)
-        }
-
-        return this
+    private fun openAddDialog() = open.attempt {
+        addDialog.safeShow(DialogFactory.Main.ADD, owner = this)
     }
 
     private fun openNoteScreen(noteType: NoteType) = open.attempt {
         startActivity(InstanceFactory.Note[this, noteType.ordinal])
     }
 
-    //region Receiver callback
+    //
+    //    /**
+    //     * Change FAB state consider on current page.
+    //     */
+    //    override fun onFabStateChange(isVisible: Boolean, withGap: Boolean) {
+    //        changeFabVisible(isVisible = isVisible && viewModel.isStartPage, withGap)
+    //    }
+    //
+    //    private fun changeFabVisible(isVisible: Boolean, withGap: Boolean) {
+    //        fabDelegator?.changeVisibility(isVisible = isVisible && viewModel.isFabPage, withGap)
+    //    }
 
     override fun onReceiveUnbindNote(noteId: Long) {
-        onFragmentAdd(MainPage.RANK) { rankFragment.onReceiveUnbindNote(noteId) }
-        onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
+        ifFragmentAdded(MainPage.RANK) { rankFragment.onReceiveUnbindNote(noteId) }
+        ifFragmentAdded(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
+    }
+
+    /**
+     * Call [func] only if [page] fragment added.
+     */
+    private inline fun ifFragmentAdded(page: MainPage, func: (fragment: Fragment) -> Unit) {
+        val fragment = page.findFragment() ?: return
+        func(fragment)
     }
 
     //endregion
 
+    private fun FragmentTransaction.hidePreviousFragment(page: MainPage?) = apply {
+        if (page == null || page.findFragment() == null) return@apply
 
-    //region Extensions and help staff
+        val fragment = page.getFragment()
 
-    private fun MainPage.getFragmentByName(): Fragment = when (this) {
-        MainPage.RANK -> rankFragment
-        MainPage.NOTES -> notesFragment
-        MainPage.BIN -> binFragment
+        hide(fragment)
+        fragment.onPause()
+
+        /**
+         * Dismiss without callback happen inside [Fragment.onStop] function.
+         * So be careful when call it manually.
+         */
+        if (fragment is RankFragment) {
+            fragment.dismissSnackbar()
+        }
     }
 
-    private fun MainPage.getFragmentTag(): String = when (this) {
-        MainPage.RANK -> FragmentFactory.Main.Tag.RANK
-        MainPage.NOTES -> FragmentFactory.Main.Tag.NOTES
-        MainPage.BIN -> FragmentFactory.Main.Tag.BIN
+    private fun FragmentTransaction.showNextFragment(page: MainPage) = apply {
+        val fragment = page.getFragment()
+
+        if (page.findFragment() != null) {
+            show(fragment)
+            fragment.onResume()
+        } else {
+            add(R.id.fragment_container, fragment, page.getFragmentTag())
+        }
     }
 
-    /**
-     * Func return was [MotionEvent] happen on [view].
-     */
-    private fun MotionEvent?.onView(view: View?): Boolean {
-        if (view == null || this == null) return false
+    private fun MainPage.findFragment(): Fragment? = fm.findFragmentByTag(getFragmentTag())
 
-        return Rect().apply {
-            view.getGlobalVisibleRect(this)
-        }.contains(rawX.toInt(), rawY.toInt())
+    private fun MainPage.getFragmentTag(): String {
+        return when (this) {
+            MainPage.RANK -> FragmentFactory.Main.Tag.RANK
+            MainPage.NOTES -> FragmentFactory.Main.Tag.NOTES
+            MainPage.BIN -> FragmentFactory.Main.Tag.BIN
+        }
     }
 
-    /**
-     * Call [func] only if correct fragment added.
-     */
-    private inline fun onFragmentAdd(mainPage: MainPage, func: () -> Unit) {
-        if (fm.findFragmentByTag(mainPage.getFragmentTag()) == null) return
-
-        func()
+    private fun MainPage.getFragment(): Fragment {
+        return when (this) {
+            MainPage.RANK -> rankFragment
+            MainPage.NOTES -> notesFragment
+            MainPage.BIN -> binFragment
+        }
     }
 
-    //endregion
 
+    override fun changeFabVisibility(isVisible: Boolean, withGap: Boolean) {
+        fabDelegator?.changeVisibility(isVisible = isVisible && viewModel.isFabPage, withGap)
+    }
 }

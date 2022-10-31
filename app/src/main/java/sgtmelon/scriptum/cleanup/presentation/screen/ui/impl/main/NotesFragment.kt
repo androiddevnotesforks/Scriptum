@@ -24,7 +24,8 @@ import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.main.IMainActivity
+import sgtmelon.scriptum.infrastructure.screen.main.callback.FabShowCallback
+import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
@@ -43,14 +44,14 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  */
 class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     INotesFragment,
-    UnbindNoteReceiver.Callback {
+    UnbindNoteReceiver.Callback,
+    ScrollTopCallback {
 
     override val layoutId: Int = R.layout.fragment_notes
 
     //region Variables
 
-    // TODO separate callback (only for work with fab)
-    private val callback: IMainActivity? by lazy { context as? IMainActivity }
+    private val fabCallback: FabShowCallback? get() = activity as? FabShowCallback
 
     @Inject lateinit var viewModel: INotesViewModel
 
@@ -158,9 +159,9 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
                     /** Visible only if scroll to top. */
                     val isTopScroll = dy <= 0
 
-                    callback?.onFabStateChange(isTopScroll, withGap = true)
+                    fabCallback?.changeFabVisibility(isTopScroll, withGap = true)
                     fabDelayJob.run(FAB_STANDSTILL_TIME) {
-                        callback?.onFabStateChange(isVisible = true, withGap = false)
+                        fabCallback?.changeFabVisibility()
                     }
                 }
             })
