@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
+package sgtmelon.scriptum.infrastructure.screen.main.bin
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -26,8 +26,6 @@ import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
-import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
-import sgtmelon.scriptum.infrastructure.screen.main.bin.IBinFragment
 import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.nextString
 

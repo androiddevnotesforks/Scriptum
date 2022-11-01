@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
+package sgtmelon.scriptum.infrastructure.screen.splash
 
 import android.os.Bundle
 import io.mockk.confirmVerified
@@ -15,8 +15,6 @@ import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.screen.splash.ISplashActivity
-import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModel
 
 /**
  * Test for [SplashViewModel].
