@@ -89,7 +89,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceVie
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
@@ -111,9 +111,9 @@ class ViewModelModule {
     fun provideSplashViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo
-    ): SplashViewModelImpl {
+    ): SplashViewModel {
         val factory = ViewModelFactory.Splash(preferencesRepo)
-        return ViewModelProvider(owner, factory)[SplashViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[SplashViewModel::class.java]
     }
 
     @Provides

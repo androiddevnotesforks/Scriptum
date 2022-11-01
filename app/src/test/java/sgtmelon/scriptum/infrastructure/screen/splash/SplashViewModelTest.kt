@@ -12,13 +12,13 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
- * Test for [SplashViewModelImpl].
+ * Test for [SplashViewModel].
  */
-class SplashViewModelImplTest : ParentTest() {
+class SplashViewModelTest : ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
-    private val viewModel by lazy { SplashViewModelImpl(preferencesRepo) }
+    private val viewModel by lazy { SplashViewModel(preferencesRepo) }
 
     @After override fun tearDown() {
         super.tearDown()

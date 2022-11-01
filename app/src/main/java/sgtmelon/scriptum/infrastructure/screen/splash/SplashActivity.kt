@@ -30,7 +30,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
-    @Inject lateinit var viewModel: SplashViewModelImpl
+    @Inject lateinit var viewModel: SplashViewModel
 
     private val bundleProvider = SplashBundleProvider()
 

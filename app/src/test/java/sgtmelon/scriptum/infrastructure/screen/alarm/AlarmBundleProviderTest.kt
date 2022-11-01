@@ -9,8 +9,11 @@ import org.junit.Assert
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
+import sgtmelon.scriptum.infrastructure.model.exception.BundleException
+import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
@@ -26,6 +29,9 @@ class AlarmBundleProviderTest : ParentTest() {
     }
 
     @Test fun `getData with null bundle`() {
+        FastMock.fireExtensions()
+        every { any<BundleException>().record() } returns Unit
+
         bundleProvider.getData(bundle = null)
         assertNull(bundleProvider.noteId)
     }

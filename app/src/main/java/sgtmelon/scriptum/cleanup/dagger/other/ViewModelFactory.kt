@@ -68,7 +68,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceV
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 /**
@@ -97,8 +97,8 @@ object ViewModelFactory {
 
     class Splash(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(SplashViewModelImpl::class) {
-                SplashViewModelImpl(preferencesRepo)
+            return modelClass.create(SplashViewModel::class) {
+                SplashViewModel(preferencesRepo)
             }
         }
     }

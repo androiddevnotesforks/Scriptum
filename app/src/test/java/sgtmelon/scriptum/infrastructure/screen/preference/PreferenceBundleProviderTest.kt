@@ -10,9 +10,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Intent
+import sgtmelon.scriptum.infrastructure.model.exception.BundleException
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
+import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
@@ -28,6 +31,9 @@ class PreferenceBundleProviderTest : ParentTest() {
     }
 
     @Test fun `getData with null bundle`() {
+        FastMock.fireExtensions()
+        every { any<BundleException>().record() } returns Unit
+
         bundleProvider.getData(bundle = null)
         assertNull(bundleProvider.screen)
     }
@@ -37,6 +43,8 @@ class PreferenceBundleProviderTest : ParentTest() {
         val ordinal = -abs(Random.nextInt())
 
         every { bundle.getInt(Intent.SCREEN, Default.SCREEN) } returns ordinal
+        FastMock.fireExtensions()
+        every { any<BundleException>().record() } returns Unit
 
         bundleProvider.getData(bundle)
         assertNull(bundleProvider.screen)
