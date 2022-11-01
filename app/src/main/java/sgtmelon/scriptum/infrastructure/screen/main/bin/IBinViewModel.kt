@@ -5,7 +5,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 
 /**
- * Interface for communication [IBinFragment] with [BinViewModel].
+ * Interface for communication [IBinFragment] with [BinViewModelImpl].
  */
 interface IBinViewModel : IParentViewModel {
 

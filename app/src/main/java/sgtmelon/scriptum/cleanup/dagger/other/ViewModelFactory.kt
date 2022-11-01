@@ -62,7 +62,7 @@ import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
-import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
@@ -177,8 +177,8 @@ object ViewModelFactory {
             private val clearNote: ClearNoteUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(BinViewModel::class) {
-                    BinViewModel(
+                return modelClass.create(BinViewModelImpl::class) {
+                    BinViewModelImpl(
                         fragment, interactor,
                         getList, getCopyText, restoreNote, clearBin, clearNote
                     )

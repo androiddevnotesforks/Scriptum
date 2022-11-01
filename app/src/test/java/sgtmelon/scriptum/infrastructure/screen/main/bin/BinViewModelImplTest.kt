@@ -30,10 +30,10 @@ import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [BinViewModel].
+ * Test for [BinViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class BinViewModelTest : ParentViewModelTest() {
+class BinViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -47,7 +47,15 @@ class BinViewModelTest : ParentViewModelTest() {
     @MockK lateinit var clearNote: ClearNoteUseCase
 
     private val viewModel by lazy {
-        BinViewModel(callback, interactor, getList, getCopyText, restoreNote, clearBin, clearNote)
+        BinViewModelImpl(
+            callback,
+            interactor,
+            getList,
+            getCopyText,
+            restoreNote,
+            clearBin,
+            clearNote
+        )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 

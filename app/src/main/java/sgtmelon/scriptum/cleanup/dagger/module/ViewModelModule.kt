@@ -77,7 +77,7 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
-import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.IBinViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
@@ -189,7 +189,7 @@ class ViewModelModule {
         val factory = ViewModelFactory.MainScreen.Bin(
             fragment, interactor, getList, getCopyText, restoreNote, clearBin, clearNote
         )
-        return ViewModelProvider(fragment, factory)[BinViewModel::class.java]
+        return ViewModelProvider(fragment, factory)[BinViewModelImpl::class.java]
     }
 
     //endregion

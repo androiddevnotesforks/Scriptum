@@ -24,7 +24,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 /**
  * ViewModel for [IBinFragment].
  */
-class BinViewModel(
+class BinViewModelImpl(
     callback: IBinFragment,
     private val interactor: IBinInteractor,
     private val getList: GetNoteListUseCase,
