@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
@@ -44,7 +46,6 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  */
 class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     INotesFragment,
-    UnbindNoteReceiver.Callback,
     ScrollTopCallback {
 
     override val layoutId: Int = R.layout.fragment_notes
@@ -55,8 +56,9 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
     @Inject lateinit var viewModel: INotesViewModel
 
-    private val dialogs by lazy { DialogFactory.Main(context, fm) }
+    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
+    private val dialogs by lazy { DialogFactory.Main(context, fm) }
     private val optionsDialog by lazy { dialogs.getOptions() }
     private val dateDialog by lazy { dialogs.getDate() }
     private val timeDialog by lazy { dialogs.getTime() }
@@ -97,6 +99,16 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
             .inject(fragment = this)
     }
 
+    override fun registerReceivers() {
+        super.registerReceivers()
+        context?.registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTES))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        context?.unregisterReceiver(unbindNoteReceiver)
+    }
+
     override fun onResume() {
         super.onResume()
         viewModel.onUpdateData()
@@ -106,12 +118,6 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         super.onDestroy()
         viewModel.onDestroy()
     }
-
-    //endregion
-
-    //region Receiver functions
-
-    override fun onReceiveUnbindNote(noteId: Long) = viewModel.onReceiveUnbindNote(noteId)
 
     //endregion
 

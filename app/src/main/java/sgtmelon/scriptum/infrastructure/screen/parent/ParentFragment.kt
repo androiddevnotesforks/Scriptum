@@ -46,6 +46,7 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        registerReceivers()
 
         open.restore(savedInstanceState)
 
@@ -60,8 +61,13 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        unregisterReceivers()
     }
 
     abstract fun inject(component: ScriptumComponent)
+
+    open fun registerReceivers() = Unit
+
+    open fun unregisterReceivers() = Unit
 
 }

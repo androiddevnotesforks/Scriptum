@@ -32,9 +32,8 @@ import sgtmelon.scriptum.infrastructure.utils.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
- * Fragment which displays list of deleted notes - [NoteItem].
+ * Screen to display the list of deleted notes.
  */
-// TODO refactor
 class BinFragment : ParentFragment<FragmentBinBinding>(),
     IBinFragment,
     ScrollTopCallback {
@@ -46,7 +45,6 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
     @Inject lateinit var viewModel: IBinViewModel
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
-
     private val optionsDialog by lazy { dialogs.getOptions() }
     private val clearBinDialog by lazy { dialogs.getClearBin() }
 

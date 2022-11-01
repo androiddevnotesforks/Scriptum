@@ -12,7 +12,8 @@ object ReceiverData {
     object Filter {
         private const val PREFIX = "${BuildConfig.APPLICATION_ID}_RECEIVER_FILTER"
 
-        const val MAIN = "${PREFIX}_MAIN"
+        const val RANK = "${PREFIX}_RANK"
+        const val NOTES = "${PREFIX}_NOTES"
         const val NOTE = "${PREFIX}_NOTE"
         const val ALARM = "${PREFIX}_ALARM"
         const val SYSTEM = "${PREFIX}_SYSTEM"
@@ -25,7 +26,6 @@ object ReceiverData {
 
         object UI {
             const val UNBIND_NOTE = "${PREFIX}_UNBIND_NOTE"
-            const val UPDATE_ALARM = "${PREFIX}_UPDATE_ALARM"
         }
 
         object System {

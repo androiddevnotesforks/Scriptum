@@ -4,7 +4,7 @@ import androidx.annotation.StringDef
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 
 /**
- * Describes keys for start different screens after launch of [SplashActivity].
+ * Describes keys for starting different screens after launch of [SplashActivity].
  *
  * !!! BE CAREFUL !!! because some keys from here is used inside xml/shortcuts.xml.
  */

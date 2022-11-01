@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
 
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
@@ -49,7 +51,6 @@ import sgtmelon.test.idling.getIdling
 // TODO restore snackbar after app reopen (свернул-открыл)
 class RankFragment : ParentFragment<FragmentRankBinding>(),
     IRankFragment,
-    UnbindNoteReceiver.Callback,
     ScrollTopCallback,
     SnackbarDelegator.Callback {
 
@@ -58,6 +59,8 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
     //region Variables
 
     @Inject lateinit var viewModel: IRankViewModel
+
+    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRename() }
 
@@ -127,6 +130,16 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
             .inject(fragment = this)
     }
 
+    override fun registerReceivers() {
+        super.registerReceivers()
+        context?.registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.RANK))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        context?.unregisterReceiver(unbindNoteReceiver)
+    }
+
     override fun onResume() {
         super.onResume()
         viewModel.onUpdateData()
@@ -162,12 +175,6 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
         super.onSaveInstanceState(outState)
         viewModel.onSaveData(outState)
     }
-
-    //endregion
-
-    //region Receiver functions
-
-    override fun onReceiveUnbindNote(noteId: Long) = viewModel.onReceiveUnbindNote(noteId)
 
     //endregion
 

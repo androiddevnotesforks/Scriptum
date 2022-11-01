@@ -289,7 +289,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         with(state) {
             delegators?.broadcast?.sendSetAlarm(noteId, calendar, showToast = false)
             delegators?.broadcast?.sendNotifyInfoBind(count = null)
-            delegators?.broadcast?.sendUpdateAlarmUi(noteId)
             showRepeatToast(repeat)
         }
     }

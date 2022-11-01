@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main
 
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -20,10 +19,8 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.MainFabCallback
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -40,14 +37,11 @@ import sgtmelon.test.idling.getIdling
  * Screen which displays main menu.
  */
 class MainActivity : ThemeActivity<ActivityMainBinding>(),
-    UnbindNoteReceiver.Callback,
     MainFabCallback {
 
     override val layoutId: Int = R.layout.activity_main
 
     @Inject lateinit var viewModel: MainViewModel
-
-    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
 
     private val fragments = FragmentFactory.Main(fm)
     private val rankFragment by lazy { fragments.getRank() }
@@ -134,16 +128,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
             openNoteScreen(type)
         }
         addDialog.onDismiss { open.clear() }
-    }
-
-    override fun registerReceivers() {
-        super.registerReceivers()
-        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.MAIN))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun onResume() {
@@ -260,11 +244,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     }
 
     //endregion
-
-    override fun onReceiveUnbindNote(noteId: Long) {
-        ifFragmentAdded(MainPage.RANK) { rankFragment.onReceiveUnbindNote(noteId) }
-        ifFragmentAdded(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
-    }
 
     override fun changeFabVisibility(isVisible: Boolean, withGap: Boolean) {
         fabDelegator?.changeVisibility(isVisible = isVisible && viewModel.isFabPage, withGap)
