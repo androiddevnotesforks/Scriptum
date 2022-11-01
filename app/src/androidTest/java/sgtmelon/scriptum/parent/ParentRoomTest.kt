@@ -3,7 +3,7 @@ package sgtmelon.scriptum.parent
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.ExpectedException
-import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
+import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.parent.di.ParentInjector
 import sgtmelon.test.common.OverflowDelegator
 

@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.infrastructure.database.dao.safe
 
 import kotlin.math.min
-import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
-import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
+import sgtmelon.scriptum.infrastructure.database.model.DaoConst
+import sgtmelon.scriptum.infrastructure.database.model.DaoDeprecated
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.record

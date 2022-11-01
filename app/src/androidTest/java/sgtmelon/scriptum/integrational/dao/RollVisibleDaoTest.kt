@@ -14,10 +14,10 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.infrastructure.database.Database
-import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
+import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.parent.ParentRoomTest
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextRollVisibleEntity

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.database.Database
-import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
+import sgtmelon.scriptum.infrastructure.database.model.DaoDeprecated
 
 /**
  * Interface for communication [DbData.Alarm.TABLE] with [Database].
