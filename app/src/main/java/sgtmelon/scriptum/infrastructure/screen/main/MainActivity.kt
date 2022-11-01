@@ -65,14 +65,11 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fabDelegator = GradientFabDelegator(activity = this) { openAddDialog() }
-
         getIdling().stop(IdlingTag.Intro.FINISH)
     }
 
     override fun inject(component: ScriptumComponent) {
         component.getMainBuilder()
-            .set(activity = this)
             .set(owner = this)
             .build()
             .inject(activity = this)
@@ -88,7 +85,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
             /**
              * Need use this function (not [View.updateMargin]), because otherwise snackbar
-             * inside [RankFragment] will handle this inset (and this cause strange bottom padding)
+             * inside [RankFragment] will handle this inset and this cause strange bottom padding.
              */
             view.addSystemInsetsMargin(InsetsDir.BOTTOM, binding?.menuNavigation)
 
@@ -108,6 +105,11 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     override fun setupView() {
         super.setupView()
 
+        fabDelegator = GradientFabDelegator(activity = this) { openAddDialog() }
+
+        /** Setup of selected item must be before setting navigation item selected listener */
+        binding?.menuNavigation?.selectedItemId = pageConverter.convert(viewModel.currentPage.value)
+
         // TODO check how will work reselect
         // tODO check set current item
         // TODO блокировать "open" только если смена страницы (не при скроллинге)
@@ -125,7 +127,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
             val page = viewModel.currentPage.value ?: return@setOnItemReselectedListener
             scrollTop(page)
         }
-        binding?.menuNavigation?.selectedItemId = pageConverter.convert(viewModel.currentPage.value)
 
         addDialog.onItemSelected(owner = this) {
             val type = AddSheetData().convert(it.itemId) ?: return@onItemSelected
@@ -167,7 +168,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (ev?.action != MotionEvent.ACTION_DOWN) return super.dispatchTouchEvent(ev)
 
-        // TODO check work
         /** If touch action was outside of enter field, when hide keyboard. */
         if (viewModel.currentPage.value == MainPage.RANK) {
             if (!ev.onView(rankFragment.enterCard)) {
@@ -195,8 +195,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         ifFragmentAdded(mainPage) { (it as? ScrollTopCallback)?.scrollTop() }
     }
 
-    //region Cleanup
-
     private fun openAddDialog() = open.attempt {
         addDialog.safeShow(DialogFactory.Main.ADD, owner = this)
     }
@@ -205,32 +203,11 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         startActivity(InstanceFactory.Note[this, noteType.ordinal])
     }
 
-    //
-    //    /**
-    //     * Change FAB state consider on current page.
-    //     */
-    //    override fun onFabStateChange(isVisible: Boolean, withGap: Boolean) {
-    //        changeFabVisible(isVisible = isVisible && viewModel.isStartPage, withGap)
-    //    }
-    //
-    //    private fun changeFabVisible(isVisible: Boolean, withGap: Boolean) {
-    //        fabDelegator?.changeVisibility(isVisible = isVisible && viewModel.isFabPage, withGap)
-    //    }
-
+    // TODO check work
     override fun onReceiveUnbindNote(noteId: Long) {
         ifFragmentAdded(MainPage.RANK) { rankFragment.onReceiveUnbindNote(noteId) }
         ifFragmentAdded(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
     }
-
-    /**
-     * Call [func] only if [page] fragment added.
-     */
-    private inline fun ifFragmentAdded(page: MainPage, func: (fragment: Fragment) -> Unit) {
-        val fragment = page.findFragment() ?: return
-        func(fragment)
-    }
-
-    //endregion
 
     private fun FragmentTransaction.hidePreviousFragment(page: MainPage?) = apply {
         if (page == null || page.findFragment() == null) return@apply
@@ -278,6 +255,13 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         }
     }
 
+    /**
+     * Call [func] only if fragment related with this [page] is already added.
+     */
+    private inline fun ifFragmentAdded(page: MainPage, func: (fragment: Fragment) -> Unit) {
+        val fragment = page.findFragment() ?: return
+        func(fragment)
+    }
 
     override fun changeFabVisibility(isVisible: Boolean, withGap: Boolean) {
         fabDelegator?.changeVisibility(isVisible = isVisible && viewModel.isFabPage, withGap)

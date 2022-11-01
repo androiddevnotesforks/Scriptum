@@ -23,9 +23,6 @@ interface MainComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: MainActivity): Builder
-
-        @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): MainComponent

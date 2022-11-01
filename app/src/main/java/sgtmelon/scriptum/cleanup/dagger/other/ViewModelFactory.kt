@@ -64,7 +64,6 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
@@ -83,7 +82,7 @@ object ViewModelFactory {
 
     private fun onNotFound() = IllegalArgumentException("ViewModel Not Found")
 
-    private fun <T> Class<T>.create(modelClass: KClass<*>, createFunc: () -> Any): T {
+    private inline fun <T> Class<T>.create(modelClass: KClass<*>, createFunc: () -> Any): T {
         return if (isAssignableFrom(modelClass.java)) createFunc() as T else throw onNotFound()
     }
 
@@ -121,12 +120,10 @@ object ViewModelFactory {
 
     object MainScreen {
 
-        class Main(
-            private val activity: MainActivity
-        ) : ViewModelProvider.Factory {
+        class Main() : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(MainViewModelImpl::class) {
-                    MainViewModelImpl(activity)
+                    MainViewModelImpl()
                 }
             }
         }
