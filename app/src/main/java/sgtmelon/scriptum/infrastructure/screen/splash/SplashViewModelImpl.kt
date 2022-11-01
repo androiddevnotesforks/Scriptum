@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 /**
  * ViewModel for [ISplashActivity].
  */
-class SplashViewModel(
+class SplashViewModelImpl(
     callback: ISplashActivity?,
     private val preferencesRepo: PreferencesRepo
 ) : ParentViewModel<ISplashActivity>(callback),

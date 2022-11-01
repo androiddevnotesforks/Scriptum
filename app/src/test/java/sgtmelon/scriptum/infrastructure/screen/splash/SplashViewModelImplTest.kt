@@ -17,10 +17,10 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 /**
- * Test for [SplashViewModel].
+ * Test for [SplashViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class SplashViewModelTest : ParentViewModelTest() {
+class SplashViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -29,7 +29,7 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { SplashViewModel(callback, preferencesRepo) }
+    private val viewModel by lazy { SplashViewModelImpl(callback, preferencesRepo) }
 
     @After override fun tearDown() {
         super.tearDown()
