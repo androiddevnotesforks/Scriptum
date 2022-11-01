@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
 import androidx.room.TypeConverter
-import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
+import sgtmelon.scriptum.infrastructure.model.exception.converter.EnumConverterException
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 class ColorConverter : ParentEnumConverter<Color>() {

@@ -10,7 +10,7 @@ import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
+import sgtmelon.scriptum.infrastructure.model.exception.converter.EnumConverterException
 
 /**
  * Parent class for testing child of [ParentEnumConverter].

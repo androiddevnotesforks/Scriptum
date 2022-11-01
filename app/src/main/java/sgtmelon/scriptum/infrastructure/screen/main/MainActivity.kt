@@ -24,7 +24,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.main.callback.FabShowCallback
+import sgtmelon.scriptum.infrastructure.screen.main.callback.MainFabCallback
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
@@ -41,7 +41,7 @@ import sgtmelon.test.idling.getIdling
  */
 class MainActivity : ThemeActivity<ActivityMainBinding>(),
     UnbindNoteReceiver.Callback,
-    FabShowCallback {
+    MainFabCallback {
 
     override val layoutId: Int = R.layout.activity_main
 
@@ -110,18 +110,19 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         /** Setup of selected item must be before setting navigation item selected listener */
         binding?.menuNavigation?.selectedItemId = pageConverter.convert(viewModel.currentPage.value)
 
-        // TODO check how will work reselect
-        // tODO check set current item
-        // TODO блокировать "open" только если смена страницы (не при скроллинге)
+        /** Block [open] for fade time, this is needed to prevent fast switching between pages. */
         val changePageTime = resources.getInteger(R.integer.fragment_fade_time).toLong()
         binding?.menuNavigation?.setOnItemSelectedListener {
             val page = pageConverter.convert(it) ?: return@setOnItemSelectedListener false
 
-            open.returnAttempt {
+            var result = false
+            open.attempt {
                 open.block(changePageTime)
                 viewModel.changePage(page)
-                return@returnAttempt true
-            } ?: false
+                result = true
+            }
+
+            return@setOnItemSelectedListener result
         }
         binding?.menuNavigation?.setOnItemReselectedListener {
             val page = viewModel.currentPage.value ?: return@setOnItemReselectedListener
@@ -190,9 +191,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         }
     }
 
-    // TODO check scroll
-    private fun scrollTop(mainPage: MainPage) {
-        ifFragmentAdded(mainPage) { (it as? ScrollTopCallback)?.scrollTop() }
+    private fun scrollTop(mainPage: MainPage) = ifFragmentAdded(mainPage) {
+        (it as? ScrollTopCallback)?.scrollTop()
     }
 
     private fun openAddDialog() = open.attempt {
@@ -203,11 +203,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         startActivity(InstanceFactory.Note[this, noteType.ordinal])
     }
 
-    // TODO check work
-    override fun onReceiveUnbindNote(noteId: Long) {
-        ifFragmentAdded(MainPage.RANK) { rankFragment.onReceiveUnbindNote(noteId) }
-        ifFragmentAdded(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
-    }
+    //region Fragment transaction staff
 
     private fun FragmentTransaction.hidePreviousFragment(page: MainPage?) = apply {
         if (page == null || page.findFragment() == null) return@apply
@@ -261,6 +257,13 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     private inline fun ifFragmentAdded(page: MainPage, func: (fragment: Fragment) -> Unit) {
         val fragment = page.findFragment() ?: return
         func(fragment)
+    }
+
+    //endregion
+
+    override fun onReceiveUnbindNote(noteId: Long) {
+        ifFragmentAdded(MainPage.RANK) { rankFragment.onReceiveUnbindNote(noteId) }
+        ifFragmentAdded(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(noteId) }
     }
 
     override fun changeFabVisibility(isVisible: Boolean, withGap: Boolean) {

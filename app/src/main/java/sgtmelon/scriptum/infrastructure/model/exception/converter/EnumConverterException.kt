@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.model.exception
+package sgtmelon.scriptum.infrastructure.model.exception.converter
 
 import kotlin.reflect.KClass
 

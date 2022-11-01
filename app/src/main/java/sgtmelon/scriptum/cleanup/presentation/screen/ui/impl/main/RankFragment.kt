@@ -45,6 +45,8 @@ import sgtmelon.test.idling.getIdling
 /**
  * Fragment which displays list of categories - [RankItem].
  */
+// TODO restore snackbar after returning to this page (test case: click cance -> open notes page -> open rank page -> check snackbar is visible)
+// TODO restore snackbar after app reopen (свернул-открыл)
 class RankFragment : ParentFragment<FragmentRankBinding>(),
     IRankFragment,
     UnbindNoteReceiver.Callback,

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
-import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
+import sgtmelon.scriptum.infrastructure.model.exception.converter.EnumConverterException
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 
 // TODO move into key package (don't forget about tests)

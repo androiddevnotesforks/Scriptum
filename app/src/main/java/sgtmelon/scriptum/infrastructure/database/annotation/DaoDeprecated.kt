@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.database.annotation
 /**
  * Annotation class for describes deprecation
  */
+// TODO change to object
 annotation class DaoDeprecated {
     companion object {
         private const val COMBINATION = "Here a combination of possible errors:"

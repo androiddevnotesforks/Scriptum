@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
+import sgtmelon.scriptum.infrastructure.model.exception.converter.EnumConverterException
 import sgtmelon.scriptum.infrastructure.utils.record
 
 /**

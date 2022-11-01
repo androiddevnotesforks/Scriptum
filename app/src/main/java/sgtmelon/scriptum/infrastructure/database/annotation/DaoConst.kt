@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.database.annotation
 
 import androidx.room.OnConflictStrategy
 
+// TODO change to object
 annotation class DaoConst {
     companion object {
         /**
