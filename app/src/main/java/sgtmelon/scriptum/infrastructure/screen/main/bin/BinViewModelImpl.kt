@@ -33,7 +33,7 @@ class BinViewModelImpl(
     private val clearBin: ClearBinUseCase,
     private val clearNote: ClearNoteUseCase
 ) : ParentViewModel<IBinFragment>(callback),
-    IBinViewModel {
+    BinViewModel {
 
     @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
 

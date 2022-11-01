@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 
 /**
- * Interface for communication [IBinViewModel] with [BinFragment].
+ * Interface for communication [BinViewModel] with [BinFragment].
  */
 interface IBinFragment {
 

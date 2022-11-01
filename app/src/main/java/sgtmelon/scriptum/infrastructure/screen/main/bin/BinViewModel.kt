@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewMode
 /**
  * Interface for communication [IBinFragment] with [BinViewModelImpl].
  */
-interface IBinViewModel : IParentViewModel {
+interface BinViewModel : IParentViewModel {
 
     fun onUpdateData()
 

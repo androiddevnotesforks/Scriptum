@@ -42,7 +42,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
 
     //region Variables
 
-    @Inject lateinit var viewModel: IBinViewModel
+    @Inject lateinit var viewModel: BinViewModel
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
     private val optionsDialog by lazy { dialogs.getOptions() }
