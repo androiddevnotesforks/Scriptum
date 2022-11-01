@@ -9,16 +9,16 @@ sealed class SplashOpen {
 
     object Intro : SplashOpen()
 
-    object Simple : SplashOpen()
+    object Main : SplashOpen()
 
-    class Alarm(val id: Long) : SplashOpen()
+    data class Alarm(val id: Long) : SplashOpen()
 
-    class Note(val id: Long, val color: Int, val type: Int) : SplashOpen()
+    data class BindNote(val id: Long, val color: Int, val type: Int) : SplashOpen()
 
     object Notifications : SplashOpen()
 
     object HelpDisappear : SplashOpen()
 
-    class CreateNote(val type: NoteType) : SplashOpen()
+    data class CreateNote(val type: NoteType) : SplashOpen()
 
 }

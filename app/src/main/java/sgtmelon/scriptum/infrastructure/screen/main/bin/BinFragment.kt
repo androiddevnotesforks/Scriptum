@@ -34,6 +34,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Fragment which displays list of deleted notes - [NoteItem].
  */
+// TODO refactor
 class BinFragment : ParentFragment<FragmentBinBinding>(),
     IBinFragment,
     ScrollTopCallback {

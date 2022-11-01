@@ -50,8 +50,9 @@ class ScriptumApplication : Application() {
     }
 
     companion object {
+        /** Variable for detect test running. */
+        var isTesting = false
+
         lateinit var component: ScriptumComponent
-
-
     }
 }

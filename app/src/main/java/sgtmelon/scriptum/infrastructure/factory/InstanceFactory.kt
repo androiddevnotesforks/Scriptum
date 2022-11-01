@@ -2,13 +2,13 @@ package sgtmelon.scriptum.infrastructure.factory
 
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.develop.model.PrintType
 import sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity
+import sgtmelon.scriptum.infrastructure.model.annotation.AppOpenFrom
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -32,13 +32,13 @@ object InstanceFactory {
 
             return Intent(context, SplashActivity::class.java)
                 .addFlags(flags)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
+                .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.ALARM)
                 .putExtra(IntentData.Note.Intent.ID, noteId)
         }
 
         fun getBind(context: Context, item: NoteItem): Intent {
             return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
+                .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.BIND_NOTE)
                 .putExtra(IntentData.Note.Intent.ID, item.id)
                 .putExtra(IntentData.Note.Intent.COLOR, item.color)
                 .putExtra(IntentData.Note.Intent.TYPE, item.type.ordinal)
@@ -46,12 +46,12 @@ object InstanceFactory {
 
         fun getNotification(context: Context): Intent {
             return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.NOTIFICATIONS)
+                .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.NOTIFICATIONS)
         }
 
         fun getHelpDisappear(context: Context): Intent {
             return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.HELP_DISAPPEAR)
+                .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.HELP_DISAPPEAR)
         }
 
         /**
@@ -59,12 +59,12 @@ object InstanceFactory {
          */
         fun getNewNote(context: Context, type: NoteType): Intent {
             val key = when (type) {
-                NoteType.TEXT -> OpenFrom.CREATE_TEXT
-                NoteType.ROLL -> OpenFrom.CREATE_ROLL
+                NoteType.TEXT -> AppOpenFrom.CREATE_TEXT
+                NoteType.ROLL -> AppOpenFrom.CREATE_ROLL
             }
 
             return Intent(context, SplashActivity::class.java)
-                .putExtra(OpenFrom.INTENT_KEY, key)
+                .putExtra(AppOpenFrom.INTENT_KEY, key)
         }
     }
 
@@ -172,6 +172,10 @@ object InstanceFactory {
             return waitOpen { arrayOf(Main[context], Note[context, type, noteId, color]) }
         }
 
+        fun toNote(context: Context, type: NoteType): Array<Intent> = waitOpen {
+            arrayOf(Main[context], Note[context, type.ordinal])
+        }
+
         fun toNotifications(context: Context): Array<Intent> = waitOpen {
             arrayOf(Main[context], Notifications[context])
         }
@@ -183,10 +187,6 @@ object InstanceFactory {
                 Preference[context, PreferenceScreen.HELP],
                 Preference.HelpDisappear[context]
             )
-        }
-
-        fun toNewNote(context: Context, type: NoteType): Array<Intent> = waitOpen {
-            arrayOf(Main[context], Note[context, type.ordinal])
         }
     }
 }
