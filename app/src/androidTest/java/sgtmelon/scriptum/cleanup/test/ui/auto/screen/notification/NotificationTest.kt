@@ -3,35 +3,35 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ParentUiTest
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 
 /**
- * Test for [NotificationActivity].
+ * Test for [NotificationsActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationTest : ParentUiTest() {
+class NotificationsTest : ParentUiTest() {
 
     @Test fun close() = launch {
         mainScreen {
             notesScreen(isEmpty = true) {
-                openNotification(isEmpty = true) { onPressBack() }
-                openNotification(isEmpty = true) { onClickClose() }
+                openNotifications(isEmpty = true) { onPressBack() }
+                openNotifications(isEmpty = true) { onClickClose() }
             }
         }
     }
 
     @Test fun contentEmpty() = launch {
-        mainScreen { notesScreen(isEmpty = true) { openNotification(isEmpty = true) } }
+        mainScreen { notesScreen(isEmpty = true) { openNotifications(isEmpty = true) } }
     }
 
     @Test fun contentList() = launch({ db.fillNotification() }) {
-        mainScreen { notesScreen { openNotification() } }
+        mainScreen { notesScreen { openNotifications() } }
     }
 
     @Test fun listScroll() = launch({ db.fillNotification() }) {
-        mainScreen { notesScreen { openNotification { onScrollThrough() } } }
+        mainScreen { notesScreen { openNotifications { onScrollThrough() } } }
     }
 
     // TODO case: cancel item, snackbar undo click, open item, close note, check snackbar not shown
@@ -39,20 +39,20 @@ class NotificationTest : ParentUiTest() {
 
     @Test fun textNoteOpen() = db.insertText().let {
         launch({ db.insertNotification(it) }) {
-            mainScreen { notesScreen { openNotification { openText(it) } } }
+            mainScreen { notesScreen { openNotifications { openText(it) } } }
         }
     }
 
     @Test fun rollNoteOpen() = db.insertRoll().let {
         launch({ db.insertNotification(it) }) {
-            mainScreen { notesScreen { openNotification { openRoll(it) } } }
+            mainScreen { notesScreen { openNotifications { openRoll(it) } } }
         }
     }
 
 
     @Test fun itemCancel() = db.insertNotification().let {
         launch {
-            mainScreen { notesScreen { openNotification { onClickCancel().assert(isEmpty = true) } } }
+            mainScreen { notesScreen { openNotifications { onClickCancel().assert(isEmpty = true) } } }
         }
     }
 
@@ -60,13 +60,13 @@ class NotificationTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNoteDialog(it) { onDelete() }.openNotification(isEmpty = true)
+                    openNoteDialog(it) { onDelete() }.openNotifications(isEmpty = true)
                 }
             }
         }
     }
 
     @Test fun itemCancelFromPast() = db.insertNotification(date = DATE_5).let {
-        launch { mainScreen { notesScreen { openNotification(isEmpty = true) } } }
+        launch { mainScreen { notesScreen { openNotifications(isEmpty = true) } } }
     }
 }

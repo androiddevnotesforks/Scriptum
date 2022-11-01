@@ -46,7 +46,7 @@ class NotifyTest : ParentNotificationTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification { repeat(NOTIFICATION_COUNT) { onSee { onClickCancel() } } }
+                    openNotifications { repeat(NOTIFICATION_COUNT) { onSee { onClickCancel() } } }
                 }
             }
         }

@@ -8,6 +8,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
+import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
 import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -21,8 +22,7 @@ import sgtmelon.test.prod.RunPrivate
  * Start screen of application.
  */
 // TODO lint
-class SplashActivity : ThemeActivity<ViewDataBinding>(),
-    ISplashActivity {
+class SplashActivity : ThemeActivity<ViewDataBinding>() {
 
     override val layoutId: Int = NO_ID_LAYOUT
 
@@ -30,20 +30,20 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
-    // TODO remove callback and move parsing inside activity or delegator
-    @Inject lateinit var viewModel: SplashViewModel
+    // TODO changes in di
+    @Inject lateinit var viewModel: SplashViewModelImpl
+
+    private val bundleProvider = SplashBundleProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setCrashlyticsKeys()
-
-        viewModel.onSetup(intent.extras)
+        chooseOpenScreen()
     }
 
     override fun inject(component: ScriptumComponent) {
         component.getSplashBuilder()
-            .set(activity = this)
             .set(owner = this)
             .build()
             .inject(activity = this)
@@ -60,11 +60,23 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
         instance.setCustomKey(FireData.RUN_TYPE, runType.name)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
+    private fun chooseOpenScreen() {
+        delegators?.broadcast?.run {
+            sendTidyUpAlarm()
+            sendNotifyNotesBind()
+            sendNotifyInfoBind(count = null)
+        }
 
+        when (val it = bundleProvider.getData(intent.extras, viewModel.isFirstStart)) {
+            is SplashOpen.Intro -> openIntroScreen()
+            is SplashOpen.Simple -> openMainScreen()
+            is SplashOpen.Alarm -> openAlarmScreen(it.id)
+            is SplashOpen.Note -> openNoteScreen(it.id, it.color, it.type)
+            is SplashOpen.Notifications -> openNotificationsScreen()
+            is SplashOpen.HelpDisappear -> openHelpDisappearScreen()
+            is SplashOpen.CreateNote -> openNewNoteScreen(it.type)
+        }
+    }
 
     override fun finish() {
         super.finish()
@@ -72,53 +84,33 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     }
 
     /** [beforeFinish] not needed because [InstanceFactory.Intro] launch clear start. */
-    override fun openIntroScreen() = startActivity(InstanceFactory.Intro[this])
+    private fun openIntroScreen() = startActivity(InstanceFactory.Intro[this])
 
-    override fun openMainScreen() = beforeFinish { startActivity(InstanceFactory.Main[this]) }
+    private fun openMainScreen() = beforeFinish { startActivity(InstanceFactory.Main[this]) }
 
-    override fun openAlarmScreen(noteId: Long) = beforeFinish {
+    private fun openAlarmScreen(noteId: Long) = beforeFinish {
         startActivities(InstanceFactory.Chains.toAlarm(context = this, noteId))
     }
 
-    override fun openNoteScreen(noteId: Long, color: Int, type: Int) = beforeFinish {
+    private fun openNoteScreen(noteId: Long, color: Int, type: Int) = beforeFinish {
         startActivities(InstanceFactory.Chains.toNote(context = this, noteId, color, type))
     }
 
-    override fun openNotificationScreen() = beforeFinish {
+    private fun openNotificationsScreen() = beforeFinish {
         startActivities(InstanceFactory.Chains.toNotifications(context = this))
     }
 
-    override fun openHelpDisappearScreen() = beforeFinish {
+    private fun openHelpDisappearScreen() = beforeFinish {
         startActivities(InstanceFactory.Chains.toHelpDisappear(context = this))
     }
 
-    override fun openNewNoteScreen(type: NoteType) = beforeFinish {
+    private fun openNewNoteScreen(type: NoteType) = beforeFinish {
         startActivities(InstanceFactory.Chains.toNewNote(context = this, type))
     }
 
-    //region Broadcast functions
-
-    override fun sendTidyUpAlarmBroadcast() {
-        delegators?.broadcast?.sendTidyUpAlarm()
-    }
-
-    override fun sendNotifyNotesBroadcast() {
-        delegators?.broadcast?.sendNotifyNotesBind()
-    }
-
-    /**
-     * Not used here.
-     */
-    override fun sendCancelNoteBroadcast(id: Long) = Unit
-
-    override fun sendNotifyInfoBroadcast(count: Int?) {
-        delegators?.broadcast?.sendNotifyInfoBind(count)
-    }
-
-    //endregion
-
     companion object {
         /** Variable for detect test running. */
+        // TODO move to application
         @RunPrivate var isTesting = false
     }
 }

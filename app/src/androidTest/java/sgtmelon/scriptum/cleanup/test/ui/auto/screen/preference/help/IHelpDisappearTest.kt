@@ -10,7 +10,17 @@ interface IHelpDisappearTest {
 
     fun ParentUiTest.runTest(before: () -> Unit = {}, func: HelpDisappearScreen.() -> Unit) {
         launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreference { openHelp { openNotificationDisappear(func) } } } }
+            mainScreen {
+                notesScreen(isEmpty = true) {
+                    openPreferences {
+                        openHelp {
+                            openNotificationDisappear(
+                                func
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }

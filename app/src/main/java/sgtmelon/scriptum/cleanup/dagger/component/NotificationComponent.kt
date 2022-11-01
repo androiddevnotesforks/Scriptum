@@ -6,10 +6,10 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 
 /**
- * Component for [NotificationActivity].
+ * Component for [NotificationsActivity].
  */
 @ActivityScope
 @Subcomponent(modules = [
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivit
 ])
 interface NotificationComponent {
 
-    fun inject(activity: NotificationActivity)
+    fun inject(activity: NotificationsActivity)
 
     @Subcomponent.Builder
     interface Builder {

@@ -26,7 +26,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Screen with list of feature notifications.
  */
-class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
+class NotificationsActivity : ThemeActivity<ActivityNotificationBinding>(),
     SnackbarDelegator.Callback {
 
     override val layoutId: Int = R.layout.activity_notification
@@ -34,7 +34,7 @@ class NotificationActivity : ThemeActivity<ActivityNotificationBinding>(),
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    @Inject lateinit var viewModel: NotificationViewModel
+    @Inject lateinit var viewModel: NotificationsViewModel
 
     private val animation = ShowListAnimation()
 

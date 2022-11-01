@@ -47,7 +47,7 @@ class NotificationContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification { for ((p, it) in list.withIndex()) onAssertItem(p, it) }
+                    openNotifications { for ((p, it) in list.withIndex()) onAssertItem(p, it) }
                 }
             }
         }

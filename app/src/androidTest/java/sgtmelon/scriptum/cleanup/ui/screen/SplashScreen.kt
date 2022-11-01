@@ -44,9 +44,9 @@ class SplashScreen : ParentUi() {
 
     fun openNotification(
         isEmpty: Boolean = false,
-        func: NotificationScreen.() -> Unit = {}
+        func: NotificationsScreen.() -> Unit = {}
     ) = apply {
-        NotificationScreen(func, isEmpty)
+        NotificationsScreen(func, isEmpty)
     }
 
     fun openHelpDisappear(func: HelpDisappearScreen.() -> Unit = {}) = apply {

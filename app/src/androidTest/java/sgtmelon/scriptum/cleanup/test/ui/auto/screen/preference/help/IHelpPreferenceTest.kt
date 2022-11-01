@@ -10,7 +10,7 @@ interface IHelpPreferenceTest {
 
     fun ParentUiTest.runTest(before: () -> Unit = {}, func: HelpPreferenceScreen.() -> Unit) {
         launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreference { openHelp(func) } } }
+            mainScreen { notesScreen(isEmpty = true) { openPreferences { openHelp(func) } } }
         }
     }
 }

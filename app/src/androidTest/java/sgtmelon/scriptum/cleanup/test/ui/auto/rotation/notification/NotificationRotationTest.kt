@@ -3,12 +3,12 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ParentUiRotationTest
 import sgtmelon.test.common.isDivideEntirely
 
 /**
- * Test of [NotificationActivity] work with phone rotation.
+ * Test of [NotificationsActivity] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
 class NotificationRotationTest : ParentUiRotationTest() {
@@ -16,7 +16,7 @@ class NotificationRotationTest : ParentUiRotationTest() {
     @Test fun contentEmpty() = launch {
         mainScreen {
             notesScreen(isEmpty = true) {
-                openNotification(isEmpty = true) {
+                openNotifications(isEmpty = true) {
                     rotate.toSide()
                     assert(isEmpty = true)
                 }
@@ -27,7 +27,7 @@ class NotificationRotationTest : ParentUiRotationTest() {
     @Test fun contentList() = launch({ db.fillNotification() }) {
         mainScreen {
             notesScreen {
-                openNotification {
+                openNotifications {
                     rotate.toSide()
                     assert(isEmpty = false)
                 }
@@ -38,7 +38,7 @@ class NotificationRotationTest : ParentUiRotationTest() {
     @Test fun snackbar() = launch({ db.insertNotification() }) {
         mainScreen {
             notesScreen {
-                openNotification {
+                openNotifications {
                     repeat(times = 3) { time ->
                         onClickCancel()
 

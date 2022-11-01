@@ -19,12 +19,12 @@ import sgtmelon.scriptum.infrastructure.utils.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
 import sgtmelon.test.idling.getIdling
 
-class NotificationViewModelImpl(
+class NotificationsViewModelImpl(
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getList: GetNotificationListUseCase
 ) : ViewModel(),
-    NotificationViewModel {
+    NotificationsViewModel {
 
     init {
         viewModelScope.launchBack { fetchList() }

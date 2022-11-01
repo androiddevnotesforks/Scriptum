@@ -5,4 +5,5 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewMode
 /**
  * Interface for communication [ISplashActivity] with [SplashViewModelImpl].
  */
+// TODO remove
 interface SplashViewModel : IParentViewModel

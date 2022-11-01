@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 
-interface NotificationViewModel {
+interface NotificationsViewModel {
 
     val showList: LiveData<ShowListState>
 

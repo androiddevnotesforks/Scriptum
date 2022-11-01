@@ -24,7 +24,6 @@ class SplashViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var callback: ISplashActivity
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
     @MockK lateinit var bundle: Bundle

@@ -124,7 +124,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
                 parentOpen?.attempt {
                     startActivity(
                         when (it.itemId) {
-                            R.id.item_notification -> InstanceFactory.Notification[context]
+                            R.id.item_notifications -> InstanceFactory.Notifications[context]
                             else -> InstanceFactory.Preference[context, PreferenceScreen.PREFERENCE]
                         }
                     )
@@ -134,8 +134,8 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
             }
 
             activity?.let {
-                menu?.findItem(R.id.item_notification)?.tintIcon(it)
-                menu?.findItem(R.id.item_preference)?.tintIcon(it)
+                menu?.findItem(R.id.item_notifications)?.tintIcon(it)
+                menu?.findItem(R.id.item_preferences)?.tintIcon(it)
             }
         }
     }

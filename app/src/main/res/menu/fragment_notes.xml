@@ -4,14 +4,14 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:ignore="AlwaysShowAction">
 
-    <item android:id="@+id/item_notification"
-          android:icon="@drawable/ic_notifications"
-          android:title="@string/menu_notifications"
-          app:showAsAction="always"/>
+    <item android:id="@+id/item_notifications"
+        android:icon="@drawable/ic_notifications"
+        android:title="@string/menu_notifications"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/item_preference"
-          android:icon="@drawable/ic_preference"
-          android:title="@string/menu_preference"
-          app:showAsAction="always"/>
+    <item android:id="@+id/item_preferences"
+        android:icon="@drawable/ic_preference"
+        android:title="@string/menu_preference"
+        app:showAsAction="always" />
 
 </menu>

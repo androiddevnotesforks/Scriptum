@@ -79,8 +79,8 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.bin.IBinViewModel
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModel
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModel
@@ -302,9 +302,9 @@ class ViewModelModule {
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         getList: GetNotificationListUseCase
-    ): NotificationViewModel {
+    ): NotificationsViewModel {
         val factory = ViewModelFactory.Notification(setNotification, deleteNotification, getList)
-        return ViewModelProvider(owner, factory)[NotificationViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[NotificationsViewModelImpl::class.java]
     }
 
     //region Preference

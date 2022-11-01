@@ -8,13 +8,13 @@ import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
 
 /**
- * Test for [NotificationViewModelImpl].
+ * Test for [NotificationsViewModelImpl].
  */
-class NotificationViewModelImplTest : ParentLiveDataTest() {
+class NotificationsViewModelImplTest : ParentLiveDataTest() {
 
     //region Setup
 
@@ -25,7 +25,7 @@ class NotificationViewModelImplTest : ParentLiveDataTest() {
     @MockK lateinit var getList: GetNotificationListUseCase
 
     private val viewModel by lazy {
-        NotificationViewModelImpl(setNotification, deleteNotification, getList)
+        NotificationsViewModelImpl(setNotification, deleteNotification, getList)
     }
 
     @After override fun tearDown() {

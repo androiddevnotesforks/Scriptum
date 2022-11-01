@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFra
 /**
  * Class for UI control of [MenuPreferenceFragment].
  */
-class PreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.title_preference) {
+class MenuPreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.title_preference) {
 
     override val screenLogic = PreferenceLogic()
 
@@ -47,8 +47,8 @@ class PreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.title_
     }
 
     companion object {
-        operator fun invoke(func: PreferenceScreen.() -> Unit): PreferenceScreen {
-            return PreferenceScreen().apply { assert() }.apply(func)
+        operator fun invoke(func: MenuPreferenceScreen.() -> Unit): MenuPreferenceScreen {
+            return MenuPreferenceScreen().apply { assert() }.apply(func)
         }
     }
 }

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
@@ -119,9 +119,9 @@ object InstanceFactory {
         }
     }
 
-    object Notification {
+    object Notifications {
 
-        operator fun get(context: Context) = Intent(context, NotificationActivity::class.java)
+        operator fun get(context: Context) = Intent(context, NotificationsActivity::class.java)
     }
 
 
@@ -173,7 +173,7 @@ object InstanceFactory {
         }
 
         fun toNotifications(context: Context): Array<Intent> = waitOpen {
-            arrayOf(Main[context], Notification[context])
+            arrayOf(Main[context], Notifications[context])
         }
 
         fun toHelpDisappear(context: Context): Array<Intent> = waitOpen {

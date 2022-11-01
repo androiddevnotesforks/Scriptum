@@ -41,12 +41,12 @@ class ListTest : ParentUiWeighTest() {
 
     @Test fun notificationOpen() = launch({ db.fillNotification(NOTIFICATION_COUNT) }) {
         mainScreen {
-            notesScreen { repeat(REPEAT_COUNT) { openNotification { onClickClose() } } }
+            notesScreen { repeat(REPEAT_COUNT) { openNotifications { onClickClose() } } }
         }
     }
 
     @Test fun notificationScroll() = launch({ db.fillNotification(NOTIFICATION_COUNT) }) {
-        mainScreen { notesScreen { openNotification { onScroll(Scroll.END, SCROLL_COUNT) } } }
+        mainScreen { notesScreen { openNotifications { onScroll(Scroll.END, SCROLL_COUNT) } } }
     }
 
 

@@ -7,11 +7,11 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
- * Test for SnackBar in [NotificationActivity].
+ * Test for SnackBar in [NotificationsActivity].
  */
 class NotificationSnackbarTest : ParentUiTest() {
 
@@ -21,7 +21,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification {
+                    openNotifications {
                         onScroll(Scroll.END)
                         repeat(times = 5) {
                             onClickCancel(last, isWait = true)
@@ -40,7 +40,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification {
+                    openNotifications {
                         onClickCancel(p)
                         getSnackbar { onClickCancel() }
                         assertSnackbarDismiss()
@@ -57,7 +57,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification {
+                    openNotifications {
                         repeat(list.size) { onClickCancel(p = 0) }
                         repeat(list.size) {
                             getSnackbar { onClickCancel() }
@@ -85,7 +85,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification {
+                    openNotifications {
                         onClickCancel(removePosition)
 
                         onClickCancel(p = 1)
@@ -98,7 +98,7 @@ class NotificationSnackbarTest : ParentUiTest() {
 
                     list.removeAt(removePosition)
 
-                    openNotification {
+                    openNotifications {
                         assertSnackbarDismiss()
                         for ((i, item) in list.withIndex()) {
                             onAssertItem(i, item)
@@ -116,7 +116,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification {
+                    openNotifications {
                         onClickCancel(p)
                         getSnackbar { onClickCancel() }
                         assertSnackbarDismiss()
@@ -142,7 +142,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification {
+                    openNotifications {
                         onClickCancel(p = 0)
 
                         list.removeAt(index = 0)
@@ -162,7 +162,7 @@ class NotificationSnackbarTest : ParentUiTest() {
                         onClickClose()
                     }
 
-                    openNotification(isEmpty = true) { assertSnackbarDismiss() }
+                    openNotifications(isEmpty = true) { assertSnackbarDismiss() }
                 }
             }
         }
@@ -176,7 +176,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification {
+                    openNotifications {
                         onClickCancel(p)
                         onScroll(Scroll.END)
                         getSnackbar { onClickCancel() }
@@ -198,7 +198,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification {
+                    openNotifications {
                         onClickCancel(p)
                         onScroll(Scroll.START)
                         getSnackbar { onClickCancel() }

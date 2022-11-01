@@ -81,7 +81,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun notificationInfoShowAndHide() = launch({ db.insertNotification() }) {
         mainScreen {
             notesScreen {
-                openNotification {
+                openNotifications {
                     repeat(times = 3) {
                         onClickCancel()
                         assert(isEmpty = true)

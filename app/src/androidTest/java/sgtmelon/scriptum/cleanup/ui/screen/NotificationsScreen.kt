@@ -14,14 +14,14 @@ import sgtmelon.scriptum.cleanup.ui.part.panel.SnackbarPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**
- * Class for UI control of [NotificationActivity].
+ * Class for UI control of [NotificationsActivity].
  */
-class NotificationScreen : ParentRecyclerScreen(R.id.recycler_view), IPressBack {
+class NotificationsScreen : ParentRecyclerScreen(R.id.recycler_view), IPressBack {
 
     //region Views
 
@@ -103,10 +103,10 @@ class NotificationScreen : ParentRecyclerScreen(R.id.recycler_view), IPressBack 
 
     companion object {
         operator fun invoke(
-            func: NotificationScreen.() -> Unit,
+            func: NotificationsScreen.() -> Unit,
             isEmpty: Boolean
-        ): NotificationScreen {
-            return NotificationScreen().assert(isEmpty).apply(func)
+        ): NotificationsScreen {
+            return NotificationsScreen().assert(isEmpty).apply(func)
         }
     }
 }

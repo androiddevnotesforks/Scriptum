@@ -9,10 +9,10 @@ import sgtmelon.scriptum.cleanup.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.part.info.NotesInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
-import sgtmelon.scriptum.cleanup.ui.screen.NotificationScreen
+import sgtmelon.scriptum.cleanup.ui.screen.NotificationsScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
-import sgtmelon.scriptum.cleanup.ui.screen.preference.PreferenceScreen
+import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick
@@ -31,8 +31,8 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
     private val parentContainer = getViewById(R.id.notes_parent_container)
     private val toolbar = SimpleToolbar(R.string.title_notes, withBack = false)
 
-    private val notificationMenuItem = getViewById(R.id.item_notification)
-    private val preferenceMenuItem = getViewById(R.id.item_preference)
+    private val notificationsMenuItem = getViewById(R.id.item_notifications)
+    private val preferencesMenuItem = getViewById(R.id.item_preferences)
 
     private val infoContainer = NotesInfoContainer(isHide)
 
@@ -40,14 +40,14 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
 
     //endregion
 
-    fun openNotification(isEmpty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
-        notificationMenuItem.click()
-        NotificationScreen(func, isEmpty)
+    fun openNotifications(isEmpty: Boolean = false, func: NotificationsScreen.() -> Unit = {}) {
+        notificationsMenuItem.click()
+        NotificationsScreen(func, isEmpty)
     }
 
-    fun openPreference(func: PreferenceScreen.() -> Unit = {}) {
-        preferenceMenuItem.click()
-        PreferenceScreen(func)
+    fun openPreferences(func: MenuPreferenceScreen.() -> Unit = {}) {
+        preferencesMenuItem.click()
+        MenuPreferenceScreen(func)
     }
 
     fun openNoteDialog(
@@ -97,13 +97,17 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
 
         toolbar.assert()
         toolbar.contentContainer
-            .withMenuDrawable(R.id.item_notification, R.drawable.ic_notifications, R.attr.clContent)
-            .withMenuTitle(R.id.item_notification, R.string.menu_notifications)
-            .withMenuDrawable(R.id.item_preference, R.drawable.ic_preference, R.attr.clContent)
-            .withMenuTitle(R.id.item_preference, R.string.menu_preference)
+            .withMenuDrawable(
+                R.id.item_notifications,
+                R.drawable.ic_notifications,
+                R.attr.clContent
+            )
+            .withMenuTitle(R.id.item_notifications, R.string.menu_notifications)
+            .withMenuDrawable(R.id.item_preferences, R.drawable.ic_preference, R.attr.clContent)
+            .withMenuTitle(R.id.item_preferences, R.string.menu_preference)
 
-        notificationMenuItem.isDisplayed()
-        preferenceMenuItem.isDisplayed()
+        notificationsMenuItem.isDisplayed()
+        preferencesMenuItem.isDisplayed()
 
         infoContainer.assert(isEmpty)
         recyclerView.isDisplayed(!isEmpty)

@@ -63,7 +63,7 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
@@ -290,8 +290,8 @@ object ViewModelFactory {
         private val getList: GetNotificationListUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(NotificationViewModelImpl::class) {
-                NotificationViewModelImpl(setNotification, deleteNotification, getList)
+            return modelClass.create(NotificationsViewModelImpl::class) {
+                NotificationsViewModelImpl(setNotification, deleteNotification, getList)
             }
         }
     }

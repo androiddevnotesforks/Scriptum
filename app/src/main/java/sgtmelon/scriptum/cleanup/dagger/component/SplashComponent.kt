@@ -23,9 +23,6 @@ interface SplashComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: SplashActivity): Builder
-
-        @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): SplashComponent

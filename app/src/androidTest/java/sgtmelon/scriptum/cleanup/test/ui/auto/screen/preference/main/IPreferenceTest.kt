@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main
 
-import sgtmelon.scriptum.cleanup.ui.screen.preference.PreferenceScreen
+import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
- * Interface for all [PreferenceScreen] tests.
+ * Interface for all [MenuPreferenceScreen] tests.
  */
 interface IPreferenceTest {
 
-    fun ParentUiTest.runTest(before: () -> Unit = {}, func: PreferenceScreen.() -> Unit) {
-        launch(before) { mainScreen { notesScreen(isEmpty = true) { openPreference(func) } } }
+    fun ParentUiTest.runTest(before: () -> Unit = {}, func: MenuPreferenceScreen.() -> Unit) {
+        launch(before) { mainScreen { notesScreen(isEmpty = true) { openPreferences(func) } } }
     }
 }
