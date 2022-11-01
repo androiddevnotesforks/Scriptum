@@ -17,7 +17,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
@@ -25,7 +24,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
@@ -33,7 +31,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteV
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
@@ -82,6 +79,9 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
+import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.bin.IBinViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel

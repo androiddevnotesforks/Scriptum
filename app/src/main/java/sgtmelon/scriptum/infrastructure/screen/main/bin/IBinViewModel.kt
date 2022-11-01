@@ -1,10 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main
+package sgtmelon.scriptum.infrastructure.screen.main.bin
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
 
 /**
  * Interface for communication [IBinFragment] with [BinViewModel].

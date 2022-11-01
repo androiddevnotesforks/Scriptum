@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main
+package sgtmelon.scriptum.infrastructure.screen.main.bin
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -14,8 +14,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener

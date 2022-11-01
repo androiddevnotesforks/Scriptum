@@ -312,6 +312,8 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
 
     override fun dismissSnackbar() = snackbar.dismiss(skipDismissResult = false)
 
+    // TODO restore snackbar after page changes
+    fun hideSnackbar() = snackbar.dismiss(skipDismissResult = true)
 
     override fun onSnackbarAction() {
         parentOpen?.attempt { viewModel.onSnackbarAction() }

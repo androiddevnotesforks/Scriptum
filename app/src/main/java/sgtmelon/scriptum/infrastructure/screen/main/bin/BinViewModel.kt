@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
+package sgtmelon.scriptum.infrastructure.screen.main.bin
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
@@ -10,8 +10,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
@@ -35,7 +33,7 @@ class BinViewModel(
     private val clearBin: ClearBinUseCase,
     private val clearNote: ClearNoteUseCase
 ) : ParentViewModel<IBinFragment>(callback),
-        IBinViewModel {
+    IBinViewModel {
 
     @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
 

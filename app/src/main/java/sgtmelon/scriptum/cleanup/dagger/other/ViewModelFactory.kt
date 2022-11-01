@@ -13,7 +13,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
@@ -21,7 +20,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
@@ -65,6 +63,8 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
+import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl

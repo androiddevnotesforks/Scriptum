@@ -1,10 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main
+package sgtmelon.scriptum.infrastructure.screen.main.bin
 
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 
 /**
  * Interface for communication [IBinViewModel] with [BinFragment].

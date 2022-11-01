@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.cleanup.testData.SimpleInfoPage
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
@@ -13,6 +12,7 @@ import sgtmelon.scriptum.cleanup.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick
