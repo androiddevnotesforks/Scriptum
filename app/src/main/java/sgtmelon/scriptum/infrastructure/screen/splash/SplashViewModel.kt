@@ -5,4 +5,4 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewMode
 /**
  * Interface for communication [ISplashActivity] with [SplashViewModelImpl].
  */
-interface ISplashViewModel : IParentViewModel
+interface SplashViewModel : IParentViewModel

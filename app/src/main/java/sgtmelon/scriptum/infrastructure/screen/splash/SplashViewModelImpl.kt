@@ -14,7 +14,7 @@ class SplashViewModelImpl(
     callback: ISplashActivity?,
     private val preferencesRepo: PreferencesRepo
 ) : ParentViewModel<ISplashActivity>(callback),
-    ISplashViewModel {
+    SplashViewModel {
 
     /**
      * Don't use coroutines here. Activity will be quickly destroyed.

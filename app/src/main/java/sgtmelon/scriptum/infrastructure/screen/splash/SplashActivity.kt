@@ -31,7 +31,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>(),
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
     // TODO remove callback and move parsing inside activity or delegator
-    @Inject lateinit var viewModel: ISplashViewModel
+    @Inject lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

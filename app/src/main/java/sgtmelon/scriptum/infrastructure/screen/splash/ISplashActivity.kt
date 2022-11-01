@@ -4,7 +4,7 @@ import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 /**
- * Interface for communication [ISplashViewModel] with [SplashActivity].
+ * Interface for communication [SplashViewModel] with [SplashActivity].
  */
 interface ISplashActivity : SystemReceiver.Bridge.TidyUp,
     SystemReceiver.Bridge.Bind {
