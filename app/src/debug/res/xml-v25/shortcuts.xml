@@ -9,7 +9,7 @@
         android:shortcutShortLabel="@string/shortcut_short_roll_label">
 
         <intent android:action="android.intent.action.MAIN"
-            android:targetClass="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity"
+            android:targetClass="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
             android:targetPackage="sgtmelon.scriptum.debug">
 
             <extra android:name="OPEN_FROM_INTENT_KEY"
@@ -25,7 +25,7 @@
         android:shortcutShortLabel="@string/shortcut_short_text_label">
 
         <intent android:action="android.intent.action.MAIN"
-            android:targetClass="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity"
+            android:targetClass="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
             android:targetPackage="sgtmelon.scriptum.debug">
 
             <extra android:name="OPEN_FROM_INTENT_KEY"

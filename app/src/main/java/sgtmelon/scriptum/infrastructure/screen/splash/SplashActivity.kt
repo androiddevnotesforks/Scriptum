@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl
+package sgtmelon.scriptum.infrastructure.screen.splash
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
@@ -6,8 +6,6 @@ import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType

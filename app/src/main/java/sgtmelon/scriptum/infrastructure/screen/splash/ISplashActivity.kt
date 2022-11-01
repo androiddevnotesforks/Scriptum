@@ -1,8 +1,6 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback
+package sgtmelon.scriptum.infrastructure.screen.splash
 
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 /**

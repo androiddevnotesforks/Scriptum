@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
@@ -19,7 +18,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
@@ -70,6 +68,8 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceV
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 /**

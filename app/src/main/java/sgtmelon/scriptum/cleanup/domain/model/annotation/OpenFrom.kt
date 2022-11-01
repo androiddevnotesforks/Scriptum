@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.model.annotation
 
 import androidx.annotation.StringDef
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 
 /**
  * Describes keys which screen open after [SplashActivity].

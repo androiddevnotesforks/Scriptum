@@ -1,9 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
+package sgtmelon.scriptum.infrastructure.screen.splash
 
 import android.os.Bundle
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType

@@ -25,7 +25,7 @@
         android:theme="@style/App.Screen.DayNight">
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@style/App.Screen.Splash">
@@ -44,7 +44,7 @@
             android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity"
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
             android:theme="@style/App.Screen.Intro"/>
 
         <activity

@@ -15,7 +15,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
@@ -23,14 +22,12 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.NoteViewModel
@@ -92,6 +89,9 @@ import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceVie
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.splash.ISplashViewModel
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 

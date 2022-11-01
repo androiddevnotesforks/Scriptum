@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.cleanup.ui.screen
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.main.MainScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpDisappearScreen
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 
 /**
  * Class for UI control of [SplashActivity].
