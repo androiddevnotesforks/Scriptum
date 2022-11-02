@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.dagger.component.main
 
+import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
@@ -22,7 +23,7 @@ interface BinComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(fragment: BinFragment): Builder
+        fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): BinComponent
     }

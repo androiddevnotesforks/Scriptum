@@ -6,13 +6,11 @@ import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.RankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.RollNoteInteractor
@@ -39,12 +37,6 @@ class InteractorModule {
     @ActivityScope
     fun provideNotesInteractor(noteRepo: NoteRepo): INotesInteractor {
         return NotesInteractor(noteRepo)
-    }
-
-    @Provides
-    @ActivityScope
-    fun provideBinInteractor(noteRepo: NoteRepo): IBinInteractor {
-        return BinInteractor(noteRepo)
     }
 
     //endregion

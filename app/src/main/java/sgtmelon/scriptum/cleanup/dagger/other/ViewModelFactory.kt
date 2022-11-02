@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
@@ -61,7 +60,6 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
@@ -168,8 +166,6 @@ object ViewModelFactory {
         }
 
         class Bin(
-            private val fragment: BinFragment,
-            private val interactor: IBinInteractor,
             private val getList: GetNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
             private val restoreNote: RestoreNoteUseCase,
@@ -178,10 +174,7 @@ object ViewModelFactory {
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BinViewModelImpl::class) {
-                    BinViewModelImpl(
-                        fragment, interactor,
-                        getList, getCopyText, restoreNote, clearBin, clearNote
-                    )
+                    BinViewModelImpl(getList, getCopyText, restoreNote, clearBin, clearNote)
                 }
             }
         }

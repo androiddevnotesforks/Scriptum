@@ -9,7 +9,6 @@ import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
@@ -76,7 +75,6 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
@@ -178,8 +176,7 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideBinViewModel(
-        fragment: BinFragment,
-        interactor: IBinInteractor,
+        owner: ViewModelStoreOwner,
         getList: GetNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
         restoreNote: RestoreNoteUseCase,
@@ -187,9 +184,9 @@ class ViewModelModule {
         clearNote: ClearNoteUseCase
     ): BinViewModel {
         val factory = ViewModelFactory.MainScreen.Bin(
-            fragment, interactor, getList, getCopyText, restoreNote, clearBin, clearNote
+            getList, getCopyText, restoreNote, clearBin, clearNote
         )
-        return ViewModelProvider(fragment, factory)[BinViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[BinViewModelImpl::class.java]
     }
 
     //endregion

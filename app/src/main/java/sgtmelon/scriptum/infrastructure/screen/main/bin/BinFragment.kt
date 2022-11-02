@@ -51,7 +51,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
 
     override fun inject(component: ScriptumComponent) {
         component.getBinBuilder()
-            .set(fragment = this)
+            .set(owner = this)
             .build()
             .inject(fragment = this)
     }
@@ -63,12 +63,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
-                parentOpen?.attempt {
-                    clearBinDialog.safeShow(
-                        DialogFactory.Main.CLEAR_BIN,
-                        owner = this@BinFragment
-                    )
-                }
+                showClearBinDialog()
                 return@setOnMenuItemClickListener true
             }
 
@@ -76,9 +71,6 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         }
 
         binding?.recyclerView?.let {
-            // tODO remove
-            //            it.setDefaultAnimator { onBindingList() }
-
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
@@ -95,7 +87,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         }
 
         optionsDialog.apply {
-            onItem { onOptionsDialogResult(position, it) }
+            onItem { onOptionSelect(position, it) }
             onDismiss { parentOpen?.clear() }
         }
     }
@@ -113,8 +105,18 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         }
         viewModel.itemList.observe(this) {
             adapter.notifyList(it)
-            itemClearBin?.isVisible = it.size != 0
+            itemClearBin?.isVisible = it.isNotEmpty()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /**
+         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
+         * call of this function inside parent activity (during fragment transaction).
+         */
+        viewModel.updateData()
     }
 
     //endregion
@@ -134,7 +136,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         }
     }
 
-    private fun onOptionsDialogResult(p: Int, which: Int) {
+    private fun onOptionSelect(p: Int, which: Int) {
         when (which) {
             Options.Bin.RESTORE -> viewModel.restoreNote(p)
             Options.Bin.COPY -> viewModel.getCopyText(p).collect(this) {
@@ -144,133 +146,11 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         }
     }
 
-    //region Cleanup
-
-    //
-    //    override fun onResume() {
-    //        super.onResume()
-    //        viewModel.onUpdateData()
-    //    }
-    //
-    //    override fun onDestroy() {
-    //        super.onDestroy()
-    //        viewModel.onDestroy()
-    //    }
-    //
-    //    override fun setupToolbar() {
-    //        binding?.toolbarInclude?.toolbar?.apply {
-    //            title = getString(R.string.title_bin)
-    //            inflateMenu(R.menu.fragment_bin)
-    //            setOnMenuItemClickListener {
-    //                parentOpen?.attempt {
-    //                    clearBinDialog.safeShow(
-    //                        DialogFactory.Main.CLEAR_BIN,
-    //                        owner = this@BinFragment
-    //                    )
-    //                }
-    //                return@setOnMenuItemClickListener true
-    //            }
-    //        }
-    //
-    //        context?.let { itemClearBin?.tintIcon(it) }
-    //    }
-    //
-    //    override fun setupRecycler() {
-    //        binding?.recyclerView?.let {
-    //            it.setDefaultAnimator { onBindingList() }
-    //
-    //            it.addOnScrollListener(RecyclerOverScrollListener())
-    //            it.setHasFixedSize(true)
-    //            it.layoutManager = LinearLayoutManager(context)
-    //            it.adapter = adapter
-    //        }
-    //    }
-    //
-    //    override fun setupDialog() {
-    //        clearBinDialog.apply {
-    //            onPositiveClick { viewModel.onClickClearBin() }
-    //            onDismiss { parentOpen?.clear() }
-    //        }
-    //
-    //        optionsDialog.apply {
-    //            onItem { viewModel.onResultOptionsDialog(optionsDialog.position, it) }
-    //            onDismiss { parentOpen?.clear() }
-    //        }
-    //    }
-
-    //    /**
-    //     * For first time [recyclerView] visibility flag set inside xml file.
-    //     */
-    //    override fun prepareForLoad() {
-    //        binding?.infoInclude?.parentContainer?.makeGone()
-    //        binding?.progressBar?.makeGone()
-    //    }
-    //
-    //    override fun showProgress() {
-    //        binding?.progressBar?.makeVisible()
-    //    }
-    //
-    //    override fun hideEmptyInfo() {
-    //        binding?.infoInclude?.parentContainer?.makeGone()
-    //    }
-    //
-    //    override fun onBindingList() {
-    //        binding?.progressBar?.makeGone()
-    //
-    //        /**
-    //         * Case without animation need for best performance, without freeze. Because changes
-    //         * on other screens may cause [onBindingList].
-    //         */
-    //        if (adapter.itemCount == 0) {
-    //            /**
-    //             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
-    //             */
-    //            if (binding?.infoInclude?.parentContainer.isVisible()
-    //                && binding?.recyclerView.isInvisible()
-    //            ) return
-    //
-    //            binding?.infoInclude?.parentContainer?.makeVisible()
-    //            binding?.recyclerView?.makeInvisible()
-    //
-    //            binding?.infoInclude?.parentContainer?.alpha = 0f
-    //            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
-    //        } else {
-    //            /**
-    //             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
-    //             */
-    //            if (binding?.infoInclude?.parentContainer.isGone()
-    //                && binding?.recyclerView.isVisible()
-    //            ) return
-    //
-    //            binding?.infoInclude?.parentContainer?.makeGone()
-    //            binding?.recyclerView?.makeVisible()
-    //        }
-    //    }
-    //
-    //    private fun openNoteScreen(item: NoteItem) {
-    //        parentOpen?.attempt { startActivity(InstanceFactory.Note[context ?: return, item]) }
-    //    }
-    //
-    //    override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
-    //        parentOpen?.attempt {
-    //            optionsDialog.title = title
-    //            optionsDialog.setArguments(itemArray, p)
-    //                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
-    //        }
-    //    }
-    //
-    //    override fun notifyMenuClearBin() {
-    //        itemClearBin?.isVisible = adapter.itemCount != 0
-    //    }
-    //
-    //    override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
-    //
-    //    override fun getStringArray(@ArrayRes arrayId: Int): Array<String> =
-    //        resources.getStringArray(arrayId)
-    //
-    //    override fun copyClipboard(text: String) = delegators.clipboard.copy(text)
-
-    //endregion
+    private fun showClearBinDialog() {
+        parentOpen?.attempt {
+            clearBinDialog.safeShow(DialogFactory.Main.CLEAR_BIN, owner = this@BinFragment)
+        }
+    }
 
     override fun scrollTop() {
         binding?.recyclerView?.smoothScrollToPosition(0)
