@@ -4,11 +4,11 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.screen.main.notes.INotesViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.test.prod.RunPrivate
 
 /**
- * Interactor for [INotesViewModel].
+ * Interactor for [NotesViewModel].
  */
 // TODO refactor after notesViewModel
 class NotesInteractor(private val noteRepo: NoteRepo) : ParentInteractor(),

@@ -52,7 +52,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
     private val fabCallback: MainFabCallback? get() = activity as? MainFabCallback
 
-    @Inject lateinit var viewModel: INotesViewModel
+    @Inject lateinit var viewModel: NotesViewModel
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 

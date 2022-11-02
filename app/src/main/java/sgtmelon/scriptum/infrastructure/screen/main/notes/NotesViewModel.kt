@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 /**
  * Interface for communication [INotesFragment] with [NotesViewModelImpl].
  */
-interface INotesViewModel : IParentViewModel,
+interface NotesViewModel : IParentViewModel,
     UnbindNoteReceiver.Callback {
 
     fun onUpdateData()

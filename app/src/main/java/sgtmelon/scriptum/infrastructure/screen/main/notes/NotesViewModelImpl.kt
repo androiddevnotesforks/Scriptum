@@ -43,7 +43,7 @@ class NotesViewModelImpl(
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationDateList: GetNotificationDateListUseCase
 ) : ParentViewModel<INotesFragment>(callback),
-    INotesViewModel {
+    NotesViewModel {
 
     @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
 

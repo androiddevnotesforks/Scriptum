@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 
 /**
- * Interface for communication [INotesViewModel] with [NotesFragment].
+ * Interface for communication [NotesViewModel] with [NotesFragment].
  */
 interface INotesFragment : SystemReceiver.Bridge.Alarm,
     SystemReceiver.Bridge.Bind {

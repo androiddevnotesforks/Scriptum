@@ -74,8 +74,8 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.notes.INotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
@@ -164,7 +164,7 @@ class ViewModelModule {
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationDateListUseCase
-    ): INotesViewModel {
+    ): NotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
             fragment, preferencesRepo, interactor,
             getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
