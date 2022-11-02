@@ -1,11 +1,9 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main
+package sgtmelon.scriptum.infrastructure.screen.main.notes
 
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 
 /**

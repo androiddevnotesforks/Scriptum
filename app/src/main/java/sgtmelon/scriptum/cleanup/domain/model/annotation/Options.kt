@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.domain.model.annotation
 
 import androidx.annotation.IntDef
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 
 /**
  * Describes menu options for [NotesFragment]/[NotesViewModel] and [BinFragment]/[BinViewModelImpl]
