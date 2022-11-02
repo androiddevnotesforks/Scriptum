@@ -22,11 +22,11 @@ import sgtmelon.test.cappuccino.utils.withMenuTitle
 /**
  * Class for UI control of [BinFragment].
  */
-class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
+class BinScreen : ParentRecyclerScreen(R.id.recycler_view) {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.bin_parent_container)
+    private val parentContainer = getViewById(R.id.parent_container)
 
     private val toolbar = SimpleToolbar(R.string.title_bin, withBack = false)
     private val clearMenuItem = getViewById(R.id.item_clear)

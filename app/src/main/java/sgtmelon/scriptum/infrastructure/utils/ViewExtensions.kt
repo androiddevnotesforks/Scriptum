@@ -1,8 +1,11 @@
 package sgtmelon.scriptum.infrastructure.utils
 
 import android.graphics.Rect
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.IdRes
+import androidx.appcompat.widget.Toolbar
 
 inline fun View.makeVisible(condition: Boolean, onOtherwise: () -> Unit = { makeGone() }) {
     if (condition) makeVisible() else onOtherwise()
@@ -30,3 +33,5 @@ fun MotionEvent?.onView(view: View?): Boolean {
         view.getGlobalVisibleRect(this)
     }.contains(rawX.toInt(), rawY.toInt())
 }
+
+fun Toolbar.getItem(@IdRes id: Int): MenuItem = menu.findItem(id)

@@ -3,9 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.main.bin
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.ArrayRes
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
@@ -21,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
+import sgtmelon.scriptum.infrastructure.utils.getItem
 import sgtmelon.scriptum.infrastructure.utils.isGone
 import sgtmelon.scriptum.infrastructure.utils.isInvisible
 import sgtmelon.scriptum.infrastructure.utils.isVisible
@@ -40,8 +39,6 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
 
     override val layoutId: Int = R.layout.fragment_bin
 
-    //region Variables
-
     @Inject lateinit var viewModel: BinViewModel
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
@@ -58,16 +55,8 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         })
     }
 
-    /**
-     * Setup manually because after rotation lazy function will return null.
-     */
-    private var toolbar: Toolbar? = null
-    private var itemClearBin: MenuItem? = null
-
-    private var parentContainer: ViewGroup? = null
-    private var emptyInfoView: View? = null
-    private var progressBar: View? = null
-    private var recyclerView: RecyclerView? = null
+    private val itemClearBin: MenuItem?
+        get() = binding?.toolbarInclude?.toolbar?.getItem(R.id.item_clear)
 
     //endregion
 
@@ -98,8 +87,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
     //endregion
 
     override fun setupToolbar() {
-        toolbar = view?.findViewById(R.id.toolbar)
-        toolbar?.apply {
+        binding?.toolbarInclude?.toolbar?.apply {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
@@ -113,8 +101,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
             }
         }
 
-        itemClearBin = toolbar?.menu?.findItem(R.id.item_clear)
-        activity?.let { itemClearBin?.tintIcon(it) }
+        context?.let { itemClearBin?.tintIcon(it) }
 
         clearBinDialog.apply {
             onPositiveClick { viewModel.onClickClearBin() }
@@ -123,12 +110,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
     }
 
     override fun setupRecycler() {
-        parentContainer = view?.findViewById(R.id.bin_parent_container)
-        emptyInfoView = view?.findViewById(R.id.info_include)
-        progressBar = view?.findViewById(R.id.bin_progress)
-
-        recyclerView = view?.findViewById(R.id.bin_recycler)
-        recyclerView?.let {
+        binding?.recyclerView?.let {
             it.setDefaultAnimator { onBindingList() }
 
             it.addOnScrollListener(RecyclerOverScrollListener())
@@ -150,21 +132,21 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
      * For first time [recyclerView] visibility flag set inside xml file.
      */
     override fun prepareForLoad() {
-        emptyInfoView?.makeGone()
-        progressBar?.makeGone()
+        binding?.infoInclude?.parentContainer?.makeGone()
+        binding?.progressBar?.makeGone()
     }
 
     override fun showProgress() {
-        progressBar?.makeVisible()
+        binding?.progressBar?.makeVisible()
     }
 
     override fun hideEmptyInfo() {
-        emptyInfoView?.makeGone()
+        binding?.infoInclude?.parentContainer?.makeGone()
     }
 
 
     override fun onBindingList() {
-        progressBar?.makeGone()
+        binding?.progressBar?.makeGone()
 
         /**
          * Case without animation need for best performance, without freeze. Because changes
@@ -174,26 +156,30 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
-            if (emptyInfoView.isVisible() && recyclerView.isInvisible()) return
+            if (binding?.infoInclude?.parentContainer.isVisible()
+                && binding?.recyclerView.isInvisible()
+            ) return
 
-            emptyInfoView?.makeVisible()
-            recyclerView?.makeInvisible()
+            binding?.infoInclude?.parentContainer?.makeVisible()
+            binding?.recyclerView?.makeInvisible()
 
-            emptyInfoView?.alpha = 0f
-            emptyInfoView?.animateAlpha(isVisible = true)
+            binding?.infoInclude?.parentContainer?.alpha = 0f
+            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
         } else {
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
-            if (emptyInfoView.isGone() && recyclerView.isVisible()) return
+            if (binding?.infoInclude?.parentContainer.isGone()
+                && binding?.recyclerView.isVisible()
+            ) return
 
-            emptyInfoView?.makeGone()
-            recyclerView?.makeVisible()
+            binding?.infoInclude?.parentContainer?.makeGone()
+            binding?.recyclerView?.makeVisible()
         }
     }
 
     override fun scrollTop() {
-        recyclerView?.smoothScrollToPosition(0)
+        binding?.recyclerView?.smoothScrollToPosition(0)
     }
 
     override fun openNoteScreen(item: NoteItem) {

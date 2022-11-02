@@ -15,11 +15,11 @@ import sgtmelon.extensions.setColorFilterCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.item.ColorItem
 
-fun MenuItem.tintIcon(context: Context) {
+fun MenuItem.tintIcon(context: Context, @AttrRes tint: Int = R.attr.clContent) {
     val icon = this.icon ?: return
 
     val wrapDrawable = DrawableCompat.wrap(icon)
-    DrawableCompat.setTint(wrapDrawable, context.getColorAttr(R.attr.clContent))
+    DrawableCompat.setTint(wrapDrawable, context.getColorAttr(tint))
     this.icon = wrapDrawable
 }
 
