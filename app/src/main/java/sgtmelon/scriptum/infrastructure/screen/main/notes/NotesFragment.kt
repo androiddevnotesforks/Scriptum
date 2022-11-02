@@ -40,7 +40,7 @@ import sgtmelon.scriptum.infrastructure.utils.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
- * Fragment which displays list of notes - [NoteItem].
+ * Screen to display the list of main notes.
  */
 class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     INotesFragment,
