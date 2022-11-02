@@ -25,8 +25,8 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat(),
 
     override val fm get() = parentFragmentManager
 
-    private lateinit var delegatorFactory: DelegatorFactory
-    protected val delegators get() = delegatorFactory
+    private lateinit var _delegators: DelegatorFactory
+    protected val delegators get() = _delegators
 
     protected val open: OpenState = OpenState(lifecycle)
 
@@ -37,8 +37,7 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        delegatorFactory = DelegatorFactory(view.context, lifecycle)
-
+        _delegators = DelegatorFactory(view.context, lifecycle)
         open.restore(savedInstanceState)
 
         setupInsets()

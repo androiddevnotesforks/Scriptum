@@ -32,11 +32,10 @@ abstract class ParentActivity<T : ViewDataBinding> : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         _binding = inflateBinding(layoutId)
         _delegators = DelegatorFactory(context = this, lifecycle)
+        open.restore(savedInstanceState)
 
         inject(ScriptumApplication.component)
         registerReceivers()
-
-        open.restore(savedInstanceState)
 
         /** If keyboard was opened in another app. */
         hideKeyboard()

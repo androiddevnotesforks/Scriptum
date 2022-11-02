@@ -28,8 +28,8 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
 
     override val fm get() = parentFragmentManager
 
-    private lateinit var delegatorFactory: DelegatorFactory
-    protected val delegators get() = delegatorFactory
+    private lateinit var _delegators: DelegatorFactory
+    protected val delegators get() = _delegators
 
     protected val open: OpenState = OpenState(lifecycle)
     protected val parentOpen: OpenState? get() = (activity as? ParentActivity<*>)?.open
@@ -46,11 +46,10 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        registerReceivers()
-
+        _delegators = DelegatorFactory(view.context, lifecycle)
         open.restore(savedInstanceState)
 
-        delegatorFactory = DelegatorFactory(view.context, lifecycle)
+        registerReceivers()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
