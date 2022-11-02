@@ -196,9 +196,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
         binding?.disableButton?.setOnClickListener { open.attempt { finish() } }
         binding?.repeatButton?.setOnClickListener { open.attempt { startPostpone() } }
-        binding?.moreButton?.setOnClickListener {
-            open.attempt { repeatDialog.safeShow(DialogFactory.Alarm.REPEAT, owner = this) }
-        }
+        binding?.moreButton?.setOnClickListener { showRepeatDialog() }
 
         repeatDialog.apply {
             onItemSelected(owner = this@AlarmActivity) {
@@ -302,6 +300,10 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     //endregion
+
+    private fun showRepeatDialog() = open.attempt {
+        repeatDialog.safeShow(DialogFactory.Alarm.REPEAT, owner = this)
+    }
 
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
         open.attempt { startActivity(InstanceFactory.Note[this, item]) }

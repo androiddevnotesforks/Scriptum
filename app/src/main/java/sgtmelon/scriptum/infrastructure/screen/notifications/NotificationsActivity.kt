@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import javax.inject.Inject
 import sgtmelon.extensions.collect
@@ -49,11 +48,6 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationBinding>(),
     private val snackbar = SnackbarDelegator(
         R.string.snackbar_message_notification, R.string.snackbar_action_cancel, callback = this
     )
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setupView()
-    }
 
     override fun inject(component: ScriptumComponent) {
         component.getNotificationBuilder()

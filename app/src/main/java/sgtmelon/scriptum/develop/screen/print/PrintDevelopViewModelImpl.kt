@@ -15,13 +15,13 @@ class PrintDevelopViewModelImpl(
 ) : ViewModel(),
     PrintDevelopViewModel {
 
-    init {
-        viewModelScope.launchBack { fetchList(type) }
-    }
-
     override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
 
     override val itemList: MutableLiveData<List<PrintItem>> = MutableLiveData()
+
+    init {
+        viewModelScope.launchBack { fetchList(type) }
+    }
 
     private suspend fun fetchList(type: PrintType) {
         showList.postValue(ShowListState.Loading)

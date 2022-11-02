@@ -26,10 +26,6 @@ class NotificationsViewModelImpl(
 ) : ViewModel(),
     NotificationsViewModel {
 
-    init {
-        viewModelScope.launchBack { fetchList() }
-    }
-
     override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
 
     private fun notifyShowList() {
@@ -58,6 +54,10 @@ class NotificationsViewModelImpl(
 
     /** List which temporary save canceled items for snackbar work. */
     private val undoList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
+
+    init {
+        viewModelScope.launchBack { fetchList() }
+    }
 
     private suspend fun fetchList() {
         getIdling().start(IdlingTag.Notification.LOAD_DATA)

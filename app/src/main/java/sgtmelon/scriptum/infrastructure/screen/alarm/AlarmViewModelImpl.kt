@@ -27,15 +27,15 @@ class AlarmViewModelImpl(
 ) : ViewModel(),
     AlarmViewModel {
 
-    init {
-        viewModelScope.launchBack { fetchData(noteId) }
-    }
-
     override val state: MutableLiveData<AlarmScreenState> = MutableLiveData()
 
     override val noteItem: MutableLiveData<NoteItem> = MutableLiveData()
 
     override val alarmState: AlarmState get() = preferencesRepo.alarmState
+
+    init {
+        viewModelScope.launchBack { fetchData(noteId) }
+    }
 
     private suspend fun fetchData(noteId: Long) {
         /**

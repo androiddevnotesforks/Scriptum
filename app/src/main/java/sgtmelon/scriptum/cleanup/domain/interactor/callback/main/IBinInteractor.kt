@@ -7,6 +7,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 /**
  * Interface for communication [BinViewModel] with [BinInteractor].
  */
+// TODO remove
 interface IBinInteractor : IParentInteractor {
 
     suspend fun getCount(): Int

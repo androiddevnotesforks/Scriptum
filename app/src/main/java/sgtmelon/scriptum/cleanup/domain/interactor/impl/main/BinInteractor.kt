@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 /**
  * Interactor for [BinViewModel].
  */
+// TODO remove
 class BinInteractor(private val noteRepo: NoteRepo) : ParentInteractor(),
     IBinInteractor {
 
