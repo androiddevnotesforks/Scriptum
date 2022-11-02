@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewMode
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 
 /**
- * Interface for communication [INotesFragment] with [NotesViewModel].
+ * Interface for communication [INotesFragment] with [NotesViewModelImpl].
  */
 interface INotesViewModel : IParentViewModel,
     UnbindNoteReceiver.Callback {

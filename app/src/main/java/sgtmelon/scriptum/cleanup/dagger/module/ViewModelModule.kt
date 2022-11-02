@@ -76,7 +76,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.INotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
@@ -170,7 +170,7 @@ class ViewModelModule {
             getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
             deleteNotification, getNotificationDateList
         )
-        return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
+        return ViewModelProvider(fragment, factory)[NotesViewModelImpl::class.java]
     }
 
     @Provides

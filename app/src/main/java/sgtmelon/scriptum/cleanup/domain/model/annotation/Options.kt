@@ -4,10 +4,10 @@ import androidx.annotation.IntDef
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 
 /**
- * Describes menu options for [NotesFragment]/[NotesViewModel] and [BinFragment]/[BinViewModelImpl]
+ * Describes menu options for [NotesFragment]/[NotesViewModelImpl] and [BinFragment]/[BinViewModelImpl]
  */
 annotation class Options {
 

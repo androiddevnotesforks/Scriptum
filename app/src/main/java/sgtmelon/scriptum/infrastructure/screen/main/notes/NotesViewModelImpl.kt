@@ -30,7 +30,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Option
 /**
  * ViewModel for [INotesFragment].
  */
-class NotesViewModel(
+class NotesViewModelImpl(
     callback: INotesFragment,
     private val preferencesRepo: PreferencesRepo,
     private val interactor: INotesInteractor,

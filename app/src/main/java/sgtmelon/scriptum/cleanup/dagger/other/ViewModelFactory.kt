@@ -60,7 +60,7 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
@@ -155,8 +155,8 @@ object ViewModelFactory {
             private val getNotificationDateList: GetNotificationDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(NotesViewModel::class) {
-                    NotesViewModel(
+                return modelClass.create(NotesViewModelImpl::class) {
+                    NotesViewModelImpl(
                         fragment, preferencesRepo, interactor,
                         getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
                         deleteNotification, getNotificationDateList

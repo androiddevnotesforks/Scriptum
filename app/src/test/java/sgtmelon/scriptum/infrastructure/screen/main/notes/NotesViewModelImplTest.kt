@@ -39,10 +39,10 @@ import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [NotesViewModel].
+ * Test for [NotesViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class NotesViewModelTest : ParentViewModelTest() {
+class NotesViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -65,7 +65,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var calendar: Calendar
 
     private val viewModel by lazy {
-        NotesViewModel(
+        NotesViewModelImpl(
             callback, preferencesRepo, interactor,
             getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
             deleteNotification, getNotificationDateList
