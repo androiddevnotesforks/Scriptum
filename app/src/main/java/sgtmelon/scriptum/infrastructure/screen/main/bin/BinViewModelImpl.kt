@@ -1,6 +1,10 @@
 package sgtmelon.scriptum.infrastructure.screen.main.bin
 
-import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.launchBack
@@ -10,7 +14,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
@@ -21,29 +24,40 @@ import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Bin as Options
 
-/**
- * ViewModel for [IBinFragment].
- */
 class BinViewModelImpl(
-    callback: IBinFragment,
+    lifecycle: Lifecycle,
     private val interactor: IBinInteractor,
     private val getList: GetNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
     private val restoreNote: RestoreNoteUseCase,
     private val clearBin: ClearBinUseCase,
     private val clearNote: ClearNoteUseCase
-) : ParentViewModel<IBinFragment>(callback),
+) : ViewModel(),
+    DefaultLifecycleObserver,
     BinViewModel {
 
-    @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
-
-    override fun onSetup(bundle: Bundle?) {
-        callback?.setupToolbar()
-        callback?.setupRecycler()
-        callback?.setupDialog()
-
-        callback?.prepareForLoad()
+    init {
+        lifecycle.addObserver(this)
     }
+
+    //region cleanup
+
+    // TODO check how it work (after rotation)
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+        Log.i("HERE", "onUpdate!")
+        onUpdateData()
+    }
+
+    @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
+    //
+    //    override fun onSetup(bundle: Bundle?) {
+    //        callback?.setupToolbar()
+    //        callback?.setupRecycler()
+    //        callback?.setupDialog()
+    //
+    //        callback?.prepareForLoad()
+    //    }
 
 
     override fun onUpdateData() {
@@ -136,4 +150,7 @@ class BinViewModelImpl(
         callback?.notifyList(itemList)
         callback?.notifyMenuClearBin()
     }
+
+    //endregion
+
 }

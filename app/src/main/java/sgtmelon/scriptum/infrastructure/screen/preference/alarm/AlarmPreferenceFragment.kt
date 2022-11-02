@@ -138,7 +138,9 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     //region Dialogs
 
-    private fun setupDialogs() {
+    override fun setupDialogs() {
+        super.setupDialogs()
+
         signalDialog.apply {
             onPositiveClick { viewModel.updateSignal(signalDialog.check) }
             onDismiss { open.clear() }

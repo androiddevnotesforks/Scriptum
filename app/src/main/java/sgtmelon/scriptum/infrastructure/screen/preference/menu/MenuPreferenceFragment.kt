@@ -73,7 +73,9 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
         viewModel.themeSummary.observe(this) { binding.themeButton?.summary = it }
     }
 
-    private fun setupDialogs() {
+    override fun setupDialogs() {
+        super.setupDialogs()
+
         themeDialog.onPositiveClick {
             viewModel.updateTheme(themeDialog.check)
             (activity as? ThemeChangeCallback)?.checkThemeChange()

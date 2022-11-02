@@ -184,7 +184,9 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //region Dialogs
 
-    private fun setupDialogs() {
+    override fun setupDialogs() {
+        super.setupDialogs()
+
         exportPermissionDialog.apply {
             isCancelable = false
             onPositiveClick { requestPermission(PermissionRequest.EXPORT, permissionState) }

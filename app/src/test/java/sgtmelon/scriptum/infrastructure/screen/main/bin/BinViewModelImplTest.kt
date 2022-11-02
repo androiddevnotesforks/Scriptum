@@ -37,7 +37,6 @@ class BinViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var callback: IBinFragment
     @MockK lateinit var interactor: IBinInteractor
 
     @MockK lateinit var getList: GetNoteListUseCase

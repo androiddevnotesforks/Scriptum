@@ -34,7 +34,6 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  * Screen to display the list of deleted notes.
  */
 class BinFragment : ParentFragment<FragmentBinBinding>(),
-    IBinFragment,
     ScrollTopCallback {
 
     override val layoutId: Int = R.layout.fragment_bin
@@ -58,13 +57,13 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
     private val itemClearBin: MenuItem?
         get() = binding?.toolbarInclude?.toolbar?.getItem(R.id.item_clear)
 
-    //endregion
-
     //region System
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.onSetup()
+
+        setupDialogs()
+        prepareForLoad()
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -74,19 +73,9 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
             .inject(fragment = this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.onUpdateData()
-    }
+    override fun setupView() {
+        super.setupView()
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
-
-    //endregion
-
-    override fun setupToolbar() {
         binding?.toolbarInclude?.toolbar?.apply {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
@@ -99,17 +88,10 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
                 }
                 return@setOnMenuItemClickListener true
             }
+
+            itemClearBin?.tintIcon(context)
         }
 
-        context?.let { itemClearBin?.tintIcon(it) }
-
-        clearBinDialog.apply {
-            onPositiveClick { viewModel.onClickClearBin() }
-            onDismiss { parentOpen?.clear() }
-        }
-    }
-
-    override fun setupRecycler() {
         binding?.recyclerView?.let {
             it.setDefaultAnimator { onBindingList() }
 
@@ -120,13 +102,80 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         }
     }
 
-    override fun setupDialog() {
+    override fun setupDialogs() {
+        super.setupDialogs()
+
+        clearBinDialog.apply {
+            onPositiveClick { viewModel.onClickClearBin() }
+            onDismiss { parentOpen?.clear() }
+        }
+
         optionsDialog.apply {
             onItem { viewModel.onResultOptionsDialog(optionsDialog.position, it) }
             onDismiss { parentOpen?.clear() }
         }
     }
 
+    override fun setupObservers() {
+        super.setupObservers()
+        TODO()
+    }
+
+    //endregion
+
+    //region Cleanup
+
+    //
+    //    override fun onResume() {
+    //        super.onResume()
+    //        viewModel.onUpdateData()
+    //    }
+    //
+    //    override fun onDestroy() {
+    //        super.onDestroy()
+    //        viewModel.onDestroy()
+    //    }
+    //
+    //    override fun setupToolbar() {
+    //        binding?.toolbarInclude?.toolbar?.apply {
+    //            title = getString(R.string.title_bin)
+    //            inflateMenu(R.menu.fragment_bin)
+    //            setOnMenuItemClickListener {
+    //                parentOpen?.attempt {
+    //                    clearBinDialog.safeShow(
+    //                        DialogFactory.Main.CLEAR_BIN,
+    //                        owner = this@BinFragment
+    //                    )
+    //                }
+    //                return@setOnMenuItemClickListener true
+    //            }
+    //        }
+    //
+    //        context?.let { itemClearBin?.tintIcon(it) }
+    //    }
+    //
+    //    override fun setupRecycler() {
+    //        binding?.recyclerView?.let {
+    //            it.setDefaultAnimator { onBindingList() }
+    //
+    //            it.addOnScrollListener(RecyclerOverScrollListener())
+    //            it.setHasFixedSize(true)
+    //            it.layoutManager = LinearLayoutManager(context)
+    //            it.adapter = adapter
+    //        }
+    //    }
+    //
+    //    override fun setupDialog() {
+    //        clearBinDialog.apply {
+    //            onPositiveClick { viewModel.onClickClearBin() }
+    //            onDismiss { parentOpen?.clear() }
+    //        }
+    //
+    //        optionsDialog.apply {
+    //            onItem { viewModel.onResultOptionsDialog(optionsDialog.position, it) }
+    //            onDismiss { parentOpen?.clear() }
+    //        }
+    //    }
 
     /**
      * For first time [recyclerView] visibility flag set inside xml file.
@@ -143,7 +192,6 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
     override fun hideEmptyInfo() {
         binding?.infoInclude?.parentContainer?.makeGone()
     }
-
 
     override fun onBindingList() {
         binding?.progressBar?.makeGone()
@@ -178,10 +226,6 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         }
     }
 
-    override fun scrollTop() {
-        binding?.recyclerView?.smoothScrollToPosition(0)
-    }
-
     override fun openNoteScreen(item: NoteItem) {
         parentOpen?.attempt { startActivity(InstanceFactory.Note[context ?: return, item]) }
     }
@@ -194,17 +238,20 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
         }
     }
 
-
     override fun notifyMenuClearBin() {
         itemClearBin?.isVisible = adapter.itemCount != 0
     }
 
     override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
 
-
-    override fun getStringArray(@ArrayRes arrayId: Int): Array<String> = resources.getStringArray(arrayId)
-
+    override fun getStringArray(@ArrayRes arrayId: Int): Array<String> =
+        resources.getStringArray(arrayId)
 
     override fun copyClipboard(text: String) = delegators.clipboard.copy(text)
 
+    //endregion
+
+    override fun scrollTop() {
+        binding?.recyclerView?.smoothScrollToPosition(0)
+    }
 }

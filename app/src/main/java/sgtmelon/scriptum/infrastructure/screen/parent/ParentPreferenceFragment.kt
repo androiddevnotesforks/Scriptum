@@ -42,7 +42,9 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat(),
 
         setupInsets()
         setupRecycler()
+
         setup()
+        setupDialogs()
         setupObservers()
     }
 
@@ -67,6 +69,8 @@ abstract class ParentPreferenceFragment : PreferenceFragmentCompat(),
     }
 
     open fun setup() = Unit
+
+    open fun setupDialogs() = Unit
 
     open fun setupObservers() = Unit
 }

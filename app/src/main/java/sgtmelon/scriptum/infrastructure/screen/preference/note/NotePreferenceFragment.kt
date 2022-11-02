@@ -53,7 +53,9 @@ class NotePreferenceFragment : ParentPreferenceFragment() {
         viewModel.savePeriodSummary.observe(this) { binding.savePeriodButton?.summary = it }
     }
 
-    private fun setupDialogs() {
+    override fun setupDialogs() {
+        super.setupDialogs()
+
         sortDialog.apply {
             onPositiveClick {
                 viewModel.updateSort(sortDialog.check)

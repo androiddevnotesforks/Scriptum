@@ -2,14 +2,10 @@ package sgtmelon.scriptum.infrastructure.screen.main.bin
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 
-/**
- * Interface for communication [IBinFragment] with [BinViewModelImpl].
- */
-interface BinViewModel : IParentViewModel {
+interface BinViewModel {
 
-    fun onUpdateData()
+    //    fun onUpdateData()
 
     fun onClickClearBin()
 

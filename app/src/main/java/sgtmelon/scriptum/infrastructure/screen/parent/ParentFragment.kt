@@ -49,6 +49,9 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
         _delegators = DelegatorFactory(view.context, lifecycle)
         open.restore(savedInstanceState)
 
+        setupView()
+        setupDialogs()
+        setupObservers()
         registerReceivers()
     }
 
@@ -64,6 +67,12 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
     }
 
     abstract fun inject(component: ScriptumComponent)
+
+    open fun setupView() = Unit
+
+    open fun setupDialogs() = Unit
+
+    open fun setupObservers() = Unit
 
     open fun registerReceivers() = Unit
 
