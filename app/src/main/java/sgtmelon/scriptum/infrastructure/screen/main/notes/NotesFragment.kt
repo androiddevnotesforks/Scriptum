@@ -101,12 +101,12 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         dateDialog.apply {
             onPositiveClick {
                 parentOpen?.skipClear = true
-                viewModel.getExistDateList().collect(owner = this) {
+                viewModel.getOccupiedDateList().collect(owner = this) {
                     showTimeDialog(calendar, it, position)
                 }
             }
             onNeutralClick {
-                viewModel.deleteNotification(position).collect(owner = this) {
+                viewModel.deleteNoteNotification(position).collect(owner = this) {
                     delegators.broadcast.sendCancelAlarm(it)
                     delegators.broadcast.sendNotifyInfoBind()
                 }
@@ -116,7 +116,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
         timeDialog.apply {
             onPositiveClick {
-                viewModel.setNotification(calendar, position).collect(owner = this) {
+                viewModel.setNoteNotification(calendar, position).collect(owner = this) {
                     val (item, calendar) = it
                     delegators.broadcast.sendSetAlarm(item, calendar)
                     delegators.broadcast.sendNotifyInfoBind()
@@ -392,17 +392,25 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         when (which) {
             Options.Notes.NOTIFICATION -> {
                 parentOpen?.skipClear = true
-                viewModel.getNotificationData(p).collect(owner = this) {
+                viewModel.getNoteNotification(p).collect(owner = this) {
                     val (calendar, haveAlarm) = it
                     showDateDialog(calendar, haveAlarm, p)
                 }
             }
-            Options.Notes.BIND -> onMenuBind(p)
-            Options.Notes.CONVERT -> onMenuConvert(p)
-            Options.Notes.COPY -> viewModel.getCopyText(p).collect(owner = this) {
+            Options.Notes.BIND -> viewModel.updateNoteBind(p).collect(owner = this) {
+                delegators.broadcast.sendNotifyNotesBind()
+            }
+            Options.Notes.CONVERT -> viewModel.convertNote(p).collect(owner = this) {
+                delegators.broadcast.sendNotifyNotesBind()
+            }
+            Options.Notes.COPY -> viewModel.getNoteText(p).collect(owner = this) {
                 delegators.clipboard.copy(it)
             }
-            Options.Notes.DELETE -> onMenuDelete(p)
+            Options.Notes.DELETE -> viewModel.deleteNote(p).collect(owner = this) {
+                delegators.broadcast.sendCancelAlarm(it)
+                delegators.broadcast.sendCancelNoteBind(it)
+                delegators.broadcast.sendNotifyInfoBind()
+            }
         }
     }
 

@@ -28,7 +28,6 @@ import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.test.idling.getIdling
-import sgtmelon.test.prod.RunPrivate
 
 class NotesViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
@@ -64,16 +63,16 @@ class NotesViewModelImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getNotificationData(p: Int): Flow<Pair<Calendar, Boolean>> = flow {
+    override fun getNoteNotification(p: Int): Flow<Pair<Calendar, Boolean>> = flow {
         val item = _itemList.getOrNull(p) ?: return@flow
         emit(value = item.alarmDate.toCalendar() to item.haveAlarm())
     }.onBack()
 
-    override fun getExistDateList(): Flow<List<String>> = flow<List<String>> {
-        getNotificationDateList()
+    override fun getOccupiedDateList(): Flow<List<String>> = flow {
+        emit(getNotificationDateList())
     }.onBack()
 
-    override fun deleteNotification(p: Int): Flow<NoteItem> = flow<NoteItem> {
+    override fun deleteNoteNotification(p: Int): Flow<NoteItem> = flow {
         val item = _itemList.getOrNull(p) ?: return@flow
 
         item.clearAlarm()
@@ -82,7 +81,7 @@ class NotesViewModelImpl(
         emit(item)
     }.onBack()
 
-    override fun setNotification(
+    override fun setNoteNotification(
         calendar: Calendar,
         p: Int
     ): Flow<Pair<NoteItem, Calendar>> = flow {
@@ -96,13 +95,38 @@ class NotesViewModelImpl(
         emit(value = item to calendar)
     }.onBack()
 
-    // TODO check
+    override fun updateNoteBind(p: Int): Flow<NoteItem> = flow {
+        val item = _itemList.getOrNull(p) ?: return@flow
 
-    override fun getCopyText(p: Int): Flow<String> = flow {
+        item.switchStatus()
+        itemList.postValue(_itemList)
+        updateNote(item)
+        emit(item)
+    }.onBack()
+
+    override fun convertNote(p: Int): Flow<NoteItem> = flow {
+        val item = _itemList.getOrNull(p) ?: return@flow
+        val newItem = interactor.convertNote(item)
+
+        /** Sort list without new call to dataBase. */
+        _itemList[p] = newItem
+        _itemList.clearAdd(sortList(_itemList, preferencesRepo.sort))
+        itemList.postValue(_itemList)
+        emit(newItem)
+    }.onBack()
+
+    override fun getNoteText(p: Int): Flow<String> = flow {
         val item = _itemList.getOrNull(p) ?: return@flow
         emit(getCopyText(item))
     }.onBack()
 
+    override fun deleteNote(p: Int): Flow<NoteItem> = flow {
+        val item = _itemList.removeAtOrNull(p) ?: return@flow
+
+        itemList.postValue(_itemList)
+        deleteNote(item)
+        emit(item)
+    }.onBack()
 
     //region Cleanup
 
@@ -201,54 +225,54 @@ class NotesViewModelImpl(
     //
     //        callback?.showDateDialog(item.alarmDate.toCalendar(), item.haveAlarm(), p)
     //    }
-
-    @RunPrivate fun onMenuBind(p: Int) {
-        val item = itemList.getOrNull(p)?.switchStatus() ?: return
-
-        callback?.notifyList(itemList)
-
-        viewModelScope.launch {
-            runBack { updateNote(item) }
-
-            callback?.sendNotifyNotesBroadcast()
-        }
-    }
-
-    @RunPrivate fun onMenuConvert(p: Int) {
-        val item = itemList.getOrNull(p) ?: return
-
-        viewModelScope.launch {
-            itemList[p] = runBack { interactor.convertNote(item) }
-
-            val sortList = runBack { sortList(itemList, preferencesRepo.sort) }
-            callback?.notifyList(itemList.clearAdd(sortList))
-
-            callback?.sendNotifyNotesBroadcast()
-        }
-    }
-
-    @RunPrivate fun onMenuCopy(p: Int) {
-        val item = itemList.getOrNull(p) ?: return
-
-        viewModelScope.launch {
-            val text = runBack { getCopyText(item) }
-            callback?.copyClipboard(text)
-        }
-    }
-
-    @RunPrivate fun onMenuDelete(p: Int) {
-        val item = itemList.removeAtOrNull(p) ?: return
-
-        callback?.notifyList(itemList)
-
-        viewModelScope.launch {
-            runBack { deleteNote(item) }
-
-            callback?.sendCancelAlarmBroadcast(item)
-            callback?.sendCancelNoteBroadcast(item)
-            callback?.sendNotifyInfoBroadcast()
-        }
-    }
+    //
+    //    @RunPrivate fun onMenuBind(p: Int) {
+    //        val item = itemList.getOrNull(p)?.switchStatus() ?: return
+    //
+    //        callback?.notifyList(itemList)
+    //
+    //        viewModelScope.launch {
+    //            runBack { updateNote(item) }
+    //
+    //            callback?.sendNotifyNotesBroadcast()
+    //        }
+    //    }
+    //
+    //    @RunPrivate fun onMenuConvert(p: Int) {
+    //        val item = itemList.getOrNull(p) ?: return
+    //
+    //        viewModelScope.launch {
+    //            itemList[p] = runBack { interactor.convertNote(item) }
+    //
+    //            val sortList = runBack { sortList(itemList, preferencesRepo.sort) }
+    //            callback?.notifyList(itemList.clearAdd(sortList))
+    //
+    //            callback?.sendNotifyNotesBroadcast()
+    //        }
+    //    }
+    //
+    //    @RunPrivate fun onMenuCopy(p: Int) {
+    //        val item = itemList.getOrNull(p) ?: return
+    //
+    //        viewModelScope.launch {
+    //            val text = runBack { getCopyText(item) }
+    //            callback?.copyClipboard(text)
+    //        }
+    //    }
+    //
+    //    @RunPrivate fun onMenuDelete(p: Int) {
+    //        val item = itemList.removeAtOrNull(p) ?: return
+    //
+    //        callback?.notifyList(itemList)
+    //
+    //        viewModelScope.launch {
+    //            runBack { deleteNote(item) }
+    //
+    //            callback?.sendCancelAlarmBroadcast(item)
+    //            callback?.sendCancelNoteBroadcast(item)
+    //            callback?.sendNotifyInfoBroadcast()
+    //        }
+    //    }
     //
     //
     //    override fun onResultDateDialog(calendar: Calendar, p: Int) {

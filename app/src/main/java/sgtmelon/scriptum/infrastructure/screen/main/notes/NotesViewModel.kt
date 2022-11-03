@@ -15,19 +15,23 @@ interface NotesViewModel : UnbindNoteReceiver.Callback {
 
     fun updateData()
 
-    fun getNotificationData(p: Int): Flow<Pair<Calendar, Boolean>>
+    fun getNoteNotification(p: Int): Flow<Pair<Calendar, Boolean>>
 
-    fun getExistDateList(): Flow<List<String>>
+    fun getOccupiedDateList(): Flow<List<String>>
 
-    fun deleteNotification(p: Int): Flow<NoteItem>
+    fun deleteNoteNotification(p: Int): Flow<NoteItem>
 
-    fun setNotification(calendar: Calendar, p: Int): Flow<Pair<NoteItem, Calendar>>
+    fun setNoteNotification(calendar: Calendar, p: Int): Flow<Pair<NoteItem, Calendar>>
 
-    // TODO menu bind
+    fun updateNoteBind(p: Int): Flow<NoteItem>
 
-    // TODO menu convert
+    fun convertNote(p: Int): Flow<NoteItem>
 
-    fun getCopyText(p: Int): Flow<String>
+    fun getNoteText(p: Int): Flow<String>
+
+    fun deleteNote(p: Int): Flow<NoteItem>
+
+    // TODO note delete
 
     // TODO remove
     //    fun onUpdateData()

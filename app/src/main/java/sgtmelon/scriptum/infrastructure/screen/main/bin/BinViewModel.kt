@@ -17,7 +17,7 @@ interface BinViewModel {
 
     fun restoreNote(p: Int)
 
-    fun getCopyText(p: Int): Flow<String>
+    fun getNoteText(p: Int): Flow<String>
 
     fun clearNote(p: Int)
 

@@ -75,7 +75,7 @@ class BinViewModelImpl(
         notifyShowList()
     }
 
-    override fun getCopyText(p: Int): Flow<String> = flow {
+    override fun getNoteText(p: Int): Flow<String> = flow {
         val item = _itemList.getOrNull(p) ?: return@flow
         emit(getCopyText(item))
     }.onBack()

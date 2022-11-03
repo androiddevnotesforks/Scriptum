@@ -29,6 +29,8 @@ class BroadcastDelegator(private val context: Context) {
 
     fun sendNotifyNotesBind() = context.sendTo(Filter.SYSTEM, Command.System.NOTIFY_NOTES)
 
+    fun sendCancelNoteBind(item: NoteItem) = sendCancelNoteBind(item.id)
+
     fun sendCancelNoteBind(noteId: Long) {
         context.sendTo(Filter.SYSTEM, Command.System.CANCEL_NOTE) {
             putExtra(IntentData.Note.Intent.ID, noteId)

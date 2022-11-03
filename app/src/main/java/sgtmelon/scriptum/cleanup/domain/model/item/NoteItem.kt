@@ -42,7 +42,9 @@ sealed class NoteItem(
 
     //region Common functions
 
-    fun switchStatus() = apply { isStatus = !isStatus }
+    fun switchStatus() {
+        isStatus = !isStatus
+    }
 
     fun updateTime() = apply { change = getCalendarText() }
 
