@@ -1,11 +1,14 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
-import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.isBeforeNow
+import sgtmelon.extensions.onBack
 import sgtmelon.extensions.runBack
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
@@ -22,9 +25,10 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
+import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Options
 
 class NotesViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
@@ -40,15 +44,71 @@ class NotesViewModelImpl(
 ) : ViewModel(),
     NotesViewModel {
 
-    @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
+    override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
 
-    override fun onSetup(bundle: Bundle?) {
-        callback?.setupToolbar()
-        callback?.setupRecycler()
-        callback?.setupDialog()
-
-        callback?.prepareForLoad()
+    /**
+     * There is no reason check current [showList] state for skip identical values (like it done
+     * for [NotificationsViewModelImpl.showList]). Because here we only can remove items from
+     * list, without ability to undo this action.
+     */
+    private fun notifyShowList() {
+        showList.postValue(if (_itemList.isEmpty()) ShowListState.Empty else ShowListState.List)
     }
+
+    override val itemList: MutableLiveData<List<NoteItem>> = MutableLiveData()
+
+    /** This list needed because don't want put mutable list inside liveData. */
+    private val _itemList: MutableList<NoteItem> = mutableListOf()
+
+    override fun updateData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun getNotificationData(p: Int): Flow<Pair<Calendar, Boolean>> = flow {
+        val item = _itemList.getOrNull(p) ?: return@flow
+        emit(value = item.alarmDate.toCalendar() to item.haveAlarm())
+    }.onBack()
+
+    override fun getExistDateList(): Flow<List<String>> = flow<List<String>> {
+        getNotificationDateList()
+    }.onBack()
+
+    override fun deleteNotification(p: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCopyText(p: Int): Flow<String> = flow {
+        val item = _itemList.getOrNull(p) ?: return@flow
+        emit(getCopyText(item))
+    }.onBack()
+
+    //    override fun onResultDateDialogClear(p: Int) {
+    //        val item = itemList.getOrNull(p) ?: return
+    //
+    //        item.clearAlarm()
+    //
+    //        callback?.notifyList(itemList)
+    //
+    //        viewModelScope.launch {
+    //            runBack { deleteNotification(item) }
+    //
+    //            callback?.sendCancelAlarmBroadcast(item)
+    //            callback?.sendNotifyInfoBroadcast()
+    //        }
+    //    }
+
+
+    //region Cleanup
+
+    //    @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
+    //
+    //    override fun onSetup(bundle: Bundle?) {
+    //        callback?.setupToolbar()
+    //        callback?.setupRecycler()
+    //        callback?.setupDialog()
+    //
+    //        callback?.prepareForLoad()
+    //    }
 
 
     override fun onUpdateData() {
@@ -118,23 +178,23 @@ class NotesViewModelImpl(
     //
     //        callback.showOptionsDialog(title, itemArray, p)
     //    }
-
-
-    override fun onResultOptionsDialog(p: Int, @Options which: Int) {
-        when (which) {
-            Options.NOTIFICATION -> onMenuNotification(p)
-            Options.BIND -> onMenuBind(p)
-            Options.CONVERT -> onMenuConvert(p)
-            Options.COPY -> onMenuCopy(p)
-            Options.DELETE -> onMenuDelete(p)
-        }
-    }
-
-    @RunPrivate fun onMenuNotification(p: Int) {
-        val item = itemList.getOrNull(p) ?: return
-
-        callback?.showDateDialog(item.alarmDate.toCalendar(), item.haveAlarm(), p)
-    }
+    //
+    //
+    //    override fun onResultOptionsDialog(p: Int, @Options which: Int) {
+    //        when (which) {
+    //            Options.NOTIFICATION -> onMenuNotification(p)
+    //            Options.BIND -> onMenuBind(p)
+    //            Options.CONVERT -> onMenuConvert(p)
+    //            Options.COPY -> onMenuCopy(p)
+    //            Options.DELETE -> onMenuDelete(p)
+    //        }
+    //    }
+    //
+    //    @RunPrivate fun onMenuNotification(p: Int) {
+    //        val item = itemList.getOrNull(p) ?: return
+    //
+    //        callback?.showDateDialog(item.alarmDate.toCalendar(), item.haveAlarm(), p)
+    //    }
 
     @RunPrivate fun onMenuBind(p: Int) {
         val item = itemList.getOrNull(p)?.switchStatus() ?: return
@@ -183,29 +243,29 @@ class NotesViewModelImpl(
             callback?.sendNotifyInfoBroadcast()
         }
     }
-
-
-    override fun onResultDateDialog(calendar: Calendar, p: Int) {
-        viewModelScope.launch {
-            val dateList = runBack { getNotificationDateList() }
-            callback?.showTimeDialog(calendar, dateList, p)
-        }
-    }
-
-    override fun onResultDateDialogClear(p: Int) {
-        val item = itemList.getOrNull(p) ?: return
-
-        item.clearAlarm()
-
-        callback?.notifyList(itemList)
-
-        viewModelScope.launch {
-            runBack { deleteNotification(item) }
-
-            callback?.sendCancelAlarmBroadcast(item)
-            callback?.sendNotifyInfoBroadcast()
-        }
-    }
+    //
+    //
+    //    override fun onResultDateDialog(calendar: Calendar, p: Int) {
+    //        viewModelScope.launch {
+    //            val dateList = runBack { getNotificationDateList() }
+    //            callback?.showTimeDialog(calendar, dateList, p)
+    //        }
+    //    }
+    //
+    //    override fun onResultDateDialogClear(p: Int) {
+    //        val item = itemList.getOrNull(p) ?: return
+    //
+    //        item.clearAlarm()
+    //
+    //        callback?.notifyList(itemList)
+    //
+    //        viewModelScope.launch {
+    //            runBack { deleteNotification(item) }
+    //
+    //            callback?.sendCancelAlarmBroadcast(item)
+    //            callback?.sendNotifyInfoBroadcast()
+    //        }
+    //    }
 
     override fun onResultTimeDialog(calendar: Calendar, p: Int) {
         if (calendar.isBeforeNow()) return
@@ -229,4 +289,6 @@ class NotesViewModelImpl(
         noteItem.isStatus = false
         callback?.notifyList(itemList)
     }
+
+    //endregion
 }

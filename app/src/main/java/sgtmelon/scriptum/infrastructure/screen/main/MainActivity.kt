@@ -99,7 +99,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     override fun setupView() {
         super.setupView()
 
-        fabDelegator = GradientFabDelegator(activity = this) { openAddDialog() }
+        fabDelegator = GradientFabDelegator(activity = this) { showAddDialog() }
 
         /** Setup of selected item must be before setting navigation item selected listener */
         binding?.menuNavigation?.selectedItemId = pageConverter.convert(viewModel.currentPage.value)
@@ -179,7 +179,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         (it as? ScrollTopCallback)?.scrollTop()
     }
 
-    private fun openAddDialog() = open.attempt {
+    private fun showAddDialog() = open.attempt {
         addDialog.safeShow(DialogFactory.Main.ADD, owner = this)
     }
 

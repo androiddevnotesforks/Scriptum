@@ -139,7 +139,7 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
     private fun onOptionSelect(p: Int, which: Int) {
         when (which) {
             Options.Bin.RESTORE -> viewModel.restoreNote(p)
-            Options.Bin.COPY -> viewModel.getCopyText(p).collect(this) {
+            Options.Bin.COPY -> viewModel.getCopyText(p).collect(owner = this) {
                 delegators.clipboard.copy(it)
             }
             Options.Bin.CLEAR -> viewModel.clearNote(p)

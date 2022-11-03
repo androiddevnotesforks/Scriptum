@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Calendar
 import javax.inject.Inject
+import sgtmelon.extensions.collect
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -16,6 +17,7 @@ import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
+import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
@@ -24,7 +26,6 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
-import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.isGone
 import sgtmelon.scriptum.infrastructure.utils.isInvisible
 import sgtmelon.scriptum.infrastructure.utils.isVisible
@@ -45,9 +46,9 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
     override val layoutId: Int = R.layout.fragment_notes
 
-    //region Variables
-
     @Inject lateinit var viewModel: NotesViewModel
+
+    private val animation = ShowListAnimation()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
@@ -63,27 +64,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         })
     }
 
-    // TODO remove
-    //    /**
-    //     * Setup manually because after rotation lazy function will return null.
-    //     */
-    //    private var parentContainer: ViewGroup? = null
-    //    private var emptyInfoView: View? = null
-    //    private var progressBar: View? = null
-    //    private var recyclerView: RecyclerView? = null
-    //
-    //    /** Delay for showing add-note-FAB after long standstill. */
-    //    private val fabDelayJob = DelayJobDelegator(lifecycle)
-
-    //endregion
-
     //region System
-
-    // TODO remove
-    //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    //        super.onViewCreated(view, savedInstanceState)
-    //        viewModel.onSetup()
-    //    }
 
     override fun inject(component: ScriptumComponent) {
         component.getNotesBuilder()
@@ -121,35 +102,31 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         super.setupDialogs()
 
         optionsDialog.apply {
-            onItem {
-                if (it == Options.Notes.NOTIFICATION) {
-                    parentOpen?.skipClear = true
-                }
-
-                viewModel.onResultOptionsDialog(optionsDialog.position, it)
-            }
+            onItem { onOptionSelect(position, it) }
             onDismiss { parentOpen?.clear() }
         }
 
         dateDialog.apply {
             onPositiveClick {
                 parentOpen?.skipClear = true
-                viewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
+                viewModel.getExistDateList().collect(owner = this) {
+                    showTimeDialog(calendar, it, position)
+                }
             }
-            onNeutralClick { viewModel.onResultDateDialogClear(dateDialog.position) }
+            onNeutralClick { viewModel.onResultDateDialogClear(position) }
             onDismiss { parentOpen?.clear() }
         }
 
         timeDialog.apply {
-            onPositiveClick {
-                viewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
-            }
+            onPositiveClick { viewModel.onResultTimeDialog(calendar, position) }
             onDismiss { parentOpen?.clear() }
         }
     }
 
     override fun setupObservers() {
         super.setupObservers()
+
+        TODO()
     }
 
     override fun registerReceivers() {
@@ -171,12 +148,6 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
          */
         viewModel.updateData()
     }
-
-    // TODO remove
-    //    override fun onDestroy() {
-    //        super.onDestroy()
-    //        viewModel.onDestroy()
-    //    }
 
     //endregion
 
@@ -315,8 +286,8 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         }
     }
 
-
-    // TODO remove
+    //    TODO remove
+    //
     //    override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
     //        parentOpen?.attempt {
     //            parentOpen?.tag = OpenState.Tag.DIALOG
@@ -326,29 +297,26 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     //                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
     //        }
     //    }
-
-    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
-        parentOpen?.attempt(OpenState.Tag.DIALOG) {
-            dateDialog.setArguments(calendar, resetVisible, p)
-                .safeShow(DialogFactory.Main.DATE, owner = this)
-        }
-    }
-
-    override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
-        parentOpen?.attempt(OpenState.Tag.DIALOG) {
-            activity?.hideKeyboard()
-            timeDialog.setArguments(calendar, dateList, p)
-                .safeShow(DialogFactory.Main.TIME, owner = this)
-        }
-    }
-
+    //
+    //    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
+    //        parentOpen?.attempt(OpenState.Tag.DIALOG) {
+    //            dateDialog.setArguments(calendar, resetVisible, p)
+    //                .safeShow(DialogFactory.Main.DATE, owner = this)
+    //        }
+    //    }
+    //
+    //    override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
+    //        parentOpen?.attempt(OpenState.Tag.DIALOG) {
+    //            activity?.hideKeyboard()
+    //            timeDialog.setArguments(calendar, dateList, p)
+    //                .safeShow(DialogFactory.Main.TIME, owner = this)
+    //        }
+    //    }
 
     override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
 
+    //    override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)
 
-    override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)
-
-    //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
         delegators.broadcast.sendSetAlarm(id, calendar, showToast)
@@ -363,10 +331,9 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     override fun sendNotifyInfoBroadcast(count: Int?) {
         delegators.broadcast.sendNotifyInfoBind(count)
     }
-
-    //endregion
-
-    override fun copyClipboard(text: String) = delegators.clipboard.copy(text)
+    //
+    //
+    //    override fun copyClipboard(text: String) = delegators.clipboard.copy(text)
 
     //endregion
 
@@ -409,6 +376,38 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         }
 
         return title to itemArray
+    }
+
+    private fun onOptionSelect(p: Int, which: Int) {
+        when (which) {
+            Options.Notes.NOTIFICATION -> {
+                parentOpen?.skipClear = true
+                viewModel.getNotificationData(p).collect(owner = this) {
+                    val (calendar, haveAlarm) = it
+                    showDateDialog(calendar, haveAlarm, p)
+                }
+            }
+            Options.Notes.BIND -> onMenuBind(p)
+            Options.Notes.CONVERT -> onMenuConvert(p)
+            Options.Notes.COPY -> viewModel.getCopyText(p).collect(owner = this) {
+                delegators.clipboard.copy(it)
+            }
+            Options.Notes.DELETE -> onMenuDelete(p)
+        }
+    }
+
+    private fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
+        parentOpen?.attempt(OpenState.Tag.DIALOG) {
+            dateDialog.setArguments(calendar, resetVisible, p)
+                .safeShow(DialogFactory.Main.DATE, owner = this)
+        }
+    }
+
+    private fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
+        parentOpen?.attempt(OpenState.Tag.DIALOG) {
+            timeDialog.setArguments(calendar, dateList, p)
+                .safeShow(DialogFactory.Main.TIME, owner = this)
+        }
     }
 
     // todo open dialogs
