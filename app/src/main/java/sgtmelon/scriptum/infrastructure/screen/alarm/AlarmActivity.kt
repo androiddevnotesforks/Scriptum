@@ -179,7 +179,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             setupPlayer(state.melodyUri)
         }
 
-        delegators?.broadcast?.sendNotifyInfoBind(count = null)
+        delegators?.broadcast?.sendNotifyInfoBind()
         startLogoShiftAnimation()
     }
 
@@ -286,7 +286,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     private fun onPostponeState(state: AlarmScreenState.Postpone) = beforeFinish {
         with(state) {
             delegators?.broadcast?.sendSetAlarm(noteId, calendar, showToast = false)
-            delegators?.broadcast?.sendNotifyInfoBind(count = null)
+            delegators?.broadcast?.sendNotifyInfoBind()
             showRepeatToast(repeat)
         }
     }

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
 import javax.inject.Inject
 import sgtmelon.extensions.collect
@@ -48,6 +49,8 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationBinding>(),
     private val snackbar = SnackbarDelegator(
         R.string.snackbar_message_notification, R.string.snackbar_action_cancel, callback = this
     )
+
+    //region System
 
     override fun inject(component: ScriptumComponent) {
         component.getNotificationBuilder()
@@ -125,6 +128,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationBinding>(),
      * undo (insert) first item. When empty info hides and list appears. Insert animation
      * and list fade in animation concurrent with each other and it's looks laggy.
      */
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeItemList(it: List<NotificationItem>) {
         when (val state = viewModel.updateList) {
             is UpdateListState.Set -> adapter.setList(it)
@@ -137,6 +141,8 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationBinding>(),
             }
         }
     }
+
+    //endregion
 
     private fun showSnackbar() {
         val parentContainer = binding?.recyclerContainer ?: return

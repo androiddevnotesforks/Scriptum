@@ -68,7 +68,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         delegators?.broadcast?.run {
             sendTidyUpAlarm()
             sendNotifyNotesBind()
-            sendNotifyInfoBind(count = null)
+            sendNotifyInfoBind()
         }
 
         when (val it = bundleProvider.getData(intent.extras, viewModel.isFirstStart)) {

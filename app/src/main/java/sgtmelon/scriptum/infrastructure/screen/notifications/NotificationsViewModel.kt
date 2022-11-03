@@ -9,9 +9,9 @@ interface NotificationsViewModel {
 
     val showList: LiveData<ShowListState>
 
-    val updateList: UpdateListState
-
     val itemList: LiveData<List<NotificationItem>>
+
+    val updateList: UpdateListState
 
     val showSnackbar: LiveData<Boolean>
 

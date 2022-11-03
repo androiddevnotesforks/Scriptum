@@ -73,29 +73,35 @@ class NotesViewModelImpl(
         getNotificationDateList()
     }.onBack()
 
-    override fun deleteNotification(p: Int) {
-        TODO("Not yet implemented")
-    }
+    override fun deleteNotification(p: Int): Flow<NoteItem> = flow<NoteItem> {
+        val item = _itemList.getOrNull(p) ?: return@flow
+
+        item.clearAlarm()
+        itemList.postValue(_itemList)
+        deleteNotification(item)
+        emit(item)
+    }.onBack()
+
+    override fun setNotification(
+        calendar: Calendar,
+        p: Int
+    ): Flow<Pair<NoteItem, Calendar>> = flow {
+        if (calendar.isBeforeNow()) return@flow
+
+        val item = _itemList.getOrNull(p) ?: return@flow
+
+        setNotification(item, calendar)
+        itemList.postValue(_itemList)
+
+        emit(value = item to calendar)
+    }.onBack()
+
+    // TODO check
 
     override fun getCopyText(p: Int): Flow<String> = flow {
         val item = _itemList.getOrNull(p) ?: return@flow
         emit(getCopyText(item))
     }.onBack()
-
-    //    override fun onResultDateDialogClear(p: Int) {
-    //        val item = itemList.getOrNull(p) ?: return
-    //
-    //        item.clearAlarm()
-    //
-    //        callback?.notifyList(itemList)
-    //
-    //        viewModelScope.launch {
-    //            runBack { deleteNotification(item) }
-    //
-    //            callback?.sendCancelAlarmBroadcast(item)
-    //            callback?.sendNotifyInfoBroadcast()
-    //        }
-    //    }
 
 
     //region Cleanup
@@ -266,20 +272,20 @@ class NotesViewModelImpl(
     //            callback?.sendNotifyInfoBroadcast()
     //        }
     //    }
-
-    override fun onResultTimeDialog(calendar: Calendar, p: Int) {
-        if (calendar.isBeforeNow()) return
-
-        val item = itemList.getOrNull(p) ?: return
-
-        viewModelScope.launch {
-            runBack { setNotification(item, calendar) }
-            callback?.notifyList(itemList)
-
-            callback?.sendSetAlarmBroadcast(item.id, calendar)
-            callback?.sendNotifyInfoBroadcast()
-        }
-    }
+    //
+    //    override fun onResultTimeDialog(calendar: Calendar, p: Int) {
+    //        if (calendar.isBeforeNow()) return
+    //
+    //        val item = itemList.getOrNull(p) ?: return
+    //
+    //        viewModelScope.launch {
+    //            runBack { setNotification(item, calendar) }
+    //            callback?.notifyList(itemList)
+    //
+    //            callback?.sendSetAlarmBroadcast(item.id, calendar)
+    //            callback?.sendNotifyInfoBroadcast()
+    //        }
+    //    }
 
 
     override fun onReceiveUnbindNote(noteId: Long) {

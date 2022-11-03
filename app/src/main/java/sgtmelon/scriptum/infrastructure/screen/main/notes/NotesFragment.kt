@@ -4,7 +4,6 @@ import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.extensions.collect
@@ -13,7 +12,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
@@ -26,12 +24,6 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
-import sgtmelon.scriptum.infrastructure.utils.isGone
-import sgtmelon.scriptum.infrastructure.utils.isInvisible
-import sgtmelon.scriptum.infrastructure.utils.isVisible
-import sgtmelon.scriptum.infrastructure.utils.makeGone
-import sgtmelon.scriptum.infrastructure.utils.makeInvisible
-import sgtmelon.scriptum.infrastructure.utils.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.scriptum.infrastructure.utils.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
@@ -113,12 +105,23 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
                     showTimeDialog(calendar, it, position)
                 }
             }
-            onNeutralClick { viewModel.onResultDateDialogClear(position) }
+            onNeutralClick {
+                viewModel.deleteNotification(position).collect(owner = this) {
+                    delegators.broadcast.sendCancelAlarm(it)
+                    delegators.broadcast.sendNotifyInfoBind()
+                }
+            }
             onDismiss { parentOpen?.clear() }
         }
 
         timeDialog.apply {
-            onPositiveClick { viewModel.onResultTimeDialog(calendar, position) }
+            onPositiveClick {
+                viewModel.setNotification(calendar, position).collect(owner = this) {
+                    val (item, calendar) = it
+                    delegators.broadcast.sendSetAlarm(item, calendar)
+                    delegators.broadcast.sendNotifyInfoBind()
+                }
+            }
             onDismiss { parentOpen?.clear() }
         }
     }
@@ -126,7 +129,15 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     override fun setupObservers() {
         super.setupObservers()
 
-        TODO()
+        viewModel.showList.observe(this) {
+            val binding = binding ?: return@observe
+
+            animation.startListFade(
+                it, binding.parentContainer, binding.progressBar,
+                binding.recyclerView, binding.infoInclude.parentContainer
+            )
+        }
+        viewModel.itemList.observe(this) { adapter.notifyList(it) }
     }
 
     override fun registerReceivers() {
@@ -239,52 +250,51 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         binding?.isListHide = isListHide
     }
 
-
-    /**
-     * For first time [recyclerView] visibility flag set inside xml file.
-     */
-    override fun prepareForLoad() {
-        emptyInfoView?.makeGone()
-        progressBar?.makeGone()
-    }
-
-    override fun showProgress() {
-        progressBar?.makeVisible()
-    }
-
-    override fun hideEmptyInfo() {
-        emptyInfoView?.makeGone()
-    }
-
-
-    override fun onBindingList() {
-        progressBar?.makeGone()
-
-        /**
-         * Case without animation need for best performance, without freeze. Because changes
-         * on other screens may cause [onBindingList].
-         */
-        if (adapter.itemCount == 0) {
-            /**
-             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
-             */
-            if (emptyInfoView.isVisible() && recyclerView.isInvisible()) return
-
-            emptyInfoView?.makeVisible()
-            recyclerView?.makeInvisible()
-
-            emptyInfoView?.alpha = 0f
-            emptyInfoView?.animateAlpha(isVisible = true)
-        } else {
-            /**
-             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
-             */
-            if (emptyInfoView.isGone() && recyclerView.isVisible()) return
-
-            emptyInfoView?.makeGone()
-            recyclerView?.makeVisible()
-        }
-    }
+    //    /**
+    //     * For first time [recyclerView] visibility flag set inside xml file.
+    //     */
+    //    override fun prepareForLoad() {
+    //        emptyInfoView?.makeGone()
+    //        progressBar?.makeGone()
+    //    }
+    //
+    //    override fun showProgress() {
+    //        progressBar?.makeVisible()
+    //    }
+    //
+    //    override fun hideEmptyInfo() {
+    //        emptyInfoView?.makeGone()
+    //    }
+    //
+    //
+    //    override fun onBindingList() {
+    //        progressBar?.makeGone()
+    //
+    //        /**
+    //         * Case without animation need for best performance, without freeze. Because changes
+    //         * on other screens may cause [onBindingList].
+    //         */
+    //        if (adapter.itemCount == 0) {
+    //            /**
+    //             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+    //             */
+    //            if (emptyInfoView.isVisible() && recyclerView.isInvisible()) return
+    //
+    //            emptyInfoView?.makeVisible()
+    //            recyclerView?.makeInvisible()
+    //
+    //            emptyInfoView?.alpha = 0f
+    //            emptyInfoView?.animateAlpha(isVisible = true)
+    //        } else {
+    //            /**
+    //             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+    //             */
+    //            if (emptyInfoView.isGone() && recyclerView.isVisible()) return
+    //
+    //            emptyInfoView?.makeGone()
+    //            recyclerView?.makeVisible()
+    //        }
+    //    }
 
     //    TODO remove
     //
@@ -312,9 +322,9 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     //                .safeShow(DialogFactory.Main.TIME, owner = this)
     //        }
     //    }
-
-    override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
-
+    //
+    //    override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
+    //
     //    override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)
 
 
@@ -328,9 +338,9 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
     override fun sendCancelNoteBroadcast(id: Long) = delegators.broadcast.sendCancelNoteBind(id)
 
-    override fun sendNotifyInfoBroadcast(count: Int?) {
+    override fun sendNotifyInfoBroadcast(count: Int?) =
         delegators.broadcast.sendNotifyInfoBind(count)
-    }
+
     //
     //
     //    override fun copyClipboard(text: String) = delegators.clipboard.copy(text)

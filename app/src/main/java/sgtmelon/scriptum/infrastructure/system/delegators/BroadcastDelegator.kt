@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import java.util.Calendar
 import sgtmelon.extensions.toText
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
@@ -34,7 +35,10 @@ class BroadcastDelegator(private val context: Context) {
         }
     }
 
-    fun sendNotifyInfoBind(count: Int?) {
+    /**
+     * If [count] == null it means: "we don't know exactly, please, take correct value from DB".
+     */
+    fun sendNotifyInfoBind(count: Int? = null) {
         context.sendTo(Filter.SYSTEM, Command.System.NOTIFY_INFO) {
             if (count != null) {
                 putExtra(IntentData.Eternal.Intent.COUNT, count)
@@ -50,6 +54,9 @@ class BroadcastDelegator(private val context: Context) {
 
     fun sendTidyUpAlarm() = context.sendTo(Filter.SYSTEM, Command.System.TIDY_UP_ALARM)
 
+    fun sendSetAlarm(item: NoteItem, calendar: Calendar, showToast: Boolean = true) =
+        sendSetAlarm(item.id, calendar, showToast)
+
     fun sendSetAlarm(noteId: Long, calendar: Calendar, showToast: Boolean) {
         context.sendTo(Filter.SYSTEM, Command.System.SET_ALARM) {
             putExtra(IntentData.Note.Intent.ID, noteId)
@@ -59,6 +66,8 @@ class BroadcastDelegator(private val context: Context) {
     }
 
     fun sendCancelAlarm(item: NotificationItem) = sendCancelAlarm(item.note.id)
+
+    fun sendCancelAlarm(item: NoteItem) = sendCancelAlarm(item.id)
 
     fun sendCancelAlarm(noteId: Long) {
         context.sendTo(Filter.SYSTEM, Command.System.CANCEL_ALARM) {

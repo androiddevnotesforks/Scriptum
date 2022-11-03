@@ -67,7 +67,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
                 notificationClearButton?.setOnClickListener { broadcast.sendClearBind() }
                 alarmClearButton?.setOnClickListener { broadcast.sendClearAlarm() }
                 notifyNotesButton?.setOnClickListener { broadcast.sendNotifyNotesBind() }
-                notifyInfoButton?.setOnClickListener { broadcast.sendNotifyInfoBind(count = null) }
+                notifyInfoButton?.setOnClickListener { broadcast.sendNotifyInfoBind() }
                 notifyAlarmButton?.setOnClickListener { broadcast.sendTidyUpAlarm() }
             }
         }

@@ -19,9 +19,9 @@ interface NotesViewModel : UnbindNoteReceiver.Callback {
 
     fun getExistDateList(): Flow<List<String>>
 
-    fun deleteNotification(p: Int)
+    fun deleteNotification(p: Int): Flow<NoteItem>
 
-    // TODO time dialog
+    fun setNotification(calendar: Calendar, p: Int): Flow<Pair<NoteItem, Calendar>>
 
     // TODO menu bind
 

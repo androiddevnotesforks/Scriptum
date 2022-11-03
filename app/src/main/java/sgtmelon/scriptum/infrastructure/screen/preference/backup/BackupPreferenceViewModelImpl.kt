@@ -76,7 +76,7 @@ class BackupPreferenceViewModelImpl(
             is ExportResult.Success -> {
                 emit(ExportState.LoadSuccess(result.path))
 
-                /** Need update file list for import feature. */
+                /** Need update file list for future use of import feature. */
                 getBackupFileList.reset()
                 updateBackupFiles()
             }
@@ -101,13 +101,11 @@ class BackupPreferenceViewModelImpl(
         val result = startBackupImport(name, getBackupFileList())
         emit(ImportState.HideLoading)
 
-        emit(
-            when (result) {
-                is ImportResult.Simple -> ImportState.LoadSuccess
-                is ImportResult.Skip -> ImportState.LoadSkip(result.skipCount)
-                is ImportResult.Error -> ImportState.LoadError
-            }
-        )
+        when (result) {
+            is ImportResult.Simple -> emit(ImportState.LoadSuccess)
+            is ImportResult.Skip -> emit(ImportState.LoadSkip(result.skipCount))
+            is ImportResult.Error -> emit(ImportState.LoadError)
+        }
 
         if (result == ImportResult.Error) return@flow
 

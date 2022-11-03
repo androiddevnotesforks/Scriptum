@@ -43,6 +43,7 @@ class NotificationsViewModelImpl(
     /** This list needed because don't want put mutable list inside liveData. */
     private val _itemList: MutableList<NotificationItem> = mutableListOf()
 
+    /** Variable for specific list updates (update not all items). */
     override var updateList: UpdateListState = UpdateListState.Notify
         get() {
             val value = field

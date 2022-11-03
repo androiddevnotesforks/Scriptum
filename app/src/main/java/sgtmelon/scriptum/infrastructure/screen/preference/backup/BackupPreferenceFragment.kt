@@ -271,7 +271,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
                 is ImportState.Finish -> {
                     delegators.broadcast.sendTidyUpAlarm()
                     delegators.broadcast.sendNotifyNotesBind()
-                    delegators.broadcast.sendNotifyInfoBind(count = null)
+                    delegators.broadcast.sendNotifyInfoBind()
                 }
             }
         }
