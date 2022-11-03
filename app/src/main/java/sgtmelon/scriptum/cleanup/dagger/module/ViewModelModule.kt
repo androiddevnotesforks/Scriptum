@@ -74,7 +74,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
@@ -153,7 +152,7 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideNotesViewModel(
-        fragment: NotesFragment,
+        owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         interactor: INotesInteractor,
         getList: GetNoteListUseCase,
@@ -166,11 +165,11 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationDateListUseCase
     ): NotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
-            fragment, preferencesRepo, interactor,
+            preferencesRepo, interactor,
             getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
             deleteNotification, getNotificationDateList
         )
-        return ViewModelProvider(fragment, factory)[NotesViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[NotesViewModelImpl::class.java]
     }
 
     @Provides

@@ -21,7 +21,6 @@ import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.screen.main.callback.MainFabCallback
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
@@ -31,13 +30,14 @@ import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.onView
 import sgtmelon.scriptum.infrastructure.utils.updateMargin
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.test.idling.getIdling
 
 /**
  * Screen which displays main menu.
  */
 class MainActivity : ThemeActivity<ActivityMainBinding>(),
-    MainFabCallback {
+    RecyclerMainFabListener.Callback {
 
     override val layoutId: Int = R.layout.activity_main
 

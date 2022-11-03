@@ -24,11 +24,11 @@ import sgtmelon.test.cappuccino.utils.withMenuTitle
  *
  * [isHide] - have hide notes or not.
  */
-class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
+class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.recycler_view) {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.notes_parent_container)
+    private val parentContainer = getViewById(R.id.parent_container)
     private val toolbar = SimpleToolbar(R.string.title_notes, withBack = false)
 
     private val notificationsMenuItem = getViewById(R.id.item_notifications)

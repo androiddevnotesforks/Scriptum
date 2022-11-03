@@ -1,18 +1,17 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.runBack
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -27,11 +26,7 @@ import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Options
 
-/**
- * ViewModel for [INotesFragment].
- */
 class NotesViewModelImpl(
-    callback: INotesFragment,
     private val preferencesRepo: PreferencesRepo,
     private val interactor: INotesInteractor,
     private val getList: GetNoteListUseCase,
@@ -42,7 +37,7 @@ class NotesViewModelImpl(
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationDateList: GetNotificationDateListUseCase
-) : ParentViewModel<INotesFragment>(callback),
+) : ViewModel(),
     NotesViewModel {
 
     @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
@@ -95,33 +90,34 @@ class NotesViewModelImpl(
         }
     }
 
-    @Deprecated("Move preparation before show dialog inside some delegator, which will call from UI")
-    override fun onShowOptionsDialog(item: NoteItem, p: Int) {
-        val callback = callback ?: return
-
-        val title = item.name.ifEmpty { callback.getString(R.string.empty_note_name) }
-
-        val itemArray: Array<String> = callback.getStringArray(
-            when (item) {
-                is NoteItem.Text -> R.array.dialog_menu_text
-                is NoteItem.Roll -> R.array.dialog_menu_roll
-            }
-        )
-
-        itemArray[Options.NOTIFICATION] = if (item.haveAlarm()) {
-            callback.getString(R.string.dialog_menu_notification_update)
-        } else {
-            callback.getString(R.string.dialog_menu_notification_set)
-        }
-
-        itemArray[Options.BIND] = if (item.isStatus) {
-            callback.getString(R.string.dialog_menu_status_unbind)
-        } else {
-            callback.getString(R.string.dialog_menu_status_bind)
-        }
-
-        callback.showOptionsDialog(title, itemArray, p)
-    }
+    // TODO
+    //    @Deprecated("Move preparation before show dialog inside some delegator, which will call from UI")
+    //    override fun onShowOptionsDialog(item: NoteItem, p: Int) {
+    //        val callback = callback ?: return
+    //
+    //        val title = item.name.ifEmpty { callback.getString(R.string.empty_note_name) }
+    //
+    //        val itemArray: Array<String> = callback.getStringArray(
+    //            when (item) {
+    //                is NoteItem.Text -> R.array.dialog_menu_text
+    //                is NoteItem.Roll -> R.array.dialog_menu_roll
+    //            }
+    //        )
+    //
+    //        itemArray[Options.NOTIFICATION] = if (item.haveAlarm()) {
+    //            callback.getString(R.string.dialog_menu_notification_update)
+    //        } else {
+    //            callback.getString(R.string.dialog_menu_notification_set)
+    //        }
+    //
+    //        itemArray[Options.BIND] = if (item.isStatus) {
+    //            callback.getString(R.string.dialog_menu_status_unbind)
+    //        } else {
+    //            callback.getString(R.string.dialog_menu_status_bind)
+    //        }
+    //
+    //        callback.showOptionsDialog(title, itemArray, p)
+    //    }
 
 
     override fun onResultOptionsDialog(p: Int, @Options which: Int) {

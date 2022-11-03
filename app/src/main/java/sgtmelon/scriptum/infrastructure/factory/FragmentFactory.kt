@@ -56,7 +56,7 @@ object FragmentFactory {
         fun get(screen: PreferenceScreen): Pair<ParentPreferenceFragment, String> {
             val tag = getTag(screen)
             val fragment: ParentPreferenceFragment = fm.getFragmentByTag(tag) ?: when (screen) {
-                PreferenceScreen.PREFERENCE -> MenuPreferenceFragment()
+                PreferenceScreen.MENU -> MenuPreferenceFragment()
                 PreferenceScreen.BACKUP -> BackupPreferenceFragment()
                 PreferenceScreen.NOTE -> NotePreferenceFragment()
                 PreferenceScreen.ALARM -> AlarmPreferenceFragment()
@@ -70,7 +70,7 @@ object FragmentFactory {
 
         private fun getTag(screen: PreferenceScreen): String {
             return when (screen) {
-                PreferenceScreen.PREFERENCE -> Tag.PREF
+                PreferenceScreen.MENU -> Tag.PREF
                 PreferenceScreen.BACKUP -> Tag.BACKUP
                 PreferenceScreen.NOTE -> Tag.NOTE
                 PreferenceScreen.ALARM -> Tag.ALARM

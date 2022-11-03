@@ -61,7 +61,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
 
     private fun setupView(screen: PreferenceScreen) {
         val titleId = when (screen) {
-            PreferenceScreen.PREFERENCE -> R.string.title_preference
+            PreferenceScreen.MENU -> R.string.title_preference
             PreferenceScreen.BACKUP -> R.string.pref_title_backup
             PreferenceScreen.NOTE -> R.string.pref_title_note
             PreferenceScreen.ALARM -> R.string.pref_title_alarm

@@ -59,7 +59,6 @@ import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
@@ -142,7 +141,6 @@ object ViewModelFactory {
         }
 
         class Notes(
-            private val fragment: NotesFragment,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: INotesInteractor,
             private val getList: GetNoteListUseCase,
@@ -157,7 +155,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModelImpl::class) {
                     NotesViewModelImpl(
-                        fragment, preferencesRepo, interactor,
+                        preferencesRepo, interactor,
                         getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
                         deleteNotification, getNotificationDateList
                     )

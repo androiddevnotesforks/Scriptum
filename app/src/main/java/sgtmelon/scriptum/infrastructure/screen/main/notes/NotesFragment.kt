@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
 import android.content.IntentFilter
-import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,10 +22,8 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.main.callback.MainFabCallback
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
-import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.isGone
 import sgtmelon.scriptum.infrastructure.utils.isInvisible
@@ -37,20 +33,19 @@ import sgtmelon.scriptum.infrastructure.utils.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.scriptum.infrastructure.utils.tintIcon
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
  * Screen to display the list of main notes.
  */
 class NotesFragment : ParentFragment<FragmentNotesBinding>(),
-    INotesFragment,
+    Toolbar.OnMenuItemClickListener,
     ScrollTopCallback {
 
     override val layoutId: Int = R.layout.fragment_notes
 
     //region Variables
-
-    private val fabCallback: MainFabCallback? get() = activity as? MainFabCallback
 
     @Inject lateinit var viewModel: NotesViewModel
 
@@ -64,93 +59,52 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {
             override fun onNoteClick(item: NoteItem) = openNoteScreen(item)
-            override fun onNoteLongClick(item: NoteItem, p: Int) {
-                viewModel.onShowOptionsDialog(item, p)
-            }
+            override fun onNoteLongClick(item: NoteItem, p: Int) = showOptionsDialog(item, p)
         })
     }
 
-    /**
-     * Setup manually because after rotation lazy function will return null.
-     */
-    private var parentContainer: ViewGroup? = null
-    private var emptyInfoView: View? = null
-    private var progressBar: View? = null
-    private var recyclerView: RecyclerView? = null
-
-    /** Delay for showing add-note-FAB after long standstill. */
-    private val fabDelayJob = DelayJobDelegator(lifecycle)
+    // TODO remove
+    //    /**
+    //     * Setup manually because after rotation lazy function will return null.
+    //     */
+    //    private var parentContainer: ViewGroup? = null
+    //    private var emptyInfoView: View? = null
+    //    private var progressBar: View? = null
+    //    private var recyclerView: RecyclerView? = null
+    //
+    //    /** Delay for showing add-note-FAB after long standstill. */
+    //    private val fabDelayJob = DelayJobDelegator(lifecycle)
 
     //endregion
 
     //region System
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.onSetup()
-    }
+    // TODO remove
+    //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    //        super.onViewCreated(view, savedInstanceState)
+    //        viewModel.onSetup()
+    //    }
 
     override fun inject(component: ScriptumComponent) {
         component.getNotesBuilder()
-            .set(fragment = this)
+            .set(owner = this)
             .build()
             .inject(fragment = this)
     }
 
-    override fun registerReceivers() {
-        super.registerReceivers()
-        context?.registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTES))
-    }
+    override fun setupView() {
+        super.setupView()
 
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        context?.unregisterReceiver(unbindNoteReceiver)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onUpdateData()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
-
-    //endregion
-
-    override fun setupToolbar() {
-        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
+        binding?.toolbarInclude?.toolbar?.apply {
             title = getString(R.string.title_notes)
             inflateMenu(R.menu.fragment_notes)
+            setOnMenuItemClickListener(this@NotesFragment)
 
-            setOnMenuItemClickListener {
-                parentOpen?.attempt {
-                    startActivity(
-                        when (it.itemId) {
-                            R.id.item_notifications -> InstanceFactory.Notifications[context]
-                            else -> InstanceFactory.Preference[context, PreferenceScreen.PREFERENCE]
-                        }
-                    )
-                }
-
-                return@setOnMenuItemClickListener true
-            }
-
-            activity?.let {
-                menu?.findItem(R.id.item_notifications)?.tintIcon(it)
-                menu?.findItem(R.id.item_preferences)?.tintIcon(it)
-            }
+            menu?.findItem(R.id.item_notifications)?.tintIcon(context)
+            menu?.findItem(R.id.item_preferences)?.tintIcon(context)
         }
-    }
 
-    override fun setupRecycler() {
-        parentContainer = view?.findViewById(R.id.notes_parent_container)
-        emptyInfoView = view?.findViewById(R.id.info_include)
-        progressBar = view?.findViewById(R.id.notes_progress)
-
-        recyclerView = view?.findViewById(R.id.notes_recycler)
-        recyclerView?.let {
+        binding?.recyclerView?.let {
             it.setDefaultAnimator { onBindingList() }
 
             it.addOnScrollListener(RecyclerOverScrollListener())
@@ -158,21 +112,14 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
 
-            it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    /** Visible only if scroll to top. */
-                    val isTopScroll = dy <= 0
-
-                    fabCallback?.changeFabVisibility(isTopScroll, withGap = true)
-                    fabDelayJob.run(FAB_STANDSTILL_TIME) {
-                        fabCallback?.changeFabVisibility()
-                    }
-                }
-            })
+            val fabCallback = activity as? RecyclerMainFabListener.Callback
+            it.addOnScrollListener(RecyclerMainFabListener(lifecycle, fabCallback))
         }
     }
 
-    override fun setupDialog() {
+    override fun setupDialogs() {
+        super.setupDialogs()
+
         optionsDialog.apply {
             onItem {
                 if (it == Options.Notes.NOTIFICATION) {
@@ -200,6 +147,122 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
             onDismiss { parentOpen?.clear() }
         }
     }
+
+    override fun setupObservers() {
+        super.setupObservers()
+    }
+
+    override fun registerReceivers() {
+        super.registerReceivers()
+        context?.registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTES))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        context?.unregisterReceiver(unbindNoteReceiver)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /**
+         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
+         * call of this function inside parent activity (during fragment transaction).
+         */
+        viewModel.updateData()
+    }
+
+    // TODO remove
+    //    override fun onDestroy() {
+    //        super.onDestroy()
+    //        viewModel.onDestroy()
+    //    }
+
+    //endregion
+
+    //region cleanup
+
+    //    override fun setupToolbar() {
+    //        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
+    //            title = getString(R.string.title_notes)
+    //            inflateMenu(R.menu.fragment_notes)
+    //
+    //            setOnMenuItemClickListener {
+    //                parentOpen?.attempt {
+    //                    startActivity(
+    //                        when (it.itemId) {
+    //                            R.id.item_notifications -> InstanceFactory.Notifications[context]
+    //                            else -> InstanceFactory.Preference[context, PreferenceScreen.PREFERENCE]
+    //                        }
+    //                    )
+    //                }
+    //
+    //                return@setOnMenuItemClickListener true
+    //            }
+    //
+    //            activity?.let {
+    //                menu?.findItem(R.id.item_notifications)?.tintIcon(it)
+    //                menu?.findItem(R.id.item_preferences)?.tintIcon(it)
+    //            }
+    //        }
+    //    }
+    //
+    //    override fun setupRecycler() {
+    //        parentContainer = view?.findViewById(R.id.parent_container)
+    //        emptyInfoView = view?.findViewById(R.id.info_include)
+    //        progressBar = view?.findViewById(R.id.progress_bar)
+    //
+    //        recyclerView = view?.findViewById(R.id.recycler_view)
+    //        recyclerView?.let {
+    //            it.setDefaultAnimator { onBindingList() }
+    //
+    //            it.addOnScrollListener(RecyclerOverScrollListener())
+    //            it.setHasFixedSize(true)
+    //            it.layoutManager = LinearLayoutManager(context)
+    //            it.adapter = adapter
+    //
+    //            it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    //                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+    //                    /** Visible only if scroll to top. */
+    //                    val isTopScroll = dy <= 0
+    //
+    //                    fabCallback?.changeFabVisibility(isTopScroll, withGap = true)
+    //                    fabDelayJob.run(FAB_STANDSTILL_TIME) {
+    //                        fabCallback?.changeFabVisibility()
+    //                    }
+    //                }
+    //            })
+    //        }
+    //    }
+    //
+    //    override fun setupDialog() {
+    //        optionsDialog.apply {
+    //            onItem {
+    //                if (it == Options.Notes.NOTIFICATION) {
+    //                    parentOpen?.skipClear = true
+    //                }
+    //
+    //                viewModel.onResultOptionsDialog(optionsDialog.position, it)
+    //            }
+    //            onDismiss { parentOpen?.clear() }
+    //        }
+    //
+    //        dateDialog.apply {
+    //            onPositiveClick {
+    //                parentOpen?.skipClear = true
+    //                viewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
+    //            }
+    //            onNeutralClick { viewModel.onResultDateDialogClear(dateDialog.position) }
+    //            onDismiss { parentOpen?.clear() }
+    //        }
+    //
+    //        timeDialog.apply {
+    //            onPositiveClick {
+    //                viewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
+    //            }
+    //            onDismiss { parentOpen?.clear() }
+    //        }
+    //    }
 
     override fun setupBinding(isListHide: Boolean) {
         binding?.isListHide = isListHide
@@ -252,24 +315,17 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         }
     }
 
-    override fun scrollTop() {
-        recyclerView?.smoothScrollToPosition(0)
-    }
 
-    override fun openNoteScreen(item: NoteItem) {
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context ?: return, item]) }
-    }
-
-
-    override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
-        parentOpen?.attempt {
-            parentOpen?.tag = OpenState.Tag.DIALOG
-
-            optionsDialog.title = title
-            optionsDialog.setArguments(itemArray, p)
-                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
-        }
-    }
+    // TODO remove
+    //    override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
+    //        parentOpen?.attempt {
+    //            parentOpen?.tag = OpenState.Tag.DIALOG
+    //
+    //            optionsDialog.title = title
+    //            optionsDialog.setArguments(itemArray, p)
+    //                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
+    //        }
+    //    }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
         parentOpen?.attempt(OpenState.Tag.DIALOG) {
@@ -312,8 +368,74 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
     override fun copyClipboard(text: String) = delegators.clipboard.copy(text)
 
+    //endregion
 
-    companion object {
-        const val FAB_STANDSTILL_TIME = 2000L
+    private fun openNoteScreen(item: NoteItem) {
+        parentOpen?.attempt { startActivity(InstanceFactory.Note[context ?: return, item]) }
     }
+
+    private fun showOptionsDialog(item: NoteItem, p: Int) {
+        parentOpen?.attempt {
+            parentOpen?.tag = OpenState.Tag.DIALOG
+
+            val (title, itemArray) = getOptionsDialogData(item)
+
+            optionsDialog.title = title
+            optionsDialog.setArguments(itemArray, p)
+                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
+        }
+    }
+
+    private fun getOptionsDialogData(item: NoteItem): Pair<String, Array<String>> {
+        val title = item.name.ifEmpty { getString(R.string.empty_note_name) }
+
+        val itemArray: Array<String> = resources.getStringArray(
+            when (item) {
+                is NoteItem.Text -> R.array.dialog_menu_text
+                is NoteItem.Roll -> R.array.dialog_menu_roll
+            }
+        )
+
+        itemArray[Options.Notes.NOTIFICATION] = if (item.haveAlarm()) {
+            getString(R.string.dialog_menu_notification_update)
+        } else {
+            getString(R.string.dialog_menu_notification_set)
+        }
+
+        itemArray[Options.Notes.BIND] = if (item.isStatus) {
+            getString(R.string.dialog_menu_status_unbind)
+        } else {
+            getString(R.string.dialog_menu_status_bind)
+        }
+
+        return title to itemArray
+    }
+
+    // todo open dialogs
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        val context = context ?: return false
+
+        parentOpen?.attempt {
+            val intent = when (item?.itemId) {
+                R.id.item_notifications -> InstanceFactory.Notifications[context]
+                R.id.item_preferences -> InstanceFactory.Preference[context, PreferenceScreen.MENU]
+                else -> return false
+            }
+
+            startActivity(intent)
+        }
+
+        return true
+    }
+
+    override fun scrollTop() {
+        binding?.recyclerView?.smoothScrollToPosition(0)
+    }
+
+
+    // TODO remove
+    //    companion object {
+    //        const val FAB_STANDSTILL_TIME = 2000L
+    //    }
 }

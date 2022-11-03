@@ -41,6 +41,7 @@ import sgtmelon.test.common.nextString
 /**
  * Test for [NotesViewModelImpl].
  */
+// TODO write tests
 @ExperimentalCoroutinesApi
 class NotesViewModelImplTest : ParentViewModelTest() {
 
@@ -48,7 +49,6 @@ class NotesViewModelImplTest : ParentViewModelTest() {
 
     private val data = TestData.Note
 
-    @MockK lateinit var callback: INotesFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: INotesInteractor
 

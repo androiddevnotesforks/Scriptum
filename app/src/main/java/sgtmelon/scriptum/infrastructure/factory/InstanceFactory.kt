@@ -183,7 +183,7 @@ object InstanceFactory {
         fun toHelpDisappear(context: Context): Array<Intent> = waitOpen {
             arrayOf(
                 Main[context],
-                Preference[context, PreferenceScreen.PREFERENCE],
+                Preference[context, PreferenceScreen.MENU],
                 Preference[context, PreferenceScreen.HELP],
                 Preference.HelpDisappear[context]
             )
