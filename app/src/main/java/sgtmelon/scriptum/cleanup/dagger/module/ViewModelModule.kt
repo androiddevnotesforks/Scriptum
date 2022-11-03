@@ -47,7 +47,7 @@ import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
-import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
@@ -155,7 +155,7 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         interactor: INotesInteractor,
-        getList: GetNoteListUseCase,
+        getList: GetNotesListUseCase,
         sortList: SortNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
         updateNote: UpdateNoteUseCase,
@@ -176,7 +176,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideBinViewModel(
         owner: ViewModelStoreOwner,
-        getList: GetNoteListUseCase,
+        getList: GetNotesListUseCase,
         getCopyText: GetCopyTextUseCase,
         restoreNote: RestoreNoteUseCase,
         clearBin: ClearBinUseCase,

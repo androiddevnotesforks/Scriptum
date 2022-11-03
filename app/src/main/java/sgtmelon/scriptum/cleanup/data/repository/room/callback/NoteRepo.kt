@@ -12,12 +12,15 @@ interface NoteRepo {
 
     suspend fun getCount(isBin: Boolean): Int
 
+    /**
+     * Second in pair - is there hidden ([filterVisible]) notes or not.
+     */
     suspend fun getList(
         sort: Sort,
         isBin: Boolean,
         isOptimal: Boolean,
         filterVisible: Boolean
-    ): List<NoteItem>
+    ): Pair<List<NoteItem>, Boolean>
 
     suspend fun getItem(noteId: Long, isOptimal: Boolean): NoteItem?
 

@@ -53,19 +53,25 @@ class NoteRepoImpl(
      * [filterVisible] - need use if you need get only rank visible notes. Otherwise you will
      *                   get all items even if rank not visible.
      */
+    // TODO test
     override suspend fun getList(
         sort: Sort,
         isBin: Boolean,
         isOptimal: Boolean,
         filterVisible: Boolean
-    ): List<NoteItem> {
+    ): Pair<List<NoteItem>, Boolean> {
         var entityList = noteDataSource.getList(sort, isBin)
 
-        if (filterVisible) entityList = filterVisible(entityList)
+        var isFiltered = false
+        if (filterVisible) {
+            val filteredList = filterVisible(entityList)
+            isFiltered = entityList.size != filteredList.size
+            entityList = filteredList
+        }
 
         val itemList = entityList.map { transformNoteEntity(it, isOptimal) }.toMutableList()
 
-        return correctRankSort(itemList, sort)
+        return correctRankSort(itemList, sort) to isFiltered
     }
 
     /**

@@ -24,7 +24,6 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
-import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.scriptum.infrastructure.utils.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -78,8 +77,6 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         }
 
         binding?.recyclerView?.let {
-            it.setDefaultAnimator { onBindingList() }
-
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
@@ -137,6 +134,7 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
                 binding.recyclerView, binding.infoInclude.parentContainer
             )
         }
+        viewModel.isListHide.observe(this) { observeListHide(it) }
         viewModel.itemList.observe(this) { adapter.notifyList(it) }
     }
 
@@ -158,6 +156,22 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
          * call of this function inside parent activity (during fragment transaction).
          */
         viewModel.updateData()
+    }
+
+    private fun observeListHide(isListHide: Boolean) {
+        val titleId = if (isListHide) {
+            R.string.info_notes_hide_title
+        } else {
+            R.string.info_notes_empty_title
+        }
+        binding?.infoInclude?.titleText?.setText(titleId)
+
+        val subtitleId = if (isListHide) {
+            R.string.info_notes_hide_details
+        } else {
+            R.string.info_notes_empty_details
+        }
+        binding?.infoInclude?.detailsText?.setText(subtitleId)
     }
 
     //endregion
@@ -245,11 +259,11 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     //            onDismiss { parentOpen?.clear() }
     //        }
     //    }
-
-    override fun setupBinding(isListHide: Boolean) {
-        binding?.isListHide = isListHide
-    }
-
+    //
+    //    override fun setupBinding(isListHide: Boolean) {
+    //        binding?.isListHide = isListHide
+    //    }
+    //
     //    /**
     //     * For first time [recyclerView] visibility flag set inside xml file.
     //     */
@@ -326,21 +340,21 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     //    override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
     //
     //    override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)
-
-
-    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        delegators.broadcast.sendSetAlarm(id, calendar, showToast)
-    }
-
-    override fun sendCancelAlarmBroadcast(id: Long) = delegators.broadcast.sendCancelAlarm(id)
-
-    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
-
-    override fun sendCancelNoteBroadcast(id: Long) = delegators.broadcast.sendCancelNoteBind(id)
-
-    override fun sendNotifyInfoBroadcast(count: Int?) =
-        delegators.broadcast.sendNotifyInfoBind(count)
-
+    //
+    //
+    //    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
+    //        delegators.broadcast.sendSetAlarm(id, calendar, showToast)
+    //    }
+    //
+    //    override fun sendCancelAlarmBroadcast(id: Long) = delegators.broadcast.sendCancelAlarm(id)
+    //
+    //    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
+    //
+    //    override fun sendCancelNoteBroadcast(id: Long) = delegators.broadcast.sendCancelNoteBind(id)
+    //
+    //    override fun sendNotifyInfoBroadcast(count: Int?) =
+    //        delegators.broadcast.sendNotifyInfoBind(count)
+    //
     //
     //
     //    override fun copyClipboard(text: String) = delegators.clipboard.copy(text)

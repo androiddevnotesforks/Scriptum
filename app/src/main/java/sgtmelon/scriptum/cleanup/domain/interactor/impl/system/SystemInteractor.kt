@@ -47,6 +47,7 @@ class SystemInteractor(
     /**
      * Update all bind notes in status bar rely on rank visibility.
      */
+    // TODO зачем тут ещё одна сортировка, если её можно сделать внутри noteRepo?
     override suspend fun notifyNotesBind() {
         val sort = preferenceRepo.sort
         val list = noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)

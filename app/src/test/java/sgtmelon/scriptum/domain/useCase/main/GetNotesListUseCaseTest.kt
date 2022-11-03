@@ -12,19 +12,19 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
- * Test for [GetNoteListUseCase].
+ * Test for [GetNotesListUseCase].
  */
-class GetNoteListUseCaseTest : ParentTest() {
+class GetNotesListUseCaseTest : ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var noteRepo: NoteRepo
 
-    private val useCase by lazy { GetNoteListUseCase(preferencesRepo, noteRepo) }
+    private val useCase by lazy { GetNotesListUseCase(preferencesRepo, noteRepo) }
 
     @After override fun tearDown() {
         super.tearDown()

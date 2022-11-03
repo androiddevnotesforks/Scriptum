@@ -6,10 +6,9 @@ import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import sgtmelon.extensions.isBeforeNow
+import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.onBack
-import sgtmelon.extensions.runBack
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -19,7 +18,7 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
@@ -32,7 +31,7 @@ import sgtmelon.test.idling.getIdling
 class NotesViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
     private val interactor: INotesInteractor,
-    private val getList: GetNoteListUseCase,
+    private val getList: GetNotesListUseCase,
     private val sortList: SortNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
     private val updateNote: UpdateNoteUseCase,
@@ -54,13 +53,26 @@ class NotesViewModelImpl(
         showList.postValue(if (_itemList.isEmpty()) ShowListState.Empty else ShowListState.List)
     }
 
+    override val isListHide: MutableLiveData<Boolean> = MutableLiveData()
+
     override val itemList: MutableLiveData<List<NoteItem>> = MutableLiveData()
 
     /** This list needed because don't want put mutable list inside liveData. */
     private val _itemList: MutableList<NoteItem> = mutableListOf()
 
     override fun updateData() {
-        TODO("Not yet implemented")
+        viewModelScope.launchBack {
+            getIdling().start(IdlingTag.Notes.LOAD_DATA)
+
+            showList.postValue(ShowListState.Loading)
+            val (list, isHide) = getList()
+            isListHide.postValue(isHide)
+            _itemList.clearAdd(list)
+            itemList.postValue(list)
+            notifyShowList()
+
+            getIdling().stop(IdlingTag.Notes.LOAD_DATA)
+        }
     }
 
     override fun getNoteNotification(p: Int): Flow<Pair<Calendar, Boolean>> = flow {
@@ -124,6 +136,8 @@ class NotesViewModelImpl(
         val item = _itemList.removeAtOrNull(p) ?: return@flow
 
         itemList.postValue(_itemList)
+        notifyShowList()
+
         deleteNote(item)
         emit(item)
     }.onBack()
@@ -139,47 +153,47 @@ class NotesViewModelImpl(
     //
     //        callback?.prepareForLoad()
     //    }
-
-
-    override fun onUpdateData() {
-        getIdling().start(IdlingTag.Notes.LOAD_DATA)
-
-        /**
-         * If was rotation need show list. After that fetch updates.
-         */
-        if (itemList.isNotEmpty()) {
-            callback?.apply {
-                notifyList(itemList)
-                onBindingList()
-            }
-        }
-
-        viewModelScope.launch {
-            val count = runBack { interactor.getCount() }
-
-            if (count == 0) {
-                itemList.clear()
-            } else {
-                if (itemList.isEmpty()) {
-                    callback?.hideEmptyInfo()
-                    callback?.showProgress()
-                }
-
-                runBack { itemList.clearAdd(getList(isBin = false)) }
-            }
-
-            callback?.apply {
-                val isListHide = runBack { interactor.isListHide() }
-
-                notifyList(itemList)
-                setupBinding(isListHide)
-                onBindingList()
-            }
-
-            getIdling().stop(IdlingTag.Notes.LOAD_DATA)
-        }
-    }
-
+    //
+    //
+    //    override fun onUpdateData() {
+    //        getIdling().start(IdlingTag.Notes.LOAD_DATA)
+    //
+    //        /**
+    //         * If was rotation need show list. After that fetch updates.
+    //         */
+    //        if (itemList.isNotEmpty()) {
+    //            callback?.apply {
+    //                notifyList(itemList)
+    //                onBindingList()
+    //            }
+    //        }
+    //
+    //        viewModelScope.launch {
+    //            val count = runBack { interactor.getCount() }
+    //
+    //            if (count == 0) {
+    //                itemList.clear()
+    //            } else {
+    //                if (itemList.isEmpty()) {
+    //                    callback?.hideEmptyInfo()
+    //                    callback?.showProgress()
+    //                }
+    //
+    //                runBack { itemList.clearAdd(getList(isBin = false)) }
+    //            }
+    //
+    //            callback?.apply {
+    //                val isListHide = runBack { interactor.isListHide() }
+    //
+    //                notifyList(itemList)
+    //                setupBinding(isListHide)
+    //                onBindingList()
+    //            }
+    //
+    //            getIdling().stop(IdlingTag.Notes.LOAD_DATA)
+    //        }
+    //    }
+    //
     // TODO
     //    @Deprecated("Move preparation before show dialog inside some delegator, which will call from UI")
     //    override fun onShowOptionsDialog(item: NoteItem, p: Int) {
@@ -311,14 +325,13 @@ class NotesViewModelImpl(
     //        }
     //    }
 
+    //endregion
 
     override fun onReceiveUnbindNote(noteId: Long) {
-        val p = itemList.indexOfFirst { it.id == noteId }
-        val noteItem = itemList.getOrNull(p) ?: return
+        val p = _itemList.indexOfFirst { it.id == noteId }
+        val item = _itemList.getOrNull(p) ?: return
 
-        noteItem.isStatus = false
-        callback?.notifyList(itemList)
+        item.isStatus = false
+        itemList.postValue(_itemList)
     }
-
-    //endregion
 }

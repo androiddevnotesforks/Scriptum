@@ -35,7 +35,7 @@ import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
-import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
@@ -143,7 +143,7 @@ object ViewModelFactory {
         class Notes(
             private val preferencesRepo: PreferencesRepo,
             private val interactor: INotesInteractor,
-            private val getList: GetNoteListUseCase,
+            private val getList: GetNotesListUseCase,
             private val sortList: SortNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
             private val updateNote: UpdateNoteUseCase,
@@ -164,7 +164,7 @@ object ViewModelFactory {
         }
 
         class Bin(
-            private val getList: GetNoteListUseCase,
+            private val getList: GetNotesListUseCase,
             private val getCopyText: GetCopyTextUseCase,
             private val restoreNote: RestoreNoteUseCase,
             private val clearBin: ClearBinUseCase,

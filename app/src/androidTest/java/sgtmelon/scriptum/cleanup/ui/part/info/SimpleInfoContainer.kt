@@ -23,7 +23,7 @@ class SimpleInfoContainer(page: SimpleInfoPage) : ParentInfoContainer(
     )
 
     override val titleText = getView(
-        R.id.info_title_text, when (page) {
+        R.id.title_text, when (page) {
             SimpleInfoPage.RANK -> R.string.info_rank_empty_title
             SimpleInfoPage.BIN -> R.string.info_bin_empty_title
             SimpleInfoPage.NOTIFICATION -> R.string.info_notification_empty_title
@@ -31,10 +31,11 @@ class SimpleInfoContainer(page: SimpleInfoPage) : ParentInfoContainer(
     )
 
     override val detailsText = getView(
-        R.id.info_details_text, when (page) {
+        R.id.details_text, when (page) {
             SimpleInfoPage.RANK -> R.string.info_rank_empty_details
             SimpleInfoPage.BIN -> R.string.info_bin_empty_details
-        SimpleInfoPage.NOTIFICATION -> R.string.info_notification_empty_details
-    })
+            SimpleInfoPage.NOTIFICATION -> R.string.info_notification_empty_details
+        }
+    )
 
 }

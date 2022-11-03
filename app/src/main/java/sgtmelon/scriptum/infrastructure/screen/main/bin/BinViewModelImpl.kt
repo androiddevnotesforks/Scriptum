@@ -9,7 +9,7 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.onBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
-import sgtmelon.scriptum.domain.useCase.main.GetNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
 import sgtmelon.test.idling.getIdling
 
 class BinViewModelImpl(
-    private val getList: GetNoteListUseCase,
+    private val getList: GetBinListUseCase,
     private val getCopyText: GetCopyTextUseCase,
     private val restoreNote: RestoreNoteUseCase,
     private val clearBin: ClearBinUseCase,
@@ -50,7 +50,7 @@ class BinViewModelImpl(
             getIdling().start(IdlingTag.Bin.LOAD_DATA)
 
             showList.postValue(ShowListState.Loading)
-            _itemList.clearAdd(getList(isBin = true))
+            _itemList.clearAdd(getList())
             itemList.postValue(_itemList)
             notifyShowList()
 

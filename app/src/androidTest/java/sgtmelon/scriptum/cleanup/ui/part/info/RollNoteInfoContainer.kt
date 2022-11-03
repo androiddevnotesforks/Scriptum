@@ -20,14 +20,14 @@ class RollNoteInfoContainer(isListEmpty: Boolean, isListHide: Boolean) : ParentU
     private val iconImage get() = getViewById(R.id.info_image).includeParent(includeContainer)
 
     private val titleText: Matcher<View>? = when {
-        isListEmpty -> getView(R.id.info_title_text, R.string.info_roll_empty_title)
-        isListHide -> getView(R.id.info_title_text, R.string.info_roll_hide_title)
+        isListEmpty -> getView(R.id.title_text, R.string.info_roll_empty_title)
+        isListHide -> getView(R.id.title_text, R.string.info_roll_hide_title)
         else -> null
     }
 
     private val detailsText: Matcher<View>? = when {
-        isListEmpty -> getView(R.id.info_details_text, R.string.info_roll_empty_details)
-        isListHide -> getView(R.id.info_details_text, R.string.info_roll_hide_details)
+        isListEmpty -> getView(R.id.details_text, R.string.info_roll_empty_details)
+        isListHide -> getView(R.id.details_text, R.string.info_roll_hide_details)
         else -> null
     }
 

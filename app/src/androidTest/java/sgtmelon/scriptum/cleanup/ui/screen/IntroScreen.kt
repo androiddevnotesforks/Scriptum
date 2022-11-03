@@ -24,8 +24,8 @@ class IntroScreen : ParentUi() {
     private val viewPager = getViewById(R.id.view_pager)
     private val pageIndicator = getViewById(R.id.page_indicator)
 
-    private fun getTitleText(p: Int) = getView(R.id.info_title_text, IntroData.title[p])
-    private fun getDetailsText(p: Int) = getView(R.id.info_details_text, IntroData.details[p])
+    private fun getTitleText(p: Int) = getView(R.id.title_text, IntroData.title[p])
+    private fun getDetailsText(p: Int) = getView(R.id.details_text, IntroData.details[p])
 
     private val endButton = getView(R.id.end_button, R.string.info_intro_button)
 

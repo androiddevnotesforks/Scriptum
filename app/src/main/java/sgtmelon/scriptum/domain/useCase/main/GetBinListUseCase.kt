@@ -4,13 +4,14 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
-class GetNoteListUseCase(
+// TODO test
+class GetBinListUseCase(
     private val preferencesRepo: PreferencesRepo,
     private val noteRepo: NoteRepo
 ) {
 
-    suspend operator fun invoke(isBin: Boolean): List<NoteItem> {
+    suspend operator fun invoke(): List<NoteItem> {
         val sort = preferencesRepo.sort
-        return noteRepo.getList(sort, isBin, isOptimal = true, filterVisible = !isBin)
+        return noteRepo.getList(sort, isBin = true, isOptimal = true, filterVisible = false).first
     }
 }
