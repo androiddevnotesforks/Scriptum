@@ -22,7 +22,6 @@
     <string name="pref_title_print_key" translatable="false">Preference keys</string>
     <string name="pref_title_print_file" translatable="false">Files data</string>
 
-    <string name="pref_title_screen_intro" translatable="false">Intro screen</string>
     <string name="pref_title_screen_alarm" translatable="false">Alarm screen</string>
 
     <string name="pref_title_service_eternal" translatable="false">Eternal service</string>
@@ -56,7 +55,6 @@
     <string name="pref_summary_print_note" translatable="false">Which located in NOTES page</string>
     <string name="pref_summary_print_bin" translatable="false">Which located in BIN page</string>
 
-    <string name="pref_summary_screen_intro" translatable="false">Application will be restarted</string>
     <string name="pref_summary_screen_alarm" translatable="false">Open alarm for random note</string>
 
     <string name="pref_summary_eternal_refresh" translatable="false">Click for start service ping pong</string>
@@ -77,7 +75,6 @@
     <string name="pref_key_print_key" translatable="false">key_print_key</string>
     <string name="pref_key_print_file" translatable="false">key_print_file</string>
 
-    <string name="pref_key_screen_intro" translatable="false">key_screen_intro</string>
     <string name="pref_key_screen_alarm" translatable="false">key_screen_alarm</string>
 
     <string name="pref_key_service_eternal" translatable="false">key_service_eternal</string>

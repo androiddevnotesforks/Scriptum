@@ -7,8 +7,6 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
  */
 sealed class SplashOpen {
 
-    object Intro : SplashOpen()
-
     object Main : SplashOpen()
 
     data class Alarm(val id: Long) : SplashOpen()

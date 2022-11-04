@@ -14,8 +14,6 @@ import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
  */
 class SplashScreen : ParentUi() {
 
-    fun introScreen(func: IntroScreen.() -> Unit = {}) = IntroScreen(func)
-
     fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen(func)
 
     fun openTextNoteBind(

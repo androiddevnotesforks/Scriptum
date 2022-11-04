@@ -30,21 +30,20 @@ class SplashBundleProviderTest : ParentTest() {
         confirmVerified(bundle)
     }
 
-    @Test fun `getData with null bundle`() = testIntroMainCase(bundle = null)
+    @Test fun `getData with null bundle`() = testMainCase(bundle = null)
 
     @Test fun `getData with wrong key`() {
         every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns nextString()
-        testIntroMainCase(bundle)
+        testMainCase(bundle)
     }
 
     @Test fun `getData without key`() {
         every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns ""
-        testIntroMainCase(bundle)
+        testMainCase(bundle)
     }
 
-    private fun testIntroMainCase(bundle: Bundle?) {
-        assertGetData(SplashOpen.Intro, bundle, isFirstStart = true)
-        assertGetData(SplashOpen.Main, bundle, isFirstStart = false)
+    private fun testMainCase(bundle: Bundle?) {
+        assertGetData(SplashOpen.Main, bundle)
 
         if (bundle == null) return
 
@@ -128,11 +127,7 @@ class SplashBundleProviderTest : ParentTest() {
         }
     }
 
-    private fun assertGetData(
-        open: SplashOpen,
-        bundle: Bundle? = this.bundle,
-        isFirstStart: Boolean = Random.nextBoolean()
-    ) {
-        assertEquals(provider.getData(bundle, isFirstStart), open)
+    private fun assertGetData(open: SplashOpen, bundle: Bundle? = this.bundle) {
+        assertEquals(provider.getData(bundle), open)
     }
 }

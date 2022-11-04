@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.screen.splash
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -29,8 +28,6 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     override val statusBar = WindowUiKeys.StatusBar.Transparent
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
-
-    @Inject lateinit var viewModel: SplashViewModel
 
     private val bundleProvider = SplashBundleProvider()
 
@@ -71,8 +68,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
             sendNotifyInfoBind()
         }
 
-        when (val it = bundleProvider.getData(intent.extras, viewModel.isFirstStart)) {
-            is SplashOpen.Intro -> openIntroScreen()
+        when (val it = bundleProvider.getData(intent.extras)) {
             is SplashOpen.Main -> openMainScreen()
             is SplashOpen.Alarm -> openAlarmScreen(it.id)
             is SplashOpen.BindNote -> openNoteScreen(it.id, it.color, it.type)
@@ -81,9 +77,6 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
             is SplashOpen.CreateNote -> openNoteScreen(it.type)
         }
     }
-
-    /** [beforeFinish] not needed, because [InstanceFactory.Intro] launch a clear start. */
-    private fun openIntroScreen() = startActivity(InstanceFactory.Intro[this])
 
     private fun openMainScreen() = beforeFinish { startActivity(InstanceFactory.Main[this]) }
 

@@ -13,6 +13,7 @@ class PreferencesImpl(
     private val preferences: SharedPreferences
 ) : Preferences {
 
+    /** Removed from use (Intro screen) since: 04.11.22 */
     override var isFirstStart: Boolean
         get() = preferences.getBoolean(key.isFirstStart, def.isFirstStart)
         set(value) = edit { putBoolean(key.isFirstStart, value) }

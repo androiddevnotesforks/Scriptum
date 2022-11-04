@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 class SplashBundleProvider {
 
-    fun getData(bundle: Bundle?, isFirstStart: Boolean): SplashOpen {
+    fun getData(bundle: Bundle?): SplashOpen {
         return when (bundle?.getString(AppOpenFrom.INTENT_KEY)) {
             AppOpenFrom.ALARM -> getAlarmData(bundle)
             AppOpenFrom.BIND_NOTE -> getBindData(bundle)
@@ -16,7 +16,7 @@ class SplashBundleProvider {
             AppOpenFrom.HELP_DISAPPEAR -> SplashOpen.HelpDisappear
             AppOpenFrom.CREATE_TEXT -> SplashOpen.CreateNote(NoteType.TEXT)
             AppOpenFrom.CREATE_ROLL -> SplashOpen.CreateNote(NoteType.ROLL)
-            else -> getIntro(isFirstStart)
+            else -> SplashOpen.Main
         }
     }
 
@@ -31,9 +31,5 @@ class SplashBundleProvider {
         val type = bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
 
         return SplashOpen.BindNote(id, color, type)
-    }
-
-    private fun getIntro(isFirstStart: Boolean): SplashOpen {
-        return if (isFirstStart) SplashOpen.Intro else SplashOpen.Main
     }
 }

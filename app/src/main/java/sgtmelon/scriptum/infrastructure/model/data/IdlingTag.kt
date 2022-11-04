@@ -14,11 +14,6 @@ object IdlingTag {
         const val START = "${PREFIX}_START"
     }
 
-    object Intro {
-        private const val PREFIX = "INTRO"
-        const val FINISH = "${PREFIX}_FINISH"
-    }
-
     object Rank {
         private const val PREFIX = "RANK"
         const val LOAD_DATA = "${PREFIX}_LOAD_DATA"

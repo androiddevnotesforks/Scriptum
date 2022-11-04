@@ -41,7 +41,6 @@ class DevelopFragment : ParentPreferenceFragment() {
             printKeyButton?.setOnPrintClickListener(PrintType.KEY)
             printFileButton?.setOnPrintClickListener(PrintType.FILE)
 
-            introButton?.setOnClickListener { startActivity(InstanceFactory.Intro[it.context]) }
             alarmButton?.setOnClickListener { openRandomAlarm(it.context) }
 
             eternalButton?.setOnClickListener {

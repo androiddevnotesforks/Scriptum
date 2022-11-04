@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.develop.model.PrintType
 import sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity
@@ -65,19 +64,6 @@ object InstanceFactory {
 
             return Intent(context, SplashActivity::class.java)
                 .putExtra(AppOpenFrom.INTENT_KEY, key)
-        }
-    }
-
-    object Intro {
-
-        /**
-         * After launch this instance application will be restarted with only this screen.
-         */
-        operator fun get(context: Context): Intent {
-            return Intent(context, IntroActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     }
 

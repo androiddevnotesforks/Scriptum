@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main
 
-import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -18,7 +17,6 @@ import sgtmelon.scriptum.infrastructure.converter.dialog.AddSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
@@ -31,7 +29,6 @@ import sgtmelon.scriptum.infrastructure.utils.onView
 import sgtmelon.scriptum.infrastructure.utils.updateMargin
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
-import sgtmelon.test.idling.getIdling
 
 /**
  * Screen which displays main menu.
@@ -56,11 +53,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     private val pageConverter = MainPageConverter()
 
     //region System
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        getIdling().stop(IdlingTag.Intro.FINISH)
-    }
 
     override fun inject(component: ScriptumComponent) {
         component.getMainBuilder()

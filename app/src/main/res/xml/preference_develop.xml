@@ -59,11 +59,6 @@
     <PreferenceCategory android:title="@string/pref_header_screen"
         app:iconSpaceReserved="false">
 
-        <Preference android:key="@string/pref_key_screen_intro"
-            android:summary="@string/pref_summary_screen_intro"
-            android:title="@string/pref_title_screen_intro"
-            app:iconSpaceReserved="false" />
-
         <Preference android:key="@string/pref_key_screen_alarm"
             android:summary="@string/pref_summary_screen_alarm"
             android:title="@string/pref_title_screen_alarm"

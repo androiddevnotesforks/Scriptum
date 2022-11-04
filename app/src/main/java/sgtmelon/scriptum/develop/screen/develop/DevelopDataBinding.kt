@@ -16,7 +16,6 @@ class DevelopDataBinding(val fragment: PreferenceFragmentCompat) {
     val printKeyButton: Preference? get() = fragment.findPreference(R.string.pref_key_print_key)
     val printFileButton: Preference? get() = fragment.findPreference(R.string.pref_key_print_file)
 
-    val introButton: Preference? get() = fragment.findPreference(R.string.pref_key_screen_intro)
     val alarmButton: Preference? get() = fragment.findPreference(R.string.pref_key_screen_alarm)
     val eternalButton: Preference? get() = fragment.findPreference(R.string.pref_key_service_eternal)
     val resetButton: Preference? get() = fragment.findPreference(R.string.pref_key_other_reset)
