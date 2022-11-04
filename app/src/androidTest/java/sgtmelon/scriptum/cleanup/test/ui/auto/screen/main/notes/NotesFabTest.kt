@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
@@ -43,13 +44,17 @@ class NotesFabTest : ParentUiTest() {
         mainScreen {
             notesScreen { onScroll(Scroll.END, time = 1) }
             assert(isFabVisible = false)
-            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(isFabVisible = true) }
+            waitBefore(RecyclerMainFabListener.FAB_STANDSTILL_TIME) {
+                assert(isFabVisible = true)
+            }
 
             onScrollTop()
             notesScreen { onScroll(Scroll.END, time = 1) }
             assert(isFabVisible = false)
             onNavigateTo(MainPage.BIN)
-            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(isFabVisible = false) }
+            waitBefore(RecyclerMainFabListener.FAB_STANDSTILL_TIME) {
+                assert(isFabVisible = false)
+            }
         }
     }
 
