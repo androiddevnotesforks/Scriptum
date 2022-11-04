@@ -10,11 +10,11 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
  */
 interface INotesInteractor : IParentInteractor {
 
-    @Deprecated("remove")
-    suspend fun getCount(): Int
+    //    @Deprecated("remove")
+    //    suspend fun getCount(): Int
 
-    @Deprecated("remove")
-    suspend fun isListHide(): Boolean
+    //    @Deprecated("remove")
+    //    suspend fun isListHide(): Boolean
 
     suspend fun convertNote(item: NoteItem): NoteItem
 }

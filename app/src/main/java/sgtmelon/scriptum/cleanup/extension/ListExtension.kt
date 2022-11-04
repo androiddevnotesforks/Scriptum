@@ -22,13 +22,14 @@ fun <T> List<T>.validIndexOfFirst(predicate: (T) -> Boolean): Int? {
 
 //endregion
 
-/**
- * Move item by positions. If [to] position not defined, then move to last position.
- */
-fun <T> MutableList<T>.move(from: Int, to: Int = ND_INDEX) {
+fun <T> MutableList<T>.move(from: Int, to: Int) {
     val item = removeAtOrNull(from) ?: return
+    add(to, item)
+}
 
-    if (to == ND_INDEX) add(item) else add(to, item)
+fun <T> MutableList<T>.moveToEnd(from: Int) {
+    val item = removeAtOrNull(from) ?: return
+    add(item)
 }
 
 fun <T> MutableList<T>.clearAdd(replace: List<T>) = apply {

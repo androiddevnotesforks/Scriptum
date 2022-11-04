@@ -26,9 +26,9 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.move
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
@@ -105,7 +105,7 @@ class NoteRepoImplTest : ParentRepoTest() {
             coEvery { spyRepository.transformNoteEntity(entity, isOptimal) } returns itemList[i]
         }
 
-        coEvery { spyRepository.correctRankSort(itemList, sort) } returns itemList
+        coEvery { spyRepository.correctRankSort(sort, itemList) } returns itemList
 
         runBlocking {
             assertEquals(
@@ -123,7 +123,7 @@ class NoteRepoImplTest : ParentRepoTest() {
             for (entity in entityList) {
                 spyRepository.transformNoteEntity(entity, isOptimal)
             }
-            spyRepository.correctRankSort(itemList, sort)
+            spyRepository.correctRankSort(sort, itemList)
 
             spyRepository.getList(sort, isBin, isOptimal, filterVisible = true)
 
@@ -132,7 +132,7 @@ class NoteRepoImplTest : ParentRepoTest() {
             for (entity in entityList) {
                 spyRepository.transformNoteEntity(entity, isOptimal)
             }
-            spyRepository.correctRankSort(itemList, sort)
+            spyRepository.correctRankSort(sort, itemList)
         }
     }
 
@@ -172,9 +172,9 @@ class NoteRepoImplTest : ParentRepoTest() {
             TestData.Note.firstNote.deepCopy(id = Random.nextLong())
         }
 
-        assertNotEquals(finishList, repository.correctRankSort(startList, Sort.COLOR))
-        assertEquals(finishList, repository.correctRankSort(startList, Sort.RANK))
-        assertEquals(simpleList, repository.correctRankSort(simpleList, Sort.RANK))
+        assertNotEquals(finishList, repository.correctRankSort(Sort.COLOR, startList))
+        assertEquals(finishList, repository.correctRankSort(Sort.RANK, startList))
+        assertEquals(simpleList, repository.correctRankSort(Sort.RANK, simpleList))
     }
 
     @Test fun getItem() {

@@ -11,7 +11,6 @@ class GetNotesListUseCase(
 ) {
 
     suspend operator fun invoke(): Pair<List<NoteItem>, Boolean> {
-        val sort = preferencesRepo.sort
-        return noteRepo.getList(sort, isBin = false, isOptimal = true, filterVisible = true)
+        return noteRepo.getNotesList(preferencesRepo.sort)
     }
 }

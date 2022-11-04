@@ -52,4 +52,7 @@ data class NoteEntity(
 
     @ColumnInfo(name = Note.STATUS, defaultValue = Room.STATUS)
     var isStatus: Boolean = Default.STATUS
-)
+) {
+
+    fun haveRank(): Boolean = rankId != Default.RANK_ID && rankPs != Default.RANK_PS
+}

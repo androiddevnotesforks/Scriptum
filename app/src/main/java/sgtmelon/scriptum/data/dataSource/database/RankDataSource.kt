@@ -21,6 +21,7 @@ interface RankDataSource {
 
     suspend fun getIdVisibleList(): List<Long>
 
+    @Deprecated("remove")
     suspend fun getIdList(): List<Long>
 
     suspend fun getNameList(): List<String>

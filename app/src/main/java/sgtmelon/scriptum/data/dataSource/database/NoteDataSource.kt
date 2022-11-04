@@ -16,6 +16,7 @@ interface NoteDataSource {
     suspend fun update(list: List<NoteEntity>)
 
 
+    @Deprecated("remove")
     suspend fun getRankVisibleCount(isBin: Boolean, rankIdList: List<Long>): Int
 
     suspend fun getBindCount(idList: List<Long>): Int

@@ -11,7 +11,6 @@ class GetBinListUseCase(
 ) {
 
     suspend operator fun invoke(): List<NoteItem> {
-        val sort = preferencesRepo.sort
-        return noteRepo.getList(sort, isBin = true, isOptimal = true, filterVisible = false).first
+        return noteRepo.getBinList(preferencesRepo.sort)
     }
 }

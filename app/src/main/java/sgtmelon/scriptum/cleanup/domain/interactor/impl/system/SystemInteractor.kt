@@ -8,7 +8,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPresenter
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
@@ -49,21 +48,20 @@ class SystemInteractor(
      */
     // TODO зачем тут ещё одна сортировка, если её можно сделать внутри noteRepo?
     override suspend fun notifyNotesBind() {
-        val sort = preferenceRepo.sort
-        val list = noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
-        val rankIdVisibleList = rankRepo.getIdVisibleList()
+        val list = noteRepo.getBindNoteList(preferenceRepo.sort)
+        //        val rankIdVisibleList = rankRepo.getIdVisibleList()
 
-        val filterList = getFilterList(list, rankIdVisibleList)
+        //        val filterList = getFilterList(list, rankIdVisibleList)
 
-        callback?.notifyNotesBind(filterList)
+        callback?.notifyNotesBind(list)
     }
 
-    @RunPrivate fun getFilterList(
-        itemList: List<NoteItem>,
-        rankIdVisibleList: List<Long>
-    ): List<NoteItem> {
-        return itemList.filter { !it.isBin && it.isStatus && it.isRankVisible(rankIdVisibleList) }
-    }
+    //    @RunPrivate fun getFilterList(
+    //        itemList: List<NoteItem>,
+    //        rankIdVisibleList: List<Long>
+    //    ): List<NoteItem> {
+    //        return itemList.filter { !it.isBin && it.isStatus && it.isRankVisible(rankIdVisibleList) }
+    //    }
 
     override suspend fun notifyCountBind() {
         callback?.notifyCountBind(bindRepo.getNotificationsCount())

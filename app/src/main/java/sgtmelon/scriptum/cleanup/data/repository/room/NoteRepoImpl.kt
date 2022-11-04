@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.cleanup.extension.moveToEnd
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
@@ -37,6 +37,8 @@ class NoteRepoImpl(
      * - For notes page need take only visible items count
      * - For bin page need take all items count
      */
+    // TODO remove
+    @Deprecated("remove")
     override suspend fun getCount(isBin: Boolean): Int {
         val rankIdList = if (isBin) {
             rankDataSource.getIdList()
@@ -46,6 +48,63 @@ class NoteRepoImpl(
 
         return noteDataSource.getRankVisibleCount(isBin, rankIdList)
     }
+
+    override suspend fun getBindNoteList(sort: Sort): List<NoteItem> {
+        val idVisibleList = rankDataSource.getIdVisibleList()
+        return noteDataSource.getList(sort, isBin = false)
+            .filter { it.isStatus }
+            .filterVisible(idVisibleList)
+            .map { transformNoteEntity(it, isOptimal = false) }
+            .toMutableList()
+            .correctRankSort(sort)
+    }
+
+    override suspend fun getBinList(sort: Sort): List<NoteItem> {
+        return noteDataSource.getList(sort, isBin = false)
+            .map { transformNoteEntity(it, isOptimal = true) }
+            .toMutableList()
+            .correctRankSort(sort)
+    }
+
+    override suspend fun getNotesList(sort: Sort): Pair<List<NoteItem>, Boolean> {
+        val idVisibleList = rankDataSource.getIdVisibleList()
+
+        val entityList = noteDataSource.getList(sort, isBin = false)
+        val itemList = entityList.filterVisible(idVisibleList)
+            .map { transformNoteEntity(it, isOptimal = false) }
+            .toMutableList()
+            .correctRankSort(sort)
+
+        return itemList to (itemList.size < entityList.size)
+    }
+
+    /**
+     * List must contains only item which isVisible.
+     */
+    private fun List<NoteEntity>.filterVisible(idVisibleList: List<Long>): List<NoteEntity> {
+        return filter { !it.haveRank() || idVisibleList.contains(it.rankId) }
+    }
+
+    /**
+     * Correcting rank sort, because notes without rank stay first in list.
+     */
+    private fun MutableList<NoteItem>.correctRankSort(sort: Sort) = apply {
+        if (sort != Sort.RANK) return@apply
+
+        /** List must contains item with and without rank. */
+
+        /** List must contains item with and without rank. */
+        if (any { it.haveRank() } && any { !it.haveRank() }) {
+
+            /** Move items without rank to list end. */
+
+            /** Move items without rank to list end. */
+            while (!first().haveRank()) {
+                moveToEnd(from = 0)
+            }
+        }
+    }
+
 
     /**
      * [isOptimal] - need for note lists where displays short information.
@@ -60,49 +119,19 @@ class NoteRepoImpl(
         isOptimal: Boolean,
         filterVisible: Boolean
     ): Pair<List<NoteItem>, Boolean> {
-        var entityList = noteDataSource.getList(sort, isBin)
-
-        var isFiltered = false
-        if (filterVisible) {
-            val filteredList = filterVisible(entityList)
-            isFiltered = entityList.size != filteredList.size
-            entityList = filteredList
-        }
-
-        val itemList = entityList.map { transformNoteEntity(it, isOptimal) }.toMutableList()
-
-        return correctRankSort(itemList, sort) to isFiltered
-    }
-
-    /**
-     * List must contains only item which isVisible.
-     */
-    @RunPrivate
-    suspend fun filterVisible(list: List<NoteEntity>): List<NoteEntity> {
-        val idVisibleList = rankDataSource.getIdVisibleList()
-
-        return list.filter { noteConverter.toItem(it).isRankVisible(idVisibleList) }
-    }
-
-    /**
-     * Correcting rank sort, because notes without rank stay first in list.
-     */
-    @RunPrivate
-    fun correctRankSort(list: MutableList<NoteItem>, sort: Sort) = list.apply {
-        if (sort != Sort.RANK) return@apply
-
-        /**
-         * List must contains item with and without rank.
-         */
-        if (any { it.haveRank() } && any { !it.haveRank() }) {
-
-            /**
-             * Move items without rank to list end.
-             */
-            while (!first().haveRank()) {
-                move(from = 0)
-            }
-        }
+        TODO()
+        //        var entityList = noteDataSource.getList(sort, isBin)
+        //
+        //        var isFiltered = false
+        //        if (filterVisible) {
+        //            val filteredList = entityList.filterVisible()
+        //            isFiltered = entityList.size != filteredList.size
+        //            entityList = filteredList
+        //        }
+        //
+        //        val itemList = entityList.map { transformNoteEntity(it, isOptimal) }.toMutableList()
+        //
+        //        return itemList.correctRankSort(sort) to isFiltered
     }
 
     /**
@@ -117,6 +146,7 @@ class NoteRepoImpl(
         return transformNoteEntity(entity, isOptimal)
     }
 
+    // TODO move inside some mapper or something like this
     @RunPrivate
     suspend fun transformNoteEntity(entity: NoteEntity, isOptimal: Boolean): NoteItem {
         val isVisible = rollVisibleDataSource.getVisible(entity.id)
@@ -159,16 +189,17 @@ class NoteRepoImpl(
 
     // Repo other functions
 
-    /**
-     * Have hide notes in list or not.
-     */
-    override suspend fun isListHide(): Boolean {
-        val rankIdVisibleList = rankDataSource.getIdVisibleList()
-
-        return noteDataSource.getList(isBin = false).any {
-            !noteConverter.toItem(it).isRankVisible(rankIdVisibleList)
-        }
-    }
+    // TODO remove
+    //    /**
+    //     * Have hide notes in list or not.
+    //     */
+    //    override suspend fun isListHide(): Boolean {
+    //        val rankIdVisibleList = rankDataSource.getIdVisibleList()
+    //
+    //        return noteDataSource.getList(isBin = false).any {
+    //            !noteConverter.toItem(it).isRankVisible(rankIdVisibleList)
+    //        }
+    //    }
 
     // Repo work with delete functions
 

@@ -62,10 +62,6 @@ sealed class NoteItem(
         alarmDate = Alarm.Default.DATE
     }
 
-    fun isRankVisible(rankIdVisibleList: List<Long>): Boolean {
-        return !haveRank() || rankIdVisibleList.contains(rankId)
-    }
-
 
     fun onDelete() = apply {
         updateTime()

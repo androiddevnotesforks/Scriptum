@@ -14,6 +14,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
  */
 class NoteConverter {
 
+    // TODO check null, arraylist null usage
     fun toItem(
         noteEntity: NoteEntity,
         isVisible: Boolean? = null,
