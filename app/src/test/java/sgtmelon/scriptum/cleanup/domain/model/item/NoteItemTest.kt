@@ -9,9 +9,9 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.Complete
 import sgtmelon.scriptum.cleanup.extension.getText
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.INDICATOR_MAX_COUNT as MAX_COUNT
 
 /**
@@ -57,8 +57,9 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun switchStatus() {
-        assertTrue(textItem.deepCopy(isStatus = false).switchStatus().isStatus)
-        assertFalse(textItem.deepCopy(isStatus = true).switchStatus().isStatus)
+        TODO()
+        //        assertTrue(textItem.deepCopy(isStatus = false).switchStatus().isStatus)
+        //        assertFalse(textItem.deepCopy(isStatus = true).switchStatus().isStatus)
     }
 
     @Test fun updateTime() = assertChangeTime(rollItem.deepCopy(change = changeText).updateTime())
@@ -90,18 +91,6 @@ class NoteItemTest : ParentTest() {
         assertTrue(item.haveAlarm())
         assertFalse(item.clearAlarm().haveAlarm())
     }
-
-    @Test fun isRankVisible() {
-        val idList = listOf<Long>(1, 2, 3)
-
-        assertTrue(rollItem.deepCopy().isRankVisible(idList))
-        assertTrue(rollItem.deepCopy(rankId = 0).isRankVisible(idList))
-        assertTrue(rollItem.deepCopy(rankPs = 0).isRankVisible(idList))
-
-        assertFalse(rollItem.deepCopy(rankId = 0, rankPs = 0).isRankVisible(idList))
-        assertTrue(rollItem.deepCopy(rankId = 1, rankPs = 1).isRankVisible(idList))
-    }
-
 
     @Test fun onDelete() {
         rollItem.deepCopy(change = changeText, isBin = false, isStatus = true).onDelete().let {

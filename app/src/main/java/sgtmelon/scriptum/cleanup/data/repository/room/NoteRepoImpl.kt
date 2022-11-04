@@ -43,7 +43,7 @@ class NoteRepoImpl(
     }
 
     override suspend fun getBinList(sort: Sort): List<NoteItem> {
-        return noteDataSource.getList(sort, isBin = false)
+        return noteDataSource.getList(sort, isBin = true)
             .map { transformNoteEntity(it, isOptimal = true) }
             .toMutableList()
             .correctRankSort(sort)
@@ -54,7 +54,7 @@ class NoteRepoImpl(
 
         val entityList = noteDataSource.getList(sort, isBin = false)
         val itemList = entityList.filterVisible(idVisibleList)
-            .map { transformNoteEntity(it, isOptimal = false) }
+            .map { transformNoteEntity(it, isOptimal = true) }
             .toMutableList()
             .correctRankSort(sort)
 

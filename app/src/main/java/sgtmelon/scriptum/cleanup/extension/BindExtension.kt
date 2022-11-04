@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import sgtmelon.extensions.formatFuture
@@ -88,7 +89,13 @@ fun CheckBox.bindCheck(checkState: Boolean) {
 
 //endregion
 
-//region Time
+//region Text
+
+@BindingAdapter(value = ["stringId"])
+fun TextView.bindText(@StringRes stringId: Int) {
+    if (stringId == 0) return
+    setText(stringId)
+}
 
 @BindingAdapter(value = ["pastTime"])
 fun TextView.bindPastTime(dateTime: String) {

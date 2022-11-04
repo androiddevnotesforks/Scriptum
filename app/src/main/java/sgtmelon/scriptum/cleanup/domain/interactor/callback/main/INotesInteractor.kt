@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 /**
  * Interface for communication [NotesViewModel] with [NotesInteractor].
  */
+// TODO rebuild into useCase
 interface INotesInteractor : IParentInteractor {
 
     suspend fun convertNote(item: NoteItem): NoteItem

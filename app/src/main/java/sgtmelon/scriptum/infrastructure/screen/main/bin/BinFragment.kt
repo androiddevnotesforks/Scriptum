@@ -122,7 +122,9 @@ class BinFragment : ParentFragment<FragmentBinBinding>(),
     //endregion
 
     private fun openNoteScreen(item: NoteItem) {
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context ?: return, item]) }
+        val context = context ?: return
+
+        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item]) }
     }
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {

@@ -176,193 +176,10 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
 
     //endregion
 
-    //region cleanup
-
-    //    override fun setupToolbar() {
-    //        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
-    //            title = getString(R.string.title_notes)
-    //            inflateMenu(R.menu.fragment_notes)
-    //
-    //            setOnMenuItemClickListener {
-    //                parentOpen?.attempt {
-    //                    startActivity(
-    //                        when (it.itemId) {
-    //                            R.id.item_notifications -> InstanceFactory.Notifications[context]
-    //                            else -> InstanceFactory.Preference[context, PreferenceScreen.PREFERENCE]
-    //                        }
-    //                    )
-    //                }
-    //
-    //                return@setOnMenuItemClickListener true
-    //            }
-    //
-    //            activity?.let {
-    //                menu?.findItem(R.id.item_notifications)?.tintIcon(it)
-    //                menu?.findItem(R.id.item_preferences)?.tintIcon(it)
-    //            }
-    //        }
-    //    }
-    //
-    //    override fun setupRecycler() {
-    //        parentContainer = view?.findViewById(R.id.parent_container)
-    //        emptyInfoView = view?.findViewById(R.id.info_include)
-    //        progressBar = view?.findViewById(R.id.progress_bar)
-    //
-    //        recyclerView = view?.findViewById(R.id.recycler_view)
-    //        recyclerView?.let {
-    //            it.setDefaultAnimator { onBindingList() }
-    //
-    //            it.addOnScrollListener(RecyclerOverScrollListener())
-    //            it.setHasFixedSize(true)
-    //            it.layoutManager = LinearLayoutManager(context)
-    //            it.adapter = adapter
-    //
-    //            it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-    //                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-    //                    /** Visible only if scroll to top. */
-    //                    val isTopScroll = dy <= 0
-    //
-    //                    fabCallback?.changeFabVisibility(isTopScroll, withGap = true)
-    //                    fabDelayJob.run(FAB_STANDSTILL_TIME) {
-    //                        fabCallback?.changeFabVisibility()
-    //                    }
-    //                }
-    //            })
-    //        }
-    //    }
-    //
-    //    override fun setupDialog() {
-    //        optionsDialog.apply {
-    //            onItem {
-    //                if (it == Options.Notes.NOTIFICATION) {
-    //                    parentOpen?.skipClear = true
-    //                }
-    //
-    //                viewModel.onResultOptionsDialog(optionsDialog.position, it)
-    //            }
-    //            onDismiss { parentOpen?.clear() }
-    //        }
-    //
-    //        dateDialog.apply {
-    //            onPositiveClick {
-    //                parentOpen?.skipClear = true
-    //                viewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
-    //            }
-    //            onNeutralClick { viewModel.onResultDateDialogClear(dateDialog.position) }
-    //            onDismiss { parentOpen?.clear() }
-    //        }
-    //
-    //        timeDialog.apply {
-    //            onPositiveClick {
-    //                viewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
-    //            }
-    //            onDismiss { parentOpen?.clear() }
-    //        }
-    //    }
-    //
-    //    override fun setupBinding(isListHide: Boolean) {
-    //        binding?.isListHide = isListHide
-    //    }
-    //
-    //    /**
-    //     * For first time [recyclerView] visibility flag set inside xml file.
-    //     */
-    //    override fun prepareForLoad() {
-    //        emptyInfoView?.makeGone()
-    //        progressBar?.makeGone()
-    //    }
-    //
-    //    override fun showProgress() {
-    //        progressBar?.makeVisible()
-    //    }
-    //
-    //    override fun hideEmptyInfo() {
-    //        emptyInfoView?.makeGone()
-    //    }
-    //
-    //
-    //    override fun onBindingList() {
-    //        progressBar?.makeGone()
-    //
-    //        /**
-    //         * Case without animation need for best performance, without freeze. Because changes
-    //         * on other screens may cause [onBindingList].
-    //         */
-    //        if (adapter.itemCount == 0) {
-    //            /**
-    //             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
-    //             */
-    //            if (emptyInfoView.isVisible() && recyclerView.isInvisible()) return
-    //
-    //            emptyInfoView?.makeVisible()
-    //            recyclerView?.makeInvisible()
-    //
-    //            emptyInfoView?.alpha = 0f
-    //            emptyInfoView?.animateAlpha(isVisible = true)
-    //        } else {
-    //            /**
-    //             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
-    //             */
-    //            if (emptyInfoView.isGone() && recyclerView.isVisible()) return
-    //
-    //            emptyInfoView?.makeGone()
-    //            recyclerView?.makeVisible()
-    //        }
-    //    }
-
-    //    TODO remove
-    //
-    //    override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
-    //        parentOpen?.attempt {
-    //            parentOpen?.tag = OpenState.Tag.DIALOG
-    //
-    //            optionsDialog.title = title
-    //            optionsDialog.setArguments(itemArray, p)
-    //                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
-    //        }
-    //    }
-    //
-    //    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
-    //        parentOpen?.attempt(OpenState.Tag.DIALOG) {
-    //            dateDialog.setArguments(calendar, resetVisible, p)
-    //                .safeShow(DialogFactory.Main.DATE, owner = this)
-    //        }
-    //    }
-    //
-    //    override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
-    //        parentOpen?.attempt(OpenState.Tag.DIALOG) {
-    //            activity?.hideKeyboard()
-    //            timeDialog.setArguments(calendar, dateList, p)
-    //                .safeShow(DialogFactory.Main.TIME, owner = this)
-    //        }
-    //    }
-    //
-    //    override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
-    //
-    //    override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)
-    //
-    //
-    //    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-    //        delegators.broadcast.sendSetAlarm(id, calendar, showToast)
-    //    }
-    //
-    //    override fun sendCancelAlarmBroadcast(id: Long) = delegators.broadcast.sendCancelAlarm(id)
-    //
-    //    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
-    //
-    //    override fun sendCancelNoteBroadcast(id: Long) = delegators.broadcast.sendCancelNoteBind(id)
-    //
-    //    override fun sendNotifyInfoBroadcast(count: Int?) =
-    //        delegators.broadcast.sendNotifyInfoBind(count)
-    //
-    //
-    //
-    //    override fun copyClipboard(text: String) = delegators.clipboard.copy(text)
-
-    //endregion
-
     private fun openNoteScreen(item: NoteItem) {
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context ?: return, item]) }
+        val context = context ?: return
+
+        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item]) }
     }
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {
@@ -442,8 +259,6 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
         }
     }
 
-    // todo open dialogs
-
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         val context = context ?: return false
 
@@ -463,10 +278,4 @@ class NotesFragment : ParentFragment<FragmentNotesBinding>(),
     override fun scrollTop() {
         binding?.recyclerView?.smoothScrollToPosition(0)
     }
-
-
-    // TODO remove
-    //    companion object {
-    //        const val FAB_STANDSTILL_TIME = 2000L
-    //    }
 }

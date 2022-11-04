@@ -5,7 +5,7 @@ import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
-import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
+import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
@@ -18,7 +18,7 @@ class BinViewModelImplTest : ParentLiveDataTest() {
 
     //region Setup
 
-    @MockK lateinit var getList: GetNotesListUseCase
+    @MockK lateinit var getList: GetBinListUseCase
     @MockK lateinit var getCopyText: GetCopyTextUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
     @MockK lateinit var clearBin: ClearBinUseCase

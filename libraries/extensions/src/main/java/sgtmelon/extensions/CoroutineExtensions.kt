@@ -39,8 +39,6 @@ inline fun <T> flowOnBack(crossinline func: suspend FlowCollector<T>.() -> Unit)
     return flow { func() }.flowOn(Dispatchers.IO)
 }
 
-fun <T> Flow<T>.onBack(): Flow<T> = flowOn(Dispatchers.IO)
-
 /**
  * Short collect realization.
  */

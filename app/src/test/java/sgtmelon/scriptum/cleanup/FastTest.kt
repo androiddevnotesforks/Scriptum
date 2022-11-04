@@ -949,58 +949,59 @@ object FastTest {
         }
 
         fun onMenuBind(noteItem: N, restoreItem: N) {
-            mockkInit()
-
-            val noteState = mockk<NoteState>()
-
-            every { noteItem.switchStatus() } returns noteItem
-            mockDeepCopy(noteItem)
-
-            viewModel.noteItem = noteItem
-            viewModel.restoreItem = restoreItem
-            viewModel.noteState = noteState
-
-            every { callback.isDialogOpen } returns true
-            every { noteState.isEdit } returns true
-            viewModel.onMenuBind()
-
-            assertEquals(restoreItem, viewModel.restoreItem)
-
-            every { callback.isDialogOpen } returns true
-            every { noteState.isEdit } returns false
-            viewModel.onMenuBind()
-
-            assertEquals(restoreItem, viewModel.restoreItem)
-
-            every { callback.isDialogOpen } returns false
-            every { noteState.isEdit } returns true
-            viewModel.onMenuBind()
-
-            assertEquals(restoreItem, viewModel.restoreItem)
-
-            every { callback.isDialogOpen } returns false
-            every { noteState.isEdit } returns false
-            viewModel.onMenuBind()
-
-            coVerifySequence {
-                verifyInit()
-
-                callback.isDialogOpen
-                callback.isDialogOpen
-                callback.isDialogOpen
-                noteState.isEdit
-
-                callback.isDialogOpen
-                noteState.isEdit
-                noteItem.switchStatus()
-                verifyDeepCopy(noteItem)
-                noteState.isEdit
-                callback.onBindingEdit(noteItem, isEditMode = false)
-                updateNote(noteItem)
-                callback.sendNotifyNotesBroadcast()
-            }
-
-            assertEquals(noteItem, viewModel.restoreItem)
+            TODO()
+            //            mockkInit()
+            //
+            //            val noteState = mockk<NoteState>()
+            //
+            //            every { noteItem.switchStatus() } returns noteItem
+            //            mockDeepCopy(noteItem)
+            //
+            //            viewModel.noteItem = noteItem
+            //            viewModel.restoreItem = restoreItem
+            //            viewModel.noteState = noteState
+            //
+            //            every { callback.isDialogOpen } returns true
+            //            every { noteState.isEdit } returns true
+            //            viewModel.onMenuBind()
+            //
+            //            assertEquals(restoreItem, viewModel.restoreItem)
+            //
+            //            every { callback.isDialogOpen } returns true
+            //            every { noteState.isEdit } returns false
+            //            viewModel.onMenuBind()
+            //
+            //            assertEquals(restoreItem, viewModel.restoreItem)
+            //
+            //            every { callback.isDialogOpen } returns false
+            //            every { noteState.isEdit } returns true
+            //            viewModel.onMenuBind()
+            //
+            //            assertEquals(restoreItem, viewModel.restoreItem)
+            //
+            //            every { callback.isDialogOpen } returns false
+            //            every { noteState.isEdit } returns false
+            //            viewModel.onMenuBind()
+            //
+            //            coVerifySequence {
+            //                verifyInit()
+            //
+            //                callback.isDialogOpen
+            //                callback.isDialogOpen
+            //                callback.isDialogOpen
+            //                noteState.isEdit
+            //
+            //                callback.isDialogOpen
+            //                noteState.isEdit
+            //                noteItem.switchStatus()
+            //                verifyDeepCopy(noteItem)
+            //                noteState.isEdit
+            //                callback.onBindingEdit(noteItem, isEditMode = false)
+            //                updateNote(noteItem)
+            //                callback.sendNotifyNotesBroadcast()
+            //            }
+            //
+            //            assertEquals(noteItem, viewModel.restoreItem)
         }
 
         fun onMenuConvert() {

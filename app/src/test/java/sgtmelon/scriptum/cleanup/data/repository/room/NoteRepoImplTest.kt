@@ -52,6 +52,18 @@ class NoteRepoImplTest : ParentRepoTest() {
 
     // Repo get count and list functions
 
+    @Test fun getBindNoteList() {
+        TODO()
+    }
+
+    @Test fun getBinList() {
+        TODO()
+    }
+
+    @Test fun getNotesList() {
+        TODO()
+    }
+
     @Test fun getList() {
         TODO("write different tests getBind, getNotes, getBin lists")
         //        val sort = mockk<Sort>()
