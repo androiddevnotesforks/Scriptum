@@ -5,10 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
-import sgtmelon.extensions.onBack
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -75,49 +74,49 @@ class NotesViewModelImpl(
         }
     }
 
-    override fun getNoteNotification(p: Int): Flow<Pair<Calendar, Boolean>> = flow {
-        val item = _itemList.getOrNull(p) ?: return@flow
+    override fun getNoteNotification(p: Int): Flow<Pair<Calendar, Boolean>> = flowOnBack {
+        val item = _itemList.getOrNull(p) ?: return@flowOnBack
         emit(value = item.alarmDate.toCalendar() to item.haveAlarm())
-    }.onBack()
+    }
 
-    override fun getOccupiedDateList(): Flow<List<String>> = flow {
+    override fun getOccupiedDateList(): Flow<List<String>> = flowOnBack {
         emit(getNotificationDateList())
-    }.onBack()
+    }
 
-    override fun deleteNoteNotification(p: Int): Flow<NoteItem> = flow {
-        val item = _itemList.getOrNull(p) ?: return@flow
+    override fun deleteNoteNotification(p: Int): Flow<NoteItem> = flowOnBack {
+        val item = _itemList.getOrNull(p) ?: return@flowOnBack
 
         item.clearAlarm()
         itemList.postValue(_itemList)
         deleteNotification(item)
         emit(item)
-    }.onBack()
+    }
 
     override fun setNoteNotification(
         calendar: Calendar,
         p: Int
-    ): Flow<Pair<NoteItem, Calendar>> = flow {
-        if (calendar.isBeforeNow()) return@flow
+    ): Flow<Pair<NoteItem, Calendar>> = flowOnBack {
+        if (calendar.isBeforeNow()) return@flowOnBack
 
-        val item = _itemList.getOrNull(p) ?: return@flow
+        val item = _itemList.getOrNull(p) ?: return@flowOnBack
 
         setNotification(item, calendar)
         itemList.postValue(_itemList)
 
         emit(value = item to calendar)
-    }.onBack()
+    }
 
-    override fun updateNoteBind(p: Int): Flow<NoteItem> = flow {
-        val item = _itemList.getOrNull(p) ?: return@flow
+    override fun updateNoteBind(p: Int): Flow<NoteItem> = flowOnBack {
+        val item = _itemList.getOrNull(p) ?: return@flowOnBack
 
         item.switchStatus()
         itemList.postValue(_itemList)
         updateNote(item)
         emit(item)
-    }.onBack()
+    }
 
-    override fun convertNote(p: Int): Flow<NoteItem> = flow {
-        val item = _itemList.getOrNull(p) ?: return@flow
+    override fun convertNote(p: Int): Flow<NoteItem> = flowOnBack {
+        val item = _itemList.getOrNull(p) ?: return@flowOnBack
         val newItem = interactor.convertNote(item)
 
         /** Sort list without new call to dataBase. */
@@ -125,207 +124,22 @@ class NotesViewModelImpl(
         _itemList.clearAdd(sortList(_itemList, preferencesRepo.sort))
         itemList.postValue(_itemList)
         emit(newItem)
-    }.onBack()
+    }
 
-    override fun getNoteText(p: Int): Flow<String> = flow {
-        val item = _itemList.getOrNull(p) ?: return@flow
+    override fun getNoteText(p: Int): Flow<String> = flowOnBack {
+        val item = _itemList.getOrNull(p) ?: return@flowOnBack
         emit(getCopyText(item))
-    }.onBack()
+    }
 
-    override fun deleteNote(p: Int): Flow<NoteItem> = flow {
-        val item = _itemList.removeAtOrNull(p) ?: return@flow
+    override fun deleteNote(p: Int): Flow<NoteItem> = flowOnBack {
+        val item = _itemList.removeAtOrNull(p) ?: return@flowOnBack
 
         itemList.postValue(_itemList)
         notifyShowList()
 
         deleteNote(item)
         emit(item)
-    }.onBack()
-
-    //region Cleanup
-
-    //    @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
-    //
-    //    override fun onSetup(bundle: Bundle?) {
-    //        callback?.setupToolbar()
-    //        callback?.setupRecycler()
-    //        callback?.setupDialog()
-    //
-    //        callback?.prepareForLoad()
-    //    }
-    //
-    //
-    //    override fun onUpdateData() {
-    //        getIdling().start(IdlingTag.Notes.LOAD_DATA)
-    //
-    //        /**
-    //         * If was rotation need show list. After that fetch updates.
-    //         */
-    //        if (itemList.isNotEmpty()) {
-    //            callback?.apply {
-    //                notifyList(itemList)
-    //                onBindingList()
-    //            }
-    //        }
-    //
-    //        viewModelScope.launch {
-    //            val count = runBack { interactor.getCount() }
-    //
-    //            if (count == 0) {
-    //                itemList.clear()
-    //            } else {
-    //                if (itemList.isEmpty()) {
-    //                    callback?.hideEmptyInfo()
-    //                    callback?.showProgress()
-    //                }
-    //
-    //                runBack { itemList.clearAdd(getList(isBin = false)) }
-    //            }
-    //
-    //            callback?.apply {
-    //                val isListHide = runBack { interactor.isListHide() }
-    //
-    //                notifyList(itemList)
-    //                setupBinding(isListHide)
-    //                onBindingList()
-    //            }
-    //
-    //            getIdling().stop(IdlingTag.Notes.LOAD_DATA)
-    //        }
-    //    }
-    //
-    // TODO
-    //    @Deprecated("Move preparation before show dialog inside some delegator, which will call from UI")
-    //    override fun onShowOptionsDialog(item: NoteItem, p: Int) {
-    //        val callback = callback ?: return
-    //
-    //        val title = item.name.ifEmpty { callback.getString(R.string.empty_note_name) }
-    //
-    //        val itemArray: Array<String> = callback.getStringArray(
-    //            when (item) {
-    //                is NoteItem.Text -> R.array.dialog_menu_text
-    //                is NoteItem.Roll -> R.array.dialog_menu_roll
-    //            }
-    //        )
-    //
-    //        itemArray[Options.NOTIFICATION] = if (item.haveAlarm()) {
-    //            callback.getString(R.string.dialog_menu_notification_update)
-    //        } else {
-    //            callback.getString(R.string.dialog_menu_notification_set)
-    //        }
-    //
-    //        itemArray[Options.BIND] = if (item.isStatus) {
-    //            callback.getString(R.string.dialog_menu_status_unbind)
-    //        } else {
-    //            callback.getString(R.string.dialog_menu_status_bind)
-    //        }
-    //
-    //        callback.showOptionsDialog(title, itemArray, p)
-    //    }
-    //
-    //
-    //    override fun onResultOptionsDialog(p: Int, @Options which: Int) {
-    //        when (which) {
-    //            Options.NOTIFICATION -> onMenuNotification(p)
-    //            Options.BIND -> onMenuBind(p)
-    //            Options.CONVERT -> onMenuConvert(p)
-    //            Options.COPY -> onMenuCopy(p)
-    //            Options.DELETE -> onMenuDelete(p)
-    //        }
-    //    }
-    //
-    //    @RunPrivate fun onMenuNotification(p: Int) {
-    //        val item = itemList.getOrNull(p) ?: return
-    //
-    //        callback?.showDateDialog(item.alarmDate.toCalendar(), item.haveAlarm(), p)
-    //    }
-    //
-    //    @RunPrivate fun onMenuBind(p: Int) {
-    //        val item = itemList.getOrNull(p)?.switchStatus() ?: return
-    //
-    //        callback?.notifyList(itemList)
-    //
-    //        viewModelScope.launch {
-    //            runBack { updateNote(item) }
-    //
-    //            callback?.sendNotifyNotesBroadcast()
-    //        }
-    //    }
-    //
-    //    @RunPrivate fun onMenuConvert(p: Int) {
-    //        val item = itemList.getOrNull(p) ?: return
-    //
-    //        viewModelScope.launch {
-    //            itemList[p] = runBack { interactor.convertNote(item) }
-    //
-    //            val sortList = runBack { sortList(itemList, preferencesRepo.sort) }
-    //            callback?.notifyList(itemList.clearAdd(sortList))
-    //
-    //            callback?.sendNotifyNotesBroadcast()
-    //        }
-    //    }
-    //
-    //    @RunPrivate fun onMenuCopy(p: Int) {
-    //        val item = itemList.getOrNull(p) ?: return
-    //
-    //        viewModelScope.launch {
-    //            val text = runBack { getCopyText(item) }
-    //            callback?.copyClipboard(text)
-    //        }
-    //    }
-    //
-    //    @RunPrivate fun onMenuDelete(p: Int) {
-    //        val item = itemList.removeAtOrNull(p) ?: return
-    //
-    //        callback?.notifyList(itemList)
-    //
-    //        viewModelScope.launch {
-    //            runBack { deleteNote(item) }
-    //
-    //            callback?.sendCancelAlarmBroadcast(item)
-    //            callback?.sendCancelNoteBroadcast(item)
-    //            callback?.sendNotifyInfoBroadcast()
-    //        }
-    //    }
-    //
-    //
-    //    override fun onResultDateDialog(calendar: Calendar, p: Int) {
-    //        viewModelScope.launch {
-    //            val dateList = runBack { getNotificationDateList() }
-    //            callback?.showTimeDialog(calendar, dateList, p)
-    //        }
-    //    }
-    //
-    //    override fun onResultDateDialogClear(p: Int) {
-    //        val item = itemList.getOrNull(p) ?: return
-    //
-    //        item.clearAlarm()
-    //
-    //        callback?.notifyList(itemList)
-    //
-    //        viewModelScope.launch {
-    //            runBack { deleteNotification(item) }
-    //
-    //            callback?.sendCancelAlarmBroadcast(item)
-    //            callback?.sendNotifyInfoBroadcast()
-    //        }
-    //    }
-    //
-    //    override fun onResultTimeDialog(calendar: Calendar, p: Int) {
-    //        if (calendar.isBeforeNow()) return
-    //
-    //        val item = itemList.getOrNull(p) ?: return
-    //
-    //        viewModelScope.launch {
-    //            runBack { setNotification(item, calendar) }
-    //            callback?.notifyList(itemList)
-    //
-    //            callback?.sendSetAlarmBroadcast(item.id, calendar)
-    //            callback?.sendNotifyInfoBroadcast()
-    //        }
-    //    }
-
-    //endregion
+    }
 
     override fun onReceiveUnbindNote(noteId: Long) {
         val p = _itemList.indexOfFirst { it.id == noteId }

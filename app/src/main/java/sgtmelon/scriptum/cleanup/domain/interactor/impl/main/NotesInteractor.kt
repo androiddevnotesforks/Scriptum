@@ -14,11 +14,6 @@ import sgtmelon.test.prod.RunPrivate
 class NotesInteractor(private val noteRepo: NoteRepo) : ParentInteractor(),
     INotesInteractor {
 
-//    override suspend fun getCount(): Int = noteRepo.getCount(isBin = false)
-
-
-    //    override suspend fun isListHide(): Boolean = noteRepo.isListHide()
-
     override suspend fun convertNote(item: NoteItem): NoteItem {
         val convertItem = when (item) {
             is NoteItem.Text -> noteRepo.convertNote(item)

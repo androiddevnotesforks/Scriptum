@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
-import sgtmelon.extensions.onBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
@@ -75,10 +74,10 @@ class BinViewModelImpl(
         notifyShowList()
     }
 
-    override fun getNoteText(p: Int): Flow<String> = flow {
-        val item = _itemList.getOrNull(p) ?: return@flow
+    override fun getNoteText(p: Int): Flow<String> = flowOnBack {
+        val item = _itemList.getOrNull(p) ?: return@flowOnBack
         emit(getCopyText(item))
-    }.onBack()
+    }
 
     override fun clearNote(p: Int) {
         val item = _itemList.removeAtOrNull(p) ?: return

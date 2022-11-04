@@ -11,7 +11,6 @@ import java.util.Calendar
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -20,15 +19,12 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.nextString
 
 /**
@@ -40,19 +36,18 @@ class SystemInteractorTest : ParentInteractorTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var bindRepo: BindRepo
     @MockK lateinit var alarmRepo: AlarmRepo
-    @MockK lateinit var rankRepo: RankRepo
     @MockK lateinit var noteRepo: NoteRepo
 
     @MockK lateinit var callback: ISystemBridge
 
     private val interactor by lazy {
-        SystemInteractor(preferencesRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
+        SystemInteractor(preferencesRepo, bindRepo, alarmRepo, noteRepo, callback)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferencesRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
+        confirmVerified(preferencesRepo, bindRepo, alarmRepo, noteRepo, callback)
     }
 
     @Test override fun onDestroy() {
@@ -109,53 +104,31 @@ class SystemInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun notifyNotesBind() = startCoTest {
-        val sort = mockk<Sort>()
-        val list = mockk<List<NoteItem>>()
-        val rankIdVisibleList = mockk<List<Long>>()
-        val filterList = mockk<List<NoteItem>>()
-
-        every { preferencesRepo.sort } returns sort
-        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
-        coEvery {
-            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
-        } returns list
-        coEvery { spyInteractor.getFilterList(list, rankIdVisibleList) } returns filterList
-
-        spyInteractor.notifyNotesBind()
-
-        coVerifySequence {
-            spyInteractor.notifyNotesBind()
-
-            preferencesRepo.sort
-            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
-            rankRepo.getIdVisibleList()
-            spyInteractor.getFilterList(list, rankIdVisibleList)
-
-            callback.notifyNotesBind(filterList)
-        }
-    }
-
-    @Test fun getFilterList() {
-        val rankIdVisibleList = mockk<List<Long>>()
-
-        val size = getRandomSize()
-        val itemList = List<NoteItem>(size) { mockk() }
-        val isBinList = List(size) { Random.nextBoolean() }
-        val isStatusList = List(size) { Random.nextBoolean() }
-        val isRankVisibleList = List(size) { Random.nextBoolean() }
-
-        for ((i, item) in itemList.withIndex()) {
-            every { item.isBin } returns isBinList[i]
-            every { item.isStatus } returns isStatusList[i]
-            every { item.isRankVisible(rankIdVisibleList) } returns isRankVisibleList[i]
-        }
-
-        val resultList = ArrayList(itemList)
-        resultList.removeAll { isBinList[itemList.indexOf(it)] }
-        resultList.removeAll { !isStatusList[itemList.indexOf(it)] }
-        resultList.removeAll { !isRankVisibleList[itemList.indexOf(it)] }
-
-        assertEquals(resultList, interactor.getFilterList(itemList, rankIdVisibleList))
+        TODO()
+        //        val sort = mockk<Sort>()
+        //        val list = mockk<List<NoteItem>>()
+        //        val rankIdVisibleList = mockk<List<Long>>()
+        //        val filterList = mockk<List<NoteItem>>()
+        //
+        //        every { preferencesRepo.sort } returns sort
+        //        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        //        coEvery {
+        //            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
+        //        } returns list
+        //        coEvery { spyInteractor.getFilterList(list, rankIdVisibleList) } returns filterList
+        //
+        //        spyInteractor.notifyNotesBind()
+        //
+        //        coVerifySequence {
+        //            spyInteractor.notifyNotesBind()
+        //
+        //            preferencesRepo.sort
+        //            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
+        //            rankRepo.getIdVisibleList()
+        //            spyInteractor.getFilterList(list, rankIdVisibleList)
+        //
+        //            callback.notifyNotesBind(filterList)
+        //        }
     }
 
     @Test fun notifyCountBind() = startCoTest {

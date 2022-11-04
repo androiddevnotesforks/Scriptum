@@ -38,21 +38,6 @@ interface NoteDao {
     suspend fun update(list: List<NoteEntity>)
 
 
-    // TODO remove this func from use and do fetch in a simple way inside vm.
-    @Query(
-        value = """SELECT COUNT(NT_ID) FROM NOTE_TABLE
-            WHERE NT_BIN = :isBin AND NT_RANK_ID = -1"""
-    )
-    suspend fun getNoCategoryCount(isBin: Boolean): Int
-
-    // TODO remove this func from use and do fetch in a simple way inside vm.
-    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
-    @Query(
-        value = """SELECT COUNT(NT_ID) FROM NOTE_TABLE
-            WHERE NT_BIN = :isBin AND NT_RANK_ID IN (:rankIdList)"""
-    )
-    suspend fun getRankVisibleCount(isBin: Boolean, rankIdList: List<Long>): Int
-
     @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(
         value = """SELECT COUNT(NT_ID) FROM NOTE_TABLE

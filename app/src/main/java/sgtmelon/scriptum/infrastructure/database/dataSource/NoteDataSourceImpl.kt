@@ -5,7 +5,6 @@ import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
-import sgtmelon.scriptum.infrastructure.database.dao.safe.getRankVisibleCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
@@ -20,12 +19,6 @@ class NoteDataSourceImpl(private val dao: NoteDao) : NoteDataSource {
     override suspend fun update(entity: NoteEntity) = dao.update(entity)
 
     override suspend fun update(list: List<NoteEntity>) = dao.update(list)
-
-    override suspend fun getRankVisibleCount(isBin: Boolean, rankIdList: List<Long>): Int {
-        val noCategoryCount = dao.getNoCategoryCount(isBin)
-        val rankVisibleCount = dao.getRankVisibleCountSafe(isBin, rankIdList)
-        return noCategoryCount + rankVisibleCount
-    }
 
     override suspend fun getBindCount(idList: List<Long>): Int = dao.getBindCountSafe(idList)
 

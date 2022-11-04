@@ -12,10 +12,8 @@ import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
@@ -25,9 +23,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
-import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
@@ -56,125 +52,95 @@ class NoteRepoImplTest : ParentRepoTest() {
 
     // Repo get count and list functions
 
-    @Test fun getCount() {
-        val firstIdList = mockk<List<Long>>()
-        val secondIdList = mockk<List<Long>>()
-        val firstCount = Random.nextInt()
-        val secondCount = Random.nextInt()
-
-        coEvery { rankDataSource.getIdList() } returns firstIdList
-        coEvery {
-            noteDataSource.getRankVisibleCount(isBin = true, firstIdList)
-        } returns firstCount
-
-        runBlocking {
-            assertEquals(repository.getCount(isBin = true), firstCount)
-        }
-
-        coEvery { rankDataSource.getIdVisibleList() } returns secondIdList
-        coEvery {
-            noteDataSource.getRankVisibleCount(isBin = false, secondIdList)
-        } returns secondCount
-
-        runBlocking {
-            assertEquals(repository.getCount(isBin = false), secondCount)
-        }
-
-        coVerifySequence {
-            rankDataSource.getIdList()
-            noteDataSource.getRankVisibleCount(isBin = true, firstIdList)
-
-            rankDataSource.getIdVisibleList()
-            noteDataSource.getRankVisibleCount(isBin = false, secondIdList)
-        }
-    }
-
     @Test fun getList() {
-        val sort = mockk<Sort>()
-        val isBin = Random.nextBoolean()
-        val isOptimal = Random.nextBoolean()
-
-        val size = getRandomSize()
-        val entityList = List<NoteEntity>(size) { mockk() }
-        val itemList = MutableList<NoteItem>(size) { mockk() }
-
-        coEvery { noteDataSource.getList(sort, isBin) } returns entityList
-        coEvery { spyRepository.filterVisible(entityList) } returns entityList
-
-        for ((i, entity) in entityList.withIndex()) {
-            coEvery { spyRepository.transformNoteEntity(entity, isOptimal) } returns itemList[i]
-        }
-
-        coEvery { spyRepository.correctRankSort(sort, itemList) } returns itemList
-
-        runBlocking {
-            assertEquals(
-                spyRepository.getList(sort, isBin, isOptimal, filterVisible = false), itemList
-            )
-            assertEquals(
-                spyRepository.getList(sort, isBin, isOptimal, filterVisible = true), itemList
-            )
-        }
-
-        coVerifySequence {
-            spyRepository.getList(sort, isBin, isOptimal, filterVisible = false)
-
-            noteDataSource.getList(sort, isBin)
-            for (entity in entityList) {
-                spyRepository.transformNoteEntity(entity, isOptimal)
-            }
-            spyRepository.correctRankSort(sort, itemList)
-
-            spyRepository.getList(sort, isBin, isOptimal, filterVisible = true)
-
-            noteDataSource.getList(sort, isBin)
-            spyRepository.filterVisible(entityList)
-            for (entity in entityList) {
-                spyRepository.transformNoteEntity(entity, isOptimal)
-            }
-            spyRepository.correctRankSort(sort, itemList)
-        }
+        TODO("write different tests getBind, getNotes, getBin lists")
+        //        val sort = mockk<Sort>()
+        //        val isBin = Random.nextBoolean()
+        //        val isOptimal = Random.nextBoolean()
+        //
+        //        val size = getRandomSize()
+        //        val entityList = List<NoteEntity>(size) { mockk() }
+        //        val itemList = MutableList<NoteItem>(size) { mockk() }
+        //
+        //        coEvery { noteDataSource.getList(sort, isBin) } returns entityList
+        //        coEvery { spyRepository.filterVisible(entityList) } returns entityList
+        //
+        //        for ((i, entity) in entityList.withIndex()) {
+        //            coEvery { spyRepository.transformNoteEntity(entity, isOptimal) } returns itemList[i]
+        //        }
+        //
+        //        coEvery { spyRepository.correctRankSort(sort, itemList) } returns itemList
+        //
+        //        runBlocking {
+        //            assertEquals(
+        //                spyRepository.getList(sort, isBin, isOptimal, filterVisible = false), itemList
+        //            )
+        //            assertEquals(
+        //                spyRepository.getList(sort, isBin, isOptimal, filterVisible = true), itemList
+        //            )
+        //        }
+        //
+        //        coVerifySequence {
+        //            spyRepository.getList(sort, isBin, isOptimal, filterVisible = false)
+        //
+        //            noteDataSource.getList(sort, isBin)
+        //            for (entity in entityList) {
+        //                spyRepository.transformNoteEntity(entity, isOptimal)
+        //            }
+        //            spyRepository.correctRankSort(sort, itemList)
+        //
+        //            spyRepository.getList(sort, isBin, isOptimal, filterVisible = true)
+        //
+        //            noteDataSource.getList(sort, isBin)
+        //            spyRepository.filterVisible(entityList)
+        //            for (entity in entityList) {
+        //                spyRepository.transformNoteEntity(entity, isOptimal)
+        //            }
+        //            spyRepository.correctRankSort(sort, itemList)
+        //        }
     }
 
     @Test fun filterVisible() {
-        val size = getRandomSize()
-        val entityList = List<NoteEntity>(size) { mockk() }
-        val itemList = List<NoteItem>(size) { mockk() }
-
-        val idList = mockk<List<Long>>()
-        val isVisibleList = List(size) { Random.nextBoolean() }
-
-        coEvery { rankDataSource.getIdVisibleList() } returns idList
-        for ((i, entity) in entityList.withIndex()) {
-            every { noteConverter.toItem(entity) } returns itemList[i]
-            every { itemList[i].isRankVisible(idList) } returns isVisibleList[i]
-        }
-
-        val resultList = entityList.filterIndexed { i, _ -> isVisibleList[i] }
-
-        runBlocking {
-            assertEquals(repository.filterVisible(entityList), resultList)
-        }
-
-        coVerifySequence {
-            rankDataSource.getIdVisibleList()
-            for ((i, entity) in entityList.withIndex()) {
-                noteConverter.toItem(entity)
-                itemList[i].isRankVisible(idList)
-            }
-        }
+        TODO()
+        //        val size = getRandomSize()
+        //        val entityList = List<NoteEntity>(size) { mockk() }
+        //        val itemList = List<NoteItem>(size) { mockk() }
+        //
+        //        val idList = mockk<List<Long>>()
+        //        val isVisibleList = List(size) { Random.nextBoolean() }
+        //
+        //        coEvery { rankDataSource.getIdVisibleList() } returns idList
+        //        for ((i, entity) in entityList.withIndex()) {
+        //            every { noteConverter.toItem(entity) } returns itemList[i]
+        //            every { itemList[i].isRankVisible(idList) } returns isVisibleList[i]
+        //        }
+        //
+        //        val resultList = entityList.filterIndexed { i, _ -> isVisibleList[i] }
+        //
+        //        runBlocking {
+        //            assertEquals(repository.filterVisible(entityList), resultList)
+        //        }
+        //
+        //        coVerifySequence {
+        //            rankDataSource.getIdVisibleList()
+        //            for ((i, entity) in entityList.withIndex()) {
+        //                noteConverter.toItem(entity)
+        //                itemList[i].isRankVisible(idList)
+        //            }
+        //        }
     }
 
     @Test fun correctRankSort() {
-        val startList = TestData.Note.itemList
-        val finishList = TestData.Note.itemList.apply { move(from = 0) }
-        val simpleList: MutableList<NoteItem> = MutableList(size = 5) {
-            TestData.Note.firstNote.deepCopy(id = Random.nextLong())
-        }
-
-        assertNotEquals(finishList, repository.correctRankSort(Sort.COLOR, startList))
-        assertEquals(finishList, repository.correctRankSort(Sort.RANK, startList))
-        assertEquals(simpleList, repository.correctRankSort(Sort.RANK, simpleList))
+        TODO()
+        //        val startList = TestData.Note.itemList
+        //        val finishList = TestData.Note.itemList.apply { move(from = 0) }
+        //        val simpleList: MutableList<NoteItem> = MutableList(size = 5) {
+        //            TestData.Note.firstNote.deepCopy(id = Random.nextLong())
+        //        }
+        //
+        //        assertNotEquals(finishList, repository.correctRankSort(Sort.COLOR, startList))
+        //        assertEquals(finishList, repository.correctRankSort(Sort.RANK, startList))
+        //        assertEquals(simpleList, repository.correctRankSort(Sort.RANK, simpleList))
     }
 
     @Test fun getItem() {
@@ -306,40 +272,6 @@ class NoteRepoImplTest : ParentRepoTest() {
         coVerifySequence {
             rollDataSource.getList(noteId)
             rollConverter.toItem(entityList)
-        }
-    }
-
-    // Repo other functions
-
-    @Test fun isListHide() {
-        val size = getRandomSize()
-        val idList = List(size) { Random.nextLong() }
-        val entityList = MutableList<NoteEntity>(size) { mockk() }
-        val itemList = MutableList<NoteItem>(size) { mockk() }
-        val isVisibleList = List(size) { Random.nextBoolean() }
-
-        coEvery { rankDataSource.getIdVisibleList() } returns idList
-        coEvery { noteDataSource.getList(false) } returns entityList
-
-        for ((i, entity) in entityList.withIndex()) {
-            every { noteConverter.toItem(entity) } returns itemList[i]
-            every { itemList[i].isRankVisible(idList) } returns isVisibleList[i]
-        }
-
-        runBlocking {
-            assertEquals(repository.isListHide(), isVisibleList.any { !it })
-        }
-
-        coVerifySequence {
-            rankDataSource.getIdVisibleList()
-            noteDataSource.getList(false)
-
-            for ((i, entity) in entityList.withIndex()) {
-                noteConverter.toItem(entity)
-                itemList[i].isRankVisible(idList)
-
-                if (!isVisibleList[i]) break
-            }
         }
     }
 

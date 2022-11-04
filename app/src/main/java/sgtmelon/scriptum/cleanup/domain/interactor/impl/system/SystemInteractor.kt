@@ -5,7 +5,6 @@ import sgtmelon.extensions.runMain
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPresenter
@@ -21,7 +20,6 @@ class SystemInteractor(
     private val preferenceRepo: PreferencesRepo,
     private val bindRepo: BindRepo,
     private val alarmRepo: AlarmRepo,
-    private val rankRepo: RankRepo,
     private val noteRepo: NoteRepo,
     @RunPrivate var callback: ISystemBridge?
 ) : ParentInteractor(),
@@ -46,22 +44,9 @@ class SystemInteractor(
     /**
      * Update all bind notes in status bar rely on rank visibility.
      */
-    // TODO зачем тут ещё одна сортировка, если её можно сделать внутри noteRepo?
     override suspend fun notifyNotesBind() {
-        val list = noteRepo.getBindNoteList(preferenceRepo.sort)
-        //        val rankIdVisibleList = rankRepo.getIdVisibleList()
-
-        //        val filterList = getFilterList(list, rankIdVisibleList)
-
-        callback?.notifyNotesBind(list)
+        callback?.notifyNotesBind(noteRepo.getBindNoteList(preferenceRepo.sort))
     }
-
-    //    @RunPrivate fun getFilterList(
-    //        itemList: List<NoteItem>,
-    //        rankIdVisibleList: List<Long>
-    //    ): List<NoteItem> {
-    //        return itemList.filter { !it.isBin && it.isStatus && it.isRankVisible(rankIdVisibleList) }
-    //    }
 
     override suspend fun notifyCountBind() {
         callback?.notifyCountBind(bindRepo.getNotificationsCount())

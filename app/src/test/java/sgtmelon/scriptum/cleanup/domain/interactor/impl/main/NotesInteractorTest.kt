@@ -8,7 +8,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
-import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -16,8 +15,8 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
+import sgtmelon.scriptum.testing.getRandomSize
 
 /**
  * Test for [NotesInteractor].
@@ -33,28 +32,6 @@ class NotesInteractorTest : ParentInteractorTest() {
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(noteRepo)
-    }
-
-    @Test fun getCount() = startCoTest {
-        val count = Random.nextInt()
-
-        coEvery { noteRepo.getCount(isBin = false) } returns count
-        assertEquals(count, interactor.getCount())
-
-        coVerifySequence {
-            noteRepo.getCount(isBin = false)
-        }
-    }
-
-    @Test fun isListHide() = startCoTest {
-        val isListHide = Random.nextBoolean()
-
-        coEvery { noteRepo.isListHide() } returns isListHide
-        assertEquals(isListHide, interactor.isListHide())
-
-        coVerifySequence {
-            noteRepo.isListHide()
-        }
     }
 
     @Test fun convertNote_text() = startCoTest {

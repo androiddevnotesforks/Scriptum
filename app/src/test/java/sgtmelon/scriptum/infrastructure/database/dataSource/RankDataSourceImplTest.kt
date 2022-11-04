@@ -14,9 +14,9 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -157,20 +157,6 @@ class RankDataSourceImplTest : ParentTest() {
 
         coVerifySequence {
             dao.getIdVisibleList()
-        }
-    }
-
-    @Test fun getIdList() {
-        val list = mockk<List<Long>>()
-
-        coEvery { dao.getIdList() } returns list
-
-        runBlocking {
-            assertEquals(dataSource.getIdList(), list)
-        }
-
-        coVerifySequence {
-            dao.getIdList()
         }
     }
 

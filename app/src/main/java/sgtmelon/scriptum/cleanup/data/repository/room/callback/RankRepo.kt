@@ -13,9 +13,6 @@ interface RankRepo {
 
     suspend fun getList(): List<RankItem>
 
-    // TODO remove
-    //    suspend fun getIdVisibleList(): List<Long>
-
 
     suspend fun insert(name: String): RankItem?
 

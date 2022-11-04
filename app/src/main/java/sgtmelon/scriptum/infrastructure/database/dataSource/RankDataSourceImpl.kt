@@ -24,8 +24,6 @@ class RankDataSourceImpl(private val dao: RankDao) : RankDataSource {
 
     override suspend fun getIdVisibleList(): List<Long> = dao.getIdVisibleList()
 
-    override suspend fun getIdList(): List<Long> = dao.getIdList()
-
     override suspend fun getNameList(): List<String> = dao.getNameList()
 
     override suspend fun getId(position: Int): Long? = dao.getId(position)

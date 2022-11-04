@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
-import sgtmelon.extensions.onBack
 import sgtmelon.extensions.runMain
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -71,8 +70,8 @@ class NotificationsViewModelImpl(
         getIdling().stop(IdlingTag.Notification.LOAD_DATA)
     }
 
-    override fun removeNotification(p: Int) = flow {
-        val item = _itemList.removeAtOrNull(p) ?: return@flow
+    override fun removeNotification(p: Int) = flowOnBack {
+        val item = _itemList.removeAtOrNull(p) ?: return@flowOnBack
 
         /** Save item for snackbar undo action. */
         undoList.add(Pair(p, item))
@@ -85,12 +84,12 @@ class NotificationsViewModelImpl(
         deleteNotification(item)
 
         emit(value = item to _itemList.size)
-    }.onBack()
+    }
 
-    override fun undoRemove(): Flow<UndoState> = flow {
-        if (undoList.isEmpty()) return@flow
+    override fun undoRemove(): Flow<UndoState> = flowOnBack {
+        if (undoList.isEmpty()) return@flowOnBack
 
-        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flow
+        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flowOnBack
         val item = pair.second
 
         /**
@@ -121,7 +120,7 @@ class NotificationsViewModelImpl(
         showSnackbar.postValue(undoList.isNotEmpty())
 
         /** After insert need update item in list (due to new item id). */
-        val newItem = setNotification(item) ?: return@flow
+        val newItem = setNotification(item) ?: return@flowOnBack
         _itemList[position] = newItem
         updateList = UpdateListState.Set
 
@@ -130,7 +129,7 @@ class NotificationsViewModelImpl(
 
         val calendar = newItem.alarm.date.toCalendar()
         emit(UndoState.NotifyAlarm(newItem.note.id, calendar))
-    }.onBack()
+    }
 
     override fun clearUndoStack() {
         undoList.clear()

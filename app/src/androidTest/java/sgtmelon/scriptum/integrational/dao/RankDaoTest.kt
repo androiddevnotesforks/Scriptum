@@ -170,17 +170,6 @@ class RankDaoTest : ParentRoomTest() {
         assertEquals(rankDao.getIdVisibleList(), resultList)
     }
 
-    @Test fun getIdList() = inRoomTest {
-        val list = list
-
-        for (entity in list) {
-            insert(entity)
-        }
-
-        val resultList = list.sortedBy { it.position }.map { it.id }
-        assertEquals(rankDao.getIdList(), resultList)
-    }
-
     @Test fun getNameList() = inRoomTest {
         val list = list
 

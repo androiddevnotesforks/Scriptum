@@ -12,12 +12,6 @@ import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 
 suspend fun NoteDao.insertSafe(entity: NoteEntity): Long? = insert(entity).checkConflictSafe()
 
-suspend fun NoteDao.getRankVisibleCountSafe(isBin: Boolean, rankIdList: List<Long>): Int {
-    var count = 0
-    safeOverflow(rankIdList) { count += getRankVisibleCount(isBin, it) }
-    return count
-}
-
 suspend fun NoteDao.getBindCountSafe(idList: List<Long>): Int {
     var count = 0
     safeOverflow(idList) { count += getBindCount(it) }

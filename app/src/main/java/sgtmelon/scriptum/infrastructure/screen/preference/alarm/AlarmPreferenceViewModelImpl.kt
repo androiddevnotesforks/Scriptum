@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
-import sgtmelon.extensions.onBack
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
@@ -81,7 +80,7 @@ class AlarmPreferenceViewModelImpl(
      * Information about melodies naming and chosen current position.
      */
     override val selectMelodyData: Flow<Pair<Array<String>, Int>>
-        get() = flow {
+        get() = flowOnBack {
             val list = getMelodyList()
             val titleArray = list.map { it.title }.toTypedArray()
             val check = preferencesRepo.getMelodyCheck(list)
@@ -92,16 +91,16 @@ class AlarmPreferenceViewModelImpl(
                 melodyGroupEnabled.postValue(false)
                 melodySummaryState.postValue(MelodySummaryState.Empty)
             }
-        }.onBack()
+        }
 
-    override fun getMelody(p: Int): Flow<MelodyItem> = flow {
+    override fun getMelody(p: Int): Flow<MelodyItem> = flowOnBack {
         getMelodyList().getOrNull(p)?.let { emit(it) }
-    }.onBack()
+    }
 
     /**
      * Return: success set melody or chosen another one by app.
      */
-    override fun updateMelody(title: String): Flow<UpdateMelodyState> = flow {
+    override fun updateMelody(title: String): Flow<UpdateMelodyState> = flowOnBack {
         val resultTitle = preferencesRepo.setMelodyUri(getMelodyList(), title)
         if (resultTitle != null) {
             melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
@@ -114,5 +113,5 @@ class AlarmPreferenceViewModelImpl(
             melodyGroupEnabled.postValue(false)
             melodySummaryState.postValue(MelodySummaryState.Empty)
         }
-    }.onBack()
+    }
 }

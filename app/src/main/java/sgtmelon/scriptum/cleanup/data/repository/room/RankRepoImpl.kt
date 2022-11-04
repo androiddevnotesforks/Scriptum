@@ -35,12 +35,6 @@ class RankRepoImpl(
         return list
     }
 
-    //    /**
-    //     * Return list of rank id's which is visible.
-    //     */
-    //    override suspend fun getIdVisibleList(): List<Long> = rankDataSource.getIdVisibleList()
-
-
     override suspend fun insert(name: String): RankItem? {
         val id = rankDataSource.insert(RankEntity[name]) ?: return null
         return RankItem(id, name = name)

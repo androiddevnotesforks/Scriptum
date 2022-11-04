@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
-import sgtmelon.extensions.onBack
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
@@ -67,7 +66,7 @@ class BackupPreferenceViewModelImpl(
         exportEnabled.postValue(true)
     }
 
-    override fun startExport(): Flow<ExportState> = flow {
+    override fun startExport(): Flow<ExportState> = flowOnBack {
         emit(ExportState.ShowLoading)
         val result = startBackupExport()
         emit(ExportState.HideLoading)
@@ -82,10 +81,10 @@ class BackupPreferenceViewModelImpl(
             }
             is ExportResult.Error -> emit(ExportState.LoadError)
         }
-    }.onBack()
+    }
 
     override val importData: Flow<Array<String>>
-        get() = flow {
+        get() = flowOnBack {
             val titleArray = getBackupFileList().map { it.name }.toTypedArray()
 
             if (titleArray.isEmpty()) {
@@ -94,9 +93,9 @@ class BackupPreferenceViewModelImpl(
             } else {
                 emit(titleArray)
             }
-        }.onBack()
+        }
 
-    override fun startImport(name: String): Flow<ImportState> = flow {
+    override fun startImport(name: String): Flow<ImportState> = flowOnBack {
         emit(ImportState.ShowLoading)
         val result = startBackupImport(name, getBackupFileList())
         emit(ImportState.HideLoading)
@@ -107,8 +106,8 @@ class BackupPreferenceViewModelImpl(
             is ImportResult.Error -> emit(ImportState.LoadError)
         }
 
-        if (result == ImportResult.Error) return@flow
-
-        emit(ImportState.Finish)
-    }.onBack()
+        if (result != ImportResult.Error) {
+            emit(ImportState.Finish)
+        }
+    }
 }

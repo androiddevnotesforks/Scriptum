@@ -80,9 +80,8 @@ class InteractorModule {
         preferencesRepo: PreferencesRepo,
         bindRepo: BindRepo,
         alarmRepo: AlarmRepo,
-        rankRepo: RankRepo,
         noteRepo: NoteRepo
     ): ISystemInteractor {
-        return SystemInteractor(preferencesRepo, bindRepo, alarmRepo, rankRepo, noteRepo, logic)
+        return SystemInteractor(preferencesRepo, bindRepo, alarmRepo, noteRepo, logic)
     }
 }

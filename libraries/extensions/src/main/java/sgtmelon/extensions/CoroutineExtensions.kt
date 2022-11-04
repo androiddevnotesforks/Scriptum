@@ -6,6 +6,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,6 +33,10 @@ suspend inline fun <T> runMain(crossinline func: () -> T): T {
 
 inline fun CoroutineScope.launchBack(crossinline func: suspend () -> Unit): Job {
     return launch { runBack(func) }
+}
+
+inline fun <T> flowOnBack(crossinline func: suspend FlowCollector<T>.() -> Unit): Flow<T> {
+    return flow { func() }.flowOn(Dispatchers.IO)
 }
 
 fun <T> Flow<T>.onBack(): Flow<T> = flowOn(Dispatchers.IO)

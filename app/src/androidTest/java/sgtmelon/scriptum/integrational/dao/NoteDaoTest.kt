@@ -2,7 +2,6 @@ package sgtmelon.scriptum.integrational.dao
 
 import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.math.abs
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -14,7 +13,6 @@ import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
-import sgtmelon.scriptum.infrastructure.database.dao.safe.getRankVisibleCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -145,54 +143,6 @@ class NoteDaoTest : ParentRoomTest() {
         for (note in updateList) {
             assertEquals(noteDao.get(note.id), note)
         }
-    }
-
-    @Test fun getNoCategoryCount() = inRoomTest {
-        val list = list.map { it.copy(rankId = -1, isBin = Random.nextBoolean()) }
-
-        insertAll(list)
-
-        assertEquals(noteDao.getNoCategoryCount(isBin = false), list.filter { !it.isBin }.size)
-        assertEquals(noteDao.getNoCategoryCount(isBin = true), list.filter { it.isBin }.size)
-    }
-
-    @Test fun getRankVisibleCount_overflowCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteException::class.java)
-
-        val isBin = Random.nextBoolean()
-        noteDao.getRankVisibleCount(isBin, overflowDelegator.getList { Random.nextLong() })
-    }
-
-    @Test fun getRankVisibleCount() = inRoomTest {
-        val list = list.map {
-            it.copy(rankId = abs(Random.nextLong()), isBin = Random.nextBoolean())
-        }
-
-        insertAll(list)
-
-        val rankIdList = list.map { it.rankId }
-
-        val noteSize = list.filter { !it.isBin }.size
-        assertEquals(noteDao.getRankVisibleCountSafe(isBin = false, rankIdList), noteSize)
-        val binSize = list.filter { it.isBin }.size
-        assertEquals(noteDao.getRankVisibleCountSafe(isBin = true, rankIdList), binSize)
-    }
-
-    @Test fun getRankVisibleCountSafe() = inRoomTest {
-        val list = insertBigData()
-
-        val listWithRank = list.filter { it.rankId != -1L }
-        val rankIdList = list.asSequence()
-            .map { it.rankId }
-            .filter { it != -1L }
-            .toList()
-
-        assertEquals(listWithRank.size, rankIdList.size)
-
-        val noteSize = listWithRank.filter { !it.isBin }.size
-        assertEquals(noteDao.getRankVisibleCountSafe(isBin = false, rankIdList), noteSize)
-        val binSize = listWithRank.filter { it.isBin }.size
-        assertEquals(noteDao.getRankVisibleCountSafe(isBin = true, rankIdList), binSize)
     }
 
     @Test fun getBindCount_overflowCheck() = inRoomTest {

@@ -67,27 +67,6 @@ class NoteDaoSafeTest : ParentTest() {
         }
     }
 
-    @Test fun getRankVisibleCountSafe() {
-        val isBin = Random.nextBoolean()
-
-        val (list, dividedList) = overflowDelegator.getListPair { Random.nextLong() }
-        val countList = List(size = dividedList.size) { abs(Random.nextInt()) }
-
-        for ((i, divided) in dividedList.withIndex()) {
-            coEvery { dao.getRankVisibleCount(isBin, divided) } returns countList[i]
-        }
-
-        runBlocking {
-            assertEquals(dao.getRankVisibleCountSafe(isBin, list), countList.sum())
-        }
-
-        coVerifySequence {
-            for (divided in dividedList) {
-                dao.getRankVisibleCount(isBin, divided)
-            }
-        }
-    }
-
 
     @Test fun getBindCountSafe() {
         val (list, dividedList) = overflowDelegator.getListPair { Random.nextLong() }

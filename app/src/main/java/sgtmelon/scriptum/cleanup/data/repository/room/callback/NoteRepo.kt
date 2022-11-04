@@ -10,31 +10,15 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
  */
 interface NoteRepo {
 
-    @Deprecated("remove")
-    suspend fun getCount(isBin: Boolean): Int
-
     suspend fun getBindNoteList(sort: Sort): List<NoteItem>
 
     suspend fun getBinList(sort: Sort): List<NoteItem>
 
     suspend fun getNotesList(sort: Sort): Pair<List<NoteItem>, Boolean>
 
-    /**
-     * Second in pair - is there hidden ([filterVisible]) notes or not.
-     */
-    suspend fun getList(
-        sort: Sort,
-        isBin: Boolean,
-        isOptimal: Boolean,
-        filterVisible: Boolean
-    ): Pair<List<NoteItem>, Boolean>
-
     suspend fun getItem(noteId: Long, isOptimal: Boolean): NoteItem?
 
     suspend fun getRollList(noteId: Long): MutableList<RollItem>
-
-
-    //    suspend fun isListHide(): Boolean
 
     suspend fun clearBin()
 

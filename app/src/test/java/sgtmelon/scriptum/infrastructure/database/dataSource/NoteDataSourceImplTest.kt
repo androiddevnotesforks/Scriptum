@@ -12,13 +12,12 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
-import sgtmelon.scriptum.infrastructure.database.dao.safe.getRankVisibleCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [NoteDataSourceImpl].
@@ -102,28 +101,6 @@ class NoteDataSourceImplTest : ParentTest() {
 
         coVerifySequence {
             dao.update(list)
-        }
-    }
-
-    @Test fun getRankVisibleCount() {
-        val isBin = Random.nextBoolean()
-        val rankIdList = mockk<List<Long>>()
-
-        val noCategoryCount = Random.nextInt()
-        val visibleCount = Random.nextInt()
-        val count = noCategoryCount + visibleCount
-
-        coEvery { dao.getNoCategoryCount(isBin) } returns noCategoryCount
-        FastMock.Dao.noteDaoSafe()
-        coEvery { dao.getRankVisibleCountSafe(isBin, rankIdList) } returns visibleCount
-
-        runBlocking {
-            assertEquals(dataSource.getRankVisibleCount(isBin, rankIdList), count)
-        }
-
-        coVerifySequence {
-            dao.getNoCategoryCount(isBin)
-            dao.getRankVisibleCountSafe(isBin, rankIdList)
         }
     }
 

@@ -31,26 +31,9 @@ class NoteRepoImpl(
     private val rollConverter: RollConverter
 ) : NoteRepo {
 
-    /**
-     * Important:
-     *
-     * - For notes page need take only visible items count
-     * - For bin page need take all items count
-     */
-    // TODO remove
-    @Deprecated("remove")
-    override suspend fun getCount(isBin: Boolean): Int {
-        val rankIdList = if (isBin) {
-            rankDataSource.getIdList()
-        } else {
-            rankDataSource.getIdVisibleList()
-        }
-
-        return noteDataSource.getRankVisibleCount(isBin, rankIdList)
-    }
-
     override suspend fun getBindNoteList(sort: Sort): List<NoteItem> {
         val idVisibleList = rankDataSource.getIdVisibleList()
+
         return noteDataSource.getList(sort, isBin = false)
             .filter { it.isStatus }
             .filterVisible(idVisibleList)
@@ -105,35 +88,6 @@ class NoteRepoImpl(
         }
     }
 
-
-    /**
-     * [isOptimal] - need for note lists where displays short information.
-     *
-     * [filterVisible] - need use if you need get only rank visible notes. Otherwise you will
-     *                   get all items even if rank not visible.
-     */
-    // TODO test
-    override suspend fun getList(
-        sort: Sort,
-        isBin: Boolean,
-        isOptimal: Boolean,
-        filterVisible: Boolean
-    ): Pair<List<NoteItem>, Boolean> {
-        TODO()
-        //        var entityList = noteDataSource.getList(sort, isBin)
-        //
-        //        var isFiltered = false
-        //        if (filterVisible) {
-        //            val filteredList = entityList.filterVisible()
-        //            isFiltered = entityList.size != filteredList.size
-        //            entityList = filteredList
-        //        }
-        //
-        //        val itemList = entityList.map { transformNoteEntity(it, isOptimal) }.toMutableList()
-        //
-        //        return itemList.correctRankSort(sort) to isFiltered
-    }
-
     /**
      * Return null if note doesn't exist.
      *
@@ -186,20 +140,6 @@ class NoteRepoImpl(
     override suspend fun getRollList(noteId: Long): MutableList<RollItem> {
         return rollConverter.toItem(rollDataSource.getList(noteId))
     }
-
-    // Repo other functions
-
-    // TODO remove
-    //    /**
-    //     * Have hide notes in list or not.
-    //     */
-    //    override suspend fun isListHide(): Boolean {
-    //        val rankIdVisibleList = rankDataSource.getIdVisibleList()
-    //
-    //        return noteDataSource.getList(isBin = false).any {
-    //            !noteConverter.toItem(it).isRankVisible(rankIdVisibleList)
-    //        }
-    //    }
 
     // Repo work with delete functions
 

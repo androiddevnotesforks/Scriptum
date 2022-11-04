@@ -90,11 +90,8 @@ class SystemReceiver : BroadcastReceiver() {
     /**
      * Interface for fast data pass to this class. ALso see [BroadcastDelegator].
      */
+    @Deprecated("use delegators class, remove calls from vm")
     interface Bridge {
-
-        interface TidyUp {
-            fun sendTidyUpAlarmBroadcast()
-        }
 
         interface Alarm {
             fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean = true)
