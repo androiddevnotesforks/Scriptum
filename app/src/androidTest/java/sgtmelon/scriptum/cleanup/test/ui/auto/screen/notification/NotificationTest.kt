@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Test for [NotificationsActivity].

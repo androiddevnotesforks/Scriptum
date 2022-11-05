@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Test add dialog for [MainActivity].

@@ -10,6 +10,7 @@ import sgtmelon.scriptum.cleanup.ui.item.NotificationItemUi
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Test for [NotificationItemUi]

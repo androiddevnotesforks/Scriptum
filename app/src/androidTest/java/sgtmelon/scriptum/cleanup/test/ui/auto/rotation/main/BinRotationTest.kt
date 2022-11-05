@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.ui.testing.parent.ParentUiRotationTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Test of [BinFragment] work with phone rotation.

@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Test content for [TextNoteFragment].

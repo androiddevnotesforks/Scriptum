@@ -51,6 +51,7 @@ abstract class ParentScreen {
     //endregion
 
     companion object {
+        @Deprecated("Try use PreferencesRepo.theme")
         var theme: ThemeDisplayed? = null
     }
 }

@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Test fab for [NotesFragment].

@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Test for bind notification inside [MainActivity].

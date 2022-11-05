@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.ui.testing.parent.ParentUiWeighTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 import timber.log.Timber
 
 /**

@@ -68,6 +68,6 @@ class SplashScreen : ParentScreen() {
     }
 
     companion object {
-        operator fun invoke(func: SplashScreen.() -> Unit) = SplashScreen().apply(func)
+        inline operator fun invoke(func: SplashScreen.() -> Unit) = SplashScreen().apply(func)
     }
 }

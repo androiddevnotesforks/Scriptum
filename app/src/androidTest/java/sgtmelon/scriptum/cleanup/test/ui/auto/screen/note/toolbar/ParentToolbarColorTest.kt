@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 import sgtmelon.test.common.nextString
 
 /**

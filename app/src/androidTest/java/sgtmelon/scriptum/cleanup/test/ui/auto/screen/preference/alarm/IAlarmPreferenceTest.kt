@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm
 import sgtmelon.scriptum.cleanup.ui.logic.preference.AlarmPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.AlarmPreferenceScreen
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Interface for all [AlarmPreferenceScreen] tests.

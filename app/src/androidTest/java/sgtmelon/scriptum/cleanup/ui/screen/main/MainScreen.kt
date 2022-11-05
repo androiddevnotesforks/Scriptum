@@ -43,7 +43,9 @@ class MainScreen : ParentScreen() {
 
     //endregion
 
+    @Deprecated("May be somehow without it?")
     private var wasNavigate = false
+
     private var page = MainPage.NOTES
 
     fun openPage(page: MainPage, isEmpty: Boolean = false) = when (page) {

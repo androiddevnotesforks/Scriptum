@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Test for bind notification inside [NoteActivity].

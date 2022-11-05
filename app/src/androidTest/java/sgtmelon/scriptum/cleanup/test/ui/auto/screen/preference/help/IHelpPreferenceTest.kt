@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.help
 
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpPreferenceScreen
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Interface for all [HelpPreferenceScreen] tests.

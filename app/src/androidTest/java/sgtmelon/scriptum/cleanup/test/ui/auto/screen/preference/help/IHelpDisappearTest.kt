@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.help
 
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpDisappearScreen
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Interface for all [HelpDisappearScreen] tests.
@@ -13,11 +14,7 @@ interface IHelpDisappearTest {
             mainScreen {
                 notesScreen(isEmpty = true) {
                     openPreferences {
-                        openHelp {
-                            openNotificationDisappear(
-                                func
-                            )
-                        }
+                        openHelp { openNotificationDisappear(func) }
                     }
                 }
             }

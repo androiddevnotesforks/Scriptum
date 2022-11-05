@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.backup
 import sgtmelon.scriptum.cleanup.ui.logic.preference.BackupPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.BackupPreferenceScreen
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launch
 
 /**
  * Interface for all [BackupPreferenceScreen] tests.

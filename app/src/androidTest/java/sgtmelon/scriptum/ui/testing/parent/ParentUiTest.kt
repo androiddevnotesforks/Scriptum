@@ -31,7 +31,8 @@ abstract class ParentUiTest : ParentTest() {
         SplashActivity::class.java, true, false
     )
 
-    protected val context = ParentInjector.provideContext()
+    val context = ParentInjector.provideContext()
+
     protected val preferences = ParentInjector.providePreferences()
     protected val preferencesRepo = ParentInjector.providePreferencesRepo()
     protected val db = ParentInjector.provideDbDelegator()
@@ -81,10 +82,12 @@ abstract class ParentUiTest : ParentTest() {
      */
     protected fun setupTheme(theme: ThemeDisplayed) {
         ParentScreen.theme = theme
-        preferences.theme = when (theme) {
+
+        // TODO check how it will work with preferencesRepo (not preferences)
+        preferencesRepo.theme = when (theme) {
             ThemeDisplayed.LIGHT -> Theme.LIGHT
             ThemeDisplayed.DARK -> Theme.DARK
-        }.ordinal
+        }
     }
 
     private fun setupCompanionData() {
@@ -119,19 +122,6 @@ abstract class ParentUiTest : ParentTest() {
     //endregion
 
     //region Launch functions
-
-    /**
-     * This function not PROTECTED because used inside launch extensions in other classes for
-     * short test launch.
-     */
-    inline fun launch(
-        before: () -> Unit = {},
-        noinline after: SplashScreen.() -> Unit
-    ) {
-        before()
-        testRule.launchActivity(Intent())
-        SplashScreen(after)
-    }
 
     protected inline fun launchAlarm(
         item: NoteItem,
