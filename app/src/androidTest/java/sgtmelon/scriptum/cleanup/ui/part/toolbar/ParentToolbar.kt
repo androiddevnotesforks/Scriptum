@@ -10,12 +10,12 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.anyOf
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 
 /**
  * Parent UI abstraction for toolbars
  */
-abstract class ParentToolbar : ParentUi() {
+abstract class ParentToolbar : ParentScreen() {
 
     fun getToolbarButton(): Matcher<View> = allOf(
         withParent(withClassName(`is`(Toolbar::class.java.name))),

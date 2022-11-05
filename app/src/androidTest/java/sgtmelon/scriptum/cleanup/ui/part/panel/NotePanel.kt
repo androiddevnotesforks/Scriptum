@@ -9,7 +9,6 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.testData.State
-import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.RankDialogUi
@@ -22,6 +21,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -36,9 +36,9 @@ import sgtmelon.test.cappuccino.utils.withText
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
 
-class NotePanel<T : ParentUi, N : NoteItem>(
+class NotePanel<T : ParentScreen, N : NoteItem>(
     private val callback: INoteScreen<T, N>
-) : ParentUi(),
+) : ParentScreen(),
     DateTimeCallback,
     ConvertDialogUi.Callback,
     ColorDialogUi.Callback,
@@ -367,7 +367,7 @@ class NotePanel<T : ParentUi, N : NoteItem>(
     @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
 
     companion object {
-        operator fun <T : ParentUi, N : NoteItem> invoke(
+        operator fun <T : ParentScreen, N : NoteItem> invoke(
             func: NotePanel<T, N>.() -> Unit,
             callback: INoteScreen<T, N>
         ): NotePanel<T, N> {

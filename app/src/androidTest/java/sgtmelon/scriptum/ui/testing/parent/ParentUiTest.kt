@@ -8,7 +8,6 @@ import org.junit.Rule
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
-import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.SplashScreen
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.idling.getWaitIdling
 
@@ -77,10 +77,10 @@ abstract class ParentUiTest : ParentTest() {
 
     /**
      * Call theme setup only with that function. Otherwise you get plenty assertion errors
-     * related with theme. It's because need set [ParentUi.appTheme].
+     * related with theme. It's because need set [ParentScreen.appTheme].
      */
     protected fun setupTheme(theme: ThemeDisplayed) {
-        ParentUi.theme = theme
+        ParentScreen.theme = theme
         preferences.theme = when (theme) {
             ThemeDisplayed.LIGHT -> Theme.LIGHT
             ThemeDisplayed.DARK -> Theme.DARK
@@ -108,7 +108,7 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     private fun teardownCompanionData() {
-        ParentUi.theme = null
+        ParentScreen.theme = null
 
         AlarmActivity.isFinishOnStop = true
 

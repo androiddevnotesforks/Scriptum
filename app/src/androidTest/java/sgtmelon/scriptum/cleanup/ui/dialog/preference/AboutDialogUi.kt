@@ -4,7 +4,7 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withDrawable
 import sgtmelon.test.cappuccino.utils.withSize
@@ -13,7 +13,7 @@ import sgtmelon.test.cappuccino.utils.withText
 /**
  * Class for UI control of [AboutDialog].
  */
-class AboutDialogUi : ParentUi(), IDialogUi {
+class AboutDialogUi : ParentScreen(), IDialogUi {
 
     //region Views
 

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -12,7 +12,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [MessageDialog] when clear bin.
  */
-class ClearDialogUi : ParentUi(), IDialogUi {
+class ClearDialogUi : ParentScreen(), IDialogUi {
 
     //region Views
 

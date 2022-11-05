@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.ui
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import org.hamcrest.Matcher
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.matchers.RecyclerItemMatcher
 import sgtmelon.test.cappuccino.utils.scrollTo
 
@@ -12,10 +13,10 @@ import sgtmelon.test.cappuccino.utils.scrollTo
  * [itemMatcher] or [position] must be provided.
  */
 abstract class ParentRecyclerItem<T> protected constructor(
-        private val listMatcher: Matcher<View>,
-        private val itemMatcher: Matcher<View>?,
-        private val position: Int?
-) : ParentUi() {
+    private val listMatcher: Matcher<View>,
+    private val itemMatcher: Matcher<View>?,
+    private val position: Int?
+) : ParentScreen() {
 
     constructor(listMatcher: Matcher<View>, position: Int) :
             this(listMatcher, null, position)

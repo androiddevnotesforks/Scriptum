@@ -5,8 +5,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -15,7 +15,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert.
  */
-class ConvertDialogUi(item: NoteItem, private val callback: Callback) : ParentUi(), IDialogUi {
+class ConvertDialogUi(item: NoteItem, private val callback: Callback) : ParentScreen(), IDialogUi {
 
     //region Views
 

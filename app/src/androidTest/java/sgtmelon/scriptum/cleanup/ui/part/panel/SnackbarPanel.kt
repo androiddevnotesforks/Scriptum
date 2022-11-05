@@ -8,7 +8,7 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withTextColor
@@ -17,11 +17,12 @@ import sgtmelon.test.cappuccino.utils.withTextColor
  * Part of UI abstraction for [Snackbar].
  */
 class SnackbarPanel(
-        @StringRes private val messageId: Int,
-        @StringRes private val actionId: Int
-) : ParentUi() {
+    @StringRes private val messageId: Int,
+    @StringRes private val actionId: Int
+) : ParentScreen() {
 
-    private val parentContainer: Matcher<View> = allOf(instanceOf(Snackbar.SnackbarLayout::class.java))
+    private val parentContainer: Matcher<View> =
+        allOf(instanceOf(Snackbar.SnackbarLayout::class.java))
 
     private val messageText = getViewByText(messageId)
     private val actionButton = getViewByText(actionId)

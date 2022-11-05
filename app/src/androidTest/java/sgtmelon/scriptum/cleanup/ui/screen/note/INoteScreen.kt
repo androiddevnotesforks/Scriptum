@@ -4,13 +4,13 @@ import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.testData.State
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 
 /**
  * Interface for communication child ui abstractions with [TextNoteScreen] and [RollNoteScreen]
  */
 @Suppress("UNCHECKED_CAST")
-interface INoteScreen<T : ParentUi, N: NoteItem>  {
+interface INoteScreen<T : ParentScreen, N : NoteItem> {
 
     // TODO #TEST add exit from screen control
 

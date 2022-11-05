@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -20,7 +20,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [RenameDialog].
  */
-class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
+class RenameDialogUi(title: String) : ParentScreen(), IDialogUi, IKeyboardOption {
 
     private var applyEnabled = false
 

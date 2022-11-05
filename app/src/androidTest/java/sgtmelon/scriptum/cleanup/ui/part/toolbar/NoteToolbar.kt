@@ -6,11 +6,11 @@ import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.State
-import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -27,7 +27,7 @@ import sgtmelon.test.cappuccino.utils.withText
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
 @Suppress("UNCHECKED_CAST")
-class NoteToolbar<T : ParentUi, N : NoteItem>(
+class NoteToolbar<T : ParentScreen, N : NoteItem>(
     private val callback: INoteScreen<T, N>,
     private val imeCallback: ImeCallback
 ) : ParentToolbar() {
@@ -146,7 +146,7 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
 
 
     companion object {
-        operator fun <T : ParentUi, N : NoteItem> invoke(
+        operator fun <T : ParentScreen, N : NoteItem> invoke(
             func: NoteToolbar<T, N>.() -> Unit,
             callback: INoteScreen<T, N>,
             imeCallback: ImeCallback

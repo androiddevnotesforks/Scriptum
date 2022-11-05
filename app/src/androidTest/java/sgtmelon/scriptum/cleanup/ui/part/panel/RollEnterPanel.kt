@@ -7,9 +7,9 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.testData.State
-import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -30,7 +30,8 @@ import sgtmelon.test.cappuccino.utils.withText
 /**
  * Part of UI abstraction for [RollNoteScreen]
  */
-class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T, NoteItem.Roll>) : ParentUi() {
+class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, NoteItem.Roll>) :
+    ParentScreen() {
 
     //region Views
 
@@ -141,7 +142,7 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T, NoteItem.
     }
 
     companion object {
-        operator fun <T : ParentUi> invoke(
+        operator fun <T : ParentScreen> invoke(
             func: RollEnterPanel<T>.() -> Unit,
             callback: INoteScreen<T, NoteItem.Roll>
         ): RollEnterPanel<T> {

@@ -4,7 +4,7 @@ import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withParent
@@ -14,7 +14,7 @@ import sgtmelon.test.cappuccino.utils.withText
 /**
  * Class for UI control of [LoadingDialog].
  */
-class LoadingDialogUi : ParentUi(), IDialogUi {
+class LoadingDialogUi : ParentScreen(), IDialogUi {
 
     private val parentContainer = getViewById(R.id.loading_parent_container)
     private val contentContainer = getViewById(R.id.loading_content_container)

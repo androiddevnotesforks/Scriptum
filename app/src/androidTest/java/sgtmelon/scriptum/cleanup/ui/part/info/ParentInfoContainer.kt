@@ -4,7 +4,7 @@ import android.view.View
 import androidx.annotation.IdRes
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
@@ -14,7 +14,7 @@ import sgtmelon.test.cappuccino.utils.withTextSize
 /**
  * Parent class for UI abstraction of info
  */
-abstract class ParentInfoContainer(@IdRes private val iconId: Int? = null) : ParentUi() {
+abstract class ParentInfoContainer(@IdRes private val iconId: Int? = null) : ParentScreen() {
 
     abstract val includeContainer: Matcher<View>
     abstract val titleText: Matcher<View>

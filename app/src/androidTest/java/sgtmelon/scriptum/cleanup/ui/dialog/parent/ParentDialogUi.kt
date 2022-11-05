@@ -11,7 +11,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.cleanup.ui.ParentUi
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -24,7 +24,7 @@ abstract class ParentDialogUi(
     @StringRes private val titleId: Int,
     @ArrayRes private val textArrayId: Int?,
     private val textArray: Array<String>?
-) : ParentUi(),
+) : ParentScreen(),
     IDialogUi {
 
     constructor(

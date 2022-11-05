@@ -4,8 +4,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
-import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.screen.main.RankScreen
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -25,7 +25,7 @@ import sgtmelon.test.cappuccino.utils.withText
 /**
  * Part of UI abstraction for [RankScreen]
  */
-class RankToolbar : ParentUi(), IKeyboardOption {
+class RankToolbar : ParentScreen(), IKeyboardOption {
 
     //region Views
 

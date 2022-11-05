@@ -7,9 +7,9 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.cleanup.ui.ParentUi
 import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.time.DateTimeCallback
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -18,7 +18,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note.
  */
-class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTimeCallback {
+class NoteDialogUi(private val item: NoteItem) : ParentScreen(), IDialogUi, DateTimeCallback {
 
     //region Views
 
@@ -26,9 +26,10 @@ class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTime
         context.getString(R.string.empty_note_name)
     })
 
-    private val notificationButton = getViewByText(if (item.haveAlarm()) {
-        R.string.dialog_menu_notification_update
-    } else {
+    private val notificationButton = getViewByText(
+        if (item.haveAlarm()) {
+            R.string.dialog_menu_notification_update
+        } else {
         R.string.dialog_menu_notification_set
     })
 

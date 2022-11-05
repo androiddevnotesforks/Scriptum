@@ -4,6 +4,7 @@ import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.testData.Scroll
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.utils.getCount
 import sgtmelon.test.cappuccino.utils.getRandomPosition
 import sgtmelon.test.cappuccino.utils.swipeDown
@@ -12,7 +13,7 @@ import sgtmelon.test.cappuccino.utils.swipeUp
 /**
  * Parent class for screens which contains [RecyclerView].
  */
-abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : ParentUi() {
+abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : ParentScreen() {
 
     protected val recyclerView = getViewById(recyclerId)
 
