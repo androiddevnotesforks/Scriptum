@@ -6,17 +6,18 @@ import sgtmelon.scriptum.cleanup.ui.screen.SplashScreen
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
-/**
- * This function not PROTECTED because used inside launch extensions in other classes for
- * short test launch.
- */
 inline fun ParentUiTest.launch(
-    before: () -> Unit = {},
+    before: () -> Unit,
+    intent: Intent,
     after: SplashScreen.() -> Unit
 ) {
     before()
-    testRule.launchActivity(Intent())
+    testRule.launchActivity(intent)
     SplashScreen(after)
+}
+
+inline fun ParentUiTest.launch(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+    launch(before, Intent(), after)
 }
 
 inline fun ParentUiTest.launchAlarm(
@@ -24,9 +25,7 @@ inline fun ParentUiTest.launchAlarm(
     before: () -> Unit = {},
     after: SplashScreen.() -> Unit
 ) {
-    before()
-    testRule.launchActivity(InstanceFactory.Splash.getAlarm(context, item.id))
-    SplashScreen(after)
+    launch(before, InstanceFactory.Splash.getAlarm(context, item.id), after)
 }
 
 inline fun ParentUiTest.launchBind(
@@ -34,27 +33,21 @@ inline fun ParentUiTest.launchBind(
     before: () -> Unit = {},
     after: SplashScreen.() -> Unit
 ) {
-    before()
-    testRule.launchActivity(InstanceFactory.Splash.getBind(context, item))
-    SplashScreen(after)
+    launch(before, InstanceFactory.Splash.getBind(context, item), after)
 }
 
 inline fun ParentUiTest.launchNotifications(
     before: () -> Unit = {},
     after: SplashScreen.() -> Unit
 ) {
-    before()
-    testRule.launchActivity(InstanceFactory.Splash.getNotification(context))
-    SplashScreen(after)
+    launch(before, InstanceFactory.Splash.getNotification(context), after)
 }
 
 inline fun ParentUiTest.launchHelpDisappear(
     before: () -> Unit = {},
     after: SplashScreen.() -> Unit
 ) {
-    before()
-    testRule.launchActivity(InstanceFactory.Splash.getHelpDisappear(context))
-    SplashScreen(after)
+    launch(before, InstanceFactory.Splash.getHelpDisappear(context), after)
 }
 
 inline fun ParentUiTest.launchNewNote(
@@ -62,7 +55,5 @@ inline fun ParentUiTest.launchNewNote(
     before: () -> Unit = {},
     after: SplashScreen.() -> Unit
 ) {
-    before()
-    testRule.launchActivity(InstanceFactory.Splash.getNewNote(context, type))
-    SplashScreen(after)
+    launch(before, InstanceFactory.Splash.getNewNote(context, type), after)
 }

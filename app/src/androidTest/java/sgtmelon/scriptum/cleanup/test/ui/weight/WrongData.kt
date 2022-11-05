@@ -7,6 +7,8 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.launchAlarm
+import sgtmelon.scriptum.ui.testing.parent.launchBind
 
 /**
  * Test open screens with wrong intent data, check error handling.

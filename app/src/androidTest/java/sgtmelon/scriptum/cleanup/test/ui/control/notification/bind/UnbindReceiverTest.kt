@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.control.notification.bind
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
 import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.ui.testing.parent.launchAlarm
 
 /**
  * Test for UI realisation of [UpdateAlarmReceiver.BindCallback].

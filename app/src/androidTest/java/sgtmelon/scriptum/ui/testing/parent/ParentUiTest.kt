@@ -5,13 +5,9 @@ import androidx.test.rule.ActivityTestRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
-import sgtmelon.scriptum.cleanup.ui.screen.SplashScreen
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
@@ -121,55 +117,4 @@ abstract class ParentUiTest : ParentTest() {
 
     //endregion
 
-    //region Launch functions
-
-    protected inline fun launchAlarm(
-        item: NoteItem,
-        before: () -> Unit = {},
-        noinline after: SplashScreen.() -> Unit
-    ) {
-        before()
-        testRule.launchActivity(InstanceFactory.Splash.getAlarm(context, item.id))
-        SplashScreen(after)
-    }
-
-    protected inline fun launchBind(
-        item: NoteItem,
-        before: () -> Unit = {},
-        noinline after: SplashScreen.() -> Unit
-    ) {
-        before()
-        testRule.launchActivity(InstanceFactory.Splash.getBind(context, item))
-        SplashScreen(after)
-    }
-
-    protected inline fun launchNotifications(
-        before: () -> Unit = {},
-        noinline after: SplashScreen.() -> Unit
-    ) {
-        before()
-        testRule.launchActivity(InstanceFactory.Splash.getNotification(context))
-        SplashScreen(after)
-    }
-
-    protected inline fun launchHelpDisappear(
-        before: () -> Unit = {},
-        noinline after: SplashScreen.() -> Unit
-    ) {
-        before()
-        testRule.launchActivity(InstanceFactory.Splash.getHelpDisappear(context))
-        SplashScreen(after)
-    }
-
-    protected inline fun launchNewNote(
-        type: NoteType,
-        before: () -> Unit = {},
-        noinline after: SplashScreen.() -> Unit
-    ) {
-        before()
-        testRule.launchActivity(InstanceFactory.Splash.getNewNote(context, type))
-        SplashScreen(after)
-    }
-
-    //endregion
 }
