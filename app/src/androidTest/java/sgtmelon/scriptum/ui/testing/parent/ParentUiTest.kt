@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent
+package sgtmelon.scriptum.ui.testing.parent
 
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
@@ -17,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
+import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.idling.getWaitIdling
@@ -58,26 +59,19 @@ abstract class ParentUiTest : ParentTest() {
          */
         context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
 
-        /**
-         * Turn on wi-fi.
-         */
+        /** Turn on wi-fi. */
         uiDevice.executeShellCommand("svc wifi enable")
 
-        /**
-         * Prepare preferences.
-         */
+        /** Prepare preferences. */
         setupTheme(ThemeDisplayed.values().random())
         preferences.apply {
             isFirstStart = false
-
             isAutoSaveOn = false
             isPauseSaveOn = false
         }
         preferencesRepo.sort = Sort.CHANGE
 
-        /**
-         * Prepare database.
-         */
+        /** Prepare database. */
         db.clear()
     }
 
@@ -127,8 +121,8 @@ abstract class ParentUiTest : ParentTest() {
     //region Launch functions
 
     /**
-     * This function not protected because used inside [ParentUiTest] extensions for
-     * fast test run.
+     * This function not PROTECTED because used inside launch extensions in other classes for
+     * short test launch.
      */
     inline fun launch(
         before: () -> Unit = {},

@@ -1,14 +1,16 @@
-package sgtmelon.scriptum.parent
+package sgtmelon.scriptum.integrational.testing
 
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.ExpectedException
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
+import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.parent.RoomWorker
 import sgtmelon.scriptum.parent.di.ParentInjector
 import sgtmelon.test.common.OverflowDelegator
 
 /**
- * Parent class for Integration tests.
+ * Parent class for Integration database tests.
  */
 abstract class ParentRoomTest : ParentTest(),
     RoomWorker {

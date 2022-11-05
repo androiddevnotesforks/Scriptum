@@ -36,6 +36,9 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 class MainActivity : ThemeActivity<ActivityMainBinding>(),
     RecyclerMainFabListener.Callback {
 
+    // TODO двинуть в другой модуль EdgeDragHelper, RecyclerviewOverscroll!
+    // TODO выносить из cleanup ui тесты
+
     override val layoutId: Int = R.layout.activity_main
 
     @Inject lateinit var viewModel: MainViewModel

@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 /**
  * Test open screens with wrong intent data, check error handling.
@@ -33,6 +33,9 @@ class WrongData : ParentUiTest() {
     @Test fun alarmRollNoteOpen() = launchAlarm(rollNote) {
         mainScreen { notesScreen(isEmpty = true) }
     }
+
+    // TODO rename to SplashWrongTest
+    // TODO add test cases when create new note with wrong ordinal
 
     companion object {
         private const val WRONG_ID = 12345L

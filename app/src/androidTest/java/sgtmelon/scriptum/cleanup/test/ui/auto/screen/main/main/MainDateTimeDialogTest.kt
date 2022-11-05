@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.test.parent.situation.IDateTimeDialogTest
 import sgtmelon.scriptum.cleanup.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 /**
  * Test dateTime dialog for [MainActivity].

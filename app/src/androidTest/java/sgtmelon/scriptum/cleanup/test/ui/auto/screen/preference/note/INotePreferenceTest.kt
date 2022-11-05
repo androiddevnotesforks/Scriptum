@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.note
 
 import sgtmelon.scriptum.cleanup.ui.screen.preference.NotePreferenceScreen
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 /**
  * Interface for all [NotePreferenceScreen] tests.

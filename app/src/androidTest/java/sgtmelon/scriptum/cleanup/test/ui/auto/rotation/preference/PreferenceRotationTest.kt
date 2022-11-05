@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main.IPreferenceTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
-import sgtmelon.scriptum.parent.ParentUiRotationTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiRotationTest
 
 /**
  * Test of [MenuPreferenceFragment] work with phone rotation.

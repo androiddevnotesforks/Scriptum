@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.test.ui.control.anim.note
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 @RunWith(AndroidJUnit4::class)
 class NoteAnimTest : ParentUiTest() {

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 /**
  * Test of [PreferencesImpl.defaultColor] setup for [TextNoteFragment].

@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 /**
  * Test add dialog for [MainActivity].

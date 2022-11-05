@@ -19,7 +19,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
-import sgtmelon.scriptum.parent.ParentRoomTest
+import sgtmelon.scriptum.integrational.testing.ParentRoomTest
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextAlarmEntity

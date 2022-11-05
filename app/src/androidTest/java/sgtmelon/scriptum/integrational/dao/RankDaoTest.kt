@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
-import sgtmelon.scriptum.parent.ParentRoomTest
+import sgtmelon.scriptum.integrational.testing.ParentRoomTest
 import sgtmelon.test.common.nextString
 
 /**

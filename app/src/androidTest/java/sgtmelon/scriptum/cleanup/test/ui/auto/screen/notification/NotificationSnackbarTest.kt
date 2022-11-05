@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 /**
  * Test for SnackBar in [NotificationsActivity].

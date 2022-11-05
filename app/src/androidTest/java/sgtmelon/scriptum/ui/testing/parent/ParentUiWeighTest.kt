@@ -1,5 +1,6 @@
-package sgtmelon.scriptum.parent
+package sgtmelon.scriptum.ui.testing.parent
 
+import sgtmelon.scriptum.parent.RoomWorker
 import sgtmelon.scriptum.parent.di.ParentInjector
 
 /**

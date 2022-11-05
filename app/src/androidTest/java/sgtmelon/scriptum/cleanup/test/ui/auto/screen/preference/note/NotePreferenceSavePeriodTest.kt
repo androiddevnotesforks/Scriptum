@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.test.parent.situation.ISavePeriodTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SavePeriodDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 /**
  * Test for [NotePreferenceFragment] and [SavePeriodDialogUi].

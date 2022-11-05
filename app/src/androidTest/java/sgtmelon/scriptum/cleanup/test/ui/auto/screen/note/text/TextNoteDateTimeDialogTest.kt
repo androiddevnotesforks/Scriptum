@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.test.parent.situation.IDateTimeDialogTest
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
-import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 
 @RunWith(AndroidJUnit4::class)
 class TextNoteDateTimeDialogTest : ParentUiTest(), IDateTimeDialogTest {
