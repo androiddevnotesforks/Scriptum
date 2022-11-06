@@ -18,9 +18,10 @@ import sgtmelon.scriptum.infrastructure.model.item.ColorItem
 fun MenuItem.tintIcon(context: Context, @AttrRes tint: Int = R.attr.clContent) {
     val icon = this.icon ?: return
 
-    val wrapDrawable = DrawableCompat.wrap(icon)
-    DrawableCompat.setTint(wrapDrawable, context.getColorAttr(tint))
-    this.icon = wrapDrawable
+    val wrapIcon = DrawableCompat.wrap(icon)
+    wrapIcon.setColorFilterCompat(context.getColorAttr(tint))
+
+    this.icon = wrapIcon
 }
 
 fun Context.getTintDrawable(
