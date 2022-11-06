@@ -178,7 +178,7 @@
         <test name="contentRoll" duration="26710" status="passed" />
         <test name="contentText" duration="26115" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification.NotificationRotationTest"
+    <suite name="sgtmelon.scriptum.ui.auto.notifications.NotificationRotationTest"
         duration="37057"
         status="passed">
         <test name="contentList" duration="8977" status="passed" />
@@ -4521,7 +4521,7 @@
                 className="NotificationRotationTest"
                 endTimestampMillis="8977"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification.NotificationRotationTest.contentList"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationRotationTest.contentList"
                 logcat=""
                 methodName="contentList"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification"
@@ -4531,7 +4531,7 @@
                 className="NotificationRotationTest"
                 endTimestampMillis="19690"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification.NotificationRotationTest.snackbar"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationRotationTest.snackbar"
                 logcat=""
                 methodName="snackbar"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification"
@@ -4541,7 +4541,7 @@
                 className="NotificationRotationTest"
                 endTimestampMillis="8390"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification.NotificationRotationTest.contentEmpty"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationRotationTest.contentEmpty"
                 logcat=""
                 methodName="contentEmpty"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification"

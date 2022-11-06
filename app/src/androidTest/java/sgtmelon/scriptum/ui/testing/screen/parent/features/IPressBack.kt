@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui
+package sgtmelon.scriptum.ui.testing.screen.parent.features
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack

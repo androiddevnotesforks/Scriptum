@@ -6,7 +6,6 @@ import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.SimpleInfoPage
 import sgtmelon.scriptum.cleanup.testData.State
-import sgtmelon.scriptum.cleanup.ui.IPressBack
 import sgtmelon.scriptum.cleanup.ui.item.NotificationItemUi
 import sgtmelon.scriptum.cleanup.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.panel.SnackbarPanel
@@ -17,6 +16,7 @@ import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.ui.testing.screen.parent.RecyclerPart
 import sgtmelon.scriptum.ui.testing.screen.parent.UiParentPart
+import sgtmelon.scriptum.ui.testing.screen.parent.features.IPressBack
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 

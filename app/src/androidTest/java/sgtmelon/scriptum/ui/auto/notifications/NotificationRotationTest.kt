@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification
+package sgtmelon.scriptum.ui.auto.notifications
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
