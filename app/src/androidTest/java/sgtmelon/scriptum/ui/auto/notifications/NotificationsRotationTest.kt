@@ -12,7 +12,7 @@ import sgtmelon.test.common.isDivideEntirely
  * Test of [NotificationsActivity] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationRotationTest : ParentUiRotationTest() {
+class NotificationsRotationTest : ParentUiRotationTest() {
 
     @Test fun contentEmpty() = launch {
         mainScreen {

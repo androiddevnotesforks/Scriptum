@@ -14,7 +14,7 @@ import sgtmelon.scriptum.ui.testing.parent.launch
 /**
  * Test for SnackBar in [NotificationsActivity].
  */
-class NotificationSnackbarTest : ParentUiTest() {
+class NotificationsSnackbarTest : ParentUiTest() {
 
     @Test fun containerBottomDisplay() {
         fillScreen(count = 15)
