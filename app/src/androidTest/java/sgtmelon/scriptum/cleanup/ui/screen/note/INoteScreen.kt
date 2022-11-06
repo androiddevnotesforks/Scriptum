@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.ui.screen.note
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 
 /**
  * Interface for communication child ui abstractions with [TextNoteScreen] and [RollNoteScreen]
@@ -14,7 +14,7 @@ interface INoteScreen<T : ParentScreen, N : NoteItem> {
 
     // TODO #TEST add exit from screen control
 
-    var state: State
+    var state: NoteState
 
     var item: N
 
@@ -29,7 +29,7 @@ interface INoteScreen<T : ParentScreen, N : NoteItem> {
 
     fun fullAssert(): T
 
-    fun throwOnWrongState(vararg actual: State, func: (callback: INoteScreen<T, N>) -> Unit) {
+    fun throwOnWrongState(vararg actual: NoteState, func: (callback: INoteScreen<T, N>) -> Unit) {
         assertTrue(actual.contains(state))
         func(this)
     }

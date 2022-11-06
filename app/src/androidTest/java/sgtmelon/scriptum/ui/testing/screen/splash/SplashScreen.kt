@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.ui.testing.screen.splash
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.screen.AlarmScreen
 import sgtmelon.scriptum.cleanup.ui.screen.main.MainScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpDisappearScreen
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 import sgtmelon.scriptum.ui.testing.parent.screen.UiPart
 import sgtmelon.scriptum.ui.testing.screen.notifications.NotificationsScreen
 
@@ -23,7 +23,7 @@ class SplashScreen : UiPart() {
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) = apply {
-        TextNoteScreen(func, State.READ, item, isRankEmpty)
+        TextNoteScreen(func, NoteState.READ, item, isRankEmpty)
     }
 
     inline fun bindNoteScreen(
@@ -31,7 +31,7 @@ class SplashScreen : UiPart() {
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) = apply {
-        RollNoteScreen(func, State.READ, item, isRankEmpty)
+        RollNoteScreen(func, NoteState.READ, item, isRankEmpty)
     }
 
     inline fun alarmScreen(
@@ -58,7 +58,7 @@ class SplashScreen : UiPart() {
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) = apply {
-        TextNoteScreen(func, State.NEW, item, isRankEmpty)
+        TextNoteScreen(func, NoteState.NEW, item, isRankEmpty)
     }
 
     inline fun createNoteScreen(
@@ -66,7 +66,7 @@ class SplashScreen : UiPart() {
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) = apply {
-        RollNoteScreen(func, State.NEW, item, isRankEmpty)
+        RollNoteScreen(func, NoteState.NEW, item, isRankEmpty)
     }
 
     companion object {

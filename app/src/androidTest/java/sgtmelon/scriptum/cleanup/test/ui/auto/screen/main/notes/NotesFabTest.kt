@@ -4,10 +4,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
-import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
+import sgtmelon.scriptum.ui.testing.model.key.Scroll
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 import sgtmelon.scriptum.ui.testing.parent.launch
 

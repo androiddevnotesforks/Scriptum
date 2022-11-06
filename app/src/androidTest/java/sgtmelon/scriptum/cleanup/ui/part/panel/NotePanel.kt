@@ -8,7 +8,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.ConvertDialogUi
@@ -22,6 +21,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -74,17 +74,17 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     /**
      * Return user to [BinScreen]
      */
-    fun onRestore() = callback.throwOnWrongState(State.BIN) {
+    fun onRestore() = callback.throwOnWrongState(NoteState.BIN) {
         restoreButton.click()
         callback.item.change = getCalendarText()
     }
 
     fun onRestoreOpen() = apply {
-        callback.throwOnWrongState(State.BIN) {
+        callback.throwOnWrongState(NoteState.BIN) {
             restoreOpenButton.click()
             callback.apply {
                 item.change = getCalendarText()
-                state = State.READ
+                state = NoteState.READ
             }.fullAssert()
         }
     }
@@ -92,13 +92,13 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     /**
      * Return user to [BinScreen]
      */
-    fun onClear() = callback.throwOnWrongState(State.BIN) { clearButton.click() }
+    fun onClear() = callback.throwOnWrongState(NoteState.BIN) { clearButton.click() }
 
     /**
      * TODO (add)
      */
     fun onUndo() = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             undoButton.click()
             callback.apply {
                 //            shadowItem = inputControl.undo()
@@ -110,7 +110,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
      * TODO (add)
      */
     fun onRedo() = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             redoButton.click()
             callback.apply {
                 //            shadowItem = inputControl.redo()
@@ -119,7 +119,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     }
 
     fun onRank(rankList: List<RankItem> = listOf(), func: RankDialogUi.() -> Unit = {}) = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             rankButton.click()
 
             RankDialogUi(func, callback.shadowItem, rankList, callback = this)
@@ -127,7 +127,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     }
 
     fun onColor(func: ColorDialogUi.() -> Unit = {}) = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             colorButton.click()
 
             val check = callback.item.color
@@ -136,11 +136,11 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     }
 
     fun onSave() = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             saveButton.click()
 
             callback.apply {
-                state = State.READ
+                state = NoteState.READ
 
                 when (item) {
                     is NoteItem.Text -> applyShadowText().onSave()
@@ -153,11 +153,11 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     }
 
     fun onLongSave() = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             saveButton.longClick()
 
             callback.apply {
-                state = State.EDIT
+                state = NoteState.EDIT
 
                 when (item) {
                     is NoteItem.Text -> applyShadowText().onSave()
@@ -173,34 +173,35 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     }
 
     fun onNotification(isUpdateDate: Boolean = false, func: DateDialogUi.() -> Unit = {}) {
-        callback.throwOnWrongState(State.READ) {
+        callback.throwOnWrongState(NoteState.READ) {
             notificationButton.click()
             DateDialogUi(func, isUpdateDate, callback = this)
         }
     }
 
     fun onBind() = apply {
-        callback.throwOnWrongState(State.READ) {
+        callback.throwOnWrongState(NoteState.READ) {
             bindButton.click()
             with(callback.item) { isStatus = !isStatus }
         }
     }
 
-    fun onConvert(func: ConvertDialogUi.() -> Unit = {}) = callback.throwOnWrongState(State.READ) {
-        convertButton.click()
-        ConvertDialogUi(func, callback.item, callback = this)
-    }
+    fun onConvert(func: ConvertDialogUi.() -> Unit = {}) =
+        callback.throwOnWrongState(NoteState.READ) {
+            convertButton.click()
+            ConvertDialogUi(func, callback.item, callback = this)
+        }
 
-    fun onDelete() = callback.throwOnWrongState(State.READ) {
+    fun onDelete() = callback.throwOnWrongState(NoteState.READ) {
         deleteButton.click()
         callback.item.change = getCalendarText()
     }
 
     fun onEdit() = apply {
-        callback.throwOnWrongState(State.READ) {
+        callback.throwOnWrongState(NoteState.READ) {
             editButton.click()
 
-            it.state = State.EDIT
+            it.state = NoteState.EDIT
             it.applyItem()
             it.inputControl.reset()
             it.fullAssert()
@@ -264,7 +265,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
             dividerView.isDisplayed(when (item.type) {
                 NoteType.TEXT -> true
-                NoteType.ROLL -> state == State.EDIT || state == State.NEW
+                NoteType.ROLL -> state == NoteState.EDIT || state == NoteState.NEW
             }) {
                 withSize(heightId = R.dimen.layout_1dp)
             }.withBackgroundAttr(R.attr.clDivider)
@@ -273,7 +274,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                 .withSize(heightId = R.dimen.note_panel_height)
 
             when (state) {
-                State.READ -> {
+                NoteState.READ -> {
                     readContainer.isDisplayed()
                     binContainer.isDisplayed(isVisible = false)
                     editContainer.isDisplayed(isVisible = false)
@@ -297,10 +298,12 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
                     convertButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_convert, R.attr.clContent)
-                        .withContentDescription(when (item.type) {
-                            NoteType.TEXT -> R.string.description_note_convert_text
-                            NoteType.ROLL -> R.string.description_note_convert_roll
-                        })
+                        .withContentDescription(
+                            when (item.type) {
+                                NoteType.TEXT -> R.string.description_note_convert_text
+                                NoteType.ROLL -> R.string.description_note_convert_roll
+                            }
+                        )
 
                     deleteButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_bin, R.attr.clContent)
@@ -308,7 +311,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
                     editButton.withText(R.string.button_note_edit).isDisplayed()
                 }
-                State.BIN -> {
+                NoteState.BIN -> {
                     readContainer.isDisplayed(isVisible = false)
                     binContainer.isDisplayed()
                     editContainer.isDisplayed(isVisible = false)
@@ -325,7 +328,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                         .withDrawableAttr(R.drawable.ic_clear, R.attr.clAccent)
                         .withContentDescription(R.string.description_note_clear)
                 }
-                State.EDIT, State.NEW -> {
+                NoteState.EDIT, NoteState.NEW -> {
                     readContainer.isDisplayed(isVisible = false)
                     binContainer.isDisplayed(isVisible = false)
                     editContainer.isDisplayed()

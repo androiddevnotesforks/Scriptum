@@ -4,8 +4,8 @@ import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -18,7 +18,7 @@ import sgtmelon.test.cappuccino.utils.withText
 class PreferenceItemUi(
     listMatcher: Matcher<View>,
     p: Int
-) : ParentRecyclerItem<PreferenceItem>(listMatcher, p) {
+) : RecyclerItem<PreferenceItem>(listMatcher, p) {
 
     override fun assert(item: PreferenceItem) = when (item) {
         is PreferenceItem.Header -> Header().assert(item)
@@ -30,7 +30,7 @@ class PreferenceItemUi(
 
     inner class Header {
 
-        private val titleText = getChild(getViewById(android.R.id.title))
+        private val titleText = getChild(getView(android.R.id.title))
 
         fun assert(item: PreferenceItem.Header) {
             titleText.isDisplayed()
@@ -40,7 +40,7 @@ class PreferenceItemUi(
 
     inner class Simple {
 
-        private val titleText = getChild(getViewById(android.R.id.title))
+        private val titleText = getChild(getView(android.R.id.title))
 
         fun assert(item: PreferenceItem.Simple) {
             titleText.isDisplayed()
@@ -55,8 +55,8 @@ class PreferenceItemUi(
 
     inner class Summary {
 
-        private val titleText = getChild(getViewById(android.R.id.title))
-        private val summaryText = getChild(getViewById(android.R.id.summary))
+        private val titleText = getChild(getView(android.R.id.title))
+        private val summaryText = getChild(getView(android.R.id.summary))
 
         fun assert(item: PreferenceItem.Summary) {
             titleText.isDisplayed()
@@ -80,9 +80,9 @@ class PreferenceItemUi(
 
     inner class Switch {
 
-        private val titleText = getChild(getViewById(android.R.id.title))
-        private val summaryText = getChild(getViewById(android.R.id.summary))
-        private val switchView = getChild(getViewById(R.id.switchWidget))
+        private val titleText = getChild(getView(android.R.id.title))
+        private val summaryText = getChild(getView(android.R.id.summary))
+        private val switchView = getChild(getView(R.id.switchWidget))
 
         fun assert(item: PreferenceItem.Switch) {
             titleText.isDisplayed()

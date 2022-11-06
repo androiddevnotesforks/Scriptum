@@ -4,9 +4,9 @@ import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription
@@ -20,21 +20,21 @@ import sgtmelon.test.cappuccino.utils.withText
 class RankItemUi(
     listMatcher: Matcher<View>,
     position: Int
-) : ParentRecyclerItem<RankItem>(listMatcher, position) {
+) : RecyclerItem<RankItem>(listMatcher, position) {
 
-    private val parentCard by lazy { getChild(getViewById(R.id.parent_card)) }
+    private val parentCard by lazy { getChild(getView(R.id.parent_card)) }
 
-    val visibleButton by lazy { getChild(getViewById(R.id.visible_button)) }
-    val cancelButton by lazy { getChild(getViewById(R.id.cancel_button)) }
+    val visibleButton by lazy { getChild(getView(R.id.visible_button)) }
+    val cancelButton by lazy { getChild(getView(R.id.cancel_button)) }
 
-    private val nameText by lazy { getChild(getViewById(R.id.name_text)) }
-    private val countText by lazy { getChild(getViewById(R.id.count_text)) }
+    private val nameText by lazy { getChild(getView(R.id.name_text)) }
+    private val countText by lazy { getChild(getView(R.id.count_text)) }
 
-    private val imageContainer by lazy { getChild(getViewById(R.id.image_container)) }
-    private val notificationText by lazy { getChild(getViewById(R.id.notification_text)) }
-    private val notificationImage by lazy { getChild(getViewById(R.id.notification_image)) }
-    private val bindText by lazy { getChild(getViewById(R.id.bind_text)) }
-    private val bindImage by lazy { getChild(getViewById(R.id.bind_image)) }
+    private val imageContainer by lazy { getChild(getView(R.id.image_container)) }
+    private val notificationText by lazy { getChild(getView(R.id.notification_text)) }
+    private val notificationImage by lazy { getChild(getView(R.id.notification_image)) }
+    private val bindText by lazy { getChild(getView(R.id.bind_text)) }
+    private val bindImage by lazy { getChild(getView(R.id.bind_image)) }
 
     override fun assert(item: RankItem) {
         parentCard.isDisplayed().withCard(

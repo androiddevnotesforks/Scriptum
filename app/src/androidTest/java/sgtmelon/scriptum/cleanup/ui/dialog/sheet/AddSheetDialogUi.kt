@@ -3,9 +3,9 @@ package sgtmelon.scriptum.cleanup.ui.dialog.sheet
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -30,7 +30,7 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
         func: TextNoteScreen.() -> Unit = {}
     ) {
         textButton.click()
-        TextNoteScreen(func, State.NEW, item, isRankEmpty)
+        TextNoteScreen(func, NoteState.NEW, item, isRankEmpty)
     }
 
     fun createRoll(
@@ -39,7 +39,7 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
         func: RollNoteScreen.() -> Unit = {}
     ) {
         rollButton.click()
-        RollNoteScreen(func, State.NEW, item, isRankEmpty)
+        RollNoteScreen(func, NoteState.NEW, item, isRankEmpty)
     }
 
 

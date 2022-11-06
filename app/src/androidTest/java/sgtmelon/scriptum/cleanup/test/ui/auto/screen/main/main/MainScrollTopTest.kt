@@ -3,11 +3,11 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.main
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.testData.Scroll
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
+import sgtmelon.scriptum.ui.testing.model.key.Scroll
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
 
 /**
  * Test add dialog for [MainActivity].
@@ -19,7 +19,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen { onScroll(Scroll.END) }.onScrollTop()
-                ParentRecyclerItem.PREVENT_SCROLL = true
+                RecyclerItem.PREVENT_SCROLL = true
                 rankScreen { onAssertItem(it.first(), p = 0) }
             }
         }
@@ -29,7 +29,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen { onScroll(Scroll.END) }.onScrollTop()
-                ParentRecyclerItem.PREVENT_SCROLL = true
+                RecyclerItem.PREVENT_SCROLL = true
                 notesScreen { onAssertItem(it.first(), p = 0) }
             }
         }
@@ -39,7 +39,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 binScreen { onScroll(Scroll.END) }.onScrollTop()
-                ParentRecyclerItem.PREVENT_SCROLL = true
+                RecyclerItem.PREVENT_SCROLL = true
                 binScreen { onAssertItem(it.first(), p = 0) }
             }
         }

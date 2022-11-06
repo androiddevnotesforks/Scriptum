@@ -11,6 +11,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import sgtmelon.test.cappuccino.matchers.ContentDescriptionMatcher
@@ -222,3 +223,9 @@ fun Matcher<View>.withProgress(progress: Int, max: Int) = also {
 
 
 fun Matcher<View>.withTag(tag: Any) = also { matchOnView(it, TagMatcher(tag)) }
+
+fun Matcher<View>.includeParent(parentMatcher: Matcher<View>): Matcher<View> =
+    allOf(this, ViewMatchers.withParent(parentMatcher))
+
+fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> =
+    allOf(this, not(ViewMatchers.withParent(parentMatcher)))

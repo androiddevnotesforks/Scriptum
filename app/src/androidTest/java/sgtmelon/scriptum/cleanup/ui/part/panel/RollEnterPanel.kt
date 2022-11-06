@@ -6,10 +6,10 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.clearSpace
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -50,14 +50,14 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
         }
 
     fun onEnterText(text: String) = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             textEnter.typeText(text)
             enterText = text
         }
     }
 
     fun onAdd(text: String) = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             onEnterText(text)
 
             val actualText = text.clearSpace()
@@ -85,14 +85,14 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
     }
 
     fun onImeOptionEnter() {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             val actualText = enterText.clearSpace()
 
             textEnter.imeOption()
 
             if (actualText.isEmpty()) {
                 callback.apply {
-                    state = State.READ
+                    state = NoteState.READ
 
                     item = shadowItem.deepCopy()
                     item.onSave()
@@ -110,12 +110,12 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
     }
 
 
-    fun assertFocus() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+    fun assertFocus() = callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
         textEnter.isFocused().withCursor(enterText.length)
     }
 
     fun assert() = apply {
-        val visible = with(callback) { state == State.EDIT || state == State.NEW }
+        val visible = with(callback) { state == NoteState.EDIT || state == NoteState.NEW }
 
         enterContainer.isDisplayed(visible).withBackgroundAttr(R.attr.clPrimary)
 

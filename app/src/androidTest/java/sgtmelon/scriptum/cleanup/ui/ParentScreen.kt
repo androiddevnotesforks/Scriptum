@@ -4,11 +4,9 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.not
 import sgtmelon.scriptum.cleanup.basic.exception.ThemeException
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.di.ParentInjector
@@ -40,13 +38,13 @@ abstract class ParentScreen {
         return allOf(getViewById(viewId), getViewByText(string))
     }
 
-    protected fun Matcher<View>.includeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
-        allOf(it, withParent(parentMatcher))
-    }
-
-    protected fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
-        allOf(it, not(withParent(parentMatcher)))
-    }
+    //    protected fun Matcher<View>.includeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
+    //        allOf(it, withParent(parentMatcher))
+    //    }
+    //
+    //    protected fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
+    //        allOf(it, not(withParent(parentMatcher)))
+    //    }
 
     //endregion
 

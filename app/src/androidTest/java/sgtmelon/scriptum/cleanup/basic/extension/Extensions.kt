@@ -4,11 +4,13 @@ import org.junit.Assert.assertNotEquals
 
 // TODO remove
 
+@Deprecated("Use await")
 inline fun waitBefore(time: Long, func: () -> Unit = {}) {
     Thread.sleep(time)
     func()
 }
 
+@Deprecated("Use await")
 inline fun waitAfter(time: Long, func: () -> Unit = {}) {
     func()
     Thread.sleep(time)

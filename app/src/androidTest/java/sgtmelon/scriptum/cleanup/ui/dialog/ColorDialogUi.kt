@@ -6,11 +6,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.getCount
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -109,21 +109,21 @@ class ColorDialogUi(
     private class Item(
         listMatcher: Matcher<View>,
         p: Int
-    ) : ParentRecyclerItem<ColorItem>(listMatcher, p) {
+    ) : RecyclerItem<ColorItem>(listMatcher, p) {
 
-        private val parentContainer by lazy { getChild(getViewById(R.id.parent_container)) }
-        private val backgroundView by lazy { getChild(getViewById(R.id.background_view)) }
-        private val checkImage by lazy { getChild(getViewById(R.id.check_image)) }
-        private val clickView by lazy { getChild(getViewById(R.id.click_view)) }
+        private val parentContainer by lazy { getChild(getView(R.id.parent_container)) }
+        private val backgroundView by lazy { getChild(getView(R.id.background_view)) }
+        private val checkImage by lazy { getChild(getView(R.id.check_image)) }
+        private val clickView by lazy { getChild(getView(R.id.click_view)) }
 
         override fun assert(item: ColorItem) {
             parentContainer.isDisplayed()
 
             backgroundView.isDisplayed()
                 .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)
-                .withColorIndicator(R.drawable.ic_color, appTheme, item.color)
+                .withColorIndicator(R.drawable.ic_color, theme, item.color)
 
-            val colorId = ColorData.getColorItem(appTheme, item.color).content
+            val colorId = ColorData.getColorItem(theme, item.color).content
             checkImage.isDisplayed(item.isCheck).withDrawableColor(R.drawable.ic_check, colorId)
 
             // TODO record exception in real code

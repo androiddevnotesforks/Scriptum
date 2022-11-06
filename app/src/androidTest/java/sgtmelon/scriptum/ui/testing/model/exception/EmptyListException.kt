@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.testing.exception
+package sgtmelon.scriptum.ui.testing.model.exception
 
 /**
  * Exception for catch moments when list is empty.

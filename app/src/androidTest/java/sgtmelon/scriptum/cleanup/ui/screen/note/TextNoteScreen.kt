@@ -9,11 +9,11 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.IKeyboardClose
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 import sgtmelon.scriptum.ui.testing.parent.screen.feature.BackPress
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -32,7 +32,7 @@ import sgtmelon.test.cappuccino.utils.withText
  * Class for UI control of [NoteActivity], [TextNoteFragment].
  */
 class TextNoteScreen(
-    override var state: State,
+    override var state: NoteState,
     override var item: NoteItem.Text,
     override val isRankEmpty: Boolean
 ) : ParentScreen(),
@@ -104,7 +104,7 @@ class TextNoteScreen(
      * TODO improve ime option
      */
     fun onImeOptionText() = apply {
-        throwOnWrongState(State.EDIT, State.NEW) {
+        throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             contentEnter.imeOption()
         }
     }
@@ -114,20 +114,20 @@ class TextNoteScreen(
     override fun assertToolbarIme() = assertFocus()
 
     override fun afterConvert(func: RollNoteScreen.() -> Unit) {
-        RollNoteScreen(func, State.READ, item.onConvert(), isRankEmpty)
+        RollNoteScreen(func, NoteState.READ, item.onConvert(), isRankEmpty)
     }
 
     override fun pressBack() {
         super.pressBack()
 
-        if (state == State.EDIT || state == State.NEW) {
+        if (state == NoteState.EDIT || state == NoteState.NEW) {
             if (shadowItem.isSaveEnabled()) {
-                state = State.READ
+                state = NoteState.READ
                 item = shadowItem.deepCopy()
                 inputControl.reset()
                 fullAssert()
-            } else if (state == State.EDIT) {
-                state = State.READ
+            } else if (state == NoteState.EDIT) {
+                state = NoteState.READ
                 shadowItem = item.deepCopy()
                 inputControl.reset()
                 fullAssert()
@@ -139,7 +139,7 @@ class TextNoteScreen(
 
     //region Assertion
 
-    fun assertFocus() = throwOnWrongState(State.EDIT, State.NEW) {
+    fun assertFocus() = throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
         contentEnter.isFocused().withCursor(shadowItem.text.length)
     }
 
@@ -160,14 +160,14 @@ class TextNoteScreen(
         contentScroll.isDisplayed()
 
         when (state) {
-            State.READ, State.BIN -> {
+            NoteState.READ, NoteState.BIN -> {
                 contentText.isDisplayed()
                     .withBackgroundColor(android.R.color.transparent)
                     .withText(item.text, R.attr.clContent, R.dimen.text_18sp)
 
                 contentEnter.isDisplayed(isVisible = false)
             }
-            State.EDIT, State.NEW -> {
+            NoteState.EDIT, NoteState.NEW -> {
                 contentText.isDisplayed(isVisible = false)
 
                 /**
@@ -192,7 +192,7 @@ class TextNoteScreen(
     companion object {
         inline operator fun invoke(
             func: TextNoteScreen.() -> Unit,
-            state: State,
+            state: NoteState,
             item: NoteItem.Text,
             isRankEmpty: Boolean
         ): TextNoteScreen {
@@ -201,7 +201,7 @@ class TextNoteScreen(
              * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
              * of actual note creation was ~01:.. (after [DbDelegator] note was created).
              */
-            if (state == State.NEW) {
+            if (state == NoteState.NEW) {
                 item.create = getCalendarText()
             }
 

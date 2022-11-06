@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.part.info.NotesInfoContainer
@@ -12,6 +11,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 import sgtmelon.scriptum.ui.testing.parent.screen.ContainerPart
 import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerPart
 import sgtmelon.scriptum.ui.testing.screen.notifications.NotificationsScreen
@@ -73,7 +73,7 @@ class NotesScreen(private val isHide: Boolean) : ContainerPart(TestViewTag.NOTES
         if (p == null) return@apply
 
         getItem(p).view.click()
-        TextNoteScreen(func, State.READ, item, isRankEmpty)
+        TextNoteScreen(func, NoteState.READ, item, isRankEmpty)
     }
 
     fun openRollNote(
@@ -85,7 +85,7 @@ class NotesScreen(private val isHide: Boolean) : ContainerPart(TestViewTag.NOTES
         if (p == null) return@apply
 
         getItem(p).view.click()
-        RollNoteScreen(func, State.READ, item, isRankEmpty)
+        RollNoteScreen(func, NoteState.READ, item, isRankEmpty)
     }
 
 

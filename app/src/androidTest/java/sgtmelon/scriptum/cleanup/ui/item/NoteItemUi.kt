@@ -12,10 +12,11 @@ import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
+import sgtmelon.test.cappuccino.utils.includeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
@@ -27,7 +28,7 @@ import sgtmelon.test.cappuccino.utils.withText
 class NoteItemUi(
     listMatcher: Matcher<View>,
     p: Int
-) : ParentRecyclerItem<NoteItem>(listMatcher, p) {
+) : RecyclerItem<NoteItem>(listMatcher, p) {
 
     override fun assert(item: NoteItem) = when (item) {
         is NoteItem.Text -> Text().assert(item)
@@ -38,7 +39,7 @@ class NoteItemUi(
 
         override val infoLayout = TextInfo()
 
-        val contentText = getChild(getViewById(R.id.note_text_content_text))
+        val contentText = getChild(getView(R.id.note_text_content_text))
 
         override fun assert(item: NoteItem.Text) {
             super.assert(item)
@@ -73,14 +74,14 @@ class NoteItemUi(
         }
 
         inner class Row(@IdRes parentId: Int) {
-            val parentContainer = getChild(getViewById(parentId))
+            val parentContainer = getChild(getView(parentId))
 
             val checkImage = getChild(
-                getViewById(R.id.note_roll_check_image).includeParent(getViewById(parentId))
+                getView(R.id.note_roll_check_image).includeParent(getView(parentId))
             )
 
             val contentText = getChild(
-                getViewById(R.id.note_roll_content_text).includeParent(getViewById(parentId))
+                getView(R.id.note_roll_content_text).includeParent(getView(parentId))
             )
 
             fun assert(item: RollItem?) {
@@ -101,8 +102,8 @@ class NoteItemUi(
 
         inner class RollInfo : Info<NoteItem.Roll>() {
 
-            private val visibleImage = getChild(getViewById(R.id.note_info_visible_image))
-            private val progressText by lazy { getChild(getViewById(R.id.note_info_progress_text)) }
+            private val visibleImage = getChild(getView(R.id.note_info_visible_image))
+            private val progressText by lazy { getChild(getView(R.id.note_info_progress_text)) }
 
             override fun assert(item: NoteItem.Roll) {
                 super.assert(item)
@@ -119,31 +120,47 @@ class NoteItemUi(
 
     private abstract inner class Parent<N : NoteItem>(type: NoteType) {
 
-        val parentCard = getChild(getViewById(when (type) {
-            NoteType.TEXT -> R.id.note_text_parent_card
-            NoteType.ROLL -> R.id.note_roll_parent_card
-        }))
+        val parentCard = getChild(
+            getView(
+                when (type) {
+                    NoteType.TEXT -> R.id.note_text_parent_card
+                    NoteType.ROLL -> R.id.note_roll_parent_card
+                }
+            )
+        )
 
-        val clickContainer = getChild(getViewById(when (type) {
-            NoteType.TEXT -> R.id.note_text_click_container
-            NoteType.ROLL -> R.id.note_roll_click_container
-        }))
+        val clickContainer = getChild(
+            getView(
+                when (type) {
+                    NoteType.TEXT -> R.id.note_text_click_container
+                    NoteType.ROLL -> R.id.note_roll_click_container
+                }
+            )
+        )
 
-        val nameText = getChild(getViewById(when (type) {
-            NoteType.TEXT -> R.id.note_text_name_text
-            NoteType.ROLL -> R.id.note_roll_name_text
-        }))
+        val nameText = getChild(
+            getView(
+                when (type) {
+                    NoteType.TEXT -> R.id.note_text_name_text
+                    NoteType.ROLL -> R.id.note_roll_name_text
+                }
+            )
+        )
 
         abstract val infoLayout: Info<N>
 
-        val colorView = getChild(getViewById(when (type) {
-            NoteType.TEXT -> R.id.note_text_color_view
-            NoteType.ROLL -> R.id.note_roll_color_view
-        }))
+        val colorView = getChild(
+            getView(
+                when (type) {
+                    NoteType.TEXT -> R.id.note_text_color_view
+                    NoteType.ROLL -> R.id.note_roll_color_view
+                }
+            )
+        )
 
         open fun assert(item: N) {
             parentCard.isDisplayed().withCardBackground(
-                appTheme,
+                theme,
                 item.color,
                 R.dimen.item_card_radius,
                 R.dimen.item_card_elevation
@@ -156,21 +173,21 @@ class NoteItemUi(
 
             infoLayout.assert(item)
 
-            colorView.isDisplayed(isVisible = appTheme == ThemeDisplayed.DARK) {
+            colorView.isDisplayed(isVisible = theme == ThemeDisplayed.DARK) {
                 withSize(widthId = R.dimen.layout_8dp)
-                withColorIndicator(R.drawable.ic_color_indicator, appTheme, item.color)
+                withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
             }
         }
 
         abstract inner class Info<N : NoteItem> {
-            private val parentContainer = getChild(getViewById(R.id.note_info_container))
+            private val parentContainer = getChild(getView(R.id.note_info_container))
 
-            private val notificationImage = getChild(getViewById(R.id.note_info_notification_image))
-            private val bindImage = getChild(getViewById(R.id.note_info_bind_image))
-            private val rankImage = getChild(getViewById(R.id.note_info_rank_image))
+            private val notificationImage = getChild(getView(R.id.note_info_notification_image))
+            private val bindImage = getChild(getView(R.id.note_info_bind_image))
+            private val rankImage = getChild(getView(R.id.note_info_rank_image))
 
-            private val changeText = getChild(getViewById(R.id.note_info_change_text))
-            private val createText = getChild(getViewById(R.id.note_info_create_text))
+            private val changeText = getChild(getView(R.id.note_info_change_text))
+            private val createText = getChild(getView(R.id.note_info_create_text))
 
             @CallSuper open fun assert(item: N) {
                 val type = item.type
@@ -199,7 +216,5 @@ class NoteItemUi(
                 createText.isDisplayed().withText(create, R.attr.clContentSecond, R.dimen.text_12sp)
             }
         }
-
     }
-
 }

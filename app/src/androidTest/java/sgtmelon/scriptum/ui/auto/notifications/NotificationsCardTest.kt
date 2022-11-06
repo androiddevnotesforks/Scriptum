@@ -6,11 +6,11 @@ import org.junit.runner.RunWith
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.item.NotificationItemUi
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.ui.testing.screen.item.NotificationItemUi
 
 /**
  * Test for [NotificationItemUi]

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.item
+package sgtmelon.scriptum.ui.testing.screen.item
 
 import android.view.View
 import org.hamcrest.Matcher
@@ -7,8 +7,9 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
+import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription
@@ -22,16 +23,17 @@ import sgtmelon.test.cappuccino.utils.withText
 class NotificationItemUi(
     listMatcher: Matcher<View>,
     p: Int
-) : ParentRecyclerItem<NoteItem>(listMatcher, p) {
+) : RecyclerItem<NoteItem>(listMatcher, p) {
 
-    private val parentCard by lazy { getChild(getViewById(R.id.parent_card)) }
+    private val parentCard by lazy { getChild(getView(R.id.parent_card)) }
+    private val nameText by lazy { getChild(getView(R.id.name_text)) }
+    private val dateText by lazy { getChild(getView(R.id.date_text)) }
+    private val colorView by lazy { getChild(getView(R.id.color_view)) }
+    private val cancelButton by lazy { getChild(getView(R.id.cancel_button)) }
 
-    private val nameText by lazy { getChild(getViewById(R.id.name_text)) }
-    private val dateText by lazy { getChild(getViewById(R.id.date_text)) }
-
-    private val colorView by lazy { getChild(getViewById(R.id.color_view)) }
-
-    val cancelButton by lazy { getChild(getViewById(R.id.cancel_button)) }
+    fun clickCancel() {
+        cancelButton.click()
+    }
 
     override fun assert(item: NoteItem) {
         parentCard.isDisplayed().withCard(
@@ -46,7 +48,7 @@ class NotificationItemUi(
 
         colorView.isDisplayed()
             .withSize(widthId = R.dimen.layout_8dp)
-            .withColorIndicator(R.drawable.ic_color_indicator, appTheme, item.color)
+            .withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
 
         nameText.isDisplayed().withText(name, R.attr.clContent, R.dimen.text_16sp)
         dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
@@ -55,5 +57,4 @@ class NotificationItemUi(
             .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, R.attr.clContent)
             .withContentDescription(cancelDesc)
     }
-
 }

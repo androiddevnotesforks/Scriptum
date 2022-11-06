@@ -4,12 +4,12 @@ import org.junit.Test
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.testData.Scroll
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
+import sgtmelon.scriptum.ui.testing.model.key.Scroll
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
 
 /**
  * Test for SnackBar in [NotificationsActivity].
@@ -184,7 +184,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
 
                         assertSnackbarDismiss()
 
-                        ParentRecyclerItem.PREVENT_SCROLL = true
+                        RecyclerItem.PREVENT_SCROLL = true
                         assertItem(p, list[p])
                     }
                 }
@@ -206,7 +206,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
 
                         assertSnackbarDismiss()
 
-                        ParentRecyclerItem.PREVENT_SCROLL = true
+                        RecyclerItem.PREVENT_SCROLL = true
                         assertItem(p, list[p])
                     }
                 }

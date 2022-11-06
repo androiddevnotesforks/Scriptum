@@ -2,10 +2,10 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank
 
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.cleanup.testData.Scroll
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
+import sgtmelon.scriptum.ui.testing.model.key.Scroll
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
 import sgtmelon.test.common.nextShortString
 
 /**
@@ -219,7 +219,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
 
-                    ParentRecyclerItem.PREVENT_SCROLL = true
+                    RecyclerItem.PREVENT_SCROLL = true
                     onAssertItem(it[p], p)
                 }
             }
@@ -238,7 +238,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
 
-                    ParentRecyclerItem.PREVENT_SCROLL = true
+                    RecyclerItem.PREVENT_SCROLL = true
                     onAssertItem(it[p], p)
                 }
             }

@@ -12,7 +12,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.IKeyboardClose
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.RollItemUi
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.cleanup.ui.part.info.RollNoteInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 import sgtmelon.scriptum.ui.testing.parent.screen.feature.BackPress
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
@@ -41,7 +41,7 @@ import sgtmelon.test.cappuccino.utils.withSizeAttr
  *  It always set correct only on [INoteScreen.item].
  */
 class RollNoteScreen(
-    override var state: State,
+    override var state: NoteState,
     override var item: NoteItem.Roll,
     override val isRankEmpty: Boolean
 ) : ParentRecyclerScreen(R.id.roll_note_recycler),
@@ -61,8 +61,8 @@ class RollNoteScreen(
 
     private fun getInfoContainer(): RollNoteInfoContainer {
         val list = when (state) {
-            State.READ, State.BIN -> item.list
-            State.EDIT, State.NEW -> shadowItem.list
+            NoteState.READ, NoteState.BIN -> item.list
+            NoteState.EDIT, NoteState.NEW -> shadowItem.list
         }
 
         val isListEmpty = list.size == 0
@@ -113,7 +113,7 @@ class RollNoteScreen(
     fun onEnterText(text: String = "", p: Int? = random) = apply {
         if (p == null) return@apply
 
-        throwOnWrongState(State.EDIT, State.NEW) {
+        throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             getItem(p).rollText.typeText(text)
 
             val correctPosition = getCorrectPosition(p, item.list)
@@ -128,7 +128,7 @@ class RollNoteScreen(
     fun onImeOptionText(p: Int? = random) = apply {
         if (p == null) return@apply
 
-        throwOnWrongState(State.EDIT, State.NEW) {
+        throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             getItem(p).rollText.imeOption()
             enterPanel { assertFocus() }
         }
@@ -147,7 +147,7 @@ class RollNoteScreen(
         if (p == null) return@apply
 
         when (state) {
-            State.READ, State.BIN -> {
+            NoteState.READ, NoteState.BIN -> {
                 getItem(p).clickButton.click()
 
                 val correctPosition = getCorrectPosition(p, item.list)
@@ -158,7 +158,7 @@ class RollNoteScreen(
                     getItem(p).assert(item.list[correctPosition])
                 }
             }
-            State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
+            NoteState.EDIT, NoteState.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
         }
     }
 
@@ -186,25 +186,25 @@ class RollNoteScreen(
 
     //region Common callback functions
 
-    override fun assertToolbarIme() = throwOnWrongState(State.EDIT, State.NEW) {
+    override fun assertToolbarIme() = throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
         enterPanel { assertFocus() }
     }
 
     override fun afterConvert(func: TextNoteScreen.() -> Unit) {
-        TextNoteScreen(func, State.READ, item.onConvert(), isRankEmpty)
+        TextNoteScreen(func, NoteState.READ, item.onConvert(), isRankEmpty)
     }
 
     override fun pressBack() {
         super.pressBack()
 
-        if (state == State.EDIT || state == State.NEW) {
+        if (state == NoteState.EDIT || state == NoteState.NEW) {
             if (shadowItem.isSaveEnabled()) {
-                state = State.READ
+                state = NoteState.READ
                 item = shadowItem.deepCopy()
                 inputControl.reset()
                 fullAssert()
-            } else if (state == State.EDIT) {
-                state = State.READ
+            } else if (state == NoteState.EDIT) {
+                state = NoteState.READ
                 shadowItem = item.deepCopy()
                 inputControl.reset()
                 fullAssert()
@@ -218,8 +218,8 @@ class RollNoteScreen(
 
     fun onAssertAll() {
         val list = when (state) {
-            State.READ, State.BIN -> item.list
-            State.EDIT, State.NEW -> shadowItem.list
+            NoteState.READ, NoteState.BIN -> item.list
+            NoteState.EDIT, NoteState.NEW -> shadowItem.list
         }
         val resultList = if (item.isVisible) list else list.hide()
 
@@ -236,12 +236,13 @@ class RollNoteScreen(
 
         fragmentContainer.isDisplayed()
 
-        getInfoContainer().assert(when (state) {
-            State.READ, State.BIN -> item.list
-            State.EDIT, State.NEW -> shadowItem.list
-        }.let {
-            if (item.isVisible) it.size == 0 else it.hide().size == 0
-        })
+        getInfoContainer().assert(
+            when (state) {
+                NoteState.READ, NoteState.BIN -> item.list
+                NoteState.EDIT, NoteState.NEW -> shadowItem.list
+            }.let {
+                if (item.isVisible) it.size == 0 else it.hide().size == 0
+            })
 
         toolbar {
             val value = item.isVisible
@@ -260,7 +261,7 @@ class RollNoteScreen(
         }
 
         parentContainer.isDisplayed()
-        progressBar.isDisplayed(isVisible = state == State.READ || state == State.BIN) {
+        progressBar.isDisplayed(isVisible = state == NoteState.READ || state == NoteState.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
             withProgress(item.getCheck(), item.list.size)
         }
@@ -284,7 +285,7 @@ class RollNoteScreen(
 
         inline operator fun invoke(
             func: RollNoteScreen.() -> Unit,
-            state: State,
+            state: NoteState,
             item: NoteItem.Roll,
             isRankEmpty: Boolean
         ): RollNoteScreen {
@@ -293,7 +294,7 @@ class RollNoteScreen(
              * happened when calendar time was around ~00:59 on note creation inside [DbDelegator].
              * But the time of actual creation was ~01:.. (after [DbDelegator] note was created).
              */
-            if (state == State.NEW) {
+            if (state == NoteState.NEW) {
                 item.create = getCalendarText()
             }
             return RollNoteScreen(state, item, isRankEmpty).fullAssert().apply(func)

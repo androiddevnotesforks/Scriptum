@@ -6,8 +6,8 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.testData.State
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
@@ -24,35 +24,51 @@ import sgtmelon.test.cappuccino.utils.withText
 class RollItemUi(
     listMatcher: Matcher<View>,
     p: Int,
-    private val state: State
-) : ParentRecyclerItem<RollItem>(listMatcher, p) {
+    private val state: NoteState
+) : RecyclerItem<RollItem>(listMatcher, p) {
 
     private val parentCard by lazy {
-        getChild(getViewById(when (state) {
-            State.READ, State.BIN -> R.id.roll_read_parent_card
-            State.EDIT, State.NEW -> R.id.roll_write_parent_card
-        }))
+        getChild(
+            getView(
+                when (state) {
+                    NoteState.READ, NoteState.BIN -> R.id.roll_read_parent_card
+                    NoteState.EDIT, NoteState.NEW -> R.id.roll_write_parent_card
+                }
+            )
+        )
     }
 
     private val checkBox by lazy {
-        getChild(getViewById(when (state) {
-            State.READ, State.BIN -> R.id.roll_read_check
-            State.EDIT, State.NEW -> R.id.roll_write_check
-        }))
+        getChild(
+            getView(
+                when (state) {
+                    NoteState.READ, NoteState.BIN -> R.id.roll_read_check
+                    NoteState.EDIT, NoteState.NEW -> R.id.roll_write_check
+                }
+            )
+        )
     }
 
     val clickButton by lazy {
-        getChild(getViewById(when (state) {
-            State.READ, State.BIN -> R.id.roll_read_click_button
-            State.EDIT, State.NEW -> R.id.roll_write_drag_button
-        }))
+        getChild(
+            getView(
+                when (state) {
+                    NoteState.READ, NoteState.BIN -> R.id.roll_read_click_button
+                    NoteState.EDIT, NoteState.NEW -> R.id.roll_write_drag_button
+                }
+            )
+        )
     }
 
     val rollText by lazy {
-        getChild(getViewById(when (state) {
-            State.READ, State.BIN -> R.id.roll_read_text
-            State.EDIT, State.NEW -> R.id.roll_write_enter
-        }))
+        getChild(
+            getView(
+                when (state) {
+                    NoteState.READ, NoteState.BIN -> R.id.roll_read_text
+                    NoteState.EDIT, NoteState.NEW -> R.id.roll_write_enter
+                }
+            )
+        )
     }
 
     override fun assert(item: RollItem) {
@@ -65,22 +81,24 @@ class RollItemUi(
         val textColor = if (!item.isCheck) R.attr.clContent else R.attr.clContrast
 
         when (state) {
-            State.READ, State.BIN -> {
+            NoteState.READ, NoteState.BIN -> {
                 checkBox.isDisplayed().isChecked(item.isCheck)
 
-                val description = context.getString(if (item.isCheck) {
-                    R.string.description_item_roll_uncheck
-                } else {
-                    R.string.description_item_roll_check
-                }).plus(other = " ").plus(item.text)
+                val description = context.getString(
+                    if (item.isCheck) {
+                        R.string.description_item_roll_uncheck
+                    } else {
+                        R.string.description_item_roll_check
+                    }
+                ).plus(other = " ").plus(item.text)
 
-                clickButton.isDisplayed(isVisible = state != State.BIN)
+                clickButton.isDisplayed(isVisible = state != NoteState.BIN)
                     .withContentDescription(description)
 
                 rollText.isDisplayed().withText(item.text, textColor, R.dimen.text_18sp)
                     .withBackgroundColor(android.R.color.transparent)
             }
-            State.EDIT, State.NEW -> {
+            NoteState.EDIT, NoteState.NEW -> {
                 checkBox.isDisplayed(isVisible = false)
 
                 val color = if (item.isCheck) R.attr.clAccent else R.attr.clContent
@@ -103,5 +121,4 @@ class RollItemUi(
             }
         }
     }
-
 }

@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.cleanup.testData.Scroll
+import sgtmelon.scriptum.ui.testing.model.key.Scroll
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 import sgtmelon.scriptum.ui.testing.parent.launch
 import sgtmelon.test.common.nextString

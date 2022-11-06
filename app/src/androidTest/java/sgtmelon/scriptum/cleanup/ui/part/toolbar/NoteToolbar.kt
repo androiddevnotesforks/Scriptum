@@ -5,12 +5,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.ui.testing.model.key.NoteState
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isFocused
@@ -45,7 +45,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
     //endregion
 
     fun onEnterName(name: String) = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) {
+        callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             nameEnter.typeText(name)
 
             callback.apply {
@@ -67,8 +67,8 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
         clickButton()
 
         with(callback) {
-            if (state == State.EDIT) {
-                state = State.READ
+            if (state == NoteState.EDIT) {
+                state = NoteState.READ
 
                 applyItem()
 
@@ -84,7 +84,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
     }
 
 
-    fun assertFocus() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+    fun assertFocus() = callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
         nameEnter.isFocused().withCursor(callback.shadowItem.name.length)
     }
 
@@ -95,10 +95,12 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
 
         contentContainer.isDisplayed()
             .withBackgroundAppColor(appTheme, color, needDark = false)
-            .withNavigationDrawable(when (callback.state) {
-                State.READ, State.BIN, State.NEW -> sgtmelon.iconanim.R.drawable.ic_cancel_exit
-                State.EDIT -> sgtmelon.iconanim.R.drawable.ic_cancel_enter
-            }, R.attr.clContent)
+            .withNavigationDrawable(
+                when (callback.state) {
+                    NoteState.READ, NoteState.BIN, NoteState.NEW -> sgtmelon.iconanim.R.drawable.ic_cancel_exit
+                    NoteState.EDIT -> sgtmelon.iconanim.R.drawable.ic_cancel_enter
+                }, R.attr.clContent
+            )
 
         nameScroll.isDisplayed()
 
@@ -108,7 +110,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
 
         callback.apply {
             when (state) {
-                State.READ, State.BIN -> {
+                NoteState.READ, NoteState.BIN -> {
                     val name = item.name
 
                     nameEnter.isDisplayed(isVisible = false)
@@ -120,7 +122,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
                         }
                     }
                 }
-                State.EDIT, State.NEW -> {
+                NoteState.EDIT, NoteState.NEW -> {
                     val name = shadowItem.name
 
                     nameText.isDisplayed(isVisible = false)
