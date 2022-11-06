@@ -118,6 +118,6 @@ class RankToolbar : ParentScreen(), IKeyboardOption {
     }
 
     companion object {
-        operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply(func)
+        inline operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply(func)
     }
 }

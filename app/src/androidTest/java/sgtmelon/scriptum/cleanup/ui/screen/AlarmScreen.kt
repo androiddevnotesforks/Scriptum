@@ -129,7 +129,7 @@ class AlarmScreen(
     }
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             func: AlarmScreen.() -> Unit,
             item: NoteItem,
             dateList: List<String>? = null

@@ -83,7 +83,7 @@ class RenameDialogUi(title: String) : ParentScreen(), IDialogUi, IKeyboardOption
     }
 
     companion object {
-        operator fun invoke(func: RenameDialogUi.() -> Unit, title: String): RenameDialogUi {
+        inline operator fun invoke(func: RenameDialogUi.() -> Unit, title: String): RenameDialogUi {
             return RenameDialogUi(title).apply { waitOpen { assert() } }.apply(func)
         }
     }

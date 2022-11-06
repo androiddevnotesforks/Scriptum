@@ -143,7 +143,7 @@ class MainScreen : ParentScreen() {
     companion object {
         private const val SCROLL_TIME = 500L
 
-        operator fun invoke(func: MainScreen.() -> Unit): MainScreen {
+        inline operator fun invoke(func: MainScreen.() -> Unit): MainScreen {
             return MainScreen().assert(MainPage.NOTES, isFabVisible = true).apply(func)
         }
     }

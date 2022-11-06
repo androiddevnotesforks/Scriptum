@@ -47,7 +47,7 @@ class RepeatSheetDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repe
     }
 
     companion object {
-        operator fun invoke(func: RepeatSheetDialogUi.() -> Unit): RepeatSheetDialogUi {
+        inline operator fun invoke(func: RepeatSheetDialogUi.() -> Unit): RepeatSheetDialogUi {
             return RepeatSheetDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

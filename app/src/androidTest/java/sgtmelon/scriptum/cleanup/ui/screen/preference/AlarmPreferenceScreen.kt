@@ -44,7 +44,7 @@ class AlarmPreferenceScreen :
     }
 
     companion object {
-        operator fun invoke(func: AlarmPreferenceScreen.() -> Unit): AlarmPreferenceScreen {
+        inline operator fun invoke(func: AlarmPreferenceScreen.() -> Unit): AlarmPreferenceScreen {
             return AlarmPreferenceScreen().apply { assert() }.apply(func)
         }
     }

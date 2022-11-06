@@ -93,7 +93,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     //endregion
 
     companion object {
-        operator fun invoke(func: RankScreen.() -> Unit, isEmpty: Boolean): RankScreen {
+        inline operator fun invoke(func: RankScreen.() -> Unit, isEmpty: Boolean): RankScreen {
             return RankScreen().assert(isEmpty).apply(func)
         }
     }

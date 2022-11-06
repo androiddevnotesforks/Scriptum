@@ -190,7 +190,7 @@ class TextNoteScreen(
     //endregion
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             func: TextNoteScreen.() -> Unit,
             state: State,
             item: NoteItem.Text,

@@ -44,9 +44,9 @@ class SnackbarPanel(
     }
 
     companion object {
-        private const val UPDATE_TIME = 500L
+        const val UPDATE_TIME = 500L
 
-        operator fun invoke(
+        inline operator fun invoke(
             @StringRes messageId: Int,
             @StringRes actionId: Int,
             func: SnackbarPanel.() -> Unit

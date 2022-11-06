@@ -28,7 +28,7 @@ class RepeatDialogUi : ParentSelectDialogUi(
     }
 
     companion object {
-        operator fun invoke(func: RepeatDialogUi.() -> Unit): RepeatDialogUi {
+        inline operator fun invoke(func: RepeatDialogUi.() -> Unit): RepeatDialogUi {
             return RepeatDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

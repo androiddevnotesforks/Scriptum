@@ -13,7 +13,7 @@ class BackupPreferenceScreen :
     override val screenLogic = BackupPreferenceLogic()
 
     companion object {
-        operator fun invoke(func: BackupPreferenceScreen.() -> Unit): BackupPreferenceScreen {
+        inline operator fun invoke(func: BackupPreferenceScreen.() -> Unit): BackupPreferenceScreen {
             return BackupPreferenceScreen().apply { assert() }.apply(func)
         }
     }

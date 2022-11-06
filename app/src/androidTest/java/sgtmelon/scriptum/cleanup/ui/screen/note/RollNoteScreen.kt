@@ -282,7 +282,7 @@ class RollNoteScreen(
 
         private const val STATE_ERROR_TEXT = "Wrong note state"
 
-        operator fun invoke(
+        inline operator fun invoke(
             func: RollNoteScreen.() -> Unit,
             state: State,
             item: NoteItem.Roll,

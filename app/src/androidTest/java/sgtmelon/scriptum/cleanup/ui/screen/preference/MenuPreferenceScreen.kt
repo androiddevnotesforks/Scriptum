@@ -47,7 +47,7 @@ class MenuPreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.ti
     }
 
     companion object {
-        operator fun invoke(func: MenuPreferenceScreen.() -> Unit): MenuPreferenceScreen {
+        inline operator fun invoke(func: MenuPreferenceScreen.() -> Unit): MenuPreferenceScreen {
             return MenuPreferenceScreen().apply { assert() }.apply(func)
         }
     }

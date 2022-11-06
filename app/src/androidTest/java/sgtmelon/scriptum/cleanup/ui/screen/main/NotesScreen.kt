@@ -118,7 +118,7 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.recyc
         /**
          * Even if all list [isHide], need pass [isEmpty] = true.
          */
-        operator fun invoke(
+        inline operator fun invoke(
             func: NotesScreen.() -> Unit,
             isEmpty: Boolean,
             isHide: Boolean

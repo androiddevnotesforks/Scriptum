@@ -41,7 +41,7 @@ class LoadingDialogUi : ParentScreen(), IDialogUi {
     }
 
     companion object {
-        operator fun invoke(func: LoadingDialogUi.() -> Unit): LoadingDialogUi {
+        inline operator fun invoke(func: LoadingDialogUi.() -> Unit): LoadingDialogUi {
             return LoadingDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

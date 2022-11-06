@@ -65,7 +65,7 @@ class VolumeDialogUi : ParentScreen(),
     }
 
     companion object {
-        operator fun invoke(func: VolumeDialogUi.() -> Unit): VolumeDialogUi {
+        inline operator fun invoke(func: VolumeDialogUi.() -> Unit): VolumeDialogUi {
             return VolumeDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
 

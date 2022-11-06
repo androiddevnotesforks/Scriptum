@@ -37,7 +37,7 @@ class SignalDialogUi(
     }
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             initCheck: BooleanArray,
             func: SignalDialogUi.() -> Unit
         ): SignalDialogUi {

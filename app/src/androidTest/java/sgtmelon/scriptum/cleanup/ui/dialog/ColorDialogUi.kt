@@ -151,7 +151,7 @@ class ColorDialogUi(
     }
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             func: ColorDialogUi.() -> Unit,
             place: Place,
             color: Color,

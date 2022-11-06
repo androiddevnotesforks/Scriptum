@@ -79,7 +79,7 @@ class HelpDisappearScreen : ParentScreen() {
     }
 
     companion object {
-        operator fun invoke(func: HelpDisappearScreen.() -> Unit): HelpDisappearScreen {
+        inline operator fun invoke(func: HelpDisappearScreen.() -> Unit): HelpDisappearScreen {
             return HelpDisappearScreen().assert().apply(func)
         }
     }

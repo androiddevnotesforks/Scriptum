@@ -63,7 +63,7 @@ class TimeDialogUi(
     private val applyEnabled get() = TimeDialog.getPositiveEnabled(calendar, dateList)
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             func: TimeDialogUi.() -> Unit,
             calendar: Calendar,
             dateList: List<String>,

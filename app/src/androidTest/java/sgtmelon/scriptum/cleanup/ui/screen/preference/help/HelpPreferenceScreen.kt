@@ -23,7 +23,7 @@ class HelpPreferenceScreen :
     }
 
     companion object {
-        operator fun invoke(func: HelpPreferenceScreen.() -> Unit): HelpPreferenceScreen {
+        inline operator fun invoke(func: HelpPreferenceScreen.() -> Unit): HelpPreferenceScreen {
             return HelpPreferenceScreen().apply { assert() }.apply(func)
         }
     }

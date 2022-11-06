@@ -38,7 +38,7 @@ class ClearDialogUi : ParentScreen(), IDialogUi {
     }
 
     companion object {
-        operator fun invoke(func: ClearDialogUi.() -> Unit): ClearDialogUi {
+        inline operator fun invoke(func: ClearDialogUi.() -> Unit): ClearDialogUi {
             return ClearDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

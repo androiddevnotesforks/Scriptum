@@ -72,7 +72,7 @@ class DateDialogUi(
     }
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             func: DateDialogUi.() -> Unit,
             isUpdateDate: Boolean,
             callback: DateTimeCallback

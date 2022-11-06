@@ -30,7 +30,7 @@ class ThemeDialogUi : ParentSelectDialogUi(
     }
 
     companion object {
-        operator fun invoke(func: ThemeDialogUi.() -> Unit): ThemeDialogUi {
+        inline operator fun invoke(func: ThemeDialogUi.() -> Unit): ThemeDialogUi {
             return ThemeDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

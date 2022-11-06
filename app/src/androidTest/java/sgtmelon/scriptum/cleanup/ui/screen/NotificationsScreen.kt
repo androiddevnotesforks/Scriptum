@@ -102,7 +102,7 @@ class NotificationsScreen : ParentRecyclerScreen(R.id.recycler_view), IPressBack
     //endregion
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             func: NotificationsScreen.() -> Unit,
             isEmpty: Boolean
         ): NotificationsScreen {

@@ -101,7 +101,7 @@ class BinScreen : ParentRecyclerScreen(R.id.recycler_view) {
     }
 
     companion object {
-        operator fun invoke(func: BinScreen.() -> Unit, isEmpty: Boolean): BinScreen {
+        inline operator fun invoke(func: BinScreen.() -> Unit, isEmpty: Boolean): BinScreen {
             return BinScreen().assert(isEmpty).apply(func)
         }
     }

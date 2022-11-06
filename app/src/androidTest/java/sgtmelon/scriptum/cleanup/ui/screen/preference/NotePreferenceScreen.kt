@@ -48,7 +48,7 @@ class NotePreferenceScreen : ParentPreferenceScreen<NotePreferenceLogic>(R.strin
     }
 
     companion object {
-        operator fun invoke(func: NotePreferenceScreen.() -> Unit): NotePreferenceScreen {
+        inline operator fun invoke(func: NotePreferenceScreen.() -> Unit): NotePreferenceScreen {
             return NotePreferenceScreen().apply { assert() }.apply(func)
         }
     }

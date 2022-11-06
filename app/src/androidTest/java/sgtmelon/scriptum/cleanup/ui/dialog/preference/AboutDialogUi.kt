@@ -47,7 +47,7 @@ class AboutDialogUi : ParentScreen(), IDialogUi {
     }
 
     companion object {
-        operator fun invoke(func: AboutDialogUi.() -> Unit): AboutDialogUi {
+        inline operator fun invoke(func: AboutDialogUi.() -> Unit): AboutDialogUi {
             return AboutDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

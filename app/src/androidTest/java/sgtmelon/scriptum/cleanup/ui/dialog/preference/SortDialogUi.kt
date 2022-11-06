@@ -27,7 +27,7 @@ class SortDialogUi : ParentSelectDialogUi(
     }
 
     companion object {
-        operator fun invoke(func: SortDialogUi.() -> Unit): SortDialogUi {
+        inline operator fun invoke(func: SortDialogUi.() -> Unit): SortDialogUi {
             return SortDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

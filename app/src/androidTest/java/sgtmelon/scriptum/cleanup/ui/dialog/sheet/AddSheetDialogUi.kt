@@ -52,7 +52,7 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
     }
 
     companion object {
-        operator fun invoke(func: AddSheetDialogUi.() -> Unit): AddSheetDialogUi {
+        inline operator fun invoke(func: AddSheetDialogUi.() -> Unit): AddSheetDialogUi {
             return AddSheetDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

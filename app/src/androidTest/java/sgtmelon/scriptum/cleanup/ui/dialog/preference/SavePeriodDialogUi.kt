@@ -28,7 +28,7 @@ class SavePeriodDialogUi : ParentSelectDialogUi(
     }
 
     companion object {
-        operator fun invoke(func: SavePeriodDialogUi.() -> Unit): SavePeriodDialogUi {
+        inline operator fun invoke(func: SavePeriodDialogUi.() -> Unit): SavePeriodDialogUi {
             return SavePeriodDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }

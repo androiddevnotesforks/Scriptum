@@ -89,7 +89,7 @@ class RankDialogUi(
     }
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             func: RankDialogUi.() -> Unit,
             item: NoteItem,
             rankList: List<RankItem>,

@@ -114,7 +114,7 @@ class NoteDialogUi(private val item: NoteItem) : ParentScreen(), IDialogUi, Date
     }
 
     companion object {
-        operator fun invoke(func: NoteDialogUi.() -> Unit, item: NoteItem): NoteDialogUi {
+        inline operator fun invoke(func: NoteDialogUi.() -> Unit, item: NoteItem): NoteDialogUi {
             return NoteDialogUi(item).apply { waitOpen { assert() } }.apply(func)
         }
     }

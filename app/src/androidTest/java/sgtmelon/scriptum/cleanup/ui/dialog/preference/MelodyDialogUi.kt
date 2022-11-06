@@ -28,7 +28,7 @@ class MelodyDialogUi(
     }
 
     companion object {
-        operator fun invoke(
+        inline operator fun invoke(
             textArray: Array<String>,
             initCheck: Int,
             func: MelodyDialogUi.() -> Unit
