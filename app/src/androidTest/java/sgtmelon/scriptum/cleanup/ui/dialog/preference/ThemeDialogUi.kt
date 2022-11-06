@@ -18,7 +18,7 @@ class ThemeDialogUi : ParentSelectDialogUi(
 
     private val converter = ThemeConverter()
 
-    override val initCheck: Int = preferences.theme
+    override val initCheck: Int = preferencesRepo.theme.ordinal
     override var check: Int = initCheck
 
     fun onClickItem(theme: Theme) = apply {

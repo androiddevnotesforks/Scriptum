@@ -93,7 +93,7 @@ class AlarmScreen(
     fun waitRepeat() = waitBefore(AlarmActivity.TIMEOUT_TIME) { onRepeat() }
 
     private fun onRepeat(): Calendar {
-        val calendar = getClearCalendar(addMinutes = repeatArray[preferences.repeat])
+        val calendar = getClearCalendar(addMinutes = repeatArray[preferencesRepo.repeat.ordinal])
 
         while (dateList?.contains(calendar.toText()) == true) {
             calendar.add(Calendar.MINUTE, 1)

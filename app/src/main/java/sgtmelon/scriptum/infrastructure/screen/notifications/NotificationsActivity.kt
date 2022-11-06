@@ -7,7 +7,7 @@ import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.databinding.ActivityNotificationBinding
+import sgtmelon.scriptum.databinding.ActivityNotificationsBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
@@ -26,10 +26,10 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Screen with list of feature notifications.
  */
-class NotificationsActivity : ThemeActivity<ActivityNotificationBinding>(),
+class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     SnackbarDelegator.Callback {
 
-    override val layoutId: Int = R.layout.activity_notification
+    override val layoutId: Int = R.layout.activity_notifications
 
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch

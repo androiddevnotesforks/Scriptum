@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui
+package sgtmelon.scriptum.ui.testing.screen.parent
 
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
@@ -12,9 +12,12 @@ import sgtmelon.test.cappuccino.utils.swipeUp
 /**
  * Parent class for screens which contains [RecyclerView].
  */
-abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : ParentScreen() {
+abstract class ParentTagRecyclerScreen(
+    tag: String,
+    @IdRes private val recyclerId: Int
+) : ParentTagScreen(tag) {
 
-    protected val recyclerView = getViewById(recyclerId)
+    protected val recyclerView = getView(recyclerId)
 
     val count: Int get() = recyclerView.getCount()
     val last: Int get() = count - 1
@@ -38,7 +41,6 @@ abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : Parent
     companion object {
         const val SCROLL_TIME = 200L
         const val SNACK_BAR_TIME = 3000L
-
         const val REPEAT_COUNT = 2
     }
 }

@@ -4,7 +4,7 @@ import android.view.View
 import androidx.annotation.IdRes
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
+import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize

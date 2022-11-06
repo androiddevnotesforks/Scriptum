@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.ui.screen.main
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.State
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.part.info.NotesInfoContainer
@@ -12,7 +11,9 @@ import sgtmelon.scriptum.cleanup.ui.screen.NotificationsScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentTagRecyclerScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick
@@ -24,15 +25,15 @@ import sgtmelon.test.cappuccino.utils.withMenuTitle
  *
  * [isHide] - have hide notes or not.
  */
-class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.recycler_view) {
+class NotesScreen(private val isHide: Boolean) :
+    ParentTagRecyclerScreen(TestViewTag.NOTES, R.id.recycler_view) {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.parent_container)
     private val toolbar = SimpleToolbar(R.string.title_notes, withBack = false)
 
-    private val notificationsMenuItem = getViewById(R.id.item_notifications)
-    private val preferencesMenuItem = getViewById(R.id.item_preferences)
+    private val notificationsMenuItem = getView(R.id.item_notifications)
+    private val preferencesMenuItem = getView(R.id.item_preferences)
 
     private val infoContainer = NotesInfoContainer(isHide)
 

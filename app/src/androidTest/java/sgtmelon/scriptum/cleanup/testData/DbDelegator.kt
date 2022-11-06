@@ -22,6 +22,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.RoomWorker
+import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.nextString
 
@@ -37,6 +38,12 @@ class DbDelegator(
     private val rollConverter = RollConverter()
     private val rankConverter = RankConverter()
     private val alarmConverter = AlarmConverter()
+
+    fun getInvalidNote(type: NoteType): NoteItem {
+        return noteConverter.toItem(nextNoteEntity(Random.nextLong(), type = type))
+    }
+
+    //region CleanUp
 
     /**
      * For [NotesNoteDialogTest] and [BinNoteDialogTest] need filled [NoteEntity.name] by default.
@@ -297,5 +304,7 @@ class DbDelegator(
     }
 
     fun clear() = apply { inRoomTest { clearAllTables() } }
+
+    //endregion
 
 }

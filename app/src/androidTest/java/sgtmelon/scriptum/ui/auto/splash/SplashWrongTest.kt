@@ -1,12 +1,9 @@
 package sgtmelon.scriptum.ui.auto.splash
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 import sgtmelon.scriptum.ui.testing.parent.launchAlarm
 import sgtmelon.scriptum.ui.testing.parent.launchBind
@@ -17,23 +14,19 @@ import sgtmelon.scriptum.ui.testing.parent.launchBind
 @RunWith(AndroidJUnit4::class)
 class SplashWrongTest : ParentUiTest() {
 
-    private val converter = NoteConverter()
-    private val textNote = converter.toItem(nextNoteEntity(Random.nextLong(), type = NoteType.TEXT))
-    private val rollNote = converter.toItem(nextNoteEntity(Random.nextLong(), type = NoteType.ROLL))
-
-    @Test fun bindTextNoteOpen() = launchBind(textNote) {
+    @Test fun bindTextNoteOpen() = launchBind(db.getInvalidNote(NoteType.TEXT)) {
         mainScreen { notesScreen(isEmpty = true) }
     }
 
-    @Test fun bindRollNoteOpen() = launchBind(rollNote) {
+    @Test fun bindRollNoteOpen() = launchBind(db.getInvalidNote(NoteType.ROLL)) {
         mainScreen { notesScreen(isEmpty = true) }
     }
 
-    @Test fun alarmTextNoteOpen() = launchAlarm(textNote) {
+    @Test fun alarmTextNoteOpen() = launchAlarm(db.getInvalidNote(NoteType.TEXT)) {
         mainScreen { notesScreen(isEmpty = true) }
     }
 
-    @Test fun alarmRollNoteOpen() = launchAlarm(rollNote) {
+    @Test fun alarmRollNoteOpen() = launchAlarm(db.getInvalidNote(NoteType.ROLL)) {
         mainScreen { notesScreen(isEmpty = true) }
     }
 }

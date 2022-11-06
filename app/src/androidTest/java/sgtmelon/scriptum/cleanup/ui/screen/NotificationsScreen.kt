@@ -7,25 +7,26 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.SimpleInfoPage
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.IPressBack
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.NotificationItemUi
 import sgtmelon.scriptum.cleanup.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.panel.SnackbarPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentTagRecyclerScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**
  * Class for UI control of [NotificationsActivity].
  */
-class NotificationsScreen : ParentRecyclerScreen(R.id.recycler_view), IPressBack {
+class NotificationsScreen : ParentTagRecyclerScreen(TestViewTag.NOTIFICATIONS, R.id.recycler_view),
+    IPressBack {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.parent_container)
     private val toolbar = SimpleToolbar(R.string.title_notification, withBack = true)
 
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.NOTIFICATION)

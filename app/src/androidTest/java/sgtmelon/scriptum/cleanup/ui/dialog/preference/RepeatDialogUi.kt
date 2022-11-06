@@ -16,7 +16,7 @@ class RepeatDialogUi : ParentSelectDialogUi(
     R.array.pref_repeat
 ) {
 
-    override val initCheck: Int = preferences.repeat
+    override val initCheck: Int = preferencesRepo.repeat.ordinal
     override var check: Int = initCheck
 
     fun onClickItem(repeat: Repeat) = apply {

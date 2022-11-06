@@ -1,45 +1,36 @@
 package sgtmelon.scriptum.cleanup.ui.screen.main
 
-import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.ui.dialog.sheet.AddSheetDialogUi
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
+import sgtmelon.scriptum.ui.testing.screen.parent.ParentTagScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.isSelected
 import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
-import sgtmelon.test.cappuccino.utils.withCardElevation
-import sgtmelon.test.cappuccino.utils.withCardRadius
-import sgtmelon.test.cappuccino.utils.withContentDescription
-import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withSizeAttr
-import sgtmelon.test.cappuccino.utils.withSizeCode
 
 /**
  * Class for UI control of [MainActivity].
  */
-class MainScreen : ParentScreen() {
+class MainScreen : ParentTagScreen(TestViewTag.MAIN) {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.parent_container)
-    private val toolbarHolder = getViewById(R.id.toolbar_holder)
-    private val dividerView = getViewById(R.id.divider_view)
-    private val menuNavigation = getViewById(R.id.menu_navigation)
+    private val toolbarHolder = getView(R.id.toolbar_holder)
+    private val dividerView = getView(R.id.divider_view)
+    private val menuNavigation = getView(R.id.menu_navigation)
 
-    private val rankMenuItem = getViewById(R.id.item_page_rank)
-    private val notesMenuItem = getViewById(R.id.item_page_notes)
-    private val binMenuItem = getViewById(R.id.item_page_bin)
+    private val rankMenuItem = getView(R.id.item_page_rank)
+    private val notesMenuItem = getView(R.id.item_page_notes)
+    private val binMenuItem = getView(R.id.item_page_bin)
 
-    private val fabCard = getViewById(R.id.gradient_fab_card)
-    private val fabClick = getViewById(R.id.gradient_fab_click)
-    private val fabIcon = getViewById(R.id.gradient_fab_icon)
+    private val fab = MainFabPart()
 
     //endregion
 
@@ -79,7 +70,7 @@ class MainScreen : ParentScreen() {
     }
 
     fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply {
-        fabClick.click()
+        fab.click()
         AddSheetDialogUi(func)
     }
 
@@ -103,7 +94,7 @@ class MainScreen : ParentScreen() {
         }
     }
 
-
+    // TODO when isFabVisible == null?
     fun assert(page: MainPage? = null, isFabVisible: Boolean? = null) = apply {
         parentContainer.isDisplayed()
 
@@ -123,20 +114,7 @@ class MainScreen : ParentScreen() {
         }
 
         if (isFabVisible != null) {
-            fabCard.isDisplayed(isFabVisible) {
-                withSize(R.dimen.gradient_fab_size, R.dimen.gradient_fab_size)
-                withCardRadius(R.dimen.gradient_fab_radius)
-                withCardElevation(R.dimen.gradient_fab_elevation)
-
-                fabClick.isDisplayed()
-                    .isEnabled()
-                    .withSizeCode(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-
-                fabIcon.isDisplayed()
-                    .withSize(R.dimen.gradient_fab_image_size, R.dimen.gradient_fab_image_size)
-                    .withDrawableAttr(R.drawable.ic_add, R.attr.clBackgroundView)
-                    .withContentDescription(R.string.description_add_note)
-            }.isEnabled(isFabVisible)
+            fab.assert(isFabVisible)
         }
     }
 

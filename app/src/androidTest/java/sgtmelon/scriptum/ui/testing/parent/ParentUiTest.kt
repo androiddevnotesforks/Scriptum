@@ -7,6 +7,7 @@ import org.junit.Before
 import org.junit.Rule
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
+import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
@@ -14,7 +15,6 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.idling.getWaitIdling
 

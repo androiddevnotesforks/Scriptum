@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
+import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.testing.screen.parent
+package sgtmelon.scriptum.cleanup.ui
 
 import android.view.View
 import androidx.annotation.IdRes
@@ -16,10 +16,10 @@ import sgtmelon.scriptum.parent.di.ParentInjector
 /**
  * Parent class for access standard UI functions.
  */
+@Deprecated("Use UIPart")
 abstract class ParentScreen {
 
     protected val context = ParentInjector.provideContext()
-    protected val preferences = ParentInjector.providePreferences()
     protected val preferencesRepo = ParentInjector.providePreferencesRepo()
 
     protected val appTheme: ThemeDisplayed get() = theme ?: throw ThemeException()

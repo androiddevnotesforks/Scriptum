@@ -10,7 +10,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.anyOf
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
+import sgtmelon.scriptum.cleanup.ui.ParentScreen
 
 /**
  * Parent UI abstraction for toolbars

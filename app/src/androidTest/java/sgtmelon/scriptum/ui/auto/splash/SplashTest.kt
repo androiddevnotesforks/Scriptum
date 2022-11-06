@@ -34,7 +34,7 @@ class SplashTest : ParentUiTest() {
     }
 
     @Test fun notificationsOpen() = launchNotifications {
-        notificationsScreen(isEmpty = true) { onPressBack() }
+        notificationsScreen { onPressBack() }
         mainScreen()
     }
 

@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="sgtmelon.scriptum.infrastructure.screen.main.MainActivity">
+
+    <data>
+
+        <import type="sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag" />
+    </data>
 
     <LinearLayout
         android:id="@+id/parent_container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="sgtmelon.scriptum.infrastructure.screen.main.MainActivity">
+        android:tag='@{TestViewTag.MAIN}'>
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.ui
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import org.hamcrest.Matcher
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 import sgtmelon.test.cappuccino.matchers.RecyclerItemMatcher
 import sgtmelon.test.cappuccino.utils.scrollTo
 

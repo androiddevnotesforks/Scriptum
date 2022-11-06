@@ -5,7 +5,7 @@ import androidx.annotation.IdRes
 import sgtmelon.safedialog.dialog.parent.BlankMenuSheetDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
+import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.swipeDown
 import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
