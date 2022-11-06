@@ -26,7 +26,7 @@ class InfoAnimTest : ParentUiTest() {
                     repeat(times = 3) {
                         onClickCancel()
                         assert(isEmpty = true)
-                        getSnackbar().onClickCancel()
+                        getSnackbar().clickCancel()
                         assert(isEmpty = false)
                     }
                 }
@@ -84,9 +84,9 @@ class InfoAnimTest : ParentUiTest() {
             notesScreen {
                 openNotifications {
                     repeat(times = 3) {
-                        onClickCancel()
+                        itemCancel()
                         assert(isEmpty = true)
-                        getSnackbar().onClickCancel()
+                        getSnackbar().clickCancel()
                         assert(isEmpty = false)
                     }
                 }

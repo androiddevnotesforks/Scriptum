@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.item
+package sgtmelon.scriptum.ui.auto.notifications
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.ui.testing.parent.launch
  * Test for [NotificationItemUi]
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationContentTest : ParentUiTest() {
+class NotificationsCardTest : ParentUiTest() {
 
     private val nextArray = arrayOf(NEXT_HOUR, NEXT_DAY, NEXT_WEEK, NEXT_MONTH, NEXT_YEAR)
 
@@ -45,13 +45,7 @@ class NotificationContentTest : ParentUiTest() {
 
 
     private fun onAssertList(list: List<NoteItem>) {
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications { for ((p, it) in list.withIndex()) onAssertItem(p, it) }
-                }
-            }
-        }
+        launch { mainScreen { notesScreen { openNotifications { assertList(list) } } } }
     }
 
     companion object {

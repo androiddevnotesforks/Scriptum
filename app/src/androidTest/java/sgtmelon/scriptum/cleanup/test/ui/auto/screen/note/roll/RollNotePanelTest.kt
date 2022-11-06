@@ -191,7 +191,7 @@ class RollNotePanelTest : ParentUiTest() {
                         onSwipe()
 
                         controlPanel { onLongSave() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }
@@ -210,7 +210,7 @@ class RollNotePanelTest : ParentUiTest() {
                         repeat(times = 3) { enterPanel { onAdd(nextString()) } }
 
                         controlPanel { onLongSave() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }

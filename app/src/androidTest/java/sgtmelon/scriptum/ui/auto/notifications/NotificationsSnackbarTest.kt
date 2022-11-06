@@ -25,7 +25,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                     openNotifications {
                         onScroll(Scroll.END)
                         repeat(times = 5) {
-                            onClickCancel(last, isWait = true)
+                            itemCancel(last, isWait = true)
                             assertSnackbarDismiss()
                         }
                     }
@@ -42,10 +42,10 @@ class NotificationsSnackbarTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openNotifications {
-                        onClickCancel(p)
-                        getSnackbar { onClickCancel() }
+                        itemCancel(p)
+                        getSnackbar { clickCancel() }
                         assertSnackbarDismiss()
-                        onAssertItem(p, list[p])
+                        assertItem(p, list[p])
                     }
                 }
             }
@@ -59,9 +59,9 @@ class NotificationsSnackbarTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openNotifications {
-                        repeat(list.size) { onClickCancel(p = 0) }
+                        repeat(list.size) { itemCancel(p = 0) }
                         repeat(list.size) {
-                            getSnackbar { onClickCancel() }
+                            getSnackbar { clickCancel() }
                             if (it != list.lastIndex) {
                                 getSnackbar { assert() }
                             }
@@ -70,7 +70,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                         assertSnackbarDismiss()
 
                         for ((i, item) in list.withIndex()) {
-                            onAssertItem(i, item)
+                            assertItem(i, item)
                         }
                     }
                 }
@@ -87,14 +87,14 @@ class NotificationsSnackbarTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openNotifications {
-                        onClickCancel(removePosition)
+                        itemCancel(removePosition)
 
-                        onClickCancel(p = 1)
-                        getSnackbar { onClickCancel() }
+                        itemCancel(p = 1)
+                        getSnackbar { clickCancel() }
                         getSnackbar { assert() }
-                        onAssertItem(1, list[actionPosition])
+                        assertItem(1, list[actionPosition])
 
-                        onClickClose()
+                        clickClose()
                     }
 
                     list.removeAt(removePosition)
@@ -102,7 +102,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                     openNotifications {
                         assertSnackbarDismiss()
                         for ((i, item) in list.withIndex()) {
-                            onAssertItem(i, item)
+                            assertItem(i, item)
                         }
                     }
                 }
@@ -118,8 +118,8 @@ class NotificationsSnackbarTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openNotifications {
-                        onClickCancel(p)
-                        getSnackbar { onClickCancel() }
+                        itemCancel(p)
+                        getSnackbar { clickCancel() }
                         assertSnackbarDismiss()
 
                         when (val item = list[p]) {
@@ -144,23 +144,23 @@ class NotificationsSnackbarTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openNotifications {
-                        onClickCancel(p = 0)
+                        itemCancel(p = 0)
 
                         list.removeAt(index = 0)
 
                         when (val it = list[0]) {
-                            is NoteItem.Text -> openText(it, p = 0) { onClickClose() }
-                            is NoteItem.Roll -> openRoll(it, p = 0) { onClickClose() }
+                            is NoteItem.Text -> openText(it, p = 0) { clickClose() }
+                            is NoteItem.Roll -> openRoll(it, p = 0) { clickClose() }
                         }
 
                         assertSnackbarDismiss()
 
                         for ((i, item) in list.withIndex()) {
-                            onAssertItem(i, item)
+                            assertItem(i, item)
                         }
 
-                        repeat(list.size) { onClickCancel(p = 0) }
-                        onClickClose()
+                        repeat(list.size) { itemCancel(p = 0) }
+                        clickClose()
                     }
 
                     openNotifications(isEmpty = true) { assertSnackbarDismiss() }
@@ -178,14 +178,14 @@ class NotificationsSnackbarTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openNotifications {
-                        onClickCancel(p)
+                        itemCancel(p)
                         onScroll(Scroll.END)
-                        getSnackbar { onClickCancel() }
+                        getSnackbar { clickCancel() }
 
                         assertSnackbarDismiss()
 
                         ParentRecyclerItem.PREVENT_SCROLL = true
-                        onAssertItem(p, list[p])
+                        assertItem(p, list[p])
                     }
                 }
             }
@@ -200,14 +200,14 @@ class NotificationsSnackbarTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openNotifications {
-                        onClickCancel(p)
+                        itemCancel(p)
                         onScroll(Scroll.START)
-                        getSnackbar { onClickCancel() }
+                        getSnackbar { clickCancel() }
 
                         assertSnackbarDismiss()
 
                         ParentRecyclerItem.PREVENT_SCROLL = true
-                        onAssertItem(p, list[p])
+                        assertItem(p, list[p])
                     }
                 }
             }

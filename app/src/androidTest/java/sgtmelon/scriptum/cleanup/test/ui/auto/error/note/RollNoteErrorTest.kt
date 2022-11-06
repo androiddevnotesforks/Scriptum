@@ -54,16 +54,16 @@ class RollNoteErrorTest : ParentUiTest() {
                     openRollNote(it) {
                         onClickCheck()
                         controlPanel { onEdit() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
 
                         controlPanel { onBind().onEdit() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
 
                         controlPanel {
                             onNotification { onClickApply { onTime(min = 3).onClickApply() } }
                             onEdit()
                         }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }

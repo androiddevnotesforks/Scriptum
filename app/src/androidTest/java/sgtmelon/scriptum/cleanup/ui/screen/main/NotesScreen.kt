@@ -12,9 +12,9 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.ui.testing.parent.screen.ContainerPart
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerPart
 import sgtmelon.scriptum.ui.testing.screen.notifications.NotificationsScreen
-import sgtmelon.scriptum.ui.testing.screen.parent.RecyclerPart
-import sgtmelon.scriptum.ui.testing.screen.parent.UiParentPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick
@@ -26,7 +26,7 @@ import sgtmelon.test.cappuccino.utils.withMenuTitle
  *
  * [isHide] - have hide notes or not.
  */
-class NotesScreen(private val isHide: Boolean) : UiParentPart(TestViewTag.NOTES),
+class NotesScreen(private val isHide: Boolean) : ContainerPart(TestViewTag.NOTES),
     RecyclerPart {
 
     //region Views

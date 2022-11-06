@@ -34,9 +34,7 @@ class HelpDisappearScreen : ParentScreen() {
 
     //endregion
 
-    fun onClickClose() {
-        toolbar.getToolbarButton().click()
-    }
+    fun clickClose() = toolbar.clickButton()
 
     fun openVideo() {
         videoItem.click()

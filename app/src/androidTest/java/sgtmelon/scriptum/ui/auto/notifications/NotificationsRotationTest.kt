@@ -41,7 +41,7 @@ class NotificationsRotationTest : ParentUiRotationTest() {
             notesScreen {
                 openNotifications {
                     repeat(times = 3) { time ->
-                        onClickCancel()
+                        itemCancel()
 
                         if (time.isDivideEntirely()) {
                             rotate.toSide()
@@ -49,7 +49,7 @@ class NotificationsRotationTest : ParentUiRotationTest() {
                             rotate.toNormal()
                         }
 
-                        getSnackbar().onClickCancel()
+                        getSnackbar().clickCancel()
                     }
                 }
             }

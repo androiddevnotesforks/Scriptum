@@ -64,7 +64,7 @@ class RankRotationTest : ParentUiRotationTest() {
                             rotate.toNormal()
                         }
 
-                        getSnackbar().onClickCancel()
+                        getSnackbar().clickCancel()
                     }
                 }
             }

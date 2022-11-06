@@ -17,7 +17,7 @@ import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
 
-    @Test fun close() = runTest { onClickClose() }
+    @Test fun close() = runTest { clickClose() }
 
     @Test fun assertAll() = runTest({
         preferencesRepo.sort = Sort.values().random()

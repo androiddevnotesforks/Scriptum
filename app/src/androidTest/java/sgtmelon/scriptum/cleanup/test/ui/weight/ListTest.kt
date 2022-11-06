@@ -42,7 +42,7 @@ class ListTest : ParentUiWeighTest() {
 
     @Test fun notificationOpen() = launch({ db.fillNotification(NOTIFICATION_COUNT) }) {
         mainScreen {
-            notesScreen { repeat(REPEAT_COUNT) { openNotifications { onClickClose() } } }
+            notesScreen { repeat(REPEAT_COUNT) { openNotifications { clickClose() } } }
         }
     }
 
@@ -60,7 +60,7 @@ class ListTest : ParentUiWeighTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    repeat(REPEAT_COUNT) { openTextNote(model) { toolbar { onClickBack() } } }
+                    repeat(REPEAT_COUNT) { openTextNote(model) { toolbar { clickBack() } } }
                 }
             }
         }
@@ -73,7 +73,7 @@ class ListTest : ParentUiWeighTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    repeat(REPEAT_COUNT) { openRollNote(model) { toolbar { onClickBack() } } }
+                    repeat(REPEAT_COUNT) { openRollNote(model) { toolbar { clickBack() } } }
                 }
             }
         }

@@ -72,7 +72,7 @@
         <test name="rollNoteUnbindOnRestore" duration="12828" status="passed" />
         <test name="textNoteUnbindOnRestore" duration="11125" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.item.NotificationContentTest"
+    <suite name="sgtmelon.scriptum.ui.auto.notifications.NotificationContentTest"
         duration="18016"
         status="passed">
         <test name="time" duration="5997" status="passed" />
@@ -3901,7 +3901,7 @@
                 className="NotificationContentTest"
                 endTimestampMillis="5997"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.NotificationContentTest.time"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationContentTest.time"
                 logcat=""
                 methodName="time"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"
@@ -3911,7 +3911,7 @@
                 className="NotificationContentTest"
                 endTimestampMillis="5567"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.NotificationContentTest.colorLight"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationContentTest.colorLight"
                 logcat=""
                 methodName="colorLight"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"
@@ -3921,7 +3921,7 @@
                 className="NotificationContentTest"
                 endTimestampMillis="6452"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.NotificationContentTest.colorDark"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationContentTest.colorDark"
                 logcat=""
                 methodName="colorDark"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"

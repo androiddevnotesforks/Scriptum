@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.part.toolbar
+package sgtmelon.scriptum.ui.testing.parent.screen.toolbar
 
 import android.view.View
 import android.widget.ImageButton
@@ -10,26 +10,27 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.anyOf
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.ui.testing.parent.screen.UiPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**
- * Parent UI abstraction for toolbars
+ * UI abstraction for toolbars.
  */
-abstract class ParentToolbar : ParentScreen() {
+abstract class ToolbarPart : UiPart() {
 
-    private fun getToolbarButton(): Matcher<View> = allOf(
-        withParent(withClassName(`is`(Toolbar::class.java.name))),
-        withClassName(
-            anyOf(
-                `is`(ImageButton::class.java.name),
-                `is`(AppCompatImageButton::class.java.name)
-            )
+    private fun getToolbarButton(): Matcher<View> {
+        val className = anyOf(
+            `is`(ImageButton::class.java.name),
+            `is`(AppCompatImageButton::class.java.name)
         )
-    )
+
+        return allOf(
+            withParent(withClassName(`is`(Toolbar::class.java.name))),
+            withClassName(className)
+        )
+    }
 
     fun clickButton() {
         getToolbarButton().click()
     }
-
 }

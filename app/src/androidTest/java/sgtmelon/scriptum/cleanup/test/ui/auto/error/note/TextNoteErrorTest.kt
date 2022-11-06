@@ -23,13 +23,13 @@ class TextNoteErrorTest : ParentUiTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel { onBind().onEdit() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
 
                         controlPanel {
                             onNotification { onClickApply { onTime(min = 3).onClickApply() } }
                             onEdit()
                         }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }

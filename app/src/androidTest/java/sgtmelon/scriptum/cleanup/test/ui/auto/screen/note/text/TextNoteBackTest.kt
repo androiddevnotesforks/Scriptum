@@ -17,7 +17,7 @@ class TextNoteBackTest : ParentUiTest() {
     @Test fun closeOnBin() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                binScreen { openTextNote(it) { toolbar { onClickBack() } } }.assert()
+                binScreen { openTextNote(it) { toolbar { clickBack() } } }.assert()
                 binScreen { openTextNote(it) { pressBack() } }.assert()
             }
         }
@@ -26,7 +26,7 @@ class TextNoteBackTest : ParentUiTest() {
     @Test fun closeOnCreate() = db.createText().let {
         launch {
             mainScreen {
-                openAddDialog { createText(it) { toolbar { onClickBack() } } }.assert()
+                openAddDialog { createText(it) { toolbar { clickBack() } } }.assert()
                 openAddDialog { createText(it) { pressBack() } }.assert()
             }
         }
@@ -35,7 +35,7 @@ class TextNoteBackTest : ParentUiTest() {
     @Test fun closeOnRead() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openTextNote(it) { toolbar { onClickBack() } } }.assert()
+                notesScreen { openTextNote(it) { toolbar { clickBack() } } }.assert()
                 notesScreen { openTextNote(it) { pressBack() } }.assert()
             }
         }
@@ -79,7 +79,7 @@ class TextNoteBackTest : ParentUiTest() {
                     openTextNote(it) {
                         controlPanel { onEdit() }
                         onEnterText(nextString())
-                        toolbar { onEnterName(nextString()).onClickBack() }
+                        toolbar { onEnterName(nextString()).clickBack() }
                     }
                 }
             }

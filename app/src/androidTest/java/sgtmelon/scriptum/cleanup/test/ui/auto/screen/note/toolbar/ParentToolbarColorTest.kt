@@ -31,7 +31,7 @@ abstract class ParentToolbarColorTest(private val theme: ThemeDisplayed) : Paren
                                         onEnterText(nextString())
                                         onSave()
                                     }
-                                    toolbar { onClickBack() }
+                                    toolbar { clickBack() }
                                 }
                             }
                             is NoteItem.Roll -> {
@@ -41,7 +41,7 @@ abstract class ParentToolbarColorTest(private val theme: ThemeDisplayed) : Paren
                                         enterPanel { onAdd(nextString()) }
                                         onSave()
                                     }
-                                    toolbar { onClickBack() }
+                                    toolbar { clickBack() }
                                 }
                             }
                         }

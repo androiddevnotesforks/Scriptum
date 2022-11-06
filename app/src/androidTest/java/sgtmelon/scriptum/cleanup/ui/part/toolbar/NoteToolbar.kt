@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isFocused
@@ -64,8 +63,8 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
         }
     }
 
-    fun onClickBack() {
-        getToolbarButton().click()
+    fun clickBack() {
+        clickButton()
 
         with(callback) {
             if (state == State.EDIT) {

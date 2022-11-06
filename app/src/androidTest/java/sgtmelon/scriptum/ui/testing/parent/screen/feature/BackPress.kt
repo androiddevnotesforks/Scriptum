@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.testing.screen.parent.features
+package sgtmelon.scriptum.ui.testing.parent.screen.feature
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.closeSoftKeyboard

@@ -18,7 +18,7 @@ class NotificationsTest : ParentUiTest() {
         mainScreen {
             notesScreen(isEmpty = true) {
                 openNotifications(isEmpty = true) { pressBack() }
-                openNotifications(isEmpty = true) { onClickClose() }
+                openNotifications(isEmpty = true) { clickClose() }
             }
         }
     }
@@ -53,7 +53,7 @@ class NotificationsTest : ParentUiTest() {
 
     @Test fun itemCancel() = db.insertNotification().let {
         launch {
-            mainScreen { notesScreen { openNotifications { onClickCancel().assert(isEmpty = true) } } }
+            mainScreen { notesScreen { openNotifications { itemCancel().assert(isEmpty = true) } } }
         }
     }
 

@@ -12,7 +12,7 @@ import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class HelpDisappearTest : ParentUiTest(), IHelpDisappearTest {
 
-    @Test fun close() = runTest { onClickClose() }
+    @Test fun close() = runTest { clickClose() }
 
     @Test fun assert() = runTest { assert() }
 

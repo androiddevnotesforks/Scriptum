@@ -13,6 +13,7 @@ import sgtmelon.test.cappuccino.utils.withNavigationDrawable
 /**
  * Part of UI abstraction for describe simple toolbar.
  */
+@Deprecated("USe TitleToolbar")
 class SimpleToolbar(@StringRes titleId: Int, private val withBack: Boolean) : ParentToolbar() {
 
     val contentContainer: Matcher<View> = allOf(

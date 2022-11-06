@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.ui.testing.screen.notifications
 
-import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -9,83 +8,86 @@ import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.item.NotificationItemUi
 import sgtmelon.scriptum.cleanup.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.panel.SnackbarPanel
-import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
-import sgtmelon.scriptum.ui.testing.screen.parent.RecyclerPart
-import sgtmelon.scriptum.ui.testing.screen.parent.UiParentPart
-import sgtmelon.scriptum.ui.testing.screen.parent.features.BackPress
+import sgtmelon.scriptum.ui.testing.exception.EmptyListException
+import sgtmelon.scriptum.ui.testing.parent.screen.ContainerPart
+import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerPart
+import sgtmelon.scriptum.ui.testing.parent.screen.feature.BackPress
+import sgtmelon.scriptum.ui.testing.parent.screen.feature.ToolbarBack
+import sgtmelon.scriptum.ui.testing.parent.screen.toolbar.TitleToolbar
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**
  * Class for UI control of [NotificationsActivity].
  */
-class NotificationsScreen : UiParentPart(TestViewTag.NOTIFICATIONS),
+class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
     RecyclerPart,
+    ToolbarBack,
     BackPress {
 
     //region Views
 
-    private val toolbar = SimpleToolbar(R.string.title_notification, withBack = true)
+    override val toolbar = TitleToolbar(R.string.title_notification)
 
     override val recyclerView = getView(R.id.recycler_view)
 
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.NOTIFICATION)
 
-    fun getSnackbar(func: SnackbarPanel.() -> Unit = {}): SnackbarPanel {
+    inline fun getSnackbar(func: SnackbarPanel.() -> Unit = {}): SnackbarPanel {
         val message = R.string.snackbar_message_notification
         val action = R.string.snackbar_action_cancel
 
         return SnackbarPanel(message, action, func)
     }
 
-    private fun getItem(p: Int) = NotificationItemUi(recyclerView, p)
+    fun getItem(p: Int) = NotificationItemUi(recyclerView, p)
 
     //endregion
 
-    fun onClickClose() {
-        toolbar.getToolbarButton().click()
-    }
-
-    fun openText(
+    inline fun openText(
         item: NoteItem.Text,
         p: Int? = random,
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) {
-        if (p == null) return
+        if (p == null) throw EmptyListException()
 
         getItem(p).view.click()
         TextNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun openRoll(
+    inline fun openRoll(
         item: NoteItem.Roll,
         p: Int? = random,
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) {
-        if (p == null) return
+        if (p == null) throw EmptyListException()
 
         getItem(p).view.click()
         RollNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun onClickCancel(p: Int? = random, isWait: Boolean = false) = apply {
-        if (p == null) return@apply
+    fun itemCancel(p: Int? = random, isWait: Boolean = false) = apply {
+        if (p == null) throw EmptyListException()
 
-        waitAfter(time = if (isWait) RecyclerPart.SNACK_BAR_TIME else 0) {
+        waitAfter(time = if (isWait) SnackbarPanel.DISMISS_TIME else 0) {
             getItem(p).cancelButton.click()
             getSnackbar { assert() }
         }
     }
 
-    //region Assertion
+    fun assertItem(p: Int, item: NoteItem) = getItem(p).assert(item)
 
-    fun onAssertItem(p: Int, item: NoteItem) = getItem(p).assert(item)
+    fun assertList(list: List<NoteItem>) {
+        for ((p, item) in list.withIndex()) {
+            assertItem(p, item)
+        }
+    }
 
     fun assert(isEmpty: Boolean) = apply {
         parentContainer.isDisplayed()
@@ -95,16 +97,7 @@ class NotificationsScreen : UiParentPart(TestViewTag.NOTIFICATIONS),
         recyclerView.isDisplayed(!isEmpty)
     }
 
-    fun assertSnackbarDismiss() {
-        assertTrue(try {
-            getSnackbar().assert()
-            false
-        } catch (e: Throwable) {
-            true
-        })
-    }
-
-    //endregion
+    fun assertSnackbarDismiss() = getSnackbar().assertDismiss()
 
     companion object {
         inline operator fun invoke(

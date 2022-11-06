@@ -90,7 +90,7 @@ class NoteIconAnimTest : ParentUiTest() {
                         controlPanel { onEdit() }
                         pressBack()
                         controlPanel { onEdit() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }
@@ -105,7 +105,7 @@ class NoteIconAnimTest : ParentUiTest() {
                         controlPanel { onEdit() }
                         pressBack()
                         controlPanel { onEdit() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }

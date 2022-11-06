@@ -27,7 +27,7 @@ class BindErrorTest : ParentNotificationTest() {
                         controlPanel { onEdit() }
                         onEnterText(nextString())
                         automator.unbind(item)
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }
@@ -47,7 +47,7 @@ class BindErrorTest : ParentNotificationTest() {
                         controlPanel { onEdit() }
                         enterPanel { onAdd(nextString()) }
                         automator.unbind(item)
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }

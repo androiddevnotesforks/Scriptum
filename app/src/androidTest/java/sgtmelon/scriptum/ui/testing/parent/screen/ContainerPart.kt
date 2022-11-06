@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.testing.screen.parent
+package sgtmelon.scriptum.ui.testing.parent.screen
 
 import android.view.View
 import androidx.annotation.IdRes
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 /**
  * Tag needed for correctly determinate views (because have same id's, like parent_container).
  */
-abstract class UiParentPart(
+abstract class ContainerPart(
     @TestViewTag private val tag: String,
     @IdRes private val parentId: Int = R.id.parent_container
 ) : UiPart() {
@@ -25,7 +25,7 @@ abstract class UiParentPart(
         return allOf(withId(id), withTagValue(`is`(tag)))
     }
 
-    protected fun getView(@IdRes id: Int): Matcher<View> {
-        return allOf(withId(id), isDescendantOfA(parentContainer))
+    override fun getView(@IdRes viewId: Int): Matcher<View> {
+        return allOf(super.getView(viewId), isDescendantOfA(parentContainer))
     }
 }

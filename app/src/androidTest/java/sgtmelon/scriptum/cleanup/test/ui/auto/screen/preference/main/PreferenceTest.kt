@@ -12,7 +12,7 @@ import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class PreferenceTest : ParentUiTest(), IPreferenceTest {
 
-    @Test fun close() = runTest { onClickClose() }
+    @Test fun close() = runTest { clickClose() }
 
     @Test fun assertAllNotDeveloper() = runTest({ preferences.isDeveloper = false }) { assert() }
 

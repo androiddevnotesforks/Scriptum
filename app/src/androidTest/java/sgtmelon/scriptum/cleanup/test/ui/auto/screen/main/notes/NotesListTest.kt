@@ -67,7 +67,7 @@ class NotesListTest : ParentUiTest() {
                 openAddDialog {
                     createText(it) {
                         db.insertText()
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
 
@@ -84,7 +84,7 @@ class NotesListTest : ParentUiTest() {
                 openAddDialog {
                     createRoll(it) {
                         db.insertRoll()
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
 

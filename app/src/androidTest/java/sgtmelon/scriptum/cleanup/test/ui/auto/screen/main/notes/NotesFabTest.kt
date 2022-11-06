@@ -36,7 +36,7 @@ class NotesFabTest : ParentUiTest() {
         mainScreen {
             notesScreen { onScroll(Scroll.END, time = 1) }
             assert(isFabVisible = false)
-            notesScreen { openPreferences { onClickClose() } }
+            notesScreen { openPreferences { clickClose() } }
             assert(isFabVisible = true)
         }
     }

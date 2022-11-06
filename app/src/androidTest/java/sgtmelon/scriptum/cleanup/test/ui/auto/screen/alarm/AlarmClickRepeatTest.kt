@@ -46,7 +46,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
             db.insertNotification(date = existDate)
 
             alarmScreen(it, listOf(existDate)) { onClickRepeat() }
-            mainScreen { notesScreen { openNotifications { onAssertItem(1, it) } } }
+            mainScreen { notesScreen { openNotifications { assertItem(1, it) } } }
         }
     }
 

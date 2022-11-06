@@ -182,7 +182,7 @@ class TextNotePanelTest : ParentUiTest() {
                             .onEnterText(nextString())
 
                         controlPanel { onLongSave() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }
@@ -201,7 +201,7 @@ class TextNotePanelTest : ParentUiTest() {
                         onEnterText(nextString())
 
                         controlPanel { onLongSave() }
-                        toolbar { onClickBack() }
+                        toolbar { clickBack() }
                     }
                 }
             }

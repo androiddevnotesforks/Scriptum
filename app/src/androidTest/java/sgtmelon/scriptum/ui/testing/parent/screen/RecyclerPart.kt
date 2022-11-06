@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.testing.screen.parent
+package sgtmelon.scriptum.ui.testing.parent.screen
 
 import android.view.View
 import org.hamcrest.Matcher
@@ -33,9 +33,7 @@ interface RecyclerPart {
     }
 
     companion object {
-        const val SCROLL_TIME = 200L
-        const val REPEAT_COUNT = 2
-
-        const val SNACK_BAR_TIME = 3000L
+        private const val SCROLL_TIME = 200L
+        private const val REPEAT_COUNT = 2
     }
 }

@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
+import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
@@ -27,24 +28,40 @@ class SnackbarPanel(
     private val messageText = getViewByText(messageId)
     private val actionButton = getViewByText(actionId)
 
-    fun onClickCancel() = actionButton.click()
-
+    fun clickCancel() {
+        actionButton.click()
+    }
 
     // TODO add assertion for background (i try but nothing happened)
     fun assert() {
         parentContainer.isDisplayed()
-//                .withBackground(when (theme) {
-//                    Theme.LIGHT -> R.drawable.bg_snackbar_light
-//                    Theme.DARK -> R.drawable.bg_snackbar_dark
-//                    else -> throw NullPointerException()
-//                })
+        //                .withBackground(when (theme) {
+        //                    Theme.LIGHT -> R.drawable.bg_snackbar_light
+        //                    Theme.DARK -> R.drawable.bg_snackbar_dark
+        //                    else -> throw NullPointerException()
+        //                })
 
         messageText.isDisplayed().withTextColor(R.attr.clContent)
         actionButton.isDisplayed().withTextColor(R.attr.clAccent)
     }
 
+    /**
+     * Assert what snackbar was dismissed.
+     */
+    fun assertDismiss() {
+        val result = try {
+            assert()
+            false
+        } catch (e: Throwable) {
+            true
+        }
+
+        assertTrue(result)
+    }
+
     companion object {
         const val UPDATE_TIME = 500L
+        const val DISMISS_TIME = 3000L
 
         inline operator fun invoke(
             @StringRes messageId: Int,

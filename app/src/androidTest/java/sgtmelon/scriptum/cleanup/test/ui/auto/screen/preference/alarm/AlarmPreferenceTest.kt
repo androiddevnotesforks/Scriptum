@@ -14,7 +14,7 @@ import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceTest : ParentUiTest(), IAlarmPreferenceTest {
 
-    @Test fun close() = runTest { onClickClose() }
+    @Test fun close() = runTest { clickClose() }
 
     @Test fun assertMelody() = startAssertTest(isMelody = true, isVibration = false)
 
