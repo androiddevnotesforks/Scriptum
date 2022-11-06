@@ -26,15 +26,15 @@ class SplashTest : ParentUiTest() {
     @Test fun alarmRollNoteOpen() = db.insertRoll().let { launchAlarm(it) { alarmScreen(it) } }
 
     @Test fun bindTextNoteOpen() = db.insertText().let {
-        launchBind(it) { bindNoteScreen(it) { onPressBack() }.mainScreen() }
+        launchBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 
     @Test fun bindRollNoteOpen() = db.insertRoll().let {
-        launchBind(it) { bindNoteScreen(it) { onPressBack() }.mainScreen() }
+        launchBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 
     @Test fun notificationsOpen() = launchNotifications {
-        notificationsScreen { onPressBack() }
+        notificationsScreen { pressBack() }
         mainScreen()
     }
 
@@ -43,12 +43,12 @@ class SplashTest : ParentUiTest() {
     }
 
     @Test fun createTextOpen() = launchNewNote(NoteType.TEXT) {
-        createNoteScreen(db.createText()) { onPressBack() }
+        createNoteScreen(db.createText()) { pressBack() }
         mainScreen()
     }
 
     @Test fun createRollOpen() = launchNewNote(NoteType.ROLL) {
-        createNoteScreen(db.createRoll()) { onPressBack() }
+        createNoteScreen(db.createRoll()) { pressBack() }
         mainScreen()
     }
 }

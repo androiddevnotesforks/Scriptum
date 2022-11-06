@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.ui.part.info.RollNoteInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
-import sgtmelon.scriptum.ui.testing.screen.parent.features.IPressBack
+import sgtmelon.scriptum.ui.testing.screen.parent.features.BackPress
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -49,7 +49,7 @@ class RollNoteScreen(
     NoteToolbar.ImeCallback,
     INoteAfterConvert<TextNoteScreen>,
     IKeyboardClose,
-    IPressBack {
+    BackPress {
 
     //region Views
 
@@ -194,8 +194,8 @@ class RollNoteScreen(
         TextNoteScreen(func, State.READ, item.onConvert(), isRankEmpty)
     }
 
-    override fun onPressBack() {
-        super.onPressBack()
+    override fun pressBack() {
+        super.pressBack()
 
         if (state == State.EDIT || state == State.NEW) {
             if (shadowItem.isSaveEnabled()) {

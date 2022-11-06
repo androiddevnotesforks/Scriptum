@@ -17,7 +17,7 @@ class NotificationsTest : ParentUiTest() {
     @Test fun close() = launch {
         mainScreen {
             notesScreen(isEmpty = true) {
-                openNotifications(isEmpty = true) { onPressBack() }
+                openNotifications(isEmpty = true) { pressBack() }
                 openNotifications(isEmpty = true) { onClickClose() }
             }
         }

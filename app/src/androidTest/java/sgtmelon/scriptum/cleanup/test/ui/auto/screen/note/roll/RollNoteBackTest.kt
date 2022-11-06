@@ -18,7 +18,7 @@ class RollNoteBackTest : ParentUiTest() {
         launch {
             mainScreen {
                 binScreen { openRollNote(it) { toolbar { onClickBack() } } }.assert()
-                binScreen { openRollNote(it) { onPressBack() } }.assert()
+                binScreen { openRollNote(it) { pressBack() } }.assert()
             }
         }
     }
@@ -27,7 +27,7 @@ class RollNoteBackTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog { createRoll(it) { toolbar { onClickBack() } } }.assert()
-                openAddDialog { createRoll(it) { onPressBack() } }.assert()
+                openAddDialog { createRoll(it) { pressBack() } }.assert()
             }
         }
     }
@@ -36,7 +36,7 @@ class RollNoteBackTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen { openRollNote(it) { toolbar { onClickBack() } } }.assert()
-                notesScreen { openRollNote(it) { onPressBack() } }.assert()
+                notesScreen { openRollNote(it) { pressBack() } }.assert()
             }
         }
     }
@@ -48,7 +48,7 @@ class RollNoteBackTest : ParentUiTest() {
                     createRoll(it) {
                         toolbar { onEnterName(nextString()) }
                         enterPanel { onAdd(nextString()) }
-                        onPressBack()
+                        pressBack()
                     }
                 }
             }
@@ -63,7 +63,7 @@ class RollNoteBackTest : ParentUiTest() {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(nextString()) }
                         enterPanel { onAdd(nextString()) }
-                        onPressBack()
+                        pressBack()
                     }
                 }
             }

@@ -20,12 +20,12 @@ class RollNoteVisibleTest : ParentUiTest() {
                 notesScreen {
                     openRollNote(it) {
                         onClickVisible()
-                        onPressBack()
+                        pressBack()
                     }
 
                     openRollNote(it) {
                         onClickVisible()
-                        onPressBack()
+                        pressBack()
                     }
                 }
             }
@@ -47,7 +47,7 @@ class RollNoteVisibleTest : ParentUiTest() {
 
                             item = this.item
 
-                            onPressBack()
+                            pressBack()
                         }
                     }
 

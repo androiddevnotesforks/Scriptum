@@ -32,7 +32,7 @@ class RollNotePanelTest : ParentUiTest() {
                 binScreen {
                     openRollNote(it) {
                         controlPanel { onRestoreOpen() }
-                        onPressBack()
+                        pressBack()
                     }
                     assert(isEmpty = true)
                 }
@@ -71,7 +71,7 @@ class RollNotePanelTest : ParentUiTest() {
                 notesScreen {
                     openRollNote(model) {
                         controlPanel { onBind() }
-                        onPressBack()
+                        pressBack()
                     }
 
                     openNoteDialog(model)

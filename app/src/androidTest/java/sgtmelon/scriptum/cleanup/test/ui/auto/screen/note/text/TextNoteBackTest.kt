@@ -18,7 +18,7 @@ class TextNoteBackTest : ParentUiTest() {
         launch {
             mainScreen {
                 binScreen { openTextNote(it) { toolbar { onClickBack() } } }.assert()
-                binScreen { openTextNote(it) { onPressBack() } }.assert()
+                binScreen { openTextNote(it) { pressBack() } }.assert()
             }
         }
     }
@@ -27,7 +27,7 @@ class TextNoteBackTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog { createText(it) { toolbar { onClickBack() } } }.assert()
-                openAddDialog { createText(it) { onPressBack() } }.assert()
+                openAddDialog { createText(it) { pressBack() } }.assert()
             }
         }
     }
@@ -36,7 +36,7 @@ class TextNoteBackTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen { openTextNote(it) { toolbar { onClickBack() } } }.assert()
-                notesScreen { openTextNote(it) { onPressBack() } }.assert()
+                notesScreen { openTextNote(it) { pressBack() } }.assert()
             }
         }
     }
@@ -49,7 +49,7 @@ class TextNoteBackTest : ParentUiTest() {
                     createText(it) {
                         toolbar { onEnterName(nextString()) }
                         onEnterText(nextString())
-                        onPressBack()
+                        pressBack()
                     }
                 }
             }
@@ -64,7 +64,7 @@ class TextNoteBackTest : ParentUiTest() {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(nextString()) }
                         onEnterText(nextString())
-                        onPressBack()
+                        pressBack()
                     }
                 }
             }

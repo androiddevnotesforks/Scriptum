@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.ui.item.PreferenceItemUi
 import sgtmelon.scriptum.cleanup.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
-import sgtmelon.scriptum.ui.testing.screen.parent.features.IPressBack
+import sgtmelon.scriptum.ui.testing.screen.parent.features.BackPress
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
@@ -18,7 +18,7 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
 abstract class ParentPreferenceScreen<L : ParentPreferenceLogic>(
     @StringRes titleId: Int
 ) : ParentScreen(),
-    IPressBack {
+    BackPress {
 
     //region Views
 

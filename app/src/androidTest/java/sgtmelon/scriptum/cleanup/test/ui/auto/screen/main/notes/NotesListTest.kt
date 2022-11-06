@@ -25,7 +25,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun textNoteOpen() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openTextNote(it) { onPressBack() }.assert(isEmpty = false) }
+                notesScreen { openTextNote(it) { pressBack() }.assert(isEmpty = false) }
             }
         }
     }
@@ -33,7 +33,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun rollNoteOpen() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openRollNote(it) { onPressBack() }.assert(isEmpty = false) }
+                notesScreen { openRollNote(it) { pressBack() }.assert(isEmpty = false) }
             }
         }
     }
@@ -43,7 +43,7 @@ class NotesListTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
-                openAddDialog { createText(it) { onPressBack() } }
+                openAddDialog { createText(it) { pressBack() } }
                 notesScreen(isEmpty = true)
             }
         }
@@ -53,7 +53,7 @@ class NotesListTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
-                openAddDialog { createRoll(it) { onPressBack() } }
+                openAddDialog { createRoll(it) { pressBack() } }
                 notesScreen(isEmpty = true)
             }
         }

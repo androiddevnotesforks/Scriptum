@@ -88,7 +88,7 @@ class NoteIconAnimTest : ParentUiTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
-                        onPressBack()
+                        pressBack()
                         controlPanel { onEdit() }
                         toolbar { onClickBack() }
                     }
@@ -103,7 +103,7 @@ class NoteIconAnimTest : ParentUiTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
-                        onPressBack()
+                        pressBack()
                         controlPanel { onEdit() }
                         toolbar { onClickBack() }
                     }

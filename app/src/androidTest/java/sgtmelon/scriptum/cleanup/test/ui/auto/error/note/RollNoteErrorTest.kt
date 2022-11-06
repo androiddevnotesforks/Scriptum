@@ -34,7 +34,7 @@ class RollNoteErrorTest : ParentUiTest() {
                             onAssertAll()
 
                             item = this.item
-                            onPressBack()
+                            pressBack()
                         }
                     }
 

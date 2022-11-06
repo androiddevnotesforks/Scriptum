@@ -17,7 +17,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleConverter
-import sgtmelon.scriptum.ui.testing.screen.parent.features.IPressBack
+import sgtmelon.scriptum.ui.testing.screen.parent.features.BackPress
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withContentDescription
@@ -33,7 +33,7 @@ import sgtmelon.test.cappuccino.utils.withText
 class AlarmScreen(
     private val item: NoteItem,
     private val dateList: List<String>?
-) : ParentRecyclerScreen(R.id.recycler_view), IPressBack {
+) : ParentRecyclerScreen(R.id.recycler_view), BackPress {
 
     private val converter = RippleConverter()
 

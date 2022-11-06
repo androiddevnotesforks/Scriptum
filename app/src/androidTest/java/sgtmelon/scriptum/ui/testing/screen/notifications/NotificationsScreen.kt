@@ -16,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.ui.testing.screen.parent.RecyclerPart
 import sgtmelon.scriptum.ui.testing.screen.parent.UiParentPart
-import sgtmelon.scriptum.ui.testing.screen.parent.features.IPressBack
+import sgtmelon.scriptum.ui.testing.screen.parent.features.BackPress
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
@@ -25,7 +25,7 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
  */
 class NotificationsScreen : UiParentPart(TestViewTag.NOTIFICATIONS),
     RecyclerPart,
-    IPressBack {
+    BackPress {
 
     //region Views
 

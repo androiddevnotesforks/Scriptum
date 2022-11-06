@@ -25,13 +25,13 @@ class BinListTest : ParentUiTest() {
 
     @Test fun textNoteOpen() = db.insertTextToBin().let {
         launch {
-            mainScreen { binScreen { openTextNote(it) { onPressBack() }.assert(isEmpty = false) } }
+            mainScreen { binScreen { openTextNote(it) { pressBack() }.assert(isEmpty = false) } }
         }
     }
 
     @Test fun rollNoteOpen() = db.insertRollToBin().let {
         launch {
-            mainScreen { binScreen { openRollNote(it) { onPressBack() }.assert(isEmpty = false) } }
+            mainScreen { binScreen { openRollNote(it) { pressBack() }.assert(isEmpty = false) } }
         }
     }
 

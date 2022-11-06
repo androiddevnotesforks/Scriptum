@@ -30,7 +30,7 @@ class TextNotePanelTest : ParentUiTest() {
                 notesScreen(isEmpty = true)
 
                 binScreen {
-                    openTextNote(it) { controlPanel { onRestoreOpen() }.onPressBack() }
+                    openTextNote(it) { controlPanel { onRestoreOpen() }.pressBack() }
                     assert(isEmpty = true)
                 }
 
@@ -66,7 +66,7 @@ class TextNotePanelTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openTextNote(model) { controlPanel { onBind() }.onPressBack() }
+                    openTextNote(model) { controlPanel { onBind() }.pressBack() }
                     openNoteDialog(model)
                 }
             }

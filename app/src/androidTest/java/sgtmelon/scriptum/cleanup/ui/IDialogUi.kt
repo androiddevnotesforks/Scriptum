@@ -2,14 +2,14 @@ package sgtmelon.scriptum.cleanup.ui
 
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
-import sgtmelon.scriptum.ui.testing.screen.parent.features.IPressBack
+import sgtmelon.scriptum.ui.testing.screen.parent.features.BackPress
 
 /**
  * Interface need use in dialog classes
  */
-interface IDialogUi : IPressBack {
+interface IDialogUi : BackPress {
 
-    fun onCloseSoft() = waitClose { onPressBack() }
+    fun onCloseSoft() = waitClose { pressBack() }
 
     fun waitClose(func: () -> Unit = {}) = waitAfter(CLOSE_TIME) { func() }
 
