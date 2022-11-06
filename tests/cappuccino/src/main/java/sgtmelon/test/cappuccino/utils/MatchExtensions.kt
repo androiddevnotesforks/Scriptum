@@ -36,22 +36,26 @@ fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
     onView(viewMatcher).check(ViewAssertions.matches(checkMatcher))
 }
 
-fun Matcher<View>.isDisplayed(
+inline fun Matcher<View>.isDisplayed(
     isVisible: Boolean = true,
     onVisible: Matcher<View>.() -> Unit = {}
 ) = also {
     matchOnView(it, if (isVisible) ViewMatchers.isDisplayed() else not(ViewMatchers.isDisplayed()))
 
-    if (isVisible) apply(onVisible)
+    if (isVisible) {
+        apply(onVisible)
+    }
 }
 
-fun Matcher<View>.isEnabled(
+inline fun Matcher<View>.isEnabled(
     isEnabled: Boolean = true,
     onEnabled: Matcher<View>.() -> Unit = {}
 ) = also {
     matchOnView(it, if (isEnabled) ViewMatchers.isEnabled() else not(ViewMatchers.isEnabled()))
 
-    if (isEnabled) apply(onEnabled)
+    if (isEnabled) {
+        apply(onEnabled)
+    }
 }
 
 fun Matcher<View>.isSelected(isSelected: Boolean = true) = also {
