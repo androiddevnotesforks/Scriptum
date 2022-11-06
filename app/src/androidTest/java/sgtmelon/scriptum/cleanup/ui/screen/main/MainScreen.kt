@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.ui.dialog.sheet.AddSheetDialogUi
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentTagScreen
+import sgtmelon.scriptum.ui.testing.screen.parent.UiParentPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isSelected
@@ -18,7 +18,7 @@ import sgtmelon.test.cappuccino.utils.withSizeAttr
 /**
  * Class for UI control of [MainActivity].
  */
-class MainScreen : ParentTagScreen(TestViewTag.MAIN) {
+class MainScreen : UiParentPart(TestViewTag.MAIN) {
 
     //region Views
 

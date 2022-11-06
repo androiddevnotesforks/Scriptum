@@ -12,6 +12,7 @@ import sgtmelon.test.cappuccino.utils.swipeUp
 /**
  * Parent class for screens which contains [RecyclerView].
  */
+@Deprecated("Use RecyclerPart")
 abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : ParentScreen() {
 
     protected val recyclerView = getViewById(recyclerId)

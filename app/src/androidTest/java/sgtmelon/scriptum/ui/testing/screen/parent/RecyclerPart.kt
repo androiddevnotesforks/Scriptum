@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.testing.screen.parent
 
-import androidx.annotation.IdRes
-import androidx.recyclerview.widget.RecyclerView
+import android.view.View
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.test.cappuccino.utils.getCount
@@ -9,20 +9,14 @@ import sgtmelon.test.cappuccino.utils.getRandomPosition
 import sgtmelon.test.cappuccino.utils.swipeDown
 import sgtmelon.test.cappuccino.utils.swipeUp
 
-/**
- * Parent class for screens which contains [RecyclerView].
- */
-abstract class ParentTagRecyclerScreen(
-    tag: String,
-    @IdRes private val recyclerId: Int
-) : ParentTagScreen(tag) {
+interface RecyclerPart {
 
-    protected val recyclerView = getView(recyclerId)
+    val recyclerView: Matcher<View>
 
     val count: Int get() = recyclerView.getCount()
     val last: Int get() = count - 1
 
-    protected val random: Int? get() = recyclerView.getRandomPosition()
+    val random: Int? get() = recyclerView.getRandomPosition()
 
     fun onScroll(scroll: Scroll, time: Int = REPEAT_COUNT) = repeat(time) {
         waitAfter(SCROLL_TIME) {
@@ -40,7 +34,8 @@ abstract class ParentTagRecyclerScreen(
 
     companion object {
         const val SCROLL_TIME = 200L
-        const val SNACK_BAR_TIME = 3000L
         const val REPEAT_COUNT = 2
+
+        const val SNACK_BAR_TIME = 3000L
     }
 }

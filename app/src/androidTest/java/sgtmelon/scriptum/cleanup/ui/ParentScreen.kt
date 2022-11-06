@@ -16,7 +16,7 @@ import sgtmelon.scriptum.parent.di.ParentInjector
 /**
  * Parent class for access standard UI functions.
  */
-@Deprecated("Use UIPart")
+@Deprecated("Use UiPart/UiParentPart")
 abstract class ParentScreen {
 
     protected val context = ParentInjector.provideContext()

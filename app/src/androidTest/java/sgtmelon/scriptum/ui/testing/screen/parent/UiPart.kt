@@ -1,4 +1,6 @@
 package sgtmelon.scriptum.ui.testing.screen.parent
 
-abstract class UiPart {
-}
+/**
+ * Basic UI element for tests.
+ */
+abstract class UiPart

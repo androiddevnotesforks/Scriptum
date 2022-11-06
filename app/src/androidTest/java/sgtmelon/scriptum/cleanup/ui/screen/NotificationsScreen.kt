@@ -15,19 +15,23 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
-import sgtmelon.scriptum.ui.testing.screen.parent.ParentTagRecyclerScreen
+import sgtmelon.scriptum.ui.testing.screen.parent.RecyclerPart
+import sgtmelon.scriptum.ui.testing.screen.parent.UiParentPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**
  * Class for UI control of [NotificationsActivity].
  */
-class NotificationsScreen : ParentTagRecyclerScreen(TestViewTag.NOTIFICATIONS, R.id.recycler_view),
+class NotificationsScreen : UiParentPart(TestViewTag.NOTIFICATIONS),
+    RecyclerPart,
     IPressBack {
 
     //region Views
 
     private val toolbar = SimpleToolbar(R.string.title_notification, withBack = true)
+
+    override val recyclerView = getView(R.id.recycler_view)
 
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.NOTIFICATION)
 
@@ -73,7 +77,7 @@ class NotificationsScreen : ParentTagRecyclerScreen(TestViewTag.NOTIFICATIONS, R
     fun onClickCancel(p: Int? = random, isWait: Boolean = false) = apply {
         if (p == null) return@apply
 
-        waitAfter(time = if (isWait) SNACK_BAR_TIME else 0) {
+        waitAfter(time = if (isWait) RecyclerPart.SNACK_BAR_TIME else 0) {
             getItem(p).cancelButton.click()
             getSnackbar { assert() }
         }

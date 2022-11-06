@@ -1,5 +1,8 @@
 package sgtmelon.scriptum.infrastructure.model.annotation
 
+/**
+ * Tags for views, needed inside UI tests for correctly determinate each view.
+ */
 annotation class TestViewTag {
     companion object {
         const val MAIN = "MAIN"
