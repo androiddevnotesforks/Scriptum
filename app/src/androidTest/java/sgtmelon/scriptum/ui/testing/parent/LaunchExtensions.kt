@@ -2,9 +2,9 @@ package sgtmelon.scriptum.ui.testing.parent
 
 import android.content.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.screen.SplashScreen
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.ui.testing.screen.splash.SplashScreen
 
 inline fun ParentUiTest.launch(
     before: () -> Unit,

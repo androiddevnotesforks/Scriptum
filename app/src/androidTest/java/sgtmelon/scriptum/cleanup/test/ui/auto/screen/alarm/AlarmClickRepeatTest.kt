@@ -34,7 +34,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
         preferencesRepo.repeat = value
 
         db.insertNote().let {
-            launchAlarm(it) { openAlarm(it) { onClickRepeat() }.mainScreen() }
+            launchAlarm(it) { alarmScreen(it) { onClickRepeat() }.mainScreen() }
         }
     }
 
@@ -45,7 +45,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
             val existDate = getClearCalendar(addMinutes = 10).toText()
             db.insertNotification(date = existDate)
 
-            openAlarm(it, listOf(existDate)) { onClickRepeat() }
+            alarmScreen(it, listOf(existDate)) { onClickRepeat() }
             mainScreen { notesScreen { openNotifications { onAssertItem(1, it) } } }
         }
     }
@@ -61,7 +61,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
 
         launchAlarm(it) {
             var repeatCalendar = getCalendar()
-            openAlarm(it) {
+            alarmScreen(it) {
                 repeatCalendar = onClickRepeat()
             }
 

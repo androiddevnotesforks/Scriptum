@@ -18,7 +18,7 @@ class AlarmMoreDialogTest : ParentUiTest(), IRepeatTest {
 
     @Test fun dialogClose() = db.insertNote().let {
         launchAlarm(it) {
-            openAlarm(it) {
+            alarmScreen(it) {
                 openMoreDialog { onCloseSoft() }.assert()
                 openMoreDialog { onCloseSwipe() }.assert()
             }
@@ -36,6 +36,6 @@ class AlarmMoreDialogTest : ParentUiTest(), IRepeatTest {
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
     override fun startTest(value: Repeat) = db.insertNote().let {
-        launchAlarm(it) { openAlarm(it) { openMoreDialog { onClickRepeat(value) } }.mainScreen() }
+        launchAlarm(it) { alarmScreen(it) { openMoreDialog { onClickRepeat(value) } }.mainScreen() }
     }
 }

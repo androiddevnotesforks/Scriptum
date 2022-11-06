@@ -14,14 +14,14 @@ import sgtmelon.scriptum.ui.testing.parent.launchAlarm
 class AlarmTest : ParentUiTest() {
 
     @Test fun openTextNote() = db.insertText().let {
-        launchAlarm(it) { openAlarm(it) { openTextNote { onPressBack() } }.mainScreen() }
+        launchAlarm(it) { alarmScreen(it) { openTextNote { onPressBack() } }.mainScreen() }
     }
 
     @Test fun openRollNote() = db.insertRoll().let {
-        launchAlarm(it) { openAlarm(it) { openRollNote { onPressBack() } }.mainScreen() }
+        launchAlarm(it) { alarmScreen(it) { openRollNote { onPressBack() } }.mainScreen() }
     }
 
     @Test fun clickDisable() = db.insertNote().let {
-        launchAlarm(it) { openAlarm(it) { onClickDisable() }.mainScreen() }
+        launchAlarm(it) { alarmScreen(it) { onClickDisable() }.mainScreen() }
     }
 }

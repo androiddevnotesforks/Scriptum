@@ -1,7 +1,9 @@
-package sgtmelon.scriptum.cleanup.ui.screen
+package sgtmelon.scriptum.ui.testing.screen.splash
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.State
+import sgtmelon.scriptum.cleanup.ui.screen.AlarmScreen
+import sgtmelon.scriptum.cleanup.ui.screen.NotificationsScreen
 import sgtmelon.scriptum.cleanup.ui.screen.main.MainScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
@@ -10,13 +12,13 @@ import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.ui.testing.screen.parent.ParentScreen
 
 /**
- * Class for UI control of [SplashActivity].
+ * Class for control Intent launches inside [SplashActivity].
  */
 class SplashScreen : ParentScreen() {
 
-    fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen(func)
+    inline fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen(func)
 
-    fun openTextNoteBind(
+    inline fun bindNoteScreen(
         item: NoteItem.Text,
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
@@ -24,7 +26,7 @@ class SplashScreen : ParentScreen() {
         TextNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun openRollNoteBind(
+    inline fun bindNoteScreen(
         item: NoteItem.Roll,
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
@@ -32,7 +34,7 @@ class SplashScreen : ParentScreen() {
         RollNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun openAlarm(
+    inline fun alarmScreen(
         item: NoteItem,
         dateList: List<String>? = null,
         func: AlarmScreen.() -> Unit = {}
@@ -40,18 +42,18 @@ class SplashScreen : ParentScreen() {
         AlarmScreen(func, item, dateList)
     }
 
-    fun openNotification(
+    inline fun notificationsScreen(
         isEmpty: Boolean = false,
         func: NotificationsScreen.() -> Unit = {}
     ) = apply {
         NotificationsScreen(func, isEmpty)
     }
 
-    fun openHelpDisappear(func: HelpDisappearScreen.() -> Unit = {}) = apply {
+    inline fun helpDisappearScreen(func: HelpDisappearScreen.() -> Unit = {}) = apply {
         HelpDisappearScreen(func)
     }
 
-    fun openCreateText(
+    inline fun createNoteScreen(
         item: NoteItem.Text,
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
@@ -59,7 +61,7 @@ class SplashScreen : ParentScreen() {
         TextNoteScreen(func, State.NEW, item, isRankEmpty)
     }
 
-    fun openCreateRoll(
+    inline fun createNoteScreen(
         item: NoteItem.Roll,
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}

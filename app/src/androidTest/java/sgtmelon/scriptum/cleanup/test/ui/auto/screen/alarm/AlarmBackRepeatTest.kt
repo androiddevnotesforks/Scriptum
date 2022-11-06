@@ -30,7 +30,7 @@ class AlarmBackRepeatTest : ParentUiTest(), IRepeatTest {
         preferencesRepo.repeat = value
 
         db.insertNote().let {
-            launchAlarm(it) { openAlarm(it) { onPressBack() }.mainScreen() }
+            launchAlarm(it) { alarmScreen(it) { onPressBack() }.mainScreen() }
         }
     }
 }

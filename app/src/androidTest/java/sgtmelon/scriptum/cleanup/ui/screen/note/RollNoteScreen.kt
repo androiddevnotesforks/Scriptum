@@ -289,9 +289,9 @@ class RollNoteScreen(
             isRankEmpty: Boolean
         ): RollNoteScreen {
             /**
-             * Was assertion error in tests where time difference was 1 minute. I think it was
-             * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
-             * of actual note creation was ~01:.. (after [DbDelegator] note was created).
+             * Was assertion error in tests where difference between times 1 minute. I think it was
+             * happened when calendar time was around ~00:59 on note creation inside [DbDelegator].
+             * But the time of actual creation was ~01:.. (after [DbDelegator] note was created).
              */
             if (state == State.NEW) {
                 item.create = getCalendarText()

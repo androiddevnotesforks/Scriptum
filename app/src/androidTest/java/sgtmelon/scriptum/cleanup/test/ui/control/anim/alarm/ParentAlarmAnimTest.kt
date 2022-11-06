@@ -35,7 +35,7 @@ abstract class ParentAlarmAnimTest(
             }
         }
 
-        launchAlarm(noteItem) { waitAfter(TEST_TIME) { openAlarm(noteItem) } }
+        launchAlarm(noteItem) { waitAfter(TEST_TIME) { alarmScreen(noteItem) } }
     }
 
     companion object {

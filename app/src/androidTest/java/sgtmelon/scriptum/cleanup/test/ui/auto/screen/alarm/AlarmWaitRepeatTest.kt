@@ -29,7 +29,7 @@ class AlarmWaitRepeatTest : ParentUiTest(), IRepeatTest {
         preferencesRepo.repeat = value
 
         db.insertNote().let {
-            launchAlarm(it) { openAlarm(it) { waitRepeat() }.mainScreen() }
+            launchAlarm(it) { alarmScreen(it) { waitRepeat() }.mainScreen() }
         }
     }
 }
