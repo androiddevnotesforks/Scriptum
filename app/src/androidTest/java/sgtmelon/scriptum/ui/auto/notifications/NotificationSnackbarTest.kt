@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification
+package sgtmelon.scriptum.ui.auto.notifications
 
 import org.junit.Test
 import sgtmelon.extensions.getClearCalendar

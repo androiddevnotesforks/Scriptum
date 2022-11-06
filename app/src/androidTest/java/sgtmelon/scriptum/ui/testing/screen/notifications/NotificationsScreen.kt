@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.screen
+package sgtmelon.scriptum.ui.testing.screen.notifications
 
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R

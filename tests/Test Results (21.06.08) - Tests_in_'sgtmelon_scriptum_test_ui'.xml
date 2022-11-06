@@ -1002,14 +1002,14 @@
         <test name="colorBlue" duration="10441" status="passed" />
         <test name="colorTeal" duration="8755" status="passed"/>
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest"
+    <suite name="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest"
         duration="83202"
         status="failed">
         <test name="scrollToUndoItem_onTop" duration="8556" status="passed" />
         <test name="actionClick_noteCheck" duration="1248" status="failed">
             <output type="stderr">kotlin.NotImplementedError: An operation is not implemented.
                 at
-                sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.actionClick_noteCheck(NotificationSnackbarTest.kt:113)
+                sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.actionClick_noteCheck(NotificationSnackbarTest.kt:113)
                 at java.lang.reflect.Method.invoke(Native Method)
                 at
                 org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
@@ -1087,7 +1087,9 @@
         <test name="contentPlacement" duration="8244" status="passed" />
         <test name="endButtonWork" duration="5255" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.ui.auto.splash.SplashTest" duration="138035" status="failed">
+    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest"
+        duration="138035"
+        status="failed">
         <test name="notificationsOpen" duration="7889" status="passed" />
         <test name="bindTextNoteOpen" duration="8220" status="passed" />
         <test name="alarmRollNoteOpen" duration="7731" status="passed" />
@@ -1108,7 +1110,7 @@
                 at
                 sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launch$default(ParentUiTest.kt:124)
                 at
-                sgtmelon.scriptum.ui.auto.splash.SplashTest.mainScreenOpen(SplashTest.kt:17)
+                sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.mainScreenOpen(SplashTest.kt:17)
                 at java.lang.reflect.Method.invoke(Native Method)
                 at
                 org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
@@ -1173,7 +1175,7 @@
                 at
                 sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launchHelpDisappear$default(ParentUiTest.kt:156)
                 at
-                sgtmelon.scriptum.ui.auto.splash.SplashTest.helpDisappearOpen(SplashTest.kt:37)
+                sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.helpDisappearOpen(SplashTest.kt:37)
                 at java.lang.reflect.Method.invoke(Native Method)
                 at
                 org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
@@ -7789,7 +7791,7 @@
                 className="NotificationSnackbarTest"
                 endTimestampMillis="8556"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.scrollToUndoItem_onTop"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.scrollToUndoItem_onTop"
                 logcat=""
                 methodName="scrollToUndoItem_onTop"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification"
@@ -7798,8 +7800,8 @@
             <testcase benchmark=""
                 className="NotificationSnackbarTest"
                 endTimestampMillis="1248"
-                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.actionClick_noteCheck(NotificationSnackbarTest.kt:113)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.actionClick_noteCheck"
+                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.actionClick_noteCheck(NotificationSnackbarTest.kt:113)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.actionClick_noteCheck"
                 logcat=""
                 methodName="actionClick_noteCheck"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification"
@@ -7809,7 +7811,7 @@
                 className="NotificationSnackbarTest"
                 endTimestampMillis="11362"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.actionClick_many"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.actionClick_many"
                 logcat=""
                 methodName="actionClick_many"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification"
@@ -7819,7 +7821,7 @@
                 className="NotificationSnackbarTest"
                 endTimestampMillis="27323"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.containerBottomDisplay"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.containerBottomDisplay"
                 logcat=""
                 methodName="containerBottomDisplay"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification"
@@ -7829,7 +7831,7 @@
                 className="NotificationSnackbarTest"
                 endTimestampMillis="9105"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.actionClick_dismiss"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.actionClick_dismiss"
                 logcat=""
                 methodName="actionClick_dismiss"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification"
@@ -7839,7 +7841,7 @@
                 className="NotificationSnackbarTest"
                 endTimestampMillis="7294"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.scrollToUndoItem_onBottom"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.scrollToUndoItem_onBottom"
                 logcat=""
                 methodName="scrollToUndoItem_onBottom"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification"
@@ -7849,7 +7851,7 @@
                 className="NotificationSnackbarTest"
                 endTimestampMillis="6826"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.actionClick_single"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.actionClick_single"
                 logcat=""
                 methodName="actionClick_single"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification"
@@ -7859,7 +7861,7 @@
                 className="NotificationSnackbarTest"
                 endTimestampMillis="11488"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification.NotificationSnackbarTest.dismissOnPause"
+                id="sgtmelon.scriptum.ui.auto.notifications.NotificationSnackbarTest.dismissOnPause"
                 logcat=""
                 methodName="dismissOnPause"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.notification"
@@ -8009,7 +8011,7 @@
                 className="SplashTest"
                 endTimestampMillis="7889"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.notificationsOpen"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.notificationsOpen"
                 logcat=""
                 methodName="notificationsOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8019,7 +8021,7 @@
                 className="SplashTest"
                 endTimestampMillis="8220"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.bindTextNoteOpen"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.bindTextNoteOpen"
                 logcat=""
                 methodName="bindTextNoteOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8029,7 +8031,7 @@
                 className="SplashTest"
                 endTimestampMillis="7731"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.alarmRollNoteOpen"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.alarmRollNoteOpen"
                 logcat=""
                 methodName="alarmRollNoteOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8038,8 +8040,8 @@
             <testcase benchmark=""
                 className="SplashTest"
                 endTimestampMillis="47934"
-                errorStackTrace="java.lang.RuntimeException: Could not launch intent Intent { flg=0x10000000 cmp=sgtmelon.scriptum/.presentation.screen.ui.impl.SplashActivity } within 45000 milliseconds. Perhaps the main thread has not gone idle within a reasonable amount of time? There could be an animation or something constantly repainting the screen. Or the activity is doing network calls on creation? See the threaddump logs. For your reference the last time the event queue was idle before your activity launch request was 1623176925857 and now the last time the queue went idle was: 1623176940112. If these numbers are the same your activity might be hogging the event queue.&#10;&#9;at androidx.test.runner.MonitoringInstrumentation.startActivitySync(MonitoringInstrumentation.java:490)&#10;&#9;at androidx.test.rule.ActivityTestRule.launchActivity(ActivityTestRule.java:376)&#10;&#9;at sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launch(ParentUiTest.kt:126)&#10;&#9;at sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launch$default(ParentUiTest.kt:124)&#10;&#9;at sgtmelon.scriptum.ui.auto.splash.SplashTest.mainScreenOpen(SplashTest.kt:17)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
-                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.mainScreenOpen"
+                errorStackTrace="java.lang.RuntimeException: Could not launch intent Intent { flg=0x10000000 cmp=sgtmelon.scriptum/.presentation.screen.ui.impl.SplashActivity } within 45000 milliseconds. Perhaps the main thread has not gone idle within a reasonable amount of time? There could be an animation or something constantly repainting the screen. Or the activity is doing network calls on creation? See the threaddump logs. For your reference the last time the event queue was idle before your activity launch request was 1623176925857 and now the last time the queue went idle was: 1623176940112. If these numbers are the same your activity might be hogging the event queue.&#10;&#9;at androidx.test.runner.MonitoringInstrumentation.startActivitySync(MonitoringInstrumentation.java:490)&#10;&#9;at androidx.test.rule.ActivityTestRule.launchActivity(ActivityTestRule.java:376)&#10;&#9;at sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launch(ParentUiTest.kt:126)&#10;&#9;at sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launch$default(ParentUiTest.kt:124)&#10;&#9;at sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.mainScreenOpen(SplashTest.kt:17)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.mainScreenOpen"
                 logcat=""
                 methodName="mainScreenOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8049,7 +8051,7 @@
                 className="SplashTest"
                 endTimestampMillis="7889"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.alarmTextNoteOpen"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.alarmTextNoteOpen"
                 logcat=""
                 methodName="alarmTextNoteOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8058,8 +8060,8 @@
             <testcase benchmark=""
                 className="SplashTest"
                 endTimestampMillis="47905"
-                errorStackTrace="java.lang.RuntimeException: Could not launch intent Intent { flg=0x10000000 cmp=sgtmelon.scriptum/.presentation.screen.ui.impl.SplashActivity (has extras) } within 45000 milliseconds. Perhaps the main thread has not gone idle within a reasonable amount of time? There could be an animation or something constantly repainting the screen. Or the activity is doing network calls on creation? See the threaddump logs. For your reference the last time the event queue was idle before your activity launch request was 1623176984267 and now the last time the queue went idle was: 1623177000113. If these numbers are the same your activity might be hogging the event queue.&#10;&#9;at androidx.test.runner.MonitoringInstrumentation.startActivitySync(MonitoringInstrumentation.java:490)&#10;&#9;at androidx.test.rule.ActivityTestRule.launchActivity(ActivityTestRule.java:376)&#10;&#9;at sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launchHelpDisappear(ParentUiTest.kt:158)&#10;&#9;at sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launchHelpDisappear$default(ParentUiTest.kt:156)&#10;&#9;at sgtmelon.scriptum.ui.auto.splash.SplashTest.helpDisappearOpen(SplashTest.kt:37)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
-                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.helpDisappearOpen"
+                errorStackTrace="java.lang.RuntimeException: Could not launch intent Intent { flg=0x10000000 cmp=sgtmelon.scriptum/.presentation.screen.ui.impl.SplashActivity (has extras) } within 45000 milliseconds. Perhaps the main thread has not gone idle within a reasonable amount of time? There could be an animation or something constantly repainting the screen. Or the activity is doing network calls on creation? See the threaddump logs. For your reference the last time the event queue was idle before your activity launch request was 1623176984267 and now the last time the queue went idle was: 1623177000113. If these numbers are the same your activity might be hogging the event queue.&#10;&#9;at androidx.test.runner.MonitoringInstrumentation.startActivitySync(MonitoringInstrumentation.java:490)&#10;&#9;at androidx.test.rule.ActivityTestRule.launchActivity(ActivityTestRule.java:376)&#10;&#9;at sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launchHelpDisappear(ParentUiTest.kt:158)&#10;&#9;at sgtmelon.scriptum.ui.testing.parent.ParentUiTest.launchHelpDisappear$default(ParentUiTest.kt:156)&#10;&#9;at sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.helpDisappearOpen(SplashTest.kt:37)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.helpDisappearOpen"
                 logcat=""
                 methodName="helpDisappearOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8069,7 +8071,7 @@
                 className="SplashTest"
                 endTimestampMillis="1689"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.introScreenOpen"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.introScreenOpen"
                 logcat=""
                 methodName="introScreenOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8079,7 +8081,7 @@
                 className="SplashTest"
                 endTimestampMillis="8778"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.bindRollNoteOpen"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.bindRollNoteOpen"
                 logcat=""
                 methodName="bindRollNoteOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"

@@ -3,12 +3,12 @@ package sgtmelon.scriptum.ui.testing.screen.splash
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.State
 import sgtmelon.scriptum.cleanup.ui.screen.AlarmScreen
-import sgtmelon.scriptum.cleanup.ui.screen.NotificationsScreen
 import sgtmelon.scriptum.cleanup.ui.screen.main.MainScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpDisappearScreen
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
+import sgtmelon.scriptum.ui.testing.screen.notifications.NotificationsScreen
 import sgtmelon.scriptum.ui.testing.screen.parent.UiPart
 
 /**

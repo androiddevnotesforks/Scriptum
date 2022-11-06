@@ -37,6 +37,11 @@ class DrawableMatcher(
             attrColor != null -> expected.setColorFilterCompat(context.getColorAttr(attrColor))
         }
 
+        //         when {
+        //            colorId != null -> DrawableCompat.setTint(expected, context.getColorCompat(colorId))
+        //            attrColor != null -> DrawableCompat.setTint(expected, context.getColorAttr(attrColor))
+        //        }
+
         /**
          * Vector may have different sizes (which declared not in xml), so need remember it and
          * set size across [setSize].

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.auto.splash
+package sgtmelon.scriptum.cleanup.test.ui.auto.screen
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test

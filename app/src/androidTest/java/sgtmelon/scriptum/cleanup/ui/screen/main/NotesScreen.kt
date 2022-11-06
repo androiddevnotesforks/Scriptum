@@ -7,12 +7,12 @@ import sgtmelon.scriptum.cleanup.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.part.info.NotesInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
-import sgtmelon.scriptum.cleanup.ui.screen.NotificationsScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.ui.testing.screen.notifications.NotificationsScreen
 import sgtmelon.scriptum.ui.testing.screen.parent.RecyclerPart
 import sgtmelon.scriptum.ui.testing.screen.parent.UiParentPart
 import sgtmelon.test.cappuccino.utils.click
