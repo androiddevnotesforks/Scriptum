@@ -4,7 +4,7 @@ import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
-import sgtmelon.scriptum.ui.testing.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.model.key.NoteState
 
 /**
  * Interface for communication child ui abstractions with [TextNoteScreen] and [RollNoteScreen]

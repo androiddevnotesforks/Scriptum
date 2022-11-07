@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFragment
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.parent.ui.ParentUiTest
 
 /**
  * Test for [HelpPreferenceFragment].

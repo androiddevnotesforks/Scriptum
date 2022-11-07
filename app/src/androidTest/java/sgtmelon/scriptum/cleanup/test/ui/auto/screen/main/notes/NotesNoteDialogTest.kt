@@ -7,8 +7,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
-import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.launch
 
 /**
  * Test note dialog for [NotesFragment].

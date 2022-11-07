@@ -8,9 +8,9 @@ import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
-import sgtmelon.scriptum.ui.testing.parent.launch
-import sgtmelon.scriptum.ui.testing.screen.item.NotificationItemUi
+import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.screen.item.NotificationItemUi
 
 /**
  * Test for [NotificationItemUi]

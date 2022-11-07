@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.test.ui.control.anim
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
-import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.launch
 
 /**
  * Test of animation info about empty list.

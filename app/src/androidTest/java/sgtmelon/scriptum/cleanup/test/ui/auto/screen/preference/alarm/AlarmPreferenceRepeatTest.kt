@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.RepeatDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.parent.ui.ParentUiTest
 
 /**
  * Test for [AlarmPreferenceFragment] and [RepeatDialogUi].

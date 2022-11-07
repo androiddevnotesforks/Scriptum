@@ -2,10 +2,10 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank
 
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.ui.testing.model.key.Scroll
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
-import sgtmelon.scriptum.ui.testing.parent.launch
-import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
+import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.model.key.Scroll
+import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
 import sgtmelon.test.common.nextShortString
 
 /**

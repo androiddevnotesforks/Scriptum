@@ -4,10 +4,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.ui.testing.model.key.Scroll
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
-import sgtmelon.scriptum.ui.testing.parent.launch
-import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerItem
+import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.model.key.Scroll
+import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
 
 /**
  * Test add dialog for [MainActivity].

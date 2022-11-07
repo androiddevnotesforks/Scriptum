@@ -7,9 +7,9 @@ import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
-import sgtmelon.scriptum.ui.testing.model.key.Scroll
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
-import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.model.key.Scroll
 
 /**
  * Test fab for [NotesFragment].

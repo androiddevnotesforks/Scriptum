@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.ui.item.PreferenceItemUi
 import sgtmelon.scriptum.cleanup.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
-import sgtmelon.scriptum.ui.testing.parent.screen.feature.BackPress
+import sgtmelon.scriptum.parent.ui.screen.parent.feature.BackPress
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**

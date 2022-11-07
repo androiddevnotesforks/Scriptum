@@ -11,10 +11,10 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.ui.testing.model.key.NoteState
-import sgtmelon.scriptum.ui.testing.parent.screen.ContainerPart
-import sgtmelon.scriptum.ui.testing.parent.screen.RecyclerPart
-import sgtmelon.scriptum.ui.testing.screen.notifications.NotificationsScreen
+import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
+import sgtmelon.scriptum.parent.ui.screen.parent.ContainerPart
+import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick

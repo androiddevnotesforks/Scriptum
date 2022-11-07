@@ -4,9 +4,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
-import sgtmelon.scriptum.ui.testing.parent.launchAlarm
-import sgtmelon.scriptum.ui.testing.parent.launchBind
+import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.launchAlarm
+import sgtmelon.scriptum.parent.ui.launchBind
 
 /**
  * Open screens with wrong intent data, check error handling.

@@ -5,13 +5,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
-import sgtmelon.scriptum.ui.testing.parent.launch
-import sgtmelon.scriptum.ui.testing.parent.launchAlarm
-import sgtmelon.scriptum.ui.testing.parent.launchBind
-import sgtmelon.scriptum.ui.testing.parent.launchHelpDisappear
-import sgtmelon.scriptum.ui.testing.parent.launchNewNote
-import sgtmelon.scriptum.ui.testing.parent.launchNotifications
+import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.launchAlarm
+import sgtmelon.scriptum.parent.ui.launchBind
+import sgtmelon.scriptum.parent.ui.launchHelpDisappear
+import sgtmelon.scriptum.parent.ui.launchNewNote
+import sgtmelon.scriptum.parent.ui.launchNotifications
 
 /**
  * Test for [SplashActivity]

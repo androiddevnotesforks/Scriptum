@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
-import sgtmelon.scriptum.ui.testing.parent.ParentUiTest
+import sgtmelon.scriptum.parent.ui.ParentUiTest
 
 /**
  * Test of [PreferencesImpl.defaultColor] setup for [MenuPreferenceFragment]

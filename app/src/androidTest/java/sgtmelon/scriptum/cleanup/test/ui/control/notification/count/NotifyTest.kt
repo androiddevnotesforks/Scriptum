@@ -6,8 +6,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
-import sgtmelon.scriptum.ui.testing.parent.launch
-import sgtmelon.scriptum.ui.testing.parent.launchAlarm
+import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.launchAlarm
 
 /**
  * Test of info about notification in status bar

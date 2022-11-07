@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.ui.testing.parent.ParentUiRotationTest
-import sgtmelon.scriptum.ui.testing.parent.launch
+import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.launch
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 

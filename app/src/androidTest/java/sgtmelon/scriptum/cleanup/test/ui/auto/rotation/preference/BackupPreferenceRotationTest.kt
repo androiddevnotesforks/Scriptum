@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
-import sgtmelon.scriptum.ui.testing.parent.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
 
 /**
  * Test of [BackupPreferenceFragment] work with phone rotation.
