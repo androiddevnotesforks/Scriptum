@@ -59,6 +59,12 @@ abstract class ParentUiTest : ParentTest() {
         /** Turn on wi-fi. */
         uiDevice.executeShellCommand("svc wifi enable")
 
+        /**
+         * Increase long press timeout, for preventing fake espresso click performed like a
+         * long one.
+         */
+        uiDevice.executeShellCommand("settings put secure long_press_timeout 3000")
+
         /** Prepare preferences. */
         setupTheme(ThemeDisplayed.values().random())
         preferences.apply {

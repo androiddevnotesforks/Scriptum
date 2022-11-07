@@ -9,8 +9,8 @@ import sgtmelon.scriptum.R
  */
 sealed class InfoCase(
     @IdRes val iconId: Int?,
-    @StringRes val titleId: Int,
-    @StringRes val detailsId: Int
+    @StringRes val titleId: Int?,
+    @StringRes val detailsId: Int?
 ) {
 
     object Rank : InfoCase(
@@ -42,12 +42,12 @@ sealed class InfoCase(
         when {
             isEmpty -> R.string.info_roll_empty_title
             isHidden -> R.string.info_roll_hide_title
-            else -> throw IllegalArgumentException()
+            else -> null
         },
         when {
             isEmpty -> R.string.info_roll_empty_details
             isHidden -> R.string.info_roll_hide_details
-            else -> throw IllegalArgumentException()
+            else -> null
         }
     )
 }
