@@ -19,9 +19,9 @@ import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.parent.ui.feature.BackPress
-import sgtmelon.scriptum.parent.ui.model.key.InfoPartCase
+import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
-import sgtmelon.scriptum.parent.ui.parts.info.InfoPart
+import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -60,7 +60,7 @@ class RollNoteScreen(
 
     private val visibleMenuItem = getViewById(R.id.item_visible)
 
-    private fun getInfoPart(): InfoPart {
+    private fun getInfoPart(): InfoContainerPart {
         val list = when (state) {
             NoteState.READ, NoteState.BIN -> item.list
             NoteState.EDIT, NoteState.NEW -> shadowItem.list
@@ -69,7 +69,7 @@ class RollNoteScreen(
         val isListEmpty = list.size == 0
         val isListHide = !item.isVisible && list.hide().size == 0
 
-        return InfoPart(InfoPartCase.Roll(isListEmpty, isListHide))
+        return InfoContainerPart(InfoCase.Roll(isListEmpty, isListHide))
     }
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)

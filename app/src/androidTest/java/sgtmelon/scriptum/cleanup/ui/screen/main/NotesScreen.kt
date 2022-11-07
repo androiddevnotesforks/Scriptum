@@ -10,10 +10,10 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.parent.ui.model.key.InfoPartCase
+import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
-import sgtmelon.scriptum.parent.ui.parts.info.InfoPart
+import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
 import sgtmelon.test.cappuccino.utils.click
@@ -38,7 +38,7 @@ class NotesScreen(private val isHidden: Boolean) : ContainerPart(TestViewTag.NOT
 
     override val recyclerView = getView(R.id.recycler_view)
 
-    private val infoContainer = InfoPart(InfoPartCase.Notes(isHidden))
+    private val infoContainer = InfoContainerPart(InfoCase.Notes(isHidden))
 
     private fun getItem(p: Int) = NoteItemUi(recyclerView, p)
 

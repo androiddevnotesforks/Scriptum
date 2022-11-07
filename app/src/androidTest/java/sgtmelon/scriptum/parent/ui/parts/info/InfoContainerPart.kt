@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.parent.ui.parts.info
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.parent.ui.model.key.InfoPartCase
+import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.includeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -14,20 +14,20 @@ import sgtmelon.test.cappuccino.utils.withTextSize
 /**
  * Parent class for UI abstraction of info parts
  */
-class InfoPart(private val page: InfoPartCase) : UiPart() {
+class InfoContainerPart(private val case: InfoCase) : UiPart() {
 
     private val includeContainer = getView(R.id.info_include)
     private val iconImage = getView(R.id.info_image).includeParent(includeContainer)
-    private val titleText = getView(R.id.title_text, page.titleId)
-    private val detailsText = getView(R.id.details_text, page.detailsId)
+    private val titleText = getView(R.id.title_text, case.titleId)
+    private val detailsText = getView(R.id.details_text, case.detailsId)
 
     fun assert(isVisible: Boolean) {
         includeContainer.isDisplayed(isVisible)
 
-        if (page.iconId != null) {
+        if (case.iconId != null) {
             iconImage.isDisplayed(isVisible) {
                 withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
-            }.withDrawableAttr(page.iconId, R.attr.clContent)
+            }.withDrawableAttr(case.iconId, R.attr.clContent)
         } else {
             iconImage.isDisplayed(isVisible = false)
                 .withDrawable(resourceId = null)

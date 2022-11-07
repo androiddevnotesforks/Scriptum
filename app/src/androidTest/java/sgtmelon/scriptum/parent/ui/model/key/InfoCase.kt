@@ -7,37 +7,37 @@ import sgtmelon.scriptum.R
 /**
  * Class identifying pages with info.
  */
-sealed class InfoPartCase(
+sealed class InfoCase(
     @IdRes val iconId: Int?,
     @StringRes val titleId: Int,
     @StringRes val detailsId: Int
 ) {
 
-    object Rank : InfoPartCase(
+    object Rank : InfoCase(
         R.mipmap.img_info_rank,
         R.string.info_rank_empty_title,
         R.string.info_rank_empty_details
     )
 
-    class Notes(isHidden: Boolean) : InfoPartCase(
+    class Notes(isHidden: Boolean) : InfoCase(
         R.mipmap.img_info_notes,
         if (isHidden) R.string.info_notes_hide_title else R.string.info_notes_empty_title,
         if (isHidden) R.string.info_notes_hide_details else R.string.info_notes_empty_details
     )
 
-    object Bin : InfoPartCase(
+    object Bin : InfoCase(
         R.mipmap.img_info_bin,
         R.string.info_bin_empty_title,
         R.string.info_bin_empty_details
     )
 
-    object Notifications : InfoPartCase(
+    object Notifications : InfoCase(
         R.mipmap.img_info_notifications,
         R.string.info_notification_empty_title,
         R.string.info_notification_empty_details
     )
 
-    class Roll(isEmpty: Boolean, isHidden: Boolean) : InfoPartCase(
+    class Roll(isEmpty: Boolean, isHidden: Boolean) : InfoCase(
         iconId = null,
         when {
             isEmpty -> R.string.info_roll_empty_title

@@ -9,9 +9,9 @@ import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.dialog.RenameDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.RankItemUi
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.RankToolbar
-import sgtmelon.scriptum.parent.ui.model.key.InfoPartCase
+import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
-import sgtmelon.scriptum.parent.ui.parts.info.InfoPart
+import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
@@ -23,7 +23,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     //region Views
 
     private val parentContainer = getViewById(R.id.rank_parent_container)
-    private val infoContainer = InfoPart(InfoPartCase.Rank)
+    private val infoContainer = InfoContainerPart(InfoCase.Rank)
 
     fun getSnackbar(func: SnackbarPart.() -> Unit = {}): SnackbarPart {
         val message = R.string.snackbar_message_rank
