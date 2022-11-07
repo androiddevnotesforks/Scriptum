@@ -5,7 +5,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.launch
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.common.nextShortString
 
 /**
@@ -219,7 +219,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
 
-                    RecyclerItem.PREVENT_SCROLL = true
+                    RecyclerItemPart.PREVENT_SCROLL = true
                     onAssertItem(it[p], p)
                 }
             }
@@ -238,7 +238,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
 
-                    RecyclerItem.PREVENT_SCROLL = true
+                    RecyclerItemPart.PREVENT_SCROLL = true
                     onAssertItem(it[p], p)
                 }
             }

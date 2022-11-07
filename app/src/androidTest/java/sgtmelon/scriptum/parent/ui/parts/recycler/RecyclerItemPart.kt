@@ -1,8 +1,9 @@
-package sgtmelon.scriptum.parent.ui.screen.parent
+package sgtmelon.scriptum.parent.ui.parts.recycler
 
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.parent.ui.model.exception.IllegalConstructorException
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.matchers.RecyclerItemMatcher
 import sgtmelon.test.cappuccino.utils.scrollTo
 
@@ -11,7 +12,7 @@ import sgtmelon.test.cappuccino.utils.scrollTo
  *
  * [itemMatcher] or [position] must be provided.
  */
-abstract class RecyclerItem<T> protected constructor(
+abstract class RecyclerItemPart<T> protected constructor(
     private val listMatcher: Matcher<View>,
     private val itemMatcher: Matcher<View>?,
     private val position: Int?
@@ -36,7 +37,7 @@ abstract class RecyclerItem<T> protected constructor(
 
     abstract fun assert(item: T)
 
-    private fun scrollToItem(): RecyclerItem<T> = apply {
+    private fun scrollToItem(): RecyclerItemPart<T> = apply {
         itemMatcher?.let { listMatcher.scrollTo(it) }
             ?: position?.let { listMatcher.scrollTo(it) }
             ?: throw IllegalConstructorException()

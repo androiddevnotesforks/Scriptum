@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.ui
 
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
-import sgtmelon.scriptum.parent.ui.screen.parent.feature.BackPress
+import sgtmelon.scriptum.parent.ui.feature.BackPress
 
 /**
  * Interface need use in dialog classes

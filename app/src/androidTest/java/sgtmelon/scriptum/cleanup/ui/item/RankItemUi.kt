@@ -6,7 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
-import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription
@@ -20,7 +20,7 @@ import sgtmelon.test.cappuccino.utils.withText
 class RankItemUi(
     listMatcher: Matcher<View>,
     position: Int
-) : RecyclerItem<RankItem>(listMatcher, position) {
+) : RecyclerItemPart<RankItem>(listMatcher, position) {
 
     private val parentCard by lazy { getChild(getView(R.id.parent_card)) }
 

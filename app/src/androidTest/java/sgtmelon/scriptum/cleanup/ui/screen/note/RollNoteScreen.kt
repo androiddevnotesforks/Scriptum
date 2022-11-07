@@ -19,8 +19,8 @@ import sgtmelon.scriptum.cleanup.ui.part.info.RollNoteInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
+import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
-import sgtmelon.scriptum.parent.ui.screen.parent.feature.BackPress
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed

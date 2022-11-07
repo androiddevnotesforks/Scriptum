@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.launch
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 
 /**
  * Test add dialog for [MainActivity].
@@ -19,7 +19,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen { onScroll(Scroll.END) }.onScrollTop()
-                RecyclerItem.PREVENT_SCROLL = true
+                RecyclerItemPart.PREVENT_SCROLL = true
                 rankScreen { onAssertItem(it.first(), p = 0) }
             }
         }
@@ -29,7 +29,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen { onScroll(Scroll.END) }.onScrollTop()
-                RecyclerItem.PREVENT_SCROLL = true
+                RecyclerItemPart.PREVENT_SCROLL = true
                 notesScreen { onAssertItem(it.first(), p = 0) }
             }
         }
@@ -39,7 +39,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 binScreen { onScroll(Scroll.END) }.onScrollTop()
-                RecyclerItem.PREVENT_SCROLL = true
+                RecyclerItemPart.PREVENT_SCROLL = true
                 binScreen { onAssertItem(it.first(), p = 0) }
             }
         }

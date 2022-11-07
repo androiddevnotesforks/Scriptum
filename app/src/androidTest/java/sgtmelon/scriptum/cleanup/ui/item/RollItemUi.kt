@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
-import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
@@ -25,7 +25,7 @@ class RollItemUi(
     listMatcher: Matcher<View>,
     p: Int,
     private val state: NoteState
-) : RecyclerItem<RollItem>(listMatcher, p) {
+) : RecyclerItemPart<RollItem>(listMatcher, p) {
 
     private val parentCard by lazy {
         getChild(

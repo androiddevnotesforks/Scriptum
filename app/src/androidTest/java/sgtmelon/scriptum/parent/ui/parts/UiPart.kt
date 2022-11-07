@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.screen.parent
+package sgtmelon.scriptum.parent.ui.parts
 
 import android.view.View
 import androidx.annotation.IdRes

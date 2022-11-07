@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.screen.parent.toolbar
+package sgtmelon.scriptum.parent.ui.parts.toolbar
 
 import android.view.View
 import android.widget.ImageButton
@@ -10,7 +10,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.anyOf
-import sgtmelon.scriptum.parent.ui.screen.parent.UiPart
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**

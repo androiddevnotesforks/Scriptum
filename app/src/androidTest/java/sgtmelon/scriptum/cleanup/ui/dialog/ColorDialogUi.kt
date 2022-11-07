@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.getCount
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -109,7 +109,7 @@ class ColorDialogUi(
     private class Item(
         listMatcher: Matcher<View>,
         p: Int
-    ) : RecyclerItem<ColorItem>(listMatcher, p) {
+    ) : RecyclerItemPart<ColorItem>(listMatcher, p) {
 
         private val parentContainer by lazy { getChild(getView(R.id.parent_container)) }
         private val backgroundView by lazy { getChild(getView(R.id.background_view)) }

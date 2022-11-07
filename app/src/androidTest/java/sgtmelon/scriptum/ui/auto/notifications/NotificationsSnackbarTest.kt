@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivi
 import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.launch
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 
 /**
  * Test for SnackBar in [NotificationsActivity].
@@ -184,7 +184,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
 
                         assertSnackbarDismiss()
 
-                        RecyclerItem.PREVENT_SCROLL = true
+                        RecyclerItemPart.PREVENT_SCROLL = true
                         assertItem(p, list[p])
                     }
                 }
@@ -206,7 +206,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
 
                         assertSnackbarDismiss()
 
-                        RecyclerItem.PREVENT_SCROLL = true
+                        RecyclerItemPart.PREVENT_SCROLL = true
                         assertItem(p, list[p])
                     }
                 }

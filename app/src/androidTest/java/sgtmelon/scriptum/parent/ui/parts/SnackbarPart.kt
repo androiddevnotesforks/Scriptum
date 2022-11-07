@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.part.panel
+package sgtmelon.scriptum.parent.ui.parts
 
 import android.view.View
 import androidx.annotation.StringRes
@@ -8,19 +8,19 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
 import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
  * Part of UI abstraction for [Snackbar].
  */
-class SnackbarPanel(
+class SnackbarPart(
     @StringRes private val messageId: Int,
     @StringRes private val actionId: Int
-) : ParentScreen() {
+) : UiPart() {
 
     private val parentContainer: Matcher<View> =
         allOf(instanceOf(Snackbar.SnackbarLayout::class.java))
@@ -32,15 +32,9 @@ class SnackbarPanel(
         actionButton.click()
     }
 
-    // TODO add assertion for background (i try but nothing happened)
     fun assert() {
-        parentContainer.isDisplayed()
-        //                .withBackground(when (theme) {
-        //                    Theme.LIGHT -> R.drawable.bg_snackbar_light
-        //                    Theme.DARK -> R.drawable.bg_snackbar_dark
-        //                    else -> throw NullPointerException()
-        //                })
-
+        // TODO check background drawable assertion
+        parentContainer.isDisplayed().withBackgroundDrawable(R.drawable.bg_snackbar)
         messageText.isDisplayed().withTextColor(R.attr.clContent)
         actionButton.isDisplayed().withTextColor(R.attr.clAccent)
     }
@@ -66,10 +60,10 @@ class SnackbarPanel(
         inline operator fun invoke(
             @StringRes messageId: Int,
             @StringRes actionId: Int,
-            func: SnackbarPanel.() -> Unit
-        ): SnackbarPanel {
-            waitBefore(UPDATE_TIME)
-            return SnackbarPanel(messageId, actionId).apply(func)
+            func: SnackbarPart.() -> Unit
+        ): SnackbarPart {
+            await(UPDATE_TIME)
+            return SnackbarPart(messageId, actionId).apply(func)
         }
     }
 }

@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.includeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
@@ -28,7 +28,7 @@ import sgtmelon.test.cappuccino.utils.withText
 class NoteItemUi(
     listMatcher: Matcher<View>,
     p: Int
-) : RecyclerItem<NoteItem>(listMatcher, p) {
+) : RecyclerItemPart<NoteItem>(listMatcher, p) {
 
     override fun assert(item: NoteItem) = when (item) {
         is NoteItem.Text -> Text().assert(item)

@@ -10,8 +10,8 @@ import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.dialog.RenameDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.RankItemUi
 import sgtmelon.scriptum.cleanup.ui.part.info.SimpleInfoContainer
-import sgtmelon.scriptum.cleanup.ui.part.panel.SnackbarPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.RankToolbar
+import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
@@ -25,11 +25,11 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     private val parentContainer = getViewById(R.id.rank_parent_container)
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.RANK)
 
-    fun getSnackbar(func: SnackbarPanel.() -> Unit = {}): SnackbarPanel {
+    fun getSnackbar(func: SnackbarPart.() -> Unit = {}): SnackbarPart {
         val message = R.string.snackbar_message_rank
         val action = R.string.snackbar_action_cancel
 
-        return SnackbarPanel(message, action, func)
+        return SnackbarPart(message, action, func)
     }
 
     private fun getItem(p: Int) = RankItemUi(recyclerView, p)

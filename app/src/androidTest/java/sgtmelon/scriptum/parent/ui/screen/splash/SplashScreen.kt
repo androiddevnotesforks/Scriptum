@@ -8,8 +8,8 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpDisappearScreen
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
-import sgtmelon.scriptum.parent.ui.screen.parent.UiPart
 
 /**
  * Class for control Intent launches inside [SplashActivity].

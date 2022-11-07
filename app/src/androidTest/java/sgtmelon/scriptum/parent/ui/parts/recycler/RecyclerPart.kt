@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.screen.parent
+package sgtmelon.scriptum.parent.ui.parts.recycler
 
 import android.view.View
 import org.hamcrest.Matcher

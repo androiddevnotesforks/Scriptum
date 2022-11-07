@@ -5,7 +5,7 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.parent.ui.screen.parent.RecyclerItem
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -18,7 +18,7 @@ import sgtmelon.test.cappuccino.utils.withText
 class PreferenceItemUi(
     listMatcher: Matcher<View>,
     p: Int
-) : RecyclerItem<PreferenceItem>(listMatcher, p) {
+) : RecyclerItemPart<PreferenceItem>(listMatcher, p) {
 
     override fun assert(item: PreferenceItem) = when (item) {
         is PreferenceItem.Header -> Header().assert(item)

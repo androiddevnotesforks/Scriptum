@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.screen.parent.toolbar
+package sgtmelon.scriptum.parent.ui.parts.toolbar
 
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers.withChild
@@ -12,7 +12,7 @@ import sgtmelon.iconanim.R as animR
 /**
  * UI abstraction of toolbars with button and title.
  */
-class TitleToolbar(
+class TitleToolbarPart(
     @StringRes titleId: Int,
     private val withBack: Boolean = true
 ) : ToolbarPart() {
