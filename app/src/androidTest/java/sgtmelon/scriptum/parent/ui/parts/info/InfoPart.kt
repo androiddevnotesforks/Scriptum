@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.parent.ui.parts.info
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.testData.InfoPage
+import sgtmelon.scriptum.parent.ui.model.key.InfoPartCase
 import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.includeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -14,7 +14,7 @@ import sgtmelon.test.cappuccino.utils.withTextSize
 /**
  * Parent class for UI abstraction of info parts
  */
-class InfoPart(private val page: InfoPage) : UiPart() {
+class InfoPart(private val page: InfoPartCase) : UiPart() {
 
     private val includeContainer = getView(R.id.info_include)
     private val iconImage = getView(R.id.info_image).includeParent(includeContainer)

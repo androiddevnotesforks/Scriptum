@@ -2,7 +2,6 @@ package sgtmelon.scriptum.parent.ui.screen.notifications
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.testData.InfoPage
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
@@ -10,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivi
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
+import sgtmelon.scriptum.parent.ui.model.key.InfoPartCase
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
@@ -35,7 +35,7 @@ class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
 
     override val recyclerView = getView(R.id.recycler_view)
 
-    private val infoContainer = InfoPart(InfoPage.Notifications)
+    private val infoContainer = InfoPart(InfoPartCase.Notifications)
 
     inline fun getSnackbar(func: SnackbarPart.() -> Unit = {}): SnackbarPart {
         val message = R.string.snackbar_message_notification

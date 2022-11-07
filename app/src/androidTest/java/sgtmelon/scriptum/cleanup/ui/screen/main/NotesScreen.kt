@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.testData.InfoPage
 import sgtmelon.scriptum.cleanup.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
@@ -11,6 +10,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.parent.ui.model.key.InfoPartCase
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.info.InfoPart
@@ -38,7 +38,7 @@ class NotesScreen(private val isHidden: Boolean) : ContainerPart(TestViewTag.NOT
 
     override val recyclerView = getView(R.id.recycler_view)
 
-    private val infoContainer = InfoPart(InfoPage.Notes(isHidden))
+    private val infoContainer = InfoPart(InfoPartCase.Notes(isHidden))
 
     private fun getItem(p: Int) = NoteItemUi(recyclerView, p)
 
