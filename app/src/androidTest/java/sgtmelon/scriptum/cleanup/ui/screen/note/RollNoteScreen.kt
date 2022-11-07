@@ -12,15 +12,16 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
+import sgtmelon.scriptum.cleanup.testData.InfoPage
 import sgtmelon.scriptum.cleanup.ui.IKeyboardClose
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.RollItemUi
-import sgtmelon.scriptum.cleanup.ui.part.info.RollNoteInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.info.InfoPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -59,7 +60,7 @@ class RollNoteScreen(
 
     private val visibleMenuItem = getViewById(R.id.item_visible)
 
-    private fun getInfoContainer(): RollNoteInfoContainer {
+    private fun getInfoPart(): InfoPart {
         val list = when (state) {
             NoteState.READ, NoteState.BIN -> item.list
             NoteState.EDIT, NoteState.NEW -> shadowItem.list
@@ -68,7 +69,7 @@ class RollNoteScreen(
         val isListEmpty = list.size == 0
         val isListHide = !item.isVisible && list.hide().size == 0
 
-        return RollNoteInfoContainer(isListEmpty, isListHide)
+        return InfoPart(InfoPage.Roll(isListEmpty, isListHide))
     }
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
@@ -236,7 +237,7 @@ class RollNoteScreen(
 
         fragmentContainer.isDisplayed()
 
-        getInfoContainer().assert(
+        getInfoPart().assert(
             when (state) {
                 NoteState.READ, NoteState.BIN -> item.list
                 NoteState.EDIT, NoteState.NEW -> shadowItem.list

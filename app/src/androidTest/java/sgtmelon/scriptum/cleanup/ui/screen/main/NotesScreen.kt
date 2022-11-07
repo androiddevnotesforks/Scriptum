@@ -2,9 +2,9 @@ package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.testData.InfoPage
 import sgtmelon.scriptum.cleanup.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
-import sgtmelon.scriptum.cleanup.ui.part.info.NotesInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
@@ -13,6 +13,7 @@ import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
+import sgtmelon.scriptum.parent.ui.parts.info.InfoPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
 import sgtmelon.test.cappuccino.utils.click
@@ -24,9 +25,9 @@ import sgtmelon.test.cappuccino.utils.withMenuTitle
 /**
  * Class for UI control of [NotesFragment].
  *
- * [isHide] - have hide notes or not.
+ * [isHidden] - have hide notes or not.
  */
-class NotesScreen(private val isHide: Boolean) : ContainerPart(TestViewTag.NOTES),
+class NotesScreen(private val isHidden: Boolean) : ContainerPart(TestViewTag.NOTES),
     RecyclerPart {
 
     //region Views
@@ -37,7 +38,7 @@ class NotesScreen(private val isHide: Boolean) : ContainerPart(TestViewTag.NOTES
 
     override val recyclerView = getView(R.id.recycler_view)
 
-    private val infoContainer = NotesInfoContainer(isHide)
+    private val infoContainer = InfoPart(InfoPage.Notes(isHidden))
 
     private fun getItem(p: Int) = NoteItemUi(recyclerView, p)
 

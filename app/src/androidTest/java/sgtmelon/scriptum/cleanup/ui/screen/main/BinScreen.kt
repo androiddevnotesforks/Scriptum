@@ -2,17 +2,17 @@ package sgtmelon.scriptum.cleanup.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.testData.SimpleInfoPage
+import sgtmelon.scriptum.cleanup.testData.InfoPage
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
-import sgtmelon.scriptum.cleanup.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.info.InfoPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.longClick
@@ -31,7 +31,7 @@ class BinScreen : ParentRecyclerScreen(R.id.recycler_view) {
     private val toolbar = SimpleToolbar(R.string.title_bin, withBack = false)
     private val clearMenuItem = getViewById(R.id.item_clear)
 
-    private val infoContainer = SimpleInfoContainer(SimpleInfoPage.BIN)
+    private val infoContainer = InfoPart(InfoPage.Bin)
 
     private fun getItem(p: Int) = NoteItemUi(recyclerView, p)
 
