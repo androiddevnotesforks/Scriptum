@@ -12,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
-abstract class ParentActivity<T : ViewDataBinding> : AppCompatActivity(),
+abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
     DialogOwner {
 
     @get:LayoutRes

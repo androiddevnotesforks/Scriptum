@@ -7,7 +7,7 @@ import androidx.databinding.ViewDataBinding
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentActivity
+import sgtmelon.scriptum.infrastructure.screen.parent.BindingActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.Background
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.NavDivider
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys.St
 /**
  * Parent activity class, which work with application theming and system bars.
  */
-abstract class ThemeActivity<T : ViewDataBinding> : ParentActivity<T>(),
+abstract class ThemeActivity<T : ViewDataBinding> : BindingActivity<T>(),
     ThemeChangeCallback {
 
     @Inject lateinit var themeViewModel: ThemeViewModel

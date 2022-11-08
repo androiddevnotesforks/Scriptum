@@ -15,9 +15,9 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.utils.inflateBinding
 
 /**
- * Parent class for fragments.
+ * Parent class for fragments with [ViewDataBinding].
  */
-abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
+abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
     DialogOwner {
 
     @get:LayoutRes
@@ -32,7 +32,7 @@ abstract class ParentFragment<T : ViewDataBinding> : Fragment(),
     protected val delegators get() = _delegators
 
     protected val open: OpenState = OpenState(lifecycle)
-    protected val parentOpen: OpenState? get() = (activity as? ParentActivity<*>)?.open
+    protected val parentOpen: OpenState? get() = (activity as? BindingActivity<*>)?.open
 
     override fun onCreateView(
         inflater: LayoutInflater,

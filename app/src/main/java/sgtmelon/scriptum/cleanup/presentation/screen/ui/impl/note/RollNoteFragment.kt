@@ -54,7 +54,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.addIdlingListener
@@ -63,7 +63,7 @@ import sgtmelon.test.idling.getIdling
 /**
  * Fragment for display roll note.
  */
-class RollNoteFragment : ParentFragment<FragmentRollNoteBinding>(),
+class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     IRollNoteFragment,
     Toolbar.OnMenuItemClickListener,
     UnbindNoteReceiver.Callback,

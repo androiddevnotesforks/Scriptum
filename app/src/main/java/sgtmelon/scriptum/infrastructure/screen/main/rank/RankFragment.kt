@@ -28,7 +28,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.isGone
@@ -47,7 +47,7 @@ import sgtmelon.test.idling.getIdling
  */
 // TODO restore snackbar after returning to this page (test case: click cance -> open notes page -> open rank page -> check snackbar is visible)
 // TODO restore snackbar after app reopen (свернул-открыл)
-class RankFragment : ParentFragment<FragmentRankBinding>(),
+class RankFragment : BindingFragment<FragmentRankBinding>(),
     IRankFragment,
     ScrollTopCallback,
     SnackbarDelegator.Callback {
