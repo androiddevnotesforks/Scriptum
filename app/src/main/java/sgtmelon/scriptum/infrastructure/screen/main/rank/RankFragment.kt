@@ -56,7 +56,7 @@ class RankFragment : ParentFragment<FragmentRankBinding>(),
 
     //region Variables
 
-    @Inject lateinit var viewModel: IRankViewModel
+    @Inject lateinit var viewModel: RankViewModel
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 /**
  * Interface for communication [IRankFragment] with [RankViewModelImpl].
  */
-interface IRankViewModel : IParentViewModel,
+interface RankViewModel : IParentViewModel,
     UnbindNoteReceiver.Callback,
     RankTouchControl.Callback {
 

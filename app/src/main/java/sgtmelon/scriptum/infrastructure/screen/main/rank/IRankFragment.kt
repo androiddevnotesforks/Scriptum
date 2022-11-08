@@ -5,7 +5,7 @@ import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 
 /**
- * Interface for communication [IRankViewModel] with [RankFragment].
+ * Interface for communication [RankViewModel] with [RankFragment].
  */
 interface IRankFragment : SystemReceiver.Bridge.Bind {
 

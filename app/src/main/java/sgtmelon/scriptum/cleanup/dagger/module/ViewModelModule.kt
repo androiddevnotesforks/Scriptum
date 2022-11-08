@@ -71,8 +71,8 @@ import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.rank.IRankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
@@ -120,7 +120,7 @@ class ViewModelModule {
         deleteRank: DeleteRankUseCase,
         updateRank: UpdateRankUseCase,
         correctPositions: CorrectPositionsUseCase
-    ): IRankViewModel {
+    ): RankViewModel {
         val factory = ViewModelFactory.MainScreen.Rank(
             fragment, interactor, getList, insertRank, deleteRank, updateRank, correctPositions
         )

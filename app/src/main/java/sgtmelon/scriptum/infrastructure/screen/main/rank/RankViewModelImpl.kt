@@ -36,7 +36,7 @@ class RankViewModelImpl(
     private val updateRank: UpdateRankUseCase,
     private val correctPositions: CorrectPositionsUseCase
 ) : ParentViewModel<IRankFragment>(callback),
-    IRankViewModel {
+    RankViewModel {
 
     @RunPrivate val itemList: MutableList<RankItem> = mutableListOf()
     @RunPrivate val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()

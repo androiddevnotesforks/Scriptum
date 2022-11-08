@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.domain.interactor.callback.main
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.RankInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.infrastructure.screen.main.rank.IRankViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 
 /**
- * Interface for communication [IRankViewModel] with [RankInteractor].
+ * Interface for communication [RankViewModel] with [RankInteractor].
  */
 interface IRankInteractor : IParentInteractor {
 

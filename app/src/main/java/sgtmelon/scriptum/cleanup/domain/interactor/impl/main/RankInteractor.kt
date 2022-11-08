@@ -4,10 +4,10 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.infrastructure.screen.main.rank.IRankViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 
 /**
- * Interactor for [IRankViewModel].
+ * Interactor for [RankViewModel].
  */
 class RankInteractor(private val rankRepo: RankRepo) : ParentInteractor(),
     IRankInteractor {
