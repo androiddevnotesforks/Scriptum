@@ -74,8 +74,8 @@ class NotificationsSnackbarTest : ParentUiTest() {
         assertSnackbarDismiss()
 
         when (val item = it[p]) {
-            is NoteItem.Text -> openText(item) { clickClose() }
-            is NoteItem.Roll -> openRoll(item) { clickClose() }
+            is NoteItem.Text -> openText(item, p) { clickClose() }
+            is NoteItem.Roll -> openRoll(item, p) { clickClose() }
         }
 
         assertSnackbarDismiss()
@@ -116,14 +116,16 @@ class NotificationsSnackbarTest : ParentUiTest() {
 
                 getSnackbar { assert() }
 
-                when (val it = list[0]) {
+                /** Position = 1, because item removed from screen list. */
+                when (val it = list[1]) {
                     is NoteItem.Text -> openText(it, p = 0) { clickClose() }
                     is NoteItem.Roll -> openRoll(it, p = 0) { clickClose() }
                 }
 
                 getSnackbar { assert() }
 
-                when (val it = list[0]) {
+                /** Position = 1, because item removed from screen list. */
+                when (val it = list[1]) {
                     is NoteItem.Text -> openText(it, p = 0) {
                         await(time = SnackbarPart.DISMISS_TIME * 2)
                         clickClose()

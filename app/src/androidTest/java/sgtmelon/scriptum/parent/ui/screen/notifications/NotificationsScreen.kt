@@ -97,7 +97,7 @@ class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
             assertItem(p, item)
 
             if (withWait) {
-                await(time = 500)
+                await(time = 250)
             }
         }
     }

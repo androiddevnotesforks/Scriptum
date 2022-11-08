@@ -62,7 +62,7 @@ abstract class ParentUiTest : ParentTest() {
          * Increase long press timeout, for preventing fake espresso click performed like a
          * long one.
          */
-        uiDevice.executeShellCommand("settings put secure long_press_timeout 3000")
+        uiDevice.executeShellCommand("settings put secure long_press_timeout 2000")
 
         /** Prepare preferences. */
         setupTheme(ThemeDisplayed.values().random())

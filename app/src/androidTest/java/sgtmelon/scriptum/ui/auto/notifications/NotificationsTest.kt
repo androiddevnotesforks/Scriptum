@@ -41,7 +41,6 @@ class NotificationsTest : ParentUiTest() {
         assert(isEmpty = true)
     }
 
-    // TODO что-то не так в тёмной теме и диалоге установки уведомления в заметке
     @Test fun itemCancelOnNoteDelete() = db.insertNotification().let {
         launch {
             mainScreen {
