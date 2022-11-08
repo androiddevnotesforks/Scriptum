@@ -11,6 +11,8 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.screen.item.NotificationItemUi
+import sgtmelon.scriptum.ui.auto.NEXT_HOUR
+import sgtmelon.scriptum.ui.auto.nextArray
 import sgtmelon.scriptum.ui.auto.startNotificationsTest
 
 /**
@@ -18,8 +20,6 @@ import sgtmelon.scriptum.ui.auto.startNotificationsTest
  */
 @RunWith(AndroidJUnit4::class)
 class NotificationsCardTest : ParentUiTest() {
-
-    private val nextArray = arrayOf(NEXT_HOUR, NEXT_DAY, NEXT_WEEK, NEXT_MONTH, NEXT_YEAR)
 
     @Test fun timeFormatting() = startListTest(List(nextArray.size) {
         db.insertNotification(date = getClearCalendar(nextArray[it]).toText())
