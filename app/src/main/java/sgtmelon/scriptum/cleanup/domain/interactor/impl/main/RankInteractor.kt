@@ -4,7 +4,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.rank.IRankViewModel
 
 /**
  * Interactor for [IRankViewModel].

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
+package sgtmelon.scriptum.infrastructure.screen.main.rank
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
@@ -13,8 +13,6 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
@@ -38,7 +36,7 @@ class RankViewModel(
     private val updateRank: UpdateRankUseCase,
     private val correctPositions: CorrectPositionsUseCase
 ) : ParentViewModel<IRankFragment>(callback),
-        IRankViewModel {
+    IRankViewModel {
 
     @RunPrivate val itemList: MutableList<RankItem> = mutableListOf()
     @RunPrivate val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()

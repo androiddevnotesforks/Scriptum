@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
 import sgtmelon.scriptum.parent.ui.launch
 import sgtmelon.test.common.isDivideEntirely

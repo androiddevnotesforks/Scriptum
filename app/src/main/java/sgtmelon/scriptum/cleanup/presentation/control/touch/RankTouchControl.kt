@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.control.touch
 
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 
 /**
  * Control drag for [RankFragment], setup in [RankViewModel]
