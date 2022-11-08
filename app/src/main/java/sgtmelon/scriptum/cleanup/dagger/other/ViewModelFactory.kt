@@ -58,7 +58,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
-import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
@@ -110,8 +110,8 @@ object ViewModelFactory {
             private val correctPositions: CorrectPositionsUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(RankViewModel::class) {
-                    RankViewModel(
+                return modelClass.create(RankViewModelImpl::class) {
+                    RankViewModelImpl(
                         fragment, interactor, getList, insertRank, deleteRank, updateRank,
                         correctPositions
                     )

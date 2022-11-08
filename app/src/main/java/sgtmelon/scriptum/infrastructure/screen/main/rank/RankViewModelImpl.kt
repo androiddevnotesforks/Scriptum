@@ -27,7 +27,7 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * ViewModel for [IRankFragment].
  */
-class RankViewModel(
+class RankViewModelImpl(
     callback: IRankFragment,
     private val interactor: IRankInteractor,
     private val getList: GetRankListUseCase,

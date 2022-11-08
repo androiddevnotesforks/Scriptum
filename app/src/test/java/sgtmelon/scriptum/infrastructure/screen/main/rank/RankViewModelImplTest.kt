@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
+package sgtmelon.scriptum.infrastructure.screen.main.rank
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
@@ -40,17 +40,15 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
-import sgtmelon.scriptum.infrastructure.screen.main.rank.IRankFragment
-import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [RankViewModel].
+ * Test for [RankViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class RankViewModelTest : ParentViewModelTest() {
+class RankViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -67,7 +65,7 @@ class RankViewModelTest : ParentViewModelTest() {
     @MockK lateinit var openState: OpenState
 
     private val viewModel by lazy {
-        RankViewModel(
+        RankViewModelImpl(
             callback, interactor, getList, insertRank, deleteRank, updateRank, correctPositions
         )
     }

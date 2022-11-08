@@ -4,10 +4,10 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
-import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 
 /**
- * Control drag for [RankFragment], setup in [RankViewModel]
+ * Control drag for [RankFragment], setup in [RankViewModelImpl]
  */
 class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
     ItemDragListener {

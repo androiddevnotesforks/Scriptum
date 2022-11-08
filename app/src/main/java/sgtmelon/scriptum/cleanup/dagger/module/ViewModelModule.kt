@@ -73,7 +73,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.IRankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
-import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
+import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
@@ -124,7 +124,7 @@ class ViewModelModule {
         val factory = ViewModelFactory.MainScreen.Rank(
             fragment, interactor, getList, insertRank, deleteRank, updateRank, correctPositions
         )
-        return ViewModelProvider(fragment, factory)[RankViewModel::class.java]
+        return ViewModelProvider(fragment, factory)[RankViewModelImpl::class.java]
     }
 
     @Provides
