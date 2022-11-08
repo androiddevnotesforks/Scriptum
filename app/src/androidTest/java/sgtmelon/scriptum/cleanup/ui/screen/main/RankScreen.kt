@@ -18,11 +18,11 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
 /**
  * Class for UI control of [RankFragment].
  */
-class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
+class RankScreen : ParentRecyclerScreen(R.id.recycler_view) {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.rank_parent_container)
+    private val parentContainer = getViewById(R.id.parent_container)
     private val infoContainer = InfoContainerPart(InfoCase.Rank)
 
     fun getSnackbar(func: SnackbarPart.() -> Unit = {}): SnackbarPart {

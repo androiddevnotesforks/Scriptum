@@ -14,7 +14,7 @@
     <com.google.android.material.appbar.AppBarLayout style="@style/Toolbar.Fix">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_rank_container"
+            android:id="@+id/toolbar"
             style="?attr/styleToolbar"
             app:contentInsetEnd="@dimen/layout_8dp"
             app:contentInsetStart="@dimen/layout_8dp"
@@ -22,7 +22,7 @@
 
             <!-- focusable/InTouchMode для отведения фокуса от EditText при скрытии клавиатуры -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/toolbar_rank_card"
+                android:id="@+id/enter_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageButton
-                        android:id="@+id/toolbar_rank_clear_button"
+                        android:id="@+id/clear_button"
                         style="@style/Button.Small"
                         android:contentDescription="@string/description_enter_rank_clear"
                         app:boolExpression='@{isClearEnable}'
@@ -48,7 +48,7 @@
                         tools:tint="?attr/clDisable"/>
 
                     <EditText
-                        android:id="@+id/toolbar_rank_enter"
+                        android:id="@+id/rank_enter"
                         style="@style/EditText.SingleRow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                         tools:targetApi="o"/>
 
                     <ImageButton
-                        android:id="@+id/toolbar_rank_add_button"
+                        android:id="@+id/add_button"
                         style="@style/Button.Small"
                         android:contentDescription="@string/description_enter_rank_add"
                         app:boolExpression='@{isAddEnable}'

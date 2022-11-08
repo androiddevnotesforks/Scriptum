@@ -29,12 +29,12 @@ class RankToolbar : ParentScreen(), IKeyboardOption {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.toolbar_rank_container)
-    private val parentCard = getViewById(R.id.toolbar_rank_card)
+    private val parentContainer = getViewById(R.id.toolbar)
+    private val parentCard = getViewById(R.id.enter_card)
 
-    private val nameEnter = getViewById(R.id.toolbar_rank_enter)
-    private val clearButton = getViewById(R.id.toolbar_rank_clear_button)
-    private val addButton = getViewById(R.id.toolbar_rank_add_button)
+    private val nameEnter = getViewById(R.id.rank_enter)
+    private val clearButton = getViewById(R.id.clear_button)
+    private val addButton = getViewById(R.id.add_button)
 
     //endregion
 

@@ -3,10 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.main.rank
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -95,18 +91,19 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         R.string.snackbar_message_rank, R.string.snackbar_action_cancel, callback = this
     )
 
-    val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
+    val enterCard: View? get() = binding?.toolbarInclude?.enterCard
+    //    val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
 
-    /**
-     * Setup manually because after rotation lazy function will return null.
-     */
-    private var nameEnter: EditText? = null
-    private var parentContainer: ViewGroup? = null
-    private var recyclerContainer: ViewGroup? = null
+    //    /**
+    //     * Setup manually because after rotation lazy function will return null.
+    //     */
+    //    private var nameEnter: EditText? = null
+    //    private var parentContainer: ViewGroup? = null
+    //    private var recyclerContainer: ViewGroup? = null
 
-    private var emptyInfoView: View? = null
-    private var progressBar: View? = null
-    private var recyclerView: RecyclerView? = null
+    //    private var emptyInfoView: View? = null
+    //    private var progressBar: View? = null
+    //    private var recyclerView: RecyclerView? = null
 
     //endregion
 
@@ -187,15 +184,11 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
      * Reset of [OpenState.isBlocked] happen inside [scrollToItem].
      */
     override fun setupToolbar() {
-        view?.findViewById<Toolbar>(R.id.toolbar_rank_container)?.apply {
-            title = getString(R.string.title_rank)
+        binding?.toolbarInclude?.toolbar?.title = getString(R.string.title_rank)
+        binding?.toolbarInclude?.clearButton?.setOnClickListener {
+            viewModel.onClickEnterCancel()
         }
-
-        view?.findViewById<ImageButton>(R.id.toolbar_rank_clear_button)?.apply {
-            setOnClickListener { viewModel.onClickEnterCancel() }
-        }
-
-        view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
+        binding?.toolbarInclude?.addButton?.apply {
             setOnClickListener {
                 parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
             }
@@ -204,9 +197,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
                 return@setOnLongClickListener true
             }
         }
-
-        nameEnter = view?.findViewById(R.id.toolbar_rank_enter)
-        nameEnter?.apply {
+        binding?.toolbarInclude?.rankEnter?.apply {
             doOnTextChanged { _, _, _, _ -> viewModel.onUpdateToolbar() }
             setOnEditorActionListener { _, i, _ ->
                 val result = parentOpen?.returnAttempt { viewModel.onEditorClick(i) } ?: false
@@ -219,16 +210,36 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
                 return@setOnEditorActionListener result
             }
         }
+
+        //        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
+        //            title = getString(R.string.title_rank)
+        //        }
+
+        //        view?.findViewById<ImageButton>(R.id.clear_button)?.apply {
+        //            setOnClickListener { viewModel.onClickEnterCancel() }
+        //        }
+
+        //        view?.findViewById<ImageButton>(R.id.add_button)?.apply {
+        //            setOnClickListener {
+        //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
+        //            }
+        //            setOnLongClickListener {
+        //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
+        //                return@setOnLongClickListener true
+        //            }
+        //        }
+
+        //        nameEnter = view?.findViewById(R.id.rank_enter)
     }
 
     override fun setupRecycler() {
-        parentContainer = view?.findViewById(R.id.rank_parent_container)
-        recyclerContainer = view?.findViewById(R.id.rank_recycler_container)
-        emptyInfoView = view?.findViewById(R.id.info_include)
-        progressBar = view?.findViewById(R.id.rank_progress)
+        //        parentContainer = view?.findViewById(R.id.parent_container)
+        //        recyclerContainer = view?.findViewById(R.id.recycler_container)
+        //        emptyInfoView = view?.findViewById(R.id.info_include)
+        //        progressBar = view?.findViewById(R.id.progress_bar)
 
-        recyclerView = view?.findViewById(R.id.rank_recycler)
-        recyclerView?.let {
+        //        recyclerView = view?.findViewById(R.id.recycler_view)
+        binding?.recyclerView?.let {
             it.setDefaultAnimator(supportsChangeAnimations = false) {
                 viewModel.onItemAnimationFinished()
             }
@@ -239,7 +250,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             it.adapter = adapter
         }
 
-        ItemTouchHelper(touchControl).attachToRecyclerView(recyclerView)
+        ItemTouchHelper(touchControl).attachToRecyclerView(binding?.recyclerView)
     }
 
     override fun setupDialog() {
@@ -254,43 +265,47 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
      * For first time [recyclerView] visibility flag set inside xml file.
      */
     override fun prepareForLoad() {
-        emptyInfoView?.makeGone()
-        progressBar?.makeGone()
+        binding?.infoInclude?.parentContainer?.makeGone()
+        binding?.progressBar?.makeGone()
     }
 
     override fun showProgress() {
-        progressBar?.makeVisible()
+        binding?.progressBar?.makeVisible()
     }
 
     override fun hideEmptyInfo() {
-        emptyInfoView?.makeGone()
+        binding?.infoInclude?.parentContainer?.makeGone()
     }
 
 
     override fun onBindingList() {
-        progressBar?.makeGone()
+        binding?.progressBar?.makeGone()
 
         if (adapter.itemCount == 0) {
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
-            if (emptyInfoView.isVisible() && recyclerView.isInvisible()) return
+            if (binding?.infoInclude?.parentContainer.isVisible()
+                && binding?.recyclerView.isInvisible()
+            ) return
 
-            emptyInfoView?.makeVisible()
-            recyclerView?.makeInvisible()
+            binding?.infoInclude?.parentContainer?.makeVisible()
+            binding?.recyclerView?.makeInvisible()
 
-            emptyInfoView?.alpha = 0f
-            emptyInfoView?.animateAlpha(isVisible = true)
+            binding?.infoInclude?.parentContainer?.alpha = 0f
+            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
         } else {
             /**
              * Prevent useless calls from [RecyclerView.setDefaultAnimator].
              */
-            if (emptyInfoView.isGone() && recyclerView.isVisible()) return
+            if (binding?.infoInclude?.parentContainer.isGone()
+                && binding?.recyclerView.isVisible()
+            ) return
 
-            recyclerView?.makeVisible()
+            binding?.recyclerView?.makeVisible()
 
-            emptyInfoView?.animateAlpha(isVisible = false) {
-                emptyInfoView?.makeGone()
+            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = false) {
+                binding?.infoInclude?.parentContainer?.makeGone()
             }
         }
 
@@ -308,11 +323,11 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     }
 
     override fun scrollTop() {
-        recyclerView?.smoothScrollToPosition(0)
+        binding?.recyclerView?.smoothScrollToPosition(0)
     }
 
     override fun showSnackbar() {
-        recyclerContainer?.let { snackbar.show(it, withInsets = false) }
+        binding?.recyclerContainer?.let { snackbar.show(it, withInsets = false) }
     }
 
     override fun dismissSnackbar() = snackbar.dismiss(skipDismissResult = false)
@@ -327,11 +342,11 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
 
 
-    override fun getEnterText() = nameEnter?.text?.toString() ?: ""
+    override fun getEnterText() = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
 
     override fun clearEnter(): String {
-        val name = nameEnter?.text?.toString() ?: ""
-        nameEnter?.setText("")
+        val name = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
+        binding?.toolbarInclude?.rankEnter?.setText("")
         return name
     }
 
@@ -365,7 +380,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     // TODO finish
     override fun notifyItemInsertedScroll(list: List<RankItem>, p: Int) {
         adapter.setList(list).notifyItemInserted(p)
-        RecyclerInsertScroll(recyclerView, layoutManager).scroll(list, p)
+        RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(list, p)
     }
 
     //region Broadcast functions
