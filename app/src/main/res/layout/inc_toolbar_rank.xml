@@ -4,13 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_rank">
 
-    <data>
-        <import type="sgtmelon.scriptum.R"/>
-
-        <variable name="isClearEnable" type="boolean"/>
-        <variable name="isAddEnable" type="boolean"/>
-    </data>
-
     <com.google.android.material.appbar.AppBarLayout style="@style/Toolbar.Fix">
 
         <androidx.appcompat.widget.Toolbar
@@ -40,11 +33,7 @@
                         android:id="@+id/clear_button"
                         style="@style/Button.Small"
                         android:contentDescription="@string/description_enter_rank_clear"
-                        app:boolExpression='@{isClearEnable}'
-                        app:enabled='@{isClearEnable}'
-                        app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_cancel_enter"
-                        app:trueColor='@{R.attr.clContent}'
                         tools:tint="?attr/clDisable"/>
 
                     <EditText
@@ -65,11 +54,7 @@
                         android:id="@+id/add_button"
                         style="@style/Button.Small"
                         android:contentDescription="@string/description_enter_rank_add"
-                        app:boolExpression='@{isAddEnable}'
-                        app:enabled='@{isAddEnable}'
-                        app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_rank"
-                        app:trueColor='@{R.attr.clAccent}'
                         tools:tint="?attr/clAccent"/>
 
                 </LinearLayout>

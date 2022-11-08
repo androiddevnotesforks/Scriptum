@@ -7,17 +7,7 @@
 
         <import type="sgtmelon.scriptum.R" />
 
-        <import type="android.view.View" />
-
         <import type="sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag" />
-
-        <variable
-            name="isClearEnable"
-            type="boolean" />
-
-        <variable
-            name="isAddEnable"
-            type="boolean" />
     </data>
 
     <LinearLayout
@@ -29,9 +19,7 @@
 
         <include
             android:id="@+id/toolbar_include"
-            layout="@layout/inc_toolbar_rank"
-            app:isAddEnable='@{isAddEnable}'
-            app:isClearEnable='@{isClearEnable}' />
+            layout="@layout/inc_toolbar_rank" />
 
         <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound. -->
         <FrameLayout

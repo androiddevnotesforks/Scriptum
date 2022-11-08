@@ -14,6 +14,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.animateAlpha
+import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
@@ -316,10 +317,18 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     }
 
     override fun onBindingToolbar(isClearEnable: Boolean, isAddEnable: Boolean) {
-        binding?.apply {
-            this.isClearEnable = isClearEnable
-            this.isAddEnable = isAddEnable
-        }?.executePendingBindings()
+        binding?.toolbarInclude?.apply {
+            clearButton.isEnabled = isClearEnable
+            clearButton.bindBoolTint(isClearEnable, R.attr.clContent, R.attr.clDisable)
+
+            addButton.isEnabled = isAddEnable
+            addButton.bindBoolTint(isAddEnable, R.attr.clAccent, R.attr.clDisable)
+        }
+
+        //        binding?.apply {
+        //            this.isClearEnable = isClearEnable
+        //            this.isAddEnable = isAddEnable
+        //        }?.executePendingBindings()
     }
 
     override fun scrollTop() {
