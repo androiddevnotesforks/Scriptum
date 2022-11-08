@@ -43,7 +43,7 @@ class NotifyTest : ParentNotificationTest() {
     /**
      * Update info count on item cancel
      */
-    @Test fun notificationNotifyOnCancel() = db.fillNotification(NOTIFICATION_COUNT).let {
+    @Test fun notificationNotifyOnCancel() = db.fillNotifications(NOTIFICATION_COUNT).let {
         TODO()
         launch {
             mainScreen {

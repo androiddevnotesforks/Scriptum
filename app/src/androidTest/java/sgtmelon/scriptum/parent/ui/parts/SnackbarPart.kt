@@ -28,9 +28,7 @@ class SnackbarPart(
     private val messageText = getViewByText(messageId)
     private val actionButton = getViewByText(actionId)
 
-    fun clickCancel() {
-        actionButton.click()
-    }
+    fun clickCancel() = apply { actionButton.click() }
 
     fun assert() {
         // TODO check background drawable assertion
@@ -54,7 +52,7 @@ class SnackbarPart(
     }
 
     companion object {
-        const val UPDATE_TIME = 500L
+        const val UPDATE_TIME = 300L
         const val DISMISS_TIME = 3000L
 
         inline operator fun invoke(

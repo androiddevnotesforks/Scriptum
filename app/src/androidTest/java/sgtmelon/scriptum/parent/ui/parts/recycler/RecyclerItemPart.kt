@@ -52,5 +52,7 @@ abstract class RecyclerItemPart<T> protected constructor(
     companion object {
         /** Variable for preventing auto-scroll to item position (during class initialization). */
         var PREVENT_SCROLL = false
+
+        const val SCROLL_TIME = 300L
     }
 }

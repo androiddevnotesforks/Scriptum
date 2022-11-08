@@ -28,11 +28,10 @@ abstract class ParentUiTest : ParentTest() {
     )
 
     val context = ParentInjector.provideContext()
-
-    protected val preferences = ParentInjector.providePreferences()
-    protected val preferencesRepo = ParentInjector.providePreferencesRepo()
-    protected val db = ParentInjector.provideDbDelegator()
-    protected val uiDevice = ParentInjector.provideUiDevice()
+    val preferences = ParentInjector.providePreferences()
+    val preferencesRepo = ParentInjector.providePreferencesRepo()
+    val db = ParentInjector.provideDbDelegator()
+    val uiDevice = ParentInjector.provideUiDevice()
 
     //region SetUp functions
 

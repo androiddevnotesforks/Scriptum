@@ -37,6 +37,10 @@ class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
 
     private val infoContainer = InfoContainerPart(InfoCase.Notifications)
 
+    /**
+     * Be careful calling this function, because every time it will trigger [await] func
+     * inside
+     */
     inline fun getSnackbar(func: SnackbarPart.() -> Unit = {}): SnackbarPart {
         val message = R.string.snackbar_message_notification
         val action = R.string.snackbar_action_cancel
@@ -85,9 +89,16 @@ class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
 
     fun assertItem(p: Int, item: NoteItem) = getItem(p).assert(item)
 
-    fun assertList(list: List<NoteItem>) {
+    /**
+     * [withWait] parameter gives small period for checking UI (by eyes :D).
+     */
+    fun assertList(list: List<NoteItem>, withWait: Boolean = false) {
         for ((p, item) in list.withIndex()) {
             assertItem(p, item)
+
+            if (withWait) {
+                await(time = 500)
+            }
         }
     }
 

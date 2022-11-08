@@ -23,6 +23,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.RoomWorker
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
+import sgtmelon.scriptum.ui.auto.notifications.NEXT_HOUR
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.nextString
 
@@ -52,7 +53,7 @@ class DbDelegator(
         get() = NoteEntity().apply {
             create = getCalendarText()
             change = getCalendarText()
-            name = nextString()
+            name = if (Random.nextBoolean()) nextString() else ""
             text = nextString().repeat(n = (1 until 10).random())
             color = Color.values().random()
             type = NoteType.TEXT
@@ -65,7 +66,7 @@ class DbDelegator(
         get() = NoteEntity().apply {
             create = getCalendarText()
             change = getCalendarText()
-            name = nextString()
+            name = if (Random.nextBoolean()) nextString() else ""
             color = Color.values().random()
             type = NoteType.ROLL
         }
@@ -299,8 +300,9 @@ class DbDelegator(
         }
     }
 
-    fun fillNotification(count: Int = 10) = repeat(count) {
-        insertNotification(date = getRandomFutureTime())
+    fun fillNotifications(count: Int = 15) = MutableList(count) {
+        val date = getClearCalendar(addMinutes = NEXT_HOUR + it * NEXT_HOUR).toText()
+        insertNotification(date = date)
     }
 
     fun clear() = apply { inRoomTest { clearAllTables() } }

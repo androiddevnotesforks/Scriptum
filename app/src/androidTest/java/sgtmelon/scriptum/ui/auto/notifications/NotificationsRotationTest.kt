@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
 import sgtmelon.scriptum.parent.ui.launch
-import sgtmelon.test.common.isDivideEntirely
 
 /**
  * Test of [NotificationsActivity] work with phone rotation.
@@ -18,6 +17,7 @@ class NotificationsRotationTest : ParentUiRotationTest() {
         mainScreen {
             notesScreen(isEmpty = true) {
                 openNotifications(isEmpty = true) {
+                    assert(isEmpty = true)
                     rotate.toSide()
                     assert(isEmpty = true)
                 }
@@ -25,34 +25,32 @@ class NotificationsRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = launch({ db.fillNotification() }) {
-        mainScreen {
-            notesScreen {
-                openNotifications {
-                    rotate.toSide()
-                    assert(isEmpty = false)
-                }
-            }
+    @Test fun contentList() = startNotificationListTest {
+        assert(isEmpty = false)
+        rotate.toSide()
+        assert(isEmpty = false)
+    }
+
+    @Test fun itemCancelAndSnackbar() = startNotificationItemTest(db.insertNote()) {
+        repeat(times = 3) { _ ->
+            assertItem(p = 0, it)
+            itemCancel()
+            assert(isEmpty = true)
+            rotate.switch()
+            assert(isEmpty = true)
+            getSnackbar { clickCancel() }
+            assertItem(p = 0, it)
         }
     }
 
-    @Test fun snackbar() = launch({ db.insertNotification() }) {
-        mainScreen {
-            notesScreen {
-                openNotifications {
-                    repeat(times = 3) { time ->
-                        itemCancel()
 
-                        if (time.isDivideEntirely()) {
-                            rotate.toSide()
-                        } else {
-                            rotate.toNormal()
-                        }
+    @Test fun itemTextOpen() = startNotificationItemTest(db.insertText()) {
+        rotate.switch()
+        openText(it)
+    }
 
-                        getSnackbar().clickCancel()
-                    }
-                }
-            }
-        }
+    @Test fun itemNoteOpen() = startNotificationItemTest(db.insertRoll()) {
+        rotate.switch()
+        openRoll(it)
     }
 }

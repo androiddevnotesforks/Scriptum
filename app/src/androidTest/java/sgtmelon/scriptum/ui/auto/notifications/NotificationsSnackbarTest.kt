@@ -1,231 +1,176 @@
 package sgtmelon.scriptum.ui.auto.notifications
 
 import org.junit.Test
-import sgtmelon.extensions.getClearCalendar
-import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ui.ParentUiTest
-import sgtmelon.scriptum.parent.ui.launch
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
+import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
+import sgtmelon.scriptum.ui.auto.startNotesTest
+import sgtmelon.test.cappuccino.utils.await
 
 /**
  * Test for SnackBar in [NotificationsActivity].
  */
 class NotificationsSnackbarTest : ParentUiTest() {
 
-    @Test fun containerBottomDisplay() {
-        fillScreen(count = 15)
+    /**
+     * Check insets-spacing for snackbar bottom.
+     */
+    @Test fun displayInsets() = startNotificationListTest {
+        repeat(times = 5) {
+            itemCancel(last, isWait = true)
+            assertSnackbarDismiss()
+        }
+    }
 
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications {
-                        onScroll(Scroll.END)
-                        repeat(times = 5) {
-                            itemCancel(last, isWait = true)
-                            assertSnackbarDismiss()
-                        }
-                    }
+    @Test fun singleActionClick() = startNotificationListTest(count = 5) {
+        val p = it.indices.random()
+
+        itemCancel(p)
+        getSnackbar { clickCancel() }
+        assertSnackbarDismiss()
+        assertItem(p, it[p])
+    }
+
+    @Test fun manyActionClick() = startNotificationListTest(count = 3) {
+        repeat(it.size) { itemCancel(p = 0) }
+        repeat(it.size) { i ->
+            getSnackbar {
+                clickCancel()
+                if (i != it.lastIndex) {
+                    assert()
                 }
+            }
+        }
+
+        assertSnackbarDismiss()
+        assertList(it)
+    }
+
+    @Test fun actionClickWithNoteCheck() = startNotificationListTest(count = 5) {
+        val p = it.indices.random()
+
+        itemCancel(p)
+        getSnackbar { clickCancel() }
+        assertSnackbarDismiss()
+
+        when (val item = it[p]) {
+            is NoteItem.Text -> openText(item, p) {
+                controlPanel { onNotification(isUpdateDate = true) }
+            }
+            is NoteItem.Roll -> openRoll(item, p) {
+                controlPanel { onNotification(isUpdateDate = true) }
             }
         }
     }
 
-    @Test fun actionClickSingle() {
-        val list = fillScreen(count = 5)
-        val p = list.indices.random()
+    @Test fun clearCacheOnDismiss() = startNotificationListTest {
+        val p = it.indices.random()
 
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications {
-                        itemCancel(p)
-                        getSnackbar { clickCancel() }
-                        assertSnackbarDismiss()
-                        assertItem(p, list[p])
-                    }
-                }
-            }
+        itemCancel(p)
+        getSnackbar { clickCancel() }
+        assertSnackbarDismiss()
+
+        when (val item = it[p]) {
+            is NoteItem.Text -> openText(item) { clickClose() }
+            is NoteItem.Roll -> openRoll(item) { clickClose() }
         }
+
+        assertSnackbarDismiss()
     }
 
-    @Test fun actionClickMany() {
-        val list = fillScreen(count = 3)
-
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications {
-                        repeat(list.size) { itemCancel(p = 0) }
-                        repeat(list.size) {
-                            getSnackbar { clickCancel() }
-                            if (it != list.lastIndex) {
-                                getSnackbar { assert() }
-                            }
-                        }
-
-                        assertSnackbarDismiss()
-
-                        for ((i, item) in list.withIndex()) {
-                            assertItem(i, item)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Test fun actionClickDismiss() {
-        val list = fillScreen(count = 5)
+    @Test fun clearCacheOnScreenClose() {
+        val list = db.fillNotifications(count = 5)
         val removePosition = 1
         val actionPosition = 2
+        val actionShiftPosition = actionPosition - 1
 
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications {
-                        itemCancel(removePosition)
+        startNotesTest {
+            openNotifications {
+                itemCancel(removePosition)
+                itemCancel(actionShiftPosition)
 
-                        itemCancel(p = 1)
-                        getSnackbar { clickCancel() }
-                        getSnackbar { assert() }
-                        assertItem(1, list[actionPosition])
+                getSnackbar { clickCancel().assert() }
 
+                assertItem(actionShiftPosition, list[actionPosition])
+                clickClose()
+            }
+
+            list.removeAt(removePosition)
+
+            openNotifications {
+                assertSnackbarDismiss()
+                assertList(list)
+            }
+        }
+    }
+
+    @Test fun restoreAfterPause() {
+        val list = db.fillNotifications(count = 3)
+
+        startNotesTest {
+            openNotifications {
+                itemCancel(p = 0)
+
+                getSnackbar { assert() }
+
+                when (val it = list[0]) {
+                    is NoteItem.Text -> openText(it, p = 0) { clickClose() }
+                    is NoteItem.Roll -> openRoll(it, p = 0) { clickClose() }
+                }
+
+                getSnackbar { assert() }
+
+                when (val it = list[0]) {
+                    is NoteItem.Text -> openText(it, p = 0) {
+                        await(time = SnackbarPart.DISMISS_TIME * 2)
                         clickClose()
                     }
-
-                    list.removeAt(removePosition)
-
-                    openNotifications {
-                        assertSnackbarDismiss()
-                        for ((i, item) in list.withIndex()) {
-                            assertItem(i, item)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Test fun actionClickNoteCheck() {
-        val list = fillScreen(count = 5)
-        val p = list.indices.random()
-
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications {
-                        itemCancel(p)
-                        getSnackbar { clickCancel() }
-                        assertSnackbarDismiss()
-
-                        when (val item = list[p]) {
-                            is NoteItem.Text -> openText(item, p) {
-                                controlPanel { onNotification(isUpdateDate = true) }
-                            }
-                            is NoteItem.Roll -> openRoll(item, p) {
-                                controlPanel { onNotification(isUpdateDate = true) }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    @Test fun dismissOnPause() {
-        val list = fillScreen(count = 3)
-
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications {
-                        itemCancel(p = 0)
-
-                        list.removeAt(index = 0)
-
-                        when (val it = list[0]) {
-                            is NoteItem.Text -> openText(it, p = 0) { clickClose() }
-                            is NoteItem.Roll -> openRoll(it, p = 0) { clickClose() }
-                        }
-
-                        assertSnackbarDismiss()
-
-                        for ((i, item) in list.withIndex()) {
-                            assertItem(i, item)
-                        }
-
-                        repeat(list.size) { itemCancel(p = 0) }
+                    is NoteItem.Roll -> openRoll(it, p = 0) {
+                        await(time = SnackbarPart.DISMISS_TIME * 2)
                         clickClose()
                     }
-
-                    openNotifications(isEmpty = true) { assertSnackbarDismiss() }
                 }
-            }
-        }
-    }
 
-
-    @Test fun scrollToUndoItemOnTop() {
-        val list = fillScreen(count = 15)
-        val p = list.indices.first()
-
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications {
-                        itemCancel(p)
-                        onScroll(Scroll.END)
-                        getSnackbar { clickCancel() }
-
-                        assertSnackbarDismiss()
-
-                        RecyclerItemPart.PREVENT_SCROLL = true
-                        assertItem(p, list[p])
-                    }
+                getSnackbar {
+                    assert()
+                    clickCancel()
                 }
+
+                assertList(list)
+                repeat(list.size) { itemCancel(p = 0) }
+                clickClose()
             }
+
+            openNotifications(isEmpty = true) { assertSnackbarDismiss() }
         }
     }
 
-    @Test fun scrollToUndoItemOnBottom() {
-        val list = fillScreen(count = 15)
-        val p = list.lastIndex
+    @Test fun scrollTopAfterAction() = startNotificationListTest {
+        val p = it.indices.first
 
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotifications {
-                        itemCancel(p)
-                        onScroll(Scroll.START)
-                        getSnackbar { clickCancel() }
+        itemCancel(p)
+        onScroll(Scroll.END)
+        getSnackbar { clickCancel() }
+        await(RecyclerItemPart.SCROLL_TIME)
 
-                        assertSnackbarDismiss()
-
-                        RecyclerItemPart.PREVENT_SCROLL = true
-                        assertItem(p, list[p])
-                    }
-                }
-            }
-        }
+        assertSnackbarDismiss()
+        RecyclerItemPart.PREVENT_SCROLL = true
+        assertItem(p, it[p])
     }
 
+    @Test fun scrollBottomAfterAction() = startNotificationListTest {
+        val p = it.indices.last
 
-    private fun fillScreen(count: Int): MutableList<NoteItem> = ArrayList<NoteItem>().apply {
-        repeat(count) {
-            val date = getClearCalendar(addMinutes = NEXT_HOUR + it * NEXT_HOUR).toText()
-            val color = Color.values().random()
-            val item = with(db) { insertText(textNote.copy(name = "", color = color)) }
+        itemCancel(p)
+        onScroll(Scroll.START)
+        getSnackbar { clickCancel() }
+        await(RecyclerItemPart.SCROLL_TIME)
 
-            add(db.insertNotification(item, date))
-        }
-    }
-
-    companion object {
-        private const val NEXT_HOUR = 60
+        assertSnackbarDismiss()
+        RecyclerItemPart.PREVENT_SCROLL = true
+        assertItem(p, it[p])
     }
 }
