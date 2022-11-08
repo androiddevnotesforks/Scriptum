@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.adapter.animation.TouchAnimation
  * And also with custom drag/clear animation.
  */
 abstract class EdgeDragTouchHelper(
-    private val callback: ParentCallback
+    private val callback: EdgeDragCallback
 ) : SkipElevationTouchHelper() {
 
     private val animation = TouchAnimation()
@@ -75,10 +75,10 @@ abstract class EdgeDragTouchHelper(
         super.onChildDraw(c, recyclerView, viewHolder, dX, edgeY, actionState, isCurrentlyActive)
     }
 
-    interface ParentCallback {
+    interface EdgeDragCallback {
 
         /**
-         * Calls when user start/end drag/swipe action with card.
+         * Calls when user starts/ends dragging/swiping item.
          */
         fun onTouchAction(inAction: Boolean)
     }

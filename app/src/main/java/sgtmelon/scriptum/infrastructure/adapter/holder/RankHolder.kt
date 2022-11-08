@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.infrastructure.adapter.holder
 
 import android.annotation.SuppressLint
-import android.view.MotionEvent
-import android.view.View
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
@@ -11,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
+import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
 import sgtmelon.scriptum.infrastructure.utils.makeVisible
 import sgtmelon.test.prod.RunNone
 
@@ -28,14 +27,7 @@ class RankHolder(
     ) = with(binding) {
         visibleButton.setBlockCallback(blockCallback)
 
-        val touchListener = View.OnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                dragListener.setDrag(v.id == clickContainer.id)
-            }
-
-            return@OnTouchListener false
-        }
-
+        val touchListener = DragTouchListener(dragListener, clickContainer)
         clickContainer.setOnTouchListener(touchListener)
         cancelButton.setOnTouchListener(touchListener)
         visibleButton.setOnTouchListener(touchListener)

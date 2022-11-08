@@ -19,11 +19,11 @@ import sgtmelon.scriptum.infrastructure.utils.inflateBinding
  * Adapter which displays list of rolls for [RollNoteFragment].
  */
 class RollAdapter(
+    private val dragListener: ItemDragListener,
     private val rollWriteCallback: RollWriteHolder.Callback,
     private val clickListener: ItemListener.ActionClick
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
-    var dragListener: ItemDragListener? = null
     var inputControl: IInputControl? = null
 
     var noteState: NoteState? = null

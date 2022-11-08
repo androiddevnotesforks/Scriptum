@@ -62,7 +62,7 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
 
-    interface Callback : ParentCallback {
+    interface Callback : EdgeDragCallback {
         /**
          * Calls when user start make drag, inside [getMovementFlags].
          * Need for check permission for drag.

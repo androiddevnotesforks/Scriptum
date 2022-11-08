@@ -116,7 +116,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
-    interface Callback : ParentCallback {
+    interface Callback : EdgeDragCallback {
         /**
          * Calls when user start make drag/swipe, inside [getMovementFlags].
          * Need for check permission for drag/swipe.

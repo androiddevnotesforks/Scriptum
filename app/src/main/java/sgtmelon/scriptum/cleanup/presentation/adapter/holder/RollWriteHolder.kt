@@ -1,10 +1,8 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter.holder
 
-import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -19,6 +17,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
+import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
 
 /**
  * Holder of note roll row edit state, use in [RollAdapter]
@@ -26,11 +25,10 @@ import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 // TODO add unbind function
 class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
-    private val dragListener: ItemDragListener?,
+    dragListener: ItemDragListener,
     private val callback: Callback,
     private val inputControl: IInputControl?
 ) : ParentHolder(binding.root),
-    View.OnTouchListener,
     TextWatcher {
 
     /**
@@ -40,6 +38,7 @@ class RollWriteHolder(
     private val rollEnter: EditText = itemView.findViewById(R.id.roll_write_enter)
 
     init {
+        val touchListener = DragTouchListener(dragListener, dragView)
         rollEnter.apply {
             setRawInputType(InputType.TYPE_CLASS_TEXT
                     or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
@@ -50,9 +49,9 @@ class RollWriteHolder(
 
             addOnNextAction { callback.onRollActionNext() }
             addTextChangedListener(this@RollWriteHolder)
-            setOnTouchListener(this@RollWriteHolder)
+            setOnTouchListener(touchListener)
         }
-        dragView.setOnTouchListener(this)
+        dragView.setOnTouchListener(touchListener)
     }
 
     fun bind(item: RollItem) {
@@ -74,15 +73,6 @@ class RollWriteHolder(
     fun setSelections(@IntRange(from = 0) position: Int) = rollEnter.apply {
         requestFocus()
         setSelection(if (position > text.toString().length) text.toString().length else position)
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouch(v: View, event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            dragListener?.setDrag(v.id == dragView.id)
-        }
-
-        return false
     }
 
     private var textFrom: String? = null

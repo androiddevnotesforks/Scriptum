@@ -89,8 +89,10 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
     }
 
+    private val touchCallback by lazy { RollTouchControl(viewModel) }
+
     private val adapter: RollAdapter by lazy {
-        RollAdapter(viewModel, object : ItemListener.ActionClick {
+        RollAdapter(touchCallback, viewModel, object : ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
                 if (!open.isChangeEnabled && open.tag == OpenState.Tag.ANIM) {
                     open.isChangeEnabled = true
@@ -279,10 +281,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
     override fun setupRecycler(inputControl: IInputControl, isFirstRun: Boolean) {
-        val touchCallback = RollTouchControl(viewModel)
-
         adapter.apply {
-            this.dragListener = touchCallback
             this.inputControl = inputControl
 
             registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
