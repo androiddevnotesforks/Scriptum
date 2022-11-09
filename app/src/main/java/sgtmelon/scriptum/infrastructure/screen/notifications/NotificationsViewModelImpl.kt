@@ -14,8 +14,8 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
-import sgtmelon.scriptum.infrastructure.screen.notifications.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
 import sgtmelon.test.idling.getIdling

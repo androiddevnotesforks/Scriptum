@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 class CorrectRankPositionsUseCase {
 
     /**
-     * Return list of [NoteItem.id] where need to update [NoteItem.rankPs].
+     * Return list of [NoteItem.id] for which need update [NoteItem.rankPs].
      */
     operator fun invoke(list: List<RankItem>): List<Long> {
         val noteIdSet = mutableSetOf<Long>()

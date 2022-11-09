@@ -7,24 +7,6 @@ package sgtmelon.scriptum.infrastructure.model.data
  */
 object IntentData {
 
-    object Snackbar {
-
-        object Intent {
-            private const val PREFIX = "INTENT_SNACKBAR"
-            const val POSITIONS = "${PREFIX}_POSITIONS"
-            const val ITEMS = "${PREFIX}_ITEMS"
-        }
-    }
-
-    object Main {
-
-        object Intent {
-            private const val PREFIX = "MAIN"
-            const val FIRST_START = "${PREFIX}_FIRST_START"
-            const val PAGE_CURRENT = "${PREFIX}_PAGE_CURRENT"
-        }
-    }
-
     object Note {
 
         object Intent {

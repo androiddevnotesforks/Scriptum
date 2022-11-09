@@ -45,20 +45,6 @@ class RankRepoImplTest : ParentRepoTest() {
         confirmVerified(converter)
     }
 
-    @Test fun getCount() {
-        val count = Random.nextInt()
-
-        coEvery { rankDataSource.getCount() } returns count
-
-        runBlocking {
-            assertEquals(repository.getCount(), count)
-        }
-
-        coVerifySequence {
-            rankDataSource.getCount()
-        }
-    }
-
     @Test fun getList() {
         val entityList = mockk<List<RankEntity>>()
         val size = getRandomSize()

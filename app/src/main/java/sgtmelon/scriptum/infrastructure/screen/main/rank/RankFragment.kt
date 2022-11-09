@@ -25,9 +25,9 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
-import sgtmelon.scriptum.infrastructure.screen.main.rank.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
@@ -165,6 +165,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
         viewModel.itemList.observe(this) { observeItemList(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
+
         TODO()
     }
 
@@ -232,10 +233,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         snackbar.show(parentContainer, withInsets = false)
     }
 
-    // TODO restore snackbar after page changes
     /**
      * Call of this func happens inside parent activity during pages change.
      */
+    // TODO restore snackbar after page changes
     fun hideSnackbar() {
         snackbar.dismiss(skipDismissResult = true)
     }
@@ -246,172 +247,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     //region Variables
 
-    //    val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
-
-    //    /**
-    //     * Setup manually because after rotation lazy function will return null.
-    //     */
-    //    private var nameEnter: EditText? = null
-    //    private var parentContainer: ViewGroup? = null
-    //    private var recyclerContainer: ViewGroup? = null
-
-    //    private var emptyInfoView: View? = null
-    //    private var progressBar: View? = null
-    //    private var recyclerView: RecyclerView? = null
-
-    //endregion
-
-    //region System
-
-    //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    //        super.onViewCreated(view, savedInstanceState)
-    //
-    //        /** Inside [savedInstanceState] saved snackbar data. */
-    //        viewModel.onSetup(savedInstanceState)
-    //    }
-
-    //    override fun onResume() {
-    //        super.onResume()
-    //        viewModel.onUpdateData()
-    //    }
-    //
-    //    override fun onDestroy() {
-    //        super.onDestroy()
-    //        viewModel.onDestroy()
-    //    }
-
-    //    override fun onStop() {
-    //        super.onStop()
-    //
-    //        /**
-    //         * Need dismiss without listener for control leave screen case. We don't want to lost
-    //         * snackbar stack inside [viewModel] during rotation/app close/ect. So, need restore
-    //         * [snackbar] after screen reopen - [onResume].
-    //         */
-    //        snackbar.dismiss(skipDismissResult = true)
-    //    }
-
-    //    /**
-    //     * Save snackbar data on rotation and screen turn off. Func [onSaveInstanceState] will be
-    //     * called in both cases.
-    //     *
-    //     * - But on rotation case [outState] will be restored inside [onViewCreated].
-    //     * - On turn off screen case [outState] will be restored only if activity will be
-    //     *   recreated.
-    //     *
-    //     * On navigation page change this func will not be called. See [onStop] comment.
-    //     */
-    //    override fun onSaveInstanceState(outState: Bundle) {
-    //        super.onSaveInstanceState(outState)
-    //        viewModel.onSaveData(outState)
-    //    }
-
-    //endregion
 
     override fun hideKeyboard() {
         activity?.hideKeyboard()
     }
-
-    //    /**
-    //     * Use [OpenState.attempt] and [OpenState.returnAttempt] because item adding
-    //     * happen inside coroutine, not main thread.
-    //     *
-    //     * Reset of [OpenState.isBlocked] happen inside [scrollToItem].
-    //     */
-    //    override fun setupToolbar() {
-    //        binding?.toolbarInclude?.toolbar?.title = getString(R.string.title_rank)
-    //        binding?.toolbarInclude?.clearButton?.setOnClickListener {
-    //            viewModel.onClickEnterCancel()
-    //        }
-    //        binding?.toolbarInclude?.addButton?.apply {
-    //            setOnClickListener {
-    //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
-    //            }
-    //            setOnLongClickListener {
-    //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
-    //                return@setOnLongClickListener true
-    //            }
-    //        }
-    //        binding?.toolbarInclude?.rankEnter?.apply {
-    //            doOnTextChanged { _, _, _, _ -> viewModel.onUpdateToolbar() }
-    //            setOnEditorActionListener { _, i, _ ->
-    //                val result = parentOpen?.returnAttempt { viewModel.onEditorClick(i) } ?: false
-    //
-    //                /**
-    //                 * If item wasn't add need clear [parentOpen].
-    //                 */
-    //                if (!result) parentOpen?.clear()
-    //
-    //                return@setOnEditorActionListener result
-    //            }
-    //        }
-    //
-    //        //        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
-    //        //            title = getString(R.string.title_rank)
-    //        //        }
-    //
-    //        //        view?.findViewById<ImageButton>(R.id.clear_button)?.apply {
-    //        //            setOnClickListener { viewModel.onClickEnterCancel() }
-    //        //        }
-    //
-    //        //        view?.findViewById<ImageButton>(R.id.add_button)?.apply {
-    //        //            setOnClickListener {
-    //        //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
-    //        //            }
-    //        //            setOnLongClickListener {
-    //        //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
-    //        //                return@setOnLongClickListener true
-    //        //            }
-    //        //        }
-    //
-    //        //        nameEnter = view?.findViewById(R.id.rank_enter)
-    //    }
-
-    //    override fun setupRecycler() {
-    //        //        parentContainer = view?.findViewById(R.id.parent_container)
-    //        //        recyclerContainer = view?.findViewById(R.id.recycler_container)
-    //        //        emptyInfoView = view?.findViewById(R.id.info_include)
-    //        //        progressBar = view?.findViewById(R.id.progress_bar)
-    //
-    //        //        recyclerView = view?.findViewById(R.id.recycler_view)
-    //        binding?.recyclerView?.let {
-    //            it.setDefaultAnimator(supportsChangeAnimations = false) {
-    //                viewModel.onItemAnimationFinished()
-    //            }
-    //
-    //            it.addOnScrollListener(RecyclerOverScrollListener())
-    //            it.setHasFixedSize(true)
-    //            it.layoutManager = layoutManager
-    //            it.adapter = adapter
-    //        }
-    //
-    //        ItemTouchHelper(touchControl).attachToRecyclerView(binding?.recyclerView)
-    //    }
-
-    //    override fun setupDialog() {
-    //        renameDialog.apply {
-    //            onPositiveClick { viewModel.onResultRenameDialog(position, name) }
-    //            onDismiss { parentOpen?.clear() }
-    //        }
-    //    }
-    //
-    //
-    //    /**
-    //     * For first time [recyclerView] visibility flag set inside xml file.
-    //     */
-    //    override fun prepareForLoad() {
-    //        binding?.infoInclude?.parentContainer?.makeGone()
-    //        binding?.progressBar?.makeGone()
-    //    }
-    //
-    //    override fun showProgress() {
-    //        binding?.progressBar?.makeVisible()
-    //    }
-    //
-    //    override fun hideEmptyInfo() {
-    //        binding?.infoInclude?.parentContainer?.makeGone()
-    //    }
-
 
     override fun onBindingList() {
         binding?.progressBar?.makeGone()
@@ -458,19 +297,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             addButton.isEnabled = isAddEnable
             addButton.bindBoolTint(isAddEnable, R.attr.clAccent, R.attr.clDisable)
         }
-
-        //        binding?.apply {
-        //            this.isClearEnable = isClearEnable
-        //            this.isAddEnable = isAddEnable
-        //        }?.executePendingBindings()
     }
-
-    //
-    //    override fun showSnackbar() {
-    //        binding?.recyclerContainer?.let { snackbar.show(it, withInsets = false) }
-    //    }
-    //
-    //    override fun dismissSnackbar() = snackbar.dismiss(skipDismissResult = false)
 
     override fun getEnterText() = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
 
@@ -491,12 +318,6 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
-    //    override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
-    //        renameDialog.setArguments(p, name, nameList)
-    //            .safeShow(DialogFactory.Main.RENAME, owner = this)
-    //    }
-
-
     override fun setList(list: List<RankItem>) {
         adapter.setList(list)
     }
@@ -512,18 +333,6 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         adapter.setList(list).notifyItemInserted(p)
         RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(list, p)
     }
-
-    //    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
-
-    //    /**
-    //     * Not used here.
-    //     */
-    //    override fun sendCancelNoteBroadcast(id: Long) = Unit
-    //
-    //    /**
-    //     * Not used here.
-    //     */
-    //    override fun sendNotifyInfoBroadcast(count: Int?) = Unit
 
     //endregion
 

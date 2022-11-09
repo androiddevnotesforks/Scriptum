@@ -96,20 +96,6 @@ class RankDataSourceImplTest : ParentTest() {
         }
     }
 
-    @Test fun getCount() {
-        val count = Random.nextInt()
-
-        coEvery { dao.getCount() } returns count
-
-        runBlocking {
-            assertEquals(dataSource.getCount(), count)
-        }
-
-        coVerifySequence {
-            dao.getCount()
-        }
-    }
-
     @Test fun get() {
         val id = Random.nextLong()
         val entity = mockk<RankEntity>()

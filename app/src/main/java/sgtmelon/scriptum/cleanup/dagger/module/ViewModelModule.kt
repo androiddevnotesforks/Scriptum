@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
@@ -60,6 +59,7 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
@@ -113,15 +113,15 @@ class ViewModelModule {
     @ActivityScope
     fun provideRankViewModel(
         owner: ViewModelStoreOwner,
-        interactor: IRankInteractor,
         getList: GetRankListUseCase,
         insertRank: InsertRankUseCase,
         deleteRank: DeleteRankUseCase,
         updateRank: UpdateRankUseCase,
-        correctRankPositions: CorrectRankPositionsUseCase
+        correctRankPositions: CorrectRankPositionsUseCase,
+        updateRankPositions: UpdateRankPositionsUseCase
     ): RankViewModel {
         val factory = ViewModelFactory.MainScreen.Rank(
-            interactor, getList, insertRank, deleteRank, updateRank, correctRankPositions
+            getList, insertRank, deleteRank, updateRank, correctRankPositions, updateRankPositions
         )
         return ViewModelProvider(owner, factory)[RankViewModelImpl::class.java]
     }

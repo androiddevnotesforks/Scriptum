@@ -16,8 +16,6 @@ class RankDataSourceImpl(private val dao: RankDao) : RankDataSource {
 
     override suspend fun update(list: List<RankEntity>) = dao.update(list)
 
-    override suspend fun getCount(): Int = dao.getCount()
-
     override suspend fun get(id: Long): RankEntity? = dao.get(id)
 
     override suspend fun getList(): List<RankEntity> = dao.getList()

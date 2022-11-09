@@ -10,34 +10,40 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 
 @Module
 class RankUseCaseModule {
 
     @Provides
-    fun getListRankUseCase(repository: RankRepo): GetRankListUseCase {
+    fun provideGetListRankUseCase(repository: RankRepo): GetRankListUseCase {
         return GetRankListUseCase(repository)
     }
 
     @Provides
-    fun insertRankUseCase(repository: RankRepo): InsertRankUseCase {
+    fun provideInsertRankUseCase(repository: RankRepo): InsertRankUseCase {
         return InsertRankUseCase(repository)
     }
 
     @Provides
-    fun deleteRankUseCase(repository: RankRepo): DeleteRankUseCase {
+    fun provideDeleteRankUseCase(repository: RankRepo): DeleteRankUseCase {
         return DeleteRankUseCase(repository)
     }
 
     @Provides
-    fun updateRankUseCase(repository: RankRepo): UpdateRankUseCase {
+    fun provideUpdateRankUseCase(repository: RankRepo): UpdateRankUseCase {
         return UpdateRankUseCase(repository)
     }
 
     @Provides
     fun provideCorrectRankPositionsUseCase(): CorrectRankPositionsUseCase {
         return CorrectRankPositionsUseCase()
+    }
+
+    @Provides
+    fun provideUpdateRankPositionsUseCase(repository: RankRepo): UpdateRankPositionsUseCase {
+        return UpdateRankPositionsUseCase(repository)
     }
 
     @Provides

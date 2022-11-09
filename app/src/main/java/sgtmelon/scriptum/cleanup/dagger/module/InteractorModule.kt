@@ -7,12 +7,10 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.RankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.RollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
@@ -27,11 +25,6 @@ import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractorImpl
 class InteractorModule {
 
     //region Main
-
-    @Provides
-    @ActivityScope
-    fun provideRankInteractor(rankRepo: RankRepo): IRankInteractor = RankInteractor(rankRepo)
-
 
     @Provides
     @ActivityScope

@@ -13,8 +13,6 @@ interface RankDataSource {
 
     suspend fun update(list: List<RankEntity>)
 
-    suspend fun getCount(): Int
-
     suspend fun get(id: Long): RankEntity?
 
     suspend fun getList(): List<RankEntity>

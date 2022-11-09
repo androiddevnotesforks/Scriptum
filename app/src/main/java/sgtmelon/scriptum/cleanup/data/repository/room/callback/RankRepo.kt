@@ -9,8 +9,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
  */
 interface RankRepo {
 
-    suspend fun getCount(): Int
-
     suspend fun getList(): List<RankItem>
 
 

@@ -125,16 +125,6 @@ class RankDaoTest : ParentRoomTest() {
         }
     }
 
-    @Test fun getCount() = inRoomTest {
-        val list = list
-
-        for (entity in list) {
-            insert(entity)
-        }
-
-        assertEquals(rankDao.getCount(), list.size)
-    }
-
     @Test fun get() = inRoomTest {
         assertNull(rankDao.get(abs(Random.nextLong())))
 

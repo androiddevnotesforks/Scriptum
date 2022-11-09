@@ -6,7 +6,6 @@ import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
@@ -50,6 +49,7 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
@@ -91,7 +91,7 @@ object ViewModelFactory {
 
     object MainScreen {
 
-        class Main() : ViewModelProvider.Factory {
+        class Main : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(MainViewModelImpl::class) {
                     MainViewModelImpl()
@@ -100,18 +100,18 @@ object ViewModelFactory {
         }
 
         class Rank(
-            private val interactor: IRankInteractor,
             private val getList: GetRankListUseCase,
             private val insertRank: InsertRankUseCase,
             private val deleteRank: DeleteRankUseCase,
             private val updateRank: UpdateRankUseCase,
-            private val correctRankPositions: CorrectRankPositionsUseCase
+            private val correctRankPositions: CorrectRankPositionsUseCase,
+            private val updateRankPositions: UpdateRankPositionsUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RankViewModelImpl::class) {
                     RankViewModelImpl(
-                        interactor, getList, insertRank, deleteRank, updateRank,
-                        correctRankPositions
+                        getList, insertRank, deleteRank, updateRank,
+                        correctRankPositions, updateRankPositions
                     )
                 }
             }

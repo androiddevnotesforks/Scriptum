@@ -22,8 +22,6 @@ class RankRepoImpl(
     private val converter: RankConverter
 ) : RankRepo {
 
-    override suspend fun getCount(): Int = rankDataSource.getCount()
-
     override suspend fun getList(): List<RankItem> {
         val list = converter.toItem(rankDataSource.getList())
 

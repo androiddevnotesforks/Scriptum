@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
-import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,6 @@ import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.extensions.runMain
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.clearSpace
@@ -22,21 +20,21 @@ import sgtmelon.scriptum.domain.useCase.rank.CorrectRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
+import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.screen.main.rank.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
 class RankViewModelImpl(
-    private val interactor: IRankInteractor,
     private val getList: GetRankListUseCase,
     private val insertRank: InsertRankUseCase,
     private val deleteRank: DeleteRankUseCase,
     private val updateRank: UpdateRankUseCase,
-    private val correctRankPositions: CorrectRankPositionsUseCase
+    private val correctRankPositions: CorrectRankPositionsUseCase,
+    private val updateRankPositions: UpdateRankPositionsUseCase
 ) : ViewModel(),
     RankViewModel {
 
@@ -91,88 +89,6 @@ class RankViewModelImpl(
      */
     @RunPrivate var inTouchAction = false
 
-    //    override fun onSetup(bundle: Bundle?) {
-    //        callback?.setupToolbar()
-    //        callback?.setupRecycler()
-    //        callback?.setupDialog()
-    //
-    //        callback?.prepareForLoad()
-    //
-    //        if (bundle != null) {
-    //            restoreSnackbar(bundle)
-    //        }
-    //    }
-
-    /**
-     * Restore saved snackbar data inside [onSaveData].
-     */
-    @RunPrivate fun restoreSnackbar(bundle: Bundle) {
-        val positionArray = bundle.getIntArray(Snackbar.Intent.POSITIONS) ?: return
-        val itemArray = bundle.getStringArray(Snackbar.Intent.ITEMS) ?: return
-
-        /**
-         * itemArray.isNotEmpty is implied.
-         */
-        if (positionArray.isNotEmpty() && positionArray.size == itemArray.size) {
-            for (i in positionArray.indices) {
-                val p = positionArray.getOrNull(i) ?: continue
-                val json = itemArray.getOrNull(i) ?: continue
-                val item = RankItem[json] ?: continue
-
-                undoList.add(Pair(p, item))
-            }
-
-            callback?.showSnackbar()
-        }
-    }
-
-
-    /**
-     * Save snackbar data and restore it inside [restoreSnackbar].
-     */
-    override fun onSaveData(bundle: Bundle) {
-        val positionArray = undoList.map { it.first }.toIntArray()
-        val itemArray = undoList.map { it.second.toJson() }.toTypedArray()
-
-        bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray)
-        bundle.putStringArray(Snackbar.Intent.ITEMS, itemArray)
-
-        undoList.clear()
-    }
-
-    //    override fun onUpdateData() {
-    //        getIdling().start(IdlingTag.Rank.LOAD_DATA)
-    //
-    //        fun updateList() = callback?.apply {
-    //            notifyList(_itemList)
-    //            onBindingList()
-    //        }
-    //
-    //        /**
-    //         * If was rotation need show list. After that fetch updates.
-    //         */
-    //        if (_itemList.isNotEmpty()) updateList()
-    //
-    //        viewModelScope.launch {
-    //            val count = runBack { interactor.getCount() }
-    //
-    //            if (count == 0) {
-    //                _itemList.clear()
-    //            } else {
-    //                if (_itemList.isEmpty()) {
-    //                    callback?.hideEmptyInfo()
-    //                    callback?.showProgress()
-    //                }
-    //
-    //                runBack { _itemList.clearAdd(getList()) }
-    //            }
-    //
-    //            updateList()
-    //
-    //            getIdling().stop(IdlingTag.Rank.LOAD_DATA)
-    //        }
-    //    }
-
     override fun onUpdateToolbar() {
         val enterName = callback?.getEnterText() ?: return
         val clearName = enterName.clearSpace().uppercase()
@@ -183,13 +99,6 @@ class RankViewModelImpl(
         )
     }
 
-    //    override fun onShowRenameDialog(p: Int) {
-    //        val item = _itemList.getOrNull(p) ?: return
-    //
-    //        callback?.dismissSnackbar()
-    //        callback?.showRenameDialog(p, item.name, nameList)
-    //    }
-
     override fun onResultRenameDialog(p: Int, name: String) {
         val item = _itemList.getOrNull(p)?.apply { this.name = name } ?: return
 
@@ -198,7 +107,6 @@ class RankViewModelImpl(
         onUpdateToolbar()
         callback?.notifyList(_itemList)
     }
-
 
     override fun onClickEnterCancel() {
         callback?.clearEnter()
@@ -230,45 +138,11 @@ class RankViewModelImpl(
 
             _itemList.add(p, item)
 
-            runBack { interactor.updatePositions(_itemList, correctRankPositions(_itemList)) }
+            runBack { updateRankPositions(_itemList, correctRankPositions(_itemList)) }
 
             callback?.scrollToItem(_itemList, p, addToBottom)
         }
     }
-
-    //    override fun onClickVisible(p: Int) {
-    //        val item = _itemList.getOrNull(p)?.switchVisible() ?: return
-    //
-    //        callback?.setList(_itemList)
-    //
-    //        viewModelScope.launch {
-    //            runBack { updateRank(item) }
-    //
-    //            callback?.sendNotifyNotesBroadcast()
-    //        }
-    //    }
-
-    //    override fun onClickCancel(p: Int) {
-    //        val item = _itemList.removeAtOrNull(p) ?: return
-    //        val noteIdList = correctRankPositions(_itemList)
-    //
-    //        /**
-    //         * Save item for snackbar undo action.
-    //         */
-    //        undoList.add(Pair(p, item))
-    //
-    //        callback?.notifyList(_itemList)
-    //        callback?.showSnackbar()
-    //
-    //        viewModelScope.launch {
-    //            launchBack {
-    //                deleteRank(item)
-    //                interactor.updatePositions(_itemList, noteIdList)
-    //            }
-    //
-    //            callback?.sendNotifyNotesBroadcast()
-    //        }
-    //    }
 
     override fun onItemAnimationFinished() {
         callback?.onBindingList()
@@ -280,77 +154,6 @@ class RankViewModelImpl(
             callback?.openState?.clear()
         }
     }
-
-
-    //    override fun onSnackbarAction() {
-    //        if (undoList.isEmpty()) return
-    //
-    //        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return
-    //        val item = pair.second
-    //
-    //        /**
-    //         * Check item position correct, just in case.
-    //         * List size after adding item, will be last index.
-    //         */
-    //        val isCorrect = pair.first in _itemList.indices
-    //        val position = if (isCorrect) pair.first else _itemList.size
-    //        _itemList.add(position, item)
-    //
-    //        callback?.apply {
-    //            notifyItemInsertedScroll(_itemList, position)
-    //
-    //            /**
-    //             * If list was empty need hide information and show list.
-    //             */
-    //            if (_itemList.size == 1) {
-    //                onBindingList()
-    //            }
-    //
-    //            /**
-    //             * Show snackbar for next item undo remove.
-    //             */
-    //            if (undoList.isNotEmpty()) {
-    //                showSnackbar()
-    //            }
-    //        }
-    //
-    //        /**
-    //         * After insert don't need update item in list (due to item already have id).
-    //         */
-    //        viewModelScope.launch {
-    //            runBack {
-    //                insertRank(item)
-    //                interactor.updatePositions(_itemList, correctRankPositions(_itemList))
-    //            }
-    //
-    //            callback?.setList(_itemList)
-    //            callback?.sendNotifyNotesBroadcast()
-    //        }
-    //    }
-
-    //    override fun onSnackbarDismiss() = undoList.clear()
-
-
-    //    override fun onReceiveUnbindNote(noteId: Long) {
-    //        viewModelScope.launch {
-    //            for (item in itemList) {
-    //                if (!item.noteId.contains(noteId)) continue
-    //
-    //                /**
-    //                 * Decrement [RankItem.bindCount] without using interactor.
-    //                 */
-    //                item.bindCount = max(a = 0, b = item.bindCount - 1)
-    //
-    //                /**
-    //                 * Note may have only one category and it mean what we can use break.
-    //                 */
-    //                break
-    //            }
-    //
-    //            callback?.notifyList(itemList)
-    //        }
-    //    }
-
 
     override fun onTouchAction(inAction: Boolean) {
         inTouchAction = inAction
@@ -385,13 +188,8 @@ class RankViewModelImpl(
         val noteIdList = correctRankPositions(_itemList)
         callback?.setList(_itemList)
 
-        viewModelScope.launchBack { interactor.updatePositions(_itemList, noteIdList) }
+        viewModelScope.launchBack { updateRankPositions(_itemList, noteIdList) }
     }
-
-
-    //    // TODO #REFACTOR join with variable
-    //    @RunPrivate
-    //    fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.uppercase() }
 
     //endregion
 
@@ -404,6 +202,7 @@ class RankViewModelImpl(
         itemList.postValue(_itemList)
 
         updateRank(item)
+
         emit(Unit)
     }
 
@@ -425,7 +224,7 @@ class RankViewModelImpl(
         notifyShowList()
 
         deleteRank(item)
-        interactor.updatePositions(_itemList, noteIdList)
+        updateRankPositions(_itemList, noteIdList)
 
         emit(Unit)
     }
@@ -465,12 +264,13 @@ class RankViewModelImpl(
          * After insert don't need update item in list (due to item already have id).
          */
         insertRank(item)
-        interactor.updatePositions(_itemList, correctRankPositions(_itemList))
+        updateRankPositions(_itemList, correctRankPositions(_itemList))
 
         updateList = UpdateListState.Set
 
         /** Need set list value on mainThread for prevent postValue overriding. */
         runMain { itemList.value = _itemList }
+
         emit(Unit)
     }
 

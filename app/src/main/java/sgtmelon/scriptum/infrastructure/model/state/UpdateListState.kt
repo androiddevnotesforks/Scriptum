@@ -1,6 +1,10 @@
-package sgtmelon.scriptum.infrastructure.screen.main.rank.state
+package sgtmelon.scriptum.infrastructure.model.state
 
-@Deprecated("Use single class for this staff: check same class in notifications package")
+import androidx.recyclerview.widget.ListAdapter
+
+/**
+ * States for custom updates of [ListAdapter].
+ */
 sealed class UpdateListState {
 
     object Set : UpdateListState()
@@ -12,5 +16,4 @@ sealed class UpdateListState {
     class Remove(val p: Int) : UpdateListState()
 
     class Insert(val p: Int) : UpdateListState()
-
 }
