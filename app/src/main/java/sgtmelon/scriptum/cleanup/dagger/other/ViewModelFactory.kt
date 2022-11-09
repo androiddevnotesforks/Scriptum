@@ -44,7 +44,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
+import sgtmelon.scriptum.domain.useCase.rank.CorrectRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
@@ -57,7 +57,6 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
@@ -101,19 +100,18 @@ object ViewModelFactory {
         }
 
         class Rank(
-            private val fragment: RankFragment,
             private val interactor: IRankInteractor,
             private val getList: GetRankListUseCase,
             private val insertRank: InsertRankUseCase,
             private val deleteRank: DeleteRankUseCase,
             private val updateRank: UpdateRankUseCase,
-            private val correctPositions: CorrectPositionsUseCase
+            private val correctRankPositions: CorrectRankPositionsUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RankViewModelImpl::class) {
                     RankViewModelImpl(
-                        fragment, interactor, getList, insertRank, deleteRank, updateRank,
-                        correctPositions
+                        interactor, getList, insertRank, deleteRank, updateRank,
+                        correctRankPositions
                     )
                 }
             }

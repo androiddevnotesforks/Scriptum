@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.main.rank
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlin.math.max
 import kotlinx.coroutines.launch
@@ -13,8 +14,7 @@ import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
+import sgtmelon.scriptum.domain.useCase.rank.CorrectRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
@@ -24,18 +24,14 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Snackbar
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
-/**
- * ViewModel for [IRankFragment].
- */
 class RankViewModelImpl(
-    callback: IRankFragment,
     private val interactor: IRankInteractor,
     private val getList: GetRankListUseCase,
     private val insertRank: InsertRankUseCase,
     private val deleteRank: DeleteRankUseCase,
     private val updateRank: UpdateRankUseCase,
-    private val correctPositions: CorrectPositionsUseCase
-) : ParentViewModel<IRankFragment>(callback),
+    private val correctRankPositions: CorrectRankPositionsUseCase
+) : ViewModel(),
     RankViewModel {
 
     @RunPrivate val itemList: MutableList<RankItem> = mutableListOf()
@@ -187,7 +183,7 @@ class RankViewModelImpl(
 
             itemList.add(p, item)
 
-            runBack { interactor.updatePositions(itemList, correctPositions(itemList)) }
+            runBack { interactor.updatePositions(itemList, correctRankPositions(itemList)) }
 
             callback?.scrollToItem(itemList, p, addToBottom)
         }
@@ -207,7 +203,7 @@ class RankViewModelImpl(
 
     override fun onClickCancel(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
-        val noteIdList = correctPositions(itemList)
+        val noteIdList = correctRankPositions(itemList)
 
         /**
          * Save item for snackbar undo action.
@@ -277,7 +273,7 @@ class RankViewModelImpl(
         viewModelScope.launch {
             runBack {
                 insertRank(item)
-                interactor.updatePositions(itemList, correctPositions(itemList))
+                interactor.updatePositions(itemList, correctRankPositions(itemList))
             }
 
             callback?.setList(itemList)
@@ -339,7 +335,7 @@ class RankViewModelImpl(
     override fun onTouchMoveResult() {
         callback?.openState?.clear()
 
-        val noteIdList = correctPositions(itemList)
+        val noteIdList = correctRankPositions(itemList)
         callback?.setList(itemList)
 
         viewModelScope.launchBack { interactor.updatePositions(itemList, noteIdList) }

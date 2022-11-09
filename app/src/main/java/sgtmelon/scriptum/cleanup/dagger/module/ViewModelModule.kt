@@ -54,7 +54,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
+import sgtmelon.scriptum.domain.useCase.rank.CorrectRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
@@ -71,7 +71,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
@@ -113,18 +112,18 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideRankViewModel(
-        fragment: RankFragment,
+        owner: ViewModelStoreOwner,
         interactor: IRankInteractor,
         getList: GetRankListUseCase,
         insertRank: InsertRankUseCase,
         deleteRank: DeleteRankUseCase,
         updateRank: UpdateRankUseCase,
-        correctPositions: CorrectPositionsUseCase
+        correctRankPositions: CorrectRankPositionsUseCase
     ): RankViewModel {
         val factory = ViewModelFactory.MainScreen.Rank(
-            fragment, interactor, getList, insertRank, deleteRank, updateRank, correctPositions
+            interactor, getList, insertRank, deleteRank, updateRank, correctRankPositions
         )
-        return ViewModelProvider(fragment, factory)[RankViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[RankViewModelImpl::class.java]
     }
 
     @Provides

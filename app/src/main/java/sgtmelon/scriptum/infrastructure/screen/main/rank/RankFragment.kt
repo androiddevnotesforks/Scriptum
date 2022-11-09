@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
 import android.content.IntentFilter
-import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
+import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
@@ -40,27 +40,26 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 import sgtmelon.test.idling.getIdling
 
 /**
- * Fragment which displays list of categories - [RankItem].
+ * Screen with list of categories and with ability to create them.
  */
 // TODO restore snackbar after returning to this page (test case: click cance -> open notes page -> open rank page -> check snackbar is visible)
 // TODO restore snackbar after app reopen (свернул-открыл)
 class RankFragment : BindingFragment<FragmentRankBinding>(),
-    IRankFragment,
     ScrollTopCallback,
     SnackbarDelegator.Callback {
 
     override val layoutId: Int = R.layout.fragment_rank
 
-    //region Variables
-
     @Inject lateinit var viewModel: RankViewModel
+
+    private val animation = ShowListAnimation()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val renameDialog by lazy { DialogFactory.Main(context, fm).getRename() }
+    private val dialogs by lazy { DialogFactory.Main(context, fm) }
+    private val renameDialog by lazy { dialogs.getRename() }
 
     private val touchControl by lazy { RankTouchControl(viewModel) }
-
     private val adapter by lazy {
         RankAdapter(touchControl, object : IconBlockCallback {
             override fun setEnabled(isEnabled: Boolean) {
@@ -93,6 +92,47 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     )
 
     val enterCard: View? get() = binding?.toolbarInclude?.enterCard
+
+    //region System
+
+    override fun inject(component: ScriptumComponent) {
+        component.getRankBuilder()
+            .set(owner = this)
+            .build()
+            .inject(fragment = this)
+    }
+
+    override fun setupView() {
+        super.setupView()
+        TODO()
+    }
+
+    override fun setupDialogs() {
+        super.setupDialogs()
+        TODO()
+    }
+
+    override fun setupObservers() {
+        super.setupObservers()
+        TODO()
+    }
+
+    override fun registerReceivers() {
+        super.registerReceivers()
+        context?.registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.RANK))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        context?.unregisterReceiver(unbindNoteReceiver)
+    }
+
+    //endregion
+
+    //region Cleanup
+
+    //region Variables
+
     //    val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
 
     //    /**
@@ -108,69 +148,50 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     //endregion
 
-    override val openState: OpenState? get() = parentOpen
-
     //region System
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        /** Inside [savedInstanceState] saved snackbar data. */
-        viewModel.onSetup(savedInstanceState)
-    }
-
-    override fun inject(component: ScriptumComponent) {
-        component.getRankBuilder()
-            .set(fragment = this)
-            .build()
-            .inject(fragment = this)
-    }
-
-    override fun registerReceivers() {
-        super.registerReceivers()
-        context?.registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.RANK))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        context?.unregisterReceiver(unbindNoteReceiver)
-    }
+    //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    //        super.onViewCreated(view, savedInstanceState)
+    //
+    //        /** Inside [savedInstanceState] saved snackbar data. */
+    //        viewModel.onSetup(savedInstanceState)
+    //    }
 
     override fun onResume() {
         super.onResume()
         viewModel.onUpdateData()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
+    //    override fun onDestroy() {
+    //        super.onDestroy()
+    //        viewModel.onDestroy()
+    //    }
 
-    /**
-     * When user change page from this to another - inside [MainActivity] happen call of
-     * func: [onPause], and manually run func: [dismissSnackbar]. It mean that [onStop]
-     * will never call on navigation page change.
-     */
     override fun onStop() {
         super.onStop()
-        // TODO На сколько я понимаю, после поворота экрана будет восстановлен snackbar и поэтому не нужно чтобы отработал dismissResult
+
+        /**
+         * Need dismiss without listener for control leave screen case. We don't want to lost
+         * snackbar stack inside [viewModel] during rotation/app close/ect. So, need restore
+         * [snackbar] after screen reopen - [onResume].
+         */
         snackbar.dismiss(skipDismissResult = true)
     }
 
-    /**
-     * Save snackbar data on rotation and screen turn off. Func [onSaveInstanceState] will be
-     * called in both cases.
-     *
-     * - But on rotation case [outState] will be restored inside [onViewCreated].
-     * - On turn off screen case [outState] will be restored only if activity will be
-     *   recreated.
-     *
-     * On navigation page change this func will not be called. See [onStop] comment.
-     */
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.onSaveData(outState)
-    }
+    //    /**
+    //     * Save snackbar data on rotation and screen turn off. Func [onSaveInstanceState] will be
+    //     * called in both cases.
+    //     *
+    //     * - But on rotation case [outState] will be restored inside [onViewCreated].
+    //     * - On turn off screen case [outState] will be restored only if activity will be
+    //     *   recreated.
+    //     *
+    //     * On navigation page change this func will not be called. See [onStop] comment.
+    //     */
+    //    override fun onSaveInstanceState(outState: Bundle) {
+    //        super.onSaveInstanceState(outState)
+    //        viewModel.onSaveData(outState)
+    //    }
 
     //endregion
 
@@ -405,6 +426,8 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
      * Not used here.
      */
     override fun sendNotifyInfoBroadcast(count: Int?) = Unit
+
+    //endregion
 
     //endregion
 

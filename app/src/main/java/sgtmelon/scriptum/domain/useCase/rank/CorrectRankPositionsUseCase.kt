@@ -3,7 +3,7 @@ package sgtmelon.scriptum.domain.useCase.rank
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 
-class CorrectPositionsUseCase {
+class CorrectRankPositionsUseCase {
 
     /**
      * Return list of [NoteItem.id] where need to update [NoteItem.rankPs].

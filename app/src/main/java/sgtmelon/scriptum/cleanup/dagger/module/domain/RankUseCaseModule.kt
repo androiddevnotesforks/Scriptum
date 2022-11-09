@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Named
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
-import sgtmelon.scriptum.domain.useCase.rank.CorrectPositionsUseCase
+import sgtmelon.scriptum.domain.useCase.rank.CorrectRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
@@ -36,8 +36,8 @@ class RankUseCaseModule {
     }
 
     @Provides
-    fun provideCorrectPositionsUseCase(): CorrectPositionsUseCase {
-        return CorrectPositionsUseCase()
+    fun provideCorrectRankPositionsUseCase(): CorrectRankPositionsUseCase {
+        return CorrectRankPositionsUseCase()
     }
 
     @Provides

@@ -10,11 +10,11 @@ import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
- * Test for [CorrectPositionsUseCase].
+ * Test for [CorrectRankPositionsUseCase].
  */
-class CorrectPositionsUseCaseTest : ParentTest() {
+class CorrectRankPositionsUseCaseTest : ParentTest() {
 
-    private val useCase = CorrectPositionsUseCase()
+    private val useCase = CorrectRankPositionsUseCase()
 
     @Test fun `invoke shuffled`() {
         val listSize = getRandomSize()
