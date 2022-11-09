@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.notifications
+package sgtmelon.scriptum.infrastructure.screen.notifications.state
 
 import java.util.Calendar
 

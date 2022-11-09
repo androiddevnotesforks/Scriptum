@@ -75,8 +75,8 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         every { callback.openState } returns openState
 
-        assertTrue(viewModel.itemList.isEmpty())
-        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel._itemList.isEmpty())
+        assertTrue(viewModel.undoList.isEmpty())
 
         assertFalse(viewModel.inTouchAction)
     }
@@ -146,18 +146,18 @@ class RankViewModelImplTest : ParentViewModelTest() {
         every { bundle.getIntArray(Snackbar.Intent.POSITIONS) } returns null
         viewModel.restoreSnackbar(bundle)
 
-        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.undoList.isEmpty())
 
         every { bundle.getIntArray(Snackbar.Intent.POSITIONS) } returns positionArray
         every { bundle.getStringArray(Snackbar.Intent.ITEMS) } returns null
         viewModel.restoreSnackbar(bundle)
 
-        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.undoList.isEmpty())
 
         every { bundle.getStringArray(Snackbar.Intent.ITEMS) } returns jsonArray
         viewModel.restoreSnackbar(bundle)
 
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(cancelList, viewModel.undoList)
 
         verifySequence {
             bundle.getIntArray(Snackbar.Intent.POSITIONS)
@@ -185,14 +185,14 @@ class RankViewModelImplTest : ParentViewModelTest() {
         for ((i, item) in itemList.withIndex()) {
             every { item.toJson() } returns jsonArray[i]
 
-            viewModel.cancelList.add(Pair(positionArray[i], item))
+            viewModel.undoList.add(Pair(positionArray[i], item))
         }
 
         every { bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray) } returns Unit
         every { bundle.putStringArray(Snackbar.Intent.ITEMS, jsonArray) } returns Unit
 
         viewModel.onSaveData(bundle)
-        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.undoList.isEmpty())
 
         verifySequence {
             bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray)
@@ -206,7 +206,7 @@ class RankViewModelImplTest : ParentViewModelTest() {
         coEvery { interactor.getCount() } returns itemList.size
         coEvery { getList() } returns itemList
 
-        viewModel.itemList.clear()
+        viewModel._itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
@@ -222,7 +222,7 @@ class RankViewModelImplTest : ParentViewModelTest() {
         val itemList = mutableListOf<RankItem>()
 
         coEvery { interactor.getCount() } returns itemList.size
-        viewModel.itemList.clear()
+        viewModel._itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
@@ -238,8 +238,8 @@ class RankViewModelImplTest : ParentViewModelTest() {
         coEvery { interactor.getCount() } returns returnList.size
         coEvery { getList() } returns returnList
 
-        viewModel.itemList.clearAdd(startList)
-        assertEquals(startList, viewModel.itemList)
+        viewModel._itemList.clearAdd(startList)
+        assertEquals(startList, viewModel._itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
@@ -256,8 +256,8 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         coEvery { interactor.getCount() } returns returnList.size
 
-        viewModel.itemList.clearAdd(startList)
-        assertEquals(startList, viewModel.itemList)
+        viewModel._itemList.clearAdd(startList)
+        assertEquals(startList, viewModel._itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
@@ -286,7 +286,7 @@ class RankViewModelImplTest : ParentViewModelTest() {
         every { callback.getEnterText() } returns item.name
         viewModel.onUpdateToolbar()
 
-        viewModel.itemList.clearAdd(data.itemList)
+        viewModel._itemList.clearAdd(data.itemList)
         viewModel.onUpdateToolbar()
 
         verifySequence {
@@ -314,8 +314,8 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         every { spyViewModel.getNameList(itemList) } returns nameList
 
-        spyViewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, spyViewModel.itemList)
+        spyViewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel._itemList)
 
         val p = itemList.indices.random()
         val item = itemList[p]
@@ -379,15 +379,15 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         val name = nextString()
         var itemList = listOf(data.firstRank.copy(name = name))
-        spyViewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, spyViewModel.itemList)
+        spyViewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel._itemList)
 
         every { callback.getEnterText() } returns name
         assertFalse(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
         itemList = data.itemList
-        spyViewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, spyViewModel.itemList)
+        spyViewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel._itemList)
 
         every { callback.getEnterText() } returns itemList.random().name
         assertFalse(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
@@ -411,8 +411,8 @@ class RankViewModelImplTest : ParentViewModelTest() {
         val name = nextString()
 
         val itemList = listOf(data.firstRank.copy(name = name))
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        viewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel._itemList)
 
         every { callback.getEnterText() } returns name
         viewModel.onClickEnterAdd(Random.nextBoolean())
@@ -438,12 +438,12 @@ class RankViewModelImplTest : ParentViewModelTest() {
         every { spyViewModel.getNameList(any()) } returns emptyList()
         every { correctRankPositions(resultList) } returns noteIdList
 
-        spyViewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, spyViewModel.itemList)
+        spyViewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel._itemList)
 
         spyViewModel.onClickEnterAdd(addToBottom = true)
 
-        assertEquals(resultList, spyViewModel.itemList)
+        assertEquals(resultList, spyViewModel._itemList)
 
         coVerifyOrder {
             callback.clearEnter()
@@ -473,12 +473,12 @@ class RankViewModelImplTest : ParentViewModelTest() {
         every { spyViewModel.getNameList(any()) } returns emptyList()
         every { correctRankPositions(resultList) } returns noteIdList
 
-        spyViewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, spyViewModel.itemList)
+        spyViewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel._itemList)
 
         spyViewModel.onClickEnterAdd(addToBottom = false)
 
-        assertEquals(resultList, spyViewModel.itemList)
+        assertEquals(resultList, spyViewModel._itemList)
 
         coVerifyOrder {
             callback.clearEnter()
@@ -500,14 +500,14 @@ class RankViewModelImplTest : ParentViewModelTest() {
         every { callback.clearEnter() } returns name
         coEvery { insertRank(name) } returns null
 
-        spyViewModel.itemList.clearAdd(itemList)
+        spyViewModel._itemList.clearAdd(itemList)
 
-        assertEquals(itemList, spyViewModel.itemList)
+        assertEquals(itemList, spyViewModel._itemList)
 
         spyViewModel.onClickEnterAdd(addToBottom = false)
         spyViewModel.onClickEnterAdd(addToBottom = true)
 
-        assertEquals(itemList, spyViewModel.itemList)
+        assertEquals(itemList, spyViewModel._itemList)
 
         coVerifyOrder {
             repeat(times = 2) {
@@ -524,8 +524,8 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         val itemList = data.itemList
 
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        viewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel._itemList)
 
         val p = itemList.indices.random()
         val item = itemList[p].switchVisible()
@@ -610,18 +610,18 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         every { correctRankPositions(resultList) } returns noteIdList
 
-        viewModel.itemList.clearAdd(itemList)
-        viewModel.cancelList.clearAdd(cancelList)
+        viewModel._itemList.clearAdd(itemList)
+        viewModel.undoList.clearAdd(cancelList)
 
-        assertEquals(itemList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(itemList, viewModel._itemList)
+        assertEquals(cancelList, viewModel.undoList)
 
         viewModel.onSnackbarAction()
 
         cancelList.removeAt(index = 1)
 
-        assertEquals(resultList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(resultList, viewModel._itemList)
+        assertEquals(cancelList, viewModel.undoList)
 
         coVerifySequence {
             callback.apply {
@@ -651,18 +651,18 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         every { correctRankPositions(resultList) } returns noteIdList
 
-        viewModel.itemList.clearAdd(itemList)
-        viewModel.cancelList.clearAdd(cancelList)
+        viewModel._itemList.clearAdd(itemList)
+        viewModel.undoList.clearAdd(cancelList)
 
-        assertEquals(itemList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(itemList, viewModel._itemList)
+        assertEquals(cancelList, viewModel.undoList)
 
         viewModel.onSnackbarAction()
 
         cancelList.removeAt(index = 0)
 
-        assertEquals(resultList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(resultList, viewModel._itemList)
+        assertEquals(cancelList, viewModel.undoList)
 
         coVerifyOrder {
             callback.notifyItemInsertedScroll(resultList, resultList.lastIndex)
@@ -689,17 +689,17 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         every { correctRankPositions(resultList) } returns noteIdList
 
-        viewModel.cancelList.clearAdd(cancelList)
+        viewModel.undoList.clearAdd(cancelList)
 
-        assertEquals(itemList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(itemList, viewModel._itemList)
+        assertEquals(cancelList, viewModel.undoList)
 
         viewModel.onSnackbarAction()
 
         cancelList.removeAt(index = 0)
 
-        assertEquals(resultList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(resultList, viewModel._itemList)
+        assertEquals(cancelList, viewModel.undoList)
 
         coVerifyOrder {
             callback.notifyItemInsertedScroll(resultList, resultList.lastIndex)
@@ -716,12 +716,12 @@ class RankViewModelImplTest : ParentViewModelTest() {
     @Test fun onSnackbarDismiss() {
         val cancelList = MutableList(size = 5) { Pair(Random.nextInt(), mockk<RankItem>()) }
 
-        viewModel.cancelList.clearAdd(cancelList)
-        assertEquals(cancelList, viewModel.cancelList)
+        viewModel.undoList.clearAdd(cancelList)
+        assertEquals(cancelList, viewModel.undoList)
 
         viewModel.onSnackbarDismiss()
 
-        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.undoList.isEmpty())
     }
 
 
@@ -744,7 +744,7 @@ class RankViewModelImplTest : ParentViewModelTest() {
             every { rank.noteId } returns mutableListOf()
         }
 
-        viewModel.itemList.clearAdd(itemList)
+        viewModel._itemList.clearAdd(itemList)
         viewModel.onReceiveUnbindNote(id)
 
         coVerifySequence {
@@ -806,8 +806,8 @@ class RankViewModelImplTest : ParentViewModelTest() {
         val from = Random.nextInt()
         val to = Random.nextInt()
 
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        viewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel._itemList)
 
         FastMock.listExtension()
         every { itemList.move(from, to) } returns Unit
@@ -829,8 +829,8 @@ class RankViewModelImplTest : ParentViewModelTest() {
 
         every { correctRankPositions(itemList) } returns noteIdList
 
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        viewModel._itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel._itemList)
 
         viewModel.onTouchMoveResult()
 

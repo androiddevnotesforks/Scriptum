@@ -24,8 +24,6 @@ data class RankItem(
     var notificationCount: Int = Default.NOTIFICATION_COUNT
 ) {
 
-    fun switchVisible() = apply { isVisible = !isVisible }
-
     // TODO add converter toJson and back
     fun toJson(): String = JSONObject().apply {
         put(Rank.ID, id)

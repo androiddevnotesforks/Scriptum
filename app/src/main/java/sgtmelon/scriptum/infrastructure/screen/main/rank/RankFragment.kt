@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
+import android.annotation.SuppressLint
 import android.content.IntentFilter
 import android.view.View
 import androidx.core.widget.doOnTextChanged
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
+import sgtmelon.extensions.collect
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -25,6 +27,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
+import sgtmelon.scriptum.infrastructure.screen.main.rank.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
@@ -42,8 +45,6 @@ import sgtmelon.test.idling.getIdling
 /**
  * Screen with list of categories and with ability to create them.
  */
-// TODO restore snackbar after returning to this page (test case: click cance -> open notes page -> open rank page -> check snackbar is visible)
-// TODO restore snackbar after app reopen (свернул-открыл)
 class RankFragment : BindingFragment<FragmentRankBinding>(),
     ScrollTopCallback,
     SnackbarDelegator.Callback {
@@ -70,19 +71,11 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             }
         }, object : RankClickListener {
             override fun onRankVisibleClick(p: Int, onAction: () -> Unit) {
-                parentOpen?.attempt(OpenState.Tag.ANIM) {
-                    onAction()
-                    viewModel.onClickVisible(p)
-                }
+                changeVisibility(p, onAction)
             }
 
-            override fun onRankClick(p: Int) {
-                parentOpen?.attempt { viewModel.onShowRenameDialog(p) }
-            }
-
-            override fun onRankCancelClick(p: Int) {
-                parentOpen?.attempt { viewModel.onClickCancel(p) }
-            }
+            override fun onRankClick(p: Int) = showRenameDialog(p)
+            override fun onRankCancelClick(p: Int) = removeRank(p)
         })
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }
@@ -104,16 +97,74 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     override fun setupView() {
         super.setupView()
-        TODO()
+
+        /**
+         * Use [OpenState.attempt] and [OpenState.returnAttempt] inside add category feature
+         * because calculations happens inside coroutine, not main thread.
+         *
+         * Reset of [OpenState.isBlocked] happen inside [scrollToItem].
+         */
+        binding?.toolbarInclude?.apply {
+            toolbar.title = getString(R.string.title_rank)
+            clearButton.setOnClickListener { viewModel.onClickEnterCancel() }
+            addButton.setOnClickListener {
+                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
+            }
+            addButton.setOnLongClickListener {
+                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
+                return@setOnLongClickListener true
+            }
+            rankEnter.doOnTextChanged { _, _, _, _ -> viewModel.onUpdateToolbar() }
+            rankEnter.setOnEditorActionListener { _, i, _ ->
+                val result = parentOpen?.returnAttempt {
+                    viewModel.onEditorClick(i)
+                } ?: false
+
+                /**
+                 * If item wasn't add need clear [parentOpen].
+                 */
+                if (!result) parentOpen?.clear()
+
+                return@setOnEditorActionListener result
+            }
+        }
+
+        binding?.recyclerView?.let {
+            it.setDefaultAnimator(supportsChangeAnimations = false) {
+                viewModel.onItemAnimationFinished()
+            }
+
+            it.addOnScrollListener(RecyclerOverScrollListener())
+            it.setHasFixedSize(true)
+            it.layoutManager = layoutManager
+            it.adapter = adapter
+        }
+
+        ItemTouchHelper(touchControl).attachToRecyclerView(binding?.recyclerView)
     }
 
     override fun setupDialogs() {
         super.setupDialogs()
-        TODO()
+
+        renameDialog.apply {
+            onPositiveClick { viewModel.onResultRenameDialog(position, name) }
+            onDismiss { parentOpen?.clear() }
+        }
     }
 
     override fun setupObservers() {
         super.setupObservers()
+
+        viewModel.showList.observe(this) {
+            val binding = binding ?: return@observe
+
+            animation.startListFade(
+                it, binding.parentContainer, binding.progressBar,
+                binding.recyclerView, binding.infoInclude.parentContainer
+            )
+        }
+        viewModel.itemList.observe(this) { observeItemList(it) }
+        viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
         TODO()
     }
 
@@ -127,7 +178,69 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         context?.unregisterReceiver(unbindNoteReceiver)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        /**
+         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
+         * call of this function inside parent activity (during fragment transaction).
+         */
+        viewModel.updateData()
+
+        // TODO restore snackbar after returning to this page (test case: click cance -> open notes page -> open rank page -> check snackbar is visible)
+        // TODO restore snackbar after app reopen (свернул-открыл)
+        /** Restore our snack bar if it must be shown. */
+        if (viewModel.showSnackbar.value == true && !snackbar.isDisplayed) {
+            showSnackbar()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        /**
+         * Need dismiss without listener for control leave screen case. We don't want to lost
+         * snackbar stack inside [viewModel] during rotation/app close/ect. So, need restore
+         * [snackbar] after screen reopen - [onResume].
+         */
+        hideSnackbar()
+    }
+
+    /**
+     * Use here [UpdateListState.NotifyHard] case, because it will prevent lags during
+     * undo (insert) first item. When empty info hides and list appears. Insert animation
+     * and list fade in animation concurrent with each other and it's looks laggy.
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    private fun observeItemList(it: List<RankItem>) {
+        when (val state = viewModel.updateList) {
+            is UpdateListState.Set -> adapter.setList(it)
+            is UpdateListState.Notify -> adapter.notifyList(it)
+            is UpdateListState.NotifyHard -> adapter.setList(it).notifyDataSetChanged()
+            is UpdateListState.Remove -> adapter.setList(it).notifyItemRemoved(state.p)
+            is UpdateListState.Insert -> {
+                adapter.setList(it).notifyItemInserted(state.p)
+                RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(it, state.p)
+            }
+        }
+    }
+
     //endregion
+
+    private fun showSnackbar() {
+        val parentContainer = binding?.recyclerContainer ?: return
+        snackbar.show(parentContainer, withInsets = false)
+    }
+
+    // TODO restore snackbar after page changes
+    /**
+     * Call of this func happens inside parent activity during pages change.
+     */
+    fun hideSnackbar() {
+        snackbar.dismiss(skipDismissResult = true)
+    }
+
+    private fun dismissSnackbar() = snackbar.dismiss(skipDismissResult = false)
 
     //region Cleanup
 
@@ -157,26 +270,26 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     //        viewModel.onSetup(savedInstanceState)
     //    }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.onUpdateData()
-    }
-
+    //    override fun onResume() {
+    //        super.onResume()
+    //        viewModel.onUpdateData()
+    //    }
+    //
     //    override fun onDestroy() {
     //        super.onDestroy()
     //        viewModel.onDestroy()
     //    }
 
-    override fun onStop() {
-        super.onStop()
-
-        /**
-         * Need dismiss without listener for control leave screen case. We don't want to lost
-         * snackbar stack inside [viewModel] during rotation/app close/ect. So, need restore
-         * [snackbar] after screen reopen - [onResume].
-         */
-        snackbar.dismiss(skipDismissResult = true)
-    }
+    //    override fun onStop() {
+    //        super.onStop()
+    //
+    //        /**
+    //         * Need dismiss without listener for control leave screen case. We don't want to lost
+    //         * snackbar stack inside [viewModel] during rotation/app close/ect. So, need restore
+    //         * [snackbar] after screen reopen - [onResume].
+    //         */
+    //        snackbar.dismiss(skipDismissResult = true)
+    //    }
 
     //    /**
     //     * Save snackbar data on rotation and screen turn off. Func [onSaveInstanceState] will be
@@ -199,105 +312,105 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         activity?.hideKeyboard()
     }
 
-    /**
-     * Use [OpenState.attempt] and [OpenState.returnAttempt] because item adding
-     * happen inside coroutine, not main thread.
-     *
-     * Reset of [OpenState.isBlocked] happen inside [scrollToItem].
-     */
-    override fun setupToolbar() {
-        binding?.toolbarInclude?.toolbar?.title = getString(R.string.title_rank)
-        binding?.toolbarInclude?.clearButton?.setOnClickListener {
-            viewModel.onClickEnterCancel()
-        }
-        binding?.toolbarInclude?.addButton?.apply {
-            setOnClickListener {
-                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
-            }
-            setOnLongClickListener {
-                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
-                return@setOnLongClickListener true
-            }
-        }
-        binding?.toolbarInclude?.rankEnter?.apply {
-            doOnTextChanged { _, _, _, _ -> viewModel.onUpdateToolbar() }
-            setOnEditorActionListener { _, i, _ ->
-                val result = parentOpen?.returnAttempt { viewModel.onEditorClick(i) } ?: false
+    //    /**
+    //     * Use [OpenState.attempt] and [OpenState.returnAttempt] because item adding
+    //     * happen inside coroutine, not main thread.
+    //     *
+    //     * Reset of [OpenState.isBlocked] happen inside [scrollToItem].
+    //     */
+    //    override fun setupToolbar() {
+    //        binding?.toolbarInclude?.toolbar?.title = getString(R.string.title_rank)
+    //        binding?.toolbarInclude?.clearButton?.setOnClickListener {
+    //            viewModel.onClickEnterCancel()
+    //        }
+    //        binding?.toolbarInclude?.addButton?.apply {
+    //            setOnClickListener {
+    //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
+    //            }
+    //            setOnLongClickListener {
+    //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
+    //                return@setOnLongClickListener true
+    //            }
+    //        }
+    //        binding?.toolbarInclude?.rankEnter?.apply {
+    //            doOnTextChanged { _, _, _, _ -> viewModel.onUpdateToolbar() }
+    //            setOnEditorActionListener { _, i, _ ->
+    //                val result = parentOpen?.returnAttempt { viewModel.onEditorClick(i) } ?: false
+    //
+    //                /**
+    //                 * If item wasn't add need clear [parentOpen].
+    //                 */
+    //                if (!result) parentOpen?.clear()
+    //
+    //                return@setOnEditorActionListener result
+    //            }
+    //        }
+    //
+    //        //        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
+    //        //            title = getString(R.string.title_rank)
+    //        //        }
+    //
+    //        //        view?.findViewById<ImageButton>(R.id.clear_button)?.apply {
+    //        //            setOnClickListener { viewModel.onClickEnterCancel() }
+    //        //        }
+    //
+    //        //        view?.findViewById<ImageButton>(R.id.add_button)?.apply {
+    //        //            setOnClickListener {
+    //        //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
+    //        //            }
+    //        //            setOnLongClickListener {
+    //        //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
+    //        //                return@setOnLongClickListener true
+    //        //            }
+    //        //        }
+    //
+    //        //        nameEnter = view?.findViewById(R.id.rank_enter)
+    //    }
 
-                /**
-                 * If item wasn't add need clear [parentOpen].
-                 */
-                if (!result) parentOpen?.clear()
+    //    override fun setupRecycler() {
+    //        //        parentContainer = view?.findViewById(R.id.parent_container)
+    //        //        recyclerContainer = view?.findViewById(R.id.recycler_container)
+    //        //        emptyInfoView = view?.findViewById(R.id.info_include)
+    //        //        progressBar = view?.findViewById(R.id.progress_bar)
+    //
+    //        //        recyclerView = view?.findViewById(R.id.recycler_view)
+    //        binding?.recyclerView?.let {
+    //            it.setDefaultAnimator(supportsChangeAnimations = false) {
+    //                viewModel.onItemAnimationFinished()
+    //            }
+    //
+    //            it.addOnScrollListener(RecyclerOverScrollListener())
+    //            it.setHasFixedSize(true)
+    //            it.layoutManager = layoutManager
+    //            it.adapter = adapter
+    //        }
+    //
+    //        ItemTouchHelper(touchControl).attachToRecyclerView(binding?.recyclerView)
+    //    }
 
-                return@setOnEditorActionListener result
-            }
-        }
-
-        //        view?.findViewById<Toolbar>(R.id.toolbar)?.apply {
-        //            title = getString(R.string.title_rank)
-        //        }
-
-        //        view?.findViewById<ImageButton>(R.id.clear_button)?.apply {
-        //            setOnClickListener { viewModel.onClickEnterCancel() }
-        //        }
-
-        //        view?.findViewById<ImageButton>(R.id.add_button)?.apply {
-        //            setOnClickListener {
-        //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
-        //            }
-        //            setOnLongClickListener {
-        //                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
-        //                return@setOnLongClickListener true
-        //            }
-        //        }
-
-        //        nameEnter = view?.findViewById(R.id.rank_enter)
-    }
-
-    override fun setupRecycler() {
-        //        parentContainer = view?.findViewById(R.id.parent_container)
-        //        recyclerContainer = view?.findViewById(R.id.recycler_container)
-        //        emptyInfoView = view?.findViewById(R.id.info_include)
-        //        progressBar = view?.findViewById(R.id.progress_bar)
-
-        //        recyclerView = view?.findViewById(R.id.recycler_view)
-        binding?.recyclerView?.let {
-            it.setDefaultAnimator(supportsChangeAnimations = false) {
-                viewModel.onItemAnimationFinished()
-            }
-
-            it.addOnScrollListener(RecyclerOverScrollListener())
-            it.setHasFixedSize(true)
-            it.layoutManager = layoutManager
-            it.adapter = adapter
-        }
-
-        ItemTouchHelper(touchControl).attachToRecyclerView(binding?.recyclerView)
-    }
-
-    override fun setupDialog() {
-        renameDialog.apply {
-            onPositiveClick { viewModel.onResultRenameDialog(position, name) }
-            onDismiss { parentOpen?.clear() }
-        }
-    }
-
-
-    /**
-     * For first time [recyclerView] visibility flag set inside xml file.
-     */
-    override fun prepareForLoad() {
-        binding?.infoInclude?.parentContainer?.makeGone()
-        binding?.progressBar?.makeGone()
-    }
-
-    override fun showProgress() {
-        binding?.progressBar?.makeVisible()
-    }
-
-    override fun hideEmptyInfo() {
-        binding?.infoInclude?.parentContainer?.makeGone()
-    }
+    //    override fun setupDialog() {
+    //        renameDialog.apply {
+    //            onPositiveClick { viewModel.onResultRenameDialog(position, name) }
+    //            onDismiss { parentOpen?.clear() }
+    //        }
+    //    }
+    //
+    //
+    //    /**
+    //     * For first time [recyclerView] visibility flag set inside xml file.
+    //     */
+    //    override fun prepareForLoad() {
+    //        binding?.infoInclude?.parentContainer?.makeGone()
+    //        binding?.progressBar?.makeGone()
+    //    }
+    //
+    //    override fun showProgress() {
+    //        binding?.progressBar?.makeVisible()
+    //    }
+    //
+    //    override fun hideEmptyInfo() {
+    //        binding?.infoInclude?.parentContainer?.makeGone()
+    //    }
 
 
     override fun onBindingList() {
@@ -352,25 +465,12 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         //        }?.executePendingBindings()
     }
 
-    override fun scrollTop() {
-        binding?.recyclerView?.smoothScrollToPosition(0)
-    }
-
-    override fun showSnackbar() {
-        binding?.recyclerContainer?.let { snackbar.show(it, withInsets = false) }
-    }
-
-    override fun dismissSnackbar() = snackbar.dismiss(skipDismissResult = false)
-
-    // TODO restore snackbar after page changes
-    fun hideSnackbar() = snackbar.dismiss(skipDismissResult = true)
-
-    override fun onSnackbarAction() {
-        parentOpen?.attempt { viewModel.onSnackbarAction() }
-    }
-
-    override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
-
+    //
+    //    override fun showSnackbar() {
+    //        binding?.recyclerContainer?.let { snackbar.show(it, withInsets = false) }
+    //    }
+    //
+    //    override fun dismissSnackbar() = snackbar.dismiss(skipDismissResult = false)
 
     override fun getEnterText() = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
 
@@ -391,10 +491,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
-    override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
-        renameDialog.setArguments(p, name, nameList)
-            .safeShow(DialogFactory.Main.RENAME, owner = this)
-    }
+    //    override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
+    //        renameDialog.setArguments(p, name, nameList)
+    //            .safeShow(DialogFactory.Main.RENAME, owner = this)
+    //    }
 
 
     override fun setList(list: List<RankItem>) {
@@ -413,22 +513,56 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(list, p)
     }
 
-    //region Broadcast functions
+    //    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
 
-    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
-
-    /**
-     * Not used here.
-     */
-    override fun sendCancelNoteBroadcast(id: Long) = Unit
-
-    /**
-     * Not used here.
-     */
-    override fun sendNotifyInfoBroadcast(count: Int?) = Unit
+    //    /**
+    //     * Not used here.
+    //     */
+    //    override fun sendCancelNoteBroadcast(id: Long) = Unit
+    //
+    //    /**
+    //     * Not used here.
+    //     */
+    //    override fun sendNotifyInfoBroadcast(count: Int?) = Unit
 
     //endregion
 
-    //endregion
+    private inline fun changeVisibility(p: Int, onAction: () -> Unit) {
+        parentOpen?.attempt(OpenState.Tag.ANIM) {
+            onAction()
+            viewModel.changeRankVisibility(p).collect(owner = this) { updateNotesBind() }
+        }
+    }
 
+    private fun showRenameDialog(p: Int) {
+        parentOpen?.attempt {
+            viewModel.getRenameData(p).collect(owner = this) {
+                val (name, nameList) = it
+
+                dismissSnackbar()
+                renameDialog.setArguments(p, name, nameList)
+                    .safeShow(DialogFactory.Main.RENAME, owner = this)
+            }
+        }
+    }
+
+    private fun removeRank(p: Int) {
+        parentOpen?.attempt {
+            viewModel.removeRank(p).collect(owner = this) { updateNotesBind() }
+        }
+    }
+
+    override fun onSnackbarAction() {
+        parentOpen?.attempt {
+            viewModel.undoRemove().collect(owner = this) { updateNotesBind() }
+        }
+    }
+
+    private fun updateNotesBind() = delegators.broadcast.sendNotifyNotesBind()
+
+    override fun onSnackbarDismiss() = viewModel.clearUndoStack()
+
+    override fun scrollTop() {
+        binding?.recyclerView?.smoothScrollToPosition(0)
+    }
 }

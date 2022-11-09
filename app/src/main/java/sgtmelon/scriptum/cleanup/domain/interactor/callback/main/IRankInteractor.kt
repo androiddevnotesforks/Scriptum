@@ -12,6 +12,7 @@ interface IRankInteractor : IParentInteractor {
 
     suspend fun getCount(): Int
 
+    @Deprecated("Move it inside use case")
     suspend fun updatePositions(list: List<RankItem>, noteIdList: List<Long>)
 
 }

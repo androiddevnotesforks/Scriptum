@@ -14,6 +14,8 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
+import sgtmelon.scriptum.infrastructure.screen.notifications.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
 import sgtmelon.test.idling.getIdling
@@ -42,7 +44,7 @@ class NotificationsViewModelImpl(
     /** This list needed because don't want put mutable list inside liveData. */
     private val _itemList: MutableList<NotificationItem> = mutableListOf()
 
-    /** Variable for specific list updates (update not all items). */
+    /** Variable for specific list updates (when need update not all items). */
     override var updateList: UpdateListState = UpdateListState.Notify
         get() {
             val value = field

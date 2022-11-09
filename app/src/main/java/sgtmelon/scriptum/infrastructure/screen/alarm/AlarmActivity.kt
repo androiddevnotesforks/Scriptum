@@ -21,6 +21,7 @@ import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
@@ -136,9 +137,9 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         viewModel.noteItem.observe(this) { notifyItem(it) }
         viewModel.state.observe(this) {
             when (it) {
-                is AlarmScreenState.Setup -> onSetupState(it)
-                is AlarmScreenState.Postpone -> onPostponeState(it)
-                is AlarmScreenState.Close -> finish()
+                is ScreenState.Setup -> onSetupState(it)
+                is ScreenState.Postpone -> onPostponeState(it)
+                is ScreenState.Close -> finish()
             }
         }
     }
@@ -171,7 +172,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     //region Setup state
 
-    private fun onSetupState(state: AlarmScreenState.Setup) {
+    private fun onSetupState(state: ScreenState.Setup) {
         delegators?.phoneAwake?.wakeUp(TIMEOUT_TIME)
         setupView()
 
@@ -283,7 +284,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         viewModel.postpone(repeat, timeArray)
     }
 
-    private fun onPostponeState(state: AlarmScreenState.Postpone) = beforeFinish {
+    private fun onPostponeState(state: ScreenState.Postpone) = beforeFinish {
         with(state) {
             delegators?.broadcast?.sendSetAlarm(noteId, calendar, showToast = false)
             delegators?.broadcast?.sendNotifyInfoBind()

@@ -1,5 +1,6 @@
-package sgtmelon.scriptum.infrastructure.screen.notifications
+package sgtmelon.scriptum.infrastructure.screen.main.rank.state
 
+@Deprecated("Use single class for this staff: check same class in notifications package")
 sealed class UpdateListState {
 
     object Set : UpdateListState()
@@ -11,4 +12,5 @@ sealed class UpdateListState {
     class Remove(val p: Int) : UpdateListState()
 
     class Insert(val p: Int) : UpdateListState()
+
 }

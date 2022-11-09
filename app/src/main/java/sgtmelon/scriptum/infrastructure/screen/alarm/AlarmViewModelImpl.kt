@@ -14,6 +14,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
+import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 import sgtmelon.scriptum.infrastructure.utils.record
 
 class AlarmViewModelImpl(
@@ -27,7 +28,7 @@ class AlarmViewModelImpl(
 ) : ViewModel(),
     AlarmViewModel {
 
-    override val state: MutableLiveData<AlarmScreenState> = MutableLiveData()
+    override val state: MutableLiveData<ScreenState> = MutableLiveData()
 
     override val noteItem: MutableLiveData<NoteItem> = MutableLiveData()
 
@@ -48,7 +49,7 @@ class AlarmViewModelImpl(
         if (item != null) {
             noteItem.postValue(item)
         } else {
-            state.postValue(AlarmScreenState.Close)
+            state.postValue(ScreenState.Close)
             return
         }
 
@@ -58,7 +59,7 @@ class AlarmViewModelImpl(
             null
         }
 
-        state.postValue(AlarmScreenState.Setup(item, melodyUri))
+        state.postValue(ScreenState.Setup(item, melodyUri))
     }
 
     override fun postpone(repeat: Repeat?, timeArray: IntArray) {
@@ -71,7 +72,7 @@ class AlarmViewModelImpl(
             NullPointerException(
                 "noteItem=${noteItem == null} | minute=${minute == null} | repeat=$actualRepeat"
             ).record()
-            state.postValue(AlarmScreenState.Close)
+            state.postValue(ScreenState.Close)
             return
         }
 
@@ -80,7 +81,7 @@ class AlarmViewModelImpl(
 
             shiftDateIfExist(calendar)
             setNotification(noteItem, calendar)
-            state.postValue(AlarmScreenState.Postpone(noteId, actualRepeat, calendar))
+            state.postValue(ScreenState.Postpone(noteId, actualRepeat, calendar))
         }
     }
 
