@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.test.ui.control.notification.count
 
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
-import sgtmelon.scriptum.parent.ui.launch
+
 
 /**
  * Test for alarm notification count text.

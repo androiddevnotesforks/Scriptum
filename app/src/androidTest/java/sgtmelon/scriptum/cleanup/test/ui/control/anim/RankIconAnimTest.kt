@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.iconanim.control.IconAnimControl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
-import sgtmelon.scriptum.parent.ui.launch
+
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**

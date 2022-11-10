@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.ui.auto.notifications
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.parent.ui.launch
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 

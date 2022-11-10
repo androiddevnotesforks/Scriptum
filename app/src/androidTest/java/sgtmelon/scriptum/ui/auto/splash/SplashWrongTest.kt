@@ -4,8 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.parent.ui.launchAlarm
-import sgtmelon.scriptum.parent.ui.launchBind
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**

@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
-import sgtmelon.scriptum.parent.ui.launch
+
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**

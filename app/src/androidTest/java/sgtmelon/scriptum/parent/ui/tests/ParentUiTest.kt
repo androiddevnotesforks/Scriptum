@@ -5,16 +5,20 @@ import androidx.test.rule.ActivityTestRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
+import sgtmelon.scriptum.parent.ui.screen.splash.SplashScreen
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.idling.getWaitIdling
 
@@ -118,6 +122,53 @@ abstract class ParentUiTest : ParentTest() {
 
         BindControl[context].clearRecent()
         AlarmControl.instance?.clear()
+    }
+
+    //endregion
+
+    //region Launch functions
+
+
+    inline fun launch(before: () -> Unit, intent: Intent, after: SplashScreen.() -> Unit) {
+        before()
+        testRule.launchActivity(intent)
+        SplashScreen(after)
+    }
+
+    inline fun launch(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+        launch(before, Intent(), after)
+    }
+
+    inline fun launchAlarm(
+        item: NoteItem,
+        before: () -> Unit = {},
+        after: SplashScreen.() -> Unit
+    ) {
+        launch(before, InstanceFactory.Splash.getAlarm(context, item.id), after)
+    }
+
+    inline fun launchBind(
+        item: NoteItem,
+        before: () -> Unit = {},
+        after: SplashScreen.() -> Unit
+    ) {
+        launch(before, InstanceFactory.Splash.getBind(context, item), after)
+    }
+
+    inline fun launchNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+        launch(before, InstanceFactory.Splash.getNotification(context), after)
+    }
+
+    inline fun launchHelpDisappear(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+        launch(before, InstanceFactory.Splash.getHelpDisappear(context), after)
+    }
+
+    inline fun launchNewNote(
+        type: NoteType,
+        before: () -> Unit = {},
+        after: SplashScreen.() -> Unit
+    ) {
+        launch(before, InstanceFactory.Splash.getNewNote(context, type), after)
     }
 
     //endregion

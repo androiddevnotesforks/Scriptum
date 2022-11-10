@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.ui.item.RankItemUi
 import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
-import sgtmelon.scriptum.parent.ui.launch
+
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**

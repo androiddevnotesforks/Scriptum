@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
 import sgtmelon.scriptum.cleanup.test.ui.auto.error.Description
-import sgtmelon.scriptum.parent.ui.launch
+
 import sgtmelon.test.common.nextString
 
 /**

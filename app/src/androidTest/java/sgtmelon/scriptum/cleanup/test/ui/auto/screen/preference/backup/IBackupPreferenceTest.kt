@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.backup
 
 import sgtmelon.scriptum.cleanup.ui.logic.preference.BackupPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.BackupPreferenceScreen
-import sgtmelon.scriptum.parent.ui.launch
+
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
