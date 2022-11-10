@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
  * Test for [AlarmPreferenceFragment].

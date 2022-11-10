@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
-import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
 import sgtmelon.scriptum.parent.ui.launchAlarm
+import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 
 /**
  * Test of [AlarmActivity] work with phone rotation.

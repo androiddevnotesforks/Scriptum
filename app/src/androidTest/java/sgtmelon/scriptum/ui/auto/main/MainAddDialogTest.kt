@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.main
+package sgtmelon.scriptum.ui.auto.main
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
  * Test add dialog for [MainActivity].

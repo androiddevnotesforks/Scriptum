@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.help.IHelpDisappearTest
 import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
-import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 
 /**
  * Test of [HelpDisappearActivity] work with phone rotation.

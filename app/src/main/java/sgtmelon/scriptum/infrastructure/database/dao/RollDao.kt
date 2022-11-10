@@ -13,7 +13,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.model.DaoDeprecated
 
 /**
- * Interface for communication [DbData.Roll.TABLE] with [Database].
+ * Communication between [DbData.Roll.TABLE] and [Database].
  */
 @Dao
 @TypeConverters(BoolConverter::class)

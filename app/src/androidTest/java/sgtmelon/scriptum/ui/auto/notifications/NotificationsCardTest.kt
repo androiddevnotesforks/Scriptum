@@ -9,8 +9,8 @@ import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.screen.item.NotificationItemUi
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.auto.NEXT_HOUR
 import sgtmelon.scriptum.ui.auto.nextArray
 import sgtmelon.scriptum.ui.auto.startNotificationsTest

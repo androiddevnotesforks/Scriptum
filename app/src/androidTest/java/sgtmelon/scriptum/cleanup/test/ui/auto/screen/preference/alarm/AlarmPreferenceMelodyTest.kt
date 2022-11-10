@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.MelodyDialogUi
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
  * Test for [AlarmPreferenceFragment] and [MelodyDialogUi].

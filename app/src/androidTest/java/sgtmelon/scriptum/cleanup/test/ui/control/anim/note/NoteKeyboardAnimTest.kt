@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 

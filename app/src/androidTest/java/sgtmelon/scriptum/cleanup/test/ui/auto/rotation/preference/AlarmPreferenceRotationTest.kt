@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 
 /**
  * Test of [AlarmPreferenceFragment] work with phone rotation.

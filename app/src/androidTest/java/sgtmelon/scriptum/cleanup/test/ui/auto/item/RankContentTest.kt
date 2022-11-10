@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.ui.item.RankItemUi
 import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
-import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
  * Test for [RankItemUi].
@@ -28,7 +28,7 @@ class RankContentTest : ParentUiTest() {
 
                     repeat(REPEAT_TIMES) {
                         onClickVisible()
-                        onAssertItem(item.switchVisible())
+                        onAssertItem(item/*.switchVisible()*/)
                     }
                 }
             }

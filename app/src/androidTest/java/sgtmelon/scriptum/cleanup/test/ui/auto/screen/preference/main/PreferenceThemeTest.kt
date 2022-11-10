@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
-import sgtmelon.scriptum.parent.ui.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
  * Test for [MenuPreferenceFragment] and [ThemeDialogUi].

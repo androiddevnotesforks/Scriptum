@@ -5,6 +5,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.screen.splash.SplashScreen
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 inline fun ParentUiTest.launch(
     before: () -> Unit,

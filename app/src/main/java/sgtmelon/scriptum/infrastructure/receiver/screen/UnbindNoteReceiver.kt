@@ -23,9 +23,6 @@ class UnbindNoteReceiver : BroadcastReceiver() {
         }
     }
 
-    /**
-     * Interface for update UI elements
-     */
     interface Callback {
         fun onReceiveUnbindNote(noteId: Long)
     }

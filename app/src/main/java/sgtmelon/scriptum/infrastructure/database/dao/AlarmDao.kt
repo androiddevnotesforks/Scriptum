@@ -12,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.model.DaoDeprecated
 
 /**
- * Interface for communication [DbData.Alarm.TABLE] with [Database].
+ * Communication between [DbData.Alarm.TABLE] and [Database].
  */
 @Dao
 interface AlarmDao {

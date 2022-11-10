@@ -15,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.model.DaoDeprecated
 
 /**
- * Interface for communication [DbData.Note.TABLE] with [Database].
+ * Communication between [DbData.Note.TABLE] and [Database].
  */
 @Dao
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)

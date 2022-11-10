@@ -6,8 +6,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
 import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 
 /**
  * Test of [TextNoteFragment] work with phone rotation.

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.screen.main
+package sgtmelon.scriptum.parent.ui.screen.main
 
 import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R

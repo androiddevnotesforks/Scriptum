@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.help
 
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpDisappearScreen
-import sgtmelon.scriptum.parent.ui.ParentUiTest
 import sgtmelon.scriptum.parent.ui.launch
+import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
  * Interface for all [HelpDisappearScreen] tests.

@@ -3,11 +3,9 @@ package sgtmelon.scriptum.cleanup.test.ui.weight
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.model.key.MainPage
-import sgtmelon.scriptum.parent.ui.ParentUiWeighTest
 import sgtmelon.scriptum.parent.ui.launch
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import timber.log.Timber
+import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
 
 /**
  * Test recyclerView lists for lags
@@ -16,16 +14,6 @@ import timber.log.Timber
 class ListTest : ParentUiWeighTest() {
 
     // TODO #TEST optimization textNote inside lists (because now I load all text length)
-
-    private val pageList = arrayListOf(MainPage.RANK, MainPage.NOTES, MainPage.BIN)
-
-    @Test fun mainPageSelect() = launch(before = {
-        db.fillRank(RANK_COUNT)
-        db.fillNotes(NOTES_COUNT)
-        db.fillBin(BIN_COUNT)
-    }) {
-        mainScreen { repeat(REPEAT_COUNT) { for (page in pageList) openPage(page) } }
-    }
 
     @Test fun rankScroll() = launch({ db.fillRank(RANK_COUNT) }) {
         mainScreen { rankScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
@@ -37,17 +25,6 @@ class ListTest : ParentUiWeighTest() {
 
     @Test fun binScroll() = launch({ db.fillBin(BIN_COUNT) }) {
         mainScreen { binScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
-    }
-
-
-    @Test fun notificationOpen() = launch({ db.fillNotifications(NOTIFICATION_COUNT) }) {
-        mainScreen {
-            notesScreen { repeat(REPEAT_COUNT) { openNotifications { clickClose() } } }
-        }
-    }
-
-    @Test fun notificationScroll() = launch({ db.fillNotifications(NOTIFICATION_COUNT) }) {
-        mainScreen { notesScreen { openNotifications { onScroll(Scroll.END, SCROLL_COUNT) } } }
     }
 
 
@@ -88,27 +65,9 @@ class ListTest : ParentUiWeighTest() {
         }
     }
 
-
-    private var startTime = 0L
-    private var endTime = 0L
-
-    private fun onTime(func: () -> Unit) {
-        startTime = System.currentTimeMillis()
-        func()
-        endTime = System.currentTimeMillis()
-
-        Timber.i(message = "Time millis = ${endTime - startTime}")
-    }
-
     companion object {
-        val TAG: String? = ListTest::class.java.canonicalName
-
         private const val RANK_COUNT = 200
         private const val NOTES_COUNT = 250
         private const val BIN_COUNT = 250
-        private const val NOTIFICATION_COUNT = 200
-
-        private const val REPEAT_COUNT = 10
-        private const val SCROLL_COUNT = 15
     }
 }

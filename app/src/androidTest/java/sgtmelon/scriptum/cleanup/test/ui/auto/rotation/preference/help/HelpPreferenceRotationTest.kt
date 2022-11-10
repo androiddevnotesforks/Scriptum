@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.help.IHelpPreferenceTest
 import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFragment
-import sgtmelon.scriptum.parent.ui.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 
 /**
  * Test of [HelpPreferenceFragment] work with phone rotation.

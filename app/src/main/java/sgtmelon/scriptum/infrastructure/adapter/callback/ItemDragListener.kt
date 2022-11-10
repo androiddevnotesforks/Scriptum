@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.adapter.callback
 import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
 
 /**
- * Interface for control cards dragging inside [EdgeDragTouchHelper]. It helps to know
+ * Listener for control cards dragging inside [EdgeDragTouchHelper]. It helps to know
  * which view can be dragged and which can't.
  */
 interface ItemDragListener {
