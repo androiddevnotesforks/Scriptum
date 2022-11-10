@@ -197,7 +197,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
          * So be careful when call it manually.
          */
         if (fragment is RankFragment) {
-            fragment.hideSnackbar()
+            fragment.snackbar.hide()
         }
     }
 

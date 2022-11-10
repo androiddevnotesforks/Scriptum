@@ -5,7 +5,6 @@ import io.mockk.impl.annotations.MockK
 import java.util.Calendar
 import org.junit.After
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -24,8 +23,6 @@ import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
 class NotesViewModelImplTest : ParentLiveDataTest() {
 
     //region Setup
-
-    private val data = TestData.Note
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: INotesInteractor

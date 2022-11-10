@@ -13,6 +13,9 @@ import sgtmelon.test.common.nextShortString
  */
 class RankSnackbarTest : ParentUiTest() {
 
+    // TODO restore snackbar after returning to this page (test case: click cance -> open notes page -> open rank page -> check snackbar is visible)
+    // TODO restore snackbar after app reopen (свернул-открыл)
+
     /**
      * Check snackbar container display correct
      */

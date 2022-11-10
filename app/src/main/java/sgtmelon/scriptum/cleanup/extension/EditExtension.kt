@@ -8,9 +8,26 @@ import android.widget.EditText
 import sgtmelon.scriptum.infrastructure.utils.isVisible
 import sgtmelon.scriptum.infrastructure.utils.showKeyboard
 
+/**
+ * Return false - close keyboard.
+ */
 inline fun EditText.addOnNextAction(crossinline func: () -> Unit) {
     setOnEditorActionListener { _, i, _ ->
         if (i == EditorInfo.IME_ACTION_NEXT) {
+            func()
+            return@setOnEditorActionListener true
+        }
+
+        return@setOnEditorActionListener false
+    }
+}
+
+/**
+ * Return false - close keyboard.
+ */
+inline fun EditText.addOnDoneAction(crossinline func: () -> Unit) {
+    setOnEditorActionListener { _, i, _ ->
+        if (i == EditorInfo.IME_ACTION_DONE) {
             func()
             return@setOnEditorActionListener true
         }

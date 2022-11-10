@@ -48,7 +48,6 @@ class BinViewModelImpl(
         viewModelScope.launchBack {
             getIdling().start(IdlingTag.Bin.LOAD_DATA)
 
-            showList.postValue(ShowListState.Loading)
             _itemList.clearAdd(getList())
             itemList.postValue(_itemList)
             notifyShowList()

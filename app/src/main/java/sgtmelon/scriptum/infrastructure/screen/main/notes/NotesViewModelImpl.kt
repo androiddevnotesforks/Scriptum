@@ -63,7 +63,6 @@ class NotesViewModelImpl(
         viewModelScope.launchBack {
             getIdling().start(IdlingTag.Notes.LOAD_DATA)
 
-            showList.postValue(ShowListState.Loading)
             val (list, isHide) = getList()
             isListHide.postValue(isHide)
             _itemList.clearAdd(list)

@@ -1,10 +1,11 @@
 package sgtmelon.scriptum.infrastructure.utils
 
 import android.app.Activity
-import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowManager
+import android.widget.EditText
+import androidx.fragment.app.Fragment
 import sgtmelon.extensions.getInputService
 
 inline fun Activity.beforeFinish(func: () -> Unit) {
@@ -12,7 +13,7 @@ inline fun Activity.beforeFinish(func: () -> Unit) {
     finish()
 }
 
-fun View.showKeyboard() {
+fun EditText.showKeyboard() {
     val flags = WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
     context.getInputService().showSoftInput(this, flags)
 }
@@ -20,6 +21,10 @@ fun View.showKeyboard() {
 fun Activity.hideKeyboard() {
     val flags = WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
     getInputService().hideSoftInputFromWindow(currentFocus?.windowToken, flags)
+}
+
+fun Fragment.hideKeyboard() {
+    activity?.hideKeyboard()
 }
 
 /**

@@ -24,7 +24,6 @@ import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.recordException
 import sgtmelon.test.idling.getIdling
-import sgtmelon.test.prod.RunPrivate
 
 class RankViewModelImpl(
     private val getList: GetRankListUseCase,
@@ -53,6 +52,7 @@ class RankViewModelImpl(
     private val _itemList: MutableList<RankItem> = mutableListOf()
     private val uniqueNameList: List<String> get() = _itemList.map { it.name.uppercase() }
 
+    // TODO make this variable common (see also in NotificationsViewModelImpl)
     /** Variable for specific list updates (when need update not all items). */
     override var updateList: UpdateListState = UpdateListState.Notify
         get() {
@@ -70,7 +70,6 @@ class RankViewModelImpl(
         viewModelScope.launchBack {
             getIdling().start(IdlingTag.Notes.LOAD_DATA)
 
-            showList.postValue(ShowListState.Loading)
             val list = getList()
             _itemList.clearAdd(list)
             itemList.postValue(list)
@@ -93,7 +92,9 @@ class RankViewModelImpl(
         return name.isNotEmpty() && !uniqueNameList.contains(name.uppercase())
     }
 
-    override fun addRank(name: String, toBottom: Boolean): Flow<AddState> = flowOnBack {
+    override fun addRank(enter: String, toBottom: Boolean): Flow<AddState> = flowOnBack {
+        val name = enter.clearSpace()
+
         if (!isValidName(name)) {
             emit(AddState.Deny)
             return@flowOnBack
@@ -103,6 +104,7 @@ class RankViewModelImpl(
 
         val item = insertRank(name) ?: run {
             recordException("isValidName=${isValidName(name)} and can't insert rank by name")
+            emit(AddState.Complete)
             return@flowOnBack
         }
 
@@ -117,144 +119,21 @@ class RankViewModelImpl(
         emit(AddState.Complete)
     }
 
-    //    override fun onEditorClick(i: Int): Boolean {
-    //        val name = callback?.getEnterText()?.clearSpace()?.uppercase()
-    //
-    //        if (name.isNullOrEmpty() || uniqueNameList.contains(name)) return false
-    //
-    //        onClickEnterAdd(toBottom = true)
-    //
-    //        return true
-    //    }
-    //
-    //    override fun onClickEnterAdd(toBottom: Boolean) {
-    //        val name = callback?.clearEnter()?.clearSpace()
-    //
-    //        if (name.isNullOrEmpty() || uniqueNameList.contains(name.uppercase())) return
-    //
-    //        callback?.hideKeyboard()
-    //        callback?.dismissSnackbar()
-    //
-    //        viewModelScope.launch {
-    //            val item = runBack { insertRank(name) } ?: return@launch
-    //            val p = if (toBottom) _itemList.size else 0
-    //
-    //            _itemList.add(p, item)
-    //
-    //            runBack { updateRankPositions(_itemList, correctRankPositions(_itemList)) }
-    //
-    //            callback?.scrollToItem(_itemList, p, toBottom)
-    //        }
-    //    }
-
-    //region Cleanup
-
-    /**
-     * Variable for control drag state. TRUE - if drag state, FALSE - otherwise.
-     */
-    @RunPrivate var inTouchAction = false
-
-    //    override fun onUpdateToolbar() {
-    //        val enterName = callback?.getEnterText() ?: return
-    //        val clearName = enterName.clearSpace().uppercase()
-    //
-    //        callback?.onBindingToolbar(
-    //            isClearEnable = enterName.isNotEmpty(),
-    //            isAddEnable = clearName.isNotEmpty() && !uniqueNameList.contains(clearName)
-    //        )
-    //    }
-    //
-    //    override fun onResultRenameDialog(p: Int, name: String) {
-    //        val item = _itemList.getOrNull(p)?.apply { this.name = name } ?: return
-    //
-    //        viewModelScope.launchBack { updateRank(item) }
-    //
-    //        onUpdateToolbar()
-    //        callback?.notifyList(_itemList)
-    //    }
-    //
-    //    override fun onClickEnterCancel() {
-    //        callback?.clearEnter()
-    //    }
-    //
-    //    override fun onEditorClick(i: Int): Boolean {
-    //        val name = callback?.getEnterText()?.clearSpace()?.uppercase()
-    //
-    //        if (name.isNullOrEmpty() || uniqueNameList.contains(name)) return false
-    //
-    //        onClickEnterAdd(toBottom = true)
-    //
-    //        return true
-    //    }
-    //
-    //    override fun onClickEnterAdd(toBottom: Boolean) {
-    //        val name = callback?.clearEnter()?.clearSpace()
-    //
-    //        if (name.isNullOrEmpty() || uniqueNameList.contains(name.uppercase())) return
-    //
-    //        callback?.hideKeyboard()
-    //        callback?.dismissSnackbar()
-    //
-    //        viewModelScope.launch {
-    //            val item = runBack { insertRank(name) } ?: return@launch
-    //            val p = if (toBottom) _itemList.size else 0
-    //
-    //            _itemList.add(p, item)
-    //
-    //            runBack { updateRankPositions(_itemList, correctRankPositions(_itemList)) }
-    //
-    //            callback?.scrollToItem(_itemList, p, toBottom)
-    //        }
-    //    }
-    //
-    override fun onItemAnimationFinished() {
-        callback?.onBindingList()
-
-        /**
-         * Need prevent clear openState if item is currently dragging.
-         */
-        if (!inTouchAction) {
-            callback?.openState?.clear()
-        }
-    }
-
-    override fun onTouchAction(inAction: Boolean) {
-        inTouchAction = inAction
-
-        if (inAction) {
-            callback?.dismissSnackbar()
-        }
-
-        callback?.openState?.isBlocked = inAction
-    }
-
-    override fun onTouchGetDrag(): Boolean {
-        val value = callback?.openState?.isBlocked != true
-
-        if (value) callback?.hideKeyboard()
-
-        return value
-    }
-
-    override fun onTouchMove(from: Int, to: Int): Boolean {
+    override fun moveRank(from: Int, to: Int) {
         _itemList.move(from, to)
-
-        callback?.notifyItemMoved(_itemList, from, to)
-        callback?.hideKeyboard()
-
-        return true
+        updateList = UpdateListState.Move(from, to)
+        itemList.value = _itemList
     }
 
-    override fun onTouchMoveResult() {
-        callback?.openState?.clear()
-
+    override fun moveRankResult() {
         val noteIdList = correctRankPositions(_itemList)
-        callback?.setList(_itemList)
 
-        viewModelScope.launchBack { updateRankPositions(_itemList, noteIdList) }
+        itemList.postValue(_itemList)
+
+        viewModelScope.launchBack {
+            updateRankPositions(_itemList, noteIdList)
+        }
     }
-
-    //endregion
 
     override fun changeRankVisibility(p: Int): Flow<Unit> = flowOnBack {
         val item = _itemList.getOrNull(p) ?: return@flowOnBack

@@ -3,6 +3,9 @@ package sgtmelon.scriptum.infrastructure.system.delegators
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.snackbar.Snackbar
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getDrawableCompat
@@ -11,10 +14,26 @@ import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 
 class SnackbarDelegator(
+    lifecycle: Lifecycle,
     @StringRes private val messageId: Int,
     @StringRes private val actionId: Int,
     private val callback: Callback
-) {
+) : DefaultLifecycleObserver {
+
+    init {
+        lifecycle.addObserver(this)
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+
+        /**
+         * Hide (not cancel) snackbar for control leave screen case. We don't want to lost saved
+         * snackbar stack during rotation/app close/ect. So, need restore
+         * [snackbar] after screen reopen - [onResume].
+         */
+        hide()
+    }
 
     private var snackbar: Snackbar? = null
 
@@ -61,10 +80,20 @@ class SnackbarDelegator(
     }
 
     /**
+     * Dismiss snackbar with ability to restore data and [show] it in future.
+     */
+    fun hide() = dismiss(skipDismissResult = true)
+
+    /**
+     * Dismiss snackbar without save data (with [dismissCallback] call).
+     */
+    fun cancel() = dismiss(skipDismissResult = false)
+
+    /**
      * [skipDismissResult] means that [Callback.onSnackbarDismiss] will not be called
      * on [snackbar] dismiss.
      */
-    fun dismiss(skipDismissResult: Boolean) {
+    private fun dismiss(skipDismissResult: Boolean) {
         if (skipDismissResult) {
             snackbar?.removeCallback(dismissCallback)
         }

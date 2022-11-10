@@ -3,13 +3,11 @@ package sgtmelon.scriptum.infrastructure.screen.main.rank
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 
-interface RankViewModel : UnbindNoteReceiver.Callback,
-    RankTouchControl.Callback {
+interface RankViewModel : UnbindNoteReceiver.Callback {
 
     val showList: LiveData<ShowListState>
 
@@ -23,9 +21,11 @@ interface RankViewModel : UnbindNoteReceiver.Callback,
 
     fun getToolbarEnable(name: String): Pair<Boolean, Boolean>
 
-    fun addRank(name: String, toBottom: Boolean): Flow<AddState>
+    fun addRank(enter: String, toBottom: Boolean): Flow<AddState>
 
-    // TODO add features
+    fun moveRank(from: Int, to: Int)
+
+    fun moveRankResult()
 
     fun changeRankVisibility(p: Int): Flow<Unit>
 
@@ -38,34 +38,4 @@ interface RankViewModel : UnbindNoteReceiver.Callback,
     fun undoRemove(): Flow<Unit>
 
     fun clearUndoStack()
-
-
-    //    fun onSaveData(bundle: Bundle)
-    //
-    //    fun onUpdateData()
-    //
-    //    fun onUpdateToolbar()
-    //
-    //    fun onShowRenameDialog(p: Int)
-    //
-    //    fun onResultRenameDialog(p: Int, name: String)
-    //
-    //
-    //    fun onClickEnterCancel()
-    //
-    //    fun onEditorClick(i: Int): Boolean
-    //
-    //    fun onClickEnterAdd(addToBottom: Boolean)
-    //
-    //    fun onClickVisible(p: Int)
-    //
-    //    fun onClickCancel(p: Int)
-    //
-    //    fun onItemAnimationFinished()
-    //
-    //
-    //    fun onSnackbarAction()
-    //
-    //    fun onSnackbarDismiss()
-
 }

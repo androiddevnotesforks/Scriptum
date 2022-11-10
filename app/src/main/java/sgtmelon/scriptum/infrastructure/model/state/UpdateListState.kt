@@ -17,6 +17,8 @@ sealed class UpdateListState {
 
     class Insert(val p: Int) : UpdateListState()
 
+    class Move(val from: Int, val to: Int) : UpdateListState()
+
     companion object {
         /**
          * If list size equals 1 -> need just show list without animation, because of

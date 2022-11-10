@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
-import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
 import javax.inject.Inject
 import sgtmelon.extensions.collect
@@ -12,17 +11,15 @@ import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
-import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.setPaddingInsets
-import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
+import sgtmelon.scriptum.infrastructure.widgets.recycler.NotifyListDelegator
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
@@ -48,8 +45,15 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     }
     private val layoutManager by lazy { LinearLayoutManager(this) }
 
+    private val notifyList by lazy {
+        NotifyListDelegator(binding?.recyclerView, adapter, layoutManager)
+    }
+
     private val snackbar = SnackbarDelegator(
-        R.string.snackbar_message_notification, R.string.snackbar_action_cancel, callback = this
+        lifecycle,
+        R.string.snackbar_message_notification,
+        R.string.snackbar_action_cancel,
+        callback = this
     )
 
     //region System
@@ -78,8 +82,6 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         }
 
         binding?.recyclerView?.let {
-            /** Clear [open] after click on item cancel. */
-            it.setDefaultAnimator { open.clear() }
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
@@ -98,7 +100,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
                 binding.recyclerView, binding.infoInclude.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { observeItemList(it) }
+        viewModel.itemList.observe(this) { notifyList.catch(viewModel.updateList, it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 
@@ -114,36 +116,6 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-
-        /**
-         * Need dismiss without listener for control leave screen case. We don't want to lost
-         * snackbar stack inside [viewModel] during rotation/app close/ect. So, need restore
-         * [snackbar] after screen reopen - [onResume].
-         */
-        snackbar.dismiss(skipDismissResult = true)
-    }
-
-    /**
-     * Use here [UpdateListState.NotifyHard] case, because it will prevent lags during
-     * undo (insert) first item. When empty info hides and list appears. Insert animation
-     * and list fade in animation concurrent with each other and it's looks laggy.
-     */
-    @SuppressLint("NotifyDataSetChanged")
-    private fun observeItemList(it: List<NotificationItem>) {
-        when (val state = viewModel.updateList) {
-            is UpdateListState.Set -> adapter.setList(it)
-            is UpdateListState.Notify -> adapter.notifyList(it)
-            is UpdateListState.NotifyHard -> adapter.setList(it).notifyDataSetChanged()
-            is UpdateListState.Remove -> adapter.setList(it).notifyItemRemoved(state.p)
-            is UpdateListState.Insert -> {
-                adapter.setList(it).notifyItemInserted(state.p)
-                RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(it, state.p)
-            }
-        }
-    }
-
     //endregion
 
     private fun showSnackbar() {
@@ -155,7 +127,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         startActivity(InstanceFactory.Note[this, item])
     }
 
-    private fun removeNotification(p: Int) {
+    private fun removeNotification(p: Int) = open.attempt(withSwitch = false) {
         viewModel.removeNotification(p).collect(owner = this) {
             val (item, size) = it
             delegators?.broadcast?.sendCancelAlarm(item)
