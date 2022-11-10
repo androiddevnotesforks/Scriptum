@@ -165,10 +165,10 @@ class TextNoteScreen(
                     .withBackgroundColor(android.R.color.transparent)
                     .withText(item.text, R.attr.clContent, R.dimen.text_18sp)
 
-                contentEnter.isDisplayed(isVisible = false)
+                contentEnter.isDisplayed(value = false)
             }
             NoteState.EDIT, NoteState.NEW -> {
-                contentText.isDisplayed(isVisible = false)
+                contentText.isDisplayed(value = false)
 
                 /**
                  * TODO not work with: withImeAction(EditorInfo.IME_ACTION_UNSPECIFIED)

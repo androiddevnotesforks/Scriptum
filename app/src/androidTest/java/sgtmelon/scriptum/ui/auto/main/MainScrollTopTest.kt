@@ -14,33 +14,37 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MainScrollTopTest : ParentUiTest() {
 
-    @Test fun onRank() = db.fillRank(count = 20).let {
+    @Test fun onRank() = db.fillRank(ITEM_COUNT).let {
         launch {
             mainScreen {
-                rankScreen { onScroll(Scroll.END) }.onScrollTop()
+                rankScreen { scrollTo(Scroll.END) }.scrollTop()
                 RecyclerItemPart.PREVENT_SCROLL = true
-                rankScreen { onAssertItem(it.first(), p = 0) }
+                rankScreen { assertItem(it.first(), p = 0) }
             }
         }
     }
 
-    @Test fun onNotes() = db.fillNotes().let {
+    @Test fun onNotes() = db.fillNotes(ITEM_COUNT).let {
         launch {
             mainScreen {
-                notesScreen { onScroll(Scroll.END) }.onScrollTop()
+                notesScreen { scrollTo(Scroll.END) }.scrollTop()
                 RecyclerItemPart.PREVENT_SCROLL = true
-                notesScreen { onAssertItem(it.first(), p = 0) }
+                notesScreen { assertItem(it.first(), p = 0) }
             }
         }
     }
 
-    @Test fun onBin() = db.fillBin().let {
+    @Test fun onBin() = db.fillBin(ITEM_COUNT).let {
         launch {
             mainScreen {
-                binScreen { onScroll(Scroll.END) }.onScrollTop()
+                binScreen { scrollTo(Scroll.END) }.scrollTop()
                 RecyclerItemPart.PREVENT_SCROLL = true
-                binScreen { onAssertItem(it.first(), p = 0) }
+                binScreen { assertItem(it.first(), p = 0) }
             }
         }
+    }
+
+    companion object {
+        private const val ITEM_COUNT = 30
     }
 }

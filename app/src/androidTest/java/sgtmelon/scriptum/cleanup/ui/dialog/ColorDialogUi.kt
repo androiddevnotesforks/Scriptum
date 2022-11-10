@@ -91,7 +91,7 @@ class ColorDialogUi(
         recyclerView.isDisplayed()
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
-        applyButton.isDisplayed().isEnabled(isEnabled = color != initColor) {
+        applyButton.isDisplayed().isEnabled(value = color != initColor) {
             withTextColor(R.attr.clAccent)
         }
     }

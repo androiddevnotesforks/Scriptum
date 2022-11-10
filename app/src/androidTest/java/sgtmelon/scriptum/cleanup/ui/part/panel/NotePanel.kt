@@ -276,8 +276,8 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
             when (state) {
                 NoteState.READ -> {
                     readContainer.isDisplayed()
-                    binContainer.isDisplayed(isVisible = false)
-                    editContainer.isDisplayed(isVisible = false)
+                    binContainer.isDisplayed(value = false)
+                    editContainer.isDisplayed(value = false)
 
                     notificationButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_notifications, getTint(item.haveAlarm()))
@@ -312,9 +312,9 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     editButton.withText(R.string.button_note_edit).isDisplayed()
                 }
                 NoteState.BIN -> {
-                    readContainer.isDisplayed(isVisible = false)
+                    readContainer.isDisplayed(value = false)
                     binContainer.isDisplayed()
-                    editContainer.isDisplayed(isVisible = false)
+                    editContainer.isDisplayed(value = false)
 
                     restoreButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_restore, R.attr.clContent)
@@ -329,8 +329,8 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                         .withContentDescription(R.string.description_note_clear)
                 }
                 NoteState.EDIT, NoteState.NEW -> {
-                    readContainer.isDisplayed(isVisible = false)
-                    binContainer.isDisplayed(isVisible = false)
+                    readContainer.isDisplayed(value = false)
+                    binContainer.isDisplayed(value = false)
                     editContainer.isDisplayed()
 
                     val undo = inputControl.isUndoAccess

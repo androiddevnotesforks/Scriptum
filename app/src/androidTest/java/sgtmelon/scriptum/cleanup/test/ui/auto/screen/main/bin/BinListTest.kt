@@ -19,7 +19,7 @@ class BinListTest : ParentUiTest() {
     @Test fun contentList() = launch({ db.fillBin() }) { mainScreen { binScreen() } }
 
     @Test fun listScroll() = launch({ db.fillBin() }) {
-        mainScreen { binScreen { onScrollThrough() } }
+        mainScreen { binScreen { scrollThrough() } }
     }
 
 

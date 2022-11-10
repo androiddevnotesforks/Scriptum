@@ -18,7 +18,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun contentList() = launch({ db.fillNotes() }) { mainScreen { notesScreen() } }
 
     @Test fun listScroll() = launch({ db.fillNotes() }) {
-        mainScreen { notesScreen { onScrollThrough() } }
+        mainScreen { notesScreen { scrollThrough() } }
     }
 
 

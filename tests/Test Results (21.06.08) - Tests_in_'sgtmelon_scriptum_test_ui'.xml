@@ -472,9 +472,7 @@
         <test name="colorRollDark" duration="9550" status="passed"/>
         <test name="rankTextLight" duration="5523" status="passed"/>
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes.NotesFabTest"
-        duration="33350"
-        status="passed">
+    <suite name="sgtmelon.scriptum.ui.auto.main.NotesFabTest" duration="33350" status="passed">
         <test name="standstill" duration="9798" status="passed" />
         <test name="onScrollAndPageChange" duration="16869" status="passed" />
         <test name="onResume" duration="6683" status="passed" />
@@ -5693,7 +5691,7 @@
                 className="NotesFabTest"
                 endTimestampMillis="9798"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes.NotesFabTest.standstill"
+                id="sgtmelon.scriptum.ui.auto.main.NotesFabTest.standstill"
                 logcat=""
                 methodName="standstill"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes"
@@ -5703,7 +5701,7 @@
                 className="NotesFabTest"
                 endTimestampMillis="16869"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes.NotesFabTest.onScrollAndPageChange"
+                id="sgtmelon.scriptum.ui.auto.main.NotesFabTest.onScrollAndPageChange"
                 logcat=""
                 methodName="onScrollAndPageChange"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes"
@@ -5713,7 +5711,7 @@
                 className="NotesFabTest"
                 endTimestampMillis="6683"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes.NotesFabTest.onResume"
+                id="sgtmelon.scriptum.ui.auto.main.NotesFabTest.onResume"
                 logcat=""
                 methodName="onResume"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes"

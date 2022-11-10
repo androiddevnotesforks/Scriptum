@@ -24,6 +24,6 @@ class NotificationsWeighTest : ParentUiWeighTest() {
     }
 
     @Test fun listScroll() = launch({ db.fillNotifications(ITEM_COUNT) }) {
-        mainScreen { notesScreen { openNotifications { onScroll(Scroll.END, SCROLL_COUNT) } } }
+        mainScreen { notesScreen { openNotifications { scrollTo(Scroll.END, SCROLL_COUNT) } } }
     }
 }

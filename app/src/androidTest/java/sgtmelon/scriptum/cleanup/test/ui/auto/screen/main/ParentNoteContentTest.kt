@@ -212,16 +212,16 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                 when (page) {
                     MainPage.RANK -> throwPageError()
                     MainPage.NOTES -> notesScreen(isEmpty = true, isHide = true)
-                    MainPage.BIN -> binScreen { onAssertItem(pair.second) }
+                    MainPage.BIN -> binScreen { assertItem(pair.second) }
                 }
 
-                rankScreen { onClickCancel() }
+                rankScreen { itemCancel() }
                 pair.second.clearRank()
 
                 when (page) {
                     MainPage.RANK -> throwPageError()
-                    MainPage.NOTES -> notesScreen { onAssertItem(pair.second) }
-                    MainPage.BIN -> binScreen { onAssertItem(pair.second) }
+                    MainPage.NOTES -> notesScreen { assertItem(pair.second) }
+                    MainPage.BIN -> binScreen { assertItem(pair.second) }
                 }
             }
         }
@@ -233,10 +233,10 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                 when (page) {
                     MainPage.RANK -> throwPageError()
                     MainPage.NOTES -> notesScreen {
-                        for ((i, item) in list.withIndex()) onAssertItem(item, i)
+                        for ((i, item) in list.withIndex()) assertItem(item, i)
                     }
                     MainPage.BIN -> binScreen {
-                        for ((i, item) in list.withIndex()) onAssertItem(item, i)
+                        for ((i, item) in list.withIndex()) assertItem(item, i)
                     }
                 }
             }

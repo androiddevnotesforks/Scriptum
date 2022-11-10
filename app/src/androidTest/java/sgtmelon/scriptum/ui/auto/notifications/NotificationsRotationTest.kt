@@ -32,13 +32,13 @@ class NotificationsRotationTest : ParentUiRotationTest() {
 
     @Test fun itemCancelAndSnackbar() = startNotificationItemTest(db.insertNote()) {
         repeat(times = 3) { _ ->
-            assertItem(p = 0, it)
+            assertItem(it)
             itemCancel()
             assert(isEmpty = true)
             rotate.switch()
             assert(isEmpty = true)
             getSnackbar { clickCancel() }
-            assertItem(p = 0, it)
+            assertItem(it)
         }
     }
 

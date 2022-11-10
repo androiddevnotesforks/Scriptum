@@ -59,7 +59,7 @@ class VolumeDialogUi : ParentScreen(),
         seekBar.isDisplayed().withProgress(value, max = 100)
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
-        applyButton.isDisplayed().isEnabled(isEnabled = value != initValue) {
+        applyButton.isDisplayed().isEnabled(value = value != initValue) {
             withTextColor(R.attr.clAccent)
         }
     }

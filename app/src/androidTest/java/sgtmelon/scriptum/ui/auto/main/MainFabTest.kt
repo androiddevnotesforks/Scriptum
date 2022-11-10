@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes
+package sgtmelon.scriptum.ui.auto.main
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -15,26 +15,32 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
  * Test fab for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesFabTest : ParentUiTest() {
+class MainFabTest : ParentUiTest() {
+
+    @Test fun onPageSelect() = launch {
+        mainScreen {
+            repeat(times = 3) { for (page in MainPage.values()) clickPage(page) }
+        }
+    }
 
     @Test fun onScrollAndPageChange() = launch({ db.fillNotes(count = 45) }) {
         mainScreen {
             for (it in listOf(MainPage.RANK, MainPage.BIN)) {
-                notesScreen { onScroll(Scroll.END, time = 5) }
+                notesScreen { scrollTo(Scroll.END, time = 5) }
                 assert(isFabVisible = false)
-                notesScreen { onScroll(Scroll.START, time = 1) }
+                notesScreen { scrollTo(Scroll.START, time = 1) }
                 assert(isFabVisible = true)
-                notesScreen { onScroll(Scroll.START, time = 2) }
-                onNavigateTo(it)
+                notesScreen { scrollTo(Scroll.START, time = 2) }
+                clickPage(it)
                 assert(isFabVisible = false)
-                onNavigateTo(MainPage.NOTES)
+                clickPage(MainPage.NOTES)
             }
         }
     }
 
     @Test fun onResume() = launch({ db.fillNotes() }) {
         mainScreen {
-            notesScreen { onScroll(Scroll.END, time = 1) }
+            notesScreen { scrollTo(Scroll.END, time = 1) }
             assert(isFabVisible = false)
             notesScreen { openPreferences { clickClose() } }
             assert(isFabVisible = true)
@@ -43,16 +49,16 @@ class NotesFabTest : ParentUiTest() {
 
     @Test fun standstill() = launch({ db.fillNotes() }) {
         mainScreen {
-            notesScreen { onScroll(Scroll.END, time = 1) }
+            notesScreen { scrollTo(Scroll.END, time = 1) }
             assert(isFabVisible = false)
             waitBefore(RecyclerMainFabListener.FAB_STANDSTILL_TIME) {
                 assert(isFabVisible = true)
             }
 
-            onScrollTop()
-            notesScreen { onScroll(Scroll.END, time = 1) }
+            scrollTop()
+            notesScreen { scrollTo(Scroll.END, time = 1) }
             assert(isFabVisible = false)
-            onNavigateTo(MainPage.BIN)
+            clickPage(MainPage.BIN)
             waitBefore(RecyclerMainFabListener.FAB_STANDSTILL_TIME) {
                 assert(isFabVisible = false)
             }

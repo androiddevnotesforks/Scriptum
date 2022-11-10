@@ -16,7 +16,7 @@ class RankContentTest : ParentUiTest() {
 
     @Test fun itemList() = db.fillRankRelation(ITEM_COUNT).let { list ->
         launch {
-            mainScreen { rankScreen { for ((i, it) in list.withIndex()) onAssertItem(it, i) } }
+            mainScreen { rankScreen { for ((i, it) in list.withIndex()) assertItem(it, i) } }
         }
     }
 
@@ -24,11 +24,11 @@ class RankContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen {
-                    onAssertItem(item)
+                    assertItem(item)
 
                     repeat(REPEAT_TIMES) {
                         onClickVisible()
-                        onAssertItem(item/*.switchVisible()*/)
+                        assertItem(item/*.switchVisible()*/)
                     }
                 }
             }
@@ -39,9 +39,9 @@ class RankContentTest : ParentUiTest() {
     @Test fun itemBind() = db.insertRankForNotes().let {
         launch {
             mainScreen {
-                rankScreen { onAssertItem(it.first) }
+                rankScreen { assertItem(it.first) }
                 notesScreen { openNoteDialog(it.second) { onBind() } }
-                rankScreen { onAssertItem(it.first.apply { bindCount = 1 }) }
+                rankScreen { assertItem(it.first.apply { bindCount = 1 }) }
             }
         }
     }
@@ -49,20 +49,20 @@ class RankContentTest : ParentUiTest() {
     @Test fun itemNotification() = db.insertRankForNotes().let {
         launch {
             mainScreen {
-                rankScreen { onAssertItem(it.first) }
+                rankScreen { assertItem(it.first) }
                 notesScreen {
                     openNoteDialog(it.second) {
                         onNotification { onDate(day = 1).onClickApply { onClickApply() } }
                     }
                 }
-                rankScreen { onAssertItem(it.first.apply { notificationCount = 1 }) }
+                rankScreen { assertItem(it.first.apply { notificationCount = 1 }) }
             }
         }
     }
 
     @Test fun itemMaxIndicator() = db.insertRank().let {
         launch({ RankHolder.isMaxTest = true }) {
-            mainScreen { rankScreen { onAssertItem(it) } }
+            mainScreen { rankScreen { assertItem(it) } }
         }
 
         RankHolder.isMaxTest = false

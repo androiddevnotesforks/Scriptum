@@ -13,18 +13,11 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentUiTest() {
 
-    private val pageList = arrayListOf(
-        MainPage.RANK, MainPage.NOTES, MainPage.BIN,
-        MainPage.RANK, MainPage.BIN, MainPage.NOTES
-    )
+    @Test fun screenOpen() = launch { mainScreen() }
 
-    @Test fun startScreen() = launch { mainScreen() }
-
-    @Test fun menuClickCorrectScreen() = launch {
-        mainScreen { repeat(times = 3) { for (page in pageList) openPage(page, isEmpty = true) } }
-    }
-
-    @Test fun addFabVisible() = launch {
-        mainScreen { repeat(times = 3) { for (page in pageList) onNavigateTo(page) } }
+    @Test fun correctPage() = launch {
+        mainScreen {
+            repeat(times = 3) { for (page in MainPage.values()) openPage(page, isEmpty = true) }
+        }
     }
 }

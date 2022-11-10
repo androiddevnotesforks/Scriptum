@@ -68,7 +68,7 @@ class BindMainTest : ParentNotificationTest() {
 
         mainScreen {
             notesScreen { openNoteDialog(item) { onSee { onDelete() } } }
-            binScreen { onSee { onAssertItem(item, 0) } }
+            binScreen { onSee { assertItem(item, 0) } }
         }
     }
 
@@ -90,7 +90,7 @@ class BindMainTest : ParentNotificationTest() {
             mainScreen {
                 rankScreen { onSee { onClickVisible() } }
                 notesScreen(isEmpty = true, isHide = true)
-                rankScreen { onSee { onClickCancel() } }
+                rankScreen { onSee { itemCancel() } }
                 notesScreen { openNoteDialog(it) { onSee { onBind() } } }
             }
         }

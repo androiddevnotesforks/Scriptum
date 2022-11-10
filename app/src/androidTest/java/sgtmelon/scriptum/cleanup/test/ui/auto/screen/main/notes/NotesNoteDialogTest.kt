@@ -30,13 +30,13 @@ class NotesNoteDialogTest : ParentUiTest() {
 
     @Test fun textDialogBind() = db.insertText().let {
         launch {
-            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.onAssertItem(it) } }
+            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.assertItem(it) } }
         }
     }
 
     @Test fun textDialogUnbind() = db.insertText(db.textNote.copy(isStatus = true)).let {
         launch {
-            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.onAssertItem(it) } }
+            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.assertItem(it) } }
         }
     }
 
@@ -47,7 +47,7 @@ class NotesNoteDialogTest : ParentUiTest() {
             mainScreen {
                 notesScreen { openNoteDialog(it) { onDelete() } }
                 binScreen { openNoteDialog(it) { onRestore() } }
-                notesScreen { onAssertItem(it) }
+                notesScreen { assertItem(it) }
             }
         }
     }
@@ -61,7 +61,7 @@ class NotesNoteDialogTest : ParentUiTest() {
                 notesScreen {
                     var convertItem: NoteItem? = null
                     openNoteDialog(it, p = 1) { convertItem = onConvert() }
-                    onAssertItem(convertItem!!, p = 0)
+                    assertItem(convertItem!!, p = 0)
                 }
             }
         }
@@ -91,13 +91,13 @@ class NotesNoteDialogTest : ParentUiTest() {
 
     @Test fun rollDialogBind() = db.insertRoll().let {
         launch {
-            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.onAssertItem(it) } }
+            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.assertItem(it) } }
         }
     }
 
     @Test fun rollDialogUnbind() = db.insertRoll(db.rollNote.copy(isStatus = true)).let {
         launch {
-            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.onAssertItem(it) } }
+            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.assertItem(it) } }
         }
     }
 
@@ -108,7 +108,7 @@ class NotesNoteDialogTest : ParentUiTest() {
             mainScreen {
                 notesScreen { openNoteDialog(it) { onDelete() } }
                 binScreen { openNoteDialog(it) { onRestore() } }
-                notesScreen { onAssertItem(it) }
+                notesScreen { assertItem(it) }
             }
         }
     }
@@ -122,7 +122,7 @@ class NotesNoteDialogTest : ParentUiTest() {
                 notesScreen {
                     var convertItem: NoteItem? = null
                     openNoteDialog(it, p = 1) { convertItem = onConvert() }
-                    onAssertItem(convertItem!!, p = 0)
+                    assertItem(convertItem!!, p = 0)
                 }
             }
         }

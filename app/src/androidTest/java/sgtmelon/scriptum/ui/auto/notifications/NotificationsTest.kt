@@ -29,7 +29,7 @@ class NotificationsTest : ParentUiTest() {
 
     @Test fun contentList() = startNotificationListTest()
 
-    @Test fun listScroll() = startNotificationListTest { onScrollThrough() }
+    @Test fun listScroll() = startNotificationListTest { scrollThrough() }
 
     @Test fun itemTextOpen() = startNotificationItemTest(db.insertText()) { openText(it) }
 

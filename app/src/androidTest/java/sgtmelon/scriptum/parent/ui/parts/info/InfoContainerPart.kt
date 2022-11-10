@@ -29,7 +29,7 @@ class InfoContainerPart(private val case: InfoCase) : UiPart() {
                 withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
             }.withDrawableAttr(case.iconId, R.attr.clContent)
         } else {
-            iconImage.isDisplayed(isVisible = false)
+            iconImage.isDisplayed(value = false)
                 .withDrawable(resourceId = null)
         }
 

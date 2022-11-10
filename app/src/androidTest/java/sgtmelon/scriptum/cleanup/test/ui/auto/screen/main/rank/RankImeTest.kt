@@ -36,7 +36,7 @@ class RankImeTest : ParentUiTest() {
                     onEnterName(name, isEnabled = false).onImeOptionClick(isSuccess = false)
                 }
 
-                onClickCancel(p = count - 1)
+                itemCancel(p = count - 1)
 
                 toolbar { onEnterName(name).onImeOptionClick() }
                 openRenameDialog(name, p = count - 1)
@@ -61,7 +61,7 @@ class RankImeTest : ParentUiTest() {
                     openRenameDialog(it.name) { onEnter(newName).onImeOptionClick() }
 
                     it.name = newName
-                    onAssertItem(it)
+                    assertItem(it)
                 }
             }
         }

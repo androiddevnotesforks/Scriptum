@@ -87,14 +87,18 @@ class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
         }
     }
 
-    fun assertItem(p: Int, item: NoteItem) = getItem(p).assert(item)
+    fun assertItem(item: NoteItem, p: Int? = random) {
+        if (p == null) throw EmptyListException()
+
+        getItem(p).assert(item)
+    }
 
     /**
      * [withWait] parameter gives small period for checking UI (by eyes :D).
      */
     fun assertList(list: List<NoteItem>, withWait: Boolean = false) {
         for ((p, item) in list.withIndex()) {
-            assertItem(p, item)
+            assertItem(item, p)
 
             if (withWait) {
                 await(time = 250)

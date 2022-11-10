@@ -2,7 +2,7 @@ package sgtmelon.scriptum.parent.ui.screen.main
 
 import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -13,11 +13,11 @@ import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withSizeCode
 
-class MainFabPart : ParentScreen() {
+class MainFabPart : UiPart() {
 
-    private val fabCard = getViewById(R.id.gradient_fab_card)
-    private val fabClick = getViewById(R.id.gradient_fab_click)
-    private val fabIcon = getViewById(R.id.gradient_fab_icon)
+    private val fabCard = getView(R.id.gradient_fab_card)
+    private val fabClick = getView(R.id.gradient_fab_click)
+    private val fabIcon = getView(R.id.gradient_fab_icon)
 
     fun click() {
         fabClick.click()
@@ -26,7 +26,6 @@ class MainFabPart : ParentScreen() {
     fun assert(isVisible: Boolean) {
         fabCard.isDisplayed(isVisible) {
             withSize(R.dimen.gradient_fab_size, R.dimen.gradient_fab_size)
-            // TODO add margin assertion
             withCardRadius(R.dimen.gradient_fab_radius)
             withCardElevation(R.dimen.gradient_fab_elevation)
 

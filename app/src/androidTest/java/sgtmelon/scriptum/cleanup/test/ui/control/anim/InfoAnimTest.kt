@@ -18,13 +18,13 @@ class InfoAnimTest : ParentUiTest() {
                 rankScreen(isEmpty = true) {
                     repeat(times = 3) {
                         toolbar { onEnterName(entity.name).onClickAdd() }
-                        onClickCancel()
+                        itemCancel()
                         assert(isEmpty = true)
                     }
 
                     toolbar { onEnterName(entity.name).onClickAdd() }
                     repeat(times = 3) {
-                        onClickCancel()
+                        itemCancel()
                         assert(isEmpty = true)
                         getSnackbar().clickCancel()
                         assert(isEmpty = false)

@@ -68,17 +68,17 @@ class RankDialogUi(
         titleText.isDisplayed().withTextColor(R.attr.clContent)
 
         noCategoryButton.isDisplayed()
-            .isChecked(isChecked = check == -1)
+            .isChecked(value = check == -1)
             .withTextColor(R.attr.clContent)
 
         for (it in rankList) {
             getItem(it.name).isDisplayed()
-                .isChecked(isChecked = check == it.position)
+                .isChecked(value = check == it.position)
                 .withTextColor(R.attr.clContent)
         }
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
-        applyButton.isDisplayed().isEnabled(isEnabled = item.rankPs != check) {
+        applyButton.isDisplayed().isEnabled(value = item.rankPs != check) {
             withTextColor(R.attr.clAccent)
         }
     }

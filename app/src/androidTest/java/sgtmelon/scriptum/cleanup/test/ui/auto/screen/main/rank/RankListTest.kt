@@ -18,7 +18,7 @@ class RankListTest : ParentUiTest() {
     @Test fun contentList() = launch({ db.fillRank() }) { mainScreen { rankScreen() } }
 
     @Test fun listScroll() = launch({ db.fillRank() }) {
-        mainScreen { rankScreen { onScrollThrough() } }
+        mainScreen { rankScreen { scrollThrough() } }
     }
 
 }

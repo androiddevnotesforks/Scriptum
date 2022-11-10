@@ -31,7 +31,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
         itemCancel(p)
         getSnackbar { clickCancel() }
         assertSnackbarDismiss()
-        assertItem(p, it[p])
+        assertItem(it[p], p)
     }
 
     @Test fun manyActionClick() = startNotificationListTest(count = 3) {
@@ -94,7 +94,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
 
                 getSnackbar { clickCancel().assert() }
 
-                assertItem(actionShiftPosition, list[actionPosition])
+                assertItem(list[actionPosition], actionShiftPosition)
                 clickClose()
             }
 
@@ -154,25 +154,25 @@ class NotificationsSnackbarTest : ParentUiTest() {
         val p = it.indices.first
 
         itemCancel(p)
-        onScroll(Scroll.END)
+        scrollTo(Scroll.END)
         getSnackbar { clickCancel() }
         await(RecyclerItemPart.SCROLL_TIME)
 
         assertSnackbarDismiss()
         RecyclerItemPart.PREVENT_SCROLL = true
-        assertItem(p, it[p])
+        assertItem(it[p], p)
     }
 
     @Test fun scrollBottomAfterAction() = startNotificationListTest {
         val p = it.indices.last
 
         itemCancel(p)
-        onScroll(Scroll.START)
+        scrollTo(Scroll.START)
         getSnackbar { clickCancel() }
         await(RecyclerItemPart.SCROLL_TIME)
 
         assertSnackbarDismiss()
         RecyclerItemPart.PREVENT_SCROLL = true
-        assertItem(p, it[p])
+        assertItem(it[p], p)
     }
 }

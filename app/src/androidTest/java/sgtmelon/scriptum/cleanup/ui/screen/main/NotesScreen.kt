@@ -90,7 +90,7 @@ class NotesScreen(private val isHidden: Boolean) : ContainerPart(TestViewTag.NOT
     }
 
 
-    fun onAssertItem(item: NoteItem, p: Int? = random) {
+    fun assertItem(item: NoteItem, p: Int? = random) {
         if (p == null) return
 
         getItem(p).assert(item)

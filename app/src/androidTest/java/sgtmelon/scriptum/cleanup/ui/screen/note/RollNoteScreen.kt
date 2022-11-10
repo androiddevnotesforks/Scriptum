@@ -262,7 +262,7 @@ class RollNoteScreen(
         }
 
         parentContainer.isDisplayed()
-        progressBar.isDisplayed(isVisible = state == NoteState.READ || state == NoteState.BIN) {
+        progressBar.isDisplayed(value = state == NoteState.READ || state == NoteState.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
             withProgress(item.getCheck(), item.list.size)
         }

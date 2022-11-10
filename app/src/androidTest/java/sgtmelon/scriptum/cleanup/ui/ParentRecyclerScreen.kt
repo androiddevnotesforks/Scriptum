@@ -22,7 +22,7 @@ abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : Parent
 
     protected val random: Int? get() = recyclerView.getRandomPosition()
 
-    fun onScroll(scroll: Scroll, time: Int = REPEAT_COUNT) = repeat(time) {
+    fun scrollTo(scroll: Scroll, time: Int = REPEAT_COUNT) = repeat(time) {
         waitAfter(SCROLL_TIME) {
             when (scroll) {
                 Scroll.START -> recyclerView.swipeDown()
@@ -31,9 +31,9 @@ abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : Parent
         }
     }
 
-    fun onScrollThrough() = repeat(REPEAT_COUNT) {
-        onScroll(Scroll.END)
-        onScroll(Scroll.START)
+    fun scrollThrough() = repeat(REPEAT_COUNT) {
+        scrollTo(Scroll.END)
+        scrollTo(Scroll.START)
     }
 
     companion object {

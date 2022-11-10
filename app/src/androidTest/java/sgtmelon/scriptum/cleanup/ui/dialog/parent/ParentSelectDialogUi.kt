@@ -42,10 +42,10 @@ abstract class ParentSelectDialogUi(
         super.assert()
 
         for (i in itemArray.indices) {
-            getItem(i).isDisplayed().isChecked(isChecked = check == i)
+            getItem(i).isDisplayed().isChecked(value = check == i)
         }
 
-        applyButton.isDisplayed().isEnabled(isEnabled = check != initCheck) {
+        applyButton.isDisplayed().isEnabled(value = check != initCheck) {
             withTextColor(R.attr.clAccent)
         }
     }

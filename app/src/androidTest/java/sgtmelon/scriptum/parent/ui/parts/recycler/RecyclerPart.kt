@@ -18,7 +18,7 @@ interface RecyclerPart {
 
     val random: Int? get() = recyclerView.getRandomPosition()
 
-    fun onScroll(scroll: Scroll, time: Int = REPEAT_COUNT) = repeat(time) {
+    fun scrollTo(scroll: Scroll, time: Int = REPEAT_COUNT) = repeat(time) {
         when (scroll) {
             Scroll.START -> recyclerView.swipeDown()
             Scroll.END -> recyclerView.swipeUp()
@@ -27,9 +27,9 @@ interface RecyclerPart {
         await(SCROLL_TIME)
     }
 
-    fun onScrollThrough() = repeat(REPEAT_COUNT) {
-        onScroll(Scroll.END)
-        onScroll(Scroll.START)
+    fun scrollThrough() = repeat(REPEAT_COUNT) {
+        scrollTo(Scroll.END)
+        scrollTo(Scroll.START)
     }
 
     companion object {

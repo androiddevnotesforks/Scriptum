@@ -104,7 +104,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
 
         nameScroll.isDisplayed()
 
-        colorView.isDisplayed(isVisible = appTheme == ThemeDisplayed.DARK) {
+        colorView.isDisplayed(value = appTheme == ThemeDisplayed.DARK) {
             withBackgroundAppColor(appTheme, color, needDark = true)
         }
 
@@ -113,7 +113,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
                 NoteState.READ, NoteState.BIN -> {
                     val name = item.name
 
-                    nameEnter.isDisplayed(isVisible = false)
+                    nameEnter.isDisplayed(value = false)
                     nameText.isDisplayed {
                         if (name.isNotEmpty()) {
                             withText(name, R.attr.clContent)
@@ -125,7 +125,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
                 NoteState.EDIT, NoteState.NEW -> {
                     val name = shadowItem.name
 
-                    nameText.isDisplayed(isVisible = false)
+                    nameText.isDisplayed(value = false)
                     nameEnter.isDisplayed()
                         .withImeAction(EditorInfo.IME_ACTION_NEXT)
                         .withBackgroundColor(android.R.color.transparent)

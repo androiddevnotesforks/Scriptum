@@ -38,7 +38,7 @@ class RollNoteErrorTest : ParentUiTest() {
                         }
                     }
 
-                    onAssertItem(item)
+                    assertItem(item)
                 }
             }
         }

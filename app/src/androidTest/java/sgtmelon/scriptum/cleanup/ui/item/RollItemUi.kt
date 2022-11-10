@@ -92,14 +92,14 @@ class RollItemUi(
                     }
                 ).plus(other = " ").plus(item.text)
 
-                clickButton.isDisplayed(isVisible = state != NoteState.BIN)
+                clickButton.isDisplayed(value = state != NoteState.BIN)
                     .withContentDescription(description)
 
                 rollText.isDisplayed().withText(item.text, textColor, R.dimen.text_18sp)
                     .withBackgroundColor(android.R.color.transparent)
             }
             NoteState.EDIT, NoteState.NEW -> {
-                checkBox.isDisplayed(isVisible = false)
+                checkBox.isDisplayed(value = false)
 
                 val color = if (item.isCheck) R.attr.clAccent else R.attr.clContent
                 val description = context.getString(R.string.description_item_roll_move)

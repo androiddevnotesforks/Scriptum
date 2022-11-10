@@ -73,7 +73,7 @@ class RankItemUi(
         val isNotificationVisible = RankHolder.isMaxTest || item.notificationCount != 0
         val isBindVisible = RankHolder.isMaxTest || item.bindCount != 0
 
-        imageContainer.isDisplayed(isVisible = isNotificationVisible || isBindVisible)
+        imageContainer.isDisplayed(value = isNotificationVisible || isBindVisible)
 
         notificationText.isDisplayed(isNotificationVisible)
             .withText(

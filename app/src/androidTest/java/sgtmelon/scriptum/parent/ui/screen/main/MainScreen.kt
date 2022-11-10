@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.parent.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.ui.dialog.sheet.AddSheetDialogUi
 import sgtmelon.scriptum.cleanup.ui.screen.main.BinScreen
 import sgtmelon.scriptum.cleanup.ui.screen.main.NotesScreen
@@ -10,10 +9,10 @@ import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
+import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isSelected
-import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withSizeAttr
@@ -37,48 +36,48 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
 
     //endregion
 
-    @Deprecated("May be somehow without it?")
-    private var wasNavigate = false
+    var currentPage = MainPage.NOTES
+        private set
 
-    private var page = MainPage.NOTES
-
+    /**
+     * Function for "just select page".
+     */
     fun openPage(page: MainPage, isEmpty: Boolean = false) = when (page) {
         MainPage.RANK -> rankScreen(isEmpty)
         MainPage.NOTES -> notesScreen(isEmpty)
         MainPage.BIN -> binScreen(isEmpty)
     }
 
-    fun rankScreen(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) = apply {
-        wasNavigate = true
-        onNavigateTo(MainPage.RANK)
+    inline fun rankScreen(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) = apply {
+        if (currentPage != MainPage.RANK) {
+            clickPage(MainPage.RANK)
+        }
 
         RankScreen(func, isEmpty)
     }
 
-    fun notesScreen(
+    inline fun notesScreen(
         isEmpty: Boolean = false,
         isHide: Boolean = false,
         func: NotesScreen.() -> Unit = {}
     ) = apply {
-        if (wasNavigate) onNavigateTo(MainPage.NOTES)
+        if (currentPage != MainPage.NOTES) {
+            clickPage(MainPage.NOTES)
+        }
 
         NotesScreen(func, isEmpty, isHide)
     }
 
-    fun binScreen(isEmpty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
-        wasNavigate = true
-        onNavigateTo(MainPage.BIN)
+    inline fun binScreen(isEmpty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
+        if (currentPage != MainPage.BIN) {
+            clickPage(MainPage.BIN)
+        }
 
         BinScreen(func, isEmpty)
     }
 
-    fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply {
-        fab.click()
-        AddSheetDialogUi(func)
-    }
-
-    fun onNavigateTo(page: MainPage) {
-        this.page = page
+    fun clickPage(page: MainPage) {
+        this.currentPage = page
 
         when (page) {
             MainPage.RANK -> rankMenuItem.click()
@@ -89,15 +88,24 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         assert(page, isFabVisible = page == MainPage.NOTES)
     }
 
-    fun onScrollTop() = waitAfter(SCROLL_TIME) {
-        when (page) {
-            MainPage.RANK -> rankMenuItem.longClick()
-            MainPage.NOTES -> notesMenuItem.longClick()
-            MainPage.BIN -> binMenuItem.longClick()
+    fun scrollTop() {
+        when (currentPage) {
+            MainPage.RANK -> rankMenuItem.click()
+            MainPage.NOTES -> notesMenuItem.click()
+            MainPage.BIN -> binMenuItem.click()
         }
+
+        await(SCROLL_TIME)
     }
 
-    // TODO when isFabVisible == null?
+    fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply {
+        fab.click()
+        AddSheetDialogUi(func)
+    }
+
+    /**
+     * [page] and [isFabVisible] equals NULL if you want skip assert of related elements.
+     */
     fun assert(page: MainPage? = null, isFabVisible: Boolean? = null) = apply {
         parentContainer.isDisplayed()
 
@@ -110,10 +118,10 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
 
         menuNavigation.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
-        if (page != null) when (page) {
-            MainPage.RANK -> rankMenuItem.isSelected()
-            MainPage.NOTES -> notesMenuItem.isSelected()
-            MainPage.BIN -> binMenuItem.isSelected()
+        if (page != null) {
+            rankMenuItem.isSelected(value = MainPage.RANK == page)
+            notesMenuItem.isSelected(value = MainPage.NOTES == page)
+            binMenuItem.isSelected(value = MainPage.BIN == page)
         }
 
         if (isFabVisible != null) {

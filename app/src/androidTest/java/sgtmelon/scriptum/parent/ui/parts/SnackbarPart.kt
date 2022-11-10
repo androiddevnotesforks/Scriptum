@@ -31,7 +31,6 @@ class SnackbarPart(
     fun clickCancel() = apply { actionButton.click() }
 
     fun assert() {
-        // TODO check background drawable assertion
         parentContainer.isDisplayed().withBackgroundDrawable(R.drawable.bg_snackbar)
         messageText.isDisplayed().withTextColor(R.attr.clContent)
         actionButton.isDisplayed().withTextColor(R.attr.clAccent)

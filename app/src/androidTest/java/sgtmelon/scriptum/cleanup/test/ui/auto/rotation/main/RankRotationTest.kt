@@ -56,7 +56,7 @@ class RankRotationTest : ParentUiRotationTest() {
             mainScreen {
                 rankScreen {
                     repeat(times = 3) { time ->
-                        onClickCancel()
+                        itemCancel()
 
                         if (time.isDivideEntirely()) {
                             rotate.toSide()

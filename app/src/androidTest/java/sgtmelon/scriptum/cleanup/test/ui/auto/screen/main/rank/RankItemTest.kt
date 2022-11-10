@@ -38,7 +38,7 @@ class RankItemTest : ParentUiTest() {
     }
 
     @Test fun clearFromList() = db.insertRank().let {
-        launch { mainScreen { rankScreen { onClickCancel().assert(isEmpty = true) } } }
+        launch { mainScreen { rankScreen { itemCancel().assert(isEmpty = true) } } }
     }
 
     @Test fun clearForNote() = db.insertRankForNotes().let {
@@ -46,7 +46,7 @@ class RankItemTest : ParentUiTest() {
             mainScreen {
                 rankScreen { onClickVisible() }
                 notesScreen(isEmpty = true, isHide = true)
-                rankScreen { onClickCancel() }
+                rankScreen { itemCancel() }
                 notesScreen()
             }
         }
@@ -58,7 +58,7 @@ class RankItemTest : ParentUiTest() {
                 binScreen()
                 rankScreen { onClickVisible() }
                 binScreen()
-                rankScreen { onClickCancel() }
+                rankScreen { itemCancel() }
                 binScreen()
             }
         }
