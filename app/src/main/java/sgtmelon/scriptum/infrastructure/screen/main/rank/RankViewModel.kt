@@ -21,11 +21,17 @@ interface RankViewModel : UnbindNoteReceiver.Callback,
 
     fun updateData()
 
+    fun getToolbarEnable(name: String): Pair<Boolean, Boolean>
+
+    fun addRank(name: String, toBottom: Boolean): Flow<AddState>
+
     // TODO add features
 
     fun changeRankVisibility(p: Int): Flow<Unit>
 
     fun getRenameData(p: Int): Flow<Pair<String, List<String>>>
+
+    fun renameRank(p: Int, name: String): Flow<Unit>
 
     fun removeRank(p: Int): Flow<Unit>
 

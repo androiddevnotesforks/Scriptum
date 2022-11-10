@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.extension
 import android.content.Context
 import android.content.res.Configuration
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.recordException
 
 fun Context.getDisplayedTheme(): ThemeDisplayed? {
     val uiMode = resources.configuration.uiMode
@@ -12,7 +12,7 @@ fun Context.getDisplayedTheme(): ThemeDisplayed? {
         Configuration.UI_MODE_NIGHT_NO -> ThemeDisplayed.LIGHT
         Configuration.UI_MODE_NIGHT_YES -> ThemeDisplayed.DARK
         else -> run {
-            NullPointerException("Unknown configuration! Received null for uiMode=$uiMode").record()
+            recordException("Unknown configuration! Received null for uiMode=$uiMode")
             return@run null
         }
     }

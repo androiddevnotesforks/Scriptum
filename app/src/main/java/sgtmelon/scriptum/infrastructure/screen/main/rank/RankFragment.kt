@@ -3,10 +3,10 @@ package sgtmelon.scriptum.infrastructure.screen.main.rank
 import android.annotation.SuppressLint
 import android.content.IntentFilter
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -14,7 +14,6 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.extension.animateAlpha
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
@@ -31,12 +30,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
-import sgtmelon.scriptum.infrastructure.utils.isGone
-import sgtmelon.scriptum.infrastructure.utils.isInvisible
-import sgtmelon.scriptum.infrastructure.utils.isVisible
-import sgtmelon.scriptum.infrastructure.utils.makeGone
-import sgtmelon.scriptum.infrastructure.utils.makeInvisible
-import sgtmelon.scriptum.infrastructure.utils.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -99,39 +92,38 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         super.setupView()
 
         /**
-         * Use [OpenState.attempt] and [OpenState.returnAttempt] inside add category feature
-         * because calculations happens inside coroutine, not main thread.
+         * Use [OpenState.attempt] inside add category feature, because calculations happens
+         * inside coroutine, not main thread.
          *
-         * Reset of [OpenState.isBlocked] happen inside [scrollToItem].
+         * TODO Reset of [OpenState.isBlocked] happen inside [scrollToItem].
          */
         binding?.toolbarInclude?.apply {
             toolbar.title = getString(R.string.title_rank)
-            clearButton.setOnClickListener { viewModel.onClickEnterCancel() }
+            clearButton.setOnClickListener { clearEnter() }
             addButton.setOnClickListener {
-                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = true) }
+                parentOpen?.attempt { addFromEnter(toBottom = true) }
             }
             addButton.setOnLongClickListener {
-                parentOpen?.attempt { viewModel.onClickEnterAdd(addToBottom = false) }
+                parentOpen?.attempt { addFromEnter(toBottom = false) }
                 return@setOnLongClickListener true
             }
-            rankEnter.doOnTextChanged { _, _, _, _ -> viewModel.onUpdateToolbar() }
+            rankEnter.doOnTextChanged { _, _, _, _ -> notifyToolbar() }
             rankEnter.setOnEditorActionListener { _, i, _ ->
-                val result = parentOpen?.returnAttempt {
-                    viewModel.onEditorClick(i)
-                } ?: false
-
-                /**
-                 * If item wasn't add need clear [parentOpen].
-                 */
-                if (!result) parentOpen?.clear()
-
-                return@setOnEditorActionListener result
+                return@setOnEditorActionListener if (i == EditorInfo.IME_ACTION_DONE) {
+                    parentOpen?.attempt { addFromEnter(toBottom = true) }
+                    true
+                } else {
+                    false
+                }
             }
         }
 
+        notifyToolbar()
+
         binding?.recyclerView?.let {
             it.setDefaultAnimator(supportsChangeAnimations = false) {
-                viewModel.onItemAnimationFinished()
+                // TODO check
+                //                viewModel.onItemAnimationFinished()
             }
 
             it.addOnScrollListener(RecyclerOverScrollListener())
@@ -147,7 +139,9 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         super.setupDialogs()
 
         renameDialog.apply {
-            onPositiveClick { viewModel.onResultRenameDialog(position, name) }
+            onPositiveClick {
+                viewModel.renameRank(position, name).collect(owner = this) { notifyToolbar() }
+            }
             onDismiss { parentOpen?.clear() }
         }
     }
@@ -162,11 +156,12 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.infoInclude.parentContainer
             )
+
+            /** If toolbar enter contains any text then need update add button. */
+            notifyToolbar()
         }
         viewModel.itemList.observe(this) { observeItemList(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
-
-        TODO()
     }
 
     override fun registerReceivers() {
@@ -220,6 +215,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             is UpdateListState.NotifyHard -> adapter.setList(it).notifyDataSetChanged()
             is UpdateListState.Remove -> adapter.setList(it).notifyItemRemoved(state.p)
             is UpdateListState.Insert -> {
+                // TODO may be here need add open.clear?
                 adapter.setList(it).notifyItemInserted(state.p)
                 RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(it, state.p)
             }
@@ -227,6 +223,38 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     }
 
     //endregion
+
+    private fun notifyToolbar() {
+        val (isClearEnable, isAddEnable) = viewModel.getToolbarEnable(getEnterText())
+
+        binding?.toolbarInclude?.apply {
+            clearButton.isEnabled = isClearEnable
+            clearButton.bindBoolTint(isClearEnable, R.attr.clContent, R.attr.clDisable)
+
+            addButton.isEnabled = isAddEnable
+            addButton.bindBoolTint(isAddEnable, R.attr.clAccent, R.attr.clDisable)
+        }
+    }
+
+    private fun getEnterText(): String = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
+
+    private fun clearEnter() {
+        binding?.toolbarInclude?.rankEnter?.setText("")
+    }
+
+    private fun addFromEnter(toBottom: Boolean) {
+        viewModel.addRank(getEnterText(), toBottom).collect(owner = this) {
+            when (it) {
+                AddState.Deny -> parentOpen?.clear()
+                AddState.Prepare -> {
+                    activity?.hideKeyboard()
+                    clearEnter()
+                    dismissSnackbar()
+                }
+                AddState.Complete -> parentOpen?.clear()
+            }
+        }
+    }
 
     private fun showSnackbar() {
         val parentContainer = binding?.recyclerContainer ?: return
@@ -244,95 +272,79 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private fun dismissSnackbar() = snackbar.dismiss(skipDismissResult = false)
 
     //region Cleanup
+    //
+    //    override fun hideKeyboard() {
+    //        activity?.hideKeyboard()
+    //    }
 
-    //region Variables
-
-
-    override fun hideKeyboard() {
-        activity?.hideKeyboard()
-    }
-
-    override fun onBindingList() {
-        binding?.progressBar?.makeGone()
-
-        if (adapter.itemCount == 0) {
-            /**
-             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
-             */
-            if (binding?.infoInclude?.parentContainer.isVisible()
-                && binding?.recyclerView.isInvisible()
-            ) return
-
-            binding?.infoInclude?.parentContainer?.makeVisible()
-            binding?.recyclerView?.makeInvisible()
-
-            binding?.infoInclude?.parentContainer?.alpha = 0f
-            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
-        } else {
-            /**
-             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
-             */
-            if (binding?.infoInclude?.parentContainer.isGone()
-                && binding?.recyclerView.isVisible()
-            ) return
-
-            binding?.recyclerView?.makeVisible()
-
-            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = false) {
-                binding?.infoInclude?.parentContainer?.makeGone()
-            }
-        }
-
-        /**
-         * If toolbar enter contains text then need update add button.
-         */
-        viewModel.onUpdateToolbar()
-    }
-
-    override fun onBindingToolbar(isClearEnable: Boolean, isAddEnable: Boolean) {
-        binding?.toolbarInclude?.apply {
-            clearButton.isEnabled = isClearEnable
-            clearButton.bindBoolTint(isClearEnable, R.attr.clContent, R.attr.clDisable)
-
-            addButton.isEnabled = isAddEnable
-            addButton.bindBoolTint(isAddEnable, R.attr.clAccent, R.attr.clDisable)
-        }
-    }
-
-    override fun getEnterText() = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
-
-    override fun clearEnter(): String {
-        val name = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
-        binding?.toolbarInclude?.rankEnter?.setText("")
-        return name
-    }
-
-    override fun scrollToItem(list: List<RankItem>, p: Int, addToBottom: Boolean) {
-        parentOpen?.clear()
-
-        if (list.size == 1) {
-            adapter.setList(list).notifyItemInserted(0)
-            onBindingList()
-        } else {
-            notifyItemInsertedScroll(list, p)
-        }
-    }
-
-    override fun setList(list: List<RankItem>) {
-        adapter.setList(list)
-    }
-
-    override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
-
-    override fun notifyItemMoved(list: List<RankItem>, from: Int, to: Int) {
-        adapter.setList(list).notifyItemMoved(from, to)
-    }
-
-    // TODO finish
-    override fun notifyItemInsertedScroll(list: List<RankItem>, p: Int) {
-        adapter.setList(list).notifyItemInserted(p)
-        RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(list, p)
-    }
+    //    override fun onBindingList() {
+    //        binding?.progressBar?.makeGone()
+    //
+    //        if (adapter.itemCount == 0) {
+    //            /**
+    //             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+    //             */
+    //            if (binding?.infoInclude?.parentContainer.isVisible()
+    //                && binding?.recyclerView.isInvisible()
+    //            ) return
+    //
+    //            binding?.infoInclude?.parentContainer?.makeVisible()
+    //            binding?.recyclerView?.makeInvisible()
+    //
+    //            binding?.infoInclude?.parentContainer?.alpha = 0f
+    //            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = true)
+    //        } else {
+    //            /**
+    //             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+    //             */
+    //            if (binding?.infoInclude?.parentContainer.isGone()
+    //                && binding?.recyclerView.isVisible()
+    //            ) return
+    //
+    //            binding?.recyclerView?.makeVisible()
+    //
+    //            binding?.infoInclude?.parentContainer?.animateAlpha(isVisible = false) {
+    //                binding?.infoInclude?.parentContainer?.makeGone()
+    //            }
+    //        }
+    //
+    //        /**
+    //         * If toolbar enter contains text then need update add button.
+    //         */
+    //        viewModel.onUpdateToolbar()
+    //    }
+    //
+    //    override fun clearEnter(): String {
+    //        val name = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
+    //        binding?.toolbarInclude?.rankEnter?.setText("")
+    //        return name
+    //    }
+    //
+    //    override fun scrollToItem(list: List<RankItem>, p: Int, addToBottom: Boolean) {
+    //        parentOpen?.clear()
+    //
+    //        if (list.size == 1) {
+    //            adapter.setList(list).notifyItemInserted(0)
+    //            onBindingList()
+    //        } else {
+    //            notifyItemInsertedScroll(list, p)
+    //        }
+    //    }
+    //
+    //    override fun setList(list: List<RankItem>) {
+    //        adapter.setList(list)
+    //    }
+    //
+    //    override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
+    //
+    //    override fun notifyItemMoved(list: List<RankItem>, from: Int, to: Int) {
+    //        adapter.setList(list).notifyItemMoved(from, to)
+    //    }
+    //
+    //    override fun notifyItemInsertedScroll(list: List<RankItem>, p: Int) {
+    //        adapter.setList(list).notifyItemInserted(p)
+    //        RecyclerInsertScroll(binding?.recyclerView, layoutManager).scroll(list, p)
+    //    }
 
     //endregion
 

@@ -16,4 +16,14 @@ sealed class UpdateListState {
     class Remove(val p: Int) : UpdateListState()
 
     class Insert(val p: Int) : UpdateListState()
+
+    companion object {
+        /**
+         * If list size equals 1 -> need just show list without animation, because of
+         * animation glitch.
+         */
+        fun chooseInsert(size: Int, p: Int): UpdateListState {
+            return if (size == 1) NotifyHard else Insert(p)
+        }
+    }
 }

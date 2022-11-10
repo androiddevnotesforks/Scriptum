@@ -52,13 +52,6 @@ class OpenState(lifecycle: Lifecycle) {
         }
     }
 
-    inline fun <T> returnAttempt(func: () -> T): T? {
-        if (!isChangeEnabled || isBlocked) return null
-
-        isBlocked = true
-        return func()
-    }
-
     /**
      * Use when need block calls for [time] period.
      */

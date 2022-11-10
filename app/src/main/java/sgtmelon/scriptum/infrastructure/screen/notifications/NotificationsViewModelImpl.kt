@@ -104,15 +104,7 @@ class NotificationsViewModelImpl(
 
         emit(UndoState.NotifyInfoCount(_itemList.size))
 
-        /**
-         * If list size equals 1 -> need just show list without animation, because of
-         * animation glitch.
-         */
-        updateList = if (_itemList.size == 1) {
-            UpdateListState.NotifyHard
-        } else {
-            UpdateListState.Insert(position)
-        }
+        updateList = UpdateListState.chooseInsert(_itemList.size, position)
 
         /** Need set list value on mainThread for prevent postValue overriding. */
         runMain { itemList.value = _itemList }

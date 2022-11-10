@@ -1,15 +1,12 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
-import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlin.math.max
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
-import sgtmelon.extensions.runBack
 import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
@@ -25,6 +22,7 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.utils.recordException
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
@@ -82,6 +80,73 @@ class RankViewModelImpl(
         }
     }
 
+    override fun getToolbarEnable(name: String): Pair<Boolean, Boolean> {
+        val clearName = name.clearSpace().uppercase()
+
+        val isClearEnable = name.isNotEmpty()
+        val isAddEnable = clearName.isNotEmpty() && !uniqueNameList.contains(clearName)
+
+        return isClearEnable to isAddEnable
+    }
+
+    private fun isValidName(name: String): Boolean {
+        return name.isNotEmpty() && !uniqueNameList.contains(name.uppercase())
+    }
+
+    override fun addRank(name: String, toBottom: Boolean): Flow<AddState> = flowOnBack {
+        if (!isValidName(name)) {
+            emit(AddState.Deny)
+            return@flowOnBack
+        }
+
+        emit(AddState.Prepare)
+
+        val item = insertRank(name) ?: run {
+            recordException("isValidName=${isValidName(name)} and can't insert rank by name")
+            return@flowOnBack
+        }
+
+        val p = if (toBottom) _itemList.size else 0
+        _itemList.add(p, item)
+        updateRankPositions(_itemList, correctRankPositions(_itemList))
+
+        updateList = UpdateListState.chooseInsert(_itemList.size, p)
+        itemList.postValue(_itemList)
+        notifyShowList()
+
+        emit(AddState.Complete)
+    }
+
+    //    override fun onEditorClick(i: Int): Boolean {
+    //        val name = callback?.getEnterText()?.clearSpace()?.uppercase()
+    //
+    //        if (name.isNullOrEmpty() || uniqueNameList.contains(name)) return false
+    //
+    //        onClickEnterAdd(toBottom = true)
+    //
+    //        return true
+    //    }
+    //
+    //    override fun onClickEnterAdd(toBottom: Boolean) {
+    //        val name = callback?.clearEnter()?.clearSpace()
+    //
+    //        if (name.isNullOrEmpty() || uniqueNameList.contains(name.uppercase())) return
+    //
+    //        callback?.hideKeyboard()
+    //        callback?.dismissSnackbar()
+    //
+    //        viewModelScope.launch {
+    //            val item = runBack { insertRank(name) } ?: return@launch
+    //            val p = if (toBottom) _itemList.size else 0
+    //
+    //            _itemList.add(p, item)
+    //
+    //            runBack { updateRankPositions(_itemList, correctRankPositions(_itemList)) }
+    //
+    //            callback?.scrollToItem(_itemList, p, toBottom)
+    //        }
+    //    }
+
     //region Cleanup
 
     /**
@@ -89,61 +154,59 @@ class RankViewModelImpl(
      */
     @RunPrivate var inTouchAction = false
 
-    override fun onUpdateToolbar() {
-        val enterName = callback?.getEnterText() ?: return
-        val clearName = enterName.clearSpace().uppercase()
-
-        callback?.onBindingToolbar(
-            isClearEnable = enterName.isNotEmpty(),
-            isAddEnable = clearName.isNotEmpty() && !uniqueNameList.contains(clearName)
-        )
-    }
-
-    override fun onResultRenameDialog(p: Int, name: String) {
-        val item = _itemList.getOrNull(p)?.apply { this.name = name } ?: return
-
-        viewModelScope.launchBack { updateRank(item) }
-
-        onUpdateToolbar()
-        callback?.notifyList(_itemList)
-    }
-
-    override fun onClickEnterCancel() {
-        callback?.clearEnter()
-    }
-
-    override fun onEditorClick(i: Int): Boolean {
-        if (i != EditorInfo.IME_ACTION_DONE) return false
-
-        val name = callback?.getEnterText()?.clearSpace()?.uppercase()
-
-        if (name.isNullOrEmpty() || uniqueNameList.contains(name)) return false
-
-        onClickEnterAdd(addToBottom = true)
-
-        return true
-    }
-
-    override fun onClickEnterAdd(addToBottom: Boolean) {
-        val name = callback?.clearEnter()?.clearSpace()
-
-        if (name.isNullOrEmpty() || uniqueNameList.contains(name.uppercase())) return
-
-        callback?.hideKeyboard()
-        callback?.dismissSnackbar()
-
-        viewModelScope.launch {
-            val item = runBack { insertRank(name) } ?: return@launch
-            val p = if (addToBottom) _itemList.size else 0
-
-            _itemList.add(p, item)
-
-            runBack { updateRankPositions(_itemList, correctRankPositions(_itemList)) }
-
-            callback?.scrollToItem(_itemList, p, addToBottom)
-        }
-    }
-
+    //    override fun onUpdateToolbar() {
+    //        val enterName = callback?.getEnterText() ?: return
+    //        val clearName = enterName.clearSpace().uppercase()
+    //
+    //        callback?.onBindingToolbar(
+    //            isClearEnable = enterName.isNotEmpty(),
+    //            isAddEnable = clearName.isNotEmpty() && !uniqueNameList.contains(clearName)
+    //        )
+    //    }
+    //
+    //    override fun onResultRenameDialog(p: Int, name: String) {
+    //        val item = _itemList.getOrNull(p)?.apply { this.name = name } ?: return
+    //
+    //        viewModelScope.launchBack { updateRank(item) }
+    //
+    //        onUpdateToolbar()
+    //        callback?.notifyList(_itemList)
+    //    }
+    //
+    //    override fun onClickEnterCancel() {
+    //        callback?.clearEnter()
+    //    }
+    //
+    //    override fun onEditorClick(i: Int): Boolean {
+    //        val name = callback?.getEnterText()?.clearSpace()?.uppercase()
+    //
+    //        if (name.isNullOrEmpty() || uniqueNameList.contains(name)) return false
+    //
+    //        onClickEnterAdd(toBottom = true)
+    //
+    //        return true
+    //    }
+    //
+    //    override fun onClickEnterAdd(toBottom: Boolean) {
+    //        val name = callback?.clearEnter()?.clearSpace()
+    //
+    //        if (name.isNullOrEmpty() || uniqueNameList.contains(name.uppercase())) return
+    //
+    //        callback?.hideKeyboard()
+    //        callback?.dismissSnackbar()
+    //
+    //        viewModelScope.launch {
+    //            val item = runBack { insertRank(name) } ?: return@launch
+    //            val p = if (toBottom) _itemList.size else 0
+    //
+    //            _itemList.add(p, item)
+    //
+    //            runBack { updateRankPositions(_itemList, correctRankPositions(_itemList)) }
+    //
+    //            callback?.scrollToItem(_itemList, p, toBottom)
+    //        }
+    //    }
+    //
     override fun onItemAnimationFinished() {
         callback?.onBindingList()
 
@@ -211,6 +274,16 @@ class RankViewModelImpl(
         emit(value = item.name to uniqueNameList)
     }
 
+    override fun renameRank(p: Int, name: String): Flow<Unit> = flowOnBack {
+        val item = _itemList.getOrNull(p) ?: return@flowOnBack
+
+        item.name = name
+        updateRank(item)
+        itemList.postValue(_itemList)
+
+        emit(Unit)
+    }
+
     override fun removeRank(p: Int): Flow<Unit> = flowOnBack {
         val item = _itemList.removeAtOrNull(p) ?: return@flowOnBack
         val noteIdList = correctRankPositions(_itemList)
@@ -243,15 +316,7 @@ class RankViewModelImpl(
         val position = if (isCorrect) pair.first else _itemList.size
         _itemList.add(position, item)
 
-        /**
-         * If list size equals 1 -> need just show list without animation, because of
-         * animation glitch.
-         */
-        updateList = if (_itemList.size == 1) {
-            UpdateListState.NotifyHard
-        } else {
-            UpdateListState.Insert(position)
-        }
+        updateList = UpdateListState.chooseInsert(_itemList.size, position)
 
         /** Need set list value on mainThread for prevent postValue overriding. */
         runMain { itemList.value = _itemList }

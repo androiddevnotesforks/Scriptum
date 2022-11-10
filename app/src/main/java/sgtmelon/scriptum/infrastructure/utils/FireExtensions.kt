@@ -9,3 +9,5 @@ fun getCrashlytics() = FirebaseCrashlytics.getInstance()
 fun Throwable.record() = getCrashlytics().recordException(this)
 
 fun Throwable.recordThrow(): Nothing = throw this.apply { record() }
+
+fun recordException(text: String) = Throwable(text).record()
