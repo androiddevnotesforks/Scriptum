@@ -41,7 +41,7 @@ class RankToolbarTest : ParentUiTest() {
                     enter(nextString()).clear()
                     enter(name).addToEnd()
                 }
-                openRenameDialog(name) { onCloseSoft() }
+                openRenameDialog(name) { softClose() }
             }
         }
     }
@@ -53,7 +53,7 @@ class RankToolbarTest : ParentUiTest() {
         mainScreen {
             openRank(isEmpty = true) {
                 toolbar { enter(name).addToEnd() }
-                openRenameDialog(name, p = 0) { onCloseSoft() }
+                openRenameDialog(name, p = 0) { softClose() }
 
                 itemCancel(p = 0)
 
@@ -71,7 +71,7 @@ class RankToolbarTest : ParentUiTest() {
                 scrollTo(Scroll.END)
 
                 toolbar { enter(name).addToStart() }
-                openRenameDialog(name, p = 0) { onCloseSoft() }
+                openRenameDialog(name, p = 0) { softClose() }
 
                 itemCancel(p = 0)
 
@@ -87,7 +87,7 @@ class RankToolbarTest : ParentUiTest() {
         mainScreen {
             openRank {
                 toolbar { enter(name).addToEnd() }
-                openRenameDialog(name, p = count - 1) { onCloseSoft() }
+                openRenameDialog(name, p = count - 1) { softClose() }
 
                 itemCancel(p = count - 1)
 

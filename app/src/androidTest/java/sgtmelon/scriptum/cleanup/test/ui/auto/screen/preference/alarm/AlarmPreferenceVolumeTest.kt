@@ -24,7 +24,7 @@ class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
     }
 
     @Test fun dialogClose() = runTest {
-        openVolumeDialog { onCloseSoft() }
+        openVolumeDialog { softClose() }
         assert()
         openVolumeDialog { onClickCancel() }
         assert()

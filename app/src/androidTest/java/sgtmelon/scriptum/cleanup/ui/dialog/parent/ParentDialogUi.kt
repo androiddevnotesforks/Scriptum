@@ -10,8 +10,8 @@ import androidx.test.espresso.action.ViewActions
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.excludeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -26,7 +26,7 @@ abstract class ParentDialogUi(
     @ArrayRes private val textArrayId: Int?,
     private val textArray: Array<String>?
 ) : ParentScreen(),
-    IDialogUi {
+    DialogUi {
 
     constructor(
         @StringRes titleId: Int,

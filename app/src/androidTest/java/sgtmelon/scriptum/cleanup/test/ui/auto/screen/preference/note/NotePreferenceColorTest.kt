@@ -24,7 +24,7 @@ class NotePreferenceColorTest : ParentUiTest(),
 
         openColorDialog(color) { onClickCancel() }
         assert()
-        openColorDialog(color) { onCloseSoft() }
+        openColorDialog(color) { softClose() }
         assert()
     }
 

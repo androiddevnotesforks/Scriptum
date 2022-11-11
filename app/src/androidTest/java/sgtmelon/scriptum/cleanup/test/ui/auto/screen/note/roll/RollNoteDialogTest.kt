@@ -18,7 +18,7 @@ class RollNoteDialogTest : ParentUiTest() {
             mainScreen {
                 openNotes {
                     openRoll(it) {
-                        controlPanel { onNotification { onCloseSoft() } }.assert()
+                        controlPanel { onNotification { softClose() } }.assert()
                         controlPanel { onNotification { onClickCancel() } }.assert()
                         controlPanel { onNotification { onClickApply() } }
                     }
@@ -32,7 +32,7 @@ class RollNoteDialogTest : ParentUiTest() {
             mainScreen {
                 openNotes {
                     openRoll(it) {
-                        controlPanel { onConvert { onCloseSoft() } }.assert()
+                        controlPanel { onConvert { softClose() } }.assert()
                         controlPanel { onConvert { onClickNo() } }.assert()
                         controlPanel { onConvert { onClickYes() } }.afterConvert()
                     }
@@ -46,7 +46,7 @@ class RollNoteDialogTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(db.createRoll(), isRankEmpty = false) {
-                        controlPanel { onRank(it) { onCloseSoft() } }.assert()
+                        controlPanel { onRank(it) { softClose() } }.assert()
                         controlPanel { onRank(it) { onClickCancel() } }.assert()
                         controlPanel { onRank(it) { onClickItem(p = 1).onClickApply() } }.assert()
                     }

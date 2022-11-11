@@ -27,7 +27,7 @@ class RankImeTest : ParentUiTest() {
                 }
 
                 toolbar { enter(name).imeClick() }
-                openRenameDialog(name, p = count - 1) { onCloseSoft() }
+                openRenameDialog(name, p = count - 1) { softClose() }
 
                 /**
                  * Check ime action with wrong input data. (Name from list)
@@ -55,7 +55,7 @@ class RankImeTest : ParentUiTest() {
                      */
                     openRenameDialog(it.name) {
                         onEnter(name = " ", isEnabled = false).imeClick(isSuccess = false)
-                        onCloseSoft()
+                        softClose()
                     }
 
                     openRenameDialog(it.name) { onEnter(newName).imeClick() }

@@ -22,7 +22,7 @@ class RollNoteColorDialogTest : ParentUiTest(), IColorTest {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        controlPanel { onColor { onCloseSoft() } }.assert()
+                        controlPanel { onColor { softClose() } }.assert()
                         controlPanel { onColor { onClickCancel() } }.assert()
                         controlPanel { onColor { onClickAll().onClickItem().onClickApply() } }
                     }

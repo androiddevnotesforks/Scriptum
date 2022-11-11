@@ -18,7 +18,7 @@ class RankRenameDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRank {
-                    openRenameDialog(it.name) { onCloseSoft() }.assert(isEmpty = false)
+                    openRenameDialog(it.name) { softClose() }.assert(isEmpty = false)
                     openRenameDialog(it.name) { onClickCancel() }.assert(isEmpty = false)
                 }
             }

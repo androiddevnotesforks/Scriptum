@@ -4,8 +4,8 @@ import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
+import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -20,7 +20,7 @@ class RankDialogUi(
     private val rankList: List<RankItem>,
     private val callback: Callback
 ) : ParentRecyclerScreen(R.id.select_dialog_listview),
-        IDialogUi {
+    DialogUi {
 
     // TODO make it common (RepeatDialogUi, RankDialogUi, ThemeDialogUi)
 

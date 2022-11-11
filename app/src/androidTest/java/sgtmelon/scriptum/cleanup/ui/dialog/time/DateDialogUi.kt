@@ -4,8 +4,8 @@ import java.util.Calendar
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -18,7 +18,7 @@ class DateDialogUi(
     private val callback: DateTimeCallback,
     private val isUpdateDate: Boolean
 ) : ParentScreen(),
-    IDialogUi {
+    DialogUi {
 
     //region Views
 

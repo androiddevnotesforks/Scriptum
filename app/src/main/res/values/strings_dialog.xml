@@ -25,6 +25,11 @@
     <string name="dialog_add_text">Text</string>
     <string name="dialog_add_roll">List</string>
 
+    <string-array name="dialog_add">
+        <item>@string/dialog_add_text</item>
+        <item>@string/dialog_add_roll</item>
+    </string-array>
+
     <string name="dialog_text_volume" translatable="false">%d%%</string>
     <string name="dialog_text_loading">Loading</string>
 

@@ -1,35 +1,30 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.sheet
+package sgtmelon.scriptum.parent.ui.dialogs.sheet
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.test.cappuccino.utils.click
-import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.isEnabled
-import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
  * Class for UI control [AddSheetDialog].
  */
-class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_navigation) {
-
-    //region Views
-
-    private val titleText = getViewByText(R.string.dialog_title_add_note)
-    private val textButton = getViewByText(R.string.dialog_add_text)
-    private val rollButton = getViewByText(R.string.dialog_add_roll)
-
-    //endregion
+class AddSheetDialogUi : ParentSheetDialogUi(
+    R.id.add_container,
+    R.id.add_navigation,
+    R.string.dialog_title_add_note,
+    R.array.dialog_add
+) {
 
     fun createText(
         item: NoteItem.Text,
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) {
-        textButton.click()
+        getButton(NoteType.TEXT).click()
         TextNoteScreen(func, NoteState.NEW, item, isRankEmpty)
     }
 
@@ -38,17 +33,8 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) {
-        rollButton.click()
+        getButton(NoteType.ROLL).click()
         RollNoteScreen(func, NoteState.NEW, item, isRankEmpty)
-    }
-
-
-    override fun assert() {
-        super.assert()
-
-        titleText.isDisplayed().withTextColor(R.attr.clContentSecond)
-        textButton.isDisplayed().withTextColor(R.attr.clContent).isEnabled()
-        rollButton.isDisplayed().withTextColor(R.attr.clContent).isEnabled()
     }
 
     companion object {

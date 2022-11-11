@@ -5,11 +5,11 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
-import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.getCount
@@ -27,14 +27,16 @@ class ColorDialogUi(
     place: Place,
     private var color: Color,
     private val callback: Callback
-) : ParentRecyclerScreen(R.id.color_recycler_view), IDialogUi {
+) : ParentRecyclerScreen(R.id.color_recycler_view), DialogUi {
 
     //region Views
 
-    private val titleText = getViewByText(when (place) {
-        Place.NOTE -> R.string.dialog_title_color
-        Place.PREF -> R.string.pref_title_note_color
-    })
+    private val titleText = getViewByText(
+        when (place) {
+            Place.NOTE -> R.string.dialog_title_color
+            Place.PREF -> R.string.pref_title_note_color
+        }
+    )
 
     private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
     private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)

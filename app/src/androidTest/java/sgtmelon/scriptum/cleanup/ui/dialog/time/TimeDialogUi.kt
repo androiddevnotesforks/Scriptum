@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.ui.dialog.time
 import java.util.Calendar
 import sgtmelon.safedialog.dialog.time.TimeDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -17,7 +17,7 @@ class TimeDialogUi(
     private val callback: DateTimeCallback,
     private val calendar: Calendar,
     private val dateList: List<String>
-) : ParentScreen(), IDialogUi {
+) : ParentScreen(), DialogUi {
 
     //region Views
 

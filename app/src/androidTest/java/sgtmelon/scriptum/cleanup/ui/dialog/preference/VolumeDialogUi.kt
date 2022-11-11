@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.ui.dialog.preference
 import androidx.annotation.IntRange
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
-import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -17,7 +17,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
  * Class for UI control of [VolumeDialog].
  */
 class VolumeDialogUi : ParentScreen(),
-    IDialogUi {
+    DialogUi {
 
     private val initValue = preferencesRepo.volumePercent
     private var value = initValue

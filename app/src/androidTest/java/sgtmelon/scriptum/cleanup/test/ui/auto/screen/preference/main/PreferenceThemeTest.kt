@@ -25,7 +25,7 @@ class PreferenceThemeTest : ParentUiTest(),
     @Test fun dialogClose() = runTest({ preferences.theme = converter.toInt(Theme.LIGHT) }) {
         openThemeDialog { onClickCancel() }
         assert()
-        openThemeDialog { onCloseSoft() }
+        openThemeDialog { softClose() }
         assert()
     }
 

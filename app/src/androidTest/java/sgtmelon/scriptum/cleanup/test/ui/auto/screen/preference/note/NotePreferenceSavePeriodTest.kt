@@ -22,7 +22,7 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
     @Test fun dialogClose() = runTest({ preferences.isAutoSaveOn = true }) {
         openSavePeriodDialog { onClickCancel() }
         assert()
-        openSavePeriodDialog { onCloseSoft() }
+        openSavePeriodDialog { softClose() }
         assert()
     }
 

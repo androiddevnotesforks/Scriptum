@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
-import sgtmelon.scriptum.cleanup.ui.IDialogUi
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.scriptum.parent.ui.feature.KeyboardIme
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.excludeParent
@@ -21,7 +21,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [RenameDialog].
  */
-class RenameDialogUi(title: String) : ParentScreen(), IDialogUi, KeyboardIme {
+class RenameDialogUi(title: String) : ParentScreen(), DialogUi, KeyboardIme {
 
     private var applyEnabled = false
 

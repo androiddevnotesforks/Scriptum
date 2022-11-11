@@ -14,8 +14,8 @@ class MainAddDialogTest : ParentUiTest() {
 
     @Test fun dialogClose() = launch {
         mainScreen {
-            openAddDialog { onCloseSoft() }.assert()
-            openAddDialog { onCloseSwipe() }.assert()
+            openAddDialog { softClose() }.assert()
+            openAddDialog { swipeClose() }.assert()
         }
     }
 

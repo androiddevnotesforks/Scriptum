@@ -25,7 +25,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
     }
 
     @Test fun dialogClose() = runTest {
-        openMelodyDialog { onCloseSoft() }
+        openMelodyDialog { softClose() }
         assert()
         openMelodyDialog { onClickCancel() }
         assert()

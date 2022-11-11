@@ -20,7 +20,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
     IRepeatTest {
 
     @Test fun dialogClose() = runTest {
-        openRepeatDialog { onCloseSoft() }
+        openRepeatDialog { softClose() }
         assert()
         openRepeatDialog { onClickCancel() }
         assert()

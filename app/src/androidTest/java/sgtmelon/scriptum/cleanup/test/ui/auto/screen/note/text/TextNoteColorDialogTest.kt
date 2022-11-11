@@ -22,7 +22,7 @@ class TextNoteColorDialogTest : ParentUiTest(), IColorTest {
             mainScreen {
                 openAddDialog {
                     createText(it) {
-                        controlPanel { onColor { onCloseSoft() } }.assert()
+                        controlPanel { onColor { softClose() } }.assert()
                         controlPanel { onColor { onClickCancel() } }.assert()
                         controlPanel { onColor { onClickAll().onClickItem().onClickApply() } }
                     }

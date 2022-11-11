@@ -21,7 +21,7 @@ class BinNoteDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBin {
-                    openNoteDialog(it) { onCloseSoft() }
+                    openNoteDialog(it) { softClose() }
                     assert(isEmpty = false)
                 }
             }
@@ -62,7 +62,7 @@ class BinNoteDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBin {
-                    openNoteDialog(it) { onCloseSoft() }
+                    openNoteDialog(it) { softClose() }
                     assert(isEmpty = false)
                 }
             }

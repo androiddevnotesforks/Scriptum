@@ -29,7 +29,7 @@ class PreferenceTest : ParentUiTest(), IPreferenceTest {
     @Test fun openHelp() = runTest { openHelp() }
 
     @Test fun aboutDialogClose() = runTest {
-        openAboutDialog { onCloseSoft() }
+        openAboutDialog { softClose() }
         assert()
     }
 }

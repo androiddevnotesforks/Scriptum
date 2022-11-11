@@ -22,7 +22,7 @@ class NotePreferenceSortTest : ParentUiTest(),
     @Test fun dialogClose() = runTest {
         openSortDialog { onClickCancel() }
         assert()
-        openSortDialog { onCloseSoft() }
+        openSortDialog { softClose() }
         assert()
     }
 

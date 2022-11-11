@@ -16,7 +16,7 @@ class BinClearDialogTest : ParentUiTest() {
     @Test fun closeAndWork() = launch({ db.fillBin() }) {
         mainScreen {
             openBin {
-                openClearDialog { onCloseSoft() }.assert(isEmpty = false)
+                openClearDialog { softClose() }.assert(isEmpty = false)
                 openClearDialog { onClickNo() }.assert(isEmpty = false)
                 openClearDialog { onClickYes() }.assert(isEmpty = true)
             }

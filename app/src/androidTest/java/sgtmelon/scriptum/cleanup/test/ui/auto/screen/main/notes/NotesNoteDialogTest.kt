@@ -24,7 +24,7 @@ class NotesNoteDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotes {
-                    openNoteDialog(it) { onCloseSoft() }
+                    openNoteDialog(it) { softClose() }
                     assert(isEmpty = false)
                 }
             }
@@ -101,7 +101,7 @@ class NotesNoteDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotes {
-                    openNoteDialog(it) { onCloseSoft() }
+                    openNoteDialog(it) { softClose() }
                     assert(isEmpty = false)
                 }
             }

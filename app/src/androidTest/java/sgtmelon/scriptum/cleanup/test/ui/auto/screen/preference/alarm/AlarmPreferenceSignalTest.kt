@@ -18,7 +18,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
 
     @Test fun dialogClose() = runTest {
-        openSignalDialog { onCloseSoft() }
+        openSignalDialog { softClose() }
         assert()
         openSignalDialog { onClickCancel() }
         assert()
