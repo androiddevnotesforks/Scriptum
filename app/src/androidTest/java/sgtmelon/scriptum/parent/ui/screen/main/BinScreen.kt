@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.screen.main
+package sgtmelon.scriptum.parent.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -27,7 +27,9 @@ class BinScreen : ContainerPart(TestViewTag.BIN),
     //region Views
 
     private val toolbar = TitleToolbarPart(parentContainer, R.string.title_bin, withBack = false)
-    val clearItem = ToolbarItem(R.id.item_clear, R.drawable.ic_clear, R.string.menu_clear_bin)
+    private val clearItem = ToolbarItem(
+        R.id.item_clear, R.drawable.ic_clear, R.string.menu_clear_bin
+    )
 
     override val recyclerView = getView(R.id.recycler_view)
 
@@ -37,7 +39,7 @@ class BinScreen : ContainerPart(TestViewTag.BIN),
 
     //endregion
 
-    inline fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) = apply {
+    fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) = apply {
         clearItem.click()
         ClearDialogUi(func)
     }

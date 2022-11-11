@@ -6,8 +6,8 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
-import sgtmelon.scriptum.cleanup.ui.screen.main.RankScreen
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
+import sgtmelon.scriptum.parent.ui.screen.main.RankScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed

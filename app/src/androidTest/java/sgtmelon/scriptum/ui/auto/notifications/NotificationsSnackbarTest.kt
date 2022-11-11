@@ -114,7 +114,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
             openNotifications {
                 itemCancel(p = 0)
 
-                snackbar { assert() }
+                snackbar().assert()
 
                 /** Position = 1, because item removed from screen list. */
                 when (val it = list[1]) {
@@ -122,7 +122,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                     is NoteItem.Roll -> openRoll(it, p = 0) { clickClose() }
                 }
 
-                snackbar { assert() }
+                snackbar().assert()
 
                 /** Position = 1, because item removed from screen list. */
                 when (val it = list[1]) {

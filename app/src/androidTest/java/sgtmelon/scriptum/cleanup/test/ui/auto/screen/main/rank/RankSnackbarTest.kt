@@ -54,10 +54,14 @@ class RankSnackbarTest : ParentUiTest() {
                 openRank {
                     repeat(list.size) { itemCancel(p = 0) }
                     repeat(list.size) {
-                        snackbar { clickCancel() }
-                        if (it != list.lastIndex) {
-                            snackbar { assert() }
+                        snackbar {
+                            // TODO check how it was in notifications test
+                            clickCancel()
+                            if (it != list.lastIndex) {
+                                assert()
+                            }
                         }
+
                     }
 
                     assertSnackbarDismissed()
@@ -81,7 +85,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     itemCancel(p = 1)
                     snackbar { clickCancel() }
-                    snackbar { assert() }
+                    snackbar().assert()
                     openRenameDialog(it[1].name, p = 1) { onClickCancel() }
                 }
 

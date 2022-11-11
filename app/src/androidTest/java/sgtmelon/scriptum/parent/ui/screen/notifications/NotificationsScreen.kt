@@ -48,7 +48,7 @@ class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
         if (p == null) throw EmptyListException()
 
         getItem(p).cancel()
-        snackbar { assert() }
+        snackbar().assert()
 
         if (isWait) {
             await(SnackbarPart.DISMISS_TIME)

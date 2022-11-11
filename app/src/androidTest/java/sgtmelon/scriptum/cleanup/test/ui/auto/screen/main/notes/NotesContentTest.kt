@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.ParentNoteContentTest
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
-import sgtmelon.scriptum.cleanup.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
+import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
 
 /**
  * Test for [NoteItemUi] inside [NotesScreen]

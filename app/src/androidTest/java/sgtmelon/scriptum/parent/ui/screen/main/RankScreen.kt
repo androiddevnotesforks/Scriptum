@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.screen.main
+package sgtmelon.scriptum.parent.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
@@ -15,7 +15,6 @@ import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.test.cappuccino.utils.await
-import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**
@@ -47,21 +46,20 @@ class RankScreen : ContainerPart(TestViewTag.RANK),
     ) = apply {
         if (p == null) throw EmptyListException()
 
-        getItem(p).open()
-        RenameDialogUi(func, title)
+        getItem(p).open(title, func)
     }
 
     fun itemVisible(p: Int? = random) = apply {
         if (p == null) throw EmptyListException()
 
-        getItem(p).visibleButton.click()
+        getItem(p).visible()
     }
 
     fun itemCancel(p: Int? = random, isWait: Boolean = false) = apply {
         if (p == null) throw EmptyListException()
 
-        getItem(p).cancelButton.click()
-        snackbar { assert() }
+        getItem(p).cancel()
+        snackbar().assert()
 
         if (isWait) {
             await(SnackbarPart.DISMISS_TIME)
@@ -69,10 +67,8 @@ class RankScreen : ContainerPart(TestViewTag.RANK),
     }
 
     fun assert(isEmpty: Boolean) = apply {
-        toolbar { assert() }
-
         parentContainer.isDisplayed()
-
+        toolbar().assert()
         infoContainer.assert(isEmpty)
         recyclerView.isDisplayed(!isEmpty)
     }

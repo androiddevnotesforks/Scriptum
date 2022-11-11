@@ -2,9 +2,6 @@ package sgtmelon.scriptum.parent.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.dialog.sheet.AddSheetDialogUi
-import sgtmelon.scriptum.cleanup.ui.screen.main.BinScreen
-import sgtmelon.scriptum.cleanup.ui.screen.main.NotesScreen
-import sgtmelon.scriptum.cleanup.ui.screen.main.RankScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity

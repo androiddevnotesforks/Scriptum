@@ -4,9 +4,11 @@ import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.ui.dialog.RenameDialogUi
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
+import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withCard
 import sgtmelon.test.cappuccino.utils.withContentDescription
@@ -25,9 +27,8 @@ class RankItemUi(
     private val parentCard by lazy { getChild(getView(R.id.parent_card)) }
     private val clickContainer by lazy { getChild(getView(R.id.click_container)) }
 
-    val visibleButton by lazy { getChild(getView(R.id.visible_button)) }
-    val cancelButton by lazy { getChild(getView(R.id.cancel_button)) }
-
+    private val visibleButton by lazy { getChild(getView(R.id.visible_button)) }
+    private val cancelButton by lazy { getChild(getView(R.id.cancel_button)) }
     private val nameText by lazy { getChild(getView(R.id.name_text)) }
     private val countText by lazy { getChild(getView(R.id.count_text)) }
 
@@ -37,8 +38,17 @@ class RankItemUi(
     private val bindText by lazy { getChild(getView(R.id.bind_text)) }
     private val bindImage by lazy { getChild(getView(R.id.bind_image)) }
 
-    fun open() {
+    fun open(title: String, func: RenameDialogUi.() -> Unit) {
+        clickContainer.click()
+        RenameDialogUi(func, title)
+    }
 
+    fun visible() {
+        visibleButton.click()
+    }
+
+    fun cancel() {
+        cancelButton.click()
     }
 
     override fun assert(item: RankItem) {

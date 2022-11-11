@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.screen.main
+package sgtmelon.scriptum.parent.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
