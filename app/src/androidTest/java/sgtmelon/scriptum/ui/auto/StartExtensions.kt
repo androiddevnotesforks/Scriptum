@@ -6,7 +6,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 // TODO try make parameter inline (without crossinline)
 inline fun ParentUiTest.startNotesTest(crossinline func: NotesScreen.() -> Unit) {
-    launch { mainScreen { notesScreen { func() } } }
+    launch { mainScreen { openNotes { func() } } }
 }
 
 inline fun ParentUiTest.startNotificationsTest(crossinline func: NotificationsScreen.() -> Unit) {

@@ -16,7 +16,7 @@ class BindGroupTest : ParentNotificationTest() {
 
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     for ((p, item) in it.withIndex()) {
                         openNoteDialog(item, p) { onBind() }.apply { onSee() }
                     }

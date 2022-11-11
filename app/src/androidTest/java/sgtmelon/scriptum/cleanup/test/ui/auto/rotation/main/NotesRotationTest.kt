@@ -16,7 +16,7 @@ class NotesRotationTest : ParentUiRotationTest() {
 
     @Test fun contentEmpty() = launch {
         mainScreen {
-            notesScreen(isEmpty = true) {
+            openNotes(isEmpty = true) {
                 rotate.toSide()
                 assert(isEmpty = true)
             }
@@ -26,7 +26,7 @@ class NotesRotationTest : ParentUiRotationTest() {
 
     @Test fun contentList() = launch({ db.fillNotes() }) {
         mainScreen {
-            notesScreen {
+            openNotes {
                 rotate.toSide()
                 assert(isEmpty = false)
             }
@@ -37,7 +37,7 @@ class NotesRotationTest : ParentUiRotationTest() {
     @Test fun textNoteDialog() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     openNoteDialog(it) {
                         rotate.toSide()
                         assert()
@@ -50,7 +50,7 @@ class NotesRotationTest : ParentUiRotationTest() {
     @Test fun rollNoteDialog() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     openNoteDialog(it) {
                         rotate.toSide()
                         assert()
@@ -69,7 +69,7 @@ class NotesRotationTest : ParentUiRotationTest() {
     private fun startDateDialogTest(item: NoteItem) {
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     openNoteDialog(item) {
                         onNotification {
                             rotate.toSide()
@@ -84,7 +84,7 @@ class NotesRotationTest : ParentUiRotationTest() {
     @Test fun timeDialog() = db.insertNote().let {
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     openNoteDialog(it) {
                         onNotification {
                             onClickApply {

@@ -18,7 +18,7 @@ class RankImeTest : ParentUiTest() {
         val name = nextString()
 
         mainScreen {
-            rankScreen {
+            openRank {
                 /**
                  * Check ime action with wrong input data. (Empty name)
                  */
@@ -49,7 +49,7 @@ class RankImeTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     /**
                      * Check ime action with wrong input data. (Empty name)
                      */

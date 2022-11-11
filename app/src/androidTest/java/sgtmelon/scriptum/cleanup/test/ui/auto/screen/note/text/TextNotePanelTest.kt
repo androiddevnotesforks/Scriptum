@@ -17,9 +17,12 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinRestore() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
-                binScreen { openTextNote(it) { controlPanel { onRestore() } }.assert(isEmpty = true) }
-                notesScreen()
+                openNotes(isEmpty = true)
+                openBin {
+                    openText(it) { controlPanel { onRestore() } }
+                    assert(isEmpty = true)
+                }
+                openNotes()
             }
         }
     }
@@ -27,14 +30,14 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinRestoreOpen() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
 
-                binScreen {
-                    openTextNote(it) { controlPanel { onRestoreOpen() }.pressBack() }
+                openBin {
+                    openText(it) { controlPanel { onRestoreOpen() }.pressBack() }
                     assert(isEmpty = true)
                 }
 
-                notesScreen()
+                openNotes()
             }
         }
     }
@@ -42,9 +45,12 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinClear() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
-                binScreen { openTextNote(it) { controlPanel { onClear() } }.assert(isEmpty = true) }
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
+                openBin {
+                    openText(it) { controlPanel { onClear() } }
+                    assert(isEmpty = true)
+                }
+                openNotes(isEmpty = true)
             }
         }
     }
@@ -52,7 +58,7 @@ class TextNotePanelTest : ParentUiTest() {
 
     @Test fun actionOnReadNotification() = db.insertText().let {
         launch {
-            mainScreen { notesScreen { openTextNote(it) { controlPanel { onNotification() } } } }
+            mainScreen { openNotes { openText(it) { controlPanel { onNotification() } } } }
         }
     }
 
@@ -65,8 +71,8 @@ class TextNotePanelTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(model) { controlPanel { onBind() }.pressBack() }
+                openNotes {
+                    openText(model) { controlPanel { onBind() }.pressBack() }
                     openNoteDialog(model)
                 }
             }
@@ -74,25 +80,26 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnReadConvert() = db.insertText().let {
-        launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onConvert() } } } } }
+        launch { mainScreen { openNotes { openText(it) { controlPanel { onConvert() } } } } }
     }
 
     @Test fun actionOnReadDelete() = db.insertText().let {
         launch {
             mainScreen {
-                binScreen(isEmpty = true)
+                openBin(isEmpty = true)
 
-                notesScreen {
-                    openTextNote(it) { controlPanel { onDelete() } }.assert(isEmpty = true)
+                openNotes {
+                    openText(it) { controlPanel { onDelete() } }
+                    assert(isEmpty = true)
                 }
 
-                binScreen()
+                openBin()
             }
         }
     }
 
     @Test fun actionOnReadEdit() = db.insertText().let {
-        launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onEdit() } } } } }
+        launch { mainScreen { openNotes { openText(it) { controlPanel { onEdit() } } } } }
     }
 
 
@@ -116,8 +123,8 @@ class TextNotePanelTest : ParentUiTest() {
         val item = db.insertText()
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(item, isRankEmpty = false) {
+                openNotes {
+                    openText(item, isRankEmpty = false) {
                         controlPanel { onEdit().onRank(it) }
                     }
                 }
@@ -131,7 +138,7 @@ class TextNotePanelTest : ParentUiTest() {
 
     @Test fun actionOnEditColor() = db.insertText().let {
         launch {
-            mainScreen { notesScreen { openTextNote(it) { controlPanel { onEdit().onColor() } } } }
+            mainScreen { openNotes { openText(it) { controlPanel { onEdit().onColor() } } } }
         }
     }
 
@@ -156,8 +163,8 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnEditSave() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onEdit() }
 
                         onEnterText()
@@ -192,8 +199,8 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnEditLongSave() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onEdit() }
 
                         onEnterText()

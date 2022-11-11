@@ -17,26 +17,26 @@ class RankToolbarTest : ParentUiTest() {
 
     @Test fun enterAddEmpty() = launch {
         mainScreen {
-            rankScreen(isEmpty = true) { toolbar { onEnterName(name = " ", isEnabled = false) } }
+            openRank(isEmpty = true) { toolbar { onEnterName(name = " ", isEnabled = false) } }
         }
     }
 
     @Test fun enterAddFromList() = db.insertRank().let {
         launch {
-            mainScreen { rankScreen { toolbar { onEnterName(it.name, isEnabled = false) } } }
+            mainScreen { openRank { toolbar { onEnterName(it.name, isEnabled = false) } } }
         }
     }
 
     @Test fun enterAddEnabled() = launch {
         val name = nextString()
-        mainScreen { rankScreen(isEmpty = true) { toolbar { onEnterName(name) } } }
+        mainScreen { openRank(isEmpty = true) { toolbar { onEnterName(name) } } }
     }
 
     @Test fun enterClear() = launch {
         val name = nextString()
 
         mainScreen {
-            rankScreen(isEmpty = true) {
+            openRank(isEmpty = true) {
                 toolbar {
                     onEnterName(nextString()).onClickClear()
                     onEnterName(name).onClickAdd()
@@ -51,7 +51,7 @@ class RankToolbarTest : ParentUiTest() {
         val name = nextString()
 
         mainScreen {
-            rankScreen(isEmpty = true) {
+            openRank(isEmpty = true) {
                 toolbar { onEnterName(name).onClickAdd() }
                 openRenameDialog(name, p = 0) { onCloseSoft() }
 
@@ -67,7 +67,7 @@ class RankToolbarTest : ParentUiTest() {
         val name = nextString()
 
         mainScreen {
-            rankScreen {
+            openRank {
                 scrollTo(Scroll.END)
 
                 toolbar { onEnterName(name).onLongClickAdd() }
@@ -85,7 +85,7 @@ class RankToolbarTest : ParentUiTest() {
         val name = nextString()
 
         mainScreen {
-            rankScreen {
+            openRank {
                 toolbar { onEnterName(name).onClickAdd() }
                 openRenameDialog(name, p = count - 1) { onCloseSoft() }
 
@@ -103,7 +103,7 @@ class RankToolbarTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     toolbar {
                         onEnterName(newName)
                         openRenameDialog(it.name) { onEnter(newName).onClickApply() }

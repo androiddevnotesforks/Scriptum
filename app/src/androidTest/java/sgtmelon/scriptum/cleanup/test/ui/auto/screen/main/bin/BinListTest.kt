@@ -14,24 +14,34 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class BinListTest : ParentUiTest() {
 
-    @Test fun contentEmpty() = launch { mainScreen { binScreen(isEmpty = true) } }
+    @Test fun contentEmpty() = launch { mainScreen { openBin(isEmpty = true) } }
 
-    @Test fun contentList() = launch({ db.fillBin() }) { mainScreen { binScreen() } }
+    @Test fun contentList() = launch({ db.fillBin() }) { mainScreen { openBin() } }
 
     @Test fun listScroll() = launch({ db.fillBin() }) {
-        mainScreen { binScreen { scrollThrough() } }
+        mainScreen { openBin { scrollThrough() } }
     }
 
 
     @Test fun textNoteOpen() = db.insertTextToBin().let {
         launch {
-            mainScreen { binScreen { openTextNote(it) { pressBack() }.assert(isEmpty = false) } }
+            mainScreen {
+                openBin {
+                    openText(it) { pressBack() }
+                    assert(isEmpty = false)
+                }
+            }
         }
     }
 
     @Test fun rollNoteOpen() = db.insertRollToBin().let {
         launch {
-            mainScreen { binScreen { openRollNote(it) { pressBack() }.assert(isEmpty = false) } }
+            mainScreen {
+                openBin {
+                    openRoll(it) { pressBack() }
+                    assert(isEmpty = false)
+                }
+            }
         }
     }
 

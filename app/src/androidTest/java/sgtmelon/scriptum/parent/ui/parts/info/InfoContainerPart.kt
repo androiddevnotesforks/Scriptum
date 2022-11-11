@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.parent.ui.parts.info
 
+import android.view.View
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
-import sgtmelon.scriptum.parent.ui.parts.UiPart
+import sgtmelon.scriptum.parent.ui.parts.UiSubpart
 import sgtmelon.test.cappuccino.utils.includeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withDrawable
@@ -14,7 +16,10 @@ import sgtmelon.test.cappuccino.utils.withTextSize
 /**
  * Parent class for UI abstraction of info containers.
  */
-class InfoContainerPart(private val case: InfoCase) : UiPart() {
+class InfoContainerPart(
+    parentContainer: Matcher<View>,
+    private val case: InfoCase
+) : UiSubpart(parentContainer) {
 
     private val includeContainer = getView(R.id.info_include)
     private val iconImage = getView(R.id.info_image).includeParent(includeContainer)

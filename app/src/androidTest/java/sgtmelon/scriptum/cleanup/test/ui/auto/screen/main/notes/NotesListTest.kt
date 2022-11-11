@@ -13,19 +13,22 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotesListTest : ParentUiTest() {
 
-    @Test fun contentEmpty() = launch { mainScreen { notesScreen(isEmpty = true) } }
+    @Test fun contentEmpty() = launch { mainScreen { openNotes(isEmpty = true) } }
 
-    @Test fun contentList() = launch({ db.fillNotes() }) { mainScreen { notesScreen() } }
+    @Test fun contentList() = launch({ db.fillNotes() }) { mainScreen { openNotes() } }
 
     @Test fun listScroll() = launch({ db.fillNotes() }) {
-        mainScreen { notesScreen { scrollThrough() } }
+        mainScreen { openNotes { scrollThrough() } }
     }
 
 
     @Test fun textNoteOpen() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openTextNote(it) { pressBack() }.assert(isEmpty = false) }
+                openNotes {
+                    openText(it) { pressBack() }
+                    assert(isEmpty = false)
+                }
             }
         }
     }
@@ -33,7 +36,10 @@ class NotesListTest : ParentUiTest() {
     @Test fun rollNoteOpen() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openRollNote(it) { pressBack() }.assert(isEmpty = false) }
+                openNotes {
+                    openRoll(it) { pressBack() }
+                    assert(isEmpty = false)
+                }
             }
         }
     }
@@ -42,9 +48,9 @@ class NotesListTest : ParentUiTest() {
     @Test fun textCreateAndReturn() = db.createText().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
                 openAddDialog { createText(it) { pressBack() } }
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
             }
         }
     }
@@ -52,9 +58,9 @@ class NotesListTest : ParentUiTest() {
     @Test fun rollCreateAndReturn() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
                 openAddDialog { createRoll(it) { pressBack() } }
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
             }
         }
     }
@@ -62,7 +68,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun textCreateAndReturnWithSave() = db.createText().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
 
                 openAddDialog {
                     createText(it) {
@@ -71,7 +77,7 @@ class NotesListTest : ParentUiTest() {
                     }
                 }
 
-                notesScreen()
+                openNotes()
             }
         }
     }
@@ -79,7 +85,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun rollCreateAndReturnWithSave() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
 
                 openAddDialog {
                     createRoll(it) {
@@ -88,7 +94,7 @@ class NotesListTest : ParentUiTest() {
                     }
                 }
 
-                notesScreen()
+                openNotes()
             }
         }
     }

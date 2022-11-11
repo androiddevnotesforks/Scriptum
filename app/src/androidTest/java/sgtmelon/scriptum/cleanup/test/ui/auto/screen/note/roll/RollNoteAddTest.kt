@@ -17,7 +17,7 @@ class RollNoteAddTest : ParentUiTest() {
     @Test fun enterAddEmpty() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog { createRoll(it) { enterPanel { onAdd(text = "") } } }
                 }
             }
@@ -27,7 +27,7 @@ class RollNoteAddTest : ParentUiTest() {
     @Test fun addItems() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             repeat(times = 5) { enterPanel { onAdd(nextString()) } }

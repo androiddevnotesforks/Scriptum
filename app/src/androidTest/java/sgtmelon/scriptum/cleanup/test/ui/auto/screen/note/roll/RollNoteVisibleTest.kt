@@ -17,13 +17,13 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun changeOpen() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         onClickVisible()
                         pressBack()
                     }
 
-                    openRollNote(it) {
+                    openRoll(it) {
                         onClickVisible()
                         pressBack()
                     }
@@ -37,7 +37,7 @@ class RollNoteVisibleTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(item) {
                             onClickVisible()
@@ -51,7 +51,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         }
                     }
 
-                    openRollNote(item) { onClickVisible() }
+                    openRoll(item) { onClickVisible() }
                 }
             }
         }
@@ -60,8 +60,8 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun changeRestore() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }.onClickVisible()
                         toolbar { clickBack() }.onClickVisible()
                     }
@@ -73,7 +73,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun switch() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             onClickVisible().onClickVisible()
@@ -95,7 +95,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun fullSwitch() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             onClickVisible().onClickVisible()
@@ -117,8 +117,8 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun itemCheck() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         onClickCheck()
                         onClickVisible()
 
@@ -133,8 +133,8 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun itemSwipe() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         onClickVisible()
 
                         controlPanel { onEdit() }
@@ -157,7 +157,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun itemAdd() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             onClickVisible()
@@ -176,8 +176,8 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun itemEdit() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         onClickVisible()
 
                         controlPanel { onEdit() }

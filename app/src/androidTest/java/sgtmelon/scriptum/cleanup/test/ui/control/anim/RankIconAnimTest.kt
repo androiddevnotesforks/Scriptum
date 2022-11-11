@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class RankIconAnimTest : ParentUiTest() {
 
     @Test fun visibleClick() = db.insertRank().let {
-        launch { mainScreen { rankScreen { repeat(REPEAT_COUNT) { onClickVisible() } } } }
+        launch { mainScreen { openRank { repeat(REPEAT_COUNT) { itemVisible() } } } }
     }
 
     companion object {

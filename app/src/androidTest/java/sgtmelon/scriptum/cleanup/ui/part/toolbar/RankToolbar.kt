@@ -1,11 +1,13 @@
 package sgtmelon.scriptum.cleanup.ui.part.toolbar
 
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.test.espresso.Espresso.closeSoftKeyboard
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.main.RankScreen
+import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -23,39 +25,43 @@ import sgtmelon.test.cappuccino.utils.withNavigationDrawable
 import sgtmelon.test.cappuccino.utils.withText
 
 /**
- * Part of UI abstraction for [RankScreen]
+ * UI abstraction of Toolbar with ability to add rank in [RankScreen].
  */
-class RankToolbar : ParentScreen(), IKeyboardOption {
+class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer),
+    IKeyboardOption {
+
+    // TODO rename functions
+    // TODO move KeyboardOption into feature package
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.toolbar)
-    private val parentCard = getViewById(R.id.enter_card)
+    override val toolbar = getView(R.id.toolbar)
 
-    private val nameEnter = getViewById(R.id.rank_enter)
-    private val clearButton = getViewById(R.id.clear_button)
-    private val addButton = getViewById(R.id.add_button)
+    private val enterCard = getView(R.id.enter_card)
+    private val nameEnter = getView(R.id.rank_enter)
+    private val clearButton = getView(R.id.clear_button)
+    private val addButton = getView(R.id.add_button)
 
     //endregion
 
-    private var enter = ""
+    private var currentEnter = ""
 
     fun onEnterName(name: String, isEnabled: Boolean = true) = apply {
-        enter = name
+        currentEnter = name
 
         nameEnter.typeText(name)
         assert(isAddEnabled = isEnabled)
     }
 
     fun onClickClear() {
-        enter = ""
+        currentEnter = ""
 
         clearButton.click()
         assert()
     }
 
     fun onClickAdd() {
-        enter = ""
+        currentEnter = ""
 
         closeSoftKeyboard()
         addButton.click()
@@ -63,7 +69,7 @@ class RankToolbar : ParentScreen(), IKeyboardOption {
     }
 
     fun onLongClickAdd() {
-        enter = ""
+        currentEnter = ""
 
         closeSoftKeyboard()
         addButton.longClick()
@@ -74,7 +80,7 @@ class RankToolbar : ParentScreen(), IKeyboardOption {
         nameEnter.imeOption()
 
         if (isSuccess) {
-            enter = ""
+            currentEnter = ""
 
             closeSoftKeyboard()
             assert()
@@ -83,41 +89,46 @@ class RankToolbar : ParentScreen(), IKeyboardOption {
 
 
     fun assert(isAddEnabled: Boolean = false) {
-        parentContainer.isDisplayed()
+        toolbar.isDisplayed()
             .withBackgroundAttr(R.attr.colorPrimary)
             .withNavigationDrawable(resourceId = null)
 
-        parentCard.isDisplayed().withCard(
+        enterCard.isDisplayed().withCard(
             R.attr.clBackgroundEnter,
             R.dimen.radius_8dp,
             R.dimen.elevation_2dp
         )
 
-        val enterEmpty = enter.isEmpty()
+        val isEnterEmpty = currentEnter.isEmpty()
 
         nameEnter.isDisplayed()
             .withImeAction(EditorInfo.IME_ACTION_DONE)
             .withBackgroundColor(android.R.color.transparent)
             .apply {
-                if (!enterEmpty) {
-                    withText(enter, R.attr.clContent, R.dimen.text_18sp)
+                if (!isEnterEmpty) {
+                    withText(currentEnter, R.attr.clContent, R.dimen.text_18sp)
                 } else {
                     withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
                 }
             }
 
-        val clearTint = if (!enterEmpty) R.attr.clContent else R.attr.clDisable
-        clearButton.isDisplayed().isEnabled(!enterEmpty)
+        val clearTint = if (!isEnterEmpty) R.attr.clContent else R.attr.clDisable
+        clearButton.isDisplayed().isEnabled(!isEnterEmpty)
             .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, clearTint)
-                .withContentDescription(R.string.description_enter_rank_clear)
+            .withContentDescription(R.string.description_enter_rank_clear)
 
         val addTint = if (isAddEnabled) R.attr.clAccent else R.attr.clDisable
         addButton.isDisplayed().isEnabled(isAddEnabled)
-                .withDrawableAttr(R.drawable.ic_rank, addTint)
-                .withContentDescription(R.string.description_enter_rank_add)
+            .withDrawableAttr(R.drawable.ic_rank, addTint)
+            .withContentDescription(R.string.description_enter_rank_add)
     }
 
     companion object {
-        inline operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply(func)
+        inline operator fun invoke(
+            func: RankToolbar.() -> Unit,
+            parentContainer: Matcher<View>
+        ): RankToolbar {
+            return RankToolbar(parentContainer).apply(func)
+        }
     }
 }

@@ -15,7 +15,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun rankInfoShowAndHide() = db.rankEntity.let { entity ->
         launch {
             mainScreen {
-                rankScreen(isEmpty = true) {
+                openRank(isEmpty = true) {
                     repeat(times = 3) {
                         toolbar { onEnterName(entity.name).onClickAdd() }
                         itemCancel()
@@ -26,7 +26,7 @@ class InfoAnimTest : ParentUiTest() {
                     repeat(times = 3) {
                         itemCancel()
                         assert(isEmpty = true)
-                        getSnackbar().clickCancel()
+                        snackbar().clickCancel()
                         assert(isEmpty = false)
                     }
                 }
@@ -38,8 +38,8 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun notesInfoShow() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) { controlPanel { onDelete() } }
+                openNotes {
+                    openText(it) { controlPanel { onDelete() } }
                     assert(isEmpty = true)
                 }
             }
@@ -49,9 +49,9 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun notesInfoHide() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
-                binScreen { openNoteDialog(it) { onRestore() } }
-                notesScreen()
+                openNotes(isEmpty = true)
+                openBin { openNoteDialog(it) { onRestore() } }
+                openNotes()
             }
         }
     }
@@ -60,8 +60,8 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun binInfoShow() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                binScreen {
-                    openTextNote(it) { controlPanel { onClear() } }
+                openBin {
+                    openText(it) { controlPanel { onClear() } }
                     assert(isEmpty = true)
                 }
             }
@@ -71,9 +71,9 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun binInfoHide() = db.insertText().let {
         launch {
             mainScreen {
-                binScreen(isEmpty = true)
-                notesScreen { openNoteDialog(it) { onDelete() } }
-                binScreen()
+                openBin(isEmpty = true)
+                openNotes { openNoteDialog(it) { onDelete() } }
+                openBin()
             }
         }
     }
@@ -81,12 +81,12 @@ class InfoAnimTest : ParentUiTest() {
 
     @Test fun notificationInfoShowAndHide() = launch({ db.insertNotification() }) {
         mainScreen {
-            notesScreen {
+            openNotes {
                 openNotifications {
                     repeat(times = 3) {
                         itemCancel()
                         assert(isEmpty = true)
-                        getSnackbar().clickCancel()
+                        snackbar().clickCancel()
                         assert(isEmpty = false)
                     }
                 }

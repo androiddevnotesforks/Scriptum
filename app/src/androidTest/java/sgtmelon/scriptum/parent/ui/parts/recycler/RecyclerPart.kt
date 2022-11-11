@@ -2,6 +2,7 @@ package sgtmelon.scriptum.parent.ui.parts.recycler
 
 import android.view.View
 import org.hamcrest.Matcher
+import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.getCount
@@ -9,7 +10,7 @@ import sgtmelon.test.cappuccino.utils.getRandomPosition
 import sgtmelon.test.cappuccino.utils.swipeDown
 import sgtmelon.test.cappuccino.utils.swipeUp
 
-interface RecyclerPart {
+interface RecyclerPart<T, V : RecyclerItemPart<T>> {
 
     val recyclerView: Matcher<View>
 
@@ -30,6 +31,27 @@ interface RecyclerPart {
     fun scrollThrough() = repeat(REPEAT_COUNT) {
         scrollTo(Scroll.END)
         scrollTo(Scroll.START)
+    }
+
+    fun getItem(p: Int): V
+
+    fun assertItem(item: T, p: Int? = random) {
+        if (p == null) throw EmptyListException()
+
+        getItem(p).assert(item)
+    }
+
+    /**
+     * [withWait] parameter gives small period for checking UI (by eyes :D).
+     */
+    fun assertList(list: List<T>, withWait: Boolean = false) {
+        for ((p, item) in list.withIndex()) {
+            assertItem(item, p)
+
+            if (withWait) {
+                await(time = 250)
+            }
+        }
     }
 
     companion object {

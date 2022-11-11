@@ -15,9 +15,13 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.parent.ui.feature.OpenNote
+import sgtmelon.scriptum.parent.ui.feature.OpenNoteDialog
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
+import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.includeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withText
@@ -28,12 +32,30 @@ import sgtmelon.test.cappuccino.utils.withText
 class NoteItemUi(
     listMatcher: Matcher<View>,
     p: Int
-) : RecyclerItemPart<NoteItem>(listMatcher, p) {
+) : RecyclerItemPart<NoteItem>(listMatcher, p),
+    OpenNote.Callback,
+    OpenNoteDialog.Callback {
 
     override fun assert(item: NoteItem) = when (item) {
         is NoteItem.Text -> Text().assert(item)
         is NoteItem.Roll -> Roll().assert(item)
     }
+
+    override fun openClick(item: NoteItem) {
+        when (item) {
+            is NoteItem.Text -> Text().clickContainer.click()
+            is NoteItem.Roll -> Roll().clickContainer.click()
+        }
+    }
+
+    override fun dialogClick(item: NoteItem) {
+        when (item) {
+            is NoteItem.Text -> Text().clickContainer.longClick()
+            is NoteItem.Roll -> Roll().clickContainer.longClick()
+        }
+    }
+
+    //region Cleanup
 
     private inner class Text : Parent<NoteItem.Text>(NoteType.TEXT) {
 
@@ -217,4 +239,7 @@ class NoteItemUi(
             }
         }
     }
+
+    //endregion
+
 }

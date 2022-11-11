@@ -69,7 +69,7 @@ class RollNoteScreen(
         val isListEmpty = list.size == 0
         val isListHide = !item.isVisible && list.hide().size == 0
 
-        return InfoContainerPart(InfoCase.Roll(isListEmpty, isListHide))
+        return InfoContainerPart(parentContainer, InfoCase.Roll(isListEmpty, isListHide))
     }
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)

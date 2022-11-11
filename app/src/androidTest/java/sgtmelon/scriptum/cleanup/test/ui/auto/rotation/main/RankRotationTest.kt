@@ -17,7 +17,7 @@ class RankRotationTest : ParentUiRotationTest() {
 
     @Test fun contentEmpty() = launch {
         mainScreen {
-            rankScreen(isEmpty = true) {
+            openRank(isEmpty = true) {
                 rotate.toSide()
                 assert(isEmpty = true)
             }
@@ -27,7 +27,7 @@ class RankRotationTest : ParentUiRotationTest() {
 
     @Test fun contentList() = launch({ db.fillRank() }) {
         mainScreen {
-            rankScreen {
+            openRank {
                 rotate.toSide()
                 assert(isEmpty = false)
             }
@@ -40,7 +40,7 @@ class RankRotationTest : ParentUiRotationTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     openRenameDialog(it.name) {
                         onEnter(newName)
                         rotate.toSide()
@@ -54,7 +54,7 @@ class RankRotationTest : ParentUiRotationTest() {
     @Test fun snackbar() = db.insertRank().let {
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     repeat(times = 3) { time ->
                         itemCancel()
 
@@ -64,7 +64,7 @@ class RankRotationTest : ParentUiRotationTest() {
                             rotate.toNormal()
                         }
 
-                        getSnackbar().clickCancel()
+                        snackbar().clickCancel()
                     }
                 }
             }

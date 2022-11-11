@@ -24,7 +24,7 @@ class RollNoteErrorTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(item) {
                             enterPanel { repeat(times = 4) { onAdd(nextString()) } }
@@ -50,8 +50,8 @@ class RollNoteErrorTest : ParentUiTest() {
     @Test fun restoreChanges() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         onClickCheck()
                         controlPanel { onEdit() }
                         toolbar { clickBack() }

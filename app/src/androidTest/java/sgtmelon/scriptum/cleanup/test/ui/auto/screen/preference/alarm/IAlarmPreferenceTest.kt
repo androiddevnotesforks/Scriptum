@@ -14,7 +14,7 @@ interface IAlarmPreferenceTest {
 
     fun ParentUiTest.runTest(before: () -> Unit = {}, func: AlarmPreferenceScreen.() -> Unit) {
         launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreferences { openAlarm(func) } } }
+            mainScreen { openNotes(isEmpty = true) { openPreferences { openAlarm(func) } } }
         }
     }
 }

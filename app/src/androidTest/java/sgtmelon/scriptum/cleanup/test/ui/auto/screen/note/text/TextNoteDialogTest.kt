@@ -16,8 +16,8 @@ class TextNoteDialogTest : ParentUiTest() {
     @Test fun dateDialogCloseAndWork() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onNotification { onCloseSoft() } }.assert()
                         controlPanel { onNotification { onClickCancel() } }.assert()
                         controlPanel { onNotification { onClickApply() } }
@@ -30,8 +30,8 @@ class TextNoteDialogTest : ParentUiTest() {
     @Test fun convertDialogCloseAndWork() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onConvert { onCloseSoft() } }.assert()
                         controlPanel { onConvert { onClickNo() } }.assert()
                         controlPanel { onConvert { onClickYes() } }.afterConvert()

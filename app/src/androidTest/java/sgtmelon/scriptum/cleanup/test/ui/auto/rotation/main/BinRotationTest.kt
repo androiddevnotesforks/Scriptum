@@ -15,7 +15,7 @@ class BinRotationTest : ParentUiRotationTest() {
 
     @Test fun contentEmpty() = launch {
         mainScreen {
-            binScreen(isEmpty = true) {
+            openBin(isEmpty = true) {
                 rotate.toSide()
                 assert(isEmpty = true)
             }
@@ -25,7 +25,7 @@ class BinRotationTest : ParentUiRotationTest() {
 
     @Test fun contentList() = launch({ db.fillBin() }) {
         mainScreen {
-            binScreen {
+            openBin {
                 rotate.toSide()
                 assert(isEmpty = false)
             }
@@ -35,8 +35,8 @@ class BinRotationTest : ParentUiRotationTest() {
 
     @Test fun clearDialog() = launch({ db.fillBin() }) {
         mainScreen {
-            binScreen {
-                clearDialog {
+            openBin {
+                openClearDialog {
                     rotate.toSide()
                     assert()
                 }
@@ -47,7 +47,7 @@ class BinRotationTest : ParentUiRotationTest() {
     @Test fun textNoteDialog() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                binScreen {
+                openBin {
                     openNoteDialog(it) {
                         rotate.toSide()
                         assert()
@@ -60,7 +60,7 @@ class BinRotationTest : ParentUiRotationTest() {
     @Test fun rollNoteDialog() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                binScreen {
+                openBin {
                     openNoteDialog(it) {
                         rotate.toSide()
                         assert()

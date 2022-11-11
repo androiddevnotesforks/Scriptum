@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class TextNoteDateTimeDialogTest : ParentUiTest(), IDateTimeDialogTest {
 
     private fun runTest(item: NoteItem.Text, func: TextNoteScreen.() -> Unit) = launch {
-        mainScreen { notesScreen { openTextNote(item, func = func) } }
+        mainScreen { openNotes { openText(item, func = func) } }
     }
 
     @Test override fun dateReset() = db.insertNotification(db.insertText()).let {

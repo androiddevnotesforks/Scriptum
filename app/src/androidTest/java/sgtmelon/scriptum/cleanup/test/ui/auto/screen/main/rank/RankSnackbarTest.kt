@@ -22,11 +22,11 @@ class RankSnackbarTest : ParentUiTest() {
     @Test fun containerBottomDisplay() = db.fillRank(count = 15).let {
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     scrollTo(Scroll.END)
                     repeat(times = 5) {
                         itemCancel(last, isWait = true)
-                        assertSnackbarDismiss()
+                        assertSnackbarDismissed()
                     }
                 }
             }
@@ -38,10 +38,10 @@ class RankSnackbarTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(p)
-                    getSnackbar { clickCancel() }
-                    assertSnackbarDismiss()
+                    snackbar { clickCancel() }
+                    assertSnackbarDismissed()
                     assertItem(it[p], p)
                 }
             }
@@ -51,16 +51,16 @@ class RankSnackbarTest : ParentUiTest() {
     @Test fun actionClickMany() = db.fillRank(count = 3).let { list ->
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     repeat(list.size) { itemCancel(p = 0) }
                     repeat(list.size) {
-                        getSnackbar { clickCancel() }
+                        snackbar { clickCancel() }
                         if (it != list.lastIndex) {
-                            getSnackbar { assert() }
+                            snackbar { assert() }
                         }
                     }
 
-                    assertSnackbarDismiss()
+                    assertSnackbarDismissed()
 
                     for ((i , item) in list.withIndex()) {
                         assertItem(item, i)
@@ -75,22 +75,22 @@ class RankSnackbarTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(removePosition)
                     it.removeAt(removePosition)
 
                     itemCancel(p = 1)
-                    getSnackbar { clickCancel() }
-                    getSnackbar { assert() }
+                    snackbar { clickCancel() }
+                    snackbar { assert() }
                     openRenameDialog(it[1].name, p = 1) { onClickCancel() }
                 }
 
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
 
-                rankScreen {
-                    assertSnackbarDismiss()
+                openRank {
+                    assertSnackbarDismissed()
 
-                    for ((i , item) in it.withIndex()) {
+                    for ((i, item) in it.withIndex()) {
                         assertItem(item, i)
                     }
                 }
@@ -102,14 +102,14 @@ class RankSnackbarTest : ParentUiTest() {
     @Test fun dismissOnPause() = db.fillRank(count = 3).let { list ->
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(p = 0)
                     list.removeAt(0)
                 }
 
-                notesScreen(isEmpty = true)
-                rankScreen {
-                    assertSnackbarDismiss()
+                openNotes(isEmpty = true)
+                openRank {
+                    assertSnackbarDismissed()
 
                     for ((i, item) in list.withIndex()) {
                         assertItem(item, i)
@@ -117,8 +117,8 @@ class RankSnackbarTest : ParentUiTest() {
                     repeat(list.size) { itemCancel(p = 0) }
                 }
 
-                notesScreen(isEmpty = true)
-                rankScreen(isEmpty = true) { assertSnackbarDismiss() }
+                openNotes(isEmpty = true)
+                openRank(isEmpty = true) { assertSnackbarDismissed() }
             }
         }
     }
@@ -131,13 +131,13 @@ class RankSnackbarTest : ParentUiTest() {
     @Test fun dismissOnRename() = db.fillRank(count = 2).let { list ->
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(p = 0)
                     list.removeAt(0)
 
                     openRenameDialog(list[0].name, p = 0) { onClickCancel() }
 
-                    assertSnackbarDismiss()
+                    assertSnackbarDismissed()
                     for ((i, item) in list.withIndex()) {
                         assertItem(item, i)
                     }
@@ -151,14 +151,14 @@ class RankSnackbarTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(p = 0)
                     list.removeAt(0)
 
                     toolbar { onEnterName(name).onLongClickAdd() }
 
-                    assertSnackbarDismiss()
-                    for ((i , item) in list.withIndex()) {
+                    assertSnackbarDismissed()
+                    for ((i, item) in list.withIndex()) {
                         assertItem(item, p = i + 1)
                     }
                     openRenameDialog(name, p = 0)
@@ -172,14 +172,14 @@ class RankSnackbarTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(p = 0)
                     list.removeAt(0)
 
                     toolbar { onEnterName(name).onClickAdd() }
 
-                    assertSnackbarDismiss()
-                    for ((i , item) in list.withIndex()) {
+                    assertSnackbarDismissed()
+                    for ((i, item) in list.withIndex()) {
                         assertItem(item, i)
                     }
                     openRenameDialog(name, p = count - 1)
@@ -193,14 +193,14 @@ class RankSnackbarTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(p = 0)
                     list.removeAt(0)
 
                     toolbar { onEnterName(name).onImeOptionClick() }
 
-                    assertSnackbarDismiss()
-                    for ((i , item) in list.withIndex()) {
+                    assertSnackbarDismissed()
+                    for ((i, item) in list.withIndex()) {
                         assertItem(item, i)
                     }
                     openRenameDialog(name, p = count - 1)
@@ -215,12 +215,12 @@ class RankSnackbarTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(p)
                     scrollTo(Scroll.END)
-                    getSnackbar { clickCancel() }
+                    snackbar { clickCancel() }
 
-                    assertSnackbarDismiss()
+                    assertSnackbarDismissed()
 
                     RecyclerItemPart.PREVENT_SCROLL = true
                     assertItem(it[p], p)
@@ -234,12 +234,12 @@ class RankSnackbarTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                rankScreen {
+                openRank {
                     itemCancel(p)
                     scrollTo(Scroll.START)
-                    getSnackbar { clickCancel() }
+                    snackbar { clickCancel() }
 
-                    assertSnackbarDismiss()
+                    assertSnackbarDismissed()
 
                     RecyclerItemPart.PREVENT_SCROLL = true
                     assertItem(it[p], p)

@@ -13,18 +13,18 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class SplashWrongTest : ParentUiTest() {
 
     @Test fun bindTextNoteOpen() = launchBind(db.getInvalidNote(NoteType.TEXT)) {
-        mainScreen { notesScreen(isEmpty = true) }
+        mainScreen { openNotes(isEmpty = true) }
     }
 
     @Test fun bindRollNoteOpen() = launchBind(db.getInvalidNote(NoteType.ROLL)) {
-        mainScreen { notesScreen(isEmpty = true) }
+        mainScreen { openNotes(isEmpty = true) }
     }
 
     @Test fun alarmTextNoteOpen() = launchAlarm(db.getInvalidNote(NoteType.TEXT)) {
-        mainScreen { notesScreen(isEmpty = true) }
+        mainScreen { openNotes(isEmpty = true) }
     }
 
     @Test fun alarmRollNoteOpen() = launchAlarm(db.getInvalidNote(NoteType.ROLL)) {
-        mainScreen { notesScreen(isEmpty = true) }
+        mainScreen { openNotes(isEmpty = true) }
     }
 }

@@ -23,6 +23,7 @@ class RankItemUi(
 ) : RecyclerItemPart<RankItem>(listMatcher, position) {
 
     private val parentCard by lazy { getChild(getView(R.id.parent_card)) }
+    private val clickContainer by lazy { getChild(getView(R.id.click_container)) }
 
     val visibleButton by lazy { getChild(getView(R.id.visible_button)) }
     val cancelButton by lazy { getChild(getView(R.id.cancel_button)) }
@@ -35,6 +36,10 @@ class RankItemUi(
     private val notificationImage by lazy { getChild(getView(R.id.notification_image)) }
     private val bindText by lazy { getChild(getView(R.id.bind_text)) }
     private val bindImage by lazy { getChild(getView(R.id.bind_image)) }
+
+    fun open() {
+
+    }
 
     override fun assert(item: RankItem) {
         parentCard.isDisplayed().withCard(

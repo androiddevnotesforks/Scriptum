@@ -2,7 +2,6 @@ package sgtmelon.scriptum.parent.ui.parts
 
 import android.view.View
 import androidx.annotation.IdRes
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import org.hamcrest.Matcher
@@ -10,6 +9,7 @@ import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
+import sgtmelon.test.cappuccino.utils.isDescendant
 
 /**
  * Tag needed for correctly determinate views (because have same id's, like parent_container).
@@ -26,6 +26,6 @@ abstract class ContainerPart(
     }
 
     override fun getView(@IdRes viewId: Int): Matcher<View> {
-        return allOf(super.getView(viewId), isDescendantOfA(parentContainer))
+        return super.getView(viewId).isDescendant(parentContainer)
     }
 }

@@ -15,10 +15,10 @@ class BinClearDialogTest : ParentUiTest() {
 
     @Test fun closeAndWork() = launch({ db.fillBin() }) {
         mainScreen {
-            binScreen {
-                clearDialog { onCloseSoft() }.assert(isEmpty = false)
-                clearDialog { onClickNo() }.assert(isEmpty = false)
-                clearDialog { onClickYes() }.assert(isEmpty = true)
+            openBin {
+                openClearDialog { onCloseSoft() }.assert(isEmpty = false)
+                openClearDialog { onClickNo() }.assert(isEmpty = false)
+                openClearDialog { onClickYes() }.assert(isEmpty = true)
             }
         }
     }
@@ -26,13 +26,13 @@ class BinClearDialogTest : ParentUiTest() {
     @Test fun workWithHideNotes() = db.insertRankForBin().let {
         launch({ db.fillBin(count = 5) }) {
             mainScreen {
-                binScreen()
+                openBin()
 
-                rankScreen { onClickVisible() }
-                binScreen { clearDialog { onClickYes() }.assert(isEmpty = true) }
+                openRank { itemVisible() }
+                openBin { openClearDialog { onClickYes() }.assert(isEmpty = true) }
 
-                rankScreen { onClickVisible() }
-                binScreen(isEmpty = true)
+                openRank { itemVisible() }
+                openBin(isEmpty = true)
             }
         }
     }

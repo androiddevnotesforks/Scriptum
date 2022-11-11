@@ -10,6 +10,6 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 interface IPreferenceTest {
 
     fun ParentUiTest.runTest(before: () -> Unit = {}, func: MenuPreferenceScreen.() -> Unit) {
-        launch(before) { mainScreen { notesScreen(isEmpty = true) { openPreferences(func) } } }
+        launch(before) { mainScreen { openNotes(isEmpty = true) { openPreferences(func) } } }
     }
 }

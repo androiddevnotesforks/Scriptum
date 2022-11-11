@@ -14,16 +14,16 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
 class NotificationsWeighTest : ParentUiWeighTest() {
 
     @Test fun screenOpen() = launch({ db.fillNotifications(ITEM_COUNT) }) {
-        mainScreen { notesScreen { repeat(REPEAT_COUNT) { openNotifications { clickClose() } } } }
+        mainScreen { openNotes { repeat(REPEAT_COUNT) { openNotifications { clickClose() } } } }
     }
 
     @Test fun screenRotation() = launch({ db.fillNotifications(ITEM_COUNT) }) {
         mainScreen {
-            notesScreen { openNotifications { repeat(REPEAT_COUNT) { rotate.switch() } } }
+            openNotes { openNotifications { repeat(REPEAT_COUNT) { rotate.switch() } } }
         }
     }
 
     @Test fun listScroll() = launch({ db.fillNotifications(ITEM_COUNT) }) {
-        mainScreen { notesScreen { openNotifications { scrollTo(Scroll.END, SCROLL_COUNT) } } }
+        mainScreen { openNotes { openNotifications { scrollTo(Scroll.END, SCROLL_COUNT) } } }
     }
 }

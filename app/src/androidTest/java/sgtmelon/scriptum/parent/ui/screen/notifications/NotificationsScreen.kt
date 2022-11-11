@@ -2,15 +2,14 @@ package sgtmelon.scriptum.parent.ui.screen.notifications
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
-import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ui.feature.BackPress
+import sgtmelon.scriptum.parent.ui.feature.OpenNote
+import sgtmelon.scriptum.parent.ui.feature.SnackbarWork
 import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
-import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
@@ -18,103 +17,50 @@ import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.TitleToolbarPart
 import sgtmelon.scriptum.parent.ui.screen.item.NotificationItemUi
 import sgtmelon.test.cappuccino.utils.await
-import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**
  * Class for UI control of [NotificationsActivity].
  */
 class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
-    RecyclerPart,
+    RecyclerPart<NoteItem, NotificationItemUi>,
+    OpenNote,
+    SnackbarWork,
     ToolbarBack,
     BackPress {
 
     //region Views
 
-    override val toolbar = TitleToolbarPart(R.string.title_notification)
+    override val toolbar = TitleToolbarPart(parentContainer, R.string.title_notification)
 
     override val recyclerView = getView(R.id.recycler_view)
 
-    private val infoContainer = InfoContainerPart(InfoCase.Notifications)
+    private val infoContainer = InfoContainerPart(parentContainer, InfoCase.Notifications)
 
-    /**
-     * Be careful calling this function, because every time it will trigger [await] func
-     * inside
-     */
-    inline fun getSnackbar(func: SnackbarPart.() -> Unit = {}): SnackbarPart {
-        val message = R.string.snackbar_message_notification
-        val action = R.string.snackbar_action_cancel
+    override val snackbarMessage = R.string.snackbar_message_notification
+    override val snackbarAction = R.string.snackbar_action_cancel
 
-        return SnackbarPart(message, action, func)
-    }
-
-    fun getItem(p: Int) = NotificationItemUi(recyclerView, p)
+    override fun getItem(p: Int) = NotificationItemUi(recyclerView, p)
 
     //endregion
-
-    inline fun openText(
-        item: NoteItem.Text,
-        p: Int? = random,
-        isRankEmpty: Boolean = true,
-        func: TextNoteScreen.() -> Unit = {}
-    ) {
-        if (p == null) throw EmptyListException()
-
-        getItem(p).view.click()
-        TextNoteScreen(func, NoteState.READ, item, isRankEmpty)
-    }
-
-    inline fun openRoll(
-        item: NoteItem.Roll,
-        p: Int? = random,
-        isRankEmpty: Boolean = true,
-        func: RollNoteScreen.() -> Unit = {}
-    ) {
-        if (p == null) throw EmptyListException()
-
-        getItem(p).view.click()
-        RollNoteScreen(func, NoteState.READ, item, isRankEmpty)
-    }
 
     fun itemCancel(p: Int? = random, isWait: Boolean = false) = apply {
         if (p == null) throw EmptyListException()
 
-        getItem(p).clickCancel()
-        getSnackbar { assert() }
+        getItem(p).cancel()
+        snackbar { assert() }
 
         if (isWait) {
             await(SnackbarPart.DISMISS_TIME)
         }
     }
 
-    fun assertItem(item: NoteItem, p: Int? = random) {
-        if (p == null) throw EmptyListException()
-
-        getItem(p).assert(item)
-    }
-
-    /**
-     * [withWait] parameter gives small period for checking UI (by eyes :D).
-     */
-    fun assertList(list: List<NoteItem>, withWait: Boolean = false) {
-        for ((p, item) in list.withIndex()) {
-            assertItem(item, p)
-
-            if (withWait) {
-                await(time = 250)
-            }
-        }
-    }
-
     fun assert(isEmpty: Boolean) = apply {
         parentContainer.isDisplayed()
         toolbar.assert()
-
         infoContainer.assert(isEmpty)
         recyclerView.isDisplayed(!isEmpty)
     }
-
-    fun assertSnackbarDismiss() = getSnackbar().assertDismiss()
 
     companion object {
         inline operator fun invoke(

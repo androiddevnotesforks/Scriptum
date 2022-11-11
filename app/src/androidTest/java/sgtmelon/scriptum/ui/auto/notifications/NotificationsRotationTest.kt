@@ -14,7 +14,7 @@ class NotificationsRotationTest : ParentUiRotationTest() {
 
     @Test fun contentEmpty() = launch {
         mainScreen {
-            notesScreen(isEmpty = true) {
+            openNotes(isEmpty = true) {
                 openNotifications(isEmpty = true) {
                     assert(isEmpty = true)
                     rotate.toSide()
@@ -37,7 +37,7 @@ class NotificationsRotationTest : ParentUiRotationTest() {
             assert(isEmpty = true)
             rotate.switch()
             assert(isEmpty = true)
-            getSnackbar { clickCancel() }
+            snackbar { clickCancel() }
             assertItem(it)
         }
     }

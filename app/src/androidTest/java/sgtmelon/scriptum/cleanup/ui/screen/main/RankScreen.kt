@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.ui.screen.main
 
-import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.ui.dialog.RenameDialogUi
@@ -8,6 +7,7 @@ import sgtmelon.scriptum.cleanup.ui.item.RankItemUi
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.RankToolbar
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
+import sgtmelon.scriptum.parent.ui.feature.SnackbarWork
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
@@ -22,24 +22,21 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
  * Class for UI control of [RankFragment].
  */
 class RankScreen : ContainerPart(TestViewTag.RANK),
-    RecyclerPart {
+    RecyclerPart<RankItem, RankItemUi>,
+    SnackbarWork {
 
     //region Views
 
     override val recyclerView = getView(R.id.recycler_view)
 
-    private val infoContainer = InfoContainerPart(InfoCase.Rank)
+    private val infoContainer = InfoContainerPart(parentContainer, InfoCase.Rank)
 
-    fun getSnackbar(func: SnackbarPart.() -> Unit = {}): SnackbarPart {
-        val message = R.string.snackbar_message_rank
-        val action = R.string.snackbar_action_cancel
+    override val snackbarMessage = R.string.snackbar_message_rank
+    override val snackbarAction = R.string.snackbar_action_cancel
 
-        return SnackbarPart(message, action, func)
-    }
+    override fun getItem(p: Int) = RankItemUi(recyclerView, p)
 
-    private fun getItem(p: Int) = RankItemUi(recyclerView, p)
-
-    fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar(func)
+    fun toolbar(func: RankToolbar.() -> Unit = {}) = RankToolbar(func, parentContainer)
 
     //endregion
 
@@ -50,11 +47,11 @@ class RankScreen : ContainerPart(TestViewTag.RANK),
     ) = apply {
         if (p == null) throw EmptyListException()
 
-        getItem(p).view.click()
+        getItem(p).open()
         RenameDialogUi(func, title)
     }
 
-    fun onClickVisible(p: Int? = random) = apply {
+    fun itemVisible(p: Int? = random) = apply {
         if (p == null) throw EmptyListException()
 
         getItem(p).visibleButton.click()
@@ -64,19 +61,11 @@ class RankScreen : ContainerPart(TestViewTag.RANK),
         if (p == null) throw EmptyListException()
 
         getItem(p).cancelButton.click()
-        getSnackbar { assert() }
+        snackbar { assert() }
 
         if (isWait) {
             await(SnackbarPart.DISMISS_TIME)
         }
-    }
-
-    //region Assertion
-
-    fun assertItem(item: RankItem, p: Int? = random) {
-        if (p == null) throw EmptyListException()
-
-        getItem(p).assert(item)
     }
 
     fun assert(isEmpty: Boolean) = apply {
@@ -87,17 +76,6 @@ class RankScreen : ContainerPart(TestViewTag.RANK),
         infoContainer.assert(isEmpty)
         recyclerView.isDisplayed(!isEmpty)
     }
-
-    fun assertSnackbarDismiss() {
-        assertTrue(try {
-            getSnackbar().assert()
-            false
-        } catch (e: Throwable) {
-            true
-        })
-    }
-
-    //endregion
 
     companion object {
         inline operator fun invoke(func: RankScreen.() -> Unit, isEmpty: Boolean): RankScreen {

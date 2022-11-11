@@ -13,12 +13,12 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankListTest : ParentUiTest() {
 
-    @Test fun contentEmpty() = launch { mainScreen { rankScreen(isEmpty = true) } }
+    @Test fun contentEmpty() = launch { mainScreen { openRank(isEmpty = true) } }
 
-    @Test fun contentList() = launch({ db.fillRank() }) { mainScreen { rankScreen() } }
+    @Test fun contentList() = launch({ db.fillRank() }) { mainScreen { openRank() } }
 
     @Test fun listScroll() = launch({ db.fillRank() }) {
-        mainScreen { rankScreen { scrollThrough() } }
+        mainScreen { openRank { scrollThrough() } }
     }
 
 }

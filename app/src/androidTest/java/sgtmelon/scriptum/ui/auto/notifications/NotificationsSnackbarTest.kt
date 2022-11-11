@@ -21,7 +21,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
     @Test fun displayInsets() = startNotificationListTest {
         repeat(times = 5) {
             itemCancel(last, isWait = true)
-            assertSnackbarDismiss()
+            assertSnackbarDismissed()
         }
     }
 
@@ -29,15 +29,15 @@ class NotificationsSnackbarTest : ParentUiTest() {
         val p = it.indices.random()
 
         itemCancel(p)
-        getSnackbar { clickCancel() }
-        assertSnackbarDismiss()
+        snackbar { clickCancel() }
+        assertSnackbarDismissed()
         assertItem(it[p], p)
     }
 
     @Test fun manyActionClick() = startNotificationListTest(count = 3) {
         repeat(it.size) { itemCancel(p = 0) }
         repeat(it.size) { i ->
-            getSnackbar {
+            snackbar {
                 clickCancel()
                 if (i != it.lastIndex) {
                     assert()
@@ -45,7 +45,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
             }
         }
 
-        assertSnackbarDismiss()
+        assertSnackbarDismissed()
         assertList(it)
     }
 
@@ -53,8 +53,8 @@ class NotificationsSnackbarTest : ParentUiTest() {
         val p = it.indices.random()
 
         itemCancel(p)
-        getSnackbar { clickCancel() }
-        assertSnackbarDismiss()
+        snackbar { clickCancel() }
+        assertSnackbarDismissed()
 
         when (val item = it[p]) {
             is NoteItem.Text -> openText(item, p) {
@@ -70,15 +70,15 @@ class NotificationsSnackbarTest : ParentUiTest() {
         val p = it.indices.random()
 
         itemCancel(p)
-        getSnackbar { clickCancel() }
-        assertSnackbarDismiss()
+        snackbar { clickCancel() }
+        assertSnackbarDismissed()
 
         when (val item = it[p]) {
             is NoteItem.Text -> openText(item, p) { clickClose() }
             is NoteItem.Roll -> openRoll(item, p) { clickClose() }
         }
 
-        assertSnackbarDismiss()
+        assertSnackbarDismissed()
     }
 
     @Test fun clearCacheOnScreenClose() {
@@ -92,7 +92,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                 itemCancel(removePosition)
                 itemCancel(actionShiftPosition)
 
-                getSnackbar { clickCancel().assert() }
+                snackbar { clickCancel().assert() }
 
                 assertItem(list[actionPosition], actionShiftPosition)
                 clickClose()
@@ -101,7 +101,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
             list.removeAt(removePosition)
 
             openNotifications {
-                assertSnackbarDismiss()
+                assertSnackbarDismissed()
                 assertList(list)
             }
         }
@@ -114,7 +114,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
             openNotifications {
                 itemCancel(p = 0)
 
-                getSnackbar { assert() }
+                snackbar { assert() }
 
                 /** Position = 1, because item removed from screen list. */
                 when (val it = list[1]) {
@@ -122,7 +122,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                     is NoteItem.Roll -> openRoll(it, p = 0) { clickClose() }
                 }
 
-                getSnackbar { assert() }
+                snackbar { assert() }
 
                 /** Position = 1, because item removed from screen list. */
                 when (val it = list[1]) {
@@ -136,7 +136,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                     }
                 }
 
-                getSnackbar {
+                snackbar {
                     assert()
                     clickCancel()
                 }
@@ -146,7 +146,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                 clickClose()
             }
 
-            openNotifications(isEmpty = true) { assertSnackbarDismiss() }
+            openNotifications(isEmpty = true) { assertSnackbarDismissed() }
         }
     }
 
@@ -155,10 +155,10 @@ class NotificationsSnackbarTest : ParentUiTest() {
 
         itemCancel(p)
         scrollTo(Scroll.END)
-        getSnackbar { clickCancel() }
+        snackbar { clickCancel() }
         await(RecyclerItemPart.SCROLL_TIME)
 
-        assertSnackbarDismiss()
+        assertSnackbarDismissed()
         RecyclerItemPart.PREVENT_SCROLL = true
         assertItem(it[p], p)
     }
@@ -168,10 +168,10 @@ class NotificationsSnackbarTest : ParentUiTest() {
 
         itemCancel(p)
         scrollTo(Scroll.START)
-        getSnackbar { clickCancel() }
+        snackbar { clickCancel() }
         await(RecyclerItemPart.SCROLL_TIME)
 
-        assertSnackbarDismiss()
+        assertSnackbarDismissed()
         RecyclerItemPart.PREVENT_SCROLL = true
         assertItem(it[p], p)
     }

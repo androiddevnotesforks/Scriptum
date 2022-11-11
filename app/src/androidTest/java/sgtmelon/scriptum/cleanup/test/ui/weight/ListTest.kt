@@ -16,15 +16,15 @@ class ListTest : ParentUiWeighTest() {
     // TODO #TEST optimization textNote inside lists (because now I load all text length)
 
     @Test fun rankScroll() = launch({ db.fillRank(RANK_COUNT) }) {
-        mainScreen { rankScreen { scrollTo(Scroll.END, SCROLL_COUNT) } }
+        mainScreen { openRank { scrollTo(Scroll.END, SCROLL_COUNT) } }
     }
 
     @Test fun notesScroll() = launch({ db.fillNotes(NOTES_COUNT) }) {
-        mainScreen { notesScreen { scrollTo(Scroll.END, SCROLL_COUNT) } }
+        mainScreen { openNotes { scrollTo(Scroll.END, SCROLL_COUNT) } }
     }
 
     @Test fun binScroll() = launch({ db.fillBin(BIN_COUNT) }) {
-        mainScreen { binScreen { scrollTo(Scroll.END, SCROLL_COUNT) } }
+        mainScreen { openBin { scrollTo(Scroll.END, SCROLL_COUNT) } }
     }
 
 
@@ -36,8 +36,8 @@ class ListTest : ParentUiWeighTest() {
     @Test fun textNoteOpen() = db.insertText(dbWeight.textNote).let { model ->
         launch {
             mainScreen {
-                notesScreen {
-                    repeat(REPEAT_COUNT) { openTextNote(model) { toolbar { clickBack() } } }
+                openNotes {
+                    repeat(REPEAT_COUNT) { openText(model) { toolbar { clickBack() } } }
                 }
             }
         }
@@ -49,8 +49,8 @@ class ListTest : ParentUiWeighTest() {
     ).let { model ->
         launch {
             mainScreen {
-                notesScreen {
-                    repeat(REPEAT_COUNT) { openRollNote(model) { toolbar { clickBack() } } }
+                openNotes {
+                    repeat(REPEAT_COUNT) { openRoll(model) { toolbar { clickBack() } } }
                 }
             }
         }
@@ -61,7 +61,7 @@ class ListTest : ParentUiWeighTest() {
         list = dbWeight.rollList
     ).let {
         launch {
-            mainScreen { notesScreen { openRollNote(it) { scrollTo(Scroll.END, SCROLL_COUNT) } } }
+            mainScreen { openNotes { openRoll(it) { scrollTo(Scroll.END, SCROLL_COUNT) } } }
         }
     }
 

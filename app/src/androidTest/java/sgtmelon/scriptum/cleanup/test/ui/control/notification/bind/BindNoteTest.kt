@@ -25,8 +25,8 @@ class BindNoteTest : ParentNotificationTest() {
 
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel {
                             onBind().apply { onSee() }.onBind().apply { onSee() }
                         }
@@ -40,8 +40,8 @@ class BindNoteTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel {
                             onBind().apply { onSee() }.onBind().apply { onSee() }
                         }
@@ -57,8 +57,8 @@ class BindNoteTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel {
                             onConvert { onSee { onClickYes() } }
                             onSee { onBind() }
@@ -75,8 +75,8 @@ class BindNoteTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel {
                             onConvert { onSee { onClickYes() } }
                             onSee { onBind() }
@@ -93,8 +93,8 @@ class BindNoteTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) { controlPanel { onDelete() } }
+                openNotes {
+                    openText(it) { controlPanel { onDelete() } }
                     onSee { assert(isEmpty = true) }
                 }
             }
@@ -107,8 +107,8 @@ class BindNoteTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) { controlPanel { onDelete() } }
+                openNotes {
+                    openRoll(it) { controlPanel { onDelete() } }
                     onSee { assert(isEmpty = true) }
                 }
             }

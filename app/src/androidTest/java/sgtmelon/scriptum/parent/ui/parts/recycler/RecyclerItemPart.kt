@@ -27,7 +27,7 @@ abstract class RecyclerItemPart<T> protected constructor(
 
     private val recyclerItemMatcher = RecyclerItemMatcher(listMatcher)
 
-    val view: Matcher<View> = itemMatcher?.let { recyclerItemMatcher.atItem(it) }
+    protected val view: Matcher<View> = itemMatcher?.let { recyclerItemMatcher.atItem(it) }
         ?: position?.let { recyclerItemMatcher.atItem(it) }
         ?: throw IllegalConstructorException()
 

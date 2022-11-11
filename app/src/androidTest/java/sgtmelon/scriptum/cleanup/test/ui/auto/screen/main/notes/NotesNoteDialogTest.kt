@@ -17,26 +17,39 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class NotesNoteDialogTest : ParentUiTest() {
 
     @Test fun textDialogUntitled() = db.insertText(db.textNote.apply { name = "" }).let {
-        launch { mainScreen { notesScreen { openNoteDialog(it) } } }
+        launch { mainScreen { openNotes { openNoteDialog(it) } } }
     }
 
     @Test fun textDialogClose() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) }
+                openNotes {
+                    openNoteDialog(it) { onCloseSoft() }
+                    assert(isEmpty = false)
+                }
             }
         }
     }
 
     @Test fun textDialogBind() = db.insertText().let {
         launch {
-            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.assertItem(it) } }
+            mainScreen {
+                openNotes {
+                    openNoteDialog(it) { onBind() }
+                    assertItem(it)
+                }
+            }
         }
     }
 
     @Test fun textDialogUnbind() = db.insertText(db.textNote.copy(isStatus = true)).let {
         launch {
-            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.assertItem(it) } }
+            mainScreen {
+                openNotes {
+                    openNoteDialog(it) { onBind() }
+                    assertItem(it)
+                }
+            }
         }
     }
 
@@ -45,9 +58,9 @@ class NotesNoteDialogTest : ParentUiTest() {
     }.let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onDelete() } }
-                binScreen { openNoteDialog(it) { onRestore() } }
-                notesScreen { assertItem(it) }
+                openNotes { openNoteDialog(it) { onDelete() } }
+                openBin { openNoteDialog(it) { onRestore() } }
+                openNotes { assertItem(it) }
             }
         }
     }
@@ -58,7 +71,7 @@ class NotesNoteDialogTest : ParentUiTest() {
     }.let {
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     var convertItem: NoteItem? = null
                     openNoteDialog(it, p = 1) { convertItem = onConvert() }
                     assertItem(convertItem!!, p = 0)
@@ -70,34 +83,50 @@ class NotesNoteDialogTest : ParentUiTest() {
     @Test fun textDialogDelete() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onDelete() }.assert(isEmpty = true) }
-                binScreen()
+                openNotes {
+                    openNoteDialog(it) { onDelete() }
+                    assert(isEmpty = true)
+                }
+                openBin()
             }
         }
     }
 
 
     @Test fun rollDialogUntitled() = db.insertRoll(db.rollNote.apply { name = "" }).let {
-        launch { mainScreen { notesScreen { openNoteDialog(it) } } }
+        launch { mainScreen { openNotes { openNoteDialog(it) } } }
     }
 
     @Test fun rollDialogClose() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) }
+                openNotes {
+                    openNoteDialog(it) { onCloseSoft() }
+                    assert(isEmpty = false)
+                }
             }
         }
     }
 
     @Test fun rollDialogBind() = db.insertRoll().let {
         launch {
-            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.assertItem(it) } }
+            mainScreen {
+                openNotes {
+                    openNoteDialog(it) { onBind() }
+                    assertItem(it)
+                }
+            }
         }
     }
 
     @Test fun rollDialogUnbind() = db.insertRoll(db.rollNote.copy(isStatus = true)).let {
         launch {
-            mainScreen { notesScreen { openNoteDialog(it) { onBind() }.assertItem(it) } }
+            mainScreen {
+                openNotes {
+                    openNoteDialog(it) { onBind() }
+                    assertItem(it)
+                }
+            }
         }
     }
 
@@ -106,9 +135,9 @@ class NotesNoteDialogTest : ParentUiTest() {
     }.let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onDelete() } }
-                binScreen { openNoteDialog(it) { onRestore() } }
-                notesScreen { assertItem(it) }
+                openNotes { openNoteDialog(it) { onDelete() } }
+                openBin { openNoteDialog(it) { onRestore() } }
+                openNotes { assertItem(it) }
             }
         }
     }
@@ -119,7 +148,7 @@ class NotesNoteDialogTest : ParentUiTest() {
     }.let {
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     var convertItem: NoteItem? = null
                     openNoteDialog(it, p = 1) { convertItem = onConvert() }
                     assertItem(convertItem!!, p = 0)
@@ -131,8 +160,11 @@ class NotesNoteDialogTest : ParentUiTest() {
     @Test fun rollDialogDelete() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onDelete() }.assert(isEmpty = true) }
-                binScreen()
+                openNotes {
+                    openNoteDialog(it) { onDelete() }
+                    assert(isEmpty = true)
+                }
+                openBin()
             }
         }
     }

@@ -224,6 +224,9 @@ fun Matcher<View>.withProgress(progress: Int, max: Int) = also {
 
 fun Matcher<View>.withTag(tag: Any) = also { matchOnView(it, TagMatcher(tag)) }
 
+fun Matcher<View>.isDescendant(parentMatcher: Matcher<View>): Matcher<View> =
+    allOf(this, ViewMatchers.isDescendantOfA(parentMatcher))
+
 fun Matcher<View>.includeParent(parentMatcher: Matcher<View>): Matcher<View> =
     allOf(this, ViewMatchers.withParent(parentMatcher))
 

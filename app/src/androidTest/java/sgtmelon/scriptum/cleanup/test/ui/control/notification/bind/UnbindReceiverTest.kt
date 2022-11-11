@@ -19,8 +19,8 @@ class UnbindReceiverTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it.second) { onBind() } }
-                rankScreen {
+                openNotes { openNoteDialog(it.second) { onBind() } }
+                openRank {
                     onOpen { assertItem(it.first.apply { bindCount = 0 }) }
                 }
             }
@@ -33,7 +33,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     onOpen { assertItem(it.apply { isStatus = false }) }
                 }
             }
@@ -46,8 +46,8 @@ class UnbindReceiverTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         onOpen { apply { it.isStatus = false }.fullAssert() }
                     }
                 }
@@ -61,8 +61,8 @@ class UnbindReceiverTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         onOpen { apply { it.isStatus = false }.fullAssert() }
                     }
                 }

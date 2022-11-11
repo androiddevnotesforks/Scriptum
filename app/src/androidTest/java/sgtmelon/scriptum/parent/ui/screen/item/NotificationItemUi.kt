@@ -8,6 +8,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
+import sgtmelon.scriptum.parent.ui.feature.OpenNote
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -23,15 +24,21 @@ import sgtmelon.test.cappuccino.utils.withText
 class NotificationItemUi(
     listMatcher: Matcher<View>,
     p: Int
-) : RecyclerItemPart<NoteItem>(listMatcher, p) {
+) : RecyclerItemPart<NoteItem>(listMatcher, p),
+    OpenNote.Callback {
 
     private val parentCard by lazy { getChild(getView(R.id.parent_card)) }
+    private val clickContainer by lazy { getChild(getView(R.id.click_container)) }
     private val nameText by lazy { getChild(getView(R.id.name_text)) }
     private val dateText by lazy { getChild(getView(R.id.date_text)) }
     private val colorView by lazy { getChild(getView(R.id.color_view)) }
     private val cancelButton by lazy { getChild(getView(R.id.cancel_button)) }
 
-    fun clickCancel() {
+    override fun openClick(item: NoteItem) {
+        clickContainer.click()
+    }
+
+    fun cancel() {
         cancelButton.click()
     }
 

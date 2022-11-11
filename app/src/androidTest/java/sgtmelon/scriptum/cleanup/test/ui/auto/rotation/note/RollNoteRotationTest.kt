@@ -22,8 +22,8 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     @Test fun contentOnBin() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                binScreen {
-                    openRollNote(it) {
+                openBin {
+                    openRoll(it) {
                         rotate.toSide()
                         fullAssert()
                     }
@@ -35,8 +35,8 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     @Test fun contentOnRestoreOpen() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                binScreen {
-                    openRollNote(it) {
+                openBin {
+                    openRoll(it) {
                         controlPanel { onRestoreOpen() }
                         rotate.toSide()
                         fullAssert()
@@ -62,8 +62,8 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     @Test fun contentOnRead() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         rotate.toSide()
                         fullAssert()
                     }
@@ -75,8 +75,8 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     @Test fun contentOnEdit() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }
                         rotate.toSide()
                         fullAssert()
@@ -103,8 +103,8 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     private fun startDateDialogTest(item: NoteItem.Roll, isUpdateDate: Boolean) {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(item) {
+                openNotes {
+                    openRoll(item) {
                         controlPanel {
                             onNotification(isUpdateDate) {
                                 rotate.toSide()
@@ -120,8 +120,8 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     @Test fun timeDialog() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel {
                             onNotification {
                                 onClickApply {
@@ -140,8 +140,8 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     @Test fun convertDialog() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel {
                             onConvert {
                                 rotate.toSide()
@@ -157,8 +157,8 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     @Test fun convertDialogResult() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onConvert { onClickYes() } }
                         rotate.toSide()
                         afterConvert()

@@ -16,8 +16,8 @@ class RollNoteDialogTest : ParentUiTest() {
     @Test fun dateDialogCloseAndWork() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onNotification { onCloseSoft() } }.assert()
                         controlPanel { onNotification { onClickCancel() } }.assert()
                         controlPanel { onNotification { onClickApply() } }
@@ -30,8 +30,8 @@ class RollNoteDialogTest : ParentUiTest() {
     @Test fun convertDialogCloseAndWork() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onConvert { onCloseSoft() } }.assert()
                         controlPanel { onConvert { onClickNo() } }.assert()
                         controlPanel { onConvert { onClickYes() } }.afterConvert()

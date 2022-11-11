@@ -14,11 +14,11 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class RollNoteTest : ParentUiTest() {
 
     @Test fun contentOnBinWithoutName() = db.insertRollToBin(db.rollNote.copy(name = "")).let {
-        launch { mainScreen { binScreen { openRollNote(it) } } }
+        launch { mainScreen { openBin { openRoll(it) } } }
     }
 
     @Test fun contentOnBinWithName() = db.insertRollToBin().let {
-        launch { mainScreen { binScreen { openRollNote(it) } } }
+        launch { mainScreen { openBin { openRoll(it) } } }
     }
 
     @Test fun contentOnCreate() = db.createRoll().let {
@@ -26,11 +26,11 @@ class RollNoteTest : ParentUiTest() {
     }
 
     @Test fun contentOnReadWithoutName() = db.insertRoll(db.rollNote.copy(name = "")).let {
-        launch { mainScreen { notesScreen { openRollNote(it) } } }
+        launch { mainScreen { openNotes { openRoll(it) } } }
     }
 
     @Test fun contentOnReadWithName() = db.insertRoll().let {
-        launch { mainScreen { notesScreen { openRollNote(it) } } }
+        launch { mainScreen { openNotes { openRoll(it) } } }
     }
 
 }

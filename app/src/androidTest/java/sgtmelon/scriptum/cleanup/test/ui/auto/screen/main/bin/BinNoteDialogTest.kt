@@ -14,21 +14,29 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class BinNoteDialogTest : ParentUiTest() {
 
     @Test fun textDialogUntitled() = db.insertTextToBin(db.textNote.apply { name = "" }).let {
-        launch { mainScreen { binScreen { openNoteDialog(it) } } }
+        launch { mainScreen { openBin { openNoteDialog(it) } } }
     }
 
     @Test fun textDialogClose() = db.insertTextToBin().let {
         launch {
-            mainScreen { binScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) } }
+            mainScreen {
+                openBin {
+                    openNoteDialog(it) { onCloseSoft() }
+                    assert(isEmpty = false)
+                }
+            }
         }
     }
 
     @Test fun textDialogRestore() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
-                binScreen { openNoteDialog(it) { onRestore() }.assert(isEmpty = true) }
-                notesScreen()
+                openNotes(isEmpty = true)
+                openBin {
+                    openNoteDialog(it) { onRestore() }
+                    assert(isEmpty = true)
+                }
+                openNotes()
             }
         }
     }
@@ -36,29 +44,40 @@ class BinNoteDialogTest : ParentUiTest() {
     @Test fun textDialogClear() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                binScreen { openNoteDialog(it) { onClear() }.assert(isEmpty = true) }
-                notesScreen(isEmpty = true)
+                openBin {
+                    openNoteDialog(it) { onClear() }
+                    assert(isEmpty = true)
+                }
+                openNotes(isEmpty = true)
             }
         }
     }
 
 
     @Test fun rollDialogUntitled() = db.insertRollToBin(db.rollNote.apply { name = "" }).let {
-        launch { mainScreen { binScreen { openNoteDialog(it) } } }
+        launch { mainScreen { openBin { openNoteDialog(it) } } }
     }
 
     @Test fun rollDialogClose() = db.insertRollToBin().let {
         launch {
-            mainScreen { binScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) } }
+            mainScreen {
+                openBin {
+                    openNoteDialog(it) { onCloseSoft() }
+                    assert(isEmpty = false)
+                }
+            }
         }
     }
 
     @Test fun rollDialogRestore() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
-                binScreen { openNoteDialog(it) { onRestore() }.assert(isEmpty = true) }
-                notesScreen()
+                openNotes(isEmpty = true)
+                openBin {
+                    openNoteDialog(it) { onRestore() }
+                    assert(isEmpty = true)
+                }
+                openNotes()
             }
         }
     }
@@ -66,8 +85,11 @@ class BinNoteDialogTest : ParentUiTest() {
     @Test fun rollDialogClear() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                binScreen { openNoteDialog(it) { onClear() }.assert(isEmpty = true) }
-                notesScreen(isEmpty = true)
+                openBin {
+                    openNoteDialog(it) { onClear() }
+                    assert(isEmpty = true)
+                }
+                openNotes(isEmpty = true)
             }
         }
     }

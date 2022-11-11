@@ -17,7 +17,7 @@ class RollNoteFocusTest : ParentUiTest() {
     @Test fun focusOnCreate() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog { createRoll(it) { toolbar { assertFocus() } } }
                 }
             }
@@ -27,8 +27,8 @@ class RollNoteFocusTest : ParentUiTest() {
     @Test fun focusOnEdit() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }
                         enterPanel { onEnterText(nextString()) }
 

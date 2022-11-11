@@ -14,7 +14,7 @@ class MainRotationTest : ParentUiRotationTest() {
 
     @Test fun rankPage() = launch {
         mainScreen {
-            rankScreen(isEmpty = true) {
+            openRank(isEmpty = true) {
                 rotate.toSide()
                 assert(isEmpty = true)
             }
@@ -24,7 +24,7 @@ class MainRotationTest : ParentUiRotationTest() {
 
     @Test fun notesPage() = launch {
         mainScreen {
-            notesScreen(isEmpty = true) {
+            openNotes(isEmpty = true) {
                 rotate.toSide()
                 assert(isEmpty = true)
             }
@@ -34,7 +34,7 @@ class MainRotationTest : ParentUiRotationTest() {
 
     @Test fun binPage() = launch {
         mainScreen {
-            binScreen(isEmpty = true) {
+            openBin(isEmpty = true) {
                 rotate.toSide()
                 assert(isEmpty = true)
             }

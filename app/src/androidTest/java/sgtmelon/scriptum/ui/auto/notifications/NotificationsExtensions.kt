@@ -9,7 +9,7 @@ inline fun ParentUiTest.startNotificationListTest(
     crossinline func: NotificationsScreen.(list: MutableList<NoteItem>) -> Unit = {}
 ) {
     val list = db.fillNotifications(count)
-    launch { mainScreen { notesScreen { openNotifications { func(list) } } } }
+    launch { mainScreen { openNotes { openNotifications { func(list) } } } }
 }
 
 inline fun <T : NoteItem> ParentUiTest.startNotificationItemTest(
@@ -17,6 +17,6 @@ inline fun <T : NoteItem> ParentUiTest.startNotificationItemTest(
     crossinline func: NotificationsScreen.(T) -> Unit
 ) {
     launch({ db.insertNotification(item) }) {
-        mainScreen { notesScreen { openNotifications { func(item) } } }
+        mainScreen { openNotes { openNotifications { func(item) } } }
     }
 }

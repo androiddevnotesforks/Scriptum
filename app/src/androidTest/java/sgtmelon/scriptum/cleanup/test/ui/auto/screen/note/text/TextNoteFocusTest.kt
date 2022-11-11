@@ -16,7 +16,7 @@ class TextNoteFocusTest : ParentUiTest() {
     @Test fun focusOnCreate() = db.createText().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog { createText(it) { toolbar { assertFocus() } } }
                 }
             }
@@ -26,7 +26,7 @@ class TextNoteFocusTest : ParentUiTest() {
     @Test fun focusOnEdit() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openTextNote(it) { controlPanel { onEdit() }.assertFocus() } }
+                openNotes { openText(it) { controlPanel { onEdit() }.assertFocus() } }
             }
         }
     }

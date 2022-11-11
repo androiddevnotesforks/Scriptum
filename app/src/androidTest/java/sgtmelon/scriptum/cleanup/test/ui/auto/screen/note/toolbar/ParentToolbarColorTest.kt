@@ -21,7 +21,7 @@ abstract class ParentToolbarColorTest(private val theme: ThemeDisplayed) : Paren
 
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         when (val noteItem = db.createNote()) {
                             is NoteItem.Text -> {

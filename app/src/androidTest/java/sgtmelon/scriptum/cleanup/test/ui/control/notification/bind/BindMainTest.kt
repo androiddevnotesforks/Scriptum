@@ -27,7 +27,7 @@ class BindMainTest : ParentNotificationTest() {
         TODO()
 
         mainScreen {
-            notesScreen {
+            openNotes {
                 apply { onSee() }.openNoteDialog(item) { onBind() }
                 apply { onSee() }.openNoteDialog(item) { onBind() }
             }
@@ -47,7 +47,7 @@ class BindMainTest : ParentNotificationTest() {
         TODO()
 
         mainScreen {
-            notesScreen {
+            openNotes {
                 apply { onSee() }.openNoteDialog(item) { onConvert() }
                 apply { onSee() }.openNoteDialog(item) { onDelete() }
             }
@@ -67,8 +67,8 @@ class BindMainTest : ParentNotificationTest() {
         TODO()
 
         mainScreen {
-            notesScreen { openNoteDialog(item) { onSee { onDelete() } } }
-            binScreen { onSee { assertItem(item, 0) } }
+            openNotes { openNoteDialog(item) { onSee { onDelete() } } }
+            openBin { onSee { assertItem(item, 0) } }
         }
     }
 
@@ -76,11 +76,11 @@ class BindMainTest : ParentNotificationTest() {
     @Test fun rankHideShowOnClick() = insertRankWithStatusNote().let {
         launch {
             mainScreen {
-                notesScreen()
-                rankScreen { onSee { onClickVisible() } }
-                notesScreen(isEmpty = true, isHide = true)
-                rankScreen { onSee { onClickVisible() } }
-                notesScreen { openNoteDialog(it) { onSee { onBind() } } }
+                openNotes()
+                openRank { onSee { itemVisible() } }
+                openNotes(isEmpty = true, isHide = true)
+                openRank { onSee { itemVisible() } }
+                openNotes { openNoteDialog(it) { onSee { onBind() } } }
             }
         }
     }
@@ -88,10 +88,10 @@ class BindMainTest : ParentNotificationTest() {
     @Test fun rankCancel() = insertRankWithStatusNote().let {
         launch {
             mainScreen {
-                rankScreen { onSee { onClickVisible() } }
-                notesScreen(isEmpty = true, isHide = true)
-                rankScreen { onSee { itemCancel() } }
-                notesScreen { openNoteDialog(it) { onSee { onBind() } } }
+                openRank { onSee { itemVisible() } }
+                openNotes(isEmpty = true, isHide = true)
+                openRank { onSee { itemCancel() } }
+                openNotes { openNoteDialog(it) { onSee { onBind() } } }
             }
         }
     }

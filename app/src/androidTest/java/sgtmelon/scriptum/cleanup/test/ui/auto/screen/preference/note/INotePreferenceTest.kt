@@ -11,7 +11,7 @@ interface INotePreferenceTest {
 
     fun ParentUiTest.runTest(before: () -> Unit = {}, func: NotePreferenceScreen.() -> Unit) {
         launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreferences { openNote(func) } } }
+            mainScreen { openNotes(isEmpty = true) { openPreferences { openNote(func) } } }
         }
     }
 }

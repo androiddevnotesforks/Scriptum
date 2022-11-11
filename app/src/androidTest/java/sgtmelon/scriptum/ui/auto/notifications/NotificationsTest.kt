@@ -16,7 +16,7 @@ class NotificationsTest : ParentUiTest() {
 
     @Test fun close() = launch {
         mainScreen {
-            notesScreen(isEmpty = true) {
+            openNotes(isEmpty = true) {
                 openNotifications(isEmpty = true) { pressBack() }
                 openNotifications(isEmpty = true) { clickClose() }
             }
@@ -24,7 +24,7 @@ class NotificationsTest : ParentUiTest() {
     }
 
     @Test fun contentEmpty() = launch {
-        mainScreen { notesScreen(isEmpty = true) { openNotifications(isEmpty = true) } }
+        mainScreen { openNotes(isEmpty = true) { openNotifications(isEmpty = true) } }
     }
 
     @Test fun contentList() = startNotificationListTest()
@@ -43,9 +43,10 @@ class NotificationsTest : ParentUiTest() {
     @Test fun itemCancelOnNoteDelete() = db.insertNotification().let {
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     openNotifications { pressBack() }
-                    openNoteDialog(it) { onDelete() }.openNotifications(isEmpty = true)
+                    openNoteDialog(it) { onDelete() }
+                    openNotifications(isEmpty = true)
                 }
             }
         }

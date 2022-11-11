@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.parent.ui.parts.toolbar
 
+import android.view.View
 import androidx.annotation.StringRes
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withChild
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import sgtmelon.scriptum.R
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -13,13 +16,18 @@ import sgtmelon.iconanim.R as animR
  * UI abstraction of toolbars with button and title.
  */
 class TitleToolbarPart(
+    parentContainer: Matcher<View>,
     @StringRes titleId: Int,
     private val withBack: Boolean = true
-) : ToolbarPart() {
+) : ToolbarPart(parentContainer) {
 
-    private val toolbar = allOf(getView(R.id.toolbar), withChild(getViewByText(titleId)))
+    override val toolbar: Matcher<View> = allOf(
+        getView(R.id.toolbar),
+        withChild(getViewByText(titleId)),
+        isDescendantOfA(parentContainer)
+    )
 
-    fun assert() {
+    fun assert() = apply {
         val backDrawable = if (withBack) animR.drawable.ic_cancel_exit else null
         val backTint = if (withBack) R.attr.clContent else null
 

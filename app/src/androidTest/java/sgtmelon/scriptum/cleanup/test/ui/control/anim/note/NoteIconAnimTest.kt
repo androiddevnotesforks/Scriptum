@@ -51,13 +51,13 @@ class NoteIconAnimTest : ParentUiTest() {
 
     @Test fun notAnimateOnRestoreOpenTextNote() = db.insertTextToBin().let {
         launch {
-            mainScreen { binScreen { openTextNote(it) { controlPanel { onRestoreOpen() } } } }
+            mainScreen { openBin { openText(it) { controlPanel { onRestoreOpen() } } } }
         }
     }
 
     @Test fun notAnimateOnRestoreOpenRollNote() = db.insertRollToBin().let {
         launch {
-            mainScreen { binScreen { openRollNote(it) { controlPanel { onRestoreOpen() } } } }
+            mainScreen { openBin { openRoll(it) { controlPanel { onRestoreOpen() } } } }
         }
     }
 
@@ -65,8 +65,8 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun animateOnEditToSaveTextNote() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) { controlPanel { repeat(times = 3) { onEdit().onSave() } } }
+                openNotes {
+                    openText(it) { controlPanel { repeat(times = 3) { onEdit().onSave() } } }
                 }
             }
         }
@@ -75,8 +75,8 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun animateOnEditToSaveRollNote() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) { controlPanel { repeat(times = 3) { onEdit().onSave() } } }
+                openNotes {
+                    openRoll(it) { controlPanel { repeat(times = 3) { onEdit().onSave() } } }
                 }
             }
         }
@@ -85,8 +85,8 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun animateOnEditToCancelTextNote() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onEdit() }
                         pressBack()
                         controlPanel { onEdit() }
@@ -100,8 +100,8 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun animateOnEditToCancelRollNote() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }
                         pressBack()
                         controlPanel { onEdit() }
@@ -115,7 +115,7 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun visibleClick() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openRollNote(it) { repeat(REPEAT_COUNT) { onClickVisible() } } }
+                openNotes { openRoll(it) { repeat(REPEAT_COUNT) { onClickVisible() } } }
             }
         }
     }

@@ -22,8 +22,8 @@ class BindErrorTest : ParentNotificationTest() {
     }.let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onEdit() }
                         onEnterText(nextString())
                         automator.unbind(item)
@@ -42,8 +42,8 @@ class BindErrorTest : ParentNotificationTest() {
     }.let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }
                         enterPanel { onAdd(nextString()) }
                         automator.unbind(item)

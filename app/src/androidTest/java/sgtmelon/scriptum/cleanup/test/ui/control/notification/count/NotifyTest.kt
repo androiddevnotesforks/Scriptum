@@ -45,7 +45,7 @@ class NotifyTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     openNotifications { repeat(NOTIFICATION_COUNT) { onSee { itemCancel() } } }
                 }
             }
@@ -64,7 +64,7 @@ class NotifyTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
+                openNotes {
                     openNoteDialog(it) {
                         onNotification { onClickApply { onTime(min = 3).onClickApply() } }
                     }
@@ -78,7 +78,7 @@ class NotifyTest : ParentNotificationTest() {
 
     @Test fun notesNotifyOnDelete() = db.insertNotification().let {
         TODO()
-        launch { mainScreen { notesScreen { openNoteDialog(it) { onDelete() } } } }
+        launch { mainScreen { openNotes { openNoteDialog(it) { onDelete() } } } }
         onSee()
     }
 
@@ -87,8 +87,8 @@ class NotifyTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel {
                             onNotification { onClickApply { onTime(min = 3).onClickApply() } }
                             onSee()
@@ -105,7 +105,7 @@ class NotifyTest : ParentNotificationTest() {
         if (it !is NoteItem.Text) throw NoteCastException()
 
         TODO()
-        launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onDelete() } } } } }
+        launch { mainScreen { openNotes { openText(it) { controlPanel { onDelete() } } } } }
         onSee()
     }
 
@@ -113,8 +113,8 @@ class NotifyTest : ParentNotificationTest() {
         TODO()
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel {
                             onNotification { onClickApply { onTime(min = 3).onClickApply() } }
                             onSee()
@@ -131,7 +131,7 @@ class NotifyTest : ParentNotificationTest() {
         if (it !is NoteItem.Roll) throw NoteCastException()
 
         TODO()
-        launch { mainScreen { notesScreen { openRollNote(it) { controlPanel { onDelete() } } } } }
+        launch { mainScreen { openNotes { openRoll(it) { controlPanel { onDelete() } } } } }
         onSee()
     }
 

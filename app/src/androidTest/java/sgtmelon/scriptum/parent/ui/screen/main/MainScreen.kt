@@ -43,12 +43,12 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
      * Function for "just select page".
      */
     fun openPage(page: MainPage, isEmpty: Boolean = false) = when (page) {
-        MainPage.RANK -> rankScreen(isEmpty)
-        MainPage.NOTES -> notesScreen(isEmpty)
-        MainPage.BIN -> binScreen(isEmpty)
+        MainPage.RANK -> openRank(isEmpty)
+        MainPage.NOTES -> openNotes(isEmpty)
+        MainPage.BIN -> openBin(isEmpty)
     }
 
-    inline fun rankScreen(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) = apply {
+    inline fun openRank(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) = apply {
         if (currentPage != MainPage.RANK) {
             clickPage(MainPage.RANK)
         }
@@ -56,7 +56,7 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         RankScreen(func, isEmpty)
     }
 
-    inline fun notesScreen(
+    inline fun openNotes(
         isEmpty: Boolean = false,
         isHide: Boolean = false,
         func: NotesScreen.() -> Unit = {}
@@ -68,7 +68,7 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         NotesScreen(func, isEmpty, isHide)
     }
 
-    inline fun binScreen(isEmpty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
+    inline fun openBin(isEmpty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
         if (currentPage != MainPage.BIN) {
             clickPage(MainPage.BIN)
         }

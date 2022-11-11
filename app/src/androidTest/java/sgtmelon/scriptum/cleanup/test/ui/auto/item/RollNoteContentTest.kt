@@ -15,17 +15,17 @@ import sgtmelon.test.common.nextString
 class RollNoteContentTest : ParentUiTest() {
 
     @Test fun itemListOnNotes() = db.insertRoll().let {
-        launch { mainScreen { notesScreen { openRollNote(it) { onAssertAll() } } } }
+        launch { mainScreen { openNotes { openRoll(it) { onAssertAll() } } } }
     }
 
     @Test fun itemListOnBin() = db.insertRollToBin().let {
-        launch { mainScreen { binScreen { openRollNote(it) { onAssertAll() } } } }
+        launch { mainScreen { openBin { openRoll(it) { onAssertAll() } } } }
     }
 
     @Test fun itemOnChangeText() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel { onAdd(nextString()) }
@@ -42,7 +42,7 @@ class RollNoteContentTest : ParentUiTest() {
     @Test fun itemOnClickCheck() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             repeat(times = 3) { enterPanel { onAdd(nextString()) } }
@@ -60,7 +60,7 @@ class RollNoteContentTest : ParentUiTest() {
     @Test fun itemOnEmptyDelete() = db.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
+                openNotes(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             repeat(times = 5) { enterPanel { onAdd(nextString()) } }

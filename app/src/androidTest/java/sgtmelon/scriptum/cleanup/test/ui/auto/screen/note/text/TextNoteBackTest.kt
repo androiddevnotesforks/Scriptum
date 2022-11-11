@@ -17,8 +17,8 @@ class TextNoteBackTest : ParentUiTest() {
     @Test fun closeOnBin() = db.insertTextToBin().let {
         launch {
             mainScreen {
-                binScreen { openTextNote(it) { toolbar { clickBack() } } }.assert()
-                binScreen { openTextNote(it) { pressBack() } }.assert()
+                openBin { openText(it) { toolbar { clickBack() } } }.assert()
+                openBin { openText(it) { pressBack() } }.assert()
             }
         }
     }
@@ -35,8 +35,8 @@ class TextNoteBackTest : ParentUiTest() {
     @Test fun closeOnRead() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openTextNote(it) { toolbar { clickBack() } } }.assert()
-                notesScreen { openTextNote(it) { pressBack() } }.assert()
+                openNotes { openText(it) { toolbar { clickBack() } } }.assert()
+                openNotes { openText(it) { pressBack() } }.assert()
             }
         }
     }
@@ -59,8 +59,8 @@ class TextNoteBackTest : ParentUiTest() {
     @Test fun saveOnEdit() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(nextString()) }
                         onEnterText(nextString())
@@ -75,8 +75,8 @@ class TextNoteBackTest : ParentUiTest() {
     @Test fun cancelOnEdit() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onEdit() }
                         onEnterText(nextString())
                         toolbar { onEnterName(nextString()).clickBack() }

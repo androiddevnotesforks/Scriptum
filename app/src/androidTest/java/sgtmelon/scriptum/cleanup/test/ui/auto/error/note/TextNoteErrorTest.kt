@@ -20,8 +20,8 @@ class TextNoteErrorTest : ParentUiTest() {
     @Test fun restoreChanges() = db.insertText().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openTextNote(it) {
+                openNotes {
+                    openText(it) {
                         controlPanel { onBind().onEdit() }
                         toolbar { clickBack() }
 

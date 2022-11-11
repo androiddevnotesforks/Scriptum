@@ -14,7 +14,7 @@ interface IBackupPreferenceTest {
 
     fun ParentUiTest.runTest(before: () -> Unit = {}, func: BackupPreferenceScreen.() -> Unit) {
         launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreferences { openBackup(func) } } }
+            mainScreen { openNotes(isEmpty = true) { openPreferences { openBackup(func) } } }
         }
     }
 }

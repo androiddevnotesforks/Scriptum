@@ -16,11 +16,11 @@ class RankItemTest : ParentUiTest() {
     @Test fun visibleForNotes() = db.insertRankForNotes().let {
         launch {
             mainScreen {
-                notesScreen()
-                rankScreen { onClickVisible() }
-                notesScreen(isEmpty = true, isHide = true)
-                rankScreen { onClickVisible() }
-                notesScreen()
+                openNotes()
+                openRank { itemVisible() }
+                openNotes(isEmpty = true, isHide = true)
+                openRank { itemVisible() }
+                openNotes()
             }
         }
     }
@@ -28,26 +28,26 @@ class RankItemTest : ParentUiTest() {
     @Test fun visibleForBin() = db.insertRankForBin().let {
         launch {
             mainScreen {
-                binScreen()
-                rankScreen { onClickVisible() }
-                binScreen()
-                rankScreen { onClickVisible() }
-                binScreen()
+                openBin()
+                openRank { itemVisible() }
+                openBin()
+                openRank { itemVisible() }
+                openBin()
             }
         }
     }
 
     @Test fun clearFromList() = db.insertRank().let {
-        launch { mainScreen { rankScreen { itemCancel().assert(isEmpty = true) } } }
+        launch { mainScreen { openRank { itemCancel().assert(isEmpty = true) } } }
     }
 
     @Test fun clearForNote() = db.insertRankForNotes().let {
         launch {
             mainScreen {
-                rankScreen { onClickVisible() }
-                notesScreen(isEmpty = true, isHide = true)
-                rankScreen { itemCancel() }
-                notesScreen()
+                openRank { itemVisible() }
+                openNotes(isEmpty = true, isHide = true)
+                openRank { itemCancel() }
+                openNotes()
             }
         }
     }
@@ -55,11 +55,11 @@ class RankItemTest : ParentUiTest() {
     @Test fun clearForBin() = db.insertRankForBin().let {
         launch {
             mainScreen {
-                binScreen()
-                rankScreen { onClickVisible() }
-                binScreen()
-                rankScreen { itemCancel() }
-                binScreen()
+                openBin()
+                openRank { itemVisible() }
+                openBin()
+                openRank { itemCancel() }
+                openBin()
             }
         }
     }

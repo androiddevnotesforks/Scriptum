@@ -17,8 +17,8 @@ class RollNoteBackTest : ParentUiTest() {
     @Test fun closeOnBin() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                binScreen { openRollNote(it) { toolbar { clickBack() } } }.assert()
-                binScreen { openRollNote(it) { pressBack() } }.assert()
+                openBin { openRoll(it) { toolbar { clickBack() } } }.assert()
+                openBin { openRoll(it) { pressBack() } }.assert()
             }
         }
     }
@@ -35,8 +35,8 @@ class RollNoteBackTest : ParentUiTest() {
     @Test fun closeOnRead() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openRollNote(it) { toolbar { clickBack() } } }.assert()
-                notesScreen { openRollNote(it) { pressBack() } }.assert()
+                openNotes { openRoll(it) { toolbar { clickBack() } } }.assert()
+                openNotes { openRoll(it) { pressBack() } }.assert()
             }
         }
     }
@@ -58,8 +58,8 @@ class RollNoteBackTest : ParentUiTest() {
     @Test fun saveOnEdit() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(nextString()) }
                         enterPanel { onAdd(nextString()) }
@@ -73,8 +73,8 @@ class RollNoteBackTest : ParentUiTest() {
     @Test fun cancelOnEdit() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }
                         enterPanel { onAdd(nextString()) }
                         toolbar {

@@ -17,9 +17,12 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinRestore() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
-                binScreen { openRollNote(it) { controlPanel { onRestore() } }.assert(isEmpty = true) }
-                notesScreen()
+                openNotes(isEmpty = true)
+                openBin {
+                    openRoll(it) { controlPanel { onRestore() } }
+                    assert(isEmpty = true)
+                }
+                openNotes()
             }
         }
     }
@@ -27,17 +30,17 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinRestoreOpen() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
 
-                binScreen {
-                    openRollNote(it) {
+                openBin {
+                    openRoll(it) {
                         controlPanel { onRestoreOpen() }
                         pressBack()
                     }
                     assert(isEmpty = true)
                 }
 
-                notesScreen()
+                openNotes()
             }
         }
     }
@@ -45,9 +48,12 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinClear() = db.insertRollToBin().let {
         launch {
             mainScreen {
-                notesScreen(isEmpty = true)
-                binScreen { openRollNote(it) { controlPanel { onClear() } }.assert(isEmpty = true) }
-                notesScreen(isEmpty = true)
+                openNotes(isEmpty = true)
+                openBin {
+                    openRoll(it) { controlPanel { onClear() } }
+                    assert(isEmpty = true)
+                }
+                openNotes(isEmpty = true)
             }
         }
     }
@@ -55,7 +61,7 @@ class RollNotePanelTest : ParentUiTest() {
 
     @Test fun actionOnReadNotification() = db.insertRoll().let {
         launch {
-            mainScreen { notesScreen { openRollNote(it) { controlPanel { onNotification() } } } }
+            mainScreen { openNotes { openRoll(it) { controlPanel { onNotification() } } } }
         }
     }
 
@@ -68,8 +74,8 @@ class RollNotePanelTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(model) {
+                openNotes {
+                    openRoll(model) {
                         controlPanel { onBind() }
                         pressBack()
                     }
@@ -82,26 +88,27 @@ class RollNotePanelTest : ParentUiTest() {
 
     @Test fun actionOnReadConvert() = db.insertRoll().let {
         launch {
-            mainScreen { notesScreen { openRollNote(it) { controlPanel { onConvert() } } } }
+            mainScreen { openNotes { openRoll(it) { controlPanel { onConvert() } } } }
         }
     }
 
     @Test fun actionOnReadDelete() = db.insertRoll().let {
         launch {
             mainScreen {
-                binScreen(isEmpty = true)
+                openBin(isEmpty = true)
 
-                notesScreen {
-                    openRollNote(it) { controlPanel { onDelete() } }.assert(isEmpty = true)
+                openNotes {
+                    openRoll(it) { controlPanel { onDelete() } }
+                    assert(isEmpty = true)
                 }
 
-                binScreen()
+                openBin()
             }
         }
     }
 
     @Test fun actionOnReadEdit() = db.insertRoll().let {
-        launch { mainScreen { notesScreen { openRollNote(it) { controlPanel { onEdit() } } } } }
+        launch { mainScreen { openNotes { openRoll(it) { controlPanel { onEdit() } } } } }
     }
 
 
@@ -125,8 +132,8 @@ class RollNotePanelTest : ParentUiTest() {
         val item = db.insertRoll()
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(item, isRankEmpty = false) {
+                openNotes {
+                    openRoll(item, isRankEmpty = false) {
                         controlPanel { onEdit().onRank(it) }
                     }
                 }
@@ -141,7 +148,7 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnEditColor() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openRollNote(it) { controlPanel { onEdit().onColor() } } }
+                openNotes { openRoll(it) { controlPanel { onEdit().onColor() } } }
             }
         }
     }
@@ -166,8 +173,8 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnEditSave() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }
 
                         toolbar { onEnterName(nextString()) }
@@ -201,8 +208,8 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnEditLongSave() = db.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen {
-                    openRollNote(it) {
+                openNotes {
+                    openRoll(it) {
                         controlPanel { onEdit() }
 
                         toolbar { onEnterName(nextString()) }
