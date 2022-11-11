@@ -38,7 +38,7 @@ abstract class ParentUiWeighTest : ParentUiRotationTest(),
 
     companion object {
         const val ITEM_COUNT = 250
-        const val REPEAT_COUNT = 10
+        const val REPEAT_COUNT = 5
         const val SCROLL_COUNT = 15
     }
 }

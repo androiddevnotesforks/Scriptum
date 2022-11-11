@@ -1,12 +1,10 @@
-package sgtmelon.scriptum.cleanup.ui.part.toolbar
+package sgtmelon.scriptum.parent.ui.parts.toolbar
 
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
-import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
+import sgtmelon.scriptum.parent.ui.feature.KeyboardIme
 import sgtmelon.scriptum.parent.ui.screen.main.RankScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
@@ -28,10 +26,7 @@ import sgtmelon.test.cappuccino.utils.withText
  * UI abstraction of Toolbar with ability to add rank in [RankScreen].
  */
 class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer),
-    IKeyboardOption {
-
-    // TODO rename functions
-    // TODO move KeyboardOption into feature package
+    KeyboardIme {
 
     //region Views
 
@@ -46,61 +41,52 @@ class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer)
 
     private var currentEnter = ""
 
-    fun onEnterName(name: String, isEnabled: Boolean = true) = apply {
+    /**
+     * [isGood] means -> had current [name] ability to be added or not.
+     */
+    fun enter(name: String, isGood: Boolean = true) = apply {
         currentEnter = name
-
         nameEnter.typeText(name)
-        assert(isAddEnabled = isEnabled)
+        assert(isGood)
     }
 
-    fun onClickClear() {
+    fun clear() = apply {
         currentEnter = ""
-
         clearButton.click()
         assert()
     }
 
-    fun onClickAdd() {
-        currentEnter = ""
+    fun addToEnd() = apply { add { addButton.click() } }
 
-        closeSoftKeyboard()
-        addButton.click()
+    fun addToStart() = apply { add { addButton.longClick() } }
+
+    /**
+     * Keyboard will be closed by screen code.
+     */
+    private inline fun add(onClick: () -> Unit) {
+        currentEnter = ""
+        onClick()
         assert()
     }
 
-    fun onLongClickAdd() {
-        currentEnter = ""
-
-        closeSoftKeyboard()
-        addButton.longClick()
-        assert()
-    }
-
-    override fun onImeOptionClick(isSuccess: Boolean) {
+    override fun imeClick(isSuccess: Boolean) {
         nameEnter.imeOption()
 
         if (isSuccess) {
             currentEnter = ""
-
-            closeSoftKeyboard()
             assert()
         }
     }
 
-
-    fun assert(isAddEnabled: Boolean = false) {
+    fun assert(isAddEnabled: Boolean = false) = apply {
         toolbar.isDisplayed()
             .withBackgroundAttr(R.attr.colorPrimary)
             .withNavigationDrawable(resourceId = null)
 
-        enterCard.isDisplayed().withCard(
-            R.attr.clBackgroundEnter,
-            R.dimen.radius_8dp,
-            R.dimen.elevation_2dp
-        )
+        enterCard.isDisplayed()
+            .withCard(R.attr.clBackgroundEnter, R.dimen.radius_8dp, R.dimen.elevation_2dp)
 
         val isEnterEmpty = currentEnter.isEmpty()
-
         nameEnter.isDisplayed()
             .withImeAction(EditorInfo.IME_ACTION_DONE)
             .withBackgroundColor(android.R.color.transparent)

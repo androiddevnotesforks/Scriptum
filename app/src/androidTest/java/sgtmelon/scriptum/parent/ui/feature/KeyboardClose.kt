@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.ui
+package sgtmelon.scriptum.parent.ui.feature
 
 import androidx.test.espresso.Espresso
 
 /**
  * Interface need use in screen classes which need function for hide keyboard.
  */
-interface IKeyboardClose {
+interface KeyboardClose {
 
     fun closeKeyboard() = Espresso.closeSoftKeyboard()
 }

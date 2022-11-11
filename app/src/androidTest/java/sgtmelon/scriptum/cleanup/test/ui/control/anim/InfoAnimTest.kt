@@ -17,12 +17,12 @@ class InfoAnimTest : ParentUiTest() {
             mainScreen {
                 openRank(isEmpty = true) {
                     repeat(times = 3) {
-                        toolbar { onEnterName(entity.name).onClickAdd() }
+                        toolbar { enter(entity.name).addToEnd() }
                         itemCancel()
                         assert(isEmpty = true)
                     }
 
-                    toolbar { onEnterName(entity.name).onClickAdd() }
+                    toolbar { enter(entity.name).addToEnd() }
                     repeat(times = 3) {
                         itemCancel()
                         assert(isEmpty = true)

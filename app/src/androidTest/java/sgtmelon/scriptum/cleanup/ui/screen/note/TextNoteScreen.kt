@@ -9,11 +9,11 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
-import sgtmelon.scriptum.cleanup.ui.IKeyboardClose
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.parent.ui.feature.BackPress
+import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -39,7 +39,7 @@ class TextNoteScreen(
     INoteScreen<TextNoteScreen, NoteItem.Text>,
     NoteToolbar.ImeCallback,
     INoteAfterConvert<RollNoteScreen>,
-    IKeyboardClose,
+    KeyboardClose,
     BackPress {
 
     //region Views

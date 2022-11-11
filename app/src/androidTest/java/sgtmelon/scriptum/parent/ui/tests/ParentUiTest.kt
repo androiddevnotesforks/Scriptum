@@ -8,6 +8,7 @@ import org.junit.Rule
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
@@ -96,6 +97,7 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     private fun setupCompanionData() {
+        ScriptumApplication.skipAnimation = true
         AlarmActivity.isFinishOnStop = false
     }
 
@@ -118,6 +120,7 @@ abstract class ParentUiTest : ParentTest() {
     private fun teardownCompanionData() {
         ParentScreen.theme = null
 
+        ScriptumApplication.skipAnimation = false
         AlarmActivity.isFinishOnStop = true
 
         BindControl[context].clearRecent()

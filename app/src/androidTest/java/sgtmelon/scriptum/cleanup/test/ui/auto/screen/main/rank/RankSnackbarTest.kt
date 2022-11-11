@@ -159,7 +159,7 @@ class RankSnackbarTest : ParentUiTest() {
                     itemCancel(p = 0)
                     list.removeAt(0)
 
-                    toolbar { onEnterName(name).onLongClickAdd() }
+                    toolbar { enter(name).addToStart() }
 
                     assertSnackbarDismissed()
                     for ((i, item) in list.withIndex()) {
@@ -180,7 +180,7 @@ class RankSnackbarTest : ParentUiTest() {
                     itemCancel(p = 0)
                     list.removeAt(0)
 
-                    toolbar { onEnterName(name).onClickAdd() }
+                    toolbar { enter(name).addToEnd() }
 
                     assertSnackbarDismissed()
                     for ((i, item) in list.withIndex()) {
@@ -201,7 +201,7 @@ class RankSnackbarTest : ParentUiTest() {
                     itemCancel(p = 0)
                     list.removeAt(0)
 
-                    toolbar { onEnterName(name).onImeOptionClick() }
+                    toolbar { enter(name).imeClick() }
 
                     assertSnackbarDismissed()
                     for ((i, item) in list.withIndex()) {

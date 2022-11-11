@@ -95,15 +95,12 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         await(SCROLL_TIME)
     }
 
-    fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply {
-        fab.click()
-        AddSheetDialogUi(func)
-    }
+    fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply { fab.click(func) }
 
     /**
      * [page] and [isFabVisible] equals NULL if you want skip assert of related elements.
      */
-    fun assert(page: MainPage? = null, isFabVisible: Boolean? = null) = apply {
+    fun assert(page: MainPage = currentPage, isFabVisible: Boolean? = null) = apply {
         parentContainer.isDisplayed()
 
         toolbarHolder.withBackgroundAttr(R.attr.clPrimary)
@@ -115,11 +112,9 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
 
         menuNavigation.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
-        if (page != null) {
-            rankMenuItem.isSelected(value = MainPage.RANK == page)
-            notesMenuItem.isSelected(value = MainPage.NOTES == page)
-            binMenuItem.isSelected(value = MainPage.BIN == page)
-        }
+        rankMenuItem.isSelected(value = MainPage.RANK == page)
+        notesMenuItem.isSelected(value = MainPage.NOTES == page)
+        binMenuItem.isSelected(value = MainPage.BIN == page)
 
         if (isFabVisible != null) {
             fab.assert(isFabVisible)

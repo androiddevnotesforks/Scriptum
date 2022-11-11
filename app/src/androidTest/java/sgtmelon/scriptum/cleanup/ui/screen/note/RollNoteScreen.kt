@@ -12,13 +12,13 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
-import sgtmelon.scriptum.cleanup.ui.IKeyboardClose
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.RollItemUi
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.parent.ui.feature.BackPress
+import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
@@ -49,7 +49,7 @@ class RollNoteScreen(
     INoteScreen<RollNoteScreen, NoteItem.Roll>,
     NoteToolbar.ImeCallback,
     INoteAfterConvert<TextNoteScreen>,
-    IKeyboardClose,
+    KeyboardClose,
     BackPress {
 
     //region Views

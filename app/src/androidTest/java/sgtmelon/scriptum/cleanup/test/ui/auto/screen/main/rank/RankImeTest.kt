@@ -23,22 +23,22 @@ class RankImeTest : ParentUiTest() {
                  * Check ime action with wrong input data. (Empty name)
                  */
                 toolbar {
-                    onEnterName(name = " ", isEnabled = false).onImeOptionClick(isSuccess = false)
+                    enter(name = " ", isGood = false).imeClick(isSuccess = false)
                 }
 
-                toolbar { onEnterName(name).onImeOptionClick() }
+                toolbar { enter(name).imeClick() }
                 openRenameDialog(name, p = count - 1) { onCloseSoft() }
 
                 /**
                  * Check ime action with wrong input data. (Name from list)
                  */
                 toolbar {
-                    onEnterName(name, isEnabled = false).onImeOptionClick(isSuccess = false)
+                    enter(name, isGood = false).imeClick(isSuccess = false)
                 }
 
                 itemCancel(p = count - 1)
 
-                toolbar { onEnterName(name).onImeOptionClick() }
+                toolbar { enter(name).imeClick() }
                 openRenameDialog(name, p = count - 1)
             }
         }
@@ -54,11 +54,11 @@ class RankImeTest : ParentUiTest() {
                      * Check ime action with wrong input data. (Empty name)
                      */
                     openRenameDialog(it.name) {
-                        onEnter(name = " ", isEnabled = false).onImeOptionClick(isSuccess = false)
+                        onEnter(name = " ", isEnabled = false).imeClick(isSuccess = false)
                         onCloseSoft()
                     }
 
-                    openRenameDialog(it.name) { onEnter(newName).onImeOptionClick() }
+                    openRenameDialog(it.name) { onEnter(newName).imeClick() }
 
                     it.name = newName
                     assertItem(it)

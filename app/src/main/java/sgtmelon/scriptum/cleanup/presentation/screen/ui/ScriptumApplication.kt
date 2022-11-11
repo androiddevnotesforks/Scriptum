@@ -52,6 +52,7 @@ class ScriptumApplication : Application() {
     companion object {
         /** Variable for detect test running. */
         var isTesting = false
+        var skipAnimation = false
 
         lateinit var component: ScriptumComponent
     }

@@ -4,8 +4,8 @@ import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
-import sgtmelon.scriptum.cleanup.ui.IKeyboardOption
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
+import sgtmelon.scriptum.parent.ui.feature.KeyboardIme
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.excludeParent
 import sgtmelon.test.cappuccino.utils.imeOption
@@ -21,7 +21,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [RenameDialog].
  */
-class RenameDialogUi(title: String) : ParentScreen(), IDialogUi, IKeyboardOption {
+class RenameDialogUi(title: String) : ParentScreen(), IDialogUi, KeyboardIme {
 
     private var applyEnabled = false
 
@@ -52,10 +52,10 @@ class RenameDialogUi(title: String) : ParentScreen(), IDialogUi, IKeyboardOption
         applyButton.click()
     }
 
-    override fun onImeOptionClick(isSuccess: Boolean) {
+    override fun imeClick(isSuccess: Boolean) {
         renameEnter.imeOption()
 
-        if  (isSuccess) waitClose()
+        if (isSuccess) waitClose()
     }
 
     fun assert(enter: String = "") {

@@ -42,7 +42,7 @@ class MainFabTest : ParentUiTest() {
         mainScreen {
             openNotes { scrollTo(Scroll.END, time = 1) }
             assert(isFabVisible = false)
-            openNotes { openPreferences { clickClose() } }
+            openNotes { openNotifications(isEmpty = true) { clickClose() } }
             assert(isFabVisible = true)
         }
     }

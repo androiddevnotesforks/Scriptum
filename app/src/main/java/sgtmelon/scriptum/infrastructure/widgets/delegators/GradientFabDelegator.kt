@@ -13,6 +13,7 @@ import androidx.core.animation.addListener
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.getAlphaAnimator
 import sgtmelon.scriptum.infrastructure.utils.getScaleXAnimator
@@ -86,6 +87,8 @@ internal class GradientFabDelegator(
     }
 
     private fun changePlay(isPlay: Boolean) {
+        if (ScriptumApplication.skipAnimation) return
+
         if (isPlay) {
             gradientDrawable?.start()
         } else {

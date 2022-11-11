@@ -17,19 +17,19 @@ class RankToolbarTest : ParentUiTest() {
 
     @Test fun enterAddEmpty() = launch {
         mainScreen {
-            openRank(isEmpty = true) { toolbar { onEnterName(name = " ", isEnabled = false) } }
+            openRank(isEmpty = true) { toolbar { enter(name = " ", isGood = false) } }
         }
     }
 
     @Test fun enterAddFromList() = db.insertRank().let {
         launch {
-            mainScreen { openRank { toolbar { onEnterName(it.name, isEnabled = false) } } }
+            mainScreen { openRank { toolbar { enter(it.name, isGood = false) } } }
         }
     }
 
     @Test fun enterAddEnabled() = launch {
         val name = nextString()
-        mainScreen { openRank(isEmpty = true) { toolbar { onEnterName(name) } } }
+        mainScreen { openRank(isEmpty = true) { toolbar { enter(name) } } }
     }
 
     @Test fun enterClear() = launch {
@@ -38,8 +38,8 @@ class RankToolbarTest : ParentUiTest() {
         mainScreen {
             openRank(isEmpty = true) {
                 toolbar {
-                    onEnterName(nextString()).onClickClear()
-                    onEnterName(name).onClickAdd()
+                    enter(nextString()).clear()
+                    enter(name).addToEnd()
                 }
                 openRenameDialog(name) { onCloseSoft() }
             }
@@ -52,12 +52,12 @@ class RankToolbarTest : ParentUiTest() {
 
         mainScreen {
             openRank(isEmpty = true) {
-                toolbar { onEnterName(name).onClickAdd() }
+                toolbar { enter(name).addToEnd() }
                 openRenameDialog(name, p = 0) { onCloseSoft() }
 
                 itemCancel(p = 0)
 
-                toolbar { onEnterName(name).onLongClickAdd() }
+                toolbar { enter(name).addToStart() }
                 openRenameDialog(name, p = 0)
             }
         }
@@ -70,12 +70,12 @@ class RankToolbarTest : ParentUiTest() {
             openRank {
                 scrollTo(Scroll.END)
 
-                toolbar { onEnterName(name).onLongClickAdd() }
+                toolbar { enter(name).addToStart() }
                 openRenameDialog(name, p = 0) { onCloseSoft() }
 
                 itemCancel(p = 0)
 
-                toolbar { onEnterName(name).onLongClickAdd() }
+                toolbar { enter(name).addToStart() }
                 openRenameDialog(name, p = 0)
             }
         }
@@ -86,12 +86,12 @@ class RankToolbarTest : ParentUiTest() {
 
         mainScreen {
             openRank {
-                toolbar { onEnterName(name).onClickAdd() }
+                toolbar { enter(name).addToEnd() }
                 openRenameDialog(name, p = count - 1) { onCloseSoft() }
 
                 itemCancel(p = count - 1)
 
-                toolbar { onEnterName(name).onClickAdd() }
+                toolbar { enter(name).addToEnd() }
                 openRenameDialog(name, p = count - 1)
             }
         }
@@ -105,7 +105,7 @@ class RankToolbarTest : ParentUiTest() {
             mainScreen {
                 openRank {
                     toolbar {
-                        onEnterName(newName)
+                        enter(newName)
                         openRenameDialog(it.name) { onEnter(newName).onClickApply() }
                         assert(isAddEnabled = false)
                     }

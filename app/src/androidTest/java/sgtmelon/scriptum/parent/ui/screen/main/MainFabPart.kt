@@ -2,6 +2,7 @@ package sgtmelon.scriptum.parent.ui.screen.main
 
 import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.ui.dialog.sheet.AddSheetDialogUi
 import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -19,8 +20,9 @@ class MainFabPart : UiPart() {
     private val fabClick = getView(R.id.gradient_fab_click)
     private val fabIcon = getView(R.id.gradient_fab_icon)
 
-    fun click() {
+    fun click(func: AddSheetDialogUi.() -> Unit = {}) {
         fabClick.click()
+        AddSheetDialogUi(func)
     }
 
     fun assert(isVisible: Boolean) {
