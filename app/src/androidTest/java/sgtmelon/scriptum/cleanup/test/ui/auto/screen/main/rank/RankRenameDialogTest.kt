@@ -19,7 +19,7 @@ class RankRenameDialogTest : ParentUiTest() {
             mainScreen {
                 openRank {
                     openRenameDialog(it.name) { softClose() }.assert(isEmpty = false)
-                    openRenameDialog(it.name) { onClickCancel() }.assert(isEmpty = false)
+                    openRenameDialog(it.name) { cancel() }.assert(isEmpty = false)
                 }
             }
         }
@@ -28,7 +28,7 @@ class RankRenameDialogTest : ParentUiTest() {
     @Test fun dialogApplySameName() = db.insertRank().let {
         launch {
             mainScreen {
-                openRank { openRenameDialog(it.name) { onEnter(it.name, isEnabled = false) } }
+                openRank { openRenameDialog(it.name) { enter(it.name, isEnabled = false) } }
             }
         }
     }
@@ -37,7 +37,7 @@ class RankRenameDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRank {
-                    openRenameDialog(it[0].name, p = 0) { onEnter(it[1].name, isEnabled = false) }
+                    openRenameDialog(it[0].name, p = 0) { enter(it[1].name, isEnabled = false) }
                 }
             }
         }
@@ -46,7 +46,7 @@ class RankRenameDialogTest : ParentUiTest() {
     @Test fun dialogApplyRegister() = db.insertRank().let {
         launch {
             mainScreen {
-                openRank { openRenameDialog(it.name) { onEnter(it.name.uppercase()) } }
+                openRank { openRenameDialog(it.name) { enter(it.name.uppercase()) } }
             }
         }
     }
@@ -57,7 +57,7 @@ class RankRenameDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRank {
-                    openRenameDialog(it.name) { onEnter(newName).onClickApply() }
+                    openRenameDialog(it.name) { enter(newName).accept() }
                     it.name = newName
                     assertItem(it)
                 }

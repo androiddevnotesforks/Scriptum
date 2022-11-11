@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.ui.dialog
+package sgtmelon.scriptum.parent.ui.dialogs
 
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.scriptum.parent.ui.feature.KeyboardIme
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.excludeParent
 import sgtmelon.test.cappuccino.utils.imeOption
@@ -21,32 +21,31 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [RenameDialog].
  */
-class RenameDialogUi(title: String) : ParentScreen(), DialogUi, KeyboardIme {
+class RenameDialogUi(title: String) : UiPart(),
+    DialogUi,
+    KeyboardIme {
 
     private var applyEnabled = false
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.rename_parent_container)
-
+    private val parentContainer = getView(R.id.rename_parent_container)
     private val titleText = getViewByText(title).excludeParent(parentContainer)
-    private val renameEnter = getViewById(R.id.rename_enter)
-
+    private val renameEnter = getView(R.id.rename_enter)
     private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
     private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
     //endregion
 
-    fun onEnter(name: String, isEnabled: Boolean = true) = apply {
+    fun enter(name: String, isEnabled: Boolean = true) = apply {
         applyEnabled = isEnabled
-
         renameEnter.typeText(name)
         assert(name)
     }
 
-    fun onClickCancel() = waitClose { cancelButton.click() }
+    fun cancel() = waitClose { cancelButton.click() }
 
-    fun onClickApply() = waitClose {
+    fun accept() = waitClose {
         if (!applyEnabled) throw IllegalAccessException("Apply button not enabled")
 
         applyButton.click()
@@ -69,13 +68,9 @@ class RenameDialogUi(title: String) : ParentScreen(), DialogUi, KeyboardIme {
                 if (enter.isNotEmpty()) {
                     withText(enter, R.attr.clContent, R.dimen.text_18sp)
                 } else {
-                    withHint(
-                        R.string.hint_enter_rank_rename,
-                        R.attr.clDisable,
-                            R.dimen.text_18sp
-                        )
-                    }
+                    withHint(R.string.hint_enter_rank_rename, R.attr.clDisable, R.dimen.text_18sp)
                 }
+            }
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
         applyButton.isDisplayed().isEnabled(applyEnabled) {

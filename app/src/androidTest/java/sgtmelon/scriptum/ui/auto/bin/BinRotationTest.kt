@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main
+package sgtmelon.scriptum.ui.auto.bin
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test

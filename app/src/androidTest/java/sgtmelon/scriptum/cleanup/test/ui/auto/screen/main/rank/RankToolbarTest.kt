@@ -106,7 +106,7 @@ class RankToolbarTest : ParentUiTest() {
                 openRank {
                     toolbar {
                         enter(newName)
-                        openRenameDialog(it.name) { onEnter(newName).onClickApply() }
+                        openRenameDialog(it.name) { enter(newName).accept() }
                         assert(isAddEnabled = false)
                     }
                 }

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.bin
+package sgtmelon.scriptum.ui.auto.bin
 
 
 import androidx.test.ext.junit.runners.AndroidJUnit4

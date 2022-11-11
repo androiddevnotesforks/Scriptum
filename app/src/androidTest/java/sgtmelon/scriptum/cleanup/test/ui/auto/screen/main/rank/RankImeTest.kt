@@ -54,11 +54,11 @@ class RankImeTest : ParentUiTest() {
                      * Check ime action with wrong input data. (Empty name)
                      */
                     openRenameDialog(it.name) {
-                        onEnter(name = " ", isEnabled = false).imeClick(isSuccess = false)
+                        enter(name = " ", isEnabled = false).imeClick(isSuccess = false)
                         softClose()
                     }
 
-                    openRenameDialog(it.name) { onEnter(newName).imeClick() }
+                    openRenameDialog(it.name) { enter(newName).imeClick() }
 
                     it.name = newName
                     assertItem(it)

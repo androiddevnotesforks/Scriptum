@@ -86,7 +86,7 @@ class RankSnackbarTest : ParentUiTest() {
                     itemCancel(p = 1)
                     snackbar { clickCancel() }
                     snackbar().assert()
-                    openRenameDialog(it[1].name, p = 1) { onClickCancel() }
+                    openRenameDialog(it[1].name, p = 1) { cancel() }
                 }
 
                 openNotes(isEmpty = true)
@@ -139,7 +139,7 @@ class RankSnackbarTest : ParentUiTest() {
                     itemCancel(p = 0)
                     list.removeAt(0)
 
-                    openRenameDialog(list[0].name, p = 0) { onClickCancel() }
+                    openRenameDialog(list[0].name, p = 0) { cancel() }
 
                     assertSnackbarDismissed()
                     for ((i, item) in list.withIndex()) {

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.bin
+package sgtmelon.scriptum.ui.auto.bin
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -17,8 +17,8 @@ class BinClearDialogTest : ParentUiTest() {
         mainScreen {
             openBin {
                 openClearDialog { softClose() }.assert(isEmpty = false)
-                openClearDialog { onClickNo() }.assert(isEmpty = false)
-                openClearDialog { onClickYes() }.assert(isEmpty = true)
+                openClearDialog { no() }.assert(isEmpty = false)
+                openClearDialog { yes() }.assert(isEmpty = true)
             }
         }
     }
@@ -29,7 +29,7 @@ class BinClearDialogTest : ParentUiTest() {
                 openBin()
 
                 openRank { itemVisible() }
-                openBin { openClearDialog { onClickYes() }.assert(isEmpty = true) }
+                openBin { openClearDialog { yes() }.assert(isEmpty = true) }
 
                 openRank { itemVisible() }
                 openBin(isEmpty = true)

@@ -42,7 +42,7 @@ class RankRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openRank {
                     openRenameDialog(it.name) {
-                        onEnter(newName)
+                        enter(newName)
                         rotate.toSide()
                         assert(newName)
                     }
