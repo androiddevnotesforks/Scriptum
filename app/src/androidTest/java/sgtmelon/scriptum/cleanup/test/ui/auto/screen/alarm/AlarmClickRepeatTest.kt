@@ -79,5 +79,4 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
             }
         }
     }
-
 }

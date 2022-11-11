@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.item
+package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -12,12 +12,10 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
  * Test for [RankItemUi].
  */
 @RunWith(AndroidJUnit4::class)
-class RankContentTest : ParentUiTest() {
+class RankCardTest : ParentUiTest() {
 
     @Test fun itemList() = db.fillRankRelation(ITEM_COUNT).let { list ->
-        launch {
-            mainScreen { openRank { for ((i, it) in list.withIndex()) assertItem(it, i) } }
-        }
+        launch { mainScreen { openRank { for ((i, it) in list.withIndex()) assertItem(it, i) } } }
     }
 
     @Test fun visibleClick() = db.insertRank().let { item ->
@@ -28,7 +26,8 @@ class RankContentTest : ParentUiTest() {
 
                     repeat(REPEAT_TIMES) {
                         itemVisible()
-                        assertItem(item/*.switchVisible()*/)
+                        item.isVisible = !item.isVisible
+                        assertItem(item)
                     }
                 }
             }

@@ -2,17 +2,17 @@
 
 package sgtmelon.scriptum.cleanup
 
-import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.ParentNoteContentTest
 import sgtmelon.scriptum.cleanup.test.ui.control.anim.note.NoteIconAnimTest
+import sgtmelon.scriptum.ui.cases.NoteCardTestCase
 
 // EXAMPLE: TODO(reason = "#TEST write test")
 
 class Content {
     /**
      * TODO #TEST finish tests for:
-     * 1. [ParentNoteContentTest.rankSort]
-     * 2. [ParentNoteContentTest.rankTextCancel]
-     * 3. [ParentNoteContentTest.rankRollCancel]
+     * 1. [NoteCardTestCase.rankSort]
+     * 2. [NoteCardTestCase.rankTextCancel]
+     * 3. [NoteCardTestCase.rankRollCancel]
      */
 
     // TODO #TEST create AlarmContentTest (test notesAdapter)

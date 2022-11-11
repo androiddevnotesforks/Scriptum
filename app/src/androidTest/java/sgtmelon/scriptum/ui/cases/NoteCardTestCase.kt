@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main
+package sgtmelon.scriptum.ui.cases
 
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 /**
  * Parent class for tests of [NoteAdapter]
  */
-abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest() {
+abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
 
     private val lastArray = arrayListOf(LAST_HOUR, LAST_DAY, LAST_MONTH, LAST_YEAR)
 

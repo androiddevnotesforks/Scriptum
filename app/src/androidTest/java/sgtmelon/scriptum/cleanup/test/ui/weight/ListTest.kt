@@ -23,17 +23,12 @@ class ListTest : ParentUiWeighTest() {
         mainScreen { openNotes { scrollTo(Scroll.END, SCROLL_COUNT) } }
     }
 
-    @Test fun binScroll() = launch({ db.fillBin(BIN_COUNT) }) {
-        mainScreen { openBin { scrollTo(Scroll.END, SCROLL_COUNT) } }
-    }
-
-
     /**
      * Heavy = 30.223s
      * Simple = 19.780s
      * Coroutine = 21.930s
      */
-    @Test fun textNoteOpen() = db.insertText(dbWeight.textNote).let { model ->
+    @Test fun itemTextOpen() = db.insertText(dbWeight.textNote).let { model ->
         launch {
             mainScreen {
                 openNotes {
@@ -43,7 +38,7 @@ class ListTest : ParentUiWeighTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = db.insertRoll(
+    @Test fun itemRollOpen() = db.insertRoll(
         isVisible = true,
         list = dbWeight.rollList
     ).let { model ->

@@ -31,5 +31,4 @@ abstract class ParentToolbar : ParentScreen() {
     fun clickButton() {
         getToolbarButton().click()
     }
-
 }

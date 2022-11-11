@@ -7,12 +7,26 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivi
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.auto.startNotesTest
+import sgtmelon.scriptum.ui.cases.ListContentCase
+import sgtmelon.scriptum.ui.cases.ListScrollCase
+import sgtmelon.scriptum.ui.cases.NoteOpenCase
 
 /**
  * Test for [NotificationsActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationsTest : ParentUiTest() {
+class NotificationsTest : ParentUiTest(),
+    ListContentCase,
+    ListScrollCase,
+    NoteOpenCase {
+
+    @Test override fun contentEmpty() = launch {
+        mainScreen { openNotes(isEmpty = true) { openNotifications(isEmpty = true) } }
+    }
+
+    @Test override fun contentList() = startNotificationListTest()
+
+    @Test override fun listScroll() = startNotificationListTest { scrollThrough() }
 
     @Test fun close() = launch {
         mainScreen {
@@ -23,17 +37,9 @@ class NotificationsTest : ParentUiTest() {
         }
     }
 
-    @Test fun contentEmpty() = launch {
-        mainScreen { openNotes(isEmpty = true) { openNotifications(isEmpty = true) } }
-    }
+    @Test override fun itemTextOpen() = startNotificationItemTest(db.insertText()) { openText(it) }
 
-    @Test fun contentList() = startNotificationListTest()
-
-    @Test fun listScroll() = startNotificationListTest { scrollThrough() }
-
-    @Test fun itemTextOpen() = startNotificationItemTest(db.insertText()) { openText(it) }
-
-    @Test fun itemNoteOpen() = startNotificationItemTest(db.insertRoll()) { openRoll(it) }
+    @Test override fun itemRollOpen() = startNotificationItemTest(db.insertRoll()) { openRoll(it) }
 
     @Test fun itemCancel() = startNotificationItemTest(db.insertNote()) {
         itemCancel()

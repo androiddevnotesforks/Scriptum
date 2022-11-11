@@ -63,5 +63,4 @@ class RankItemTest : ParentUiTest() {
             }
         }
     }
-
 }

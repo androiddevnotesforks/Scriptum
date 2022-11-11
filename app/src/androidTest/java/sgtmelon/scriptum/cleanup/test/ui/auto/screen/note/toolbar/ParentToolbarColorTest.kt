@@ -50,5 +50,4 @@ abstract class ParentToolbarColorTest(private val theme: ThemeDisplayed) : Paren
             }
         }
     }
-
 }

@@ -63,5 +63,4 @@ class MainFabTest : ParentUiTest() {
             assert(isFabVisible = false)
         }
     }
-
 }

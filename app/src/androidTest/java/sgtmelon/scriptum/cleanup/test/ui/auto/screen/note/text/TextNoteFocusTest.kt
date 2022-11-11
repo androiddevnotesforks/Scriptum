@@ -30,5 +30,4 @@ class TextNoteFocusTest : ParentUiTest() {
             }
         }
     }
-
 }

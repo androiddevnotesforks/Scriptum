@@ -79,7 +79,7 @@
         <test name="colorLight" duration="5567" status="passed" />
         <test name="colorDark" duration="6452" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.item.RankContentTest"
+    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank.RankContentTest"
         duration="40748"
         status="passed">
         <test name="visibleLongClick" duration="6924" status="passed" />
@@ -3911,7 +3911,7 @@
                 className="RankContentTest"
                 endTimestampMillis="6924"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.RankContentTest.visibleLongClick"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank.RankContentTest.visibleLongClick"
                 logcat=""
                 methodName="visibleLongClick"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"
@@ -3921,7 +3921,7 @@
                 className="RankContentTest"
                 endTimestampMillis="5405"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.RankContentTest.visibleClick"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank.RankContentTest.visibleClick"
                 logcat=""
                 methodName="visibleClick"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"
@@ -3931,7 +3931,7 @@
                 className="RankContentTest"
                 endTimestampMillis="14197"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.RankContentTest.itemNotification"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank.RankContentTest.itemNotification"
                 logcat=""
                 methodName="itemNotification"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"
@@ -3941,7 +3941,7 @@
                 className="RankContentTest"
                 endTimestampMillis="6263"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.RankContentTest.itemBind"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank.RankContentTest.itemBind"
                 logcat=""
                 methodName="itemBind"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"
@@ -3951,7 +3951,7 @@
                 className="RankContentTest"
                 endTimestampMillis="5135"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.RankContentTest.itemList"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank.RankContentTest.itemList"
                 logcat=""
                 methodName="itemList"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"
@@ -3961,7 +3961,7 @@
                 className="RankContentTest"
                 endTimestampMillis="2824"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.item.RankContentTest.itemMaxIndicator"
+                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank.RankContentTest.itemMaxIndicator"
                 logcat=""
                 methodName="itemMaxIndicator"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.item"

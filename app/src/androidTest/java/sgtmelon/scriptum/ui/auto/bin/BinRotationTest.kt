@@ -6,14 +6,16 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.ui.cases.ListContentCase
 
 /**
  * Test of [BinFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class BinRotationTest : ParentUiRotationTest() {
+class BinRotationTest : ParentUiRotationTest(),
+    ListContentCase {
 
-    @Test fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launch {
         mainScreen {
             openBin(isEmpty = true) {
                 rotate.toSide()
@@ -23,7 +25,7 @@ class BinRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = launch({ db.fillBin() }) {
+    @Test override fun contentList() = launch({ db.fillBin() }) {
         mainScreen {
             openBin {
                 rotate.toSide()

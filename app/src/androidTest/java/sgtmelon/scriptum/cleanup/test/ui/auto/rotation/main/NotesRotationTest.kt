@@ -7,14 +7,16 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.ui.cases.ListContentCase
 
 /**
  * Test of [NotesFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotesRotationTest : ParentUiRotationTest() {
+class NotesRotationTest : ParentUiRotationTest(),
+    ListContentCase {
 
-    @Test fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launch {
         mainScreen {
             openNotes(isEmpty = true) {
                 rotate.toSide()
@@ -24,7 +26,7 @@ class NotesRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = launch({ db.fillNotes() }) {
+    @Test override fun contentList() = launch({ db.fillNotes() }) {
         mainScreen {
             openNotes {
                 rotate.toSide()

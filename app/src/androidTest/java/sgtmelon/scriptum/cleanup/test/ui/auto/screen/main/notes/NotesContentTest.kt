@@ -3,16 +3,16 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.ParentNoteContentTest
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
+import sgtmelon.scriptum.ui.cases.NoteCardTestCase
 
 /**
  * Test for [NoteItemUi] inside [NotesScreen]
  */
 @RunWith(AndroidJUnit4::class)
-class NotesContentTest : ParentNoteContentTest(MainPage.NOTES) {
+class NotesContentTest : NoteCardTestCase(MainPage.NOTES) {
 
     @Test override fun colorTextLight() = super.colorTextLight()
 

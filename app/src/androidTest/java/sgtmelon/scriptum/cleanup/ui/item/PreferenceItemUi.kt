@@ -101,5 +101,4 @@ class PreferenceItemUi(
             titleText.click()
         }
     }
-
 }

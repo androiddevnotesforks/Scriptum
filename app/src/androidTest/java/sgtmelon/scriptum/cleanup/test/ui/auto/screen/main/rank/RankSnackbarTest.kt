@@ -251,5 +251,4 @@ class RankSnackbarTest : ParentUiTest() {
             }
         }
     }
-
 }

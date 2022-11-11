@@ -39,5 +39,4 @@ class RollNoteFocusTest : ParentUiTest() {
             }
         }
     }
-
 }

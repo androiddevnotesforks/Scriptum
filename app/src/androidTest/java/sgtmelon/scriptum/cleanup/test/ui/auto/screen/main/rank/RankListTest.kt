@@ -6,19 +6,22 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.ListContentCase
+import sgtmelon.scriptum.ui.cases.ListScrollCase
 
 /**
  * Test list for [RankFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class RankListTest : ParentUiTest() {
+class RankListTest : ParentUiTest(),
+    ListContentCase,
+    ListScrollCase {
 
-    @Test fun contentEmpty() = launch { mainScreen { openRank(isEmpty = true) } }
+    @Test override fun contentEmpty() = launch { mainScreen { openRank(isEmpty = true) } }
 
-    @Test fun contentList() = launch({ db.fillRank() }) { mainScreen { openRank() } }
+    @Test override fun contentList() = launch({ db.fillRank() }) { mainScreen { openRank() } }
 
-    @Test fun listScroll() = launch({ db.fillRank() }) {
+    @Test override fun listScroll() = launch({ db.fillRank() }) {
         mainScreen { openRank { scrollThrough() } }
     }
-
 }

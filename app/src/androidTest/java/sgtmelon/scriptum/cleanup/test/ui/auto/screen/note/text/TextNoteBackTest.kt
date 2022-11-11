@@ -85,5 +85,4 @@ class TextNoteBackTest : ParentUiTest() {
             }
         }
     }
-
 }

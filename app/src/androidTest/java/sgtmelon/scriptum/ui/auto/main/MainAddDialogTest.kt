@@ -26,5 +26,4 @@ class MainAddDialogTest : ParentUiTest() {
     @Test fun createRollNote() = db.createRoll().let {
         launch { mainScreen { openAddDialog { createRoll(it) } } }
     }
-
 }

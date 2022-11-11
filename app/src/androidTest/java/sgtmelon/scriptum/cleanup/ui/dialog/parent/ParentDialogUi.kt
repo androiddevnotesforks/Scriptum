@@ -81,5 +81,4 @@ abstract class ParentDialogUi(
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
     }
-
 }

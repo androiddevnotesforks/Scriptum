@@ -32,5 +32,4 @@ class RollNoteTest : ParentUiTest() {
     @Test fun contentOnReadWithName() = db.insertRoll().let {
         launch { mainScreen { openNotes { openRoll(it) } } }
     }
-
 }

@@ -34,5 +34,4 @@ class TextNoteTest : ParentUiTest() {
     @Test fun contentOnReadWithName() = db.insertText().let {
         launch { mainScreen { openNotes { openText(it) } } }
     }
-
 }

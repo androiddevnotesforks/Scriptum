@@ -52,5 +52,4 @@ abstract class ParentMultipleDialogUi(
             withTextColor(R.attr.clAccent)
         }
     }
-
 }

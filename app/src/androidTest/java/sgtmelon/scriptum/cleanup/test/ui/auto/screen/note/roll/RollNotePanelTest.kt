@@ -223,5 +223,4 @@ class RollNotePanelTest : ParentUiTest() {
             }
         }
     }
-
 }

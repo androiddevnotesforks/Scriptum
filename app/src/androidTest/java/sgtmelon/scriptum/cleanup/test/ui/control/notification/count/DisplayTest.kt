@@ -35,5 +35,4 @@ class DisplayTest : ParentNotificationTest() {
 
         launch { onSee { mainScreen() } }
     }
-
 }

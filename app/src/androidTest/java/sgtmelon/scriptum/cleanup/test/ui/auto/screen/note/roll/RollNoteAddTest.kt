@@ -41,5 +41,4 @@ class RollNoteAddTest : ParentUiTest() {
             }
         }
     }
-
 }

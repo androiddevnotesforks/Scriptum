@@ -5,14 +5,18 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.ui.cases.ListContentCase
+import sgtmelon.scriptum.ui.cases.NoteOpenCase
 
 /**
  * Test of [NotificationsActivity] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationsRotationTest : ParentUiRotationTest() {
+class NotificationsRotationTest : ParentUiRotationTest(),
+    ListContentCase,
+    NoteOpenCase {
 
-    @Test fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launch {
         mainScreen {
             openNotes(isEmpty = true) {
                 openNotifications(isEmpty = true) {
@@ -24,7 +28,7 @@ class NotificationsRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = startNotificationListTest {
+    @Test override fun contentList() = startNotificationListTest {
         assert(isEmpty = false)
         rotate.toSide()
         assert(isEmpty = false)
@@ -43,12 +47,12 @@ class NotificationsRotationTest : ParentUiRotationTest() {
     }
 
 
-    @Test fun itemTextOpen() = startNotificationItemTest(db.insertText()) {
+    @Test override fun itemTextOpen() = startNotificationItemTest(db.insertText()) {
         rotate.switch()
         openText(it)
     }
 
-    @Test fun itemNoteOpen() = startNotificationItemTest(db.insertRoll()) {
+    @Test override fun itemRollOpen() = startNotificationItemTest(db.insertRoll()) {
         rotate.switch()
         openRoll(it)
     }

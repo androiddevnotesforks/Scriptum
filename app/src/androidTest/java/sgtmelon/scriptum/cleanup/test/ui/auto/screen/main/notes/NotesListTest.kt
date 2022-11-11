@@ -6,23 +6,28 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.ListContentCase
+import sgtmelon.scriptum.ui.cases.ListScrollCase
+import sgtmelon.scriptum.ui.cases.NoteOpenCase
 
 /**
  * Test list for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesListTest : ParentUiTest() {
+class NotesListTest : ParentUiTest(),
+    ListContentCase,
+    ListScrollCase,
+    NoteOpenCase {
 
-    @Test fun contentEmpty() = launch { mainScreen { openNotes(isEmpty = true) } }
+    @Test override fun contentEmpty() = launch { mainScreen { openNotes(isEmpty = true) } }
 
-    @Test fun contentList() = launch({ db.fillNotes() }) { mainScreen { openNotes() } }
+    @Test override fun contentList() = launch({ db.fillNotes() }) { mainScreen { openNotes() } }
 
-    @Test fun listScroll() = launch({ db.fillNotes() }) {
+    @Test override fun listScroll() = launch({ db.fillNotes() }) {
         mainScreen { openNotes { scrollThrough() } }
     }
 
-
-    @Test fun textNoteOpen() = db.insertText().let {
+    @Test override fun itemTextOpen() = db.insertText().let {
         launch {
             mainScreen {
                 openNotes {
@@ -33,7 +38,7 @@ class NotesListTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = db.insertRoll().let {
+    @Test override fun itemRollOpen() = db.insertRoll().let {
         launch {
             mainScreen {
                 openNotes {
@@ -98,5 +103,4 @@ class NotesListTest : ParentUiTest() {
             }
         }
     }
-
 }

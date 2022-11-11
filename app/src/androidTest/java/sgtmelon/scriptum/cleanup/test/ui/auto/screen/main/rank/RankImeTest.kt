@@ -19,22 +19,14 @@ class RankImeTest : ParentUiTest() {
 
         mainScreen {
             openRank {
-                /**
-                 * Check ime action with wrong input data. (Empty name)
-                 */
-                toolbar {
-                    enter(name = " ", isGood = false).imeClick(isSuccess = false)
-                }
+                /** Check ime action with wrong input data. (Empty name) */
+                toolbar { enter(name = " ", isGood = false).imeClick(isSuccess = false) }
 
                 toolbar { enter(name).imeClick() }
                 openRenameDialog(name, p = count - 1) { softClose() }
 
-                /**
-                 * Check ime action with wrong input data. (Name from list)
-                 */
-                toolbar {
-                    enter(name, isGood = false).imeClick(isSuccess = false)
-                }
+                /** Check ime action with wrong input data. (Name from list) */
+                toolbar { enter(name, isGood = false).imeClick(isSuccess = false) }
 
                 itemCancel(p = count - 1)
 
@@ -50,11 +42,15 @@ class RankImeTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRank {
-                    /**
-                     * Check ime action with wrong input data. (Empty name)
-                     */
+                    /** Check ime action with wrong input data. (Empty name) */
                     openRenameDialog(it.name) {
                         enter(name = " ", isEnabled = false).imeClick(isSuccess = false)
+                        softClose()
+                    }
+
+                    /** Check ime action with wrong input data. (Name from list) */
+                    openRenameDialog(it.name) {
+                        enter(it.name, isEnabled = false).imeClick(isSuccess = false)
                         softClose()
                     }
 
@@ -66,5 +62,4 @@ class RankImeTest : ParentUiTest() {
             }
         }
     }
-
 }

@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.ui.cases.ListContentCase
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
@@ -13,9 +14,10 @@ import sgtmelon.test.common.nextString
  * Test of [RankFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class RankRotationTest : ParentUiRotationTest() {
+class RankRotationTest : ParentUiRotationTest(),
+    ListContentCase {
 
-    @Test fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launch {
         mainScreen {
             openRank(isEmpty = true) {
                 rotate.toSide()
@@ -25,7 +27,7 @@ class RankRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = launch({ db.fillRank() }) {
+    @Test override fun contentList() = launch({ db.fillRank() }) {
         mainScreen {
             openRank {
                 rotate.toSide()

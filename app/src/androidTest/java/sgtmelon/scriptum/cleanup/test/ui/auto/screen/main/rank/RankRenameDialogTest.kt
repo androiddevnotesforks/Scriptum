@@ -64,5 +64,4 @@ class RankRenameDialogTest : ParentUiTest() {
             }
         }
     }
-
 }

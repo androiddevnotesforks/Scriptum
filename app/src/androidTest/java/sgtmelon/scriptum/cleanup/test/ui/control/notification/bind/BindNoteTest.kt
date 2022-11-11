@@ -114,5 +114,4 @@ class BindNoteTest : ParentNotificationTest() {
             }
         }
     }
-
 }
