@@ -52,7 +52,7 @@ class DateDialogUi(
 
     fun onClickReset() {
         waitClose { resetButton.click() }
-        callback.onDateDialogResetResult()
+        callback.dateResetResult()
     }
 
     fun onClickCancel() = waitClose { cancelButton.click() }

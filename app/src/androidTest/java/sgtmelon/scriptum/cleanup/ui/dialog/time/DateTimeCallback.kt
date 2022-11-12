@@ -7,7 +7,7 @@ import java.util.Calendar
  */
 interface DateTimeCallback {
 
-    fun onDateDialogResetResult()
+    fun dateResetResult()
 
-    fun onTimeDialogResult(calendar: Calendar)
+    fun timeSetResult(calendar: Calendar)
 }

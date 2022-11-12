@@ -28,8 +28,8 @@ class BindMainTest : ParentNotificationTest() {
 
         mainScreen {
             openNotes {
-                apply { onSee() }.openNoteDialog(item) { onBind() }
-                apply { onSee() }.openNoteDialog(item) { onBind() }
+                apply { onSee() }.openNoteDialog(item) { bind() }
+                apply { onSee() }.openNoteDialog(item) { bind() }
             }
         }
     }
@@ -48,8 +48,8 @@ class BindMainTest : ParentNotificationTest() {
 
         mainScreen {
             openNotes {
-                apply { onSee() }.openNoteDialog(item) { onConvert() }
-                apply { onSee() }.openNoteDialog(item) { onDelete() }
+                apply { onSee() }.openNoteDialog(item) { convert() }
+                apply { onSee() }.openNoteDialog(item) { delete() }
             }
         }
     }
@@ -67,7 +67,7 @@ class BindMainTest : ParentNotificationTest() {
         TODO()
 
         mainScreen {
-            openNotes { openNoteDialog(item) { onSee { onDelete() } } }
+            openNotes { openNoteDialog(item) { onSee { delete() } } }
             openBin { onSee { assertItem(item, 0) } }
         }
     }
@@ -80,7 +80,7 @@ class BindMainTest : ParentNotificationTest() {
                 openRank { onSee { itemVisible() } }
                 openNotes(isEmpty = true, isHide = true)
                 openRank { onSee { itemVisible() } }
-                openNotes { openNoteDialog(it) { onSee { onBind() } } }
+                openNotes { openNoteDialog(it) { onSee { bind() } } }
             }
         }
     }
@@ -91,7 +91,7 @@ class BindMainTest : ParentNotificationTest() {
                 openRank { onSee { itemVisible() } }
                 openNotes(isEmpty = true, isHide = true)
                 openRank { onSee { itemCancel() } }
-                openNotes { openNoteDialog(it) { onSee { onBind() } } }
+                openNotes { openNoteDialog(it) { onSee { bind() } } }
             }
         }
     }

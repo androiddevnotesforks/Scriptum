@@ -51,7 +51,7 @@ class TimeDialogUi(
         if (!applyEnabled) throw IllegalAccessException("Apply button not enabled")
 
         applyButton.click()
-        callback.onTimeDialogResult(calendar)
+        callback.timeSetResult(calendar)
     }
 
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank
+package sgtmelon.scriptum.ui.auto.rank
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -39,7 +39,7 @@ class RankCardTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRank { assertItem(it.first) }
-                openNotes { openNoteDialog(it.second) { onBind() } }
+                openNotes { openNoteDialog(it.second) { bind() } }
                 openRank { assertItem(it.first.apply { bindCount = 1 }) }
             }
         }
@@ -51,7 +51,7 @@ class RankCardTest : ParentUiTest() {
                 openRank { assertItem(it.first) }
                 openNotes {
                     openNoteDialog(it.second) {
-                        onNotification { onDate(day = 1).onClickApply { onClickApply() } }
+                        notification { onDate(day = 1).onClickApply { onClickApply() } }
                     }
                 }
                 openRank { assertItem(it.first.apply { notificationCount = 1 }) }

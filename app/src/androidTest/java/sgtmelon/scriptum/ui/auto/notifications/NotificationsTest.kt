@@ -51,7 +51,7 @@ class NotificationsTest : ParentUiTest(),
             mainScreen {
                 openNotes {
                     openNotifications { pressBack() }
-                    openNoteDialog(it) { onDelete() }
+                    openNoteDialog(it) { delete() }
                     openNotifications(isEmpty = true)
                 }
             }

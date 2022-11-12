@@ -27,15 +27,11 @@ class RenameDialogUi(title: String) : UiPart(),
 
     private var applyEnabled = false
 
-    //region Views
-
     private val parentContainer = getView(R.id.rename_parent_container)
     private val titleText = getViewByText(title).excludeParent(parentContainer)
     private val renameEnter = getView(R.id.rename_enter)
     private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
     private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
-
-    //endregion
 
     fun enter(name: String, isEnabled: Boolean = true) = apply {
         applyEnabled = isEnabled

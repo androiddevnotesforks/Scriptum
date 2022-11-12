@@ -3,7 +3,7 @@ package sgtmelon.scriptum.parent.ui.feature
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.dialog.NoteDialogUi
+import sgtmelon.scriptum.parent.ui.dialogs.NoteDialogUi
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.test.cappuccino.utils.getRandomPosition
 

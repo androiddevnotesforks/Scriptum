@@ -1,48 +1,58 @@
-package sgtmelon.scriptum.cleanup.ui.dialog
+package sgtmelon.scriptum.parent.ui.dialogs
 
 import java.util.Calendar
 import sgtmelon.extensions.toText
-import sgtmelon.safedialog.dialog.MultipleDialog
+import sgtmelon.safedialog.dialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.time.DateTimeCallback
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
- * Class for UI control of [MultipleDialog] when cause long click on note.
+ * Class for UI control of [OptionsDialog] when cause long click on note.
  */
-class NoteDialogUi(private val item: NoteItem) : ParentScreen(), DialogUi, DateTimeCallback {
+class NoteDialogUi(private val item: NoteItem) : UiPart(),
+    DialogUi,
+    DateTimeCallback {
 
     //region Views
 
-    private val titleText = getViewByText(item.name.ifEmpty {
-        context.getString(R.string.empty_note_name)
-    })
+    private val titleText = if (item.name.isEmpty()) {
+        getViewByText(R.string.empty_note_name)
+    } else {
+        getViewByText(item.name)
+    }
 
     private val notificationButton = getViewByText(
         if (item.haveAlarm()) {
             R.string.dialog_menu_notification_update
         } else {
-        R.string.dialog_menu_notification_set
-    })
+            R.string.dialog_menu_notification_set
+        }
+    )
 
-    private val bindButton = getViewByText(if (item.isStatus) {
-        R.string.dialog_menu_status_unbind
-    } else {
-        R.string.dialog_menu_status_bind
-    })
+    private val bindButton = getViewByText(
+        if (item.isStatus) {
+            R.string.dialog_menu_status_unbind
+        } else {
+            R.string.dialog_menu_status_bind
+        }
+    )
 
-    private val convertButton = getViewByText(when (item) {
-        is NoteItem.Text -> R.string.dialog_menu_convert_text
-        is NoteItem.Roll -> R.string.dialog_menu_convert_roll
-    })
+    private val convertButton = getViewByText(
+        when (item.type) {
+            NoteType.TEXT -> R.string.dialog_menu_convert_text
+            NoteType.ROLL -> R.string.dialog_menu_convert_roll
+        }
+    )
 
     private val copyButton = getViewByText(R.string.dialog_menu_copy)
 
@@ -52,53 +62,48 @@ class NoteDialogUi(private val item: NoteItem) : ParentScreen(), DialogUi, DateT
 
     //endregion
 
-    fun onNotification(func: DateDialogUi.() -> Unit) = waitClose {
+    fun notification(func: DateDialogUi.() -> Unit) = waitClose {
         notificationButton.click()
-
         DateDialogUi(func, item.haveAlarm(), callback = this)
     }
 
-    fun onBind() = waitClose {
+    fun bind() = waitClose {
         bindButton.click()
-
         item.switchStatus()
     }
 
-    fun onConvert(): NoteItem {
+    fun convert(): NoteItem {
         waitClose { convertButton.click() }
-
         return when (item) {
             is NoteItem.Text -> item.onConvert()
             is NoteItem.Roll -> item.onConvert()
         }
     }
 
-    fun onCopy() = waitClose { copyButton.click() }
+    fun copy() = waitClose { copyButton.click() }
 
-    fun onDelete() = waitClose {
+    fun delete() = waitClose {
         deleteButton.click()
-
         item.onDelete()
     }
 
-    fun onRestore() = waitClose {
+    fun restore() = waitClose {
         restoreButton.click()
-
         item.onRestore()
     }
 
-    fun onClear() = waitClose { clearButton.click() }
+    fun clear() = waitClose { clearButton.click() }
 
 
-    override fun onDateDialogResetResult() {
+    override fun dateResetResult() {
         item.alarmDate = DbData.Alarm.Default.DATE
     }
 
-    override fun onTimeDialogResult(calendar: Calendar) {
+    override fun timeSetResult(calendar: Calendar) {
         item.alarmDate = calendar.toText()
     }
 
-    fun assert() {
+    fun assert() = apply {
         titleText.isDisplayed().withTextColor(R.attr.clContent)
 
         if (item.isBin) {

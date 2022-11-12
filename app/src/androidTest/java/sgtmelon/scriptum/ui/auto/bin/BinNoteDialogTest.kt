@@ -33,7 +33,7 @@ class BinNoteDialogTest : ParentUiTest() {
             mainScreen {
                 openNotes(isEmpty = true)
                 openBin {
-                    openNoteDialog(it) { onRestore() }
+                    openNoteDialog(it) { restore() }
                     assert(isEmpty = true)
                 }
                 openNotes()
@@ -45,7 +45,7 @@ class BinNoteDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBin {
-                    openNoteDialog(it) { onClear() }
+                    openNoteDialog(it) { clear() }
                     assert(isEmpty = true)
                 }
                 openNotes(isEmpty = true)
@@ -74,7 +74,7 @@ class BinNoteDialogTest : ParentUiTest() {
             mainScreen {
                 openNotes(isEmpty = true)
                 openBin {
-                    openNoteDialog(it) { onRestore() }
+                    openNoteDialog(it) { restore() }
                     assert(isEmpty = true)
                 }
                 openNotes()
@@ -86,7 +86,7 @@ class BinNoteDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBin {
-                    openNoteDialog(it) { onClear() }
+                    openNoteDialog(it) { clear() }
                     assert(isEmpty = true)
                 }
                 openNotes(isEmpty = true)

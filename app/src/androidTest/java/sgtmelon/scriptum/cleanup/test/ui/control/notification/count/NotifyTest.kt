@@ -66,10 +66,10 @@ class NotifyTest : ParentNotificationTest() {
             mainScreen {
                 openNotes {
                     openNoteDialog(it) {
-                        onNotification { onClickApply { onTime(min = 3).onClickApply() } }
+                        notification { onClickApply { onTime(min = 3).onClickApply() } }
                     }
                     onSee()
-                    openNoteDialog(it) { onNotification { onClickReset() } }
+                    openNoteDialog(it) { notification { onClickReset() } }
                     onSee()
                 }
             }
@@ -78,7 +78,7 @@ class NotifyTest : ParentNotificationTest() {
 
     @Test fun notesNotifyOnDelete() = db.insertNotification().let {
         TODO()
-        launch { mainScreen { openNotes { openNoteDialog(it) { onDelete() } } } }
+        launch { mainScreen { openNotes { openNoteDialog(it) { delete() } } } }
         onSee()
     }
 

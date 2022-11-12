@@ -15,10 +15,6 @@ class ListTest : ParentUiWeighTest() {
 
     // TODO #TEST optimization textNote inside lists (because now I load all text length)
 
-    @Test fun rankScroll() = launch({ db.fillRank(RANK_COUNT) }) {
-        mainScreen { openRank { scrollTo(Scroll.END, SCROLL_COUNT) } }
-    }
-
     @Test fun notesScroll() = launch({ db.fillNotes(NOTES_COUNT) }) {
         mainScreen { openNotes { scrollTo(Scroll.END, SCROLL_COUNT) } }
     }

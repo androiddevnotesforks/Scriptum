@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank
+package sgtmelon.scriptum.ui.auto.rank
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test

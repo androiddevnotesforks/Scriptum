@@ -50,7 +50,7 @@ class InfoAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotes(isEmpty = true)
-                openBin { openNoteDialog(it) { onRestore() } }
+                openBin { openNoteDialog(it) { restore() } }
                 openNotes()
             }
         }
@@ -72,7 +72,7 @@ class InfoAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBin(isEmpty = true)
-                openNotes { openNoteDialog(it) { onDelete() } }
+                openNotes { openNoteDialog(it) { delete() } }
                 openBin()
             }
         }

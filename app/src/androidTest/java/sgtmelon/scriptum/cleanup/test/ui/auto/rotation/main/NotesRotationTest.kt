@@ -73,7 +73,7 @@ class NotesRotationTest : ParentUiRotationTest(),
             mainScreen {
                 openNotes {
                     openNoteDialog(item) {
-                        onNotification {
+                        notification {
                             rotate.toSide()
                             assert()
                         }
@@ -88,7 +88,7 @@ class NotesRotationTest : ParentUiRotationTest(),
             mainScreen {
                 openNotes {
                     openNoteDialog(it) {
-                        onNotification {
+                        notification {
                             onClickApply {
                                 rotate.toSide()
                                 assert()
