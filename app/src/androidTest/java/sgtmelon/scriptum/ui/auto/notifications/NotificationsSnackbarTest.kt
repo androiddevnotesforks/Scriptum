@@ -57,10 +57,10 @@ class NotificationsSnackbarTest : ParentUiTest() {
         assertSnackbarDismissed()
 
         when (val item = it[p]) {
-            is NoteItem.Text -> openText(item, p) {
+            is NoteItem.Text -> openText(item, p = p) {
                 controlPanel { onNotification(isUpdateDate = true) }
             }
-            is NoteItem.Roll -> openRoll(item, p) {
+            is NoteItem.Roll -> openRoll(item, p = p) {
                 controlPanel { onNotification(isUpdateDate = true) }
             }
         }
@@ -74,8 +74,8 @@ class NotificationsSnackbarTest : ParentUiTest() {
         assertSnackbarDismissed()
 
         when (val item = it[p]) {
-            is NoteItem.Text -> openText(item, p) { clickClose() }
-            is NoteItem.Roll -> openRoll(item, p) { clickClose() }
+            is NoteItem.Text -> openText(item, p = p) { clickClose() }
+            is NoteItem.Roll -> openRoll(item, p = p) { clickClose() }
         }
 
         assertSnackbarDismissed()
@@ -122,7 +122,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                     is NoteItem.Roll -> openRoll(it, p = 0) { clickClose() }
                 }
 
-                snackbar().assert()
+                snackbar(withAwait = false).assert()
 
                 /** Position = 1, because item removed from screen list. */
                 when (val it = list[1]) {
@@ -136,7 +136,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
                     }
                 }
 
-                snackbar {
+                snackbar(withAwait = false) {
                     assert()
                     clickCancel()
                 }

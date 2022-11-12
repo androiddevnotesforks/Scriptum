@@ -62,8 +62,10 @@ class RollNoteVisibleTest : ParentUiTest() {
             mainScreen {
                 openNotes {
                     openRoll(it) {
-                        controlPanel { onEdit() }.onClickVisible()
-                        toolbar { clickBack() }.onClickVisible()
+                        controlPanel { onEdit() }
+                        onClickVisible()
+                        toolbar { clickBack() }
+                        onClickVisible()
                     }
                 }
             }

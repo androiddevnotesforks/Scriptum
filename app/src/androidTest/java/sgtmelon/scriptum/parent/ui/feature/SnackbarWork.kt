@@ -17,10 +17,10 @@ interface SnackbarWork {
      * Be careful calling this function, because every time it will trigger [await] func
      * inside
      */
-    fun snackbar(func: SnackbarPart.() -> Unit = {}): SnackbarPart {
-        return SnackbarPart(snackbarMessage, snackbarAction, func)
+    fun snackbar(withAwait: Boolean = true, func: SnackbarPart.() -> Unit = {}): SnackbarPart {
+        return SnackbarPart(func, snackbarMessage, snackbarAction, withAwait)
     }
 
-    fun assertSnackbarDismissed() = snackbar().assertDismiss()
+    fun assertSnackbarDismissed() = snackbar(withAwait = false).assertDismiss()
 
 }

@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
 import sgtmelon.scriptum.parent.ui.feature.OpenNoteDialog
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
+import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
@@ -42,6 +43,8 @@ class NotesScreen(private val isHidden: Boolean) : ContainerPart(TestViewTag.NOT
     private val infoContainer = InfoContainerPart(parentContainer, InfoCase.Notes(isHidden))
 
     override fun getItem(p: Int) = NoteItemUi(recyclerView, p)
+
+    override val openNoteState: NoteState = NoteState.READ
 
     //endregion
 

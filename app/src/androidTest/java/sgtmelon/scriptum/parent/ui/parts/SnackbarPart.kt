@@ -55,11 +55,15 @@ class SnackbarPart(
         const val DISMISS_TIME = 3000L
 
         inline operator fun invoke(
+            func: SnackbarPart.() -> Unit,
             @StringRes messageId: Int,
             @StringRes actionId: Int,
-            func: SnackbarPart.() -> Unit
+            withAwait: Boolean
         ): SnackbarPart {
-            await(UPDATE_TIME)
+            if (withAwait) {
+                await(UPDATE_TIME)
+            }
+
             return SnackbarPart(messageId, actionId).apply(func)
         }
     }

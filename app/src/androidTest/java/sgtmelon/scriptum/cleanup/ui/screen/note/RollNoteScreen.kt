@@ -19,9 +19,11 @@ import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
+import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
+import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -50,6 +52,7 @@ class RollNoteScreen(
     NoteToolbar.ImeCallback,
     INoteAfterConvert<TextNoteScreen>,
     KeyboardClose,
+    ToolbarBack,
     BackPress {
 
     //region Views
@@ -83,8 +86,12 @@ class RollNoteScreen(
      */
     private var enterPanel: RollEnterPanel<RollNoteScreen>? = null
 
-    fun toolbar(func: NoteToolbar<RollNoteScreen, NoteItem.Roll>.() -> Unit) = apply {
-        NoteToolbar(func, callback = this, imeCallback = this)
+    override val toolbar: ToolbarPart get() = toolbar()
+
+    fun toolbar(
+        func: NoteToolbar<RollNoteScreen, NoteItem.Roll>.() -> Unit = {}
+    ): NoteToolbar<*, *> {
+        return NoteToolbar(func, parentContainer, callback = this, imeCallback = this)
     }
 
     fun enterPanel(func: RollEnterPanel<RollNoteScreen>.() -> Unit) = apply {
@@ -256,7 +263,7 @@ class RollNoteScreen(
             val itemTint = if (value) R.attr.clContent else R.attr.clIndicator
             val itemTitle = if (value) R.string.menu_roll_visible else R.string.menu_roll_invisible
 
-            contentContainer
+            toolbar
                 .withMenuDrawable(R.id.item_visible, itemIcon, itemTint)
                 .withMenuTitle(R.id.item_visible, itemTitle)
         }

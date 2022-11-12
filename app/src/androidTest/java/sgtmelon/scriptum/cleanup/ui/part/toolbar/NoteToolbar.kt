@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.cleanup.ui.part.toolbar
 
+import android.view.View
 import android.view.inputmethod.EditorInfo
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
@@ -11,6 +13,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isFocused
@@ -27,20 +30,21 @@ import sgtmelon.test.cappuccino.utils.withText
  */
 @Suppress("UNCHECKED_CAST")
 class NoteToolbar<T : ParentScreen, N : NoteItem>(
+    parentContainer: Matcher<View>,
     private val callback: INoteScreen<T, N>,
     private val imeCallback: ImeCallback
-) : ParentToolbar() {
+) : ToolbarPart(parentContainer) {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.toolbar_note_parent_container)
-    val contentContainer = getViewById(R.id.toolbar_note_content_container)
-    private val nameScroll = getViewById(R.id.toolbar_note_scroll)
+    private val toolbarContainer = getView(R.id.toolbar_note_parent_container)
+    override val toolbar = getView(R.id.toolbar_note_content_container)
+    private val nameScroll = getView(R.id.toolbar_note_scroll)
 
-    private val colorView = getViewById(R.id.toolbar_note_color_view)
+    private val colorView = getView(R.id.toolbar_note_color_view)
 
-    private val nameText = getViewById(R.id.toolbar_note_text)
-    private val nameEnter = getViewById(R.id.toolbar_note_enter)
+    private val nameText = getView(R.id.toolbar_note_text)
+    private val nameEnter = getView(R.id.toolbar_note_enter)
 
     //endregion
 
@@ -91,10 +95,10 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
     fun assert() = apply {
         val color = callback.shadowItem.color
 
-        parentContainer.isDisplayed()
+        toolbarContainer.isDisplayed()
 
-        contentContainer.isDisplayed()
-            .withBackgroundAppColor(appTheme, color, needDark = false)
+        toolbar.isDisplayed()
+            .withBackgroundAppColor(theme, color, needDark = false)
             .withNavigationDrawable(
                 when (callback.state) {
                     NoteState.READ, NoteState.BIN, NoteState.NEW -> sgtmelon.iconanim.R.drawable.ic_cancel_exit
@@ -104,8 +108,8 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
 
         nameScroll.isDisplayed()
 
-        colorView.isDisplayed(value = appTheme == ThemeDisplayed.DARK) {
-            withBackgroundAppColor(appTheme, color, needDark = true)
+        colorView.isDisplayed(value = theme == ThemeDisplayed.DARK) {
+            withBackgroundAppColor(theme, color, needDark = true)
         }
 
         callback.apply {
@@ -149,10 +153,13 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
     companion object {
         operator fun <T : ParentScreen, N : NoteItem> invoke(
             func: NoteToolbar<T, N>.() -> Unit,
+            parentContainer: Matcher<View>,
             callback: INoteScreen<T, N>,
             imeCallback: ImeCallback
         ): NoteToolbar<T, N> {
-            return NoteToolbar(callback, imeCallback).apply { assert() }.apply(func)
+            return NoteToolbar(parentContainer, callback, imeCallback)
+                .assert()
+                .apply(func)
         }
     }
 }

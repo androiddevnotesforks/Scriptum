@@ -18,6 +18,8 @@ interface OpenNote {
 
     fun getItem(p: Int): Callback
 
+    val openNoteState: NoteState
+
     fun openText(
         item: NoteItem.Text,
         p: Int? = recyclerView.getRandomPosition(),
@@ -26,8 +28,7 @@ interface OpenNote {
     ) {
         if (p == null) throw EmptyListException()
 
-        getItem(p).openText(item, isRankEmpty, func)
-        TextNoteScreen(func, NoteState.READ, item, isRankEmpty)
+        getItem(p).openText(item, openNoteState, isRankEmpty, func)
     }
 
     fun openRoll(
@@ -38,22 +39,31 @@ interface OpenNote {
     ) {
         if (p == null) throw EmptyListException()
 
-        getItem(p).openRoll(item, isRankEmpty, func)
-        RollNoteScreen(func, NoteState.READ, item, isRankEmpty)
+        getItem(p).openRoll(item, openNoteState, isRankEmpty, func)
     }
 
     interface Callback {
 
         fun openClick(item: NoteItem)
 
-        fun openText(item: NoteItem.Text, isRankEmpty: Boolean, func: TextNoteScreen.() -> Unit) {
+        fun openText(
+            item: NoteItem.Text,
+            noteState: NoteState,
+            isRankEmpty: Boolean,
+            func: TextNoteScreen.() -> Unit
+        ) {
             openClick(item)
-            TextNoteScreen(func, NoteState.READ, item, isRankEmpty)
+            TextNoteScreen(func, noteState, item, isRankEmpty)
         }
 
-        fun openRoll(item: NoteItem.Roll, isRankEmpty: Boolean, func: RollNoteScreen.() -> Unit) {
+        fun openRoll(
+            item: NoteItem.Roll,
+            noteState: NoteState,
+            isRankEmpty: Boolean,
+            func: RollNoteScreen.() -> Unit
+        ) {
             openClick(item)
-            RollNoteScreen(func, NoteState.READ, item, isRankEmpty)
+            RollNoteScreen(func, noteState, item, isRankEmpty)
         }
     }
 }

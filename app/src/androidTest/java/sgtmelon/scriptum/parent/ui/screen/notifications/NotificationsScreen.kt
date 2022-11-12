@@ -10,6 +10,7 @@ import sgtmelon.scriptum.parent.ui.feature.SnackbarWork
 import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
+import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
@@ -41,6 +42,8 @@ class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
     override val snackbarAction = R.string.snackbar_action_cancel
 
     override fun getItem(p: Int) = NotificationItemUi(recyclerView, p)
+
+    override val openNoteState: NoteState = NoteState.READ
 
     //endregion
 

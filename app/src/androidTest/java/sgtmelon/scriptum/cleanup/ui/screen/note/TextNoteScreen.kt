@@ -14,7 +14,9 @@ import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
+import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isFocused
@@ -40,6 +42,7 @@ class TextNoteScreen(
     NoteToolbar.ImeCallback,
     INoteAfterConvert<RollNoteScreen>,
     KeyboardClose,
+    ToolbarBack,
     BackPress {
 
     //region Views
@@ -56,8 +59,12 @@ class TextNoteScreen(
     private val contentText = getViewById(R.id.text_note_content_text)
     private val contentEnter = getViewById(R.id.text_note_content_enter)
 
-    fun toolbar(func: NoteToolbar<TextNoteScreen, NoteItem.Text>.() -> Unit) = apply {
-        NoteToolbar(func, callback = this, imeCallback = this)
+    override val toolbar: ToolbarPart get() = toolbar()
+
+    fun toolbar(
+        func: NoteToolbar<TextNoteScreen, NoteItem.Text>.() -> Unit = {}
+    ): NoteToolbar<*, *> {
+        return NoteToolbar(func, parentContainer, callback = this, imeCallback = this)
     }
 
     fun controlPanel(func: NotePanel<TextNoteScreen, NoteItem.Text>.() -> Unit) = apply {

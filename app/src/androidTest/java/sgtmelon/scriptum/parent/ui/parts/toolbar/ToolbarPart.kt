@@ -3,8 +3,6 @@ package sgtmelon.scriptum.parent.ui.parts.toolbar
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.Toolbar
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import org.hamcrest.Matcher
@@ -30,8 +28,7 @@ abstract class ToolbarPart(parentContainer: Matcher<View>) : UiSubpart(parentCon
         )
 
         return allOf(
-            isDescendantOfA(parentContainer),
-            withParent(withClassName(`is`(Toolbar::class.java.name))),
+            withParent(toolbar),
             withClassName(className)
         )
     }

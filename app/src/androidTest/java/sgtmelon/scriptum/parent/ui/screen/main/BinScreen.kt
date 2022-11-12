@@ -9,6 +9,7 @@ import sgtmelon.scriptum.parent.ui.dialogs.ClearDialogUi
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
 import sgtmelon.scriptum.parent.ui.feature.OpenNoteDialog
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
+import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
@@ -36,6 +37,8 @@ class BinScreen : ContainerPart(TestViewTag.BIN),
     private val infoContainer = InfoContainerPart(parentContainer, InfoCase.Bin)
 
     override fun getItem(p: Int) = NoteItemUi(recyclerView, p)
+
+    override val openNoteState: NoteState = NoteState.BIN
 
     //endregion
 

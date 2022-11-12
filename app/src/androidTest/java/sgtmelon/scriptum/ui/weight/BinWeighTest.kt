@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.auto.bin
+package sgtmelon.scriptum.ui.weight
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -21,7 +21,7 @@ class BinWeighTest : ParentUiWeighTest(),
         mainScreen { openBin { scrollTo(Scroll.END, SCROLL_COUNT) } }
     }
 
-    @Test override fun itemTextOpen() = db.insertText(dbWeight.textNote).let { model ->
+    @Test override fun itemTextOpen() = db.insertTextToBin(dbWeight.textNote).let { model ->
         launch {
             mainScreen {
                 openBin {
@@ -31,7 +31,7 @@ class BinWeighTest : ParentUiWeighTest(),
         }
     }
 
-    @Test override fun itemRollOpen() = db.insertRoll(
+    @Test override fun itemRollOpen() = db.insertRollToBin(
         isVisible = true,
         list = dbWeight.rollList
     ).let { model ->
