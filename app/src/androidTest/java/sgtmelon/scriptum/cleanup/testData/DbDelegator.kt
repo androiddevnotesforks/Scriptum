@@ -216,6 +216,13 @@ class DbDelegator(
         }
     }
 
+    fun insertNote(item: NoteEntity) {
+        when (item.type) {
+            NoteType.TEXT -> insertText(item)
+            NoteType.ROLL -> insertRoll(item)
+        }
+    }
+
     fun insertNoteToBin(
         time: String? = null,
         type: NoteType = NoteType.values().random()
@@ -251,7 +258,7 @@ class DbDelegator(
     }
 
 
-    fun fillRank(count: Int = 10) = ArrayList<RankItem>().apply {
+    fun fillRank(count: Int = 15) = ArrayList<RankItem>().apply {
         for (i in 0 until count) {
             add(insertRank(rankEntity.apply {
                 name = "$i | $name"

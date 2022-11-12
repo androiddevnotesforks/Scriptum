@@ -70,8 +70,8 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
                     assertItem(note, p = 0)
                     openNoteDialog(note, p = 0) {
                         notification {
-                            onClickApply(listOf(repeatCalendar.toText())) {
-                                onTime(repeatCalendar).assert()
+                            applyDate(listOf(repeatCalendar.toText())) {
+                                set(repeatCalendar).assert()
                             }
                         }
                     }

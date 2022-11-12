@@ -19,6 +19,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
      * Check insets-spacing for snackbar bottom.
      */
     @Test fun displayInsets() = startNotificationListTest {
+        scrollTo(Scroll.END)
         repeat(times = 5) {
             itemCancel(last, isWait = true)
             assertSnackbarDismissed()
@@ -164,7 +165,7 @@ class NotificationsSnackbarTest : ParentUiTest() {
     }
 
     @Test fun scrollBottomAfterAction() = startNotificationListTest {
-        val p = it.indices.last
+        val p = it.lastIndex
 
         itemCancel(p)
         scrollTo(Scroll.START)

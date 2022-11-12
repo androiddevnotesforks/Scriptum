@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.ui.item.RankItemUi
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.parent.ui.dialogs.RenameDialogUi
+import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
 import sgtmelon.scriptum.parent.ui.feature.SnackbarWork
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
@@ -22,7 +23,8 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
  */
 class RankScreen : ContainerPart(TestViewTag.RANK),
     RecyclerPart<RankItem, RankItemUi>,
-    SnackbarWork {
+    SnackbarWork,
+    KeyboardClose {
 
     //region Views
 

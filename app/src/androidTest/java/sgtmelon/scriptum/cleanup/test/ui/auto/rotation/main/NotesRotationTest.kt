@@ -26,13 +26,16 @@ class NotesRotationTest : ParentUiRotationTest(),
         }
     }
 
-    @Test override fun contentList() = launch({ db.fillNotes() }) {
-        mainScreen {
-            openNotes {
-                rotate.toSide()
-                assert(isEmpty = false)
+    @Test override fun contentList() = db.fillNotes().let {
+        launch {
+            mainScreen {
+                openNotes {
+                    rotate.toSide()
+                    assert(isEmpty = false)
+                    assertList(it)
+                }
+                assert(isFabVisible = true)
             }
-            assert(isFabVisible = true)
         }
     }
 
@@ -89,7 +92,7 @@ class NotesRotationTest : ParentUiRotationTest(),
                 openNotes {
                     openNoteDialog(it) {
                         notification {
-                            onClickApply {
+                            applyDate {
                                 rotate.toSide()
                                 assert()
                             }

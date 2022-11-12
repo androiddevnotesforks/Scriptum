@@ -6,26 +6,28 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.DialogCloseCase
 import sgtmelon.test.common.nextString
 
 /**
  * Test rename dialog for [RankFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class RankRenameDialogTest : ParentUiTest() {
+class RankRenameDialogTest : ParentUiTest(),
+    DialogCloseCase {
 
-    @Test fun dialogClose() = db.insertRank().let {
+    @Test override fun close() = db.insertRank().let {
         launch {
             mainScreen {
                 openRank {
-                    openRenameDialog(it.name) { softClose() }.assert(isEmpty = false)
-                    openRenameDialog(it.name) { cancel() }.assert(isEmpty = false)
+                    openRenameDialog(it.name) { softClose() }.assertItem(it)
+                    openRenameDialog(it.name) { cancel() }.assertItem(it)
                 }
             }
         }
     }
 
-    @Test fun dialogApplySameName() = db.insertRank().let {
+    @Test fun applySameName() = db.insertRank().let {
         launch {
             mainScreen {
                 openRank { openRenameDialog(it.name) { enter(it.name, isEnabled = false) } }
@@ -33,7 +35,7 @@ class RankRenameDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun dialogApplyFromList() = db.fillRank().let {
+    @Test fun applyFromList() = db.fillRank().let {
         launch {
             mainScreen {
                 openRank {
@@ -43,21 +45,25 @@ class RankRenameDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun dialogApplyRegister() = db.insertRank().let {
+    @Test fun applyRegister() = db.insertRank().let {
         launch {
             mainScreen {
-                openRank { openRenameDialog(it.name) { enter(it.name.uppercase()) } }
+                openRank {
+                    openRenameDialog(it.name) { enter(it.name.uppercase()).apply() }
+                    it.name = it.name.uppercase()
+                    assertItem(it)
+                }
             }
         }
     }
 
-    @Test fun dialogResult() = db.insertRank().let {
+    @Test fun apply() = db.insertRank().let {
         val newName = nextString()
 
         launch {
             mainScreen {
                 openRank {
-                    openRenameDialog(it.name) { enter(newName).accept() }
+                    openRenameDialog(it.name) { enter(newName).apply() }
                     it.name = newName
                     assertItem(it)
                 }

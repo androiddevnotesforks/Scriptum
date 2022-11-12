@@ -22,11 +22,9 @@ class BinListTest : ParentUiTest(),
 
     @Test override fun contentEmpty() = launch { mainScreen { openBin(isEmpty = true) } }
 
-    @Test override fun contentList() = launch({ db.fillBin() }) { mainScreen { openBin() } }
+    @Test override fun contentList() = startBinListTest { assertList(it) }
 
-    @Test override fun listScroll() = launch({ db.fillBin() }) {
-        mainScreen { openBin { scrollThrough() } }
-    }
+    @Test override fun listScroll() = startBinListTest { scrollThrough() }
 
     @Test override fun itemTextOpen() = db.insertTextToBin().let {
         launch {

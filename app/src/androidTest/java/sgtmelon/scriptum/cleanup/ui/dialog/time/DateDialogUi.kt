@@ -4,20 +4,20 @@ import java.util.Calendar
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
- * Class for UI control [DateDialog]
+ * Class for UI control [DateDialog].
  */
 class DateDialogUi(
     private val callback: DateTimeCallback,
     private val isUpdateDate: Boolean
-) : ParentScreen(),
+) : UiPart(),
     DialogUi {
 
     //region Views
@@ -30,15 +30,15 @@ class DateDialogUi(
 
     private val calendar = getClearCalendar()
 
-    fun onDate(day: Int) = apply {
-        calendar.add(Calendar.DAY_OF_YEAR, day)
+    fun set(addDay: Int) = apply {
+        calendar.add(Calendar.DAY_OF_YEAR, addDay)
 
         DateDialog.callback?.onTestUpdateDate(calendar)
 
         waitOperation { assert() }
     }
 
-    fun onDate(calendar: Calendar) = apply {
+    fun set(calendar: Calendar) = apply {
         this.calendar.apply {
             set(Calendar.YEAR, calendar.get(Calendar.YEAR))
             set(Calendar.MONTH, calendar.get(Calendar.MONTH))
@@ -50,15 +50,17 @@ class DateDialogUi(
         waitOperation { assert() }
     }
 
-    fun onClickReset() {
+    fun reset() {
         waitClose { resetButton.click() }
         callback.dateResetResult()
     }
 
-    fun onClickCancel() = waitClose { cancelButton.click() }
+    fun cancel() = waitClose { cancelButton.click() }
 
-    fun onClickApply(dateList: List<String> = ArrayList(),
-                     func: TimeDialogUi.() -> Unit = {}) = waitClose {
+    fun applyDate(
+        dateList: List<String> = ArrayList(),
+        func: TimeDialogUi.() -> Unit = {}
+    ) = waitClose {
         applyButton.click()
         TimeDialogUi(func, calendar, dateList, callback)
     }

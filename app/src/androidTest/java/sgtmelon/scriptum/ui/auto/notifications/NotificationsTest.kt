@@ -24,7 +24,7 @@ class NotificationsTest : ParentUiTest(),
         mainScreen { openNotes(isEmpty = true) { openNotifications(isEmpty = true) } }
     }
 
-    @Test override fun contentList() = startNotificationListTest()
+    @Test override fun contentList() = startNotificationListTest { assertList(it) }
 
     @Test override fun listScroll() = startNotificationListTest { scrollThrough() }
 

@@ -11,11 +11,11 @@ interface IDateTimeDialogTest {
 
     fun dateReset()
 
-    fun DateDialogUi.runDateReset() = onClickReset()
+    fun DateDialogUi.runDateReset() = reset()
 
     fun toastToday()
 
-    fun DateDialogUi.runToastToday() = onClickApply { onTime(min = 2).onClickApply() }
+    fun DateDialogUi.runToastToday() = applyDate { set(addMin = 2).applyTime() }
 
     fun toastOther()
 
@@ -23,13 +23,13 @@ interface IDateTimeDialogTest {
      * Min = 2 because may happen case when clock will be near 0.59 time and apply button wil
      * be not enabled.
      */
-    fun DateDialogUi.runToastOther() = onDate(day = 1).onClickApply {
-        onTime(min = 2).onClickApply()
+    fun DateDialogUi.runToastOther() = set(addDay = 1).applyDate {
+        set(addMin = 2).applyTime()
     }
 
     fun timeApplyEnablePast()
 
-    fun DateDialogUi.runTimeApplyEnablePast() = onClickApply { onTime(min = -1).onTime(min = 3) }
+    fun DateDialogUi.runTimeApplyEnablePast() = applyDate { set(addMin = -1).set(addMin = 3) }
 
     fun timeApplyEnableList()
 
@@ -37,6 +37,6 @@ interface IDateTimeDialogTest {
         val calendar = alarmDate.toCalendar()
         val dateList = arrayListOf(alarmDate)
 
-        onDate(calendar).onClickApply(dateList) { onTime(calendar) }
+        set(calendar).applyDate(dateList) { set(calendar) }
     }
 }

@@ -19,7 +19,9 @@ class RankListTest : ParentUiTest(),
 
     @Test override fun contentEmpty() = launch { mainScreen { openRank(isEmpty = true) } }
 
-    @Test override fun contentList() = launch({ db.fillRank() }) { mainScreen { openRank() } }
+    @Test override fun contentList() = db.fillRankRelation().let {
+        launch { mainScreen { openRank { assertList(it) } } }
+    }
 
     @Test override fun listScroll() = launch({ db.fillRank() }) {
         mainScreen { openRank { scrollThrough() } }

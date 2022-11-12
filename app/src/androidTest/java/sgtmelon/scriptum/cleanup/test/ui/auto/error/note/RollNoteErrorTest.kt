@@ -60,7 +60,7 @@ class RollNoteErrorTest : ParentUiTest() {
                         toolbar { clickBack() }
 
                         controlPanel {
-                            onNotification { onClickApply { onTime(min = 3).onClickApply() } }
+                            onNotification { applyDate { set(addMin = 3).applyTime() } }
                             onEdit()
                         }
                         toolbar { clickBack() }

@@ -66,10 +66,10 @@ class NotifyTest : ParentNotificationTest() {
             mainScreen {
                 openNotes {
                     openNoteDialog(it) {
-                        notification { onClickApply { onTime(min = 3).onClickApply() } }
+                        notification { applyDate { set(addMin = 3).applyTime() } }
                     }
                     onSee()
-                    openNoteDialog(it) { notification { onClickReset() } }
+                    openNoteDialog(it) { notification { reset() } }
                     onSee()
                 }
             }
@@ -90,9 +90,9 @@ class NotifyTest : ParentNotificationTest() {
                 openNotes {
                     openText(it) {
                         controlPanel {
-                            onNotification { onClickApply { onTime(min = 3).onClickApply() } }
+                            onNotification { applyDate { set(addMin = 3).applyTime() } }
                             onSee()
-                            onNotification(isUpdateDate = true) { onClickReset() }
+                            onNotification(isUpdateDate = true) { reset() }
                             onSee()
                         }
                     }
@@ -116,9 +116,9 @@ class NotifyTest : ParentNotificationTest() {
                 openNotes {
                     openRoll(it) {
                         controlPanel {
-                            onNotification { onClickApply { onTime(min = 3).onClickApply() } }
+                            onNotification { applyDate { set(addMin = 3).applyTime() } }
                             onSee()
-                            onNotification(isUpdateDate = true) { onClickReset() }
+                            onNotification(isUpdateDate = true) { reset() }
                             onSee()
                         }
                     }

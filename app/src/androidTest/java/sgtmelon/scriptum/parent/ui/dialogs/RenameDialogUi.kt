@@ -41,7 +41,7 @@ class RenameDialogUi(title: String) : UiPart(),
 
     fun cancel() = waitClose { cancelButton.click() }
 
-    fun accept() = waitClose {
+    fun apply() = waitClose {
         if (!applyEnabled) throw IllegalAccessException("Apply button not enabled")
 
         applyButton.click()

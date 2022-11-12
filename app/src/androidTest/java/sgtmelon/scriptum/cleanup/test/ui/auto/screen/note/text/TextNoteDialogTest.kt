@@ -19,8 +19,8 @@ class TextNoteDialogTest : ParentUiTest() {
                 openNotes {
                     openText(it) {
                         controlPanel { onNotification { softClose() } }.assert()
-                        controlPanel { onNotification { onClickCancel() } }.assert()
-                        controlPanel { onNotification { onClickApply() } }
+                        controlPanel { onNotification { cancel() } }.assert()
+                        controlPanel { onNotification { applyDate() } }
                     }
                 }
             }

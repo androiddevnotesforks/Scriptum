@@ -21,7 +21,9 @@ class NotesListTest : ParentUiTest(),
 
     @Test override fun contentEmpty() = launch { mainScreen { openNotes(isEmpty = true) } }
 
-    @Test override fun contentList() = launch({ db.fillNotes() }) { mainScreen { openNotes() } }
+    @Test override fun contentList() = db.fillNotes().let {
+        launch { mainScreen { openNotes { assertList(it) } } }
+    }
 
     @Test override fun listScroll() = launch({ db.fillNotes() }) {
         mainScreen { openNotes { scrollThrough() } }

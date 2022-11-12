@@ -124,7 +124,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                     openText(it) {
                         controlPanel {
                             onNotification {
-                                onClickApply {
+                                applyDate {
                                     rotate.toSide()
                                     assert()
                                 }

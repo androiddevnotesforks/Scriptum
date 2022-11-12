@@ -19,17 +19,19 @@ class RankImeTest : ParentUiTest() {
 
         mainScreen {
             openRank {
-                /** Check ime action with wrong input data. (Empty name) */
+                /** Check ime action with wrong input data (empty name). */
                 toolbar { enter(name = " ", isGood = false).imeClick(isSuccess = false) }
 
+                /** Add new item with "name" */
                 toolbar { enter(name).imeClick() }
                 openRenameDialog(name, p = count - 1) { softClose() }
 
-                /** Check ime action with wrong input data. (Name from list) */
+                /** Check ime action with wrong input data (name from list). */
                 toolbar { enter(name, isGood = false).imeClick(isSuccess = false) }
 
+                /** Remove added item and add it again (check list contains cleanup). */
+                closeKeyboard()
                 itemCancel(p = count - 1)
-
                 toolbar { enter(name).imeClick() }
                 openRenameDialog(name, p = count - 1)
             }
@@ -42,20 +44,19 @@ class RankImeTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRank {
-                    /** Check ime action with wrong input data. (Empty name) */
+                    /** Check ime action with wrong input data (empty name). */
                     openRenameDialog(it.name) {
                         enter(name = " ", isEnabled = false).imeClick(isSuccess = false)
                         softClose()
                     }
 
-                    /** Check ime action with wrong input data. (Name from list) */
+                    /** Check ime action with wrong input data (name from list). */
                     openRenameDialog(it.name) {
                         enter(it.name, isEnabled = false).imeClick(isSuccess = false)
                         softClose()
                     }
 
                     openRenameDialog(it.name) { enter(newName).imeClick() }
-
                     it.name = newName
                     assertItem(it)
                 }

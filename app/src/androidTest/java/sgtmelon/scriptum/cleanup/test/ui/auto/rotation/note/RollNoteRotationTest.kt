@@ -124,7 +124,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                     openRoll(it) {
                         controlPanel {
                             onNotification {
-                                onClickApply {
+                                applyDate {
                                     rotate.toSide()
                                     assert()
                                 }

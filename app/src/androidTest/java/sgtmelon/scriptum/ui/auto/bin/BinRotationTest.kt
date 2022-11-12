@@ -25,13 +25,16 @@ class BinRotationTest : ParentUiRotationTest(),
         }
     }
 
-    @Test override fun contentList() = launch({ db.fillBin() }) {
-        mainScreen {
-            openBin {
-                rotate.toSide()
-                assert(isEmpty = false)
+    @Test override fun contentList() = db.fillBin().let {
+        launch {
+            mainScreen {
+                openBin {
+                    rotate.toSide()
+                    assert(isEmpty = false)
+                    assertList(it)
+                }
+                assert(isFabVisible = false)
             }
-            assert(isFabVisible = false)
         }
     }
 

@@ -6,12 +6,18 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.DialogCloseCase
 
 /**
  * Test note dialog for [BinFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class BinNoteDialogTest : ParentUiTest() {
+class BinNoteDialogTest : ParentUiTest(),
+    DialogCloseCase {
+
+    @Test override fun close() = db.insertTextToBin().let {
+        launch { mainScreen { openBin { openNoteDialog(it) { softClose() } } } }
+    }
 
     @Test fun textDialogUntitled() = db.insertTextToBin(db.textNote.apply { name = "" }).let {
         launch { mainScreen { openBin { openNoteDialog(it) } } }

@@ -15,24 +15,30 @@ import sgtmelon.test.common.nextString
 @RunWith(AndroidJUnit4::class)
 class RankToolbarTest : ParentUiTest() {
 
-    @Test fun enterAddEmpty() = launch {
+    @Test fun addEmpty() = launch {
         mainScreen {
             openRank(isEmpty = true) { toolbar { enter(name = " ", isGood = false) } }
         }
     }
 
-    @Test fun enterAddFromList() = db.insertRank().let {
+    @Test fun addFromList() = db.insertRank().let {
         launch {
             mainScreen { openRank { toolbar { enter(it.name, isGood = false) } } }
         }
     }
 
-    @Test fun enterAddEnabled() = launch {
+    @Test fun addRegister() = db.insertRank().let {
+        launch {
+            mainScreen { openRank { toolbar { enter(it.name.uppercase(), isGood = false) } } }
+        }
+    }
+
+    @Test fun addEnabled() = launch {
         val name = nextString()
         mainScreen { openRank(isEmpty = true) { toolbar { enter(name) } } }
     }
 
-    @Test fun enterClear() = launch {
+    @Test fun clear() = launch {
         val name = nextString()
 
         mainScreen {
@@ -47,7 +53,7 @@ class RankToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun enterAddOnEmpty() = launch {
+    @Test fun addOnEmpty() = launch {
         val name = nextString()
 
         mainScreen {
@@ -63,7 +69,7 @@ class RankToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun enterAddStart() = launch({ db.fillRank() }) {
+    @Test fun addStart() = launch({ db.fillRank() }) {
         val name = nextString()
 
         mainScreen {
@@ -81,7 +87,7 @@ class RankToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun enterAddEnd() = launch({ db.fillRank() }) {
+    @Test fun addEnd() = launch({ db.fillRank() }) {
         val name = nextString()
 
         mainScreen {
@@ -104,11 +110,9 @@ class RankToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRank {
-                    toolbar {
-                        enter(newName)
-                        openRenameDialog(it.name) { enter(newName).accept() }
-                        assert(isAddEnabled = false)
-                    }
+                    toolbar { enter(newName) }
+                    openRenameDialog(it.name) { enter(newName).apply() }
+                    toolbar { assert() }
                 }
             }
         }

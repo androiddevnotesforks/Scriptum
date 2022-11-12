@@ -27,13 +27,16 @@ class RankRotationTest : ParentUiRotationTest(),
         }
     }
 
-    @Test override fun contentList() = launch({ db.fillRank() }) {
-        mainScreen {
-            openRank {
-                rotate.toSide()
-                assert(isEmpty = false)
+    @Test override fun contentList() = db.fillRank().let {
+        launch {
+            mainScreen {
+                openRank {
+                    rotate.toSide()
+                    assert(isEmpty = false)
+                    assertList(it)
+                }
+                assert(isFabVisible = false)
             }
-            assert(isFabVisible = false)
         }
     }
 

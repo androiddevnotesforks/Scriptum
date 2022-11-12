@@ -232,12 +232,8 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
             mainScreen {
                 when (page) {
                     MainPage.RANK -> throwPageError()
-                    MainPage.NOTES -> openNotes {
-                        for ((i, item) in list.withIndex()) assertItem(item, i)
-                    }
-                    MainPage.BIN -> openBin {
-                        for ((i, item) in list.withIndex()) assertItem(item, i)
-                    }
+                    MainPage.NOTES -> openNotes { assertList(list) }
+                    MainPage.BIN -> openBin { assertList(list) }
                 }
             }
         }

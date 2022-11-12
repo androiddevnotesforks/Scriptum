@@ -5,14 +5,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.DialogCloseCase
 
 /**
  * Test add dialog for [MainActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class MainAddDialogTest : ParentUiTest() {
+class MainAddDialogTest : ParentUiTest(),
+    DialogCloseCase {
 
-    @Test fun dialogClose() = launch {
+    @Test override fun close() = launch {
         mainScreen {
             openAddDialog { softClose() }.assert()
             openAddDialog { swipeClose() }.assert()
