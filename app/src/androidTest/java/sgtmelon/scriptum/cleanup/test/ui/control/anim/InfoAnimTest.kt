@@ -26,7 +26,7 @@ class InfoAnimTest : ParentUiTest() {
                     repeat(times = 3) {
                         itemCancel()
                         assert(isEmpty = true)
-                        snackbar().clickCancel()
+                        snackbar { action() }
                         assert(isEmpty = false)
                     }
                 }
@@ -86,7 +86,7 @@ class InfoAnimTest : ParentUiTest() {
                     repeat(times = 3) {
                         itemCancel()
                         assert(isEmpty = true)
-                        snackbar().clickCancel()
+                        snackbar { action() }
                         assert(isEmpty = false)
                     }
                 }

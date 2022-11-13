@@ -38,40 +38,24 @@ class BinRotationTest : ParentUiRotationTest(),
         }
     }
 
-    @Test fun clearDialog() = launch({ db.fillBin() }) {
-        mainScreen {
-            openBin {
-                openClearDialog {
-                    rotate.toSide()
-                    assert()
-                }
-            }
+    @Test fun clearDialog() = startBinListTest {
+        openClearDialog {
+            rotate.toSide()
+            assert()
         }
     }
 
-    @Test fun textNoteDialog() = db.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBin {
-                    openNoteDialog(it) {
-                        rotate.toSide()
-                        assert()
-                    }
-                }
-            }
+    @Test fun textNoteDialog() = startBinItemTest(db.insertTextToBin()) {
+        openNoteDialog(it) {
+            rotate.toSide()
+            assert()
         }
     }
 
-    @Test fun rollNoteDialog() = db.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openBin {
-                    openNoteDialog(it) {
-                        rotate.toSide()
-                        assert()
-                    }
-                }
-            }
+    @Test fun rollNoteDialog() = startBinItemTest(db.insertRollToBin()) {
+        openNoteDialog(it) {
+            rotate.toSide()
+            assert()
         }
     }
 }

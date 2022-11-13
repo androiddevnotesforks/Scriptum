@@ -13,19 +13,12 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankCardTest : ParentUiTest() {
 
-    @Test fun visibleClick() = db.insertRank().let { item ->
-        launch {
-            mainScreen {
-                openRank {
-                    assertItem(item)
-
-                    repeat(REPEAT_TIMES) {
-                        itemVisible()
-                        item.isVisible = !item.isVisible
-                        assertItem(item)
-                    }
-                }
-            }
+    @Test fun visibleClick() = startRankItemTest(db.insertRank()) {
+        assertItem(it)
+        repeat(times = 4) { _ ->
+            itemVisible()
+            it.isVisible = !it.isVisible
+            assertItem(it)
         }
     }
 
@@ -60,9 +53,5 @@ class RankCardTest : ParentUiTest() {
         }
 
         RankHolder.isMaxTest = false
-    }
-
-    companion object {
-        private const val REPEAT_TIMES = 3
     }
 }

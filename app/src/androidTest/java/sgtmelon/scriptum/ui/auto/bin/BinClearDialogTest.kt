@@ -16,17 +16,13 @@ import sgtmelon.scriptum.ui.cases.DialogCloseCase
 class BinClearDialogTest : ParentUiTest(),
     DialogCloseCase {
 
-    @Test override fun close() = launch({ db.fillBin() }) {
-        mainScreen { openBin { openClearDialog { softClose() }.assert(isEmpty = false) } }
+    @Test override fun close() = startBinListTest {
+        openClearDialog { softClose() }.assert(isEmpty = false)
     }
 
-    @Test fun work() = launch({ db.fillBin() }) {
-        mainScreen {
-            openBin {
-                openClearDialog { no() }.assert(isEmpty = false)
-                openClearDialog { yes() }.assert(isEmpty = true)
-            }
-        }
+    @Test fun work() = startBinListTest {
+        openClearDialog { no() }.assert(isEmpty = false)
+        openClearDialog { yes() }.assert(isEmpty = true)
     }
 
     @Test fun workWithHideNotes() = db.insertRankForBin().let {

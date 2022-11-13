@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.parent.ui.dialogs.RenameDialogUi
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
-import sgtmelon.scriptum.parent.ui.feature.SnackbarWork
+import sgtmelon.scriptum.parent.ui.feature.ListSnackbarWork
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
@@ -23,7 +23,7 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
  */
 class RankScreen : ContainerPart(TestViewTag.RANK),
     RecyclerPart<RankItem, RankItemUi>,
-    SnackbarWork,
+    ListSnackbarWork,
     KeyboardClose {
 
     //region Views
@@ -45,23 +45,23 @@ class RankScreen : ContainerPart(TestViewTag.RANK),
         title: String,
         p: Int? = random,
         func: RenameDialogUi.() -> Unit = {}
-    ) = apply {
+    ) {
         if (p == null) throw EmptyListException()
 
         getItem(p).open(title, func)
     }
 
-    fun itemVisible(p: Int? = random) = apply {
+    fun itemVisible(p: Int? = random) {
         if (p == null) throw EmptyListException()
 
         getItem(p).visible()
     }
 
-    fun itemCancel(p: Int? = random, isWait: Boolean = false) = apply {
+    override fun itemCancel(p: Int?, isWait: Boolean) {
         if (p == null) throw EmptyListException()
 
         getItem(p).cancel()
-        snackbar().assert()
+        snackbar { assert() }
 
         if (isWait) {
             await(SnackbarPart.DISMISS_TIME)

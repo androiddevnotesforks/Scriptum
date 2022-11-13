@@ -26,25 +26,13 @@ class BinListTest : ParentUiTest(),
 
     @Test override fun listScroll() = startBinListTest { scrollThrough() }
 
-    @Test override fun itemTextOpen() = db.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBin {
-                    openText(it) { pressBack() }
-                    assert(isEmpty = false)
-                }
-            }
-        }
+    @Test override fun itemTextOpen() = startBinItemTest(db.insertTextToBin()) {
+        openText(it) { pressBack() }
+        assert(isEmpty = false)
     }
 
-    @Test override fun itemRollOpen() = db.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openBin {
-                    openRoll(it) { pressBack() }
-                    assert(isEmpty = false)
-                }
-            }
-        }
+    @Test override fun itemRollOpen() = startBinItemTest(db.insertRollToBin()) {
+        openRoll(it) { pressBack() }
+        assert(isEmpty = false)
     }
 }

@@ -5,8 +5,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ui.feature.BackPress
+import sgtmelon.scriptum.parent.ui.feature.ListSnackbarWork
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
-import sgtmelon.scriptum.parent.ui.feature.SnackbarWork
 import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
@@ -26,7 +26,7 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
 class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
     RecyclerPart<NoteItem, NotificationItemUi>,
     OpenNote,
-    SnackbarWork,
+    ListSnackbarWork,
     ToolbarBack,
     BackPress {
 
@@ -47,11 +47,11 @@ class NotificationsScreen : ContainerPart(TestViewTag.NOTIFICATIONS),
 
     //endregion
 
-    fun itemCancel(p: Int? = random, isWait: Boolean = false) = apply {
+    override fun itemCancel(p: Int?, isWait: Boolean) {
         if (p == null) throw EmptyListException()
 
         getItem(p).cancel()
-        snackbar().assert()
+        snackbar { assert() }
 
         if (isWait) {
             await(SnackbarPart.DISMISS_TIME)

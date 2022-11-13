@@ -12,13 +12,12 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.auto.lastArray
 
 /**
  * Parent class for tests of [NoteAdapter]
  */
 abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
-
-    private val lastArray = arrayListOf(LAST_HOUR, LAST_DAY, LAST_MONTH, LAST_YEAR)
 
     open fun colorTextLight() = startColorTest(ThemeDisplayed.LIGHT, NoteType.TEXT)
 
@@ -32,17 +31,18 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
         setupTheme(theme)
         preferencesRepo.sort = Sort.COLOR
 
-        onAssertList(ArrayList<NoteItem>().also { list ->
+        assertList(ArrayList<NoteItem>().also { list ->
             for (it in Color.values()) {
                 val note = when (type) {
                     NoteType.TEXT -> db.textNote.copy(color = it)
                     NoteType.ROLL -> db.rollNote.copy(color = it)
                 }
 
-                list.add(when (page) {
-                    MainPage.RANK -> throwPageError()
-                    MainPage.NOTES -> when (type) {
-                        NoteType.TEXT -> db.insertText(note)
+                list.add(
+                    when (page) {
+                        MainPage.RANK -> throwPageError()
+                        MainPage.NOTES -> when (type) {
+                            NoteType.TEXT -> db.insertText(note)
                         NoteType.ROLL -> db.insertRoll(note)
                     }
                     MainPage.BIN -> when (type) {
@@ -66,7 +66,7 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
     private fun startTimeTest(type: NoteType, sort: Sort) {
         preferencesRepo.sort = sort
 
-        onAssertList(ArrayList<NoteItem>().also { list ->
+        assertList(ArrayList<NoteItem>().also { list ->
             for (it in lastArray) {
                 val time = getClearCalendar(it).toText()
 
@@ -117,7 +117,7 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
             })
         }
 
-        onAssertList(ArrayList<NoteItem>().apply {
+        assertList(ArrayList<NoteItem>().apply {
             add(
                 when (page) {
                     MainPage.RANK -> throwPageError()
@@ -155,7 +155,7 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
             if (done + 1 == check) break
         }
 
-        onAssertList(ArrayList<NoteItem>().apply {
+        assertList(ArrayList<NoteItem>().apply {
             add(
                 when (page) {
                     MainPage.RANK -> throwPageError()
@@ -179,7 +179,7 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
         setupTheme(theme)
         preferencesRepo.sort = Sort.RANK
 
-        onAssertList(ArrayList<NoteItem>().also { list ->
+        assertList(ArrayList<NoteItem>().also { list ->
             for (i in 10 downTo 0) {
                 val rankEntity = db.rankEntity.apply { position = i }
 
@@ -227,7 +227,7 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
         }
     }
 
-    private fun onAssertList(list: List<NoteItem>) {
+    private fun assertList(list: List<NoteItem>) {
         launch {
             mainScreen {
                 when (page) {
@@ -245,10 +245,5 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
         private const val PAGE_ERROR_TEXT = "This class test only screens with [NoteAdapter]"
         private const val OVERFLOW_ERROR_TEXT = "Check count must be < than size"
         private const val SORT_ERROR_TEXT = "Wrong sort type"
-
-        private const val LAST_HOUR = -60
-        private const val LAST_DAY = LAST_HOUR * 24
-        private const val LAST_MONTH = LAST_DAY * 30
-        private const val LAST_YEAR = LAST_MONTH * 12
     }
 }

@@ -42,7 +42,7 @@ class NotificationsRotationTest : ParentUiRotationTest(),
             assert(isEmpty = true)
             rotate.switch()
             assert(isEmpty = true)
-            snackbar { clickCancel() }
+            snackbar { action() }
             assertItem(it)
         }
     }

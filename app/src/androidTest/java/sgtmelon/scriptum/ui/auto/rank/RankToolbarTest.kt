@@ -1,11 +1,13 @@
 package sgtmelon.scriptum.ui.auto.rank
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString
 
@@ -21,16 +23,12 @@ class RankToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun addFromList() = db.insertRank().let {
-        launch {
-            mainScreen { openRank { toolbar { enter(it.name, isGood = false) } } }
-        }
+    @Test fun addFromList() = startRankItemTest(db.insertRank()) {
+        toolbar { enter(it.name, isGood = false) }
     }
 
-    @Test fun addRegister() = db.insertRank().let {
-        launch {
-            mainScreen { openRank { toolbar { enter(it.name.uppercase(), isGood = false) } } }
-        }
+    @Test fun addRegister() = startRankItemTest(db.insertRank()) {
+        toolbar { enter(it.name.uppercase(), isGood = false) }
     }
 
     @Test fun addEnabled() = launch {
@@ -47,6 +45,7 @@ class RankToolbarTest : ParentUiTest() {
                     enter(nextString()).clear()
                     enter(name).addToEnd()
                 }
+                assertTrue(count == 1)
                 openRenameDialog(name) { softClose() }
             }
         }
@@ -59,62 +58,57 @@ class RankToolbarTest : ParentUiTest() {
         mainScreen {
             openRank(isEmpty = true) {
                 toolbar { enter(name).addToEnd() }
+                assertTrue(count == 1)
                 openRenameDialog(name, p = 0) { softClose() }
 
                 itemCancel(p = 0)
+                assertTrue(count == 0)
 
                 toolbar { enter(name).addToStart() }
+                assertTrue(count == 1)
                 openRenameDialog(name, p = 0)
             }
         }
     }
 
-    @Test fun addStart() = launch({ db.fillRank() }) {
+    @Test fun addStart() = startRankListTest {
         val name = nextString()
 
-        mainScreen {
-            openRank {
-                scrollTo(Scroll.END)
+        scrollTo(Scroll.END)
 
-                toolbar { enter(name).addToStart() }
-                openRenameDialog(name, p = 0) { softClose() }
+        RecyclerItemPart.PREVENT_SCROLL = true
+        toolbar { enter(name).addToStart() }
+        openRenameDialog(name, p = 0) { softClose() }
 
-                itemCancel(p = 0)
+        itemCancel(p = 0)
 
-                toolbar { enter(name).addToStart() }
-                openRenameDialog(name, p = 0)
-            }
-        }
+        RecyclerItemPart.PREVENT_SCROLL = true
+        toolbar { enter(name).addToStart() }
+        openRenameDialog(name, p = 0)
     }
 
-    @Test fun addEnd() = launch({ db.fillRank() }) {
+    @Test fun addEnd() = startRankListTest {
         val name = nextString()
 
-        mainScreen {
-            openRank {
-                toolbar { enter(name).addToEnd() }
-                openRenameDialog(name, p = count - 1) { softClose() }
+        RecyclerItemPart.PREVENT_SCROLL = true
+        toolbar { enter(name).addToEnd() }
+        openRenameDialog(name, last) { softClose() }
 
-                itemCancel(p = count - 1)
+        itemCancel(last)
 
-                toolbar { enter(name).addToEnd() }
-                openRenameDialog(name, p = count - 1)
-            }
-        }
+        RecyclerItemPart.PREVENT_SCROLL = true
+        toolbar { enter(name).addToEnd() }
+        openRenameDialog(name, last)
     }
 
 
-    @Test fun updateOnRename() = db.insertRank().let {
+    @Test fun updateOnRename() = startRankItemTest(db.insertRank()) {
         val newName = nextString()
 
-        launch {
-            mainScreen {
-                openRank {
-                    toolbar { enter(newName) }
-                    openRenameDialog(it.name) { enter(newName).apply() }
-                    toolbar { assert() }
-                }
-            }
+        toolbar {
+            enter(newName)
+            openRenameDialog(it.name) { enter(newName).apply() }
+            assert()
         }
     }
 }

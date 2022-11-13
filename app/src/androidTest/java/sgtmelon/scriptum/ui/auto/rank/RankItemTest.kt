@@ -37,8 +37,9 @@ class RankItemTest : ParentUiTest() {
         }
     }
 
-    @Test fun clearFromList() = db.insertRank().let {
-        launch { mainScreen { openRank { itemCancel().assert(isEmpty = true) } } }
+    @Test fun clearFromList() = startRankItemTest(db.insertRank()) {
+        itemCancel()
+        assert(isEmpty = true)
     }
 
     @Test fun clearForNote() = db.insertRankForNotes().let {

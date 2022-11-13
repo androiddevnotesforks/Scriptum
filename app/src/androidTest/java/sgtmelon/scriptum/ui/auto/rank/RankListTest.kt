@@ -23,7 +23,5 @@ class RankListTest : ParentUiTest(),
         launch { mainScreen { openRank { assertList(it) } } }
     }
 
-    @Test override fun listScroll() = launch({ db.fillRank() }) {
-        mainScreen { openRank { scrollThrough() } }
-    }
+    @Test override fun listScroll() = startRankListTest { scrollThrough() }
 }

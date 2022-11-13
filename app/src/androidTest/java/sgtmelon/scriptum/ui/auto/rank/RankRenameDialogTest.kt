@@ -16,58 +16,35 @@ import sgtmelon.test.common.nextString
 class RankRenameDialogTest : ParentUiTest(),
     DialogCloseCase {
 
-    @Test override fun close() = db.insertRank().let {
-        launch {
-            mainScreen {
-                openRank {
-                    openRenameDialog(it.name) { softClose() }.assertItem(it)
-                    openRenameDialog(it.name) { cancel() }.assertItem(it)
-                }
-            }
-        }
+    @Test override fun close() = startRankItemTest(db.insertRank()) {
+        openRenameDialog(it.name) { softClose() }
+        assertItem(it)
+        openRenameDialog(it.name) { cancel() }
+        assertItem(it)
     }
 
-    @Test fun applySameName() = db.insertRank().let {
-        launch {
-            mainScreen {
-                openRank { openRenameDialog(it.name) { enter(it.name, isEnabled = false) } }
-            }
-        }
+    @Test fun applySameName() = startRankItemTest(db.insertRank()) {
+        openRenameDialog(it.name) { enter(it.name, isEnabled = false) }
     }
 
-    @Test fun applyFromList() = db.fillRank().let {
-        launch {
-            mainScreen {
-                openRank {
-                    openRenameDialog(it[0].name, p = 0) { enter(it[1].name, isEnabled = false) }
-                }
-            }
-        }
+    @Test fun applyFromList() = startRankListTest {
+        openRenameDialog(it[0].name, p = 0) { enter(it[1].name, isEnabled = false) }
     }
 
-    @Test fun applyRegister() = db.insertRank().let {
-        launch {
-            mainScreen {
-                openRank {
-                    openRenameDialog(it.name) { enter(it.name.uppercase()).apply() }
-                    it.name = it.name.uppercase()
-                    assertItem(it)
-                }
-            }
-        }
+    @Test fun applyRegisterFromList() = startRankListTest {
+        openRenameDialog(it[0].name, p = 0) { enter(it[1].name.uppercase(), isEnabled = false) }
     }
 
-    @Test fun apply() = db.insertRank().let {
+    @Test fun applyRegisterSame() = startRankItemTest(db.insertRank()) {
+        openRenameDialog(it.name) { enter(it.name.uppercase()).apply() }
+        it.name = it.name.uppercase()
+        assertItem(it)
+    }
+
+    @Test fun apply() = startRankItemTest(db.insertRank()) {
         val newName = nextString()
-
-        launch {
-            mainScreen {
-                openRank {
-                    openRenameDialog(it.name) { enter(newName).apply() }
-                    it.name = newName
-                    assertItem(it)
-                }
-            }
-        }
+        openRenameDialog(it.name) { enter(newName).apply() }
+        it.name = newName
+        assertItem(it)
     }
 }

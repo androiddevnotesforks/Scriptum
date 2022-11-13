@@ -69,7 +69,7 @@ class RankRotationTest : ParentUiRotationTest(),
                             rotate.toNormal()
                         }
 
-                        snackbar().clickCancel()
+                        snackbar { action() }
                     }
                 }
             }

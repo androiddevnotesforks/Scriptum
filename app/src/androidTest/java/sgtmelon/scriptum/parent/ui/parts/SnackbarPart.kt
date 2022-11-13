@@ -28,7 +28,7 @@ class SnackbarPart(
     private val messageText = getViewByText(messageId)
     private val actionButton = getViewByText(actionId)
 
-    fun clickCancel() = apply { actionButton.click() }
+    fun action() = apply { actionButton.click() }
 
     fun assert() {
         parentContainer.isDisplayed().withBackgroundDrawable(R.drawable.bg_snackbar)

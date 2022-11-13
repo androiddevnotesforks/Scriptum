@@ -2,216 +2,198 @@ package sgtmelon.scriptum.ui.auto.rank
 
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
-
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
+import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.ListCancelSnackbarCase
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.common.nextShortString
 
 /**
  * Test for Snackbar in [RankFragment].
  */
-class RankSnackbarTest : ParentUiTest() {
+class RankSnackbarTest : ParentUiTest(),
+    ListCancelSnackbarCase {
 
-    // TODO restore snackbar after returning to this page (test case: click cance -> open notes page -> open rank page -> check snackbar is visible)
-    // TODO restore snackbar after app reopen (свернул-открыл)
+    @Test override fun displayInsets() = startRankListTest { startDisplayInserts(screen = this) }
 
-    /**
-     * Check insets-spacing for snackbar bottom.
-     */
-    @Test fun displayInsets() = startRankListTest {
-        scrollTo(Scroll.END)
-        repeat(times = 5) {
-            itemCancel(last, isWait = true)
-            assertSnackbarDismissed()
-        }
-    }
-
-    @Test fun singleActionClick() = startRankListTest(count = 5) {
+    @Test override fun singleActionClick() = startRankListTest(count = 5) {
         val p = it.indices.random()
 
         itemCancel(p)
-        snackbar { clickCancel() }
+        snackbar { action() }
         assertSnackbarDismissed()
         assertItem(it[p], p)
     }
 
-    @Test fun manyActionClick() = startRankListTest(count = 3) {
+    @Test override fun manyActionClick() = startRankListTest(count = 3) {
         repeat(it.size) { itemCancel(p = 0) }
         repeat(it.size) { i ->
             snackbar {
-                clickCancel()
+                action()
                 if (i != it.lastIndex) {
                     assert()
                 }
             }
-
         }
 
         assertSnackbarDismissed()
         assertList(it)
     }
 
-    //region Cleanup
+    @Test override fun scrollTopAfterAction() = startRankListTest {
+        val p = it.indices.first
 
-    @Test fun actionClickDismiss() = db.fillRank(count = 3).let {
-        val removePosition = 1
+        itemCancel(p)
+        scrollTo(Scroll.END)
+        snackbar { action() }
+
+        await(RecyclerItemPart.SCROLL_TIME)
+        RecyclerItemPart.PREVENT_SCROLL = true
+
+        assertSnackbarDismissed()
+        assertItem(it[p], p)
+    }
+
+    @Test override fun scrollBottomAfterAction() = startRankListTest {
+        val p = it.lastIndex
+
+        itemCancel(p)
+        scrollTo(Scroll.START)
+        snackbar { action() }
+
+        await(RecyclerItemPart.SCROLL_TIME)
+        RecyclerItemPart.PREVENT_SCROLL = true
+
+        assertSnackbarDismissed()
+        assertItem(it[p], p)
+    }
+
+    @Test override fun restoreAfterPause() = db.fillRank().let {
+        val p = it.indices.random()
 
         launch {
             mainScreen {
                 openRank {
-                    itemCancel(removePosition)
-                    it.removeAt(removePosition)
-
-                    itemCancel(p = 1)
-                    snackbar { clickCancel() }
-                    snackbar().assert()
-                    openRenameDialog(it[1].name, p = 1) { cancel() }
+                    itemCancel(p)
+                    snackbar { assert() }
+                    openNotes(isEmpty = true) { assertSnackbarDismissed() }
                 }
 
-                openNotes(isEmpty = true)
-
                 openRank {
+                    snackbar(withAwait = false) {
+                        assert()
+                        action()
+                    }
                     assertSnackbarDismissed()
-                    assertList(it)
+                    assertItem(it[p], p)
                 }
             }
         }
     }
 
+    @Test override fun clearCacheOnDismiss() = db.fillRank().let {
+        val p = it.indices.random()
 
-    @Test fun dismissOnPause() = db.fillRank(count = 3).let { list ->
         launch {
             mainScreen {
                 openRank {
-                    itemCancel(p = 0)
-                    list.removeAt(0)
-                }
-
-                openNotes(isEmpty = true)
-                openRank {
+                    itemCancel(p)
+                    snackbar { action() }
                     assertSnackbarDismissed()
-
-                    assertList(list)
-                    repeat(list.size) { itemCancel(p = 0) }
                 }
-
                 openNotes(isEmpty = true)
-                openRank(isEmpty = true) { assertSnackbarDismissed() }
+                openRank { assertSnackbarDismissed() }
             }
         }
     }
 
-    // TODO finish test
+    @Test override fun dismissTimeout() = db.fillRank().let {
+        val p = it.indices.random()
+
+        launch {
+            mainScreen {
+                openRank {
+                    itemCancel(p)
+                    await(SnackbarPart.DISMISS_TIME)
+                    assertSnackbarDismissed()
+                }
+                openNotes(isEmpty = true)
+                openRank { assertSnackbarDismissed() }
+            }
+        }
+    }
+
     @Test fun dismissOnDrag() {
         TODO()
     }
 
     @Test fun dismissOnRename() = db.fillRank(count = 2).let { list ->
-        launch {
-            mainScreen {
-                openRank {
-                    itemCancel(p = 0)
-                    list.removeAt(0)
+        startRankTest {
+            itemCancel(p = 0)
+            list.removeAt(0)
 
-                    openRenameDialog(list[0].name, p = 0) { cancel() }
+            snackbar { assert() }
+            openRenameDialog(list[0].name, p = 0) { cancel() }
 
-                    assertSnackbarDismissed()
-                    assertList(list)
-                }
-            }
+            assertSnackbarDismissed()
+            assertList(list)
         }
     }
 
     @Test fun dismissOnAddStart() = db.fillRank(count = 2).let { list ->
         val name = nextShortString()
 
-        launch {
-            mainScreen {
-                openRank {
-                    itemCancel(p = 0)
-                    list.removeAt(0)
+        startRankTest {
+            toolbar { enter(name) }
+            itemCancel(p = 0)
+            list.removeAt(0)
 
-                    toolbar { enter(name).addToStart() }
+            snackbar { assert() }
+            changeLongPressTime(timeMs = 100)
+            toolbar { addToStart() }
+            changeLongPressTime()
+            assertSnackbarDismissed()
 
-                    assertSnackbarDismissed()
-                    for ((i, item) in list.withIndex()) {
-                        assertItem(item, p = i + 1)
-                    }
-                    openRenameDialog(name, p = 0)
-                }
+            for ((i, item) in list.withIndex()) {
+                assertItem(item, p = i + 1)
             }
+            openRenameDialog(name, p = 0)
         }
     }
 
     @Test fun dismissOnAddEnd() = db.fillRank(count = 2).let { list ->
         val name = nextShortString()
 
-        launch {
-            mainScreen {
-                openRank {
-                    itemCancel(p = 0)
-                    list.removeAt(0)
+        startRankTest {
+            toolbar { enter(name) }
+            itemCancel(p = 0)
+            list.removeAt(0)
 
-                    toolbar { enter(name).addToEnd() }
+            snackbar { assert() }
+            toolbar { addToEnd() }
+            assertSnackbarDismissed()
 
-                    assertSnackbarDismissed()
-                    assertList(list)
-                    openRenameDialog(name, p = count - 1)
-                }
-            }
+            assertList(list)
+            openRenameDialog(name, last)
         }
     }
 
     @Test fun dismissOnAddIme() = db.fillRank(count = 2).let { list ->
         val name = nextShortString()
 
-        launch {
-            mainScreen {
-                openRank {
-                    itemCancel(p = 0)
-                    list.removeAt(0)
+        startRankTest {
+            toolbar { enter(name) }
+            itemCancel(p = 0)
+            list.removeAt(0)
 
-                    toolbar { enter(name).imeClick() }
+            snackbar { assert() }
+            toolbar { imeClick() }
+            assertSnackbarDismissed()
 
-                    assertSnackbarDismissed()
-                    assertList(list)
-                    openRenameDialog(name, p = count - 1)
-                }
-            }
+            assertList(list)
+            openRenameDialog(name, last)
         }
-    }
-
-    //endregion
-
-    // TODO common with notifications
-
-    @Test fun scrollTopAfterAction() = startRankListTest {
-        val p = it.indices.first
-
-        itemCancel(p)
-        scrollTo(Scroll.END)
-        snackbar { clickCancel() }
-        await(RecyclerItemPart.SCROLL_TIME)
-
-        assertSnackbarDismissed()
-        RecyclerItemPart.PREVENT_SCROLL = true
-        assertItem(it[p], p)
-    }
-
-    // TODO common with notifications
-
-    @Test fun scrollBottomAfterAction() = startRankListTest {
-        val p = it.lastIndex
-
-        itemCancel(p)
-        scrollTo(Scroll.START)
-        snackbar { clickCancel() }
-        await(RecyclerItemPart.SCROLL_TIME)
-
-        assertSnackbarDismissed()
-        RecyclerItemPart.PREVENT_SCROLL = true
-        assertItem(it[p], p)
     }
 }
