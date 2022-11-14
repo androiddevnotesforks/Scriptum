@@ -14,15 +14,14 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
+import sgtmelon.scriptum.infrastructure.screen.preference.ParentPreferenceViewModelTest
 import sgtmelon.scriptum.testing.getOrAwaitValue
-import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
 import sgtmelon.test.common.nextString
 
 /**
  * Test for [MenuPreferenceViewModelImpl].
  */
-class MenuPreferenceViewModelImplTest : ParentLiveDataTest() {
+class MenuPreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
 
     //region Setup
 
@@ -47,47 +46,25 @@ class MenuPreferenceViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    private fun verifySetup() {
+    override fun verifySetup() {
         getSummary()
         preferencesRepo.isDeveloper
     }
 
-    @Test fun getTheme() {
-        val value = mockk<Theme>()
+    @Test fun getTheme() = getPreferenceTest(
+        mockk(),
+        { preferencesRepo.theme },
+        { viewModel.theme }
+    )
 
-        every { preferencesRepo.theme } returns value
+    @Test fun `getThemeSummary value`() =
+        getSummaryTest(startThemeSummary) { viewModel.themeSummary }
 
-        assertEquals(viewModel.theme, value)
-
-        verifySequence {
-            verifySetup()
-            preferencesRepo.theme
-        }
-    }
-
-    @Test fun getThemeSummary() {
-        assertEquals(viewModel.themeSummary.value, startThemeSummary)
-
-        verifySequence {
-            verifySetup()
-        }
-    }
-
-    @Test fun updateTheme() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { getSummary(value) } returns summary
-
-        viewModel.updateTheme(value)
-
-        assertEquals(viewModel.themeSummary.getOrAwaitValue(), summary)
-
-        verifySequence {
-            verifySetup()
-            getSummary(value)
-        }
-    }
+    @Test fun updateTheme() = updateValueTest(
+        { getSummary(it) },
+        { viewModel.updateTheme(it) },
+        { viewModel.themeSummary }
+    )
 
     @Test fun isDeveloper() {
         assertEquals(viewModel.isDeveloper.value, startDeveloper)

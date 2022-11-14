@@ -1,20 +1,25 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
 import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import kotlin.random.Random
 import org.junit.After
+import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
+import sgtmelon.scriptum.infrastructure.screen.preference.ParentPreferenceViewModelTest
+import sgtmelon.scriptum.testing.getRandomSize
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [AlarmPreferenceViewModelImpl].
  */
-class AlarmPreferenceViewModelImplTest : ParentLiveDataTest() {
+class AlarmPreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
 
     //region Setup
 
@@ -24,63 +29,77 @@ class AlarmPreferenceViewModelImplTest : ParentLiveDataTest() {
     @MockK lateinit var getSignalSummary: GetSignalSummaryUseCase
     @MockK lateinit var getMelodyList: GetMelodyListUseCase
 
-    private val melodyList = TestData.Melody.melodyList
+    private val signalSummary = nextString()
+    private val repeatSummary = nextString()
+    private val volumeSummary = nextString()
 
     private val viewModel by lazy {
         AlarmPreferenceViewModelImpl(
-            preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary,
-            getMelodyList
+            preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary, getMelodyList
         )
+    }
+
+    @Before override fun setUp() {
+        super.setUp()
+        every { getSignalSummary() } returns signalSummary
+        every { getRepeatSummary() } returns repeatSummary
+        every { getVolumeSummary() } returns volumeSummary
     }
 
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(
-            preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
-            getMelodyList
+            preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary, getMelodyList
         )
     }
 
     //endregion
 
-    @Test fun getSignalTypeCheck() {
-        TODO()
+    override fun verifySetup() {
+        getSignalSummary()
+        getRepeatSummary()
+        getVolumeSummary()
     }
 
-    @Test fun getSignalSummary() {
-        TODO()
-    }
+    @Test fun getSignalTypeCheck() = getPreferenceTest(
+        BooleanArray(getRandomSize()) { Random.nextBoolean() },
+        { preferencesRepo.signalTypeCheck },
+        { viewModel.signalTypeCheck }
+    )
+
+    @Test fun `getSignalSummary value`() = getSummaryTest(signalSummary) { viewModel.signalSummary }
 
     @Test fun updateSignal() {
         TODO()
     }
 
+    @Test fun getRepeat() = getPreferenceTest(
+        mockk(),
+        { preferencesRepo.repeat },
+        { viewModel.repeat }
+    )
 
-    @Test fun getRepeat() {
-        TODO()
-    }
+    @Test fun `getRepeatSummary value`() = getSummaryTest(repeatSummary) { viewModel.repeatSummary }
 
-    @Test fun getRepeatSummary() {
-        TODO()
-    }
+    @Test fun updateRepeat() = updateValueTest(
+        { getRepeatSummary(it) },
+        { viewModel.updateRepeat(it) },
+        { viewModel.repeatSummary }
+    )
 
-    @Test fun updateRepeat() {
-        TODO()
-    }
+    @Test fun getVolumePercent() = getPreferenceTest(
+        Random.nextInt(),
+        { preferencesRepo.volumePercent },
+        { viewModel.volumePercent }
+    )
 
+    @Test fun `getVolumeSummary value`() = getSummaryTest(volumeSummary) { viewModel.volumeSummary }
 
-    @Test fun getVolumePercent() {
-        TODO()
-    }
-
-    @Test fun getVolumeSummary() {
-        TODO()
-    }
-
-    @Test fun updateVolume() {
-        TODO()
-    }
-
+    @Test fun updateVolume() = updateValueTest(
+        { getVolumeSummary(it) },
+        { viewModel.updateVolume(it) },
+        { viewModel.volumeSummary }
+    )
 
     @Test fun getMelodySummaryState() {
         TODO()
@@ -91,6 +110,14 @@ class AlarmPreferenceViewModelImplTest : ParentLiveDataTest() {
     }
 
     @Test fun getSelectMelodyData() {
+        TODO()
+    }
+
+    @Test fun `getMelody from empty list`() {
+        TODO()
+    }
+
+    @Test fun `getMelody with wrong position`() {
         TODO()
     }
 

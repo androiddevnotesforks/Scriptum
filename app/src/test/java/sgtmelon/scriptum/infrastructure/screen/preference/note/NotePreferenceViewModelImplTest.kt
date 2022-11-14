@@ -4,25 +4,18 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.verifySequence
-import kotlin.random.Random
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
-import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
-import sgtmelon.scriptum.testing.getOrAwaitValue
-import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
+import sgtmelon.scriptum.infrastructure.screen.preference.ParentPreferenceViewModelTest
 import sgtmelon.test.common.nextString
 
 /**
  * ViewModel for [NotePreferenceViewModelImpl].
  */
-class NotePreferenceViewModelImplTest : ParentLiveDataTest() {
+class NotePreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
 
     //region Setup
 
@@ -57,96 +50,55 @@ class NotePreferenceViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    private fun verifySetup() {
+    override fun verifySetup() {
         getSortSummary()
         getDefaultColorSummary()
         getSavePeriodSummary()
     }
 
-    @Test fun getSort() {
-        val sort = mockk<Sort>()
+    @Test fun getSort() = getPreferenceTest(
+        mockk(),
+        { preferencesRepo.sort },
+        { viewModel.sort }
+    )
 
-        every { preferencesRepo.sort } returns sort
+    @Test fun `getSortSummary value`() = getSummaryTest(sortSummary) { viewModel.sortSummary }
 
-        assertEquals(viewModel.sort, sort)
+    @Test fun updateSort() = updateValueTest(
+        { getSortSummary(it) },
+        { viewModel.updateSort(it) },
+        { viewModel.sortSummary }
+    )
 
-        verifySequence {
-            verifySetup()
-            preferencesRepo.sort
-        }
+    @Test fun `getDefaultColorSummary value`() = getSummaryTest(defaultColorSummary) {
+        viewModel.defaultColorSummary
     }
 
-    @Test fun updateSort() {
-        val value = Random.nextInt()
-        val newSummary = nextString()
+    @Test fun getDefaultColor() = getPreferenceTest(
+        mockk(),
+        { preferencesRepo.defaultColor },
+        { viewModel.defaultColor }
+    )
 
-        every { getSortSummary(value) } returns newSummary
+    @Test fun updateDefaultColor() = updateValueTest(
+        { getDefaultColorSummary(it) },
+        { viewModel.updateDefaultColor(it) },
+        { viewModel.defaultColorSummary }
+    )
 
-        viewModel.updateSort(value)
+    @Test fun getSavePeriod() = getPreferenceTest(
+        mockk(),
+        { preferencesRepo.savePeriod },
+        { viewModel.savePeriod }
+    )
 
-        assertEquals(viewModel.sortSummary.getOrAwaitValue(), newSummary)
-
-        verifySequence {
-            verifySetup()
-            getSortSummary(value)
-        }
+    @Test fun `getSavePeriodSummary value`() = getSummaryTest(savePeriodSummary) {
+        viewModel.savePeriodSummary
     }
 
-    @Test fun getDefaultColor() {
-        val color = mockk<Color>()
-
-        every { preferencesRepo.defaultColor } returns color
-
-        assertEquals(viewModel.defaultColor, color)
-
-        verifySequence {
-            verifySetup()
-            preferencesRepo.defaultColor
-        }
-    }
-
-    @Test fun updateDefaultColor() {
-        val value = Random.nextInt()
-        val newSummary = nextString()
-
-        every { getDefaultColorSummary(value) } returns newSummary
-
-        viewModel.updateDefaultColor(value)
-
-        assertEquals(viewModel.defaultColorSummary.getOrAwaitValue(), newSummary)
-
-        verifySequence {
-            verifySetup()
-            getDefaultColorSummary(value)
-        }
-    }
-
-    @Test fun getSavePeriod() {
-        val savePeriod = mockk<SavePeriod>()
-
-        every { preferencesRepo.savePeriod } returns savePeriod
-
-        assertEquals(viewModel.savePeriod, savePeriod)
-
-        verifySequence {
-            verifySetup()
-            preferencesRepo.savePeriod
-        }
-    }
-
-    @Test fun updateSavePeriod() {
-        val value = Random.nextInt()
-        val newSummary = nextString()
-
-        every { getSavePeriodSummary(value) } returns newSummary
-
-        viewModel.updateSavePeriod(value)
-
-        assertEquals(viewModel.savePeriodSummary.getOrAwaitValue(), newSummary)
-
-        verifySequence {
-            verifySetup()
-            getSavePeriodSummary(value)
-        }
-    }
+    @Test fun updateSavePeriod() = updateValueTest(
+        { getSavePeriodSummary(it) },
+        { viewModel.updateSavePeriod(it) },
+        { viewModel.savePeriodSummary }
+    )
 }
