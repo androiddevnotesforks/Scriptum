@@ -53,10 +53,10 @@ class NotificationsSnackbarTest : ParentUiTest(),
         assertSnackbarDismissed()
 
         when (val item = it[p]) {
-            is NoteItem.Text -> openText(item, p = p) {
+            is NoteItem.Text -> openText(item, p) {
                 controlPanel { onNotification(isUpdateDate = true) }
             }
-            is NoteItem.Roll -> openRoll(item, p = p) {
+            is NoteItem.Roll -> openRoll(item, p) {
                 controlPanel { onNotification(isUpdateDate = true) }
             }
         }
@@ -141,23 +141,25 @@ class NotificationsSnackbarTest : ParentUiTest(),
         assertSnackbarDismissed()
 
         when (val item = it[p]) {
-            is NoteItem.Text -> openText(item, p = p) { clickClose() }
-            is NoteItem.Roll -> openRoll(item, p = p) { clickClose() }
+            is NoteItem.Text -> openText(item, p) { clickClose() }
+            is NoteItem.Roll -> openRoll(item, p) { clickClose() }
         }
 
         assertSnackbarDismissed()
     }
 
     @Test override fun dismissTimeout() = startNotificationListTest {
-        val p = it.indices.random()
+        val removePosition = it.indices.random()
 
-        itemCancel(p)
+        itemCancel(removePosition)
+        it.removeAt(removePosition)
         await(SnackbarPart.DISMISS_TIME)
         assertSnackbarDismissed()
 
+        val p = it.indices.random()
         when (val item = it[p]) {
-            is NoteItem.Text -> openText(item, p = p) { clickClose() }
-            is NoteItem.Roll -> openRoll(item, p = p) { clickClose() }
+            is NoteItem.Text -> openText(item, p) { clickClose() }
+            is NoteItem.Roll -> openRoll(item, p) { clickClose() }
         }
 
         assertSnackbarDismissed()
