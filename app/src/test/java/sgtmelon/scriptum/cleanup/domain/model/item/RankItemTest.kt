@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.testing.parent.ParentTest
@@ -37,11 +35,6 @@ class RankItemTest : ParentTest() {
 
         assertEquals(Default.BIND_COUNT, bindCount)
         assertEquals(Default.NOTIFICATION_COUNT, notificationCount)
-    }
-
-    @Test fun switchVisible() {
-        assertTrue(rankItem.copy(isVisible = false).switchVisible().isVisible)
-        assertFalse(rankItem.copy(isVisible = true).switchVisible().isVisible)
     }
 
     @Test fun getJson() {

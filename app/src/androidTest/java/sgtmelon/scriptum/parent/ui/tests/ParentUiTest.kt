@@ -90,6 +90,7 @@ abstract class ParentUiTest : ParentTest() {
      * related with theme. It's because need set [ParentScreen.appTheme].
      */
     protected fun setupTheme(theme: ThemeDisplayed) {
+        val theme = ThemeDisplayed.DARK
         ParentScreen.theme = theme
 
         // TODO check how it will work with preferencesRepo (not preferences)

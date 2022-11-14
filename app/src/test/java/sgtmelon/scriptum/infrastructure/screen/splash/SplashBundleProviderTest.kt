@@ -49,7 +49,6 @@ class SplashBundleProviderTest : ParentTest() {
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
-            bundle.getString(AppOpenFrom.INTENT_KEY)
         }
     }
 
