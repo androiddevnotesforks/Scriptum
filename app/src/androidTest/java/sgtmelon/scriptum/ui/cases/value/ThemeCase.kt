@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.parent.situation
+package sgtmelon.scriptum.ui.cases.value
 
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 
@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 /**
  * Interface describes [Theme] tests.
  */
-interface IThemeTest {
+interface ThemeCase {
 
     fun themeLight() = startTest(Theme.LIGHT)
 

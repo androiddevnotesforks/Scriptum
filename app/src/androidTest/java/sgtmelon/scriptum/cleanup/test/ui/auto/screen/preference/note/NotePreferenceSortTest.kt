@@ -5,11 +5,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.test.parent.situation.ISortTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SortDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.value.SortCase
 
 /**
  * Test for [NotePreferenceFragment] and [SortDialogUi].
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotePreferenceSortTest : ParentUiTest(),
     INotePreferenceTest,
-    ISortTest {
+    SortCase {
 
     @Test fun dialogClose() = runTest {
         openSortDialog { onClickCancel() }

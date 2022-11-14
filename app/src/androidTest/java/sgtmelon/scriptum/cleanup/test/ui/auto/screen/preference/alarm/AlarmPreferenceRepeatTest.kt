@@ -5,11 +5,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.RepeatDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.value.RepeatCase
 
 /**
  * Test for [AlarmPreferenceFragment] and [RepeatDialogUi].
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceRepeatTest : ParentUiTest(),
     IAlarmPreferenceTest,
-    IRepeatTest {
+    RepeatCase {
 
     @Test fun dialogClose() = runTest {
         openRepeatDialog { softClose() }

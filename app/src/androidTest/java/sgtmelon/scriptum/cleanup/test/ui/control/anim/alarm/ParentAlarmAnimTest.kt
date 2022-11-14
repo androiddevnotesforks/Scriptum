@@ -2,13 +2,12 @@ package sgtmelon.scriptum.cleanup.test.ui.control.anim.alarm
 
 import kotlin.random.Random
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
-import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
-
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.value.ColorCase
 
 /**
  * Parent class for tests of [AlarmActivity] with different themes.
@@ -16,7 +15,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 abstract class ParentAlarmAnimTest(
     private val theme: ThemeDisplayed
 ) : ParentUiTest(),
-    IColorTest {
+    ColorCase {
 
     override fun startTest(value: Color) {
         setupTheme(theme)

@@ -42,6 +42,15 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
 
     open fun copy() {
         TODO()
+
+        startBinItemTest(
+            when (type) {
+                NoteType.TEXT -> db.insertTextToBin()
+                NoteType.ROLL -> db.insertRollToBin()
+            }
+        ) {
+            openNoteDialog(it) { copy() }
+        }
     }
 
     open fun clear() = insertToBin().let {

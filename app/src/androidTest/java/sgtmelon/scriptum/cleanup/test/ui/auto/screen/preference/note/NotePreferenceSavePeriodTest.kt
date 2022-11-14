@@ -5,11 +5,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.test.parent.situation.ISavePeriodTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SavePeriodDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.value.SavePeriodCase
 
 /**
  * Test for [NotePreferenceFragment] and [SavePeriodDialogUi].
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotePreferenceSavePeriodTest : ParentUiTest(),
     INotePreferenceTest,
-    ISavePeriodTest {
+    SavePeriodCase {
 
     @Test fun dialogClose() = runTest({ preferences.isAutoSaveOn = true }) {
         openSavePeriodDialog { onClickCancel() }

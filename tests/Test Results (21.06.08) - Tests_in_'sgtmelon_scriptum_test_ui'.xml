@@ -1532,9 +1532,7 @@
         <test name="notesInfoShow" duration="4024" status="passed" />
         <test name="rankInfoShowAndHide" duration="21586" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.control.anim.RankIconAnimTest"
-        duration="16536"
-        status="passed">
+    <suite name="sgtmelon.scriptum.ui.control.RankIconAnimTest" duration="16536" status="passed">
         <test name="visibleLongClick" duration="9021" status="passed" />
         <test name="visibleClick" duration="7515" status="passed" />
     </suite>
@@ -8791,7 +8789,7 @@
                 className="RankIconAnimTest"
                 endTimestampMillis="9021"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.control.anim.RankIconAnimTest.visibleLongClick"
+                id="sgtmelon.scriptum.ui.control.RankIconAnimTest.visibleLongClick"
                 logcat=""
                 methodName="visibleLongClick"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.control.anim"
@@ -8801,7 +8799,7 @@
                 className="RankIconAnimTest"
                 endTimestampMillis="7515"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.control.anim.RankIconAnimTest.visibleClick"
+                id="sgtmelon.scriptum.ui.control.RankIconAnimTest.visibleClick"
                 logcat=""
                 methodName="visibleClick"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.control.anim"

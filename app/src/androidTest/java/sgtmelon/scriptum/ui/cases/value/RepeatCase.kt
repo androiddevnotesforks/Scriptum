@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.parent.situation
+package sgtmelon.scriptum.ui.cases.value
 
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 
@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 /**
  * Interface describes [Repeat] tests.
  */
-interface IRepeatTest {
+interface RepeatCase {
 
     fun repeatMin10() = startTest(Repeat.MIN_10)
 

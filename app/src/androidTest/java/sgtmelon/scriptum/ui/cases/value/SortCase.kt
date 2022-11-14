@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.test.parent.situation
+package sgtmelon.scriptum.ui.cases.value
 
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 /**
  * Interface describes [Sort] tests.
  */
-interface ISortTest {
+interface SortCase {
 
     fun sortChange() = startTest(Sort.CHANGE)
 

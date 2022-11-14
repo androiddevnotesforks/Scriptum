@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.test.parent.situation
+package sgtmelon.scriptum.ui.cases.value
 
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
  * Interface describes [Color] tests.
  */
-interface IColorTest {
+interface ColorCase {
 
     fun colorRed() = startTest(Color.RED)
 
@@ -29,6 +29,6 @@ interface IColorTest {
 
     fun colorWhite() = startTest(Color.WHITE)
 
-
     fun startTest(value: Color)
+
 }

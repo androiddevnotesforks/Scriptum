@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.cleanup.test.parent.situation
+package sgtmelon.scriptum.ui.cases.value
 
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 
 /**
  * Interface describes [SavePeriod] tests.
  */
-interface ISavePeriodTest {
+interface SavePeriodCase {
 
     fun savePeriodMin1() = startText(SavePeriod.MIN_1)
 

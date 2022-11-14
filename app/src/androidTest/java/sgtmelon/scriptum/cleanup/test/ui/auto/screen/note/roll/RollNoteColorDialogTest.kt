@@ -4,18 +4,17 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
-
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.value.ColorCase
 
 /**
  * Test of [PreferencesImpl.defaultColor] setup for [RollNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class RollNoteColorDialogTest : ParentUiTest(), IColorTest {
+class RollNoteColorDialogTest : ParentUiTest(), ColorCase {
 
     @Test fun closeAndWork() = db.createRoll().let {
         launch {

@@ -5,11 +5,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.value.ColorCase
 
 /**
  * Test of [PreferencesImpl.defaultColor] setup for [MenuPreferenceFragment]
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotePreferenceColorTest : ParentUiTest(),
     INotePreferenceTest,
-    IColorTest {
+    ColorCase {
 
     @Test fun dialogClose() = runTest {
         val color = preferencesRepo.defaultColor
