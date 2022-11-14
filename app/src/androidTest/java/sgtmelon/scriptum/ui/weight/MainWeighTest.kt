@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
 class MainWeighTest : ParentUiWeighTest() {
 
     @Test fun pageSelect() = launch(before = {
-        db.fillRankRelation(ITEM_COUNT)
+        db.fillRank(ITEM_COUNT)
         db.fillNotes(ITEM_COUNT)
         db.fillBin(ITEM_COUNT)
     }) {
