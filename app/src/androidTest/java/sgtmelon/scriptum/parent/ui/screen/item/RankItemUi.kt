@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.item
+package sgtmelon.scriptum.parent.ui.screen.item
 
 import android.view.View
 import org.hamcrest.Matcher
@@ -53,9 +53,7 @@ class RankItemUi(
 
     override fun assert(item: RankItem) {
         parentCard.isDisplayed().withCard(
-            R.attr.clBackgroundView,
-            R.dimen.item_card_radius,
-            R.dimen.item_card_elevation
+            R.attr.clBackgroundView, R.dimen.item_card_radius, R.dimen.item_card_elevation
         )
 
         val isVisible = item.isVisible
@@ -84,29 +82,25 @@ class RankItemUi(
             .withContentDescription(cancelDescription)
     }
 
-    private fun assertIndicators(item: RankItem) {
-        val isNotificationVisible = RankHolder.isMaxTest || item.notificationCount != 0
-        val isBindVisible = RankHolder.isMaxTest || item.bindCount != 0
+    private fun assertIndicators(item: RankItem) = with(item) {
+        val isNotificationVisible = RankHolder.isMaxTest || notificationCount != 0
+        val isBindVisible = RankHolder.isMaxTest || bindCount != 0
 
         imageContainer.isDisplayed(value = isNotificationVisible || isBindVisible)
 
         notificationText.isDisplayed(isNotificationVisible)
-            .withText(
-                getIndicatorCount(item.notificationCount),
-                R.attr.clIndicator,
-                R.dimen.text_14sp
-            )
+            .withText(getIndicatorCount(notificationCount), R.attr.clIndicator, R.dimen.text_14sp)
         notificationImage.isDisplayed(isNotificationVisible) {
             withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
         }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clIndicator)
 
         bindText.isDisplayed(isBindVisible)
-            .withText(getIndicatorCount(item.bindCount), R.attr.clIndicator, R.dimen.text_14sp)
+            .withText(getIndicatorCount(bindCount), R.attr.clIndicator, R.dimen.text_14sp)
         bindImage.isDisplayed(isBindVisible) {
             withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
         }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clIndicator)
 
-        val text = context.getString(R.string.list_rank_count, item.noteId.size)
+        val text = context.getString(R.string.list_rank_count, noteId.size)
         countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
     }
 

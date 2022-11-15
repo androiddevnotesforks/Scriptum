@@ -57,8 +57,6 @@ class ListTest : ParentUiWeighTest() {
     }
 
     companion object {
-        private const val RANK_COUNT = 200
         private const val NOTES_COUNT = 250
-        private const val BIN_COUNT = 250
     }
 }
