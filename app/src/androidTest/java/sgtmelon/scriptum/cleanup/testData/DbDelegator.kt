@@ -14,7 +14,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes.NotesNoteDialogTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.parent.RoomWorker
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.ui.auto.NEXT_HOUR
 import sgtmelon.scriptum.ui.auto.bin.BinNoteDialogRollTest
+import sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogTextTest
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.nextString
 
@@ -47,7 +47,7 @@ class DbDelegator(
     //region CleanUp
 
     /**
-     * For [NotesNoteDialogTest] and [BinNoteDialogRollTest] need filled [NoteEntity.name] by default.
+     * For [NotesNoteDialogTextTest] and [BinNoteDialogRollTest] need filled [NoteEntity.name] by default.
      */
     val textNote: NoteEntity
         get() = NoteEntity().apply {
@@ -60,7 +60,7 @@ class DbDelegator(
         }
 
     /**
-     * For [NotesNoteDialogTest] and [BinNoteDialogRollTest] need filled [NoteEntity.name] by default.
+     * For [NotesNoteDialogTextTest] and [BinNoteDialogRollTest] need filled [NoteEntity.name] by default.
      */
     val rollNote: NoteEntity
         get() = NoteEntity().apply {

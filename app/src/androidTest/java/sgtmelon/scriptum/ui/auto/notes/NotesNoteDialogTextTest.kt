@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes
+package sgtmelon.scriptum.ui.auto.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
  * Test note dialog for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesNoteDialogTest : ParentUiTest() {
+class NotesNoteDialogTextTest : ParentUiTest() {
 
     @Test fun textDialogUntitled() = db.insertText(db.textNote.apply { name = "" }).let {
         launch { mainScreen { openNotes { openNoteDialog(it) } } }
