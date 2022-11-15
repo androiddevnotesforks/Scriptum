@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.control.anim.alarm
+package sgtmelon.scriptum.ui.control.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 
 /**
- * Test of animation and color scheme of [AlarmActivity] in dark theme
+ * [AlarmActivity] tests of animation and color scheme in dark theme.
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmAnimDarkTest: ParentAlarmAnimTest(ThemeDisplayed.DARK) {

@@ -22,6 +22,6 @@ class AlarmTest : ParentUiTest() {
     }
 
     @Test fun clickDisable() = db.insertNote().let {
-        launchAlarm(it) { alarmScreen(it) { onClickDisable() }.mainScreen() }
+        launchAlarm(it) { alarmScreen(it) { disable() }.mainScreen() }
     }
 }

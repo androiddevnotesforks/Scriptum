@@ -68,7 +68,7 @@ class AlarmScreen(
         RollNoteScreen(func, NoteState.READ, item, isRankEmpty)
     }
 
-    fun onClickDisable() {
+    fun disable() {
         disableButton.click()
     }
 
