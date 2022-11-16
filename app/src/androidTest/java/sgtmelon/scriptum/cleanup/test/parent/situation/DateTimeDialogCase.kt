@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.ui.dialog.time.TimeDialogUi
 /**
  * Interface describes [DateDialogUi] and [TimeDialogUi] tests.
  */
-interface IDateTimeDialogTest {
+interface DateTimeDialogCase {
 
     fun dateReset()
 
@@ -20,7 +20,7 @@ interface IDateTimeDialogTest {
     fun toastOther()
 
     /**
-     * Min = 2 because may happen case when clock will be near 0.59 time and apply button wil
+     * Min = 2 because may happen case when clock will be near 0.59 time and apply button will
      * be not enabled.
      */
     fun DateDialogUi.runToastOther() = set(addDay = 1).applyDate {

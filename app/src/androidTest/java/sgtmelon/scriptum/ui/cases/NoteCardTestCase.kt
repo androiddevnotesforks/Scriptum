@@ -17,18 +17,23 @@ import sgtmelon.scriptum.ui.auto.lastArray
 /**
  * Parent class for tests of [NoteAdapter]
  */
-abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
+abstract class NoteCardTestCase(
+    private val theme: ThemeDisplayed,
+    private val page: MainPage
+) : ParentUiTest() {
 
-    open fun colorTextLight() = startColorTest(ThemeDisplayed.LIGHT, NoteType.TEXT)
-
-    open fun colorTextDark() = startColorTest(ThemeDisplayed.DARK, NoteType.TEXT)
-
-    open fun colorRollLight() = startColorTest(ThemeDisplayed.LIGHT, NoteType.ROLL)
-
-    open fun colorRollDark() = startColorTest(ThemeDisplayed.DARK, NoteType.ROLL)
-
-    private fun startColorTest(theme: ThemeDisplayed, type: NoteType) {
+    override fun setUp() {
+        super.setUp()
         setupTheme(theme)
+    }
+
+    // TODO text/roll notifications (dark/light)
+
+    open fun colorText() = startColorTest(NoteType.TEXT)
+
+    open fun colorRoll() = startColorTest(NoteType.ROLL)
+
+    private fun startColorTest(type: NoteType) {
         preferencesRepo.sort = Sort.COLOR
 
         assertList(ArrayList<NoteItem>().also { list ->
@@ -43,13 +48,13 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
                         MainPage.RANK -> throwPageError()
                         MainPage.NOTES -> when (type) {
                             NoteType.TEXT -> db.insertText(note)
-                        NoteType.ROLL -> db.insertRoll(note)
-                    }
-                    MainPage.BIN -> when (type) {
-                        NoteType.TEXT -> db.insertTextToBin(note)
-                        NoteType.ROLL -> db.insertRollToBin(note)
-                    }
-                })
+                            NoteType.ROLL -> db.insertRoll(note)
+                        }
+                        MainPage.BIN -> when (type) {
+                            NoteType.TEXT -> db.insertTextToBin(note)
+                            NoteType.ROLL -> db.insertRollToBin(note)
+                        }
+                    })
             }
         })
     }
@@ -129,6 +134,21 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
     }
 
 
+    open fun rollInvisible() = startRollVisibleIndicatorTest(isVisible = false)
+
+    open fun rollVisible() = startRollVisibleIndicatorTest(isVisible = true)
+
+    private fun startRollVisibleIndicatorTest(isVisible: Boolean) {
+        val item = when (page) {
+            MainPage.RANK -> throwPageError()
+            MainPage.NOTES -> db.insertRoll(isVisible = isVisible)
+            MainPage.BIN -> db.insertRollToBin(isVisible = isVisible)
+        }
+
+        assertList(listOf(item))
+    }
+
+
     open fun progressIndicator1() = startProgressTest(check = 10, size = 99)
 
     open fun progressIndicator2() = startProgressTest(check = 10, size = 100)
@@ -167,16 +187,11 @@ abstract class NoteCardTestCase(private val page: MainPage) : ParentUiTest() {
     }
 
 
-    open fun rankTextLight() = startRankTest(ThemeDisplayed.LIGHT, NoteType.TEXT)
+    open fun rankText() = startRankTest(NoteType.TEXT)
 
-    open fun rankTextDark() = startRankTest(ThemeDisplayed.DARK, NoteType.TEXT)
+    open fun rankRoll() = startRankTest(NoteType.ROLL)
 
-    open fun rankRollLight() = startRankTest(ThemeDisplayed.LIGHT, NoteType.ROLL)
-
-    open fun rankRollDark() = startRankTest(ThemeDisplayed.DARK, NoteType.ROLL)
-
-    private fun startRankTest(theme: ThemeDisplayed, type: NoteType) {
-        setupTheme(theme)
+    private fun startRankTest(type: NoteType) {
         preferencesRepo.sort = Sort.RANK
 
         assertList(ArrayList<NoteItem>().also { list ->

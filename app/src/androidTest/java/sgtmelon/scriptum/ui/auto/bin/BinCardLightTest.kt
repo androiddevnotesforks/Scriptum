@@ -1,26 +1,23 @@
-package sgtmelon.scriptum.ui.auto.notes
+package sgtmelon.scriptum.ui.auto.bin
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
-import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.parent.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.cases.NoteCardTestCase
 
 /**
- * Test for [NoteItemUi] inside [NotesScreen]
+ * Test for [NoteItemUi] inside [BinScreen].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesContentTest : NoteCardTestCase(MainPage.NOTES) {
+class BinCardLightTest : NoteCardTestCase(ThemeDisplayed.LIGHT, MainPage.BIN) {
 
-    @Test override fun colorTextLight() = super.colorTextLight()
+    @Test override fun colorText() = super.colorText()
 
-    @Test override fun colorTextDark() = super.colorTextDark()
-
-    @Test override fun colorRollLight() = super.colorRollLight()
-
-    @Test override fun colorRollDark() = super.colorRollDark()
+    @Test override fun colorRoll() = super.colorRoll()
 
 
     @Test override fun timeCreateText() = super.timeCreateText()
@@ -41,6 +38,11 @@ class NotesContentTest : NoteCardTestCase(MainPage.NOTES) {
     @Test override fun rollRow4() = super.rollRow4()
 
 
+    @Test override fun rollInvisible() = super.rollInvisible()
+
+    @Test override fun rollVisible() = super.rollVisible()
+
+
     @Test override fun progressIndicator1() = super.progressIndicator1()
 
     @Test override fun progressIndicator2() = super.progressIndicator2()
@@ -50,13 +52,9 @@ class NotesContentTest : NoteCardTestCase(MainPage.NOTES) {
     @Test override fun progressIndicator4() = super.progressIndicator4()
 
 
-    @Test override fun rankTextLight() = super.rankTextLight()
+    @Test override fun rankText() = super.rankText()
 
-    @Test override fun rankTextDark() = super.rankTextDark()
-
-    @Test override fun rankRollLight() = super.rankRollLight()
-
-    @Test override fun rankRollDark() = super.rankRollDark()
+    @Test override fun rankRoll() = super.rankRoll()
 
     @Test override fun rankTextCancel() = super.rankTextCancel()
 

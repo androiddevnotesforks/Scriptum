@@ -19,7 +19,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [OptionsDialog] when cause long click on note.
  */
-class NoteDialogUi(private val item: NoteItem) : UiPart(),
+class NoteDialogUi(val item: NoteItem) : UiPart(),
     DialogUi,
     DateTimeCallback {
 
@@ -96,10 +96,12 @@ class NoteDialogUi(private val item: NoteItem) : UiPart(),
 
 
     override fun dateResetResult() {
+        item.alarmId = DbData.Alarm.Default.ID
         item.alarmDate = DbData.Alarm.Default.DATE
     }
 
     override fun timeSetResult(calendar: Calendar) {
+        item.alarmId = calendar.timeInMillis
         item.alarmDate = calendar.toText()
     }
 

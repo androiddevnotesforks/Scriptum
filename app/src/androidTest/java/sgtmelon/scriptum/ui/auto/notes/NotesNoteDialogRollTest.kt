@@ -9,15 +9,16 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.ui.cases.NotesNoteDialogCase
 
+
 /**
  * Test note dialog for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesNoteDialogTextTest : NotesNoteDialogCase(NoteType.TEXT) {
+class NotesNoteDialogRollTest : NotesNoteDialogCase(NoteType.ROLL) {
 
-    override fun insert(): NoteItem = db.insertText()
+    override fun insert(): NoteItem = db.insertRoll()
 
-    override fun insert(entity: NoteEntity): NoteItem = db.insertText(entity)
+    override fun insert(entity: NoteEntity): NoteItem = db.insertRoll(entity)
 
     @Test override fun close() = super.close()
 

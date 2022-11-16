@@ -5,13 +5,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.test.parent.situation.IDateTimeDialogTest
+import sgtmelon.scriptum.cleanup.test.parent.situation.DateTimeDialogCase
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 @RunWith(AndroidJUnit4::class)
-class RollNoteDateTimeDialogTest : ParentUiTest(), IDateTimeDialogTest {
+class RollNoteDateTimeDialogTest : ParentUiTest(), DateTimeDialogCase {
 
     private fun runTest(item: NoteItem.Roll, func: RollNoteScreen.() -> Unit) = launch {
         mainScreen { openNotes { openRoll(item, func = func) } }

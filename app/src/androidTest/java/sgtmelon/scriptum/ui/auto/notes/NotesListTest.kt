@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.auto.notes
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
@@ -21,34 +22,18 @@ class NotesListTest : ParentUiTest(),
 
     @Test override fun contentEmpty() = launch { mainScreen { openNotes(isEmpty = true) } }
 
-    @Test override fun contentList() = db.fillNotes().let {
-        launch { mainScreen { openNotes { assertList(it) } } }
+    @Test override fun contentList() = startNotesListTest { assertList(it) }
+
+    @Test override fun listScroll() = startNotesListTest { scrollThrough() }
+
+    @Test override fun itemTextOpen() = startNotesItemTest(db.insertText()) {
+        openText(it) { pressBack() }
+        assert(isEmpty = false)
     }
 
-    @Test override fun listScroll() = launch({ db.fillNotes() }) {
-        mainScreen { openNotes { scrollThrough() } }
-    }
-
-    @Test override fun itemTextOpen() = db.insertText().let {
-        launch {
-            mainScreen {
-                openNotes {
-                    openText(it) { pressBack() }
-                    assert(isEmpty = false)
-                }
-            }
-        }
-    }
-
-    @Test override fun itemRollOpen() = db.insertRoll().let {
-        launch {
-            mainScreen {
-                openNotes {
-                    openRoll(it) { pressBack() }
-                    assert(isEmpty = false)
-                }
-            }
-        }
+    @Test override fun itemRollOpen() = startNotesItemTest(db.insertRoll()) {
+        openRoll(it) { pressBack() }
+        assert(isEmpty = false)
     }
 
 
@@ -77,14 +62,15 @@ class NotesListTest : ParentUiTest(),
             mainScreen {
                 openNotes(isEmpty = true)
 
+                var item: NoteItem.Text? = null
                 openAddDialog {
                     createText(it) {
-                        db.insertText()
+                        item = db.insertText()
                         toolbar { clickBack() }
                     }
                 }
 
-                openNotes()
+                openNotes { assertItem(item!!) }
             }
         }
     }
@@ -94,14 +80,15 @@ class NotesListTest : ParentUiTest(),
             mainScreen {
                 openNotes(isEmpty = true)
 
+                var item: NoteItem.Roll? = null
                 openAddDialog {
                     createRoll(it) {
-                        db.insertRoll()
+                        item = db.insertRoll()
                         toolbar { clickBack() }
                     }
                 }
 
-                openNotes()
+                openNotes { assertItem(item!!) }
             }
         }
     }

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.cases
 
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -13,21 +14,27 @@ import sgtmelon.scriptum.ui.auto.bin.startBinItemTest
 abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
     DialogCloseCase {
 
-    override fun close() = startBinItemTest(insertToBin()) {
+    abstract fun insert(): NoteItem
+
+    abstract fun insert(entity: NoteEntity): NoteItem
+
+    override fun close() = startBinItemTest(insert()) {
         openNoteDialog(it) { softClose() }
         assert(isEmpty = false)
     }
 
-    open fun untitled() = startBinItemTest(
-        when (type) {
-            NoteType.TEXT -> db.insertTextToBin(db.textNote.copy(name = ""))
-            NoteType.ROLL -> db.insertRollToBin(db.rollNote.copy(name = ""))
+    open fun untitled() {
+        val entity = when (type) {
+            NoteType.TEXT -> db.textNote.copy(name = "")
+            NoteType.ROLL -> db.rollNote.copy(name = "")
         }
-    ) {
-        openNoteDialog(it)
+
+        startBinItemTest(insert(entity)) {
+            openNoteDialog(it)
+        }
     }
 
-    open fun restore() = insertToBin().let {
+    open fun restore() = insert().let {
         launch {
             mainScreen {
                 openNotes(isEmpty = true)
@@ -43,17 +50,12 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
     open fun copy() {
         TODO()
 
-        startBinItemTest(
-            when (type) {
-                NoteType.TEXT -> db.insertTextToBin()
-                NoteType.ROLL -> db.insertRollToBin()
-            }
-        ) {
+        startBinItemTest(insert()) {
             openNoteDialog(it) { copy() }
         }
     }
 
-    open fun clear() = insertToBin().let {
+    open fun clear() = insert().let {
         launch {
             mainScreen {
                 openBin {
@@ -62,13 +64,6 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
                 }
                 openNotes(isEmpty = true)
             }
-        }
-    }
-
-    private fun insertToBin(): NoteItem {
-        return when (type) {
-            NoteType.TEXT -> db.insertTextToBin()
-            NoteType.ROLL -> db.insertRollToBin()
         }
     }
 }
