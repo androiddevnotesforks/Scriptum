@@ -38,6 +38,11 @@ class NotesCardLightTest : NoteCardTestCase(ThemeDisplayed.LIGHT, MainPage.NOTES
     @Test override fun rollRow4() = super.rollRow4()
 
 
+    @Test override fun notificationText() = super.notificationText()
+
+    @Test override fun notificationRoll() = super.notificationRoll()
+
+
     @Test override fun rollInvisible() = super.rollInvisible()
 
     @Test override fun rollVisible() = super.rollVisible()

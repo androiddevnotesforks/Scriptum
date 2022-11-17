@@ -27,12 +27,13 @@ abstract class NoteCardTestCase(
         setupTheme(theme)
     }
 
-    // TODO text/roll notifications (dark/light)
-
     open fun colorText() = startColorTest(NoteType.TEXT)
 
     open fun colorRoll() = startColorTest(NoteType.ROLL)
 
+    /**
+     * Test of different note colors by [type].
+     */
     private fun startColorTest(type: NoteType) {
         preferencesRepo.sort = Sort.COLOR
 
@@ -68,6 +69,9 @@ abstract class NoteCardTestCase(
 
     open fun timeChangeRoll() = startTimeTest(NoteType.ROLL, Sort.CHANGE)
 
+    /**
+     * Test of time display and sorting.
+     */
     private fun startTimeTest(type: NoteType, sort: Sort) {
         preferencesRepo.sort = sort
 
@@ -112,6 +116,9 @@ abstract class NoteCardTestCase(
 
     open fun rollRow4() = startRowTest(count = 4)
 
+    /**
+     * Test of displaying different [count] of roll rows.
+     */
     private fun startRowTest(count: Int) {
         val rollList = ArrayList<RollEntity>()
 
@@ -134,11 +141,35 @@ abstract class NoteCardTestCase(
     }
 
 
-    open fun rollInvisible() = startRollVisibleIndicatorTest(isVisible = false)
+    open fun notificationText() = startNotificationIndicatorTest(NoteType.TEXT)
 
-    open fun rollVisible() = startRollVisibleIndicatorTest(isVisible = true)
+    open fun notificationRoll() = startNotificationIndicatorTest(NoteType.ROLL)
 
-    private fun startRollVisibleIndicatorTest(isVisible: Boolean) {
+    /**
+     * Test of notification indicator. It's impossible to setup notification for [MainPage.BIN].
+     */
+    private fun startNotificationIndicatorTest(type: NoteType) {
+        val item = when (page) {
+            MainPage.RANK -> throwPageError()
+            MainPage.NOTES -> when (type) {
+                NoteType.TEXT -> db.insertText()
+                NoteType.ROLL -> db.insertRoll()
+            }
+            MainPage.BIN -> throwPageError()
+        }
+
+        assertList(listOf(db.insertNotification(item)))
+    }
+
+
+    open fun rollInvisible() = startVisibleIndicatorTest(isVisible = false)
+
+    open fun rollVisible() = startVisibleIndicatorTest(isVisible = true)
+
+    /**
+     * Test of roll visible indicator.
+     */
+    private fun startVisibleIndicatorTest(isVisible: Boolean) {
         val item = when (page) {
             MainPage.RANK -> throwPageError()
             MainPage.NOTES -> db.insertRoll(isVisible = isVisible)
@@ -157,6 +188,9 @@ abstract class NoteCardTestCase(
 
     open fun progressIndicator4() = startProgressTest(check = 100, size = 100)
 
+    /**
+     * Test of roll item progress.
+     */
     private fun startProgressTest(check: Int, size: Int) {
         if (size < check) throw IllegalAccessException(OVERFLOW_ERROR_TEXT)
 
@@ -191,6 +225,9 @@ abstract class NoteCardTestCase(
 
     open fun rankRoll() = startRankTest(NoteType.ROLL)
 
+    /**
+     * Test of rank indicator and sort.
+     */
     private fun startRankTest(type: NoteType) {
         preferencesRepo.sort = Sort.RANK
 
@@ -213,6 +250,9 @@ abstract class NoteCardTestCase(
 
     open fun rankRollCancel() = startRankCancelTest(NoteType.ROLL)
 
+    /**
+     * Test of rank visible and cancel works with items in [page].
+     */
     private fun startRankCancelTest(type: NoteType) {
         val pair = when (page) {
             MainPage.RANK -> throw IllegalAccessError(PAGE_ERROR_TEXT)
