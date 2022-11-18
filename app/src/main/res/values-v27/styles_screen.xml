@@ -36,13 +36,4 @@
         <item name="android:navigationBarDividerColor">@android:color/transparent</item>
     </style>
 
-    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
-    <style name="App.Screen.Intro" parent="App.Screen.Dark">
-        <item name="android:windowBackground">?attr/colorPrimaryDark</item>
-
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarDividerColor">@android:color/transparent</item>
-    </style>
-
 </resources>

@@ -1,9 +1,7 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
+package sgtmelon.scriptum.infrastructure.screen.note
 
 import android.os.Bundle
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -22,7 +20,7 @@ class NoteViewModel(
     private val colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo
 ) : ParentViewModel<INoteActivity>(callback),
-        INoteViewModel {
+    INoteViewModel {
 
     @RunPrivate var id: Long = Default.ID
     @RunPrivate var type: NoteType? = null

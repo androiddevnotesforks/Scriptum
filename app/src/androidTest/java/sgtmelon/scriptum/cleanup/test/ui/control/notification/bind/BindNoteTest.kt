@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.test.ui.control.notification.bind
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
+import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 
 
 /**

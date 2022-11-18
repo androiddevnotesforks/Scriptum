@@ -41,19 +41,12 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity"
-            android:configChanges="keyboardHidden"
-            android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
-            android:theme="@style/App.Screen.Intro"/>
-
-        <activity
             android:name="sgtmelon.scriptum.infrastructure.screen.main.MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity
-            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.note.NoteActivity"
             android:exported="false"
             android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity" />
 

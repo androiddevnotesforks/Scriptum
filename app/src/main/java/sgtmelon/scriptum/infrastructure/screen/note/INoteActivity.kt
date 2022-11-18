@@ -1,7 +1,5 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
+package sgtmelon.scriptum.infrastructure.screen.note
 
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**

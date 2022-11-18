@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.toolbar
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 
 /**
  * Test for [NoteActivity] toolbar color with [ThemeDisplayed.DARK].

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note
+package sgtmelon.scriptum.infrastructure.screen.note
 
 import android.content.IntentFilter
 import android.os.Bundle
@@ -10,9 +10,8 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.HolderTintControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
