@@ -6,7 +6,6 @@ import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
-import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
@@ -18,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleConverter
 import sgtmelon.scriptum.parent.ui.dialogs.sheet.RepeatSheetDialogUi
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withContentDescription
@@ -78,7 +78,7 @@ class AlarmScreen(
          * another minute (like 1.10) this may lead false tests.
          */
         while (getCalendar().get(Calendar.SECOND) > 50) {
-            waitBefore(time = 5000)
+            await(time = 5000)
         }
 
         repeatButton.click()
@@ -90,7 +90,10 @@ class AlarmScreen(
         RepeatSheetDialogUi(func)
     }
 
-    fun waitRepeat() = waitBefore(AlarmActivity.TIMEOUT_TIME) { onRepeat() }
+    fun waitRepeat() {
+        await(AlarmActivity.TIMEOUT_TIME)
+        onRepeat()
+    }
 
     private fun onRepeat(): Calendar {
         val calendar = getClearCalendar(addMinutes = repeatArray[preferencesRepo.repeat.ordinal])

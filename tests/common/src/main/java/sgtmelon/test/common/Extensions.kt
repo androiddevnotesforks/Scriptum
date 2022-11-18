@@ -3,6 +3,7 @@ package sgtmelon.test.common
 import java.util.Calendar
 import java.util.UUID
 import kotlin.random.Random
+import org.junit.Assert.assertNotEquals
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 
@@ -43,3 +44,21 @@ fun getRandomPastTime(): String {
 }
 
 //endregion
+
+fun <E> Array<E>.getDifferentValues(): Pair<E, E> {
+    if (size <= 1) throw IllegalArgumentException("Values must have size greater than 1")
+
+    return getDifferentValues { random() }
+}
+
+inline fun <E> getDifferentValues(getRandom: () -> E): Pair<E, E> {
+    val firstValue = getRandom()
+    var secondValue = getRandom()
+    while (secondValue == firstValue) {
+        secondValue = getRandom()
+    }
+
+    assertNotEquals(firstValue, secondValue)
+
+    return firstValue to secondValue
+}

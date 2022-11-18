@@ -14,6 +14,7 @@ import sgtmelon.scriptum.cleanup.ui.automator.NotificationUi
 /**
  * Automator for control application notifications.
  */
+@Deprecated("Not working")
 class NotificationAutomator(
     private val context: Context,
     private val uiDevice: UiDevice

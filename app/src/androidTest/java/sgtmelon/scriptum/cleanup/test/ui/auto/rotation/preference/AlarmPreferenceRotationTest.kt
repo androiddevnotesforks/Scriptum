@@ -9,13 +9,13 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.IAlarmPreferenceTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.test.common.getDifferentValues
 
 /**
  * Test of [AlarmPreferenceFragment] work with phone rotation.
@@ -108,7 +108,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
     }
 
     @Test fun volumeDialog() {
-        val (initValue, value) = VolumeDialogUi.list.toList().getDifferentValues()
+        val (initValue, value) = VolumeDialogUi.list.getDifferentValues()
 
         runTest({
             getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())

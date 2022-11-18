@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.ui
 
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
+import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.getCount
 import sgtmelon.test.cappuccino.utils.getRandomPosition
 import sgtmelon.test.cappuccino.utils.swipeDown
@@ -23,12 +23,12 @@ abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : Parent
     protected val random: Int? get() = recyclerView.getRandomPosition()
 
     fun scrollTo(scroll: Scroll, time: Int = REPEAT_COUNT) = repeat(time) {
-        waitAfter(SCROLL_TIME) {
-            when (scroll) {
-                Scroll.START -> recyclerView.swipeDown()
-                Scroll.END -> recyclerView.swipeUp()
-            }
+        when (scroll) {
+            Scroll.START -> recyclerView.swipeDown()
+            Scroll.END -> recyclerView.swipeUp()
         }
+
+        await(SCROLL_TIME)
     }
 
     fun scrollThrough() = repeat(REPEAT_COUNT) {

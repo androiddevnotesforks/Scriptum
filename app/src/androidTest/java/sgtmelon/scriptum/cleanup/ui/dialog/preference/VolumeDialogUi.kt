@@ -70,6 +70,6 @@ class VolumeDialogUi : ParentScreen(),
         }
 
         /** Int array with values from 10 up to 100 */
-        val list = IntArray(size = 90) { it + 10 }
+        val list = Array(size = 9) { 10 + 10 * it }
     }
 }

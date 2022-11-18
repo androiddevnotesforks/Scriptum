@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
+import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -177,7 +177,8 @@ class RollNoteScreen(
     fun onSwipe(p: Int? = random) {
         if (p == null) return
 
-        waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
+        recyclerView.swipeItem(p)
+        await(SWIPE_TIME)
 
         val correctPosition = getCorrectPosition(p, shadowItem.list)
 
