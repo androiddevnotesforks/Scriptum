@@ -3,12 +3,12 @@ package sgtmelon.scriptum.cleanup.ui.dialog
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click

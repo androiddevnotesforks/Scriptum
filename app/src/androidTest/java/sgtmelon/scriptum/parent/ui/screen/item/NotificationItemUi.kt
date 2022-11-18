@@ -5,9 +5,9 @@ import org.hamcrest.Matcher
 import sgtmelon.extensions.formatFuture
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
+import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click

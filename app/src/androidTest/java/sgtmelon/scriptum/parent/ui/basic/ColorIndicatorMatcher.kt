@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.matcher
+package sgtmelon.scriptum.parent.ui.basic
 
 import android.view.View
 import androidx.annotation.IdRes

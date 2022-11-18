@@ -1,17 +1,13 @@
-package sgtmelon.scriptum.cleanup.basic.extension
+package sgtmelon.scriptum.parent.ui.basic
 
 import android.view.View
 import androidx.annotation.DimenRes
 import org.hamcrest.Matcher
-import sgtmelon.scriptum.cleanup.basic.matcher.BackgroundAppColorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.CardBackgroundColorMatcher
-import sgtmelon.scriptum.cleanup.basic.matcher.ColorIndicatorMatcher
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.test.cappuccino.matchers.card.CardElevationMatcher
 import sgtmelon.test.cappuccino.matchers.card.CardRadiusMatcher
 import sgtmelon.test.cappuccino.utils.matchOnView
-
 
 fun Matcher<View>.withBackgroundAppColor(
     theme: ThemeDisplayed,

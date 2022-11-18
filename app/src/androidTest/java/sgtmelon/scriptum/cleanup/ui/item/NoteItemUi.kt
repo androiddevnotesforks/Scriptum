@@ -7,14 +7,14 @@ import org.hamcrest.Matcher
 import sgtmelon.extensions.formatPast
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.withCardBackground
-import sgtmelon.scriptum.cleanup.basic.extension.withColorIndicator
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.parent.ui.basic.withCardBackground
+import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
 import sgtmelon.scriptum.parent.ui.feature.OpenNoteDialog
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart

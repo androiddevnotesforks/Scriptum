@@ -4,7 +4,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.extension.withBackgroundAppColor
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
@@ -12,6 +11,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.imeOption
