@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.alarm
+package sgtmelon.scriptum.ui.auto.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.screen
+package sgtmelon.scriptum.parent.ui.screen.alarm
 
 import java.util.Calendar
 import sgtmelon.extensions.getCalendar

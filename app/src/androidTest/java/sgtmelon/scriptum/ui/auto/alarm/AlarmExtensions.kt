@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.alarm
+package sgtmelon.scriptum.ui.auto.alarm
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.screen.AlarmScreen
+import sgtmelon.scriptum.parent.ui.screen.alarm.AlarmScreen
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 inline fun <T : NoteItem> ParentUiTest.startAlarmTest(
