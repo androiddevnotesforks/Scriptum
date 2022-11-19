@@ -62,7 +62,7 @@ abstract class ParentUiTest : ParentTest() {
 
         /** Turn on wi-fi. */
         uiDevice.executeShellCommand("svc wifi enable")
-        changeLongPressTime()
+        resetLongPressTime()
 
         /** Prepare preferences. */
         setupTheme(ThemeDisplayed.values().random())
@@ -78,10 +78,22 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     /**
+     * Decrease long press time needed for fast access (when it's important) to long press
+     * feature.
+     */
+    protected inline fun smallLongPressTime(onBetween: () -> Unit) {
+        changeLongPressTime(timeMs = 100)
+        onBetween()
+        resetLongPressTime()
+    }
+
+    /**
      * Increase long press timeout, for preventing fake espresso click performed like a
      * long one.
      */
-    protected fun changeLongPressTime(timeMs: Long = 2000) {
+    protected fun resetLongPressTime() = changeLongPressTime(timeMs = 2000)
+
+    protected fun changeLongPressTime(timeMs: Long) {
         uiDevice.executeShellCommand("settings put secure long_press_timeout $timeMs")
     }
 
@@ -90,7 +102,6 @@ abstract class ParentUiTest : ParentTest() {
      * related with theme. It's because need set [ParentScreen.appTheme].
      */
     protected fun setupTheme(theme: ThemeDisplayed) {
-        val theme = ThemeDisplayed.DARK
         ParentScreen.theme = theme
 
         // TODO check how it will work with preferencesRepo (not preferences)

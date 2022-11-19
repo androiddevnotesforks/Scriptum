@@ -151,9 +151,9 @@ class RankSnackbarTest : ParentUiTest(),
             list.removeAt(0)
 
             snackbar { assert() }
-            changeLongPressTime(timeMs = 100)
-            toolbar { addToStart() }
-            changeLongPressTime()
+            smallLongPressTime {
+                toolbar { addToStart() }
+            }
             assertSnackbarDismissed()
 
             for ((i, item) in list.withIndex()) {

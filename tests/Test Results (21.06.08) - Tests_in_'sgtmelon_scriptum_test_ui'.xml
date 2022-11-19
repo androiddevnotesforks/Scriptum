@@ -117,7 +117,7 @@
         <test name="rankPage" duration="6744" status="passed" />
         <test name="notesPage" duration="8010" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.NotesRotationTest"
+    <suite name="sgtmelon.scriptum.ui.auto.notes.NotesRotationTest"
         duration="61040"
         status="passed">
         <test name="textNoteDialog" duration="8058" status="passed" />
@@ -128,9 +128,7 @@
         <test name="contentEmpty" duration="7649" status="passed" />
         <test name="rollNoteDialog" duration="8137" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.RankRotationTest"
-        duration="43807"
-        status="passed">
+    <suite name="sgtmelon.scriptum.ui.auto.rank.RankRotationTest" duration="43807" status="passed">
         <test name="renameDialog" duration="9416" status="passed" />
         <test name="contentList" duration="8327" status="passed" />
         <test name="snackbar" duration="18804" status="passed" />
@@ -168,7 +166,7 @@
         <test name="contentOnBin" duration="8212" status="passed"/>
         <test name="convertDialog" duration="8286" status="passed"/>
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification.AlarmRotationTest"
+    <suite name="sgtmelon.scriptum.ui.auto.alarm.AlarmRotationTest"
         duration="52825"
         status="passed">
         <test name="contentRoll" duration="26710" status="passed" />
@@ -4115,7 +4113,7 @@
                 className="NotesRotationTest"
                 endTimestampMillis="8058"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.NotesRotationTest.textNoteDialog"
+                id="sgtmelon.scriptum.ui.auto.notes.NotesRotationTest.textNoteDialog"
                 logcat=""
                 methodName="textNoteDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4125,7 +4123,7 @@
                 className="NotesRotationTest"
                 endTimestampMillis="9112"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.NotesRotationTest.contentList"
+                id="sgtmelon.scriptum.ui.auto.notes.NotesRotationTest.contentList"
                 logcat=""
                 methodName="contentList"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4135,7 +4133,7 @@
                 className="NotesRotationTest"
                 endTimestampMillis="8744"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.NotesRotationTest.dateDialog"
+                id="sgtmelon.scriptum.ui.auto.notes.NotesRotationTest.dateDialog"
                 logcat=""
                 methodName="dateDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4145,7 +4143,7 @@
                 className="NotesRotationTest"
                 endTimestampMillis="9812"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.NotesRotationTest.timeDialog"
+                id="sgtmelon.scriptum.ui.auto.notes.NotesRotationTest.timeDialog"
                 logcat=""
                 methodName="timeDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4155,7 +4153,7 @@
                 className="NotesRotationTest"
                 endTimestampMillis="9528"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.NotesRotationTest.dateDialogReset"
+                id="sgtmelon.scriptum.ui.auto.notes.NotesRotationTest.dateDialogReset"
                 logcat=""
                 methodName="dateDialogReset"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4165,7 +4163,7 @@
                 className="NotesRotationTest"
                 endTimestampMillis="7649"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.NotesRotationTest.contentEmpty"
+                id="sgtmelon.scriptum.ui.auto.notes.NotesRotationTest.contentEmpty"
                 logcat=""
                 methodName="contentEmpty"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4175,7 +4173,7 @@
                 className="NotesRotationTest"
                 endTimestampMillis="8137"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.NotesRotationTest.rollNoteDialog"
+                id="sgtmelon.scriptum.ui.auto.notes.NotesRotationTest.rollNoteDialog"
                 logcat=""
                 methodName="rollNoteDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4185,7 +4183,7 @@
                 className="RankRotationTest"
                 endTimestampMillis="9416"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.RankRotationTest.renameDialog"
+                id="sgtmelon.scriptum.ui.auto.rank.RankRotationTest.renameDialog"
                 logcat=""
                 methodName="renameDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4195,7 +4193,7 @@
                 className="RankRotationTest"
                 endTimestampMillis="8327"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.RankRotationTest.contentList"
+                id="sgtmelon.scriptum.ui.auto.rank.RankRotationTest.contentList"
                 logcat=""
                 methodName="contentList"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4205,7 +4203,7 @@
                 className="RankRotationTest"
                 endTimestampMillis="18804"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.RankRotationTest.snackbar"
+                id="sgtmelon.scriptum.ui.auto.rank.RankRotationTest.snackbar"
                 logcat=""
                 methodName="snackbar"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4215,7 +4213,7 @@
                 className="RankRotationTest"
                 endTimestampMillis="7260"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main.RankRotationTest.contentEmpty"
+                id="sgtmelon.scriptum.ui.auto.rank.RankRotationTest.contentEmpty"
                 logcat=""
                 methodName="contentEmpty"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main"
@@ -4465,7 +4463,7 @@
                 className="AlarmRotationTest"
                 endTimestampMillis="26710"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification.AlarmRotationTest.contentRoll"
+                id="sgtmelon.scriptum.ui.auto.alarm.AlarmRotationTest.contentRoll"
                 logcat=""
                 methodName="contentRoll"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification"
@@ -4475,7 +4473,7 @@
                 className="AlarmRotationTest"
                 endTimestampMillis="26115"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification.AlarmRotationTest.contentText"
+                id="sgtmelon.scriptum.ui.auto.alarm.AlarmRotationTest.contentText"
                 logcat=""
                 methodName="contentText"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.notification"

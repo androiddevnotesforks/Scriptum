@@ -99,6 +99,8 @@ class AlarmScreen(
         RepeatSheetDialogUi(func)
     }
 
+    fun noteLongClick(item: NoteItem) = getItem(p = 0).dialogClick(item)
+
     fun assert() = apply {
         parentContainer.isDisplayed()
 

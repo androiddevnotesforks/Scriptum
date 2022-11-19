@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.rotation.main
+package sgtmelon.scriptum.ui.auto.rank
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -7,7 +7,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.ui.cases.ListContentCase
-import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
@@ -40,39 +39,21 @@ class RankRotationTest : ParentUiRotationTest(),
         }
     }
 
-    @Test fun renameDialog() = db.insertRank().let {
+    @Test fun renameDialog() = startRankItemTest(db.insertRank()) {
         val newName = nextString()
-
-        launch {
-            mainScreen {
-                openRank {
-                    openRenameDialog(it.name) {
-                        enter(newName)
-                        rotate.toSide()
-                        assert(newName)
-                    }
-                }
-            }
+        openRenameDialog(it.name) {
+            enter(newName)
+            rotate.toSide()
+            assert(newName)
         }
     }
 
-    @Test fun snackbar() = db.insertRank().let {
-        launch {
-            mainScreen {
-                openRank {
-                    repeat(times = 3) { time ->
-                        itemCancel()
-
-                        if (time.isDivideEntirely()) {
-                            rotate.toSide()
-                        } else {
-                            rotate.toNormal()
-                        }
-
-                        snackbar { action() }
-                    }
-                }
-            }
+    @Test fun snackbar() = startRankItemTest(db.insertRank()) {
+        repeat(times = 3) {
+            itemCancel()
+            rotate.switch()
+            snackbar { action() }
+            assert(isEmpty = false)
         }
     }
 }
