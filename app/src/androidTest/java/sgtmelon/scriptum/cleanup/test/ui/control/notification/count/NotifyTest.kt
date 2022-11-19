@@ -35,7 +35,7 @@ class NotifyTest : ParentNotificationTest() {
         val item = db.insertNotification()
         db.insertNotification()
 
-        launchAlarm(item) { alarmScreen(item) { onSee { onClickRepeat() } } }
+        launchAlarm(item) { alarmScreen(item) { onSee { repeat() } } }
     }
 
     /**

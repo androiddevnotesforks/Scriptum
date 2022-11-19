@@ -75,7 +75,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
     }.let {
         TODO()
         launchAlarm(it) {
-            alarmScreen(it) { onOpen { onAssertItem(it.apply { isStatus = false }) } }
+            alarmScreen(it) { onOpen { assertItem(it.apply { isStatus = false }) } }
         }
     }
 }

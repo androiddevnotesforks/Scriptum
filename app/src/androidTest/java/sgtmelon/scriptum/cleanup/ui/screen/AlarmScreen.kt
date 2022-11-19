@@ -5,18 +5,18 @@ import sgtmelon.extensions.getCalendar
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
-import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
-import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.widgets.ripple.RippleConverter
 import sgtmelon.scriptum.parent.ui.dialogs.sheet.RepeatSheetDialogUi
 import sgtmelon.scriptum.parent.ui.feature.BackPress
+import sgtmelon.scriptum.parent.ui.feature.OpenNote
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.ContainerPart
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -33,49 +33,37 @@ import sgtmelon.test.cappuccino.utils.withText
 class AlarmScreen(
     private val item: NoteItem,
     private val dateList: List<String>?
-) : ParentRecyclerScreen(R.id.recycler_view), BackPress {
-
-    private val converter = RippleConverter()
-
-    private val repeatArray = context.resources.getIntArray(R.array.pref_alarm_repeat_array)
+) : ContainerPart(TestViewTag.ALARM),
+    RecyclerPart<NoteItem, NoteItemUi>,
+    OpenNote,
+    BackPress {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.parent_container)
-    private val rippleContainer = getViewById(R.id.ripple_container)
-    private val logoView = getViewById(R.id.logo_view)
-    private val buttonContainer = getViewById(R.id.button_container)
+    override val recyclerView = getView(R.id.recycler_view)
 
-    private val disableButton = getViewById(R.id.disable_button)
-    private val repeatButton = getViewById(R.id.repeat_button)
-    private val moreButton = getViewById(R.id.more_button)
+    private val rippleContainer = getView(R.id.ripple_container)
+    private val logoView = getView(R.id.logo_view)
+    private val buttonContainer = getView(R.id.button_container)
 
-    private fun getItem() = NoteItemUi(recyclerView, p = 0)
+    private val disableButton = getView(R.id.disable_button)
+    private val repeatButton = getView(R.id.repeat_button)
+    private val moreButton = getView(R.id.more_button)
+
+    override fun getItem(p: Int) = NoteItemUi(recyclerView, p)
+
+    override val openNoteState: NoteState = NoteState.READ
 
     //endregion
-
-    fun openTextNote(isRankEmpty: Boolean = true, func: TextNoteScreen.() -> Unit = {}) {
-        if (item !is NoteItem.Text) throw NoteCastException()
-
-        recyclerView.click(p = 0)
-        TextNoteScreen(func, NoteState.READ, item, isRankEmpty)
-    }
-
-    fun openRollNote(isRankEmpty: Boolean = true, func: RollNoteScreen.() -> Unit = {}) {
-        if (item !is NoteItem.Roll) throw NoteCastException()
-
-        recyclerView.click(p = 0)
-        RollNoteScreen(func, NoteState.READ, item, isRankEmpty)
-    }
 
     fun disable() {
         disableButton.click()
     }
 
-    fun onClickRepeat(): Calendar {
+    fun repeat(): Calendar {
         /**
-         * If click happen in corner seconds value (like 0.59) and calendar will be receiver in
-         * another minute (like 1.10) this may lead false tests.
+         * If click happens in the corner seconds (like 0.59) and calendar will be received in
+         * the next minute (like 1.10) - this may cause fail of the tests.
          */
         while (getCalendar().get(Calendar.SECOND) > 50) {
             await(time = 5000)
@@ -85,21 +73,20 @@ class AlarmScreen(
         return onRepeat()
     }
 
-    fun openMoreDialog(func: RepeatSheetDialogUi.() -> Unit = {}) = apply {
-        moreButton.click()
-        RepeatSheetDialogUi(func)
-    }
-
-    fun waitRepeat() {
+    fun waitRepeat(): Calendar {
         await(AlarmActivity.TIMEOUT_TIME)
-        onRepeat()
+        return onRepeat()
     }
 
     private fun onRepeat(): Calendar {
-        val calendar = getClearCalendar(addMinutes = repeatArray[preferencesRepo.repeat.ordinal])
+        val repeatArray = context.resources.getIntArray(R.array.pref_alarm_repeat_array)
+        val repeatValue = repeatArray[preferencesRepo.repeat.ordinal]
+        val calendar = getClearCalendar(repeatValue)
 
-        while (dateList?.contains(calendar.toText()) == true) {
-            calendar.add(Calendar.MINUTE, 1)
+        if (dateList != null) {
+            while (dateList.contains(calendar.toText())) {
+                calendar.add(Calendar.MINUTE, 1)
+            }
         }
 
         item.alarmDate = calendar.toText()
@@ -107,13 +94,16 @@ class AlarmScreen(
         return calendar
     }
 
-
-    fun onAssertItem(item: NoteItem) = getItem().assert(item)
+    fun openMoreDialog(func: RepeatSheetDialogUi.() -> Unit = {}) = apply {
+        moreButton.click()
+        RepeatSheetDialogUi(func)
+    }
 
     fun assert() = apply {
         parentContainer.isDisplayed()
 
-        val fillColor = context.getAppSimpleColor(item.color, converter.getRippleShade(appTheme))
+        val rippleShade = RippleConverter().getRippleShade(theme)
+        val fillColor = context.getAppSimpleColor(item.color, rippleShade)
         rippleContainer.isDisplayed().withTag(fillColor)
 
         logoView.isDisplayed()
@@ -121,7 +111,6 @@ class AlarmScreen(
             .withDrawableColor(R.mipmap.img_logo)
 
         recyclerView.isDisplayed()
-
         buttonContainer.isDisplayed()
 
         disableButton.isDisplayed().withText(R.string.button_disable, R.attr.clAccent)
@@ -137,9 +126,7 @@ class AlarmScreen(
             item: NoteItem,
             dateList: List<String>? = null
         ): AlarmScreen {
-            return AlarmScreen(item, dateList)
-                .assert()
-                .apply(func)
+            return AlarmScreen(item, dateList).assert().apply(func)
         }
     }
 }

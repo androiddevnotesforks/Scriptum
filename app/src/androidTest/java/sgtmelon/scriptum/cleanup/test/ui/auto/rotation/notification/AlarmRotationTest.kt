@@ -18,7 +18,7 @@ class AlarmRotationTest : ParentUiRotationTest() {
             alarmScreen(it) {
                 rotate.toSide()
                 assert()
-                onAssertItem(it)
+                assertItem(it)
             }
         }
     }
@@ -28,7 +28,7 @@ class AlarmRotationTest : ParentUiRotationTest() {
             alarmScreen(it) {
                 rotate.toSide()
                 assert()
-                onAssertItem(it)
+                assertItem(it)
             }
         }
     }

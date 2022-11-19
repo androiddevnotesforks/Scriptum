@@ -6,22 +6,36 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.NoteOpenCase
 
 /**
  * Test for [AlarmActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmTest : ParentUiTest() {
+class AlarmTest : ParentUiTest(),
+    NoteOpenCase {
 
-    @Test fun openTextNote() = db.insertText().let {
-        launchAlarm(it) { alarmScreen(it) { openTextNote { pressBack() } }.mainScreen() }
+    // tODO check scroll list
+    // TODO check long click
+
+    @Test override fun itemTextOpen() = db.insertText().let {
+        launchAlarm(it) {
+            alarmScreen(it) { openText(it) { pressBack() } }
+            mainScreen()
+        }
     }
 
-    @Test fun openRollNote() = db.insertRoll().let {
-        launchAlarm(it) { alarmScreen(it) { openRollNote { pressBack() } }.mainScreen() }
+    @Test override fun itemRollOpen() = db.insertRoll().let {
+        launchAlarm(it) {
+            alarmScreen(it) { openRoll(it) { pressBack() } }
+            mainScreen()
+        }
     }
 
-    @Test fun clickDisable() = db.insertNote().let {
-        launchAlarm(it) { alarmScreen(it) { disable() }.mainScreen() }
+    @Test fun disable() = db.insertNote().let {
+        launchAlarm(it) {
+            alarmScreen(it) { disable() }
+            mainScreen()
+        }
     }
 }

@@ -13,7 +13,7 @@ import sgtmelon.scriptum.ui.cases.value.RepeatCase
  * Test for [AlarmActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmBackRepeatTest : ParentUiTest(), RepeatCase {
+class AlarmRepeatBackTest : ParentUiTest(), RepeatCase {
 
     @Test override fun repeatMin10() = super.repeatMin10()
 
@@ -27,9 +27,6 @@ class AlarmBackRepeatTest : ParentUiTest(), RepeatCase {
 
     override fun startTest(value: Repeat) {
         preferencesRepo.repeat = value
-
-        db.insertNote().let {
-            launchAlarm(it) { alarmScreen(it) { pressBack() }.mainScreen() }
-        }
+        startAlarmCloseTest(db.insertNote()) { pressBack() }
     }
 }

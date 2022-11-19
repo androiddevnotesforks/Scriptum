@@ -10,6 +10,7 @@ annotation class TestViewTag {
         const val NOTES = "NOTES"
         const val BIN = "BIN"
 
+        const val ALARM = "ALARM"
         const val NOTIFICATIONS = "NOTIFICATIONS"
     }
 }

@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.extensions.getCalendar
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
+import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
@@ -17,7 +18,7 @@ import sgtmelon.scriptum.ui.cases.value.RepeatCase
  * Test for [AlarmActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmClickRepeatTest : ParentUiTest(), RepeatCase {
+class AlarmRepeatClickTest : ParentUiTest(), RepeatCase {
 
     @Test override fun repeatMin10() = super.repeatMin10()
 
@@ -31,10 +32,7 @@ class AlarmClickRepeatTest : ParentUiTest(), RepeatCase {
 
     override fun startTest(value: Repeat) {
         preferencesRepo.repeat = value
-
-        db.insertNote().let {
-            launchAlarm(it) { alarmScreen(it) { onClickRepeat() }.mainScreen() }
-        }
+        startAlarmCloseTest(db.insertNote()) { repeat() }
     }
 
     @Test fun dateExist() = db.insertText().let {
@@ -44,13 +42,14 @@ class AlarmClickRepeatTest : ParentUiTest(), RepeatCase {
             val existDate = getClearCalendar(addMinutes = 10).toText()
             db.insertNotification(date = existDate)
 
-            alarmScreen(it, listOf(existDate)) { onClickRepeat() }
+            alarmScreen(it, listOf(existDate)) { repeat() }
             mainScreen { openNotes { openNotifications { assertItem(it, 1) } } }
         }
     }
 
     /**
-     * Check reset seconds on click repeat button. And check alarm receiver work with notes screen.
+     * Check reset seconds after clicking of repeat button. And check [NoteItemUi] indicator
+     * after setting up new notification (repeat click).
      */
     @Test fun correctSeconds() = db.insertText(db.textNote.copy(color = Color.PURPLE)).let {
         preferencesRepo.sort = Sort.COLOR
@@ -61,7 +60,7 @@ class AlarmClickRepeatTest : ParentUiTest(), RepeatCase {
         launchAlarm(it) {
             var repeatCalendar = getCalendar()
             alarmScreen(it) {
-                repeatCalendar = onClickRepeat()
+                repeatCalendar = repeat()
             }
 
             mainScreen {

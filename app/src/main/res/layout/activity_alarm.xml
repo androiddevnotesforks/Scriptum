@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity">
 
+    <data>
+
+        <import type="sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent_container"
+        android:tag='@{TestViewTag.ALARM}'
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
