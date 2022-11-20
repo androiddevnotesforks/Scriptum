@@ -5,13 +5,16 @@ import sgtmelon.scriptum.cleanup.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.MenuPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpPreferenceScreen
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
-import sgtmelon.scriptum.parent.ui.parts.preferences.ParentPreferencePart
+import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
 
 /**
  * Class for UI control of [MenuPreferenceFragment].
  */
-class MenuPreferenceScreen : ParentPreferencePart<MenuPreferenceLogic>(R.string.title_preference) {
+class MenuPreferenceScreen : PreferencePart<MenuPreferenceLogic>(
+    R.string.title_preference, TestViewTag.PREF_MENU
+) {
 
     override val screenLogic = MenuPreferenceLogic()
 

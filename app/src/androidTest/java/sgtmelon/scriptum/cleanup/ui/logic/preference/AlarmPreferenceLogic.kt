@@ -9,8 +9,8 @@ import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Header
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Summary
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Switch
-import sgtmelon.scriptum.cleanup.ui.logic.parent.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.AlarmPreferenceScreen
+import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
 /**
  * Logic for [AlarmPreferenceScreen].
@@ -27,7 +27,7 @@ class AlarmPreferenceLogic : PreferenceLogic() {
             Header(R.string.pref_header_common),
             Summary.Text(
                 R.string.pref_title_alarm_repeat,
-                provider.getRepeat(preferencesRepo.repeat)
+                summary.getRepeat(preferencesRepo.repeat)
             )
         )
 
@@ -46,7 +46,7 @@ class AlarmPreferenceLogic : PreferenceLogic() {
         list.add(Summary.Text(R.string.pref_title_alarm_melody, melodyItem.title, isMelody))
         list.add(Summary.Text(
             R.string.pref_title_alarm_volume,
-            provider.getVolume(preferencesRepo.volumePercent),
+            summary.getVolume(preferencesRepo.volumePercent),
             isMelody
         ))
         list.add(Switch(

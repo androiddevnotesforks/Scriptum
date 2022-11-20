@@ -6,14 +6,16 @@ import sgtmelon.scriptum.cleanup.ui.dialog.preference.RepeatDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SignalDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.AlarmPreferenceLogic
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.parent.ui.parts.preferences.ParentPreferencePart
+import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
 
 /**
  * Class for UI control of [AlarmPreferenceFragment].
  */
-class AlarmPreferenceScreen :
-    ParentPreferencePart<AlarmPreferenceLogic>(R.string.pref_title_alarm) {
+class AlarmPreferenceScreen : PreferencePart<AlarmPreferenceLogic>(
+    R.string.pref_title_alarm, TestViewTag.PREF_ALARM
+) {
 
     override val screenLogic = AlarmPreferenceLogic()
 
@@ -24,7 +26,7 @@ class AlarmPreferenceScreen :
 
     fun openSignalDialog(func: SignalDialogUi.() -> Unit = {}) {
         getItem(p = 2).Summary().onItemClick()
-        SignalDialogUi(screenLogic.preferencesRepo.signalTypeCheck, func)
+        SignalDialogUi(preferencesRepo.signalTypeCheck, func)
     }
 
     fun openMelodyDialog(func: MelodyDialogUi.() -> Unit = {}) {

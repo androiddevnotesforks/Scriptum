@@ -23,14 +23,14 @@ class AlarmPreferenceTest : ParentUiTest(), IAlarmPreferenceTest {
     @Test fun assertBoth() = startAssertTest(isMelody = true, isVibration = true)
 
     private fun startAssertTest(isMelody: Boolean, isVibration: Boolean) = runTest({
-        getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(isMelody, isVibration)
+        preferencesRepo.signalTypeCheck = booleanArrayOf(isMelody, isVibration)
     }) { assert() }
 
     @Test fun volumeIncreaseWork() {
         val value = Random.nextBoolean()
 
         runTest({
-            getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
+            preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.isVolumeIncrease = value
         }) { onVolumeIncreaseClick() }
 

@@ -6,15 +6,17 @@ import sgtmelon.scriptum.cleanup.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SavePeriodDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SortDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.NotePreferenceLogic
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
-import sgtmelon.scriptum.parent.ui.parts.preferences.ParentPreferencePart
+import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
 
 /**
  * Class for UI control of [NotePreferenceFragment].
  */
-class NotePreferenceScreen : ParentPreferencePart<NotePreferenceLogic>(R.string.pref_title_note),
-    ColorDialogUi.Callback {
+class NotePreferenceScreen : PreferencePart<NotePreferenceLogic>(
+    R.string.pref_title_note, TestViewTag.PREF_NOTE
+), ColorDialogUi.Callback {
 
     override val screenLogic = NotePreferenceLogic()
 

@@ -21,7 +21,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
 
     @Before override fun setUp() {
         super.setUp()
-        getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
+        preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 
     @Test fun dialogClose() = runTest {

@@ -27,7 +27,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         preferencesRepo.repeat = Repeat.values().random()
 
         val signalArray = getLogic().getRandomSignal()
-        getLogic().preferencesRepo.signalTypeCheck = signalArray
+        preferencesRepo.signalTypeCheck = signalArray
 
         val melodyList = runBlocking { getLogic().getMelodyList() }
         preferences.melodyUri = melodyList.random().uri
@@ -62,7 +62,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         assertFalse(initValue.contentEquals(value))
         assertEquals(initValue.size, value.size)
 
-        runTest({ getLogic().preferencesRepo.signalTypeCheck = initValue }) {
+        runTest({ preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
                 onClickItem(value)
                 rotate.toSide()
@@ -72,7 +72,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
             assert()
         }
 
-        assertTrue(getLogic().preferencesRepo.signalTypeCheck.contentEquals(value))
+        assertTrue(preferencesRepo.signalTypeCheck.contentEquals(value))
     }
 
     private fun getSignalClick(initArray: BooleanArray): BooleanArray {
@@ -88,7 +88,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         assertNotEquals(initValue, value)
 
         runTest({
-            getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
+            preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.melodyUri = initValue.uri
         }) {
             openMelodyDialog {
@@ -111,7 +111,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         val (initValue, value) = VolumeDialogUi.list.getDifferentValues()
 
         runTest({
-            getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
+            preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.volumePercent = initValue
         }) {
             openVolumeDialog {

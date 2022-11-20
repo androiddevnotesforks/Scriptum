@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityPreferenceBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -60,6 +61,14 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
     }
 
     private fun setupView(screen: PreferenceScreen) {
+        binding?.parentContainer?.tag = when (screen) {
+            PreferenceScreen.MENU -> TestViewTag.PREF_MENU
+            PreferenceScreen.BACKUP -> TestViewTag.PREF_BACKUP
+            PreferenceScreen.NOTE -> TestViewTag.PREF_NOTE
+            PreferenceScreen.ALARM -> TestViewTag.PREF_ALARM
+            else -> ""
+        }
+
         val titleId = when (screen) {
             PreferenceScreen.MENU -> R.string.title_preference
             PreferenceScreen.BACKUP -> R.string.pref_title_backup

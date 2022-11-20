@@ -38,7 +38,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertTrue(getLogic().preferencesRepo.signalTypeCheck.contentEquals(value))
+        assertTrue(preferencesRepo.signalTypeCheck.contentEquals(value))
     }
 
     /**
@@ -49,7 +49,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
 
         do {
             initValue = getLogic().getRandomSignal()
-            getLogic().preferencesRepo.signalTypeCheck = initValue
+            preferencesRepo.signalTypeCheck = initValue
         } while (initValue.contentEquals(value))
 
         return initValue

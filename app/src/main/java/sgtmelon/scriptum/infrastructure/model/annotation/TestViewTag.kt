@@ -12,5 +12,10 @@ annotation class TestViewTag {
 
         const val ALARM = "ALARM"
         const val NOTIFICATIONS = "NOTIFICATIONS"
+
+        const val PREF_MENU = "PREF_MENU"
+        const val PREF_BACKUP = "PREF_BACKUP"
+        const val PREF_NOTE = "PREF_NOTE"
+        const val PREF_ALARM = "PREF_ALARM"
     }
 }

@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.ui.logic.preference
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.ui.logic.parent.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
+import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
 /**
  * Logic for [MenuPreferenceScreen].
@@ -15,7 +15,7 @@ class MenuPreferenceLogic : PreferenceLogic() {
             PreferenceItem.Header(R.string.pref_header_app),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_app_theme,
-                provider.getTheme(preferencesRepo.theme)
+                summary.getTheme(preferencesRepo.theme)
             ),
             PreferenceItem.Simple(R.string.pref_title_backup),
             PreferenceItem.Simple(R.string.pref_title_note),

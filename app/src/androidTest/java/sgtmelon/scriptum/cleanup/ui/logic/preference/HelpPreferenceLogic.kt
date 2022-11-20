@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.ui.logic.preference
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.ui.logic.parent.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpPreferenceScreen
+import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
 /**
  * Logic for [HelpPreferenceScreen].

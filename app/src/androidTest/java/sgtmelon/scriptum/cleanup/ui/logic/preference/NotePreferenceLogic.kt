@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.ui.logic.preference
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.ui.logic.parent.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.NotePreferenceScreen
+import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
 /**
  * Logic for [NotePreferenceScreen].
@@ -15,27 +15,27 @@ class NotePreferenceLogic : PreferenceLogic() {
             PreferenceItem.Header(R.string.pref_header_common),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_sort,
-                provider.getSort(preferencesRepo.sort)
+                summary.getSort(preferencesRepo.sort)
             ),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_color,
-                provider.getColor(preferencesRepo.defaultColor)
+                summary.getColor(preferencesRepo.defaultColor)
             ),
             PreferenceItem.Header(R.string.pref_header_save),
             PreferenceItem.Switch(
                 R.string.pref_title_note_pause_save,
                 R.string.pref_summary_note_save_pause,
-                preferences.isPauseSaveOn
+                preferencesRepo.saveState.isPauseSaveOn
             ),
             PreferenceItem.Switch(
                 R.string.pref_title_note_auto_save,
                 R.string.pref_summary_note_save_auto,
-                preferences.isAutoSaveOn
+                preferencesRepo.saveState.isAutoSaveOn
             ),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_save_period,
-                provider.getSavePeriod(preferencesRepo.savePeriod),
-                preferences.isAutoSaveOn
+                summary.getSavePeriod(preferencesRepo.savePeriod),
+                preferencesRepo.saveState.isAutoSaveOn
             )
         )
     }
