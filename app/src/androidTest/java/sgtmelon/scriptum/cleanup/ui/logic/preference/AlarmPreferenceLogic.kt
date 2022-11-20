@@ -9,13 +9,13 @@ import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Header
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Summary
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Switch
-import sgtmelon.scriptum.cleanup.ui.logic.parent.ParentPreferenceLogic
+import sgtmelon.scriptum.cleanup.ui.logic.parent.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.AlarmPreferenceScreen
 
 /**
  * Logic for [AlarmPreferenceScreen].
  */
-class AlarmPreferenceLogic : ParentPreferenceLogic() {
+class AlarmPreferenceLogic : PreferenceLogic() {
 
     private val summaryDataSource = DataSourceModule().provideSummaryDataSource(context.resources)
     val getMelodyList = UseCaseModule().provideGetMelodyListUseCase(
@@ -52,7 +52,7 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
         list.add(Switch(
             R.string.pref_title_alarm_increase,
             R.string.pref_summary_alarm_increase,
-            preferences.isVolumeIncrease,
+            preferencesRepo.isVolumeIncrease,
             isMelody
         ))
 

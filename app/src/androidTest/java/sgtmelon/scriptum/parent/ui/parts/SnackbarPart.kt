@@ -8,7 +8,6 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
-import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
@@ -51,19 +50,13 @@ class SnackbarPart(
     }
 
     companion object {
-        const val UPDATE_TIME = 300L
         const val DISMISS_TIME = 3000L
 
         inline operator fun invoke(
             func: SnackbarPart.() -> Unit,
             @StringRes messageId: Int,
-            @StringRes actionId: Int,
-            withAwait: Boolean
+            @StringRes actionId: Int
         ): SnackbarPart {
-            if (withAwait) {
-                await(UPDATE_TIME)
-            }
-
             return SnackbarPart(messageId, actionId).apply(func)
         }
     }

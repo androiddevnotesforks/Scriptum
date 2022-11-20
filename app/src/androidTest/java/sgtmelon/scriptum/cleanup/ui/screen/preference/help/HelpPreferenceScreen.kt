@@ -2,14 +2,14 @@ package sgtmelon.scriptum.cleanup.ui.screen.preference.help
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.logic.preference.HelpPreferenceLogic
-import sgtmelon.scriptum.cleanup.ui.screen.preference.ParentPreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFragment
+import sgtmelon.scriptum.parent.ui.parts.preferences.ParentPreferencePart
 
 /**
  * Class for UI control of [HelpPreferenceFragment].
  */
 class HelpPreferenceScreen :
-    ParentPreferenceScreen<HelpPreferenceLogic>(R.string.pref_title_help) {
+    ParentPreferencePart<HelpPreferenceLogic>(R.string.pref_title_help) {
 
     override val screenLogic = HelpPreferenceLogic()
 

@@ -105,7 +105,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
                     is NoteItem.Roll -> openRoll(it, p = 0) { clickClose() }
                 }
 
-                snackbar(withAwait = false) { assert() }
+                snackbar { assert() }
 
                 /** Position = 1, because item removed from screen list. */
                 when (val it = list[1]) {
@@ -119,7 +119,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
                     }
                 }
 
-                snackbar(withAwait = false) {
+                snackbar {
                     assert()
                     action()
                 }

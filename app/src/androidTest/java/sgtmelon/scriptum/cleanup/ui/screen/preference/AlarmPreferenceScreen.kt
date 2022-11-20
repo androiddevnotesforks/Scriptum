@@ -7,12 +7,13 @@ import sgtmelon.scriptum.cleanup.ui.dialog.preference.SignalDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.AlarmPreferenceLogic
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.parts.preferences.ParentPreferencePart
 
 /**
  * Class for UI control of [AlarmPreferenceFragment].
  */
 class AlarmPreferenceScreen :
-    ParentPreferenceScreen<AlarmPreferenceLogic>(R.string.pref_title_alarm) {
+    ParentPreferencePart<AlarmPreferenceLogic>(R.string.pref_title_alarm) {
 
     override val screenLogic = AlarmPreferenceLogic()
 

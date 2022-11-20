@@ -82,7 +82,7 @@ class RankSnackbarTest : ParentUiTest(),
                 }
 
                 openRank {
-                    snackbar(withAwait = false) {
+                    snackbar {
                         assert()
                         action()
                     }

@@ -8,11 +8,12 @@ import sgtmelon.scriptum.cleanup.ui.dialog.preference.SortDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.NotePreferenceLogic
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.parent.ui.parts.preferences.ParentPreferencePart
 
 /**
  * Class for UI control of [NotePreferenceFragment].
  */
-class NotePreferenceScreen : ParentPreferenceScreen<NotePreferenceLogic>(R.string.pref_title_note),
+class NotePreferenceScreen : ParentPreferencePart<NotePreferenceLogic>(R.string.pref_title_note),
     ColorDialogUi.Callback {
 
     override val screenLogic = NotePreferenceLogic()

@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.system.dataSource.SummaryDataSourceImpl
 /**
  * Parent class for preference screen/test logic.
  */
-abstract class ParentPreferenceLogic : ParentLogic() {
+abstract class PreferenceLogic : ParentLogic() {
 
     protected val provider = SummaryDataSourceImpl(context.resources)
 

@@ -2,13 +2,13 @@ package sgtmelon.scriptum.cleanup.ui.logic.preference
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.ui.logic.parent.ParentPreferenceLogic
+import sgtmelon.scriptum.cleanup.ui.logic.parent.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpPreferenceScreen
 
 /**
  * Logic for [HelpPreferenceScreen].
  */
-class HelpPreferenceLogic : ParentPreferenceLogic() {
+class HelpPreferenceLogic : PreferenceLogic() {
 
     override fun getScreenList(): List<PreferenceItem> = listOf(
         PreferenceItem.Summary.Id(

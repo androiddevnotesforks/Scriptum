@@ -3,16 +3,17 @@ package sgtmelon.scriptum.cleanup.ui.screen.preference
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
-import sgtmelon.scriptum.cleanup.ui.logic.preference.PreferenceLogic
+import sgtmelon.scriptum.cleanup.ui.logic.preference.MenuPreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpPreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
+import sgtmelon.scriptum.parent.ui.parts.preferences.ParentPreferencePart
 
 /**
  * Class for UI control of [MenuPreferenceFragment].
  */
-class MenuPreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.title_preference) {
+class MenuPreferenceScreen : ParentPreferencePart<MenuPreferenceLogic>(R.string.title_preference) {
 
-    override val screenLogic = PreferenceLogic()
+    override val screenLogic = MenuPreferenceLogic()
 
     fun openThemeDialog(func: ThemeDialogUi.() -> Unit = {}) {
         getItem(p = 1).Summary().onItemClick()

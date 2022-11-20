@@ -2,13 +2,13 @@ package sgtmelon.scriptum.cleanup.ui.logic.preference
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.ui.logic.parent.ParentPreferenceLogic
+import sgtmelon.scriptum.cleanup.ui.logic.parent.PreferenceLogic
 import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 
 /**
  * Logic for [MenuPreferenceScreen].
  */
-class PreferenceLogic : ParentPreferenceLogic() {
+class MenuPreferenceLogic : PreferenceLogic() {
 
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf(
@@ -26,7 +26,7 @@ class PreferenceLogic : ParentPreferenceLogic() {
             PreferenceItem.Simple(R.string.pref_title_about)
         )
 
-        if (preferences.isDeveloper) {
+        if (preferencesRepo.isDeveloper) {
             list.add(PreferenceItem.Simple(R.string.pref_title_developer))
         }
 
