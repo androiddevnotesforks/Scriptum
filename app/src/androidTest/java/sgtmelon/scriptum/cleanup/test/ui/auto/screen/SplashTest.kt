@@ -32,10 +32,6 @@ class SplashTest : ParentUiTest() {
         mainScreen()
     }
 
-    @Test fun helpDisappearOpen() = launchHelpDisappear {
-        helpDisappearScreen { TODO() }
-    }
-
     @Test fun createTextOpen() = launchNewNote(NoteType.TEXT) {
         createNoteScreen(db.createText()) { pressBack() }
         mainScreen()

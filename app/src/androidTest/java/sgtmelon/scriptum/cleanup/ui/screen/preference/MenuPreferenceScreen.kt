@@ -4,7 +4,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.MenuPreferenceLogic
-import sgtmelon.scriptum.cleanup.ui.screen.preference.help.HelpPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
@@ -39,11 +38,6 @@ class MenuPreferenceScreen : PreferencePart<MenuPreferenceLogic>(
     }
 
     fun openRate() = getItem(p = 6).Simple().onItemClick()
-
-    fun openHelp(func: HelpPreferenceScreen.() -> Unit = {}) {
-        getItem(p = 7).Simple().onItemClick()
-        HelpPreferenceScreen(func)
-    }
 
     fun openAboutDialog(func: AboutDialogUi.() -> Unit = {}) {
         getItem(p = 8).Simple().onItemClick()
