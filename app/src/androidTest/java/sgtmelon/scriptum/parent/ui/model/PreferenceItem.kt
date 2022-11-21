@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.testData.item
+package sgtmelon.scriptum.parent.ui.model
 
 import androidx.annotation.StringRes
 

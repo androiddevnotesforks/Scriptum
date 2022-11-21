@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main
+package sgtmelon.scriptum.ui.auto.preferences.menu
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -10,7 +10,8 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
  * Test for [MenuPreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceTest : ParentUiTest(), IPreferenceTest {
+class PreferenceTest : ParentUiTest(),
+    IPreferenceTest {
 
     @Test fun close() = runTest { clickClose() }
 
@@ -24,9 +25,9 @@ class PreferenceTest : ParentUiTest(), IPreferenceTest {
 
     @Test fun openAlarm() = runTest { openAlarm() }
 
-    @Test fun openRate() = runTest { openRate() }
+    @Test fun openPrivacyPolicy() = runTest { openPrivacyPolicy() }
 
-    @Test fun openHelp() = runTest { openHelp() }
+    @Test fun openRate() = runTest { openRate() }
 
     @Test fun aboutDialogClose() = runTest {
         openAboutDialog { softClose() }

@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.ui.item
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isChecked

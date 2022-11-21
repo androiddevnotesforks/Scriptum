@@ -3,7 +3,6 @@ package sgtmelon.scriptum.parent.ui.screen.main
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
-import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.TitleToolbarPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarItem
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**

@@ -1,9 +1,11 @@
-package sgtmelon.scriptum.cleanup.ui.screen.preference
+package sgtmelon.scriptum.parent.ui.screen.preference
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
-import sgtmelon.scriptum.cleanup.ui.logic.preference.MenuPreferenceLogic
+import sgtmelon.scriptum.cleanup.ui.screen.preference.AlarmPreferenceScreen
+import sgtmelon.scriptum.cleanup.ui.screen.preference.BackupPreferenceScreen
+import sgtmelon.scriptum.cleanup.ui.screen.preference.NotePreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
@@ -36,6 +38,8 @@ class MenuPreferenceScreen : PreferencePart<MenuPreferenceLogic>(
         getItem(p = 4).Simple().onItemClick()
         AlarmPreferenceScreen(func)
     }
+
+    fun openPrivacyPolicy() = getItem(p = 5).Simple().onItemClick()
 
     fun openRate() = getItem(p = 6).Simple().onItemClick()
 

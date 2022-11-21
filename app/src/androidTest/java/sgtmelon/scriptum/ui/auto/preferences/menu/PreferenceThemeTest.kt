@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main
+package sgtmelon.scriptum.ui.auto.preferences.menu
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals

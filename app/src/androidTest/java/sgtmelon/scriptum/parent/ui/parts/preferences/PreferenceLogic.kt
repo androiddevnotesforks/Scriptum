@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.parent.ui.parts.preferences
 
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.infrastructure.system.dataSource.SummaryDataSourceImpl
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem
 import sgtmelon.scriptum.parent.ui.parts.UiPart
 
 /**

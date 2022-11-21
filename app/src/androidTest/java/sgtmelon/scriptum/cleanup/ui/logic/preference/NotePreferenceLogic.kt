@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.ui.logic.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.ui.screen.preference.NotePreferenceScreen
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
 /**

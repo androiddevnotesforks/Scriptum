@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.ui.logic.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Header
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Switch
 import sgtmelon.scriptum.cleanup.ui.screen.preference.BackupPreferenceScreen
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem.Header
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem.Switch
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
 /**

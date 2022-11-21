@@ -5,11 +5,11 @@ import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.UseCaseModule
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Header
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Summary
-import sgtmelon.scriptum.cleanup.testData.item.PreferenceItem.Switch
 import sgtmelon.scriptum.cleanup.ui.screen.preference.AlarmPreferenceScreen
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem.Header
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem.Summary
+import sgtmelon.scriptum.parent.ui.model.PreferenceItem.Switch
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
 /**

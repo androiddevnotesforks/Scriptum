@@ -1,10 +1,9 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference
+package sgtmelon.scriptum.ui.auto.preferences.menu
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main.IPreferenceTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest

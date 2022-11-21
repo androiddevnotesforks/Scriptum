@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main
+package sgtmelon.scriptum.ui.auto.preferences.menu
 
-import sgtmelon.scriptum.cleanup.ui.screen.preference.MenuPreferenceScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceScreen
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
