@@ -72,6 +72,7 @@ abstract class ParentUiTest : ParentTest() {
             isPauseSaveOn = false
         }
         preferencesRepo.sort = Sort.CHANGE
+        preferencesRepo.isDeveloper = false
 
         /** Prepare database. */
         db.clear()

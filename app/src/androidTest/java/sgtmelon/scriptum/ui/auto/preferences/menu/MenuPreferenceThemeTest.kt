@@ -16,13 +16,14 @@ import sgtmelon.scriptum.ui.cases.value.ThemeCase
  * Test for [MenuPreferenceFragment] and [ThemeDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceThemeTest : ParentUiTest(),
-    IPreferenceTest,
+class MenuPreferenceThemeTest : ParentUiTest(),
     ThemeCase {
 
     private val converter = ThemeConverter()
 
-    @Test fun dialogClose() = runTest({ preferences.theme = converter.toInt(Theme.LIGHT) }) {
+    @Test fun dialogClose() = startMenuPreferenceTest({
+        preferences.theme = converter.toInt(Theme.LIGHT)
+    }) {
         openThemeDialog { onClickCancel() }
         assert()
         openThemeDialog { softClose() }
@@ -40,7 +41,8 @@ class PreferenceThemeTest : ParentUiTest(),
 
         assertNotEquals(initValue, value)
 
-        runTest {
+        startMenuPreferenceTest {
+
             openThemeDialog {
                 onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
             }

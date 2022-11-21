@@ -13,9 +13,9 @@ import sgtmelon.test.common.getDifferentValues
  * Test of [MenuPreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceRotationTest : ParentUiRotationTest(), IPreferenceTest {
+class MenuPreferenceRotationTest : ParentUiRotationTest() {
 
-    @Test fun content() = runTest {
+    @Test fun content() = startMenuPreferenceTest {
         rotate.toSide()
         assert()
     }
@@ -23,7 +23,7 @@ class PreferenceRotationTest : ParentUiRotationTest(), IPreferenceTest {
     @Test fun themeDialog() {
         val (initValue, value) = Theme.values().getDifferentValues()
 
-        runTest({ preferencesRepo.theme = initValue }) {
+        startMenuPreferenceTest({ preferencesRepo.theme = initValue }) {
             openThemeDialog {
                 onClickItem(value)
                 rotate.toSide()
@@ -36,7 +36,7 @@ class PreferenceRotationTest : ParentUiRotationTest(), IPreferenceTest {
         assertEquals(value, preferencesRepo.theme)
     }
 
-    @Test fun aboutDialog() = runTest {
+    @Test fun aboutDialog() = startMenuPreferenceTest {
         openAboutDialog {
             rotate.toSide()
             assert()
