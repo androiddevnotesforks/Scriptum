@@ -1,9 +1,10 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.parent
+package sgtmelon.scriptum.parent.ui.parts.dialog
 
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.parent.ui.model.exception.NotEnabledException
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -13,22 +14,22 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [MultipleDialog] with fixed size.
  */
-abstract class ParentMultipleDialogUi(
+abstract class MultipleDialogUi(
     @StringRes private val titleId: Int,
     @ArrayRes private val textArrayId: Int,
     private val needOneSelect: Boolean
-) : ParentDialogUi(titleId, textArrayId) {
+) : ListDialogPart(titleId, textArrayId) {
 
     abstract val initCheck: BooleanArray
     abstract val check: BooleanArray
 
-    override fun onClickApply() = waitClose {
+    override fun apply() = waitClose {
         when {
             initCheck.contentEquals(check) -> {
-                throw IllegalAccessException("Apply button not enabled because content the same")
+                throw NotEnabledException(why = "select the same")
             }
             needOneSelect && !check.contains(true) -> {
-                throw IllegalAccessException("Apply button not enabled because need nothing was selected")
+                throw NotEnabledException(why = "nothing was selected")
             }
         }
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.dialogs
+package sgtmelon.scriptum.parent.ui.screen.dialogs
 
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R

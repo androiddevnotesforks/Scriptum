@@ -44,10 +44,10 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
 
         runTest({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
-                onClickItem(value)
+                click(value)
                 rotate.toSide()
                 assert()
-                onClickApply()
+                apply()
             }
             assert()
         }
@@ -64,10 +64,10 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
 
         runTest({ preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
-                onClickItem(value)
+                click(value)
                 rotate.toSide()
                 assert()
-                onClickApply()
+                apply()
             }
             assert()
         }
@@ -92,7 +92,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
             preferences.melodyUri = initValue.uri
         }) {
             openMelodyDialog {
-                onClickItem(list.indexOf(value))
+                click(list.indexOf(value))
                 rotate.toSide()
             }
             assert()

@@ -1,9 +1,10 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.parent
+package sgtmelon.scriptum.parent.ui.parts.dialog
 
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.parent.ui.model.exception.NotEnabledException
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -13,11 +14,11 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Parent class for UI control of [SingleDialog] with fixed size.
  */
-abstract class ParentSelectDialogUi(
+abstract class SelectDialogPart<T>(
     @StringRes titleId: Int,
     @ArrayRes textArrayId: Int?,
     textArray: Array<String>?
-) : ParentDialogUi(titleId, textArrayId, textArray) {
+) : ListDialogPart(titleId, textArrayId, textArray) {
 
     constructor(
         @StringRes titleId: Int,
@@ -32,8 +33,10 @@ abstract class ParentSelectDialogUi(
     abstract val initCheck: Int
     abstract var check: Int
 
-    override fun onClickApply() = waitClose {
-        if (check == initCheck) throw IllegalAccessException("Apply button not enabled")
+    abstract fun click(value: T)
+
+    override fun apply() = waitClose {
+        if (check == initCheck) throw NotEnabledException(why = "select the same")
 
         applyButton.click()
     }

@@ -5,9 +5,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.RepeatDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.RepeatDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.cases.value.RepeatCase
 
@@ -22,7 +22,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
     @Test fun dialogClose() = runTest {
         openRepeatDialog { softClose() }
         assert()
-        openRepeatDialog { onClickCancel() }
+        openRepeatDialog { cancel() }
         assert()
     }
 
@@ -43,7 +43,10 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
 
         runTest {
             openRepeatDialog {
-                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
+                click(value)
+                click(initValue)
+                click(value)
+                apply()
             }
             assert()
         }

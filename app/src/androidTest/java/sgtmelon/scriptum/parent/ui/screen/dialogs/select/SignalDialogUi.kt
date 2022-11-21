@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.preference
+package sgtmelon.scriptum.parent.ui.screen.dialogs.select
 
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentMultipleDialogUi
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.parts.dialog.MultipleDialogUi
 import sgtmelon.test.cappuccino.utils.click
 
 /**
@@ -12,7 +12,7 @@ import sgtmelon.test.cappuccino.utils.click
  */
 class SignalDialogUi(
     override val initCheck: BooleanArray
-) : ParentMultipleDialogUi(
+) : MultipleDialogUi(
     R.string.pref_title_alarm_signal,
     R.array.pref_signal,
     needOneSelect = true
@@ -20,7 +20,7 @@ class SignalDialogUi(
 
     override val check: BooleanArray = initCheck.clone()
 
-    fun onClickItem(position: Int) = apply {
+    fun click(position: Int) = apply {
         val value = check[position]
         check[position] = !value
 
@@ -28,11 +28,9 @@ class SignalDialogUi(
         assert()
     }
 
-    fun onClickItem(newCheck: BooleanArray) = apply {
+    fun click(newCheck: BooleanArray) = apply {
         for ((i, item) in newCheck.withIndex()) {
-            if (item == check[i]) continue
-
-            onClickItem(i)
+            if (item != check[i]) click(i)
         }
     }
 

@@ -1,28 +1,26 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.preference
+package sgtmelon.scriptum.parent.ui.screen.dialogs.select
 
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentSelectDialogUi
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
+import sgtmelon.scriptum.parent.ui.parts.dialog.SelectDialogPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [SingleDialog] which open from [MenuPreferenceFragment] for select theme.
  */
-class ThemeDialogUi : ParentSelectDialogUi(
+class ThemeDialogUi : SelectDialogPart<Theme>(
     R.string.pref_title_app_theme,
     R.array.pref_theme
 ) {
 
-    private val converter = ThemeConverter()
-
     override val initCheck: Int = preferencesRepo.theme.ordinal
     override var check: Int = initCheck
 
-    fun onClickItem(theme: Theme) = apply {
-        val newCheck = converter.toInt(theme)
+    override fun click(value: Theme) {
+        val newCheck = ThemeConverter().toInt(value)
 
         check = newCheck
         getItem(newCheck).click()

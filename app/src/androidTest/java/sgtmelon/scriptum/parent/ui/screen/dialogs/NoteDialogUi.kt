@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.dialogs
+package sgtmelon.scriptum.parent.ui.screen.dialogs
 
 import java.util.Calendar
 import sgtmelon.extensions.toText

@@ -2,8 +2,8 @@ package sgtmelon.scriptum.parent.ui.screen.main
 
 import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.parent.ui.dialogs.sheet.AddSheetDialogUi
 import sgtmelon.scriptum.parent.ui.parts.UiPart
+import sgtmelon.scriptum.parent.ui.screen.dialogs.sheet.AddSheetDialogUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled

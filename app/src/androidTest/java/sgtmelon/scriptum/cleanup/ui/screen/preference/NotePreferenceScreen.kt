@@ -3,13 +3,13 @@ package sgtmelon.scriptum.cleanup.ui.screen.preference
 import org.junit.Assert.assertEquals
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.dialog.ColorDialogUi
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.SavePeriodDialogUi
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.SortDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.NotePreferenceLogic
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SavePeriodDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SortDialogUi
 
 /**
  * Class for UI control of [NotePreferenceFragment].

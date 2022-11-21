@@ -25,10 +25,10 @@ class MenuPreferenceRotationTest : ParentUiRotationTest() {
 
         startMenuPreferenceTest({ preferencesRepo.theme = initValue }) {
             openThemeDialog {
-                onClickItem(value)
+                click(value)
                 rotate.toSide()
                 assert()
-                onClickApply()
+                apply()
             }
             assert()
         }

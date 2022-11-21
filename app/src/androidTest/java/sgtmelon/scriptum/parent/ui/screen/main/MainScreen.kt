@@ -4,8 +4,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.parent.ui.dialogs.sheet.AddSheetDialogUi
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
+import sgtmelon.scriptum.parent.ui.screen.dialogs.sheet.AddSheetDialogUi
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed

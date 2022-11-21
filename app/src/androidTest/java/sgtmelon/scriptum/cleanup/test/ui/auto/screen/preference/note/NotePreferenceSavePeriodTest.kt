@@ -5,9 +5,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.SavePeriodDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SavePeriodDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.cases.value.SavePeriodCase
 
@@ -20,7 +20,7 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
     SavePeriodCase {
 
     @Test fun dialogClose() = runTest({ preferences.isAutoSaveOn = true }) {
-        openSavePeriodDialog { onClickCancel() }
+        openSavePeriodDialog { cancel() }
         assert()
         openSavePeriodDialog { softClose() }
         assert()
@@ -38,7 +38,10 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
         assertNotEquals(initValue, value)
 
         runTest({ preferences.isAutoSaveOn = true }) {
-            openSavePeriodDialog { onClickItem(value).onClickApply() }
+            openSavePeriodDialog {
+                click(value)
+                apply()
+            }
             assert()
         }
 

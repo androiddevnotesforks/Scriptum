@@ -8,9 +8,9 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.MelodyDialogUi
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.MelodyDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
@@ -27,7 +27,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
     @Test fun dialogClose() = runTest {
         openMelodyDialog { softClose() }
         assert()
-        openMelodyDialog { onClickCancel() }
+        openMelodyDialog { cancel() }
         assert()
     }
 
@@ -43,10 +43,10 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
 
         runTest {
             openMelodyDialog {
-                onClickItem(valueIndex)
-                    .onClickItem(initIndex)
-                    .onClickItem(valueIndex)
-                    .onClickApply()
+                click(valueIndex)
+                click(initIndex)
+                click(valueIndex)
+                apply()
             }
             assert()
         }

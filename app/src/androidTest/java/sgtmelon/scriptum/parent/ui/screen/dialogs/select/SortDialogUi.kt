@@ -1,16 +1,17 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.preference
+package sgtmelon.scriptum.parent.ui.screen.dialogs.select
 
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentSelectDialogUi
+import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.parent.ui.parts.dialog.SelectDialogPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control of [SingleDialog] which open from [NotePreferenceFragment] for select sort.
  */
-class SortDialogUi : ParentSelectDialogUi(
+class SortDialogUi : SelectDialogPart<Sort>(
     R.string.pref_title_note_sort,
     R.array.pref_sort
 ) {
@@ -18,8 +19,8 @@ class SortDialogUi : ParentSelectDialogUi(
     override val initCheck: Int = preferencesRepo.sort.ordinal
     override var check: Int = initCheck
 
-    fun onClickItem(sort: Sort) = apply {
-        val position = sort.ordinal
+    override fun click(value: Sort) {
+        val position = SortConverter().toInt(value)
 
         check = position
         getItem(position).click()

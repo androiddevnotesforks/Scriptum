@@ -5,9 +5,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.SortDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SortDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.cases.value.SortCase
 
@@ -20,7 +20,7 @@ class NotePreferenceSortTest : ParentUiTest(),
     SortCase {
 
     @Test fun dialogClose() = runTest {
-        openSortDialog { onClickCancel() }
+        openSortDialog { cancel() }
         assert()
         openSortDialog { softClose() }
         assert()
@@ -41,7 +41,10 @@ class NotePreferenceSortTest : ParentUiTest(),
 
         runTest {
             openSortDialog {
-                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
+                click(value)
+                click(initValue)
+                click(value)
+                apply()
             }
             assert()
         }

@@ -5,7 +5,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
-import sgtmelon.scriptum.parent.ui.dialogs.ClearDialogUi
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
 import sgtmelon.scriptum.parent.ui.feature.OpenNoteDialog
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.TitleToolbarPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarItem
+import sgtmelon.scriptum.parent.ui.screen.dialogs.ClearDialogUi
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**

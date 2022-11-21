@@ -1,14 +1,15 @@
-package sgtmelon.scriptum.parent.ui.dialogs.sheet
+package sgtmelon.scriptum.parent.ui.screen.dialogs.sheet
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
+import sgtmelon.scriptum.parent.ui.parts.dialog.SheetDialogPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**
  * Class for UI control [RepeatSheetDialog].
  */
-class RepeatSheetDialogUi : ParentSheetDialogUi(
+class RepeatSheetDialogUi : SheetDialogPart(
     R.id.repeat_container,
     R.id.repeat_navigation,
     R.string.dialog_title_repeat,

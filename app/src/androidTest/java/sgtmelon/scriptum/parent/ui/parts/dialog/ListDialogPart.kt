@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.parent
+package sgtmelon.scriptum.parent.ui.parts.dialog
 
 import android.view.View
 import android.widget.ListView
@@ -10,8 +10,8 @@ import androidx.test.espresso.action.ViewActions
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.excludeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -19,13 +19,13 @@ import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
- * Parent class for UI control of all list dialogs.
+ * Parent class for UI control of all alert dialogs.
  */
-abstract class ParentDialogUi(
+abstract class ListDialogPart(
     @StringRes private val titleId: Int,
     @ArrayRes private val textArrayId: Int?,
     private val textArray: Array<String>?
-) : ParentScreen(),
+) : UiPart(),
     DialogUi {
 
     constructor(
@@ -40,12 +40,12 @@ abstract class ParentDialogUi(
 
     //region Views
 
-    private val listView = getViewById(R.id.select_dialog_listview)
+    private val listView by lazy { getView(R.id.select_dialog_listview) }
 
     /**
      * Exclude this parent for prevent match error with summary (similar strings).
      */
-    private val preferenceList = getViewById(R.id.recycler_view)
+    private val preferenceList by lazy { getView(R.id.recycler_view) }
 
     private val titleText = getViewByText(titleId).excludeParent(preferenceList)
 
@@ -61,9 +61,7 @@ abstract class ParentDialogUi(
     fun getItem(p: Int): Matcher<View> {
         val text = itemArray[p]
 
-        /**
-         * Scrolling inside [ListView]
-         */
+        /** Scrolling inside [ListView]. */
         Espresso.onData(`is`(text)).inAdapterView(listView).perform(ViewActions.scrollTo())
 
         return getViewByText(text).excludeParent(preferenceList)
@@ -71,9 +69,9 @@ abstract class ParentDialogUi(
 
     //endregion
 
-    fun onClickCancel() = waitClose { cancelButton.click() }
+    fun cancel() = waitClose { cancelButton.click() }
 
-    abstract fun onClickApply()
+    abstract fun apply()
 
     @CallSuper open fun assert() {
         listView.isDisplayed()

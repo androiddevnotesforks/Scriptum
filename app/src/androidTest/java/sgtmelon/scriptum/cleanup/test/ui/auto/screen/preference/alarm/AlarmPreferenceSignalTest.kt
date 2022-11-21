@@ -6,8 +6,8 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.SignalDialogUi
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SignalDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 
@@ -20,7 +20,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
     @Test fun dialogClose() = runTest {
         openSignalDialog { softClose() }
         assert()
-        openSignalDialog { onClickCancel() }
+        openSignalDialog { cancel() }
         assert()
     }
 
@@ -33,7 +33,10 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
 
         runTest {
             openSignalDialog {
-                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
+                click(value)
+                click(initValue)
+                click(value)
+                apply()
             }
             assert()
         }

@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.preference
+package sgtmelon.scriptum.parent.ui.screen.dialogs.select
 
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.dialog.parent.ParentSelectDialogUi
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.parts.dialog.SelectDialogPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**
@@ -13,17 +13,17 @@ import sgtmelon.test.cappuccino.utils.click
 class MelodyDialogUi(
     textArray: Array<String>,
     override val initCheck: Int
-) : ParentSelectDialogUi(
+) : SelectDialogPart<Int>(
     R.string.pref_title_alarm_melody,
     textArray
 ) {
 
     override var check: Int = initCheck
 
-    fun onClickItem(position: Int) = apply {
-        check = position
+    override fun click(value: Int) {
+        check = value
 
-        getItem(position).click()
+        getItem(value).click()
         assert()
     }
 

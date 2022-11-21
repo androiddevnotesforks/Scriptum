@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.cleanup.ui.screen.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.MelodyDialogUi
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.RepeatDialogUi
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.SignalDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.cleanup.ui.logic.preference.AlarmPreferenceLogic
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.MelodyDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.RepeatDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SignalDialogUi
 
 /**
  * Class for UI control of [AlarmPreferenceFragment].

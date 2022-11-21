@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.dialogs.sheet
+package sgtmelon.scriptum.parent.ui.parts.dialog
 
 import android.view.View
 import androidx.annotation.ArrayRes
@@ -18,7 +18,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Parent class for UI control [BlankMenuSheetDialog].
  */
-abstract class ParentSheetDialogUi(
+abstract class SheetDialogPart(
     @IdRes containerId: Int,
     @IdRes navigationId: Int,
     @StringRes titleTextId: Int,

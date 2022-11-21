@@ -5,10 +5,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.dialogs.select.ThemeDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.cases.value.ThemeCase
 
@@ -24,7 +24,7 @@ class MenuPreferenceThemeTest : ParentUiTest(),
     @Test fun dialogClose() = startMenuPreferenceTest({
         preferences.theme = converter.toInt(Theme.LIGHT)
     }) {
-        openThemeDialog { onClickCancel() }
+        openThemeDialog { cancel() }
         assert()
         openThemeDialog { softClose() }
         assert()
@@ -42,9 +42,11 @@ class MenuPreferenceThemeTest : ParentUiTest(),
         assertNotEquals(initValue, value)
 
         startMenuPreferenceTest {
-
             openThemeDialog {
-                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
+                click(value)
+                click(initValue)
+                click(value)
+                apply()
             }
             assert()
         }

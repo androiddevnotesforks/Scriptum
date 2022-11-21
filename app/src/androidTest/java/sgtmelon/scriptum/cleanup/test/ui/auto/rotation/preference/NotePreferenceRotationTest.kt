@@ -35,10 +35,10 @@ class NotePreferenceRotationTest : ParentUiRotationTest(), INotePreferenceTest {
 
         runTest({ preferencesRepo.sort = initValue }) {
             openSortDialog {
-                onClickItem(value)
+                click(value)
                 rotate.toSide()
                 assert()
-                onClickApply()
+                apply()
             }
             assert()
         }
@@ -70,10 +70,10 @@ class NotePreferenceRotationTest : ParentUiRotationTest(), INotePreferenceTest {
             preferencesRepo.savePeriod = initValue
         }) {
             openSavePeriodDialog {
-                onClickItem(value)
+                click(value)
                 rotate.toSide()
                 assert()
-                onClickApply()
+                apply()
             }
             assert()
         }

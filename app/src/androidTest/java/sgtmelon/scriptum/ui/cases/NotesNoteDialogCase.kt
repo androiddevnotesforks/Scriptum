@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.provider.DateProvider
-import sgtmelon.scriptum.parent.ui.dialogs.NoteDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.NoteDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.auto.notes.startNotesItemTest
 

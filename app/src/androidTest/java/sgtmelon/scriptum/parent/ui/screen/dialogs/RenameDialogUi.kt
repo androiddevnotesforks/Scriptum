@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.dialogs
+package sgtmelon.scriptum.parent.ui.screen.dialogs
 
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
