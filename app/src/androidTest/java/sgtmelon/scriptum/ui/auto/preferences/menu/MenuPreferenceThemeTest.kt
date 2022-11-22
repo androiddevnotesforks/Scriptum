@@ -10,6 +10,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.ThemeDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.ThemeCase
 
 /**
@@ -17,11 +18,12 @@ import sgtmelon.scriptum.ui.cases.value.ThemeCase
  */
 @RunWith(AndroidJUnit4::class)
 class MenuPreferenceThemeTest : ParentUiTest(),
-    ThemeCase {
+    ThemeCase,
+    DialogCloseCase {
 
     private val converter = ThemeConverter()
 
-    @Test fun dialogClose() = startMenuPreferenceTest({
+    @Test override fun close() = startMenuPreferenceTest({
         preferences.theme = converter.toInt(Theme.LIGHT)
     }) {
         openThemeDialog { cancel() }
@@ -51,7 +53,7 @@ class MenuPreferenceThemeTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, preferences.theme)
+        assertEquals(value, preferencesRepo.theme)
     }
 
     /**

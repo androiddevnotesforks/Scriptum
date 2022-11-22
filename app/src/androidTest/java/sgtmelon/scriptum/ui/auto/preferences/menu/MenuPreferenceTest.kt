@@ -24,12 +24,18 @@ class MenuPreferenceTest : ParentUiTest() {
 
     @Test fun openNote() = startMenuPreferenceTest { openNote() }
 
+    // TODO it's stuck on alarm pref screen
     @Test fun openAlarm() = startMenuPreferenceTest { openAlarm() }
 
     @Test fun openPrivacyPolicy() = startMenuPreferenceTest { openPrivacyPolicy() }
 
-    @Test fun openRate() = startMenuPreferenceTest { openRate() }
+    // TODO it's not working due to select app appears
+    @Test fun openRate() = startMenuPreferenceTest {
+        TODO()
+        openRate()
+    }
 
+    // TODO it's not working due to notification appears
     @Test fun aboutDialogClose() = startMenuPreferenceTest {
         openAboutDialog { softClose() }
         assert()

@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.preference
+package sgtmelon.scriptum.parent.ui.screen.dialogs
 
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withDrawable
 import sgtmelon.test.cappuccino.utils.withSize
@@ -13,19 +13,16 @@ import sgtmelon.test.cappuccino.utils.withText
 /**
  * Class for UI control of [AboutDialog].
  */
-class AboutDialogUi : ParentScreen(), DialogUi {
+class AboutDialogUi : UiPart(),
+    DialogUi {
 
-    //region Views
-
-    private val parentContainer = getViewById(R.id.about_parent_container)
-    private val logoImage = getViewById(R.id.about_logo_image)
-    private val appText = getViewById(R.id.about_app_text)
-    private val versionText = getViewById(R.id.about_version_text)
-    private val developerText = getViewById(R.id.about_developer_text)
-    private val designerText = getViewById(R.id.about_designer_text)
-    private val emailText = getViewById(R.id.about_email_text)
-
-    //endregion
+    private val parentContainer = getView(R.id.about_parent_container)
+    private val logoImage = getView(R.id.about_logo_image)
+    private val appText = getView(R.id.about_app_text)
+    private val versionText = getView(R.id.about_version_text)
+    private val developerText = getView(R.id.about_developer_text)
+    private val designerText = getView(R.id.about_designer_text)
+    private val emailText = getView(R.id.about_email_text)
 
     fun assert() = apply {
         parentContainer.isDisplayed()

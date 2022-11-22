@@ -45,7 +45,7 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, preferences.savePeriod)
+        assertEquals(value, preferencesRepo.savePeriod)
     }
 
     /**
