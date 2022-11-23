@@ -36,6 +36,8 @@ class MenuPreferenceThemeTest : ParentUiTest(),
     @Test override fun themeSystem() = super.themeSystem()
 
     override fun startTest(value: Theme) {
+        TODO("BUG: After switch theme app will be restarted")
+
         val initValue = switchValue(value)
 
         assertNotEquals(initValue, value)

@@ -28,7 +28,10 @@ class MenuPreferenceTest : ParentUiTest() {
 
     @Test fun openAlarm() = startMenuPreferenceTest { openAlarm() }
 
-    @Test fun openPrivacyPolicy() = startMenuPreferenceTest { openPrivacyPolicy() }
+    @Test fun openPrivacyPolicy() = startMenuPreferenceTest {
+        TODO(reason = "it's not working due to select app appears")
+        openPrivacyPolicy()
+    }
 
     @Test fun openRate() = startMenuPreferenceTest {
         TODO(reason = "it's not working due to select app appears")

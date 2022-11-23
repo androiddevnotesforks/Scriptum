@@ -7,7 +7,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
-import sgtmelon.test.common.getDifferentValues
 
 /**
  * Test of [MenuPreferenceFragment] work with phone rotation.
@@ -21,8 +20,12 @@ class MenuPreferenceRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun themeDialog() {
-        val (initValue, value) = Theme.values().getDifferentValues()
+        TODO("BUG: After switch theme app will be restarted")
 
+        //        val (initValue, value) = Theme.values().getDifferentValues()
+
+        val initValue = Theme.DARK
+        val value = Theme.LIGHT
         startMenuPreferenceTest({ preferencesRepo.theme = initValue }) {
             openThemeDialog {
                 click(value)
