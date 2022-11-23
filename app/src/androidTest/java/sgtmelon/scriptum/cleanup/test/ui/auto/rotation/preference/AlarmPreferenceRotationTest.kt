@@ -15,6 +15,7 @@ import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
 import sgtmelon.test.common.getDifferentValues
 
 /**
@@ -25,9 +26,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
 
     @Test fun content() = runTest({
         preferencesRepo.repeat = Repeat.values().random()
-
-        val signalArray = getLogic().getRandomSignal()
-        preferencesRepo.signalTypeCheck = signalArray
+        preferencesRepo.signalTypeCheck = getRandomSignalCheck()
 
         val melodyList = runBlocking { getLogic().getMelodyList() }
         preferences.melodyUri = melodyList.random().uri
@@ -56,7 +55,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
     }
 
     @Test fun signalDialog() {
-        val initValue = getLogic().getRandomSignal()
+        val initValue = getRandomSignalCheck()
         val value = getSignalClick(initValue)
 
         assertFalse(initValue.contentEquals(value))
@@ -76,7 +75,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
     }
 
     private fun getSignalClick(initArray: BooleanArray): BooleanArray {
-        val newArray = getLogic().getRandomSignal()
+        val newArray = getRandomSignalCheck()
         return if (initArray.contentEquals(newArray)) getSignalClick(initArray) else newArray
     }
 

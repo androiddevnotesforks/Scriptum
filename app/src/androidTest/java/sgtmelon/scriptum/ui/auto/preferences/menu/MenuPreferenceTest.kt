@@ -12,6 +12,8 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MenuPreferenceTest : ParentUiTest() {
 
+    // TODO hide scriptum service notification via adb?
+
     @Test fun close() = startMenuPreferenceTest { clickClose() }
 
     @Test fun assertList() = startMenuPreferenceTest { assert() }
@@ -24,18 +26,15 @@ class MenuPreferenceTest : ParentUiTest() {
 
     @Test fun openNote() = startMenuPreferenceTest { openNote() }
 
-    // TODO it's stuck on alarm pref screen
     @Test fun openAlarm() = startMenuPreferenceTest { openAlarm() }
 
     @Test fun openPrivacyPolicy() = startMenuPreferenceTest { openPrivacyPolicy() }
 
-    // TODO it's not working due to select app appears
     @Test fun openRate() = startMenuPreferenceTest {
-        TODO()
+        TODO(reason = "it's not working due to select app appears")
         openRate()
     }
 
-    // TODO it's not working due to notification appears
     @Test fun aboutDialogClose() = startMenuPreferenceTest {
         openAboutDialog { softClose() }
         assert()

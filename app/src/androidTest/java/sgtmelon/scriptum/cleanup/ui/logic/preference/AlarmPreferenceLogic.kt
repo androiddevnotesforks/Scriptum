@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.ui.logic.preference
 
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
@@ -23,17 +22,13 @@ class AlarmPreferenceLogic : PreferenceLogic() {
     )
 
     override fun getScreenList(): List<PreferenceItem> {
-        val list = mutableListOf(
-            Header(R.string.pref_header_common),
-            Summary.Text(
-                R.string.pref_title_alarm_repeat,
-                summary.getRepeat(preferencesRepo.repeat)
-            )
-        )
+        val list = mutableListOf<PreferenceItem>(Header(R.string.pref_header_common))
 
         val signalSummary = summaryDataSource.getSignal(preferencesRepo.signalTypeCheck)
         list.add(Summary.Text(R.string.pref_title_alarm_signal, signalSummary))
 
+        val repeatSummary = summary.getRepeat(preferencesRepo.repeat)
+        list.add(Summary.Text(R.string.pref_title_alarm_repeat, repeatSummary))
         list.add(Header(R.string.pref_header_melody_options))
 
         val isMelody = preferencesRepo.signalState.isMelody
@@ -65,17 +60,5 @@ class AlarmPreferenceLogic : PreferenceLogic() {
         val initCheck = runBlocking { preferencesRepo.getMelodyCheck(melodyList) }
 
         return Pair(textArray, initCheck!!)
-    }
-
-    /**
-     * It can't contains only false values. At least need one true.
-     */
-    fun getRandomSignal(): BooleanArray {
-        val melodyValue = Random.nextBoolean()
-        val vibrationValue = Random.nextBoolean()
-
-        if (!melodyValue && !vibrationValue) return getRandomSignal()
-
-        return booleanArrayOf(melodyValue, vibrationValue)
     }
 }

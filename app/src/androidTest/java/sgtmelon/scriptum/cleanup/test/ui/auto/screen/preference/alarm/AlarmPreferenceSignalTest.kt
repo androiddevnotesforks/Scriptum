@@ -9,6 +9,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SignalDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
 
 
 /**
@@ -25,7 +26,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
     }
 
     @Test fun dialogWork() {
-        val value = getLogic().getRandomSignal()
+        val value = getRandomSignalCheck()
         val initValue = switchValue(value)
 
         assertFalse(initValue.contentEquals(value))
@@ -51,7 +52,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
         var initValue: BooleanArray
 
         do {
-            initValue = getLogic().getRandomSignal()
+            initValue = getRandomSignalCheck()
             preferencesRepo.signalTypeCheck = initValue
         } while (initValue.contentEquals(value))
 

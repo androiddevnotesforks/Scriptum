@@ -44,7 +44,7 @@ class MenuPreferenceScreen : PreferencePart<MenuPreferenceLogic>(
     fun openRate() = getItem(p = 6).Simple().onItemClick()
 
     fun openAboutDialog(func: AboutDialogUi.() -> Unit = {}) {
-        getItem(p = 8).Simple().onItemClick()
+        getItem(p = 9).Simple().onItemClick()
         AboutDialogUi(func)
     }
 

@@ -20,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
 import sgtmelon.scriptum.parent.ui.screen.splash.SplashScreen
+import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.idling.getWaitIdling
 
@@ -73,6 +74,7 @@ abstract class ParentUiTest : ParentTest() {
         }
         preferencesRepo.sort = Sort.CHANGE
         preferencesRepo.isDeveloper = false
+        preferencesRepo.signalTypeCheck = getRandomSignalCheck()
 
         /** Prepare database. */
         db.clear()
