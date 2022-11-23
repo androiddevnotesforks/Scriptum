@@ -4,12 +4,12 @@ import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.dialog.SelectDialogPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**
- * Class for UI control of [SingleDialog] which open from [NotePreferenceFragment] for select sort.
+ * Class for UI control of [SingleDialog] which open from [NotesPreferenceFragment] for select sort.
  */
 class SortDialogUi : SelectDialogPart<Sort>(
     R.string.pref_title_note_sort,

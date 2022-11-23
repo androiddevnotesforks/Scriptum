@@ -6,25 +6,27 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 
 /**
- * Component for [NotePreferenceFragment].
+ * Component for [NotesPreferenceFragment].
  */
 @ActivityScope
-@Subcomponent(modules = [
-    InteractorModule::class,
-    ViewModelModule::class
-])
-interface NotePreferenceComponent {
+@Subcomponent(
+    modules = [
+        InteractorModule::class,
+        ViewModelModule::class
+    ]
+)
+interface NotesPreferenceComponent {
 
-    fun inject(fragment: NotePreferenceFragment)
+    fun inject(fragment: NotesPreferenceFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
-        fun build(): NotePreferenceComponent
+        fun build(): NotesPreferenceComponent
     }
 }

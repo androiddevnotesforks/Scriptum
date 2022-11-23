@@ -32,4 +32,12 @@ class MenuPreferenceLogic : PreferenceLogic() {
 
         return list
     }
+
+    /**
+     * Needed for describe order of items.
+     */
+    enum class Part {
+        APP_HEADER, THEME_ITEM, BACKUP_ITEM, NOTES_ITEM, ALARM_ITEM,
+        OTHER_HEADER, PRIVACY_ITEM, RATE_ITEM, HELP_ITEM, ABOUT_ITEM
+    }
 }

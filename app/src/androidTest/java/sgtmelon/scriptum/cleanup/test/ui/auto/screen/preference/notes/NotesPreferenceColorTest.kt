@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.note
+package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
@@ -15,8 +15,8 @@ import sgtmelon.scriptum.ui.cases.value.ColorCase
  * Test of [PreferencesImpl.defaultColor] setup for [MenuPreferenceFragment]
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceColorTest : ParentUiTest(),
-    INotePreferenceTest,
+class NotesPreferenceColorTest : ParentUiTest(),
+    INotesPreferenceTest,
     ColorCase {
 
     @Test fun dialogClose() = runTest {

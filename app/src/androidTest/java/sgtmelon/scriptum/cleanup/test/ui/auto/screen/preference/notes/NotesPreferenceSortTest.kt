@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.note
+package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
@@ -6,17 +6,17 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SortDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.cases.value.SortCase
 
 /**
- * Test for [NotePreferenceFragment] and [SortDialogUi].
+ * Test for [NotesPreferenceFragment] and [SortDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceSortTest : ParentUiTest(),
-    INotePreferenceTest,
+class NotesPreferenceSortTest : ParentUiTest(),
+    INotesPreferenceTest,
     SortCase {
 
     @Test fun dialogClose() = runTest {

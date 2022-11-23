@@ -31,7 +31,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         val melodyList = runBlocking { getLogic().getMelodyList() }
         preferences.melodyUri = melodyList.random().uri
 
-        preferences.volumePercent = VolumeDialogUi.list.random()
+        preferencesRepo.volumePercent = VolumeDialogUi.list.random()
         preferences.isVolumeIncrease = Random.nextBoolean()
     }) {
         rotate.toSide()
@@ -111,7 +111,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
 
         runTest({
             preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
-            preferences.volumePercent = initValue
+            preferencesRepo.volumePercent = initValue
         }) {
             openVolumeDialog {
                 seekTo(value)
@@ -122,6 +122,6 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
             assert()
         }
 
-        assertEquals(value, preferences.volumePercent)
+        assertEquals(value, preferencesRepo.volumePercent)
     }
 }

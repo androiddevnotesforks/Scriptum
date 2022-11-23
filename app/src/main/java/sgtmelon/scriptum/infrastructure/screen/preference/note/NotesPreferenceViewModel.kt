@@ -5,7 +5,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
-interface NotePreferenceViewModel {
+interface NotesPreferenceViewModel {
 
     val sort: Sort
 

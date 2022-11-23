@@ -12,19 +12,19 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MenuPreferenceTest : ParentUiTest() {
 
-    // TODO hide scriptum service notification via adb?
-
     @Test fun close() = startMenuPreferenceTest { clickClose() }
 
     @Test fun assertList() = startMenuPreferenceTest { assert() }
 
-    @Test fun assertListDeveloper() = startMenuPreferenceTest({ preferences.isDeveloper = true }) {
+    @Test fun assertListDeveloper() = startMenuPreferenceTest({
+        preferencesRepo.isDeveloper = true
+    }) {
         assert()
     }
 
     @Test fun openBackup() = startMenuPreferenceTest { openBackup() }
 
-    @Test fun openNote() = startMenuPreferenceTest { openNote() }
+    @Test fun openNotes() = startMenuPreferenceTest { openNotes() }
 
     @Test fun openAlarm() = startMenuPreferenceTest { openAlarm() }
 

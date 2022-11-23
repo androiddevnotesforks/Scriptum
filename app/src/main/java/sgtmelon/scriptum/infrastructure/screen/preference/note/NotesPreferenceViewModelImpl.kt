@@ -8,13 +8,13 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
-class NotePreferenceViewModelImpl(
+class NotesPreferenceViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
     private val getSortSummary: GetSummaryUseCase,
     private val getDefaultColorSummary: GetSummaryUseCase,
     private val getSavePeriodSummary: GetSummaryUseCase
 ) : ViewModel(),
-    NotePreferenceViewModel {
+    NotesPreferenceViewModel {
 
     override val sort: Sort get() = preferencesRepo.sort
 

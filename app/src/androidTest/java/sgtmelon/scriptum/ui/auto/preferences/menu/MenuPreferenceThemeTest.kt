@@ -5,7 +5,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.ThemeDialogUi
@@ -21,10 +20,8 @@ class MenuPreferenceThemeTest : ParentUiTest(),
     ThemeCase,
     DialogCloseCase {
 
-    private val converter = ThemeConverter()
-
     @Test override fun close() = startMenuPreferenceTest({
-        preferences.theme = converter.toInt(Theme.LIGHT)
+        preferencesRepo.theme = Theme.LIGHT
     }) {
         openThemeDialog { cancel() }
         assert()

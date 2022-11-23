@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceF
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.getFragmentByTag
 
 /**
@@ -58,7 +58,7 @@ object FragmentFactory {
             val fragment: ParentPreferenceFragment = fm.getFragmentByTag(tag) ?: when (screen) {
                 PreferenceScreen.MENU -> MenuPreferenceFragment()
                 PreferenceScreen.BACKUP -> BackupPreferenceFragment()
-                PreferenceScreen.NOTE -> NotePreferenceFragment()
+                PreferenceScreen.NOTE -> NotesPreferenceFragment()
                 PreferenceScreen.ALARM -> AlarmPreferenceFragment()
                 PreferenceScreen.HELP -> HelpPreferenceFragment()
                 PreferenceScreen.DEVELOP -> DevelopFragment()

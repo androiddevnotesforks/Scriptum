@@ -4,12 +4,12 @@ import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.dialog.SelectDialogPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**
- * Class for UI control of [SingleDialog] which open from [NotePreferenceFragment] for select
+ * Class for UI control of [SingleDialog] which open from [NotesPreferenceFragment] for select
  * alarm repeat.
  */
 class RepeatDialogUi : SelectDialogPart<Repeat>(

@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.cleanup.ui.logic.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.screen.preference.NotePreferenceScreen
+import sgtmelon.scriptum.cleanup.ui.screen.preference.NotesPreferenceScreen
 import sgtmelon.scriptum.parent.ui.model.PreferenceItem
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
 /**
- * Logic for [NotePreferenceScreen].
+ * Logic for [NotesPreferenceScreen].
  */
-class NotePreferenceLogic : PreferenceLogic() {
+class NotesPreferenceLogic : PreferenceLogic() {
 
     override fun getScreenList(): List<PreferenceItem> {
         return listOf(

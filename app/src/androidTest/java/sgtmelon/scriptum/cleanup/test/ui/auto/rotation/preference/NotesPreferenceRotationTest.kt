@@ -5,19 +5,19 @@ import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.note.INotePreferenceTest
+import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.notes.INotesPreferenceTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 import sgtmelon.test.common.getDifferentValues
 
 /**
- * Test of [NotePreferenceFragment] work with phone rotation.
+ * Test of [NotesPreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceRotationTest : ParentUiRotationTest(), INotePreferenceTest {
+class NotesPreferenceRotationTest : ParentUiRotationTest(), INotesPreferenceTest {
 
     @Test fun content() = runTest({
         preferencesRepo.sort = Sort.values().random()

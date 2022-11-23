@@ -81,8 +81,8 @@ import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenc
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModel
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceViewModel
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
@@ -308,18 +308,18 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideNotePreferenceViewModel(
+    fun provideNotesPreferenceViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
         @Named("Sort") getSortSummary: GetSummaryUseCase,
         @Named("DefaultColor") getDefaultColorSummary: GetSummaryUseCase,
         @Named("SavePeriod") getSavePeriodSummary: GetSummaryUseCase
-    ): NotePreferenceViewModel {
+    ): NotesPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Note(
             preferencesRepo, getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
 
-        return ViewModelProvider(owner, factory)[NotePreferenceViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[NotesPreferenceViewModelImpl::class.java]
     }
 
     @Provides

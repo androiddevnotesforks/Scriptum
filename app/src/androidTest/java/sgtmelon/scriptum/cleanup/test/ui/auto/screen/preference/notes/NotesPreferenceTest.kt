@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.note
+package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
@@ -8,14 +8,14 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
-import sgtmelon.scriptum.infrastructure.screen.preference.note.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
- * Test for [NotePreferenceFragment].
+ * Test for [NotesPreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
+class NotesPreferenceTest : ParentUiTest(), INotesPreferenceTest {
 
     @Test fun close() = runTest { clickClose() }
 

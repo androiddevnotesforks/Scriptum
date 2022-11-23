@@ -9,7 +9,6 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 /**
  * Parent class for tests of [DateDialogUi] and [TimeDialogUi].
  */
-// TODO add toast assertion
 abstract class DateTimeDialogCase<T : NoteItem> : ParentUiTest(),
     DialogCloseCase {
 

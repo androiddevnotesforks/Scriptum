@@ -34,6 +34,6 @@ class AlarmPreferenceTest : ParentUiTest(), IAlarmPreferenceTest {
             preferences.isVolumeIncrease = value
         }) { onVolumeIncreaseClick() }
 
-        assertEquals(!value, preferences.isVolumeIncrease)
+        assertEquals(!value, preferencesRepo.isVolumeIncrease)
     }
 }

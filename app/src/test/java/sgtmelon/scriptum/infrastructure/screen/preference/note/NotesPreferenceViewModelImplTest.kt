@@ -13,9 +13,9 @@ import sgtmelon.scriptum.infrastructure.screen.preference.ParentPreferenceViewMo
 import sgtmelon.test.common.nextString
 
 /**
- * ViewModel for [NotePreferenceViewModelImpl].
+ * ViewModel for [NotesPreferenceViewModelImpl].
  */
-class NotePreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
+class NotesPreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
 
     //region Setup
 
@@ -29,7 +29,7 @@ class NotePreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
     private val savePeriodSummary = nextString()
 
     private val viewModel by lazy {
-        NotePreferenceViewModelImpl(
+        NotesPreferenceViewModelImpl(
             preferencesRepo, getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
     }

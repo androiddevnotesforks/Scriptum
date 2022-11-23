@@ -30,6 +30,8 @@ abstract class PreferencePart<L : PreferenceLogic>(
 
     override val recyclerView by lazy { getView(R.id.recycler_view) }
 
+    protected fun getItem(enum: Enum<*>) = getItem(enum.ordinal)
+
     override fun getItem(p: Int) = PreferenceItemUi(recyclerView, p)
 
     fun assert() = apply {

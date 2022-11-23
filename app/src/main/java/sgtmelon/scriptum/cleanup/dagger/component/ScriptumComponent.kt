@@ -14,7 +14,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.preference.AlarmPreferenceComp
 import sgtmelon.scriptum.cleanup.dagger.component.preference.BackupPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.HelpDisappearComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.MainPreferenceComponent
-import sgtmelon.scriptum.cleanup.dagger.component.preference.NotePreferenceComponent
+import sgtmelon.scriptum.cleanup.dagger.component.preference.NotesPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.PreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.DevelopPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PrintDevelopComponent
@@ -96,7 +96,7 @@ interface ScriptumComponent {
 
     fun getBackupPrefBuilder(): BackupPreferenceComponent.Builder
 
-    fun getNotePrefBuilder(): NotePreferenceComponent.Builder
+    fun getNotesPrefBuilder(): NotesPreferenceComponent.Builder
 
     fun getAlarmPrefBuilder(): AlarmPreferenceComponent.Builder
 

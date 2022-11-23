@@ -14,15 +14,15 @@ import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
 
 /**
- * Fragment of note preferences.
+ * Fragment of notes preferences.
  */
-class NotePreferenceFragment : ParentPreferenceFragment() {
+class NotesPreferenceFragment : ParentPreferenceFragment() {
 
-    override val xmlId: Int = R.xml.preference_note
+    override val xmlId: Int = R.xml.preference_notes
 
-    private val binding = NotePreferenceDataBinding(fragment = this)
+    private val binding = NotesPreferenceDataBinding(fragment = this)
 
-    @Inject lateinit var viewModel: NotePreferenceViewModel
+    @Inject lateinit var viewModel: NotesPreferenceViewModel
 
     private val dialogs by lazy { DialogFactory.Preference.Notes(context, fm) }
     private val sortDialog by lazy { dialogs.getSort() }
@@ -35,7 +35,7 @@ class NotePreferenceFragment : ParentPreferenceFragment() {
     }
 
     override fun inject(component: ScriptumComponent) {
-        component.getNotePrefBuilder()
+        component.getNotesPrefBuilder()
             .set(owner = this)
             .build()
             .inject(fragment = this)
