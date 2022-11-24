@@ -8,8 +8,8 @@ import sgtmelon.scriptum.parent.ui.model.key.Scroll
 import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
 import sgtmelon.scriptum.ui.auto.notes.startNotesItemTest
 import sgtmelon.scriptum.ui.auto.notes.startNotesListTest
-import sgtmelon.scriptum.ui.cases.ListScrollCase
 import sgtmelon.scriptum.ui.cases.NoteOpenCase
+import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 
 /**
  * Weigh test for [NotesFragment].

@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SavePeriodDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.SavePeriodCase
 
 /**
@@ -17,9 +18,10 @@ import sgtmelon.scriptum.ui.cases.value.SavePeriodCase
 @RunWith(AndroidJUnit4::class)
 class NotesPreferenceSavePeriodTest : ParentUiTest(),
     INotesPreferenceTest,
+    DialogCloseCase,
     SavePeriodCase {
 
-    @Test fun dialogClose() = runTest({ preferences.isAutoSaveOn = true }) {
+    @Test override fun close() = runTest({ preferences.isAutoSaveOn = true }) {
         openSavePeriodDialog { cancel() }
         assert()
         openSavePeriodDialog { softClose() }

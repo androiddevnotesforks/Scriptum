@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.ui.cases.ListContentCase
+import sgtmelon.scriptum.ui.cases.list.ListContentCase
 import sgtmelon.test.common.nextString
 
 /**

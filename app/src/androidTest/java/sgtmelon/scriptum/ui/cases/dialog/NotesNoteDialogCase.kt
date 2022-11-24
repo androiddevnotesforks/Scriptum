@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases
+package sgtmelon.scriptum.ui.cases.dialog
 
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity

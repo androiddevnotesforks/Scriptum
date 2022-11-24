@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases
+package sgtmelon.scriptum.ui.cases.list
 
 interface ListContentCase {
 

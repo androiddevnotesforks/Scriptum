@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases
+package sgtmelon.scriptum.ui.cases.list
 
 import sgtmelon.scriptum.parent.ui.feature.ListSnackbarWork
 import sgtmelon.scriptum.parent.ui.model.key.Scroll

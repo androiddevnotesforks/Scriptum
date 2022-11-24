@@ -43,7 +43,7 @@ class VolumeDialogUi : ParentScreen(),
         applyButton.click()
     }
 
-    fun seekTo(@IntRange(from = 10, to = 100) progress: Int) = apply {
+    fun seekTo(@IntRange(from = 10, to = 100) progress: Int) {
         value = progress
 
         seekBar.setProgress(progress)

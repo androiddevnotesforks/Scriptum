@@ -4,70 +4,56 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.MelodyDialogUi
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.ui.cases.dialog.DialogWorkCase
+import sgtmelon.test.common.getDifferentValues
 
 /**
  * Test for [AlarmPreferenceFragment] and [MelodyDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceMelodyTest : ParentUiTest() {
+class AlarmPreferenceMelodyTest : ParentUiTest(),
+    DialogCloseCase,
+    DialogWorkCase {
 
     @Before override fun setUp() {
         super.setUp()
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 
-    @Test fun dialogClose() = startAlarmPreferenceTest {
+    @Test override fun close() = startAlarmPreferenceTest {
         openMelodyDialog { softClose() }
         assert()
         openMelodyDialog { cancel() }
         assert()
     }
 
-    @Test fun dialogWork() {
+    @Test override fun work() {
+        //        TODO("Return mockked list")
         // TODO inject getMelodyUseCase
         val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
 
-        val pair = switchValue(list)
-        val initIndex = list.indexOf(pair.first)
-        val valueIndex = list.indexOf(pair.second)
+        val (setValue, initValue) = list.getDifferentValues()
+        val initIndex = list.indexOf(initValue)
+        val setIndex = list.indexOf(setValue)
 
-        assertNotEquals(initIndex, valueIndex)
-        assertEquals(pair.first.uri, preferences.melodyUri)
-
-        startAlarmPreferenceTest {
+        startAlarmPreferenceTest({ preferences.melodyUri = initValue.uri }) {
             openMelodyDialog {
-                click(valueIndex)
+                click(setIndex)
                 click(initIndex)
-                click(valueIndex)
+                click(setIndex)
                 apply()
             }
             assert()
         }
 
-        assertEquals(pair.second.uri, preferences.melodyUri)
-    }
-
-    /**
-     * Switch selected melody to another one.
-     */
-    private fun switchValue(list: List<MelodyItem>): Pair<MelodyItem, MelodyItem> {
-        val value = list.random()
-        var initValue: MelodyItem
-
-        do {
-            initValue = list.random()
-            preferences.melodyUri = initValue.uri
-        } while (initValue.uri == value.uri)
-
-        return Pair(initValue, value)
+        assertEquals(setValue.uri, preferences.melodyUri)
     }
 }

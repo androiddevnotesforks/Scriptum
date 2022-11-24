@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.RepeatDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.ui.cases.DialogCloseCase
+import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.RepeatCase
 import sgtmelon.test.common.getDifferentValues
 
@@ -40,7 +40,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
     override fun startTest(value: Repeat) {
         val (setValue, initValue) = Repeat.values().getDifferentValues(value)
 
-        startAlarmPreferenceTest({ preferencesRepo.repeat = setValue }) {
+        startAlarmPreferenceTest({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
                 click(setValue)
                 click(initValue)

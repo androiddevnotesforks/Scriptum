@@ -5,11 +5,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.ui.cases.ListContentCase
-import sgtmelon.scriptum.ui.cases.ListScrollCase
 import sgtmelon.scriptum.ui.cases.NoteOpenCase
+import sgtmelon.scriptum.ui.cases.list.ListContentCase
+import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 
 /**
  * Test list for [NotesFragment].

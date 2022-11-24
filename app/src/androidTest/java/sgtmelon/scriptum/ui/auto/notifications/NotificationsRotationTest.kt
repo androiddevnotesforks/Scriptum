@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.ui.cases.ListContentCase
 import sgtmelon.scriptum.ui.cases.NoteOpenCase
+import sgtmelon.scriptum.ui.cases.list.ListContentCase
 
 /**
  * Test of [NotificationsActivity] work with phone rotation.

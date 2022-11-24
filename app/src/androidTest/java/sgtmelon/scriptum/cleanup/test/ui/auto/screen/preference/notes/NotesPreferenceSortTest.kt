@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SortDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.SortCase
 
 /**
@@ -17,9 +18,10 @@ import sgtmelon.scriptum.ui.cases.value.SortCase
 @RunWith(AndroidJUnit4::class)
 class NotesPreferenceSortTest : ParentUiTest(),
     INotesPreferenceTest,
+    DialogCloseCase,
     SortCase {
 
-    @Test fun dialogClose() = runTest {
+    @Test override fun close() = runTest {
         openSortDialog { cancel() }
         assert()
         openSortDialog { softClose() }

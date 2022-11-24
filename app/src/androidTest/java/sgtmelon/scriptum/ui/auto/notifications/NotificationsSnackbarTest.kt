@@ -8,7 +8,7 @@ import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.auto.startNotesTest
-import sgtmelon.scriptum.ui.cases.ListCancelSnackbarCase
+import sgtmelon.scriptum.ui.cases.list.ListCancelSnackbarCase
 import sgtmelon.test.cappuccino.utils.await
 
 /**

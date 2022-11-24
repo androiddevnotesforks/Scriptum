@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.ColorCase
 
 /**
@@ -17,9 +18,10 @@ import sgtmelon.scriptum.ui.cases.value.ColorCase
 @RunWith(AndroidJUnit4::class)
 class NotesPreferenceColorTest : ParentUiTest(),
     INotesPreferenceTest,
+    DialogCloseCase,
     ColorCase {
 
-    @Test fun dialogClose() = runTest {
+    @Test override fun close() = runTest {
         val color = preferencesRepo.defaultColor
 
         openColorDialog(color) { onClickCancel() }

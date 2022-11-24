@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.ui.cases.NotesNoteDialogCase
+import sgtmelon.scriptum.ui.cases.dialog.NotesNoteDialogCase
 
 
 /**

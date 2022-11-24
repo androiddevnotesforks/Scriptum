@@ -7,9 +7,9 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivi
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.auto.startNotesTest
-import sgtmelon.scriptum.ui.cases.ListContentCase
-import sgtmelon.scriptum.ui.cases.ListScrollCase
 import sgtmelon.scriptum.ui.cases.NoteOpenCase
+import sgtmelon.scriptum.ui.cases.list.ListContentCase
+import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 
 /**
  * Test for [NotificationsActivity].

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.ui.cases.ListContentCase
+import sgtmelon.scriptum.ui.cases.list.ListContentCase
 
 /**
  * Test of [NotesFragment] work with phone rotation.

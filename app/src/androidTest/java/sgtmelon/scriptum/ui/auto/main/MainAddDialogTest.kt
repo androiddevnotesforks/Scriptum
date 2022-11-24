@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.ui.cases.DialogCloseCase
+import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 
 /**
  * Test add dialog for [MainActivity].

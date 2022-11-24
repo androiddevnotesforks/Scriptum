@@ -10,7 +10,8 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceF
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SignalDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
-import sgtmelon.scriptum.ui.cases.DialogCloseCase
+import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.ui.cases.dialog.DialogWorkCase
 
 
 /**
@@ -18,7 +19,8 @@ import sgtmelon.scriptum.ui.cases.DialogCloseCase
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceSignalTest : ParentUiTest(),
-    DialogCloseCase {
+    DialogCloseCase,
+    DialogWorkCase {
 
     @Test override fun close() = startAlarmPreferenceTest {
         openSignalDialog { softClose() }
@@ -27,37 +29,23 @@ class AlarmPreferenceSignalTest : ParentUiTest(),
         assert()
     }
 
-    @Test fun dialogWork() {
-        val value = getRandomSignalCheck()
-        val initValue = switchValue(value)
+    @Test override fun work() {
+        val initValue = getRandomSignalCheck()
+        val setValue = getRandomSignalCheck(initValue)
 
-        assertFalse(initValue.contentEquals(value))
-        assertEquals(initValue.size, value.size)
+        assertFalse(initValue.contentEquals(setValue))
+        assertEquals(initValue.size, setValue.size)
 
-        startAlarmPreferenceTest {
+        startAlarmPreferenceTest({ preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
-                click(value)
+                click(setValue)
                 click(initValue)
-                click(value)
+                click(setValue)
                 apply()
             }
             assert()
         }
 
-        assertTrue(preferencesRepo.signalTypeCheck.contentEquals(value))
-    }
-
-    /**
-     * Switch signal to another one.
-     */
-    private fun switchValue(value: BooleanArray): BooleanArray {
-        var initValue: BooleanArray
-
-        do {
-            initValue = getRandomSignalCheck()
-            preferencesRepo.signalTypeCheck = initValue
-        } while (initValue.contentEquals(value))
-
-        return initValue
+        assertTrue(preferencesRepo.signalTypeCheck.contentEquals(setValue))
     }
 }

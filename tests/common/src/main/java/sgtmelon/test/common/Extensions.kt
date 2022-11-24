@@ -45,14 +45,22 @@ fun getRandomPastTime(): String {
 
 //endregion
 
-fun <E> Array<E>.getDifferentValues(value: E? = null): Pair<E, E> {
-    if (size <= 1) throw IllegalArgumentException("Values must have size greater than 1")
+private class SizeException : IllegalArgumentException("Values must have size greater than 1")
 
-    return getDifferentValues(value) { random() }
+fun <E> Collection<E>.getDifferentValues(setValue: E? = null): Pair<E, E> {
+    if (size <= 1) throw SizeException()
+
+    return getDifferentValues(setValue) { random() }
 }
 
-inline fun <E> getDifferentValues(value: E?, getRandom: () -> E): Pair<E, E> {
-    val firstValue = value ?: getRandom()
+fun <E> Array<E>.getDifferentValues(setValue: E? = null): Pair<E, E> {
+    if (size <= 1) throw SizeException()
+
+    return getDifferentValues(setValue) { random() }
+}
+
+inline fun <E> getDifferentValues(setValue: E?, getRandom: () -> E): Pair<E, E> {
+    val firstValue = setValue ?: getRandom()
     var secondValue = getRandom()
     while (secondValue == firstValue) {
         secondValue = getRandom()

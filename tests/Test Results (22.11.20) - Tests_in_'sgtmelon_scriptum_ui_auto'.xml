@@ -63,7 +63,7 @@
         status="failed">
         <test name="copy" duration="986" status="failed">
             <output type="stderr">kotlin.NotImplementedError: An operation is not implemented.
-                at sgtmelon.scriptum.ui.cases.BinNoteDialogCase.copy(BinNoteDialogCase.kt:51)
+                at sgtmelon.scriptum.ui.cases.dialog.BinNoteDialogCase.copy(BinNoteDialogCase.kt:51)
                 at
                 sgtmelon.scriptum.ui.auto.bin.BinNoteDialogRollTest.copy(BinNoteDialogRollTest.kt:28)
             </output>
@@ -78,7 +78,7 @@
         status="failed">
         <test name="copy" duration="1039" status="failed">
             <output type="stderr">kotlin.NotImplementedError: An operation is not implemented.
-                at sgtmelon.scriptum.ui.cases.BinNoteDialogCase.copy(BinNoteDialogCase.kt:51)
+                at sgtmelon.scriptum.ui.cases.dialog.BinNoteDialogCase.copy(BinNoteDialogCase.kt:51)
                 at
                 sgtmelon.scriptum.ui.auto.bin.BinNoteDialogTextTest.copy(BinNoteDialogTextTest.kt:28)
             </output>
@@ -93,7 +93,8 @@
         status="failed">
         <test name="copy" duration="1090" status="failed">
             <output type="stderr">kotlin.NotImplementedError: An operation is not implemented.
-                at sgtmelon.scriptum.ui.cases.NotesNoteDialogCase.copy(NotesNoteDialogCase.kt:99)
+                at
+                sgtmelon.scriptum.ui.cases.dialog.NotesNoteDialogCase.copy(NotesNoteDialogCase.kt:99)
                 at
                 sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogRollTest.copy(NotesNoteDialogRollTest.kt:33)
             </output>
@@ -112,7 +113,8 @@
         status="failed">
         <test name="copy" duration="1219" status="failed">
             <output type="stderr">kotlin.NotImplementedError: An operation is not implemented.
-                at sgtmelon.scriptum.ui.cases.NotesNoteDialogCase.copy(NotesNoteDialogCase.kt:99)
+                at
+                sgtmelon.scriptum.ui.cases.dialog.NotesNoteDialogCase.copy(NotesNoteDialogCase.kt:99)
                 at
                 sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogTextTest.copy(NotesNoteDialogTextTest.kt:32)
             </output>
@@ -1084,7 +1086,7 @@
             <testcase benchmark=""
                 className="BinNoteDialogRollTest"
                 endTimestampMillis="986"
-                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.cases.BinNoteDialogCase.copy(BinNoteDialogCase.kt:51)&#10;&#9;at sgtmelon.scriptum.ui.auto.bin.BinNoteDialogRollTest.copy(BinNoteDialogRollTest.kt:28)&#10;"
+                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.cases.dialog.BinNoteDialogCase.copy(BinNoteDialogCase.kt:51)&#10;&#9;at sgtmelon.scriptum.ui.auto.bin.BinNoteDialogRollTest.copy(BinNoteDialogRollTest.kt:28)&#10;"
                 id="sgtmelon.scriptum.ui.auto.bin.BinNoteDialogRollTest.copy"
                 logcat=""
                 methodName="copy"
@@ -1134,7 +1136,7 @@
             <testcase benchmark=""
                 className="BinNoteDialogTextTest"
                 endTimestampMillis="1039"
-                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.cases.BinNoteDialogCase.copy(BinNoteDialogCase.kt:51)&#10;&#9;at sgtmelon.scriptum.ui.auto.bin.BinNoteDialogTextTest.copy(BinNoteDialogTextTest.kt:28)&#10;"
+                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.cases.dialog.BinNoteDialogCase.copy(BinNoteDialogCase.kt:51)&#10;&#9;at sgtmelon.scriptum.ui.auto.bin.BinNoteDialogTextTest.copy(BinNoteDialogTextTest.kt:28)&#10;"
                 id="sgtmelon.scriptum.ui.auto.bin.BinNoteDialogTextTest.copy"
                 logcat=""
                 methodName="copy"
@@ -1184,7 +1186,7 @@
             <testcase benchmark=""
                 className="NotesNoteDialogRollTest"
                 endTimestampMillis="1090"
-                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.cases.NotesNoteDialogCase.copy(NotesNoteDialogCase.kt:99)&#10;&#9;at sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogRollTest.copy(NotesNoteDialogRollTest.kt:33)&#10;"
+                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.cases.dialog.NotesNoteDialogCase.copy(NotesNoteDialogCase.kt:99)&#10;&#9;at sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogRollTest.copy(NotesNoteDialogRollTest.kt:33)&#10;"
                 id="sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogRollTest.copy"
                 logcat=""
                 methodName="copy"
@@ -1274,7 +1276,7 @@
             <testcase benchmark=""
                 className="NotesNoteDialogTextTest"
                 endTimestampMillis="1219"
-                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.cases.NotesNoteDialogCase.copy(NotesNoteDialogCase.kt:99)&#10;&#9;at sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogTextTest.copy(NotesNoteDialogTextTest.kt:32)&#10;"
+                errorStackTrace="kotlin.NotImplementedError: An operation is not implemented.&#10;&#9;at sgtmelon.scriptum.ui.cases.dialog.NotesNoteDialogCase.copy(NotesNoteDialogCase.kt:99)&#10;&#9;at sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogTextTest.copy(NotesNoteDialogTextTest.kt:32)&#10;"
                 id="sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogTextTest.copy"
                 logcat=""
                 methodName="copy"
