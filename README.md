@@ -6,11 +6,16 @@
   <img width="512" height="250" src="https://user-images.githubusercontent.com/43184868/203823879-d03cd187-ee1d-4c6b-9722-2a29126bffff.png">
 </p>
 
-#### ⚡ What is it? ⚡
+### What is it?
 
 It's an **open source** project, and the main **goal** of it is to create an app for easy management of notes on Android phones.
 
-#### ⚡ Links ⚡
+<!--
+  TODO: add "why this app?" section with main advantages of this app
+  TODO: add "for developers" section with explanation why this code is good
+-->
+
+### Links
 
 📍 Donwload app from [Google Play](https://play.google.com/store/apps/details?id=sgtmelon.scriptum)\
 📍 Check out [Privacy Policy](https://github.com/SerjantArbuz/Scriptum/blob/master/PrivacyPolicy.md)\
