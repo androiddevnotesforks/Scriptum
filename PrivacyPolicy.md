@@ -29,7 +29,6 @@ file. Here a brief explanation of them:
 | `android.permission.FOREGROUND_SERVICE` | Enables the app to create foreground services that will ring the alarm, keep it snoozed and keep your status bar notifications up-to-date and always visible (even after application closed). Permission automatically granted by the system; can't be revoked by user. |
 | `android.permission.WRITE_EXTERNAL_STORAGE` | The only sensitive permission that the app requests, and can be revoked by the system or the user at any time. This is required in case if you want to set a custom alarm ring, if you will use backup notes features (to save/load data from your device). |
 
-If you still have any questions, feel free to ask via email: lex.kuznet@gmail.com.
+#### ⚡ At the end ⚡
 
-Sincerely,\
-Alexey Kuznetsov.
+If you still have any questions, feel free to ask via email: lex.kuznet@gmail.com.
