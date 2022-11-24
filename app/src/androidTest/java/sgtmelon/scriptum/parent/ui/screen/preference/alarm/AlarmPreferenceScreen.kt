@@ -1,14 +1,14 @@
-package sgtmelon.scriptum.cleanup.ui.screen.preference
+package sgtmelon.scriptum.parent.ui.screen.preference.alarm
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
-import sgtmelon.scriptum.cleanup.ui.logic.preference.AlarmPreferenceLogic
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.MelodyDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.RepeatDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SignalDialogUi
+import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic.Part
 
 /**
  * Class for UI control of [AlarmPreferenceFragment].
@@ -19,30 +19,30 @@ class AlarmPreferenceScreen : PreferencePart<AlarmPreferenceLogic>(
 
     override val screenLogic = AlarmPreferenceLogic()
 
-    fun openRepeatDialog(func: RepeatDialogUi.() -> Unit = {}) {
-        getItem(p = 1).Summary().onItemClick()
-        RepeatDialogUi(func)
-    }
-
     fun openSignalDialog(func: SignalDialogUi.() -> Unit = {}) {
-        getItem(p = 2).Summary().onItemClick()
+        getItem(Part.SIGNAL_ITEM).Summary().onItemClick()
         SignalDialogUi(preferencesRepo.signalTypeCheck, func)
     }
 
+    fun openRepeatDialog(func: RepeatDialogUi.() -> Unit = {}) {
+        getItem(Part.REPEAT_ITEM).Summary().onItemClick()
+        RepeatDialogUi(func)
+    }
+
     fun openMelodyDialog(func: MelodyDialogUi.() -> Unit = {}) {
-        getItem(p = 4).Summary().onItemClick()
+        getItem(Part.MELODY_ITEM).Summary().onItemClick()
 
         val pair = screenLogic.getMelodyDialogPair()
         MelodyDialogUi(pair.first, pair.second, func)
     }
 
     fun openVolumeDialog(func: VolumeDialogUi.() -> Unit = {}) {
-        getItem(p = 5).Summary().onItemClick()
+        getItem(Part.VOLUME_ITEM).Summary().onItemClick()
         VolumeDialogUi(func)
     }
 
     fun onVolumeIncreaseClick() {
-        getItem(p = 6).Switch().onItemClick()
+        getItem(Part.INCREASE_ITEM).Switch().onItemClick()
         assert()
     }
 

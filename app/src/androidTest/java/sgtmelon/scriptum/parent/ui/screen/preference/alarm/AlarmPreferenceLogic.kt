@@ -1,10 +1,9 @@
-package sgtmelon.scriptum.cleanup.ui.logic.preference
+package sgtmelon.scriptum.parent.ui.screen.preference.alarm
 
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.UseCaseModule
-import sgtmelon.scriptum.cleanup.ui.screen.preference.AlarmPreferenceScreen
 import sgtmelon.scriptum.parent.ui.model.PreferenceItem
 import sgtmelon.scriptum.parent.ui.model.PreferenceItem.Header
 import sgtmelon.scriptum.parent.ui.model.PreferenceItem.Summary
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
  */
 class AlarmPreferenceLogic : PreferenceLogic() {
 
+    // TODO may be inject this somehow?
     private val summaryDataSource = DataSourceModule().provideSummaryDataSource(context.resources)
     val getMelodyList = UseCaseModule().provideGetMelodyListUseCase(
         DataSourceModule().provideRingtoneDataSource(context)
@@ -60,5 +60,13 @@ class AlarmPreferenceLogic : PreferenceLogic() {
         val initCheck = runBlocking { preferencesRepo.getMelodyCheck(melodyList) }
 
         return Pair(textArray, initCheck!!)
+    }
+
+    /**
+     * Needed for describe order of items.
+     */
+    enum class Part {
+        COMMON_HEADER, SIGNAL_ITEM, REPEAT_ITEM,
+        OPTIONS_HEADER, MELODY_ITEM, VOLUME_ITEM, INCREASE_ITEM
     }
 }

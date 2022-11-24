@@ -38,22 +38,6 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         assert()
     }
 
-    @Test fun repeatDialog() {
-        val (initValue, value) = Repeat.values().getDifferentValues()
-
-        runTest({ preferencesRepo.repeat = initValue }) {
-            openRepeatDialog {
-                click(value)
-                rotate.toSide()
-                assert()
-                apply()
-            }
-            assert()
-        }
-
-        assertEquals(value, preferencesRepo.repeat)
-    }
-
     @Test fun signalDialog() {
         val initValue = getRandomSignalCheck()
         val value = getSignalClick(initValue)
@@ -77,6 +61,22 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
     private fun getSignalClick(initArray: BooleanArray): BooleanArray {
         val newArray = getRandomSignalCheck()
         return if (initArray.contentEquals(newArray)) getSignalClick(initArray) else newArray
+    }
+
+    @Test fun repeatDialog() {
+        val (initValue, value) = Repeat.values().getDifferentValues()
+
+        runTest({ preferencesRepo.repeat = initValue }) {
+            openRepeatDialog {
+                click(value)
+                rotate.toSide()
+                assert()
+                apply()
+            }
+            assert()
+        }
+
+        assertEquals(value, preferencesRepo.repeat)
     }
 
     @Test fun melodyDialog() {

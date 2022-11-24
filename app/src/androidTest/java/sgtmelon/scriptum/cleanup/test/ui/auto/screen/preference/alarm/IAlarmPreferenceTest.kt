@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm
 
-import sgtmelon.scriptum.cleanup.ui.logic.preference.AlarmPreferenceLogic
-import sgtmelon.scriptum.cleanup.ui.screen.preference.AlarmPreferenceScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic
+import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceScreen
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
