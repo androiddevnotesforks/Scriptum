@@ -2,7 +2,6 @@ package sgtmelon.scriptum.ui.auto.preferences.menu
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
@@ -11,6 +10,7 @@ import sgtmelon.scriptum.parent.ui.screen.dialogs.select.ThemeDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.cases.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.ThemeCase
+import sgtmelon.test.common.getDifferentValues
 
 /**
  * Test for [MenuPreferenceFragment] and [ThemeDialogUi].
@@ -38,35 +38,19 @@ class MenuPreferenceThemeTest : ParentUiTest(),
     override fun startTest(value: Theme) {
         TODO("BUG: After switch theme app will be restarted")
 
-        val initValue = switchValue(value)
-
-        assertNotEquals(initValue, value)
+        val (setValue, initValue) = Theme.values().getDifferentValues(value)
+        preferencesRepo.theme = initValue
 
         startMenuPreferenceTest {
             openThemeDialog {
-                click(value)
+                click(setValue)
                 click(initValue)
-                click(value)
+                click(setValue)
                 apply()
             }
             assert()
         }
 
-        assertEquals(value, preferencesRepo.theme)
-    }
-
-    /**
-     * Switch [Theme] to another one. Setup theme for application which not equals [value].
-     */
-    private fun switchValue(value: Theme): Theme {
-        val list = Theme.values()
-        var initValue: Theme
-
-        do {
-            initValue = list.random()
-            preferencesRepo.theme = initValue
-        } while (initValue == value)
-
-        return initValue
+        assertEquals(setValue, preferencesRepo.theme)
     }
 }

@@ -179,7 +179,7 @@
         <test name="snackbar" duration="19690" status="passed" />
         <test name="contentEmpty" duration="8390" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference.AlarmPreferenceRotationTest"
+    <suite name="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRotationTest"
         duration="78985"
         status="passed">
         <test name="volumeDialog" duration="11931" status="passed" />
@@ -1051,9 +1051,7 @@
         <test name="contentPlacement" duration="8244" status="passed" />
         <test name="endButtonWork" duration="5255" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest"
-        duration="138035"
-        status="failed">
+    <suite name="sgtmelon.scriptum.ui.auto.splash.SplashTest" duration="138035" status="failed">
         <test name="notificationsOpen" duration="7889" status="passed" />
         <test name="bindTextNoteOpen" duration="8220" status="passed" />
         <test name="alarmRollNoteOpen" duration="7731" status="passed" />
@@ -1074,7 +1072,7 @@
                 at
                 sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launch$default(ParentUiTest.kt:124)
                 at
-                sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.mainScreenOpen(SplashTest.kt:17)
+                sgtmelon.scriptum.ui.auto.splash.SplashTest.mainScreenOpen(SplashTest.kt:17)
                 at java.lang.reflect.Method.invoke(Native Method)
                 at
                 org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
@@ -1139,7 +1137,7 @@
                 at
                 sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launchHelpDisappear$default(ParentUiTest.kt:156)
                 at
-                sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.helpDisappearOpen(SplashTest.kt:37)
+                sgtmelon.scriptum.ui.auto.splash.SplashTest.helpDisappearOpen(SplashTest.kt:37)
                 at java.lang.reflect.Method.invoke(Native Method)
                 at
                 org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
@@ -1241,13 +1239,13 @@
             </output>
         </test>
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceMelodyTest"
+    <suite name="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceMelodyTest"
         duration="59139"
         status="passed">
         <test name="dialogWork" duration="38033" status="passed" />
         <test name="dialogClose" duration="21106" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceRepeatTest"
+    <suite name="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRepeatTest"
         duration="49227"
         status="passed">
         <test name="repeatMin1440" duration="7774" status="passed" />
@@ -1257,13 +1255,13 @@
         <test name="repeatMin60" duration="8609" status="passed" />
         <test name="repeatMin180" duration="8189" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceSignalTest"
+    <suite name="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceSignalTest"
         duration="14767"
         status="passed">
         <test name="dialogWork" duration="7412" status="passed" />
         <test name="dialogClose" duration="7355" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceTest"
+    <suite name="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceTest"
         duration="25734"
         status="passed">
         <test name="volumeIncreaseWork" duration="4963" status="passed" />
@@ -1272,7 +1270,7 @@
         <test name="assertVibration" duration="4914" status="passed" />
         <test name="assertBoth" duration="5277" status="passed" />
     </suite>
-    <suite name="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceVolumeTest"
+    <suite name="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceVolumeTest"
         duration="13550"
         status="passed">
         <test name="dialogWork" duration="5778" status="passed" />
@@ -4513,7 +4511,7 @@
                 className="AlarmPreferenceRotationTest"
                 endTimestampMillis="11931"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference.AlarmPreferenceRotationTest.volumeDialog"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRotationTest.volumeDialog"
                 logcat=""
                 methodName="volumeDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference"
@@ -4523,7 +4521,7 @@
                 className="AlarmPreferenceRotationTest"
                 endTimestampMillis="13295"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference.AlarmPreferenceRotationTest.signalDialog"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRotationTest.signalDialog"
                 logcat=""
                 methodName="signalDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference"
@@ -4533,7 +4531,7 @@
                 className="AlarmPreferenceRotationTest"
                 endTimestampMillis="11004"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference.AlarmPreferenceRotationTest.content"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRotationTest.content"
                 logcat=""
                 methodName="content"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference"
@@ -4543,7 +4541,7 @@
                 className="AlarmPreferenceRotationTest"
                 endTimestampMillis="13939"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference.AlarmPreferenceRotationTest.repeatDialog"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRotationTest.repeatDialog"
                 logcat=""
                 methodName="repeatDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference"
@@ -4553,7 +4551,7 @@
                 className="AlarmPreferenceRotationTest"
                 endTimestampMillis="28816"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference.AlarmPreferenceRotationTest.melodyDialog"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRotationTest.melodyDialog"
                 logcat=""
                 methodName="melodyDialog"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference"
@@ -7973,7 +7971,7 @@
                 className="SplashTest"
                 endTimestampMillis="7889"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.notificationsOpen"
+                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.notificationsOpen"
                 logcat=""
                 methodName="notificationsOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -7983,7 +7981,7 @@
                 className="SplashTest"
                 endTimestampMillis="8220"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.bindTextNoteOpen"
+                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.bindTextNoteOpen"
                 logcat=""
                 methodName="bindTextNoteOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -7993,7 +7991,7 @@
                 className="SplashTest"
                 endTimestampMillis="7731"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.alarmRollNoteOpen"
+                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.alarmRollNoteOpen"
                 logcat=""
                 methodName="alarmRollNoteOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8002,8 +8000,8 @@
             <testcase benchmark=""
                 className="SplashTest"
                 endTimestampMillis="47934"
-                errorStackTrace="java.lang.RuntimeException: Could not launch intent Intent { flg=0x10000000 cmp=sgtmelon.scriptum/.presentation.screen.ui.impl.SplashActivity } within 45000 milliseconds. Perhaps the main thread has not gone idle within a reasonable amount of time? There could be an animation or something constantly repainting the screen. Or the activity is doing network calls on creation? See the threaddump logs. For your reference the last time the event queue was idle before your activity launch request was 1623176925857 and now the last time the queue went idle was: 1623176940112. If these numbers are the same your activity might be hogging the event queue.&#10;&#9;at androidx.test.runner.MonitoringInstrumentation.startActivitySync(MonitoringInstrumentation.java:490)&#10;&#9;at androidx.test.rule.ActivityTestRule.launchActivity(ActivityTestRule.java:376)&#10;&#9;at sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launch(ParentUiTest.kt:126)&#10;&#9;at sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launch$default(ParentUiTest.kt:124)&#10;&#9;at sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.mainScreenOpen(SplashTest.kt:17)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.mainScreenOpen"
+                errorStackTrace="java.lang.RuntimeException: Could not launch intent Intent { flg=0x10000000 cmp=sgtmelon.scriptum/.presentation.screen.ui.impl.SplashActivity } within 45000 milliseconds. Perhaps the main thread has not gone idle within a reasonable amount of time? There could be an animation or something constantly repainting the screen. Or the activity is doing network calls on creation? See the threaddump logs. For your reference the last time the event queue was idle before your activity launch request was 1623176925857 and now the last time the queue went idle was: 1623176940112. If these numbers are the same your activity might be hogging the event queue.&#10;&#9;at androidx.test.runner.MonitoringInstrumentation.startActivitySync(MonitoringInstrumentation.java:490)&#10;&#9;at androidx.test.rule.ActivityTestRule.launchActivity(ActivityTestRule.java:376)&#10;&#9;at sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launch(ParentUiTest.kt:126)&#10;&#9;at sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launch$default(ParentUiTest.kt:124)&#10;&#9;at sgtmelon.scriptum.ui.auto.splash.SplashTest.mainScreenOpen(SplashTest.kt:17)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
+                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.mainScreenOpen"
                 logcat=""
                 methodName="mainScreenOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8013,7 +8011,7 @@
                 className="SplashTest"
                 endTimestampMillis="7889"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.alarmTextNoteOpen"
+                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.alarmTextNoteOpen"
                 logcat=""
                 methodName="alarmTextNoteOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8022,8 +8020,8 @@
             <testcase benchmark=""
                 className="SplashTest"
                 endTimestampMillis="47905"
-                errorStackTrace="java.lang.RuntimeException: Could not launch intent Intent { flg=0x10000000 cmp=sgtmelon.scriptum/.presentation.screen.ui.impl.SplashActivity (has extras) } within 45000 milliseconds. Perhaps the main thread has not gone idle within a reasonable amount of time? There could be an animation or something constantly repainting the screen. Or the activity is doing network calls on creation? See the threaddump logs. For your reference the last time the event queue was idle before your activity launch request was 1623176984267 and now the last time the queue went idle was: 1623177000113. If these numbers are the same your activity might be hogging the event queue.&#10;&#9;at androidx.test.runner.MonitoringInstrumentation.startActivitySync(MonitoringInstrumentation.java:490)&#10;&#9;at androidx.test.rule.ActivityTestRule.launchActivity(ActivityTestRule.java:376)&#10;&#9;at sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launchHelpDisappear(ParentUiTest.kt:158)&#10;&#9;at sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launchHelpDisappear$default(ParentUiTest.kt:156)&#10;&#9;at sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.helpDisappearOpen(SplashTest.kt:37)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.helpDisappearOpen"
+                errorStackTrace="java.lang.RuntimeException: Could not launch intent Intent { flg=0x10000000 cmp=sgtmelon.scriptum/.presentation.screen.ui.impl.SplashActivity (has extras) } within 45000 milliseconds. Perhaps the main thread has not gone idle within a reasonable amount of time? There could be an animation or something constantly repainting the screen. Or the activity is doing network calls on creation? See the threaddump logs. For your reference the last time the event queue was idle before your activity launch request was 1623176984267 and now the last time the queue went idle was: 1623177000113. If these numbers are the same your activity might be hogging the event queue.&#10;&#9;at androidx.test.runner.MonitoringInstrumentation.startActivitySync(MonitoringInstrumentation.java:490)&#10;&#9;at androidx.test.rule.ActivityTestRule.launchActivity(ActivityTestRule.java:376)&#10;&#9;at sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launchHelpDisappear(ParentUiTest.kt:158)&#10;&#9;at sgtmelon.scriptum.parent.ui.tests.ParentUiTest.launchHelpDisappear$default(ParentUiTest.kt:156)&#10;&#9;at sgtmelon.scriptum.ui.auto.splash.SplashTest.helpDisappearOpen(SplashTest.kt:37)&#10;&#9;at java.lang.reflect.Method.invoke(Native Method)&#10;&#9;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)&#10;&#9;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#10;&#9;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)&#10;&#9;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:80)&#10;&#9;at androidx.test.internal.runner.junit4.statement.RunAfters.evaluate(RunAfters.java:61)&#10;&#9;at androidx.test.rule.ActivityTestRule$ActivityStatement.evaluate(ActivityTestRule.java:549)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)&#10;&#9;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)&#10;&#9;at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at androidx.test.ext.junit.runners.AndroidJUnit4.run(AndroidJUnit4.java:154)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:128)&#10;&#9;at org.junit.runners.Suite.runChild(Suite.java:27)&#10;&#9;at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)&#10;&#9;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)&#10;&#9;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)&#10;&#9;at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)&#10;&#9;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)&#10;&#9;at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)&#10;&#9;at org.junit.runners.ParentRunner.run(ParentRunner.java:413)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)&#10;&#9;at org.junit.runner.JUnitCore.run(JUnitCore.java:115)&#10;&#9;at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:56)&#10;&#9;at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:395)&#10;&#9;at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2075)&#10;"
+                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.helpDisappearOpen"
                 logcat=""
                 methodName="helpDisappearOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8033,7 +8031,7 @@
                 className="SplashTest"
                 endTimestampMillis="1689"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.introScreenOpen"
+                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.introScreenOpen"
                 logcat=""
                 methodName="introScreenOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8043,7 +8041,7 @@
                 className="SplashTest"
                 endTimestampMillis="8778"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.SplashTest.bindRollNoteOpen"
+                id="sgtmelon.scriptum.ui.auto.splash.SplashTest.bindRollNoteOpen"
                 logcat=""
                 methodName="bindRollNoteOpen"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.other"
@@ -8063,7 +8061,7 @@
                 className="AlarmPreferenceMelodyTest"
                 endTimestampMillis="38033"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceMelodyTest.dialogWork"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceMelodyTest.dialogWork"
                 logcat=""
                 methodName="dialogWork"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8073,7 +8071,7 @@
                 className="AlarmPreferenceMelodyTest"
                 endTimestampMillis="21106"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceMelodyTest.dialogClose"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceMelodyTest.dialogClose"
                 logcat=""
                 methodName="dialogClose"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8083,7 +8081,7 @@
                 className="AlarmPreferenceRepeatTest"
                 endTimestampMillis="7774"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceRepeatTest.repeatMin1440"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRepeatTest.repeatMin1440"
                 logcat=""
                 methodName="repeatMin1440"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8093,7 +8091,7 @@
                 className="AlarmPreferenceRepeatTest"
                 endTimestampMillis="7979"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceRepeatTest.dialogClose"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRepeatTest.dialogClose"
                 logcat=""
                 methodName="dialogClose"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8103,7 +8101,7 @@
                 className="AlarmPreferenceRepeatTest"
                 endTimestampMillis="8182"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceRepeatTest.repeatMin10"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRepeatTest.repeatMin10"
                 logcat=""
                 methodName="repeatMin10"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8113,7 +8111,7 @@
                 className="AlarmPreferenceRepeatTest"
                 endTimestampMillis="8494"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceRepeatTest.repeatMin30"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRepeatTest.repeatMin30"
                 logcat=""
                 methodName="repeatMin30"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8123,7 +8121,7 @@
                 className="AlarmPreferenceRepeatTest"
                 endTimestampMillis="8609"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceRepeatTest.repeatMin60"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRepeatTest.repeatMin60"
                 logcat=""
                 methodName="repeatMin60"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8133,7 +8131,7 @@
                 className="AlarmPreferenceRepeatTest"
                 endTimestampMillis="8189"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceRepeatTest.repeatMin180"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceRepeatTest.repeatMin180"
                 logcat=""
                 methodName="repeatMin180"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8143,7 +8141,7 @@
                 className="AlarmPreferenceSignalTest"
                 endTimestampMillis="7412"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceSignalTest.dialogWork"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceSignalTest.dialogWork"
                 logcat=""
                 methodName="dialogWork"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8153,7 +8151,7 @@
                 className="AlarmPreferenceSignalTest"
                 endTimestampMillis="7355"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceSignalTest.dialogClose"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceSignalTest.dialogClose"
                 logcat=""
                 methodName="dialogClose"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8163,7 +8161,7 @@
                 className="AlarmPreferenceTest"
                 endTimestampMillis="4963"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceTest.volumeIncreaseWork"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceTest.volumeIncreaseWork"
                 logcat=""
                 methodName="volumeIncreaseWork"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8173,7 +8171,7 @@
                 className="AlarmPreferenceTest"
                 endTimestampMillis="5108"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceTest.assertMelody"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceTest.assertMelody"
                 logcat=""
                 methodName="assertMelody"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8183,7 +8181,7 @@
                 className="AlarmPreferenceTest"
                 endTimestampMillis="5472"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceTest.close"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceTest.close"
                 logcat=""
                 methodName="close"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8193,7 +8191,7 @@
                 className="AlarmPreferenceTest"
                 endTimestampMillis="4914"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceTest.assertVibration"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceTest.assertVibration"
                 logcat=""
                 methodName="assertVibration"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8203,7 +8201,7 @@
                 className="AlarmPreferenceTest"
                 endTimestampMillis="5277"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceTest.assertBoth"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceTest.assertBoth"
                 logcat=""
                 methodName="assertBoth"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8213,7 +8211,7 @@
                 className="AlarmPreferenceVolumeTest"
                 endTimestampMillis="5778"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceVolumeTest.dialogWork"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceVolumeTest.dialogWork"
                 logcat=""
                 methodName="dialogWork"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"
@@ -8223,7 +8221,7 @@
                 className="AlarmPreferenceVolumeTest"
                 endTimestampMillis="7772"
                 errorStackTrace=""
-                id="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.AlarmPreferenceVolumeTest.dialogClose"
+                id="sgtmelon.scriptum.ui.auto.preferences.alarm.AlarmPreferenceVolumeTest.dialogClose"
                 logcat=""
                 methodName="dialogClose"
                 packageName="sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm"

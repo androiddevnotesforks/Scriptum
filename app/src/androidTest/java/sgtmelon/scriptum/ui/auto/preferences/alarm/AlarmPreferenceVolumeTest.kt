@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm
+package sgtmelon.scriptum.ui.auto.preferences.alarm
 
 import androidx.annotation.IntRange
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -16,14 +16,14 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
  * Test for [AlarmPreferenceFragment] and [VolumeDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
+class AlarmPreferenceVolumeTest : ParentUiTest() {
 
     @Before override fun setUp() {
         super.setUp()
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 
-    @Test fun dialogClose() = runTest {
+    @Test fun dialogClose() = startAlarmPreferenceTest {
         openVolumeDialog { softClose() }
         assert()
         openVolumeDialog { onClickCancel() }
@@ -36,8 +36,8 @@ class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
 
         assertNotEquals(initValue, value)
 
-        runTest {
-            openVolumeDialog { seekTo(value).seekTo(initValue).seekTo(value).onClickApply() }
+        startAlarmPreferenceTest {
+            openVolumeDialog { seekTo(value).seekTo(initValue).seekTo(value).apply() }
             assert()
         }
 

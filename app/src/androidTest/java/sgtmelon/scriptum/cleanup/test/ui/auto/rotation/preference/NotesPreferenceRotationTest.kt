@@ -31,11 +31,11 @@ class NotesPreferenceRotationTest : ParentUiRotationTest(), INotesPreferenceTest
     }
 
     @Test fun sortDialog() {
-        val (initValue, value) = Sort.values().getDifferentValues()
+        val (setValue, initValue) = Sort.values().getDifferentValues()
 
         runTest({ preferencesRepo.sort = initValue }) {
             openSortDialog {
-                click(value)
+                click(setValue)
                 rotate.toSide()
                 assert()
                 apply()
@@ -43,15 +43,15 @@ class NotesPreferenceRotationTest : ParentUiRotationTest(), INotesPreferenceTest
             assert()
         }
 
-        assertEquals(value, preferencesRepo.sort)
+        assertEquals(setValue, preferencesRepo.sort)
     }
 
     @Test fun colorDialog() {
-        val (initValue, value) = Color.values().getDifferentValues()
+        val (setValue, initValue) = Color.values().getDifferentValues()
 
         runTest({ preferencesRepo.defaultColor = initValue }) {
             openColorDialog(initValue) {
-                onClickItem(value)
+                onClickItem(setValue)
                 rotate.toSide()
                 assert()
                 onClickApply()
@@ -59,18 +59,18 @@ class NotesPreferenceRotationTest : ParentUiRotationTest(), INotesPreferenceTest
             assert()
         }
 
-        assertEquals(value, preferencesRepo.defaultColor)
+        assertEquals(setValue, preferencesRepo.defaultColor)
     }
 
     @Test fun savePeriodDialog() {
-        val (initValue, value) = SavePeriod.values().getDifferentValues()
+        val (setValue, initValue) = SavePeriod.values().getDifferentValues()
 
         runTest({
             preferences.isAutoSaveOn = true
             preferencesRepo.savePeriod = initValue
         }) {
             openSavePeriodDialog {
-                click(value)
+                click(setValue)
                 rotate.toSide()
                 assert()
                 apply()
@@ -78,7 +78,7 @@ class NotesPreferenceRotationTest : ParentUiRotationTest(), INotesPreferenceTest
             assert()
         }
 
-        assertEquals(value, preferencesRepo.savePeriod)
+        assertEquals(setValue, preferencesRepo.savePeriod)
 
     }
 }

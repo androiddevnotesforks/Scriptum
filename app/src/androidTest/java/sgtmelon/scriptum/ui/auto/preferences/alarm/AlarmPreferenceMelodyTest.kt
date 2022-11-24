@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm
+package sgtmelon.scriptum.ui.auto.preferences.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
@@ -11,20 +11,21 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.MelodyDialogUi
+import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
  * Test for [AlarmPreferenceFragment] and [MelodyDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
+class AlarmPreferenceMelodyTest : ParentUiTest() {
 
     @Before override fun setUp() {
         super.setUp()
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 
-    @Test fun dialogClose() = runTest {
+    @Test fun dialogClose() = startAlarmPreferenceTest {
         openMelodyDialog { softClose() }
         assert()
         openMelodyDialog { cancel() }
@@ -32,7 +33,8 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
     }
 
     @Test fun dialogWork() {
-        val list = runBlocking { getLogic().getMelodyList() }
+        // TODO inject getMelodyUseCase
+        val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
 
         val pair = switchValue(list)
         val initIndex = list.indexOf(pair.first)
@@ -41,7 +43,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
         assertNotEquals(initIndex, valueIndex)
         assertEquals(pair.first.uri, preferences.melodyUri)
 
-        runTest {
+        startAlarmPreferenceTest {
             openMelodyDialog {
                 click(valueIndex)
                 click(initIndex)

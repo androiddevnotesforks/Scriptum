@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm
+package sgtmelon.scriptum.ui.auto.preferences.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -12,6 +12,8 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceF
 class AlarmPreferenceErrorTest {
 
     @Test fun todo() {
-        TODO("Write tests for each case")
+        TODO("Write tests for each error case")
+        // TODO talking about empty melodies lists and else cases in AlarmPreferenceViewModelImpl
+        // TODO may be mock some useCases for return fake data?
     }
 }

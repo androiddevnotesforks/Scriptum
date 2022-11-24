@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen
+package sgtmelon.scriptum.ui.auto.splash
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 /**
- * Test for [SplashActivity]
+ * Test for [SplashActivity].
  */
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentUiTest() {
@@ -20,10 +20,12 @@ class SplashTest : ParentUiTest() {
     @Test fun alarmRollNoteOpen() = db.insertRoll().let { launchAlarm(it) { alarmScreen(it) } }
 
     @Test fun bindTextNoteOpen() = db.insertText().let {
+        TODO("bug with not correct color of toolbar")
         launchBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 
     @Test fun bindRollNoteOpen() = db.insertRoll().let {
+        TODO("bug with not correct color of toolbar")
         launchBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 

@@ -22,7 +22,7 @@ class MenuPreferenceRotationTest : ParentUiRotationTest() {
     @Test fun themeDialog() {
         TODO("BUG: After switch theme app will be restarted")
 
-        //        val (initValue, value) = Theme.values().getDifferentValues()
+        //        val (setValue, initValue) = Theme.values().getDifferentValues()
 
         val initValue = Theme.DARK
         val value = Theme.LIGHT

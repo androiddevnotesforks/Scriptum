@@ -1,25 +1,26 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm
+package sgtmelon.scriptum.ui.auto.preferences.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.RepeatDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.ui.cases.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.RepeatCase
+import sgtmelon.test.common.getDifferentValues
 
 /**
  * Test for [AlarmPreferenceFragment] and [RepeatDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceRepeatTest : ParentUiTest(),
-    IAlarmPreferenceTest,
+    DialogCloseCase,
     RepeatCase {
 
-    @Test fun dialogClose() = runTest {
+    @Test override fun close() = startAlarmPreferenceTest {
         openRepeatDialog { softClose() }
         assert()
         openRepeatDialog { cancel() }
@@ -37,35 +38,18 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
     override fun startTest(value: Repeat) {
-        val initValue = switchValue(value)
+        val (setValue, initValue) = Repeat.values().getDifferentValues(value)
 
-        assertNotEquals(initValue, value)
-
-        runTest {
+        startAlarmPreferenceTest({ preferencesRepo.repeat = setValue }) {
             openRepeatDialog {
-                click(value)
+                click(setValue)
                 click(initValue)
-                click(value)
+                click(setValue)
                 apply()
             }
             assert()
         }
 
-        assertEquals(value, preferencesRepo.repeat)
-    }
-
-    /**
-     * Switch [Repeat] to another one. Setup repeat for application which not equals [value].
-     */
-    private fun switchValue(value: Repeat): Repeat {
-        val list = Repeat.values()
-        var initValue: Repeat
-
-        do {
-            initValue = list.random()
-            preferencesRepo.repeat = initValue
-        } while (initValue == value)
-
-        return initValue
+        assertEquals(setValue, preferencesRepo.repeat)
     }
 }

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.rotation.preference
+package sgtmelon.scriptum.ui.auto.preferences.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
@@ -9,11 +9,11 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.IAlarmPreferenceTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
 import sgtmelon.test.common.getDifferentValues
@@ -22,13 +22,14 @@ import sgtmelon.test.common.getDifferentValues
  * Test of [AlarmPreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest {
+class AlarmPreferenceRotationTest : ParentUiRotationTest() {
 
-    @Test fun content() = runTest({
+    @Test fun content() = startAlarmPreferenceTest({
         preferencesRepo.repeat = Repeat.values().random()
         preferencesRepo.signalTypeCheck = getRandomSignalCheck()
 
-        val melodyList = runBlocking { getLogic().getMelodyList() }
+        // TODO inject getMelodyUseCase
+        val melodyList = runBlocking { AlarmPreferenceLogic().getMelodyList() }
         preferences.melodyUri = melodyList.random().uri
 
         preferencesRepo.volumePercent = VolumeDialogUi.list.random()
@@ -45,7 +46,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         assertFalse(initValue.contentEquals(value))
         assertEquals(initValue.size, value.size)
 
-        runTest({ preferencesRepo.signalTypeCheck = initValue }) {
+        startAlarmPreferenceTest({ preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
                 click(value)
                 rotate.toSide()
@@ -64,11 +65,11 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
     }
 
     @Test fun repeatDialog() {
-        val (initValue, value) = Repeat.values().getDifferentValues()
+        val (setValue, initValue) = Repeat.values().getDifferentValues()
 
-        runTest({ preferencesRepo.repeat = initValue }) {
+        startAlarmPreferenceTest({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
-                click(value)
+                click(setValue)
                 rotate.toSide()
                 assert()
                 apply()
@@ -76,17 +77,18 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
             assert()
         }
 
-        assertEquals(value, preferencesRepo.repeat)
+        assertEquals(setValue, preferencesRepo.repeat)
     }
 
     @Test fun melodyDialog() {
-        val list = runBlocking { getLogic().getMelodyList() }
+        // TODO inject getMelodyUseCase
+        val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
         val initValue = list.random()
         val value = getMelodyClick(list, initValue)
 
         assertNotEquals(initValue, value)
 
-        runTest({
+        startAlarmPreferenceTest({
             preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.melodyUri = initValue.uri
         }) {
@@ -107,21 +109,21 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
     }
 
     @Test fun volumeDialog() {
-        val (initValue, value) = VolumeDialogUi.list.getDifferentValues()
+        val (setValue, initValue) = VolumeDialogUi.list.getDifferentValues()
 
-        runTest({
+        startAlarmPreferenceTest({
             preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferencesRepo.volumePercent = initValue
         }) {
             openVolumeDialog {
-                seekTo(value)
+                seekTo(setValue)
                 rotate.toSide()
                 assert()
-                onClickApply()
+                apply()
             }
             assert()
         }
 
-        assertEquals(value, preferencesRepo.volumePercent)
+        assertEquals(setValue, preferencesRepo.volumePercent)
     }
 }

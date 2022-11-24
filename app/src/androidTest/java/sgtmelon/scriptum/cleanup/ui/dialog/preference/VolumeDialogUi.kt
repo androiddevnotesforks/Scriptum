@@ -37,7 +37,7 @@ class VolumeDialogUi : ParentScreen(),
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
-    fun onClickApply() = waitClose {
+    fun apply() = waitClose {
         if (value == initValue) throw IllegalAccessException("Apply button not enabled")
 
         applyButton.click()
@@ -70,6 +70,6 @@ class VolumeDialogUi : ParentScreen(),
         }
 
         /** Int array with values from 10 up to 100 */
-        val list = Array(size = 9) { 10 + 10 * it }
+        val list = Array(size = 90) { it + 10 }
     }
 }
