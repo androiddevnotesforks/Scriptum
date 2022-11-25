@@ -36,7 +36,6 @@ class AlarmPreferenceMelodyTest : ParentUiTest(),
     }
 
     @Test override fun work() {
-        //        TODO("Return mockked list")
         // TODO inject getMelodyUseCase
         val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
 

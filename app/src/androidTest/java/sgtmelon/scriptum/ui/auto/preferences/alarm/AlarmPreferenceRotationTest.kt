@@ -22,8 +22,6 @@ import sgtmelon.test.common.getDifferentValues
 class AlarmPreferenceRotationTest : ParentUiRotationTest() {
 
     @Test fun content() = startAlarmPreferenceTest({
-//        TODO("Return mockked list")
-
         preferencesRepo.repeat = Repeat.values().random()
         preferencesRepo.signalTypeCheck = getRandomSignalCheck()
 
@@ -72,8 +70,6 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun melodyDialog() {
-        //        TODO("Return mockked list")
-
         // TODO inject getMelodyUseCase
         val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
         val (setValue, initValue) = list.getDifferentValues()
