@@ -12,12 +12,10 @@ import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
-import sgtmelon.test.idling.getIdling
 
 class BinViewModelImpl(
     private val getList: GetBinListUseCase,
@@ -46,13 +44,9 @@ class BinViewModelImpl(
 
     override fun updateData() {
         viewModelScope.launchBack {
-            getIdling().start(IdlingTag.Bin.LOAD_DATA)
-
             _itemList.clearAdd(getList())
             itemList.postValue(_itemList)
             notifyShowList()
-
-            getIdling().stop(IdlingTag.Bin.LOAD_DATA)
         }
     }
 

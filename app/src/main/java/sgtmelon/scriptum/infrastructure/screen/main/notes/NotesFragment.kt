@@ -127,8 +127,13 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         super.setupObservers()
 
         viewModel.showList.observe(this) {
-            val binding = binding ?: return@observe
+//            when (it) {
+            //                ShowListState.Loading -> getIdling().start(IdlingTag.Notes.LOAD_DATA)
+            //                ShowListState.List -> getIdling().stop(IdlingTag.Notes.LOAD_DATA)
+            //                ShowListState.Empty -> getIdling().stop(IdlingTag.Notes.LOAD_DATA)
+            //            }
 
+            val binding = binding ?: return@observe
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.infoInclude.parentContainer

@@ -19,11 +19,9 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.recordException
-import sgtmelon.test.idling.getIdling
 
 class RankViewModelImpl(
     private val getList: GetRankListUseCase,
@@ -68,14 +66,10 @@ class RankViewModelImpl(
 
     override fun updateData() {
         viewModelScope.launchBack {
-            getIdling().start(IdlingTag.Notes.LOAD_DATA)
-
             val list = getList()
             _itemList.clearAdd(list)
             itemList.postValue(list)
             notifyShowList()
-
-            getIdling().stop(IdlingTag.Notes.LOAD_DATA)
         }
     }
 

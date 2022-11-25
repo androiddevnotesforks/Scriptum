@@ -30,12 +30,10 @@ import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
-import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.test.prod.RunProtected
 
@@ -109,8 +107,6 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     abstract fun cacheData()
 
     override fun onSetup(bundle: Bundle?) {
-        getIdling().start(IdlingTag.Note.LOAD_DATA)
-
         getBundleData(bundle)
         setupBeforeInitialize()
 
@@ -118,8 +114,6 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
             if (tryInitializeNote()) {
                 setupAfterInitialize()
             }
-
-            getIdling().stop(IdlingTag.Note.LOAD_DATA)
         }
     }
 

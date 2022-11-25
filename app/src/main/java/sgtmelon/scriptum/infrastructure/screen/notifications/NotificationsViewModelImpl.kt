@@ -12,13 +12,11 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
 import sgtmelon.scriptum.infrastructure.utils.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
-import sgtmelon.test.idling.getIdling
 
 class NotificationsViewModelImpl(
     private val setNotification: SetNotificationUseCase,
@@ -62,14 +60,10 @@ class NotificationsViewModelImpl(
     }
 
     private suspend fun fetchList() {
-        getIdling().start(IdlingTag.Notification.LOAD_DATA)
-
         showList.postValue(ShowListState.Loading)
         _itemList.clearAdd(getList())
         itemList.postValue(_itemList)
         notifyShowList()
-
-        getIdling().stop(IdlingTag.Notification.LOAD_DATA)
     }
 
     override fun removeNotification(p: Int) = flowOnBack {

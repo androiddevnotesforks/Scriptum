@@ -22,10 +22,8 @@ import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
-import sgtmelon.test.idling.getIdling
 
 class NotesViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
@@ -61,15 +59,11 @@ class NotesViewModelImpl(
 
     override fun updateData() {
         viewModelScope.launchBack {
-            getIdling().start(IdlingTag.Notes.LOAD_DATA)
-
             val (list, isHide) = getList()
             isListHide.postValue(isHide)
             _itemList.clearAdd(list)
             itemList.postValue(list)
             notifyShowList()
-
-            getIdling().stop(IdlingTag.Notes.LOAD_DATA)
         }
     }
 

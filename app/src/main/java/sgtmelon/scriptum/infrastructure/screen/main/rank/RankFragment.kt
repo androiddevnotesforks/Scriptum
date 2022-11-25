@@ -137,8 +137,13 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         super.setupObservers()
 
         viewModel.showList.observe(this) {
-            val binding = binding ?: return@observe
+//            when (it) {
+            //                ShowListState.Loading -> getIdling().start(IdlingTag.Rank.LOAD_DATA)
+            //                ShowListState.List -> getIdling().stop(IdlingTag.Rank.LOAD_DATA)
+            //                ShowListState.Empty -> getIdling().stop(IdlingTag.Rank.LOAD_DATA)
+            //            }
 
+            val binding = binding ?: return@observe
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.infoInclude.parentContainer
