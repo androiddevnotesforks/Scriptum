@@ -11,6 +11,7 @@ import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.utils.getAlphaAnimator
 import sgtmelon.scriptum.infrastructure.utils.getAlphaInterpolator
 import sgtmelon.test.idling.addIdlingListener
+import sgtmelon.test.idling.getWaitIdling
 
 class AlarmAnimation {
 
@@ -38,18 +39,20 @@ class AlarmAnimation {
         if (binding == null) return
 
         val resources = binding.recyclerView.context.resources
+        val startDelay = resources.getInteger(R.integer.alarm_show_delay).toLong()
+        val duration = resources.getInteger(R.integer.alarm_show_time).toLong()
 
         AnimatorSet().apply {
-            interpolator = getAlphaInterpolator(isVisible = true)
-            startDelay = resources.getInteger(R.integer.alarm_show_delay).toLong()
-            duration = resources.getInteger(R.integer.alarm_show_time).toLong()
+            this.interpolator = getAlphaInterpolator(isVisible = true)
+            this.startDelay = startDelay
+            this.duration = duration
 
             playTogether(
                 getAlphaAnimator(binding.recyclerView, alphaTo = 1f),
                 getAlphaAnimator(binding.buttonContainer, alphaTo = 1f)
             )
-
-            addIdlingListener()
         }.start()
+
+        getWaitIdling().start(waitMillis = startDelay + duration)
     }
 }

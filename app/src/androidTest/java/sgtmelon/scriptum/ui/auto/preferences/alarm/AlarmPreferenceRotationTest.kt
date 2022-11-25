@@ -21,7 +21,7 @@ import sgtmelon.test.common.getDifferentValues
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceRotationTest : ParentUiRotationTest() {
 
-    @Test fun content() = startAlarmPreferenceTest({
+    @Test fun content() = launchAlarmPreference({
         preferencesRepo.repeat = Repeat.values().random()
         preferencesRepo.signalTypeCheck = getRandomSignalCheck()
 
@@ -40,7 +40,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         val initValue = getRandomSignalCheck()
         val setValue = getRandomSignalCheck(initValue)
 
-        startAlarmPreferenceTest({ preferencesRepo.signalTypeCheck = initValue }) {
+        launchAlarmPreference({ preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
                 click(setValue)
                 rotate.toSide()
@@ -56,7 +56,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
     @Test fun repeatDialog() {
         val (setValue, initValue) = Repeat.values().getDifferentValues()
 
-        startAlarmPreferenceTest({ preferencesRepo.repeat = initValue }) {
+        launchAlarmPreference({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
                 click(setValue)
                 rotate.toSide()
@@ -74,7 +74,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
         val (setValue, initValue) = list.getDifferentValues()
 
-        startAlarmPreferenceTest({
+        launchAlarmPreference({
             preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.melodyUri = initValue.uri
         }) {
@@ -93,7 +93,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
     @Test fun volumeDialog() {
         val (setValue, initValue) = VolumeDialogUi.list.getDifferentValues()
 
-        startAlarmPreferenceTest({
+        launchAlarmPreference({
             preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferencesRepo.volumePercent = initValue
         }) {

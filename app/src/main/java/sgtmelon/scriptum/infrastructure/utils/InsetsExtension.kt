@@ -8,7 +8,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import sgtmelon.test.idling.addIdlingListener
+import sgtmelon.test.idling.getWaitIdling
 
 fun View.addSystemInsetsPadding(
     dir: InsetsDir,
@@ -164,6 +164,8 @@ fun View.updateMargin(
     }
 }
 
+private const val KEYBOARD_SHOW_TIME_MS = 35L
+
 private fun updateMarginAnimation(
     dir: InsetsDir,
     valueTo: Int,
@@ -179,9 +181,8 @@ private fun updateMarginAnimation(
 
     ValueAnimator.ofInt(valueFrom, valueTo).apply {
         this.interpolator = DecelerateInterpolator()
-        this.duration = 35L
+        this.duration = KEYBOARD_SHOW_TIME_MS
 
-        addIdlingListener()
         addUpdateListener {
             val value = it.animatedValue as? Int ?: return@addUpdateListener
 
@@ -193,6 +194,8 @@ private fun updateMarginAnimation(
             }
         }
     }.start()
+
+    getWaitIdling().start(KEYBOARD_SHOW_TIME_MS)
 }
 
 fun View.updateMargin(

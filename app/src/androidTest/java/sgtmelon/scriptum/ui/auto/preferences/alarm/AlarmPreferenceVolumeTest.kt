@@ -26,7 +26,7 @@ class AlarmPreferenceVolumeTest : ParentUiTest(),
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 
-    @Test override fun close() = startAlarmPreferenceTest {
+    @Test override fun close() = launchAlarmPreference {
         openVolumeDialog { softClose() }
         assert()
         openVolumeDialog { onClickCancel() }
@@ -36,7 +36,7 @@ class AlarmPreferenceVolumeTest : ParentUiTest(),
     @Test override fun work() {
         val (setValue, initValue) = VolumeDialogUi.list.getDifferentValues()
 
-        startAlarmPreferenceTest({ preferencesRepo.volumePercent = initValue }) {
+        launchAlarmPreference({ preferencesRepo.volumePercent = initValue }) {
             openVolumeDialog {
                 seekTo(setValue)
                 seekTo(initValue)

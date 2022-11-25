@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.animation.addListener
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.getAlphaInterpolator
-import sgtmelon.test.idling.addIdlingListener
 
 @Deprecated("Check how will work simple animation (note object animator), may be it's more light")
 inline fun View.animateAlpha(
@@ -20,7 +19,7 @@ inline fun View.animateAlpha(
         this.interpolator = interpolator
         this.duration = duration
 
-        addIdlingListener()
+//        addIdlingListener()
         addListener(onEnd = { onEnd() })
     }.start()
 }

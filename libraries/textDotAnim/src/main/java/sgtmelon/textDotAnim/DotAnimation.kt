@@ -14,7 +14,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import sgtmelon.test.idling.addIdlingListener
+import sgtmelon.test.idling.getIdling
 import sgtmelon.text.dotanim.R
 
 /**
@@ -39,6 +39,8 @@ class DotAnimation(
 
     fun start(context: Context?, @StringRes stringId: Int) = apply {
         if (context == null) return@apply
+
+        getIdling().start(IDLING_TAG)
 
         val textList = when (type) {
             DotAnimType.COUNT -> getCountList(context, stringId)
@@ -100,8 +102,6 @@ class DotAnimation(
             this.repeatCount = ObjectAnimator.INFINITE
             this.repeatMode = ObjectAnimator.RESTART
 
-            addIdlingListener()
-
             var lastValue = -1
             addUpdateListener {
                 /** Sometimes [ValueAnimator] give a corner value which equals valueTo. */
@@ -128,6 +128,8 @@ class DotAnimation(
         animator?.removeAllListeners()
         animator?.cancel()
         animator = null
+
+        getIdling().stop(IDLING_TAG)
     }
 
     /**
@@ -139,5 +141,7 @@ class DotAnimation(
 
     companion object {
         const val DOT_COUNT = 3
+
+        private const val IDLING_TAG = "DOT_ANIM"
     }
 }

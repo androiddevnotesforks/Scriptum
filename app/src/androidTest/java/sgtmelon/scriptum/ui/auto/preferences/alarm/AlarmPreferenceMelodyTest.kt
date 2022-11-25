@@ -28,7 +28,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(),
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 
-    @Test override fun close() = startAlarmPreferenceTest {
+    @Test override fun close() = launchAlarmPreference {
         openMelodyDialog { softClose() }
         assert()
         openMelodyDialog { cancel() }
@@ -43,7 +43,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(),
         val initIndex = list.indexOf(initValue)
         val setIndex = list.indexOf(setValue)
 
-        startAlarmPreferenceTest({ preferences.melodyUri = initValue.uri }) {
+        launchAlarmPreference({ preferences.melodyUri = initValue.uri }) {
             openMelodyDialog {
                 click(setIndex)
                 click(initIndex)

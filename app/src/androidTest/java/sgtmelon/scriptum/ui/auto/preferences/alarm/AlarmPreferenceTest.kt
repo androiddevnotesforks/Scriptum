@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceTest : ParentUiTest() {
 
-    @Test fun close() = startAlarmPreferenceTest { clickClose() }
+    @Test fun close() = launchAlarmPreference { clickClose() }
 
     @Test fun signalMelody() = startSignalTest(isMelody = true, isVibration = false)
 
@@ -24,13 +24,13 @@ class AlarmPreferenceTest : ParentUiTest() {
 
     private fun startSignalTest(isMelody: Boolean, isVibration: Boolean) {
         val typeCheck = booleanArrayOf(isMelody, isVibration)
-        startAlarmPreferenceTest({ preferencesRepo.signalTypeCheck = typeCheck }) { assert() }
+        launchAlarmPreference({ preferencesRepo.signalTypeCheck = typeCheck }) { assert() }
     }
 
     @Test fun volumeIncreaseWork() {
         val value = Random.nextBoolean()
 
-        startAlarmPreferenceTest({
+        launchAlarmPreference({
             preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.isVolumeIncrease = value
         }) { onVolumeIncreaseClick() }

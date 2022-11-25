@@ -20,7 +20,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
     DialogCloseCase,
     RepeatCase {
 
-    @Test override fun close() = startAlarmPreferenceTest {
+    @Test override fun close() = launchAlarmPreference {
         openRepeatDialog { softClose() }
         assert()
         openRepeatDialog { cancel() }
@@ -40,7 +40,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
     override fun startTest(value: Repeat) {
         val (setValue, initValue) = Repeat.values().getDifferentValues(value)
 
-        startAlarmPreferenceTest({ preferencesRepo.repeat = initValue }) {
+        launchAlarmPreference({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
                 click(setValue)
                 click(initValue)

@@ -22,7 +22,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(),
     DialogCloseCase,
     DialogWorkCase {
 
-    @Test override fun close() = startAlarmPreferenceTest {
+    @Test override fun close() = launchAlarmPreference {
         openSignalDialog { softClose() }
         assert()
         openSignalDialog { cancel() }
@@ -36,7 +36,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(),
         assertFalse(initValue.contentEquals(setValue))
         assertEquals(initValue.size, setValue.size)
 
-        startAlarmPreferenceTest({ preferencesRepo.signalTypeCheck = initValue }) {
+        launchAlarmPreference({ preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
                 click(setValue)
                 click(initValue)
