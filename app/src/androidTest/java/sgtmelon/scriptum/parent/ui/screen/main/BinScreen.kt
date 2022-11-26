@@ -42,7 +42,7 @@ class BinScreen : ContainerPart(TestViewTag.BIN),
 
     //endregion
 
-    fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) = apply {
+    fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) {
         clearItem.click()
         ClearDialogUi(func)
     }

@@ -53,7 +53,17 @@ class NotificationsTest : ParentUiTest(),
         }
     }
 
+    /**
+     * Here is necessary to launch from splash.
+     */
     @Test fun itemCancelFromPast() = db.insertNotification(date = DATE_5).let {
-        launchNotes { openNotifications(isEmpty = true) }
+        launchSplash {
+            mainScreen {
+                openNotes {
+                    assertItem(it.clearAlarm())
+                    openNotifications(isEmpty = true)
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,8 @@ import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.screen.dialogs.NoteDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.ui.auto.bin.startBinItemTest
+import sgtmelon.scriptum.parent.ui.tests.launchBinItem
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 
 /**
  * Parent class for tests of [NoteDialogUi] inside [MainPage.BIN].
@@ -18,7 +19,7 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
 
     abstract fun insert(entity: NoteEntity): NoteItem
 
-    override fun close() = startBinItemTest(insert()) {
+    override fun close() = launchBinItem(insert()) {
         openNoteDialog(it) { softClose() }
         assert(isEmpty = false)
     }
@@ -29,41 +30,37 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
             NoteType.ROLL -> db.rollNote.copy(name = "")
         }
 
-        startBinItemTest(insert(entity)) {
+        launchBinItem(insert(entity)) {
             openNoteDialog(it)
         }
     }
 
     open fun restore() = insert().let {
-        launchSplash {
-            mainScreen {
-                openNotes(isEmpty = true)
-                openBin {
-                    openNoteDialog(it) { restore() }
-                    assert(isEmpty = true)
-                }
-                openNotes()
+        launchMain {
+            openNotes(isEmpty = true)
+            openBin {
+                openNoteDialog(it) { restore() }
+                assert(isEmpty = true)
             }
+            openNotes()
         }
     }
 
     open fun copy() {
         TODO()
 
-        startBinItemTest(insert()) {
+        launchBinItem(insert()) {
             openNoteDialog(it) { copy() }
         }
     }
 
     open fun clear() = insert().let {
-        launchSplash {
-            mainScreen {
-                openBin {
-                    openNoteDialog(it) { clear() }
-                    assert(isEmpty = true)
-                }
-                openNotes(isEmpty = true)
+        launchMain {
+            openBin {
+                openNoteDialog(it) { clear() }
+                assert(isEmpty = true)
             }
+            openNotes(isEmpty = true)
         }
     }
 }

@@ -6,6 +6,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchBin
+import sgtmelon.scriptum.parent.ui.tests.launchBinItem
+import sgtmelon.scriptum.parent.ui.tests.launchBinList
 import sgtmelon.scriptum.ui.cases.NoteOpenCase
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
@@ -19,18 +22,18 @@ class BinListTest : ParentUiTest(),
     ListScrollCase,
     NoteOpenCase {
 
-    @Test override fun contentEmpty() = launchSplash { mainScreen { openBin(isEmpty = true) } }
+    @Test override fun contentEmpty() = launchBin(isEmpty = true)
 
-    @Test override fun contentList() = startBinListTest { assertList(it) }
+    @Test override fun contentList() = launchBinList { assertList(it) }
 
-    @Test override fun listScroll() = startBinListTest { scrollThrough() }
+    @Test override fun listScroll() = launchBinList { scrollThrough() }
 
-    @Test override fun itemTextOpen() = startBinItemTest(db.insertTextToBin()) {
+    @Test override fun itemTextOpen() = launchBinItem(db.insertTextToBin()) {
         openText(it) { pressBack() }
         assert(isEmpty = false)
     }
 
-    @Test override fun itemRollOpen() = startBinItemTest(db.insertRollToBin()) {
+    @Test override fun itemRollOpen() = launchBinItem(db.insertRollToBin()) {
         openRoll(it) { pressBack() }
         assert(isEmpty = false)
     }

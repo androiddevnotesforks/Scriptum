@@ -7,6 +7,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchBinList
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 
 /**
@@ -16,28 +18,32 @@ import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 class BinClearDialogTest : ParentUiTest(),
     DialogCloseCase {
 
-    @Test override fun close() = startBinListTest {
-        openClearDialog { softClose() }.assert(isEmpty = false)
+    @Test override fun close() = launchBinList {
+        openClearDialog { softClose() }
+        assert(isEmpty = false)
     }
 
-    @Test fun work() = startBinListTest {
-        openClearDialog { no() }.assert(isEmpty = false)
-        openClearDialog { yes() }.assert(isEmpty = true)
+    @Test fun work() = launchBinList {
+        openClearDialog { no() }
+        assert(isEmpty = false)
+        openClearDialog { yes() }
+        assert(isEmpty = true)
     }
 
     @Test fun workWithHideNotes() = db.insertRankForBin().let {
         assertTrue(it.first.isVisible)
 
-        launchSplash({ db.fillBin(count = 5) }) {
-            mainScreen {
-                openBin()
+        launchMain({ db.fillBin(count = 5) }) {
+            openBin()
 
-                openRank { itemVisible() }
-                openBin { openClearDialog { yes() }.assert(isEmpty = true) }
-
-                openRank { itemVisible() }
-                openBin(isEmpty = true)
+            openRank { itemVisible() }
+            openBin {
+                openClearDialog { yes() }
+                assert(isEmpty = true)
             }
+
+            openRank { itemVisible() }
+            openBin(isEmpty = true)
         }
     }
 }

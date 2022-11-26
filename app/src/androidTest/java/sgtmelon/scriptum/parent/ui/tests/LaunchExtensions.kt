@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
+import sgtmelon.scriptum.parent.ui.screen.main.BinScreen
 import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.parent.ui.screen.main.RankScreen
@@ -24,7 +25,7 @@ inline fun ParentUiTest.launchMain(
     MainScreen(after)
 }
 
-//region Launch Rank functions
+//region Rank functions
 
 inline fun ParentUiTest.launchRank(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) {
     launchMain { openRank(isEmpty, func) }
@@ -47,7 +48,7 @@ inline fun ParentUiTest.launchRankItem(
 
 //endregion
 
-//region Launch Notes functions
+//region Notes functions
 
 inline fun ParentUiTest.launchNotes(
     isEmpty: Boolean = false,
@@ -74,7 +75,34 @@ inline fun <T : NoteItem> ParentUiTest.launchNotesItem(
 
 //endregion
 
-//region Launch Preference functions
+//region Bin functions
+
+
+inline fun ParentUiTest.launchBin(
+    isEmpty: Boolean = false,
+    func: BinScreen.() -> Unit = {}
+) {
+    launchMain { openBin(isEmpty, func) }
+}
+
+inline fun ParentUiTest.launchBinList(
+    count: Int = 15,
+    crossinline func: BinScreen.(list: MutableList<NoteItem>) -> Unit = {}
+) {
+    val list = db.fillBin(count)
+    launchBin { func(list) }
+}
+
+inline fun <T : NoteItem> ParentUiTest.launchBinItem(
+    item: T,
+    crossinline func: BinScreen.(T) -> Unit
+) {
+    launchBin { func(item) }
+}
+
+//endregion
+
+//region Preference functions
 
 inline fun ParentUiTest.launchMenuPreference(
     before: () -> Unit = {},
@@ -98,7 +126,7 @@ inline fun ParentUiTest.launchAlarmPreference(
 
 //endregion
 
-//region Launch Notifications functions
+//region Notifications functions
 
 inline fun ParentUiTest.launchNotifications(
     before: () -> Unit = {},
