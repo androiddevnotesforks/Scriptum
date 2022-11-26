@@ -11,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceF
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.MelodyDialogUi
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchAlarmPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.dialog.DialogWorkCase
 import sgtmelon.test.common.getDifferentValues

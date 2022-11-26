@@ -12,6 +12,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.tests.launchAlarmPreference
 import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
 import sgtmelon.test.common.getDifferentValues
 

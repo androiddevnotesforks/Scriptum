@@ -10,19 +10,16 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
 import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
-import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.splash.SplashScreen
 import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
 import sgtmelon.test.idling.getIdling
@@ -199,21 +196,6 @@ abstract class ParentUiTest : ParentTest() {
         before()
         launchActivity<MainActivity>(InstanceFactory.Main[context])
         MainScreen(after)
-    }
-
-    //endregion
-
-    //region Launch Preference functions
-
-
-    inline fun launchAlarmPreference(
-        before: () -> Unit = {},
-        after: AlarmPreferenceScreen.() -> Unit
-    ) {
-        before()
-        val intent = InstanceFactory.Preference[context, PreferenceScreen.ALARM]
-        launchActivity<PreferenceActivity>(intent)
-        AlarmPreferenceScreen(after)
     }
 
     //endregion
