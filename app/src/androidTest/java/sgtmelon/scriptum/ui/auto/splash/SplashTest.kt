@@ -33,7 +33,7 @@ class SplashTest : ParentUiTest() {
         launchSplashBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 
-    @Test fun notificationsOpen() = launchNotifications {
+    @Test fun notificationsOpen() = launchSplashNotifications {
         notificationsScreen { pressBack() }
         mainScreen()
     }

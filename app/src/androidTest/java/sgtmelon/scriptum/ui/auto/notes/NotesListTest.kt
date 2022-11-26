@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchMain
+import sgtmelon.scriptum.parent.ui.tests.launchNotes
 import sgtmelon.scriptum.parent.ui.tests.launchNotesItem
 import sgtmelon.scriptum.parent.ui.tests.launchNotesList
 import sgtmelon.scriptum.ui.cases.NoteOpenCase
@@ -22,7 +23,7 @@ class NotesListTest : ParentUiTest(),
     ListScrollCase,
     NoteOpenCase {
 
-    @Test override fun contentEmpty() = launchMain { openNotes(isEmpty = true) }
+    @Test override fun contentEmpty() = launchNotes(isEmpty = true)
 
     @Test override fun contentList() = launchNotesList { assertList(it) }
 

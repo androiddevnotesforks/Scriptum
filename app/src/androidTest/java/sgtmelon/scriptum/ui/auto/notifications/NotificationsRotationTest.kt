@@ -5,6 +5,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.tests.launchNotifications
+import sgtmelon.scriptum.parent.ui.tests.launchNotificationsItem
+import sgtmelon.scriptum.parent.ui.tests.launchNotificationsList
 import sgtmelon.scriptum.ui.cases.NoteOpenCase
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 
@@ -16,26 +19,20 @@ class NotificationsRotationTest : ParentUiRotationTest(),
     ListContentCase,
     NoteOpenCase {
 
-    @Test override fun contentEmpty() = launchSplash {
-        mainScreen {
-            openNotes(isEmpty = true) {
-                openNotifications(isEmpty = true) {
-                    assert(isEmpty = true)
-                    rotate.toSide()
-                    assert(isEmpty = true)
-                }
-            }
-        }
+    @Test override fun contentEmpty() = launchNotifications(isEmpty = true) {
+        assert(isEmpty = true)
+        rotate.toSide()
+        assert(isEmpty = true)
     }
 
-    @Test override fun contentList() = startNotificationListTest {
+    @Test override fun contentList() = launchNotificationsList {
         assert(isEmpty = false)
         rotate.toSide()
         assert(isEmpty = false)
         assertList(it)
     }
 
-    @Test fun itemCancelAndSnackbar() = startNotificationItemTest(db.insertNote()) {
+    @Test fun itemCancelAndSnackbar() = launchNotificationsItem(db.insertNote()) {
         repeat(times = 3) { _ ->
             assertItem(it)
             itemCancel()
@@ -48,12 +45,12 @@ class NotificationsRotationTest : ParentUiRotationTest(),
     }
 
 
-    @Test override fun itemTextOpen() = startNotificationItemTest(db.insertText()) {
+    @Test override fun itemTextOpen() = launchNotificationsItem(db.insertText()) {
         rotate.switch()
         openText(it)
     }
 
-    @Test override fun itemRollOpen() = startNotificationItemTest(db.insertRoll()) {
+    @Test override fun itemRollOpen() = launchNotificationsItem(db.insertRoll()) {
         rotate.switch()
         openRoll(it)
     }

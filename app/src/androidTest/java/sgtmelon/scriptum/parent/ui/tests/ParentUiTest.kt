@@ -171,7 +171,7 @@ abstract class ParentUiTest : ParentTest() {
         launchSplash(before, InstanceFactory.Splash.getBind(context, item), after)
     }
 
-    inline fun launchNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+    inline fun launchSplashNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         launchSplash(before, InstanceFactory.Splash.getNotification(context), after)
     }
 

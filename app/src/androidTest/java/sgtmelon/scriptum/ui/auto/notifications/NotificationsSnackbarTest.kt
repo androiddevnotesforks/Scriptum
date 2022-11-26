@@ -7,7 +7,8 @@ import sgtmelon.scriptum.parent.ui.model.key.Scroll
 import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.ui.auto.startNotesTest
+import sgtmelon.scriptum.parent.ui.tests.launchNotes
+import sgtmelon.scriptum.parent.ui.tests.launchNotificationsList
 import sgtmelon.scriptum.ui.cases.list.ListCancelSnackbarCase
 import sgtmelon.test.cappuccino.utils.await
 
@@ -17,11 +18,11 @@ import sgtmelon.test.cappuccino.utils.await
 class NotificationsSnackbarTest : ParentUiTest(),
     ListCancelSnackbarCase {
 
-    @Test override fun displayInsets() = startNotificationListTest {
+    @Test override fun displayInsets() = launchNotificationsList {
         startDisplayInserts(screen = this)
     }
 
-    @Test override fun singleActionClick() = startNotificationListTest(count = 5) {
+    @Test override fun singleActionClick() = launchNotificationsList(count = 5) {
         val p = it.indices.random()
 
         itemCancel(p)
@@ -30,7 +31,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
         assertItem(it[p], p)
     }
 
-    @Test override fun manyActionClick() = startNotificationListTest(count = 3) {
+    @Test override fun manyActionClick() = launchNotificationsList(count = 3) {
         repeat(it.size) { itemCancel(p = 0) }
         repeat(it.size) { i ->
             snackbar {
@@ -45,7 +46,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
         assertList(it)
     }
 
-    @Test fun actionClickWithNoteCheck() = startNotificationListTest(count = 5) {
+    @Test fun actionClickWithNoteCheck() = launchNotificationsList(count = 5) {
         val p = it.indices.random()
 
         itemCancel(p)
@@ -62,7 +63,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
         }
     }
 
-    @Test override fun scrollTopAfterAction() = startNotificationListTest {
+    @Test override fun scrollTopAfterAction() = launchNotificationsList {
         val p = it.indices.first
 
         itemCancel(p)
@@ -76,7 +77,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
         assertItem(it[p], p)
     }
 
-    @Test override fun scrollBottomAfterAction() = startNotificationListTest {
+    @Test override fun scrollBottomAfterAction() = launchNotificationsList {
         val p = it.lastIndex
 
         itemCancel(p)
@@ -93,7 +94,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
     @Test override fun restoreAfterPause() {
         val list = db.fillNotifications(count = 3)
 
-        startNotesTest {
+        launchNotes {
             openNotifications {
                 itemCancel(p = 0)
 
@@ -133,7 +134,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
         }
     }
 
-    @Test override fun clearCacheOnDismiss() = startNotificationListTest {
+    @Test override fun clearCacheOnDismiss() = launchNotificationsList {
         val p = it.indices.random()
 
         itemCancel(p)
@@ -148,7 +149,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
         assertSnackbarDismissed()
     }
 
-    @Test override fun dismissTimeout() = startNotificationListTest {
+    @Test override fun dismissTimeout() = launchNotificationsList {
         val removePosition = it.indices.random()
 
         itemCancel(removePosition)
@@ -171,7 +172,7 @@ class NotificationsSnackbarTest : ParentUiTest(),
         val actionPosition = 2
         val actionShiftPosition = actionPosition - 1
 
-        startNotesTest {
+        launchNotes {
             openNotifications {
                 itemCancel(removePosition)
                 itemCancel(actionShiftPosition)

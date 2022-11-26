@@ -76,11 +76,13 @@ object InstanceFactory {
 
     object Note {
 
-        operator fun get(context: Context, item: NotificationItem): Intent =
-            get(context, item.note.type.ordinal, item.note.id, item.note.color.ordinal)
+        operator fun get(context: Context, item: NotificationItem): Intent {
+            return get(context, item.note.type.ordinal, item.note.id, item.note.color.ordinal)
+        }
 
-        operator fun get(context: Context, item: NoteItem): Intent =
-            get(context, item.type.ordinal, item.id, item.color.ordinal)
+        operator fun get(context: Context, item: NoteItem): Intent {
+            return get(context, item.type.ordinal, item.id, item.color.ordinal)
+        }
 
         /**
          * If [id] and [color] have default values - it means that note will be created,
@@ -109,8 +111,9 @@ object InstanceFactory {
 
     object Notifications {
 
-        operator fun get(context: Context): Intent =
-            Intent(context, NotificationsActivity::class.java)
+        operator fun get(context: Context): Intent {
+            return Intent(context, NotificationsActivity::class.java)
+        }
     }
 
 

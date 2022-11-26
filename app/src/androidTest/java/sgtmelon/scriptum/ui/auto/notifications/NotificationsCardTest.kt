@@ -11,9 +11,9 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.parent.ui.screen.item.NotificationItemUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchNotifications
 import sgtmelon.scriptum.ui.auto.NEXT_HOUR
 import sgtmelon.scriptum.ui.auto.nextArray
-import sgtmelon.scriptum.ui.auto.startNotificationsTest
 
 /**
  * Test for [NotificationItemUi]
@@ -44,7 +44,7 @@ class NotificationsCardTest : ParentUiTest() {
         })
     }
 
-    private fun startListTest(list: List<NoteItem>) = startNotificationsTest {
+    private fun startListTest(list: List<NoteItem>) = launchNotifications {
         assertList(list, withWait = true)
     }
 }

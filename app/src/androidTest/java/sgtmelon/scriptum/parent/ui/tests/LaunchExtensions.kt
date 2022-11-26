@@ -6,10 +6,12 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
+import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.parent.ui.screen.main.RankScreen
+import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
 import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceScreen
 
@@ -33,33 +35,41 @@ inline fun ParentUiTest.launchRankList(
     crossinline func: RankScreen.(list: MutableList<RankItem>) -> Unit = {}
 ) {
     val list = db.fillRank(count)
-    launchMain { openRank { func(list) } }
+    launchRank { func(list) }
 }
 
 inline fun ParentUiTest.launchRankItem(
     item: RankItem,
     crossinline func: RankScreen.(RankItem) -> Unit
 ) {
-    launchMain { openRank { func(item) } }
+    launchRank { func(item) }
 }
 
 //endregion
 
 //region Launch Notes functions
 
+inline fun ParentUiTest.launchNotes(
+    isEmpty: Boolean = false,
+    isHide: Boolean = false,
+    func: NotesScreen.() -> Unit = {}
+) {
+    launchMain { openNotes(isEmpty, isHide, func) }
+}
+
 inline fun ParentUiTest.launchNotesList(
     count: Int = 15,
     crossinline func: NotesScreen.(list: MutableList<NoteItem>) -> Unit = {}
 ) {
     val list = db.fillNotes(count)
-    launchSplash { mainScreen { openNotes { func(list) } } }
+    launchNotes { func(list) }
 }
 
 inline fun <T : NoteItem> ParentUiTest.launchNotesItem(
     item: T,
     crossinline func: NotesScreen.(T) -> Unit
 ) {
-    launchSplash { mainScreen { openNotes { func(item) } } }
+    launchNotes { func(item) }
 }
 
 //endregion
@@ -84,6 +94,36 @@ inline fun ParentUiTest.launchAlarmPreference(
     val intent = InstanceFactory.Preference[context, PreferenceScreen.ALARM]
     launchActivity<PreferenceActivity>(intent)
     AlarmPreferenceScreen(after)
+}
+
+//endregion
+
+//region Launch Notifications functions
+
+inline fun ParentUiTest.launchNotifications(
+    before: () -> Unit = {},
+    isEmpty: Boolean = false,
+    after: NotificationsScreen.() -> Unit = {}
+) {
+    before()
+    launchActivity<NotificationsActivity>(InstanceFactory.Notifications[context])
+    NotificationsScreen(after, isEmpty)
+}
+
+inline fun ParentUiTest.launchNotificationsList(
+    count: Int = 15,
+    crossinline func: NotificationsScreen.(list: MutableList<NoteItem>) -> Unit = {}
+) {
+    val list = db.fillNotifications(count)
+    launchNotifications { func(list) }
+}
+
+inline fun <T : NoteItem> ParentUiTest.launchNotificationsItem(
+    item: T,
+    crossinline func: NotificationsScreen.(T) -> Unit
+) {
+    db.insertNotification(item)
+    launchNotifications { func(item) }
 }
 
 //endregion
