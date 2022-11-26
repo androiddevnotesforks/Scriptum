@@ -15,11 +15,13 @@ class SplashTest : ParentUiTest() {
 
     @Test fun mainScreenOpen() = launchSplash { mainScreen() }
 
-    @Test fun alarmTextNoteOpen() =
-        db.insertText().let { launchSplashAlarm(it) { alarmScreen(it) } }
+    @Test fun alarmTextNoteOpen() = db.insertText().let {
+        launchSplashAlarm(it) { alarmScreen(it) }
+    }
 
-    @Test fun alarmRollNoteOpen() =
-        db.insertRoll().let { launchSplashAlarm(it) { alarmScreen(it) } }
+    @Test fun alarmRollNoteOpen() = db.insertRoll().let {
+        launchSplashAlarm(it) { alarmScreen(it) }
+    }
 
     @Test fun bindTextNoteOpen() = db.insertText().let {
         TODO("bug with not correct color of toolbar")

@@ -6,6 +6,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchRank
+import sgtmelon.scriptum.parent.ui.tests.launchRankList
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 
@@ -17,11 +19,11 @@ class RankListTest : ParentUiTest(),
     ListContentCase,
     ListScrollCase {
 
-    @Test override fun contentEmpty() = launchSplash { mainScreen { openRank(isEmpty = true) } }
+    @Test override fun contentEmpty() = launchRank(isEmpty = true)
 
     @Test override fun contentList() = db.fillRankRelation().let {
-        launchSplash { mainScreen { openRank { assertList(it) } } }
+        launchRank { assertList(it) }
     }
 
-    @Test override fun listScroll() = startRankListTest { scrollThrough() }
+    @Test override fun listScroll() = launchRankList { scrollThrough() }
 }

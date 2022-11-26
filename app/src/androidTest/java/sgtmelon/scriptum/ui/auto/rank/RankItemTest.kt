@@ -6,6 +6,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
+import sgtmelon.scriptum.parent.ui.tests.launchRankItem
 
 /**
  * Test list item actions result for [RankFragment].
@@ -14,54 +16,46 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class RankItemTest : ParentUiTest() {
 
     @Test fun visibleForNotes() = db.insertRankForNotes().let {
-        launchSplash {
-            mainScreen {
-                openNotes()
-                openRank { itemVisible() }
-                openNotes(isEmpty = true, isHide = true)
-                openRank { itemVisible() }
-                openNotes()
-            }
+        launchMain {
+            openNotes()
+            openRank { itemVisible() }
+            openNotes(isEmpty = true, isHide = true)
+            openRank { itemVisible() }
+            openNotes()
         }
     }
 
     @Test fun visibleForBin() = db.insertRankForBin().let {
-        launchSplash {
-            mainScreen {
-                openBin()
-                openRank { itemVisible() }
-                openBin()
-                openRank { itemVisible() }
-                openBin()
-            }
+        launchMain {
+            openBin()
+            openRank { itemVisible() }
+            openBin()
+            openRank { itemVisible() }
+            openBin()
         }
     }
 
-    @Test fun clearFromList() = startRankItemTest(db.insertRank()) {
+    @Test fun clearFromList() = launchRankItem(db.insertRank()) {
         itemCancel()
         assert(isEmpty = true)
     }
 
     @Test fun clearForNote() = db.insertRankForNotes().let {
-        launchSplash {
-            mainScreen {
-                openRank { itemVisible() }
-                openNotes(isEmpty = true, isHide = true)
-                openRank { itemCancel() }
-                openNotes()
-            }
+        launchMain {
+            openRank { itemVisible() }
+            openNotes(isEmpty = true, isHide = true)
+            openRank { itemCancel() }
+            openNotes()
         }
     }
 
     @Test fun clearForBin() = db.insertRankForBin().let {
-        launchSplash {
-            mainScreen {
-                openBin()
-                openRank { itemVisible() }
-                openBin()
-                openRank { itemCancel() }
-                openBin()
-            }
+        launchMain {
+            openBin()
+            openRank { itemVisible() }
+            openBin()
+            openRank { itemCancel() }
+            openBin()
         }
     }
 }

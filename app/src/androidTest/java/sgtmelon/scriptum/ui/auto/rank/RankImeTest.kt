@@ -6,6 +6,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchRankItem
+import sgtmelon.scriptum.parent.ui.tests.launchRankList
 import sgtmelon.test.common.nextString
 
 /**
@@ -14,7 +16,7 @@ import sgtmelon.test.common.nextString
 @RunWith(AndroidJUnit4::class)
 class RankImeTest : ParentUiTest() {
 
-    @Test fun toolbarImeAdd() = startRankListTest {
+    @Test fun toolbarImeAdd() = launchRankList {
         val name = nextString()
 
         /** Check ime action with wrong input data (empty name). */
@@ -34,7 +36,7 @@ class RankImeTest : ParentUiTest() {
         openRenameDialog(name, last)
     }
 
-    @Test fun renameImeResult() = startRankItemTest(db.insertRank()) {
+    @Test fun renameImeResult() = launchRankItem(db.insertRank()) {
         val newName = nextString()
 
         /** Check ime action with wrong input data (empty name). */

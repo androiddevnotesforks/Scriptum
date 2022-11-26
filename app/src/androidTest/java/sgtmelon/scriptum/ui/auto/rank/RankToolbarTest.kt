@@ -9,6 +9,9 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchRank
+import sgtmelon.scriptum.parent.ui.tests.launchRankItem
+import sgtmelon.scriptum.parent.ui.tests.launchRankList
 import sgtmelon.test.common.nextString
 
 /**
@@ -17,61 +20,50 @@ import sgtmelon.test.common.nextString
 @RunWith(AndroidJUnit4::class)
 class RankToolbarTest : ParentUiTest() {
 
-    @Test fun addEmpty() = launchSplash {
-        mainScreen {
-            openRank(isEmpty = true) { toolbar { enter(name = " ", isGood = false) } }
-        }
+    @Test fun addEmpty() = launchRank(isEmpty = true) {
+        toolbar { enter(name = " ", isGood = false) }
     }
 
-    @Test fun addFromList() = startRankItemTest(db.insertRank()) {
+    @Test fun addFromList() = launchRankItem(db.insertRank()) {
         toolbar { enter(it.name, isGood = false) }
     }
 
-    @Test fun addRegister() = startRankItemTest(db.insertRank()) {
+    @Test fun addRegister() = launchRankItem(db.insertRank()) {
         toolbar { enter(it.name.uppercase(), isGood = false) }
     }
 
-    @Test fun addEnabled() = launchSplash {
-        val name = nextString()
-        mainScreen { openRank(isEmpty = true) { toolbar { enter(name) } } }
+    @Test fun addEnabled() = launchRank(isEmpty = true) {
+        toolbar { enter(nextString()) }
     }
 
-    @Test fun clear() = launchSplash {
+    @Test fun clear() = launchRank(isEmpty = true) {
         val name = nextString()
 
-        mainScreen {
-            openRank(isEmpty = true) {
-                toolbar {
-                    enter(nextString()).clear()
-                    enter(name).addToEnd()
-                }
-                assertTrue(count == 1)
-                openRenameDialog(name) { softClose() }
-            }
+        toolbar {
+            enter(nextString()).clear()
+            enter(name).addToEnd()
         }
+        assertTrue(count == 1)
+        openRenameDialog(name) { softClose() }
     }
 
 
-    @Test fun addOnEmpty() = launchSplash {
+    @Test fun addOnEmpty() = launchRank(isEmpty = true) {
         val name = nextString()
 
-        mainScreen {
-            openRank(isEmpty = true) {
-                toolbar { enter(name).addToEnd() }
-                assertTrue(count == 1)
-                openRenameDialog(name, p = 0) { softClose() }
+        toolbar { enter(name).addToEnd() }
+        assertTrue(count == 1)
+        openRenameDialog(name, p = 0) { softClose() }
 
-                itemCancel(p = 0)
-                assertTrue(count == 0)
+        itemCancel(p = 0)
+        assertTrue(count == 0)
 
-                toolbar { enter(name).addToStart() }
-                assertTrue(count == 1)
-                openRenameDialog(name, p = 0)
-            }
-        }
+        toolbar { enter(name).addToStart() }
+        assertTrue(count == 1)
+        openRenameDialog(name, p = 0)
     }
 
-    @Test fun addStart() = startRankListTest {
+    @Test fun addStart() = launchRankList {
         val name = nextString()
 
         scrollTo(Scroll.END)
@@ -87,7 +79,7 @@ class RankToolbarTest : ParentUiTest() {
         openRenameDialog(name, p = 0)
     }
 
-    @Test fun addEnd() = startRankListTest {
+    @Test fun addEnd() = launchRankList {
         val name = nextString()
 
         RecyclerItemPart.PREVENT_SCROLL = true
@@ -102,7 +94,7 @@ class RankToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun updateOnRename() = startRankItemTest(db.insertRank()) {
+    @Test fun updateOnRename() = launchRankItem(db.insertRank()) {
         val newName = nextString()
 
         toolbar {
