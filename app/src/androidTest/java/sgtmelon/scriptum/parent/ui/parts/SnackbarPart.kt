@@ -8,6 +8,7 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
@@ -50,7 +51,8 @@ class SnackbarPart(
     }
 
     companion object {
-        const val DISMISS_TIME = 3000L
+        /** 1 second for sure. */
+        const val DISMISS_TIME = SnackbarDelegator.DISMISS_TIMEOUT + 1000L
 
         inline operator fun invoke(
             func: SnackbarPart.() -> Unit,

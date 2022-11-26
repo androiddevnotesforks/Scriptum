@@ -55,7 +55,7 @@ class SnackbarDelegator(
         snackbar?.removeCallback(dismissCallback)
         snackbar?.dismiss()
 
-        Snackbar.make(parent, messageId, Snackbar.LENGTH_LONG)
+        Snackbar.make(parent, messageId, DISMISS_TIMEOUT)
             .setAction(actionId) { callback.onSnackbarAction() }
             .addCallback(dismissCallback)
             .setupTheme()
@@ -105,5 +105,9 @@ class SnackbarDelegator(
     interface Callback {
         fun onSnackbarAction()
         fun onSnackbarDismiss()
+    }
+
+    companion object {
+        const val DISMISS_TIMEOUT = 6000
     }
 }

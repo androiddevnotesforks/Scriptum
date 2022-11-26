@@ -60,6 +60,7 @@ class NotificationsTest : ParentUiTest(),
         launchSplash {
             mainScreen {
                 openNotes {
+                    // TODO bug fail on assertion: notification indicator shown
                     assertItem(it.clearAlarm())
                     openNotifications(isEmpty = true)
                 }
