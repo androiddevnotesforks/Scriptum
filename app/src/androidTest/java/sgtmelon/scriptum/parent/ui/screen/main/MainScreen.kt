@@ -45,7 +45,7 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         MainPage.BIN -> openBin(isEmpty)
     }
 
-    inline fun openRank(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) = apply {
+    inline fun openRank(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) {
         if (currentPage != MainPage.RANK) {
             clickPage(MainPage.RANK)
         }
@@ -57,7 +57,7 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         isEmpty: Boolean = false,
         isHide: Boolean = false,
         func: NotesScreen.() -> Unit = {}
-    ) = apply {
+    ) {
         if (currentPage != MainPage.NOTES) {
             clickPage(MainPage.NOTES)
         }
@@ -65,7 +65,7 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         NotesScreen(func, isEmpty, isHide)
     }
 
-    inline fun openBin(isEmpty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
+    inline fun openBin(isEmpty: Boolean = false, func: BinScreen.() -> Unit = {}) {
         if (currentPage != MainPage.BIN) {
             clickPage(MainPage.BIN)
         }

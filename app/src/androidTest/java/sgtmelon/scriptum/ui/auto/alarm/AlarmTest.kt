@@ -5,6 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchAlarm
+import sgtmelon.scriptum.parent.ui.tests.launchAlarmClose
 import sgtmelon.scriptum.ui.cases.NoteOpenCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 
@@ -16,18 +18,18 @@ class AlarmTest : ParentUiTest(),
     ListScrollCase,
     NoteOpenCase {
 
-    @Test override fun listScroll() = startAlarmTest(db.insertNote()) { scrollThrough() }
+    @Test override fun listScroll() = launchAlarm(db.insertNote()) { scrollThrough() }
 
-    @Test override fun itemTextOpen() = startAlarmCloseTest(db.insertText()) {
+    @Test override fun itemTextOpen() = launchAlarmClose(db.insertText()) {
         openText(it) { pressBack() }
     }
 
-    @Test override fun itemRollOpen() = startAlarmCloseTest(db.insertRoll()) {
+    @Test override fun itemRollOpen() = launchAlarmClose(db.insertRoll()) {
         openRoll(it) { pressBack() }
     }
 
     @Test fun itemLongClick() {
-        startAlarmTest(db.insertNote()) {
+        launchAlarm(db.insertNote()) {
             smallLongPressTime {
                 noteLongClick(it)
             }
@@ -35,5 +37,5 @@ class AlarmTest : ParentUiTest(),
         }
     }
 
-    @Test fun disable() = startAlarmCloseTest(db.insertNote()) { disable() }
+    @Test fun disable() = launchAlarmClose(db.insertNote()) { disable() }
 }

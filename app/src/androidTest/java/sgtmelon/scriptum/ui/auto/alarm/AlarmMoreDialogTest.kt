@@ -6,6 +6,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchAlarm
+import sgtmelon.scriptum.parent.ui.tests.launchAlarmClose
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.RepeatCase
 
@@ -18,9 +20,11 @@ class AlarmMoreDialogTest : ParentUiTest(),
     RepeatCase,
     DialogCloseCase {
 
-    @Test override fun close() = startAlarmTest(db.insertNote()) {
-        openMoreDialog { softClose() }.assert()
-        openMoreDialog { swipeClose() }.assert()
+    @Test override fun close() = launchAlarm(db.insertNote()) {
+        openMoreDialog { softClose() }
+        assert()
+        openMoreDialog { swipeClose() }
+        assert()
     }
 
     @Test override fun repeatMin10() = super.repeatMin10()
@@ -33,7 +37,7 @@ class AlarmMoreDialogTest : ParentUiTest(),
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(value: Repeat) = startAlarmCloseTest(db.insertNote()) {
+    override fun startTest(value: Repeat) = launchAlarmClose(db.insertNote()) {
         openMoreDialog { repeat(value) }
     }
 }

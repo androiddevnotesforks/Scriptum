@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
+import sgtmelon.scriptum.parent.ui.screen.alarm.AlarmScreen
 import sgtmelon.scriptum.parent.ui.screen.main.BinScreen
 import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
@@ -152,6 +153,31 @@ inline fun <T : NoteItem> ParentUiTest.launchNotificationsItem(
 ) {
     db.insertNotification(item)
     launchNotifications { func(item) }
+}
+
+//endregion
+
+//region Alarm functions
+
+
+inline fun <T : NoteItem> ParentUiTest.launchAlarm(
+    item: T,
+    crossinline func: AlarmScreen.(T) -> Unit
+) {
+    launchSplashAlarm(item) { alarmScreen(item) { func(item) } }
+}
+
+/**
+ * [AlarmScreen] must be closed after calling of [func], and this extension will check it.
+ */
+inline fun <T : NoteItem> ParentUiTest.launchAlarmClose(
+    item: T,
+    crossinline func: AlarmScreen.(T) -> Unit
+) {
+    launchSplashAlarm(item) {
+        alarmScreen(item) { func(item) }
+        mainScreen()
+    }
 }
 
 //endregion

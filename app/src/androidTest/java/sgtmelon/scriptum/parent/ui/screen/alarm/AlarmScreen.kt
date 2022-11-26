@@ -94,7 +94,7 @@ class AlarmScreen(
         return calendar
     }
 
-    fun openMoreDialog(func: RepeatSheetDialogUi.() -> Unit = {}) = apply {
+    fun openMoreDialog(func: RepeatSheetDialogUi.() -> Unit = {}) {
         moreButton.click()
         RepeatSheetDialogUi(func)
     }

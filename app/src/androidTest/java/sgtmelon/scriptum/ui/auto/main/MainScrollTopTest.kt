@@ -17,7 +17,8 @@ class MainScrollTopTest : ParentUiTest() {
 
     @Test fun onRank() = db.fillRank(ITEM_COUNT).let {
         launchMain {
-            openRank { scrollTo(Scroll.END) }.scrollTop()
+            openRank { scrollTo(Scroll.END) }
+            scrollTop()
             RecyclerItemPart.PREVENT_SCROLL = true
             openRank { assertItem(it.first(), p = 0) }
         }
@@ -25,7 +26,8 @@ class MainScrollTopTest : ParentUiTest() {
 
     @Test fun onNotes() = db.fillNotes(ITEM_COUNT).let {
         launchMain {
-            openNotes { scrollTo(Scroll.END) }.scrollTop()
+            openNotes { scrollTo(Scroll.END) }
+            scrollTop()
             RecyclerItemPart.PREVENT_SCROLL = true
             openNotes { assertItem(it.first(), p = 0) }
         }
@@ -33,7 +35,8 @@ class MainScrollTopTest : ParentUiTest() {
 
     @Test fun onBin() = db.fillBin(ITEM_COUNT).let {
         launchMain {
-            openBin { scrollTo(Scroll.END) }.scrollTop()
+            openBin { scrollTo(Scroll.END) }
+            scrollTop()
             RecyclerItemPart.PREVENT_SCROLL = true
             openBin { assertItem(it.first(), p = 0) }
         }

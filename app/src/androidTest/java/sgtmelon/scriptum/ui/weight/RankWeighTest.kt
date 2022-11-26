@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
 import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 
 /**
@@ -15,8 +16,8 @@ import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 class RankWeighTest : ParentUiWeighTest(),
     ListScrollCase {
 
-    @Test override fun listScroll() = launchSplash({ db.fillRankRelation(ITEM_COUNT) }) {
-        mainScreen { openRank { scrollTo(Scroll.END, SCROLL_COUNT) } }
+    @Test override fun listScroll() = launchMain({ db.fillRankRelation(ITEM_COUNT) }) {
+        openRank { scrollTo(Scroll.END, SCROLL_COUNT) }
     }
 
 }

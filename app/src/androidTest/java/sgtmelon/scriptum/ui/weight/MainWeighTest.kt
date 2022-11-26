@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 
 /**
  * Weigh test for [NotificationsActivity].
@@ -13,11 +14,11 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
 @RunWith(AndroidJUnit4::class)
 class MainWeighTest : ParentUiWeighTest() {
 
-    @Test fun pageSelect() = launchSplash(before = {
+    @Test fun pageSelect() = launchMain(before = {
         db.fillRank(ITEM_COUNT)
         db.fillNotes(ITEM_COUNT)
         db.fillBin(ITEM_COUNT)
     }) {
-        mainScreen { repeat(REPEAT_COUNT) { for (page in MainPage.values()) openPage(page) } }
+        repeat(REPEAT_COUNT) { for (page in MainPage.values()) openPage(page) }
     }
 }

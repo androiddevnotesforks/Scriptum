@@ -12,6 +12,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchAlarmClose
 import sgtmelon.scriptum.ui.cases.value.RepeatCase
 
 /**
@@ -32,7 +33,7 @@ class AlarmRepeatClickTest : ParentUiTest(), RepeatCase {
 
     override fun startTest(value: Repeat) {
         preferencesRepo.repeat = value
-        startAlarmCloseTest(db.insertNote()) { repeat() }
+        launchAlarmClose(db.insertNote()) { repeat() }
     }
 
     @Test fun dateExist() = db.insertText().let {
@@ -43,7 +44,7 @@ class AlarmRepeatClickTest : ParentUiTest(), RepeatCase {
             db.insertNotification(date = existDate)
 
             alarmScreen(it, listOf(existDate)) { repeat() }
-            mainScreen { openNotes { openNotifications { assertItem(it, 1) } } }
+            mainScreen { openNotes { openNotifications { assertItem(it, p = 1) } } }
         }
     }
 
