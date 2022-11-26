@@ -3,7 +3,6 @@ package sgtmelon.scriptum.ui.auto.rank
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchMain
@@ -112,8 +111,8 @@ class RankSnackbarTest : ParentUiTest(),
 
         launchMain {
             openRank {
-                itemCancel(p)
-                await(SnackbarPart.DISMISS_TIME)
+                itemCancel(p, isWait = true)
+                it.removeAt(p)
                 assertSnackbarDismissed()
             }
             openNotes(isEmpty = true)

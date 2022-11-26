@@ -152,9 +152,8 @@ class NotificationsSnackbarTest : ParentUiTest(),
     @Test override fun dismissTimeout() = launchNotificationsList {
         val removePosition = it.indices.random()
 
-        itemCancel(removePosition)
+        itemCancel(removePosition, isWait = true)
         it.removeAt(removePosition)
-        await(SnackbarPart.DISMISS_TIME)
         assertSnackbarDismissed()
 
         val p = it.indices.random()

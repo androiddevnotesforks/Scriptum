@@ -16,7 +16,7 @@ interface ListCancelSnackbarCase {
 
         with(screen) {
             scrollTo(Scroll.END)
-            repeat(times = 5) {
+            repeat(times = 3) {
                 itemCancel(last, isWait = true)
                 assertSnackbarDismissed()
             }
