@@ -16,7 +16,7 @@ import sgtmelon.test.common.nextString
 class NoteTrimTest : ParentUiTest() {
 
     @Test fun textNote() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -32,7 +32,7 @@ class NoteTrimTest : ParentUiTest() {
     }
 
     @Test fun rollNote() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {

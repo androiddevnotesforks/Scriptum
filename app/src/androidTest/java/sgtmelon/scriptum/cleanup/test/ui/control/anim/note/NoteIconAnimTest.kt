@@ -18,16 +18,16 @@ import sgtmelon.test.common.nextString
 class NoteIconAnimTest : ParentUiTest() {
 
     @Test fun arrowBackOnCreateTextNote() = db.createText().let {
-        launch { mainScreen { openAddDialog { createText(it) } } }
+        launchSplash { mainScreen { openAddDialog { createText(it) } } }
     }
 
     @Test fun arrowBackOnCreateRollNote() = db.createRoll().let {
-        launch { mainScreen { openAddDialog { createRoll(it) } } }
+        launchSplash { mainScreen { openAddDialog { createRoll(it) } } }
     }
 
 
     @Test fun notAnimateOnSaveCreateTextNote() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(it) { onEnterText(nextString()).controlPanel { onSave() } }
@@ -37,7 +37,7 @@ class NoteIconAnimTest : ParentUiTest() {
     }
 
     @Test fun notAnimateOnSaveCreateRollNote() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
@@ -50,20 +50,20 @@ class NoteIconAnimTest : ParentUiTest() {
     }
 
     @Test fun notAnimateOnRestoreOpenTextNote() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen { openBin { openText(it) { controlPanel { onRestoreOpen() } } } }
         }
     }
 
     @Test fun notAnimateOnRestoreOpenRollNote() = db.insertRollToBin().let {
-        launch {
+        launchSplash {
             mainScreen { openBin { openRoll(it) { controlPanel { onRestoreOpen() } } } }
         }
     }
 
 
     @Test fun animateOnEditToSaveTextNote() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) { controlPanel { repeat(times = 3) { onEdit().onSave() } } }
@@ -73,7 +73,7 @@ class NoteIconAnimTest : ParentUiTest() {
     }
 
     @Test fun animateOnEditToSaveRollNote() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) { controlPanel { repeat(times = 3) { onEdit().onSave() } } }
@@ -83,7 +83,7 @@ class NoteIconAnimTest : ParentUiTest() {
     }
 
     @Test fun animateOnEditToCancelTextNote() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -98,7 +98,7 @@ class NoteIconAnimTest : ParentUiTest() {
     }
 
     @Test fun animateOnEditToCancelRollNote() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -113,7 +113,7 @@ class NoteIconAnimTest : ParentUiTest() {
     }
 
     @Test fun visibleClick() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes { openRoll(it) { repeat(REPEAT_COUNT) { onClickVisible() } } }
             }

@@ -17,7 +17,7 @@ import sgtmelon.scriptum.ui.cases.list.ListContentCase
 class NotesRotationTest : ParentUiRotationTest(),
     ListContentCase {
 
-    @Test override fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launchSplash {
         mainScreen {
             openNotes(isEmpty = true) {
                 rotate.toSide()
@@ -28,7 +28,7 @@ class NotesRotationTest : ParentUiRotationTest(),
     }
 
     @Test override fun contentList() = db.fillNotes().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     rotate.toSide()

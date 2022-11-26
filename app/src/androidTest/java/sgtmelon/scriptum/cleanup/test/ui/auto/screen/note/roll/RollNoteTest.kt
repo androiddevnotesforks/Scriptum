@@ -14,22 +14,22 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class RollNoteTest : ParentUiTest() {
 
     @Test fun contentOnBinWithoutName() = db.insertRollToBin(db.rollNote.copy(name = "")).let {
-        launch { mainScreen { openBin { openRoll(it) } } }
+        launchSplash { mainScreen { openBin { openRoll(it) } } }
     }
 
     @Test fun contentOnBinWithName() = db.insertRollToBin().let {
-        launch { mainScreen { openBin { openRoll(it) } } }
+        launchSplash { mainScreen { openBin { openRoll(it) } } }
     }
 
     @Test fun contentOnCreate() = db.createRoll().let {
-        launch { mainScreen { openAddDialog { createRoll(it) } } }
+        launchSplash { mainScreen { openAddDialog { createRoll(it) } } }
     }
 
     @Test fun contentOnReadWithoutName() = db.insertRoll(db.rollNote.copy(name = "")).let {
-        launch { mainScreen { openNotes { openRoll(it) } } }
+        launchSplash { mainScreen { openNotes { openRoll(it) } } }
     }
 
     @Test fun contentOnReadWithName() = db.insertRoll().let {
-        launch { mainScreen { openNotes { openRoll(it) } } }
+        launchSplash { mainScreen { openNotes { openRoll(it) } } }
     }
 }

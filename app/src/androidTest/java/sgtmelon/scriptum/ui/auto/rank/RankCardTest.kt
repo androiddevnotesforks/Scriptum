@@ -23,7 +23,7 @@ class RankCardTest : ParentUiTest() {
     }
 
     @Test fun bindIndicator() = db.insertRankForNotes().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openRank { assertItem(it.first) }
                 openNotes { openNoteDialog(it.second) { bind() } }
@@ -33,7 +33,7 @@ class RankCardTest : ParentUiTest() {
     }
 
     @Test fun notificationIndicator() = db.insertRankForNotes().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openRank { assertItem(it.first) }
                 openNotes {
@@ -48,7 +48,7 @@ class RankCardTest : ParentUiTest() {
     }
 
     @Test fun maxCountIndicator() = db.insertRank().let {
-        launch({ RankHolder.isMaxTest = true }) {
+        launchSplash({ RankHolder.isMaxTest = true }) {
             mainScreen { openRank { assertItem(it) } }
         }
 

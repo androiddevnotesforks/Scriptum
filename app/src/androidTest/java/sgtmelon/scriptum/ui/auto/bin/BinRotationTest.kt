@@ -15,7 +15,7 @@ import sgtmelon.scriptum.ui.cases.list.ListContentCase
 class BinRotationTest : ParentUiRotationTest(),
     ListContentCase {
 
-    @Test override fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launchSplash {
         mainScreen {
             openBin(isEmpty = true) {
                 rotate.toSide()
@@ -26,7 +26,7 @@ class BinRotationTest : ParentUiRotationTest(),
     }
 
     @Test override fun contentList() = db.fillBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin {
                     rotate.toSide()

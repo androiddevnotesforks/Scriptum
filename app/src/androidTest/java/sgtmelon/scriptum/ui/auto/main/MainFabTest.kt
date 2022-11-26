@@ -16,13 +16,13 @@ import sgtmelon.test.cappuccino.utils.await
 @RunWith(AndroidJUnit4::class)
 class MainFabTest : ParentUiTest() {
 
-    @Test fun pageSelect() = launch {
+    @Test fun pageSelect() = launchSplash {
         mainScreen {
             repeat(times = 3) { for (page in MainPage.values()) clickPage(page) }
         }
     }
 
-    @Test fun scrollAndPageChange() = launch({ db.fillNotes(count = 45) }) {
+    @Test fun scrollAndPageChange() = launchSplash({ db.fillNotes(count = 45) }) {
         mainScreen {
             for (it in listOf(MainPage.RANK, MainPage.BIN)) {
                 openNotes { scrollTo(Scroll.END, time = 3) }
@@ -37,7 +37,7 @@ class MainFabTest : ParentUiTest() {
         }
     }
 
-    @Test fun screenResumeState() = launch({ db.fillNotes() }) {
+    @Test fun screenResumeState() = launchSplash({ db.fillNotes() }) {
         mainScreen {
             openNotes { scrollTo(Scroll.END, time = 1) }
             assert(isFabVisible = false)
@@ -46,7 +46,7 @@ class MainFabTest : ParentUiTest() {
         }
     }
 
-    @Test fun standstill() = launch({ db.fillNotes() }) {
+    @Test fun standstill() = launchSplash({ db.fillNotes() }) {
         mainScreen {
             openNotes { scrollTo(Scroll.END, time = 1) }
 

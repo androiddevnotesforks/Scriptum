@@ -14,19 +14,15 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 @RunWith(AndroidJUnit4::class)
 class MenuPreferenceRotationTest : ParentUiRotationTest() {
 
-    @Test fun content() = startMenuPreferenceTest {
+    @Test fun content() = launchMenuPreference {
         rotate.toSide()
         assert()
     }
 
     @Test fun themeDialog() {
-        TODO("BUG: After switch theme app will be restarted")
-
-        //        val (setValue, initValue) = Theme.values().getDifferentValues()
-
         val initValue = Theme.DARK
         val value = Theme.LIGHT
-        startMenuPreferenceTest({ preferencesRepo.theme = initValue }) {
+        launchMenuPreference({ preferencesRepo.theme = initValue }) {
             openThemeDialog {
                 click(value)
                 rotate.toSide()
@@ -39,7 +35,7 @@ class MenuPreferenceRotationTest : ParentUiRotationTest() {
         assertEquals(value, preferencesRepo.theme)
     }
 
-    @Test fun aboutDialog() = startMenuPreferenceTest {
+    @Test fun aboutDialog() = launchMenuPreference {
         openAboutDialog {
             rotate.toSide()
             assert()

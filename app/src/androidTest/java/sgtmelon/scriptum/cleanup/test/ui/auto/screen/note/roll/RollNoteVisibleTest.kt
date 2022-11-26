@@ -15,7 +15,7 @@ import sgtmelon.test.common.nextString
 class RollNoteVisibleTest : ParentUiTest() {
 
     @Test fun changeOpen() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -35,7 +35,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun changeCreate() {
         var item = db.createRoll()
 
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -58,7 +58,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     }
 
     @Test fun changeRestore() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -73,7 +73,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     }
 
     @Test fun switch() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -95,7 +95,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     }
 
     @Test fun fullSwitch() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -117,7 +117,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     }
 
     @Test fun itemCheck() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -133,7 +133,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     }
 
     @Test fun itemSwipe() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -157,7 +157,7 @@ class RollNoteVisibleTest : ParentUiTest() {
      * Got: "AppCompatEditText{id=2131296665, res-name=roll_add_panel_enter, visibility=VISIBLE, width=408, height=25, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=true, is-enabled=true, is-focused=true, is-focusable=true, is-layout-requested=false, is-selected=false, layout-params=android.widget.LinearLayout$LayoutParams@41a5a6a, tag=null, root-is-layout-requested=false, has-input-connection=true, editor-info=[inputType=0x1c001 imeOptions=0x6000006 privateImeOptions=null actionLabel=null actionId=0 initialSelStart=15 initialSelEnd=15 initialCapsMode=0x0 hintText=Your list item label=null packageName=null fieldId=0 fieldName=null extras=null hintLocales=null contentMimeTypes=null ], x=12.0, y=11.0, text=21079e04-72bd-4, hint=Your list item, input-type=114689, ime-target=true, has-links=false}"
      */
     @Test fun itemAdd() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -176,7 +176,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     }
 
     @Test fun itemEdit() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {

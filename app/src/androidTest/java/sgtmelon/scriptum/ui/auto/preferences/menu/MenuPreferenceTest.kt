@@ -12,33 +12,38 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MenuPreferenceTest : ParentUiTest() {
 
-    @Test fun close() = startMenuPreferenceTest { clickClose() }
+    @Test fun close() = launchMain {
+        openNotes(isEmpty = true) {
+            openPreferences { clickClose() }
+            assert(isEmpty = true)
+        }
+    }
 
-    @Test fun assertList() = startMenuPreferenceTest { assert() }
+    @Test fun assertList() = launchMenuPreference { assert() }
 
-    @Test fun assertListDeveloper() = startMenuPreferenceTest({
+    @Test fun assertListDeveloper() = launchMenuPreference({
         preferencesRepo.isDeveloper = true
     }) {
         assert()
     }
 
-    @Test fun openBackup() = startMenuPreferenceTest { openBackup() }
+    @Test fun openBackup() = launchMenuPreference { openBackup() }
 
-    @Test fun openNotes() = startMenuPreferenceTest { openNotes() }
+    @Test fun openNotes() = launchMenuPreference { openNotes() }
 
-    @Test fun openAlarm() = startMenuPreferenceTest { openAlarm() }
+    @Test fun openAlarm() = launchMenuPreference { openAlarm() }
 
-    @Test fun openPrivacyPolicy() = startMenuPreferenceTest {
+    @Test fun openPrivacyPolicy() = launchMenuPreference {
         TODO(reason = "it's not working due to select app appears")
         openPrivacyPolicy()
     }
 
-    @Test fun openRate() = startMenuPreferenceTest {
+    @Test fun openRate() = launchMenuPreference {
         TODO(reason = "it's not working due to select app appears")
         openRate()
     }
 
-    @Test fun aboutDialogClose() = startMenuPreferenceTest {
+    @Test fun aboutDialogClose() = launchMenuPreference {
         openAboutDialog { softClose() }
         assert()
     }

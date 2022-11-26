@@ -9,12 +9,12 @@ inline fun ParentUiTest.startBinListTest(
     crossinline func: BinScreen.(list: MutableList<NoteItem>) -> Unit = {}
 ) {
     val list = db.fillBin(count)
-    launch { mainScreen { openBin { func(list) } } }
+    launchSplash { mainScreen { openBin { func(list) } } }
 }
 
 inline fun <T : NoteItem> ParentUiTest.startBinItemTest(
     item: T,
     crossinline func: BinScreen.(T) -> Unit
 ) {
-    launch { mainScreen { openBin { func(item) } } }
+    launchSplash { mainScreen { openBin { func(item) } } }
 }

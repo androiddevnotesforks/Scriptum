@@ -9,12 +9,12 @@ inline fun ParentUiTest.startNotesListTest(
     crossinline func: NotesScreen.(list: MutableList<NoteItem>) -> Unit = {}
 ) {
     val list = db.fillNotes(count)
-    launch { mainScreen { openNotes { func(list) } } }
+    launchSplash { mainScreen { openNotes { func(list) } } }
 }
 
 inline fun <T : NoteItem> ParentUiTest.startNotesItemTest(
     item: T,
     crossinline func: NotesScreen.(T) -> Unit
 ) {
-    launch { mainScreen { openNotes { func(item) } } }
+    launchSplash { mainScreen { openNotes { func(item) } } }
 }

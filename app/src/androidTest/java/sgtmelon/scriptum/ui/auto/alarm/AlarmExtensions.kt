@@ -8,7 +8,7 @@ inline fun <T : NoteItem> ParentUiTest.startAlarmTest(
     item: T,
     crossinline func: AlarmScreen.(T) -> Unit
 ) {
-    launchAlarm(item) { alarmScreen(item) { func(item) } }
+    launchSplashAlarm(item) { alarmScreen(item) { func(item) } }
 }
 
 /**
@@ -18,7 +18,7 @@ inline fun <T : NoteItem> ParentUiTest.startAlarmCloseTest(
     item: T,
     crossinline func: AlarmScreen.(T) -> Unit
 ) {
-    launchAlarm(item) {
+    launchSplashAlarm(item) {
         alarmScreen(item) { func(item) }
         mainScreen()
     }

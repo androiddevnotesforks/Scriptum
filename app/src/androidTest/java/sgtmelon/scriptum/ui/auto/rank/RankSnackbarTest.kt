@@ -73,7 +73,7 @@ class RankSnackbarTest : ParentUiTest(),
     @Test override fun restoreAfterPause() = db.fillRank().let {
         val p = it.indices.random()
 
-        launch {
+        launchSplash {
             mainScreen {
                 openRank {
                     itemCancel(p)
@@ -96,7 +96,7 @@ class RankSnackbarTest : ParentUiTest(),
     @Test override fun clearCacheOnDismiss() = db.fillRank().let {
         val p = it.indices.random()
 
-        launch {
+        launchSplash {
             mainScreen {
                 openRank {
                     itemCancel(p)
@@ -112,7 +112,7 @@ class RankSnackbarTest : ParentUiTest(),
     @Test override fun dismissTimeout() = db.fillRank().let {
         val p = it.indices.random()
 
-        launch {
+        launchSplash {
             mainScreen {
                 openRank {
                     itemCancel(p)

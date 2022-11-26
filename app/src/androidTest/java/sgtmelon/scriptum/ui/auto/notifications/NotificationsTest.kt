@@ -20,7 +20,7 @@ class NotificationsTest : ParentUiTest(),
     ListScrollCase,
     NoteOpenCase {
 
-    @Test override fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launchSplash {
         mainScreen { openNotes(isEmpty = true) { openNotifications(isEmpty = true) } }
     }
 
@@ -28,7 +28,7 @@ class NotificationsTest : ParentUiTest(),
 
     @Test override fun listScroll() = startNotificationListTest { scrollThrough() }
 
-    @Test fun close() = launch {
+    @Test fun close() = launchSplash {
         mainScreen {
             openNotes(isEmpty = true) {
                 openNotifications(isEmpty = true) { pressBack() }
@@ -47,7 +47,7 @@ class NotificationsTest : ParentUiTest(),
     }
 
     @Test fun itemCancelOnNoteDelete() = db.insertNotification().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openNotifications { pressBack() }

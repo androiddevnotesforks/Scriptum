@@ -1,27 +1,28 @@
 package sgtmelon.scriptum.parent.ui.tests
 
 import android.content.Intent
-import androidx.test.rule.ActivityTestRule
+import androidx.test.core.app.launchActivity
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
+import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
+import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.splash.SplashScreen
 import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
@@ -32,18 +33,6 @@ import sgtmelon.test.idling.getWaitIdling
  * Parent class for UI tests.
  */
 abstract class ParentUiTest : ParentTest() {
-
-    //region Test rules
-
-    @get:Rule val testRule = ActivityTestRule(
-        SplashActivity::class.java, true, false
-    )
-
-    @get:Rule val alarmPrefTestRule = ActivityTestRule(
-        PreferenceActivity::class.java, true, false
-    )
-
-    //endregion
 
     val context = ParentInjector.provideContext()
     val preferences = ParentInjector.providePreferences()
@@ -162,57 +151,78 @@ abstract class ParentUiTest : ParentTest() {
 
     //region Launch Splash functions
 
-    inline fun launch(before: () -> Unit, intent: Intent, after: SplashScreen.() -> Unit) {
+    inline fun launchSplash(before: () -> Unit, intent: Intent, after: SplashScreen.() -> Unit) {
         before()
-        testRule.launchActivity(intent)
+        launchActivity<SplashActivity>(intent)
         SplashScreen(after)
     }
 
-    inline fun launch(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
-        launch(before, Intent(), after)
+    inline fun launchSplash(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+        launchSplash(before, InstanceFactory.Splash[context], after)
     }
 
-    inline fun launchAlarm(
+    inline fun launchSplashAlarm(
         item: NoteItem,
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launch(before, InstanceFactory.Splash.getAlarm(context, item.id), after)
+        launchSplash(before, InstanceFactory.Splash.getAlarm(context, item.id), after)
     }
 
-    inline fun launchBind(
+    inline fun launchSplashBind(
         item: NoteItem,
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launch(before, InstanceFactory.Splash.getBind(context, item), after)
+        launchSplash(before, InstanceFactory.Splash.getBind(context, item), after)
     }
 
     inline fun launchNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
-        launch(before, InstanceFactory.Splash.getNotification(context), after)
+        launchSplash(before, InstanceFactory.Splash.getNotification(context), after)
     }
 
-    inline fun launchNewNote(
+    inline fun launchSplashNewNote(
         type: NoteType,
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launch(before, InstanceFactory.Splash.getNewNote(context, type), after)
+        launchSplash(before, InstanceFactory.Splash.getNewNote(context, type), after)
+    }
+
+    //endregion
+
+    //region Launch Main functions
+
+    inline fun launchMain(
+        before: () -> Unit = {},
+        after: MainScreen.() -> Unit
+    ) {
+        before()
+        launchActivity<MainActivity>(InstanceFactory.Main[context])
+        MainScreen(after)
     }
 
     //endregion
 
     //region Launch Preference functions
 
+    inline fun launchMenuPreference(
+        before: () -> Unit = {},
+        after: MenuPreferenceScreen.() -> Unit
+    ) {
+        before()
+        val intent = InstanceFactory.Preference[context, PreferenceScreen.MENU]
+        launchActivity<PreferenceActivity>(intent)
+        MenuPreferenceScreen(after)
+    }
+
     inline fun launchAlarmPreference(
         before: () -> Unit = {},
         after: AlarmPreferenceScreen.() -> Unit
     ) {
-        val intent = Intent()
-            .putExtra(IntentData.Preference.Intent.SCREEN, PreferenceScreen.ALARM.ordinal)
-
         before()
-        alarmPrefTestRule.launchActivity(InstanceFactory.Preference[context, PreferenceScreen.ALARM])
+        val intent = InstanceFactory.Preference[context, PreferenceScreen.ALARM]
+        launchActivity<PreferenceActivity>(intent)
         AlarmPreferenceScreen(after)
     }
 

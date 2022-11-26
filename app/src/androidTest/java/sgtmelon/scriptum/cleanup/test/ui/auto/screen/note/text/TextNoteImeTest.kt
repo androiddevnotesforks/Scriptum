@@ -15,7 +15,7 @@ import sgtmelon.test.common.nextString
 class TextNoteImeTest : ParentUiTest() {
 
     @Test fun toolbarImeNext() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -33,7 +33,7 @@ class TextNoteImeTest : ParentUiTest() {
      * TODO improve ime option test
      */
     @Test fun enterImeAction() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {

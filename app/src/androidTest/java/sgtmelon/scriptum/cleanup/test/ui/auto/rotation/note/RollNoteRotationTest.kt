@@ -20,7 +20,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
      */
 
     @Test fun contentOnBin() = db.insertRollToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin {
                     openRoll(it) {
@@ -33,7 +33,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun contentOnRestoreOpen() = db.insertRollToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin {
                     openRoll(it) {
@@ -47,7 +47,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun contentOnCreate() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
@@ -60,7 +60,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun contentOnRead() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -73,7 +73,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun contentOnEdit() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -101,7 +101,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     private fun startDateDialogTest(item: NoteItem.Roll, isUpdateDate: Boolean) {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(item) {
@@ -118,7 +118,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun timeDialog() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -138,7 +138,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
 
 
     @Test fun convertDialog() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -155,7 +155,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun convertDialogResult() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -169,7 +169,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun colorDialog() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
@@ -187,7 +187,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun rankDialog() = db.fillRank(count = 3).let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(db.createRoll(), isRankEmpty = false) {

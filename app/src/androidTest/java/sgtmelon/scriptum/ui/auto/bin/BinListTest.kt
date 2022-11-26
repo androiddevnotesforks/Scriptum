@@ -19,7 +19,7 @@ class BinListTest : ParentUiTest(),
     ListScrollCase,
     NoteOpenCase {
 
-    @Test override fun contentEmpty() = launch { mainScreen { openBin(isEmpty = true) } }
+    @Test override fun contentEmpty() = launchSplash { mainScreen { openBin(isEmpty = true) } }
 
     @Test override fun contentList() = startBinListTest { assertList(it) }
 

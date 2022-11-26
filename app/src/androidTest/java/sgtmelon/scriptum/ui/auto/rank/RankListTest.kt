@@ -17,10 +17,10 @@ class RankListTest : ParentUiTest(),
     ListContentCase,
     ListScrollCase {
 
-    @Test override fun contentEmpty() = launch { mainScreen { openRank(isEmpty = true) } }
+    @Test override fun contentEmpty() = launchSplash { mainScreen { openRank(isEmpty = true) } }
 
     @Test override fun contentList() = db.fillRankRelation().let {
-        launch { mainScreen { openRank { assertList(it) } } }
+        launchSplash { mainScreen { openRank { assertList(it) } } }
     }
 
     @Test override fun listScroll() = startRankListTest { scrollThrough() }

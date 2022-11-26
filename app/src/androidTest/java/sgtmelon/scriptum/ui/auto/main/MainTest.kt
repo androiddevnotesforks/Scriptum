@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentUiTest() {
 
-    @Test fun correctPage() = launch {
+    @Test fun correctPage() = launchSplash {
         mainScreen {
             repeat(times = 3) { for (page in MainPage.values()) openPage(page, isEmpty = true) }
         }

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class TextNoteFocusTest : ParentUiTest() {
 
     @Test fun focusOnCreate() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog { createText(it) { toolbar { assertFocus() } } }
@@ -24,7 +24,7 @@ class TextNoteFocusTest : ParentUiTest() {
     }
 
     @Test fun focusOnEdit() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes { openText(it) { controlPanel { onEdit() }.assertFocus() } }
             }

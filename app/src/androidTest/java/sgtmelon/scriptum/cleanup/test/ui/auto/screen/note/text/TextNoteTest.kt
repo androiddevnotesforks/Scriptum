@@ -14,24 +14,24 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class TextNoteTest : ParentUiTest() {
 
     @Test fun contentOnBinWithoutName() = db.insertTextToBin(db.textNote.copy(name = "")).let {
-        launch { mainScreen { openBin { openText(it) } } }
+        launchSplash { mainScreen { openBin { openText(it) } } }
     }
 
     @Test fun contentOnBinWithName() = db.insertTextToBin().let {
-        launch { mainScreen { openBin { openText(it) } } }
+        launchSplash { mainScreen { openBin { openText(it) } } }
     }
 
 
     @Test fun contentOnCreate() = db.createText().let {
-        launch { mainScreen { openAddDialog { createText(it) } } }
+        launchSplash { mainScreen { openAddDialog { createText(it) } } }
     }
 
 
     @Test fun contentOnReadWithoutName() = db.insertText(db.textNote.copy(name = "")).let {
-        launch { mainScreen { openNotes { openText(it) } } }
+        launchSplash { mainScreen { openNotes { openText(it) } } }
     }
 
     @Test fun contentOnReadWithName() = db.insertText().let {
-        launch { mainScreen { openNotes { openText(it) } } }
+        launchSplash { mainScreen { openNotes { openText(it) } } }
     }
 }

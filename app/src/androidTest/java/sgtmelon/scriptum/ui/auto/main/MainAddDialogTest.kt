@@ -14,7 +14,7 @@ import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 class MainAddDialogTest : ParentUiTest(),
     DialogCloseCase {
 
-    @Test override fun close() = launch {
+    @Test override fun close() = launchSplash {
         mainScreen {
             openAddDialog { softClose() }.assert()
             openAddDialog { swipeClose() }.assert()
@@ -22,10 +22,10 @@ class MainAddDialogTest : ParentUiTest(),
     }
 
     @Test fun createTextNote() = db.createText().let {
-        launch { mainScreen { openAddDialog { createText(it) } } }
+        launchSplash { mainScreen { openAddDialog { createText(it) } } }
     }
 
     @Test fun createRollNote() = db.createRoll().let {
-        launch { mainScreen { openAddDialog { createRoll(it) } } }
+        launchSplash { mainScreen { openAddDialog { createRoll(it) } } }
     }
 }

@@ -15,7 +15,7 @@ import sgtmelon.test.common.nextString
 class TextNotePanelTest : ParentUiTest() {
 
     @Test fun actionOnBinRestore() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
                 openBin {
@@ -28,7 +28,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnBinRestoreOpen() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
 
@@ -43,7 +43,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnBinClear() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
                 openBin {
@@ -57,7 +57,7 @@ class TextNotePanelTest : ParentUiTest() {
 
 
     @Test fun actionOnReadNotification() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen { openNotes { openText(it) { controlPanel { onNotification() } } } }
         }
     }
@@ -69,7 +69,7 @@ class TextNotePanelTest : ParentUiTest() {
     private fun startBindTest(isStatus: Boolean) {
         val model = db.insertText(db.textNote.copy(isStatus = isStatus))
 
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(model) { controlPanel { onBind() }.pressBack() }
@@ -80,11 +80,11 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnReadConvert() = db.insertText().let {
-        launch { mainScreen { openNotes { openText(it) { controlPanel { onConvert() } } } } }
+        launchSplash { mainScreen { openNotes { openText(it) { controlPanel { onConvert() } } } } }
     }
 
     @Test fun actionOnReadDelete() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin(isEmpty = true)
 
@@ -99,7 +99,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnReadEdit() = db.insertText().let {
-        launch { mainScreen { openNotes { openText(it) { controlPanel { onEdit() } } } } }
+        launchSplash { mainScreen { openNotes { openText(it) { controlPanel { onEdit() } } } } }
     }
 
 
@@ -110,7 +110,7 @@ class TextNotePanelTest : ParentUiTest() {
 
     @Test fun actionOnCreateRank() = db.fillRank(count = 3).let {
         val item = db.createText()
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(item, isRankEmpty = false) { controlPanel { onRank(it) } }
@@ -121,7 +121,7 @@ class TextNotePanelTest : ParentUiTest() {
 
     @Test fun actionOnEditRank() = db.fillRank(count = 3).let {
         val item = db.insertText()
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(item, isRankEmpty = false) {
@@ -133,18 +133,18 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnCreateColor() = db.createText().let {
-        launch { mainScreen { openAddDialog { createText(it) { controlPanel { onColor() } } } } }
+        launchSplash { mainScreen { openAddDialog { createText(it) { controlPanel { onColor() } } } } }
     }
 
     @Test fun actionOnEditColor() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen { openNotes { openText(it) { controlPanel { onEdit().onColor() } } } }
         }
     }
 
 
     @Test fun actionOnCreateSave() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(it) {
@@ -161,7 +161,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnEditSave() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -179,7 +179,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnCreateLongSave() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(it) {
@@ -197,7 +197,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
     @Test fun actionOnEditLongSave() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {

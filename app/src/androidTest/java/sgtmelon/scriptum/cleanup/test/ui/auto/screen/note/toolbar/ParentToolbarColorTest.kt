@@ -18,7 +18,7 @@ abstract class ParentToolbarColorTest(private val theme: ThemeDisplayed) : Paren
         setupTheme(theme)
         preferencesRepo.defaultColor = Color.values().filter { it != value }.random()
 
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {

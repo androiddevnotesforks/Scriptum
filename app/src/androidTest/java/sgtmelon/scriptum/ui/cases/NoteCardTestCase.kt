@@ -260,7 +260,7 @@ abstract class NoteCardTestCase(
             MainPage.BIN -> db.insertRankForBin(type = type)
         }
 
-        launch {
+        launchSplash {
             mainScreen {
                 openRank { itemVisible() }
 
@@ -283,7 +283,7 @@ abstract class NoteCardTestCase(
     }
 
     private fun assertList(list: List<NoteItem>) {
-        launch {
+        launchSplash {
             mainScreen {
                 when (page) {
                     MainPage.RANK -> throwPageError()

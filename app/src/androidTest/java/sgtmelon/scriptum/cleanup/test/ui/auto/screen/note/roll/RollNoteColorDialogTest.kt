@@ -17,7 +17,7 @@ import sgtmelon.scriptum.ui.cases.value.ColorCase
 class RollNoteColorDialogTest : ParentUiTest(), ColorCase {
 
     @Test fun closeAndWork() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
@@ -37,7 +37,7 @@ class RollNoteColorDialogTest : ParentUiTest(), ColorCase {
     private fun startThemeTest(theme: ThemeDisplayed) = db.createRoll().let {
         setupTheme(theme)
 
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog { createRoll(it) { controlPanel { onColor { onAssertAll() } } } }
             }
@@ -73,7 +73,7 @@ class RollNoteColorDialogTest : ParentUiTest(), ColorCase {
         preferencesRepo.defaultColor = value
 
         val item = db.createRoll()
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog { createRoll(item) { controlPanel { onColor { onAssertItem() } } } }
             }

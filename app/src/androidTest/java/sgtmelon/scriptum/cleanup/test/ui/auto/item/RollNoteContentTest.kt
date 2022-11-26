@@ -15,15 +15,15 @@ import sgtmelon.test.common.nextString
 class RollNoteContentTest : ParentUiTest() {
 
     @Test fun itemListOnNotes() = db.insertRoll().let {
-        launch { mainScreen { openNotes { openRoll(it) { onAssertAll() } } } }
+        launchSplash { mainScreen { openNotes { openRoll(it) { onAssertAll() } } } }
     }
 
     @Test fun itemListOnBin() = db.insertRollToBin().let {
-        launch { mainScreen { openBin { openRoll(it) { onAssertAll() } } } }
+        launchSplash { mainScreen { openBin { openRoll(it) { onAssertAll() } } } }
     }
 
     @Test fun itemOnChangeText() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -40,7 +40,7 @@ class RollNoteContentTest : ParentUiTest() {
     }
 
     @Test fun itemOnClickCheck() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -58,7 +58,7 @@ class RollNoteContentTest : ParentUiTest() {
     }
 
     @Test fun itemOnEmptyDelete() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {

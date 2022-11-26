@@ -23,7 +23,7 @@ class BindNoteTest : ParentNotificationTest() {
     @Test fun textNoteBindUnbind() = db.insertText().let {
         TODO()
 
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -38,7 +38,7 @@ class BindNoteTest : ParentNotificationTest() {
 
     @Test fun rollNoteBindUnbind() = db.insertRoll().let {
         TODO()
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -55,7 +55,7 @@ class BindNoteTest : ParentNotificationTest() {
         insertText(textNote.copy(isStatus = true))
     }.let {
         TODO()
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -73,7 +73,7 @@ class BindNoteTest : ParentNotificationTest() {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
         TODO()
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -91,7 +91,7 @@ class BindNoteTest : ParentNotificationTest() {
         insertText(textNote.copy(isStatus = true))
     }.let {
         TODO()
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) { controlPanel { onDelete() } }
@@ -105,7 +105,7 @@ class BindNoteTest : ParentNotificationTest() {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
         TODO()
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) { controlPanel { onDelete() } }

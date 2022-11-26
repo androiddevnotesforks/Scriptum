@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class MainScrollTopTest : ParentUiTest() {
 
     @Test fun onRank() = db.fillRank(ITEM_COUNT).let {
-        launch {
+        launchSplash {
             mainScreen {
                 openRank { scrollTo(Scroll.END) }.scrollTop()
                 RecyclerItemPart.PREVENT_SCROLL = true
@@ -25,7 +25,7 @@ class MainScrollTopTest : ParentUiTest() {
     }
 
     @Test fun onNotes() = db.fillNotes(ITEM_COUNT).let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes { scrollTo(Scroll.END) }.scrollTop()
                 RecyclerItemPart.PREVENT_SCROLL = true
@@ -35,7 +35,7 @@ class MainScrollTopTest : ParentUiTest() {
     }
 
     @Test fun onBin() = db.fillBin(ITEM_COUNT).let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin { scrollTo(Scroll.END) }.scrollTop()
                 RecyclerItemPart.PREVENT_SCROLL = true

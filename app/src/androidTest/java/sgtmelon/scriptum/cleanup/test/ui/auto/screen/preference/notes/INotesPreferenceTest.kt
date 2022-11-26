@@ -10,7 +10,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 interface INotesPreferenceTest {
 
     fun ParentUiTest.runTest(before: () -> Unit = {}, func: NotesPreferenceScreen.() -> Unit) {
-        launch(before) {
+        launchSplash(before) {
             mainScreen { openNotes(isEmpty = true) { openPreferences { openNotes(func) } } }
         }
     }

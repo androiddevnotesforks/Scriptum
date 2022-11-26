@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class TextNoteDialogTest : ParentUiTest() {
 
     @Test fun dateDialogCloseAndWork() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -28,7 +28,7 @@ class TextNoteDialogTest : ParentUiTest() {
     }
 
     @Test fun convertDialogCloseAndWork() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -42,7 +42,7 @@ class TextNoteDialogTest : ParentUiTest() {
     }
 
     @Test fun rankDialogCloseAndWork() = db.fillRank(count = 3).let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(db.createText(), isRankEmpty = false) {

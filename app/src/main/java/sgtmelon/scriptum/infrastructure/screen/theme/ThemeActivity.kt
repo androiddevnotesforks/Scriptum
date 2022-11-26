@@ -69,6 +69,8 @@ abstract class ThemeActivity<T : ViewDataBinding> : BindingActivity<T>(),
     override fun checkThemeChange() {
         if (!themeViewModel.isThemeChanged()) return
 
+        // TODO it's not working correctly - try recreate?
+
         val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
         overridePendingTransition(R.anim.fragment_fade_in, R.anim.fragment_fade_out)

@@ -19,7 +19,7 @@ class ListTest : ParentUiWeighTest() {
         isVisible = true,
         list = dbWeight.rollList
     ).let {
-        launch {
+        launchSplash {
             mainScreen { openNotes { openRoll(it) { scrollTo(Scroll.END, SCROLL_COUNT) } } }
         }
     }

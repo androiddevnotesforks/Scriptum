@@ -17,7 +17,7 @@ import sgtmelon.scriptum.ui.cases.value.ColorCase
 class TextNoteColorDialogTest : ParentUiTest(), ColorCase {
 
     @Test fun closeAndWork() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(it) {
@@ -37,7 +37,7 @@ class TextNoteColorDialogTest : ParentUiTest(), ColorCase {
     private fun startThemeTest(theme: ThemeDisplayed) = db.createText().let {
         setupTheme(theme)
 
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog { createText(it) { controlPanel { onColor { onAssertAll() } } } }
             }
@@ -73,7 +73,7 @@ class TextNoteColorDialogTest : ParentUiTest(), ColorCase {
         preferencesRepo.defaultColor = value
 
         val item = db.createText()
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog { createText(item) { controlPanel { onColor { onAssertItem() } } } }
             }

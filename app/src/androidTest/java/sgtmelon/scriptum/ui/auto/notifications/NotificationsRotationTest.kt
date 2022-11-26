@@ -16,7 +16,7 @@ class NotificationsRotationTest : ParentUiRotationTest(),
     ListContentCase,
     NoteOpenCase {
 
-    @Test override fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launchSplash {
         mainScreen {
             openNotes(isEmpty = true) {
                 openNotifications(isEmpty = true) {

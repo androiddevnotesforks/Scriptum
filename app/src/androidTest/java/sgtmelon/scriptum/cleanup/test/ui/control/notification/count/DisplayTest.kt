@@ -33,6 +33,6 @@ class DisplayTest : ParentNotificationTest() {
 
         repeat(count) { db.insertNotification() }
 
-        launch { onSee { mainScreen() } }
+        launchSplash { onSee { mainScreen() } }
     }
 }

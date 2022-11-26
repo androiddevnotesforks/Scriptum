@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class InfoAnimTest : ParentUiTest() {
 
     @Test fun rankInfoShowAndHide() = db.rankEntity.let { entity ->
-        launch {
+        launchSplash {
             mainScreen {
                 openRank(isEmpty = true) {
                     repeat(times = 3) {
@@ -36,7 +36,7 @@ class InfoAnimTest : ParentUiTest() {
 
 
     @Test fun notesInfoShow() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) { controlPanel { onDelete() } }
@@ -47,7 +47,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
     @Test fun notesInfoHide() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
                 openBin { openNoteDialog(it) { restore() } }
@@ -58,7 +58,7 @@ class InfoAnimTest : ParentUiTest() {
 
 
     @Test fun binInfoShow() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin {
                     openText(it) { controlPanel { onClear() } }
@@ -69,7 +69,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
     @Test fun binInfoHide() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin(isEmpty = true)
                 openNotes { openNoteDialog(it) { delete() } }
@@ -79,7 +79,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    @Test fun notificationInfoShowAndHide() = launch({ db.insertNotification() }) {
+    @Test fun notificationInfoShowAndHide() = launchSplash({ db.insertNotification() }) {
         mainScreen {
             openNotes {
                 openNotifications {

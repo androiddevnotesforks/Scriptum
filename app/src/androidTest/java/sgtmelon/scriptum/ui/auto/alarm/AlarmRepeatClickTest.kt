@@ -38,7 +38,7 @@ class AlarmRepeatClickTest : ParentUiTest(), RepeatCase {
     @Test fun dateExist() = db.insertText().let {
         preferencesRepo.repeat = Repeat.MIN_10
 
-        launchAlarm(it) {
+        launchSplashAlarm(it) {
             val existDate = getClearCalendar(addMinutes = 10).toText()
             db.insertNotification(date = existDate)
 
@@ -57,7 +57,7 @@ class AlarmRepeatClickTest : ParentUiTest(), RepeatCase {
 
         val note = db.insertRoll(db.rollNote.copy(color = Color.RED))
 
-        launchAlarm(it) {
+        launchSplashAlarm(it) {
             var repeatCalendar = getCalendar()
             alarmScreen(it) {
                 repeatCalendar = repeat()

@@ -5,7 +5,7 @@ import sgtmelon.scriptum.parent.ui.screen.main.RankScreen
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 
 inline fun ParentUiTest.startRankTest(func: RankScreen.() -> Unit = {}) {
-    launch { mainScreen { openRank(func = func) } }
+    launchSplash { mainScreen { openRank(func = func) } }
 }
 
 inline fun ParentUiTest.startRankListTest(
@@ -13,12 +13,12 @@ inline fun ParentUiTest.startRankListTest(
     crossinline func: RankScreen.(list: MutableList<RankItem>) -> Unit = {}
 ) {
     val list = db.fillRank(count)
-    launch { mainScreen { openRank { func(list) } } }
+    launchSplash { mainScreen { openRank { func(list) } } }
 }
 
 inline fun ParentUiTest.startRankItemTest(
     item: RankItem,
     crossinline func: RankScreen.(RankItem) -> Unit
 ) {
-    launch { mainScreen { openRank { func(item) } } }
+    launchSplash { mainScreen { openRank { func(item) } } }
 }

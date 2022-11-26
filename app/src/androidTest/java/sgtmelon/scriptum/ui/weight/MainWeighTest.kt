@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
 @RunWith(AndroidJUnit4::class)
 class MainWeighTest : ParentUiWeighTest() {
 
-    @Test fun pageSelect() = launch(before = {
+    @Test fun pageSelect() = launchSplash(before = {
         db.fillRank(ITEM_COUNT)
         db.fillNotes(ITEM_COUNT)
         db.fillBin(ITEM_COUNT)

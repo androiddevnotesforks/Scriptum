@@ -15,7 +15,7 @@ import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 class RankWeighTest : ParentUiWeighTest(),
     ListScrollCase {
 
-    @Test override fun listScroll() = launch({ db.fillRankRelation(ITEM_COUNT) }) {
+    @Test override fun listScroll() = launchSplash({ db.fillRankRelation(ITEM_COUNT) }) {
         mainScreen { openRank { scrollTo(Scroll.END, SCROLL_COUNT) } }
     }
 

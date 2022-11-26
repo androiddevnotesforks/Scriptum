@@ -28,7 +28,7 @@ class BinClearDialogTest : ParentUiTest(),
     @Test fun workWithHideNotes() = db.insertRankForBin().let {
         assertTrue(it.first.isVisible)
 
-        launch({ db.fillBin(count = 5) }) {
+        launchSplash({ db.fillBin(count = 5) }) {
             mainScreen {
                 openBin()
 

@@ -20,7 +20,7 @@ class MenuPreferenceThemeTest : ParentUiTest(),
     ThemeCase,
     DialogCloseCase {
 
-    @Test override fun close() = startMenuPreferenceTest({
+    @Test override fun close() = launchMenuPreference({
         preferencesRepo.theme = Theme.LIGHT
     }) {
         openThemeDialog { cancel() }
@@ -36,12 +36,10 @@ class MenuPreferenceThemeTest : ParentUiTest(),
     @Test override fun themeSystem() = super.themeSystem()
 
     override fun startTest(value: Theme) {
-        TODO("BUG: After switch theme app will be restarted")
-
         val (setValue, initValue) = Theme.values().getDifferentValues(value)
         preferencesRepo.theme = initValue
 
-        startMenuPreferenceTest {
+        launchMenuPreference {
             openThemeDialog {
                 click(setValue)
                 click(initValue)

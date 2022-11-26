@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteDateTimeDialogTest : ParentUiTest(), DateTimeDialogCase {
 
-    private fun runTest(item: NoteItem.Roll, func: RollNoteScreen.() -> Unit) = launch {
+    private fun runTest(item: NoteItem.Roll, func: RollNoteScreen.() -> Unit) = launchSplash {
         mainScreen { openNotes { openRoll(item, func = func) } }
     }
 

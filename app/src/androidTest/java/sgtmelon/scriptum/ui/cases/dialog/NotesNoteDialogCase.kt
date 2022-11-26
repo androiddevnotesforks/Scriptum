@@ -65,7 +65,7 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
         }
         val item = insert(entity)
 
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes { openNoteDialog(item) { delete() } }
                 openBin { openNoteDialog(item) { restore() } }
@@ -104,7 +104,7 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
     }
 
     open fun delete() = insert().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openNoteDialog(it) { delete() }

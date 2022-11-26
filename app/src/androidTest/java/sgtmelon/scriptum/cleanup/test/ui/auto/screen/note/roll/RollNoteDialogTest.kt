@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class RollNoteDialogTest : ParentUiTest() {
 
     @Test fun dateDialogCloseAndWork() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -28,7 +28,7 @@ class RollNoteDialogTest : ParentUiTest() {
     }
 
     @Test fun convertDialogCloseAndWork() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -42,7 +42,7 @@ class RollNoteDialogTest : ParentUiTest() {
     }
 
     @Test fun rankDialogCloseAndWork() = db.fillRank(count = 3).let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(db.createRoll(), isRankEmpty = false) {

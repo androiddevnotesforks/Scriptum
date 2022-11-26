@@ -13,20 +13,22 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentUiTest() {
 
-    @Test fun mainScreenOpen() = launch { mainScreen() }
+    @Test fun mainScreenOpen() = launchSplash { mainScreen() }
 
-    @Test fun alarmTextNoteOpen() = db.insertText().let { launchAlarm(it) { alarmScreen(it) } }
+    @Test fun alarmTextNoteOpen() =
+        db.insertText().let { launchSplashAlarm(it) { alarmScreen(it) } }
 
-    @Test fun alarmRollNoteOpen() = db.insertRoll().let { launchAlarm(it) { alarmScreen(it) } }
+    @Test fun alarmRollNoteOpen() =
+        db.insertRoll().let { launchSplashAlarm(it) { alarmScreen(it) } }
 
     @Test fun bindTextNoteOpen() = db.insertText().let {
         TODO("bug with not correct color of toolbar")
-        launchBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
+        launchSplashBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 
     @Test fun bindRollNoteOpen() = db.insertRoll().let {
         TODO("bug with not correct color of toolbar")
-        launchBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
+        launchSplashBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 
     @Test fun notificationsOpen() = launchNotifications {
@@ -34,12 +36,12 @@ class SplashTest : ParentUiTest() {
         mainScreen()
     }
 
-    @Test fun createTextOpen() = launchNewNote(NoteType.TEXT) {
+    @Test fun createTextOpen() = launchSplashNewNote(NoteType.TEXT) {
         createNoteScreen(db.createText()) { pressBack() }
         mainScreen()
     }
 
-    @Test fun createRollOpen() = launchNewNote(NoteType.ROLL) {
+    @Test fun createRollOpen() = launchSplashNewNote(NoteType.ROLL) {
         createNoteScreen(db.createRoll()) { pressBack() }
         mainScreen()
     }

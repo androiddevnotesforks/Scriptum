@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class RankItemTest : ParentUiTest() {
 
     @Test fun visibleForNotes() = db.insertRankForNotes().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes()
                 openRank { itemVisible() }
@@ -26,7 +26,7 @@ class RankItemTest : ParentUiTest() {
     }
 
     @Test fun visibleForBin() = db.insertRankForBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin()
                 openRank { itemVisible() }
@@ -43,7 +43,7 @@ class RankItemTest : ParentUiTest() {
     }
 
     @Test fun clearForNote() = db.insertRankForNotes().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openRank { itemVisible() }
                 openNotes(isEmpty = true, isHide = true)
@@ -54,7 +54,7 @@ class RankItemTest : ParentUiTest() {
     }
 
     @Test fun clearForBin() = db.insertRankForBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin()
                 openRank { itemVisible() }

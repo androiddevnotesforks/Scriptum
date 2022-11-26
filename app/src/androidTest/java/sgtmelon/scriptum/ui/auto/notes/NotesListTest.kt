@@ -19,7 +19,7 @@ class NotesListTest : ParentUiTest(),
     ListScrollCase,
     NoteOpenCase {
 
-    @Test override fun contentEmpty() = launch { mainScreen { openNotes(isEmpty = true) } }
+    @Test override fun contentEmpty() = launchSplash { mainScreen { openNotes(isEmpty = true) } }
 
     @Test override fun contentList() = startNotesListTest { assertList(it) }
 
@@ -37,7 +37,7 @@ class NotesListTest : ParentUiTest(),
 
 
     @Test fun textCreateAndReturn() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
                 openAddDialog { createText(it) { pressBack() } }
@@ -47,7 +47,7 @@ class NotesListTest : ParentUiTest(),
     }
 
     @Test fun rollCreateAndReturn() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
                 openAddDialog { createRoll(it) { pressBack() } }
@@ -57,7 +57,7 @@ class NotesListTest : ParentUiTest(),
     }
 
     @Test fun textCreateAndReturnWithSave() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
 
@@ -75,7 +75,7 @@ class NotesListTest : ParentUiTest(),
     }
 
     @Test fun rollCreateAndReturnWithSave() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
 

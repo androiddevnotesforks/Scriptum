@@ -14,7 +14,7 @@ class BindGroupTest : ParentNotificationTest() {
     @Test fun notesGroup() = db.fillNotes(count = 3).let {
         TODO()
 
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     for ((p, item) in it.withIndex()) {

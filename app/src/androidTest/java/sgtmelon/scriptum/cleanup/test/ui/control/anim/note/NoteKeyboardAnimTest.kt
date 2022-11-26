@@ -18,7 +18,7 @@ import sgtmelon.test.common.nextString
 class NoteKeyboardAnimTest : ParentUiTest() {
 
     @Test fun insetsOnHideKeyboardInTextNote() = db.createText().let { note ->
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(note) {
@@ -30,7 +30,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
     }
 
     @Test fun insetsOnHideKeyboardInRollNote() = db.createRoll().let { note ->
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(note) {
@@ -44,7 +44,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
     }
 
     @Test fun insetsOnChangeModeInTextNote() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(it) {
@@ -57,7 +57,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
     }
 
     @Test fun insetsOnChangeModeInRollNote() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
@@ -73,7 +73,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
      * Test of change note mode with opened/closed keyboard.
      */
     @Test fun differentChangeModeInTextNote() = db.createText().let { note ->
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(note) {
@@ -94,7 +94,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
      * Test of change note mode with opened/closed keyboard.
      */
     @Test fun differentChangeModeInRollNote() = db.createRoll().let { note ->
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(note) {

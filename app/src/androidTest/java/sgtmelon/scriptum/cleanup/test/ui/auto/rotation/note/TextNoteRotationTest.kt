@@ -20,7 +20,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
      */
 
     @Test fun contentOnBin() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin {
                     openText(it) {
@@ -33,7 +33,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun contentOnRestoreOpen() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin {
                     openText(it) {
@@ -47,7 +47,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun contentOnCreate() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(it) {
@@ -60,7 +60,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun contentOnRead() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -73,7 +73,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun contentOnEdit() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -101,7 +101,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     private fun startDateDialogTest(item: NoteItem.Text, isUpdateDate: Boolean) {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(item) {
@@ -118,7 +118,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun timeDialog() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -138,7 +138,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
 
 
     @Test fun convertDialog() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -155,7 +155,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun convertDialogResult() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -171,7 +171,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun colorDialog() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(it) {
@@ -189,7 +189,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun rankDialog() = db.fillRank(count = 3).let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(db.createText(), isRankEmpty = false) {

@@ -35,7 +35,7 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
     }
 
     open fun restore() = insert().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true)
                 openBin {
@@ -56,7 +56,7 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
     }
 
     open fun clear() = insert().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin {
                     openNoteDialog(it) { clear() }

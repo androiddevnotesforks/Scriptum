@@ -15,7 +15,7 @@ import sgtmelon.test.common.nextString
 class RollNoteImeTest : ParentUiTest() {
 
     @Test fun toolbarImeNext() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -32,7 +32,7 @@ class RollNoteImeTest : ParentUiTest() {
     }
 
     @Test fun itemImeNext() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -50,7 +50,7 @@ class RollNoteImeTest : ParentUiTest() {
     }
 
     @Test fun enterPanelImeDone() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {

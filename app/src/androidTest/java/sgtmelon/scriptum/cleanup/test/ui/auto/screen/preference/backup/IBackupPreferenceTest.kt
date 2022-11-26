@@ -13,7 +13,7 @@ interface IBackupPreferenceTest {
     fun getLogic() = BackupPreferenceLogic()
 
     fun ParentUiTest.runTest(before: () -> Unit = {}, func: BackupPreferenceScreen.() -> Unit) {
-        launch(before) {
+        launchSplash(before) {
             mainScreen { openNotes(isEmpty = true) { openPreferences { openBackup(func) } } }
         }
     }

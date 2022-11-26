@@ -16,7 +16,7 @@ import sgtmelon.test.common.nextString
 class RankRotationTest : ParentUiRotationTest(),
     ListContentCase {
 
-    @Test override fun contentEmpty() = launch {
+    @Test override fun contentEmpty() = launchSplash {
         mainScreen {
             openRank(isEmpty = true) {
                 rotate.toSide()
@@ -27,7 +27,7 @@ class RankRotationTest : ParentUiRotationTest(),
     }
 
     @Test override fun contentList() = db.fillRank().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openRank {
                     rotate.toSide()

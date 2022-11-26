@@ -23,7 +23,7 @@ class BindMainTest : ParentNotificationTest() {
 
     @Test fun notesRollBindUnbind() = startNotesBindUnbindTest(db.insertRoll())
 
-    private fun startNotesBindUnbindTest(item: NoteItem) = launch {
+    private fun startNotesBindUnbindTest(item: NoteItem) = launchSplash {
         TODO()
 
         mainScreen {
@@ -43,7 +43,7 @@ class BindMainTest : ParentNotificationTest() {
         insertRoll(rollNote.copy(isStatus = true))
     })
 
-    private fun startNotesUpdateOnConvertText(item: NoteItem) = launch {
+    private fun startNotesUpdateOnConvertText(item: NoteItem) = launchSplash {
         TODO()
 
         mainScreen {
@@ -63,7 +63,7 @@ class BindMainTest : ParentNotificationTest() {
         insertRoll(rollNote.copy(isStatus = true))
     })
 
-    private fun startNotesUnbindOnDeleteTest(item: NoteItem) = launch {
+    private fun startNotesUnbindOnDeleteTest(item: NoteItem) = launchSplash {
         TODO()
 
         mainScreen {
@@ -74,7 +74,7 @@ class BindMainTest : ParentNotificationTest() {
 
 
     @Test fun rankHideShowOnClick() = insertRankWithStatusNote().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes()
                 openRank { onSee { itemVisible() } }
@@ -86,7 +86,7 @@ class BindMainTest : ParentNotificationTest() {
     }
 
     @Test fun rankCancel() = insertRankWithStatusNote().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openRank { onSee { itemVisible() } }
                 openNotes(isEmpty = true, isHide = true)

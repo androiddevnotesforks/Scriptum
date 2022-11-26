@@ -15,7 +15,7 @@ import sgtmelon.test.common.nextString
 class RollNoteAddTest : ParentUiTest() {
 
     @Test fun enterAddEmpty() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog { createRoll(it) { enterPanel { onAdd(text = "") } } }
@@ -25,7 +25,7 @@ class RollNoteAddTest : ParentUiTest() {
     }
 
     @Test fun addItems() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {

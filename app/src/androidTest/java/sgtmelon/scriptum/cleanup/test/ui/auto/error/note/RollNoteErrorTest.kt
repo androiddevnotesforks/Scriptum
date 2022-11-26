@@ -22,7 +22,7 @@ class RollNoteErrorTest : ParentUiTest() {
     @Test fun removeEmptyItemsAfterChangeDone() {
         var item = db.createRoll()
 
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog {
@@ -48,7 +48,7 @@ class RollNoteErrorTest : ParentUiTest() {
      * [Description.Note.RestoreChanges]
      */
     @Test fun restoreChanges() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {

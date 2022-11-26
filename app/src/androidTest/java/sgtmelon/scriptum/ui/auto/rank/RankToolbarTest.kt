@@ -17,7 +17,7 @@ import sgtmelon.test.common.nextString
 @RunWith(AndroidJUnit4::class)
 class RankToolbarTest : ParentUiTest() {
 
-    @Test fun addEmpty() = launch {
+    @Test fun addEmpty() = launchSplash {
         mainScreen {
             openRank(isEmpty = true) { toolbar { enter(name = " ", isGood = false) } }
         }
@@ -31,12 +31,12 @@ class RankToolbarTest : ParentUiTest() {
         toolbar { enter(it.name.uppercase(), isGood = false) }
     }
 
-    @Test fun addEnabled() = launch {
+    @Test fun addEnabled() = launchSplash {
         val name = nextString()
         mainScreen { openRank(isEmpty = true) { toolbar { enter(name) } } }
     }
 
-    @Test fun clear() = launch {
+    @Test fun clear() = launchSplash {
         val name = nextString()
 
         mainScreen {
@@ -52,7 +52,7 @@ class RankToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun addOnEmpty() = launch {
+    @Test fun addOnEmpty() = launchSplash {
         val name = nextString()
 
         mainScreen {

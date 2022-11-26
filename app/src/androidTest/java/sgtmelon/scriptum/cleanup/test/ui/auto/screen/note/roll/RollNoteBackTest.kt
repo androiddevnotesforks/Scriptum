@@ -15,7 +15,7 @@ import sgtmelon.test.common.nextString
 class RollNoteBackTest : ParentUiTest() {
 
     @Test fun closeOnBin() = db.insertRollToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin { openRoll(it) { toolbar { clickBack() } } }.assert()
                 openBin { openRoll(it) { pressBack() } }.assert()
@@ -24,7 +24,7 @@ class RollNoteBackTest : ParentUiTest() {
     }
 
     @Test fun closeOnCreate() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog { createRoll(it) { toolbar { clickBack() } } }.assert()
                 openAddDialog { createRoll(it) { pressBack() } }.assert()
@@ -33,7 +33,7 @@ class RollNoteBackTest : ParentUiTest() {
     }
 
     @Test fun closeOnRead() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes { openRoll(it) { toolbar { clickBack() } } }.assert()
                 openNotes { openRoll(it) { pressBack() } }.assert()
@@ -42,7 +42,7 @@ class RollNoteBackTest : ParentUiTest() {
     }
 
     @Test fun saveOnCreate() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
@@ -56,7 +56,7 @@ class RollNoteBackTest : ParentUiTest() {
     }
 
     @Test fun saveOnEdit() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {
@@ -71,7 +71,7 @@ class RollNoteBackTest : ParentUiTest() {
     }
 
     @Test fun cancelOnEdit() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {

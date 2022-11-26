@@ -20,7 +20,7 @@ class BindErrorTest : ParentNotificationTest() {
     @Test fun textNoteUnbindOnRestore() = with(db) {
         insertText(textNote.copy(isStatus = true))
     }.let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -40,7 +40,7 @@ class BindErrorTest : ParentNotificationTest() {
     @Test fun rollNoteUnbindOnRestore() = with(db) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {

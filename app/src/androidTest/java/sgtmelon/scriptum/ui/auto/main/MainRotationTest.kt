@@ -12,7 +12,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 @RunWith(AndroidJUnit4::class)
 class MainRotationTest : ParentUiRotationTest() {
 
-    @Test fun rankPage() = launch {
+    @Test fun rankPage() = launchSplash {
         mainScreen {
             openRank(isEmpty = true) {
                 rotate.toSide()
@@ -22,7 +22,7 @@ class MainRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun notesPage() = launch {
+    @Test fun notesPage() = launchSplash {
         mainScreen {
             openNotes(isEmpty = true) {
                 rotate.toSide()
@@ -32,7 +32,7 @@ class MainRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun binPage() = launch {
+    @Test fun binPage() = launchSplash {
         mainScreen {
             openBin(isEmpty = true) {
                 rotate.toSide()
@@ -42,7 +42,7 @@ class MainRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun addDialog() = launch {
+    @Test fun addDialog() = launchSplash {
         mainScreen {
             openAddDialog {
                 rotate.toSide()

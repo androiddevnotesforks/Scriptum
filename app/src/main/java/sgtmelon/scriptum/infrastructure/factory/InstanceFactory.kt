@@ -26,17 +26,19 @@ object InstanceFactory {
 
     object Splash {
 
+        operator fun get(context: Context): Intent = Intent(context, SplashActivity::class.java)
+
         fun getAlarm(context: Context, noteId: Long): Intent {
             val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 
-            return Intent(context, SplashActivity::class.java)
+            return get(context)
                 .addFlags(flags)
                 .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.ALARM)
                 .putExtra(IntentData.Note.Intent.ID, noteId)
         }
 
         fun getBind(context: Context, item: NoteItem): Intent {
-            return Intent(context, SplashActivity::class.java)
+            return get(context)
                 .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.BIND_NOTE)
                 .putExtra(IntentData.Note.Intent.ID, item.id)
                 .putExtra(IntentData.Note.Intent.COLOR, item.color)
@@ -44,12 +46,12 @@ object InstanceFactory {
         }
 
         fun getNotification(context: Context): Intent {
-            return Intent(context, SplashActivity::class.java)
+            return get(context)
                 .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.NOTIFICATIONS)
         }
 
         fun getHelpDisappear(context: Context): Intent {
-            return Intent(context, SplashActivity::class.java)
+            return get(context)
                 .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.HELP_DISAPPEAR)
         }
 
@@ -69,15 +71,15 @@ object InstanceFactory {
 
     object Main {
 
-        operator fun get(context: Context) = Intent(context, MainActivity::class.java)
+        operator fun get(context: Context): Intent = Intent(context, MainActivity::class.java)
     }
 
     object Note {
 
-        operator fun get(context: Context, item: NotificationItem) =
+        operator fun get(context: Context, item: NotificationItem): Intent =
             get(context, item.note.type.ordinal, item.note.id, item.note.color.ordinal)
 
-        operator fun get(context: Context, item: NoteItem) =
+        operator fun get(context: Context, item: NoteItem): Intent =
             get(context, item.type.ordinal, item.id, item.color.ordinal)
 
         /**
@@ -107,7 +109,8 @@ object InstanceFactory {
 
     object Notifications {
 
-        operator fun get(context: Context) = Intent(context, NotificationsActivity::class.java)
+        operator fun get(context: Context): Intent =
+            Intent(context, NotificationsActivity::class.java)
     }
 
 

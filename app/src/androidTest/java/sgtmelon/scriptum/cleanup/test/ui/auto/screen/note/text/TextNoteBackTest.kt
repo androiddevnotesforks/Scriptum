@@ -15,7 +15,7 @@ import sgtmelon.test.common.nextString
 class TextNoteBackTest : ParentUiTest() {
 
     @Test fun closeOnBin() = db.insertTextToBin().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openBin { openText(it) { toolbar { clickBack() } } }.assert()
                 openBin { openText(it) { pressBack() } }.assert()
@@ -24,7 +24,7 @@ class TextNoteBackTest : ParentUiTest() {
     }
 
     @Test fun closeOnCreate() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog { createText(it) { toolbar { clickBack() } } }.assert()
                 openAddDialog { createText(it) { pressBack() } }.assert()
@@ -33,7 +33,7 @@ class TextNoteBackTest : ParentUiTest() {
     }
 
     @Test fun closeOnRead() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes { openText(it) { toolbar { clickBack() } } }.assert()
                 openNotes { openText(it) { pressBack() } }.assert()
@@ -43,7 +43,7 @@ class TextNoteBackTest : ParentUiTest() {
 
 
     @Test fun saveOnCreate() = db.createText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openAddDialog {
                     createText(it) {
@@ -57,7 +57,7 @@ class TextNoteBackTest : ParentUiTest() {
     }
 
     @Test fun saveOnEdit() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {
@@ -73,7 +73,7 @@ class TextNoteBackTest : ParentUiTest() {
 
 
     @Test fun cancelOnEdit() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {

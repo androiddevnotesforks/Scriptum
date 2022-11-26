@@ -18,7 +18,7 @@ class TextNoteErrorTest : ParentUiTest() {
      * [Description.Note.RestoreChanges]
      */
     @Test fun restoreChanges() = db.insertText().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openText(it) {

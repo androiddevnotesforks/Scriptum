@@ -15,7 +15,7 @@ import sgtmelon.test.common.nextString
 class RollNoteFocusTest : ParentUiTest() {
 
     @Test fun focusOnCreate() = db.createRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes(isEmpty = true) {
                     openAddDialog { createRoll(it) { toolbar { assertFocus() } } }
@@ -25,7 +25,7 @@ class RollNoteFocusTest : ParentUiTest() {
     }
 
     @Test fun focusOnEdit() = db.insertRoll().let {
-        launch {
+        launchSplash {
             mainScreen {
                 openNotes {
                     openRoll(it) {

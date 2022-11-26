@@ -25,7 +25,7 @@ abstract class ParentAlarmAnimTest(
             db.insertRoll(db.rollNote.apply { this.color = value })
         }
 
-        launchAlarm(noteItem) { alarmScreen(noteItem) { await(TEST_TIME) } }
+        launchSplashAlarm(noteItem) { alarmScreen(noteItem) { await(TEST_TIME) } }
     }
 
     companion object {
