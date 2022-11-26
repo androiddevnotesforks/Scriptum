@@ -12,6 +12,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 import sgtmelon.scriptum.ui.auto.lastArray
 
 /**
@@ -260,37 +261,31 @@ abstract class NoteCardTestCase(
             MainPage.BIN -> db.insertRankForBin(type = type)
         }
 
-        launchSplash {
-            mainScreen {
-                openRank { itemVisible() }
+        launchMain {
+            openRank { itemVisible() }
 
-                when (page) {
-                    MainPage.RANK -> throwPageError()
-                    MainPage.NOTES -> openNotes(isEmpty = true, isHide = true)
-                    MainPage.BIN -> openBin { assertItem(pair.second) }
-                }
+            when (page) {
+                MainPage.RANK -> throwPageError()
+                MainPage.NOTES -> openNotes(isEmpty = true, isHide = true)
+                MainPage.BIN -> openBin { assertItem(pair.second) }
+            }
 
-                openRank { itemCancel() }
-                pair.second.clearRank()
+            openRank { itemCancel() }
+            pair.second.clearRank()
 
-                when (page) {
-                    MainPage.RANK -> throwPageError()
-                    MainPage.NOTES -> openNotes { assertItem(pair.second) }
-                    MainPage.BIN -> openBin { assertItem(pair.second) }
-                }
+            when (page) {
+                MainPage.RANK -> throwPageError()
+                MainPage.NOTES -> openNotes { assertItem(pair.second) }
+                MainPage.BIN -> openBin { assertItem(pair.second) }
             }
         }
     }
 
-    private fun assertList(list: List<NoteItem>) {
-        launchSplash {
-            mainScreen {
-                when (page) {
-                    MainPage.RANK -> throwPageError()
-                    MainPage.NOTES -> openNotes { assertList(list) }
-                    MainPage.BIN -> openBin { assertList(list) }
-                }
-            }
+    private fun assertList(list: List<NoteItem>) = launchMain {
+        when (page) {
+            MainPage.RANK -> throwPageError()
+            MainPage.NOTES -> openNotes { assertList(list) }
+            MainPage.BIN -> openBin { assertList(list) }
         }
     }
 

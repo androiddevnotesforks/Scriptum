@@ -15,11 +15,9 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
-import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
-import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
 import sgtmelon.scriptum.parent.ui.screen.splash.SplashScreen
 import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
 import sgtmelon.test.idling.getIdling
@@ -183,19 +181,6 @@ abstract class ParentUiTest : ParentTest() {
         after: SplashScreen.() -> Unit
     ) {
         launchSplash(before, InstanceFactory.Splash.getNewNote(context, type), after)
-    }
-
-    //endregion
-
-    //region Launch Main functions
-
-    inline fun launchMain(
-        before: () -> Unit = {},
-        after: MainScreen.() -> Unit
-    ) {
-        before()
-        launchActivity<MainActivity>(InstanceFactory.Main[context])
-        MainScreen(after)
     }
 
     //endregion

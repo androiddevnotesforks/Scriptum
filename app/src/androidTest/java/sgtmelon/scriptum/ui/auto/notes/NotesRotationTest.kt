@@ -8,6 +8,8 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
+import sgtmelon.scriptum.parent.ui.tests.launchNotesItem
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 
 /**
@@ -17,48 +19,44 @@ import sgtmelon.scriptum.ui.cases.list.ListContentCase
 class NotesRotationTest : ParentUiRotationTest(),
     ListContentCase {
 
-    @Test override fun contentEmpty() = launchSplash {
-        mainScreen {
-            openNotes(isEmpty = true) {
+    @Test override fun contentEmpty() = launchMain {
+        openNotes(isEmpty = true) {
+            rotate.toSide()
+            assert(isEmpty = true)
+        }
+        assert(isFabVisible = true)
+    }
+
+    @Test override fun contentList() = db.fillNotes().let {
+        launchMain {
+            openNotes {
                 rotate.toSide()
-                assert(isEmpty = true)
+                assert(isEmpty = false)
+                assertList(it)
             }
             assert(isFabVisible = true)
         }
     }
 
-    @Test override fun contentList() = db.fillNotes().let {
-        launchSplash {
-            mainScreen {
-                openNotes {
-                    rotate.toSide()
-                    assert(isEmpty = false)
-                    assertList(it)
-                }
-                assert(isFabVisible = true)
-            }
-        }
-    }
-
-    @Test fun textNoteDialog() = startNotesItemTest(db.insertText()) {
+    @Test fun textNoteDialog() = launchNotesItem(db.insertText()) {
         openNoteDialog(it) {
             rotate.toSide()
             assert()
         }
     }
 
-    @Test fun rollNoteDialog() = startNotesItemTest(db.insertRoll()) {
+    @Test fun rollNoteDialog() = launchNotesItem(db.insertRoll()) {
         openNoteDialog(it) {
             rotate.toSide()
             assert()
         }
     }
 
-    @Test fun dateDialog() = startNotesItemTest(db.insertNote()) {
+    @Test fun dateDialog() = launchNotesItem(db.insertNote()) {
         checkDateRotate(it)
     }
 
-    @Test fun dateDialogReset() = startNotesItemTest(db.insertNotification()) {
+    @Test fun dateDialogReset() = launchNotesItem(db.insertNotification()) {
         checkDateRotate(it)
     }
 
@@ -71,7 +69,7 @@ class NotesRotationTest : ParentUiRotationTest(),
         }
     }
 
-    @Test fun timeDialog() = startNotesItemTest(db.insertNote()) {
+    @Test fun timeDialog() = launchNotesItem(db.insertNote()) {
         openNoteDialog(it) {
             notification {
                 applyDate {

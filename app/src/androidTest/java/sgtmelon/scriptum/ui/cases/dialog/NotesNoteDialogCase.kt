@@ -8,7 +8,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.provider.DateProvider
 import sgtmelon.scriptum.parent.ui.screen.dialogs.NoteDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.ui.auto.notes.startNotesItemTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
+import sgtmelon.scriptum.parent.ui.tests.launchNotesItem
 
 /**
  * Parent class for tests of [NoteDialogUi] inside [MainPage.NOTES].
@@ -20,7 +21,7 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
 
     abstract fun insert(entity: NoteEntity): NoteItem
 
-    override fun close() = startNotesItemTest(insert()) {
+    override fun close() = launchNotesItem(insert()) {
         openNoteDialog(it) { softClose() }
         assert(isEmpty = false)
     }
@@ -31,17 +32,17 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
             NoteType.ROLL -> db.rollNote.copy(name = "")
         }
 
-        startNotesItemTest(insert(entity)) {
+        launchNotesItem(insert(entity)) {
             openNoteDialog(it)
         }
     }
 
-    open fun notification() = startNotesItemTest(insert()) {
+    open fun notification() = launchNotesItem(insert()) {
         openNoteDialog(it) { notification { applyDate { set(addMin = 2).applyTime() } } }
         assertItem(it)
     }
 
-    open fun bind() = startNotesItemTest(insert()) {
+    open fun bind() = launchNotesItem(insert()) {
         openNoteDialog(it) { bind() }
         assertItem(it)
     }
@@ -52,7 +53,7 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
             NoteType.ROLL -> db.rollNote.copy(isStatus = true)
         }
 
-        startNotesItemTest(insert(entity)) {
+        launchNotesItem(insert(entity)) {
             openNoteDialog(it) { bind() }
             assertItem(it)
         }
@@ -65,12 +66,10 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
         }
         val item = insert(entity)
 
-        launchSplash {
-            mainScreen {
-                openNotes { openNoteDialog(item) { delete() } }
-                openBin { openNoteDialog(item) { restore() } }
-                openNotes { assertItem(item) }
-            }
+        launchMain {
+            openNotes { openNoteDialog(item) { delete() } }
+            openBin { openNoteDialog(item) { restore() } }
+            openNotes { assertItem(item) }
         }
     }
 
@@ -88,7 +87,7 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
         }
 
         val item = insert(secondEntity)
-        startNotesItemTest(item) {
+        launchNotesItem(item) {
             var convertItem: NoteItem? = null
             openNoteDialog(it, p = 1) { convertItem = convert() }
             assertItem(convertItem!!, p = 0)
@@ -98,20 +97,18 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
     open fun copy() {
         TODO()
 
-        startNotesItemTest(insert()) {
+        launchNotesItem(insert()) {
             openNoteDialog(it) { copy() }
         }
     }
 
     open fun delete() = insert().let {
-        launchSplash {
-            mainScreen {
-                openNotes {
-                    openNoteDialog(it) { delete() }
-                    assert(isEmpty = true)
-                }
-                openBin()
+        launchMain {
+            openNotes {
+                openNoteDialog(it) { delete() }
+                assert(isEmpty = true)
             }
+            openBin()
         }
     }
 }

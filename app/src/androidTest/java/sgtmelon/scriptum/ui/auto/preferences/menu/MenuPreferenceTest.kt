@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 import sgtmelon.scriptum.parent.ui.tests.launchMenuPreference
 
 /**
