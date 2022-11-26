@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.parent.ui.tests.launchMenuPreference
 
 /**
  * Test of [MenuPreferenceFragment] work with phone rotation.

@@ -22,7 +22,6 @@ import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
 import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
-import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.splash.SplashScreen
 import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
@@ -206,15 +205,6 @@ abstract class ParentUiTest : ParentTest() {
 
     //region Launch Preference functions
 
-    inline fun launchMenuPreference(
-        before: () -> Unit = {},
-        after: MenuPreferenceScreen.() -> Unit
-    ) {
-        before()
-        val intent = InstanceFactory.Preference[context, PreferenceScreen.MENU]
-        launchActivity<PreferenceActivity>(intent)
-        MenuPreferenceScreen(after)
-    }
 
     inline fun launchAlarmPreference(
         before: () -> Unit = {},

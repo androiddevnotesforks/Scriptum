@@ -7,6 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMenuPreference
 
 /**
  * Test for [AlarmPreferenceFragment].

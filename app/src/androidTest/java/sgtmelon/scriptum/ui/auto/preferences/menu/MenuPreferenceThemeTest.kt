@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.ThemeDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMenuPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.ThemeCase
 import sgtmelon.test.common.getDifferentValues
