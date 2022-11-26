@@ -7,6 +7,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 
 /**
  * Test for [MainActivity], scrolling page top on double tab click.
@@ -15,32 +16,26 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 class MainScrollTopTest : ParentUiTest() {
 
     @Test fun onRank() = db.fillRank(ITEM_COUNT).let {
-        launchSplash {
-            mainScreen {
-                openRank { scrollTo(Scroll.END) }.scrollTop()
-                RecyclerItemPart.PREVENT_SCROLL = true
-                openRank { assertItem(it.first(), p = 0) }
-            }
+        launchMain {
+            openRank { scrollTo(Scroll.END) }.scrollTop()
+            RecyclerItemPart.PREVENT_SCROLL = true
+            openRank { assertItem(it.first(), p = 0) }
         }
     }
 
     @Test fun onNotes() = db.fillNotes(ITEM_COUNT).let {
-        launchSplash {
-            mainScreen {
-                openNotes { scrollTo(Scroll.END) }.scrollTop()
-                RecyclerItemPart.PREVENT_SCROLL = true
-                openNotes { assertItem(it.first(), p = 0) }
-            }
+        launchMain {
+            openNotes { scrollTo(Scroll.END) }.scrollTop()
+            RecyclerItemPart.PREVENT_SCROLL = true
+            openNotes { assertItem(it.first(), p = 0) }
         }
     }
 
     @Test fun onBin() = db.fillBin(ITEM_COUNT).let {
-        launchSplash {
-            mainScreen {
-                openBin { scrollTo(Scroll.END) }.scrollTop()
-                RecyclerItemPart.PREVENT_SCROLL = true
-                openBin { assertItem(it.first(), p = 0) }
-            }
+        launchMain {
+            openBin { scrollTo(Scroll.END) }.scrollTop()
+            RecyclerItemPart.PREVENT_SCROLL = true
+            openBin { assertItem(it.first(), p = 0) }
         }
     }
 

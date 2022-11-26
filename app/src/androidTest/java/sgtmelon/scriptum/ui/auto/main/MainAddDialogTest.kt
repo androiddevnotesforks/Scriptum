@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 
 /**
@@ -14,18 +15,16 @@ import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 class MainAddDialogTest : ParentUiTest(),
     DialogCloseCase {
 
-    @Test override fun close() = launchSplash {
-        mainScreen {
-            openAddDialog { softClose() }.assert()
-            openAddDialog { swipeClose() }.assert()
-        }
+    @Test override fun close() = launchMain {
+        openAddDialog { softClose() }.assert()
+        openAddDialog { swipeClose() }.assert()
     }
 
     @Test fun createTextNote() = db.createText().let {
-        launchSplash { mainScreen { openAddDialog { createText(it) } } }
+        launchMain { openAddDialog { createText(it) } }
     }
 
     @Test fun createRollNote() = db.createRoll().let {
-        launchSplash { mainScreen { openAddDialog { createRoll(it) } } }
+        launchMain { openAddDialog { createRoll(it) } }
     }
 }
