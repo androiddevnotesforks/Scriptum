@@ -95,7 +95,9 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         await(SCROLL_TIME)
     }
 
-    fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply { fab.click(func) }
+    fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) {
+        fab.click(func)
+    }
 
     /**
      * [page] and [isFabVisible] equals NULL if you want skip assert of related elements.

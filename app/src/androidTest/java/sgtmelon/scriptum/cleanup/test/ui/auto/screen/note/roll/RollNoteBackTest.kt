@@ -17,8 +17,10 @@ class RollNoteBackTest : ParentUiTest() {
     @Test fun closeOnBin() = db.insertRollToBin().let {
         launchSplash {
             mainScreen {
-                openBin { openRoll(it) { toolbar { clickBack() } } }.assert()
-                openBin { openRoll(it) { pressBack() } }.assert()
+                openBin { openRoll(it) { toolbar { clickBack() } } }
+                assert()
+                openBin { openRoll(it) { pressBack() } }
+                assert()
             }
         }
     }
@@ -26,8 +28,10 @@ class RollNoteBackTest : ParentUiTest() {
     @Test fun closeOnCreate() = db.createRoll().let {
         launchSplash {
             mainScreen {
-                openAddDialog { createRoll(it) { toolbar { clickBack() } } }.assert()
-                openAddDialog { createRoll(it) { pressBack() } }.assert()
+                openAddDialog { createRoll(it) { toolbar { clickBack() } } }
+                assert()
+                openAddDialog { createRoll(it) { pressBack() } }
+                assert()
             }
         }
     }
@@ -35,8 +39,10 @@ class RollNoteBackTest : ParentUiTest() {
     @Test fun closeOnRead() = db.insertRoll().let {
         launchSplash {
             mainScreen {
-                openNotes { openRoll(it) { toolbar { clickBack() } } }.assert()
-                openNotes { openRoll(it) { pressBack() } }.assert()
+                openNotes { openRoll(it) { toolbar { clickBack() } } }
+                assert()
+                openNotes { openRoll(it) { pressBack() } }
+                assert()
             }
         }
     }

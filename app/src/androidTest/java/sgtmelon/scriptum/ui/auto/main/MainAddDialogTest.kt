@@ -16,8 +16,10 @@ class MainAddDialogTest : ParentUiTest(),
     DialogCloseCase {
 
     @Test override fun close() = launchMain {
-        openAddDialog { softClose() }.assert()
-        openAddDialog { swipeClose() }.assert()
+        openAddDialog { softClose() }
+        assert()
+        openAddDialog { swipeClose() }
+        assert()
     }
 
     @Test fun createTextNote() = db.createText().let {
