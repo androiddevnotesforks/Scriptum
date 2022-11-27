@@ -11,7 +11,7 @@ import java.util.Calendar
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
-import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogicImpl
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.receiver.service.ServiceReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
@@ -23,7 +23,7 @@ import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Fac
 class EternalService : Service(),
     ServiceReceiver.Callback {
 
-    private val logic: ISystemLogic = SystemLogic(context = this)
+    private val logic: ISystemLogic = SystemLogicImpl(context = this)
     private val receiver = ServiceReceiver[this]
     private val broadcast = BroadcastDelegator(context = this)
 

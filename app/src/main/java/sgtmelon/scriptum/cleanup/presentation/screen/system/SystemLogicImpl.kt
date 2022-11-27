@@ -21,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 /**
  * Logic class for working with alarm's and notifications.
  */
-class SystemLogic(private val context: Context) : ISystemLogic,
+class SystemLogicImpl(private val context: Context) : ISystemLogic,
     SystemReceiver.Callback {
 
     private var _delegators: DelegatorFactory? = null

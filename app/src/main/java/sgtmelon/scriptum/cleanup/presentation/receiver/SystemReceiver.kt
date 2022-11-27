@@ -7,7 +7,7 @@ import java.util.Calendar
 import sgtmelon.extensions.toCalendarOrNull
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogicImpl
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Eternal
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 
 /**
- * Receiver for [SystemLogic] commands.
+ * Receiver for [SystemLogicImpl] commands.
  */
 class SystemReceiver : BroadcastReceiver() {
 

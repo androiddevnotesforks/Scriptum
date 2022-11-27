@@ -36,7 +36,7 @@ import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.RoomModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.StringModule
-import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogicImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 
 /**
@@ -112,7 +112,7 @@ interface ScriptumComponent {
 
     //endregion
 
-    fun inject(logic: SystemLogic)
+    fun inject(logic: SystemLogicImpl)
 
 
     @Component.Builder
