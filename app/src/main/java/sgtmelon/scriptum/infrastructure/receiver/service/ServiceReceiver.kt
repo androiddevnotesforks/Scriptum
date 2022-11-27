@@ -3,14 +3,10 @@ package sgtmelon.scriptum.infrastructure.receiver.service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.cleanup.presentation.service.EternalService
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
 
-/**
- * Receiver for [EternalService] commands.
- */
-class EternalReceiver : BroadcastReceiver() {
+class ServiceReceiver : BroadcastReceiver() {
 
     private var callback: Callback? = null
 
@@ -19,18 +15,18 @@ class EternalReceiver : BroadcastReceiver() {
 
         when (intent.getStringExtra(Values.COMMAND)) {
             Command.Eternal.KILL -> callback?.killService()
-            Command.Eternal.PING -> callback?.sendEternalPongBroadcast()
+            Command.Eternal.PING -> callback?.sendPongBroadcast()
         }
     }
 
     interface Callback {
         fun killService()
-        fun sendEternalPongBroadcast()
+        fun sendPongBroadcast()
     }
 
     companion object {
-        operator fun get(callback: Callback): EternalReceiver {
-            return EternalReceiver().apply { this.callback = callback }
+        operator fun get(callback: Callback): ServiceReceiver {
+            return ServiceReceiver().apply { this.callback = callback }
         }
     }
 }

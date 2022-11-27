@@ -14,7 +14,7 @@ import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
-import sgtmelon.scriptum.infrastructure.receiver.service.EternalReceiver
+import sgtmelon.scriptum.infrastructure.receiver.service.ServiceReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
@@ -22,11 +22,11 @@ import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Fac
  * [Service] that will never die. Mainly for work with notifications, alarms, ect.
  */
 class EternalService : Service(),
-    EternalReceiver.Callback {
+    ServiceReceiver.Callback {
 
     private val systemLogic: ISystemLogic = SystemLogic()
 
-    private val receiver by lazy { EternalReceiver[this] }
+    private val receiver by lazy { ServiceReceiver[this] }
 
     private val broadcast by lazy { BroadcastDelegator(context = this) }
 
@@ -54,9 +54,7 @@ class EternalService : Service(),
     }
 
     override fun onDestroy() {
-        /**
-         * Need call before "super".
-         */
+        /** Need call before "super". */
         restartService()
 
         super.onDestroy()
@@ -88,7 +86,7 @@ class EternalService : Service(),
 
     override fun killService() = stopSelf()
 
-    override fun sendEternalPongBroadcast() = broadcast.sendEternalPong()
+    override fun sendPongBroadcast() = broadcast.sendEternalPong()
 
     companion object {
 

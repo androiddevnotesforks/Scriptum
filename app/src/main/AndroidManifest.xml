@@ -97,7 +97,7 @@
 
         <receiver android:name="sgtmelon.scriptum.develop.receiver.DevelopScreenReceiver" />
 
-        <receiver android:name=".infrastructure.receiver.service.EternalReceiver" />
+        <receiver android:name=".infrastructure.receiver.service.ServiceReceiver" />
 
         <receiver
             android:name=".infrastructure.receiver.system.BootReceiver"
