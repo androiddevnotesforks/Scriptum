@@ -17,7 +17,7 @@ import sgtmelon.test.prod.RunPrivate
  * Interactor for [ISystemPresenter]
  */
 class SystemInteractor(
-    private val preferenceRepo: PreferencesRepo,
+    private val preferencesRepo: PreferencesRepo,
     private val bindRepo: BindRepo,
     private val alarmRepo: AlarmRepo,
     private val noteRepo: NoteRepo,
@@ -44,14 +44,17 @@ class SystemInteractor(
     /**
      * Update all bind notes in status bar rely on rank visibility.
      */
+    @Deprecated("Use use case")
     override suspend fun notifyNotesBind() {
-        callback?.notifyNotesBind(noteRepo.getBindNoteList(preferenceRepo.sort))
+        callback?.notifyNotesBind(noteRepo.getBindNoteList(preferencesRepo.sort))
     }
 
+    @Deprecated("Use use case")
     override suspend fun notifyCountBind() {
         callback?.notifyCountBind(bindRepo.getNotificationsCount())
     }
 
+    @Deprecated("Use use case")
     override suspend fun unbindNote(id: Long) = bindRepo.unbindNote(id)
 
 }

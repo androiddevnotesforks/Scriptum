@@ -103,34 +103,6 @@ class SystemInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun notifyNotesBind() = startCoTest {
-        TODO()
-        //        val sort = mockk<Sort>()
-        //        val list = mockk<List<NoteItem>>()
-        //        val rankIdVisibleList = mockk<List<Long>>()
-        //        val filterList = mockk<List<NoteItem>>()
-        //
-        //        every { preferencesRepo.sort } returns sort
-        //        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
-        //        coEvery {
-        //            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
-        //        } returns list
-        //        coEvery { spyInteractor.getFilterList(list, rankIdVisibleList) } returns filterList
-        //
-        //        spyInteractor.notifyNotesBind()
-        //
-        //        coVerifySequence {
-        //            spyInteractor.notifyNotesBind()
-        //
-        //            preferencesRepo.sort
-        //            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
-        //            rankRepo.getIdVisibleList()
-        //            spyInteractor.getFilterList(list, rankIdVisibleList)
-        //
-        //            callback.notifyNotesBind(filterList)
-        //        }
-    }
-
     @Test fun notifyCountBind() = startCoTest {
         val count = Random.nextInt()
 

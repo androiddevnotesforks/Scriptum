@@ -16,7 +16,7 @@ class HolderShowControl(
     @IntegerRes private val time: Int = R.integer.placeholder_fade_time
 ) : IHolderShowControl {
 
-    // TODO what the fuck?) why use random? may be provide context/resources for
+    // TODO what the fuck?) why use random? may be provide context/resources for this class?
     private val timeValue = viewArray.random()?.context?.resources?.getInteger(time)?.toLong() ?: 0L
 
     private val handler = Handler()

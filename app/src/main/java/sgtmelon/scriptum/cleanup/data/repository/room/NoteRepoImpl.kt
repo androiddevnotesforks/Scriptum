@@ -31,6 +31,9 @@ class NoteRepoImpl(
     private val rollConverter: RollConverter
 ) : NoteRepo {
 
+    // TODO how to improve it with help of sequence?
+
+    // TODO move to bindRepo?
     override suspend fun getBindNoteList(sort: Sort): List<NoteItem> {
         val idVisibleList = rankDataSource.getIdVisibleList()
 

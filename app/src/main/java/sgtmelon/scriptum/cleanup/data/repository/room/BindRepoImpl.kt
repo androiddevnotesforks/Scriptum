@@ -12,8 +12,8 @@ class BindRepoImpl(
     private val alarmDataSource: AlarmDataSource
 ) : BindRepo {
 
-    override suspend fun unbindNote(id: Long) {
-        val entity = noteDataSource.get(id) ?: return
+    override suspend fun unbindNote(noteId: Long) {
+        val entity = noteDataSource.get(noteId) ?: return
 
         if (!entity.isStatus) return
 
