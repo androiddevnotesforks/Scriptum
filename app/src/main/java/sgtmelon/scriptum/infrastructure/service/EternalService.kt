@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.service
+package sgtmelon.scriptum.infrastructure.service
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -10,8 +10,8 @@ import android.os.IBinder
 import java.util.Calendar
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
-import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
-import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogicImpl
+import sgtmelon.scriptum.cleanup.presentation.screen.logic.EternalServiceLogic
+import sgtmelon.scriptum.cleanup.presentation.screen.logic.EternalServiceLogicImpl
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.receiver.service.ServiceReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
@@ -23,7 +23,7 @@ import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Fac
 class EternalService : Service(),
     ServiceReceiver.Callback {
 
-    private val logic: SystemLogic = SystemLogicImpl(context = this)
+    private val logic: EternalServiceLogic = EternalServiceLogicImpl(context = this)
     private val receiver = ServiceReceiver[this]
     private val broadcast = BroadcastDelegator(context = this)
 

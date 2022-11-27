@@ -5,7 +5,7 @@ import android.content.Context
 import sgtmelon.scriptum.cleanup.dagger.component.DaggerScriptumComponent
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.initLazy
-import sgtmelon.scriptum.cleanup.presentation.service.EternalService
+import sgtmelon.scriptum.infrastructure.service.EternalService
 import timber.log.Timber
 
 /**

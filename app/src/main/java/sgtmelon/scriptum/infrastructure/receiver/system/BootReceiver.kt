@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.receiver.system
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.cleanup.presentation.service.EternalService
+import sgtmelon.scriptum.infrastructure.service.EternalService
 
 /**
  * Receiver, which will looking for a device boot.

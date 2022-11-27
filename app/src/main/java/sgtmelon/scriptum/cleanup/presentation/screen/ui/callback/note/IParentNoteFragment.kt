@@ -3,14 +3,14 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 
 /**
  * Parent interface for [ITextNoteFragment] and [IRollNoteFragment].
  */
-interface IParentNoteFragment<N : NoteItem> : SystemReceiver.Bridge.Alarm,
-    SystemReceiver.Bridge.Bind {
+interface IParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm,
+    EternalServiceReceiver.Bridge.Bind {
 
     val isDialogOpen: Boolean
 

@@ -110,7 +110,7 @@
         </receiver>
 
         <service
-            android:name="sgtmelon.scriptum.cleanup.presentation.service.EternalService"
+            android:name="sgtmelon.scriptum.infrastructure.service.EternalService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />

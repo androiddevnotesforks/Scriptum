@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.system
+package sgtmelon.scriptum.cleanup.presentation.screen.logic
 
 import android.content.Context
 import android.content.IntentFilter
@@ -8,7 +8,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runMain
-import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.domain.model.result.TidyUpResult
 import sgtmelon.scriptum.domain.useCase.alarm.TidyUpAlarmUseCase
@@ -17,15 +16,13 @@ import sgtmelon.scriptum.domain.useCase.bind.GetNotificationCountUseCase
 import sgtmelon.scriptum.domain.useCase.bind.UnbindNoteUseCase
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 
 /**
  * Logic class for working with alarm's and notifications.
  */
-class SystemLogicImpl(private val context: Context) : SystemLogic,
-    SystemReceiver.Callback {
-
-    private var _delegators: DelegatorFactory? = null
-    private val delegators get() = _delegators
+class EternalServiceLogicImpl(private val context: Context) : EternalServiceLogic,
+    EternalServiceReceiver.Callback {
 
     @Inject lateinit var tidyUpAlarm: TidyUpAlarmUseCase
     @Inject lateinit var getBindNotes: GetBindNoteListUseCase
@@ -34,14 +31,13 @@ class SystemLogicImpl(private val context: Context) : SystemLogic,
 
     private val ioScope by lazy { CoroutineScope(Dispatchers.IO) }
 
-    private val receiver = SystemReceiver[this]
+    private val receiver = EternalServiceReceiver[this]
 
-    //region cleanup
+    private val delegators = DelegatorFactory(context, lifecycle = null)
 
     override fun setup() {
         ScriptumApplication.component.inject(logic = this)
 
-        _delegators = DelegatorFactory(context, lifecycle = null)
         context.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.SYSTEM))
 
         /** Update all available data. */
@@ -52,10 +48,8 @@ class SystemLogicImpl(private val context: Context) : SystemLogic,
 
     override fun release() {
         context.unregisterReceiver(receiver)
-        delegators?.toast?.cancel()
+        delegators.toast.cancel()
     }
-
-    //endregion
 
     override fun tidyUpAlarm() {
         ioScope.launch {
@@ -69,28 +63,26 @@ class SystemLogicImpl(private val context: Context) : SystemLogic,
     }
 
     override fun setAlarm(noteId: Long, calendar: Calendar, showToast: Boolean) {
-        delegators?.alarm?.set(noteId, calendar, showToast)
+        delegators.alarm.set(noteId, calendar, showToast)
     }
 
-    override fun cancelAlarm(noteId: Long) {
-        delegators?.alarm?.cancel(noteId)
-    }
+    override fun cancelAlarm(noteId: Long) = delegators.alarm.cancel(noteId)
 
     override fun notifyAllNotes() {
         ioScope.launch {
             val list = getBindNotes()
-            runMain { delegators?.bind?.notifyNotes(list) }
+            runMain { delegators.bind.notifyNotes(list) }
         }
     }
 
     override fun cancelNote(noteId: Long) {
         ioScope.launch { unbindNote(noteId) }
-        delegators?.bind?.cancelNote(noteId)
+        delegators.bind.cancelNote(noteId)
     }
 
     override fun notifyCount(count: Int?) {
         if (count != null) {
-            delegators?.bind?.notifyCount(count)
+            delegators.bind.notifyCount(count)
         } else {
             ioScope.launch {
                 val bindCount = getNotificationsCount()
@@ -99,11 +91,8 @@ class SystemLogicImpl(private val context: Context) : SystemLogic,
         }
     }
 
-    override fun clearBind() {
-        delegators?.bind?.clearRecent()
-    }
+    override fun clearBind() = delegators.bind.clearRecent()
 
-    override fun clearAlarm() {
-        delegators?.alarm?.clear()
-    }
+    override fun clearAlarm() = delegators.alarm.clear()
+
 }
