@@ -4,6 +4,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import java.util.UUID
 
+@Suppress("KDocUnresolvedReference")
 object From1To2 {
 
     val value = object : Migration(1, 2) {

@@ -9,6 +9,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 /**
  * Remove multi Note<->Rank connection.
  */
+@Suppress("KDocUnresolvedReference")
 object From4To5 {
 
     /**

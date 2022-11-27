@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.database.migration
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
+@Suppress("KDocUnresolvedReference")
 object From3To4 {
 
     /**

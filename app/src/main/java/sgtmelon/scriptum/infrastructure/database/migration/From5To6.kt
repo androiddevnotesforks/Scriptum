@@ -6,6 +6,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 /**
  * Change entity indices names and unique.
  */
+@Suppress("KDocUnresolvedReference")
 object From5To6 {
 
     val value = object : Migration(5, 6) {

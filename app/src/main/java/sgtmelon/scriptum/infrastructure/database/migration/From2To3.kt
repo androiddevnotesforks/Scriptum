@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 /**
  * Add [AlarmEntity].
  */
+@Suppress("KDocUnresolvedReference")
 object From2To3 {
 
     /**

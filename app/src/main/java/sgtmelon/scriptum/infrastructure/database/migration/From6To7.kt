@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 /**
  * Add defaultValues to room entities.
  */
+@Suppress("KDocUnresolvedReference")
 object From6To7 {
 
     val value = object : Migration(6, 7) {
