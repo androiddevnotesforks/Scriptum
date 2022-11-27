@@ -19,13 +19,13 @@ import sgtmelon.scriptum.cleanup.dagger.component.preference.PreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.DevelopPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PrintDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.ServiceDevelopComponent
-import sgtmelon.scriptum.cleanup.dagger.component.service.SystemComponent
 import sgtmelon.scriptum.cleanup.dagger.module.RepoModule
 import sgtmelon.scriptum.cleanup.dagger.module.data.BackupModule
 import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
 import sgtmelon.scriptum.cleanup.dagger.module.data.RepositoryModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.AlarmUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.BackupUseCaseModule
+import sgtmelon.scriptum.cleanup.dagger.module.domain.BindUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.GetSummaryUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.MainUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.NoteUseCaseModule
@@ -36,6 +36,7 @@ import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.RoomModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.StringModule
+import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 
 /**
@@ -49,6 +50,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
     RoomModule::class,
     ConverterModule::class,
 
+    BindUseCaseModule::class,
     MainUseCaseModule::class,
     NoteUseCaseModule::class,
     RankUseCaseModule::class,
@@ -110,7 +112,7 @@ interface ScriptumComponent {
 
     //endregion
 
-    fun getSystemBuilder(): SystemComponent.Builder
+    fun inject(logic: SystemLogic)
 
 
     @Component.Builder

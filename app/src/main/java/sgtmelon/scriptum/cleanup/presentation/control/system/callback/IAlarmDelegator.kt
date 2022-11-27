@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegator
  */
 interface IAlarmDelegator {
 
-    fun set(calendar: Calendar, id: Long, showToast: Boolean)
+    fun set(noteId: Long, calendar: Calendar, showToast: Boolean)
 
     fun cancel(id: Long)
 

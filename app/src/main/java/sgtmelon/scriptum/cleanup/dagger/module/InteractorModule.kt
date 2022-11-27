@@ -3,21 +3,15 @@ package sgtmelon.scriptum.cleanup.dagger.module
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.RollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
-import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
-import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
-import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractorImpl
 
@@ -66,15 +60,4 @@ class InteractorModule {
 
     //endregion
 
-    @Provides
-    @ActivityScope
-    fun provideSystemInteractor(
-        logic: SystemLogic,
-        preferencesRepo: PreferencesRepo,
-        bindRepo: BindRepo,
-        alarmRepo: AlarmRepo,
-        noteRepo: NoteRepo
-    ): ISystemInteractor {
-        return SystemInteractor(preferencesRepo, bindRepo, alarmRepo, noteRepo, logic)
-    }
 }

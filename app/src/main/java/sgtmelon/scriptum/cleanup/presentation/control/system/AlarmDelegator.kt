@@ -24,8 +24,8 @@ class AlarmDelegator(
 
     private val alarmManager: AlarmManager = context.getAlarmService()
 
-    override fun set(calendar: Calendar, id: Long, showToast: Boolean) {
-        val intent = AlarmActionReceiver[context, id]
+    override fun set(noteId: Long, calendar: Calendar, showToast: Boolean) {
+        val intent = AlarmActionReceiver[context, noteId]
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
 
         if (showToast) {

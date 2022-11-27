@@ -53,9 +53,9 @@ class SystemReceiver : BroadcastReceiver() {
                 callback?.cancelNote(id)
             }
             Command.System.NOTIFY_INFO -> {
-                val count = intent.getIntExtra(Eternal.Intent.COUNT, Eternal.Default.COUNT).takeIf {
-                    it != Eternal.Default.COUNT
-                }
+                val count = intent.getIntExtra(Eternal.Intent.COUNT, Eternal.Default.COUNT)
+
+                if (count == Eternal.Default.COUNT) return
 
                 callback?.notifyCount(count)
             }
@@ -69,13 +69,13 @@ class SystemReceiver : BroadcastReceiver() {
 
         fun tidyUpAlarm()
 
-        fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean)
+        fun setAlarm(noteId: Long, calendar: Calendar, showToast: Boolean)
 
-        fun cancelAlarm(id: Long)
+        fun cancelAlarm(noteId: Long)
 
         fun notifyAllNotes()
 
-        fun cancelNote(id: Long)
+        fun cancelNote(noteId: Long)
 
         /**
          * If [count] == null it means what need take value from database.
