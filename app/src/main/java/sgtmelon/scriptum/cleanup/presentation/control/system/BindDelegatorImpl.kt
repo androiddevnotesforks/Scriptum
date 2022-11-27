@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Fac
 /**
  * Class for help control [NoteItem] notification bind in statusBar
  */
-class BindDelegator(private val context: Context) : IBindDelegator {
+class BindDelegatorImpl(private val context: Context) : IBindDelegator {
 
     private val manager: NotificationManager = context.getNotificationService()
 
@@ -140,7 +140,7 @@ class BindDelegator(private val context: Context) : IBindDelegator {
         private var instance: IBindDelegator? = null
 
         operator fun get(context: Context): IBindDelegator {
-            return instance ?: BindDelegator(context).also { instance = it }
+            return instance ?: BindDelegatorImpl(context).also { instance = it }
         }
     }
 }

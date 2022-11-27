@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.control.system.callback
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegator
+import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
 
 /**
- * Interface for communicate with [BindDelegator].
+ * Interface for communicate with [BindDelegatorImpl].
  */
 interface IBindDelegator {
 
@@ -17,6 +17,6 @@ interface IBindDelegator {
     /**
      * Clear notifications on test tearDown.
      */
-    fun clearRecent(@BindDelegator.Tag tag: String? = null)
+    fun clearRecent(@BindDelegatorImpl.Tag tag: String? = null)
 
 }

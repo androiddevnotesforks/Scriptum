@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.hide
-import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegator
+import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -60,12 +60,12 @@ object NotificationFactory {
         }
 
         /**
-         * Model for [BindDelegator.notifyNotes]
+         * Model for [BindDelegatorImpl.notifyNotes]
          *
          * Don't care about [NoteItem.Roll.list] if:
          * - If note type is [NoteType.TEXT]
          * - If type is [NoteType.ROLL] and [NoteItem.Roll.list] is completely load
-         * - If you need only call [BindDelegator.cancelNote]
+         * - If you need only call [BindDelegatorImpl.cancelNote]
          */
         operator fun get(context: Context, noteItem: NoteItem): Notification {
             val channelId = context.getString(R.string.notification_notes_channel_id)

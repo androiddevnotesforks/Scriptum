@@ -3,8 +3,8 @@ package sgtmelon.scriptum.infrastructure.factory
 import android.content.Context
 import android.media.AudioManager
 import androidx.lifecycle.Lifecycle
-import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegator
-import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegator
+import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
+import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IAlarmDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IBindDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
@@ -17,10 +17,10 @@ import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDeleg
 class DelegatorFactory(private val context: Context, private val lifecycle: Lifecycle?) {
 
     private var _bind: IBindDelegator? = null
-    val bind get() = _bind ?: BindDelegator(context).also { _bind = it }
+    val bind get() = _bind ?: BindDelegatorImpl(context).also { _bind = it }
 
     private var _alarm: IAlarmDelegator? = null
-    val alarm get() = _alarm ?: AlarmDelegator(context, toast).also { _alarm = it }
+    val alarm get() = _alarm ?: AlarmDelegatorImpl(context, toast).also { _alarm = it }
 
     private var _phoneAwake: PhoneAwakeDelegator? = null
     val phoneAwake get() = _phoneAwake ?: PhoneAwakeDelegator(context).also { _phoneAwake = it }

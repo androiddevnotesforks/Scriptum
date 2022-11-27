@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.control.system.callback
 
 import java.util.Calendar
-import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegator
+import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
 
 /**
- * Interface for communicate with [AlarmDelegator]
+ * Interface for communicate with [AlarmDelegatorImpl]
  */
 interface IAlarmDelegator {
 

@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.extension
 
-import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegator
+import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
 
 /**
  * Function for lazy property, call inside onCreate/onViewCreated.
  *
- * Value must contains context parameter in constructor. Like in [AlarmDelegator].
+ * Value must contains context parameter in constructor. Like in [AlarmDelegatorImpl].
  *
  * If lazy property not initialized and rotation happen it comes to troubles.
  * Value will be wrong.

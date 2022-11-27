@@ -17,7 +17,7 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * Class for help control [AlarmManager]
  */
-class AlarmDelegator(
+class AlarmDelegatorImpl(
     private val context: Context,
     private val toast: ToastDelegator
 ) : IAlarmDelegator {
@@ -55,7 +55,7 @@ class AlarmDelegator(
         @RunPrivate var instance: IAlarmDelegator? = null
 
         operator fun get(context: Context, toast: ToastDelegator): IAlarmDelegator {
-            return instance ?: AlarmDelegator(context, toast).also { instance = it }
+            return instance ?: AlarmDelegatorImpl(context, toast).also { instance = it }
         }
     }
 }
