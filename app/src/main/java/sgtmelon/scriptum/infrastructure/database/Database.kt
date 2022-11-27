@@ -15,6 +15,13 @@ import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.RollDao
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
+import sgtmelon.scriptum.infrastructure.database.migration.From1To2
+import sgtmelon.scriptum.infrastructure.database.migration.From2To3
+import sgtmelon.scriptum.infrastructure.database.migration.From3To4
+import sgtmelon.scriptum.infrastructure.database.migration.From4To5
+import sgtmelon.scriptum.infrastructure.database.migration.From5To6
+import sgtmelon.scriptum.infrastructure.database.migration.From6To7
+import sgtmelon.scriptum.infrastructure.database.migration.From7To8
 import androidx.room.Database as DatabaseInit
 
 /**
@@ -50,9 +57,14 @@ abstract class Database : RoomDatabase() {
          */
         const val VERSION = 8
 
+        private val migrations = arrayOf(
+            From1To2.value, From2To3.value, From3To4.value, From4To5.value,
+            From5To6.value, From6To7.value, From7To8.value
+        )
+
         operator fun get(context: Context): Database {
             return Room.databaseBuilder(context, Database::class.java, BuildConfig.DB_NAME)
-                .addMigrations(*DatabaseMigration.sequence)
+                .addMigrations(*migrations)
                 .build()
         }
     }
