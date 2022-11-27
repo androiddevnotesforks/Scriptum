@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.system
 
-interface ISystemLogic {
+interface SystemLogic {
 
     fun setup()
 
