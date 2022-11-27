@@ -20,13 +20,13 @@ import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
  */
 class MelodyPlayDelegator(
     private val context: Context,
-    lifecycle: Lifecycle,
+    lifecycle: Lifecycle?,
     private val streamType: Int
 ) : DefaultLifecycleObserver,
     AudioManager.OnAudioFocusChangeListener {
 
     init {
-        lifecycle.addObserver(this)
+        lifecycle?.addObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

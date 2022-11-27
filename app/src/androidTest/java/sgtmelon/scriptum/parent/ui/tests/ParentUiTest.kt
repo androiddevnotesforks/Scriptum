@@ -5,8 +5,8 @@ import androidx.test.core.app.launchActivity
 import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
+import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegator
+import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
@@ -137,8 +137,8 @@ abstract class ParentUiTest : ParentTest() {
         ScriptumApplication.skipAnimation = false
         AlarmActivity.isFinishOnStop = true
 
-        BindControl[context].clearRecent()
-        AlarmControl.instance?.clear()
+        BindDelegator[context].clearRecent()
+        AlarmDelegator.instance?.clear()
     }
 
     //endregion
