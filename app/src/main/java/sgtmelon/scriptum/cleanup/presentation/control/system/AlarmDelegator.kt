@@ -1,12 +1,11 @@
-package sgtmelon.scriptum.cleanup.presentation.control.system.callback
+package sgtmelon.scriptum.cleanup.presentation.control.system
 
 import java.util.Calendar
-import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
 
 /**
  * Interface for communicate with [AlarmDelegatorImpl]
  */
-interface IAlarmDelegator {
+interface AlarmDelegator {
 
     fun set(noteId: Long, calendar: Calendar, showToast: Boolean)
 

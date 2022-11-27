@@ -10,13 +10,12 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IBindDelegator
 import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
 /**
  * Class for help control [NoteItem] notification bind in statusBar
  */
-class BindDelegatorImpl(private val context: Context) : IBindDelegator {
+class BindDelegatorImpl(private val context: Context) : BindDelegator {
 
     private val manager: NotificationManager = context.getNotificationService()
 
@@ -137,9 +136,9 @@ class BindDelegatorImpl(private val context: Context) : IBindDelegator {
 
     companion object {
         /** Singleton needed for tests. */
-        private var instance: IBindDelegator? = null
+        private var instance: BindDelegator? = null
 
-        operator fun get(context: Context): IBindDelegator {
+        operator fun get(context: Context): BindDelegator {
             return instance ?: BindDelegatorImpl(context).also { instance = it }
         }
     }

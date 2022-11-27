@@ -9,7 +9,6 @@ import sgtmelon.extensions.formatFuture
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IAlarmDelegator
 import sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.test.prod.RunPrivate
@@ -20,7 +19,7 @@ import sgtmelon.test.prod.RunPrivate
 class AlarmDelegatorImpl(
     private val context: Context,
     private val toast: ToastDelegator
-) : IAlarmDelegator {
+) : AlarmDelegator {
 
     private val alarmManager: AlarmManager = context.getAlarmService()
 
@@ -52,9 +51,9 @@ class AlarmDelegatorImpl(
     companion object {
         @RunPrivate val intentList: MutableList<PendingIntent> = mutableListOf()
 
-        @RunPrivate var instance: IAlarmDelegator? = null
+        @RunPrivate var instance: AlarmDelegator? = null
 
-        operator fun get(context: Context, toast: ToastDelegator): IAlarmDelegator {
+        operator fun get(context: Context, toast: ToastDelegator): AlarmDelegator {
             return instance ?: AlarmDelegatorImpl(context, toast).also { instance = it }
         }
     }

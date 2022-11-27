@@ -1,12 +1,11 @@
-package sgtmelon.scriptum.cleanup.presentation.control.system.callback
+package sgtmelon.scriptum.cleanup.presentation.control.system
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
 
 /**
  * Interface for communicate with [BindDelegatorImpl].
  */
-interface IBindDelegator {
+interface BindDelegator {
 
     fun notifyNotes(itemList: List<NoteItem>)
 
