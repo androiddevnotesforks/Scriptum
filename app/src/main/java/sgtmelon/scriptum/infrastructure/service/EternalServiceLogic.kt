@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.logic
+package sgtmelon.scriptum.infrastructure.service
 
 interface EternalServiceLogic {
 

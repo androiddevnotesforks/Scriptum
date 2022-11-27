@@ -36,8 +36,8 @@ import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.RoomModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.StringModule
-import sgtmelon.scriptum.cleanup.presentation.screen.logic.EternalServiceLogicImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.infrastructure.service.EternalServiceLogicImpl
 
 /**
  * Parent component for application.

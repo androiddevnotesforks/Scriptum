@@ -10,8 +10,6 @@ import android.os.IBinder
 import java.util.Calendar
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
-import sgtmelon.scriptum.cleanup.presentation.screen.logic.EternalServiceLogic
-import sgtmelon.scriptum.cleanup.presentation.screen.logic.EternalServiceLogicImpl
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.receiver.service.ServiceReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator

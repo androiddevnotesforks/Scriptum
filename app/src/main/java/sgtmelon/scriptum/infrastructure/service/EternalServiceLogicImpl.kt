@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.logic
+package sgtmelon.scriptum.infrastructure.service
 
 import android.content.Context
 import android.content.IntentFilter
