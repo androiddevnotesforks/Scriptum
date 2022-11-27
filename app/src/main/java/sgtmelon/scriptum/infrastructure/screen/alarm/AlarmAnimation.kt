@@ -8,9 +8,10 @@ import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
+import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.utils.getAlphaAnimator
 import sgtmelon.scriptum.infrastructure.utils.getAlphaInterpolator
-import sgtmelon.test.idling.addIdlingListener
+import sgtmelon.test.idling.getIdling
 import sgtmelon.test.idling.getWaitIdling
 
 class AlarmAnimation {
@@ -22,12 +23,16 @@ class AlarmAnimation {
     ) {
         if (binding == null) return
 
+        getIdling().start(IdlingTag.Alarm.ANIM)
+
         val transition = AutoTransition()
             .setInterpolator(AccelerateInterpolator())
             .addTarget(binding.logoView)
-            .addIdlingListener()
             .addListener(object : TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition) = onEnd()
+                override fun onTransitionEnd(transition: Transition) {
+                    onEnd()
+                    getIdling().stop(IdlingTag.Alarm.ANIM)
+                }
             })
 
         TransitionManager.beginDelayedTransition(binding.parentContainer, transition)

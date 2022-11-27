@@ -57,7 +57,6 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
-import sgtmelon.test.idling.addIdlingListener
 import sgtmelon.test.idling.getIdling
 
 /**
@@ -321,7 +320,9 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     override fun onBindingLoad(isRankEmpty: Boolean) {
         parentContainer?.let {
             val time = resources.getInteger(R.integer.note_open_time)
-            val transition = Fade().setDuration(time.toLong()).addIdlingListener()
+            val transition = Fade().setDuration(time.toLong())
+            // TODO add idling
+            //                .addIdlingListener()
 
             TransitionManager.beginDelayedTransition(it, transition)
         }
