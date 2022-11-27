@@ -49,7 +49,7 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
         binding.apply {
             themeButton?.setOnClickListener { showThemeDialog(viewModel.theme) }
             backupButton?.setOnClickListener { it.openScreen(PreferenceScreen.BACKUP) }
-            noteButton?.setOnClickListener { it.openScreen(PreferenceScreen.NOTE) }
+            noteButton?.setOnClickListener { it.openScreen(PreferenceScreen.NOTES) }
             alarmButton?.setOnClickListener { it.openScreen(PreferenceScreen.ALARM) }
 
             binding.policyButton?.setOnClickListener {

@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.test.parent.situation
 
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
-import sgtmelon.scriptum.cleanup.ui.dialog.time.TimeDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.time.TimeDialogUi
 
 /**
  * Interface describes [DateDialogUi] and [TimeDialogUi] tests.

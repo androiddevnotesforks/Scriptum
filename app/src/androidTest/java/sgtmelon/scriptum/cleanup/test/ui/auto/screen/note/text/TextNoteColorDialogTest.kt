@@ -22,8 +22,8 @@ class TextNoteColorDialogTest : ParentUiTest(), ColorCase {
                 openAddDialog {
                     createText(it) {
                         controlPanel { onColor { softClose() } }.assert()
-                        controlPanel { onColor { onClickCancel() } }.assert()
-                        controlPanel { onColor { onClickAll().onClickItem().onClickApply() } }
+                        controlPanel { onColor { cancel() } }.assert()
+                        controlPanel { onColor { selectAll().select().apply() } }
                     }
                 }
             }
@@ -39,7 +39,7 @@ class TextNoteColorDialogTest : ParentUiTest(), ColorCase {
 
         launchSplash {
             mainScreen {
-                openAddDialog { createText(it) { controlPanel { onColor { onAssertAll() } } } }
+                openAddDialog { createText(it) { controlPanel { onColor { assertAll() } } } }
             }
         }
     }
@@ -75,7 +75,7 @@ class TextNoteColorDialogTest : ParentUiTest(), ColorCase {
         val item = db.createText()
         launchSplash {
             mainScreen {
-                openAddDialog { createText(item) { controlPanel { onColor { onAssertItem() } } } }
+                openAddDialog { createText(item) { controlPanel { onColor { assertItem() } } } }
             }
         }
     }

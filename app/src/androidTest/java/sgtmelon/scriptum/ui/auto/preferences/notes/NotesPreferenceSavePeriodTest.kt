@@ -1,27 +1,27 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.notes
+package sgtmelon.scriptum.ui.auto.preferences.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SavePeriodDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchNotesPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.SavePeriodCase
+import sgtmelon.test.common.getDifferentValues
 
 /**
  * Test for [NotesPreferenceFragment] and [SavePeriodDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
 class NotesPreferenceSavePeriodTest : ParentUiTest(),
-    INotesPreferenceTest,
     DialogCloseCase,
     SavePeriodCase {
 
-    @Test override fun close() = runTest({ preferences.isAutoSaveOn = true }) {
+    @Test override fun close() = launchNotesPreference({ preferences.isAutoSaveOn = true }) {
         openSavePeriodDialog { cancel() }
         assert()
         openSavePeriodDialog { softClose() }
@@ -35,34 +35,17 @@ class NotesPreferenceSavePeriodTest : ParentUiTest(),
     @Test override fun savePeriodMin7() = super.savePeriodMin7()
 
     override fun startText(value: SavePeriod) {
-        val initValue = switchValue(value)
+        val (setValue, initValue) = SavePeriod.values().getDifferentValues(value)
+        preferencesRepo.savePeriod = initValue
 
-        assertNotEquals(initValue, value)
-
-        runTest({ preferences.isAutoSaveOn = true }) {
+        launchNotesPreference({ preferences.isAutoSaveOn = true }) {
             openSavePeriodDialog {
-                click(value)
+                click(setValue)
                 apply()
             }
             assert()
         }
 
-        assertEquals(value, preferencesRepo.savePeriod)
-    }
-
-    /**
-     * Switch [SavePeriod] to another one. Setup savePeriod for application which not
-     * equals [value].
-     */
-    private fun switchValue(value: SavePeriod): SavePeriod {
-        val list = SavePeriod.values()
-        var initValue: SavePeriod
-
-        do {
-            initValue = list.random()
-            preferencesRepo.savePeriod = initValue
-        } while (initValue == value)
-
-        return initValue
+        assertEquals(setValue, preferencesRepo.savePeriod)
     }
 }

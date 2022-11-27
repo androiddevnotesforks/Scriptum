@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.notes
+package sgtmelon.scriptum.ui.auto.preferences.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
@@ -10,16 +10,21 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMenuPreference
+import sgtmelon.scriptum.parent.ui.tests.launchNotesPreference
 
 /**
  * Test for [NotesPreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesPreferenceTest : ParentUiTest(), INotesPreferenceTest {
+class NotesPreferenceTest : ParentUiTest() {
 
-    @Test fun close() = runTest { clickClose() }
+    @Test fun close() = launchMenuPreference {
+        openNotes { clickClose() }
+        assert()
+    }
 
-    @Test fun assertAll() = runTest({
+    @Test fun assertAll() = launchNotesPreference({
         preferencesRepo.sort = Sort.values().random()
         preferencesRepo.defaultColor = Color.values().random()
         preferences.isPauseSaveOn = Random.nextBoolean()
@@ -32,7 +37,7 @@ class NotesPreferenceTest : ParentUiTest(), INotesPreferenceTest {
     @Test fun pauseSaveWork() {
         val value = Random.nextBoolean()
 
-        runTest({ preferences.isPauseSaveOn = value }) { onPauseSaveClick() }
+        launchNotesPreference({ preferences.isPauseSaveOn = value }) { switchPauseSave() }
 
         assertEquals(!value, preferences.isPauseSaveOn)
     }
@@ -40,7 +45,7 @@ class NotesPreferenceTest : ParentUiTest(), INotesPreferenceTest {
     @Test fun autoSaveWork() {
         val value = Random.nextBoolean()
 
-        runTest({ preferences.isAutoSaveOn = value }) { onAutoSaveClick() }
+        launchNotesPreference({ preferences.isAutoSaveOn = value }) { switchAutoSave() }
 
         assertEquals(!value, preferences.isAutoSaveOn)
     }

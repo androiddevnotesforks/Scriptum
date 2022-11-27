@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
+import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
 import sgtmelon.scriptum.parent.ui.tests.launchNotesItem
 import sgtmelon.scriptum.ui.cases.dialog.DateTimeDialogCase
 

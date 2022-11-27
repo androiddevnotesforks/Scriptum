@@ -1,27 +1,27 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.notes
+package sgtmelon.scriptum.ui.auto.preferences.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SortDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchNotesPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.SortCase
+import sgtmelon.test.common.getDifferentValues
 
 /**
  * Test for [NotesPreferenceFragment] and [SortDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
 class NotesPreferenceSortTest : ParentUiTest(),
-    INotesPreferenceTest,
     DialogCloseCase,
     SortCase {
 
-    @Test override fun close() = runTest {
+    @Test override fun close() = launchNotesPreference {
         openSortDialog { cancel() }
         assert()
         openSortDialog { softClose() }
@@ -37,35 +37,19 @@ class NotesPreferenceSortTest : ParentUiTest(),
     @Test override fun sortColor() = super.sortColor()
 
     override fun startTest(value: Sort) {
-        val initValue = switchValue(value)
+        val (setValue, initValue) = Sort.values().getDifferentValues(value)
+        preferencesRepo.sort = initValue
 
-        assertNotEquals(initValue, value)
-
-        runTest {
+        launchNotesPreference {
             openSortDialog {
-                click(value)
+                click(setValue)
                 click(initValue)
-                click(value)
+                click(setValue)
                 apply()
             }
             assert()
         }
 
-        assertEquals(value, preferencesRepo.sort)
-    }
-
-    /**
-     * Switch [Sort] to another one. Setup sort for application which not equals [value].
-     */
-    private fun switchValue(value: Sort): Sort {
-        val list = Sort.values()
-        var initValue: Sort
-
-        do {
-            initValue = list.random()
-            preferencesRepo.sort = initValue
-        } while (initValue == value)
-
-        return initValue
+        assertEquals(setValue, preferencesRepo.sort)
     }
 }

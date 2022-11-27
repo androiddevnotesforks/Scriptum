@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.screen.dialogs
+package sgtmelon.scriptum.parent.ui.screen.dialogs.preference
 
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R

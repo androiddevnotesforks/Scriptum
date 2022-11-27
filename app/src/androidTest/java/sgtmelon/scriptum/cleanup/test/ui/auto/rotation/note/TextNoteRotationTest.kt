@@ -177,7 +177,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                     createText(it) {
                         controlPanel {
                             onColor {
-                                onClickItem()
+                                select()
                                 rotate.toSide()
                                 assert()
                             }

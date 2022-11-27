@@ -7,9 +7,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.dialogs.preference.VolumeDialogUi
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.parent.ui.tests.launchAlarmPreference

@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.time
+package sgtmelon.scriptum.parent.ui.screen.dialogs.time
 
 import java.util.Calendar
 
 /**
- * Interface for work results of [DateDialogUi] and [TimeDialogUi].
+ * Interface for catch results of [DateDialogUi] and [TimeDialogUi].
  */
 interface DateTimeCallback {
 

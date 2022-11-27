@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.parent.ui.screen.preference.alarm
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
+import sgtmelon.scriptum.parent.ui.screen.dialogs.preference.VolumeDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.MelodyDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.RepeatDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SignalDialogUi

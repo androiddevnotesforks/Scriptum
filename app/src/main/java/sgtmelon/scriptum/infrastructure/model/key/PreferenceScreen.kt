@@ -5,7 +5,7 @@ package sgtmelon.scriptum.infrastructure.model.key
  */
 enum class PreferenceScreen {
     MENU,
-    BACKUP, NOTE, ALARM,
+    BACKUP, NOTES, ALARM,
     HELP,
     DEVELOP, SERVICE
 }

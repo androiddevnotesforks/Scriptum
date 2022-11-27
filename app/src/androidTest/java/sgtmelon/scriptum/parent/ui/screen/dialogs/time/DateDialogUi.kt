@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.dialog.time
+package sgtmelon.scriptum.parent.ui.screen.dialogs.time
 
 import java.util.Calendar
 import sgtmelon.extensions.getClearCalendar

@@ -175,7 +175,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                     createRoll(it) {
                         controlPanel {
                             onColor {
-                                onClickItem()
+                                select()
                                 rotate.toSide()
                                 assert()
                             }

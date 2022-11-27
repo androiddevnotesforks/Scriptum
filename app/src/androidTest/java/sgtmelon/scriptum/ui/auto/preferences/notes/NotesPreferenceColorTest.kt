@@ -1,30 +1,30 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.notes
+package sgtmelon.scriptum.ui.auto.preferences.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchNotesPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.ColorCase
+import sgtmelon.test.common.getDifferentValues
 
 /**
  * Test of [PreferencesImpl.defaultColor] setup for [MenuPreferenceFragment]
  */
 @RunWith(AndroidJUnit4::class)
 class NotesPreferenceColorTest : ParentUiTest(),
-    INotesPreferenceTest,
     DialogCloseCase,
     ColorCase {
 
-    @Test override fun close() = runTest {
+    @Test override fun close() = launchNotesPreference {
         val color = preferencesRepo.defaultColor
 
-        openColorDialog(color) { onClickCancel() }
+        openColorDialog(color) { cancel() }
         assert()
         openColorDialog(color) { softClose() }
         assert()
@@ -53,30 +53,14 @@ class NotesPreferenceColorTest : ParentUiTest(),
     @Test override fun colorWhite() = super.colorWhite()
 
     override fun startTest(value: Color) {
-        val initValue = switchValue(value)
+        val (setValue, initValue) = Color.values().getDifferentValues(value)
+        preferencesRepo.defaultColor = initValue
 
-        assertNotEquals(initValue, value)
-
-        runTest {
-            openColorDialog(initValue) { onAssertItem().onClickItem(value).onClickApply() }
+        launchNotesPreference {
+            openColorDialog(initValue) { assertItem().select(setValue).apply() }
             assert()
         }
 
-        assertEquals(value, preferencesRepo.defaultColor)
-    }
-
-    /**
-     * Switch [Color] to another one. Setup defaultColor for application which not equals [value].
-     */
-    private fun switchValue(value: Color): Color {
-        val list = Color.values()
-        var initValue: Color
-
-        do {
-            initValue = list.random()
-            preferencesRepo.defaultColor = initValue
-        } while (initValue == value)
-
-        return initValue
+        assertEquals(setValue, preferencesRepo.defaultColor)
     }
 }

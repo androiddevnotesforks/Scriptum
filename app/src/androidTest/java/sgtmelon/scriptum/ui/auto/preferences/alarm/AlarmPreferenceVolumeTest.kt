@@ -6,8 +6,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.parent.ui.screen.dialogs.preference.VolumeDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchAlarmPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
@@ -30,7 +30,7 @@ class AlarmPreferenceVolumeTest : ParentUiTest(),
     @Test override fun close() = launchAlarmPreference {
         openVolumeDialog { softClose() }
         assert()
-        openVolumeDialog { onClickCancel() }
+        openVolumeDialog { cancel() }
         assert()
     }
 

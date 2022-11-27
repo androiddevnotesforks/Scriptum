@@ -1,15 +1,15 @@
-package sgtmelon.scriptum.cleanup.ui.dialog
+package sgtmelon.scriptum.parent.ui.screen.dialogs
 
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.getCount
@@ -27,7 +27,7 @@ class ColorDialogUi(
     place: Place,
     private var color: Color,
     private val callback: Callback
-) : ParentRecyclerScreen(R.id.color_recycler_view), DialogUi {
+) : UiPart(), DialogUi {
 
     //region Views
 
@@ -38,6 +38,7 @@ class ColorDialogUi(
         }
     )
 
+    private val recyclerView = getView(R.id.color_recycler_view)
     private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
     private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
@@ -47,7 +48,7 @@ class ColorDialogUi(
 
     private var initColor: Color = color
 
-    fun onClickItem(setColor: Color = Color.values().random()) = apply {
+    fun select(setColor: Color = Color.values().random()) = apply {
         val newColor = getNewColor(setColor)
         color = newColor
 
@@ -56,14 +57,21 @@ class ColorDialogUi(
         assert()
     }
 
-    fun onClickAll() = apply {
-        val values = Color.values()
-        for (i in 0 until recyclerView.getCount()) onClickItem(values[i])
+    /**
+     * Return position different from [color] and [initColor]
+     */
+    private fun getNewColor(color: Color = Color.values().random()): Color {
+        return if (color == this.color || color == initColor) getNewColor() else color
     }
 
-    fun onClickCancel() = waitClose { cancelButton.click() }
+    fun selectAll() = apply {
+        val values = Color.values()
+        for (i in 0 until recyclerView.getCount()) select(values[i])
+    }
 
-    fun onClickApply() = waitClose {
+    fun cancel() = waitClose { cancelButton.click() }
+
+    fun apply() = waitClose {
         if (color == initColor) throw IllegalAccessException("Apply button not enabled")
 
         applyButton.click()
@@ -71,20 +79,20 @@ class ColorDialogUi(
     }
 
 
-    fun onAssertItem(check: Color = color) = apply {
+    fun assertItem(check: Color = color) = apply {
         getItem(check.ordinal).assert(ColorItem(check, isCheck = check == color))
     }
 
-    fun onAssertAll() {
+    fun assertAll() {
         val count = recyclerView.getCount()
-        
+
         for (p1 in 0 until count) {
             for (p2 in 0 until count) {
-                onAssertItem(Color.values()[p2])
+                assertItem(Color.values()[p2])
             }
 
             val p1Color = Color.values()[p1]
-            onClickItem(p1Color).onAssertItem(p1Color)
+            select(p1Color).assertItem(p1Color)
         }
     }
 
@@ -96,13 +104,6 @@ class ColorDialogUi(
         applyButton.isDisplayed().isEnabled(value = color != initColor) {
             withTextColor(R.attr.clAccent)
         }
-    }
-
-    /**
-     * Return position different from [color] and [initColor]
-     */
-    private fun getNewColor(color: Color = Color.values().random()): Color {
-        return if (color == this.color || color == initColor) getNewColor() else color
     }
 
     /**
@@ -128,7 +129,6 @@ class ColorDialogUi(
             val colorId = ColorData.getColorItem(theme, item.color).content
             checkImage.isDisplayed(item.isCheck).withDrawableColor(R.drawable.ic_check, colorId)
 
-            // TODO record exception in real code
             val colorName = context.resources.getStringArray(R.array.pref_color)[item.color.ordinal]
             val description = context.getString(R.string.description_item_color, colorName)
             clickView.isDisplayed()
@@ -159,7 +159,9 @@ class ColorDialogUi(
             color: Color,
             callback: Callback
         ): ColorDialogUi {
-            return ColorDialogUi(place, color, callback).apply { waitOpen { assert() } }.apply(func)
+            return ColorDialogUi(place, color, callback)
+                .apply { waitOpen { assert() } }
+                .apply(func)
         }
     }
 }

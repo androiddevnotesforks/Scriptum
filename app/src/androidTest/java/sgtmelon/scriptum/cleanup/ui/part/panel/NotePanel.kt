@@ -9,11 +9,8 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
-import sgtmelon.scriptum.cleanup.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.RankDialogUi
-import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
-import sgtmelon.scriptum.cleanup.ui.dialog.time.DateTimeCallback
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteAfterConvert
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
@@ -21,6 +18,9 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.screen.dialogs.ColorDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateTimeCallback
 import sgtmelon.scriptum.parent.ui.screen.main.BinScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed

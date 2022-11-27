@@ -64,7 +64,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
         binding?.parentContainer?.tag = when (screen) {
             PreferenceScreen.MENU -> TestViewTag.PREF_MENU
             PreferenceScreen.BACKUP -> TestViewTag.PREF_BACKUP
-            PreferenceScreen.NOTE -> TestViewTag.PREF_NOTE
+            PreferenceScreen.NOTES -> TestViewTag.PREF_NOTE
             PreferenceScreen.ALARM -> TestViewTag.PREF_ALARM
             else -> ""
         }
@@ -72,7 +72,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
         val titleId = when (screen) {
             PreferenceScreen.MENU -> R.string.title_preference
             PreferenceScreen.BACKUP -> R.string.pref_title_backup
-            PreferenceScreen.NOTE -> R.string.pref_title_note
+            PreferenceScreen.NOTES -> R.string.pref_title_note
             PreferenceScreen.ALARM -> R.string.pref_title_alarm
             PreferenceScreen.HELP -> R.string.pref_title_help
             PreferenceScreen.DEVELOP -> R.string.pref_title_developer

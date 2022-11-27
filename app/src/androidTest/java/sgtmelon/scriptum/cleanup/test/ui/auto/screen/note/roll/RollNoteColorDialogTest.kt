@@ -22,8 +22,8 @@ class RollNoteColorDialogTest : ParentUiTest(), ColorCase {
                 openAddDialog {
                     createRoll(it) {
                         controlPanel { onColor { softClose() } }.assert()
-                        controlPanel { onColor { onClickCancel() } }.assert()
-                        controlPanel { onColor { onClickAll().onClickItem().onClickApply() } }
+                        controlPanel { onColor { cancel() } }.assert()
+                        controlPanel { onColor { selectAll().select().apply() } }
                     }
                 }
             }
@@ -39,7 +39,7 @@ class RollNoteColorDialogTest : ParentUiTest(), ColorCase {
 
         launchSplash {
             mainScreen {
-                openAddDialog { createRoll(it) { controlPanel { onColor { onAssertAll() } } } }
+                openAddDialog { createRoll(it) { controlPanel { onColor { assertAll() } } } }
             }
         }
     }
@@ -75,7 +75,7 @@ class RollNoteColorDialogTest : ParentUiTest(), ColorCase {
         val item = db.createRoll()
         launchSplash {
             mainScreen {
-                openAddDialog { createRoll(item) { controlPanel { onColor { onAssertItem() } } } }
+                openAddDialog { createRoll(item) { controlPanel { onColor { assertItem() } } } }
             }
         }
     }

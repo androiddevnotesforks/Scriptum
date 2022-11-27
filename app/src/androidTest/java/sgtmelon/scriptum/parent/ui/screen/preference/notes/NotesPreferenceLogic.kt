@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.cleanup.ui.logic.preference
+package sgtmelon.scriptum.parent.ui.screen.preference.notes
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.screen.preference.NotesPreferenceScreen
 import sgtmelon.scriptum.parent.ui.model.PreferenceItem
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferenceLogic
 
@@ -38,5 +37,13 @@ class NotesPreferenceLogic : PreferenceLogic() {
                 preferencesRepo.saveState.isAutoSaveOn
             )
         )
+    }
+
+    /**
+     * Needed for describe order of items.
+     */
+    enum class Part {
+        COMMON_HEADER, SORT_ITEM, COLOR_ITEM,
+        SAVE_HEADER, ON_PAUSE_ITEM, ON_AUTO_ItEM, SAVE_PERIOD_ITEM
     }
 }

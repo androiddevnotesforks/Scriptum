@@ -6,11 +6,11 @@ import sgtmelon.safedialog.dialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.dialog.time.DateDialogUi
-import sgtmelon.scriptum.cleanup.ui.dialog.time.DateTimeCallback
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.scriptum.parent.ui.parts.UiPart
+import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateTimeCallback
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled

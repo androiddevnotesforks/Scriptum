@@ -16,6 +16,7 @@ import sgtmelon.scriptum.parent.ui.screen.main.RankScreen
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
 import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.notes.NotesPreferenceScreen
 
 inline fun ParentUiTest.launchMain(
     before: () -> Unit = {},
@@ -115,6 +116,16 @@ inline fun ParentUiTest.launchMenuPreference(
     MenuPreferenceScreen(after)
 }
 
+inline fun ParentUiTest.launchNotesPreference(
+    before: () -> Unit = {},
+    after: NotesPreferenceScreen.() -> Unit
+) {
+    before()
+    val intent = InstanceFactory.Preference[context, PreferenceScreen.NOTES]
+    launchActivity<PreferenceActivity>(intent)
+    NotesPreferenceScreen(after)
+}
+
 inline fun ParentUiTest.launchAlarmPreference(
     before: () -> Unit = {},
     after: AlarmPreferenceScreen.() -> Unit
@@ -158,7 +169,6 @@ inline fun <T : NoteItem> ParentUiTest.launchNotificationsItem(
 //endregion
 
 //region Alarm functions
-
 
 inline fun <T : NoteItem> ParentUiTest.launchAlarm(
     item: T,
