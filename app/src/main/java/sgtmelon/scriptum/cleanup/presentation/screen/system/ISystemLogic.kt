@@ -1,14 +1,9 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.system
 
-import android.content.Context
-
-/**
- * Interface for [SystemLogic].
- */
 interface ISystemLogic : ISystemBridge {
 
-    fun onCreate(context: Context)
+    fun setup()
 
-    fun onDestroy(context: Context)
+    fun release()
 
 }

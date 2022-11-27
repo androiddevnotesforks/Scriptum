@@ -12,9 +12,9 @@ import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 
 /**
- * Class with logic for alarm/notification setup/cancel.
+ * Logic class for working with alarm's and notifications.
  */
-class SystemLogic : ISystemLogic {
+class SystemLogic(private val context: Context) : ISystemLogic {
 
     private var _delegators: DelegatorFactory? = null
     private val delegators get() = _delegators
@@ -25,7 +25,7 @@ class SystemLogic : ISystemLogic {
 
     private val receiver by lazy { SystemReceiver[presenter] }
 
-    override fun onCreate(context: Context) {
+    override fun setup() {
         _delegators = DelegatorFactory(context, lifecycle = null)
 
         ScriptumApplication.component.getSystemBuilder().set(logic = this).build()
@@ -36,7 +36,7 @@ class SystemLogic : ISystemLogic {
         presenter.onSetup()
     }
 
-    override fun onDestroy(context: Context) {
+    override fun release() {
         presenter.onDestroy()
         context.unregisterReceiver(receiver)
         delegators?.toast?.cancel()

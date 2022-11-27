@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 /**
  * Interface for communication [ISystemInteractor] with [EternalService]
  */
+@Deprecated("Don't do that")
 interface ISystemBridge {
 
     //region Bind functions

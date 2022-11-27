@@ -10,7 +10,6 @@ import android.os.IBinder
 import java.util.Calendar
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
@@ -24,13 +23,9 @@ import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Fac
 class EternalService : Service(),
     ServiceReceiver.Callback {
 
-    private val systemLogic: ISystemLogic = SystemLogic()
-
-    private val receiver by lazy { ServiceReceiver[this] }
-
-    private val broadcast by lazy { BroadcastDelegator(context = this) }
-
-    //region System
+    private val logic: ISystemLogic = SystemLogic(context = this)
+    private val receiver = ServiceReceiver[this]
+    private val broadcast = BroadcastDelegator(context = this)
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -47,10 +42,8 @@ class EternalService : Service(),
         Factory.Service.createChannel(context = this)
         startForeground(Factory.Service.ID, Factory.Service[this])
 
-        systemLogic.onCreate(context = this)
+        logic.setup()
         registerReceiver(receiver, IntentFilter(ReceiverData.Filter.ETERNAL))
-
-        broadcast.initLazy()
     }
 
     override fun onDestroy() {
@@ -59,7 +52,7 @@ class EternalService : Service(),
 
         super.onDestroy()
 
-        systemLogic.onDestroy(context = this)
+        logic.release()
         unregisterReceiver(receiver)
     }
 
@@ -81,8 +74,6 @@ class EternalService : Service(),
         val service = applicationContext.getAlarmService()
         service.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
-
-    //endregion
 
     override fun killService() = stopSelf()
 
