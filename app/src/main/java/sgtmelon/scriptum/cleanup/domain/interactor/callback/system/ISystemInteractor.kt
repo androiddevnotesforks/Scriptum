@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPre
 /**
  * Interface for communication [ISystemPresenter] with [SystemInteractor]
  */
+@Deprecated("Use use case")
 interface ISystemInteractor : IParentInteractor {
 
     suspend fun tidyUpAlarm()

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.useCase.system
+package sgtmelon.scriptum.domain.useCase.bind
 
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem

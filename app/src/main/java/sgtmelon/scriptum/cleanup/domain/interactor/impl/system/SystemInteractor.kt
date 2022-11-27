@@ -27,6 +27,7 @@ class SystemInteractor(
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
+    @Deprecated("Use use case")
     override suspend fun tidyUpAlarm() {
         for (it in alarmRepo.getList()) {
             val id = it.note.id
