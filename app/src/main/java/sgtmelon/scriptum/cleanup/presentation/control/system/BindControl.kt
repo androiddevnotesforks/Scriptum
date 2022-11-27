@@ -37,11 +37,9 @@ class BindControl(private val context: Context) : IBindControl {
     private val tagIdMap: MutableMap<String, Int> = mutableMapOf()
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Factory.Count.createChannel(context)
-            Factory.Notes.createChannel(context)
-            Factory.deleteOldChannels(context)
-        }
+        Factory.Count.createChannel(context)
+        Factory.Notes.createChannel(context)
+        Factory.deleteOldChannels(context)
     }
 
     override fun notifyNotes(itemList: List<NoteItem>) {

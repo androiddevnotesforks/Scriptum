@@ -27,15 +27,12 @@ class MelodyPlayParams(
         }
     }
 
-    val focusRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val focusRequest: AudioFocusRequest =
         AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
             .setAudioAttributes(attributes)
             .setAcceptsDelayedFocusGain(true)
             .setOnAudioFocusChangeListener(listener)
             .build()
-    } else {
-        null
-    }
 
     /** This value needed for save initial volume level. */
     val initialVolume = audioManager.getStreamVolume(streamType)

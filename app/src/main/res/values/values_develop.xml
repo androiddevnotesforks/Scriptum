@@ -6,7 +6,6 @@
     <string name="toast_dev_unlock" translatable="false">Hello! You become a developer!</string>
     <string name="toast_dev_already" translatable="false">There is nothing to catch anymore :)</string>
     <string name="toast_dev_clear" translatable="false">Success preference data clear!</string>
-    <string name="toast_dev_low_api" translatable="false">You have low Android API!</string>
     <string name="toast_dev_service_run" translatable="false">Service is response!</string>
     <string name="toast_dev_service_fail" translatable="false">Service not response!</string>
 

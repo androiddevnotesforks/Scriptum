@@ -4,8 +4,6 @@ import android.content.Context
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Build.VERSION
-import android.os.Build.VERSION_CODES
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -93,18 +91,8 @@ class MelodyPlayDelegator(
     fun start(isIncrease: Boolean = false) = apply {
         val mediaPlayer = mediaPlayer ?: return@apply
 
-        if (VERSION.SDK_INT >= VERSION_CODES.O) {
-            val focusRequest = params.focusRequest
-            if (focusRequest != null) {
-                audioManager.requestAudioFocus(focusRequest)
-            }
-        } else {
-            val durationHint = AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
-            audioManager.requestAudioFocus(this, streamType, durationHint)
-        }
-
+        audioManager.requestAudioFocus(params.focusRequest)
         mediaPlayer.start()
-
         if (isIncrease) {
             startVolumeIncrease()
         }
@@ -125,15 +113,7 @@ class MelodyPlayDelegator(
 
         if (!mediaPlayer.isPlaying) return@apply
 
-        if (VERSION.SDK_INT >= VERSION_CODES.O) {
-            val focusRequest = params.focusRequest
-            if (focusRequest != null) {
-                audioManager.abandonAudioFocusRequest(focusRequest)
-            }
-        } else {
-            audioManager.abandonAudioFocus(this)
-        }
-
+        audioManager.abandonAudioFocusRequest(params.focusRequest)
         mediaPlayer.stop()
         increaseDelayJob.cancel()
     }

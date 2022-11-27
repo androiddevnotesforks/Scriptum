@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.system.delegators
 
 import android.content.Context
-import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import sgtmelon.extensions.getVibratorService
@@ -31,13 +30,8 @@ class VibratorDelegator(context: Context) {
 
         isVibrate = true
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val vibe = VibrationEffect.createWaveform(pattern, VibrationEffect.DEFAULT_AMPLITUDE)
-            manager.vibrate(vibe)
-        } else {
-            @Suppress("DEPRECATION")
-            manager.vibrate(pattern, -1)
-        }
+        val vibe = VibrationEffect.createWaveform(pattern, VibrationEffect.DEFAULT_AMPLITUDE)
+        manager.vibrate(vibe)
     }
 
     fun cancel() {

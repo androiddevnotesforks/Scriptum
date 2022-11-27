@@ -2,7 +2,6 @@ package sgtmelon.scriptum.develop.screen.service
 
 import android.content.Context
 import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import javax.inject.Inject
@@ -78,12 +77,8 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     }
 
     private fun startService(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            EternalService.start(context)
-            viewModel.startPing()
-        } else {
-            delegators.toast.show(context, R.string.toast_dev_low_api)
-        }
+        EternalService.start(context)
+        viewModel.startPing()
     }
 
     private fun observePingState(state: ServicePingState) {

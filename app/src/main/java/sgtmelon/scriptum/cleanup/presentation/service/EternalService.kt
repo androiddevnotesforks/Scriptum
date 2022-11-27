@@ -6,9 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
 import android.os.IBinder
-import androidx.annotation.RequiresApi
 import java.util.Calendar
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
@@ -45,12 +43,8 @@ class EternalService : Service(),
     override fun onCreate() {
         super.onCreate()
 
-        /**
-         * Attach this service to notification, which provide long life for them.
-         */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Factory.Service.createChannel(context = this)
-        }
+        /** Attach this service to notification, which provide long life for them. */
+        Factory.Service.createChannel(context = this)
         startForeground(Factory.Service.ID, Factory.Service[this])
 
         systemLogic.onCreate(context = this)
@@ -82,11 +76,9 @@ class EternalService : Service(),
             this, Factory.Service.REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT
         )
 
-        /**
-         * Fire next [EternalService] after 5 seconds.
-         */
+        /** Fire next [EternalService] after 5 seconds. */
         val calendar = getCalendar()
-        calendar.add(Calendar.SECOND, 5)
+        calendar.add(Calendar.SECOND, RESTART_TIME)
 
         val service = applicationContext.getAlarmService()
         service.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
@@ -99,14 +91,11 @@ class EternalService : Service(),
     override fun sendEternalPongBroadcast() = broadcast.sendEternalPong()
 
     companion object {
-        /**
-         * Start this foreground service only on API which has channel notifications (for
-         * ability to disable it in settings). It means: API >= Oreo (26).
-         */
-        @RequiresApi(Build.VERSION_CODES.O)
+
+        private const val RESTART_TIME = 5
+
         fun start(context: Context) {
-            val intent = Intent(context, EternalService::class.java)
-            context.startForegroundService(intent)
+            context.startForegroundService(Intent(context, EternalService::class.java))
         }
     }
 }

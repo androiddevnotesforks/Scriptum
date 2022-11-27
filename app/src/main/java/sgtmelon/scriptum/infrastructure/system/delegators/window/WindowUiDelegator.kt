@@ -92,12 +92,8 @@ class WindowUiDelegator(
         /** This selection related with ability to change buttons inside navigation bar. */
         val colorAttr = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> R.attr.colorPrimary
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> when (theme) {
-                ThemeDisplayed.LIGHT -> R.attr.clContentSecond
-                ThemeDisplayed.DARK -> R.attr.colorPrimary
-            }
             else -> when (theme) {
-                ThemeDisplayed.LIGHT -> R.attr.colorPrimaryDark
+                ThemeDisplayed.LIGHT -> R.attr.clContentSecond
                 ThemeDisplayed.DARK -> R.attr.colorPrimary
             }
         }
@@ -141,9 +137,8 @@ class WindowUiDelegator(
     }
 
     private fun changeStatusControl(onLight: Boolean) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
-
         val uiVisibility = window.decorView.systemUiVisibility
+
         window.decorView.systemUiVisibility = if (onLight) {
             uiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         } else {
@@ -152,9 +147,8 @@ class WindowUiDelegator(
     }
 
     private fun changeNavigationControl(onLight: Boolean) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-
         val uiVisibility = window.decorView.systemUiVisibility
+
         window.decorView.systemUiVisibility = if (onLight) {
             uiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         } else {
