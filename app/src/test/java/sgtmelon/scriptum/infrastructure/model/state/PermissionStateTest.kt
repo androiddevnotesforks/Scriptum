@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
-import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider.Version
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -24,12 +22,8 @@ class PermissionStateTest : ParentTest() {
     private val state by lazy { PermissionState(permission) }
 
     @Test fun getResult() {
-        mockkObject(Version)
+        assertNull(state.getResult(activity = null))
 
-        every { Version.isMarshmallowLess() } returns true
-        assertEquals(state.getResult(activity), PermissionResult.LOW_API)
-
-        every { Version.isMarshmallowLess() } returns false
         every { activity.checkSelfPermission(permission) } returns PackageManager.PERMISSION_GRANTED
         assertEquals(state.getResult(activity), PermissionResult.GRANTED)
 

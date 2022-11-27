@@ -34,11 +34,7 @@ class BackupPreferenceViewModelImpl(
     override val importEnabled: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-        val isAllowed = initPermissionResult.let {
-            it == PermissionResult.LOW_API || it == PermissionResult.GRANTED
-        }
-
-        if (isAllowed) {
+        if (initPermissionResult == PermissionResult.GRANTED) {
             viewModelScope.launchBack { updateBackupFiles() }
         } else {
             exportEnabled.postValue(true)

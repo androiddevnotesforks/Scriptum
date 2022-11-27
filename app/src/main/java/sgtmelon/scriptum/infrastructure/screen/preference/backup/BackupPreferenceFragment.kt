@@ -137,8 +137,8 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     /**
-     * Start export only if [result] equals [PermissionResult.LOW_API] or
-     * [PermissionResult.GRANTED]. Otherwise we must show dialog.
+     * Start export only if [result] equals [PermissionResult.GRANTED], otherwise we must
+     * show dialog.
      */
     private fun onExportPermission(result: PermissionResult?) {
         if (result == null) return
@@ -146,7 +146,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         when (result) {
             PermissionResult.ASK -> showExportPermissionDialog()
             PermissionResult.FORBIDDEN -> showExportDenyDialog()
-            PermissionResult.LOW_API, PermissionResult.GRANTED -> onExportPermissionGranted()
+            PermissionResult.GRANTED -> onExportPermissionGranted()
         }
     }
 
@@ -167,8 +167,8 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     /**
-     * Start import only if [result] equals [PermissionResult.LOW_API] or
-     * [PermissionResult.GRANTED]. Otherwise we must show dialog.
+     * Start import only if [result] equals [PermissionResult.GRANTED], otherwise we must
+     * show dialog.
      */
     private fun onImportPermission(result: PermissionResult?) {
         if (result == null) return
@@ -176,7 +176,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         when (result) {
             PermissionResult.ASK -> showImportPermissionDialog()
             PermissionResult.FORBIDDEN -> showImportDenyDialog()
-            PermissionResult.LOW_API, PermissionResult.GRANTED -> {
+            PermissionResult.GRANTED -> {
                 viewModel.importData.collect(owner = this) { showImportDialog(it) }
             }
         }

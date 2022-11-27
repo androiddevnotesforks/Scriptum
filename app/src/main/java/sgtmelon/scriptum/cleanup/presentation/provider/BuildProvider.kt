@@ -12,10 +12,4 @@ object BuildProvider {
 
     fun inputControlMaxSize() = BuildConfig.INPUT_CONTROL_MAX_SIZE
 
-    object Version {
-
-        fun isMarshmallowLess(): Boolean {
-            return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
-        }
-    }
 }
