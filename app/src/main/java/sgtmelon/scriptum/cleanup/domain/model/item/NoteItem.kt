@@ -5,7 +5,6 @@ import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
-import sgtmelon.scriptum.cleanup.domain.model.key.Complete
 import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.copy
 import sgtmelon.scriptum.cleanup.extension.getText
@@ -180,7 +179,7 @@ sealed class NoteItem(
             }
 
             noteItem.updateTime()
-            noteItem.updateComplete(Complete.EMPTY)
+            noteItem.updateComplete(knownCheckCount = 0)
 
             return noteItem
         }
@@ -238,30 +237,15 @@ sealed class NoteItem(
         )
 
 
-        fun updateComplete(complete: Complete? = null) = apply {
-            val checkCount = when (complete) {
-                null -> getCheck()
-                Complete.EMPTY -> 0
-                Complete.FULL -> list.size
-            }
-
+        fun updateComplete(knownCheckCount: Int? = null) = apply {
+            val checkCount = knownCheckCount ?: getCheck()
             val checkText = min(checkCount, INDICATOR_MAX_COUNT)
             val allText = min(list.size, INDICATOR_MAX_COUNT)
 
             text = "$checkText/$allText"
         }
 
-        /**
-         * Check/uncheck all items.
-         */
-        fun updateCheck(isCheck: Boolean) = apply {
-            for (it in list) {
-                it.isCheck = isCheck
-            }
-
-            updateComplete(if (isCheck) Complete.FULL else Complete.EMPTY)
-        }
-
+        // TODO may be some optimization: in some cases get last check value (not calculate it from start).
         fun getCheck(): Int = list.filter { it.isCheck }.size
 
 

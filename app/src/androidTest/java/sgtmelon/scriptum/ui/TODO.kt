@@ -9,7 +9,8 @@ package sgtmelon.scriptum.ui
 
 // TODO bug: MenuPreferenceRotationTest/MenuPreferenceThemeTest - after changing theme application will be restarted
 // TODO bug: SplashTest - after launch bind note intent - note color is incorrect
-// TODO byg: NotificationsTest-itemCancelFromPast - indicator on note (event if alarm not exists)
+// TODO bug: NotificationsTest-itemCancelFromPast - indicator on note (event if alarm not exists)
+// TODO bug: loading dialog dots animation?
 
 // TODO improve: hide scriptum service notification via adb? because sometimes it's fails the test
 // TODO improve: toast assertion (setting date (add to DateTimeDialogCase) / alarm work / note copy)

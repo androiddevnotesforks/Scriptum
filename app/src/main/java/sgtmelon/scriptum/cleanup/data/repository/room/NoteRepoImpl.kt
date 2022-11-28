@@ -78,11 +78,7 @@ class NoteRepoImpl(
         if (sort != Sort.RANK) return@apply
 
         /** List must contains item with and without rank. */
-
-        /** List must contains item with and without rank. */
         if (any { it.haveRank() } && any { !it.haveRank() }) {
-
-            /** Move items without rank to list end. */
 
             /** Move items without rank to list end. */
             while (!first().haveRank()) {

@@ -7,7 +7,6 @@ import org.junit.Test
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
-import sgtmelon.scriptum.cleanup.domain.model.key.Complete
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -219,13 +218,14 @@ class NoteItemTest : ParentTest() {
 
 
     @Test fun updateComplete() {
-        rollItem.deepCopy().apply {
-            assertEquals("0/${list.size}", updateComplete(Complete.EMPTY).text)
-        }
-
-        rollItem.deepCopy().apply {
-            assertEquals("${list.size}/${list.size}", updateComplete(Complete.FULL).text)
-        }
+        // TODO
+        //        rollItem.deepCopy().apply {
+        //            assertEquals("0/${list.size}", updateComplete().text)
+        //        }
+        //
+        //        rollItem.deepCopy().apply {
+        //            assertEquals("${list.size}/${list.size}", updateComplete().text)
+        //        }
 
         rollItem.deepCopy().apply {
             assertEquals("${checkCount}/${list.size}", updateComplete().text)
@@ -248,22 +248,6 @@ class NoteItemTest : ParentTest() {
 
             with(list) { add(random().copy(isCheck = true)) }
             assertEquals("${MAX_COUNT}/${MAX_COUNT}", updateComplete().text)
-        }
-    }
-
-    @Test fun updateCheck() {
-        rollItem.deepCopy().apply {
-            updateCheck(isCheck = true)
-
-            assertFalse(list.any { !it.isCheck })
-            assertEquals("${list.size}/${list.size}", text)
-        }
-
-        rollItem.deepCopy().apply {
-            updateCheck(isCheck = false)
-
-            assertFalse(list.any { it.isCheck })
-            assertEquals("0/${list.size}", text)
         }
     }
 
