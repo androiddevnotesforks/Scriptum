@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.note
 
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -11,7 +10,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteV
  * Interactor for [ITextNoteViewModel].
  */
 class TextNoteInteractor(
-    private val rankRepo: RankRepo,
     private val noteRepo: NoteRepo
 ) : ParentInteractor(),
     ITextNoteInteractor {
@@ -27,10 +25,5 @@ class TextNoteInteractor(
 
     override suspend fun convertNote(item: NoteItem.Text) {
         noteRepo.convertNote(item)
-    }
-
-    override suspend fun saveNote(item: NoteItem.Text, isCreate: Boolean) {
-        noteRepo.saveNote(item, isCreate)
-        rankRepo.updateConnection(item)
     }
 }

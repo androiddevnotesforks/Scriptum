@@ -10,9 +10,5 @@ interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     suspend fun getItem(id: Long): N?
 
-
     suspend fun convertNote(item: N)
-
-    suspend fun saveNote(item: N, isCreate: Boolean)
-
 }

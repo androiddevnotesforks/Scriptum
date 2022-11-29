@@ -44,6 +44,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
@@ -190,6 +191,7 @@ class ViewModelModule {
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
         interactor: ITextNoteInteractor,
+        saveNote: SaveNoteUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
         restoreNote: RestoreNoteUseCase,
@@ -201,7 +203,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            fragment, colorConverter, preferencesRepo, interactor,
+            fragment, colorConverter, preferencesRepo, interactor, saveNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames
         )
@@ -219,6 +221,7 @@ class ViewModelModule {
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
         interactor: IRollNoteInteractor,
+        saveNote: SaveNoteUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
         restoreNote: RestoreNoteUseCase,
@@ -232,7 +235,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            fragment, colorConverter, preferencesRepo, interactor,
+            fragment, colorConverter, preferencesRepo, interactor, saveNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
             getRankDialogNames

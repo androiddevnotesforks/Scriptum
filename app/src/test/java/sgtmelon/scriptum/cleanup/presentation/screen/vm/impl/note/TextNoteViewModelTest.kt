@@ -40,6 +40,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
@@ -64,6 +65,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: ITextNoteInteractor
 
+    @MockK lateinit var saveNote: SaveNoteUseCase
     @MockK lateinit var updateNote: UpdateNoteUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
@@ -79,7 +81,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     private val viewModel by lazy {
         TextNoteViewModel(
-            callback, parentCallback, colorConverter, preferencesRepo, interactor,
+            callback, parentCallback, colorConverter, preferencesRepo, interactor, saveNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames
         )
@@ -130,8 +132,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         super.tearDown()
 
         confirmVerified(
-            callback, parentCallback,
-            colorConverter, preferencesRepo, interactor,
+            callback, parentCallback, colorConverter, preferencesRepo, interactor, saveNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames,
             saveControl, inputControl
@@ -620,11 +621,10 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem = noteItem
             spyViewModel.noteState = noteState
             spyViewModel.saveBackgroundWork()
-            spyViewModel.interactor
             spyViewModel.noteItem
             spyViewModel.noteState
             noteState.isCreate
-            interactor.saveNote(noteItem, isCreate = false)
+            saveNote(noteItem, isCreate = false)
             spyViewModel.cacheData()
             spyViewModel.noteState
             noteState.isCreate
@@ -633,11 +633,10 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.id
 
             spyViewModel.saveBackgroundWork()
-            spyViewModel.interactor
             spyViewModel.noteItem
             spyViewModel.noteState
             noteState.isCreate
-            interactor.saveNote(noteItem, isCreate = true)
+            saveNote(noteItem, isCreate = true)
             spyViewModel.cacheData()
             spyViewModel.noteState
             noteState.isCreate

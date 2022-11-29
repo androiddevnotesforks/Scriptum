@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
@@ -32,20 +31,14 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideTextNoteInteractor(
-        rankRepo: RankRepo,
-        noteRepo: NoteRepo
-    ): ITextNoteInteractor {
-        return TextNoteInteractor(rankRepo, noteRepo)
+    fun provideTextNoteInteractor(repository: NoteRepo): ITextNoteInteractor {
+        return TextNoteInteractor(repository)
     }
 
     @Provides
     @ActivityScope
-    fun provideRollNoteInteractor(
-        rankRepo: RankRepo,
-        noteRepo: NoteRepo
-    ): IRollNoteInteractor {
-        return RollNoteInteractor(rankRepo, noteRepo)
+    fun provideRollNoteInteractor(repository: NoteRepo): IRollNoteInteractor {
+        return RollNoteInteractor(repository)
     }
 
     //endregion

@@ -26,6 +26,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
@@ -45,6 +46,7 @@ class RollNoteViewModel(
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     interactor: IRollNoteInteractor,
+    private val saveNote: SaveNoteUseCase,
     updateNote: UpdateNoteUseCase,
     deleteNote: DeleteNoteUseCase,
     restoreNote: RestoreNoteUseCase,
@@ -409,7 +411,7 @@ class RollNoteViewModel(
     }
 
     override suspend fun saveBackgroundWork() {
-        runBack { interactor.saveNote(noteItem, noteState.isCreate) }
+        runBack { saveNote(noteItem, noteState.isCreate) }
         cacheData()
 
         if (noteState.isCreate) {

@@ -18,8 +18,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
@@ -1170,35 +1168,5 @@ object FastTest {
                 callback.onBindingInput(noteItem, access)
             }
         }
-
     }
-
-    object Interactor {
-
-        //region Note
-
-        suspend inline fun <reified T : NoteItem> saveNote(
-            noteRepo: NoteRepo,
-            rankRepo: RankRepo,
-            callFunc: (item: T, isCreate: Boolean) -> Unit
-        ) {
-            val item = mockk<T>()
-            val isCreate = Random.nextBoolean()
-
-            callFunc(item, isCreate)
-
-            coVerifySequence {
-                when (item) {
-                    is NoteItem.Text -> noteRepo.saveNote(item, isCreate)
-                    is NoteItem.Roll -> noteRepo.saveNote(item, isCreate)
-                }
-
-                rankRepo.updateConnection(item)
-            }
-        }
-
-        //endregion
-
-    }
-
 }

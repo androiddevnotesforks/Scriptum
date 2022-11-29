@@ -3,10 +3,12 @@ package sgtmelon.scriptum.cleanup.dagger.module.domain
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
@@ -17,6 +19,11 @@ class NoteUseCaseModule {
     @Provides
     fun provideGetCopyTextUseCase(repository: NoteRepo): GetCopyTextUseCase {
         return GetCopyTextUseCase(repository)
+    }
+
+    @Provides
+    fun provideSaveNoteUseCase(noteRepo: NoteRepo, rankRepo: RankRepo): SaveNoteUseCase {
+        return SaveNoteUseCase(noteRepo, rankRepo)
     }
 
     @Provides

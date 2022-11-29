@@ -11,9 +11,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 
@@ -25,16 +23,13 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     // TODO many items are common with [TextNoteInteractor]
 
-    @MockK lateinit var rankRepo: RankRepo
     @MockK lateinit var noteRepo: NoteRepo
 
-    private val interactor by lazy {
-        RollNoteInteractor(rankRepo, noteRepo)
-    }
+    private val interactor by lazy { RollNoteInteractor(noteRepo) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(rankRepo, noteRepo)
+        confirmVerified(noteRepo)
     }
 
 
@@ -68,12 +63,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             noteRepo.convertNote(item, useCache = true)
-        }
-    }
-
-    @Test fun saveNote() = startCoTest {
-        FastTest.Interactor.saveNote<NoteItem.Roll>(noteRepo, rankRepo) { item, isCreate ->
-            interactor.saveNote(item, isCreate)
         }
     }
 }
