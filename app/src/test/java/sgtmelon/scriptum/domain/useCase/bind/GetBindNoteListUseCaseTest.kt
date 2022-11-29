@@ -44,7 +44,7 @@ class GetBindNoteListUseCaseTest : ParentTest() {
 
         coVerifySequence {
             preferencesRepo.sort
-            noteRepo.getBinList(sort)
+            noteRepo.getBindNoteList(sort)
         }
     }
 }
