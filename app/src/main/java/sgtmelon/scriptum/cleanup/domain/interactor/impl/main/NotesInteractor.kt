@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.test.prod.RunPrivate
@@ -11,8 +10,7 @@ import sgtmelon.test.prod.RunPrivate
  * Interactor for [NotesViewModel].
  */
 // TODO refactor after notesViewModel
-class NotesInteractor(private val noteRepo: NoteRepo) : ParentInteractor(),
-    INotesInteractor {
+class NotesInteractor(private val noteRepo: NoteRepo) : INotesInteractor {
 
     override suspend fun convertNote(item: NoteItem): NoteItem {
         val convertItem = when (item) {

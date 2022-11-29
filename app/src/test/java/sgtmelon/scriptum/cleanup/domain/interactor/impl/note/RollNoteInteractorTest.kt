@@ -13,13 +13,13 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
+import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 
 /**
  * Test for [RollNoteInteractor].
  */
 @ExperimentalCoroutinesApi
-class RollNoteInteractorTest : ParentInteractorTest() {
+class RollNoteInteractorTest : ParentCoTest() {
 
     // TODO many items are common with [TextNoteInteractor]
 
