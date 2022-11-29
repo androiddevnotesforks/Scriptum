@@ -143,7 +143,6 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     abstract suspend fun setupAfterInitialize()
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        interactor.onDestroy()
         parentCallback = null
         saveControl.changeAutoSaveWork(isWork = false)
     }

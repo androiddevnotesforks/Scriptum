@@ -20,6 +20,7 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -36,6 +37,7 @@ class TextNoteViewModel(
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     interactor: ITextNoteInteractor,
+    private val getNote: GetTextNoteUseCase,
     private val saveNote: SaveNoteUseCase,
     updateNote: UpdateNoteUseCase,
     deleteNote: DeleteNoteUseCase,
@@ -75,7 +77,7 @@ class TextNoteViewModel(
 
                 noteState = NoteState(isCreate = true)
             } else {
-                runBack { interactor.getItem(id) }?.let {
+                runBack { getNote(id) }?.let {
                     noteItem = it
                     restoreItem = it.deepCopy()
 

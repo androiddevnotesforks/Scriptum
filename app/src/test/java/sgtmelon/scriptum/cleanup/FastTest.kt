@@ -190,7 +190,6 @@ object FastTest {
             verifySequence {
                 verifyInit()
 
-                interactor.onDestroy()
                 saveControl.changeAutoSaveWork(isWork = false)
             }
         }

@@ -30,6 +30,7 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -46,6 +47,7 @@ class RollNoteViewModel(
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     interactor: IRollNoteInteractor,
+    private val getNote: GetRollNoteUseCase,
     private val saveNote: SaveNoteUseCase,
     updateNote: UpdateNoteUseCase,
     deleteNote: DeleteNoteUseCase,
@@ -101,7 +103,7 @@ class RollNoteViewModel(
 
                 noteState = NoteState(isCreate = true)
             } else {
-                runBack { interactor.getItem(id) }?.let {
+                runBack { getNote(id) }?.let {
                     noteItem = it
                     restoreItem = it.deepCopy()
 

@@ -16,7 +16,8 @@ import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
 /**
- * [Service] that will never die. Mainly for work with notifications, alarms, ect.
+ * [Service] that will never die. That needed for work with notifications, alarms, ect.
+ * Setup and update system staff outside of UI/Controller classes.
  */
 class EternalService : Service(),
     ServiceReceiver.Callback {

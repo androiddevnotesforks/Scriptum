@@ -38,6 +38,8 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -176,6 +178,7 @@ object ViewModelFactory {
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: ITextNoteInteractor,
+            private val getNote: GetTextNoteUseCase,
             private val saveNote: SaveNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
@@ -192,9 +195,9 @@ object ViewModelFactory {
                     val parentCallback = fragment.context as? INoteConnector
                     TextNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, saveNote, updateNote, deleteNote, restoreNote, clearNote,
-                        setNotification, deleteNotification, getNotificationDateList, getRankId,
-                        getRankDialogNames
+                        interactor, getNote, saveNote, updateNote, deleteNote, restoreNote,
+                        clearNote, setNotification, deleteNotification, getNotificationDateList,
+                        getRankId, getRankDialogNames
                     )
                 }
             }
@@ -205,6 +208,7 @@ object ViewModelFactory {
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val interactor: IRollNoteInteractor,
+            private val getNote: GetRollNoteUseCase,
             private val saveNote: SaveNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
@@ -223,8 +227,8 @@ object ViewModelFactory {
                     val parentCallback = fragment.context as? INoteConnector
                     RollNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, saveNote, updateNote, deleteNote, restoreNote, clearNote,
-                        updateVisible, updateCheck, setNotification, deleteNotification,
+                        interactor, getNote, saveNote, updateNote, deleteNote, restoreNote,
+                        clearNote, updateVisible, updateCheck, setNotification, deleteNotification,
                         getNotificationDateList, getRankId, getRankDialogNames
                     )
                 }

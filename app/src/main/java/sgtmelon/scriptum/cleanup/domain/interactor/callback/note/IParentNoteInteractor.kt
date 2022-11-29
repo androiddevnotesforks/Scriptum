@@ -7,7 +7,5 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
  */
 interface IParentNoteInteractor<N : NoteItem> {
 
-    suspend fun getItem(id: Long): N?
-
     suspend fun convertNote(item: N)
 }

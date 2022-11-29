@@ -12,15 +12,6 @@ class TextNoteInteractor(
     private val noteRepo: NoteRepo
 ) : ITextNoteInteractor {
 
-    override suspend fun getItem(id: Long): NoteItem.Text? {
-        val noteItem = noteRepo.getItem(id, isOptimal = false)
-
-        if (noteItem !is NoteItem.Text) return null
-
-        return noteItem
-    }
-
-
     override suspend fun convertNote(item: NoteItem.Text) {
         noteRepo.convertNote(item)
     }

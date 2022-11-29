@@ -12,15 +12,6 @@ class RollNoteInteractor(
     private val noteRepo: NoteRepo
 ) : IRollNoteInteractor {
 
-    override suspend fun getItem(id: Long): NoteItem.Roll? {
-        val noteItem = noteRepo.getItem(id, isOptimal = false)
-
-        if (noteItem !is NoteItem.Roll) return null
-
-        return noteItem
-    }
-
-
     override suspend fun convertNote(item: NoteItem.Roll) {
         noteRepo.convertNote(item, useCache = true)
     }

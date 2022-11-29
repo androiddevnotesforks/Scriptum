@@ -48,6 +48,8 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -191,6 +193,7 @@ class ViewModelModule {
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
         interactor: ITextNoteInteractor,
+        getNote: GetTextNoteUseCase,
         saveNote: SaveNoteUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
@@ -203,7 +206,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            fragment, colorConverter, preferencesRepo, interactor, saveNote,
+            fragment, colorConverter, preferencesRepo, interactor, getNote, saveNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames
         )
@@ -221,6 +224,7 @@ class ViewModelModule {
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
         interactor: IRollNoteInteractor,
+        getNote: GetRollNoteUseCase,
         saveNote: SaveNoteUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
@@ -235,7 +239,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            fragment, colorConverter, preferencesRepo, interactor, saveNote,
+            fragment, colorConverter, preferencesRepo, interactor, getNote, saveNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
             getRankDialogNames

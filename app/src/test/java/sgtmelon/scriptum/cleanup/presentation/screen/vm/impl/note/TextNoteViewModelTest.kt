@@ -42,6 +42,7 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -65,6 +66,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: ITextNoteInteractor
 
+    @MockK lateinit var getNote: GetTextNoteUseCase
     @MockK lateinit var saveNote: SaveNoteUseCase
     @MockK lateinit var updateNote: UpdateNoteUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
@@ -81,9 +83,9 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     private val viewModel by lazy {
         TextNoteViewModel(
-            callback, parentCallback, colorConverter, preferencesRepo, interactor, saveNote,
-            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames
+            callback, parentCallback, colorConverter, preferencesRepo, interactor, getNote,
+            saveNote, updateNote, deleteNote, restoreNote, clearNote, setNotification,
+            deleteNotification, getNotificationDateList, getRankId, getRankDialogNames
         )
     }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
@@ -132,9 +134,9 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         super.tearDown()
 
         confirmVerified(
-            callback, parentCallback, colorConverter, preferencesRepo, interactor, saveNote,
-            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames,
+            callback, parentCallback, colorConverter, preferencesRepo, interactor, getNote,
+            saveNote, updateNote, deleteNote, restoreNote, clearNote, setNotification,
+            deleteNotification, getNotificationDateList, getRankId, getRankDialogNames,
             saveControl, inputControl
         )
     }
@@ -184,12 +186,12 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
         assertTrue(spyViewModel.tryInitializeNote())
 
-        coEvery { interactor.getItem(id) } returns null
+        coEvery { getNote(id) } returns null
 
         spyViewModel.id = id
         assertFalse(spyViewModel.tryInitializeNote())
 
-        coEvery { interactor.getItem(id) } returns noteItem
+        coEvery { getNote(id) } returns noteItem
         FastMock.Note.deepCopy(noteItem)
         every { noteItem.isBin } returns isBin
 
@@ -217,9 +219,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             getRankDialogNames()
             spyViewModel.rankDialogItemArray = itemArray
             spyViewModel.id
-            spyViewModel.interactor
             spyViewModel.id
-            interactor.getItem(id)
+            getNote(id)
             spyViewModel.parentCallback
             parentCallback.finish()
 
@@ -228,9 +229,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             getRankDialogNames()
             spyViewModel.rankDialogItemArray = itemArray
             spyViewModel.id
-            spyViewModel.interactor
             spyViewModel.id
-            interactor.getItem(id)
+            getNote(id)
             spyViewModel.noteItem = noteItem
             verifyDeepCopy(noteItem)
             spyViewModel.restoreItem = noteItem
