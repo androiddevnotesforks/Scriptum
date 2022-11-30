@@ -96,12 +96,6 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
         super.setupObservers()
 
         viewModel.showList.observe(this) {
-//            when (it) {
-            //                ShowListState.Loading -> getIdling().start(IdlingTag.Bin.LOAD_DATA)
-            //                ShowListState.List -> getIdling().stop(IdlingTag.Bin.LOAD_DATA)
-            //                ShowListState.Empty -> getIdling().stop(IdlingTag.Bin.LOAD_DATA)
-            //            }
-
             val binding = binding ?: return@observe
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,

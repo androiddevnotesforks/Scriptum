@@ -93,12 +93,6 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         super.setupObservers()
 
         viewModel.showList.observe(this) {
-//            when (it) {
-            //                ShowListState.Loading -> getIdling().start(IdlingTag.Notification.LOAD_DATA)
-            //                ShowListState.List -> getIdling().stop(IdlingTag.Notification.LOAD_DATA)
-            //                ShowListState.Empty -> getIdling().stop(IdlingTag.Notification.LOAD_DATA)
-            //            }
-
             val binding = binding ?: return@observe
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,

@@ -53,10 +53,14 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
             alarmButton?.setOnClickListener { it.openScreen(PreferenceScreen.ALARM) }
 
             binding.policyButton?.setOnClickListener {
-                val url = BuildConfig.PRIVACY_POLICY_URL
-                it.context.startUrlActivity(url, delegators.toast)
+                open.attempt {
+                    val url = BuildConfig.PRIVACY_POLICY_URL
+                    it.context.startUrlActivity(url, delegators.toast)
+                }
             }
-            rateButton?.setOnClickListener { it.context.startMarketActivity(delegators.toast) }
+            rateButton?.setOnClickListener {
+                open.attempt { it.context.startMarketActivity(delegators.toast) }
+            }
             helpButton?.setOnClickListener { it.openScreen(PreferenceScreen.HELP) }
             aboutButton?.setOnClickListener { showAboutDialog() }
 
@@ -64,7 +68,7 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
         }
     }
 
-    private fun Preference.openScreen(key: PreferenceScreen) {
+    private fun Preference.openScreen(key: PreferenceScreen) = open.attempt {
         startActivity(InstanceFactory.Preference[context, key])
     }
 
@@ -88,6 +92,13 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
                 unlockDeveloper()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /** Need clear [open], because may be case when open new screens. */
+        open.clear()
     }
 
     private fun showThemeDialog(value: Theme) = open.attempt {

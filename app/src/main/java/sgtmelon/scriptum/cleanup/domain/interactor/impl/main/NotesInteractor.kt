@@ -32,8 +32,8 @@ class NotesInteractor(private val noteRepo: NoteRepo) : INotesInteractor {
         val previewSize = NoteItem.Roll.PREVIEW_SIZE
         val list = item.list
 
-        while (list.isNotEmpty() && list.size > previewSize) {
-            list.removeAt(list.lastIndex)
+        while (list.size > previewSize) {
+            list.removeLast()
         }
     }
 }

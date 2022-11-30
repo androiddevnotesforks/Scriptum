@@ -1,12 +1,10 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.help
 
-import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
-import sgtmelon.scriptum.infrastructure.utils.startUrlActivity
 
 /**
  * Fragment of help preferences.
@@ -21,7 +19,16 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
 
     override fun setup() {
         binding.disappearButton?.setOnClickListener {
-            startActivity(InstanceFactory.Preference.HelpDisappear[it.context])
+            open.attempt {
+                startActivity(InstanceFactory.Preference.HelpDisappear[it.context])
+            }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /** Need clear [open], because may be case when open new screens. */
+        open.clear()
     }
 }

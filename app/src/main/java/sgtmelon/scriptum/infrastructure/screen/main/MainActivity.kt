@@ -128,7 +128,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     override fun onResume() {
         super.onResume()
 
-        /** Clear [open] after click on item container. */
+        /** Need clear [open], because may be case when open new screens. */
         open.isChangeEnabled = true
         open.clear()
 
