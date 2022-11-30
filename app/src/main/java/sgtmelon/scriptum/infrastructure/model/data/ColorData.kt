@@ -5,7 +5,7 @@ import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
 import sgtmelon.scriptum.infrastructure.model.item.ColorItem
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.recordThrow
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * Data related with app colors.
@@ -42,7 +42,7 @@ object ColorData {
     init {
         for (size in listOf(accent.size, dark.size, Color.values().size)) {
             if (light.size != size) {
-                DifferentSizeException(light.size, size).recordThrow()
+                throw DifferentSizeException(light.size, size).record(withPrint = false)
             }
         }
     }

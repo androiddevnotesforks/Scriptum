@@ -11,11 +11,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 
 private fun getUrlIntent(url: String): Intent? {
     val uri = UriConverter().toUri(url) ?: return null
-
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.data = uri
-
-    return intent
+    return Intent(Intent.ACTION_VIEW, uri)
 }
 
 private fun Context.getSettingsIntent(): Intent {
@@ -33,21 +29,8 @@ fun Context.startSettingsActivity(toast: ToastDelegator) {
     startActivitySafe(getSettingsIntent(), toast)
 }
 
-/**
- * If MARKET_URL is not available, them try open it via browser.
- */
 fun Context.startMarketActivity(toast: ToastDelegator) {
-    try {
-        val intent = getUrlIntent(BuildConfig.MARKET_URL.plus(packageName))
-        if (intent != null) {
-            startActivity(intent)
-        } else {
-            toast.show(this, R.string.error_something_wrong)
-        }
-    } catch (e: Throwable) {
-        e.record()
-        startActivitySafe(getUrlIntent(BuildConfig.BROWSER_URL.plus(packageName)), toast)
-    }
+    startActivitySafe(getUrlIntent(BuildConfig.BROWSER_URL), toast)
 }
 
 private fun Context.startActivitySafe(intent: Intent?, toast: ToastDelegator) {

@@ -6,8 +6,12 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 fun getCrashlytics() = FirebaseCrashlytics.getInstance()
 
-fun Throwable.record() = getCrashlytics().recordException(this)
+fun Throwable.record(withPrint: Boolean = true) = apply {
+    if (withPrint) {
+        printStackTrace()
+    }
 
-fun Throwable.recordThrow(): Nothing = throw this.apply { record() }
+    getCrashlytics().recordException(this)
+}
 
 fun recordException(text: String) = Throwable(text).record()
