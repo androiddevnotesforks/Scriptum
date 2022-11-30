@@ -82,20 +82,10 @@ dependencies {
     androidTestImplementation project(path: ':tests:common')
     androidTestImplementation project(path: ':tests:cappuccino')
 
-    //region Kotlin
-
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
-
-    // TODO why debugImplementation?
-    debugImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
-
-    //endregion
-
     //region Google
 
-    implementation "com.google.firebase:firebase-analytics-ktx:21.1.1"
-    implementation "com.google.firebase:firebase-crashlytics-ktx:18.2.13"
+    implementation "com.google.firebase:firebase-analytics-ktx:21.2.0"
+    implementation "com.google.firebase:firebase-crashlytics-ktx:18.3.2"
 
     implementation "com.google.android.material:material:1.6.1"
 
@@ -110,7 +100,7 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    kapt "androidx.lifecycle:lifecycle-compiler:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
 
     implementation "androidx.room:room-runtime:2.4.3"
     implementation "androidx.room:room-ktx:2.4.3"
@@ -147,6 +137,7 @@ dependencies {
         exclude group: 'org.hamcrest'
     }
 
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "io.mockk:mockk:1.12.4"
     testImplementation "org.json:json:20211205"
