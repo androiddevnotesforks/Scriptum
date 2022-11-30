@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.ThemeDialogUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.parent.ui.tests.launchMain
 import sgtmelon.scriptum.parent.ui.tests.launchMenuPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.ThemeCase
@@ -40,14 +41,22 @@ class MenuPreferenceThemeTest : ParentUiTest(),
         val (setValue, initValue) = Theme.values().getDifferentValues(value)
         preferencesRepo.theme = initValue
 
-        launchMenuPreference {
-            openThemeDialog {
-                click(setValue)
-                click(initValue)
-                click(setValue)
-                apply()
+        /** It's necessary check theme change from application start. */
+        launchMain {
+            openNotes(isEmpty = true) {
+                openPreferences {
+                    openThemeDialog {
+                        click(setValue)
+                        click(initValue)
+                        click(setValue)
+                        apply()
+                    }
+                    assert()
+                    clickClose()
+                }
+                assert(isEmpty = true)
             }
-            assert()
+            assert(isFabVisible = true)
         }
 
         assertEquals(setValue, preferencesRepo.theme)

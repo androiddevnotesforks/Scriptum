@@ -1,11 +1,9 @@
 package sgtmelon.scriptum.infrastructure.screen.theme
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.ViewDataBinding
 import javax.inject.Inject
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiDelegator
@@ -34,17 +32,12 @@ abstract class ThemeActivity<T : ViewDataBinding> : BindingActivity<T>(),
         setupInsets()
         setupView()
         setupObservers()
-        setupTheme(themeViewModel.theme)
 
+        checkThemeChange()
 
-        /** Setup this staff after [setupTheme]. */
+        /** Setup this staff after [checkThemeChange] call. */
         val windowUi = WindowUiDelegator(window, background, statusBar, navigation, navDivider)
         windowUi.setup(context = this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        checkThemeChange()
     }
 
     /**
@@ -56,27 +49,13 @@ abstract class ThemeActivity<T : ViewDataBinding> : BindingActivity<T>(),
 
     open fun setupObservers() = Unit
 
-    private fun setupTheme(theme: Theme) {
-        val mode = when (theme) {
+    override fun checkThemeChange() {
+        val mode = when (themeViewModel.theme) {
             Theme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
             Theme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
             Theme.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         }
 
         AppCompatDelegate.setDefaultNightMode(mode)
-    }
-
-    override fun checkThemeChange() {
-        if (!themeViewModel.isThemeChanged()) return
-
-        // TODO it's not working correctly - try recreate?
-
-        val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-
-        overridePendingTransition(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
-        finish()
-
-        overridePendingTransition(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
-        startActivity(intent)
     }
 }

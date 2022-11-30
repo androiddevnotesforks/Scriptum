@@ -7,12 +7,10 @@ import io.mockk.mockk
 import io.mockk.verifySequence
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [ThemeViewModelImpl].
@@ -40,28 +38,6 @@ class ThemeViewModelImplTest : ParentTest() {
         assertEquals(viewModel.theme, initTheme)
 
         verifySequence {
-            preferencesRepo.theme
-        }
-    }
-
-    @Test fun isThemeChange() {
-        val firstTheme = mockk<Theme>()
-        val secondTheme = mockk<Theme>()
-
-        every { preferencesRepo.theme } returns firstTheme
-
-        assertEquals(viewModel.theme, firstTheme)
-        assertFalse(viewModel.isThemeChanged())
-
-        every { preferencesRepo.theme } returns secondTheme
-
-        assertEquals(viewModel.theme, firstTheme)
-        assertTrue(viewModel.isThemeChanged())
-        assertEquals(viewModel.theme, secondTheme)
-
-        verifySequence {
-            preferencesRepo.theme
-            preferencesRepo.theme
             preferencesRepo.theme
         }
     }

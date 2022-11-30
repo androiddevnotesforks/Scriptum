@@ -7,19 +7,6 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 class ThemeViewModelImpl(private val preferencesRepo: PreferencesRepo) : ViewModel(),
     ThemeViewModel {
 
-    /**
-     * Inside [ThemeViewModel] it's val but here it's var. :)
-     */
-    override var theme: Theme = preferencesRepo.theme
+    override val theme: Theme get() = preferencesRepo.theme
 
-    override fun isThemeChanged(): Boolean {
-        val newTheme = preferencesRepo.theme
-
-        val isChanged = theme != newTheme
-        if (isChanged) {
-            theme = newTheme
-        }
-
-        return isChanged
-    }
 }
