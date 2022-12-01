@@ -38,8 +38,12 @@ dependencies {
     implementation "com.google.android.material:material:1.6.1"
 
     implementation "androidx.test.ext:junit:1.1.4"
-    implementation "androidx.test.espresso:espresso-core:3.5.0"
-    implementation "androidx.test.espresso:espresso-contrib:3.5.0"
+
+    /**
+     * 3.5.0 error: https://stackoverflow.com/questions/72351022/espresso-testing-is-failing-due-to-incompatibleclasschangeerror
+     */
+    implementation "androidx.test.espresso:espresso-core:3.4.0"
+    implementation "androidx.test.espresso:espresso-contrib:3.4.0"
 
     implementation "androidx.test.uiautomator:uiautomator:2.2.0"
 }

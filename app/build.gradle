@@ -126,24 +126,13 @@ dependencies {
     androidTestImplementation "androidx.test:rules:1.5.0"
     androidTestImplementation "androidx.test.ext:junit:1.1.4"
 
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.0"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.0"
+    /**
+     * 3.5.0 error: https://stackoverflow.com/questions/72351022/espresso-testing-is-failing-due-to-incompatibleclasschangeerror
+     */
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.4.0"
 
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
-
-    /**
-     * Exclude need for prevent bug inside UI tests: import org.hamcrest.Matchers - not found.
-     *
-     * 22.12.02 Still get errors:
-     * java.lang.IncompatibleClassChangeError: Class 'androidx.test.espresso.action.Tap$1' does
-     *      not implement interface 'org.hamcrest.SelfDescribing' in call to
-     *      'void org.hamcrest.SelfDescribing.describeTo(org.hamcrest.Description)'
-     *      (declaration of 'org.hamcrest.BaseDescription' appears in
-     *      /data/app/sgtmelon.scriptum.debug.test-Wu4cxM0zbyT6kVazwdMK7A==/base.apk)
-     */
-    debugImplementation ("androidx.test.ext:junit:1.1.4") {
-        exclude group: 'org.hamcrest'
-    }
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
