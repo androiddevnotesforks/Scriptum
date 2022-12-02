@@ -16,13 +16,13 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 /**
  * Control note toolbar tint.
  */
-class ToolbarTintControl(
+class TintNoteToolbarDelegator(
     context: Context,
     private val window: Window,
     private val toolbar: View?,
     private val indicator: View?,
     startColor: Color
-) : ParentTintControl(context) {
+) : TintBarDelegator(context) {
 
     private val theme: ThemeDisplayed? = context.getDisplayedTheme()
 
@@ -76,7 +76,6 @@ class ToolbarTintControl(
         setColorFrom(color)
     }
 
-
     fun setColorFrom(color: Color) = apply {
         if (theme == null) return@apply
 
@@ -95,9 +94,9 @@ class ToolbarTintControl(
         toolbarState.to = context.getNoteToolbarColor(theme, color, needDark = false)
         indicatorState.to = context.getAppSimpleColor(color, ColorShade.DARK)
 
-        if (statusState.isDifferent()
-            || toolbarState.isDifferent()
-            || indicatorState.isDifferent()) {
+        if (statusState.isReady()
+            || toolbarState.isReady()
+            || indicatorState.isReady()) {
             colorAnimator.start()
         }
     }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
+import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.ShowPlaceholderDelegator
 import sgtmelon.scriptum.databinding.ActivityMainBinding
 import sgtmelon.scriptum.infrastructure.converter.MainPageConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.AddSheetData
@@ -50,8 +50,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     private val addDialog by lazy { DialogFactory.Main(context = this, fm).getAdd() }
 
-    private val holderControl by lazy {
-        HolderShowControl(lifecycle, resources, binding?.toolbarHolder)
+    private val showHolder by lazy {
+        ShowPlaceholderDelegator(lifecycle, resources, binding?.toolbarHolder)
     }
     private var gradientFab: GradientFabDelegator? = null
 
@@ -160,7 +160,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     private fun showPage(pageFrom: MainPage?, pageTo: MainPage) {
         lifecycleScope.launchWhenResumed {
-            holderControl.display()
+            showHolder.start()
 
             fm.beginTransaction()
                 .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)

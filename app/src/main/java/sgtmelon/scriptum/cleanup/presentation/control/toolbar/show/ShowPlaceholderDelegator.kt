@@ -11,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.utils.makeVisible
 /**
  * Class for help control showing placeholders while transition happen (and hiding at the end).
  */
-class HolderShowControl private constructor(
+class ShowPlaceholderDelegator private constructor(
     lifecycle: Lifecycle,
     resources: Resources,
     private val viewList: List<View?>
@@ -23,7 +23,7 @@ class HolderShowControl private constructor(
     private val delayTime = resources.getInteger(R.integer.placeholder_fade_time).toLong()
     private val hideJob = DelayJobDelegator(lifecycle)
 
-    fun display() {
+    fun start() {
         changeVisibility(isVisible = true)
         hideJob.run(delayTime) { changeVisibility(isVisible = false) }
     }

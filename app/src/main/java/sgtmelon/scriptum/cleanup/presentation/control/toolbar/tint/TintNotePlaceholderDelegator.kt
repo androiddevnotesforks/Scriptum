@@ -10,15 +10,15 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 /**
  * Control note toolbar holder color.
  */
-class HolderTintControl(
+class TintNotePlaceholderDelegator(
     context: Context,
     private val window: Window,
     private val holder: View?
-) : ParentTintControl(context) {
+) : TintBarDelegator(context) {
 
     private val theme: ThemeDisplayed? = context.getDisplayedTheme()
 
-    fun setupColor(color: Color) {
+    fun changeColor(color: Color) {
         if (theme == null || theme == ThemeDisplayed.DARK) return
 
         window.statusBarColor = getStatusBarColor(theme, color)

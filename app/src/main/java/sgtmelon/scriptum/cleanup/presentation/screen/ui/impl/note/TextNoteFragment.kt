@@ -23,7 +23,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintControl
+import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.TintNoteToolbarDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
@@ -48,7 +48,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
 
     @Inject lateinit var viewModel: ITextNoteViewModel
 
-    private var toolbarTintControl: ToolbarTintControl? = null
+    private var tintToolbar: TintNoteToolbarDelegator? = null
     private var navigationIconControl: IconChangeCallback? = null
 
     private val dialogs by lazy { DialogFactory.Note(context, fm) }
@@ -131,7 +131,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
         activity?.let {
-            toolbarTintControl = ToolbarTintControl(it, it.window, toolbar, indicator, color)
+            tintToolbar = TintNoteToolbarDelegator(it, it.window, toolbar, indicator, color)
             navigationIconControl = NavigationIconControl(it, toolbar, callback = this)
         }
 
@@ -239,11 +239,11 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     override fun onPressBack() = viewModel.onPressBack()
 
     override fun tintToolbar(from: Color, to: Color) {
-        toolbarTintControl?.setColorFrom(from)?.startTint(to)
+        tintToolbar?.setColorFrom(from)?.startTint(to)
     }
 
     override fun tintToolbar(color: Color) {
-        toolbarTintControl?.startTint(color)
+        tintToolbar?.startTint(color)
     }
 
     override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
@@ -281,7 +281,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     }
 
     override fun showColorDialog(color: Color) = open.attempt {
-        toolbarTintControl?.setColorFrom(color)
+        tintToolbar?.setColorFrom(color)
 
         hideKeyboard()
         colorDialog.setArguments(color).safeShow(DialogFactory.Note.COLOR, owner = this)

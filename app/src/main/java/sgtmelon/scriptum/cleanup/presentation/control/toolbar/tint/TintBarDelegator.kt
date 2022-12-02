@@ -6,9 +6,9 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
- * Parent class for control tint.
+ * Parent class for tinting different application bar's (e.g. toolbar).
  */
-abstract class ParentTintControl(protected val context: Context) {
+abstract class TintBarDelegator(protected val context: Context) {
 
     protected fun getToolbarColor(theme: ThemeDisplayed, color: Color): Int {
         return context.getNoteToolbarColor(theme, color, needDark = false)

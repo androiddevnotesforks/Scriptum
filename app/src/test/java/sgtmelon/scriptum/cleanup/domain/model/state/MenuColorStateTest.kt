@@ -18,10 +18,10 @@ class MenuColorStateTest : ParentTest() {
     }
 
     @Test fun isDifferent() {
-        assertFalse(MenuColorState().isDifferent())
-        assertTrue(MenuColorState(from = 1).isDifferent())
-        assertTrue(MenuColorState(to = 1).isDifferent())
-        assertFalse(MenuColorState(from = 1, to = 1).isDifferent())
+        assertFalse(MenuColorState().isReady())
+        assertTrue(MenuColorState(from = 1).isReady())
+        assertTrue(MenuColorState(to = 1).isReady())
+        assertFalse(MenuColorState(from = 1, to = 1).isReady())
     }
 
     @Test fun blend() {
