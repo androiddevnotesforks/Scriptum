@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.VibratorDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.melody.MelodyPlayDelegator
 
-class DelegatorFactory(private val context: Context, private val lifecycle: Lifecycle?) {
+class SystemDelegatorFactory(private val context: Context, private val lifecycle: Lifecycle?) {
 
     private var _bind: BindDelegator? = null
     val bind get() = _bind ?: BindDelegatorImpl(context).also { _bind = it }

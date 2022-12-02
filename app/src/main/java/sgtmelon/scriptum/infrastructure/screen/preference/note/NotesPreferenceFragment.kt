@@ -59,7 +59,7 @@ class NotesPreferenceFragment : ParentPreferenceFragment() {
         sortDialog.apply {
             onPositiveClick {
                 viewModel.updateSort(sortDialog.check)
-                delegators.broadcast.sendNotifyNotesBind()
+                system.broadcast.sendNotifyNotesBind()
             }
             onDismiss { open.clear() }
         }

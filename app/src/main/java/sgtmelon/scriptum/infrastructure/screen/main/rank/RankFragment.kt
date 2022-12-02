@@ -254,7 +254,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     override fun onSnackbarDismiss() = viewModel.clearUndoStack()
 
-    private fun updateNotesBind() = delegators.broadcast.sendNotifyNotesBind()
+    private fun updateNotesBind() = system.broadcast.sendNotifyNotesBind()
 
     //region Touch callback
 

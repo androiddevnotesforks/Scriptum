@@ -10,7 +10,6 @@ import sgtmelon.extensions.collect
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
@@ -27,6 +26,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.model.key.dialog.NotesDialogOptions as Options
 
 /**
  * Screen to display the list of main notes.
@@ -104,8 +104,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             }
             onNeutralClick {
                 viewModel.deleteNoteNotification(position).collect(owner = this) {
-                    delegators.broadcast.sendCancelAlarm(it)
-                    delegators.broadcast.sendNotifyInfoBind()
+                    system.broadcast.sendCancelAlarm(it)
+                    system.broadcast.sendNotifyInfoBind()
                 }
             }
             onDismiss { parentOpen?.clear() }
@@ -115,8 +115,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             onPositiveClick {
                 viewModel.setNoteNotification(calendar, position).collect(owner = this) {
                     val (item, calendar) = it
-                    delegators.broadcast.sendSetAlarm(item, calendar)
-                    delegators.broadcast.sendNotifyInfoBind()
+                    system.broadcast.sendSetAlarm(item, calendar)
+                    system.broadcast.sendNotifyInfoBind()
                 }
             }
             onDismiss { parentOpen?.clear() }
@@ -203,13 +203,13 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             }
         )
 
-        itemArray[Options.Notes.NOTIFICATION] = if (item.haveAlarm()) {
+        itemArray[Options.NOTIFICATION.ordinal] = if (item.haveAlarm()) {
             getString(R.string.dialog_menu_notification_update)
         } else {
             getString(R.string.dialog_menu_notification_set)
         }
 
-        itemArray[Options.Notes.BIND] = if (item.isStatus) {
+        itemArray[Options.BIND.ordinal] = if (item.isStatus) {
             getString(R.string.dialog_menu_status_unbind)
         } else {
             getString(R.string.dialog_menu_status_bind)
@@ -219,27 +219,27 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     }
 
     private fun onOptionSelect(p: Int, which: Int) {
-        when (which) {
-            Options.Notes.NOTIFICATION -> {
+        when (Options.values().getOrNull(which) ?: return) {
+            Options.NOTIFICATION -> {
                 parentOpen?.skipClear = true
                 viewModel.getNoteNotification(p).collect(owner = this) {
                     val (calendar, haveAlarm) = it
                     showDateDialog(calendar, haveAlarm, p)
                 }
             }
-            Options.Notes.BIND -> viewModel.updateNoteBind(p).collect(owner = this) {
-                delegators.broadcast.sendNotifyNotesBind()
+            Options.BIND -> viewModel.updateNoteBind(p).collect(owner = this) {
+                system.broadcast.sendNotifyNotesBind()
             }
-            Options.Notes.CONVERT -> viewModel.convertNote(p).collect(owner = this) {
-                delegators.broadcast.sendNotifyNotesBind()
+            Options.CONVERT -> viewModel.convertNote(p).collect(owner = this) {
+                system.broadcast.sendNotifyNotesBind()
             }
-            Options.Notes.COPY -> viewModel.getNoteText(p).collect(owner = this) {
-                delegators.clipboard.copy(it)
+            Options.COPY -> viewModel.getNoteText(p).collect(owner = this) {
+                system.clipboard.copy(it)
             }
-            Options.Notes.DELETE -> viewModel.deleteNote(p).collect(owner = this) {
-                delegators.broadcast.sendCancelAlarm(it)
-                delegators.broadcast.sendCancelNoteBind(it)
-                delegators.broadcast.sendNotifyInfoBind()
+            Options.DELETE -> viewModel.deleteNote(p).collect(owner = this) {
+                system.broadcast.sendCancelAlarm(it)
+                system.broadcast.sendCancelNoteBind(it)
+                system.broadcast.sendNotifyInfoBind()
             }
         }
     }

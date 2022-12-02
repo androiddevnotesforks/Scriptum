@@ -129,8 +129,8 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     private fun removeNotification(p: Int) = open.attempt(withSwitch = false) {
         viewModel.removeNotification(p).collect(owner = this) {
             val (item, size) = it
-            delegators?.broadcast?.sendCancelAlarm(item)
-            delegators?.broadcast?.sendNotifyInfoBind(size)
+            system?.broadcast?.sendCancelAlarm(item)
+            system?.broadcast?.sendNotifyInfoBind(size)
         }
     }
 
@@ -139,7 +139,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     }
 
     private fun collectUndo(it: UndoState) {
-        delegators?.broadcast?.run {
+        system?.broadcast?.run {
             when (it) {
                 is UndoState.NotifyInfoCount -> sendNotifyInfoBind(it.count)
                 is UndoState.NotifyAlarm -> sendSetAlarm(it.id, it.calendar, showToast = false)

@@ -58,11 +58,11 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
             serviceRefreshButton?.setOnClickListener { viewModel.startPing() }
             serviceRunButton?.setOnClickListener { startService(it.context) }
             serviceKillButton?.setOnClickListener {
-                delegators.broadcast.sendEternalKill()
+                system.broadcast.sendEternalKill()
                 viewModel.startPing()
             }
 
-            delegators.apply {
+            system.apply {
                 notificationClearButton?.setOnClickListener { broadcast.sendClearBind() }
                 alarmClearButton?.setOnClickListener { broadcast.sendClearAlarm() }
                 notifyNotesButton?.setOnClickListener { broadcast.sendNotifyNotesBind() }
@@ -84,7 +84,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     private fun observePingState(state: ServicePingState) {
         when (state) {
             ServicePingState.PREPARE -> onServicePrepare()
-            ServicePingState.PING -> delegators.broadcast.sendEternalPing()
+            ServicePingState.PING -> system.broadcast.sendEternalPing()
             ServicePingState.SUCCESS -> onServicePong(isSuccess = true)
             ServicePingState.NO_RESPONSE -> onServicePong(isSuccess = false)
         }
@@ -98,7 +98,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         viewModel.interruptPing()
 
         /** Move this toast here, because after rotation it will appears. */
-        delegators.toast.show(context, R.string.toast_dev_service_run)
+        system.toast.show(context, R.string.toast_dev_service_run)
     }
 
     private fun onServicePrepare() = with(binding) {
@@ -118,7 +118,7 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         serviceKillButton?.isEnabled = isSuccess
 
         if (!isSuccess) {
-            delegators.toast.show(context, R.string.toast_dev_service_fail)
+            system.toast.show(context, R.string.toast_dev_service_fail)
         }
     }
 }

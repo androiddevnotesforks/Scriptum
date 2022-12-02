@@ -147,7 +147,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun onPause() {
         super.onPause()
 
-        if (delegators?.phoneAwake?.isAwake == false) {
+        if (system?.phoneAwake?.isAwake == false) {
             finish()
         }
     }
@@ -163,8 +163,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun onDestroy() {
         super.onDestroy()
 
-        delegators?.vibrator?.cancel()
-        delegators?.phoneAwake?.release()
+        system?.vibrator?.cancel()
+        system?.phoneAwake?.release()
         binding?.rippleContainer?.stopAnimation()
     }
 
@@ -173,14 +173,14 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     //region Setup state
 
     private fun onSetupState(state: ScreenState.Setup) {
-        delegators?.phoneAwake?.wakeUp(TIMEOUT_TIME)
+        system?.phoneAwake?.wakeUp(TIMEOUT_TIME)
         setupView()
 
         if (state.melodyUri != null) {
             setupPlayer(state.melodyUri)
         }
 
-        delegators?.broadcast?.sendNotifyInfoBind()
+        system?.broadcast?.sendNotifyInfoBind()
         startLogoShiftAnimation()
     }
 
@@ -211,7 +211,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         val uri = UriConverter().toUri(stringUri) ?: return
         val alarmState = viewModel.alarmState
 
-        delegators?.alarmPlay
+        system?.alarmPlay
             ?.setupVolume(alarmState.volumePercent, alarmState.isVolumeIncrease)
             ?.setupPlayer(uri, isLooping = true)
     }
@@ -251,11 +251,11 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         animation.startContentFade(binding)
 
         if (alarmState.signalState.isMelody) {
-            delegators?.alarmPlay?.start(alarmState.isVolumeIncrease)
+            system?.alarmPlay?.start(alarmState.isVolumeIncrease)
         }
 
         if (alarmState.signalState.isVibration) {
-            delegators?.vibrator?.startRepeat()
+            system?.vibrator?.startRepeat()
         }
 
         /** Start count down for finish this screen. */
@@ -286,8 +286,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private fun onPostponeState(state: ScreenState.Postpone) = beforeFinish {
         with(state) {
-            delegators?.broadcast?.sendSetAlarm(noteId, calendar, showToast = false)
-            delegators?.broadcast?.sendNotifyInfoBind()
+            system?.broadcast?.sendSetAlarm(noteId, calendar, showToast = false)
+            system?.broadcast?.sendNotifyInfoBind()
             showRepeatToast(repeat)
         }
     }
@@ -297,7 +297,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         val repeatArray = resources.getStringArray(R.array.pref_repeat)
         val repeatText = repeatArray.getOrNull(repeat.ordinal) ?: return
 
-        delegators?.toast?.show(context = this, getString(R.string.toast_alarm_repeat, repeatText))
+        system?.toast?.show(context = this, getString(R.string.toast_alarm_repeat, repeatText))
     }
 
     //endregion

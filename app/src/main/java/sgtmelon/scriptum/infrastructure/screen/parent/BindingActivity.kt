@@ -7,7 +7,7 @@ import androidx.databinding.ViewDataBinding
 import sgtmelon.safedialog.utils.DialogOwner
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
+import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
@@ -23,15 +23,15 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
 
     override val fm get() = supportFragmentManager
 
-    private var _delegators: DelegatorFactory? = null
-    protected val delegators get() = _delegators
+    private var _system: SystemDelegatorFactory? = null
+    protected val system get() = _system
 
     val open: OpenState = OpenState(lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = inflateBinding(layoutId)
-        _delegators = DelegatorFactory(context = this, lifecycle)
+        _system = SystemDelegatorFactory(context = this, lifecycle)
         open.restore(savedInstanceState)
 
         inject(ScriptumApplication.component)
@@ -55,7 +55,7 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        _delegators = null
+        _system = null
         unregisterReceivers()
     }
 }

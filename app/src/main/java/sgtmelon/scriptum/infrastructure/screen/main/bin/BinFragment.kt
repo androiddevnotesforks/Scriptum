@@ -7,7 +7,6 @@ import sgtmelon.extensions.collect
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
+import sgtmelon.scriptum.infrastructure.model.key.dialog.BinDialogOptions as Options
 
 /**
  * Screen to display the list of deleted notes.
@@ -138,12 +138,12 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     }
 
     private fun onOptionSelect(p: Int, which: Int) {
-        when (which) {
-            Options.Bin.RESTORE -> viewModel.restoreNote(p)
-            Options.Bin.COPY -> viewModel.getNoteText(p).collect(owner = this) {
-                delegators.clipboard.copy(it)
+        when (Options.values().getOrNull(which) ?: return) {
+            Options.RESTORE -> viewModel.restoreNote(p)
+            Options.COPY -> viewModel.getNoteText(p).collect(owner = this) {
+                system.clipboard.copy(it)
             }
-            Options.Bin.CLEAR -> viewModel.clearNote(p)
+            Options.CLEAR -> viewModel.clearNote(p)
         }
     }
 

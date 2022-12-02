@@ -534,7 +534,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
 
     override fun showSaveToast(isSuccess: Boolean) {
         val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
-        delegators.toast.show(context, text)
+        system.toast.show(context, text)
     }
 
     override fun finish() {
@@ -544,17 +544,17 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        delegators.broadcast.sendSetAlarm(id, calendar, showToast)
+        system.broadcast.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun sendCancelAlarmBroadcast(id: Long) = delegators.broadcast.sendCancelAlarm(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = system.broadcast.sendCancelAlarm(id)
 
-    override fun sendNotifyNotesBroadcast() = delegators.broadcast.sendNotifyNotesBind()
+    override fun sendNotifyNotesBroadcast() = system.broadcast.sendNotifyNotesBind()
 
-    override fun sendCancelNoteBroadcast(id: Long) = delegators.broadcast.sendCancelNoteBind(id)
+    override fun sendCancelNoteBroadcast(id: Long) = system.broadcast.sendCancelNoteBind(id)
 
     override fun sendNotifyInfoBroadcast(count: Int?) {
-        delegators.broadcast.sendNotifyInfoBind(count)
+        system.broadcast.sendNotifyInfoBind(count)
     }
 
     //endregion

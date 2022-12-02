@@ -14,7 +14,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.TidyUpAlarmUseCase
 import sgtmelon.scriptum.domain.useCase.bind.GetBindNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.bind.GetNotificationCountUseCase
 import sgtmelon.scriptum.domain.useCase.bind.UnbindNoteUseCase
-import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
+import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 
@@ -33,7 +33,7 @@ class EternalServiceLogicImpl(private val context: Context) : EternalServiceLogi
 
     private val receiver = EternalServiceReceiver[this]
 
-    private val delegators = DelegatorFactory(context, lifecycle = null)
+    private val system = SystemDelegatorFactory(context, lifecycle = null)
 
     override fun setup() {
         ScriptumApplication.component.inject(logic = this)
@@ -48,7 +48,7 @@ class EternalServiceLogicImpl(private val context: Context) : EternalServiceLogi
 
     override fun release() {
         context.unregisterReceiver(receiver)
-        delegators.toast.cancel()
+        system.toast.cancel()
     }
 
     override fun tidyUpAlarm() {
@@ -63,26 +63,26 @@ class EternalServiceLogicImpl(private val context: Context) : EternalServiceLogi
     }
 
     override fun setAlarm(noteId: Long, calendar: Calendar, showToast: Boolean) {
-        delegators.alarm.set(noteId, calendar, showToast)
+        system.alarm.set(noteId, calendar, showToast)
     }
 
-    override fun cancelAlarm(noteId: Long) = delegators.alarm.cancel(noteId)
+    override fun cancelAlarm(noteId: Long) = system.alarm.cancel(noteId)
 
     override fun notifyAllNotes() {
         ioScope.launch {
             val list = getBindNotes()
-            runMain { delegators.bind.notifyNotes(list) }
+            runMain { system.bind.notifyNotes(list) }
         }
     }
 
     override fun cancelNote(noteId: Long) {
         ioScope.launch { unbindNote(noteId) }
-        delegators.bind.cancelNote(noteId)
+        system.bind.cancelNote(noteId)
     }
 
     override fun notifyCount(count: Int?) {
         if (count != null) {
-            delegators.bind.notifyCount(count)
+            system.bind.notifyCount(count)
         } else {
             ioScope.launch {
                 val bindCount = getNotificationsCount()
@@ -91,8 +91,8 @@ class EternalServiceLogicImpl(private val context: Context) : EternalServiceLogi
         }
     }
 
-    override fun clearBind() = delegators.bind.clearRecent()
+    override fun clearBind() = system.bind.clearRecent()
 
-    override fun clearAlarm() = delegators.alarm.clear()
+    override fun clearAlarm() = system.alarm.clear()
 
 }

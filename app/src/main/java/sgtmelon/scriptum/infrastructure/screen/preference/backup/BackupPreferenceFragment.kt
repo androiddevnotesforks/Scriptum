@@ -157,10 +157,10 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
                 is ExportState.HideLoading -> loadingDialog.safeDismiss(owner = this)
                 is ExportState.LoadSuccess -> {
                     val text = getString(R.string.pref_toast_export_result, it.path)
-                    delegators.toast.show(context, text, Toast.LENGTH_LONG)
+                    system.toast.show(context, text, Toast.LENGTH_LONG)
                 }
                 is ExportState.LoadError -> {
-                    delegators.toast.show(context, R.string.pref_toast_export_error)
+                    system.toast.show(context, R.string.pref_toast_export_error)
                 }
             }
         }
@@ -194,7 +194,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         }
 
         exportDenyDialog.apply {
-            onPositiveClick { context?.startSettingsActivity(delegators.toast) }
+            onPositiveClick { context?.startSettingsActivity(system.toast) }
             onDismiss { open.clear() }
         }
 
@@ -205,7 +205,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         }
 
         importDenyDialog.apply {
-            onPositiveClick { context?.startSettingsActivity(delegators.toast) }
+            onPositiveClick { context?.startSettingsActivity(system.toast) }
             onDismiss { open.clear() }
         }
 
@@ -259,19 +259,19 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
                 is ImportState.ShowLoading -> showImportLoadingDialog()
                 is ImportState.HideLoading -> loadingDialog.safeDismiss(owner = this)
                 is ImportState.LoadSuccess -> {
-                    delegators.toast.show(context, R.string.pref_toast_import_result)
+                    system.toast.show(context, R.string.pref_toast_import_result)
                 }
                 is ImportState.LoadSkip -> {
                     val text = getString(R.string.pref_toast_import_skip, it.count)
-                    delegators.toast.show(context, text, Toast.LENGTH_LONG)
+                    system.toast.show(context, text, Toast.LENGTH_LONG)
                 }
                 is ImportState.LoadError -> {
-                    delegators.toast.show(context, R.string.pref_toast_import_error)
+                    system.toast.show(context, R.string.pref_toast_import_error)
                 }
                 is ImportState.Finish -> {
-                    delegators.broadcast.sendTidyUpAlarm()
-                    delegators.broadcast.sendNotifyNotesBind()
-                    delegators.broadcast.sendNotifyInfoBind()
+                    system.broadcast.sendTidyUpAlarm()
+                    system.broadcast.sendNotifyNotesBind()
+                    system.broadcast.sendNotifyInfoBind()
                 }
             }
         }

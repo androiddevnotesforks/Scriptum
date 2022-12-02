@@ -57,13 +57,13 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
         }
 
         binding?.settingsButton?.setOnClickListener {
-            val toast = delegators?.toast ?: return@setOnClickListener
+            val toast = system?.toast ?: return@setOnClickListener
             startSettingsActivity(toast)
         }
     }
 
     private fun onVideoClick() {
-        val toast = delegators?.toast ?: return
+        val toast = system?.toast ?: return
 
         val url = getString(R.string.help_notification_disappear_video_url)
         startUrlActivity(url, toast)

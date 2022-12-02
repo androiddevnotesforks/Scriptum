@@ -49,7 +49,7 @@ class DevelopFragment : ParentPreferenceFragment() {
 
             resetButton?.setOnClickListener {
                 viewModel.resetPreferences()
-                delegators.toast.show(it.context, R.string.toast_dev_clear)
+                system.toast.show(it.context, R.string.toast_dev_clear)
             }
         }
     }

@@ -69,7 +69,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     }
 
     private fun chooseOpenScreen() {
-        delegators?.broadcast?.run {
+        system?.broadcast?.run {
             sendTidyUpAlarm()
             sendNotifyNotesBind()
             sendNotifyInfoBind()
