@@ -73,41 +73,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
             .inject(activity = this)
     }
 
-    override fun registerReceivers() {
-        super.registerReceivers()
-        registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        unregisterReceiver(unbindNoteReceiver)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        holderShowControl.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        bundleProvider.saveData(outState)
-    }
-
-    //endregion
-
-    //region cleanup
-
-    private val holderShowControl by lazy {
-        HolderShowControl[binding?.toolbarHolder, binding?.panelHolder]
-    }
-    private val holderTintControl by lazy {
-        HolderTintControl[this, window, binding?.toolbarHolder]
-    }
-
-    override fun onBackPressed() {
-        if (!viewModel.onPressBack()) super.onBackPressed()
-    }
-
     override fun setupInsets() {
         super.setupInsets()
 
@@ -120,7 +85,42 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         }
     }
 
-    override fun updateHolder(color: Color) = holderTintControl.setupColor(color)
+    override fun registerReceivers() {
+        super.registerReceivers()
+        registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        unregisterReceiver(unbindNoteReceiver)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        bundleProvider.saveData(outState)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        holderShowControl.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        val catchBackPress = when (bundleProvider.type) {
+            NoteType.TEXT -> textNoteFragment?.onPressBack() ?: false
+            NoteType.ROLL -> rollNoteFragment?.onPressBack() ?: false
+            null -> false
+        }
+
+        /** If back press was caught by child fragments - don't call activity back press. */
+        if (!catchBackPress) {
+            super.onBackPressed()
+        }
+    }
+
+    //endregion
+
+    private fun updateHolder(color: Color) = holderTintControl.setupColor(color)
 
     /**
      * [checkCache] - find fragment by tag or create new.
@@ -142,27 +142,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         showFragment(fragment, FragmentFactory.Note.Tag.ROLL)
     }
 
-    override fun onPressBackText() = textNoteFragment?.onPressBack() ?: false
-
-    override fun onPressBackRoll() = rollNoteFragment?.onPressBack() ?: false
-
-    override fun onReceiveUnbindNote(noteId: Long) {
-        textNoteFragment?.onReceiveUnbindNote(noteId)
-        rollNoteFragment?.onReceiveUnbindNote(noteId)
-    }
-
-    //region Parent callback
-
-    override fun onUpdateNoteId(id: Long) = viewModel.onUpdateNoteId(id)
-
-    override fun onUpdateNoteColor(color: Color) = viewModel.onUpdateNoteColor(color)
-
-    override fun onConvertNote() = viewModel.onConvertNote()
-
-    override fun isOrientationChanging(): Boolean = isChangingConfigurations
-
-    //endregion
-
     private fun showFragment(fragment: Fragment, tag: String) {
         holderShowControl.display()
 
@@ -173,6 +152,31 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
                 .commit()
         }
     }
+
+    //region cleanup
+
+    private val holderShowControl by lazy {
+        HolderShowControl[binding?.toolbarHolder, binding?.panelHolder]
+    }
+    private val holderTintControl by lazy {
+        HolderTintControl[this, window, binding?.toolbarHolder]
+    }
+
+    override fun onReceiveUnbindNote(noteId: Long) {
+        textNoteFragment?.onReceiveUnbindNote(noteId)
+        rollNoteFragment?.onReceiveUnbindNote(noteId)
+    }
+
+    override fun onUpdateNoteId(id: Long) = bundleProvider.updateId(id)
+
+    override fun onUpdateNoteColor(color: Color) {
+        bundleProvider.updateColor(color)
+        updateHolder(color)
+    }
+
+    override fun onConvertNote() = viewModel.onConvertNote()
+
+    override fun isOrientationChanging(): Boolean = isChangingConfigurations
 
     //endregion
 }

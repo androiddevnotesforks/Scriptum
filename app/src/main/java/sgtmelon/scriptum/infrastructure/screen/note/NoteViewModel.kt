@@ -10,11 +10,11 @@ interface NoteViewModel/* : IParentViewModel*/ {
 
     //    fun onSetupFragment(checkCache: Boolean)
 
-    fun onPressBack(): Boolean
+//    fun onPressBack(): Boolean
 
-    fun onUpdateNoteId(id: Long)
+    //    fun onUpdateNoteId(id: Long)
 
-    fun onUpdateNoteColor(color: Color)
+    //    fun onUpdateNoteColor(color: Color)
 
     fun onConvertNote()
 

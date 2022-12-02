@@ -58,22 +58,22 @@ class NoteViewModelImpl(
     //            else -> callback?.finish()
     //        }
     //    }
+    //
+    //    override fun onPressBack() = when (type) {
+    //        NoteType.TEXT -> callback?.onPressBackText() ?: false
+    //        NoteType.ROLL -> callback?.onPressBackRoll() ?: false
+    //        else -> false
+    //    }
 
-    override fun onPressBack() = when (type) {
-        NoteType.TEXT -> callback?.onPressBackText() ?: false
-        NoteType.ROLL -> callback?.onPressBackRoll() ?: false
-        else -> false
-    }
-
-    override fun onUpdateNoteId(id: Long) {
-        this.id = id
-    }
-
-    override fun onUpdateNoteColor(color: Color) {
-        this.color = color
-
-        callback?.updateHolder(color)
-    }
+    //    override fun onUpdateNoteId(id: Long) {
+    //        this.id = id
+    //    }
+    //
+    //    override fun onUpdateNoteColor(color: Color) {
+    //        this.color = color
+    //
+    //        callback?.updateHolder(color)
+    //    }
 
     override fun onConvertNote() {
         when (type) {

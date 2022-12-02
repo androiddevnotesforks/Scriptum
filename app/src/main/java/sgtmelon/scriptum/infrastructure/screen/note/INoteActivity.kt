@@ -1,15 +1,13 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-
 /**
  * Interface for communication [NoteViewModel] with [NoteActivity].
  */
 @Deprecated("delete it")
 interface INoteActivity {
 
-    fun updateHolder(color: Color)
-
+    //    fun updateHolder(color: Color)
+    //
     //    fun setupInsets()
     //
     //    /**
