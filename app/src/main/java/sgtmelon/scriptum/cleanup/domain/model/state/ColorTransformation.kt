@@ -5,13 +5,13 @@ import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 
 /**
- * State for from/to colors of menu
+ * Transform colors [from] one [to] another.
  */
-class MenuColorState(var from: Int = ND_VALUE, var to: Int = ND_VALUE) {
+class ColorTransformation(var from: Int = ND_VALUE, var to: Int = ND_VALUE) {
 
     fun isReady() = from != to
 
-    fun blend(@FloatRange(from = 0.0, to = 1.0) ratio: Float) = blend(from, to, ratio)
+    operator fun get(@FloatRange(from = 0.0, to = 1.0) ratio: Float) = get(from, to, ratio)
 
     /**
      * Get middle RGB color with dependency of [ratio] value.
@@ -21,11 +21,7 @@ class MenuColorState(var from: Int = ND_VALUE, var to: Int = ND_VALUE) {
      * [to]     - final color destination
      */
     @ColorInt
-    private fun blend(
-        from: Int,
-        to: Int,
-        @FloatRange(from = 0.0, to = 1.0) ratio: Float
-    ): Int {
+    private fun get(from: Int, to: Int, @FloatRange(from = 0.0, to = 1.0) ratio: Float): Int {
         val inverseRatio = 1f - ratio
 
         val r = Color.red(to) * ratio + Color.red(from) * inverseRatio

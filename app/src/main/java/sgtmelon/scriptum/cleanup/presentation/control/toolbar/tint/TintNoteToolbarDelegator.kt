@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.state.MenuColorState
+import sgtmelon.scriptum.cleanup.domain.model.state.ColorTransformation
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
@@ -28,9 +28,9 @@ class TintNoteToolbarDelegator(
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
-    private val statusState = MenuColorState()
-    private val toolbarState = MenuColorState()
-    private val indicatorState = MenuColorState()
+    private val statusBarColor = ColorTransformation()
+    private val toolbarColor = ColorTransformation()
+    private val indicatorColor = ColorTransformation()
 
     init {
         setupColorAnimator()
@@ -40,24 +40,19 @@ class TintNoteToolbarDelegator(
     private fun setupColorAnimator() {
         if (theme == null) return
 
-        val updateListener = ValueAnimator.AnimatorUpdateListener {
+        val updateColorsListener = ValueAnimator.AnimatorUpdateListener {
             val ratio = it.animatedFraction
-            var blended: Int
 
             if (theme != ThemeDisplayed.DARK) {
-                blended = statusState.blend(ratio)
-                window.statusBarColor = blended
+                window.statusBarColor = statusBarColor[ratio]
+                toolbar?.setBackgroundColor(toolbarColor[ratio])
+            } else {
+                indicator?.setBackgroundColor(indicatorColor[ratio])
             }
-
-            blended = toolbarState.blend(ratio)
-            if (theme != ThemeDisplayed.DARK) toolbar?.setBackgroundColor(blended)
-
-            blended = indicatorState.blend(ratio)
-            if (theme == ThemeDisplayed.DARK) indicator?.setBackgroundColor(blended)
         }
 
         colorAnimator.removeAllUpdateListeners()
-        colorAnimator.addUpdateListener(updateListener)
+        colorAnimator.addUpdateListener(updateColorsListener)
         colorAnimator.duration = context.resources.getInteger(R.integer.color_transition_time)
             .toLong()
     }
@@ -79,9 +74,9 @@ class TintNoteToolbarDelegator(
     fun setColorFrom(color: Color) = apply {
         if (theme == null) return@apply
 
-        statusState.from = context.getNoteToolbarColor(theme, color, needDark = false)
-        toolbarState.from = context.getNoteToolbarColor(theme, color, needDark = false)
-        indicatorState.from = context.getAppSimpleColor(color, ColorShade.DARK)
+        statusBarColor.from = context.getNoteToolbarColor(theme, color, needDark = false)
+        toolbarColor.from = context.getNoteToolbarColor(theme, color, needDark = false)
+        indicatorColor.from = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
     /**
@@ -90,13 +85,13 @@ class TintNoteToolbarDelegator(
     fun startTint(color: Color) {
         if (theme == null) return
 
-        statusState.to = context.getNoteToolbarColor(theme, color, needDark = false)
-        toolbarState.to = context.getNoteToolbarColor(theme, color, needDark = false)
-        indicatorState.to = context.getAppSimpleColor(color, ColorShade.DARK)
+        statusBarColor.to = context.getNoteToolbarColor(theme, color, needDark = false)
+        toolbarColor.to = context.getNoteToolbarColor(theme, color, needDark = false)
+        indicatorColor.to = context.getAppSimpleColor(color, ColorShade.DARK)
 
-        if (statusState.isReady()
-            || toolbarState.isReady()
-            || indicatorState.isReady()) {
+        if (statusBarColor.isReady()
+            || toolbarColor.isReady()
+            || indicatorColor.isReady()) {
             colorAnimator.start()
         }
     }

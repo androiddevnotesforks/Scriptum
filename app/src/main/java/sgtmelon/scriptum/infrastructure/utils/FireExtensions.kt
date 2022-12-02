@@ -14,4 +14,6 @@ fun Throwable.record(withPrint: Boolean = true) = apply {
     getCrashlytics().recordException(this)
 }
 
-fun recordException(text: String) = Throwable(text).record()
+fun recordException(text: String) {
+    Throwable(text).record()
+}
