@@ -73,8 +73,8 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.INoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
+import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
@@ -179,7 +179,7 @@ class ViewModelModule {
         typeConverter: NoteTypeConverter,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo
-    ): INoteViewModel {
+    ): NoteViewModel {
         val factory = ViewModelFactory.NoteScreen.Note(
             activity, typeConverter, colorConverter, preferencesRepo
         )

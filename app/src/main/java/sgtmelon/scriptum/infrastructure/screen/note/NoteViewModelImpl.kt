@@ -20,7 +20,7 @@ class NoteViewModelImpl(
     private val colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo
 ) : ParentViewModel<INoteActivity>(callback),
-    INoteViewModel {
+    NoteViewModel {
 
     @RunPrivate var id: Long = Default.ID
     @RunPrivate var type: NoteType? = null

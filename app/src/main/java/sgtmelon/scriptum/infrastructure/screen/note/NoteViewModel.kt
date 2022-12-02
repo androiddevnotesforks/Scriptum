@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 /**
  * Interface for communication [INoteActivity] with [NoteViewModelImpl].
  */
-interface INoteViewModel : IParentViewModel {
+interface NoteViewModel : IParentViewModel {
 
     fun onSaveData(bundle: Bundle)
 

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
- * Interface for communication [INoteViewModel] with [NoteActivity].
+ * Interface for communication [NoteViewModel] with [NoteActivity].
  */
 interface INoteActivity {
 
