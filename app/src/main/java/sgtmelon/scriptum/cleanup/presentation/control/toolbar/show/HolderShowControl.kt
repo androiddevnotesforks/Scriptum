@@ -1,43 +1,36 @@
 package sgtmelon.scriptum.cleanup.presentation.control.toolbar.show
 
-import android.os.Handler
+import android.content.res.Resources
 import android.view.View
-import androidx.annotation.IntegerRes
+import androidx.lifecycle.Lifecycle
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 import sgtmelon.scriptum.infrastructure.utils.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.makeVisible
 
 /**
- * Class for help control showing placeholders while transition happen.
+ * Class for help control showing placeholders while transition happen (and hiding at the end).
  */
-// TODO refactor + apply DelayJobDelegator with subscribe on lifecycle
-class HolderShowControl(
-    private val viewArray: Array<View?>,
-    @IntegerRes private val time: Int = R.integer.placeholder_fade_time
-) : IHolderShowControl {
+class HolderShowControl private constructor(
+    lifecycle: Lifecycle,
+    resources: Resources,
+    private val viewList: List<View?>
+) {
 
-    // TODO what the fuck?) why use random? may be provide context/resources for this class?
-    private val timeValue = viewArray.random()?.context?.resources?.getInteger(time)?.toLong() ?: 0L
+    constructor(lifecycle: Lifecycle, resources: Resources, vararg views: View?)
+            : this(lifecycle, resources, listOf(*views))
 
-    private val handler = Handler()
-    private val runnable = { for (it in viewArray) it?.makeInvisible() }
+    private val delayTime = resources.getInteger(R.integer.placeholder_fade_time).toLong()
+    private val hideJob = DelayJobDelegator(lifecycle)
 
-    override fun display() {
-        for (it in viewArray) {
-            it?.makeVisible()
-        }
-
-        handler.removeCallbacksAndMessages(null)
-        handler.postDelayed(runnable, timeValue)
+    fun display() {
+        changeVisibility(isVisible = true)
+        hideJob.run(delayTime) { changeVisibility(isVisible = false) }
     }
 
-    override fun onDestroy() {
-        handler.removeCallbacksAndMessages(null)
-    }
-
-    companion object {
-        operator fun get(vararg view: View?): IHolderShowControl {
-            return HolderShowControl(arrayOf(*view))
+    private fun changeVisibility(isVisible: Boolean) {
+        for (view in viewList) {
+            if (isVisible) view?.makeVisible() else view?.makeInvisible()
         }
     }
 }

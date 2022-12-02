@@ -14,22 +14,15 @@ class HolderTintControl(
     context: Context,
     private val window: Window,
     private val holder: View?
-) : ParentTintControl(context),
-        IHolderTintControl {
+) : ParentTintControl(context) {
 
     private val theme: ThemeDisplayed? = context.getDisplayedTheme()
 
-    override fun setupColor(color: Color) {
+    fun setupColor(color: Color) {
         if (theme == null || theme == ThemeDisplayed.DARK) return
 
         window.statusBarColor = getStatusBarColor(theme, color)
 
         holder?.setBackgroundColor(getToolbarColor(theme, color))
-    }
-
-    companion object {
-        operator fun get(context: Context, window: Window, holder: View?): IHolderTintControl {
-            return HolderTintControl(context, window, holder)
-        }
     }
 }

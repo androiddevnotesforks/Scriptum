@@ -99,11 +99,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         bundleProvider.saveData(outState)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        holderShowControl.onDestroy()
-    }
-
     override fun onBackPressed() {
         val catchBackPress = when (bundleProvider.type) {
             NoteType.TEXT -> textNoteFragment?.onPressBack() ?: false
@@ -175,10 +170,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     //region cleanup
 
     private val holderShowControl by lazy {
-        HolderShowControl[binding?.toolbarHolder, binding?.panelHolder]
+        HolderShowControl(lifecycle, resources, binding?.toolbarHolder, binding?.panelHolder)
     }
     private val holderTintControl by lazy {
-        HolderTintControl[this, window, binding?.toolbarHolder]
+        HolderTintControl(context = this, window, binding?.toolbarHolder)
     }
 
     // TODO improve it, i don't think it's work correct with split screen for example

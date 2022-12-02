@@ -22,8 +22,7 @@ class ToolbarTintControl(
     private val toolbar: View?,
     private val indicator: View?,
     startColor: Color
-) : ParentTintControl(context),
-    IToolbarTintControl {
+) : ParentTintControl(context) {
 
     private val theme: ThemeDisplayed? = context.getDisplayedTheme()
 
@@ -78,24 +77,28 @@ class ToolbarTintControl(
     }
 
 
-    override fun setColorFrom(color: Color) = apply {
+    fun setColorFrom(color: Color) = apply {
         if (theme == null) return@apply
 
-        statusState.from = context.getNoteToolbarColor(theme, color, statusOnDark)
+        statusState.from = context.getNoteToolbarColor(theme, color, needDark = false)
         toolbarState.from = context.getNoteToolbarColor(theme, color, needDark = false)
         indicatorState.from = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
-    override fun startTint(color: Color) {
+    /**
+     * Set end [color] and start animation if need.
+     */
+    fun startTint(color: Color) {
         if (theme == null) return
 
-        statusState.to = context.getNoteToolbarColor(theme, color, statusOnDark)
+        statusState.to = context.getNoteToolbarColor(theme, color, needDark = false)
         toolbarState.to = context.getNoteToolbarColor(theme, color, needDark = false)
         indicatorState.to = context.getAppSimpleColor(color, ColorShade.DARK)
 
         if (statusState.isDifferent()
-                || toolbarState.isDifferent()
-                || indicatorState.isDifferent()) colorAnimator.start()
+            || toolbarState.isDifferent()
+            || indicatorState.isDifferent()) {
+            colorAnimator.start()
+        }
     }
-
 }

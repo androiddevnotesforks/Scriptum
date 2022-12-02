@@ -50,8 +50,10 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     private val addDialog by lazy { DialogFactory.Main(context = this, fm).getAdd() }
 
-    private val holderControl by lazy { HolderShowControl[binding?.toolbarHolder] }
-    private var fabDelegator: GradientFabDelegator? = null
+    private val holderControl by lazy {
+        HolderShowControl(lifecycle, resources, binding?.toolbarHolder)
+    }
+    private var gradientFab: GradientFabDelegator? = null
 
     private val pageConverter = MainPageConverter()
 
@@ -94,7 +96,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     override fun setupView() {
         super.setupView()
 
-        fabDelegator = GradientFabDelegator(activity = this) { showAddDialog() }
+        gradientFab = GradientFabDelegator(activity = this) { showAddDialog() }
 
         /** Setup of selected item must be before setting navigation item selected listener */
         binding?.menuNavigation?.selectedItemId = pageConverter.convert(viewModel.currentPage.value)
@@ -138,9 +140,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     override fun onDestroy() {
         super.onDestroy()
-        fabDelegator = null
-
-        holderControl.onDestroy()
+        gradientFab = null
     }
 
     //endregion
@@ -241,6 +241,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     //endregion
 
     override fun changeFabVisibility(isVisible: Boolean, withGap: Boolean) {
-        fabDelegator?.changeVisibility(isVisible = isVisible && viewModel.isFabPage, withGap)
+        gradientFab?.changeVisibility(isVisible = isVisible && viewModel.isFabPage, withGap)
     }
 }

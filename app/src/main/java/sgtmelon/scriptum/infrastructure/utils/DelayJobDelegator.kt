@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runMain
 
 /**
- * Delegator for start some function with delay.
+ * Delegator for start some function with delay. Replacement for Handler().postDelayed(..).
  */
 internal class DelayJobDelegator(lifecycle: Lifecycle?) : DefaultLifecycleObserver {
 

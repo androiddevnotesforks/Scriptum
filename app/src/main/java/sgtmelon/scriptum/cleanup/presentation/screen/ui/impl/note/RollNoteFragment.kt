@@ -40,7 +40,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.VisibleIconControl
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.IToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
@@ -70,7 +69,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
 
     @Inject lateinit var viewModel: IRollNoteViewModel
 
-    private var toolbarTintControl: IToolbarTintControl? = null
+    private var toolbarTintControl: ToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
     private var visibleIconControl: IconChangeCallback? = null
 

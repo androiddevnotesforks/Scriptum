@@ -23,7 +23,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.IToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
@@ -49,7 +48,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
 
     @Inject lateinit var viewModel: ITextNoteViewModel
 
-    private var toolbarTintControl: IToolbarTintControl? = null
+    private var toolbarTintControl: ToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
 
     private val dialogs by lazy { DialogFactory.Note(context, fm) }

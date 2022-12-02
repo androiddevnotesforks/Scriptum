@@ -14,5 +14,4 @@ class NoteViewModelImpl(private val preferencesRepo: PreferencesRepo) : NoteView
             NoteType.ROLL -> NoteType.TEXT
         }
     }
-
 }
