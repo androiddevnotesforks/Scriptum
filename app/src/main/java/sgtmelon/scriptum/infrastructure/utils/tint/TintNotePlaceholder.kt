@@ -10,19 +10,14 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 /**
  * Control note toolbar placeholder color.
  */
-class TintNotePlaceholder(
-    context: Context,
-    private val window: Window,
-    private val holder: View?
-) : TintNoteBar(context) {
+class TintNotePlaceholder(context: Context, private val window: Window) : TintNoteBar(context) {
 
     private val theme: ThemeDisplayed? = context.getDisplayedTheme()
 
-    fun changeColor(color: Color) {
-        if (theme == null || theme == ThemeDisplayed.DARK) return
+    fun changeColor(color: Color, holder: View?) {
+        val theme = theme?.takeIf { it != ThemeDisplayed.DARK } ?: return
 
         window.statusBarColor = getStatusBarColor(theme, color)
-
         holder?.setBackgroundColor(getToolbarColor(theme, color))
     }
 }

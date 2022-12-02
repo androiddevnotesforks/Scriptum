@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.infrastructure.utils
 
-import android.content.res.Resources
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import sgtmelon.scriptum.R
@@ -10,25 +10,22 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 /**
  * Class for help control showing placeholders while transition happen (and hiding at the end).
  */
-class ShowPlaceholder private constructor(
+class ShowPlaceholder(
     lifecycle: Lifecycle,
-    resources: Resources,
-    private val viewList: List<View?>
+    private val context: Context,
+    private val delayTimeId: Int = R.integer.placeholder_fade_time
 ) {
 
-    constructor(lifecycle: Lifecycle, resources: Resources, vararg views: View?)
-            : this(lifecycle, resources, listOf(*views))
-
-    private val delayTime = resources.getInteger(R.integer.placeholder_fade_time).toLong()
+    private val delayTime get() = context.resources.getInteger(delayTimeId).toLong()
     private val hideJob = DelayedJob(lifecycle)
 
-    fun start() {
-        changeVisibility(isVisible = true)
-        hideJob.start(delayTime) { changeVisibility(isVisible = false) }
+    fun start(vararg views: View?) {
+        changeVisibility(isVisible = true, views)
+        hideJob.start(delayTime) { changeVisibility(isVisible = false, views) }
     }
 
-    private fun changeVisibility(isVisible: Boolean) {
-        for (view in viewList) {
+    private fun changeVisibility(isVisible: Boolean, viewArray: Array<out View?>) {
+        for (view in viewArray) {
             if (isVisible) view?.makeVisible() else view?.makeInvisible()
         }
     }

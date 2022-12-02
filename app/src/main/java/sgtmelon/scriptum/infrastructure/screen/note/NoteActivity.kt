@@ -38,9 +38,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     private val textNoteFragment get() = fragments.getTextNote()
     private val rollNoteFragment get() = fragments.getRollNote()
 
-    // TODO Add control here
+    private val showPlaceholder = ShowPlaceholder(lifecycle, context = this)
+    private val tintPlaceholder = TintNotePlaceholder(context = this, window)
 
-    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
+    private val unbindNoteReceiver = UnbindNoteReceiver[this]
 
     //region System
 
@@ -113,7 +114,9 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     //endregion
 
-    private fun updateHolder(color: Color) = tintPlaceholder.changeColor(color)
+    private fun updateHolder(color: Color) {
+        tintPlaceholder.changeColor(color, binding?.toolbarHolder)
+    }
 
     /**
      * [checkCache] - find fragment by tag or create new.
@@ -136,7 +139,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     }
 
     private fun showFragment(fragment: Fragment, tag: String) {
-        showPlaceholder.start()
+        showPlaceholder.start(binding?.toolbarHolder, binding?.panelHolder)
 
         lifecycleScope.launchWhenResumed {
             fm.beginTransaction()
@@ -166,19 +169,12 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         showFragment(id, convertType, color, checkCache = true)
     }
 
-    //region cleanup
-
-    private val showPlaceholder by lazy {
-        ShowPlaceholder(lifecycle, resources, binding?.toolbarHolder, binding?.panelHolder)
+    /**
+     * TODO improve it, i don't think it's work correct with split screen for example.
+     */
+    override fun isOrientationChanging(): Boolean {
+        return isChangingConfigurations
     }
-    private val tintPlaceholder by lazy {
-        TintNotePlaceholder(context = this, window, binding?.toolbarHolder)
-    }
-
-    // TODO improve it, i don't think it's work correct with split screen for example
-    override fun isOrientationChanging(): Boolean = isChangingConfigurations
-
-    //endregion
 
     override fun onReceiveUnbindNote(noteId: Long) {
         textNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)

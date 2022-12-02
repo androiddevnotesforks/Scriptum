@@ -50,9 +50,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     private val addDialog by lazy { DialogFactory.Main(context = this, fm).getAdd() }
 
-    private val showHolder by lazy {
-        ShowPlaceholder(lifecycle, resources, binding?.toolbarHolder)
-    }
+    private val showHolder = ShowPlaceholder(lifecycle, context = this)
+
     private var gradientFab: GradientFabDelegator? = null
 
     private val pageConverter = MainPageConverter()
@@ -160,7 +159,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     private fun showPage(pageFrom: MainPage?, pageTo: MainPage) {
         lifecycleScope.launchWhenResumed {
-            showHolder.start()
+            showHolder.start(binding?.toolbarHolder)
 
             fm.beginTransaction()
                 .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out)
