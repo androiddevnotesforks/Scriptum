@@ -39,7 +39,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     private val rollNoteFragment get() = fragments.getRollNote()
 
     private val showPlaceholder = ShowPlaceholder(lifecycle, context = this)
-    private val tintPlaceholder = TintNotePlaceholder(context = this, window)
+    private val tintPlaceholder = TintNotePlaceholder(context = this)
 
     private val unbindNoteReceiver = UnbindNoteReceiver[this]
 
@@ -115,7 +115,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     //endregion
 
     private fun updateHolder(color: Color) {
-        tintPlaceholder.changeColor(color, binding?.toolbarHolder)
+        tintPlaceholder.changeColor(color, window, binding?.toolbarHolder)
     }
 
     /**

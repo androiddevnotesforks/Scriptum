@@ -8,13 +8,13 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
- * Control note toolbar placeholder color.
+ * Control colors of note toolbar placeholder.
  */
-class TintNotePlaceholder(context: Context, private val window: Window) : TintNoteBar(context) {
+class TintNotePlaceholder(context: Context) : TintNoteBar(context) {
 
-    private val theme: ThemeDisplayed? = context.getDisplayedTheme()
+    private val theme: ThemeDisplayed? get() = context.getDisplayedTheme()
 
-    fun changeColor(color: Color, holder: View?) {
+    fun changeColor(color: Color, window: Window, holder: View?) {
         val theme = theme?.takeIf { it != ThemeDisplayed.DARK } ?: return
 
         window.statusBarColor = getStatusBarColor(theme, color)

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.ColorTransformation
 
 /**
- * Control note toolbar tint.
+ * Control of note toolbar tinting.
  */
 class TintNoteToolbar(
     context: Context,
@@ -24,7 +24,7 @@ class TintNoteToolbar(
     startColor: Color
 ) : TintNoteBar(context) {
 
-    private val theme: ThemeDisplayed? = context.getDisplayedTheme()
+    private val theme: ThemeDisplayed? get() = context.getDisplayedTheme()
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
@@ -38,7 +38,7 @@ class TintNoteToolbar(
     }
 
     private fun setupColorAnimator() {
-        if (theme == null) return
+        val theme = theme ?: return
 
         val updateColorsListener = ValueAnimator.AnimatorUpdateListener {
             val ratio = it.animatedFraction
@@ -58,21 +58,26 @@ class TintNoteToolbar(
     }
 
     private fun setupColor(color: Color) {
-        if (theme == null) return
+        val theme = theme ?: return
 
         if (theme != ThemeDisplayed.DARK) {
             window.statusBarColor = getStatusBarColor(theme, color)
-
             toolbar?.setBackgroundColor(getToolbarColor(theme, color))
+        } else {
+            indicator?.setBackgroundColor(
+                context.getNoteToolbarColor(
+                    theme,
+                    color,
+                    needDark = true
+                )
+            )
         }
-
-        indicator?.setBackgroundColor(context.getNoteToolbarColor(theme, color, needDark = true))
 
         setColorFrom(color)
     }
 
     fun setColorFrom(color: Color) = apply {
-        if (theme == null) return@apply
+        val theme = theme ?: return@apply
 
         statusBarColor.from = context.getNoteToolbarColor(theme, color, needDark = false)
         toolbarColor.from = context.getNoteToolbarColor(theme, color, needDark = false)
@@ -83,7 +88,7 @@ class TintNoteToolbar(
      * Set end [color] and start animation if need.
      */
     fun startTint(color: Color) {
-        if (theme == null) return
+        val theme = theme ?: return
 
         statusBarColor.to = context.getNoteToolbarColor(theme, color, needDark = false)
         toolbarColor.to = context.getNoteToolbarColor(theme, color, needDark = false)
