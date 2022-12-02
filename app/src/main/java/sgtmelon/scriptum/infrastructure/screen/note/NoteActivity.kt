@@ -7,8 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.ShowPlaceholderDelegator
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.TintNotePlaceholderDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
@@ -18,9 +16,11 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
+import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
+import sgtmelon.scriptum.infrastructure.utils.tint.TintNotePlaceholder
 
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].
@@ -169,10 +169,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     //region cleanup
 
     private val showPlaceholder by lazy {
-        ShowPlaceholderDelegator(lifecycle, resources, binding?.toolbarHolder, binding?.panelHolder)
+        ShowPlaceholder(lifecycle, resources, binding?.toolbarHolder, binding?.panelHolder)
     }
     private val tintPlaceholder by lazy {
-        TintNotePlaceholderDelegator(context = this, window, binding?.toolbarHolder)
+        TintNotePlaceholder(context = this, window, binding?.toolbarHolder)
     }
 
     // TODO improve it, i don't think it's work correct with split screen for example

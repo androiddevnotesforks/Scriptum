@@ -23,7 +23,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.TintNoteToolbarDelegator
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
@@ -35,6 +34,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
 
 /**
@@ -48,7 +48,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
 
     @Inject lateinit var viewModel: ITextNoteViewModel
 
-    private var tintToolbar: TintNoteToolbarDelegator? = null
+    private var tintToolbar: TintNoteToolbar? = null
     private var navigationIconControl: IconChangeCallback? = null
 
     private val dialogs by lazy { DialogFactory.Note(context, fm) }
@@ -131,7 +131,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
         activity?.let {
-            tintToolbar = TintNoteToolbarDelegator(it, it.window, toolbar, indicator, color)
+            tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
             navigationIconControl = NavigationIconControl(it, toolbar, callback = this)
         }
 

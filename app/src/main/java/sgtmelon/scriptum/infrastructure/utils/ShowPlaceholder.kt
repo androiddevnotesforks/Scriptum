@@ -1,17 +1,16 @@
-package sgtmelon.scriptum.cleanup.presentation.control.toolbar.show
+package sgtmelon.scriptum.infrastructure.utils
 
 import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 
 /**
  * Class for help control showing placeholders while transition happen (and hiding at the end).
  */
-class ShowPlaceholderDelegator private constructor(
+class ShowPlaceholder private constructor(
     lifecycle: Lifecycle,
     resources: Resources,
     private val viewList: List<View?>

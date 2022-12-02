@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint
+package sgtmelon.scriptum.infrastructure.utils.tint
 
 import android.content.Context
 import android.view.View
@@ -8,13 +8,13 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
- * Control note toolbar holder color.
+ * Control note toolbar placeholder color.
  */
-class TintNotePlaceholderDelegator(
+class TintNotePlaceholder(
     context: Context,
     private val window: Window,
     private val holder: View?
-) : TintBarDelegator(context) {
+) : TintNoteBar(context) {
 
     private val theme: ThemeDisplayed? = context.getDisplayedTheme()
 

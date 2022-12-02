@@ -9,7 +9,6 @@ import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.ShowPlaceholderDelegator
 import sgtmelon.scriptum.databinding.ActivityMainBinding
 import sgtmelon.scriptum.infrastructure.converter.MainPageConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.AddSheetData
@@ -21,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
+import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.addSystemInsetsMargin
 import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
@@ -51,7 +51,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     private val addDialog by lazy { DialogFactory.Main(context = this, fm).getAdd() }
 
     private val showHolder by lazy {
-        ShowPlaceholderDelegator(lifecycle, resources, binding?.toolbarHolder)
+        ShowPlaceholder(lifecycle, resources, binding?.toolbarHolder)
     }
     private var gradientFab: GradientFabDelegator? = null
 

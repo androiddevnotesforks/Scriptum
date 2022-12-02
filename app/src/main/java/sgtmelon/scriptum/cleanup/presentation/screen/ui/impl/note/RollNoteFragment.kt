@@ -40,7 +40,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.VisibleIconControl
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.TintNoteToolbarDelegator
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
@@ -54,6 +53,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
 
@@ -69,7 +69,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
 
     @Inject lateinit var viewModel: IRollNoteViewModel
 
-    private var tintToolbar: TintNoteToolbarDelegator? = null
+    private var tintToolbar: TintNoteToolbar? = null
     private var navigationIconControl: IconChangeCallback? = null
     private var visibleIconControl: IconChangeCallback? = null
 
@@ -197,7 +197,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
         visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
 
         activity?.let {
-            tintToolbar = TintNoteToolbarDelegator(it, it.window, toolbar, indicator, color)
+            tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
             navigationIconControl = NavigationIconControl(it, toolbar, callback = this)
             visibleIconControl = VisibleIconControl(it, visibleMenuItem, callback = this)
         }
