@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.adapter.diff.NoteDiff
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 /**
  * Adapter which displays list of [NoteItem]'s.

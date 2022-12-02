@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.extension
 import android.content.Context
 import android.content.res.Configuration
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.utils.recordException
+import sgtmelon.scriptum.infrastructure.utils.extensions.recordException
 
 fun Context.getDisplayedTheme(): ThemeDisplayed? {
     val uiMode = resources.configuration.uiMode

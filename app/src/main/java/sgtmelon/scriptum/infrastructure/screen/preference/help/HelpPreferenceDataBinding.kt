@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.preference.help
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.findPreference
+import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
 
 class HelpPreferenceDataBinding(val fragment: PreferenceFragmentCompat) {
 

@@ -20,10 +20,10 @@ import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSta
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportSummaryState
-import sgtmelon.scriptum.infrastructure.utils.isGranted
-import sgtmelon.scriptum.infrastructure.utils.requestPermission
-import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
-import sgtmelon.scriptum.infrastructure.utils.startSettingsActivity
+import sgtmelon.scriptum.infrastructure.utils.extensions.isGranted
+import sgtmelon.scriptum.infrastructure.utils.extensions.requestPermission
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 

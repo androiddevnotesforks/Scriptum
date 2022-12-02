@@ -1,6 +1,6 @@
 @file:JvmName(name = "FireExtensionsUtils")
 
-package sgtmelon.scriptum.infrastructure.utils
+package sgtmelon.scriptum.infrastructure.utils.extensions
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 

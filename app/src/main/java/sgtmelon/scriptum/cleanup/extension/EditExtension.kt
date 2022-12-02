@@ -5,8 +5,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import sgtmelon.scriptum.infrastructure.utils.isVisible
-import sgtmelon.scriptum.infrastructure.utils.showKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.isVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.showKeyboard
 
 /**
  * Return false - close keyboard.

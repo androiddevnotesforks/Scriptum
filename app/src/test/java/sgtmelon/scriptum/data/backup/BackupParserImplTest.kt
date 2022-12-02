@@ -23,7 +23,7 @@ import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.nextString
 
 /**

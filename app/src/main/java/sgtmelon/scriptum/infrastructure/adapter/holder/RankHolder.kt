@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
-import sgtmelon.scriptum.infrastructure.utils.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.test.prod.RunNone
 
 @SuppressLint("ClickableViewAccessibility")

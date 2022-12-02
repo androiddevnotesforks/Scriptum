@@ -5,7 +5,7 @@ import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
 import sgtmelon.scriptum.infrastructure.model.item.ColorItem
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**
  * Data related with app colors.

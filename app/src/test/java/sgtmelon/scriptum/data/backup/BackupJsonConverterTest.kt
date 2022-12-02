@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.exception.converter.EnumConverterException
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**
  * Test for [BackupJsonConverter].

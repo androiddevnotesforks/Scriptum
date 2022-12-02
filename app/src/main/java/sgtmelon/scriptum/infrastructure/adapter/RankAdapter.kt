@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.adapter.diff.RankDiff
 import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 /**
  * Adapter which displays list of [RankItem]'s.

@@ -15,11 +15,11 @@ import androidx.lifecycle.LifecycleOwner
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
-import sgtmelon.scriptum.infrastructure.utils.getAlphaAnimator
-import sgtmelon.scriptum.infrastructure.utils.getScaleXAnimator
-import sgtmelon.scriptum.infrastructure.utils.getScaleYAnimator
-import sgtmelon.scriptum.infrastructure.utils.makeGone
-import sgtmelon.scriptum.infrastructure.utils.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleXAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleYAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 
 internal class GradientFabDelegator(
     private val activity: AppCompatActivity,

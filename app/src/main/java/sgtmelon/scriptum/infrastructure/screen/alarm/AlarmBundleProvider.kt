@@ -5,7 +5,7 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.exception.BundleException
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentBundleProvider
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**
  * Bundle data provider for [AlarmActivity] screen.

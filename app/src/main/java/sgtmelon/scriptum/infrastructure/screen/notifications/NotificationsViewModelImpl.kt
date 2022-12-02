@@ -15,8 +15,8 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
-import sgtmelon.scriptum.infrastructure.utils.clearAdd
-import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
+import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
 class NotificationsViewModelImpl(
     private val setNotification: SetNotificationUseCase,

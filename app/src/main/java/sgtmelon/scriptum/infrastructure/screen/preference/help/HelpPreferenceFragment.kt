@@ -4,7 +4,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
 /**
  * Fragment of help preferences.

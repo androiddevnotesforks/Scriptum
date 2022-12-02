@@ -11,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
 /**
  * Fragment of notes preferences.

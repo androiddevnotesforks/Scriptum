@@ -1,6 +1,5 @@
-package sgtmelon.scriptum.infrastructure.utils
+package sgtmelon.scriptum.infrastructure.utils.extensions
 
-import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
@@ -12,7 +11,5 @@ inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String):
 
 @Deprecated("Need do something with original function")
 fun Fragment.requestPermission(request: PermissionRequest, state: PermissionState) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        requestPermissions(arrayOf(state.permission), request.ordinal)
-    }
+    requestPermissions(arrayOf(state.permission), request.ordinal)
 }

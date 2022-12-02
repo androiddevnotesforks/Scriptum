@@ -11,7 +11,7 @@ import sgtmelon.scriptum.develop.receiver.DevelopScreenReceiver
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.service.EternalService
-import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 

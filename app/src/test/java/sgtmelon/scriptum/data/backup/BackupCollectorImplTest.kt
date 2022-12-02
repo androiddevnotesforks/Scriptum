@@ -22,7 +22,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.nextString
 
 /**

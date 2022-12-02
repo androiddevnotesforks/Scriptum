@@ -18,7 +18,7 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.item.ColorItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.setColor
+import sgtmelon.scriptum.infrastructure.utils.extensions.setColor
 
 //region Color and Theme
 

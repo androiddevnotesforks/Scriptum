@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.converter
 
 import android.net.Uri
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 class UriConverter {
 

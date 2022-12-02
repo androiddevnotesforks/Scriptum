@@ -7,7 +7,7 @@ import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.setColor
+import sgtmelon.scriptum.infrastructure.utils.extensions.setColor
 import sgtmelon.test.cappuccino.matchers.drawable.ParentImageMatcher
 
 /**

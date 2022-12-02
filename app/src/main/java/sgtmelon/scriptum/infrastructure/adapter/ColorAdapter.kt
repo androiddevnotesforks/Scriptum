@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListene
 import sgtmelon.scriptum.infrastructure.adapter.holder.ColorHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 /**
  * Adapter which displays list of [Color]'s.

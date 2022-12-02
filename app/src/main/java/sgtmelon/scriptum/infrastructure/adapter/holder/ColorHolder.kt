@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 
 class ColorHolder(
     private val binding: ItemColorBinding

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.callback.NotifyAdapterCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.diff.ParentDiff
-import sgtmelon.scriptum.infrastructure.utils.clearAdd
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 
 /**
  * Version of [ListAdapter], but with ability to notify items by yourself. Sometimes it's needed

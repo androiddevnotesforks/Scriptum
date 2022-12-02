@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**
  * Class for help control note pause/auto save.

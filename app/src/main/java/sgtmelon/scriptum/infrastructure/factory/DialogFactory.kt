@@ -18,7 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.getFragmentByTag
+import sgtmelon.scriptum.infrastructure.utils.extensions.getFragmentByTag
 
 /**
  * Factory for create/get dialogs.

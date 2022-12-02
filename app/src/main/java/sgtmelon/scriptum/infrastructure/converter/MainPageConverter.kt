@@ -5,7 +5,7 @@ import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.exception.converter.ConverterException
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 class MainPageConverter {
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.utils
+package sgtmelon.scriptum.infrastructure.utils.extensions
 
 import androidx.annotation.StringRes
 import androidx.preference.Preference

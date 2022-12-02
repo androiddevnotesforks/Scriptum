@@ -9,8 +9,8 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.factory.DelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
-import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
     DialogOwner {

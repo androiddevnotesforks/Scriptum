@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.RollDao
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.OverflowDelegator
 

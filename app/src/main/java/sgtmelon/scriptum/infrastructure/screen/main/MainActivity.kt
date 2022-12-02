@@ -24,8 +24,8 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.addSystemInsetsMargin
 import sgtmelon.scriptum.infrastructure.utils.doOnApplyWindowInsets
-import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
-import sgtmelon.scriptum.infrastructure.utils.onView
+import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.onView
 import sgtmelon.scriptum.infrastructure.utils.updateMargin
 import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener

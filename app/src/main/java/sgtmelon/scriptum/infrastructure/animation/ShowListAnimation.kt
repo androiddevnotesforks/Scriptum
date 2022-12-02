@@ -8,8 +8,8 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.utils.makeGone
-import sgtmelon.scriptum.infrastructure.utils.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.test.idling.getWaitIdling
 
 class ShowListAnimation {

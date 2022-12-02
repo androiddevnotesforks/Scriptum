@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 /**
  * Adapter which displays list of rolls for [RollNoteFragment].

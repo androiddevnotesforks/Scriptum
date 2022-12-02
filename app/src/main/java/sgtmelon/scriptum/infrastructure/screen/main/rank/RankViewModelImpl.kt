@@ -21,7 +21,7 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
-import sgtmelon.scriptum.infrastructure.utils.recordException
+import sgtmelon.scriptum.infrastructure.utils.extensions.recordException
 
 class RankViewModelImpl(
     private val getList: GetRankListUseCase,

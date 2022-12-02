@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.setDefaultAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.setDefaultAnimator
 
 fun ViewGroup.createVisibleAnim(
     target: View?,

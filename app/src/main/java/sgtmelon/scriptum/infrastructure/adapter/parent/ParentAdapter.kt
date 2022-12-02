@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.adapter.parent
 
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.infrastructure.utils.clearAdd
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 
 /**
  * Parent abstract class for simple adapters.

@@ -27,7 +27,8 @@ object FastMock {
         fun rollVisibleDaoSafe() = mockkStatic("$PATH.RollVisibleDaoSafeExt")
     }
 
-    fun fireExtensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.FireExtensionsUtils")
+    fun fireExtensions() =
+        mockkStatic("sgtmelon.scriptum.infrastructure.utils.extensions.FireExtensionsUtils")
 
     fun timeExtension() = mockkStatic("sgtmelon.extensions.TimeExtensionsUtils")
 

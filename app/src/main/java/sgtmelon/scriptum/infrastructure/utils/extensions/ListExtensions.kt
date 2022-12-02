@@ -1,6 +1,6 @@
 @file:JvmName(name = "ListExtensionsUtils")
 
-package sgtmelon.scriptum.infrastructure.utils
+package sgtmelon.scriptum.infrastructure.utils.extensions
 
 
 fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {

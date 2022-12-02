@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**
  * Class for parsing application data (rely on different versions).

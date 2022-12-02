@@ -5,10 +5,10 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.getAlphaAnimator
-import sgtmelon.scriptum.infrastructure.utils.getElevationAnimator
-import sgtmelon.scriptum.infrastructure.utils.getScaleXAnimator
-import sgtmelon.scriptum.infrastructure.utils.getScaleYAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.getElevationAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleXAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleYAnimator
 
 class TouchAnimation {
 

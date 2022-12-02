@@ -14,8 +14,8 @@ import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
-import sgtmelon.scriptum.infrastructure.utils.clearAdd
-import sgtmelon.scriptum.infrastructure.utils.removeAtOrNull
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
+import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
 class BinViewModelImpl(
     private val getList: GetBinListUseCase,

@@ -17,7 +17,7 @@ import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.infrastructure.model.exception.FilesException
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import sgtmelon.scriptum.infrastructure.model.type.FileType
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**
  * Class for working and any manipulations with files.

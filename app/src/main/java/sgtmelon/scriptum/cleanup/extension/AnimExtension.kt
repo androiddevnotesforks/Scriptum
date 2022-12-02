@@ -4,7 +4,7 @@ import android.animation.ObjectAnimator
 import android.view.View
 import androidx.core.animation.addListener
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.getAlphaInterpolator
+import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaInterpolator
 
 @Deprecated("Check how will work simple animation (note object animator), may be it's more light")
 inline fun View.animateAlpha(

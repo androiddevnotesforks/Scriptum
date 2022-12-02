@@ -4,7 +4,7 @@ import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.exception.InvalidIdException
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 class AddSheetData {
 

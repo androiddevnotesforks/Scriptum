@@ -15,7 +15,7 @@ import sgtmelon.scriptum.develop.adapter.holder.preference.PrintPrefTitleHolder
 import sgtmelon.scriptum.develop.model.PrintItem
 import sgtmelon.scriptum.develop.model.PrintItem.Type
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
-import sgtmelon.scriptum.infrastructure.utils.inflateBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 /**
  * Adapter which displays list of [PrintItem]'s.

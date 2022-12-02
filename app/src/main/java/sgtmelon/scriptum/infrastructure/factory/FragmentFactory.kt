@@ -15,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenc
 import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
-import sgtmelon.scriptum.infrastructure.utils.getFragmentByTag
+import sgtmelon.scriptum.infrastructure.utils.extensions.getFragmentByTag
 
 /**
  * Factory for create/get fragments.

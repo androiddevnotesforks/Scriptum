@@ -14,9 +14,9 @@ import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
-import sgtmelon.scriptum.infrastructure.utils.setOnClickListener
-import sgtmelon.scriptum.infrastructure.utils.startMarketActivity
-import sgtmelon.scriptum.infrastructure.utils.startUrlActivity
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.startMarketActivity
+import sgtmelon.scriptum.infrastructure.utils.extensions.startUrlActivity
 
 /**
  * Fragment with main preference menu

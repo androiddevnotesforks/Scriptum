@@ -11,7 +11,7 @@ import sgtmelon.iconanim.control.IconAnimControlImpl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.infrastructure.utils.getTintDrawable
+import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
 
 /**
  * Class for control toolbar navigation icon changes in [TextNoteFragment], [RollNoteFragment].

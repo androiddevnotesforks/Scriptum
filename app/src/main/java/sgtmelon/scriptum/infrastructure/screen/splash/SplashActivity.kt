@@ -13,9 +13,9 @@ import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
-import sgtmelon.scriptum.infrastructure.utils.NO_LAYOUT
-import sgtmelon.scriptum.infrastructure.utils.beforeFinish
-import sgtmelon.scriptum.infrastructure.utils.getCrashlytics
+import sgtmelon.scriptum.infrastructure.utils.extensions.NO_LAYOUT
+import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
+import sgtmelon.scriptum.infrastructure.utils.extensions.getCrashlytics
 
 /**
  * Start screen of application.

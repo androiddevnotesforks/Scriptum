@@ -9,8 +9,8 @@ import android.widget.RelativeLayout
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.makeInvisible
-import sgtmelon.scriptum.infrastructure.utils.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 
 /**
  * ViewGroup element for create ripple animation.

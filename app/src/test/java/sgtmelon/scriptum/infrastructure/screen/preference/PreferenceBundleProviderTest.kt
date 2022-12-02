@@ -15,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Intent
 import sgtmelon.scriptum.infrastructure.model.exception.BundleException
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
-import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
