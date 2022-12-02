@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.state
+package sgtmelon.scriptum.infrastructure.utils
 
 import android.graphics.Color
 import androidx.annotation.ColorInt

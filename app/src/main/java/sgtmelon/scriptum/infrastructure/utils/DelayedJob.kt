@@ -14,7 +14,7 @@ import sgtmelon.extensions.runMain
 /**
  * Delegator for start some function with delay. Replacement for Handler().postDelayed(..).
  */
-internal class DelayJobDelegator(lifecycle: Lifecycle?) : DefaultLifecycleObserver {
+internal class DelayedJob(lifecycle: Lifecycle?) : DefaultLifecycleObserver {
 
     init {
         lifecycle?.addObserver(this)
@@ -28,7 +28,7 @@ internal class DelayJobDelegator(lifecycle: Lifecycle?) : DefaultLifecycleObserv
         cancel()
     }
 
-    inline fun run(gapTime: Long, @MainThread crossinline func: () -> Unit) {
+    inline fun start(gapTime: Long, @MainThread crossinline func: () -> Unit) {
         job?.cancel()
         job = ioScope.launch {
             delay(gapTime)

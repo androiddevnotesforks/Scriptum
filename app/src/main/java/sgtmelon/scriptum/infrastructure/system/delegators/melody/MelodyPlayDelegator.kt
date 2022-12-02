@@ -11,7 +11,7 @@ import kotlin.math.ceil
 import kotlin.math.max
 import sgtmelon.extensions.getAudioService
 import sgtmelon.extensions.getPercent
-import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 
 /**
  * Class, which delegates work of [MediaPlayer] and [AudioManager].
@@ -48,7 +48,7 @@ class MelodyPlayDelegator(
     private var increaseMax = 0
     private var isVolumeChanged = false
 
-    private val increaseDelayJob = DelayJobDelegator(lifecycle = null)
+    private val increaseDelayJob = DelayedJob(lifecycle = null)
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -103,7 +103,7 @@ class MelodyPlayDelegator(
         if (increaseCurrent >= increaseMax) return
 
         setVolume(increaseCurrent++)
-        increaseDelayJob.run(INCREASE_GAP) {
+        increaseDelayJob.start(INCREASE_GAP) {
             startVolumeIncrease()
         }
     }

@@ -24,7 +24,7 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
-import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfiguration
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
@@ -62,7 +62,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     private val animation = AlarmAnimation()
     private val bundleProvider = AlarmBundleProvider()
 
-    private val finishTimer = DelayJobDelegator(lifecycle)
+    private val finishTimer = DelayedJob(lifecycle)
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
@@ -259,7 +259,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         }
 
         /** Start count down for finish this screen. */
-        finishTimer.run(TIMEOUT_TIME) { startPostpone() }
+        finishTimer.start(TIMEOUT_TIME) { startPostpone() }
 
         getIdling().stop(IdlingTag.Alarm.START)
     }

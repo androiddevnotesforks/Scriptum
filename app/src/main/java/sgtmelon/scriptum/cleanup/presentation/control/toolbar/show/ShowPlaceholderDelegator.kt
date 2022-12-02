@@ -4,7 +4,7 @@ import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 
@@ -21,11 +21,11 @@ class ShowPlaceholderDelegator private constructor(
             : this(lifecycle, resources, listOf(*views))
 
     private val delayTime = resources.getInteger(R.integer.placeholder_fade_time).toLong()
-    private val hideJob = DelayJobDelegator(lifecycle)
+    private val hideJob = DelayedJob(lifecycle)
 
     fun start() {
         changeVisibility(isVisible = true)
-        hideJob.run(delayTime) { changeVisibility(isVisible = false) }
+        hideJob.start(delayTime) { changeVisibility(isVisible = false) }
     }
 
     private fun changeVisibility(isVisible: Boolean) {

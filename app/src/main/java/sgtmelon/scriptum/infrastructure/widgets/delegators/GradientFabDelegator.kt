@@ -14,7 +14,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleXAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleYAnimator
@@ -27,7 +27,7 @@ internal class GradientFabDelegator(
     private val onClick: (view: View) -> Unit
 ) : DefaultLifecycleObserver {
 
-    private val overlayJob = DelayJobDelegator(activity.lifecycle)
+    private val overlayJob = DelayedJob(activity.lifecycle)
 
     private var parentCard: CardView? = null
     private var gradientView: View? = null
@@ -107,7 +107,7 @@ internal class GradientFabDelegator(
         this.isVisible = isVisible
 
         if (withGap) {
-            overlayJob.run(GAP_DURATION) { runChangeVisibility(isVisible) }
+            overlayJob.start(GAP_DURATION) { runChangeVisibility(isVisible) }
         } else {
             runChangeVisibility(isVisible)
         }

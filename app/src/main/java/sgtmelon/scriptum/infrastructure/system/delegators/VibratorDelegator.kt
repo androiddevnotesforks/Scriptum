@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.VibrationEffect
 import android.os.Vibrator
 import sgtmelon.extensions.getVibratorService
-import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 
 /**
  * Class, which delegates [Vibrator] functions.
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
 class VibratorDelegator(context: Context) {
 
     private val manager: Vibrator = context.getVibratorService()
-    private val repeatDelayJob = DelayJobDelegator(lifecycle = null)
+    private val repeatDelayJob = DelayedJob(lifecycle = null)
 
     private var isVibrate = false
 
@@ -20,7 +20,7 @@ class VibratorDelegator(context: Context) {
         if (!manager.hasVibrator()) return
 
         startSingle(pattern)
-        repeatDelayJob.run(pattern.sum()) {
+        repeatDelayJob.start(pattern.sum()) {
             startRepeat(pattern)
         }
     }

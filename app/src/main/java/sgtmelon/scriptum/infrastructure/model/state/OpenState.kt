@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.model.state
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Open
-import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 
 /**
  * Class which help prevent double click, different actions in single time.
@@ -12,7 +12,7 @@ class OpenState(lifecycle: Lifecycle) {
 
     // TODO check how it works with rotation (open dialog - rotate - check ability to click)
 
-    private val blockTimer = DelayJobDelegator(lifecycle)
+    private val blockTimer = DelayedJob(lifecycle)
 
     /** Value for control block state. If something was opened - TRUE, else - FALSE. */
     var isBlocked: Boolean = false
@@ -59,7 +59,7 @@ class OpenState(lifecycle: Lifecycle) {
         /** Need deny any changes which can happen in await time. */
         isChangeEnabled = false
 
-        blockTimer.run(time) {
+        blockTimer.start(time) {
             isChangeEnabled = true
             clear()
         }

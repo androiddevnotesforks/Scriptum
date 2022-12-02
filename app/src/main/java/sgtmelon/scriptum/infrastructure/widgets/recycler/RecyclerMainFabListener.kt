@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.widgets.recycler
 
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.infrastructure.utils.DelayJobDelegator
+import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 
 class RecyclerMainFabListener(
     lifecycle: Lifecycle,
@@ -10,7 +10,7 @@ class RecyclerMainFabListener(
 ) : RecyclerView.OnScrollListener() {
 
     /** Delay for showing FAB after long standstill. */
-    private val delayShowJob = DelayJobDelegator(lifecycle)
+    private val delayShowJob = DelayedJob(lifecycle)
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
@@ -19,7 +19,7 @@ class RecyclerMainFabListener(
         val isTopScroll = dy <= 0
 
         callback?.changeFabVisibility(isTopScroll, withGap = true)
-        delayShowJob.run(FAB_STANDSTILL_TIME) {
+        delayShowJob.start(FAB_STANDSTILL_TIME) {
             callback?.changeFabVisibility()
         }
     }
