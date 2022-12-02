@@ -7,7 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.InsetsDir
@@ -32,41 +32,37 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     override val layoutId: Int = R.layout.activity_note
 
-    //region cleanup
-
-    //region Variables
-
     @Inject lateinit var viewModel: NoteViewModel
     @Inject lateinit var bundleProvider: NoteBundleProvider
-
-    private val holderShowControl by lazy {
-        HolderShowControl[binding?.toolbarHolder, binding?.panelHolder]
-    }
-    private val holderTintControl by lazy {
-        HolderTintControl[this, window, binding?.toolbarHolder]
-    }
 
     private val fragments = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragments.getTextNote()
     private val rollNoteFragment get() = fragments.getRollNote()
 
-    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
+    // TODO Add control here
 
-    //endregion
+    private val unbindNoteReceiver by lazy { UnbindNoteReceiver[this] }
 
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras, TODO())
+        val bundle = savedInstanceState ?: intent.extras
+        bundleProvider.getData(bundle, viewModel.defaultColor)
 
-        holderTintControl.initLazy()
+        val (id, type, color) = bundleProvider.values
 
-        viewModel.apply {
-            onSetup(bundle = savedInstanceState ?: intent.extras)
-            onSetupFragment(checkCache = savedInstanceState != null)
+        if (id == null || type == null || color == null) {
+            finish()
+            return
         }
+
+        /** Means this activity was rotated or something like that, and need check some cache. */
+        val checkCache = savedInstanceState != null
+
+        updateHolder(color)
+        showFragment(id, type, color, checkCache)
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -89,15 +85,23 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     override fun onDestroy() {
         super.onDestroy()
-
         holderShowControl.onDestroy()
-        viewModel.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        viewModel.onSaveData(outState)
         bundleProvider.saveData(outState)
+    }
+
+    //endregion
+
+    //region cleanup
+
+    private val holderShowControl by lazy {
+        HolderShowControl[binding?.toolbarHolder, binding?.panelHolder]
+    }
+    private val holderTintControl by lazy {
+        HolderTintControl[this, window, binding?.toolbarHolder]
     }
 
     override fun onBackPressed() {
@@ -116,16 +120,24 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         }
     }
 
-    //endregion
-
     override fun updateHolder(color: Color) = holderTintControl.setupColor(color)
 
-    override fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
+    /**
+     * [checkCache] - find fragment by tag or create new.
+     */
+    private fun showFragment(id: Long, type: NoteType, color: Color, checkCache: Boolean) {
+        when (type) {
+            NoteType.TEXT -> showTextFragment(id, color, checkCache)
+            NoteType.ROLL -> showRollFragment(id, color, checkCache)
+        }
+    }
+
+    private fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
         val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment[id, color]
         showFragment(fragment, FragmentFactory.Note.Tag.TEXT)
     }
 
-    override fun showRollFragment(id: Long, color: Color, checkCache: Boolean) {
+    private fun showRollFragment(id: Long, color: Color, checkCache: Boolean) {
         val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragment[id, color]
         showFragment(fragment, FragmentFactory.Note.Tag.ROLL)
     }

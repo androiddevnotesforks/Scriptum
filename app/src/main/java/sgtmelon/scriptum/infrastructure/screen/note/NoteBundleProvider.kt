@@ -25,6 +25,8 @@ class NoteBundleProvider(
     private var _color: Color? = null
     val color get() = _color
 
+    val values get() = Triple(id, type, color)
+
     fun getData(bundle: Bundle?, defaultColor: Color) {
         if (bundle == null) return
 

@@ -1,66 +1,63 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
-import android.os.Bundle
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [INoteActivity].
  */
 class NoteViewModelImpl(
-    callback: INoteActivity,
-    private val typeConverter: NoteTypeConverter,
-    private val colorConverter: ColorConverter,
-    preferencesRepo: PreferencesRepo
-) : ParentViewModel<INoteActivity>(callback),
+    //    callback: INoteActivity,
+    //    private val typeConverter: NoteTypeConverter,
+    //    private val colorConverter: ColorConverter,
+    private val preferencesRepo: PreferencesRepo
+) : /*ParentViewModel<INoteActivity>(callback),*/
     NoteViewModel {
 
-    @RunPrivate var id: Long = Default.ID
-    @RunPrivate var type: NoteType? = null
-    @RunPrivate var color: Color = preferencesRepo.defaultColor
+    override val defaultColor: Color get() = preferencesRepo.defaultColor
 
-    override fun onSetup(bundle: Bundle?) {
-        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
+    //region Cleanup
 
-        val typeOrdinal = bundle?.getInt(Intent.TYPE, Default.TYPE) ?: Default.TYPE
-        val bundleType = typeConverter.toEnum(typeOrdinal)
-        if (bundleType != null) {
-            type = bundleType
-        } else {
-            callback?.finish()
-            return
-        }
-
-        val colorOrdinal = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
-        val bundleColor = colorConverter.toEnum(colorOrdinal)
-        if (bundleColor != null) {
-            color = bundleColor
-        }
-
-        callback?.updateHolder(color)
-        callback?.setupInsets()
-    }
-
-    override fun onSaveData(bundle: Bundle) = with(bundle) {
-        putLong(Intent.ID, id)
-        putInt(Intent.TYPE, type?.ordinal ?: Default.TYPE)
-        putInt(Intent.COLOR, colorConverter.toInt(color))
-    }
-
-    override fun onSetupFragment(checkCache: Boolean) {
-        when (type) {
-            NoteType.TEXT -> callback?.showTextFragment(id, color, checkCache)
-            NoteType.ROLL -> callback?.showRollFragment(id, color, checkCache)
-            else -> callback?.finish()
-        }
-    }
+    //    @RunPrivate var id: Long = Default.ID
+    //    @RunPrivate var type: NoteType? = null
+    //    @RunPrivate var color: Color = preferencesRepo.defaultColor
+    //
+    //    override fun onSetup(bundle: Bundle?) {
+    //        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
+    //
+    //        val typeOrdinal = bundle?.getInt(Intent.TYPE, Default.TYPE) ?: Default.TYPE
+    //        val bundleType = typeConverter.toEnum(typeOrdinal)
+    //        if (bundleType != null) {
+    //            type = bundleType
+    //        } else {
+    //            callback?.finish()
+    //            return
+    //        }
+    //
+    //        val colorOrdinal = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
+    //        val bundleColor = colorConverter.toEnum(colorOrdinal)
+    //        if (bundleColor != null) {
+    //            color = bundleColor
+    //        }
+    //
+    //        callback?.updateHolder(color)
+    //        callback?.setupInsets()
+    //    }
+    //
+    //    override fun onSaveData(bundle: Bundle) = with(bundle) {
+    //        putLong(Intent.ID, id)
+    //        putInt(Intent.TYPE, type?.ordinal ?: Default.TYPE)
+    //        putInt(Intent.COLOR, colorConverter.toInt(color))
+    //    }
+    //
+    //    override fun onSetupFragment(checkCache: Boolean) {
+    //        when (type) {
+    //            NoteType.TEXT -> callback?.showTextFragment(id, color, checkCache)
+    //            NoteType.ROLL -> callback?.showRollFragment(id, color, checkCache)
+    //            else -> callback?.finish()
+    //        }
+    //    }
 
     override fun onPressBack() = when (type) {
         NoteType.TEXT -> callback?.onPressBackText() ?: false
@@ -91,5 +88,7 @@ class NoteViewModelImpl(
             else -> callback?.finish()
         }
     }
+
+    //endregion
 
 }

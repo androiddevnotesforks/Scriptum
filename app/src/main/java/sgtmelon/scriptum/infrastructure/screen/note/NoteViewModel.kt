@@ -1,17 +1,14 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
-import android.os.Bundle
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
-/**
- * Interface for communication [INoteActivity] with [NoteViewModelImpl].
- */
-interface NoteViewModel : IParentViewModel {
+interface NoteViewModel/* : IParentViewModel*/ {
 
-    fun onSaveData(bundle: Bundle)
+    val defaultColor: Color
 
-    fun onSetupFragment(checkCache: Boolean)
+    //    fun onSaveData(bundle: Bundle)
+
+    //    fun onSetupFragment(checkCache: Boolean)
 
     fun onPressBack(): Boolean
 
