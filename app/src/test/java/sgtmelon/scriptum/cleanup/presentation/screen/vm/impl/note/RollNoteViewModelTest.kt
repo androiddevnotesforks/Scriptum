@@ -393,7 +393,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             callback.tintToolbar(colorFrom, colorTo)
             spyViewModel.parentCallback
-            parentCallback.onUpdateNoteColor(colorTo)
+            parentCallback.updateNoteColor(colorTo)
             spyViewModel.inputControl
             inputControl.reset()
         }
@@ -1563,7 +1563,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
-            parentCallback.onUpdateNoteColor(color)
+            parentCallback.updateNoteColor(color)
             spyViewModel.saveBackgroundWork()
 
             spyViewModel.onMenuSave(changeMode = false)
@@ -1583,7 +1583,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
-            parentCallback.onUpdateNoteColor(color)
+            parentCallback.updateNoteColor(color)
             spyViewModel.saveBackgroundWork()
         }
     }
@@ -1628,7 +1628,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
-            parentCallback.onUpdateNoteColor(color)
+            parentCallback.updateNoteColor(color)
             spyViewModel.saveBackgroundWork()
         }
     }
@@ -1688,7 +1688,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.id = id
             spyViewModel.parentCallback
             spyViewModel.id
-            parentCallback.onUpdateNoteId(id)
+            parentCallback.updateNoteId(id)
             spyViewModel.interactor
             spyViewModel.noteItem
             updateVisible(noteItem)

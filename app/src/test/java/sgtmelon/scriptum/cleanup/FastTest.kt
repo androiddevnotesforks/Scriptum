@@ -564,7 +564,7 @@ object FastTest {
                 verifyInit()
 
                 interactor.convertNote(noteItem)
-                parentCallback.onConvertNote()
+                parentCallback.convertNote()
             }
         }
 

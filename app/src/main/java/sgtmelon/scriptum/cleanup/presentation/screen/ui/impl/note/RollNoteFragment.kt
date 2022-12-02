@@ -53,7 +53,6 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
-import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.hideKeyboard
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -65,7 +64,6 @@ import sgtmelon.test.idling.getIdling
 class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     IRollNoteFragment,
     Toolbar.OnMenuItemClickListener,
-    UnbindNoteReceiver.Callback,
     IconBlockCallback {
 
     override val layoutId: Int = R.layout.fragment_roll_note
@@ -169,8 +167,6 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
     //region Callback functions
-
-    override fun onReceiveUnbindNote(noteId: Long) = viewModel.onReceiveUnbindNote(noteId)
 
     override fun setEnabled(isEnabled: Boolean) {
         getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
@@ -540,6 +536,10 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     override fun showSaveToast(isSuccess: Boolean) {
         val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
         delegators.toast.show(context, text)
+    }
+
+    override fun finish() {
+        activity?.finish()
     }
 
     //region Broadcast functions

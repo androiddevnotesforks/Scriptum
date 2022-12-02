@@ -177,7 +177,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
             onRestoreData()
         } else {
             saveControl.isNeedSave = false
-            parentCallback?.finish()
+            callback?.finish()
         }
     }
 
@@ -274,7 +274,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     override fun onResultConvertDialog() {
         viewModelScope.launch {
             runBack { interactor.convertNote(noteItem) }
-            parentCallback?.onConvertNote()
+            parentCallback?.convertNote()
         }
     }
 
@@ -297,7 +297,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     override fun onMenuRestore() {
         viewModelScope.launch {
             runBack { restoreNote(noteItem) }
-            parentCallback?.finish()
+            callback?.finish()
         }
     }
 
@@ -316,7 +316,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     override fun onMenuClear() {
         viewModelScope.launch {
             runBack { clearNote(noteItem) }
-            parentCallback?.finish()
+            callback?.finish()
         }
     }
 
@@ -429,7 +429,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
             callback?.sendCancelNoteBroadcast(noteItem)
             callback?.sendNotifyInfoBroadcast()
 
-            parentCallback?.finish()
+            callback?.finish()
         }
     }
 

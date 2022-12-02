@@ -26,7 +26,6 @@ import sgtmelon.scriptum.infrastructure.utils.updateMargin
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].
  */
 class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
-    INoteActivity,
     INoteConnector,
     UnbindNoteReceiver.Callback {
 
@@ -153,6 +152,26 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         }
     }
 
+    override fun updateNoteId(id: Long) = bundleProvider.updateId(id)
+
+    override fun updateNoteColor(color: Color) {
+        bundleProvider.updateColor(color)
+        updateHolder(color)
+    }
+
+    override fun convertNote() = with(bundleProvider) {
+        val id = id
+        val convertType = type?.let { viewModel.convertType(it) }
+        val color = color
+
+        if (id == null || convertType == null || color == null) {
+            finish()
+            return
+        }
+
+        showFragment(id, convertType, color, checkCache = true)
+    }
+
     //region cleanup
 
     private val holderShowControl by lazy {
@@ -162,21 +181,13 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         HolderTintControl[this, window, binding?.toolbarHolder]
     }
 
-    override fun onReceiveUnbindNote(noteId: Long) {
-        textNoteFragment?.onReceiveUnbindNote(noteId)
-        rollNoteFragment?.onReceiveUnbindNote(noteId)
-    }
-
-    override fun onUpdateNoteId(id: Long) = bundleProvider.updateId(id)
-
-    override fun onUpdateNoteColor(color: Color) {
-        bundleProvider.updateColor(color)
-        updateHolder(color)
-    }
-
-    override fun onConvertNote() = viewModel.onConvertNote()
-
+    // TODO improve it, i don't think it's work correct with split screen for example
     override fun isOrientationChanging(): Boolean = isChangingConfigurations
 
     //endregion
+
+    override fun onReceiveUnbindNote(noteId: Long) {
+        textNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)
+        rollNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)
+    }
 }

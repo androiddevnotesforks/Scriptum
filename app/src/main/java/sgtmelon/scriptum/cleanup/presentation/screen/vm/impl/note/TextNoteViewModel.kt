@@ -83,7 +83,7 @@ class TextNoteViewModel(
 
                     callback?.sendNotifyNotesBroadcast()
                 } ?: run {
-                    parentCallback?.finish()
+                    callback?.finish()
                     return false
                 }
 
@@ -117,7 +117,7 @@ class TextNoteViewModel(
         setupEditMode(isEdit = false)
 
         callback?.tintToolbar(colorFrom, colorTo)
-        parentCallback?.onUpdateNoteColor(colorTo)
+        parentCallback?.updateNoteColor(colorTo)
         inputControl.reset()
 
         return true
@@ -164,7 +164,7 @@ class TextNoteViewModel(
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
-        parentCallback?.onUpdateNoteColor(noteItem.color)
+        parentCallback?.updateNoteColor(noteItem.color)
 
         viewModelScope.launch { saveBackgroundWork() }
 
@@ -179,7 +179,7 @@ class TextNoteViewModel(
             noteState.isCreate = NoteState.ND_CREATE
 
             id = noteItem.id
-            parentCallback?.onUpdateNoteId(id)
+            parentCallback?.updateNoteId(id)
         }
 
         callback?.sendNotifyNotesBroadcast()

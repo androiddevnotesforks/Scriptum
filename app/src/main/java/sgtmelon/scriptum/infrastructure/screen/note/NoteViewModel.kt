@@ -1,21 +1,12 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
-interface NoteViewModel/* : IParentViewModel*/ {
+interface NoteViewModel {
 
     val defaultColor: Color
 
-    //    fun onSaveData(bundle: Bundle)
-
-    //    fun onSetupFragment(checkCache: Boolean)
-
-//    fun onPressBack(): Boolean
-
-    //    fun onUpdateNoteId(id: Long)
-
-    //    fun onUpdateNoteColor(color: Color)
-
-    fun onConvertNote()
+    fun convertType(type: NoteType): NoteType
 
 }

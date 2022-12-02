@@ -337,7 +337,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             callback.tintToolbar(colorFrom, colorTo)
             spyViewModel.parentCallback
-            parentCallback.onUpdateNoteColor(colorTo)
+            parentCallback.updateNoteColor(colorTo)
             spyViewModel.inputControl
             inputControl.reset()
         }
@@ -535,7 +535,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
-            parentCallback.onUpdateNoteColor(color)
+            parentCallback.updateNoteColor(color)
             spyViewModel.saveBackgroundWork()
 
             spyViewModel.onMenuSave(changeMode = false)
@@ -552,7 +552,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
-            parentCallback.onUpdateNoteColor(color)
+            parentCallback.updateNoteColor(color)
             spyViewModel.saveBackgroundWork()
         }
     }
@@ -592,7 +592,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
-            parentCallback.onUpdateNoteColor(color)
+            parentCallback.updateNoteColor(color)
             spyViewModel.saveBackgroundWork()
         }
     }
@@ -647,7 +647,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.id = id
             spyViewModel.parentCallback
             spyViewModel.id
-            parentCallback.onUpdateNoteId(id)
+            parentCallback.updateNoteId(id)
             spyViewModel.callback
             callback.sendNotifyNotesBroadcast()
             spyViewModel.id

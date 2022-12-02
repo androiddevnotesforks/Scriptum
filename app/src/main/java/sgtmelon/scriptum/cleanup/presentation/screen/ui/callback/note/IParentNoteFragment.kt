@@ -45,4 +45,6 @@ interface IParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alar
 
     fun showSaveToast(isSuccess: Boolean)
 
+    fun finish()
+
 }

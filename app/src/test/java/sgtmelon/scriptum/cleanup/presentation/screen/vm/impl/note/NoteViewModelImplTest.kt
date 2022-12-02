@@ -25,7 +25,6 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.screen.note.INoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.record
 

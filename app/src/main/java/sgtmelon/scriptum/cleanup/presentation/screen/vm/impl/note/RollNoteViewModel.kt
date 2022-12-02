@@ -109,7 +109,7 @@ class RollNoteViewModel(
 
                     callback?.sendNotifyNotesBroadcast()
                 } ?: run {
-                    parentCallback?.finish()
+                    callback?.finish()
                     return false
                 }
 
@@ -157,7 +157,7 @@ class RollNoteViewModel(
         onUpdateInfo()
 
         callback?.tintToolbar(colorFrom, colorTo)
-        parentCallback?.onUpdateNoteColor(colorTo)
+        parentCallback?.updateNoteColor(colorTo)
         inputControl.reset()
 
         return true
@@ -405,7 +405,7 @@ class RollNoteViewModel(
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
-        parentCallback?.onUpdateNoteColor(noteItem.color)
+        parentCallback?.updateNoteColor(noteItem.color)
 
         viewModelScope.launch { saveBackgroundWork() }
 
@@ -420,7 +420,7 @@ class RollNoteViewModel(
             noteState.isCreate = NoteState.ND_CREATE
 
             id = noteItem.id
-            parentCallback?.onUpdateNoteId(id)
+            parentCallback?.updateNoteId(id)
 
             /**
              * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of

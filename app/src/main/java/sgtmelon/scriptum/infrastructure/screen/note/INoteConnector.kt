@@ -1,29 +1,21 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
-/**
- * Interface for communication [ITextNoteViewModel] or [IRollNoteViewModel] with [NoteActivity].
- */
 interface INoteConnector {
 
     /**
-     * After save new note need update [NoteViewModelImpl.id]
+     * After save new note need update [id].
      */
-    fun onUpdateNoteId(id: Long)
+    fun updateNoteId(id: Long)
 
     /**
-     * After save note need update [NoteViewModelImpl.color]
+     * After save note need update [color].
      */
-    fun onUpdateNoteColor(color: Color)
+    fun updateNoteColor(color: Color)
 
-    fun onConvertNote()
+    fun convertNote()
 
     fun isOrientationChanging(): Boolean
-
-
-    fun finish()
 
 }
