@@ -61,7 +61,6 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
@@ -73,7 +72,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
@@ -175,15 +173,11 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideNoteViewModel(
-        activity: NoteActivity,
-        typeConverter: NoteTypeConverter,
-        colorConverter: ColorConverter,
+        owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo
     ): NoteViewModel {
-        val factory = ViewModelFactory.NoteScreen.Note(
-            activity, typeConverter, colorConverter, preferencesRepo
-        )
-        return ViewModelProvider(activity, factory)[NoteViewModelImpl::class.java]
+        val factory = ViewModelFactory.NoteScreen.Note(preferencesRepo)
+        return ViewModelProvider(owner, factory)[NoteViewModelImpl::class.java]
     }
 
     @Provides

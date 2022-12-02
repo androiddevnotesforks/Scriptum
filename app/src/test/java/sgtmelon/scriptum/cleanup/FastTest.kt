@@ -301,21 +301,21 @@ object FastTest {
                 noteState.isCreate
                 spyViewModel.saveControl
                 saveControl.isNeedSave = false
-                parentCallback.finish()
+                callback.finish()
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
                 spyViewModel.saveControl
                 saveControl.isNeedSave = false
-                parentCallback.finish()
+                callback.finish()
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
                 spyViewModel.saveControl
                 saveControl.isNeedSave = false
-                parentCallback.finish()
+                callback.finish()
 
                 spyViewModel.id = id
                 spyViewModel.onClickBackArrow()
@@ -606,7 +606,7 @@ object FastTest {
                 verifyInit()
 
                 restoreNote(noteItem)
-                parentCallback.finish()
+                callback.finish()
             }
         }
 
@@ -642,7 +642,7 @@ object FastTest {
                 verifyInit()
 
                 clearNote(noteItem)
-                parentCallback.finish()
+                callback.finish()
             }
         }
 
@@ -1062,7 +1062,7 @@ object FastTest {
                 callback.sendCancelAlarmBroadcast(noteItem)
                 callback.sendCancelNoteBroadcast(noteItem)
                 callback.sendNotifyInfoBroadcast()
-                parentCallback.finish()
+                callback.finish()
             }
         }
 

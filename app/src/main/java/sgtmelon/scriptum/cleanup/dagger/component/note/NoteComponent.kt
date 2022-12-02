@@ -23,9 +23,6 @@ interface NoteComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: NoteActivity): Builder
-
-        @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
         fun build(): NoteComponent

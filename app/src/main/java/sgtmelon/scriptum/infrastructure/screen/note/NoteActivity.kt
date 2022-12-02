@@ -18,9 +18,9 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
-import sgtmelon.scriptum.infrastructure.utils.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.doOnApplyWindowInsets
-import sgtmelon.scriptum.infrastructure.utils.updateMargin
+import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
 
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].
@@ -66,7 +66,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     override fun inject(component: ScriptumComponent) {
         component.getNoteBuilder()
-            .set(activity = this)
             .set(owner = this)
             .build()
             .inject(activity = this)

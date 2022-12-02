@@ -243,7 +243,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.id
             getNote(id)
             spyViewModel.parentCallback
-            parentCallback.finish()
+            callback.finish()
 
             spyViewModel.tryInitializeNote()
             spyViewModel.isNoteInitialized()

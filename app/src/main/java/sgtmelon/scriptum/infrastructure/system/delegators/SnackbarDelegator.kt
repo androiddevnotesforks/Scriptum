@@ -10,8 +10,8 @@ import com.google.android.material.snackbar.Snackbar
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 
 class SnackbarDelegator(
     lifecycle: Lifecycle,

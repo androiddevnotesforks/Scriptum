@@ -25,11 +25,11 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.DelayedJob
-import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfiguration
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
-import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 

@@ -5,12 +5,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityHelpDisappearBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
-import sgtmelon.scriptum.infrastructure.utils.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
+import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.startUrlActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
-import sgtmelon.scriptum.infrastructure.utils.setMarginInsets
 
 /**
  * Screen with help about disappearing notifications.
