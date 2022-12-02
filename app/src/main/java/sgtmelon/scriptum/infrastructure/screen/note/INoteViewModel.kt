@@ -5,7 +5,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewMode
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
- * Interface for communication [INoteActivity] with [NoteViewModel].
+ * Interface for communication [INoteActivity] with [NoteViewModelImpl].
  */
 interface INoteViewModel : IParentViewModel {
 

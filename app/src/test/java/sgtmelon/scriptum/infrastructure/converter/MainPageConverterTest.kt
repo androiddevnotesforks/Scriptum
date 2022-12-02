@@ -33,7 +33,7 @@ class MainPageConverterTest {
 
     @Test fun `mainPage to id with exception`() {
         FastMock.fireExtensions()
-        every { any<ConverterException>().record() } returns Unit
+        every { any<ConverterException>().record() } returns mockk()
 
         assertEquals(converter.convert(page = null), MainPageConverter.INVALID_ID)
     }
@@ -66,7 +66,7 @@ class MainPageConverterTest {
 
         every { menuItem.itemId } returns id
         FastMock.fireExtensions()
-        every { any<ConverterException>().record() } returns Unit
+        every { any<ConverterException>().record() } returns mockk()
 
         assertNull(converter.convert(menuItem))
 

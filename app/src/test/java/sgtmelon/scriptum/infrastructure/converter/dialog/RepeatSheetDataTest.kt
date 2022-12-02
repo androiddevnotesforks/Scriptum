@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.converter.dialog
 
 import io.mockk.every
+import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -26,7 +27,7 @@ class RepeatSheetDataTest : ParentTest() {
         assertEquals(data.convert(R.id.item_repeat_4), Repeat.MIN_1440)
 
         FastMock.fireExtensions()
-        every { any<InvalidIdException>().record() } returns Unit
+        every { any<InvalidIdException>().record() } returns mockk()
 
         assertNull(data.convert(itemId = -1))
     }

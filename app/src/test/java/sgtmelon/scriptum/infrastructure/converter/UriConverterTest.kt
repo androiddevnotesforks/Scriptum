@@ -9,8 +9,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -41,7 +41,7 @@ class UriConverterTest : ParentTest() {
         mockkStatic(Uri::class)
         every { Uri.parse(value) } throws exception
         FastMock.fireExtensions()
-        every { exception.record() } returns Unit
+        every { exception.record() } returns mockk()
 
         assertNull(converter.toUri(value))
 

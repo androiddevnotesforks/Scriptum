@@ -32,7 +32,7 @@ class PreferenceBundleProviderTest : ParentTest() {
 
     @Test fun `getData with null bundle`() {
         FastMock.fireExtensions()
-        every { any<BundleException>().record() } returns Unit
+        every { any<BundleException>().record() } returns mockk()
 
         bundleProvider.getData(bundle = null)
         assertNull(bundleProvider.screen)
@@ -44,7 +44,7 @@ class PreferenceBundleProviderTest : ParentTest() {
 
         every { bundle.getInt(Intent.SCREEN, Default.SCREEN) } returns ordinal
         FastMock.fireExtensions()
-        every { any<BundleException>().record() } returns Unit
+        every { any<BundleException>().record() } returns mockk()
 
         bundleProvider.getData(bundle)
         assertNull(bundleProvider.screen)

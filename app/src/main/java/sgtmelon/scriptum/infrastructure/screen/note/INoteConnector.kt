@@ -10,12 +10,12 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 interface INoteConnector {
 
     /**
-     * After save new note need update [NoteViewModel.id]
+     * After save new note need update [NoteViewModelImpl.id]
      */
     fun onUpdateNoteId(id: Long)
 
     /**
-     * After save note need update [NoteViewModel.color]
+     * After save note need update [NoteViewModelImpl.color]
      */
     fun onUpdateNoteColor(color: Color)
 

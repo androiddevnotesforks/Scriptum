@@ -42,7 +42,7 @@ class RollVisibleDaoSafeTest : ParentTest() {
 
         coEvery { dao.insert(entity) } returns DaoConst.UNIQUE_ERROR_ID
         FastMock.fireExtensions()
-        every { any<DaoConflictIdException>().record() } returns Unit
+        every { any<DaoConflictIdException>().record() } returns mockk()
 
         runBlocking {
             assertNull(dao.insertSafe(entity))
@@ -58,7 +58,7 @@ class RollVisibleDaoSafeTest : ParentTest() {
 
         coEvery { dao.insert(entity) } throws mockk()
         FastMock.fireExtensions()
-        every { any<DaoForeignException>().record() } returns Unit
+        every { any<DaoForeignException>().record() } returns mockk()
 
         runBlocking {
             assertNull(dao.insertSafe(entity))

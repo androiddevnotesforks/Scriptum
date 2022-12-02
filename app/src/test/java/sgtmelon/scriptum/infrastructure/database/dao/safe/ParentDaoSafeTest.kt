@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.database.dao.safe
 
 import io.mockk.every
+import io.mockk.mockk
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -25,7 +26,7 @@ class ParentDaoSafeTest : ParentTest() {
         val long = Random.nextLong()
 
         FastMock.fireExtensions()
-        every { any<DaoConflictIdException>().record() } returns Unit
+        every { any<DaoConflictIdException>().record() } returns mockk()
 
         assertEquals(long, long.checkConflictSafe())
         assertNull(DaoConst.UNIQUE_ERROR_ID.checkConflictSafe())
@@ -37,7 +38,7 @@ class ParentDaoSafeTest : ParentTest() {
         assertEquals(insertForeignSafe { id }, id)
 
         FastMock.fireExtensions()
-        every { any<DaoForeignException>().record() } returns Unit
+        every { any<DaoForeignException>().record() } returns mockk()
 
         assertNull(insertForeignSafe { throw Throwable() })
     }

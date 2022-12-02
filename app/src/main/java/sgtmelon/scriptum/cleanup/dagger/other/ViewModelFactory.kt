@@ -60,7 +60,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
+import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
@@ -167,8 +167,8 @@ object ViewModelFactory {
             private val preferencesRepo: PreferencesRepo
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(NoteViewModel::class) {
-                    NoteViewModel(activity, typeConverter, colorConverter, preferencesRepo)
+                return modelClass.create(NoteViewModelImpl::class) {
+                    NoteViewModelImpl(activity, typeConverter, colorConverter, preferencesRepo)
                 }
             }
         }

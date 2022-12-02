@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.data.backup
 
 import io.mockk.every
+import io.mockk.mockk
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -56,7 +57,7 @@ class BackupJsonConverterTest : ParentBackupTest() {
 
     @Test fun `toNoteV1 with bad result`() {
         FastMock.fireExtensions()
-        every { any<EnumConverterException>().record() } returns Unit
+        every { any<EnumConverterException>().record() } returns mockk()
 
         assertNull(jsonConverter.toNoteV1(JSONObject(noteBadColorJson)))
         assertNull(jsonConverter.toNoteV1(JSONObject(noteBadTypeJson)))

@@ -26,14 +26,14 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.INoteActivity
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
+import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
- * Test for [NoteViewModel].
+ * Test for [NoteViewModelImpl].
  */
 @ExperimentalCoroutinesApi
-class NoteViewModelTest : ParentViewModelTest() {
+class NoteViewModelImplTest : ParentViewModelTest() {
 
     //region Setup
 
@@ -45,7 +45,7 @@ class NoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy {
-        NoteViewModel(callback, typeConverter, colorConverter, preferencesRepo)
+        NoteViewModelImpl(callback, typeConverter, colorConverter, preferencesRepo)
     }
 
     @After override fun tearDown() {
@@ -112,7 +112,7 @@ class NoteViewModelTest : ParentViewModelTest() {
 
         every { typeConverter.toEnum(Default.TYPE) } returns null
         FastMock.fireExtensions()
-        every { any<IllegalAccessException>().record() } returns Unit
+        every { any<IllegalAccessException>().record() } returns mockk()
 
         assertEquals(viewModel.id, Default.ID)
         assertNull(viewModel.type)

@@ -3,14 +3,15 @@ package sgtmelon.scriptum.infrastructure.converter.key
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import io.mockk.spyk
 import io.mockk.verifySequence
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.infrastructure.model.exception.converter.EnumConverterException
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * Parent class for testing child of [ParentEnumConverter].
@@ -43,10 +44,9 @@ abstract class ParentEnumConverterTest<E: Enum<E>> {
         val crashlytics = mockk<FirebaseCrashlytics>()
         val exception = mockk<EnumConverterException>()
 
-        mockkStatic(FirebaseCrashlytics::class)
-        every { FirebaseCrashlytics.getInstance() } returns crashlytics
-        every { crashlytics.recordException(exception) } returns Unit
+        FastMock.fireExtensions()
         every { spyConverter.getOrdinalException(ordinal) } returns exception
+        every { exception.record() } returns exception
 
         assertNull(spyConverter.toEnum(ordinal))
 
@@ -54,8 +54,7 @@ abstract class ParentEnumConverterTest<E: Enum<E>> {
             spyConverter.toEnum(ordinal)
             spyConverter.values
             spyConverter.getOrdinalException(ordinal)
-            FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(exception)
+            exception.record()
         }
     }
 }

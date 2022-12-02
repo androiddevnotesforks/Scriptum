@@ -75,7 +75,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.INoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
+import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
@@ -183,7 +183,7 @@ class ViewModelModule {
         val factory = ViewModelFactory.NoteScreen.Note(
             activity, typeConverter, colorConverter, preferencesRepo
         )
-        return ViewModelProvider(activity, factory)[NoteViewModel::class.java]
+        return ViewModelProvider(activity, factory)[NoteViewModelImpl::class.java]
     }
 
     @Provides

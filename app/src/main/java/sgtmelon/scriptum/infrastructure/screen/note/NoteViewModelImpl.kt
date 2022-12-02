@@ -14,7 +14,7 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * ViewModel for [INoteActivity].
  */
-class NoteViewModel(
+class NoteViewModelImpl(
     callback: INoteActivity,
     private val typeConverter: NoteTypeConverter,
     private val colorConverter: ColorConverter,

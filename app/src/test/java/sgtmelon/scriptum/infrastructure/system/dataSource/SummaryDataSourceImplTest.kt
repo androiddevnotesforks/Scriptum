@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.system.dataSource
 import android.content.res.Resources
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verifySequence
 import java.util.Locale
 import kotlin.random.Random
@@ -145,7 +146,7 @@ class SummaryDataSourceImplTest : ParentTest() {
 
         every { resources.getStringArray(R.array.pref_signal) } returns summaryArray
         FastMock.fireExtensions()
-        every { exception.record() } returns Unit
+        every { exception.record() } returns mockk()
 
         assertEquals(provider.getSignal(valueArray), "")
 

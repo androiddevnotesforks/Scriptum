@@ -4,6 +4,7 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlin.math.abs
 import kotlin.random.Random
@@ -53,7 +54,7 @@ class BackupParserImplTest : ParentBackupTest() {
         every { dataSource.databaseKey } returns databaseKey
 
         FastMock.fireExtensions()
-        every { any<BackupParserException>().record() } returns Unit
+        every { any<BackupParserException>().record() } returns mockk()
 
         val jsonObject = JSONObject()
 
@@ -90,7 +91,7 @@ class BackupParserImplTest : ParentBackupTest() {
 
     @Test fun `convert with wrong database data`() {
         FastMock.fireExtensions()
-        every { any<BackupParserException>().record() } returns Unit
+        every { any<BackupParserException>().record() } returns mockk()
 
         wrongConvertData(version = 1, nextString(), nextString())
     }

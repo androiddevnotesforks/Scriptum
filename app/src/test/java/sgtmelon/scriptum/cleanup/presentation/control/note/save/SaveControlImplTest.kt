@@ -71,7 +71,7 @@ class SaveControlImplTest : ParentCoTest() {
         every { savePeriod.ordinal } returns ordinal
 
         FastMock.fireExtensions()
-        every { any<ArrayIndexOutOfBoundsException>().record() } returns Unit
+        every { any<ArrayIndexOutOfBoundsException>().record() } returns mockk()
 
         saveControl.initLazy()
 

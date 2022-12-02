@@ -41,7 +41,7 @@ class AlarmDaoSafeTest : ParentTest() {
 
         coEvery { dao.insert(entity) } throws mockk()
         FastMock.fireExtensions()
-        every { any<DaoForeignException>().record() } returns Unit
+        every { any<DaoForeignException>().record() } returns mockk()
 
         runBlocking {
             assertNull(dao.insertSafe(entity))

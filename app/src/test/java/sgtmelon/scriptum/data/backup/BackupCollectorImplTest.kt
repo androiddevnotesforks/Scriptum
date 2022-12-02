@@ -129,7 +129,7 @@ class BackupCollectorImplTest : ParentBackupTest() {
 
         if (isError) {
             FastMock.fireExtensions()
-            every { any<BackupParserException>().record() } returns Unit
+            every { any<BackupParserException>().record() } returns mockk()
         }
 
         if (isError) {
