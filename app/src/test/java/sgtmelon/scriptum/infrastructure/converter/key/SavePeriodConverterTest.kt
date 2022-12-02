@@ -9,5 +9,5 @@ class SavePeriodConverterTest : ParentEnumConverterTest<SavePeriod>() {
 
     override val converter = SavePeriodConverter()
 
-    override val values: Array<SavePeriod> get() = SavePeriod.values()
+    override val values: Array<SavePeriod> = SavePeriod.values()
 }

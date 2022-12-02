@@ -5,11 +5,19 @@ import sgtmelon.scriptum.infrastructure.model.annotation.AppOpenFrom
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.screen.parent.ParentBundleProvider
 
-class SplashBundleProvider {
+class SplashBundleProvider : ParentBundleProvider {
 
-    fun getData(bundle: Bundle?): SplashOpen {
-        return when (bundle?.getString(AppOpenFrom.INTENT_KEY)) {
+    private var key: String? = null
+
+    private var _open: SplashOpen = SplashOpen.Main
+    val open get() = _open
+
+    override fun getData(bundle: Bundle?) {
+        key = bundle?.getString(AppOpenFrom.INTENT_KEY)?.ifEmpty { null } ?: return
+
+        _open = when (key) {
             AppOpenFrom.ALARM -> getAlarmData(bundle)
             AppOpenFrom.BIND_NOTE -> getBindData(bundle)
             AppOpenFrom.NOTIFICATIONS -> SplashOpen.Notifications
@@ -31,5 +39,9 @@ class SplashBundleProvider {
         val type = bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
 
         return SplashOpen.BindNote(id, color, type)
+    }
+
+    override fun saveData(outState: Bundle) {
+        outState.putString(AppOpenFrom.INTENT_KEY, key)
     }
 }

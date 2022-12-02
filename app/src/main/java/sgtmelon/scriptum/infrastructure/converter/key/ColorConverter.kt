@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 class ColorConverter : ParentEnumConverter<Color>() {
 
-    override val values: Array<Color> get() = Color.values()
+    override val values: Array<Color> = Color.values()
 
     override fun getOrdinalException(ordinal: Int): EnumConverterException {
         return EnumConverterException(ordinal, Color::class, ColorConverter::class)

@@ -9,5 +9,5 @@ class ColorConverterTest : ParentEnumConverterTest<Color>() {
 
     override val converter = ColorConverter()
 
-    override val values: Array<Color> get() = Color.values()
+    override val values: Array<Color> = Color.values()
 }

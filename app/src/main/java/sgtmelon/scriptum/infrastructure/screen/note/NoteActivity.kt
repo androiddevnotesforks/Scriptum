@@ -32,9 +32,12 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     override val layoutId: Int = R.layout.activity_note
 
+    //region cleanup
+
     //region Variables
 
     @Inject lateinit var viewModel: NoteViewModel
+    @Inject lateinit var bundleProvider: NoteBundleProvider
 
     private val holderShowControl by lazy {
         HolderShowControl[binding?.toolbarHolder, binding?.panelHolder]
@@ -55,6 +58,8 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras, TODO())
 
         holderTintControl.initLazy()
 
@@ -86,22 +91,18 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         super.onDestroy()
 
         holderShowControl.onDestroy()
-
         viewModel.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         viewModel.onSaveData(outState)
+        bundleProvider.saveData(outState)
     }
 
     override fun onBackPressed() {
         if (!viewModel.onPressBack()) super.onBackPressed()
     }
-
-    //endregion
-
-    override fun updateHolder(color: Color) = holderTintControl.setupColor(color)
 
     override fun setupInsets() {
         super.setupInsets()
@@ -114,6 +115,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
             return@doOnApplyWindowInsets insets
         }
     }
+
+    //endregion
+
+    override fun updateHolder(color: Color) = holderTintControl.setupColor(color)
 
     override fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
         val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment[id, color]
@@ -156,4 +161,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
                 .commit()
         }
     }
+
+    //endregion
 }

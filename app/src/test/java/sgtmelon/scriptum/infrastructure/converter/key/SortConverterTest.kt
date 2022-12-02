@@ -9,5 +9,5 @@ class SortConverterTest : ParentEnumConverterTest<Sort>() {
 
     override val converter = SortConverter()
 
-    override val values: Array<Sort> get() = Sort.values()
+    override val values: Array<Sort> = Sort.values()
 }

@@ -9,5 +9,5 @@ class RepeatConverterTest : ParentEnumConverterTest<Repeat>() {
 
     override val converter = RepeatConverter()
 
-    override val values: Array<Repeat> get() = Repeat.values()
+    override val values: Array<Repeat> = Repeat.values()
 }

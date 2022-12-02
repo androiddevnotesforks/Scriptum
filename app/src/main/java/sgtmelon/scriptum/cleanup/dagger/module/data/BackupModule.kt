@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.dagger.module.data
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.backup.BackupCollector
 import sgtmelon.scriptum.data.backup.BackupCollectorImpl
@@ -13,6 +12,7 @@ import sgtmelon.scriptum.data.backup.BackupParser
 import sgtmelon.scriptum.data.backup.BackupParserImpl
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 
 @Module
 class BackupModule {

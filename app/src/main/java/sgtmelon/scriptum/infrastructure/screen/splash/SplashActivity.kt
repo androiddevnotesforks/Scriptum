@@ -34,6 +34,8 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
+
         setCrashlyticsKeys()
         chooseOpenScreen()
     }
@@ -43,6 +45,11 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
             .set(owner = this)
             .build()
             .inject(activity = this)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        bundleProvider.saveData(outState)
     }
 
     override fun finish() {
@@ -68,7 +75,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
             sendNotifyInfoBind()
         }
 
-        when (val it = bundleProvider.getData(intent.extras)) {
+        when (val it = bundleProvider.open) {
             is SplashOpen.Main -> openMainScreen()
             is SplashOpen.Alarm -> openAlarmScreen(it.id)
             is SplashOpen.BindNote -> openNoteScreen(it.id, it.color, it.type)

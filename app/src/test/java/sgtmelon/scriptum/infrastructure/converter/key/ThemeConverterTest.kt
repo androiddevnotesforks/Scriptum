@@ -9,5 +9,5 @@ class ThemeConverterTest : ParentEnumConverterTest<Theme>() {
 
     override val converter = ThemeConverter()
 
-    override val values: Array<Theme> get() = Theme.values()
+    override val values: Array<Theme> = Theme.values()
 }

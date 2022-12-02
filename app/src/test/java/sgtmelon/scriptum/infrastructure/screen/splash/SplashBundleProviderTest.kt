@@ -8,6 +8,7 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.model.annotation.AppOpenFrom
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
@@ -22,111 +23,133 @@ import sgtmelon.test.common.nextString
 class SplashBundleProviderTest : ParentTest() {
 
     @MockK lateinit var bundle: Bundle
+    @MockK lateinit var outState: Bundle
 
     private val provider = SplashBundleProvider()
 
+    @Before override fun setUp() {
+        super.setUp()
+        assertEquals(provider.open, SplashOpen.Main)
+    }
+
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(bundle)
+        confirmVerified(bundle, outState)
     }
 
-    @Test fun `getData with null bundle`() = testMainCase(bundle = null)
+    @Test fun `getData with null bundle`() = testMainCase(bundle = null, key = null)
 
     @Test fun `getData with wrong key`() {
-        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns nextString()
-        testMainCase(bundle)
+        val key = nextString()
+        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
+        testMainCase(bundle, key)
     }
 
-    @Test fun `getData without key`() {
+    @Test fun `getData with empty key`() {
         every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns ""
-        testMainCase(bundle)
+        testMainCase(bundle, key = null)
     }
 
-    private fun testMainCase(bundle: Bundle?) {
-        assertGetData(SplashOpen.Main, bundle)
-
-        if (bundle == null) return
+    private fun testMainCase(bundle: Bundle?, key: String?) {
+        assertGetData(SplashOpen.Main, key, bundle)
 
         verifySequence {
-            bundle.getString(AppOpenFrom.INTENT_KEY)
+            bundle?.getString(AppOpenFrom.INTENT_KEY)
+            outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }
 
     @Test fun `getData for alarm`() {
+        val key = AppOpenFrom.ALARM
         val id = Random.nextLong()
 
-        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns AppOpenFrom.ALARM
+        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
 
-        assertGetData(SplashOpen.Alarm(id))
+        assertGetData(SplashOpen.Alarm(id), key)
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
+            outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }
 
     @Test fun `getData for bind`() {
+        val key = AppOpenFrom.BIND_NOTE
         val id = Random.nextLong()
         val color = Random.nextInt()
         val type = Random.nextInt()
 
-        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns AppOpenFrom.BIND_NOTE
+        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns color
         every { bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE) } returns type
 
-        assertGetData(SplashOpen.BindNote(id, color, type))
+        assertGetData(SplashOpen.BindNote(id, color, type), key)
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
             bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
+            outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }
 
     @Test fun `getData for notifications`() {
-        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns AppOpenFrom.NOTIFICATIONS
+        val key = AppOpenFrom.NOTIFICATIONS
+        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
 
-        assertGetData(SplashOpen.Notifications)
+        assertGetData(SplashOpen.Notifications, key)
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
+            outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }
 
     @Test fun `getData for helpDisappear`() {
-        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns AppOpenFrom.HELP_DISAPPEAR
+        val key = AppOpenFrom.HELP_DISAPPEAR
+        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
 
-        assertGetData(SplashOpen.HelpDisappear)
+        assertGetData(SplashOpen.HelpDisappear, key)
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
+            outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }
 
     @Test fun `getData for create textNote`() {
-        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns AppOpenFrom.CREATE_TEXT
+        val key = AppOpenFrom.CREATE_TEXT
+        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
 
-        assertGetData(SplashOpen.CreateNote(NoteType.TEXT))
+        assertGetData(SplashOpen.CreateNote(NoteType.TEXT), key)
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
+            outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }
 
     @Test fun `getData for create rollNote`() {
-        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns AppOpenFrom.CREATE_ROLL
+        val key = AppOpenFrom.CREATE_ROLL
+        every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
 
-        assertGetData(SplashOpen.CreateNote(NoteType.ROLL))
+        assertGetData(SplashOpen.CreateNote(NoteType.ROLL), key)
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
+            outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }
 
-    private fun assertGetData(open: SplashOpen, bundle: Bundle? = this.bundle) {
-        assertEquals(provider.getData(bundle), open)
+    private fun assertGetData(open: SplashOpen, key: String?, bundle: Bundle? = this.bundle) {
+        provider.getData(bundle)
+        assertEquals(provider.open, open)
+
+        every { outState.putString(AppOpenFrom.INTENT_KEY, key) } returns Unit
+        provider.saveData(outState)
     }
 }
