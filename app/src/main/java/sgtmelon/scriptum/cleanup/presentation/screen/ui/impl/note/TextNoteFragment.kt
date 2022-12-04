@@ -22,7 +22,6 @@ import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
@@ -34,6 +33,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
 
@@ -49,7 +49,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     @Inject lateinit var viewModel: ITextNoteViewModel
 
     private var tintToolbar: TintNoteToolbar? = null
-    private var navigationIconControl: IconChangeCallback? = null
+    private var navigationIcon: IconChangeCallback? = null
 
     private val dialogs by lazy { DialogFactory.Note(context, fm) }
 
@@ -132,7 +132,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
 
         activity?.let {
             tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
-            navigationIconControl = NavigationIconControl(it, toolbar, callback = this)
+            navigationIcon = BackToCancelIcon(it, toolbar, callback = this)
         }
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
@@ -247,7 +247,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     }
 
     override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
-        navigationIconControl?.setDrawable(isCancel, needAnim)
+        navigationIcon?.setDrawable(isCancel, needAnim)
     }
 
     override fun focusOnEdit(isCreate: Boolean) {

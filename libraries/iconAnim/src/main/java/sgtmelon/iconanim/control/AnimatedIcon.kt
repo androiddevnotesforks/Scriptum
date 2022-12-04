@@ -14,7 +14,7 @@ import sgtmelon.iconanim.callback.IconChangeCallback
 /**
  * Control class for register animation vector start/end.
  */
-class IconAnimControl(
+class AnimatedIcon(
     context: Context,
     private val enterIcon: AnimatedVectorDrawable?,
     private val exitIcon: AnimatedVectorDrawable?,
@@ -29,7 +29,7 @@ class IconAnimControl(
      * crashes (timeout).
      *
      * Double call related with calls of [launchSimpleIconSet] inside [checkAnimationEnd] and
-     * [getIconAndStartAnim]. [isEnabled] - skip call if already set value inside [blockCallback].
+     * [getAndStart]. [isEnabled] - skip call if already set value inside [blockCallback].
      */
     private var isEnabled = true
 
@@ -39,7 +39,7 @@ class IconAnimControl(
         this.blockCallback = callback
     }
 
-    fun getIconAndStartAnim(isEnterIcon: Boolean): AnimatedVectorDrawable? {
+    fun getAndStart(isEnterIcon: Boolean): AnimatedVectorDrawable? {
         val icon = if (isEnterIcon) enterIcon else exitIcon
 
         icon?.start()

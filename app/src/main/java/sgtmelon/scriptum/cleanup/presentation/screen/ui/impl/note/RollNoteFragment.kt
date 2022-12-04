@@ -38,8 +38,6 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
-import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.VisibleIconControl
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
@@ -53,6 +51,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
+import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
@@ -70,7 +70,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     @Inject lateinit var viewModel: IRollNoteViewModel
 
     private var tintToolbar: TintNoteToolbar? = null
-    private var navigationIconControl: IconChangeCallback? = null
+    private var navigationIcon: IconChangeCallback? = null
     private var visibleIconControl: IconChangeCallback? = null
 
     private val dialogs by lazy { DialogFactory.Note(context, fm) }
@@ -198,8 +198,8 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
 
         activity?.let {
             tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
-            navigationIconControl = NavigationIconControl(it, toolbar, callback = this)
-            visibleIconControl = VisibleIconControl(it, visibleMenuItem, callback = this)
+            navigationIcon = BackToCancelIcon(it, toolbar, callback = this)
+            visibleIconControl = VisibleFilterIcon(it, visibleMenuItem, callback = this)
         }
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
@@ -378,7 +378,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
     override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
-        navigationIconControl?.setDrawable(isCancel, needAnim)
+        navigationIcon?.setDrawable(isCancel, needAnim)
     }
 
     override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {

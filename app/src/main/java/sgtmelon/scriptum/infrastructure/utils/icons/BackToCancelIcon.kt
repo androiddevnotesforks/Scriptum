@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon
+package sgtmelon.scriptum.infrastructure.utils.icons
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -6,16 +6,14 @@ import android.graphics.drawable.Drawable
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
-import sgtmelon.iconanim.control.IconAnimControl
+import sgtmelon.iconanim.control.AnimatedIcon
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
 
 /**
- * Class for control toolbar navigation icon changes in [TextNoteFragment], [RollNoteFragment].
+ * Class for transform toolbar navigation icon: from [arrowIcon] to [cancelIcon].
  */
-class NavigationIconControl(
+class BackToCancelIcon(
     context: Context,
     private val toolbar: Toolbar?,
     callback: IconBlockCallback
@@ -26,17 +24,16 @@ class NavigationIconControl(
 
     private val cancelEnterIcon = context.getTintDrawable(R.drawable.anim_cancel_enter)
             as? AnimatedVectorDrawable
-
     private val cancelExitIcon = context.getTintDrawable(R.drawable.anim_cancel_exit)
             as? AnimatedVectorDrawable
 
-    private val iconAnimControl = IconAnimControl(
+    private val animatedIcon = AnimatedIcon(
         context, cancelEnterIcon, cancelExitIcon, changeCallback = this, callback
     )
 
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
         toolbar?.navigationIcon = if (needAnim) {
-            iconAnimControl.getIconAndStartAnim(isEnterIcon)
+            animatedIcon.getAndStart(isEnterIcon)
         } else {
             if (isEnterIcon) cancelIcon else arrowIcon
         }
