@@ -14,7 +14,7 @@ import sgtmelon.iconanim.callback.IconChangeCallback
 /**
  * Control class for register animation vector start/end.
  */
-class IconAnimControlImpl(
+class IconAnimControl(
     context: Context,
     private val enterIcon: AnimatedVectorDrawable?,
     private val exitIcon: AnimatedVectorDrawable?,

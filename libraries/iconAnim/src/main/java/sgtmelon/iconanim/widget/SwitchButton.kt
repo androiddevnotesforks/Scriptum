@@ -13,7 +13,7 @@ import sgtmelon.extensions.setColorFilterCompat
 import sgtmelon.iconanim.R
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
-import sgtmelon.iconanim.control.IconAnimControlImpl
+import sgtmelon.iconanim.control.IconAnimControl
 
 /**
  * Button with automatic icon change via [setDrawable] func.
@@ -37,7 +37,7 @@ class SwitchButton(
     private val iconDisableAnim: AnimatedVectorDrawable?
     private val iconSelectAnim: AnimatedVectorDrawable?
 
-    private val animControl: IconAnimControlImpl
+    private val animControl: IconAnimControl
 
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.SwitchButton)
@@ -67,7 +67,7 @@ class SwitchButton(
             null
         }
 
-        animControl = IconAnimControlImpl(
+        animControl = IconAnimControl(
             context, iconSelectAnim, iconDisableAnim, changeCallback = this
         )
     }

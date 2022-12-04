@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.view.MenuItem
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
-import sgtmelon.iconanim.control.IconAnimControlImpl
+import sgtmelon.iconanim.control.IconAnimControl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
@@ -28,7 +28,7 @@ class VisibleIconControl(
     private val visibleExitIcon = context.getTintDrawable(R.drawable.anim_visible_exit, R.attr.clIndicator)
             as? AnimatedVectorDrawable
 
-    private val iconAnimControl = IconAnimControlImpl(
+    private val iconAnimControl = IconAnimControl(
         context, visibleEnterIcon, visibleExitIcon, changeCallback = this, callback
     )
 
