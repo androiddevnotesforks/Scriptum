@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
-import sgtmelon.iconanim.control.IconAnimControl
 import sgtmelon.iconanim.control.IconAnimControlImpl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
@@ -31,15 +30,15 @@ class NavigationIconControl(
     private val cancelExitIcon = context.getTintDrawable(R.drawable.anim_cancel_exit)
             as? AnimatedVectorDrawable
 
-    private val iconAnimControl: IconAnimControl = IconAnimControlImpl(
+    private val iconAnimControl = IconAnimControlImpl(
         context, cancelEnterIcon, cancelExitIcon, changeCallback = this, callback
     )
 
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
-        if (needAnim) {
-            toolbar?.navigationIcon = iconAnimControl.getIcon(isEnterIcon)
+        toolbar?.navigationIcon = if (needAnim) {
+            iconAnimControl.getIconAndStartAnim(isEnterIcon)
         } else {
-            toolbar?.navigationIcon = if (isEnterIcon) cancelIcon else arrowIcon
+            if (isEnterIcon) cancelIcon else arrowIcon
         }
     }
 }

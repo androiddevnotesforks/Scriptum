@@ -19,8 +19,8 @@ class IconAnimControlImpl(
     private val enterIcon: AnimatedVectorDrawable?,
     private val exitIcon: AnimatedVectorDrawable?,
     private val changeCallback: IconChangeCallback,
-    override var blockCallback: IconBlockCallback? = null
-) : IconAnimControl {
+    private var blockCallback: IconBlockCallback? = null
+) {
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
@@ -28,23 +28,27 @@ class IconAnimControlImpl(
      * Variable for prevent double call of [blockCallback]. Sometimes happen tests idling
      * crashes (timeout).
      *
-     * Double call related with calls of [waitAnimationEnd] inside [checkAnimationEnd] and
-     * [getIcon]. [isEnabled] - skip call if already set value inside [blockCallback].
+     * Double call related with calls of [launchSimpleIconSet] inside [checkAnimationEnd] and
+     * [getIconAndStartAnim]. [isEnabled] - skip call if already set value inside [blockCallback].
      */
     private var isEnabled = true
 
     private val duration = context.resources.getInteger(R.integer.icon_animation_time).toLong()
 
-    override fun getIcon(isEnterIcon: Boolean): AnimatedVectorDrawable? {
+    fun setBlockCallback(callback: IconBlockCallback) {
+        this.blockCallback = callback
+    }
+
+    fun getIconAndStartAnim(isEnterIcon: Boolean): AnimatedVectorDrawable? {
         val icon = if (isEnterIcon) enterIcon else exitIcon
 
         icon?.start()
-        waitAnimationEnd(isEnterIcon)
+        launchSimpleIconSet(isEnterIcon)
 
         return icon
     }
 
-    private fun waitAnimationEnd(isEnterIcon: Boolean) {
+    private fun launchSimpleIconSet(isEnterIcon: Boolean) {
         if (isEnabled) {
             isEnabled = false
             blockCallback?.setEnabled(isEnabled = false)
@@ -60,7 +64,7 @@ class IconAnimControlImpl(
         if (enterIcon == null || exitIcon == null) return
 
         if (enterIcon.isRunning || exitIcon.isRunning) {
-            waitAnimationEnd(isEnterIcon)
+            launchSimpleIconSet(isEnterIcon)
         } else {
             if (!isEnabled) {
                 isEnabled = true
