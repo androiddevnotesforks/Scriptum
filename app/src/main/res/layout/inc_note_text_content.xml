@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="sgtmelon.scriptum.domain.model.item.NoteItem.Text" />
+            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Text" />
     </data>
 
     <merge>

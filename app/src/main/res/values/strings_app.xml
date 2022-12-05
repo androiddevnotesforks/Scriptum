@@ -3,8 +3,11 @@
 
     <string name="app_name" translatable="false">Scriptum</string>
 
-    <!--  String for create load dots in text ending  -->
-    <string name="dot" translatable="false">.</string>
+    <!--  Shortcuts  -->
+    <string name="shortcut_short_text_label">Text</string>
+    <string name="shortcut_short_roll_label">List</string>
+    <string name="shortcut_medium_text_label">Create text note</string>
+    <string name="shortcut_medium_roll_label">Create list note</string>
 
     <!-- Titles -->
     <string name="title_rank">Categories</string>
@@ -93,13 +96,16 @@
     <string name="hint_enter_rank_new">New category</string>
     <string name="hint_enter_rank_rename">New name for category</string>
     <string name="hint_enter_name">Title of note</string>
-    <string name="hint_text_name">Untitled</string>
+    <string name="hint_text_name">@string/empty_note_name</string>
     <string name="hint_enter_text">Your text</string>
     <string name="hint_enter_roll">Your list item</string>
     <string name="hind_enter_roll_empty">This item will be removed</string>
 
+    <!-- Empty -->
+    <string name="empty_note_name">Untitled</string>
+
     <!-- Items text -->
-    <string name="list_item_rank_count">Notes: %1$d</string>
+    <string name="list_rank_count">Notes: %1$d</string>
 
     <!-- Snackbar text -->
     <string name="snackbar_message_rank">Category is removed</string>
@@ -108,8 +114,10 @@
     <string name="snackbar_action_cancel">Cancel</string>
 
     <!--  Error text  -->
-    <string name="error_something_wrong">
-        Something went wrong :( Please, write about it to developer on email
+    <string name="error_something_wrong">Something went wrong… But we will try to fix it!</string>
+
+    <string name="error_start_activity">
+        Sorry, we didn\'t find any application to do this action :(
     </string>
 
 </resources>

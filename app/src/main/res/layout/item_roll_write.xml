@@ -6,7 +6,7 @@
     <data>
         <import type="sgtmelon.scriptum.R"/>
 
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.RollItem"/>
+        <variable name="item" type="sgtmelon.scriptum.cleanup.domain.model.item.RollItem"/>
 
         <!--
             Use when user change roll text need update contentDescription without
@@ -26,7 +26,8 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/item_roll_icon_horizontal_space">
+                android:paddingHorizontal="@dimen/item_roll_icon_horizontal_space"
+                tools:background="@color/accent_ripple_light">
 
                 <CheckBox
                     android:id="@+id/roll_write_check"
@@ -37,25 +38,26 @@
                     style="@style/Container.Roll.Click"
                     android:contentDescription='@{@string/description_item_roll_move + " " + descText}'
                     app:boolExpression='@{item.check}'
-                        app:falseColor='@{R.attr.clContent}'
-                        app:srcCompat="@drawable/ic_move"
-                        app:trueColor='@{R.attr.clAccent}'
-                        tools:tint="?attr/clAccent"/>
+                    app:falseColor='@{R.attr.clContent}'
+                    app:srcCompat="@drawable/ic_move"
+                    app:trueColor='@{R.attr.clAccent}'
+                    tools:tint="?attr/clAccent" />
 
             </FrameLayout>
 
             <EditText
-                    android:id="@+id/roll_write_enter"
-                    style="@style/EditText.Roll"
-                    android:hint="@string/hind_enter_roll_empty"
-                    android:imeOptions="flagNoFullscreen"
-                    android:importantForAutofill="noExcludeDescendants"
-                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    android:text='@{item.text}'
-                    app:boolExpression='@{!item.check}'
-                    app:falseColor='@{R.attr.clContrast}'
-                    app:trueColor='@{R.attr.clContent}'
-                    tools:targetApi="o"/>
+                android:id="@+id/roll_write_enter"
+                style="@style/EditText.Roll"
+                android:hint="@string/hind_enter_roll_empty"
+                android:imeOptions="flagNoFullscreen"
+                android:importantForAutofill="noExcludeDescendants"
+                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                android:text='@{item.text}'
+                app:boolExpression='@{!item.check}'
+                app:falseColor='@{R.attr.clContrast}'
+                app:trueColor='@{R.attr.clContent}'
+                tools:targetApi="o"
+                tools:text="@string/preview_note_roll" />
 
         </LinearLayout>
 

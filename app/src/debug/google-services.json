@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "641080661618",
+    "project_id": "scriptum-notes-debug",
+    "storage_bucket": "scriptum-notes-debug.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641080661618:android:cf525a773ee03bda2594eb",
+        "android_client_info": {
+          "package_name": "sgtmelon.scriptum.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641080661618-g1emfsnvhc9647tpi2bgpdnt7udn8cl9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiH7gNhZuibRSPKV2yQl1nUZgE1PahBUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641080661618-g1emfsnvhc9647tpi2bgpdnt7udn8cl9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

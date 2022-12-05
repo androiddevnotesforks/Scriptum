@@ -14,7 +14,7 @@
 
     <!--  Better don't use configChanges: rotation/screenSize  -->
     <application
-        android:name=".presentation.screen.ui.ScriptumApplication"
+        android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
@@ -25,128 +25,94 @@
         android:theme="@style/App.Screen.DayNight">
 
         <activity
-            android:name=".presentation.screen.ui.impl.SplashActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@style/App.Screen.Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.intro.IntroActivity"
-            android:configChanges="keyboardHidden"
-            android:exported="true"
-            android:parentActivityName=".presentation.screen.ui.impl.SplashActivity"
-            android:theme="@style/App.Screen.Intro">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.main.MainActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.HOME" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.note.NoteActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.main.MainActivity"
             android:exported="false"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity
+            android:name="sgtmelon.scriptum.infrastructure.screen.note.NoteActivity"
+            android:exported="false"
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity" />
+
+        <activity
+            android:name="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity"
+            android:configChanges="keyboardHidden"
+            android:exported="false"
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity" />
+
+        <activity
+            android:name="sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity"
+            android:configChanges="keyboardHidden"
+            android:exported="false"
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
+
+        <activity
+            android:name="sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity"
+            android:configChanges="keyboardHidden"
+            android:exported="false"
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
+
+        <activity
+            android:name="sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity"
+            android:configChanges="keyboardHidden"
+            android:exported="false"
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity">
+
             <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.PreferenceActivity"
+            android:name="sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity"
             android:configChanges="keyboardHidden"
-            android:exported="true"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.preference.help.HelpDisappearActivity"
-            android:configChanges="keyboardHidden"
-            android:exported="true"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.preference.develop.PrintDevelopActivity"
-            android:configChanges="keyboardHidden"
-            android:exported="true"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.notification.NotificationActivity"
-            android:configChanges="keyboardHidden"
-            android:exported="true"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.notification.AlarmActivity"
-            android:configChanges="keyboardHidden"
-            android:exported="true"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity"
+            android:exported="false"
+            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+
+        <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".presentation.receiver.action.AlarmActionReceiver" />
-        <receiver android:name=".presentation.receiver.action.UnbindActionReceiver" />
+        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver" />
+        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver" />
+        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver" />
 
-        <receiver android:name=".presentation.receiver.screen.DevelopScreenReceiver" />
-        <receiver android:name=".presentation.receiver.screen.MainScreenReceiver" />
-        <receiver android:name=".presentation.receiver.screen.NoteScreenReceiver" />
+        <receiver android:name="sgtmelon.scriptum.develop.receiver.DevelopScreenReceiver" />
 
-        <receiver android:name=".presentation.receiver.EternalReceiver" />
+        <receiver android:name=".infrastructure.receiver.service.ServiceReceiver" />
 
         <receiver
-            android:name=".presentation.receiver.BootReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:name=".infrastructure.receiver.system.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".presentation.service.EternalService"
+            android:name="sgtmelon.scriptum.infrastructure.service.EternalService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />
-
     </application>
-
 </manifest>

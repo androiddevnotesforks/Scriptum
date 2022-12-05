@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="sgtmelon.scriptum.R"/>
 
-        <variable name="icon" type="int"/>
-        <variable name="title" type="int"/>
-        <variable name="details" type="int"/>
+        <import type="sgtmelon.scriptum.R" />
+
+        <variable
+            name="icon"
+            type="int" />
+
+        <variable
+            name="title"
+            type="int" />
+
+        <variable
+            name="details"
+            type="int" />
     </data>
 
     <!-- TODO #RELEASE2 add contentDescription and add them to assertion in tests -->
 
     <LinearLayout
-            android:id="@+id/info_parent_container"
-            style="@style/Container.Info">
+        android:id="@+id/parent_container"
+        style="@style/Container.Info">
 
         <ImageView
-                android:id="@+id/info_image"
-                style="@style/Image.Info"
-                android:importantForAccessibility="no"
-                app:colorAttr='@{R.attr.clContent}'
-                app:drawableId='@{icon}'
-                tools:src="@mipmap/img_info_notes"
-                tools:tint="?attr/clContent"/>
+            android:id="@+id/info_image"
+            style="@style/Image.Info"
+            android:importantForAccessibility="no"
+            app:colorAttr='@{R.attr.clContent}'
+            app:drawableId='@{icon}'
+            tools:src="@mipmap/img_info_notes"
+            tools:tint="?attr/clContent" />
 
         <TextView
-                android:id="@+id/info_title_text"
-                style="@style/Text.Info.Title"
-                android:text='@{context.getString(title)}'
-                tools:text="@string/info_notes_empty_title"/>
+            android:id="@+id/title_text"
+            style="@style/Text.Info.Title"
+            app:stringId='@{title}'
+            tools:text="@string/info_notes_empty_title" />
 
         <TextView
-                android:id="@+id/info_details_text"
-                style="@style/Text.Info.Details"
-                android:text='@{context.getString(details)}'
-                tools:text="@string/info_notes_empty_details"/>
+            android:id="@+id/details_text"
+            style="@style/Text.Info.Details"
+            app:stringId='@{details}'
+            tools:text="@string/info_notes_empty_details" />
 
     </LinearLayout>
 

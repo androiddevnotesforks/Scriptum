@@ -11,7 +11,7 @@
 
         <variable
             name="menuCallback"
-            type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu" />
+            type="sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteMenu" />
 
         <variable
             name="isDataLoad"
@@ -19,7 +19,7 @@
 
         <variable
             name="item"
-            type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
+            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll" />
 
         <variable
             name="isRankEmpty"
@@ -39,7 +39,7 @@
 
         <variable
             name="inputAccess"
-            type="sgtmelon.scriptum.presentation.control.note.input.InputControl.Access" />
+            type="sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl.Access" />
 
         <variable
             name="isEnterEmpty"
@@ -65,7 +65,7 @@
             android:layout_weight="1">
 
             <include
-                android:id="@+id/roll_note_info_include"
+                android:id="@+id/info_include"
                 layout="@layout/inc_info"
                 android:visibility="gone"
                 app:details='@{isListEmpty ? R.string.info_roll_empty_details : isListHide ? R.string.info_roll_hide_details : R.string.info_null}'

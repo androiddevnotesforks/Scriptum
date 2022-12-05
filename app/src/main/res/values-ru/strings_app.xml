@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Shortcuts  -->
+    <string name="shortcut_short_text_label">Текст</string>
+    <string name="shortcut_short_roll_label">Список</string>
+    <string name="shortcut_medium_text_label">Создать текстовую заметка</string>
+    <string name="shortcut_medium_roll_label">Создать список</string>
+
     <!-- Titles -->
     <string name="title_rank">Категории</string>
     <string name="title_notes">Заметки</string>
@@ -73,13 +79,16 @@
     <string name="hint_enter_rank_new">Новая категория</string>
     <string name="hint_enter_rank_rename">Новое имя для категории</string>
     <string name="hint_enter_name">Название заметки</string>
-    <string name="hint_text_name">Без названия</string>
+    <string name="hint_text_name">@string/empty_note_name</string>
     <string name="hint_enter_text">Ваш текст</string>
     <string name="hint_enter_roll">Ваш пункт</string>
     <string name="hind_enter_roll_empty">Этот пункт будет удалён</string>
 
+    <!-- Empty -->
+    <string name="empty_note_name">Без названия</string>
+
     <!-- Items text -->
-    <string name="list_item_rank_count">Заметок: %1$d</string>
+    <string name="list_rank_count">Заметок: %1$d</string>
 
     <!-- Snackbar text -->
     <string name="snackbar_message_rank">Категория удалена</string>
@@ -88,8 +97,10 @@
     <string name="snackbar_action_cancel">Отмена</string>
 
     <!--  Error text  -->
-    <string name="error_something_wrong">
-        Что-то пошло не так :( Пожалуйста, напишите об этом разработчику на email
+    <string name="error_something_wrong">Что-то пошло не так… Но мы обязательно это исправим!</string>
+
+    <string name="error_start_activity">
+        Извините, мы не смогли найти приложения для совершения данного действия :(
     </string>
 
 </resources>

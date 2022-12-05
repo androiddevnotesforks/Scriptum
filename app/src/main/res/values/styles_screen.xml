@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="App.Screen.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--  Otherwise it will be override some app colors (e.g. fab accent color)  -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
         <item name="clNavigationBar">@color/navigation_bar_light</item>
         <item name="clNavigationBarDivider">@color/navigation_bar_divider_light</item>
 
         <item name="clAccent">@color/accent_light</item>
         <item name="clAccentRipple">@color/accent_ripple_light</item>
+        <item name="clAccentGradientStart">@color/accent_gradient_start_light</item>
+        <item name="clAccentGradientEnd">@color/accent_gradient_end_light</item>
 
         <item name="clPrimary">@color/primary_light</item>
 
@@ -26,16 +31,26 @@
         <item name="colorPrimaryDark">?attr/clContentSecond</item>
         <item name="colorAccent">?attr/clAccent</item>
 
+        <!--  This two colors needed for snackbar theme  -->
+        <item name="colorSurface">@android:color/transparent</item>
+        <item name="colorOnSurface">@android:color/transparent</item>
+
         <item name="styleToolbar">@style/App.Style.Toolbar</item>
         <item name="themePopup">@style/App.Theme.Popup</item>
-        <item name="styleFab">@style/App.Style.Fab</item>
         <item name="styleSheet">@style/App.Style.SheetDialog</item>
         <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
 
-        <item name="alertDialogStyle">@style/App.Alert</item>
-        <item name="alertDialogTheme">@style/App.Alert</item>
+        <item name="android:datePickerDialogTheme">@style/App.Dialog.DateTime</item>
+        <item name="android:timePickerDialogTheme">@style/App.Dialog.DateTime</item>
+        <item name="alertDialogStyle">@style/App.Dialog.Alert</item>
+        <item name="alertDialogTheme">@style/App.Dialog.Alert</item>
         <item name="bottomSheetDialogTheme">@style/App.Theme.BottomSheet</item>
         <item name="snackbarStyle">@style/App.Theme.Snackbar</item>
+
+        <!--  For overScrollMode  -->
+        <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
+        <!--  This flag not works good with recyclerView (use a custom listener for fix it)  -->
+        <item name="android:overScrollMode">ifContentScrolls</item>
     </style>
 
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
@@ -46,11 +61,16 @@
     </style>
 
     <style name="App.Screen.Dark" parent="Theme.AppCompat.NoActionBar">
+        <!--  Otherwise it will be override some app colors (e.g. fab accent color)  -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
         <item name="clNavigationBar">@color/navigation_bar_dark</item>
         <item name="clNavigationBarDivider">@color/navigation_bar_divider_dark</item>
 
         <item name="clAccent">@color/accent_dark</item>
         <item name="clAccentRipple">@color/accent_ripple_dark</item>
+        <item name="clAccentGradientStart">@color/accent_gradient_start_dark</item>
+        <item name="clAccentGradientEnd">@color/accent_gradient_end_dark</item>
 
         <item name="clPrimary">@color/primary_dark</item>
 
@@ -70,16 +90,26 @@
         <item name="colorPrimaryDark">?attr/clPrimary</item>
         <item name="colorAccent">?attr/clAccent</item>
 
+        <!--  This two colors needed for snackbar theme  -->
+        <item name="colorSurface">@android:color/transparent</item>
+        <item name="colorOnSurface">@android:color/transparent</item>
+
         <item name="styleToolbar">@style/App.Style.Toolbar</item>
         <item name="themePopup">@style/App.Theme.Popup</item>
-        <item name="styleFab">@style/App.Style.Fab</item>
         <item name="styleSheet">@style/App.Style.SheetDialog</item>
         <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
 
-        <item name="alertDialogStyle">@style/App.Alert</item>
-        <item name="alertDialogTheme">@style/App.Alert</item>
+        <item name="android:datePickerDialogTheme">@style/App.Dialog.DateTime</item>
+        <item name="android:timePickerDialogTheme">@style/App.Dialog.DateTime</item>
+        <item name="alertDialogStyle">@style/App.Dialog.Alert</item>
+        <item name="alertDialogTheme">@style/App.Dialog.Alert</item>
         <item name="bottomSheetDialogTheme">@style/App.Theme.BottomSheet</item>
         <item name="snackbarStyle">@style/App.Theme.Snackbar</item>
+
+        <!--  For overScrollMode  -->
+        <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
+        <!--  This flag not works good with recyclerView (use a custom listener for fix it)  -->
+        <item name="android:overScrollMode">ifContentScrolls</item>
     </style>
 
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
@@ -94,14 +124,6 @@
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
     <style name="App.Screen.Splash" parent="App.Screen.Dark">
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>
-
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-    </style>
-
-    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
-    <style name="App.Screen.Intro" parent="App.Screen.Dark">
-        <item name="android:windowBackground">?attr/colorPrimaryDark</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>

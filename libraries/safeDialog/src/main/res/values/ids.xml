@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+          This id must have parent container (CoordinatorLayout) inside custom view for
+          current work of BlankMenuSheetDialog.kt (see setPeekHeight function)
+    -->
+    <item name="sheet_parent_container" type="id" />
+</resources>

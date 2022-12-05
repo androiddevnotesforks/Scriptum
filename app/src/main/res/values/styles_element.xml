@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="NavigationView">
+    <style name="App.Style.SheetNavigation">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:theme">@style/App.Theme.SheetNavigation</item>
+    </style>
+
+    <style name="App.Theme.SheetNavigation">
         <item name="android:textColorSecondary">?attr/clContentSecond</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
@@ -325,7 +332,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:padding">@dimen/item_roll_space</item>
+        <item name="android:paddingStart">@dimen/item_roll_start_space</item>
+        <item name="android:paddingTop">@dimen/item_roll_space</item>
+        <item name="android:paddingEnd">@dimen/item_roll_space</item>
+        <item name="android:paddingBottom">@dimen/item_roll_space</item>
         <item name="android:textSize">@dimen/item_roll_text</item>
     </style>
 

@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.domain.model.result
 
-import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPreferenceInteractor
-
 /**
- * Class for result processing of [IBackupPreferenceInteractor.import].
+ * Class for track processing of backup file import.
  */
 sealed class ImportResult {
     object Simple : ImportResult()

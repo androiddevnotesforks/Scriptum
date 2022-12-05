@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Preference summaries and arrays for dialogs -->
+
+    <string name="pref_theme_light">Light</string>
+    <string name="pref_theme_dark">Dark</string>
+    <string name="pref_theme_system">System</string>
+
+    <string-array name="pref_theme">
+        <item>@string/pref_theme_light</item>
+        <item>@string/pref_theme_dark</item>
+        <item>@string/pref_theme_system</item>
+    </string-array>
+
+    <string name="pref_sort_change">By time of change</string>
+    <string name="pref_sort_create">By time of creation</string>
+    <string name="pref_sort_rank">By categories</string>
+    <string name="pref_sort_color">By color</string>
+
+    <string-array name="pref_sort">
+        <item>@string/pref_sort_change</item>
+        <item>@string/pref_sort_create</item>
+        <item>@string/pref_sort_rank</item>
+        <item>@string/pref_sort_color</item>
+    </string-array>
+
+    <string name="pref_color_red">Red</string>
+    <string name="pref_color_purple">Purple</string>
+    <string name="pref_color_indigo">Indigo</string>
+    <string name="pref_color_blue">Blue</string>
+    <string name="pref_color_teal">Turquoise</string>
+    <string name="pref_color_green">Green</string>
+    <string name="pref_color_yellow">Yellow</string>
+    <string name="pref_color_orange">Orange</string>
+    <string name="pref_color_brown">Brown</string>
+    <string name="pref_color_blue_gray">Blue gray</string>
+    <string name="pref_color_white">White</string>
+
+    <string-array name="pref_color">
+        <item>@string/pref_color_red</item>
+        <item>@string/pref_color_purple</item>
+        <item>@string/pref_color_indigo</item>
+        <item>@string/pref_color_blue</item>
+        <item>@string/pref_color_teal</item>
+        <item>@string/pref_color_green</item>
+        <item>@string/pref_color_yellow</item>
+        <item>@string/pref_color_orange</item>
+        <item>@string/pref_color_brown</item>
+        <item>@string/pref_color_blue_gray</item>
+        <item>@string/pref_color_white</item>
+    </string-array>
+
+    <string name="pref_save_period_1">1 minute</string>
+    <string name="pref_save_period_3">3 minutes</string>
+    <string name="pref_save_period_7">7 minutes</string>
+
+    <string-array name="pref_save_period">
+        <item>@string/pref_save_period_1</item>
+        <item>@string/pref_save_period_3</item>
+        <item>@string/pref_save_period_7</item>
+    </string-array>
+
+    <string name="pref_repeat_0">10 minutes</string>
+    <string name="pref_repeat_1">30 minutes</string>
+    <string name="pref_repeat_2">1 hour</string>
+    <string name="pref_repeat_3">3 hours</string>
+    <string name="pref_repeat_4">1 day</string>
+
+    <string-array name="pref_repeat">
+        <item>@string/pref_repeat_0</item>
+        <item>@string/pref_repeat_1</item>
+        <item>@string/pref_repeat_2</item>
+        <item>@string/pref_repeat_3</item>
+        <item>@string/pref_repeat_4</item>
+    </string-array>
+
+    <string name="pref_signal_melody">Melody</string>
+    <string name="pref_signal_vibration">Vibration</string>
+
+    <string-array name="pref_signal">
+        <item>@string/pref_signal_melody</item>
+        <item>@string/pref_signal_vibration</item>
+    </string-array>
+
+</resources>

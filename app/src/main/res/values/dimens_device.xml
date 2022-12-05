@@ -4,11 +4,11 @@
     <dimen name="item_card_horizontal_margin">8dp</dimen>
     <dimen name="item_card_vertical_margin">4dp</dimen>
     <dimen name="item_card_elevation">2dp</dimen>
-    <dimen name="item_card_radius">4dp</dimen>
+    <dimen name="item_card_radius">8dp</dimen>
 
     <dimen name="text_card_margin">8dp</dimen>
     <dimen name="text_card_elevation">2dp</dimen>
-    <dimen name="text_card_radius">4dp</dimen>
+    <dimen name="text_card_radius">8dp</dimen>
     <dimen name="text_card_text">18sp</dimen>
     <dimen name="text_card_space">8dp</dimen>
 
@@ -56,11 +56,19 @@
     <!--  Item roll dimens  -->
 
     <dimen name="item_roll_text">18sp</dimen>
+    <dimen name="item_roll_start_space">4dp</dimen>
     <dimen name="item_roll_space">8dp</dimen>
     <dimen name="item_roll_icon_horizontal_space">0dp</dimen>
 
     <!--  View dimens  -->
 
     <dimen name="view_volume_seek_space">10dp</dimen>
+
+    <!--  Fab sizes  -->
+    <!--  TODO optimization for different screens  -->
+    <dimen name="gradient_fab_size">56dp</dimen>
+    <dimen name="gradient_fab_radius">28dp</dimen>
+    <dimen name="gradient_fab_elevation">4dp</dimen>
+    <dimen name="gradient_fab_image_size">24dp</dimen>
 
 </resources>

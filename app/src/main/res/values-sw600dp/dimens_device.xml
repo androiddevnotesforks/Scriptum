@@ -4,11 +4,11 @@
     <dimen name="item_card_horizontal_margin">9dp</dimen> <!--1dp-->
     <dimen name="item_card_vertical_margin">4.3dp</dimen> <!--0.3dp-->
     <dimen name="item_card_elevation">2.3dp</dimen> <!--0.3dp-->
-    <dimen name="item_card_radius">5dp</dimen> <!--1dp-->
+    <dimen name="item_card_radius">9dp</dimen> <!--1dp-->
 
     <dimen name="text_card_margin">9dp</dimen> <!--1dp-->
     <dimen name="text_card_elevation">2.3dp</dimen> <!--0.3dp-->
-    <dimen name="text_card_radius">5dp</dimen> <!--1dp-->
+    <dimen name="text_card_radius">9dp</dimen> <!--1dp-->
     <dimen name="text_card_text">20sp</dimen> <!--2sp-->
     <dimen name="text_card_space">10dp</dimen> <!--2dp-->
 
@@ -56,6 +56,7 @@
     <!--  Item roll dimens  -->
 
     <dimen name="item_roll_text">20sp</dimen> <!--2sp-->
+    <dimen name="item_roll_start_space">6dp</dimen> <!--2dp-->
     <dimen name="item_roll_space">10dp</dimen> <!--2dp-->
     <dimen name="item_roll_icon_horizontal_space">6dp</dimen> <!--6dp-->
 

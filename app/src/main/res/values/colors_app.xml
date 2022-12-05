@@ -14,6 +14,11 @@
     <color name="accent_light">#039BE5</color>
     <color name="accent_dark">#FB8C00</color>
 
+    <color name="accent_gradient_start_light">#034BE5</color> <!-- -5 from accent color -->
+    <color name="accent_gradient_end_light">#03DBE5</color> <!-- +4 to accent color -->
+    <color name="accent_gradient_start_dark">#FB4C00</color> <!-- -4 from accent color -->
+    <color name="accent_gradient_end_dark">#FBBC00</color> <!-- +3 to accent color -->
+
     <color name="accent_ripple_light">#33039BE5</color>
     <color name="accent_ripple_dark">#26FB8C00</color>
 

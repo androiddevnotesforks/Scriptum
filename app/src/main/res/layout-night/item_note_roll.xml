@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
+            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll" />
     </data>
 
     <androidx.cardview.widget.CardView

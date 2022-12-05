@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:drawable="@drawable/ic_visible_exit"
+                 tools:ignore="NewApi">
+
+    <target android:name="@string/anim_visible_strike_path"
+            android:animation="@animator/visible_strike_path_enter"/>
+
+    <target android:name="@string/anim_visible_strike_mask"
+            android:animation="@animator/visible_strike_mask_enter"/>
+</animated-vector>

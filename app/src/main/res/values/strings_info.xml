@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Info for intro and empty pages -->
-    <string name="info_intro_title_1">Two types of notes</string>
-    <string name="info_intro_title_2">Beautiful colors</string>
-    <string name="info_intro_title_3">Categories</string>
-    <string name="info_intro_title_4">Visibility</string>
-    <string name="info_intro_title_5">Notifications</string>
-    <string name="info_intro_title_6">Always near at hand!</string>
-
-
-    <string name="info_intro_details_1">You can create text or list</string>
-    <string name="info_intro_details_2">Choose one of 11 colors</string>
-    <string name="info_intro_details_3">Group notes by your categories</string>
-    <string name="info_intro_details_4">
-        Hide categories and focus on what is really important to you now
-    </string>
-    <string name="info_intro_details_5">
-        With notification you will not be able to forget important things!
-    </string>
-    <string name="info_intro_details_6">Bind your notes in the status bar</string>
-
-    <string name="info_intro_button">Get started</string>
-
-    <!--  -->
-
+    <!-- TODO remove after removing dataBinding -->
     <string name="info_null" translatable="false"/>
 
     <string name="info_rank_empty_title">No categories</string>
@@ -32,7 +9,7 @@
     <string name="info_notes_hide_title">You have hidden notes</string>
     <string name="info_bin_empty_title">Bin is empty</string>
     <string name="info_notification_empty_title">No notifications</string>
-    <string name="info_roll_hide_title">All items done!</string>
+    <string name="info_roll_hide_title">All items are done!</string>
     <string name="info_roll_empty_title">You have not created items</string>
     <string name="info_print_empty_title" translatable="false">Sorry!</string>
 

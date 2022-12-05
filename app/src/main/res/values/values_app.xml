@@ -9,19 +9,21 @@
     <integer name="note_open_time">300</integer>
     <integer name="note_change_time">200</integer>
 
-    <integer name="fade_anim_time">200</integer>
-    <integer name="color_fade_time">200</integer>
-    <integer name="color_transition_time">200</integer>
-    <integer name="dots_anim_time">1200</integer>
+    <integer name="fragment_fade_time">200</integer>
+    <integer name="fab_change_time">200</integer>
+    <integer name="color_fade_time">300</integer>
+    <integer name="color_transition_time">300</integer>
+
+    <integer name="gradient_enter_time">10</integer>
+    <integer name="gradient_exit_time">1500</integer>
+    <integer name="gradient_state_time">1500</integer>
 
     <integer name="recycler_enter_time">250</integer>
 
     <integer name="placeholder_fade_time">500</integer>
 
-    <integer name="info_skip_time">0</integer>
-    <integer name="info_fade_time">200</integer>
+    <integer name="list_fade_time">200</integer>
 
     <integer name="alarm_show_delay">500</integer>
     <integer name="alarm_show_time">500</integer>
-
 </resources>

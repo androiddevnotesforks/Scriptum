@@ -1,26 +1,24 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
+plugins {
+    id "com.android.application"
+    id 'org.jetbrains.kotlin.android'
+    id "kotlin-kapt"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+}
 
 apply from: '../values.gradle'
 
 android {
-    compileSdkVersion 30
+    compileSdk 32
 
     defaultConfig {
         applicationId "sgtmelon.scriptum"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 24
-        versionName git.version.windows.execute().text.trim()
+        minSdk 26
+        targetSdk 32
+        versionCode 23
+        versionName git.version.execute().text.trim()
 
-        testInstrumentationRunner androidx.test.instrumentationRunner
-
-        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -29,31 +27,8 @@ android {
         }
 
         buildConfigField "String", "DB_NAME", '"HandyNotes"'
-        buildConfigField "String", "MARKET_URL", '"market://details?id="'
-        buildConfigField "String", "BROWSER_URL", '"https://play.google.com/sore/apps/details?id="'
+        buildConfigField "String", "BROWSER_URL", '"https://play.google.com/store/apps/details?id=sgtmelon.scriptum"'
         buildConfigField "String", "PRIVACY_POLICY_URL", '"https://github.com/SerjantArbuz/Scriptum/blob/master/PrivacyPolicy.md"'
-
-        /**
-         * Use only in debug mode (in release minifyEnabled do the deal)
-         */
-//        multiDexEnabled true
-    }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-
-    buildFeatures {
-        dataBinding = true
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     buildTypes {
@@ -65,9 +40,10 @@ android {
         }
 
         debug {
-            /**
-             * Turn off for tests correct work!
-             */
+
+            applicationIdSuffix = ".debug"
+
+            /** Turn off for tests correct work! */
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFile 'proguard-test-rules.pro'
@@ -75,75 +51,96 @@ android {
             buildConfigField "int", "INPUT_CONTROL_MAX_SIZE", '50'
         }
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
-    implementation project(":iconanim")
-    implementation project(":safedialog")
-    implementation project(':common')
+    implementation project(':libraries:iconAnim')
+    implementation project(':libraries:safeDialog')
+    implementation project(':libraries:textDotAnim')
+    implementation project(':libraries:extensions')
 
-    //region Kotlin
+    implementation project(':tests:idling')
+    implementation project(':tests:prod')
+    testImplementation project(path: ':tests:common')
+    androidTestImplementation project(path: ':tests:common')
+    androidTestImplementation project(path: ':tests:cappuccino')
 
-    implementation jetbrains.kotlin
-    implementation jetbrains.coroutines.core
-    implementation jetbrains.coroutines.android
+    //region Google
+
+    implementation "com.google.firebase:firebase-analytics-ktx:21.2.0"
+    implementation "com.google.firebase:firebase-crashlytics-ktx:18.3.2"
+
+    implementation "com.google.android.material:material:1.6.1"
+
+    implementation "com.google.dagger:dagger:2.41"
+    kapt "com.google.dagger:dagger-compiler:2.41"
 
     //endregion
-
-    implementation google.firebase.analytics
-    implementation google.firebase.crashlytics
-
-    implementation google.material
-
-    implementation google.dagger.core
-    kapt google.dagger.compiler
 
     //region AndroidX
 
-    implementation androidx.core
+    implementation "androidx.core:core-ktx:1.8.0"
 
-    implementation androidx.lifecycle.extensions
-    implementation androidx.lifecycle.viewmodel
-    kapt androidx.lifecycle.compiler
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
 
-    implementation androidx.room.runtime
-    implementation androidx.room.ktx
-    kapt androidx.room.compiler
-    testImplementation androidx.room.testing
+    implementation "androidx.room:room-runtime:2.4.3"
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
+    testImplementation "androidx.room:room-testing:2.4.3"
 
-    implementation androidx.preference
-    implementation androidx.appcompat
-    implementation androidx.cardview
-    implementation androidx.constraintlayout
-    implementation androidx.viewpager
+    implementation "androidx.preference:preference-ktx:1.2.0"
+    implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
-    implementation androidx.vector.drawable
-    implementation androidx.vector.animated
+    implementation "androidx.vectordrawable:vectordrawable:1.1.0"
+    implementation "androidx.vectordrawable:vectordrawable-animated:1.1.0"
 
     //endregion
-
-    implementation other.pageindicator
 
     //region Testing
 
-//    debugImplementation other.leakcanary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.9.1"
 
-    androidTestImplementation androidx.test.core
-    androidTestImplementation androidx.test.runner
-    androidTestImplementation androidx.test.rules
-    androidTestImplementation androidx.test.junit
+    androidTestImplementation "androidx.test:core-ktx:1.5.0"
+    androidTestImplementation "androidx.test:runner:1.5.1"
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "androidx.test.ext:junit:1.1.4"
 
-    implementation androidx.test.espresso.idling
-    androidTestImplementation androidx.test.espresso.core
-    androidTestImplementation androidx.test.espresso.contrib
-    androidTestImplementation androidx.test.uiautomator
+    /**
+     * 3.5.0 error: https://stackoverflow.com/questions/72351022/espresso-testing-is-failing-due-to-incompatibleclasschangeerror
+     */
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.4.0"
 
-    debugImplementation junit.core
-    debugImplementation jetbrains.coroutines.test
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
 
-    testImplementation mockk.core
-    testImplementation json.core
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "io.mockk:mockk:1.12.4"
+    testImplementation "org.json:json:20211205"
 
     //endregion
-    
+
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
 }

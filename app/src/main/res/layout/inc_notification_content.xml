@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="sgtmelon.scriptum.domain.model.item.NotificationItem" />
+            type="sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem" />
     </data>
 
     <merge>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="screen">
+
+    <PreferenceCategory android:title="@string/pref_header_common"
+        app:iconSpaceReserved="false">
+
+        <Preference android:defaultValue="@integer/pref_note_sort"
+            android:key="@string/pref_key_note_sort"
+            android:summary="@string/pref_summary_note_sort"
+            android:title="@string/pref_title_note_sort"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:defaultValue="@integer/pref_note_color"
+            android:key="@string/pref_key_note_color"
+            android:summary="@string/pref_summary_note_color"
+            android:title="@string/pref_title_note_color"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_save"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat android:defaultValue="@bool/pref_note_pause_save"
+            android:key="@string/pref_key_note_pause_save"
+            android:summary="@string/pref_summary_note_save_pause"
+            android:title="@string/pref_title_note_pause_save"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat android:defaultValue="@bool/pref_note_auto_save"
+            android:key="@string/pref_key_note_auto_save"
+            android:summary="@string/pref_summary_note_save_auto"
+            android:title="@string/pref_title_note_auto_save"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:defaultValue="@integer/pref_note_save_period"
+            android:key="@string/pref_key_note_save_period"
+            android:summary="@string/pref_summary_note_save_period"
+            android:title="@string/pref_title_note_save_period"
+            app:dependency="@string/pref_key_note_auto_save"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+</androidx.preference.PreferenceScreen>

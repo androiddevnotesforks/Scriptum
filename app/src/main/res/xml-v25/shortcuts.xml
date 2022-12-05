@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--  Location: bottom  -->
+    <shortcut android:enabled="true"
+        android:icon="@mipmap/shortcut_add"
+        android:shortcutId="create_roll_shortcut"
+        android:shortcutLongLabel="@string/shortcut_medium_roll_label"
+        android:shortcutShortLabel="@string/shortcut_short_roll_label">
+
+        <intent android:action="android.intent.action.MAIN"
+            android:targetClass="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
+            android:targetPackage="sgtmelon.scriptum">
+
+            <extra android:name="OPEN_FROM_INTENT_KEY"
+                android:value="OPEN_FROM_CREATE_ROLL" />
+        </intent>
+    </shortcut>
+
+    <!--  Location: top  -->
+    <shortcut android:enabled="true"
+        android:icon="@mipmap/shortcut_add"
+        android:shortcutId="create_text_shortcut"
+        android:shortcutLongLabel="@string/shortcut_medium_text_label"
+        android:shortcutShortLabel="@string/shortcut_short_text_label">
+
+        <intent android:action="android.intent.action.MAIN"
+            android:targetClass="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
+            android:targetPackage="sgtmelon.scriptum">
+
+            <extra android:name="OPEN_FROM_INTENT_KEY"
+                android:value="OPEN_FROM_CREATE_TEXT" />
+        </intent>
+    </shortcut>
+</shortcuts>

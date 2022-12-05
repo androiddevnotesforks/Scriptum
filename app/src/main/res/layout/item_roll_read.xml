@@ -11,14 +11,10 @@
 
         <variable
             name="item"
-            type="sgtmelon.scriptum.domain.model.item.RollItem" />
+            type="sgtmelon.scriptum.cleanup.domain.model.item.RollItem" />
 
         <variable
             name="isBin"
-            type="boolean" />
-
-        <variable
-            name="isToggleCheck"
             type="boolean" />
     </data>
 
@@ -33,13 +29,13 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/item_roll_icon_horizontal_space">
+                android:paddingHorizontal="@dimen/item_roll_icon_horizontal_space"
+                tools:background="@color/accent_ripple_light">
 
                 <CheckBox
                     android:id="@+id/roll_read_check"
                     style="@style/Button.Roll.Read"
                     app:checkState='@{item.check}'
-                    app:checkToggle='@{isToggleCheck}'
                     tools:checked="true" />
 
                 <ImageButton

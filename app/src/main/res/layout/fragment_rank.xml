@@ -7,27 +7,19 @@
 
         <import type="sgtmelon.scriptum.R" />
 
-        <import type="android.view.View" />
-
-        <variable
-            name="isClearEnable"
-            type="boolean" />
-
-        <variable
-            name="isAddEnable"
-            type="boolean" />
+        <import type="sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag" />
     </data>
 
     <LinearLayout
-        android:id="@+id/rank_parent_container"
+        android:id="@+id/parent_container"
+        android:tag='@{TestViewTag.RANK}'
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <include
-            layout="@layout/inc_toolbar_rank"
-            app:isAddEnable='@{isAddEnable}'
-            app:isClearEnable='@{isClearEnable}' />
+            android:id="@+id/toolbar_include"
+            layout="@layout/inc_toolbar_rank" />
 
         <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound. -->
         <FrameLayout
@@ -35,25 +27,25 @@
             android:layout_height="match_parent">
 
             <include
-                android:id="@+id/rank_info_include"
+                android:id="@+id/info_include"
                 layout="@layout/inc_info"
                 app:details='@{R.string.info_rank_empty_details}'
                 app:icon='@{R.mipmap.img_info_rank}'
                 app:title='@{R.string.info_rank_empty_title}' />
 
             <ProgressBar
-                android:id="@+id/rank_progress"
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/rank_recycler_container"
+                android:id="@+id/recycler_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rank_recycler"
+                    android:id="@+id/recycler_view"
                     style="@style/RecyclerView.Normal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

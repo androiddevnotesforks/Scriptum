@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Toast messages -->
+
+    <string name="toast_dev_unlock" translatable="false">Hello! You become a developer!</string>
+    <string name="toast_dev_already" translatable="false">There is nothing to catch anymore :)</string>
+    <string name="toast_dev_clear" translatable="false">Success preference data clear!</string>
+    <string name="toast_dev_service_run" translatable="false">Service is response!</string>
+    <string name="toast_dev_service_fail" translatable="false">Service not response!</string>
+
+    <!-- Preference titles -->
+
+    <string name="pref_title_developer" translatable="false">Developer room</string>
+
+    <string name="pref_title_print_note" translatable="false">Note entities</string>
+    <string name="pref_title_print_roll" translatable="false">Roll entities</string>
+    <string name="pref_title_print_visible" translatable="false">Roll visible entities</string>
+    <string name="pref_title_print_rank" translatable="false">Rank entities</string>
+    <string name="pref_title_print_alarm" translatable="false">Alarm entities</string>
+    <string name="pref_title_print_key" translatable="false">Preference keys</string>
+    <string name="pref_title_print_file" translatable="false">Files data</string>
+
+    <string name="pref_title_screen_alarm" translatable="false">Alarm screen</string>
+
+    <string name="pref_title_service_eternal" translatable="false">Eternal service</string>
+    <string name="pref_title_service_refresh" translatable="false">Refresh service state</string>
+    <string name="pref_title_service_run" translatable="false">Run service</string>
+    <string name="pref_title_service_kill" translatable="false">Kill service</string>
+
+    <string name="pref_title_notification_clear" translatable="false">Clear notifications</string>
+    <string name="pref_title_alarm_clear" translatable="false">Clear alarms</string>
+    <string name="pref_title_notify_notes" translatable="false">Notify notes</string>
+    <string name="pref_title_notify_info" translatable="false">Notify notification count</string>
+    <string name="pref_title_notify_alarm" translatable="false">Tidy up and notify alarms</string>
+
+    <string name="pref_title_reset" translatable="false">Reset preference</string>
+
+    <!-- Preference headers -->
+
+    <string name="pref_header_entities_print" translatable="false">Print of entities</string>
+    <string name="pref_header_other_print" translatable="false">Other prints</string>
+    <string name="pref_header_screen" translatable="false">Open screen</string>
+    <string name="pref_header_path_save" translatable="false">Save file path</string>
+    <string name="pref_header_path_files" translatable="false">External file path</string>
+    <string name="pref_header_path_cache" translatable="false">External cache path</string>
+    <string name="pref_header_backup_files" translatable="false">Backup files</string>
+    <string name="pref_header_service" translatable="false">Service</string>
+    <string name="pref_header_action" translatable="false">Action</string>
+    <string name="pref_header_broadcast" translatable="false">Send broadcast</string>
+
+    <!-- Preference summaries -->
+
+    <string name="pref_summary_print_note" translatable="false">Which located in NOTES page</string>
+    <string name="pref_summary_print_bin" translatable="false">Which located in BIN page</string>
+
+    <string name="pref_summary_screen_alarm" translatable="false">Open alarm for random note</string>
+
+    <string name="pref_summary_eternal_refresh" translatable="false">Click for start service ping pong</string>
+    <string name="pref_summary_eternal_search" translatable="false">Ping service is running</string>
+
+    <string name="pref_summary_other_reset" translatable="false">Keys will be set by default</string>
+
+    <!-- Preference keys -->
+
+    <string name="pref_key_developer" translatable="false">key_developer</string>
+
+    <string name="pref_key_print_note" translatable="false">key_print_note</string>
+    <string name="pref_key_print_bin" translatable="false">key_print_bin</string>
+    <string name="pref_key_print_roll" translatable="false">key_print_roll</string>
+    <string name="pref_key_print_visible" translatable="false">key_print_visible</string>
+    <string name="pref_key_print_rank" translatable="false">key_print_rank</string>
+    <string name="pref_key_print_alarm" translatable="false">key_print_alarm</string>
+    <string name="pref_key_print_key" translatable="false">key_print_key</string>
+    <string name="pref_key_print_file" translatable="false">key_print_file</string>
+
+    <string name="pref_key_screen_alarm" translatable="false">key_screen_alarm</string>
+
+    <string name="pref_key_service_eternal" translatable="false">key_service_eternal</string>
+    <string name="pref_key_service_refresh" translatable="false">key_service_refresh</string>
+    <string name="pref_key_service_run" translatable="false">key_service_run</string>
+    <string name="pref_key_service_kill" translatable="false">key_service_kill</string>
+
+    <string name="pref_key_notification_clear" translatable="false">key_notification_clear</string>
+    <string name="pref_key_alarm_clear" translatable="false">key_alarm_clear</string>
+    <string name="pref_key_notify_notes" translatable="false">key_notify_notes</string>
+    <string name="pref_key_notify_info" translatable="false">key_notify_info</string>
+    <string name="pref_key_notify_alarm" translatable="false">key_notify_alarm</string>
+
+    <string name="pref_key_other_reset" translatable="false">key_other_reset</string>
+
+    <!-- Values -->
+
+    <bool name="pref_developer">false</bool>
+
+    <!--  Day of March when we started dating with my wife <3  -->
+    <integer name="pref_develop_open">9</integer>
+
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="dot" translatable="false">.</string>
+    <integer name="dots_anim_time">1200</integer>
+</resources>

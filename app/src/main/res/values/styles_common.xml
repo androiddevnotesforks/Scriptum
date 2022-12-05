@@ -11,17 +11,12 @@
 
     <!-- -->
 
-    <style name="App.Alert" parent="Theme.AppCompat.DayNight.Dialog.Alert">
-        <item name="colorAccent">?attr/clAccent</item>
-        <item name="android:background">?attr/clPrimary</item>
-    </style>
-
     <style name="App.Style.BottomSheet" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="App.Style.SheetDialog">
-        <item name="android:background">@drawable/bg_dialog</item>
+        <item name="android:background">@drawable/bg_sheet_dialog</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/layout_16dp</item>
@@ -42,11 +37,7 @@
 
     <!-- -->
 
-    <style name="App.Style.Fab" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:tint">?attr/clBackgroundView</item>
-    </style>
-
-    <style name="App.Theme.BottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="App.Theme.BottomSheet" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/App.Style.BottomSheet</item>
     </style>
 

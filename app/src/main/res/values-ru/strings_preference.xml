@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Preference titles -->
+
+    <string name="pref_title_app_theme">Тема</string>
+
+    <string name="pref_title_backup">Резервное копирование</string>
+    <string name="pref_title_backup_export">Сохранить данные в файл</string>
+    <string name="pref_title_backup_import">Загрузить данные из файла</string>
+    <string name="pref_title_import_skip">Пропускать одинаковые заметки</string>
+
+    <string name="pref_title_note">Заметки</string>
+    <string name="pref_title_note_sort">Сортировка заметок</string>
+    <string name="pref_title_note_color">Цвет по-умолчанию</string>
+    <string name="pref_title_note_pause_save">Сохранение при остановке</string>
+    <string name="pref_title_note_auto_save">Автоматическое сохранение</string>
+    <string name="pref_title_note_save_period">Период автосохранения</string>
+
+    <string name="pref_title_alarm">Уведомления</string>
+    <string name="pref_title_alarm_signal">Тип сигнала</string>
+    <string name="pref_title_alarm_repeat">Повторять через</string>
+    <string name="pref_title_alarm_melody">Мелодия</string>
+    <string name="pref_title_alarm_volume">Громкость</string>
+    <string name="pref_title_alarm_increase">Нарастание громкости</string>
+
+    <string name="pref_title_rate">Оценить</string>
+    <string name="pref_title_help">Помощь</string>
+    <string name="pref_title_about">О приложении</string>
+    <string name="pref_title_policy">Политика конфиденциальности</string>
+
+    <string name="pref_title_help_disappear">Почему пропадают уведомления?</string>
+
     <!-- Preference headers -->
 
     <string name="pref_header_app">Приложение</string>
@@ -12,138 +42,53 @@
     <string name="pref_header_other">Прочее</string>
     <string name="pref_header_options">Параметры</string>
 
-    <!-- Preference titles -->
-
-    <string name="pref_title_app_theme">Тема</string>
-
-    <string name="pref_title_backup">Резервное копирование</string>
-    <string name="pref_title_backup_export">Сохранить данные в файл</string>
-    <string name="pref_title_backup_import">Загрузить данные из файла</string>
-    <string name="pref_title_backup_skip">Пропускать одинаковые заметки</string>
-
-    <string name="pref_title_note">Заметки</string>
-    <string name="pref_title_note_sort">Сортировка заметок</string>
-    <string name="pref_title_note_color">Цвет заметки по умолчанию</string>
-    <string name="pref_title_note_save_pause">При остановке</string>
-    <string name="pref_title_note_save_auto">Автоматическое сохранение</string>
-    <string name="pref_title_note_save_period">Период автосохранения</string>
-
-    <string name="pref_title_alarm">Уведомления</string>
-    <string name="pref_title_alarm_repeat">Время повтора</string>
-    <string name="pref_title_alarm_signal">Тип сигнала</string>
-    <string name="pref_title_alarm_melody">Мелодия</string>
-    <string name="pref_title_alarm_volume">Громкость</string>
-    <string name="pref_title_alarm_increase">Нарастание громкости</string>
-
-    <string name="pref_title_other_rate">Оценить</string>
-    <string name="pref_title_other_help">Помощь</string>
-    <string name="pref_title_other_about">О приложении</string>
-    <string name="pref_title_other_develop">Для разработчика</string>
-
-    <string name="pref_title_help_notification_disappear">Почему пропадают уведомления?</string>
-    <string name="pref_title_help_privacy_policy">Политика конфиденциальности</string>
-
     <!-- Preference summaries -->
 
-    <string name="pref_summary_permission_need">Приложению требуется разрешение</string>
+    <string name="pref_summary_no_permission">Приложению требуется разрешение</string>
 
     <string name="pref_summary_app_theme">Выбранная тема</string>
 
-    <string name="pref_summary_backup_import_search">Ищем резервный файлы</string>
-    <string name="pref_summary_backup_import_empty">
+    <string name="pref_summary_import_search">Ищем резервный файлы</string>
+    <string name="pref_summary_import_empty">
         У Вас нет файлов для восстановления данных
     </string>
-    <string name="pref_summary_backup_import_found">Найдено файлов: %d</string>
-    <string name="pref_summary_backup_skip">
+    <string name="pref_summary_import_found">Найдено файлов: %d</string>
+    <string name="pref_summary_import_skip">
         Если в приложении уже есть заметка с таким же именем и содержанием, то она не будет
         добавлена при резервном копировании
     </string>
 
     <string name="pref_summary_note_sort">Будет применяться по умолчанию</string>
     <string name="pref_summary_note_color">Будет применяться по умолчанию</string>
-    <string name="pref_summary_note_save_pause">
-        Сохранять изменения в заметке при сворачивании приложения
-    </string>
+    <string name="pref_summary_note_save_pause">Изменения будут сохранены, если приложение каким-либо образом было остановлено</string>
     <string name="pref_summary_note_save_auto">
-        Сохранять изменения в заметке после определенного периода времени
+        Изменения будут сохраняться после определенного периода времени
     </string>
     <string name="pref_summary_note_save_period">Количество минут</string>
 
-    <string name="pref_summary_alarm_repeat">
-        Будет применяться, чтобы повторить уведомление
-    </string>
-    <string name="pref_summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
+    <string name="pref_summary_alarm_signal">То, как мы будем вас уведомлять</string>
+    <string name="pref_summary_alarm_repeat">Период, после которого нужно повторить уведомление</string>
     <string name="pref_summary_alarm_melody">Будет играть в уведомлении</string>
-    <string name="pref_summary_alarm_melody_search">Проверяем ваши мелодии</string>
-    <string name="pref_summary_alarm_melody_empty">Извините, у вас нет ни одной мелодии! :(</string>
-    <string name="pref_summary_alarm_volume">Процент громкости: %d%%</string>
-    <string name="pref_summary_alarm_increase">
-        Плавное увеличение громкости начиная с минимальной
-    </string>
+    <string name="pref_summary_alarm_melody_search">Ищем ваши мелодии</string>
+    <string name="pref_summary_alarm_melody_empty">Извините, мы не нашли ни одной мелодии! :(</string>
+    <string name="pref_summary_alarm_volume">Процент от максимальной громкости: %d%%</string>
+    <string name="pref_summary_alarm_increase">Плавное увеличение громкости начиная с нуля</string>
 
-    <string name="pref_summary_help_notification_disappear">И как исправить это</string>
-
-    <!-- Preference arrays -->
-
-    <string-array name="pref_text_app_theme">
-        <item>Светлая</item>
-        <item>Тёмная</item>
-        <item>Системная</item>
-    </string-array>
-
-    <string-array name="pref_text_note_sort">
-        <item>По времени изменения</item>
-        <item>По времени создания</item>
-        <item>По категориям</item>
-        <item>По цвету</item>
-    </string-array>
-
-    <string-array name="pref_text_note_color">
-        <item>Красный</item>
-        <item>Фиолетовый</item>
-        <item>Индиго</item>
-        <item>Синий</item>
-        <item>Бирюзовый</item>
-        <item>Зелёный</item>
-        <item>Желтый</item>
-        <item>Оранжевый</item>
-        <item>Коричневый</item>
-        <item>Сине-серый</item>
-        <item>Белый</item>
-    </string-array>
-
-    <string-array name="pref_text_note_save_period">
-        <item>1 минута</item>
-        <item>3 минуты</item>
-        <item>7 минут</item>
-    </string-array>
-
-    <string-array name="pref_text_alarm_repeat">
-        <item>@string/dialog_repeat_0</item>
-        <item>@string/dialog_repeat_1</item>
-        <item>@string/dialog_repeat_2</item>
-        <item>@string/dialog_repeat_3</item>
-        <item>@string/dialog_repeat_4</item>
-    </string-array>
-
-    <string-array name="pref_text_alarm_signal">
-        <item>Мелодия</item>
-        <item>Вибрация</item>
-    </string-array>
+    <string name="pref_summary_help_disappear">И как исправить это</string>
 
     <!-- Preference toast text -->
 
     <string name="pref_toast_import_error">Извините, но файл повреждён! :(</string>
     <string name="pref_toast_import_result">Данные успешно добавлены! :)</string>
-    <string name="pref_toast_import_result_skip">
+    <string name="pref_toast_import_skip">
         Данные успешно добавлены! :)\nПропущено заметок: %d
     </string>
 
     <string name="pref_toast_export_result">Файл успешно сохранён!\nПуть: %s</string>
-    <string name="pref_toast_export_error">Произошла ошибка! Не удалось сохранить файл.</string>
+    <string name="pref_toast_export_error">Произошла ошибка! Не удалось сохранить файл</string>
 
-    <string name="pref_toast_melody_replace">
-        Извините, мы не смогли установить выбранную мелодию! Мы заменили её. :(
+    <string name="pref_toast_melody_replaced">
+        Извините, мы не смогли установить выбранную мелодию! Так что мы выбрали другую. :(
     </string>
 
 </resources>

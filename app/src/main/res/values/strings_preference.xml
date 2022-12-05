@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Preference titles -->
+
+    <string name="pref_title_app_theme">Theme</string>
+
+    <string name="pref_title_backup">Backup</string>
+    <string name="pref_title_backup_export">Save data to file</string>
+    <string name="pref_title_backup_import">Load data from file</string>
+    <string name="pref_title_import_skip">Skip identical notes</string>
+
+    <string name="pref_title_note">Notes</string>
+    <string name="pref_title_note_sort">Notes sort</string>
+    <string name="pref_title_note_color">Default color</string>
+    <string name="pref_title_note_pause_save">Save on stop</string>
+    <string name="pref_title_note_auto_save">Auto save</string>
+    <string name="pref_title_note_save_period">Period of auto save</string>
+
+    <string name="pref_title_alarm">Notifications</string>
+    <string name="pref_title_alarm_signal">Signal type</string>
+    <string name="pref_title_alarm_repeat">Repeat after</string>
+    <string name="pref_title_alarm_melody">Melody</string>
+    <string name="pref_title_alarm_volume">Volume</string>
+    <string name="pref_title_alarm_increase">Volume increase</string>
+
+    <string name="pref_title_rate">Rate app</string>
+    <string name="pref_title_help">Help</string>
+    <string name="pref_title_about">About app</string>
+    <string name="pref_title_policy">Privacy policy</string>
+
+    <string name="pref_title_help_disappear">Why notifications disappear?</string>
+
     <!-- Preference headers -->
 
     <string name="pref_header_app">App</string>
@@ -12,236 +42,47 @@
     <string name="pref_header_other">Other</string>
     <string name="pref_header_options">Options</string>
 
-    <string name="pref_header_entities_print" translatable="false">Print of entities</string>
-    <string name="pref_header_other_print" translatable="false">Other prints</string>
-    <string name="pref_header_screen" translatable="false">Open screen</string>
-    <string name="pref_header_path_save" translatable="false">Save file path</string>
-    <string name="pref_header_path_files" translatable="false">External file path</string>
-    <string name="pref_header_path_cache" translatable="false">External cache path</string>
-    <string name="pref_header_backup_files" translatable="false">Backup files</string>
-    <string name="pref_header_service" translatable="false">Service</string>
-    <string name="pref_header_action" translatable="false">Action</string>
-    <string name="pref_header_broadcast" translatable="false">Send broadcast</string>
-
-    <!-- Preference titles -->
-
-    <string name="pref_title_app_theme">Theme</string>
-
-    <string name="pref_title_backup">Backup</string>
-    <string name="pref_title_backup_export">Save data to file</string>
-    <string name="pref_title_backup_import">Load data from file</string>
-    <string name="pref_title_backup_skip">Skip identical notes</string>
-
-    <string name="pref_title_note">Notes</string>
-    <string name="pref_title_note_sort">Sort notes</string>
-    <string name="pref_title_note_color">Default note color</string>
-    <string name="pref_title_note_save_pause">On stop</string>
-    <string name="pref_title_note_save_auto">Auto save</string>
-    <string name="pref_title_note_save_period">Period of auto save</string>
-
-    <string name="pref_title_alarm">Notifications</string>
-    <string name="pref_title_alarm_repeat">Repeat time</string>
-    <string name="pref_title_alarm_signal">Signal type</string>
-    <string name="pref_title_alarm_melody">Melody</string>
-    <string name="pref_title_alarm_volume">Volume</string>
-    <string name="pref_title_alarm_increase">Volume increase</string>
-
-    <string name="pref_title_other_rate">Rate</string>
-    <string name="pref_title_other_help">Help</string>
-    <string name="pref_title_other_about">About app</string>
-    <string name="pref_title_other_develop">For developer</string>
-
-    <string name="pref_title_help_notification_disappear">Why notifications disappear?</string>
-    <string name="pref_title_help_privacy_policy">Privacy policy</string>
-
-    <string name="pref_title_print_note" translatable="false">Note entities</string>
-    <string name="pref_title_print_roll" translatable="false">Roll entities</string>
-    <string name="pref_title_print_visible" translatable="false">Roll visible entities</string>
-    <string name="pref_title_print_rank" translatable="false">Rank entities</string>
-    <string name="pref_title_print_alarm" translatable="false">Alarm entities</string>
-    <string name="pref_title_print_key" translatable="false">Preference keys</string>
-    <string name="pref_title_print_file" translatable="false">Files data</string>
-
-    <string name="pref_title_screen_intro" translatable="false">Intro screen</string>
-    <string name="pref_title_screen_alarm" translatable="false">Alarm screen</string>
-
-    <string name="pref_title_service_eternal" translatable="false">Eternal service</string>
-    <string name="pref_title_service_refresh" translatable="false">Refresh service state</string>
-    <string name="pref_title_service_run" translatable="false">Run service</string>
-    <string name="pref_title_service_kill" translatable="false">Kill service</string>
-    <string name="pref_title_service_notification_clear" translatable="false">Clear notifications</string>
-    <string name="pref_title_service_alarm_clear" translatable="false">Clear alarms</string>
-    <string name="pref_title_service_notify_notes" translatable="false">Notify notes</string>
-    <string name="pref_title_service_notify_info" translatable="false">Notify notification count</string>
-    <string name="pref_title_service_notify_alarm" translatable="false">Tidy up and notify alarms</string>
-
-    <string name="pref_title_other_reset" translatable="false">Reset preference</string>
-
     <!-- Preference summaries -->
 
-    <string name="pref_summary_permission_need">Application need a permission</string>
+    <string name="pref_summary_no_permission">Application need a permission</string>
 
     <string name="pref_summary_app_theme">Selected theme</string>
 
-    <string name="pref_summary_backup_import_search">Searching for a backup files</string>
-    <string name="pref_summary_backup_import_empty">
-        You don\'t have any backup files
-    </string>
-    <string name="pref_summary_backup_import_found">Founded files: %d</string>
-    <string name="pref_summary_backup_skip">
+    <string name="pref_summary_import_search">Searching for a backup files</string>
+    <string name="pref_summary_import_empty">You don\'t have any backup files</string>
+    <string name="pref_summary_import_found">Founded files: %d</string>
+    <string name="pref_summary_import_skip">
         If an application already has a note with the same name and content, then it will not be
-        added during backup.
+        added during backup
     </string>
 
     <string name="pref_summary_note_sort">Will be used by default</string>
     <string name="pref_summary_note_color">Will be used by default</string>
-    <string name="pref_summary_note_save_pause">Will save note changes when you leave application</string>
-    <string name="pref_summary_note_save_auto">Save note changes after period of time</string>
+    <string name="pref_summary_note_save_pause">Changes will be saved if application somehow was stop</string>
+    <string name="pref_summary_note_save_auto">Changes will be saved after period of time</string>
     <string name="pref_summary_note_save_period">Number of minutes</string>
 
-    <string name="pref_summary_alarm_repeat">Will be used for repeat notification</string>
-    <string name="pref_summary_alarm_signal">will be used for notify you</string>
+    <string name="pref_summary_alarm_signal">The way how we will notify you</string>
+    <string name="pref_summary_alarm_repeat">Period after which need repeat the notification</string>
     <string name="pref_summary_alarm_melody">Will be play on notification</string>
-    <string name="pref_summary_alarm_melody_search">Check out your melodies</string>
-    <string name="pref_summary_alarm_melody_empty">Sorry, you don\'t have any melodies! :(</string>
-    <string name="pref_summary_alarm_volume">Percent of volume: %d%%</string>
-    <string name="pref_summary_alarm_increase">Smooth volume increase from minimum</string>
+    <string name="pref_summary_alarm_melody_search">Searching your melodies</string>
+    <string name="pref_summary_alarm_melody_empty">Sorry, we didn\'t found any melodies! :(</string>
+    <string name="pref_summary_alarm_volume">Percent from maximum volume: %d%%</string>
+    <string name="pref_summary_alarm_increase">Smooth volume increase from zero</string>
 
-    <string name="pref_summary_help_notification_disappear">And how fix it</string>
-
-    <string name="pref_summary_print_note" translatable="false">Which located in NOTES page</string>
-    <string name="pref_summary_print_bin" translatable="false">Which located in BIN page</string>
-
-    <string name="pref_summary_screen_intro" translatable="false">Application will be restarted</string>
-    <string name="pref_summary_screen_alarm" translatable="false">Open alarm for random note</string>
-
-    <string name="pref_summary_eternal_refresh" translatable="false">Click for start service ping pong</string>
-    <string name="pref_summary_eternal_search" translatable="false">Ping service is running</string>
-
-    <string name="pref_summary_other_reset" translatable="false">Keys will be set by default</string>
-
-    <!-- Preference arrays -->
-
-    <string-array name="pref_text_app_theme">
-        <item>Light</item>
-        <item>Dark</item>
-        <item>System</item>
-    </string-array>
-
-    <string-array name="pref_text_note_sort">
-        <item>By time of change</item>
-        <item>By time of creation</item>
-        <item>By categories</item>
-        <item>By color</item>
-    </string-array>
-
-    <string-array name="pref_text_note_color">
-        <item>Red</item>
-        <item>Purple</item>
-        <item>Indigo</item>
-        <item>Blue</item>
-        <item>Turquoise</item>
-        <item>Green</item>
-        <item>Yellow</item>
-        <item>Orange</item>
-        <item>Brown</item>
-        <item>Blue-gray</item>
-        <item>White</item>
-    </string-array>
-
-    <string-array name="pref_text_note_save_period">
-        <item>1 minute</item>
-        <item>3 minutes</item>
-        <item>7 minutes</item>
-    </string-array>
-
-    <string-array name="pref_text_alarm_repeat">
-        <item>@string/dialog_repeat_0</item>
-        <item>@string/dialog_repeat_1</item>
-        <item>@string/dialog_repeat_2</item>
-        <item>@string/dialog_repeat_3</item>
-        <item>@string/dialog_repeat_4</item>
-    </string-array>
-
-    <string-array name="pref_text_alarm_signal">
-        <item>Melody</item>
-        <item>Vibration</item>
-    </string-array>
+    <string name="pref_summary_help_disappear">And how fix it</string>
 
     <!-- Preference toast text -->
 
     <string name="pref_toast_import_error">Sorry, but file is damaged! :(</string>
     <string name="pref_toast_import_result">Data successfully added! :)</string>
-    <string name="pref_toast_import_result_skip">
-        Data successfully added! :)\nSkipped notes: %d
-    </string>
+    <string name="pref_toast_import_skip">Data successfully added! :)\nSkipped notes: %d</string>
 
     <string name="pref_toast_export_result">File successfully saved!\nPath: %s</string>
-    <string name="pref_toast_export_error">An error has occurred! Failed to save file.</string>
+    <string name="pref_toast_export_error">An error has occurred! Failed to save a file</string>
 
-    <string name="pref_toast_melody_replace">
-        Sorry, we can\'t set selected melody! We replace it. :(
+    <string name="pref_toast_melody_replaced">
+        Sorry, we can\'t apply selected melody! But we choose another one for you :(
     </string>
-
-    <string name="pref_toast_develop_unlock" translatable="false">Hello! You become a developer!</string>
-    <string name="pref_toast_develop_already" translatable="false">There is nothing to catch anymore :)</string>
-    <string name="pref_toast_develop_clear" translatable="false">Success preference data clear!</string>
-
-    <!-- Preference keys -->
-
-    <string name="pref_key_first_start" translatable="false">key_first_start</string>
-
-    <string name="pref_key_app_theme" translatable="false">key_app_theme</string>
-
-    <string name="pref_key_backup" translatable="false">key_backup</string>
-    <string name="pref_key_backup_export" translatable="false">key_backup_export</string>
-    <string name="pref_key_backup_import" translatable="false">key_backup_import</string>
-    <string name="pref_key_backup_skip" translatable="false">key_backup_skip</string>
-
-    <string name="pref_key_note" translatable="false">key_note</string>
-    <string name="pref_key_note_sort" translatable="false">key_note_sort</string>
-    <string name="pref_key_note_color" translatable="false">key_note_color</string>
-    <string name="pref_key_note_pause" translatable="false">key_note_pause</string>
-    <string name="pref_key_note_auto" translatable="false">key_note_auto</string>
-    <string name="pref_key_note_time" translatable="false">key_note_time</string>
-
-    <string name="pref_key_alarm" translatable="false">key_alarm</string>
-    <string name="pref_key_alarm_repeat" translatable="false">key_alarm_repeat</string>
-    <string name="pref_key_alarm_signal" translatable="false">key_alarm_signal</string>
-    <string name="pref_key_alarm_melody" translatable="false">key_alarm_melody</string>
-    <string name="pref_key_alarm_volume" translatable="false">key_alarm_volume</string>
-    <string name="pref_key_alarm_increase" translatable="false">key_alarm_increase</string>
-
-    <string name="pref_key_other_policy" translatable="false">key_other_policy</string>
-    <string name="pref_key_other_rate" translatable="false">key_other_rate</string>
-    <string name="pref_key_other_help" translatable="false">key_other_help</string>
-    <string name="pref_key_other_about" translatable="false">key_other_about</string>
-    <string name="pref_key_other_develop" translatable="false">key_other_develop</string>
-
-    <string name="pref_key_help_notification_disappear" translatable="false">key_help_eternal_notification</string>
-
-    <string name="pref_key_print_note" translatable="false">key_print_note</string>
-    <string name="pref_key_print_bin" translatable="false">key_print_bin</string>
-    <string name="pref_key_print_roll" translatable="false">key_print_roll</string>
-    <string name="pref_key_print_visible" translatable="false">key_print_visible</string>
-    <string name="pref_key_print_rank" translatable="false">key_print_rank</string>
-    <string name="pref_key_print_alarm" translatable="false">key_print_alarm</string>
-    <string name="pref_key_print_key" translatable="false">key_print_key</string>
-    <string name="pref_key_print_file" translatable="false">key_print_file</string>
-
-    <string name="pref_key_screen_intro" translatable="false">key_screen_intro</string>
-    <string name="pref_key_screen_alarm" translatable="false">key_screen_alarm</string>
-
-    <string name="pref_key_service_eternal" translatable="false">key_service_eternal</string>
-    <string name="pref_key_service_refresh" translatable="false">key_service_refresh</string>
-    <string name="pref_key_service_run" translatable="false">key_service_run</string>
-    <string name="pref_key_service_kill" translatable="false">key_service_kill</string>
-    <string name="pref_key_service_alarm_clear" translatable="false">key_service_alarm_clear</string>
-    <string name="pref_key_service_notification_clear" translatable="false">key_service_notification_clear</string>
-    <string name="pref_key_service_notify_notes" translatable="false">key_service_notify_notes</string>
-    <string name="pref_key_service_notify_info" translatable="false">key_service_notify_info</string>
-    <string name="pref_key_service_notify_alarm" translatable="false">key_service_notify_alarm</string>
-
-    <string name="pref_key_other_reset" translatable="false">key_other_reset</string>
 
 </resources>

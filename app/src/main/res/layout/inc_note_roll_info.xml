@@ -8,7 +8,7 @@
 
         <import type="android.view.View" />
 
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
+        <variable name="item" type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll" />
     </data>
 
     <LinearLayout
