@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.cleanup.ui.screen.preference
+package sgtmelon.scriptum.parent.ui.screen.preference.backup
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.logic.preference.BackupPreferenceLogic
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart

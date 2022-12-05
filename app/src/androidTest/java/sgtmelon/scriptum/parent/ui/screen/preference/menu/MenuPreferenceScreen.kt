@@ -1,14 +1,14 @@
-package sgtmelon.scriptum.parent.ui.screen.preference
+package sgtmelon.scriptum.parent.ui.screen.preference.menu
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.ui.screen.preference.BackupPreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.parent.ui.parts.preferences.PreferencePart
 import sgtmelon.scriptum.parent.ui.screen.dialogs.preference.AboutDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.select.ThemeDialogUi
-import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceLogic.Part
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.backup.BackupPreferenceScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.menu.MenuPreferenceLogic.Part
 import sgtmelon.scriptum.parent.ui.screen.preference.notes.NotesPreferenceScreen
 
 /**

@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.TitleToolbarPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarItem
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
-import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.menu.MenuPreferenceScreen
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**

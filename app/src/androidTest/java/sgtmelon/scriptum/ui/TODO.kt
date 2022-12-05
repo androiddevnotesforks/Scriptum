@@ -6,6 +6,7 @@ package sgtmelon.scriptum.ui
 
 // TODO new: RankDragTest - drag'n'drop rank tests
 // TODO new: AlarmPreferenceErrorTest - write tests for each error/else case (mockk useCases and return fake data)
+// TODO new: BackupPreferenceError/RotationTest - write tests
 
 // TODO bug: MenuPreferenceRotationTest/MenuPreferenceThemeTest - after changing theme application will be restarted
 // TODO bug: SplashTest - after launch bind note intent - note color is incorrect

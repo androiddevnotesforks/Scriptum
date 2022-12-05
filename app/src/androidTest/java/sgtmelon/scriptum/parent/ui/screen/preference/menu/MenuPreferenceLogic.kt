@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent.ui.screen.preference
+package sgtmelon.scriptum.parent.ui.screen.preference.menu
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.parent.ui.model.PreferenceItem

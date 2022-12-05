@@ -14,8 +14,9 @@ import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.parent.ui.screen.main.RankScreen
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
-import sgtmelon.scriptum.parent.ui.screen.preference.MenuPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.backup.BackupPreferenceScreen
+import sgtmelon.scriptum.parent.ui.screen.preference.menu.MenuPreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.preference.notes.NotesPreferenceScreen
 
 inline fun ParentUiTest.launchMain(
@@ -114,6 +115,16 @@ inline fun ParentUiTest.launchMenuPreference(
     val intent = InstanceFactory.Preference[context, PreferenceScreen.MENU]
     launchActivity<PreferenceActivity>(intent)
     MenuPreferenceScreen(after)
+}
+
+inline fun ParentUiTest.launchBackupPreference(
+    before: () -> Unit = {},
+    after: BackupPreferenceScreen.() -> Unit
+) {
+    before()
+    val intent = InstanceFactory.Preference[context, PreferenceScreen.BACKUP]
+    launchActivity<PreferenceActivity>(intent)
+    BackupPreferenceScreen(after)
 }
 
 inline fun ParentUiTest.launchNotesPreference(

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.backup
+package sgtmelon.scriptum.ui.auto.preferences.backup
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class BackupPreferenceTest : ParentUiTest() {
 
-    @Test fun fill() {
+    @Test fun todo() {
         TODO()
     }
 }
