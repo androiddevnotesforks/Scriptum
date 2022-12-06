@@ -21,7 +21,7 @@ import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
-import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.nextString
@@ -39,7 +39,7 @@ class BackupParserImplTest : ParentBackupTest() {
     private val jsonParser by lazy {
         BackupParserImpl(
             dataSource, hashMaker,
-            BackupJsonConverter(ColorConverter(), NoteTypeConverter(), StringConverter())
+            BackupJsonConverter(ColorConverter(), NoteTypeConverter(), NumbersJoinConverter())
         )
     }
 

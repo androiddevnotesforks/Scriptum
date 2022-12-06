@@ -10,7 +10,7 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
-import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 import sgtmelon.scriptum.infrastructure.model.exception.converter.EnumConverterException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
@@ -21,9 +21,10 @@ class BackupJsonConverterTest : ParentBackupTest() {
 
     private val colorConverter = ColorConverter()
     private val typeConverter = NoteTypeConverter()
-    private val stringConverter = StringConverter()
+    private val numbersJoinConverter = NumbersJoinConverter()
 
-    private val jsonConverter = BackupJsonConverter(colorConverter, typeConverter, stringConverter)
+    private val jsonConverter =
+        BackupJsonConverter(colorConverter, typeConverter, numbersJoinConverter)
 
     @Test fun `toJson noteEntity`() {
         for ((i, entity) in noteEntityList.withIndex()) {

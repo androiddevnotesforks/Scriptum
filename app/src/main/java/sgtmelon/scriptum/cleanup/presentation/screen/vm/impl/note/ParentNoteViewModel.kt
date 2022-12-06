@@ -29,7 +29,7 @@ import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -343,7 +343,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     abstract fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean)
 
     @RunProtected fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
-        val list = StringConverter().toList(item[isUndo])
+        val list = NumbersJoinConverter().toList(item[isUndo])
 
         if (list.size != 2) return
 

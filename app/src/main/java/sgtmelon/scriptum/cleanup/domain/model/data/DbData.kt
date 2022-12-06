@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.model.data
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.backup.BackupParserImpl
-import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
@@ -149,7 +149,7 @@ object DbData {
 
         object Room {
             const val ID = "0"
-            const val NOTE_ID = StringConverter.EMPTY
+            const val NOTE_ID = NumbersJoinConverter.EMPTY
             const val POSITION = "0"
             const val NAME = ""
             const val VISIBLE = "1"

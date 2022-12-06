@@ -13,7 +13,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
-import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 
 @Module
 class ConverterModule {
@@ -37,7 +37,7 @@ class ConverterModule {
     //region Type converters
 
     @Provides
-    fun provideStringConverter() = StringConverter()
+    fun provideStringConverter() = NumbersJoinConverter()
 
     @Provides
     fun provideNoteTypeConverter() = NoteTypeConverter()

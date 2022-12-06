@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Room
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
-import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 
 /**
  * Entity of category.
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
     tableName = Rank.TABLE,
     indices = [Index(value = [Rank.NAME], name = Rank.INDEX_NAME, unique = true)]
 )
-@TypeConverters(BoolConverter::class, StringConverter::class)
+@TypeConverters(BoolConverter::class, NumbersJoinConverter::class)
 data class RankEntity(
     @ColumnInfo(name = Rank.ID, defaultValue = Room.ID)
     @PrimaryKey(autoGenerate = true)

@@ -8,12 +8,12 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
-import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 
 /**
  * Model for store short information about rank, use in [RankAdapter].
  */
-@TypeConverters(BoolConverter::class, StringConverter::class)
+@TypeConverters(BoolConverter::class, NumbersJoinConverter::class)
 data class RankItem(
     @ColumnInfo(name = Rank.ID) val id: Long,
     @ColumnInfo(name = Rank.NOTE_ID) val noteId: MutableList<Long> = Default.NOTE_ID,

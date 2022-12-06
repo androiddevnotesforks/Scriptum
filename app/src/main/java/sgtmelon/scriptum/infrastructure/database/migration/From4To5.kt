@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.database.migration
 import android.database.Cursor
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import sgtmelon.extensions.clearSplit
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 
@@ -11,6 +12,8 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
  */
 @Suppress("KDocUnresolvedReference")
 object From4To5 {
+
+    const val DIVIDER = ","
 
     /**
      * Note table:
@@ -124,7 +127,7 @@ object From4To5 {
             val noteId = cursor.getString(noteIdIndex)
 
             val noteIdList: MutableList<Long> = ArrayList(
-                noteId.clearSplit().mapNotNull { it.toLongOrNull() }
+                noteId.clearSplit(DIVIDER).mapNotNull { it.toLongOrNull() }
             )
 
             /** Remove already used [NoteEntity.id]. */
@@ -155,8 +158,10 @@ object From4To5 {
             val rankId = cursor.getString(rankIdIndex)
             val rankPs = cursor.getString(rankPsIndex)
 
-            val newRankId: Long = rankId.clearSplit().firstOrNull()?.toLongOrNull() ?: continue
-            val newRankPs: Int = rankPs.clearSplit().firstOrNull()?.toIntOrNull() ?: continue
+            val newRankId: Long? = rankId.clearSplit(DIVIDER).firstOrNull()?.toLongOrNull()
+            val newRankPs: Int? = rankPs.clearSplit(DIVIDER).firstOrNull()?.toIntOrNull()
+
+            if (newRankId == null || newRankPs == null) continue
 
             execSQL(
                 """UPDATE NOTE_TABLE 
