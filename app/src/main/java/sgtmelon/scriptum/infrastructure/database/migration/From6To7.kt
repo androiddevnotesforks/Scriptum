@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.database.migration
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
 
 /**
  * Add defaultValues to room entities.

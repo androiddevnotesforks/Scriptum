@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.room.converter.type
+package sgtmelon.scriptum.infrastructure.converter.types
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.data.backup
 
 import org.json.JSONException
 import org.json.JSONObject
-import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -11,6 +10,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
+import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
 
 class BackupJsonConverter(
     private val colorConverter: ColorConverter,

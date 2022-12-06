@@ -1,9 +1,8 @@
-package sgtmelon.scriptum.cleanup.data.room.converter.model
+package sgtmelon.scriptum.infrastructure.converter.types
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 

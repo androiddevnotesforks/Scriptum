@@ -4,11 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.TypeConverters
 import org.json.JSONArray
 import org.json.JSONObject
-import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
-import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
+import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
+import sgtmelon.scriptum.infrastructure.converter.types.StringConverter
 
 /**
  * Model for store short information about rank, use in [RankAdapter].
