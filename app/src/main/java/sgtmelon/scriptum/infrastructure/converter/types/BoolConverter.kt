@@ -4,7 +4,7 @@ import androidx.annotation.IntRange
 import androidx.room.TypeConverter
 
 /**
- * Converter from number to boolean value and vice versa
+ * Converter from number to boolean value and vice versa.
  */
 class BoolConverter {
 
@@ -16,5 +16,4 @@ class BoolConverter {
         const val TRUE = 1
         const val FALSE = 0
     }
-
 }
