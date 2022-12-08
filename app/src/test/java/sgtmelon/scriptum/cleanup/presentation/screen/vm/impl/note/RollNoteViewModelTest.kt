@@ -24,7 +24,6 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.FastTest
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
@@ -46,6 +45,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
@@ -75,10 +75,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var colorConverter: ColorConverter
     @MockK lateinit var preferencesRepo: PreferencesRepo
-    @MockK lateinit var interactor: IRollNoteInteractor
 
     @MockK lateinit var getNote: GetRollNoteUseCase
     @MockK lateinit var saveNote: SaveNoteUseCase
+    @MockK lateinit var convertNote: ConvertNoteUseCase
     @MockK lateinit var updateNote: UpdateNoteUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var restoreNote: RestoreNoteUseCase
@@ -97,8 +97,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     private val viewModel by lazy {
         RollNoteViewModel(
-            callback, parentCallback, colorConverter, preferencesRepo, interactor, getNote,
-            saveNote, updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
+            callback, parentCallback, colorConverter, preferencesRepo, getNote, saveNote,
+            convertNote, updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
             getRankDialogNames
         )
@@ -107,7 +107,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     private val fastTest by lazy {
         FastTest.ViewModel(
-            callback, parentCallback, colorConverter, interactor,
+            callback, parentCallback, colorConverter, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
@@ -149,8 +149,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         super.tearDown()
 
         confirmVerified(
-            callback, parentCallback, colorConverter, preferencesRepo, interactor, getNote,
-            saveNote, updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
+            callback, parentCallback, colorConverter, preferencesRepo, getNote, saveNote,
+            convertNote, updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
             getRankDialogNames,
             saveControl, inputControl
@@ -227,7 +227,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             getRankDialogNames()
             spyViewModel.rankDialogItemArray = itemArray
             spyViewModel.id
-            spyViewModel.interactor
             preferencesRepo.defaultColor
             NoteItem.Roll.getCreate(defaultColor)
             spyViewModel.noteItem = noteItem
@@ -442,7 +441,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteState
             noteState.isCreate
 
-            spyViewModel.interactor
             spyViewModel.noteItem
             updateVisible(noteItem)
             spyViewModel.noteState
@@ -467,7 +465,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteState
             noteState.isCreate
 
-            spyViewModel.interactor
             spyViewModel.noteItem
             updateVisible(noteItem)
             spyViewModel.noteState
@@ -1689,7 +1686,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.parentCallback
             spyViewModel.id
             parentCallback.updateNoteId(id)
-            spyViewModel.interactor
             spyViewModel.noteItem
             updateVisible(noteItem)
             spyViewModel.callback

@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
@@ -36,9 +36,9 @@ class TextNoteViewModel(
     parentCallback: INoteConnector?,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
-    interactor: ITextNoteInteractor,
     private val getNote: GetTextNoteUseCase,
     private val saveNote: SaveNoteUseCase,
+    convertNote: ConvertNoteUseCase,
     updateNote: UpdateNoteUseCase,
     deleteNote: DeleteNoteUseCase,
     restoreNote: RestoreNoteUseCase,
@@ -48,8 +48,8 @@ class TextNoteViewModel(
     getNotificationDateList: GetNotificationDateListUseCase,
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
-) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(
-    callback, parentCallback, colorConverter, preferencesRepo, interactor,
+) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment>(
+    callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId
 ), ITextNoteViewModel {

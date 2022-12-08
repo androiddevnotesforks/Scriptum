@@ -41,7 +41,7 @@ interface NoteRepo {
      * TODO #THINK in notes list need add fast convert
      * (prepare all data - update note - suspend work with db)
      */
-    suspend fun convertNote(item: NoteItem.Roll, useCache: Boolean): NoteItem.Text
+    suspend fun convertNote(item: NoteItem.Roll): NoteItem.Text
 
     suspend fun saveNote(item: NoteItem.Text, isCreate: Boolean)
 

@@ -18,7 +18,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -32,6 +31,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -50,12 +50,12 @@ object FastTest {
 
     // TODO create common interactor or anything else for remove some fast test functions (like date)
 
-    class ViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
+    class ViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
         private val callback: IParentNoteFragment<N>,
         private val parentCallback: INoteConnector,
         private val colorConverter: ColorConverter,
-        private val interactor: IParentNoteInteractor<N>,
 
+        private val convertNote: ConvertNoteUseCase,
         private val updateNote: UpdateNoteUseCase,
         private val deleteNote: DeleteNoteUseCase,
         private val restoreNote: RestoreNoteUseCase,
@@ -67,8 +67,8 @@ object FastTest {
 
         private val saveControl: SaveControl,
         private val inputControl: IInputControl,
-        private val viewModel: ParentNoteViewModel<N, C, I>,
-        private val spyViewModel: ParentNoteViewModel<N, C, I>,
+        private val viewModel: ParentNoteViewModel<N, C>,
+        private val spyViewModel: ParentNoteViewModel<N, C>,
         private val mockDeepCopy: (item: N) -> Unit,
         private val verifyDeepCopy: MockKVerificationScope.(item: N) -> Unit,
         private val mockkInit: () -> Color,
@@ -491,7 +491,6 @@ object FastTest {
                 spyViewModel.restoreItem = restoreItem
                 spyViewModel.onResultDateDialogClear()
 
-                spyViewModel.interactor
                 spyViewModel.noteItem
                 deleteNotification(noteItem)
 
@@ -538,7 +537,6 @@ object FastTest {
 
                 spyViewModel.onResultTimeDialog(calendar)
                 calendar.isBeforeNow()
-                spyViewModel.interactor
                 spyViewModel.noteItem
                 setNotification(noteItem, calendar)
                 spyViewModel.cacheData()
@@ -563,7 +561,7 @@ object FastTest {
             coVerifySequence {
                 verifyInit()
 
-                interactor.convertNote(noteItem)
+                convertNote(noteItem)
                 parentCallback.convertNote()
             }
         }

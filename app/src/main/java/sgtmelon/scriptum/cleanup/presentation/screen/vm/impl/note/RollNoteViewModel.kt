@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
@@ -46,9 +46,9 @@ class RollNoteViewModel(
     parentCallback: INoteConnector?,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
-    interactor: IRollNoteInteractor,
     private val getNote: GetRollNoteUseCase,
     private val saveNote: SaveNoteUseCase,
+    convertNote: ConvertNoteUseCase,
     updateNote: UpdateNoteUseCase,
     deleteNote: DeleteNoteUseCase,
     restoreNote: RestoreNoteUseCase,
@@ -60,8 +60,8 @@ class RollNoteViewModel(
     getNotificationDateList: GetNotificationDateListUseCase,
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
-) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(
-    callback, parentCallback, colorConverter, preferencesRepo, interactor,
+) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment>(
+    callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId
 ), IRollNoteViewModel {

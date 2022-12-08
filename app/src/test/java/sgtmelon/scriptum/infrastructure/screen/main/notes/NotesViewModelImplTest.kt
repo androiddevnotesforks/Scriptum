@@ -11,7 +11,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
-import sgtmelon.scriptum.domain.useCase.note.ConvertNoteCardUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -29,7 +29,7 @@ class NotesViewModelImplTest : ParentLiveDataTest() {
     @MockK lateinit var getList: GetNotesListUseCase
     @MockK lateinit var sortList: SortNoteListUseCase
     @MockK lateinit var getCopyText: GetCopyTextUseCase
-    @MockK lateinit var convertNote: ConvertNoteCardUseCase
+    @MockK lateinit var convertNote: ConvertNoteUseCase
     @MockK lateinit var updateNote: UpdateNoteUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase

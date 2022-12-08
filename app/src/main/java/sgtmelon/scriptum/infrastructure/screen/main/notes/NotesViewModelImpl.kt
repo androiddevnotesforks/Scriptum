@@ -18,7 +18,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
-import sgtmelon.scriptum.domain.useCase.note.ConvertNoteCardUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -30,7 +30,7 @@ class NotesViewModelImpl(
     private val getList: GetNotesListUseCase,
     private val sortList: SortNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
-    private val convertNote: ConvertNoteCardUseCase,
+    private val convertNote: ConvertNoteUseCase,
     private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,
     private val setNotification: SetNotificationUseCase,

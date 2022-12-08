@@ -193,12 +193,8 @@ class NoteRepoImpl(
         return newItem
     }
 
-    override suspend fun convertNote(item: NoteItem.Roll, useCache: Boolean): NoteItem.Text {
-        val newItem = if (useCache) {
-            item.onConvert()
-        } else {
-            item.onConvert(rollConverter.toItem(rollDataSource.getList(item.id)))
-        }
+    override suspend fun convertNote(item: NoteItem.Roll): NoteItem.Text {
+        val newItem = item.onConvert()
 
         noteDataSource.update(noteConverter.toEntity(newItem))
         rollDataSource.delete(newItem.id)

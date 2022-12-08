@@ -481,7 +481,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { finishItem.id } returns id
 
         runBlocking {
-            assertEquals(repository.convertNote(startItem, useCache = true), finishItem)
+            assertEquals(repository.convertNote(startItem), finishItem)
         }
 
         every { startItem.id } returns id
@@ -490,7 +490,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { startItem.onConvert(itemList) } returns finishItem
 
         runBlocking {
-            assertEquals(repository.convertNote(startItem, useCache = false), finishItem)
+            assertEquals(repository.convertNote(startItem), finishItem)
         }
 
         coVerifySequence {

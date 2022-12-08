@@ -8,8 +8,6 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
@@ -39,7 +37,7 @@ import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.ConvertNoteCardUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
@@ -135,7 +133,7 @@ class ViewModelModule {
         getList: GetNotesListUseCase,
         sortList: SortNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
-        convertNote: ConvertNoteCardUseCase,
+        convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
         setNotification: SetNotificationUseCase,
@@ -185,9 +183,9 @@ class ViewModelModule {
         fragment: TextNoteFragment,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
-        interactor: ITextNoteInteractor,
         getNote: GetTextNoteUseCase,
         saveNote: SaveNoteUseCase,
+        convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
         restoreNote: RestoreNoteUseCase,
@@ -199,7 +197,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            fragment, colorConverter, preferencesRepo, interactor, getNote, saveNote,
+            fragment, colorConverter, preferencesRepo, getNote, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames
         )
@@ -216,9 +214,9 @@ class ViewModelModule {
         fragment: RollNoteFragment,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
-        interactor: IRollNoteInteractor,
         getNote: GetRollNoteUseCase,
         saveNote: SaveNoteUseCase,
+        convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
         restoreNote: RestoreNoteUseCase,
@@ -232,7 +230,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            fragment, colorConverter, preferencesRepo, interactor, getNote, saveNote,
+            fragment, colorConverter, preferencesRepo, getNote, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
             getRankDialogNames

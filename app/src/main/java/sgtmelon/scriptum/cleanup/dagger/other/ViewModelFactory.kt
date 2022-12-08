@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
@@ -29,7 +27,7 @@ import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.ConvertNoteCardUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
@@ -123,7 +121,7 @@ object ViewModelFactory {
             private val getList: GetNotesListUseCase,
             private val sortList: SortNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
-            private val convertNote: ConvertNoteCardUseCase,
+            private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val setNotification: SetNotificationUseCase,
@@ -171,9 +169,9 @@ object ViewModelFactory {
             private val fragment: TextNoteFragment,
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
-            private val interactor: ITextNoteInteractor,
             private val getNote: GetTextNoteUseCase,
             private val saveNote: SaveNoteUseCase,
+            private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val restoreNote: RestoreNoteUseCase,
@@ -189,7 +187,7 @@ object ViewModelFactory {
                     val parentCallback = fragment.context as? INoteConnector
                     TextNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, getNote, saveNote, updateNote, deleteNote, restoreNote,
+                        getNote, saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, setNotification, deleteNotification, getNotificationDateList,
                         getRankId, getRankDialogNames
                     )
@@ -201,9 +199,9 @@ object ViewModelFactory {
             private val fragment: RollNoteFragment,
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
-            private val interactor: IRollNoteInteractor,
             private val getNote: GetRollNoteUseCase,
             private val saveNote: SaveNoteUseCase,
+            private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val restoreNote: RestoreNoteUseCase,
@@ -221,7 +219,7 @@ object ViewModelFactory {
                     val parentCallback = fragment.context as? INoteConnector
                     RollNoteViewModel(
                         fragment, parentCallback, colorConverter, preferencesRepo,
-                        interactor, getNote, saveNote, updateNote, deleteNote, restoreNote,
+                        getNote, saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, updateVisible, updateCheck, setNotification, deleteNotification,
                         getNotificationDateList, getRankId, getRankDialogNames
                     )

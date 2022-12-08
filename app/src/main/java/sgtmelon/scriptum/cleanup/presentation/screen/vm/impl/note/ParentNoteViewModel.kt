@@ -8,7 +8,6 @@ import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -40,12 +40,12 @@ import sgtmelon.test.prod.RunProtected
 /**
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
  */
-abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
+abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     callback: C,
     @RunProtected var parentCallback: INoteConnector?,
     @RunProtected val colorConverter: ColorConverter,
     @RunProtected val preferencesRepo: PreferencesRepo,
-    @RunProtected val interactor: I,
+    private val convertNote: ConvertNoteUseCase,
     private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,
     private val restoreNote: RestoreNoteUseCase,
@@ -65,9 +65,6 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     @RunProtected lateinit var saveControl: SaveControl
         private set
 
-    /**
-     * Need call after [interactor] initialization.
-     */
     fun setSaveControl(saveControl: SaveControl) {
         this.saveControl = saveControl
     }
@@ -273,7 +270,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onResultConvertDialog() {
         viewModelScope.launch {
-            runBack { interactor.convertNote(noteItem) }
+            runBack { convertNote(noteItem) }
             parentCallback?.convertNote()
         }
     }
