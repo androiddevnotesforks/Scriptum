@@ -19,15 +19,15 @@ import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 import sgtmelon.scriptum.testing.getRandomSize
 
 /**
- * Test for [NotesInteractor].
+ * Test for [ConvertNoteCardUseCase].
  */
 @ExperimentalCoroutinesApi
-class NotesInteractorTest : ParentCoTest() {
+class ConvertNoteCardUseCaseTest : ParentCoTest() {
 
     @MockK lateinit var noteRepo: NoteRepo
 
-    private val interactor by lazy { NotesInteractor(noteRepo) }
-    private val spyInteractor by lazy { spyk(interactor) }
+    private val useCase by lazy { ConvertNoteCardUseCase(noteRepo) }
+    private val spyUseCase by lazy { spyk(useCase) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -39,14 +39,14 @@ class NotesInteractorTest : ParentCoTest() {
         val convertItem = mockk<NoteItem.Roll>()
 
         coEvery { noteRepo.convertNote(item) } returns convertItem
-        every { spyInteractor.onConvertOptimisation(convertItem) } returns Unit
+        every { spyUseCase.onConvertOptimisation(convertItem) } returns Unit
 
-        assertEquals(convertItem, spyInteractor.convertNote(item))
+        assertEquals(convertItem, spyUseCase(item))
 
         coVerifySequence {
-            spyInteractor.convertNote(item)
+            spyUseCase(item)
             noteRepo.convertNote(item)
-            spyInteractor.onConvertOptimisation(convertItem)
+            spyUseCase.onConvertOptimisation(convertItem)
         }
     }
 
@@ -56,10 +56,10 @@ class NotesInteractorTest : ParentCoTest() {
 
         coEvery { noteRepo.convertNote(item, useCache = false) } returns convertItem
 
-        assertEquals(convertItem, spyInteractor.convertNote(item))
+        assertEquals(convertItem, spyUseCase(item))
 
         coVerifySequence {
-            spyInteractor.convertNote(item)
+            spyUseCase(item)
             noteRepo.convertNote(item, useCache = false)
         }
     }
@@ -71,14 +71,14 @@ class NotesInteractorTest : ParentCoTest() {
         val finishList = startList.take(NoteItem.Roll.PREVIEW_SIZE).toMutableList()
 
         every { item.list } returns mutableListOf()
-        interactor.onConvertOptimisation(item)
+        useCase.onConvertOptimisation(item)
 
         every { item.list } returns finishList
-        interactor.onConvertOptimisation(item)
+        useCase.onConvertOptimisation(item)
         assertEquals(NoteItem.Roll.PREVIEW_SIZE, finishList.size)
 
         every { item.list } returns startList
-        interactor.onConvertOptimisation(item)
+        useCase.onConvertOptimisation(item)
         assertEquals(startList, finishList)
 
         verifySequence {

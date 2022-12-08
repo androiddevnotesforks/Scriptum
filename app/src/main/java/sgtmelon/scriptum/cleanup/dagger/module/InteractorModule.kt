@@ -4,28 +4,17 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.RollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.data.repository.database.DevelopRepo
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractor
 import sgtmelon.scriptum.domain.interactor.preferences.DevelopInteractorImpl
 
+@Deprecated("Convert to use cases if possible")
 @Module
 class InteractorModule {
-
-    //region Main
-
-    @Provides
-    @ActivityScope
-    fun provideNotesInteractor(noteRepo: NoteRepo): INotesInteractor {
-        return NotesInteractor(noteRepo)
-    }
-
-    //endregion
 
     //region Note
 

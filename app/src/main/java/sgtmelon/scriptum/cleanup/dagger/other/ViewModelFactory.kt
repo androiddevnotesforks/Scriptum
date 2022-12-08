@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.ConvertNoteCardUseCase
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
@@ -120,10 +120,10 @@ object ViewModelFactory {
 
         class Notes(
             private val preferencesRepo: PreferencesRepo,
-            private val interactor: INotesInteractor,
             private val getList: GetNotesListUseCase,
             private val sortList: SortNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
+            private val convertNote: ConvertNoteCardUseCase,
             private val updateNote: UpdateNoteUseCase,
             private val deleteNote: DeleteNoteUseCase,
             private val setNotification: SetNotificationUseCase,
@@ -133,9 +133,8 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModelImpl::class) {
                     NotesViewModelImpl(
-                        preferencesRepo, interactor,
-                        getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
-                        deleteNotification, getNotificationDateList
+                        preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote,
+                        deleteNote, setNotification, deleteNotification, getNotificationDateList
                     )
                 }
             }

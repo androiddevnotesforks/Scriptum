@@ -9,7 +9,7 @@ import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.ConvertNoteCardUseCase
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
@@ -27,10 +27,10 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewMo
 
 class NotesViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
-    private val interactor: INotesInteractor,
     private val getList: GetNotesListUseCase,
     private val sortList: SortNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
+    private val convertNote: ConvertNoteCardUseCase,
     private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,
     private val setNotification: SetNotificationUseCase,
@@ -110,7 +110,7 @@ class NotesViewModelImpl(
 
     override fun convertNote(p: Int): Flow<NoteItem> = flowOnBack {
         val item = _itemList.getOrNull(p) ?: return@flowOnBack
-        val newItem = interactor.convertNote(item)
+        val newItem = convertNote(item)
 
         /** Sort list without new call to dataBase. */
         _itemList[p] = newItem

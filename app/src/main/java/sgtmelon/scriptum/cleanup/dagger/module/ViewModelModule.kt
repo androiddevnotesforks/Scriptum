@@ -8,9 +8,9 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.ConvertNoteCardUseCase
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
@@ -132,10 +132,10 @@ class ViewModelModule {
     fun provideNotesViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
-        interactor: INotesInteractor,
         getList: GetNotesListUseCase,
         sortList: SortNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
+        convertNote: ConvertNoteCardUseCase,
         updateNote: UpdateNoteUseCase,
         deleteNote: DeleteNoteUseCase,
         setNotification: SetNotificationUseCase,
@@ -143,9 +143,8 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationDateListUseCase
     ): NotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
-            preferencesRepo, interactor,
-            getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
-            deleteNotification, getNotificationDateList
+            preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
+            setNotification, deleteNotification, getNotificationDateList
         )
         return ViewModelProvider(owner, factory)[NotesViewModelImpl::class.java]
     }

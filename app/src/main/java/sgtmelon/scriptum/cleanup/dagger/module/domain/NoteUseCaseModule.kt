@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.ConvertNoteCardUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
@@ -36,6 +37,11 @@ class NoteUseCaseModule {
     @Provides
     fun provideSaveNoteUseCase(noteRepo: NoteRepo, rankRepo: RankRepo): SaveNoteUseCase {
         return SaveNoteUseCase(noteRepo, rankRepo)
+    }
+
+    @Provides
+    fun provideConvertNoteCardUseCase(repository: NoteRepo): ConvertNoteCardUseCase {
+        return ConvertNoteCardUseCase(repository)
     }
 
     @Provides

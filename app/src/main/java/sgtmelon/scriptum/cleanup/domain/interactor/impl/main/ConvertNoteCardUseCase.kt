@@ -1,28 +1,22 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.test.prod.RunPrivate
 
-/**
- * Interactor for [NotesViewModel].
- */
-// TODO refactor after notesViewModel
-class NotesInteractor(private val noteRepo: NoteRepo) : INotesInteractor {
+class ConvertNoteCardUseCase(private val noteRepo: NoteRepo) {
 
-    override suspend fun convertNote(item: NoteItem): NoteItem {
-        val convertItem = when (item) {
+    suspend operator fun invoke(item: NoteItem): NoteItem {
+        val newItem = when (item) {
             is NoteItem.Text -> noteRepo.convertNote(item)
             is NoteItem.Roll -> noteRepo.convertNote(item, useCache = false)
         }
 
-        if (convertItem is NoteItem.Roll) {
-            onConvertOptimisation(convertItem)
+        if (newItem is NoteItem.Roll) {
+            onConvertOptimisation(newItem)
         }
 
-        return convertItem
+        return newItem
     }
 
     /**

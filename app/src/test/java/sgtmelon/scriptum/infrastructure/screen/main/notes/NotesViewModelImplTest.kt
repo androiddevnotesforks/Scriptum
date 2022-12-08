@@ -5,7 +5,7 @@ import io.mockk.impl.annotations.MockK
 import java.util.Calendar
 import org.junit.After
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.ConvertNoteCardUseCase
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -25,11 +25,11 @@ class NotesViewModelImplTest : ParentLiveDataTest() {
     //region Setup
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
-    @MockK lateinit var interactor: INotesInteractor
 
     @MockK lateinit var getList: GetNotesListUseCase
     @MockK lateinit var sortList: SortNoteListUseCase
     @MockK lateinit var getCopyText: GetCopyTextUseCase
+    @MockK lateinit var convertNote: ConvertNoteCardUseCase
     @MockK lateinit var updateNote: UpdateNoteUseCase
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
@@ -40,18 +40,17 @@ class NotesViewModelImplTest : ParentLiveDataTest() {
 
     private val viewModel by lazy {
         NotesViewModelImpl(
-            preferencesRepo, interactor,
-            getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
-            deleteNotification, getNotificationDateList
+            preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
+            setNotification, deleteNotification, getNotificationDateList
         )
     }
 
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(
-            preferencesRepo, interactor, calendar,
-            getList, sortList, getCopyText, updateNote, deleteNote, setNotification,
-            deleteNotification, getNotificationDateList
+            preferencesRepo, calendar,
+            getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
+            setNotification, deleteNotification, getNotificationDateList
         )
     }
 
