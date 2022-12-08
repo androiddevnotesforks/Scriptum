@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.ConvertNoteCardUseCase
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
@@ -40,6 +39,7 @@ import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteCardUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase

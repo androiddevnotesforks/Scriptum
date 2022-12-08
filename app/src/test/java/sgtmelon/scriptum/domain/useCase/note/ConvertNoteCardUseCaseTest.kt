@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
+package sgtmelon.scriptum.domain.useCase.note
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence

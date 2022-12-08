@@ -9,7 +9,6 @@ import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.ConvertNoteCardUseCase
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteCardUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase

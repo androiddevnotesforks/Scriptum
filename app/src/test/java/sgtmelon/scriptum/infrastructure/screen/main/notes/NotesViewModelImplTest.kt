@@ -5,13 +5,13 @@ import io.mockk.impl.annotations.MockK
 import java.util.Calendar
 import org.junit.After
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.ConvertNoteCardUseCase
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
+import sgtmelon.scriptum.domain.useCase.note.ConvertNoteCardUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
