@@ -23,8 +23,8 @@ import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.data.repository.database.AlarmRepoImpl
-import sgtmelon.scriptum.data.repository.database.DevelopRepo
-import sgtmelon.scriptum.data.repository.database.DevelopRepoImpl
+import sgtmelon.scriptum.develop.data.DevelopRepo
+import sgtmelon.scriptum.develop.data.DevelopRepoImpl
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider

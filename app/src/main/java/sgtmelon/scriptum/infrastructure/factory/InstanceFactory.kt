@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.develop.model.PrintType
-import sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity
+import sgtmelon.scriptum.develop.infrastructure.model.PrintType
+import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivity
 import sgtmelon.scriptum.infrastructure.model.annotation.AppOpenFrom
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen

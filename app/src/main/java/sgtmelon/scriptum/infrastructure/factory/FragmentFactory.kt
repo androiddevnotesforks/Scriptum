@@ -3,8 +3,8 @@ package sgtmelon.scriptum.infrastructure.factory
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.develop.screen.develop.DevelopFragment
-import sgtmelon.scriptum.develop.screen.service.ServiceDevelopFragment
+import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopFragment
+import sgtmelon.scriptum.develop.infrastructure.screen.service.ServiceDevelopFragment
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
