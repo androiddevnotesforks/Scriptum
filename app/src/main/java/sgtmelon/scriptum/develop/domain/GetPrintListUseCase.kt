@@ -4,9 +4,9 @@ import sgtmelon.scriptum.develop.data.DevelopRepo
 import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 
-class DevelopInteractorImpl(private val repository: DevelopRepo) : DevelopInteractor {
+class GetPrintListUseCase(private val repository: DevelopRepo) {
 
-    override suspend fun getList(type: PrintType): List<PrintItem> = when (type) {
+    suspend operator fun invoke(type: PrintType): List<PrintItem> = when (type) {
         PrintType.NOTE -> repository.getPrintNoteList(isBin = false)
         PrintType.BIN -> repository.getPrintNoteList(isBin = true)
         PrintType.ROLL -> repository.getPrintRollList()
@@ -16,8 +16,4 @@ class DevelopInteractorImpl(private val repository: DevelopRepo) : DevelopIntera
         PrintType.KEY -> repository.getPrintPreferenceList()
         PrintType.FILE -> repository.getPrintFileList()
     }
-
-    override suspend fun getRandomNoteId(): Long = repository.getRandomNoteId()
-
-    override fun resetPreferences() = repository.resetPreferences()
 }

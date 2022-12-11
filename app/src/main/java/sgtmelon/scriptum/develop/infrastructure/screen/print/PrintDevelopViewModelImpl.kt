@@ -4,14 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import sgtmelon.extensions.launchBack
-import sgtmelon.scriptum.develop.domain.DevelopInteractor
+import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 
 class PrintDevelopViewModelImpl(
     type: PrintType,
-    private val interactor: DevelopInteractor
+    private val getList: GetPrintListUseCase
 ) : ViewModel(),
     PrintDevelopViewModel {
 
@@ -26,7 +26,7 @@ class PrintDevelopViewModelImpl(
     private suspend fun fetchList(type: PrintType) {
         showList.postValue(ShowListState.Loading)
 
-        val list = interactor.getList(type)
+        val list = getList(type)
         val state = if (list.isEmpty()) ShowListState.Empty else ShowListState.List
 
         itemList.postValue(list)

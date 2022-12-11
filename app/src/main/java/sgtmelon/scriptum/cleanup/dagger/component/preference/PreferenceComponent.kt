@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.dagger.component.preference
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
@@ -12,10 +11,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFra
  * Component for [MenuPreferenceFragment].
  */
 @ActivityScope
-@Subcomponent(modules = [
-    InteractorModule::class,
-    ViewModelModule::class
-])
+@Subcomponent(modules = [ViewModelModule::class])
 interface PreferenceComponent {
 
     fun inject(fragment: MenuPreferenceFragment)

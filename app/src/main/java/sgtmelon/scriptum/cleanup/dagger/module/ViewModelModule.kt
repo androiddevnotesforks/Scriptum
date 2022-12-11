@@ -16,7 +16,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteV
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.develop.domain.DevelopInteractor
+import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
+import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
+import sgtmelon.scriptum.develop.domain.ResetPreferencesUseCase
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModelImpl
@@ -341,9 +343,10 @@ class ViewModelModule {
     @ActivityScope
     fun provideDevelopViewModel(
         owner: ViewModelStoreOwner,
-        interactor: DevelopInteractor
+        getRandomNoteId: GetRandomNoteIdUseCase,
+        resetPreferences: ResetPreferencesUseCase
     ): DevelopViewModel {
-        val factory = ViewModelFactory.Develop.Main(interactor)
+        val factory = ViewModelFactory.Develop.Main(getRandomNoteId, resetPreferences)
         return ViewModelProvider(owner, factory)[DevelopViewModelImpl::class.java]
     }
 
@@ -352,9 +355,9 @@ class ViewModelModule {
     fun providePrintDevelopViewModel(
         owner: ViewModelStoreOwner,
         type: PrintType,
-        interactor: DevelopInteractor
+        getList: GetPrintListUseCase
     ): PrintDevelopViewModel {
-        val factory = ViewModelFactory.Develop.Print(type, interactor)
+        val factory = ViewModelFactory.Develop.Print(type, getList)
         return ViewModelProvider(owner, factory)[PrintDevelopViewModelImpl::class.java]
     }
 

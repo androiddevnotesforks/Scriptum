@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.dagger.component.main
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
@@ -12,10 +11,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
  * Component for [MainActivity].
  */
 @ActivityScope
-@Subcomponent(modules = [
-    InteractorModule::class,
-    ViewModelModule::class
-])
+@Subcomponent(modules = [ViewModelModule::class])
 interface MainComponent {
 
     fun inject(activity: MainActivity)

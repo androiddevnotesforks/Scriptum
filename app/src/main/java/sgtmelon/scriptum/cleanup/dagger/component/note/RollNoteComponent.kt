@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.dagger.component.note
 
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
@@ -11,10 +10,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragme
  * Component for [RollNoteFragment].
  */
 @ActivityScope
-@Subcomponent(modules = [
-    InteractorModule::class,
-    ViewModelModule::class
-])
+@Subcomponent(modules = [ViewModelModule::class])
 interface RollNoteComponent {
 
     fun inject(fragment: RollNoteFragment)

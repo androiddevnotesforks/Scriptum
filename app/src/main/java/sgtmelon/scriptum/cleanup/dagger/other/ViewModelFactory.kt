@@ -9,7 +9,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.develop.domain.DevelopInteractor
+import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
+import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
+import sgtmelon.scriptum.develop.domain.ResetPreferencesUseCase
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopViewModelImpl
@@ -323,21 +325,24 @@ object ViewModelFactory {
 
     object Develop {
 
-        class Main(private val interactor: DevelopInteractor) : ViewModelProvider.Factory {
+        class Main(
+            private val getRandomNoteId: GetRandomNoteIdUseCase,
+            private val resetPreferences: ResetPreferencesUseCase
+        ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(DevelopViewModelImpl::class) {
-                    DevelopViewModelImpl(interactor)
+                    DevelopViewModelImpl(getRandomNoteId, resetPreferences)
                 }
             }
         }
 
         class Print(
             private val type: PrintType,
-            private val interactor: DevelopInteractor
+            private val getList: GetPrintListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(PrintDevelopViewModelImpl::class) {
-                    PrintDevelopViewModelImpl(type, interactor)
+                    PrintDevelopViewModelImpl(type, getList)
                 }
             }
         }

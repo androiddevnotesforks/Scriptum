@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.dagger.component.preference
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.module.InteractorModule
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
@@ -12,12 +11,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFr
  * Component for [NotesPreferenceFragment].
  */
 @ActivityScope
-@Subcomponent(
-    modules = [
-        InteractorModule::class,
-        ViewModelModule::class
-    ]
-)
+@Subcomponent(modules = [ViewModelModule::class])
 interface NotesPreferenceComponent {
 
     fun inject(fragment: NotesPreferenceFragment)
