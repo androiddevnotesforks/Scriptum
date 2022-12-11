@@ -12,20 +12,19 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!--  Better don't use configChanges: rotation/screenSize  -->
     <application
-        android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication"
+        android:name=".cleanup.presentation.screen.ui.ScriptumApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/App.Screen.DayNight">
 
         <activity
-            android:name="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
+            android:name=".infrastructure.screen.splash.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@style/App.Screen.Splash">
@@ -41,38 +40,38 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.infrastructure.screen.main.MainActivity"
+            android:name=".infrastructure.screen.main.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="sgtmelon.scriptum.infrastructure.screen.note.NoteActivity"
+            android:name=".infrastructure.screen.note.NoteActivity"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity" />
+            android:parentActivityName=".infrastructure.screen.main.MainActivity" />
 
         <activity
-            android:name="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity"
+            android:name=".infrastructure.screen.preference.PreferenceActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity" />
+            android:parentActivityName=".infrastructure.screen.main.MainActivity" />
 
         <activity
-            android:name="sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity"
+            android:name=".infrastructure.screen.preference.disappear.HelpDisappearActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
+            android:parentActivityName=".infrastructure.screen.preference.PreferenceActivity" />
 
         <activity
-            android:name="sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity"
+            android:name=".develop.infrastructure.screen.print.PrintDevelopActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity" />
+            android:parentActivityName=".infrastructure.screen.preference.PreferenceActivity" />
 
         <activity
-            android:name="sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity"
+            android:name=".infrastructure.screen.notifications.NotificationsActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity">
+            android:parentActivityName=".infrastructure.screen.main.MainActivity">
 
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -80,23 +79,20 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity"
+            android:name=".infrastructure.screen.alarm.AlarmActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName="sgtmelon.scriptum.infrastructure.screen.main.MainActivity"
+            android:parentActivityName=".infrastructure.screen.main.MainActivity"
             android:screenOrientation="portrait">
-
-        <intent-filter>
+            <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver" />
-        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver" />
-        <receiver android:name="sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver" />
-
-        <receiver android:name="sgtmelon.scriptum.develop.receiver.DevelopScreenReceiver" />
-
+        <receiver android:name=".infrastructure.receiver.action.AlarmActionReceiver" />
+        <receiver android:name=".infrastructure.receiver.action.UnbindActionReceiver" />
+        <receiver android:name=".infrastructure.receiver.screen.UnbindNoteReceiver" />
+        <receiver android:name=".develop.infrastructure.receiver.DevelopScreenReceiver" />
         <receiver android:name=".infrastructure.receiver.service.ServiceReceiver" />
 
         <receiver
@@ -110,7 +106,7 @@
         </receiver>
 
         <service
-            android:name="sgtmelon.scriptum.infrastructure.service.EternalService"
+            android:name=".infrastructure.service.EternalService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />
