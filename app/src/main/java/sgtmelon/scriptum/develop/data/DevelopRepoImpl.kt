@@ -11,6 +11,7 @@ import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
+import sgtmelon.scriptum.develop.infrastructure.model.PrintItem.Preference as PrintPref
 
 /**
  * Repository which work with all application data and needed only for developers.
@@ -47,59 +48,49 @@ class DevelopRepoImpl(
         return alarmDataSource.getList().map { PrintItem.Alarm(it) }
     }
 
-    override suspend fun getPrintPreferenceList(): List<PrintItem.Preference> {
+    override suspend fun getPrintPreferenceList(): List<PrintPref> = with(preferences) {
         return listOf(
-            PrintItem.Preference.Title(R.string.pref_header_app),
-            PrintItem.Preference.Key(key.isFirstStart, def.isFirstStart, preferences.isFirstStart),
-            PrintItem.Preference.Key(key.theme, def.theme, preferences.theme),
-            PrintItem.Preference.Title(R.string.pref_title_backup),
-            PrintItem.Preference.Key(
-                key.isBackupSkipImports, def.isBackupSkipImports, preferences.isBackupSkipImports
-            ),
-            PrintItem.Preference.Title(R.string.pref_title_note),
-            PrintItem.Preference.Key(key.sort, def.sort, preferences.sort),
-            PrintItem.Preference.Key(key.defaultColor, def.defaultColor, preferences.defaultColor),
-            PrintItem.Preference.Key(
-                key.isPauseSaveOn, def.isPauseSaveOn, preferences.isPauseSaveOn
-            ),
-            PrintItem.Preference.Key(key.isAutoSaveOn, def.isAutoSaveOn, preferences.isAutoSaveOn),
-            PrintItem.Preference.Key(key.savePeriod, def.savePeriod, preferences.savePeriod),
-            PrintItem.Preference.Title(R.string.pref_title_alarm),
-            PrintItem.Preference.Key(key.repeat, def.repeat, preferences.repeat),
-            PrintItem.Preference.Key(key.signal, def.signal, preferences.signal),
-            PrintItem.Preference.Key(key.melodyUri, def.melodyUri, preferences.melodyUri),
-            PrintItem.Preference.Key(
-                key.volumePercent,
-                def.volumePercent,
-                preferences.volumePercent
-            ),
-            PrintItem.Preference.Key(
-                key.isVolumeIncrease, def.isVolumeIncrease, preferences.isVolumeIncrease
-            ),
-            PrintItem.Preference.Title(R.string.pref_header_other),
-            PrintItem.Preference.Key(key.isDeveloper, def.isDeveloper, preferences.isDeveloper)
+            PrintPref.Title(R.string.pref_header_app),
+            PrintPref.Key(key.isFirstStart, def.isFirstStart, isFirstStart),
+            PrintPref.Key(key.theme, def.theme, theme),
+            PrintPref.Title(R.string.pref_title_backup),
+            PrintPref.Key(key.isBackupSkipImports, def.isBackupSkipImports, isBackupSkipImports),
+            PrintPref.Title(R.string.pref_title_note),
+            PrintPref.Key(key.sort, def.sort, sort),
+            PrintPref.Key(key.defaultColor, def.defaultColor, defaultColor),
+            PrintPref.Key(key.isPauseSaveOn, def.isPauseSaveOn, isPauseSaveOn),
+            PrintPref.Key(key.isAutoSaveOn, def.isAutoSaveOn, isAutoSaveOn),
+            PrintPref.Key(key.savePeriod, def.savePeriod, savePeriod),
+            PrintPref.Title(R.string.pref_title_alarm),
+            PrintPref.Key(key.repeat, def.repeat, repeat),
+            PrintPref.Key(key.signal, def.signal, signal),
+            PrintPref.Key(key.melodyUri, def.melodyUri, melodyUri),
+            PrintPref.Key(key.volumePercent, def.volumePercent, volumePercent),
+            PrintPref.Key(key.isVolumeIncrease, def.isVolumeIncrease, isVolumeIncrease),
+            PrintPref.Title(R.string.pref_header_other),
+            PrintPref.Key(key.isDeveloper, def.isDeveloper, isDeveloper)
         )
     }
 
-    override suspend fun getPrintFileList(): List<PrintItem.Preference> {
+    override suspend fun getPrintFileList(): List<PrintPref> {
         val list = mutableListOf(
-            PrintItem.Preference.Title(R.string.pref_header_path_save),
-            PrintItem.Preference.Path(fileDataSource.saveDirectory)
+            PrintPref.Title(R.string.pref_header_path_save),
+            PrintPref.Path(fileDataSource.saveDirectory)
         )
 
-        list.add(PrintItem.Preference.Title(R.string.pref_header_path_files))
+        list.add(PrintPref.Title(R.string.pref_header_path_files))
         for (it in fileDataSource.getExternalFiles()) {
-            list.add(PrintItem.Preference.Path(it))
+            list.add(PrintPref.Path(it))
         }
 
-        list.add(PrintItem.Preference.Title(R.string.pref_header_path_cache))
+        list.add(PrintPref.Title(R.string.pref_header_path_cache))
         for (it in fileDataSource.getExternalCache()) {
-            list.add(PrintItem.Preference.Path(it))
+            list.add(PrintPref.Path(it))
         }
 
-        list.add(PrintItem.Preference.Title(R.string.pref_header_backup_files))
+        list.add(PrintPref.Title(R.string.pref_header_backup_files))
         for (it in fileDataSource.getBackupFileList()) {
-            list.add(PrintItem.Preference.File(it))
+            list.add(PrintPref.File(it))
         }
 
         return list
