@@ -10,11 +10,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
@@ -24,6 +19,11 @@ import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.database.Database
+import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
+import sgtmelon.scriptum.infrastructure.database.DbData.Note
+import sgtmelon.scriptum.infrastructure.database.DbData.Rank
+import sgtmelon.scriptum.infrastructure.database.DbData.Roll
+import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.test.prod.RunPrivate
 

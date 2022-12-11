@@ -17,10 +17,10 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.domain.model.result.ParserResult
+import sgtmelon.scriptum.infrastructure.database.DbData
 import sgtmelon.scriptum.infrastructure.model.exception.BackupParserException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.nextString

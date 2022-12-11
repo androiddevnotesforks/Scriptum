@@ -5,9 +5,9 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.extensions.getCalendarText
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.extension.getText
+import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
+import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.testing.parent.ParentTest

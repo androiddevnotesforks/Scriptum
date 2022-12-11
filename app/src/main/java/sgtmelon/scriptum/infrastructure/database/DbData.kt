@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.data
+package sgtmelon.scriptum.infrastructure.database
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.backup.BackupParserImpl
@@ -127,9 +127,7 @@ object DbData {
 
         const val INDEX_NAME = "${TABLE}_NAME_INDEX"
 
-        /**
-         * This values not for dataBase. Only for [RankItem].
-         */
+        /** This values not for dataBase. Only for [RankItem]. */
         const val BIND_COUNT = "${PREFIX}_BIND_COUNT"
         const val NOTIFICATION_COUNT = "${PREFIX}_NOTIFICATION_COUNT"
 
@@ -140,9 +138,7 @@ object DbData {
             const val NAME = ""
             const val VISIBLE = true
 
-            /**
-             * This values not for dataBase. Only for [RankItem].
-             */
+            /** This values not for dataBase. Only for [RankItem]. */
             const val BIND_COUNT = 0
             const val NOTIFICATION_COUNT = 0
         }

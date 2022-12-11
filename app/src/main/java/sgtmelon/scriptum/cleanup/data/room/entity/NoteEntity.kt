@@ -4,12 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Default
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Room
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
+import sgtmelon.scriptum.infrastructure.database.DbData.Note
+import sgtmelon.scriptum.infrastructure.database.DbData.Note.Default
+import sgtmelon.scriptum.infrastructure.database.DbData.Note.Room
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 

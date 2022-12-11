@@ -6,10 +6,10 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm.Default
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm.Room
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
+import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
+import sgtmelon.scriptum.infrastructure.database.DbData.Alarm.Default
+import sgtmelon.scriptum.infrastructure.database.DbData.Alarm.Room
+import sgtmelon.scriptum.infrastructure.database.DbData.Note
 
 /**
  * Entity of note alarm.

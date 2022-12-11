@@ -5,7 +5,6 @@ import java.util.Calendar
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteAfterConvert
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.infrastructure.database.DbData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.model.key.NoteState

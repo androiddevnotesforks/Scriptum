@@ -9,8 +9,8 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm as AlarmDb
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note as NoteDb
+import sgtmelon.scriptum.infrastructure.database.DbData.Alarm as AlarmDb
+import sgtmelon.scriptum.infrastructure.database.DbData.Note as NoteDb
 
 /**
  * Model for store short information about note and alarm, use in [NotificationAdapter].

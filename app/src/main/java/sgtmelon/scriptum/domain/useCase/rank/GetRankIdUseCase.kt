@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.useCase.rank
 
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData
+import sgtmelon.scriptum.infrastructure.database.DbData
 
 class GetRankIdUseCase(private val repository: RankRepo) {
 

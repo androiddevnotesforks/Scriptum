@@ -4,7 +4,7 @@ import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll.Default
+import sgtmelon.scriptum.infrastructure.database.DbData.Roll.Default
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 

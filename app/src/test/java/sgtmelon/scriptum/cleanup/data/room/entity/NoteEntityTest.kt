@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.data.room.entity
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Default
+import sgtmelon.scriptum.infrastructure.database.DbData.Note.Default
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**

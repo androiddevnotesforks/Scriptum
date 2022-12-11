@@ -7,11 +7,11 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll.Default
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll.Room
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
+import sgtmelon.scriptum.infrastructure.database.DbData.Note
+import sgtmelon.scriptum.infrastructure.database.DbData.Roll
+import sgtmelon.scriptum.infrastructure.database.DbData.Roll.Default
+import sgtmelon.scriptum.infrastructure.database.DbData.Roll.Room
 
 /**
  * Entity of element in check list note.

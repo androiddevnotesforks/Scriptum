@@ -4,8 +4,8 @@ import java.util.Calendar
 import sgtmelon.extensions.toText
 import sgtmelon.safedialog.dialog.OptionsDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.infrastructure.database.DbData
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.scriptum.parent.ui.parts.UiPart

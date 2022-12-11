@@ -5,11 +5,11 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Default
-import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Room
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
 import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
+import sgtmelon.scriptum.infrastructure.database.DbData.Rank
+import sgtmelon.scriptum.infrastructure.database.DbData.Rank.Default
+import sgtmelon.scriptum.infrastructure.database.DbData.Rank.Room
 
 /**
  * Entity of category.
