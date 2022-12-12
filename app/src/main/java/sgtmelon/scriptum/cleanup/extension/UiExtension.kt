@@ -11,6 +11,7 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.setDefaultAnimator
+import sgtmelon.test.idling.getWaitIdling
 
 fun ViewGroup.createVisibleAnim(
     target: View?,
@@ -21,13 +22,12 @@ fun ViewGroup.createVisibleAnim(
 
     if (target == null || target.visibility == visibility) return@let
 
-    val time = context.resources.getInteger(durationId)
-    val transition = Fade().setDuration(time.toLong()).addTarget(target)
-    // TODO add idling
-    //        .addIdlingListener()
+    val time = context.resources.getInteger(durationId).toLong()
+    val transition = Fade().setDuration(time).addTarget(target)
 
     TransitionManager.beginDelayedTransition(it, transition)
 
+    getWaitIdling().start(time)
     target.visibility = visibility
 }
 

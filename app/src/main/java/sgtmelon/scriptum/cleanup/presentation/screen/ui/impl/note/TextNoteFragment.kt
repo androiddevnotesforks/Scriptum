@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.transition.Fade
@@ -36,6 +35,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
+import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Fragment for display text note.
@@ -62,15 +62,11 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     /**
      * Setup manually because after rotation lazy function will return null.
      */
-    private var parentContainer: ViewGroup? = null
-    private var nameEnter: EditText? = null
-    private var textEnter: EditText? = null
-    private var panelContainer: ViewGroup? = null
+    private val nameEnter: EditText?
+        get() = binding?.toolbarInclude?.contentInclude?.toolbarNoteEnter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupView(view)
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
     }
 
@@ -79,11 +75,6 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
             .set(fragment = this)
             .build()
             .inject(fragment = this)
-    }
-
-    private fun setupView(view: View) {
-        parentContainer = view.findViewById(R.id.text_note_parent_container)
-        panelContainer = view.findViewById(R.id.note_panel_container)
     }
 
     override fun onResume() {
@@ -172,38 +163,38 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     }
 
     override fun setupEnter(inputControl: IInputControl) {
-        nameEnter = view?.findViewById(R.id.toolbar_note_enter)
-        view?.findViewById<View>(R.id.toolbar_note_scroll)?.requestFocusOnVisible(nameEnter)
+        binding?.toolbarInclude?.contentInclude?.toolbarNoteScroll?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(
                     InputTextWatcher(it, InputAction.NAME, viewModel, inputControl)
             )
             it.addOnNextAction {
-                textEnter?.apply {
+                binding?.textNoteContentEnter?.apply {
                     requestFocus()
                     setSelection(text.toString().length)
                 }
             }
         }
 
-        textEnter = view?.findViewById(R.id.text_note_content_enter)
-        view?.findViewById<View>(R.id.text_note_content_scroll)?.requestFocusOnVisible(textEnter)
+        binding?.textNoteContentScroll?.requestFocusOnVisible(binding?.textNoteContentEnter)
 
-        textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputAction.TEXT, viewModel, inputControl)
+        val inputWatcher = InputTextWatcher(
+            binding?.textNoteContentEnter,
+            InputAction.TEXT,
+            viewModel,
+            inputControl
         )
+        binding?.textNoteContentEnter?.addTextChangedListener(inputWatcher)
     }
 
 
     override fun onBindingLoad(isRankEmpty: Boolean) {
-        parentContainer?.let {
-            val time = resources.getInteger(R.integer.note_open_time)
-            val transition = Fade().setDuration(time.toLong())
-            // TODO add idling
-            //                .addIdlingListener()
-
+        binding?.textNoteParentContainer?.let {
+            val time = resources.getInteger(R.integer.note_open_time).toLong()
+            val transition = Fade().setDuration(time)
             TransitionManager.beginDelayedTransition(it, transition)
+            getWaitIdling().start(time)
         }
 
         binding?.apply {
@@ -217,9 +208,10 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     }
 
     override fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean) {
-        panelContainer?.let {
+        binding?.panelInclude?.notePanelContainer?.let {
             val time = resources.getInteger(R.integer.note_change_time).toLong()
             TransitionManager.beginDelayedTransition(it, Fade().setDuration(time))
+            getWaitIdling().start(time)
         }
 
         binding?.apply {
@@ -251,10 +243,12 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     }
 
     override fun focusOnEdit(isCreate: Boolean) {
-        if (isCreate) {
-            view?.post { nameEnter?.requestSelectionFocus() }
-        } else {
-            view?.post { textEnter?.requestSelectionFocus() }
+        view?.post {
+            if (isCreate) {
+                nameEnter?.requestSelectionFocus()
+            } else {
+                binding?.textNoteContentEnter?.requestSelectionFocus()
+            }
         }
     }
 
@@ -267,7 +261,7 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     }
 
     override fun changeText(text: String, cursor: Int) {
-        textEnter?.apply {
+        binding?.textNoteContentEnter?.apply {
             requestFocus()
             setText(text)
             setSelection(cursor)

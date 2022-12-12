@@ -42,6 +42,7 @@ fun EditText.requestSelectionFocus() {
     showKeyboard()
 }
 
+// TODO rename: addRequestFocusOnTouchIfVisible (или что-то такое, а то сейчас не очень понятно, что это слушатель)
 @SuppressLint("ClickableViewAccessibility")
 fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, event ->
     if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false

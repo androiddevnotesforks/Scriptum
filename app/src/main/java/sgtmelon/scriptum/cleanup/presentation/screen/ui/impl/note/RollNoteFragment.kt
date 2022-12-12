@@ -56,6 +56,7 @@ import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
+import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Fragment for display roll note.
@@ -314,12 +315,10 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
 
     override fun onBindingLoad(isRankEmpty: Boolean) {
         parentContainer?.let {
-            val time = resources.getInteger(R.integer.note_open_time)
-            val transition = Fade().setDuration(time.toLong())
-            // TODO add idling
-            //                .addIdlingListener()
-
+            val time = resources.getInteger(R.integer.note_open_time).toLong()
+            val transition = Fade().setDuration(time)
             TransitionManager.beginDelayedTransition(it, transition)
+            getWaitIdling().start(time)
         }
 
         binding?.apply {
@@ -339,6 +338,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
         panelContainer?.let {
             val time = resources.getInteger(R.integer.note_change_time).toLong()
             TransitionManager.beginDelayedTransition(it, Fade().setDuration(time))
+            getWaitIdling().start(time)
         }
 
         binding?.apply {
