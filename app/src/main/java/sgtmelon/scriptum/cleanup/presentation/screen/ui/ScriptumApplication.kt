@@ -1,10 +1,8 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui
 
 import android.app.Application
-import android.content.Context
 import sgtmelon.scriptum.cleanup.dagger.component.DaggerScriptumComponent
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.infrastructure.service.EternalService
 import timber.log.Timber
 
@@ -16,9 +14,7 @@ import timber.log.Timber
  *
  * 1. Inside fragment setup view's ONLY manually. Inside activity setup view's with lazy func.
  *    Need setup manually because after rotation lazy function will return null.
- *
- * 2. Use [initLazy] for properties which contains [Context] in constructor.
- *    Troubles happen after rotation if property wasn't initialized.
+ *    (TODO refactor with binding)
  */
 class ScriptumApplication : Application() {
 

@@ -16,7 +16,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
-import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
@@ -73,7 +72,8 @@ class SaveControlImplTest : ParentCoTest() {
         FastMock.fireExtensions()
         every { any<ArrayIndexOutOfBoundsException>().record() } returns mockk()
 
-        saveControl.initLazy()
+        /** toString needed for somehow call class initialization */
+        saveControl.toString()
 
         verifySequence {
             resources.getIntArray(R.array.pref_note_save_period_array)
@@ -86,7 +86,8 @@ class SaveControlImplTest : ParentCoTest() {
     @Test fun `normal setup situation with intArray and repeat enum`() {
         val (period, _) = mockkPeriodTime()
 
-        saveControl.initLazy()
+        /** toString needed for somehow call class initialization */
+        saveControl.toString()
 
         verifySequence {
             verifyPeriodTime(period)
