@@ -4,6 +4,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
@@ -11,7 +12,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.ge
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
-import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
@@ -206,7 +206,7 @@ class RollNoteViewModel(
     override fun onEditorClick(i: Int): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        val enterText = callback?.getEnterText()?.clearSpace() ?: ""
+        val enterText = callback?.getEnterText()?.removeExtraSpace() ?: ""
 
         if (enterText.isEmpty()) {
             onMenuSave(changeMode = true)
@@ -224,7 +224,7 @@ class RollNoteViewModel(
     override fun onClickAdd(simpleClick: Boolean) {
         if (callback?.isDialogOpen == true || !noteState.isEdit) return
 
-        val enterText = callback?.getEnterText()?.clearSpace() ?: ""
+        val enterText = callback?.getEnterText()?.removeExtraSpace() ?: ""
 
         if (enterText.isEmpty()) return
 

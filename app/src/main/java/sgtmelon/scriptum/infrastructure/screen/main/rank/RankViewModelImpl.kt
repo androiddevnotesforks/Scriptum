@@ -7,10 +7,10 @@ import kotlin.math.max
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.domain.useCase.rank.CorrectRankPositionsUseCase
@@ -74,7 +74,7 @@ class RankViewModelImpl(
     }
 
     override fun getToolbarEnable(name: String): Pair<Boolean, Boolean> {
-        val clearName = name.clearSpace().uppercase()
+        val clearName = name.removeExtraSpace().uppercase()
 
         val isClearEnable = name.isNotEmpty()
         val isAddEnable = clearName.isNotEmpty() && !uniqueNameList.contains(clearName)
@@ -87,7 +87,7 @@ class RankViewModelImpl(
     }
 
     override fun addRank(enter: String, toBottom: Boolean): Flow<AddState> = flowOnBack {
-        val name = enter.clearSpace()
+        val name = enter.removeExtraSpace()
 
         if (!isValidName(name)) {
             emit(AddState.Deny)

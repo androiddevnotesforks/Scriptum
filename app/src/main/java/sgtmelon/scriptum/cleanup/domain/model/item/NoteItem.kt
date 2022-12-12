@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 
 import kotlin.math.min
 import sgtmelon.extensions.getCalendarText
-import sgtmelon.scriptum.cleanup.extension.clearSpace
+import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.extension.copy
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
@@ -164,7 +164,7 @@ sealed class NoteItem(
 
 
         fun onSave() = apply {
-            name = name.clearSpace()
+            name = name.removeExtraSpace()
             updateTime()
         }
 
@@ -259,15 +259,15 @@ sealed class NoteItem(
 
         fun onSave() {
             list.apply {
-                removeAll { it.text.clearSpace().isEmpty() }
+                removeAll { it.text.removeExtraSpace().isEmpty() }
 
                 for ((i, item) in withIndex()) {
                     item.position = i
-                    item.text = item.text.clearSpace()
+                    item.text = item.text.removeExtraSpace()
                 }
             }
 
-            name = name.clearSpace()
+            name = name.removeExtraSpace()
             updateTime()
             updateComplete()
         }

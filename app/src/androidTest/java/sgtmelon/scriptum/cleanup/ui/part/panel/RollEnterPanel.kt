@@ -2,10 +2,10 @@ package sgtmelon.scriptum.cleanup.ui.part.panel
 
 import android.view.inputmethod.EditorInfo
 import kotlin.random.Random
+import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
@@ -60,7 +60,7 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
         callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             onEnterText(text)
 
-            val actualText = text.clearSpace()
+            val actualText = text.removeExtraSpace()
 
             if (Random.nextBoolean()) {
                 addButton.click()
@@ -86,7 +86,7 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
 
     fun onImeOptionEnter() {
         callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
-            val actualText = enterText.clearSpace()
+            val actualText = enterText.removeExtraSpace()
 
             textEnter.imeOption()
 
@@ -134,7 +134,7 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
                     }
                 }
 
-        val addEnable = enterText.clearSpace().isNotEmpty()
+        val addEnable = enterText.removeExtraSpace().isNotEmpty()
         val addTint = if (addEnable) R.attr.clAccent else R.attr.clDisable
         addButton.isDisplayed(visible).isEnabled(addEnable)
                 .withDrawableAttr(R.drawable.ic_add, addTint)

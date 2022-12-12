@@ -19,6 +19,7 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import java.util.Calendar
 import javax.inject.Inject
+import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
@@ -29,7 +30,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
-import sgtmelon.scriptum.cleanup.extension.clearSpace
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
@@ -354,7 +354,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
     override fun onBindingEnter() {
-        binding?.isEnterEmpty = getEnterText().clearSpace().isEmpty()
+        binding?.isEnterEmpty = getEnterText().removeExtraSpace().isEmpty()
         binding?.executePendingBindings()
     }
 

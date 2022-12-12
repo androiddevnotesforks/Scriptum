@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import sgtmelon.extensions.getColorAttr
+import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.showKeyboard
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.clearSpace
 
 /**
  * Dialog with EditText for rename category.
@@ -29,7 +29,7 @@ class RenameDialog : BlankDialog(),
     var position = DEF_POSITION
         private set
 
-    val name: String get() = nameEnter?.text?.toString()?.clearSpace() ?: ""
+    val name: String get() = nameEnter?.text?.toString()?.removeExtraSpace() ?: ""
 
     fun setArguments(p: Int, title: String, nameList: List<String>) = apply {
         arguments = Bundle().apply {
