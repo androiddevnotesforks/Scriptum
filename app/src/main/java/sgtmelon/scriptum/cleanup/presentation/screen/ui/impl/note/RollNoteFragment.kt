@@ -1,15 +1,11 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note
 
-import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -107,24 +103,13 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
-    private var parentContainer: ViewGroup? = null
-    private var panelContainer: ViewGroup? = null
-    private var emptyInfoView: View? = null
-
-    /**
-     * Setup manually because after rotation lazy function will return null.
-     */
-    private var nameEnter: EditText? = null
-    private var rollEnter: EditText? = null
-    private var recyclerView: RecyclerView? = null
-    private var rollProgress: ProgressBar? = null
+    private val nameEnter: EditText?
+        get() = binding?.toolbarInclude?.contentInclude?.toolbarNoteEnter
 
     private var visibleMenuItem: MenuItem? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupView(view)
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
     }
 
@@ -133,12 +118,6 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
             .set(fragment = this)
             .build()
             .inject(fragment = this)
-    }
-
-    private fun setupView(view: View) {
-        parentContainer = view.findViewById(R.id.roll_note_parent_container)
-        panelContainer = view.findViewById(R.id.note_panel_container)
-        emptyInfoView = view.findViewById(R.id.info_include)
     }
 
     override fun onResume() {
@@ -191,8 +170,8 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
     override fun setupToolbar(color: Color) {
-        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_content_container)
-        val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
+        val toolbar: Toolbar? = binding?.toolbarInclude?.contentInclude?.toolbarNoteContentContainer
+        val indicator: View? = binding?.toolbarInclude?.toolbarNoteColorView
 
         toolbar?.inflateMenu(R.menu.fragment_roll_note)
         visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
@@ -241,8 +220,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
     override fun setupEnter(inputControl: IInputControl) {
-        nameEnter = view?.findViewById(R.id.toolbar_note_enter)
-        view?.findViewById<View>(R.id.toolbar_note_scroll)?.requestFocusOnVisible(nameEnter)
+        binding?.toolbarInclude?.contentInclude?.toolbarNoteScroll?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(
@@ -252,8 +230,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
             it.addOnNextAction { onFocusEnter() }
         }
 
-        rollEnter = view?.findViewById(R.id.roll_add_panel_enter)
-        rollEnter?.apply {
+        binding?.addInclude?.rollAddPanelEnter?.apply {
             setRawInputType(
                 InputType.TYPE_CLASS_TEXT
                         or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
@@ -266,7 +243,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
             setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
         }
 
-        view?.findViewById<ImageButton>(R.id.roll_add_panel_button)?.apply {
+        binding?.addInclude?.rollAddPanelButton?.apply {
             setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
             setOnLongClickListener {
                 viewModel.onClickAdd(simpleClick = false)
@@ -289,8 +266,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
             })
         }
 
-        recyclerView = view?.findViewById(R.id.roll_note_recycler)
-        recyclerView?.let {
+        binding?.rollNoteRecycler?.let {
             it.setFirstRunAnimation(
                 isFirstRun, R.anim.layout_item_roll, supportsChangeAnimations = false
             ) { viewModel.onUpdateInfo() }
@@ -301,11 +277,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
             it.adapter = adapter
         }
 
-        ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
-    }
-
-    override fun setupProgress() {
-        rollProgress = view?.findViewById(R.id.roll_note_progress)
+        ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.rollNoteRecycler)
     }
 
     override fun showToolbarVisibleIcon(isShow: Boolean) {
@@ -314,7 +286,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
 
 
     override fun onBindingLoad(isRankEmpty: Boolean) {
-        parentContainer?.let {
+        binding?.rollNoteParentContainer?.let {
             val time = resources.getInteger(R.integer.note_open_time).toLong()
             val transition = Fade().setDuration(time)
             TransitionManager.beginDelayedTransition(it, transition)
@@ -335,7 +307,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
     override fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean) {
-        panelContainer?.let {
+        binding?.panelInclude?.notePanelContainer?.let {
             val time = resources.getInteger(R.integer.note_change_time).toLong()
             TransitionManager.beginDelayedTransition(it, Fade().setDuration(time))
             getWaitIdling().start(time)
@@ -392,17 +364,23 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
 
+    // TODO remove this way of animation
     override fun animateInfoVisible(isVisible: Boolean?) {
         val isListEmpty = adapter.itemCount == 0
 
-        parentContainer?.createVisibleAnim(emptyInfoView, isVisible = isVisible ?: isListEmpty)
+        binding?.rollNoteParentContainer?.createVisibleAnim(
+            binding?.infoInclude?.root,
+            isVisible = isVisible ?: isListEmpty
+        )
     }
 
     override fun focusOnEdit(isCreate: Boolean) {
-        if (isCreate) {
-            view?.post { nameEnter?.requestSelectionFocus() }
-        } else {
-            view?.post { rollEnter?.requestSelectionFocus() }
+        view?.post {
+            if (isCreate) {
+                nameEnter?.requestSelectionFocus()
+            } else {
+                binding?.addInclude?.rollAddPanelEnter?.requestSelectionFocus()
+            }
         }
     }
 
@@ -415,16 +393,16 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     }
 
     override fun onFocusEnter() {
-        rollEnter?.apply {
+        binding?.addInclude?.rollAddPanelEnter?.apply {
             requestFocus()
             setSelection(text.toString().length)
         }
     }
 
-    override fun getEnterText() = rollEnter?.text?.toString() ?: ""
+    override fun getEnterText() = binding?.addInclude?.rollAddPanelEnter?.text?.toString() ?: ""
 
     override fun clearEnterText() {
-        rollEnter?.setText("")
+        binding?.addInclude?.rollAddPanelEnter?.setText("")
     }
 
 
@@ -440,28 +418,23 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
         }
 
         if (smoothInsert) {
-            recyclerView?.scrollToPosition(p)
+            binding?.rollNoteRecycler?.scrollToPosition(p)
             adapter.setList(list).notifyItemInserted(p)
         } else {
-            recyclerView?.smoothScrollToPosition(p)
+            binding?.rollNoteRecycler?.smoothScrollToPosition(p)
             adapter.setList(list)
-            recyclerView?.post { adapter.notifyDataSetChanged() }
+            binding?.rollNoteRecycler?.post { adapter.notifyDataSetChanged() }
         }
     }
 
     override fun updateNoteState(noteState: NoteState) {
         adapter.noteState = noteState
-        recyclerView?.post { adapter.notifyDataSetChanged() }
+        binding?.rollNoteRecycler?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun updateProgress(progress: Int, max: Int) {
-        rollProgress?.max = max
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            rollProgress?.setProgress(progress, true)
-        } else {
-            rollProgress?.progress = progress
-        }
+        binding?.rollNoteProgress?.max = max
+        binding?.rollNoteProgress?.setProgress(progress, true)
     }
 
     override fun setList(list: List<RollItem>) {
@@ -470,7 +443,7 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
 
     override fun notifyDataSetChanged(list: List<RollItem>) {
         adapter.setList(list)
-        recyclerView?.post { adapter.notifyDataSetChanged() }
+        binding?.rollNoteRecycler?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun notifyDataRangeChanged(list: List<RollItem>) {

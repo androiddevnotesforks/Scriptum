@@ -29,8 +29,6 @@ interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
 
     fun setupRecycler(inputControl: IInputControl, isFirstRun: Boolean)
 
-    fun setupProgress()
-
     /**
      * Need hide toolbar visible icon before information completely load.
      */

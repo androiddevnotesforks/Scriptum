@@ -26,6 +26,7 @@
         style="@style/Toolbar.Flex">
 
         <include
+            android:id="@+id/content_include"
             layout="@layout/inc_toolbar_note_content"
             app:isDataLoad="@{isDataLoad}"
             app:isEditMode="@{isEditMode}"

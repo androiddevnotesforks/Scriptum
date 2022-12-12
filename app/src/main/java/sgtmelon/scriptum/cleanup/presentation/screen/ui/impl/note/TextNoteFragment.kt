@@ -59,9 +59,6 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     private val timeDialog by lazy { dialogs.getTime() }
     private val convertDialog by lazy { dialogs.getConvert(NoteType.TEXT) }
 
-    /**
-     * Setup manually because after rotation lazy function will return null.
-     */
     private val nameEnter: EditText?
         get() = binding?.toolbarInclude?.contentInclude?.toolbarNoteEnter
 
@@ -118,8 +115,8 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     }
 
     override fun setupToolbar(color: Color) {
-        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_content_container)
-        val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
+        val toolbar: Toolbar? = binding?.toolbarInclude?.contentInclude?.toolbarNoteContentContainer
+        val indicator: View? = binding?.toolbarInclude?.toolbarNoteColorView
 
         activity?.let {
             tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
