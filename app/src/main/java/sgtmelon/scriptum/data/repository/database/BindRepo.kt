@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.repository.room.callback
+package sgtmelon.scriptum.data.repository.database
 
 interface BindRepo {
 

@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.dagger.module.domain
 
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.data.repository.database.BindRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.bind.GetBindNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.bind.GetNotificationCountUseCase

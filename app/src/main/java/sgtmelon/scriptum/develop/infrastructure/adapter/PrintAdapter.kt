@@ -20,8 +20,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 /**
  * Adapter which displays list of [PrintItem]'s.
  */
-class PrintAdapter :
-    ParentListAdapter<PrintItem, RecyclerView.ViewHolder>(sgtmelon.scriptum.develop.infrastructure.adapter.PrintDiff()) {
+class PrintAdapter : ParentListAdapter<PrintItem, RecyclerView.ViewHolder>(PrintDiff()) {
 
     override fun getListCopy(list: List<PrintItem>): List<PrintItem> {
         return ArrayList(list.map {

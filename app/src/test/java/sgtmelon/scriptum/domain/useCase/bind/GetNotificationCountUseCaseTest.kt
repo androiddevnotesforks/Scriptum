@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
+import sgtmelon.scriptum.data.repository.database.BindRepo
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**

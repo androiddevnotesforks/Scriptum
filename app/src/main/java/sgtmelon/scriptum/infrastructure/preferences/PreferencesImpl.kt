@@ -26,9 +26,7 @@ class PreferencesImpl(
 
     // Backup settings
 
-    /**
-     * Change of this variable happen inside preference.xml screen (or inside UI tests).
-     */
+    /** Change of this variable happen inside preference.xml screen (or inside UI tests). */
     override var isBackupSkipImports: Boolean
         get() = preferences.getBoolean(key.isBackupSkipImports, def.isBackupSkipImports)
         set(value) = edit { putBoolean(key.isBackupSkipImports, value) }
@@ -43,16 +41,12 @@ class PreferencesImpl(
         get() = preferences.getInt(key.defaultColor, def.defaultColor)
         set(value) = edit { putInt(key.defaultColor, value) }
 
-    /**
-     * Change of this variable happen inside preference.xml screen (or inside UI tests).
-     */
+    /** Change of this variable happen inside preference.xml screen (or inside UI tests). */
     override var isPauseSaveOn: Boolean
         get() = preferences.getBoolean(key.isPauseSaveOn, def.isPauseSaveOn)
         set(value) = edit { putBoolean(key.isPauseSaveOn, value) }
 
-    /**
-     * Change of this variable happen inside preference.xml screen (or inside UI tests).
-     */
+    /** Change of this variable happen inside preference.xml screen (or inside UI tests). */
     override var isAutoSaveOn: Boolean
         get() = preferences.getBoolean(key.isAutoSaveOn, def.isAutoSaveOn)
         set(value) = edit { putBoolean(key.isAutoSaveOn, value) }
@@ -79,9 +73,7 @@ class PreferencesImpl(
         get() = preferences.getInt(key.volumePercent, def.volumePercent)
         set(value) = edit { putInt(key.volumePercent, value) }
 
-    /**
-     * Change of this variable happen inside preference.xml screen (or inside UI tests).
-     */
+    /** Change of this variable happen inside preference.xml screen (or inside UI tests). */
     override var isVolumeIncrease: Boolean
         get() = preferences.getBoolean(key.isVolumeIncrease, def.isVolumeIncrease)
         set(value) = edit { putBoolean(key.isVolumeIncrease, value) }

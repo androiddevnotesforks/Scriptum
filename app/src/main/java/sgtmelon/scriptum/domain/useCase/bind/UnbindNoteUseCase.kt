@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.useCase.bind
 
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.BindRepo
+import sgtmelon.scriptum.data.repository.database.BindRepo
 
 class UnbindNoteUseCase(private val repository: BindRepo) {
 
