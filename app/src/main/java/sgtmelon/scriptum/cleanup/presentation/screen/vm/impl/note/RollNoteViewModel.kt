@@ -122,7 +122,6 @@ class RollNoteViewModel(
 
     override suspend fun setupAfterInitialize() {
         callback?.setupDialog(rankDialogItemArray)
-        callback?.setupProgress()
 
         mayAnimateIcon = false
         setupEditMode(noteState.isEdit)
