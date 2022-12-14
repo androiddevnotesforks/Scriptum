@@ -57,6 +57,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
 ) : ParentViewModel<C>(callback),
     IParentNoteViewModel {
 
+    //region Cleanup
+
     //region Variables
 
     /**
@@ -456,5 +458,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
 
         callback?.onBindingInput(noteItem, inputControl.access)
     }
+
+    //endregion
 
 }

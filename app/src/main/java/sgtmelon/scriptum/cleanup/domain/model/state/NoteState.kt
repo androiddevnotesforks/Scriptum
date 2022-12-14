@@ -13,3 +13,8 @@ data class NoteState(var isCreate: Boolean = ND_CREATE, var isBin: Boolean = ND_
         const val ND_BIN = false
     }
 }
+
+// TODO ПЕРВЫЙ ШАГ:
+// TODO сначала надо сделать liveData<NoteState> и сам этот стейт переделать в enum
+// TODO с ключами: CREATE, EDIT, READ, BIN
+// TODO и обновлять ui в соответствии с этим.
