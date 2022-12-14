@@ -1,12 +1,14 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note
 
 import android.os.Bundle
+import androidx.lifecycle.LiveData
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteMenu
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 
 /**
@@ -17,6 +19,14 @@ interface IParentNoteViewModel : IParentViewModel,
     INoteMenu,
     SaveControlImpl.Callback,
     InputTextWatcher.Callback {
+
+
+    val isEdit: LiveData<Boolean>
+
+    val noteState: LiveData<NoteState>
+
+    //region Cleanup
+
 
     fun onSaveData(bundle: Bundle)
 
@@ -41,5 +51,7 @@ interface IParentNoteViewModel : IParentViewModel,
     fun onResultTimeDialog(calendar: Calendar)
 
     fun onResultConvertDialog()
+
+    //endregion
 
 }

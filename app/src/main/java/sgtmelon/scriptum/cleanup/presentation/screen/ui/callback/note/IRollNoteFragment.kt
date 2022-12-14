@@ -2,10 +2,10 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
@@ -61,7 +61,7 @@ interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
 
     fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
 
-    fun updateNoteState(noteState: NoteState)
+    fun updateNoteState(isEdit: Boolean, noteState: NoteState?)
 
     fun updateProgress(progress: Int, max: Int)
 

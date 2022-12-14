@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
@@ -35,13 +34,20 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
+import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [IRollNoteFragment].
  */
 class RollNoteViewModel(
+    isEdit: Boolean,
+    noteState: NoteState,
+
+    // TODO cleanup
     callback: IRollNoteFragment,
     parentCallback: INoteConnector?,
     colorConverter: ColorConverter,
@@ -61,6 +67,9 @@ class RollNoteViewModel(
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment>(
+    isEdit, noteState,
+
+    // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId
@@ -101,7 +110,8 @@ class RollNoteViewModel(
                 noteItem = NoteItem.Roll.getCreate(defaultColor)
                 cacheData()
 
-                noteState = NoteState(isCreate = true)
+                // TODO remove
+                //                deprecatedNoteState = DeprecatedNoteState(isCreate = true)
             } else {
                 runBack { getNote(id) }?.let {
                     noteItem = it
@@ -113,7 +123,8 @@ class RollNoteViewModel(
                     return false
                 }
 
-                noteState = NoteState(isBin = noteItem.isBin)
+                // TODO remove
+                //                deprecatedNoteState = DeprecatedNoteState(isBin = noteItem.isBin)
             }
         }
 
@@ -124,7 +135,9 @@ class RollNoteViewModel(
         callback?.setupDialog(rankDialogItemArray)
 
         mayAnimateIcon = false
-        setupEditMode(noteState.isEdit)
+        setupEditMode(isEdit.value.isTrue())
+        // TODO may this is not needed?
+        //        setupEditMode(deprecatedNoteState.isEdit)
         mayAnimateIcon = true
 
         callback?.apply {
@@ -174,11 +187,15 @@ class RollNoteViewModel(
          * Foreign key can't be created without note [id].
          * Insert will happen inside [onMenuSave].
          */
-        if (!noteState.isCreate) {
+        if (noteState.value != NoteState.CREATE) {
+            // TODO remove
+            //        if (!deprecatedNoteState.isCreate) {
             viewModelScope.launch {
                 runBack { updateVisible(noteItem) }
 
-                if (!noteState.isEdit) {
+                if (isEdit.value.isFalse()) {
+                    // TODO remove
+                    //                if (!deprecatedNoteState.isEdit) {
                     callback?.sendNotifyNotesBroadcast()
                 }
             }
@@ -221,7 +238,9 @@ class RollNoteViewModel(
      * to control in Edit.
      */
     override fun onClickAdd(simpleClick: Boolean) {
-        if (callback?.isDialogOpen == true || !noteState.isEdit) return
+        if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
+        // TODO remove
+        //        if (callback?.isDialogOpen == true || !deprecatedNoteState.isEdit) return
 
         val enterText = callback?.getEnterText()?.removeExtraSpace() ?: ""
 
@@ -242,7 +261,9 @@ class RollNoteViewModel(
     }
 
     override fun onClickItemCheck(p: Int) {
-        if (noteState.isEdit) return
+        if (isEdit.value.isTrue()) return
+        // TODO remove
+        //        if (deprecatedNoteState.isEdit) return
 
         val absolutePosition = getAbsolutePosition(p) ?: return
         noteItem.onItemCheck(absolutePosition)
@@ -384,7 +405,9 @@ class RollNoteViewModel(
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false
 
-        if (!noteState.isEdit || !noteItem.isSaveEnabled()) return false
+        if (isEdit.value.isFalse() || !noteItem.isSaveEnabled()) return false
+        // TODO remove
+        //        if (!deprecatedNoteState.isEdit || !noteItem.isSaveEnabled()) return false
 
         noteItem.onSave()
 
@@ -397,7 +420,9 @@ class RollNoteViewModel(
             callback?.hideKeyboard()
             setupEditMode(isEdit = false)
             inputControl.reset()
-        } else if (noteState.isCreate) {
+        } else if (noteState.value == NoteState.CREATE) {
+            // TODO remove
+            //        } else if (deprecatedNoteState.isCreate) {
             /**
              * Change toolbar icon from arrow to cancel for auto save case.
              */
@@ -412,11 +437,17 @@ class RollNoteViewModel(
     }
 
     override suspend fun saveBackgroundWork() {
-        runBack { saveNote(noteItem, noteState.isCreate) }
+        val isCreate = noteState.value == NoteState.CREATE
+        runBack { saveNote(noteItem, isCreate) }
+        // TODO remove
+        //        runBack { saveNote(noteItem, deprecatedNoteState.isCreate) }
         cacheData()
 
-        if (noteState.isCreate) {
-            noteState.isCreate = NoteState.ND_CREATE
+        if (isCreate) {
+            noteState.postValue(NoteState.EXIST)
+            // TODO remove
+            //        if (deprecatedNoteState.isCreate) {
+            //            deprecatedNoteState.isCreate = DeprecatedNoteState.ND_CREATE
 
             id = noteItem.id
             parentCallback?.updateNoteId(id)
@@ -429,26 +460,31 @@ class RollNoteViewModel(
         }
 
         callback?.setList(getAdapterList())
-
         callback?.sendNotifyNotesBroadcast()
     }
 
     override fun setupEditMode(isEdit: Boolean) {
         inputControl.isEnabled = false
 
-        noteState.isEdit = isEdit
+        this.isEdit.postValue(isEdit)
+        // TODO remove
+        //        deprecatedNoteState.isEdit = isEdit
         callback?.apply {
+            val noteState = noteState.value
+            val notCreate = noteState != NoteState.CREATE
             setToolbarBackIcon(
-                isCancel = isEdit && !noteState.isCreate,
-                needAnim = !noteState.isCreate && mayAnimateIcon
+                isCancel = notCreate && isEdit,
+                needAnim = notCreate && mayAnimateIcon
             )
 
             onBindingEdit(noteItem, isEdit)
             onBindingInput(noteItem, inputControl.access)
-            viewModelScope.launchBack { updateNoteState(noteState) }
+            viewModelScope.launchBack { updateNoteState(isEdit, noteState) }
 
             if (isEdit) {
-                focusOnEdit(noteState.isCreate)
+                focusOnEdit(isCreate = noteState == NoteState.CREATE)
+                // TODO remove
+                //                focusOnEdit(deprecatedNoteState.isCreate)
             } else {
                 updateProgress(noteItem.getCheck(), noteItem.list.size)
             }
@@ -499,10 +535,16 @@ class RollNoteViewModel(
     }
 
     override fun onTouchGetDrag(isDragAvailable: Boolean): Boolean {
-        return noteState.isEdit && isDragAvailable
+        return isEdit.value.isTrue() && isDragAvailable
+        // TODO remove
+        //        return deprecatedNoteState.isEdit && isDragAvailable
     }
 
-    override fun onTouchGetSwipe(): Boolean = noteState.isEdit
+    override fun onTouchGetSwipe(): Boolean {
+        return isEdit.value.isTrue()
+        // TODO remove
+        //        return deprecatedNoteState.isEdit
+    }
 
     override fun onTouchDragStart() {
         callback?.hideKeyboard()

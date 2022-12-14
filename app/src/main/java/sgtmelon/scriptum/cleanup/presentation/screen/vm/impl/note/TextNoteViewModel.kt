@@ -7,7 +7,6 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -25,13 +24,20 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
+import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [ITextNoteFragment].
  */
 class TextNoteViewModel(
+    isEdit: Boolean,
+    noteState: NoteState,
+
+    // TODO cleanup
     callback: ITextNoteFragment,
     parentCallback: INoteConnector?,
     colorConverter: ColorConverter,
@@ -49,6 +55,9 @@ class TextNoteViewModel(
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment>(
+    isEdit, noteState,
+
+    // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId
@@ -75,7 +84,8 @@ class TextNoteViewModel(
                 noteItem = NoteItem.Text.getCreate(preferencesRepo.defaultColor)
                 cacheData()
 
-                noteState = NoteState(isCreate = true)
+                // TODO remove
+                //                deprecatedNoteState = DeprecatedNoteState(isCreate = true)
             } else {
                 runBack { getNote(id) }?.let {
                     noteItem = it
@@ -87,7 +97,8 @@ class TextNoteViewModel(
                     return false
                 }
 
-                noteState = NoteState(isBin = noteItem.isBin)
+                // TODO remove
+                //                deprecatedNoteState = DeprecatedNoteState(isBin = noteItem.isBin)
             }
         }
 
@@ -98,7 +109,9 @@ class TextNoteViewModel(
         callback?.setupDialog(rankDialogItemArray)
 
         mayAnimateIcon = false
-        setupEditMode(noteState.isEdit)
+        setupEditMode(isEdit.value.isTrue())
+        // TODO may this is not needed?
+        //        setupEditMode(deprecatedNoteState.isEdit)
         mayAnimateIcon = true
 
         callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
@@ -149,7 +162,9 @@ class TextNoteViewModel(
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false
 
-        if (!noteState.isEdit || !noteItem.isSaveEnabled()) return false
+        if (isEdit.value.isFalse() || !noteItem.isSaveEnabled()) return false
+        // TODO remove
+        //        if (!deprecatedNoteState.isEdit || !noteItem.isSaveEnabled()) return false
 
         noteItem.onSave()
 
@@ -157,7 +172,9 @@ class TextNoteViewModel(
             callback?.hideKeyboard()
             setupEditMode(isEdit = false)
             inputControl.reset()
-        } else if (noteState.isCreate) {
+        } else if (noteState.value == NoteState.CREATE) {
+            // TODO remove
+            //        } else if (deprecatedNoteState.isCreate) {
             /**
              * Change toolbar icon from arrow to cancel for auto save case.
              */
@@ -172,11 +189,17 @@ class TextNoteViewModel(
     }
 
     override suspend fun saveBackgroundWork() {
-        runBack { saveNote(noteItem, noteState.isCreate) }
+        val isCreate = noteState.value == NoteState.CREATE
+        runBack { saveNote(noteItem, isCreate) }
+        // TODO remove
+        //        runBack { saveNote(noteItem, deprecatedNoteState.isCreate) }
         cacheData()
 
-        if (noteState.isCreate) {
-            noteState.isCreate = NoteState.ND_CREATE
+        if (isCreate) {
+            noteState.postValue(NoteState.EXIST)
+            // TODO remove
+            //        if (deprecatedNoteState.isCreate) {
+            //            deprecatedNoteState.isCreate = DeprecatedNoteState.ND_CREATE
 
             id = noteItem.id
             parentCallback?.updateNoteId(id)
@@ -188,17 +211,22 @@ class TextNoteViewModel(
     override fun setupEditMode(isEdit: Boolean) {
         inputControl.isEnabled = false
 
-        noteState.isEdit = isEdit
+        this.isEdit.postValue(isEdit)
+        // TODO remove
+        //        deprecatedNoteState.isEdit = isEdit
+
         callback?.apply {
+            val noteState = noteState.value
+            val notCreate = noteState != NoteState.CREATE
             setToolbarBackIcon(
-                isCancel = isEdit && !noteState.isCreate,
-                needAnim = !noteState.isCreate && mayAnimateIcon
+                isCancel = notCreate && isEdit,
+                needAnim = notCreate && mayAnimateIcon
             )
 
             onBindingEdit(noteItem, isEdit)
             onBindingInput(noteItem, inputControl.access)
 
-            if (isEdit) focusOnEdit(noteState.isCreate)
+            if (isEdit) focusOnEdit(isCreate = noteState == NoteState.CREATE)
         }
 
         saveControl.isNeedSave = true

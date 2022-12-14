@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 
 import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.launch
@@ -11,7 +12,6 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
@@ -32,15 +32,23 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
+import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.test.prod.RunProtected
+import sgtmelon.scriptum.cleanup.domain.model.state.NoteState as DeprecatedNoteState
 
 /**
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
  */
 abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
+    isEdit: Boolean,
+    noteState: NoteState,
+
+    //TODO cleanup
     callback: C,
     @RunProtected var parentCallback: INoteConnector?,
     @RunProtected val colorConverter: ColorConverter,
@@ -56,6 +64,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     private val getRankId: GetRankIdUseCase
 ) : ParentViewModel<C>(callback),
     IParentNoteViewModel {
+
+    override val isEdit: MutableLiveData<Boolean> = MutableLiveData(isEdit)
+
+    override val noteState: MutableLiveData<NoteState> = MutableLiveData(noteState)
 
     //region Cleanup
 
@@ -83,7 +95,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
      */
     @RunProtected lateinit var restoreItem: N
 
-    @RunProtected var noteState = NoteState()
+    // TODO remove
+    @Deprecated("Use livedata")
+    protected var deprecatedNoteState = DeprecatedNoteState()
+
     @RunProtected var mayAnimateIcon = true
 
     /**
@@ -155,7 +170,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     }
 
     override fun onResume() {
-        if (noteState.isEdit) {
+        if (isEdit.value.isTrue()) {
+            // TODO remove
+            // if (deprecatedNoteState.isEdit) {
             saveControl.changeAutoSaveWork(isWork = true)
         }
     }
@@ -163,7 +180,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     override fun onPause() {
         if (parentCallback?.isOrientationChanging() == true) return
 
-        if (noteState.isEdit) {
+        if (isEdit.value.isTrue()) {
+            // TODO remove
+            // if (deprecatedNoteState.isEdit) {
             saveControl.onPauseSave()
             saveControl.changeAutoSaveWork(isWork = false)
         }
@@ -171,7 +190,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
 
 
     override fun onClickBackArrow() {
-        if (!noteState.isCreate && noteState.isEdit && id != Default.ID) {
+        if (!deprecatedNoteState.isCreate && isEdit.value.isTrue() && id != Default.ID) {
+            // TODO remove
+            //        if (!deprecatedNoteState.isCreate && deprecatedNoteState.isEdit && id != Default.ID) {
             callback?.hideKeyboard()
             onRestoreData()
         } else {
@@ -184,15 +205,15 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
      * FALSE - will call super.onBackPress()
      */
     override fun onPressBack(): Boolean {
-        if (!noteState.isEdit) return false
+        if (isEdit.value.isFalse()) return false
+        // TODO remove
+        //        if (!deprecatedNoteState.isEdit) return false
 
-        /**
-         * If note can't be saved and activity will be closed.
-         */
+        /** If note can't be saved and activity will be closed. */
         saveControl.isNeedSave = false
 
         return if (!onMenuSave(changeMode = true)) {
-            if (!noteState.isCreate) onRestoreData() else false
+            if (!deprecatedNoteState.isCreate) onRestoreData() else false
         } else {
             true
         }
@@ -301,7 +322,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     }
 
     override fun onMenuRestoreOpen() {
-        noteState.isBin = false
+        noteState.postValue(NoteState.EXIST)
+
+        // TODO remove
+        //        deprecatedNoteState.isBin = false
 
         noteItem.onRestore()
 
@@ -325,7 +349,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     @RunPrivate fun onMenuUndoRedo(isUndo: Boolean) {
-        if (callback?.isDialogOpen == true || !noteState.isEdit) return
+        if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
+        // TODO remove
+        //        if (callback?.isDialogOpen == true || !deprecatedNoteState.isEdit) return
 
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
@@ -374,13 +400,17 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
 
 
     override fun onMenuRank() {
-        if (!noteState.isEdit) return
+        if (isEdit.value.isFalse()) return
+        // TODO remove
+        //        if (!deprecatedNoteState.isEdit) return
 
         callback?.showRankDialog(check = noteItem.rankPs + 1)
     }
 
     override fun onMenuColor() {
-        if (!noteState.isEdit) return
+        if (isEdit.value.isFalse()) return
+        // TODO remove
+        //        if (!deprecatedNoteState.isEdit) return
 
         callback?.showColorDialog(noteItem.color)
     }
@@ -392,18 +422,24 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
 
 
     override fun onMenuNotification() {
-        if (noteState.isEdit) return
+        if (isEdit.value.isTrue()) return
+        // TODO remove
+        //        if (deprecatedNoteState.isEdit) return
 
         callback?.showDateDialog(noteItem.alarmDate.toCalendar(), noteItem.haveAlarm())
     }
 
     override fun onMenuBind() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
+        if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
+        // TODO remove
+        //        if (callback?.isDialogOpen == true || deprecatedNoteState.isEdit) return
 
         noteItem.switchStatus()
         cacheData()
 
-        callback?.onBindingEdit(noteItem, noteState.isEdit)
+        callback?.onBindingEdit(noteItem, isEdit.value.isTrue())
+        // TODO remove
+        //        callback?.onBindingEdit(noteItem, deprecatedNoteState.isEdit)
 
         viewModelScope.launch {
             runBack { updateNote(noteItem) }
@@ -413,13 +449,18 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     }
 
     override fun onMenuConvert() {
-        if (noteState.isEdit) return
+        if (isEdit.value.isTrue()) return
+
+        // TODO remove
+        //if (deprecatedNoteState.isEdit) return
 
         callback?.showConvertDialog()
     }
 
     override fun onMenuDelete() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
+        if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
+        // TODO remove
+        //        if (callback?.isDialogOpen == true || deprecatedNoteState.isEdit) return
 
         viewModelScope.launch {
             runBack { deleteNote(noteItem) }
@@ -433,7 +474,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     }
 
     override fun onMenuEdit() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
+        if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
+        // TODO remove
+        //        if (callback?.isDialogOpen == true || deprecatedNoteState.isEdit) return
 
         setupEditMode(isEdit = true)
     }

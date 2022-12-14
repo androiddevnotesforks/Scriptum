@@ -210,7 +210,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             NoteItem.Text.getCreate(defaultColor)
             spyViewModel.noteItem = noteItem
             spyViewModel.cacheData()
-            spyViewModel.noteState = NoteState(isCreate = true)
+            spyViewModel.deprecatedNoteState = NoteState(isCreate = true)
 
             spyViewModel.id = id
             spyViewModel.tryInitializeNote()
@@ -237,7 +237,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             callback.sendNotifyNotesBroadcast()
             spyViewModel.noteItem
             noteItem.isBin
-            spyViewModel.noteState = NoteState(isBin = isBin)
+            spyViewModel.deprecatedNoteState = NoteState(isBin = isBin)
         }
     }
 
@@ -255,12 +255,12 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         every { noteState.isEdit } returns isEdit
 
         spyViewModel.rankDialogItemArray = rankDialogItemArray
-        spyViewModel.noteState = noteState
+        spyViewModel.deprecatedNoteState = noteState
         spyViewModel.setupAfterInitialize()
 
         coVerifySequence {
             spyViewModel.rankDialogItemArray = rankDialogItemArray
-            spyViewModel.noteState = noteState
+            spyViewModel.deprecatedNoteState = noteState
             spyViewModel.setupAfterInitialize()
 
             spyViewModel.callback
@@ -268,7 +268,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             callback.setupDialog(rankDialogItemArray)
 
             spyViewModel.mayAnimateIcon = false
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isEdit
             spyViewModel.setupEditMode(isEdit)
             spyViewModel.mayAnimateIcon = true
@@ -468,7 +468,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         val noteItem = mockk<NoteItem.Text>()
         val noteState = mockk<NoteState>(relaxUnitFun = true)
 
-        viewModel.noteState = noteState
+        viewModel.deprecatedNoteState = noteState
         viewModel.noteItem = noteItem
 
         every { callback.isDialogOpen } returns true
@@ -507,7 +507,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         val noteState = mockk<NoteState>(relaxUnitFun = true)
         val color = mockk<Color>()
 
-        viewModel.noteState = noteState
+        viewModel.deprecatedNoteState = noteState
         viewModel.noteItem = noteItem
 
         every { noteState.isEdit } returns true
@@ -523,13 +523,13 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
         coVerifyOrder {
             spyViewModel.onMenuSave(changeMode = false)
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isEdit
             spyViewModel.noteItem
             noteItem.isSaveEnabled()
             spyViewModel.noteItem
             noteItem.onSave()
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isCreate
             spyViewModel.parentCallback
             spyViewModel.noteItem
@@ -538,13 +538,13 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.saveBackgroundWork()
 
             spyViewModel.onMenuSave(changeMode = false)
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isEdit
             spyViewModel.noteItem
             noteItem.isSaveEnabled()
             spyViewModel.noteItem
             noteItem.onSave()
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isCreate
             spyViewModel.callback
             callback.setToolbarBackIcon(isCancel = true, needAnim = true)
@@ -561,7 +561,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         val noteState = mockk<NoteState>(relaxUnitFun = true)
         val color = mockk<Color>()
 
-        viewModel.noteState = noteState
+        viewModel.deprecatedNoteState = noteState
         viewModel.noteItem = noteItem
 
         every { callback.isDialogOpen } returns false
@@ -577,7 +577,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.onMenuSave(changeMode = true)
             spyViewModel.callback
             callback.isDialogOpen
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isEdit
             spyViewModel.noteItem
             noteItem.isSaveEnabled()
@@ -605,7 +605,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         every { noteState.isCreate } returns false
 
         spyViewModel.noteItem = noteItem
-        spyViewModel.noteState = noteState
+        spyViewModel.deprecatedNoteState = noteState
         spyViewModel.saveBackgroundWork()
         assertEquals(Default.ID, spyViewModel.id)
 
@@ -618,14 +618,14 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             spyViewModel.noteItem = noteItem
-            spyViewModel.noteState = noteState
+            spyViewModel.deprecatedNoteState = noteState
             spyViewModel.saveBackgroundWork()
             spyViewModel.noteItem
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isCreate
             saveNote(noteItem, isCreate = false)
             spyViewModel.cacheData()
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isCreate
             spyViewModel.callback
             callback.sendNotifyNotesBroadcast()
@@ -633,13 +633,13 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
             spyViewModel.saveBackgroundWork()
             spyViewModel.noteItem
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isCreate
             saveNote(noteItem, isCreate = true)
             spyViewModel.cacheData()
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isCreate
-            spyViewModel.noteState
+            spyViewModel.deprecatedNoteState
             noteState.isCreate = NoteState.ND_CREATE
             spyViewModel.noteItem
             noteItem.id
@@ -675,7 +675,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         every { inputControl.access } returns access
 
         viewModel.noteItem = noteItem
-        viewModel.noteState = noteState
+        viewModel.deprecatedNoteState = noteState
         viewModel.mayAnimateIcon = mayAnimateIcon
 
         viewModel.setupEditMode(isEdit = false)

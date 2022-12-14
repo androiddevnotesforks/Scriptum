@@ -5,7 +5,6 @@ import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
@@ -13,7 +12,9 @@ import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
 /**
  * Adapter which displays list of rolls for [RollNoteFragment].
@@ -26,6 +27,7 @@ class RollAdapter(
 
     var inputControl: IInputControl? = null
 
+    var isEdit: Boolean? = null
     var noteState: NoteState? = null
 
     var cursorPosition = ND_CURSOR
@@ -55,7 +57,7 @@ class RollAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (noteState?.isEdit == true) Type.WRITE else Type.READ
+        return if (isEdit.isTrue()) Type.WRITE else Type.READ
     }
 
     @IntDef(Type.WRITE, Type.READ)

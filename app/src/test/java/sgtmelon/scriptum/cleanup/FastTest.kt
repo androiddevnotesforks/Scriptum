@@ -223,7 +223,7 @@ object FastTest {
             val noteState = mockk<NoteState>(relaxUnitFun = true)
 
             every { noteState.isEdit } returns false
-            viewModel.noteState = noteState
+            viewModel.deprecatedNoteState = noteState
             viewModel.onResume()
 
             every { noteState.isEdit } returns true
@@ -249,7 +249,7 @@ object FastTest {
 
             every { parentCallback.isOrientationChanging() } returns false
             every { noteState.isEdit } returns false
-            viewModel.noteState = noteState
+            viewModel.deprecatedNoteState = noteState
             viewModel.onPause()
 
             every { noteState.isEdit } returns true
@@ -278,7 +278,7 @@ object FastTest {
             val id = Random.nextLong()
 
             every { noteState.isCreate } returns true
-            spyViewModel.noteState = noteState
+            spyViewModel.deprecatedNoteState = noteState
             spyViewModel.onClickBackArrow()
 
             every { noteState.isCreate } returns false
@@ -295,7 +295,7 @@ object FastTest {
             verifySequence {
                 verifyInit()
 
-                spyViewModel.noteState = noteState
+                spyViewModel.deprecatedNoteState = noteState
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
@@ -334,7 +334,7 @@ object FastTest {
 
             every { noteState.isEdit } returns false
 
-            spyViewModel.noteState = noteState
+            spyViewModel.deprecatedNoteState = noteState
             assertFalse(spyViewModel.onPressBack())
 
             val restoreResult = Random.nextBoolean()
@@ -616,7 +616,7 @@ object FastTest {
             every { noteItem.onRestore() } returns noteItem
             every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
 
-            spyViewModel.noteState = noteState
+            spyViewModel.deprecatedNoteState = noteState
             spyViewModel.noteItem = noteItem
             spyViewModel.onMenuRestoreOpen()
 
@@ -683,7 +683,7 @@ object FastTest {
             val access = mockk<InputControl.Access>()
 
             spyViewModel.noteItem = noteItem
-            spyViewModel.noteState = noteState
+            spyViewModel.deprecatedNoteState = noteState
 
             every { callback.isDialogOpen } returns true
             every { noteState.isEdit } returns false
@@ -711,7 +711,7 @@ object FastTest {
                 verifyInit()
 
                 spyViewModel.noteItem = noteItem
-                spyViewModel.noteState = noteState
+                spyViewModel.deprecatedNoteState = noteState
 
                 spyViewModel.onMenuUndoRedo(isUndo)
                 spyViewModel.callback
@@ -857,7 +857,7 @@ object FastTest {
             every { noteItem.rankPs } returns rankPs
 
             viewModel.noteItem = noteItem
-            viewModel.noteState = noteState
+            viewModel.deprecatedNoteState = noteState
 
             every { noteState.isEdit } returns false
             viewModel.onMenuRank()
@@ -886,7 +886,7 @@ object FastTest {
             every { noteItem.color } returns color
 
             viewModel.noteItem = noteItem
-            viewModel.noteState = noteState
+            viewModel.deprecatedNoteState = noteState
 
             every { noteState.isEdit } returns false
             viewModel.onMenuColor()
@@ -921,7 +921,7 @@ object FastTest {
             every { alarmDate.toCalendar() } returns calendar
 
             viewModel.noteItem = noteItem
-            viewModel.noteState = noteState
+            viewModel.deprecatedNoteState = noteState
 
             every { noteState.isEdit } returns false
             viewModel.onMenuNotification()
@@ -1004,7 +1004,7 @@ object FastTest {
 
             val noteState = mockk<NoteState>()
 
-            viewModel.noteState = noteState
+            viewModel.deprecatedNoteState = noteState
 
             every { noteState.isEdit } returns false
             viewModel.onMenuConvert()
@@ -1028,7 +1028,7 @@ object FastTest {
             val noteState = mockk<NoteState>()
 
             viewModel.noteItem = noteItem
-            viewModel.noteState = noteState
+            viewModel.deprecatedNoteState = noteState
 
             every { callback.isDialogOpen } returns true
             every { noteState.isEdit } returns true
@@ -1071,7 +1071,7 @@ object FastTest {
 
             every { spyViewModel.setupEditMode(isEdit = true) } returns Unit
 
-            spyViewModel.noteState = noteState
+            spyViewModel.deprecatedNoteState = noteState
 
             every { callback.isDialogOpen } returns true
             every { noteState.isEdit } returns true
@@ -1092,7 +1092,7 @@ object FastTest {
             verifySequence {
                 verifyInit()
 
-                spyViewModel.noteState = noteState
+                spyViewModel.deprecatedNoteState = noteState
 
                 spyViewModel.onMenuEdit()
                 spyViewModel.callback
