@@ -534,10 +534,19 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     //endregion
 
     companion object {
-        operator fun get(id: Long, color: Color) = RollNoteFragment().apply {
-            arguments = Bundle().apply {
-                putLong(Note.Intent.ID, id)
-                putInt(Note.Intent.COLOR, color.ordinal)
+        operator fun get(
+            isEdit: Boolean,
+            noteState: NoteState,
+            id: Long,
+            color: Color
+        ): RollNoteFragment {
+            return RollNoteFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(Note.Intent.IS_EDIT, isEdit)
+                    putInt(Note.Intent.STATE, noteState.ordinal)
+                    putLong(Note.Intent.ID, id)
+                    putInt(Note.Intent.COLOR, color.ordinal)
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
@@ -123,7 +124,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     private fun openNoteScreen(item: NoteItem) {
         val context = context ?: return
 
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item]) }
+        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item, NoteState.DELETE]) }
     }
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {

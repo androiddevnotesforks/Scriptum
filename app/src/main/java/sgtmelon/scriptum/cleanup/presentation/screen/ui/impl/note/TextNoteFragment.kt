@@ -27,6 +27,7 @@ import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -328,10 +329,19 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     //endregion
 
     companion object {
-        operator fun get(id: Long, color: Color) = TextNoteFragment().apply {
-            arguments = Bundle().apply {
-                putLong(Note.Intent.ID, id)
-                putInt(Note.Intent.COLOR, color.ordinal)
+        operator fun get(
+            isEdit: Boolean,
+            noteState: NoteState,
+            id: Long,
+            color: Color
+        ): TextNoteFragment {
+            return TextNoteFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(Note.Intent.IS_EDIT, isEdit)
+                    putInt(Note.Intent.STATE, noteState.ordinal)
+                    putLong(Note.Intent.ID, id)
+                    putInt(Note.Intent.COLOR, color.ordinal)
+                }
             }
         }
     }

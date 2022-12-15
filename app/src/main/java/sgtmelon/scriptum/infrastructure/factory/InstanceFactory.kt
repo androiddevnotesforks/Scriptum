@@ -8,6 +8,7 @@ import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivity
 import sgtmelon.scriptum.infrastructure.model.annotation.AppOpenFrom
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
@@ -77,27 +78,37 @@ object InstanceFactory {
     object Note {
 
         operator fun get(context: Context, item: NotificationItem): Intent {
-            return get(context, item.note.type.ordinal, item.note.id, item.note.color.ordinal)
+            return get(
+                context, isEdit = false, NoteState.EXIST,
+                item.note.type.ordinal, item.note.id, item.note.color.ordinal
+            )
         }
 
-        operator fun get(context: Context, item: NoteItem): Intent {
-            return get(context, item.type.ordinal, item.id, item.color.ordinal)
+        operator fun get(context: Context, item: NoteItem, noteState: NoteState): Intent {
+            return get(
+                context, isEdit = false, noteState,
+                item.type.ordinal, item.id, item.color.ordinal
+            )
         }
 
         /**
          * If [id] and [color] have default values - it means that note will be created,
-         * otherwise it will be opened.
+         * otherwise it will be opened (from bind/notes/bin/alarm/notifications).
          */
         operator fun get(
             context: Context,
+            isEdit: Boolean,
+            noteState: NoteState,
             type: Int,
             id: Long = IntentData.Note.Default.ID,
             color: Int = IntentData.Note.Default.COLOR
         ): Intent {
             return Intent(context, NoteActivity::class.java)
                 .putExtra(IntentData.Note.Intent.ID, id)
-                .putExtra(IntentData.Note.Intent.COLOR, color)
                 .putExtra(IntentData.Note.Intent.TYPE, type)
+                .putExtra(IntentData.Note.Intent.COLOR, color)
+                .putExtra(IntentData.Note.Intent.IS_EDIT, isEdit)
+                .putExtra(IntentData.Note.Intent.STATE, noteState)
         }
     }
 
@@ -160,12 +171,17 @@ object InstanceFactory {
             arrayOf(Main[context], Alarm[context, noteId])
         }
 
-        fun toNote(context: Context, noteId: Long, color: Int, type: Int): Array<Intent> {
-            return waitOpen { arrayOf(Main[context], Note[context, type, noteId, color]) }
+        fun toNote(
+            context: Context,
+            type: Int,
+            noteId: Long,
+            color: Int
+        ): Array<Intent> = waitOpen {
+            arrayOf(Main[context], Note[context, false, NoteState.EXIST, type, noteId, color])
         }
 
         fun toNote(context: Context, type: NoteType): Array<Intent> = waitOpen {
-            arrayOf(Main[context], Note[context, type.ordinal])
+            arrayOf(Main[context], Note[context, true, NoteState.CREATE, type.ordinal])
         }
 
         fun toNotifications(context: Context): Array<Intent> = waitOpen {

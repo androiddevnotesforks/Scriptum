@@ -10,16 +10,20 @@ object IntentData {
     object Note {
 
         object Intent {
-            private const val PREFIX = "INTENT_NOTE_1231231"
+            private const val PREFIX = "INTENT_NOTE"
+            const val IS_EDIT = "${PREFIX}_IS_EDIT"
+            const val STATE = "${PREFIX}_STATE"
             const val ID = "${PREFIX}_ID"
-            const val COLOR = "${PREFIX}_COLOR"
             const val TYPE = "${PREFIX}_TYPE"
+            const val COLOR = "${PREFIX}_COLOR"
         }
 
         object Default {
+            const val IS_EDIT = false
+            const val STATE = -1
             const val ID = -1L
-            const val COLOR = -1
             const val TYPE = -1
+            const val COLOR = -1
         }
     }
 

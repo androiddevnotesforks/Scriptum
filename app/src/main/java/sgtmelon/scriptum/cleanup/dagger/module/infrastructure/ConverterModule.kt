@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.NoteStateConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
@@ -61,5 +62,8 @@ class ConverterModule {
 
     @Provides
     fun provideSignalConverter() = SignalConverter()
+
+    @Provides
+    fun provideNoteStateConverter() = NoteStateConverter()
 
 }

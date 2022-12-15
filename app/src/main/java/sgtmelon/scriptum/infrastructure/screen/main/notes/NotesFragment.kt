@@ -18,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
@@ -178,7 +179,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     private fun openNoteScreen(item: NoteItem) {
         val context = context ?: return
 
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item]) }
+        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item, NoteState.EXIST]) }
     }
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {
