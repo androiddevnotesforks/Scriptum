@@ -7,6 +7,8 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.getEnum
+import sgtmelon.scriptum.infrastructure.utils.extensions.putEnum
 
 /**
  * Bundle data provider for [NoteActivity] screen.
@@ -31,35 +33,14 @@ class NoteBundleProvider(
         if (bundle == null) return
 
         _id = bundle.getLong(Intent.ID, Default.ID).takeIf { it != Default.ID }
-
-        val typeOrdinal = bundle.getInt(Intent.TYPE, Default.TYPE).takeIf { it != Default.TYPE }
-        if (typeOrdinal != null) {
-            _type = typeConverter.toEnum(typeOrdinal)
-        }
-
-        val colorOrdinal = bundle.getInt(Intent.COLOR, Default.COLOR).takeIf { it != Default.COLOR }
-        if (colorOrdinal != null) {
-            _color = colorConverter.toEnum(colorOrdinal) ?: defaultColor
-        } else {
-            _color = defaultColor
-        }
+        _type = bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter)
+        _color = bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) ?: defaultColor
     }
 
     fun saveData(outState: Bundle) {
-        val id = id
-        if (id != null) {
-            outState.putLong(Intent.ID, id)
-        }
-
-        val type = type
-        if (type != null) {
-            outState.putInt(Intent.TYPE, typeConverter.toInt(type))
-        }
-
-        val color = color
-        if (color != null) {
-            outState.putInt(Intent.COLOR, colorConverter.toInt(color))
-        }
+        id?.let { outState.putLong(Intent.ID, it) }
+        type?.let { outState.putEnum(Intent.TYPE, typeConverter, it) }
+        color?.let { outState.putEnum(Intent.COLOR, colorConverter, it) }
     }
 
     fun updateId(id: Long) {
