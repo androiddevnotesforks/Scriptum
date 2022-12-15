@@ -61,6 +61,7 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
@@ -171,17 +172,17 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideNoteViewModel(
-        owner: ViewModelStoreOwner,
-        preferencesRepo: PreferencesRepo
-    ): NoteViewModel {
-        val factory = ViewModelFactory.NoteScreen.Note(preferencesRepo)
+    fun provideNoteViewModel(owner: ViewModelStoreOwner): NoteViewModel {
+        val factory = ViewModelFactory.NoteScreen.Note()
         return ViewModelProvider(owner, factory)[NoteViewModelImpl::class.java]
     }
 
     @Provides
     @ActivityScope
     fun provideTextNoteViewModel(
+        isEdit: Boolean,
+        noteState: NoteState,
+        // TODO refactor
         fragment: TextNoteFragment,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
@@ -199,6 +200,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
+            isEdit, noteState,
             fragment, colorConverter, preferencesRepo, getNote, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames
@@ -213,6 +215,9 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideRollNoteViewModel(
+        isEdit: Boolean,
+        noteState: NoteState,
+        // TODO refactor
         fragment: RollNoteFragment,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
@@ -232,6 +237,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
+            isEdit, noteState,
             fragment, colorConverter, preferencesRepo, getNote, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,

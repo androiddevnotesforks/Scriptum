@@ -5,6 +5,7 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 
 /**
  * Component for [TextNoteFragment].
@@ -19,6 +20,12 @@ interface TextNoteComponent {
     interface Builder {
         @BindsInstance
         fun set(fragment: TextNoteFragment): Builder
+
+        @BindsInstance
+        fun set(isEdit: Boolean): Builder
+
+        @BindsInstance
+        fun set(noteState: NoteState): Builder
 
         fun build(): TextNoteComponent
     }

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
@@ -14,12 +13,6 @@ class NoteExceptionRecorder {
         val description = "Null values on create: " +
                 "id=${id == null}, type=${type == null}, " +
                 "color=${color == null}"
-        NullPointerException(description).record()
-    }
-
-    fun showFragment(isEdit: Boolean?, noteState: NoteState?) {
-        val description = "Null values on fragment display: " +
-                "isEdit=${isEdit == null}, noteState=${noteState == null}"
         NullPointerException(description).record()
     }
 

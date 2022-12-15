@@ -32,9 +32,8 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     private val bundleProvider = SplashBundleProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
+        super.onCreate(savedInstanceState)
 
         setCrashlyticsKeys()
         chooseOpenScreen()

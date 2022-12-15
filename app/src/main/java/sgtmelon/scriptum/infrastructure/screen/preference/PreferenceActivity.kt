@@ -27,13 +27,10 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
     private val bundleProvider = PreferenceBundleProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
 
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
-        val screen = bundleProvider.screen ?: run {
-            finish()
-            return
-        }
+        val screen = bundleProvider.screen ?: return finish()
 
         setupView(screen)
         showFragment(screen)

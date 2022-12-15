@@ -60,17 +60,24 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     private val timeDialog by lazy { dialogs.getTime() }
     private val convertDialog by lazy { dialogs.getConvert(NoteType.TEXT) }
 
+    private val bundleProvider = TextNoteBundleProvider()
+
     private val nameEnter: EditText?
         get() = binding?.toolbarInclude?.contentInclude?.toolbarNoteEnter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        bundleProvider.getData(bundle = savedInstanceState ?: arguments)
         super.onViewCreated(view, savedInstanceState)
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
     }
 
     override fun inject(component: ScriptumComponent) {
+        val (isEdit, noteState) = bundleProvider.state ?: return finish()
+
         component.getTextNoteBuilder()
             .set(fragment = this)
+            .set(isEdit)
+            .set(noteState)
             .build()
             .inject(fragment = this)
     }

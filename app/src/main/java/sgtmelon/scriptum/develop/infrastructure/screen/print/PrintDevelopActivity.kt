@@ -41,7 +41,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     }
 
     override fun inject(component: ScriptumComponent) {
-        val type = bundleProvider.type ?: return run { finish() }
+        val type = bundleProvider.type ?: return finish()
 
         component.getPrintBuilder()
             .set(owner = this)

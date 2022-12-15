@@ -86,7 +86,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     override fun inject(component: ScriptumComponent) {
-        val noteId = bundleProvider.noteId ?: return run { finish() }
+        val noteId = bundleProvider.noteId ?: return finish()
 
         component.getAlarmBuilder()
             .set(owner = this)

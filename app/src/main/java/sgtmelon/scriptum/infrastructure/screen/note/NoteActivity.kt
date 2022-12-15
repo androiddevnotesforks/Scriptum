@@ -49,13 +49,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
 
-        val bundle = savedInstanceState ?: intent.extras
-        bundleProvider.getData(bundle, viewModel.defaultColor)
-
         val (id, type, color) = bundleProvider.data
-
         if (id == null || type == null || color == null) {
             exceptionRecorder.onCreate(id, type, color)
             finish()
@@ -126,13 +123,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
      * [checkCache] - find fragment by tag or create new.
      */
     private fun showFragment(id: Long, type: NoteType, color: Color, checkCache: Boolean) {
-        val (isEdit, noteState) = bundleProvider.state
-
-        if (isEdit == null || noteState == null) {
-            exceptionRecorder.showFragment(isEdit, noteState)
-            finish()
-            return
-        }
+        val (isEdit, noteState) = bundleProvider.state ?: return finish()
 
         when (type) {
             NoteType.TEXT -> showTextFragment(isEdit, noteState, id, color, checkCache)
