@@ -11,6 +11,8 @@ import androidx.databinding.ViewDataBinding
 
 const val NO_LAYOUT = -1
 
+val Context.inflater: LayoutInflater get() = LayoutInflater.from(this)
+
 fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T? {
     if (layoutId == NO_LAYOUT) return null
 
@@ -29,11 +31,9 @@ fun <T : ViewDataBinding> ViewGroup.inflateBinding(
     @LayoutRes layoutId: Int,
     attachToParent: Boolean = false
 ): T {
-    return DataBindingUtil.inflate(context.getInflater(), layoutId, this, attachToParent)
+    return DataBindingUtil.inflate(context.inflater, layoutId, this, attachToParent)
 }
 
 fun ViewGroup.inflateView(@LayoutRes layout: Int, attachToRoot: Boolean = false): View {
-    return context.getInflater().inflate(layout, this, attachToRoot)
+    return context.inflater.inflate(layout, this, attachToRoot)
 }
-
-fun Context.getInflater(): LayoutInflater = LayoutInflater.from(this)
