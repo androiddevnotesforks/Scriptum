@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
-import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 
 /**
  * Test for [NoteStateConverter].
  */
-class NoteStateConverterTest : ParentTest() {
+class NoteStateConverterTest : ParentEnumConverterTest<NoteState>() {
 
-    @Test fun todo() {
-        TODO()
-    }
+    override val converter = NoteStateConverter()
+
+    override val values: Array<NoteState> = NoteState.values()
+
 }
