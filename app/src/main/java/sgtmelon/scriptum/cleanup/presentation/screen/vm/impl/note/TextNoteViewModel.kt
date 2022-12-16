@@ -72,25 +72,29 @@ class TextNoteViewModel(
 
     override fun setupBeforeInitialize() {
         callback?.setupBinding()
-        callback?.setupToolbar(deprecatedColor)
+        color.value?.let { callback?.setupToolbar(it) }
+        // TODO remove
+        //            setupToolbar(deprecatedColor)
         callback?.setupEnter(inputControl)
     }
 
     override suspend fun tryInitializeNote(): Boolean {
-        /**
-         * If first open
-         */
+        /** If first open. */
         if (!isNoteInitialized()) {
             rankDialogItemArray = runBack { getRankDialogNames() }
 
-            if (deprecatedId == Default.ID) {
-                noteItem = NoteItem.Text.getCreate(preferencesRepo.defaultColor)
+            val id = id.value
+            if (id == null || id == Default.ID) {
+                // TODO remove
+                //                if (deprecatedId == Default.ID) {
+                val defaultColor = preferencesRepo.defaultColor
+                noteItem = NoteItem.Text.getCreate(defaultColor)
                 cacheData()
 
                 // TODO remove
                 //                deprecatedNoteState = DeprecatedNoteState(isCreate = true)
             } else {
-                runBack { getNote(deprecatedId) }?.let {
+                runBack { getNote(id) }?.let {
                     noteItem = it
                     restoreItem = it.deepCopy()
 
@@ -121,7 +125,9 @@ class TextNoteViewModel(
     }
 
     override fun onRestoreData(): Boolean {
-        if (deprecatedId == Default.ID) return false
+        if (id.value == Default.ID || noteItem.id == Default.ID) return false
+        // TODO
+        //        if (deprecatedId == Default.ID) return false
 
         /**
          * Get color before restore data.
@@ -203,9 +209,11 @@ class TextNoteViewModel(
             // TODO remove
             //        if (deprecatedNoteState.isCreate) {
             //            deprecatedNoteState.isCreate = DeprecatedNoteState.ND_CREATE
-
-            deprecatedId = noteItem.id
-            parentCallback?.updateNoteId(deprecatedId)
+            //            deprecatedId = noteItem.id
+            //            parentCallback?.updateNoteId(deprecatedId)
+            id.postValue(noteItem.id)
+            // TODO subscribe on id and update noteId value inside fragments
+            parentCallback?.updateNoteId(noteItem.id)
         }
 
         callback?.sendNotifyNotesBroadcast()

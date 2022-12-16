@@ -90,7 +90,9 @@ class RollNoteViewModel(
     override fun setupBeforeInitialize() {
         callback?.apply {
             setupBinding()
-            setupToolbar(deprecatedColor)
+            color.value?.let { setupToolbar(it) }
+            // TODO remove
+            //            setupToolbar(deprecatedColor)
             setupEnter(inputControl)
             setupRecycler(inputControl, isFirstRun)
 
@@ -101,22 +103,22 @@ class RollNoteViewModel(
     }
 
     override suspend fun tryInitializeNote(): Boolean {
-        /**
-         * If first open.
-         */
+        /** If first open. */
         if (!isNoteInitialized()) {
             rankDialogItemArray = runBack { getRankDialogNames() }
 
-            if (deprecatedId == Default.ID) {
+            val id = id.value
+            if (id == null || id == Default.ID) {
+                // TODO remove
+                //                if (deprecatedId == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
-
                 noteItem = NoteItem.Roll.getCreate(defaultColor)
                 cacheData()
 
                 // TODO remove
                 //                deprecatedNoteState = DeprecatedNoteState(isCreate = true)
             } else {
-                runBack { getNote(deprecatedId) }?.let {
+                runBack { getNote(id) }?.let {
                     noteItem = it
                     restoreItem = it.deepCopy()
 
@@ -155,7 +157,10 @@ class RollNoteViewModel(
     }
 
     override fun onRestoreData(): Boolean {
-        if (deprecatedId == Default.ID) return false
+        if (id.value == Default.ID || noteItem.id == Default.ID) return false
+
+        // TODO remove
+        //        if (deprecatedId == Default.ID) return false
 
         /**
          * Get color before restore data. Also get [NoteItem.Roll.isVisible] before
@@ -187,7 +192,7 @@ class RollNoteViewModel(
         notifyListByVisible()
 
         /**
-         * Foreign key can't be created without note [deprecatedId].
+         * Foreign key can't be created without note [id].
          * Insert will happen inside [onMenuSave].
          */
         if (noteState.value != NoteState.CREATE) {
@@ -451,9 +456,11 @@ class RollNoteViewModel(
             // TODO remove
             //        if (deprecatedNoteState.isCreate) {
             //            deprecatedNoteState.isCreate = DeprecatedNoteState.ND_CREATE
-
-            deprecatedId = noteItem.id
-            parentCallback?.updateNoteId(deprecatedId)
+            //            deprecatedId = noteItem.id
+            //            parentCallback?.updateNoteId(deprecatedId)
+            id.postValue(noteItem.id)
+            // TODO subscribe on id and update noteId value inside fragments
+            parentCallback?.updateNoteId(noteItem.id)
 
             /**
              * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of

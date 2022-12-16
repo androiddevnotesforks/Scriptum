@@ -130,8 +130,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         }
     }
 
-    // TODO Убрать из фрагментов передачу данных, брать их из bundleProvider activity
-
     private fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
         val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment[id, color]
         showFragment(fragment, FragmentFactory.Note.Tag.TEXT)

@@ -150,10 +150,11 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
         viewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.onSaveData(outState)
-    }
+    // TODO remove
+    //    override fun onSaveInstanceState(outState: Bundle) {
+    //        super.onSaveInstanceState(outState)
+    //        viewModel.onSaveData(outState)
+    //    }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         open.attempt(withSwitch = false) { viewModel.onClickVisible() }

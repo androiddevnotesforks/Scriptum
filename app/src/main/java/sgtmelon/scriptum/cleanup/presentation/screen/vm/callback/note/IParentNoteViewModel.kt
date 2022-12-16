@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note
 
-import android.os.Bundle
 import androidx.lifecycle.LiveData
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
@@ -31,9 +30,9 @@ interface IParentNoteViewModel : IParentViewModel,
 
     //region Cleanup
 
-
-    @Deprecated("dont save any data")
-    fun onSaveData(bundle: Bundle)
+    //
+    //    @Deprecated("dont save any data")
+    //    fun onSaveData(bundle: Bundle)
 
     fun onResume()
 

@@ -104,10 +104,11 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
         viewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.onSaveData(outState)
-    }
+    // TODO remove
+    //    override fun onSaveInstanceState(outState: Bundle) {
+    //        super.onSaveInstanceState(outState)
+    //        viewModel.onSaveData(outState)
+    //    }
 
     //region Callback functions
 

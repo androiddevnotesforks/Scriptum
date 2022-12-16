@@ -30,8 +30,6 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
@@ -39,7 +37,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.test.prod.RunPrivate
 import sgtmelon.test.prod.RunProtected
-import sgtmelon.scriptum.cleanup.domain.model.state.NoteState as DeprecatedNoteState
 
 /**
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
@@ -91,11 +88,12 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
 
     @RunProtected var inputControl: IInputControl = InputControl()
 
-    @Deprecated("Use livedata values")
-    @RunProtected var deprecatedId: Long = Default.ID
-
-    @Deprecated("Use livedata values")
-    @RunProtected var deprecatedColor: Color = preferencesRepo.defaultColor
+    // TODO remove
+    //    @Deprecated("Use livedata values")
+    //    @RunProtected var deprecatedId: Long = Default.ID
+    //
+    //    @Deprecated("Use livedata values")
+    //    @RunProtected var deprecatedColor: Color = preferencesRepo.defaultColor
 
     @RunProtected lateinit var noteItem: N
 
@@ -105,8 +103,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     @RunProtected lateinit var restoreItem: N
 
     // TODO remove
-    @Deprecated("Use livedata")
-    protected var deprecatedNoteState = DeprecatedNoteState()
+    //    @Deprecated("Use livedata")
+    //    protected var deprecatedNoteState = DeprecatedNoteState()
 
     @RunProtected var mayAnimateIcon = true
 
@@ -130,7 +128,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     abstract fun cacheData()
 
     override fun onSetup(bundle: Bundle?) {
-        getBundleData(bundle)
+        // TODO remove
+        //        getBundleData(bundle)
         setupBeforeInitialize()
 
         viewModelScope.launch {
@@ -140,15 +139,16 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
         }
     }
 
-    @RunPrivate fun getBundleData(bundle: Bundle?) {
-        deprecatedId = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
-
-        val colorOrdinal = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
-        val bundleColor = colorConverter.toEnum(colorOrdinal)
-        if (bundleColor != null) {
-            deprecatedColor = bundleColor
-        }
-    }
+    // TODO remove
+    //    @RunPrivate fun getBundleData(bundle: Bundle?) {
+    //        deprecatedId = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
+    //
+    //        val colorOrdinal = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
+    //        val bundleColor = colorConverter.toEnum(colorOrdinal)
+    //        if (bundleColor != null) {
+    //            deprecatedColor = bundleColor
+    //        }
+    //    }
 
     /**
      * Call before [tryInitializeNote]
@@ -171,12 +171,12 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
     }
 
 
-    override fun onSaveData(bundle: Bundle) {
-        bundle.apply {
-            putLong(Intent.ID, deprecatedId)
-            putInt(Intent.COLOR, colorConverter.toInt(deprecatedColor))
-        }
-    }
+    //    override fun onSaveData(bundle: Bundle) {
+    //        bundle.apply {
+    //            putLong(Intent.ID, deprecatedId)
+    //            putInt(Intent.COLOR, colorConverter.toInt(deprecatedColor))
+    //        }
+    //    }
 
     override fun onResume() {
         if (isEdit.value.isTrue()) {
@@ -199,7 +199,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
 
 
     override fun onClickBackArrow() {
-        if (!deprecatedNoteState.isCreate && isEdit.value.isTrue() && deprecatedId != Default.ID) {
+        if (noteState.value != NoteState.CREATE && isEdit.value.isTrue()) {
             // TODO remove
             //        if (!deprecatedNoteState.isCreate && deprecatedNoteState.isEdit && id != Default.ID) {
             callback?.hideKeyboard()
@@ -222,7 +222,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
         saveControl.isNeedSave = false
 
         return if (!onMenuSave(changeMode = true)) {
-            if (!deprecatedNoteState.isCreate) onRestoreData() else false
+            if (noteState.value != NoteState.CREATE) onRestoreData() else false
+            // TODO remove
+            //            if (!deprecatedNoteState.isCreate) onRestoreData() else false
         } else {
             true
         }
@@ -240,7 +242,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
         val newColor = colorConverter.toEnum(check) ?: return
 
         inputControl.onColorChange(noteItem.color, newColor)
-        deprecatedColor = newColor
+
+        color.postValue(newColor)
+        // TODO remove
+        //        deprecatedColor = newColor
         noteItem.color = newColor
 
         callback?.apply {
@@ -314,7 +319,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
      * Calls on note notification cancel from status bar for update bind indicator.
      */
     override fun onReceiveUnbindNote(noteId: Long) {
-        if (this.deprecatedId != noteId) return
+        if (id.value != noteId) return
+
+        // TODO remove
+        //        if (this.deprecatedId != noteId) return
 
         noteItem.isStatus = false
         restoreItem.isStatus = false
