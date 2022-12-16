@@ -231,6 +231,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
         val newColor = colorConverter.toEnum(check) ?: return
 
         inputControl.onColorChange(noteItem.color, newColor)
+        color = newColor
         noteItem.color = newColor
 
         callback?.apply {

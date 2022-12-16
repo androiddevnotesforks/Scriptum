@@ -131,6 +131,8 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         }
     }
 
+    // TODO Убрать из фрагментов передачу данных, брать их из bundleProvider activity
+
     private fun showTextFragment(
         isEdit: Boolean,
         noteState: NoteState,

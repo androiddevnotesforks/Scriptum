@@ -45,6 +45,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
@@ -81,7 +82,6 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     private val animTime by lazy {
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
     }
-    private val bundleProvider = RollNoteBundleProvider()
 
     private val touchCallback by lazy { RollTouchControl(viewModel) }
 
@@ -110,13 +110,13 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
     private var visibleMenuItem: MenuItem? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        bundleProvider.getData(bundle = savedInstanceState ?: arguments)
         super.onViewCreated(view, savedInstanceState)
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
     }
 
     override fun inject(component: ScriptumComponent) {
-        val (isEdit, noteState) = bundleProvider.state ?: return finish()
+        val (isEdit, noteState) = (activity as? NoteActivity)?.bundleProvider?.state
+            ?: return finish()
 
         component.getRollNoteBuilder()
             .set(fragment = this)
