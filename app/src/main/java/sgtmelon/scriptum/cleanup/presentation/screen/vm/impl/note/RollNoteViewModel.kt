@@ -91,8 +91,6 @@ class RollNoteViewModel(
         callback?.apply {
             setupBinding()
             color.value?.let { setupToolbar(it) }
-            // TODO remove
-            //            setupToolbar(deprecatedColor)
             setupEnter(inputControl)
             setupRecycler(inputControl, isFirstRun)
 
@@ -109,14 +107,9 @@ class RollNoteViewModel(
 
             val id = id.value
             if (id == null || id == Default.ID) {
-                // TODO remove
-                //                if (deprecatedId == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
                 noteItem = NoteItem.Roll.getCreate(defaultColor)
                 cacheData()
-
-                // TODO remove
-                //                deprecatedNoteState = DeprecatedNoteState(isCreate = true)
             } else {
                 runBack { getNote(id) }?.let {
                     noteItem = it
@@ -128,8 +121,6 @@ class RollNoteViewModel(
                     return false
                 }
 
-                // TODO remove
-                //                deprecatedNoteState = DeprecatedNoteState(isBin = noteItem.isBin)
             }
         }
 
@@ -140,9 +131,8 @@ class RollNoteViewModel(
         callback?.setupDialog(rankDialogItemArray)
 
         mayAnimateIcon = false
-        setupEditMode(isEdit.value.isTrue())
         // TODO may this is not needed?
-        //        setupEditMode(deprecatedNoteState.isEdit)
+        setupEditMode(isEdit.value.isTrue())
         mayAnimateIcon = true
 
         callback?.apply {
@@ -158,9 +148,6 @@ class RollNoteViewModel(
 
     override fun onRestoreData(): Boolean {
         if (id.value == Default.ID || noteItem.id == Default.ID) return false
-
-        // TODO remove
-        //        if (deprecatedId == Default.ID) return false
 
         /**
          * Get color before restore data. Also get [NoteItem.Roll.isVisible] before
@@ -196,14 +183,10 @@ class RollNoteViewModel(
          * Insert will happen inside [onMenuSave].
          */
         if (noteState.value != NoteState.CREATE) {
-            // TODO remove
-            //        if (!deprecatedNoteState.isCreate) {
             viewModelScope.launch {
                 runBack { updateVisible(noteItem) }
 
                 if (isEdit.value.isFalse()) {
-                    // TODO remove
-                    //                if (!deprecatedNoteState.isEdit) {
                     callback?.sendNotifyNotesBroadcast()
                 }
             }
@@ -247,8 +230,6 @@ class RollNoteViewModel(
      */
     override fun onClickAdd(simpleClick: Boolean) {
         if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
-        // TODO remove
-        //        if (callback?.isDialogOpen == true || !deprecatedNoteState.isEdit) return
 
         val enterText = callback?.getEnterText()?.removeExtraSpace() ?: ""
 
@@ -270,8 +251,6 @@ class RollNoteViewModel(
 
     override fun onClickItemCheck(p: Int) {
         if (isEdit.value.isTrue()) return
-        // TODO remove
-        //        if (deprecatedNoteState.isEdit) return
 
         val absolutePosition = getAbsolutePosition(p) ?: return
         noteItem.onItemCheck(absolutePosition)
@@ -414,8 +393,6 @@ class RollNoteViewModel(
         if (changeMode && callback?.isDialogOpen == true) return false
 
         if (isEdit.value.isFalse() || !noteItem.isSaveEnabled()) return false
-        // TODO remove
-        //        if (!deprecatedNoteState.isEdit || !noteItem.isSaveEnabled()) return false
 
         noteItem.onSave()
 
@@ -429,11 +406,7 @@ class RollNoteViewModel(
             setupEditMode(isEdit = false)
             inputControl.reset()
         } else if (noteState.value == NoteState.CREATE) {
-            // TODO remove
-            //        } else if (deprecatedNoteState.isCreate) {
-            /**
-             * Change toolbar icon from arrow to cancel for auto save case.
-             */
+            /** Change toolbar icon from arrow to cancel for auto save case. */
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
@@ -447,18 +420,12 @@ class RollNoteViewModel(
     override suspend fun saveBackgroundWork() {
         val isCreate = noteState.value == NoteState.CREATE
         runBack { saveNote(noteItem, isCreate) }
-        // TODO remove
-        //        runBack { saveNote(noteItem, deprecatedNoteState.isCreate) }
         cacheData()
 
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)
-            // TODO remove
-            //        if (deprecatedNoteState.isCreate) {
-            //            deprecatedNoteState.isCreate = DeprecatedNoteState.ND_CREATE
-            //            deprecatedId = noteItem.id
-            //            parentCallback?.updateNoteId(deprecatedId)
             id.postValue(noteItem.id)
+
             // TODO subscribe on id and update noteId value inside fragments
             parentCallback?.updateNoteId(noteItem.id)
 
@@ -477,8 +444,7 @@ class RollNoteViewModel(
         inputControl.isEnabled = false
 
         this.isEdit.postValue(isEdit)
-        // TODO remove
-        //        deprecatedNoteState.isEdit = isEdit
+
         callback?.apply {
             val noteState = noteState.value
             val notCreate = noteState != NoteState.CREATE
@@ -493,8 +459,6 @@ class RollNoteViewModel(
 
             if (isEdit) {
                 focusOnEdit(isCreate = noteState == NoteState.CREATE)
-                // TODO remove
-                //                focusOnEdit(deprecatedNoteState.isCreate)
             } else {
                 updateProgress(noteItem.getCheck(), noteItem.list.size)
             }
@@ -546,15 +510,9 @@ class RollNoteViewModel(
 
     override fun onTouchGetDrag(isDragAvailable: Boolean): Boolean {
         return isEdit.value.isTrue() && isDragAvailable
-        // TODO remove
-        //        return deprecatedNoteState.isEdit && isDragAvailable
     }
 
-    override fun onTouchGetSwipe(): Boolean {
-        return isEdit.value.isTrue()
-        // TODO remove
-        //        return deprecatedNoteState.isEdit
-    }
+    override fun onTouchGetSwipe(): Boolean = isEdit.value.isTrue()
 
     override fun onTouchDragStart() {
         callback?.hideKeyboard()

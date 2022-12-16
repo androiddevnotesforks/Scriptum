@@ -30,10 +30,6 @@ interface IParentNoteViewModel : IParentViewModel,
 
     //region Cleanup
 
-    //
-    //    @Deprecated("dont save any data")
-    //    fun onSaveData(bundle: Bundle)
-
     fun onResume()
 
     fun onPause()

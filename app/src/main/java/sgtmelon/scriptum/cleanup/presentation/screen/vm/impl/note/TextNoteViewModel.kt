@@ -73,8 +73,6 @@ class TextNoteViewModel(
     override fun setupBeforeInitialize() {
         callback?.setupBinding()
         color.value?.let { callback?.setupToolbar(it) }
-        // TODO remove
-        //            setupToolbar(deprecatedColor)
         callback?.setupEnter(inputControl)
     }
 
@@ -85,14 +83,9 @@ class TextNoteViewModel(
 
             val id = id.value
             if (id == null || id == Default.ID) {
-                // TODO remove
-                //                if (deprecatedId == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
                 noteItem = NoteItem.Text.getCreate(defaultColor)
                 cacheData()
-
-                // TODO remove
-                //                deprecatedNoteState = DeprecatedNoteState(isCreate = true)
             } else {
                 runBack { getNote(id) }?.let {
                     noteItem = it
@@ -103,9 +96,6 @@ class TextNoteViewModel(
                     callback?.finish()
                     return false
                 }
-
-                // TODO remove
-                //                deprecatedNoteState = DeprecatedNoteState(isBin = noteItem.isBin)
             }
         }
 
@@ -116,9 +106,8 @@ class TextNoteViewModel(
         callback?.setupDialog(rankDialogItemArray)
 
         mayAnimateIcon = false
-        setupEditMode(isEdit.value.isTrue())
         // TODO may this is not needed?
-        //        setupEditMode(deprecatedNoteState.isEdit)
+        setupEditMode(isEdit.value.isTrue())
         mayAnimateIcon = true
 
         callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
@@ -126,8 +115,6 @@ class TextNoteViewModel(
 
     override fun onRestoreData(): Boolean {
         if (id.value == Default.ID || noteItem.id == Default.ID) return false
-        // TODO
-        //        if (deprecatedId == Default.ID) return false
 
         /**
          * Get color before restore data.
@@ -156,6 +143,7 @@ class TextNoteViewModel(
             InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
             InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
             InputAction.TEXT -> onMenuUndoRedoText(item, isUndo)
+            else -> Unit
         }
 
         inputControl.isEnabled = true
@@ -172,8 +160,6 @@ class TextNoteViewModel(
         if (changeMode && callback?.isDialogOpen == true) return false
 
         if (isEdit.value.isFalse() || !noteItem.isSaveEnabled()) return false
-        // TODO remove
-        //        if (!deprecatedNoteState.isEdit || !noteItem.isSaveEnabled()) return false
 
         noteItem.onSave()
 
@@ -182,11 +168,7 @@ class TextNoteViewModel(
             setupEditMode(isEdit = false)
             inputControl.reset()
         } else if (noteState.value == NoteState.CREATE) {
-            // TODO remove
-            //        } else if (deprecatedNoteState.isCreate) {
-            /**
-             * Change toolbar icon from arrow to cancel for auto save case.
-             */
+            /** Change toolbar icon from arrow to cancel for auto save case. */
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
@@ -200,18 +182,12 @@ class TextNoteViewModel(
     override suspend fun saveBackgroundWork() {
         val isCreate = noteState.value == NoteState.CREATE
         runBack { saveNote(noteItem, isCreate) }
-        // TODO remove
-        //        runBack { saveNote(noteItem, deprecatedNoteState.isCreate) }
         cacheData()
 
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)
-            // TODO remove
-            //        if (deprecatedNoteState.isCreate) {
-            //            deprecatedNoteState.isCreate = DeprecatedNoteState.ND_CREATE
-            //            deprecatedId = noteItem.id
-            //            parentCallback?.updateNoteId(deprecatedId)
             id.postValue(noteItem.id)
+
             // TODO subscribe on id and update noteId value inside fragments
             parentCallback?.updateNoteId(noteItem.id)
         }
@@ -223,8 +199,6 @@ class TextNoteViewModel(
         inputControl.isEnabled = false
 
         this.isEdit.postValue(isEdit)
-        // TODO remove
-        //        deprecatedNoteState.isEdit = isEdit
 
         callback?.apply {
             val noteState = noteState.value
