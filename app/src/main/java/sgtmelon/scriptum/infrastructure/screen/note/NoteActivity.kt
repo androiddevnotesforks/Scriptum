@@ -19,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNotePlaceholder
 
@@ -43,8 +44,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     private val unbindNoteReceiver = UnbindNoteReceiver[this]
 
-    private val exceptionRecorder = NoteExceptionRecorder()
-
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,17 +53,29 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
 
         val (id, type, color) = bundleProvider.data
+
+        /**
+         * Checkout all needed data for display note screen. If something goes wrong - report
+         * and close screen.
+         */
         if (id == null || type == null || color == null) {
-            exceptionRecorder.onCreate(id, type, color)
+            recordDataException(id, type, color)
             finish()
             return
         }
 
-        /** Means this activity was rotated or something like that, and need check some cache. */
+        /** Means this activity was rotated or something like that, and need to check cache. */
         val checkCache = savedInstanceState != null
 
         updateHolder(color)
-        showFragment(id, type, color, checkCache)
+        showFragment(type, checkCache)
+    }
+
+    private fun recordDataException(id: Long?, type: NoteType?, color: Color?) {
+        val description = "Null values on create: " +
+                "id=${id == null}, type=${type == null}, color=${color == null}"
+
+        NullPointerException(description).record()
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -123,20 +134,20 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     /**
      * [checkCache] - find fragment by tag or create new.
      */
-    private fun showFragment(id: Long, type: NoteType, color: Color, checkCache: Boolean) {
+    private fun showFragment(type: NoteType, checkCache: Boolean) {
         when (type) {
-            NoteType.TEXT -> showTextFragment(id, color, checkCache)
-            NoteType.ROLL -> showRollFragment(id, color, checkCache)
+            NoteType.TEXT -> showTextFragment(checkCache)
+            NoteType.ROLL -> showRollFragment(checkCache)
         }
     }
 
-    private fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
-        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment[id, color]
+    private fun showTextFragment(checkCache: Boolean) {
+        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment()
         showFragment(fragment, FragmentFactory.Note.Tag.TEXT)
     }
 
-    private fun showRollFragment(id: Long, color: Color, checkCache: Boolean) {
-        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragment[id, color]
+    private fun showRollFragment(checkCache: Boolean) {
+        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragment()
         showFragment(fragment, FragmentFactory.Note.Tag.ROLL)
     }
 
@@ -159,20 +170,14 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     }
 
     override fun convertNote() {
-        val (id, type, color) = bundleProvider.data
-        val newType = type?.let { viewModel.convertType(it) }
-
-        if (id == null || newType == null || color == null) {
-            exceptionRecorder.convertNote(id, type, color, newType)
-            finish()
-            return
-        }
+        /** We already checkout type value inside [onCreate] func (just skip it). */
+        val type = bundleProvider.data.second ?: return
+        val newType = viewModel.convertType(type)
 
         bundleProvider.updateType(newType)
-        showFragment(id, newType, color, checkCache = true)
+        showFragment(newType, checkCache = true)
     }
 
-    // TODO improve it, i don't think it's work correct with split screen for example.
     override fun isOrientationChanging(): Boolean = isChangingConfigurations
 
     override fun onReceiveUnbindNote(noteId: Long) {

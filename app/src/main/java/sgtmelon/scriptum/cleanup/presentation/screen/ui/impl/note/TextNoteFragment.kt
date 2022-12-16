@@ -26,7 +26,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteV
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -343,13 +342,4 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
 
     //endregion
 
-    companion object {
-        @Deprecated("Use callback without passing any data, because di will make a job for you")
-        operator fun get(id: Long, color: Color) = TextNoteFragment().apply {
-            arguments = Bundle().apply {
-                putLong(Note.Intent.ID, id)
-                putInt(Note.Intent.COLOR, color.ordinal)
-            }
-        }
-    }
 }

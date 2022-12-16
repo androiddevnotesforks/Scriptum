@@ -40,7 +40,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteV
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -549,13 +548,4 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
 
     //endregion
 
-    companion object {
-        @Deprecated("Use callback without passing any data, because di will make a job for you")
-        operator fun get(id: Long, color: Color) = RollNoteFragment().apply {
-            arguments = Bundle().apply {
-                putLong(Note.Intent.ID, id)
-                putInt(Note.Intent.COLOR, color.ordinal)
-            }
-        }
-    }
 }

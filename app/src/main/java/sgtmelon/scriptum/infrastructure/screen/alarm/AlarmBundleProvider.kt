@@ -18,6 +18,7 @@ class AlarmBundleProvider : ParentBundleProvider {
     override fun getData(bundle: Bundle?) {
         _noteId = bundle?.getLong(Intent.ID, Default.ID)?.takeIf { it != Default.ID }
 
+        /** Alarm screen not able to display not created note. */
         if (noteId == null) {
             BundleException(::noteId).record()
         }

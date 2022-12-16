@@ -18,6 +18,7 @@ interface INoteConnector {
 
     fun convertNote()
 
+    @Deprecated("Improve it, I don't think it's work correct with split screen for example.")
     fun isOrientationChanging(): Boolean
 
 }
