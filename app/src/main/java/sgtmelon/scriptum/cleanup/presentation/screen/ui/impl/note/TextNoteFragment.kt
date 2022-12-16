@@ -27,7 +27,6 @@ import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -69,14 +68,23 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
     }
 
+    // TODO not save way to finish activity (view model is lateinit value)
     override fun inject(component: ScriptumComponent) {
-        val (isEdit, noteState) = (activity as? NoteActivity)?.bundleProvider?.state
-            ?: return finish()
+        val bundleProvider = (activity as? NoteActivity)?.bundleProvider
+        val (isEdit, noteState) = bundleProvider?.state ?: return run { activity?.finish() }
+        val (id, _, color) = bundleProvider.data
+
+        if (id == null || color == null) {
+            activity?.finish()
+            return
+        }
 
         component.getTextNoteBuilder()
             .set(fragment = this)
             .set(isEdit)
             .set(noteState)
+            .set(id)
+            .set(color)
             .build()
             .inject(fragment = this)
     }
@@ -335,19 +343,11 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
     //endregion
 
     companion object {
-        operator fun get(
-            isEdit: Boolean,
-            noteState: NoteState,
-            id: Long,
-            color: Color
-        ): TextNoteFragment {
-            return TextNoteFragment().apply {
-                arguments = Bundle().apply {
-                    putBoolean(Note.Intent.IS_EDIT, isEdit)
-                    putInt(Note.Intent.STATE, noteState.ordinal)
-                    putLong(Note.Intent.ID, id)
-                    putInt(Note.Intent.COLOR, color.ordinal)
-                }
+        @Deprecated("Use callback without passing any data, because di will make a job for you")
+        operator fun get(id: Long, color: Color) = TextNoteFragment().apply {
+            arguments = Bundle().apply {
+                putLong(Note.Intent.ID, id)
+                putInt(Note.Intent.COLOR, color.ordinal)
             }
         }
     }

@@ -53,6 +53,7 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
@@ -169,7 +170,9 @@ object ViewModelFactory {
         class TextNote(
             private val isEdit: Boolean,
             private val noteState: NoteState,
-
+            private val id: Long,
+            private val color: Color,
+            // TODO refactor
             private val fragment: TextNoteFragment,
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
@@ -190,7 +193,7 @@ object ViewModelFactory {
                 return modelClass.create(TextNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
                     TextNoteViewModel(
-                        isEdit, noteState,
+                        isEdit, noteState, id, color,
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         getNote, saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, setNotification, deleteNotification, getNotificationDateList,
@@ -203,7 +206,9 @@ object ViewModelFactory {
         class RollNote(
             private val isEdit: Boolean,
             private val noteState: NoteState,
-
+            private val id: Long,
+            private val color: Color,
+            // TODO refactor
             private val fragment: RollNoteFragment,
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
@@ -226,7 +231,7 @@ object ViewModelFactory {
                 return modelClass.create(RollNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
                     RollNoteViewModel(
-                        isEdit, noteState,
+                        isEdit, noteState, id, color,
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         getNote, saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, updateVisible, updateCheck, setNotification, deleteNotification,

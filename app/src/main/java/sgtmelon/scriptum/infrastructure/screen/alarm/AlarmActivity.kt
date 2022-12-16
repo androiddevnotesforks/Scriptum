@@ -85,6 +85,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         setupScreen()
     }
 
+    // TODO not save way to finish activity (view model is lateinit value)
     override fun inject(component: ScriptumComponent) {
         val noteId = bundleProvider.noteId ?: return finish()
 

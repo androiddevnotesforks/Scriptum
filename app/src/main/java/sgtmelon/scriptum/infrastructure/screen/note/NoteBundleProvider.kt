@@ -45,7 +45,8 @@ class NoteBundleProvider(
         isEdit = bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
         noteState = bundle.getEnum(Intent.STATE, Default.STATE, stateConverter)
 
-        id = bundle.getLong(Intent.ID, Default.ID).takeIf { it != Default.ID }
+        /** Id may be equals default value, because not created note hasn't id */
+        id = bundle.getLong(Intent.ID, Default.ID)
         type = bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter)
         color = bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) ?: defaultColor
     }

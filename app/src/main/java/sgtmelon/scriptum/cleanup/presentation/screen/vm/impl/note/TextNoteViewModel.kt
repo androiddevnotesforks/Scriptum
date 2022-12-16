@@ -25,6 +25,7 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
@@ -36,6 +37,8 @@ import sgtmelon.test.prod.RunPrivate
 class TextNoteViewModel(
     isEdit: Boolean,
     noteState: NoteState,
+    id: Long,
+    color: Color,
 
     // TODO cleanup
     callback: ITextNoteFragment,
@@ -55,7 +58,7 @@ class TextNoteViewModel(
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment>(
-    isEdit, noteState,
+    isEdit, noteState, id, color,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
@@ -69,7 +72,7 @@ class TextNoteViewModel(
 
     override fun setupBeforeInitialize() {
         callback?.setupBinding()
-        callback?.setupToolbar(color)
+        callback?.setupToolbar(deprecatedColor)
         callback?.setupEnter(inputControl)
     }
 
@@ -80,14 +83,14 @@ class TextNoteViewModel(
         if (!isNoteInitialized()) {
             rankDialogItemArray = runBack { getRankDialogNames() }
 
-            if (id == Default.ID) {
+            if (deprecatedId == Default.ID) {
                 noteItem = NoteItem.Text.getCreate(preferencesRepo.defaultColor)
                 cacheData()
 
                 // TODO remove
                 //                deprecatedNoteState = DeprecatedNoteState(isCreate = true)
             } else {
-                runBack { getNote(id) }?.let {
+                runBack { getNote(deprecatedId) }?.let {
                     noteItem = it
                     restoreItem = it.deepCopy()
 
@@ -118,7 +121,7 @@ class TextNoteViewModel(
     }
 
     override fun onRestoreData(): Boolean {
-        if (id == Default.ID) return false
+        if (deprecatedId == Default.ID) return false
 
         /**
          * Get color before restore data.
@@ -201,8 +204,8 @@ class TextNoteViewModel(
             //        if (deprecatedNoteState.isCreate) {
             //            deprecatedNoteState.isCreate = DeprecatedNoteState.ND_CREATE
 
-            id = noteItem.id
-            parentCallback?.updateNoteId(id)
+            deprecatedId = noteItem.id
+            parentCallback?.updateNoteId(deprecatedId)
         }
 
         callback?.sendNotifyNotesBroadcast()

@@ -9,6 +9,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteMenu
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 
 /**
@@ -20,14 +21,18 @@ interface IParentNoteViewModel : IParentViewModel,
     SaveControlImpl.Callback,
     InputTextWatcher.Callback {
 
-
     val isEdit: LiveData<Boolean>
 
     val noteState: LiveData<NoteState>
 
+    val id: LiveData<Long>
+
+    val color: LiveData<Color>
+
     //region Cleanup
 
 
+    @Deprecated("dont save any data")
     fun onSaveData(bundle: Bundle)
 
     fun onResume()

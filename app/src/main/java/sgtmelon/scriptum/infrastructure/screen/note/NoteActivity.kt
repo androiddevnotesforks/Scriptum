@@ -12,7 +12,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragme
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
@@ -49,8 +48,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
+
+        /** Call it after super function because it must be injected */
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
 
         val (id, type, color) = bundleProvider.data
         if (id == null || type == null || color == null) {
@@ -123,39 +124,21 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
      * [checkCache] - find fragment by tag or create new.
      */
     private fun showFragment(id: Long, type: NoteType, color: Color, checkCache: Boolean) {
-        val (isEdit, noteState) = bundleProvider.state ?: return finish()
-
         when (type) {
-            NoteType.TEXT -> showTextFragment(isEdit, noteState, id, color, checkCache)
-            NoteType.ROLL -> showRollFragment(isEdit, noteState, id, color, checkCache)
+            NoteType.TEXT -> showTextFragment(id, color, checkCache)
+            NoteType.ROLL -> showRollFragment(id, color, checkCache)
         }
     }
 
     // TODO Убрать из фрагментов передачу данных, брать их из bundleProvider activity
 
-    private fun showTextFragment(
-        isEdit: Boolean,
-        noteState: NoteState,
-        id: Long,
-        color: Color,
-        checkCache: Boolean
-    ) {
-        val fragment = (if (checkCache) textNoteFragment else null)
-            ?: TextNoteFragment[isEdit, noteState, id, color]
-
+    private fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
+        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment[id, color]
         showFragment(fragment, FragmentFactory.Note.Tag.TEXT)
     }
 
-    private fun showRollFragment(
-        isEdit: Boolean,
-        noteState: NoteState,
-        id: Long,
-        color: Color,
-        checkCache: Boolean
-    ) {
-        val fragment = (if (checkCache) rollNoteFragment else null)
-            ?: RollNoteFragment[isEdit, noteState, id, color]
-
+    private fun showRollFragment(id: Long, color: Color, checkCache: Boolean) {
+        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragment[id, color]
         showFragment(fragment, FragmentFactory.Note.Tag.ROLL)
     }
 
@@ -191,9 +174,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         showFragment(id, newType, color, checkCache = true)
     }
 
-    /**
-     * TODO improve it, i don't think it's work correct with split screen for example.
-     */
+    // TODO improve it, i don't think it's work correct with split screen for example.
     override fun isOrientationChanging(): Boolean = isChangingConfigurations
 
     override fun onReceiveUnbindNote(noteId: Long) {

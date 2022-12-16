@@ -35,6 +35,7 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
@@ -46,6 +47,8 @@ import sgtmelon.test.prod.RunPrivate
 class RollNoteViewModel(
     isEdit: Boolean,
     noteState: NoteState,
+    id: Long,
+    color: Color,
 
     // TODO cleanup
     callback: IRollNoteFragment,
@@ -67,7 +70,7 @@ class RollNoteViewModel(
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment>(
-    isEdit, noteState,
+    isEdit, noteState, id, color,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
@@ -87,7 +90,7 @@ class RollNoteViewModel(
     override fun setupBeforeInitialize() {
         callback?.apply {
             setupBinding()
-            setupToolbar(color)
+            setupToolbar(deprecatedColor)
             setupEnter(inputControl)
             setupRecycler(inputControl, isFirstRun)
 
@@ -104,7 +107,7 @@ class RollNoteViewModel(
         if (!isNoteInitialized()) {
             rankDialogItemArray = runBack { getRankDialogNames() }
 
-            if (id == Default.ID) {
+            if (deprecatedId == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
 
                 noteItem = NoteItem.Roll.getCreate(defaultColor)
@@ -113,7 +116,7 @@ class RollNoteViewModel(
                 // TODO remove
                 //                deprecatedNoteState = DeprecatedNoteState(isCreate = true)
             } else {
-                runBack { getNote(id) }?.let {
+                runBack { getNote(deprecatedId) }?.let {
                     noteItem = it
                     restoreItem = it.deepCopy()
 
@@ -152,7 +155,7 @@ class RollNoteViewModel(
     }
 
     override fun onRestoreData(): Boolean {
-        if (id == Default.ID) return false
+        if (deprecatedId == Default.ID) return false
 
         /**
          * Get color before restore data. Also get [NoteItem.Roll.isVisible] before
@@ -184,7 +187,7 @@ class RollNoteViewModel(
         notifyListByVisible()
 
         /**
-         * Foreign key can't be created without note [id].
+         * Foreign key can't be created without note [deprecatedId].
          * Insert will happen inside [onMenuSave].
          */
         if (noteState.value != NoteState.CREATE) {
@@ -449,8 +452,8 @@ class RollNoteViewModel(
             //        if (deprecatedNoteState.isCreate) {
             //            deprecatedNoteState.isCreate = DeprecatedNoteState.ND_CREATE
 
-            id = noteItem.id
-            parentCallback?.updateNoteId(id)
+            deprecatedId = noteItem.id
+            parentCallback?.updateNoteId(deprecatedId)
 
             /**
              * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of

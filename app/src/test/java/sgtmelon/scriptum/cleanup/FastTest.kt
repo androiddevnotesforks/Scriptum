@@ -138,21 +138,21 @@ object FastTest {
             every { colorConverter.toEnum(bundleColor) } returns null
             viewModel.getBundleData(bundle = null)
 
-            assertEquals(viewModel.id, Note.Default.ID)
-            assertEquals(viewModel.color, defaultColor)
+            assertEquals(viewModel.deprecatedId, Note.Default.ID)
+            assertEquals(viewModel.deprecatedColor, defaultColor)
 
             every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
             every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns bundleColor
             viewModel.getBundleData(bundle)
 
-            assertEquals(viewModel.id, id)
-            assertEquals(viewModel.color, defaultColor)
+            assertEquals(viewModel.deprecatedId, id)
+            assertEquals(viewModel.deprecatedColor, defaultColor)
 
             every { colorConverter.toEnum(bundleColor) } returns color
             viewModel.getBundleData(bundle)
 
-            assertEquals(viewModel.id, id)
-            assertEquals(viewModel.color, color)
+            assertEquals(viewModel.deprecatedId, id)
+            assertEquals(viewModel.deprecatedColor, color)
 
             verifySequence {
                 verifyInit()
@@ -204,8 +204,8 @@ object FastTest {
 
             every { colorConverter.toInt(color) } returns ordinal
 
-            viewModel.id = id
-            viewModel.color = color
+            viewModel.deprecatedId = id
+            viewModel.deprecatedColor = color
             viewModel.onSaveData(bundle)
 
             verifySequence {
@@ -289,7 +289,7 @@ object FastTest {
             spyViewModel.onClickBackArrow()
 
             every { spyViewModel.onRestoreData() } returns Random.nextBoolean()
-            spyViewModel.id = id
+            spyViewModel.deprecatedId = id
             spyViewModel.onClickBackArrow()
 
             verifySequence {
@@ -317,7 +317,7 @@ object FastTest {
                 saveControl.isNeedSave = false
                 callback.finish()
 
-                spyViewModel.id = id
+                spyViewModel.deprecatedId = id
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
@@ -577,7 +577,7 @@ object FastTest {
             every { noteItem.isStatus = false } returns Unit
             every { restoreItem.isStatus = false } returns Unit
 
-            viewModel.id = id
+            viewModel.deprecatedId = id
             viewModel.noteItem = noteItem
             viewModel.restoreItem = restoreItem
 

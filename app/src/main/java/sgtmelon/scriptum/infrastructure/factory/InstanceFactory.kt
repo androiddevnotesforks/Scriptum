@@ -108,7 +108,7 @@ object InstanceFactory {
                 .putExtra(IntentData.Note.Intent.TYPE, type)
                 .putExtra(IntentData.Note.Intent.COLOR, color)
                 .putExtra(IntentData.Note.Intent.IS_EDIT, isEdit)
-                .putExtra(IntentData.Note.Intent.STATE, noteState)
+                .putExtra(IntentData.Note.Intent.STATE, noteState.ordinal)
         }
     }
 
