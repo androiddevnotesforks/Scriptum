@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.test.ui.control.anim.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString

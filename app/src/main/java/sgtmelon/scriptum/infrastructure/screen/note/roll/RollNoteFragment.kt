@@ -1,12 +1,11 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
+package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragmentImpl].

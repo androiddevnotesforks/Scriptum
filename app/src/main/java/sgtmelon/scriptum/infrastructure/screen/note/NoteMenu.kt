@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
+package sgtmelon.scriptum.infrastructure.screen.note
 
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 
 /**
  * Interface for communication dataBinding with [TextNoteViewModelImpl]/[RollNoteViewModelImpl].

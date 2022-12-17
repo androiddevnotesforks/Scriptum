@@ -9,12 +9,6 @@ import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.TextNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModelImpl
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
@@ -76,6 +70,12 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModel
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModel
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel

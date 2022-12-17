@@ -11,7 +11,7 @@
 
         <variable
             name="menuCallback"
-            type="sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.NoteMenu" />
+            type="sgtmelon.scriptum.infrastructure.screen.note.NoteMenu" />
 
         <variable
             name="isDataLoad"

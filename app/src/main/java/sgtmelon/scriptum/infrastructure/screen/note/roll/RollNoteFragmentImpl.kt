@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note
+package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import android.os.Bundle
 import android.text.InputType
@@ -33,8 +33,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -43,7 +41,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.note.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon

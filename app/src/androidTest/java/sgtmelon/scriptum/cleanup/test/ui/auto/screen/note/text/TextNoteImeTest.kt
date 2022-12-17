@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.text
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString

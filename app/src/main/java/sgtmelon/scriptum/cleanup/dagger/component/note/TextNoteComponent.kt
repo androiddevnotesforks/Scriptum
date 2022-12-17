@@ -4,9 +4,9 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 
 /**
  * Component for [TextNoteFragmentImpl].

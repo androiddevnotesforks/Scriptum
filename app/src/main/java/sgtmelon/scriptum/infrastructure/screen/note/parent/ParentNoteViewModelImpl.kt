@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
+package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
@@ -15,8 +15,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ParentNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ParentNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase

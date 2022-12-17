@@ -1,10 +1,9 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
+package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.TextNoteViewModel
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 
 /**
  * Interface for communication [TextNoteViewModel] with [TextNoteFragmentImpl].

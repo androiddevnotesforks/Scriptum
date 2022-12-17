@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 

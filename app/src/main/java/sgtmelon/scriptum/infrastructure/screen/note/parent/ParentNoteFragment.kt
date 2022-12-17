@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
+package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem

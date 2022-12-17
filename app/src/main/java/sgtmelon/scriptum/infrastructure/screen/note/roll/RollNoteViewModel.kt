@@ -1,9 +1,8 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note
+package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModel
 
 /**
  * Interface for communication [RollNoteFragment] with [RollNoteViewModelImpl].

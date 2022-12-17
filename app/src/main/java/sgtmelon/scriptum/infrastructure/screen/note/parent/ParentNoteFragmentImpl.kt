@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.infrastructure.screen.note
+package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import androidx.databinding.ViewDataBinding
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ParentNoteViewModel
+import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 
 /**

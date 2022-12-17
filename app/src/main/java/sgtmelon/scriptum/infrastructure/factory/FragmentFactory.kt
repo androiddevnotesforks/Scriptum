@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.infrastructure.factory
 
 import androidx.fragment.app.FragmentManager
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopFragment
 import sgtmelon.scriptum.develop.infrastructure.screen.service.ServiceDevelopFragment
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
