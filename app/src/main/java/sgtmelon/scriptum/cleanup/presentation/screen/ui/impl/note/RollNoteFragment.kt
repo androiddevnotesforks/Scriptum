@@ -11,8 +11,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
-import androidx.transition.TransitionManager
 import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.extensions.removeExtraSpace
@@ -52,7 +50,6 @@ import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
-import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Fragment for display roll note.
@@ -295,13 +292,6 @@ class RollNoteFragment : ParentNoteFragment<FragmentRollNoteBinding>(),
 
 
     override fun onBindingLoad(isRankEmpty: Boolean) {
-        binding?.rollNoteParentContainer?.let {
-            val time = resources.getInteger(R.integer.note_open_time).toLong()
-            val transition = Fade().setDuration(time)
-            TransitionManager.beginDelayedTransition(it, transition)
-            getWaitIdling().start(time)
-        }
-
         binding?.apply {
             this.isDataLoad = true
             this.isRankEmpty = isRankEmpty
@@ -316,12 +306,6 @@ class RollNoteFragment : ParentNoteFragment<FragmentRollNoteBinding>(),
     }
 
     override fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean) {
-        binding?.panelInclude?.notePanelContainer?.let {
-            val time = resources.getInteger(R.integer.note_change_time).toLong()
-            TransitionManager.beginDelayedTransition(it, Fade().setDuration(time))
-            getWaitIdling().start(time)
-        }
-
         binding?.apply {
             this.item = item
             this.isEditMode = isEditMode

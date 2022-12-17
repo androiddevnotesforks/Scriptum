@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
-import androidx.transition.Fade
-import androidx.transition.TransitionManager
 import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -35,7 +33,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
-import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Fragment for display text note.
@@ -196,13 +193,6 @@ class TextNoteFragment : ParentNoteFragment<FragmentTextNoteBinding>(),
 
 
     override fun onBindingLoad(isRankEmpty: Boolean) {
-        binding?.textNoteParentContainer?.let {
-            val time = resources.getInteger(R.integer.note_open_time).toLong()
-            val transition = Fade().setDuration(time)
-            TransitionManager.beginDelayedTransition(it, transition)
-            getWaitIdling().start(time)
-        }
-
         binding?.apply {
             this.isDataLoad = true
             this.isRankEmpty = isRankEmpty
@@ -214,12 +204,6 @@ class TextNoteFragment : ParentNoteFragment<FragmentTextNoteBinding>(),
     }
 
     override fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean) {
-        binding?.panelInclude?.notePanelContainer?.let {
-            val time = resources.getInteger(R.integer.note_change_time).toLong()
-            TransitionManager.beginDelayedTransition(it, Fade().setDuration(time))
-            getWaitIdling().start(time)
-        }
-
         binding?.apply {
             this.item = item
             this.isEditMode = isEditMode
