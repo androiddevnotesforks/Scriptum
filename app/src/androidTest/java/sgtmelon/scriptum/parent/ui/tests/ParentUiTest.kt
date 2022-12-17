@@ -7,7 +7,7 @@ import org.junit.Before
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed

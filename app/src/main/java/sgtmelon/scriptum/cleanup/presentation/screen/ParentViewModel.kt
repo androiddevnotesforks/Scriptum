@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
+package sgtmelon.scriptum.cleanup.presentation.screen
 
 import androidx.lifecycle.ViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.test.prod.RunProtected
 
 /**

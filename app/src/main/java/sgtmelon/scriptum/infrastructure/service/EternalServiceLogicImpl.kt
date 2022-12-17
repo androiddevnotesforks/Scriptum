@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runMain
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.domain.model.result.TidyUpResult
 import sgtmelon.scriptum.domain.useCase.alarm.TidyUpAlarmUseCase
 import sgtmelon.scriptum.domain.useCase.bind.GetBindNoteListUseCase

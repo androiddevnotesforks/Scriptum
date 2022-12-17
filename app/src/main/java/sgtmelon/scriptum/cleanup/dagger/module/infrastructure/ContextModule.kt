@@ -5,7 +5,7 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 
 @Module
 class ContextModule {

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.ui
+package sgtmelon.scriptum.cleanup.presentation.screen
 
 import android.app.Application
 import sgtmelon.scriptum.cleanup.dagger.component.DaggerScriptumComponent

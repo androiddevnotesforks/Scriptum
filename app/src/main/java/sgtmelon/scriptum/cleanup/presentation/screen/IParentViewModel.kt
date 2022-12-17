@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback
+package sgtmelon.scriptum.cleanup.presentation.screen
 
 import android.os.Bundle
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * Parent interface for communicate with children of [ParentViewModel].

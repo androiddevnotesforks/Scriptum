@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.IParentViewModel
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
