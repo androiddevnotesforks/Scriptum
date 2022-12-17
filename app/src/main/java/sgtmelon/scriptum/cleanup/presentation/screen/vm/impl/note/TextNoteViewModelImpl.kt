@@ -34,7 +34,7 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * ViewModel for [ITextNoteFragment].
  */
-class TextNoteViewModel(
+class TextNoteViewModelImpl(
     isEdit: Boolean,
     noteState: NoteState,
     id: Long,
@@ -57,7 +57,7 @@ class TextNoteViewModel(
     getNotificationDateList: GetNotificationDateListUseCase,
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
-) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment>(
+) : ParentNoteViewModelImpl<NoteItem.Text, ITextNoteFragment>(
     isEdit, noteState, id, color,
 
     // TODO cleanup

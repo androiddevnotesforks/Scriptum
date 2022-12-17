@@ -4,7 +4,7 @@ import org.junit.Test
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
- * Test for [TextNoteViewModel].
+ * Test for [TextNoteViewModelImpl].
  */
 class TextNoteViewModelTest : ParentTest() {
 

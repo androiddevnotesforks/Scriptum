@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.RollItemUi
@@ -281,7 +281,7 @@ class RollNoteScreen(
     //endregion
 
     /**
-     * @Test - duplicate of original function in [RollNoteViewModel].
+     * @Test - duplicate of original function in [RollNoteViewModelImpl].
      */
     private fun getCorrectPosition(p: Int, list: List<RollItem>): Int {
         return if (item.isVisible) p else list.indexOf(list.hide()[p])

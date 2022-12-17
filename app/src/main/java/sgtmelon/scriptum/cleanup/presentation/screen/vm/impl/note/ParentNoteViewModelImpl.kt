@@ -39,9 +39,9 @@ import sgtmelon.test.prod.RunPrivate
 import sgtmelon.test.prod.RunProtected
 
 /**
- * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
+ * Parent viewModel for [TextNoteViewModelImpl] and [RollNoteViewModelImpl].
  */
-abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
+abstract class ParentNoteViewModelImpl<N : NoteItem, C : IParentNoteFragment<N>>(
     isEdit: Boolean,
     noteState: NoteState,
     id: Long,

@@ -4,7 +4,7 @@ import org.junit.Test
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
- * Test for [RollNoteViewModel].
+ * Test for [RollNoteViewModelImpl].
  */
 class RollNoteViewModelTest : ParentTest() {
 

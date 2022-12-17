@@ -6,8 +6,8 @@ import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModelImpl
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
@@ -190,9 +190,9 @@ object ViewModelFactory {
             private val getRankDialogNames: GetRankDialogNamesUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(TextNoteViewModel::class) {
+                return modelClass.create(TextNoteViewModelImpl::class) {
                     val parentCallback = fragment.context as? NoteConnector
-                    TextNoteViewModel(
+                    TextNoteViewModelImpl(
                         isEdit, noteState, id, color,
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         getNote, saveNote, convertNote, updateNote, deleteNote, restoreNote,
@@ -228,9 +228,9 @@ object ViewModelFactory {
             private val getRankDialogNames: GetRankDialogNamesUseCase,
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(RollNoteViewModel::class) {
+                return modelClass.create(RollNoteViewModelImpl::class) {
                     val parentCallback = fragment.context as? NoteConnector
-                    RollNoteViewModel(
+                    RollNoteViewModelImpl(
                         isEdit, noteState, id, color,
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         getNote, saveNote, convertNote, updateNote, deleteNote, restoreNote,

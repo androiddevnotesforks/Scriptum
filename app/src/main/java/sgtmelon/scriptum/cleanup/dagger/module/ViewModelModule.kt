@@ -13,8 +13,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModelImpl
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
@@ -208,7 +208,7 @@ class ViewModelModule {
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames
         )
-        val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModel::class.java]
+        val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModelImpl::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
         viewModel.setSaveControl(saveControl)
 
@@ -248,7 +248,7 @@ class ViewModelModule {
             setNotification, deleteNotification, getNotificationDateList, getRankId,
             getRankDialogNames
         )
-        val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModel::class.java]
+        val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModelImpl::class.java]
         val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
         viewModel.setSaveControl(saveControl)
 

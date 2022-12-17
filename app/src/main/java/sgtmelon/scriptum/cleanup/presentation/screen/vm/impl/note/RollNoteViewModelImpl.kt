@@ -44,7 +44,7 @@ import sgtmelon.test.prod.RunPrivate
 /**
  * ViewModel for [IRollNoteFragment].
  */
-class RollNoteViewModel(
+class RollNoteViewModelImpl(
     isEdit: Boolean,
     noteState: NoteState,
     id: Long,
@@ -69,7 +69,7 @@ class RollNoteViewModel(
     getNotificationDateList: GetNotificationDateListUseCase,
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
-) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment>(
+) : ParentNoteViewModelImpl<NoteItem.Roll, IRollNoteFragment>(
     isEdit, noteState, id, color,
 
     // TODO cleanup

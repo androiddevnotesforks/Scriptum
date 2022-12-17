@@ -63,6 +63,8 @@ class RollNoteFragment : ParentNoteFragment<FragmentRollNoteBinding>(),
 
     @Inject override lateinit var viewModel: IRollNoteViewModel
 
+    //region Cleanup
+
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
     private var visibleIconControl: IconChangeCallback? = null
@@ -523,6 +525,8 @@ class RollNoteFragment : ParentNoteFragment<FragmentRollNoteBinding>(),
     override fun sendNotifyInfoBroadcast(count: Int?) {
         system.broadcast.sendNotifyInfoBind(count)
     }
+
+    //endregion
 
     //endregion
 

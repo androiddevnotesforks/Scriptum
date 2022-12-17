@@ -45,6 +45,8 @@ class TextNoteFragment : ParentNoteFragment<FragmentTextNoteBinding>(),
 
     @Inject override lateinit var viewModel: ITextNoteViewModel
 
+    //region Cleanup
+
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
 
@@ -317,6 +319,8 @@ class TextNoteFragment : ParentNoteFragment<FragmentTextNoteBinding>(),
     override fun sendNotifyInfoBroadcast(count: Int?) {
         system.broadcast.sendNotifyInfoBind(count)
     }
+
+    //endregion
 
     //endregion
 

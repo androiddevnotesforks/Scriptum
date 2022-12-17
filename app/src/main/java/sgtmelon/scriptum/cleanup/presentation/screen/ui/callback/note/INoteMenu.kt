@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
 
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModelImpl
 
 /**
- * Interface for communication dataBinding with [TextNoteViewModel]/[RollNoteViewModel].
+ * Interface for communication dataBinding with [TextNoteViewModelImpl]/[RollNoteViewModelImpl].
  */
 interface INoteMenu {
 

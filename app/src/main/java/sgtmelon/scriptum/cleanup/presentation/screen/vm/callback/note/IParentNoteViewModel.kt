@@ -6,13 +6,13 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTe
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteMenu
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 
 /**
- * Parent interface for communicate with children of [ParentNoteViewModel].
+ * Parent interface for communicate with children of [ParentNoteViewModelImpl].
  */
 @Deprecated("Remove ParentViewModel, change name")
 interface IParentNoteViewModel : IParentViewModel,
