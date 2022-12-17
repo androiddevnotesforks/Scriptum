@@ -358,6 +358,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         val colorOrdinalTo = item[isUndo].toIntOrNull() ?: return
         val colorTo = colorConverter.toEnum(colorOrdinalTo) ?: return
 
+        color.postValue(colorTo)
         noteItem.color = colorTo
 
         callback?.tintToolbar(colorFrom, colorTo)
