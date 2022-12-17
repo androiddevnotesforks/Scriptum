@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 /**
  * Parent class for fragments which will be displayed in [NoteActivity].
  */
-abstract class ParentNoteFragment<T : ViewDataBinding> : BindingFragment<T>() {
+abstract class ParentNoteFragmentImpl<T : ViewDataBinding> : BindingFragment<T>() {
 
     abstract val viewModel: ParentNoteViewModel
 

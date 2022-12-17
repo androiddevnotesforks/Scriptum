@@ -5,13 +5,13 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
 
 /**
- * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModelImpl]
+ * Control drag and swipe for [RollNoteFragmentImpl], setup in [RollNoteViewModelImpl]
  */
 class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
     ItemDragListener {

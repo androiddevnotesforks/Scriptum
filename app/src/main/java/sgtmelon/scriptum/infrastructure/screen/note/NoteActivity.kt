@@ -7,8 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
@@ -24,7 +24,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNotePlaceholder
 
 /**
- * Screen which display note - [TextNoteFragment], [RollNoteFragment].
+ * Screen which display note - [TextNoteFragmentImpl], [RollNoteFragmentImpl].
  */
 class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     NoteConnector,
@@ -142,12 +142,12 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     }
 
     private fun showTextFragment(checkCache: Boolean) {
-        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment()
+        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragmentImpl()
         showFragment(fragment, FragmentFactory.Note.Tag.TEXT)
     }
 
     private fun showRollFragment(checkCache: Boolean) {
-        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragment()
+        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragmentImpl()
         showFragment(fragment, FragmentFactory.Note.Tag.ROLL)
     }
 

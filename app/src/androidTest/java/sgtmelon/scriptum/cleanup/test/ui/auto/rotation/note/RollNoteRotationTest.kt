@@ -5,12 +5,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
 
 /**
- * Test of [RollNoteFragment] work with phone rotation.
+ * Test of [RollNoteFragmentImpl] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
 class RollNoteRotationTest : ParentUiRotationTest() {

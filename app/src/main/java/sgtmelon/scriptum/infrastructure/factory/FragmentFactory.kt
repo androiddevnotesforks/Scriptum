@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.infrastructure.factory
 
 import androidx.fragment.app.FragmentManager
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopFragment
 import sgtmelon.scriptum.develop.infrastructure.screen.service.ServiceDevelopFragment
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
@@ -24,9 +24,9 @@ object FragmentFactory {
 
     class Note(private val fm: FragmentManager) {
 
-        fun getTextNote(): TextNoteFragment? = fm.getFragmentByTag(Tag.TEXT)
+        fun getTextNote(): TextNoteFragmentImpl? = fm.getFragmentByTag(Tag.TEXT)
 
-        fun getRollNote(): RollNoteFragment? = fm.getFragmentByTag(Tag.ROLL)
+        fun getRollNote(): RollNoteFragmentImpl? = fm.getFragmentByTag(Tag.ROLL)
 
         object Tag {
             private const val PREFIX = "FRAGMENT_NOTE"

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModelImpl
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -173,7 +173,7 @@ object ViewModelFactory {
             private val id: Long,
             private val color: Color,
             // TODO refactor
-            private val fragment: TextNoteFragment,
+            private val fragment: TextNoteFragmentImpl,
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val getNote: GetTextNoteUseCase,
@@ -209,7 +209,7 @@ object ViewModelFactory {
             private val id: Long,
             private val color: Color,
             // TODO refactor
-            private val fragment: RollNoteFragment,
+            private val fragment: RollNoteFragmentImpl,
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val getNote: GetRollNoteUseCase,

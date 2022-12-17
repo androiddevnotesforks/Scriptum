@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
@@ -31,7 +31,7 @@ import sgtmelon.test.cappuccino.utils.withSizeAttr
 import sgtmelon.test.cappuccino.utils.withText
 
 /**
- * Class for UI control of [NoteActivity], [TextNoteFragment].
+ * Class for UI control of [NoteActivity], [TextNoteFragmentImpl].
  */
 class TextNoteScreen(
     override var state: NoteState,

@@ -9,8 +9,8 @@ import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.TextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
@@ -186,7 +186,7 @@ class ViewModelModule {
         id: Long,
         color: Color,
         // TODO refactor
-        fragment: TextNoteFragment,
+        fragment: TextNoteFragmentImpl,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
         getNote: GetTextNoteUseCase,
@@ -223,7 +223,7 @@ class ViewModelModule {
         id: Long,
         color: Color,
         // TODO refactor
-        fragment: RollNoteFragment,
+        fragment: RollNoteFragmentImpl,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
         getNote: GetRollNoteUseCase,

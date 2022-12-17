@@ -3,13 +3,13 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.text
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragmentImpl
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test control panel for [TextNoteFragment].
+ * Test control panel for [TextNoteFragmentImpl].
  */
 @RunWith(AndroidJUnit4::class)
 class TextNotePanelTest : ParentUiTest() {

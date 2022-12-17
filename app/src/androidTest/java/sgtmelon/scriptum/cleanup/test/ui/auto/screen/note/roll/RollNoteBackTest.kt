@@ -3,13 +3,13 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test toolbar arrow and back press for [RollNoteFragment].
+ * Test toolbar arrow and back press for [RollNoteFragmentImpl].
  */
 @RunWith(AndroidJUnit4::class)
 class RollNoteBackTest : ParentUiTest() {

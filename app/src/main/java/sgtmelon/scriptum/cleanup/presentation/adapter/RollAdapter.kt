@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
 /**
- * Adapter which displays list of rolls for [RollNoteFragment].
+ * Adapter which displays list of rolls for [RollNoteFragmentImpl].
  */
 class RollAdapter(
     private val dragListener: ItemDragListener,

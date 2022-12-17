@@ -28,7 +28,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.note.ParentNoteFragment
+import sgtmelon.scriptum.infrastructure.screen.note.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
@@ -37,7 +37,7 @@ import sgtmelon.test.idling.getIdling
 /**
  * Fragment for display text note.
  */
-class TextNoteFragment : ParentNoteFragment<FragmentTextNoteBinding>(),
+class TextNoteFragmentImpl : ParentNoteFragmentImpl<FragmentTextNoteBinding>(),
     ITextNoteFragment,
     IconBlockCallback {
 
