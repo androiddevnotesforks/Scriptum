@@ -11,8 +11,8 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.TextNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModelImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModelImpl
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -201,7 +201,7 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase
-    ): ITextNoteViewModel {
+    ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             isEdit, noteState, id, color,
             fragment, colorConverter, preferencesRepo, getNote, saveNote, convertNote,
@@ -240,7 +240,7 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
-    ): IRollNoteViewModel {
+    ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             isEdit, noteState, id, color,
             fragment, colorConverter, preferencesRepo, getNote, saveNote, convertNote,

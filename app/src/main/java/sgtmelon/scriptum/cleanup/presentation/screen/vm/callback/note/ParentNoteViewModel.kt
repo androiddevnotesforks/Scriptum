@@ -15,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
  * Parent interface for communicate with children of [ParentNoteViewModelImpl].
  */
 @Deprecated("Remove ParentViewModel, change name")
-interface IParentNoteViewModel : IParentViewModel,
+interface ParentNoteViewModel : IParentViewModel,
     UnbindNoteReceiver.Callback,
     INoteMenu,
     SaveControlImpl.Callback,

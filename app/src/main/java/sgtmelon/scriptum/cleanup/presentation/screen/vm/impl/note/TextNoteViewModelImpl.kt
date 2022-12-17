@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.TextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -64,7 +64,7 @@ class TextNoteViewModelImpl(
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId
-), ITextNoteViewModel {
+), TextNoteViewModel {
 
     override fun cacheData() {
         restoreItem = noteItem.deepCopy()

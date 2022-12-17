@@ -6,4 +6,4 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewMo
 /**
  * Interface for communication [ITextNoteFragment] with [TextNoteViewModelImpl].
  */
-interface ITextNoteViewModel : IParentNoteViewModel
+interface TextNoteViewModel : ParentNoteViewModel

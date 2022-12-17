@@ -8,9 +8,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewMo
 /**
  * Interface for communication [IRollNoteFragment] with [RollNoteViewModelImpl].
  */
-interface IRollNoteViewModel : IParentNoteViewModel,
-        RollWriteHolder.Callback,
-        RollTouchControl.Callback {
+interface RollNoteViewModel : ParentNoteViewModel,
+    RollWriteHolder.Callback,
+    RollTouchControl.Callback {
 
     fun onClickVisible()
 

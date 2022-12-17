@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.TextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -43,7 +43,7 @@ class TextNoteFragment : ParentNoteFragment<FragmentTextNoteBinding>(),
 
     override val layoutId: Int = R.layout.fragment_text_note
 
-    @Inject override lateinit var viewModel: ITextNoteViewModel
+    @Inject override lateinit var viewModel: TextNoteViewModel
 
     //region Cleanup
 

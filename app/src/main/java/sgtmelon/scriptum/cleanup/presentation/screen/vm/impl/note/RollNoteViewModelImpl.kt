@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -76,7 +76,7 @@ class RollNoteViewModelImpl(
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId
-), IRollNoteViewModel {
+), RollNoteViewModel {
 
     /**
      * Variable for detect first screen run. After rotations it will be false.

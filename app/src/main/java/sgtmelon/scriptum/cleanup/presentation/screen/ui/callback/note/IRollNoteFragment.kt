@@ -4,12 +4,12 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
- * Interface for communication [IRollNoteViewModel] with [RollNoteFragment].
+ * Interface for communication [RollNoteViewModel] with [RollNoteFragment].
  */
 interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
 

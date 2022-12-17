@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
 import androidx.databinding.ViewDataBinding
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IParentNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ParentNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 
 /**
@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
  */
 abstract class ParentNoteFragment<T : ViewDataBinding> : BindingFragment<T>() {
 
-    abstract val viewModel: IParentNoteViewModel
+    abstract val viewModel: ParentNoteViewModel
 
     protected val connector get() = activity as? NoteConnector
 

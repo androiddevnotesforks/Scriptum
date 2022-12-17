@@ -34,7 +34,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTe
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -61,7 +61,7 @@ class RollNoteFragment : ParentNoteFragment<FragmentRollNoteBinding>(),
 
     override val layoutId: Int = R.layout.fragment_roll_note
 
-    @Inject override lateinit var viewModel: IRollNoteViewModel
+    @Inject override lateinit var viewModel: RollNoteViewModel
 
     //region Cleanup
 

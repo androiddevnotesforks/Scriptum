@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IParentNoteViewModel
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ParentNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -62,7 +62,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : IParentNoteFragment<N>>
     private val getNotificationDateList: GetNotificationDateListUseCase,
     private val getRankId: GetRankIdUseCase
 ) : ParentViewModel<C>(callback),
-    IParentNoteViewModel {
+    ParentNoteViewModel {
 
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(isEdit)
 
