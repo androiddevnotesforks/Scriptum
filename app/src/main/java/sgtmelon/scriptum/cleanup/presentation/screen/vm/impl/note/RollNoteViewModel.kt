@@ -164,7 +164,7 @@ class RollNoteViewModel(
         onUpdateInfo()
 
         callback?.tintToolbar(colorFrom, colorTo)
-        parentCallback?.updateNoteColor(colorTo)
+        color.postValue(colorTo)
         inputControl.reset()
 
         return true
@@ -389,6 +389,9 @@ class RollNoteViewModel(
         }
     }
 
+    /**
+     * Don't need update [color] because it's happen in [onResultColorDialog] function.
+     */
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false
 
@@ -410,8 +413,6 @@ class RollNoteViewModel(
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
-        parentCallback?.updateNoteColor(noteItem.color)
-
         viewModelScope.launch { saveBackgroundWork() }
 
         return true
@@ -425,9 +426,6 @@ class RollNoteViewModel(
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)
             id.postValue(noteItem.id)
-
-            // TODO subscribe on id and update noteId value inside fragments
-            parentCallback?.updateNoteId(noteItem.id)
 
             /**
              * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of

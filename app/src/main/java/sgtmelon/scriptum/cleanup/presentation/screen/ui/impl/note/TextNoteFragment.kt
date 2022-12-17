@@ -30,7 +30,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.note.ParentNoteFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
@@ -40,13 +40,13 @@ import sgtmelon.test.idling.getWaitIdling
 /**
  * Fragment for display text note.
  */
-class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
+class TextNoteFragment : ParentNoteFragment<FragmentTextNoteBinding>(),
     ITextNoteFragment,
     IconBlockCallback {
 
     override val layoutId: Int = R.layout.fragment_text_note
 
-    @Inject lateinit var viewModel: ITextNoteViewModel
+    @Inject override lateinit var viewModel: ITextNoteViewModel
 
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
@@ -102,12 +102,6 @@ class TextNoteFragment : BindingFragment<FragmentTextNoteBinding>(),
         super.onDestroy()
         viewModel.onDestroy()
     }
-
-    // TODO remove
-    //    override fun onSaveInstanceState(outState: Bundle) {
-    //        super.onSaveInstanceState(outState)
-    //        viewModel.onSaveData(outState)
-    //    }
 
     //region Callback functions
 

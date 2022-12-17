@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
 import android.os.Bundle
+import android.util.Log
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteStateConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
@@ -60,10 +61,28 @@ class NoteBundleProvider(
         color?.let { outState.putEnum(Intent.COLOR, colorConverter, it) }
     }
 
-    fun updateEdit(isEdit: Boolean) = run { this.isEdit = isEdit }
-    fun updateState(noteState: NoteState) = run { this.noteState = noteState }
+    fun updateEdit(isEdit: Boolean) = run {
+        Log.i("HERE", "updateEdit: $isEdit")
+        this.isEdit = isEdit
+    }
 
-    fun updateId(id: Long) = run { this.id = id }
-    fun updateType(type: NoteType) = run { this.type = type }
-    fun updateColor(color: Color) = run { this.color = color }
+    fun updateState(noteState: NoteState) = run {
+        Log.i("HERE", "updateState: $noteState")
+        this.noteState = noteState
+    }
+
+    fun updateId(id: Long) = run {
+        Log.i("HERE", "updateId: $id")
+        this.id = id
+    }
+
+    fun updateType(type: NoteType) = run {
+        Log.i("HERE", "updateType: $type")
+        this.type = type
+    }
+
+    fun updateColor(color: Color) = run {
+        Log.i("HERE", "updateColor: $color")
+        this.color = color
+    }
 }

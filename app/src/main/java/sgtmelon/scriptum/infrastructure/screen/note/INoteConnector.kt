@@ -4,17 +4,9 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 interface INoteConnector {
 
-    /**
-     * After save new note need update [id].
-     */
-    @Deprecated("from child fragment update value directly inside bundle provider")
-    fun updateNoteId(id: Long)
+    val bundleProvider: NoteBundleProvider
 
-    /**
-     * After save note need update [color].
-     */
-    @Deprecated("from child fragment update value directly inside bundle provider")
-    fun updateNoteColor(color: Color)
+    fun updateHolder(color: Color)
 
     fun convertNote()
 

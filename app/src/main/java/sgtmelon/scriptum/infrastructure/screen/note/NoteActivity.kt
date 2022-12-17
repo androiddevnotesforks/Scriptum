@@ -33,7 +33,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     override val layoutId: Int = R.layout.activity_note
 
     @Inject lateinit var viewModel: NoteViewModel
-    @Inject lateinit var bundleProvider: NoteBundleProvider
+    @Inject override lateinit var bundleProvider: NoteBundleProvider
 
     private val fragments = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragments.getTextNote()
@@ -127,7 +127,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     //endregion
 
-    private fun updateHolder(color: Color) {
+    override fun updateHolder(color: Color) {
         tintPlaceholder.changeColor(color, window, binding?.toolbarHolder)
     }
 
@@ -160,13 +160,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
                 .replace(R.id.fragment_container, fragment, tag)
                 .commit()
         }
-    }
-
-    override fun updateNoteId(id: Long) = bundleProvider.updateId(id)
-
-    override fun updateNoteColor(color: Color) {
-        bundleProvider.updateColor(color)
-        updateHolder(color)
     }
 
     override fun convertNote() {

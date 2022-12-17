@@ -126,7 +126,7 @@ class TextNoteViewModel(
         setupEditMode(isEdit = false)
 
         callback?.tintToolbar(colorFrom, colorTo)
-        parentCallback?.updateNoteColor(colorTo)
+        color.postValue(colorTo)
         inputControl.reset()
 
         return true
@@ -156,6 +156,9 @@ class TextNoteViewModel(
         callback?.changeText(text, cursor)
     }
 
+    /**
+     * Don't need update [color] because it's happen in [onResultColorDialog] function.
+     */
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false
 
@@ -172,8 +175,6 @@ class TextNoteViewModel(
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
-        parentCallback?.updateNoteColor(noteItem.color)
-
         viewModelScope.launch { saveBackgroundWork() }
 
         return true
@@ -187,9 +188,6 @@ class TextNoteViewModel(
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)
             id.postValue(noteItem.id)
-
-            // TODO subscribe on id and update noteId value inside fragments
-            parentCallback?.updateNoteId(noteItem.id)
         }
 
         callback?.sendNotifyNotesBroadcast()

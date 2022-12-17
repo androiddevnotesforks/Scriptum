@@ -45,7 +45,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.note.ParentNoteFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
@@ -57,14 +57,14 @@ import sgtmelon.test.idling.getWaitIdling
 /**
  * Fragment for display roll note.
  */
-class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
+class RollNoteFragment : ParentNoteFragment<FragmentRollNoteBinding>(),
     IRollNoteFragment,
     Toolbar.OnMenuItemClickListener,
     IconBlockCallback {
 
     override val layoutId: Int = R.layout.fragment_roll_note
 
-    @Inject lateinit var viewModel: IRollNoteViewModel
+    @Inject override lateinit var viewModel: IRollNoteViewModel
 
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
@@ -148,12 +148,6 @@ class RollNoteFragment : BindingFragment<FragmentRollNoteBinding>(),
         super.onDestroy()
         viewModel.onDestroy()
     }
-
-    // TODO remove
-    //    override fun onSaveInstanceState(outState: Bundle) {
-    //        super.onSaveInstanceState(outState)
-    //        viewModel.onSaveData(outState)
-    //    }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         open.attempt(withSwitch = false) { viewModel.onClickVisible() }
