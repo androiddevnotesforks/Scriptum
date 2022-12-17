@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ParentNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -41,7 +41,7 @@ import sgtmelon.test.prod.RunProtected
 /**
  * Parent viewModel for [TextNoteViewModelImpl] and [RollNoteViewModelImpl].
  */
-abstract class ParentNoteViewModelImpl<N : NoteItem, C : IParentNoteFragment<N>>(
+abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     isEdit: Boolean,
     noteState: NoteState,
     id: Long,

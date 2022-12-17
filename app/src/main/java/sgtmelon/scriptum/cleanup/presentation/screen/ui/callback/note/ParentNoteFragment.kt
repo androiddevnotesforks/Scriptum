@@ -7,9 +7,9 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 
 /**
- * Parent interface for [ITextNoteFragment] and [IRollNoteFragment].
+ * Parent interface for [TextNoteFragment] and [RollNoteFragment].
  */
-interface IParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm,
+interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm,
     EternalServiceReceiver.Bridge.Bind {
 
     val isDialogOpen: Boolean

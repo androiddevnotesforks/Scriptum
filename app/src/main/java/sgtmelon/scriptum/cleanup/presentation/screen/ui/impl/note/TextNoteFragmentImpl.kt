@@ -19,7 +19,7 @@ import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.TextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -38,7 +38,7 @@ import sgtmelon.test.idling.getIdling
  * Fragment for display text note.
  */
 class TextNoteFragmentImpl : ParentNoteFragmentImpl<FragmentTextNoteBinding>(),
-    ITextNoteFragment,
+    TextNoteFragment,
     IconBlockCallback {
 
     override val layoutId: Int = R.layout.fragment_text_note

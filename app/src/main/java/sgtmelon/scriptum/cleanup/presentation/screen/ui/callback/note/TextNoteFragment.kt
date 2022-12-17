@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 /**
  * Interface for communication [TextNoteViewModel] with [TextNoteFragmentImpl].
  */
-interface ITextNoteFragment : IParentNoteFragment<NoteItem.Text> {
+interface TextNoteFragment : ParentNoteFragment<NoteItem.Text> {
 
     /**
      * Setup elements for binding which is constants

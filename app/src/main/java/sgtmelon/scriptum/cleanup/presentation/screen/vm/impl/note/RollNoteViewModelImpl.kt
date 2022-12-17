@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -42,7 +42,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.test.prod.RunPrivate
 
 /**
- * ViewModel for [IRollNoteFragment].
+ * ViewModel for [RollNoteFragment].
  */
 class RollNoteViewModelImpl(
     isEdit: Boolean,
@@ -51,7 +51,7 @@ class RollNoteViewModelImpl(
     color: Color,
 
     // TODO cleanup
-    callback: IRollNoteFragment,
+    callback: RollNoteFragment,
     parentCallback: NoteConnector?,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
@@ -69,7 +69,7 @@ class RollNoteViewModelImpl(
     getNotificationDateList: GetNotificationDateListUseCase,
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
-) : ParentNoteViewModelImpl<NoteItem.Roll, IRollNoteFragment>(
+) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
     isEdit, noteState, id, color,
 
     // TODO cleanup

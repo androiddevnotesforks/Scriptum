@@ -11,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragmentImpl].
  */
-interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
+interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun setTouchAction(inAction: Boolean)
 

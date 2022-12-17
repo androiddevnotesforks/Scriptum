@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewMo
 /**
  * Interface for communication dataBinding with [TextNoteViewModelImpl]/[RollNoteViewModelImpl].
  */
-interface INoteMenu {
+interface NoteMenu {
 
     //region Inside bin
 

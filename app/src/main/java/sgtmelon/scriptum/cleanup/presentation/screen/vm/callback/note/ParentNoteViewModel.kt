@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteMenu
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.NoteMenu
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 @Deprecated("Remove ParentViewModel, change name")
 interface ParentNoteViewModel : IParentViewModel,
     UnbindNoteReceiver.Callback,
-    INoteMenu,
+    NoteMenu,
     SaveControlImpl.Callback,
     InputTextWatcher.Callback {
 

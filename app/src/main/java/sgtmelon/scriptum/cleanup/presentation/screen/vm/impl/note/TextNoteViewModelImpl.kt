@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.TextNoteViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -32,7 +32,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.test.prod.RunPrivate
 
 /**
- * ViewModel for [ITextNoteFragment].
+ * ViewModel for [TextNoteFragment].
  */
 class TextNoteViewModelImpl(
     isEdit: Boolean,
@@ -41,7 +41,7 @@ class TextNoteViewModelImpl(
     color: Color,
 
     // TODO cleanup
-    callback: ITextNoteFragment,
+    callback: TextNoteFragment,
     parentCallback: NoteConnector?,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
@@ -57,7 +57,7 @@ class TextNoteViewModelImpl(
     getNotificationDateList: GetNotificationDateListUseCase,
     getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase
-) : ParentNoteViewModelImpl<NoteItem.Text, ITextNoteFragment>(
+) : ParentNoteViewModelImpl<NoteItem.Text, TextNoteFragment>(
     isEdit, noteState, id, color,
 
     // TODO cleanup

@@ -33,7 +33,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.RollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -55,7 +55,7 @@ import sgtmelon.test.idling.getIdling
  * Fragment for display roll note.
  */
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<FragmentRollNoteBinding>(),
-    IRollNoteFragment,
+    RollNoteFragment,
     Toolbar.OnMenuItemClickListener,
     IconBlockCallback {
 
