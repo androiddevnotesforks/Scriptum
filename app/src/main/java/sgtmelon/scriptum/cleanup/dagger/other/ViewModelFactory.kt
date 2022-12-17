@@ -59,7 +59,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
+import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
@@ -191,7 +191,7 @@ object ViewModelFactory {
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModel::class) {
-                    val parentCallback = fragment.context as? INoteConnector
+                    val parentCallback = fragment.context as? NoteConnector
                     TextNoteViewModel(
                         isEdit, noteState, id, color,
                         fragment, parentCallback, colorConverter, preferencesRepo,
@@ -229,7 +229,7 @@ object ViewModelFactory {
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModel::class) {
-                    val parentCallback = fragment.context as? INoteConnector
+                    val parentCallback = fragment.context as? NoteConnector
                     RollNoteViewModel(
                         isEdit, noteState, id, color,
                         fragment, parentCallback, colorConverter, preferencesRepo,

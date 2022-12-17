@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note
 
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
-interface INoteConnector {
+interface NoteConnector {
 
     val bundleProvider: NoteBundleProvider
 

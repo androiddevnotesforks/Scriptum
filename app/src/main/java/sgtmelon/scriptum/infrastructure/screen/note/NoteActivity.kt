@@ -27,7 +27,7 @@ import sgtmelon.scriptum.infrastructure.utils.tint.TintNotePlaceholder
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].
  */
 class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
-    INoteConnector,
+    NoteConnector,
     UnbindNoteReceiver.Callback {
 
     override val layoutId: Int = R.layout.activity_note

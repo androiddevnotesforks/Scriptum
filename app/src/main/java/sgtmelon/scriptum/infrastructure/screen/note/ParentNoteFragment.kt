@@ -11,7 +11,7 @@ abstract class ParentNoteFragment<T : ViewDataBinding> : BindingFragment<T>() {
 
     abstract val viewModel: IParentNoteViewModel
 
-    protected val connector get() = activity as? INoteConnector
+    protected val connector get() = activity as? NoteConnector
 
     override fun setupObservers() {
         super.setupObservers()

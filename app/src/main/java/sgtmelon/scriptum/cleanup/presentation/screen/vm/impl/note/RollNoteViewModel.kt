@@ -36,7 +36,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
+import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.test.prod.RunPrivate
@@ -52,7 +52,7 @@ class RollNoteViewModel(
 
     // TODO cleanup
     callback: IRollNoteFragment,
-    parentCallback: INoteConnector?,
+    parentCallback: NoteConnector?,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     private val getNote: GetRollNoteUseCase,

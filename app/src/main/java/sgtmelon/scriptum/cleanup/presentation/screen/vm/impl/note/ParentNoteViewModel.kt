@@ -32,7 +32,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
+import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.test.prod.RunPrivate
@@ -49,7 +49,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>>(
 
     //TODO cleanup
     callback: C,
-    @RunProtected var parentCallback: INoteConnector?,
+    @RunProtected var parentCallback: NoteConnector?,
     @RunProtected val colorConverter: ColorConverter,
     @RunProtected val preferencesRepo: PreferencesRepo,
     private val convertNote: ConvertNoteUseCase,
