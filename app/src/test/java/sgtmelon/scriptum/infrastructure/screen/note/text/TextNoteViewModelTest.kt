@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
+package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import org.junit.Test
 import sgtmelon.scriptum.testing.parent.ParentTest
