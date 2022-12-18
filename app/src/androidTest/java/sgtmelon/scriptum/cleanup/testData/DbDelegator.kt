@@ -15,6 +15,8 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -94,9 +96,9 @@ class DbDelegator(
 
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
 
-    fun createText(): NoteItem.Text = NoteItem.Text.getCreate(preferencesRepo.defaultColor)
+    fun createText(): NoteItem.Text = CreateTextNoteUseCase(preferencesRepo).invoke()
 
-    fun createRoll(): NoteItem.Roll = NoteItem.Roll.getCreate(preferencesRepo.defaultColor)
+    fun createRoll(): NoteItem.Roll = CreateRollNoteUseCase(preferencesRepo).invoke()
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {

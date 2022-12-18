@@ -27,6 +27,7 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
@@ -48,13 +49,14 @@ class RollNoteViewModelImpl(
     noteState: NoteState,
     id: Long,
     color: Color,
+    createNote: CreateRollNoteUseCase,
+    getNote: GetRollNoteUseCase,
 
     // TODO cleanup
     callback: RollNoteFragment,
     parentCallback: NoteConnector?,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
-    private val getNote: GetRollNoteUseCase,
     private val saveNote: SaveNoteUseCase,
     convertNote: ConvertNoteUseCase,
     updateNote: UpdateNoteUseCase,
@@ -69,27 +71,13 @@ class RollNoteViewModelImpl(
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
-    isEdit, noteState, id, color,
+    isEdit, noteState, id, color, createNote, getNote,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId, getRankDialogNames
 ), RollNoteViewModel {
-
-    // TODO move somehow inside ParentNoteViewModel
-    // TODO add observers and remove initialization functions
-    // TODO add createNoteUseCase
-    init {
-        viewModelScope.launchBack {
-            /** In create note case inside [color] passed defaultColor value. */
-            val value = if (id == Default.ID) NoteItem.Roll.getCreate(color) else getNote(id)
-                ?: return@launchBack
-
-            noteItem.postValue(value)
-            cacheData()
-        }
-    }
 
     //region Cleanup
 
@@ -109,30 +97,31 @@ class RollNoteViewModelImpl(
     }
 
     override suspend fun tryInitializeNote(): Boolean {
-        /** If first open. */
-        if (!isNoteInitialized()) {
-            rankDialogItemArray = runBack { getRankDialogNames() }
-
-            val id = id.value
-            if (id == null || id == Default.ID) {
-                val defaultColor = preferencesRepo.defaultColor
-                deprecatedNoteItem =
-                    NoteItem.Roll.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
-                cacheData()
-            } else {
-                runBack { getNote(id) }?.let {
-                    deprecatedNoteItem = it
-                    cacheData()
-
-                    callback?.sendNotifyNotesBroadcast()
-                } ?: run {
-                    callback?.finish()
-                    return false
-                }
-            }
-        }
-
-        return true
+        TODO("Remove it")
+        //        /** If first open. */
+        //        if (!isNoteInitialized()) {
+        //            rankDialogItemArray = runBack { getRankDialogNames() }
+        //
+        //            val id = id.value
+        //            if (id == null || id == Default.ID) {
+        //                val defaultColor = preferencesRepo.defaultColor
+        //                deprecatedNoteItem =
+        //                    NoteItem.Roll.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
+        //                cacheData()
+        //            } else {
+        //                runBack { getNote(id) }?.let {
+        //                    deprecatedNoteItem = it
+        //                    cacheData()
+        //
+        //                    callback?.sendNotifyNotesBroadcast()
+        //                } ?: run {
+        //                    callback?.finish()
+        //                    return false
+        //                }
+        //            }
+        //        }
+        //
+        //        return true
     }
 
     override suspend fun setupAfterInitialize() {

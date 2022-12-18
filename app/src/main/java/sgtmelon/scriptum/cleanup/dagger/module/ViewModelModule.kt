@@ -41,6 +41,8 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
@@ -185,11 +187,13 @@ class ViewModelModule {
         noteState: NoteState,
         id: Long,
         color: Color,
+        createNote: CreateTextNoteUseCase,
+        getNote: GetTextNoteUseCase,
+
         // TODO refactor
         fragment: TextNoteFragmentImpl,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
-        getNote: GetTextNoteUseCase,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
@@ -203,8 +207,10 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            isEdit, noteState, id, color,
-            fragment, colorConverter, preferencesRepo, getNote, saveNote, convertNote,
+            isEdit, noteState, id, color, createNote, getNote,
+
+            // TODO cleanup
+            fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames
         )
@@ -222,11 +228,13 @@ class ViewModelModule {
         noteState: NoteState,
         id: Long,
         color: Color,
+        createNote: CreateRollNoteUseCase,
+        getNote: GetRollNoteUseCase,
+
         // TODO refactor
         fragment: RollNoteFragmentImpl,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
-        getNote: GetRollNoteUseCase,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
@@ -242,8 +250,10 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            isEdit, noteState, id, color,
-            fragment, colorConverter, preferencesRepo, getNote, saveNote, convertNote,
+            isEdit, noteState, id, color, createNote, getNote,
+
+            // TODO cleanup
+            fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
             getRankDialogNames

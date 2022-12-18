@@ -25,10 +25,13 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.getNote.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
@@ -38,13 +41,15 @@ import sgtmelon.test.prod.RunPrivate
 import sgtmelon.test.prod.RunProtected
 
 /**
- * Parent viewModel for [TextNoteViewModelImpl] and [RollNoteViewModelImpl].
+ * TODO normal description
  */
 abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     isEdit: Boolean,
     noteState: NoteState,
     id: Long,
     color: Color,
+    createNote: CreateNoteUseCase<N>,
+    getNote: GetNoteUseCase<N>,
 
     //TODO cleanup
     callback: C,
@@ -79,9 +84,16 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     private var restoreItem: NoteItem? = null
 
+    // TODO add observers and remove initialization functions
     init {
         viewModelScope.launchBack {
             rankDialogItems.postValue(getRankDialogNames())
+
+            val value = if (id == Default.ID) createNote() else getNote(id)
+            if (value != null) {
+                noteItem.postValue(value)
+                cacheData()
+            }
         }
     }
 

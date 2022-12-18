@@ -186,10 +186,6 @@ sealed class NoteItem(
 
         //endregion
 
-        companion object {
-            fun getCreate(color: Color): Text = Text(color = color)
-        }
-
     }
 
     class Roll(
@@ -311,8 +307,6 @@ sealed class NoteItem(
         companion object {
             const val PREVIEW_SIZE = 4
             const val INDICATOR_MAX_COUNT = 99
-
-            fun getCreate(color: Color): Roll = Roll(color = color)
         }
     }
 }

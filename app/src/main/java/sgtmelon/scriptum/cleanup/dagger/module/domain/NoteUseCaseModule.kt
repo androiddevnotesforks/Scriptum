@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
@@ -13,6 +14,8 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 
@@ -22,6 +25,16 @@ class NoteUseCaseModule {
     @Provides
     fun provideGetCopyTextUseCase(repository: NoteRepo): GetCopyTextUseCase {
         return GetCopyTextUseCase(repository)
+    }
+
+    @Provides
+    fun provideCreateTextNoteUseCase(repository: PreferencesRepo): CreateTextNoteUseCase {
+        return CreateTextNoteUseCase(repository)
+    }
+
+    @Provides
+    fun provideCreateRollNoteUseCase(repository: PreferencesRepo): CreateRollNoteUseCase {
+        return CreateRollNoteUseCase(repository)
     }
 
     @Provides
