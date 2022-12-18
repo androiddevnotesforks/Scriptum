@@ -83,7 +83,7 @@ class RollNoteViewModelImpl(
     @RunPrivate var isFirstRun = true
 
     override fun cacheData() {
-        restoreItem = noteItem.deepCopy()
+        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
     }
 
     override fun setupBeforeInitialize() {
@@ -107,13 +107,13 @@ class RollNoteViewModelImpl(
             val id = id.value
             if (id == null || id == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
-                noteItem =
+                deprecatedNoteItem =
                     NoteItem.Roll.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
                 cacheData()
             } else {
                 runBack { getNote(id) }?.let {
-                    noteItem = it
-                    restoreItem = it.deepCopy()
+                    deprecatedNoteItem = it
+                    deprecatedRestoreItem = it.deepCopy()
 
                     callback?.sendNotifyNotesBroadcast()
                 } ?: run {
@@ -137,7 +137,7 @@ class RollNoteViewModelImpl(
 
         callback?.apply {
             showToolbarVisibleIcon(isShow = true)
-            setToolbarVisibleIcon(noteItem.isVisible, needAnim = false)
+            setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
             notifyDataSetChanged(getAdapterList())
         }
 
@@ -147,16 +147,16 @@ class RollNoteViewModelImpl(
     }
 
     override fun onRestoreData(): Boolean {
-        if (id.value == Default.ID || noteItem.id == Default.ID) return false
+        if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
 
         /**
          * Get color before restore data. Also get [NoteItem.Roll.isVisible] before
          * restore, because it should be the same after restore.
          */
-        val colorFrom = noteItem.color
-        val isVisible = noteItem.isVisible
-        noteItem = restoreItem.deepCopy(isVisible = isVisible)
-        val colorTo = noteItem.color
+        val colorFrom = deprecatedNoteItem.color
+        val isVisible = deprecatedNoteItem.isVisible
+        deprecatedNoteItem = deprecatedRestoreItem.deepCopy(isVisible = isVisible)
+        val colorTo = deprecatedNoteItem.color
 
         callback?.notifyDataSetChanged(getAdapterList())
 
@@ -172,9 +172,9 @@ class RollNoteViewModelImpl(
 
 
     override fun onClickVisible() {
-        noteItem.isVisible = !noteItem.isVisible
+        deprecatedNoteItem.isVisible = !deprecatedNoteItem.isVisible
 
-        callback?.setToolbarVisibleIcon(noteItem.isVisible, needAnim = true)
+        callback?.setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = true)
 
         notifyListByVisible()
 
@@ -184,7 +184,7 @@ class RollNoteViewModelImpl(
          */
         if (noteState.value != NoteState.CREATE) {
             viewModelScope.launch {
-                runBack { updateVisible(noteItem) }
+                runBack { updateVisible(deprecatedNoteItem) }
 
                 if (isEdit.value.isFalse()) {
                     callback?.sendNotifyNotesBroadcast()
@@ -200,8 +200,8 @@ class RollNoteViewModelImpl(
      * Important thing for update visible: you must call func after adapter notify.
      */
     override fun onUpdateInfo() {
-        val isListEmpty = noteItem.list.size == 0
-        val isListHide = !noteItem.isVisible && noteItem.list.hide().size == 0
+        val isListEmpty = deprecatedNoteItem.list.size == 0
+        val isListHide = !deprecatedNoteItem.isVisible && deprecatedNoteItem.list.hide().size == 0
 
         if (isListEmpty || isListHide) {
             callback?.onBindingInfo(isListEmpty, isListHide)
@@ -237,14 +237,14 @@ class RollNoteViewModelImpl(
 
         callback?.clearEnterText()
 
-        val p = if (simpleClick) noteItem.list.size else 0
+        val p = if (simpleClick) deprecatedNoteItem.list.size else 0
         val rollItem = RollItem(position = p, text = enterText)
 
         inputControl.onRollAdd(p, rollItem.toJson())
-        noteItem.list.add(p, rollItem)
+        deprecatedNoteItem.list.add(p, rollItem)
 
         callback?.apply {
-            onBindingInput(noteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, inputControl.access)
             scrollToItem(simpleClick, p, getAdapterList())
         }
     }
@@ -253,19 +253,19 @@ class RollNoteViewModelImpl(
         if (isEdit.value.isTrue()) return
 
         val absolutePosition = getAbsolutePosition(p) ?: return
-        noteItem.onItemCheck(absolutePosition)
+        deprecatedNoteItem.onItemCheck(absolutePosition)
         cacheData()
 
-        if (noteItem.isVisible) {
+        if (deprecatedNoteItem.isVisible) {
             callback?.notifyItemChanged(getAdapterList(), p)
         } else {
             callback?.notifyItemRemoved(getAdapterList(), p)
         }
 
-        with(noteItem) { callback?.updateProgress(getCheck(), list.size) }
+        with(deprecatedNoteItem) { callback?.updateProgress(getCheck(), list.size) }
 
         viewModelScope.launch {
-            runBack { updateCheck(noteItem, absolutePosition) }
+            runBack { updateCheck(deprecatedNoteItem, absolutePosition) }
 
             callback?.sendNotifyNotesBroadcast()
         }
@@ -291,7 +291,7 @@ class RollNoteViewModelImpl(
     }
 
     @RunPrivate fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
-        val rollItem = noteItem.list.getOrNull(item.p) ?: return
+        val rollItem = deprecatedNoteItem.list.getOrNull(item.p) ?: return
 
         /**
          * Need update data anyway! Even if this item in list is currently hided.
@@ -301,7 +301,7 @@ class RollNoteViewModelImpl(
         val adapterList = getAdapterList()
         val adapterPosition = adapterList.validIndexOfFirst(rollItem) ?: return
 
-        if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
+        if (deprecatedNoteItem.isVisible || (!deprecatedNoteItem.isVisible && !rollItem.isCheck)) {
             callback?.notifyItemChanged(adapterList, adapterPosition, item.cursor[isUndo])
         }
     }
@@ -323,7 +323,7 @@ class RollNoteViewModelImpl(
     }
 
     @RunPrivate fun onRemoveItem(item: InputItem) {
-        val rollItem = noteItem.list.getOrNull(item.p) ?: return
+        val rollItem = deprecatedNoteItem.list.getOrNull(item.p) ?: return
         val adapterPosition = getAdapterList().validIndexOfFirst(rollItem)
 
         /**
@@ -332,11 +332,11 @@ class RollNoteViewModelImpl(
          * Also need remove item at the end. Because [getAdapterList] return list without
          * that item and you will get not valid index of item.
          */
-        noteItem.list.removeAtOrNull(item.p) ?: return
+        deprecatedNoteItem.list.removeAtOrNull(item.p) ?: return
 
         if (adapterPosition == null) return
 
-        if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
+        if (deprecatedNoteItem.isVisible || (!deprecatedNoteItem.isVisible && !rollItem.isCheck)) {
             /**
              * Need get new [getAdapterList] for clear effect, cause we remove one item from it.
              */
@@ -350,7 +350,7 @@ class RollNoteViewModelImpl(
         /**
          * Need update data anyway! Even if this item in list is currently hided.
          */
-        noteItem.list.add(item.p, rollItem)
+        deprecatedNoteItem.list.add(item.p, rollItem)
 
         val list = getAdapterList()
         val position = getInsertPosition(item, rollItem) ?: return
@@ -363,8 +363,8 @@ class RollNoteViewModelImpl(
         item: InputItem,
         rollItem: RollItem
     ): Int? = when {
-        noteItem.isVisible -> item.p
-        !rollItem.isCheck -> noteItem.list.subList(0, item.p).hide().size
+        deprecatedNoteItem.isVisible -> item.p
+        !rollItem.isCheck -> deprecatedNoteItem.list.subList(0, item.p).hide().size
         else -> null
     }
 
@@ -373,18 +373,18 @@ class RollNoteViewModelImpl(
         val from = item[!isUndo].toIntOrNull() ?: return
         val to = item[isUndo].toIntOrNull() ?: return
 
-        val rollItem = noteItem.list.getOrNull(from) ?: return
+        val rollItem = deprecatedNoteItem.list.getOrNull(from) ?: return
 
         /**
          * Need update data anyway! Even if this item in list is currently hided.
          */
         val shiftFrom = getAdapterList().validIndexOfFirst(rollItem)
-        noteItem.list.move(from, to)
+        deprecatedNoteItem.list.move(from, to)
         val shiftTo = getAdapterList().validIndexOfFirst(rollItem)
 
         if (shiftFrom == null || shiftTo == null) return
 
-        if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
+        if (deprecatedNoteItem.isVisible || (!deprecatedNoteItem.isVisible && !rollItem.isCheck)) {
             callback?.notifyItemMoved(getAdapterList(), shiftFrom, shiftTo)
         }
     }
@@ -395,9 +395,9 @@ class RollNoteViewModelImpl(
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false
 
-        if (isEdit.value.isFalse() || !noteItem.isSaveEnabled()) return false
+        if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled()) return false
 
-        noteItem.onSave()
+        deprecatedNoteItem.onSave()
 
         /**
          * Need update adapter after remove rows with empty text.
@@ -420,18 +420,18 @@ class RollNoteViewModelImpl(
 
     override suspend fun saveBackgroundWork() {
         val isCreate = noteState.value == NoteState.CREATE
-        runBack { saveNote(noteItem, isCreate) }
+        runBack { saveNote(deprecatedNoteItem, isCreate) }
         cacheData()
 
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)
-            id.postValue(noteItem.id)
+            id.postValue(deprecatedNoteItem.id)
 
             /**
-             * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of
+             * Need if [deprecatedNoteItem] isVisible changes wasn't set inside [onClickVisible] because of
              * not created note.
              */
-            runBack { updateVisible(noteItem) }
+            runBack { updateVisible(deprecatedNoteItem) }
         }
 
         callback?.setList(getAdapterList())
@@ -451,14 +451,14 @@ class RollNoteViewModelImpl(
                 needAnim = notCreate && mayAnimateIcon
             )
 
-            onBindingEdit(noteItem, isEdit)
-            onBindingInput(noteItem, inputControl.access)
+            onBindingEdit(deprecatedNoteItem, isEdit)
+            onBindingInput(deprecatedNoteItem, inputControl.access)
             viewModelScope.launchBack { updateNoteState(isEdit, noteState) }
 
             if (isEdit) {
                 focusOnEdit(isCreate = noteState == NoteState.CREATE)
             } else {
-                updateProgress(noteItem.getCheck(), noteItem.list.size)
+                updateProgress(deprecatedNoteItem.getCheck(), deprecatedNoteItem.list.size)
             }
         }
 
@@ -472,11 +472,11 @@ class RollNoteViewModelImpl(
 
     override fun onInputRollChange(p: Int, text: String) {
         val absolutePosition = getAbsolutePosition(p) ?: return
-        noteItem.list.getOrNull(absolutePosition)?.text = text
+        deprecatedNoteItem.list.getOrNull(absolutePosition)?.text = text
 
         callback?.apply {
             setList(getAdapterList())
-            onBindingInput(noteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, inputControl.access)
         }
     }
 
@@ -486,10 +486,10 @@ class RollNoteViewModelImpl(
      * @Test - Have duplicate in test screen.
      */
     override fun getAbsolutePosition(adapterPosition: Int): Int? {
-        return if (noteItem.isVisible) {
+        return if (deprecatedNoteItem.isVisible) {
             adapterPosition
         } else {
-            val list = noteItem.list
+            val list = deprecatedNoteItem.list
             val hideItem = list.hide().getOrNull(adapterPosition) ?: return null
 
             return list.validIndexOfFirst(hideItem)
@@ -522,12 +522,12 @@ class RollNoteViewModelImpl(
      */
     override fun onTouchSwiped(p: Int) {
         val absolutePosition = getAbsolutePosition(p) ?: return
-        val item = noteItem.list.removeAtOrNull(absolutePosition) ?: return
+        val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
 
         inputControl.onRollRemove(absolutePosition, item.toJson())
 
         callback?.apply {
-            onBindingInput(noteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, inputControl.access)
             notifyItemRemoved(getAdapterList(), p)
         }
     }
@@ -540,7 +540,7 @@ class RollNoteViewModelImpl(
         val absoluteFrom = getAbsolutePosition(from) ?: return true
         val absoluteTo = getAbsolutePosition(to) ?: return true
 
-        noteItem.list.move(absoluteFrom, absoluteTo)
+        deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
 
         callback?.notifyItemMoved(getAdapterList(), from, to)
         callback?.hideKeyboard()
@@ -560,7 +560,7 @@ class RollNoteViewModelImpl(
 
         inputControl.onRollMove(absoluteFrom, absoluteTo)
 
-        callback?.onBindingInput(noteItem, inputControl.access)
+        callback?.onBindingInput(deprecatedNoteItem, inputControl.access)
     }
 
     //endregion
@@ -571,20 +571,20 @@ class RollNoteViewModelImpl(
      * @return - list which uses for screen adapter.
      */
     @RunPrivate fun getAdapterList(): MutableList<RollItem> {
-        val list = noteItem.list
+        val list = deprecatedNoteItem.list
 
-        return if (noteItem.isVisible) list else list.hide()
+        return if (deprecatedNoteItem.isVisible) list else list.hide()
     }
 
     /**
      * Make good animation for items, remove or insert one by one.
      */
     @RunPrivate fun notifyListByVisible() {
-        val list = ArrayList(noteItem.list)
+        val list = ArrayList(deprecatedNoteItem.list)
 
         if (list.size == 0) return
 
-        if (noteItem.isVisible) {
+        if (deprecatedNoteItem.isVisible) {
             notifyVisibleList(list)
         } else {
             notifyInvisibleList(list)

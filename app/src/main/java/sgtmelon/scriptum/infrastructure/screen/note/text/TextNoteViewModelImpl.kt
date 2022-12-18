@@ -66,7 +66,7 @@ class TextNoteViewModelImpl(
 ), TextNoteViewModel {
 
     override fun cacheData() {
-        restoreItem = noteItem.deepCopy()
+        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
     }
 
     override fun setupBeforeInitialize() {
@@ -83,13 +83,13 @@ class TextNoteViewModelImpl(
             val id = id.value
             if (id == null || id == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
-                noteItem =
+                deprecatedNoteItem =
                     NoteItem.Text.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
                 cacheData()
             } else {
                 runBack { getNote(id) }?.let {
-                    noteItem = it
-                    restoreItem = it.deepCopy()
+                    deprecatedNoteItem = it
+                    deprecatedRestoreItem = it.deepCopy()
 
                     callback?.sendNotifyNotesBroadcast()
                 } ?: run {
@@ -114,14 +114,14 @@ class TextNoteViewModelImpl(
     }
 
     override fun onRestoreData(): Boolean {
-        if (id.value == Default.ID || noteItem.id == Default.ID) return false
+        if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
 
         /**
          * Get color before restore data.
          */
-        val colorFrom = noteItem.color
-        noteItem = restoreItem.deepCopy()
-        val colorTo = noteItem.color
+        val colorFrom = deprecatedNoteItem.color
+        deprecatedNoteItem = deprecatedRestoreItem.deepCopy()
+        val colorTo = deprecatedNoteItem.color
 
         setupEditMode(isEdit = false)
 
@@ -162,9 +162,9 @@ class TextNoteViewModelImpl(
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false
 
-        if (isEdit.value.isFalse() || !noteItem.isSaveEnabled()) return false
+        if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled()) return false
 
-        noteItem.onSave()
+        deprecatedNoteItem.onSave()
 
         if (changeMode) {
             callback?.hideKeyboard()
@@ -182,12 +182,12 @@ class TextNoteViewModelImpl(
 
     override suspend fun saveBackgroundWork() {
         val isCreate = noteState.value == NoteState.CREATE
-        runBack { saveNote(noteItem, isCreate) }
+        runBack { saveNote(deprecatedNoteItem, isCreate) }
         cacheData()
 
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)
-            id.postValue(noteItem.id)
+            id.postValue(deprecatedNoteItem.id)
         }
 
         callback?.sendNotifyNotesBroadcast()
@@ -206,8 +206,8 @@ class TextNoteViewModelImpl(
                 needAnim = notCreate && mayAnimateIcon
             )
 
-            onBindingEdit(noteItem, isEdit)
-            onBindingInput(noteItem, inputControl.access)
+            onBindingEdit(deprecatedNoteItem, isEdit)
+            onBindingInput(deprecatedNoteItem, inputControl.access)
 
             if (isEdit) focusOnEdit(isCreate = noteState == NoteState.CREATE)
         }
