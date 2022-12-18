@@ -25,6 +25,7 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
@@ -58,7 +59,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationDateList: GetNotificationDateListUseCase,
-    private val getRankId: GetRankIdUseCase
+    private val getRankId: GetRankIdUseCase,
+    protected val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentViewModel<C>(callback),
     ParentNoteViewModel {
 
@@ -69,6 +71,15 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override val id: MutableLiveData<Long> = MutableLiveData(id)
 
     override val color: MutableLiveData<Color> = MutableLiveData(color)
+
+    /** App doesn't have any categories (ranks) if size == 1. */
+    override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
+
+    init {
+        viewModelScope.launchBack {
+            rankDialogItems.postValue(getRankDialogNames())
+        }
+    }
 
     //region Cleanup
 
@@ -98,6 +109,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     /**
      * App doesn't have ranks if size == 1.
      */
+    @Deprecated("use rankDialogItems instead")
     @RunProtected var rankDialogItemArray: Array<String> = emptyArray()
 
     //endregion

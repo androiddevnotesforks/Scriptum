@@ -55,14 +55,14 @@ class TextNoteViewModelImpl(
     deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationDateListUseCase,
     getRankId: GetRankIdUseCase,
-    private val getRankDialogNames: GetRankDialogNamesUseCase
+    getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Text, TextNoteFragment>(
     isEdit, noteState, id, color,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList, getRankId
+    getNotificationDateList, getRankId, getRankDialogNames
 ), TextNoteViewModel {
 
     override fun cacheData() {
@@ -83,7 +83,8 @@ class TextNoteViewModelImpl(
             val id = id.value
             if (id == null || id == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
-                noteItem = NoteItem.Text.getCreate(defaultColor)
+                noteItem =
+                    NoteItem.Text.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
                 cacheData()
             } else {
                 runBack { getNote(id) }?.let {

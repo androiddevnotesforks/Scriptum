@@ -28,6 +28,8 @@ interface ParentNoteViewModel : IParentViewModel,
 
     val color: LiveData<Color>
 
+    val rankDialogItems: LiveData<Array<String>>
+
     //region Cleanup
 
     fun onResume()

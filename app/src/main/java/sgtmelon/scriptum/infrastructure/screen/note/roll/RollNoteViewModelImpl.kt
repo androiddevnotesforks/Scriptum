@@ -67,14 +67,14 @@ class RollNoteViewModelImpl(
     deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationDateListUseCase,
     getRankId: GetRankIdUseCase,
-    private val getRankDialogNames: GetRankDialogNamesUseCase
+    getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
     isEdit, noteState, id, color,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList, getRankId
+    getNotificationDateList, getRankId, getRankDialogNames
 ), RollNoteViewModel {
 
     /**
@@ -107,7 +107,8 @@ class RollNoteViewModelImpl(
             val id = id.value
             if (id == null || id == Default.ID) {
                 val defaultColor = preferencesRepo.defaultColor
-                noteItem = NoteItem.Roll.getCreate(defaultColor)
+                noteItem =
+                    NoteItem.Roll.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
                 cacheData()
             } else {
                 runBack { getNote(id) }?.let {

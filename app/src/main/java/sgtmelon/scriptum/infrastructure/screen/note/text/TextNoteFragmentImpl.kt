@@ -47,7 +47,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<FragmentTextNoteBinding>(),
     // TODO 1. Change isEdit/noteState via new livedata value (if first time - skip animation - no views visible)
     //         - Move all binding related with it into UI classes
     // TODO 2. Make common use case for undo/redo (use flow?)
-    // TODO 3.
+    // TODO 3. Move common functions into use cases? (don't use parent vm class?)
 
     //region Cleanup
 
