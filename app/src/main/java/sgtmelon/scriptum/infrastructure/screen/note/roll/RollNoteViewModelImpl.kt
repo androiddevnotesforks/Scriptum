@@ -77,6 +77,8 @@ class RollNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames
 ), RollNoteViewModel {
 
+    //region Cleanup
+
     /**
      * Variable for detect first screen run. After rotations it will be false.
      */
@@ -619,4 +621,7 @@ class RollNoteViewModelImpl(
             callback?.notifyItemRemoved(list, index)
         }
     }
+
+    //endregion
+
 }

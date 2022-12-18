@@ -62,7 +62,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val getRankId: GetRankIdUseCase,
     protected val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentViewModel<C>(callback),
-    ParentNoteViewModel {
+    ParentNoteViewModel<N> {
 
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(isEdit)
 
@@ -74,6 +74,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     /** App doesn't have any categories (ranks) if size == 1. */
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
+
+    override val noteItem: MutableLiveData<N> = MutableLiveData()
+
+    private var restoreItem: NoteItem? = null
 
     init {
         viewModelScope.launchBack {

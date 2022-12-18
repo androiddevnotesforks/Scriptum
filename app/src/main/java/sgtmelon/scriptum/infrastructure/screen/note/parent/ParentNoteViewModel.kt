@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import androidx.lifecycle.LiveData
 import java.util.Calendar
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.IParentViewModel
@@ -14,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
  * Parent interface for communicate with children of [ParentNoteViewModelImpl].
  */
 @Deprecated("Remove ParentViewModel, change name")
-interface ParentNoteViewModel : IParentViewModel,
+interface ParentNoteViewModel<N : NoteItem> : IParentViewModel,
     UnbindNoteReceiver.Callback,
     NoteMenu,
     SaveControlImpl.Callback,
@@ -29,6 +30,8 @@ interface ParentNoteViewModel : IParentViewModel,
     val color: LiveData<Color>
 
     val rankDialogItems: LiveData<Array<String>>
+
+    val noteItem: LiveData<N>
 
     //region Cleanup
 

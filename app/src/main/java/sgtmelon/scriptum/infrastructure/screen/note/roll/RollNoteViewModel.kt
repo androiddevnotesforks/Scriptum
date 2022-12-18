@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModel
@@ -7,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModel
 /**
  * Interface for communication [RollNoteFragment] with [RollNoteViewModelImpl].
  */
-interface RollNoteViewModel : ParentNoteViewModel,
+interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
     RollWriteHolder.Callback,
     RollTouchControl.Callback {
 

@@ -65,6 +65,8 @@ class TextNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames
 ), TextNoteViewModel {
 
+    //region Cleanup
+
     override fun cacheData() {
         deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
     }
@@ -217,6 +219,8 @@ class TextNoteViewModelImpl(
 
         inputControl.isEnabled = true
     }
+
+    //endregion
 
     //endregion
 
