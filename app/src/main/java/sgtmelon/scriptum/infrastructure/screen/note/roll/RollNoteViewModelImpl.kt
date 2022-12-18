@@ -79,11 +79,6 @@ class RollNoteViewModelImpl(
 
     //region Cleanup
 
-    /**
-     * Variable for detect first screen run. After rotations it will be false.
-     */
-    @RunPrivate var isFirstRun = true
-
     override fun cacheData() {
         deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
     }
@@ -93,12 +88,10 @@ class RollNoteViewModelImpl(
             setupBinding()
             color.value?.let { setupToolbar(it) }
             setupEnter(inputControl)
-            setupRecycler(inputControl, isFirstRun)
+            setupRecycler(inputControl)
 
             showToolbarVisibleIcon(isShow = false)
         }
-
-        if (isFirstRun) isFirstRun = false
     }
 
     override suspend fun tryInitializeNote(): Boolean {

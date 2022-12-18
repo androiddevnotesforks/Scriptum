@@ -26,7 +26,7 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun setupEnter(inputControl: IInputControl)
 
-    fun setupRecycler(inputControl: IInputControl, isFirstRun: Boolean)
+    fun setupRecycler(inputControl: IInputControl)
 
     /**
      * Need hide toolbar visible icon before information completely load.

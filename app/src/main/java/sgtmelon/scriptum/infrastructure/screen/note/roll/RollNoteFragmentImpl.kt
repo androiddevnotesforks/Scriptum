@@ -26,7 +26,6 @@ import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.extension.setFirstRunAnimation
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
@@ -258,7 +257,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<FragmentRollNoteBinding>(),
         }
     }
 
-    override fun setupRecycler(inputControl: IInputControl, isFirstRun: Boolean) {
+    override fun setupRecycler(inputControl: IInputControl) {
         adapter.apply {
             this.inputControl = inputControl
 
@@ -273,10 +272,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<FragmentRollNoteBinding>(),
         }
 
         binding?.rollNoteRecycler?.let {
-            it.setFirstRunAnimation(
-                isFirstRun, R.anim.layout_item_roll, supportsChangeAnimations = false
-            ) { viewModel.onUpdateInfo() }
-
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
