@@ -150,6 +150,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     /**
      * Return false if happened error while initialize note.
      */
+    @Deprecated("init noteItem during init")
     abstract suspend fun tryInitializeNote(): Boolean
 
     /**

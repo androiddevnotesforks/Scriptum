@@ -31,8 +31,23 @@ class GetTextNoteUseCaseTest : ParentTest() {
 
     @Test fun invoke() {
         val noteId = Random.nextLong()
-        val wrongItem = mockk<NoteItem.Roll>()
         val item = mockk<NoteItem.Text>()
+
+        coEvery { repository.getItem(noteId, isOptimal = false) } returns item
+        runBlocking {
+            assertEquals(item, useCase(noteId))
+        }
+
+        coVerifySequence {
+            repository.getItem(noteId, isOptimal = false)
+        }
+    }
+
+    @Test fun `invoke with bad result`() {
+        TODO("Record exception mockk")
+
+        val noteId = Random.nextLong()
+        val wrongItem = mockk<NoteItem.Roll>()
 
         coEvery { repository.getItem(noteId, isOptimal = false) } returns null
         runBlocking {
@@ -44,13 +59,7 @@ class GetTextNoteUseCaseTest : ParentTest() {
             assertNull(useCase(noteId))
         }
 
-        coEvery { repository.getItem(noteId, isOptimal = false) } returns item
-        runBlocking {
-            assertEquals(item, useCase(noteId))
-        }
-
         coVerifySequence {
-            repository.getItem(noteId, isOptimal = false)
             repository.getItem(noteId, isOptimal = false)
             repository.getItem(noteId, isOptimal = false)
         }

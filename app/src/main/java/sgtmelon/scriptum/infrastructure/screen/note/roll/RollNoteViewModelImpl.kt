@@ -77,6 +77,20 @@ class RollNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames
 ), RollNoteViewModel {
 
+    // TODO move somehow inside ParentNoteViewModel
+    // TODO add observers and remove initialization functions
+    // TODO add createNoteUseCase
+    init {
+        viewModelScope.launchBack {
+            /** In create note case inside [color] passed defaultColor value. */
+            val value = if (id == Default.ID) NoteItem.Roll.getCreate(color) else getNote(id)
+                ?: return@launchBack
+
+            noteItem.postValue(value)
+            cacheData()
+        }
+    }
+
     //region Cleanup
 
     override fun cacheData() {
@@ -108,14 +122,13 @@ class RollNoteViewModelImpl(
             } else {
                 runBack { getNote(id) }?.let {
                     deprecatedNoteItem = it
-                    deprecatedRestoreItem = it.deepCopy()
+                    cacheData()
 
                     callback?.sendNotifyNotesBroadcast()
                 } ?: run {
                     callback?.finish()
                     return false
                 }
-
             }
         }
 

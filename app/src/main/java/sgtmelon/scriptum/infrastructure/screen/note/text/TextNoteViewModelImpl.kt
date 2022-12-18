@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
@@ -65,6 +66,21 @@ class TextNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames
 ), TextNoteViewModel {
 
+    // TODO move somehow inside ParentNoteViewModel
+    // TODO add observers and remove initialization functions
+    // TODO add createNoteUseCase
+    init {
+        viewModelScope.launchBack {
+            /** In create note case inside [color] passed defaultColor value. */
+            val value = if (id == Default.ID) NoteItem.Text.getCreate(color) else getNote(id)
+                ?: return@launchBack
+
+            noteItem.postValue(value)
+            cacheData()
+        }
+    }
+
+
     //region Cleanup
 
     override fun cacheData() {
@@ -91,7 +107,7 @@ class TextNoteViewModelImpl(
             } else {
                 runBack { getNote(id) }?.let {
                     deprecatedNoteItem = it
-                    deprecatedRestoreItem = it.deepCopy()
+                    cacheData()
 
                     callback?.sendNotifyNotesBroadcast()
                 } ?: run {
