@@ -79,12 +79,6 @@ class RollNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames
 ), RollNoteViewModel {
 
-    //region Cleanup
-
-    override fun cacheData() {
-        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
-    }
-
     override fun setupBeforeInitialize() {
         callback?.apply {
             setupBinding()
@@ -142,6 +136,71 @@ class RollNoteViewModelImpl(
 
         callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
     }
+
+    //region Cleanup
+
+    override fun cacheData() {
+        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
+    }
+
+    // TODO remove
+    //    override fun setupBeforeInitialize() {
+    //        callback?.apply {
+    //            setupBinding()
+    //            color.value?.let { setupToolbar(it) }
+    //            setupEnter(inputControl)
+    //            setupRecycler(inputControl)
+    //
+    //            showToolbarVisibleIcon(isShow = false)
+    //        }
+    //    }
+    //
+    //    override suspend fun tryInitializeNote(): Boolean {
+    //        TODO("Remove it")
+    //        //        /** If first open. */
+    //        //        if (!isNoteInitialized()) {
+    //        //            rankDialogItemArray = runBack { getRankDialogNames() }
+    //        //
+    //        //            val id = id.value
+    //        //            if (id == null || id == Default.ID) {
+    //        //                val defaultColor = preferencesRepo.defaultColor
+    //        //                deprecatedNoteItem =
+    //        //                    NoteItem.Roll.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
+    //        //                cacheData()
+    //        //            } else {
+    //        //                runBack { getNote(id) }?.let {
+    //        //                    deprecatedNoteItem = it
+    //        //                    cacheData()
+    //        //
+    //        //                    callback?.sendNotifyNotesBroadcast()
+    //        //                } ?: run {
+    //        //                    callback?.finish()
+    //        //                    return false
+    //        //                }
+    //        //            }
+    //        //        }
+    //        //
+    //        //        return true
+    //    }
+    //
+    //    override suspend fun setupAfterInitialize() {
+    //        callback?.setupDialog(rankDialogItemArray)
+    //
+    //        mayAnimateIcon = false
+    //        // TODO may this is not needed?
+    //        setupEditMode(isEdit.value.isTrue())
+    //        mayAnimateIcon = true
+    //
+    //        callback?.apply {
+    //            showToolbarVisibleIcon(isShow = true)
+    //            setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
+    //            notifyDataSetChanged(getAdapterList())
+    //        }
+    //
+    //        onUpdateInfo()
+    //
+    //        callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
+    //    }
 
     override fun onRestoreData(): Boolean {
         if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false

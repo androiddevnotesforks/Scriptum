@@ -97,41 +97,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    //region Cleanup
-
-    //region Variables
-
-    /**
-     * Abstract because need setup callback but this class not final.
-     */
-    @RunProtected lateinit var saveControl: SaveControl
-        private set
-
-    fun setSaveControl(saveControl: SaveControl) {
-        this.saveControl = saveControl
-    }
-
-    @RunProtected var inputControl: IInputControl = InputControl()
-
-    @Deprecated("Use new realization")
-    @RunProtected lateinit var deprecatedNoteItem: N
-
-    /**
-     * Item for cash data before enter edit mode (for easy data restore).
-     */
-    @Deprecated("Use new realization")
-    @RunProtected lateinit var deprecatedRestoreItem: N
-
-    @RunProtected var mayAnimateIcon = true
-
-    /**
-     * App doesn't have ranks if size == 1.
-     */
-    @Deprecated("use rankDialogItems instead")
-    @RunProtected var rankDialogItemArray: Array<String> = emptyArray()
-
-    //endregion
-
     @RunProtected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
 
     /**
@@ -169,6 +134,81 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      * Call after [tryInitializeNote]
      */
     abstract suspend fun setupAfterInitialize()
+
+
+    //region Cleanup
+
+    //region Variables
+
+    /**
+     * Abstract because need setup callback but this class not final.
+     */
+    @RunProtected lateinit var saveControl: SaveControl
+        private set
+
+    fun setSaveControl(saveControl: SaveControl) {
+        this.saveControl = saveControl
+    }
+
+    @RunProtected var inputControl: IInputControl = InputControl()
+
+    @Deprecated("Use new realization")
+    @RunProtected lateinit var deprecatedNoteItem: N
+
+    /**
+     * Item for cash data before enter edit mode (for easy data restore).
+     */
+    @Deprecated("Use new realization")
+    @RunProtected lateinit var deprecatedRestoreItem: N
+
+    @RunProtected var mayAnimateIcon = true
+
+    /**
+     * App doesn't have ranks if size == 1.
+     */
+    @Deprecated("use rankDialogItems instead")
+    @RunProtected var rankDialogItemArray: Array<String> = emptyArray()
+
+    //endregion
+
+    // TODO remove
+    //    @RunProtected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
+    //
+    //    /**
+    //     * Function must describe cashing data inside [deprecatedRestoreItem].
+    //     *
+    //     * It is important because if not cache data in [deprecatedRestoreItem] it will cause bug with restore.
+    //     * When do changes and click on CHANGE and cancel edit mode by back button or back arrow.
+    //     *
+    //     * Use example: restoreItem = noteItem.deepCopy().
+    //     */
+    //    abstract fun cacheData()
+    //
+    //    override fun onSetup(bundle: Bundle?) {
+    //        setupBeforeInitialize()
+    //
+    //        viewModelScope.launch {
+    //            if (tryInitializeNote()) {
+    //                setupAfterInitialize()
+    //            }
+    //        }
+    //    }
+    //
+    //    /**
+    //     * Call before [tryInitializeNote]
+    //     */
+    //    abstract fun setupBeforeInitialize()
+    //
+    //    /**
+    //     * Return false if happened error while initialize note.
+    //     */
+    //    @Deprecated("init noteItem during init")
+    //    abstract suspend fun tryInitializeNote(): Boolean
+    //
+    //    /**
+    //     * Call after [tryInitializeNote]
+    //     */
+    //    abstract suspend fun setupAfterInitialize()
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         parentCallback = null
