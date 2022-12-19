@@ -47,7 +47,7 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/roll_note_parent_container"
+        android:id="@+id/parent_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -73,7 +73,7 @@
                 app:title='@{isListEmpty ? R.string.info_roll_empty_title : isListHide ? R.string.info_roll_hide_title : R.string.info_null}' />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/roll_note_recycler"
+                android:id="@+id/recycler_view"
                 style="@style/RecyclerView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -90,7 +90,7 @@
             app:isEnterEmpty='@{isEnterEmpty}' />
 
         <ProgressBar
-            android:id="@+id/roll_note_progress"
+            android:id="@+id/done_progress"
             style="?attr/styleProgressHorizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_4dp"

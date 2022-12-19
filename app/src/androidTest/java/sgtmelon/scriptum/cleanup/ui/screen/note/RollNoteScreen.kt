@@ -47,7 +47,7 @@ class RollNoteScreen(
     override var state: NoteState,
     override var item: NoteItem.Roll,
     override val isRankEmpty: Boolean
-) : ParentRecyclerScreen(R.id.roll_note_recycler),
+) : ParentRecyclerScreen(R.id.recycler_view),
     INoteScreen<RollNoteScreen, NoteItem.Roll>,
     NoteToolbar.ImeCallback,
     INoteAfterConvert<TextNoteScreen>,
@@ -75,8 +75,8 @@ class RollNoteScreen(
         return InfoContainerPart(parentContainer, InfoCase.Roll(isListEmpty, isListHide))
     }
 
-    private val parentContainer = getViewById(R.id.roll_note_parent_container)
-    private val progressBar = getViewById(R.id.roll_note_progress)
+    private val parentContainer = getViewById(R.id.parent_container)
+    private val doneProgress = getViewById(R.id.done_progress)
 
     private fun getItem(p: Int) = RollItemUi(recyclerView, p, state)
 
@@ -270,7 +270,7 @@ class RollNoteScreen(
         }
 
         parentContainer.isDisplayed()
-        progressBar.isDisplayed(value = state == NoteState.READ || state == NoteState.BIN) {
+        doneProgress.isDisplayed(value = state == NoteState.READ || state == NoteState.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
             withProgress(item.getCheck(), item.list.size)
         }

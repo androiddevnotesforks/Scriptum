@@ -271,14 +271,14 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             })
         }
 
-        binding?.rollNoteRecycler?.let {
+        binding?.recyclerView?.let {
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter
         }
 
-        ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.rollNoteRecycler)
+        ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
     }
 
     override fun showToolbarVisibleIcon(isShow: Boolean) {
@@ -356,7 +356,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun animateInfoVisible(isVisible: Boolean?) {
         val isListEmpty = adapter.itemCount == 0
 
-        binding?.rollNoteParentContainer?.createVisibleAnim(
+        binding?.parentContainer?.createVisibleAnim(
             binding?.infoInclude?.root,
             isVisible = isVisible ?: isListEmpty
         )
@@ -406,24 +406,24 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
 
         if (smoothInsert) {
-            binding?.rollNoteRecycler?.scrollToPosition(p)
+            binding?.recyclerView?.scrollToPosition(p)
             adapter.setList(list).notifyItemInserted(p)
         } else {
-            binding?.rollNoteRecycler?.smoothScrollToPosition(p)
+            binding?.recyclerView?.smoothScrollToPosition(p)
             adapter.setList(list)
-            binding?.rollNoteRecycler?.post { adapter.notifyDataSetChanged() }
+            binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
         }
     }
 
     override fun updateNoteState(isEdit: Boolean, noteState: NoteState?) {
         adapter.isEdit = isEdit
         adapter.noteState = noteState
-        binding?.rollNoteRecycler?.post { adapter.notifyDataSetChanged() }
+        binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun updateProgress(progress: Int, max: Int) {
-        binding?.rollNoteProgress?.max = max
-        binding?.rollNoteProgress?.setProgress(progress, true)
+        binding?.doneProgress?.max = max
+        binding?.doneProgress?.setProgress(progress, true)
     }
 
     override fun setList(list: List<RollItem>) {
@@ -432,7 +432,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun notifyDataSetChanged(list: List<RollItem>) {
         adapter.setList(list)
-        binding?.rollNoteRecycler?.post { adapter.notifyDataSetChanged() }
+        binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun notifyDataRangeChanged(list: List<RollItem>) {
