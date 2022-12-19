@@ -21,7 +21,7 @@ class InfoContainerPart(
     private val case: InfoCase
 ) : UiSubpart(parentContainer) {
 
-    private val includeContainer = getView(R.id.info_include)
+    private val includeContainer = getView(R.id.info_inc)
     private val iconImage = getView(R.id.info_image).includeParent(includeContainer)
     private val titleText = case.titleId?.let { getView(R.id.title_text, it) }
     private val detailsText = case.detailsId?.let { getView(R.id.details_text, it) }

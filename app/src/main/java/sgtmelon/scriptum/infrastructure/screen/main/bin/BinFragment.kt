@@ -46,7 +46,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     }
 
     private val itemClearBin: MenuItem?
-        get() = binding?.toolbarInclude?.toolbar?.getItem(R.id.item_clear)
+        get() = binding?.toolbarInc?.toolbar?.getItem(R.id.item_clear)
 
     //region System
 
@@ -60,7 +60,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     override fun setupView() {
         super.setupView()
 
-        binding?.toolbarInclude?.toolbar?.apply {
+        binding?.toolbarInc?.toolbar?.apply {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
@@ -100,7 +100,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
             val binding = binding ?: return@observe
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInclude.parentContainer
+                binding.recyclerView, binding.infoInc.parentContainer
             )
         }
         viewModel.itemList.observe(this) {

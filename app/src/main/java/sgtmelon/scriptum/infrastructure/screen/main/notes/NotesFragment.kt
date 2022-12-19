@@ -68,7 +68,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override fun setupView() {
         super.setupView()
 
-        binding?.toolbarInclude?.toolbar?.apply {
+        binding?.toolbarInc?.toolbar?.apply {
             title = getString(R.string.title_notes)
             inflateMenu(R.menu.fragment_notes)
             setOnMenuItemClickListener(this@NotesFragment)
@@ -131,7 +131,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             val binding = binding ?: return@observe
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInclude.parentContainer
+                binding.recyclerView, binding.infoInc.parentContainer
             )
         }
         viewModel.isListHide.observe(this) { observeListHide(it) }
@@ -164,14 +164,14 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         } else {
             R.string.info_notes_empty_title
         }
-        binding?.infoInclude?.titleText?.setText(titleId)
+        binding?.infoInc?.titleText?.setText(titleId)
 
         val subtitleId = if (isListHide) {
             R.string.info_notes_hide_details
         } else {
             R.string.info_notes_empty_details
         }
-        binding?.infoInclude?.detailsText?.setText(subtitleId)
+        binding?.infoInc?.detailsText?.setText(subtitleId)
     }
 
     //endregion

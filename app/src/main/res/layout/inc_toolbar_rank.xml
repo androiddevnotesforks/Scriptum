@@ -47,8 +47,7 @@
                         android:importantForAutofill="noExcludeDescendants"
                         android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
                         android:maxLength="@integer/rank_name_max_length"
-                        android:maxLines="1"
-                        tools:targetApi="o"/>
+                        android:maxLines="1" />
 
                     <ImageButton
                         android:id="@+id/add_button"

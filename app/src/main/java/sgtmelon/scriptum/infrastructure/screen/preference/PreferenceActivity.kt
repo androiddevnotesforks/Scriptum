@@ -76,7 +76,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             PreferenceScreen.SERVICE -> R.string.pref_header_service
         }
 
-        binding?.toolbarInclude?.toolbar?.apply {
+        binding?.toolbarInc?.toolbar?.apply {
             title = getString(titleId)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }

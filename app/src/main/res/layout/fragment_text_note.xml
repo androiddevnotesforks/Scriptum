@@ -39,7 +39,7 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/toolbar_include"
+            android:id="@+id/toolbar_inc"
             layout="@layout/inc_toolbar_note"
             app:isDataLoad='@{isDataLoad}'
             app:isEditMode='@{isEditMode}'
@@ -92,7 +92,7 @@
         </FrameLayout>
 
         <include
-            android:id="@+id/panel_include"
+            android:id="@+id/panel_inc"
             layout="@layout/inc_note_panel_text"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'

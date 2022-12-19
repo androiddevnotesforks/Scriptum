@@ -46,28 +46,28 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.note_panel_container)
-    private val dividerView = getViewById(R.id.note_panel_divider_view)
-    private val buttonContainer = getViewById(R.id.note_panel_button_container)
+    private val parentContainer = getViewById(R.id.parent_container)
+    private val dividerView = getViewById(R.id.panel_divider_view)
+    private val buttonContainer = getViewById(R.id.parent_container)
 
-    private val readContainer = getViewById(R.id.note_panel_read_container)
-    private val notificationButton = getViewById(R.id.note_panel_notification_button)
-    private val bindButton = getViewById(R.id.note_panel_bind_button)
-    private val convertButton = getViewById(R.id.note_panel_convert_button)
-    private val deleteButton = getViewById(R.id.note_panel_delete_button)
-    private val editButton = getViewById(R.id.note_panel_edit_button)
+    private val readContainer = getViewById(R.id.read_container)
+    private val notificationButton = getViewById(R.id.notification_button)
+    private val bindButton = getViewById(R.id.bind_button)
+    private val convertButton = getViewById(R.id.convert_button)
+    private val deleteButton = getViewById(R.id.delete_button)
+    private val editButton = getViewById(R.id.edit_button)
 
-    private val binContainer = getViewById(R.id.note_panel_bin_container)
-    private val restoreButton = getViewById(R.id.note_panel_restore_button)
-    private val restoreOpenButton = getViewById(R.id.note_panel_restore_open_button)
-    private val clearButton = getViewById(R.id.note_panel_clear_button)
+    private val binContainer = getViewById(R.id.bin_container)
+    private val restoreButton = getViewById(R.id.restore_button)
+    private val restoreOpenButton = getViewById(R.id.restore_open_button)
+    private val clearButton = getViewById(R.id.clear_button)
 
-    private val editContainer = getViewById(R.id.note_panel_edit_container)
-    private val undoButton = getViewById(R.id.note_panel_undo_button)
-    private val redoButton = getViewById(R.id.note_panel_redo_button)
-    private val rankButton = getViewById(R.id.note_panel_rank_button)
-    private val colorButton = getViewById(R.id.note_panel_color_button)
-    private val saveButton = getViewById(R.id.note_panel_save_button)
+    private val editContainer = getViewById(R.id.edit_container)
+    private val undoButton = getViewById(R.id.undo_button)
+    private val redoButton = getViewById(R.id.redo_button)
+    private val rankButton = getViewById(R.id.rank_button)
+    private val colorButton = getViewById(R.id.color_button)
+    private val saveButton = getViewById(R.id.save_button)
 
     //endregion
 

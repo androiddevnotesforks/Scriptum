@@ -56,7 +56,6 @@
                 app:boolExpression='@{!item.check}'
                 app:falseColor='@{R.attr.clContrast}'
                 app:trueColor='@{R.attr.clContent}'
-                tools:targetApi="o"
                 tools:text="@string/preview_note_roll" />
 
         </LinearLayout>

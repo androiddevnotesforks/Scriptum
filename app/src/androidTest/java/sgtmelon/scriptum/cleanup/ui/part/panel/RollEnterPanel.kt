@@ -35,11 +35,11 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
 
     //region Views
 
-    private val enterContainer = getViewById(R.id.roll_add_panel_container)
-    private val dividerView = getViewById(R.id.roll_add_panel_divider_view)
+    private val enterContainer = getViewById(R.id.parent_container)
+    private val dividerView = getViewById(R.id.enter_divider_view)
 
-    private val textEnter = getViewById(R.id.roll_add_panel_enter)
-    private val addButton = getViewById(R.id.roll_add_panel_button)
+    private val textEnter = getViewById(R.id.roll_enter)
+    private val addButton = getViewById(R.id.add_button)
 
     //endregion
 

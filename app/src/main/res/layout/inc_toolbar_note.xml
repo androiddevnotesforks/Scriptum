@@ -22,20 +22,19 @@
     </data>
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/toolbar_note_parent_container"
+        android:id="@+id/parent_container"
         style="@style/Toolbar.Flex">
 
         <include
-            android:id="@+id/content_include"
+            android:id="@+id/content_inc"
             layout="@layout/inc_toolbar_note_content"
             app:isDataLoad="@{isDataLoad}"
             app:isEditMode="@{isEditMode}"
             app:item="@{item}" />
 
-        <View
-            android:id="@+id/toolbar_note_color_view"
-            style="@style/View.Color.Horizontal"
-            android:visibility="gone" />
+        <include
+            android:id="@+id/indicator_inc"
+            layout="@layout/inc_toolbar_note_color" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

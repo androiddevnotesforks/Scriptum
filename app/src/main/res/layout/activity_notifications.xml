@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/toolbar_include"
+            android:id="@+id/toolbar_inc"
             layout="@layout/inc_toolbar_simple" />
 
         <FrameLayout
@@ -27,7 +27,7 @@
             android:layout_height="match_parent">
 
             <include
-                android:id="@+id/info_include"
+                android:id="@+id/info_inc"
                 layout="@layout/inc_info"
                 app:details='@{R.string.info_notification_empty_details}'
                 app:icon='@{R.mipmap.img_info_notifications}'

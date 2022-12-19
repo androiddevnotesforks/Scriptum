@@ -13,8 +13,8 @@
     </data>
 
     <LinearLayout
-            android:id="@+id/roll_add_panel_container"
-            android:layout_width="match_parent"
+            android:id="@+id/parent_container"
+        android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/clPrimary"
             android:orientation="vertical"
@@ -22,8 +22,9 @@
             tools:layout_gravity="center"
             tools:visibility="visible">
 
-        <View android:id="@+id/roll_add_panel_divider_view"
-                style="@style/Divider.Horizontal"/>
+        <View
+            android:id="@+id/enter_divider_view"
+            style="@style/Divider.Horizontal" />
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -38,8 +39,8 @@
                 effect using xml
             -->
             <EditText
-                    android:id="@+id/roll_add_panel_enter"
-                    style="@style/EditText.SingleRow"
+                android:id="@+id/roll_enter"
+                style="@style/EditText.SingleRow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -47,12 +48,11 @@
                     android:importantForAutofill="noExcludeDescendants"
                     android:maxLines="5"
                     tools:ignore="TextFields"
-                    tools:targetApi="o"
                     tools:text="@string/preview_note_text"/>
 
             <ImageButton
-                    android:id="@+id/roll_add_panel_button"
-                    style="@style/Button.Small"
+                android:id="@+id/add_button"
+                style="@style/Button.Small"
                     android:layout_gravity="bottom"
                     android:contentDescription="@string/description_enter_roll_add"
                     app:boolExpression='@{!isEnterEmpty}'

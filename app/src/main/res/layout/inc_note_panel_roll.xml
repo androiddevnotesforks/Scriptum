@@ -43,8 +43,9 @@
             type="sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl.Access" />
     </data>
 
+    <!--  Color needed because divider has horizontal spaces.  -->
     <LinearLayout
-        android:id="@+id/note_panel_container"
+        android:id="@+id/parent_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/clPrimary"
@@ -52,13 +53,14 @@
         tools:layout_gravity="center">
 
         <View
-            android:id="@+id/note_panel_divider_view"
+            android:id="@+id/panel_divider_view"
             style="@style/Divider.Horizontal"
             android:layout_marginHorizontal="@dimen/layout_8dp"
             android:visibility='@{!isDividerHide ? View.VISIBLE : View.GONE}'
             tools:visibility="visible" />
 
         <include
+            android:id="@+id/panel_inc"
             layout="@layout/inc_note_panel_content"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'

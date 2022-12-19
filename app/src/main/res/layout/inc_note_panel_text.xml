@@ -40,17 +40,18 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/note_panel_container"
+        android:id="@+id/parent_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:layout_gravity="center">
 
         <View
-            android:id="@+id/note_panel_divider_view"
+            android:id="@+id/panel_divider_view"
             style="@style/Divider.Horizontal" />
 
         <include
+            android:id="@+id/panel_inc"
             layout="@layout/inc_note_panel_content"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'

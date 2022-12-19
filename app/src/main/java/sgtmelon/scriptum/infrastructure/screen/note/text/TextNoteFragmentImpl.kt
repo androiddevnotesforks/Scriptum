@@ -63,7 +63,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     private val convertDialog by lazy { dialogs.getConvert(NoteType.TEXT) }
 
     private val nameEnter: EditText?
-        get() = binding?.toolbarInclude?.contentInclude?.toolbarNoteEnter
+        get() = binding?.toolbarInc?.contentInc?.nameEnter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -127,8 +127,8 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     override fun setupToolbar(color: Color) {
-        val toolbar: Toolbar? = binding?.toolbarInclude?.contentInclude?.toolbarNoteContentContainer
-        val indicator: View? = binding?.toolbarInclude?.toolbarNoteColorView
+        val toolbar: Toolbar? = binding?.toolbarInc?.contentInc?.toolbar
+        val indicator: View? = binding?.toolbarInc?.indicatorInc?.colorView
 
         activity?.let {
             tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
@@ -172,7 +172,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     override fun setupEnter(inputControl: IInputControl) {
-        binding?.toolbarInclude?.contentInclude?.toolbarNoteScroll?.requestFocusOnVisible(nameEnter)
+        binding?.toolbarInc?.contentInc?.scrollView?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(

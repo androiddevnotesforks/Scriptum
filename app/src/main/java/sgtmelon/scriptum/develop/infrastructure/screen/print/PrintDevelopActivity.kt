@@ -71,7 +71,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInclude.parentContainer
+                binding.recyclerView, binding.infoInc.parentContainer
             )
         }
         viewModel.itemList.observe(this) { adapter.notifyList(it) }
@@ -79,7 +79,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
     private fun setupToolbar() {
         val type = bundleProvider.type ?: return
-        val toolbar = binding?.toolbarInclude?.toolbar ?: return
+        val toolbar = binding?.toolbarInc?.toolbar ?: return
 
         val titleId = when (type) {
             PrintType.NOTE, PrintType.BIN -> R.string.pref_title_print_note
