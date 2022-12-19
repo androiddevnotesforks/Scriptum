@@ -53,7 +53,7 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/toolbar_inc"
+            android:id="@+id/app_bar"
             layout="@layout/inc_toolbar_note"
             app:isDataLoad='@{isDataLoad}'
             app:isEditMode='@{isEditMode}'
@@ -66,7 +66,7 @@
             android:layout_weight="1">
 
             <include
-                android:id="@+id/info_inc"
+                android:id="@+id/empty_info"
                 layout="@layout/inc_info"
                 android:visibility="gone"
                 app:details='@{isListEmpty ? R.string.info_roll_empty_details : isListHide ? R.string.info_roll_hide_details : R.string.info_null}'
@@ -84,7 +84,7 @@
         </FrameLayout>
 
         <include
-            android:id="@+id/add_inc"
+            android:id="@+id/add_panel"
             layout="@layout/inc_roll_add_panel"
             app:isEditMode='@{isEditMode}'
             app:isEnterEmpty='@{isEnterEmpty}' />
@@ -101,7 +101,7 @@
             tools:progress="65" />
 
         <include
-            android:id="@+id/panel_inc"
+            android:id="@+id/panel"
             layout="@layout/inc_note_panel_roll"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'

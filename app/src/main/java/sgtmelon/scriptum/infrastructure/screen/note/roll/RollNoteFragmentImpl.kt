@@ -100,7 +100,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
     private val nameEnter: EditText?
-        get() = binding?.toolbarInc?.contentInc?.nameEnter
+        get() = binding?.appBar?.content?.nameEnter
 
     private var visibleMenuItem: MenuItem? = null
 
@@ -175,8 +175,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun setupToolbar(color: Color) {
-        val toolbar: Toolbar? = binding?.toolbarInc?.contentInc?.toolbar
-        val indicator: View? = binding?.toolbarInc?.indicatorInc?.colorView
+        val toolbar: Toolbar? = binding?.appBar?.content?.toolbar
+        val indicator: View? = binding?.appBar?.indicator?.colorView
 
         toolbar?.inflateMenu(R.menu.fragment_roll_note)
         visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
@@ -225,7 +225,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun setupEnter(inputControl: IInputControl) {
-        binding?.toolbarInc?.contentInc?.scrollView?.requestFocusOnVisible(nameEnter)
+        binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(
@@ -235,7 +235,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             it.addOnNextAction { onFocusEnter() }
         }
 
-        binding?.addInc?.rollEnter?.apply {
+        binding?.addPanel?.rollEnter?.apply {
             setRawInputType(
                 InputType.TYPE_CLASS_TEXT
                         or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
@@ -248,7 +248,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
         }
 
-        binding?.addInc?.addButton?.apply {
+        binding?.addPanel?.addButton?.apply {
             setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
             setOnLongClickListener {
                 viewModel.onClickAdd(simpleClick = false)
@@ -357,7 +357,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         val isListEmpty = adapter.itemCount == 0
 
         binding?.parentContainer?.createVisibleAnim(
-            binding?.infoInc?.root,
+            binding?.emptyInfo?.root,
             isVisible = isVisible ?: isListEmpty
         )
     }
@@ -367,7 +367,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             if (isCreate) {
                 nameEnter?.requestSelectionFocus()
             } else {
-                binding?.addInc?.rollEnter?.requestSelectionFocus()
+                binding?.addPanel?.rollEnter?.requestSelectionFocus()
             }
         }
     }
@@ -381,16 +381,16 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun onFocusEnter() {
-        binding?.addInc?.rollEnter?.apply {
+        binding?.addPanel?.rollEnter?.apply {
             requestFocus()
             setSelection(text.toString().length)
         }
     }
 
-    override fun getEnterText() = binding?.addInc?.rollEnter?.text?.toString() ?: ""
+    override fun getEnterText() = binding?.addPanel?.rollEnter?.text?.toString() ?: ""
 
     override fun clearEnterText() {
-        binding?.addInc?.rollEnter?.setText("")
+        binding?.addPanel?.rollEnter?.setText("")
     }
 
 

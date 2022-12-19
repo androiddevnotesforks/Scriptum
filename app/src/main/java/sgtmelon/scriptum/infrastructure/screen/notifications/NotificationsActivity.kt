@@ -75,7 +75,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     override fun setupView() {
         super.setupView()
 
-        binding?.toolbarInc?.toolbar?.apply {
+        binding?.appBar?.toolbar?.apply {
             title = getString(R.string.title_notification)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
@@ -96,7 +96,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
             val binding = binding ?: return@observe
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInc.parentContainer
+                binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
         viewModel.itemList.observe(this) { notifyList.catch(viewModel.updateList, it) }

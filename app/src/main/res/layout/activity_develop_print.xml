@@ -16,7 +16,7 @@
         tools:context="sgtmelon.scriptum.develop.screen.print.PrintDevelopActivity">
 
         <include
-            android:id="@+id/toolbar_inc"
+            android:id="@+id/app_bar"
             layout="@layout/inc_toolbar_simple" />
 
         <FrameLayout
@@ -24,7 +24,7 @@
             android:layout_height="match_parent">
 
             <include
-                android:id="@+id/info_inc"
+                android:id="@+id/empty_info"
                 layout="@layout/inc_info"
                 app:details='@{R.string.info_print_empty_details}'
                 app:title='@{R.string.info_print_empty_title}' />

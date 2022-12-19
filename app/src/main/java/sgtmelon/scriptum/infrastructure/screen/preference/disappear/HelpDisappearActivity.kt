@@ -42,7 +42,7 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
     override fun setupView() {
         super.setupView()
 
-        binding?.toolbarInc?.toolbar?.apply {
+        binding?.appBar?.toolbar?.apply {
             title = getString(R.string.pref_title_help_disappear)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }

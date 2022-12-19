@@ -77,7 +77,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         lifecycle, R.string.snackbar_message_rank, R.string.snackbar_action_cancel, callback = this
     )
 
-    val enterCard: View? get() = binding?.toolbarInc?.enterCard
+    val enterCard: View? get() = binding?.appBar?.enterCard
 
     //region System
 
@@ -95,7 +95,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
          * Use [OpenState.attempt] inside add category feature, because calculations happens
          * inside coroutine, not main thread.
          */
-        binding?.toolbarInc?.apply {
+        binding?.appBar?.apply {
             toolbar.title = getString(R.string.title_rank)
             clearButton.setOnClickListener { clearEnter() }
             addButton.setOnClickListener {
@@ -140,7 +140,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             val binding = binding ?: return@observe
             animation.startListFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInc.parentContainer
+                binding.recyclerView, binding.emptyInfo.parentContainer
             )
 
             /** If toolbar enter contains any text then need update add button. */
@@ -180,7 +180,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private fun notifyToolbar() {
         val (isClearEnable, isAddEnable) = viewModel.getToolbarEnable(getEnterText())
 
-        binding?.toolbarInc?.apply {
+        binding?.appBar?.apply {
             clearButton.isEnabled = isClearEnable
             clearButton.bindBoolTint(isClearEnable, R.attr.clContent, R.attr.clDisable)
 
@@ -189,10 +189,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
-    private fun getEnterText(): String = binding?.toolbarInc?.rankEnter?.text?.toString() ?: ""
+    private fun getEnterText(): String = binding?.appBar?.rankEnter?.text?.toString() ?: ""
 
     private fun clearEnter() {
-        binding?.toolbarInc?.rankEnter?.setText("")
+        binding?.appBar?.rankEnter?.setText("")
     }
 
     private fun addFromEnter(toBottom: Boolean) {

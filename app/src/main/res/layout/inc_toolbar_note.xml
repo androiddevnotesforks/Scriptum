@@ -26,14 +26,14 @@
         style="@style/Toolbar.Flex">
 
         <include
-            android:id="@+id/content_inc"
+            android:id="@+id/content"
             layout="@layout/inc_toolbar_note_content"
             app:isDataLoad="@{isDataLoad}"
             app:isEditMode="@{isEditMode}"
             app:item="@{item}" />
 
         <include
-            android:id="@+id/indicator_inc"
+            android:id="@+id/indicator"
             layout="@layout/inc_toolbar_note_color" />
 
     </com.google.android.material.appbar.AppBarLayout>

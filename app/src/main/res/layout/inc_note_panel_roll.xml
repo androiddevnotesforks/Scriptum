@@ -60,7 +60,7 @@
             tools:visibility="visible" />
 
         <include
-            android:id="@+id/panel_inc"
+            android:id="@+id/content"
             layout="@layout/inc_note_panel_content"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'
