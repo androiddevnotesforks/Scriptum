@@ -179,22 +179,22 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
                     InputTextWatcher(it, InputAction.NAME, viewModel, inputControl)
             )
             it.addOnNextAction {
-                binding?.textNoteContentEnter?.apply {
+                binding?.textEnter?.apply {
                     requestFocus()
                     setSelection(text.toString().length)
                 }
             }
         }
 
-        binding?.textNoteContentScroll?.requestFocusOnVisible(binding?.textNoteContentEnter)
+        binding?.contentScroll?.requestFocusOnVisible(binding?.textEnter)
 
         val inputWatcher = InputTextWatcher(
-            binding?.textNoteContentEnter,
+            binding?.textEnter,
             InputAction.TEXT,
             viewModel,
             inputControl
         )
-        binding?.textNoteContentEnter?.addTextChangedListener(inputWatcher)
+        binding?.textEnter?.addTextChangedListener(inputWatcher)
     }
 
 
@@ -243,7 +243,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             if (isCreate) {
                 nameEnter?.requestSelectionFocus()
             } else {
-                binding?.textNoteContentEnter?.requestSelectionFocus()
+                binding?.textEnter?.requestSelectionFocus()
             }
         }
     }
@@ -257,7 +257,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     override fun changeText(text: String, cursor: Int) {
-        binding?.textNoteContentEnter?.apply {
+        binding?.textEnter?.apply {
             requestFocus()
             setText(text)
             setSelection(cursor)

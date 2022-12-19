@@ -51,13 +51,13 @@ class TextNoteScreen(
     private val panelHolder = getViewById(R.id.panel_holder)
     private val fragmentContainer = getViewById(R.id.fragment_container)
 
-    private val parentContainer = getViewById(R.id.text_note_parent_container)
+    private val parentContainer = getViewById(R.id.parent_container)
 
-    private val contentCard = getViewById(R.id.text_note_content_card)
-    private val contentScroll = getViewById(R.id.text_note_content_scroll)
+    private val contentCard = getViewById(R.id.content_card)
+    private val contentScroll = getViewById(R.id.content_scroll)
 
-    private val contentText = getViewById(R.id.text_note_content_text)
-    private val contentEnter = getViewById(R.id.text_note_content_enter)
+    private val textEnter = getViewById(R.id.text_enter)
+    private val textRead = getViewById(R.id.text_read)
 
     override val toolbar: ToolbarPart get() = toolbar()
 
@@ -85,7 +85,7 @@ class TextNoteScreen(
 
 
     fun onEnterText(text: String = "") = apply {
-        contentEnter.typeText(text)
+        textEnter.typeText(text)
 
         if (text.isEmpty()) {
             val valueFrom = shadowItem.text
@@ -112,7 +112,7 @@ class TextNoteScreen(
      */
     fun onImeOptionText() = apply {
         throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
-            contentEnter.imeOption()
+            textEnter.imeOption()
         }
     }
 
@@ -147,7 +147,7 @@ class TextNoteScreen(
     //region Assertion
 
     fun assertFocus() = throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
-        contentEnter.isFocused().withCursor(shadowItem.text.length)
+        textEnter.isFocused().withCursor(shadowItem.text.length)
     }
 
     fun assert() {
@@ -168,20 +168,20 @@ class TextNoteScreen(
 
         when (state) {
             NoteState.READ, NoteState.BIN -> {
-                contentText.isDisplayed()
+                textRead.isDisplayed()
                     .withBackgroundColor(android.R.color.transparent)
                     .withText(item.text, R.attr.clContent, R.dimen.text_18sp)
 
-                contentEnter.isDisplayed(value = false)
+                textEnter.isDisplayed(value = false)
             }
             NoteState.EDIT, NoteState.NEW -> {
-                contentText.isDisplayed(value = false)
+                textRead.isDisplayed(value = false)
 
                 /**
                  * TODO not work with: withImeAction(EditorInfo.IME_ACTION_UNSPECIFIED)
                  */
                 val text = shadowItem.text
-                contentEnter.isDisplayed()
+                textEnter.isDisplayed()
                     .withBackgroundColor(android.R.color.transparent)
                     .apply {
                         if (text.isNotEmpty()) {
