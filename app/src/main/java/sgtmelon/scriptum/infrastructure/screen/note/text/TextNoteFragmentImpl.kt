@@ -35,7 +35,7 @@ import sgtmelon.test.idling.getIdling
 /**
  * Fragment for display text note.
  */
-class TextNoteFragmentImpl : ParentNoteFragmentImpl<FragmentTextNoteBinding>(),
+class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextNoteBinding>(),
     TextNoteFragment,
     IconBlockCallback {
 

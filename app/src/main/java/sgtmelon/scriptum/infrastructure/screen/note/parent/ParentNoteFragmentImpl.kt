@@ -1,15 +1,17 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import androidx.databinding.ViewDataBinding
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 
 /**
  * Parent class for fragments which will be displayed in [NoteActivity].
  */
-abstract class ParentNoteFragmentImpl<T : ViewDataBinding> : BindingFragment<T>() {
+abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>() {
 
-    abstract val viewModel: ParentNoteViewModel
+    abstract val viewModel: ParentNoteViewModel<N>
 
     protected val connector get() = activity as? NoteConnector
 

@@ -51,7 +51,7 @@ import sgtmelon.test.idling.getIdling
 /**
  * Fragment for display roll note.
  */
-class RollNoteFragmentImpl : ParentNoteFragmentImpl<FragmentRollNoteBinding>(),
+class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
     RollNoteFragment,
     Toolbar.OnMenuItemClickListener,
     IconBlockCallback {
