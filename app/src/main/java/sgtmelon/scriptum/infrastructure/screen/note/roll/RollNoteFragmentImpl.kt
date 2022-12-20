@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
+import android.content.Context
 import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
@@ -33,20 +34,19 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTe
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
+import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
-import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
-import sgtmelon.test.idling.getIdling
 
 /**
  * Fragment for display roll note.
@@ -59,6 +59,24 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val layoutId: Int = R.layout.fragment_roll_note
 
     @Inject override lateinit var viewModel: RollNoteViewModel
+
+    override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
+
+    // TODO plan
+
+    override fun setupBinding(callback: NoteMenu) {
+        binding?.menuCallback = callback
+    }
+
+    override fun setupToolbar(context: Context, toolbar: Toolbar?, colorIndicator: View?) {
+        super.setupToolbar(context, toolbar, colorIndicator)
+
+        toolbar?.inflateMenu(R.menu.fragment_roll_note)
+        toolbar?.setOnMenuItemClickListener(this)
+
+        /** Call after menu inflating because otherwise visible icon will be null */
+        visibleIconControl = VisibleFilterIcon(context, visibleMenuItem, callback = this)
+    }
 
     //region Cleanup
 
@@ -99,10 +117,12 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
-    private val nameEnter: EditText?
-        get() = binding?.appBar?.content?.nameEnter
+    private val nameEnter: EditText? get() = appBar?.content?.nameEnter
 
-    private var visibleMenuItem: MenuItem? = null
+    private val visibleMenuItem: MenuItem?
+        get() = appBar?.content?.toolbar?.menu?.findItem(R.id.item_visible)
+    // TODO remove
+    //    private var visibleMenuItem: MenuItem? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -150,15 +170,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         return true
     }
 
-    //region Callback functions
-
-    override fun setEnabled(isEnabled: Boolean) {
-        getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
-        open.isBlocked = !isEnabled
-    }
-
-    //endregion
-
     override val isDialogOpen: Boolean get() = open.isBlocked
 
     override fun setTouchAction(inAction: Boolean) {
@@ -169,27 +180,27 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         activity?.hideKeyboard()
     }
 
-
-    override fun setupBinding() {
-        binding?.apply { this.menuCallback = viewModel }
-    }
-
-    override fun setupToolbar(color: Color) {
-        val toolbar: Toolbar? = binding?.appBar?.content?.toolbar
-        val indicator: View? = binding?.appBar?.indicator?.colorView
-
-        toolbar?.inflateMenu(R.menu.fragment_roll_note)
-        visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
-
-        activity?.let {
-            tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
-            navigationIcon = BackToCancelIcon(it, toolbar, callback = this)
-            visibleIconControl = VisibleFilterIcon(it, visibleMenuItem, callback = this)
-        }
-
-        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
-        toolbar?.setOnMenuItemClickListener(this)
-    }
+    // TODO remove
+    //    override fun setupBinding() {
+    //        binding?.apply { this.menuCallback = viewModel }
+    //    }
+    //
+    //    override fun setupToolbar(color: Color) {
+    //        val toolbar: Toolbar? = binding?.appBar?.content?.toolbar
+    //        val indicator: View? = binding?.appBar?.indicator?.colorView
+    //
+    //        toolbar?.inflateMenu(R.menu.fragment_roll_note)
+    //        visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
+    //
+    //        activity?.let {
+    //            tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
+    //            navigationIcon = BackToCancelIcon(it, toolbar, callback = this)
+    //            visibleIconControl = VisibleFilterIcon(it, visibleMenuItem, callback = this)
+    //        }
+    //
+    //        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
+    //        toolbar?.setOnMenuItemClickListener(this)
+    //    }
 
     override fun setupDialog(rankNameArray: Array<String>) {
         rankDialog.apply {

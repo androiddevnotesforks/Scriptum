@@ -4,7 +4,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 
 /**
@@ -18,9 +17,11 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
     /**
      * Setup elements for binding which is constants
      */
-    fun setupBinding()
-
-    fun setupToolbar(color: Color)
+    //    @Deprecated("Use parent fragment realization")
+    //    fun setupBinding()
+    //
+    //    @Deprecated("Use parent fragment realization")
+    //    fun setupToolbar(color: Color)
 
     fun setupDialog(rankNameArray: Array<String>)
 

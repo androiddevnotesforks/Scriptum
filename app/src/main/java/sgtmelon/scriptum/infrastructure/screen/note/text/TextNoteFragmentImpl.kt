@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.note.text
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import androidx.appcompat.widget.Toolbar
 import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -20,17 +19,16 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
+import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
+import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
-import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
-import sgtmelon.test.idling.getIdling
 
 /**
  * Fragment for display text note.
@@ -43,11 +41,18 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
     @Inject override lateinit var viewModel: TextNoteViewModel
 
+    override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
+
     // TODO PLAN:
     // TODO 1. Change isEdit/noteState via new livedata value (if first time - skip animation - no views visible)
     //         - Move all binding related with it into UI classes
     // TODO 2. Make common use case for undo/redo (use flow?)
     // TODO 3. Move common functions into use cases? (don't use parent vm class?)
+
+
+    override fun setupBinding(callback: NoteMenu) {
+        binding?.menuCallback = callback
+    }
 
     //region Cleanup
 
@@ -106,37 +111,28 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         viewModel.onDestroy()
     }
 
-    //region Callback functions
-
-    override fun setEnabled(isEnabled: Boolean) {
-        getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
-        open.isBlocked = !isEnabled
-    }
-
-    //endregion
-
     override val isDialogOpen: Boolean get() = open.isBlocked
 
     override fun hideKeyboard() {
         activity?.hideKeyboard()
     }
 
-
-    override fun setupBinding() {
-        binding?.apply { this.menuCallback = viewModel }
-    }
-
-    override fun setupToolbar(color: Color) {
-        val toolbar: Toolbar? = binding?.appBar?.content?.toolbar
-        val indicator: View? = binding?.appBar?.indicator?.colorView
-
-        activity?.let {
-            tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
-            navigationIcon = BackToCancelIcon(it, toolbar, callback = this)
-        }
-
-        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
-    }
+    // TODO remove
+    //    override fun setupBinding() {
+    //        binding?.apply { this.menuCallback = viewModel }
+    //    }
+    //
+    //    override fun setupToolbar(color: Color) {
+    //        val toolbar: Toolbar? = binding?.appBar?.content?.toolbar
+    //        val indicator: View? = binding?.appBar?.indicator?.colorView
+    //
+    //        activity?.let {
+    //            tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
+    //            navigationIcon = BackToCancelIcon(it, toolbar, callback = this)
+    //        }
+    //
+    //        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
+    //    }
 
     override fun setupDialog(rankNameArray: Array<String>) {
         rankDialog.apply {

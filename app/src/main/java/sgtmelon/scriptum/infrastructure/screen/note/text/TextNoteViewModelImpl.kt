@@ -68,8 +68,8 @@ class TextNoteViewModelImpl(
 ), TextNoteViewModel {
 
     override fun setupBeforeInitialize() {
-        callback?.setupBinding()
-        color.value?.let { callback?.setupToolbar(it) }
+        //        callback?.setupBinding()
+        //        color.value?.let { callback?.setupToolbar(it) }
         callback?.setupEnter(inputControl)
     }
 

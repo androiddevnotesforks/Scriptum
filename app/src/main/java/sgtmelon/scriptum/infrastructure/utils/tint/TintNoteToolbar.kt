@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.utils.ColorTransformation
  */
 class TintNoteToolbar(
     context: Context,
-    private val window: Window,
+    private val window: Window?,
     private val toolbar: View?,
     private val indicator: View?,
     startColor: Color
@@ -44,7 +44,7 @@ class TintNoteToolbar(
             val ratio = it.animatedFraction
 
             if (theme != ThemeDisplayed.DARK) {
-                window.statusBarColor = statusBarColor[ratio]
+                window?.statusBarColor = statusBarColor[ratio]
                 toolbar?.setBackgroundColor(toolbarColor[ratio])
             } else {
                 indicator?.setBackgroundColor(indicatorColor[ratio])
@@ -61,7 +61,7 @@ class TintNoteToolbar(
         val theme = theme ?: return
 
         if (theme != ThemeDisplayed.DARK) {
-            window.statusBarColor = getStatusBarColor(theme, color)
+            window?.statusBarColor = getStatusBarColor(theme, color)
             toolbar?.setBackgroundColor(getToolbarColor(theme, color))
         } else {
             indicator?.setBackgroundColor(

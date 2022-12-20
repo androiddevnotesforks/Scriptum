@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 
 /**
@@ -13,9 +12,11 @@ interface TextNoteFragment : ParentNoteFragment<NoteItem.Text> {
     /**
      * Setup elements for binding which is constants
      */
-    fun setupBinding()
+    //    @Deprecated("Use parent fragment realization")
+    //    fun setupBinding()
 
-    fun setupToolbar(color: Color)
+    //    @Deprecated("Use parent fragment realization")
+    //    fun setupToolbar(color: Color)
 
     fun setupDialog(rankNameArray: Array<String>)
 

@@ -81,8 +81,8 @@ class RollNoteViewModelImpl(
 
     override fun setupBeforeInitialize() {
         callback?.apply {
-            setupBinding()
-            color.value?.let { setupToolbar(it) }
+//            setupBinding()
+            //            color.value?.let { setupToolbar(it) }
             setupEnter(inputControl)
             setupRecycler(inputControl)
 
