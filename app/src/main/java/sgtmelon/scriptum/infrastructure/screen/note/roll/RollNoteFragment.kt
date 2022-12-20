@@ -13,18 +13,6 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun setTouchAction(inAction: Boolean)
 
-
-    /**
-     * Setup elements for binding which is constants
-     */
-    //    @Deprecated("Use parent fragment realization")
-    //    fun setupBinding()
-    //
-    //    @Deprecated("Use parent fragment realization")
-    //    fun setupToolbar(color: Color)
-
-    fun setupDialog(rankNameArray: Array<String>)
-
     fun setupEnter(inputControl: IInputControl)
 
     fun setupRecycler(inputControl: IInputControl)
@@ -43,8 +31,6 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
 
     fun onPressBack(): Boolean
-
-    fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
 
     fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean)
 

@@ -97,6 +97,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
+    // TODO vvv remove SETUP and staff below vvv
+
     @RunProtected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
 
     /**

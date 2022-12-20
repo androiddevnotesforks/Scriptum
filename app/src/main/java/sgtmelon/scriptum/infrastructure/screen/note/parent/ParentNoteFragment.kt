@@ -28,6 +28,8 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm
 
     fun tintToolbar(color: Color)
 
+    fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
+
 
     fun changeName(text: String, cursor: Int)
 

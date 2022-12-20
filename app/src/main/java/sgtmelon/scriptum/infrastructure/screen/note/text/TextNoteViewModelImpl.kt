@@ -102,7 +102,7 @@ class TextNoteViewModelImpl(
     }
 
     override suspend fun setupAfterInitialize() {
-        callback?.setupDialog(rankDialogItemArray)
+//        callback?.setupDialog(rankDialogItemArray)
 
         mayAnimateIcon = false
         // TODO may this is not needed?

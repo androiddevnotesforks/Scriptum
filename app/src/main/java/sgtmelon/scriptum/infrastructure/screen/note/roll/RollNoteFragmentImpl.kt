@@ -17,7 +17,6 @@ import javax.inject.Inject
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
-import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
@@ -35,9 +34,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
-import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
@@ -45,7 +42,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
-import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
@@ -57,6 +53,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     IconBlockCallback {
 
     override val layoutId: Int = R.layout.fragment_roll_note
+    override val type: NoteType = NoteType.ROLL
 
     @Inject override lateinit var viewModel: RollNoteViewModel
 
@@ -80,17 +77,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     //region Cleanup
 
-    private var tintToolbar: TintNoteToolbar? = null
-    private var navigationIcon: IconChangeCallback? = null
     private var visibleIconControl: IconChangeCallback? = null
-
-    private val dialogs by lazy { DialogFactory.Note(context, fm) }
-
-    private val rankDialog by lazy { dialogs.getRank() }
-    private val colorDialog by lazy { dialogs.getColor() }
-    private val dateDialog by lazy { dialogs.getDate() }
-    private val timeDialog by lazy { dialogs.getTime() }
-    private val convertDialog by lazy { dialogs.getConvert(NoteType.ROLL) }
 
     private val animTime by lazy {
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
@@ -121,8 +108,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     private val visibleMenuItem: MenuItem?
         get() = appBar?.content?.toolbar?.menu?.findItem(R.id.item_visible)
-    // TODO remove
-    //    private var visibleMenuItem: MenuItem? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -178,61 +163,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun hideKeyboard() {
         activity?.hideKeyboard()
-    }
-
-    // TODO remove
-    //    override fun setupBinding() {
-    //        binding?.apply { this.menuCallback = viewModel }
-    //    }
-    //
-    //    override fun setupToolbar(color: Color) {
-    //        val toolbar: Toolbar? = binding?.appBar?.content?.toolbar
-    //        val indicator: View? = binding?.appBar?.indicator?.colorView
-    //
-    //        toolbar?.inflateMenu(R.menu.fragment_roll_note)
-    //        visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
-    //
-    //        activity?.let {
-    //            tintToolbar = TintNoteToolbar(it, it.window, toolbar, indicator, color)
-    //            navigationIcon = BackToCancelIcon(it, toolbar, callback = this)
-    //            visibleIconControl = VisibleFilterIcon(it, visibleMenuItem, callback = this)
-    //        }
-    //
-    //        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
-    //        toolbar?.setOnMenuItemClickListener(this)
-    //    }
-
-    override fun setupDialog(rankNameArray: Array<String>) {
-        rankDialog.apply {
-            itemArray = rankNameArray
-
-            onPositiveClick { viewModel.onResultRankDialog(check = rankDialog.check - 1) }
-            onDismiss { open.clear() }
-        }
-
-        colorDialog.apply {
-            onPositiveClick { viewModel.onResultColorDialog(colorDialog.check) }
-            onDismiss { open.clear() }
-        }
-
-        dateDialog.apply {
-            onPositiveClick {
-                open.skipClear = true
-                viewModel.onResultDateDialog(dateDialog.calendar)
-            }
-            onNeutralClick { viewModel.onResultDateDialogClear() }
-            onDismiss { open.clear() }
-        }
-
-        timeDialog.apply {
-            onPositiveClick { viewModel.onResultTimeDialog(timeDialog.calendar) }
-            onDismiss { open.clear() }
-        }
-
-        convertDialog.apply {
-            onPositiveClick { viewModel.onResultConvertDialog() }
-            onDismiss { open.clear() }
-        }
     }
 
     override fun setupEnter(inputControl: IInputControl) {
@@ -339,18 +269,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
 
     override fun onPressBack() = viewModel.onPressBack()
-
-    override fun tintToolbar(from: Color, to: Color) {
-        tintToolbar?.setColorFrom(from)?.startTint(to)
-    }
-
-    override fun tintToolbar(color: Color) {
-        tintToolbar?.startTint(color)
-    }
-
-    override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
-        navigationIcon?.setDrawable(isCancel, needAnim)
-    }
 
     override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {
         visibleMenuItem?.title = getString(if (isVisible) {
@@ -468,40 +386,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun notifyItemRemoved(list: List<RollItem>, p: Int) {
         adapter.setList(list).notifyItemRemoved(p)
-    }
-
-
-    override fun showRankDialog(check: Int) = open.attempt {
-        hideKeyboard()
-        rankDialog.setArguments(check).safeShow(DialogFactory.Note.RANK, owner = this)
-    }
-
-    override fun showColorDialog(color: Color) = open.attempt {
-        tintToolbar?.setColorFrom(color)
-
-        hideKeyboard()
-        colorDialog.setArguments(color).safeShow(DialogFactory.Note.COLOR, owner = this)
-    }
-
-    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = open.attempt {
-        open.tag = OpenState.Tag.DIALOG
-
-        hideKeyboard()
-        dateDialog.setArguments(calendar, resetVisible)
-            .safeShow(DialogFactory.Note.DATE, owner = this)
-    }
-
-    override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
-        open.attempt(OpenState.Tag.DIALOG) {
-            hideKeyboard()
-            timeDialog.setArguments(calendar, dateList)
-                .safeShow(DialogFactory.Note.TIME, owner = this)
-        }
-    }
-
-    override fun showConvertDialog() = open.attempt {
-        hideKeyboard()
-        convertDialog.safeShow(DialogFactory.Note.CONVERT, owner = this)
     }
 
 
