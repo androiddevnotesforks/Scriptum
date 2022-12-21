@@ -17,6 +17,6 @@ It's an **open source** project, and the main **goal** of it is to create an app
 
 ### Links
 
-📍 Donwload app from [Google Play](https://play.google.com/store/apps/details?id=sgtmelon.scriptum)\
+📍 Download app from [Google Play](https://play.google.com/store/apps/details?id=sgtmelon.scriptum)\
 📍 Check out [Privacy Policy](https://github.com/SerjantArbuz/Scriptum/blob/master/PrivacyPolicy.md)\
 📍 Contact me: lex.kuznet@gmail.com.
