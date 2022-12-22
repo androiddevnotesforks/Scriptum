@@ -39,7 +39,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
-import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [RollNoteFragment].
@@ -346,7 +345,7 @@ class RollNoteViewModelImpl(
         inputControl.isEnabled = true
     }
 
-    @RunPrivate fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
         val rollItem = deprecatedNoteItem.list.getOrNull(item.p) ?: return
 
         /**
@@ -362,7 +361,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    @RunPrivate fun onMenuUndoRedoAdd(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoAdd(item: InputItem, isUndo: Boolean) {
         if (isUndo) {
             onRemoveItem(item)
         } else {
@@ -370,7 +369,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    @RunPrivate fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
         if (isUndo) {
             onInsertItem(item, isUndo = true)
         } else {
@@ -378,7 +377,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    @RunPrivate fun onRemoveItem(item: InputItem) {
+    private fun onRemoveItem(item: InputItem) {
         val rollItem = deprecatedNoteItem.list.getOrNull(item.p) ?: return
         val adapterPosition = getAdapterList().validIndexOfFirst(rollItem)
 
@@ -400,7 +399,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    @RunPrivate fun onInsertItem(item: InputItem, isUndo: Boolean) {
+    private fun onInsertItem(item: InputItem, isUndo: Boolean) {
         val rollItem = RollItem[item[isUndo]] ?: return
 
         /**
@@ -415,7 +414,7 @@ class RollNoteViewModelImpl(
         callback?.notifyItemInserted(list, position, cursor)
     }
 
-    @RunPrivate fun getInsertPosition(
+    private fun getInsertPosition(
         item: InputItem,
         rollItem: RollItem
     ): Int? = when {
@@ -425,7 +424,7 @@ class RollNoteViewModelImpl(
     }
 
     // TODO record exception
-    @RunPrivate fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
         val from = item[!isUndo].toIntOrNull() ?: return
         val to = item[isUndo].toIntOrNull() ?: return
 
@@ -626,7 +625,7 @@ class RollNoteViewModelImpl(
      *
      * @return - list which uses for screen adapter.
      */
-    @RunPrivate fun getAdapterList(): MutableList<RollItem> {
+    private fun getAdapterList(): MutableList<RollItem> {
         val list = deprecatedNoteItem.list
 
         return if (deprecatedNoteItem.isVisible) list else list.hide()
@@ -635,7 +634,7 @@ class RollNoteViewModelImpl(
     /**
      * Make good animation for items, remove or insert one by one.
      */
-    @RunPrivate fun notifyListByVisible() {
+    private fun notifyListByVisible() {
         val list = ArrayList(deprecatedNoteItem.list)
 
         if (list.size == 0) return
@@ -647,7 +646,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    @RunPrivate fun notifyVisibleList(list: MutableList<RollItem>) {
+    private fun notifyVisibleList(list: MutableList<RollItem>) {
         val filterList = list.filter { it.isCheck }
 
         /**
@@ -667,7 +666,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    @RunPrivate fun notifyInvisibleList(list: MutableList<RollItem>) {
+    private fun notifyInvisibleList(list: MutableList<RollItem>) {
         for (item in list.filter { it.isCheck }) {
             val index = list.validIndexOfFirst(item) ?: continue
 

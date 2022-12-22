@@ -29,7 +29,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
-import sgtmelon.test.prod.RunPrivate
 
 /**
  * ViewModel for [TextNoteFragment].
@@ -200,7 +199,7 @@ class TextNoteViewModelImpl(
         inputControl.isEnabled = true
     }
 
-    @RunPrivate fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
         val text = item[isUndo]
         val cursor = item.cursor[isUndo]
 

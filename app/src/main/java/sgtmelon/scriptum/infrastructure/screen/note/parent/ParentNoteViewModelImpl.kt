@@ -37,8 +37,6 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
-import sgtmelon.test.prod.RunPrivate
-import sgtmelon.test.prod.RunProtected
 
 /**
  * TODO normal description
@@ -53,9 +51,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //TODO cleanup
     callback: C,
-    @RunProtected var parentCallback: NoteConnector?,
-    @RunProtected val colorConverter: ColorConverter,
-    @RunProtected val preferencesRepo: PreferencesRepo,
+    protected var parentCallback: NoteConnector?,
+    protected val colorConverter: ColorConverter,
+    protected val preferencesRepo: PreferencesRepo,
     private val convertNote: ConvertNoteUseCase,
     private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,
@@ -99,7 +97,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     // TODO vvv remove SETUP and staff below vvv
 
-    @RunProtected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
+    protected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
 
     /**
      * Function must describe cashing data inside [deprecatedRestoreItem].
@@ -145,36 +143,36 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     /**
      * Abstract because need setup callback but this class not final.
      */
-    @RunProtected lateinit var saveControl: SaveControl
+    protected lateinit var saveControl: SaveControl
         private set
 
     fun setSaveControl(saveControl: SaveControl) {
         this.saveControl = saveControl
     }
 
-    @RunProtected var inputControl: IInputControl = InputControl()
+    protected var inputControl: IInputControl = InputControl()
 
     @Deprecated("Use new realization")
-    @RunProtected lateinit var deprecatedNoteItem: N
+    protected lateinit var deprecatedNoteItem: N
 
     /**
      * Item for cash data before enter edit mode (for easy data restore).
      */
     @Deprecated("Use new realization")
-    @RunProtected lateinit var deprecatedRestoreItem: N
+    protected lateinit var deprecatedRestoreItem: N
 
-    @RunProtected var mayAnimateIcon = true
+    protected var mayAnimateIcon = true
 
     /**
      * App doesn't have ranks if size == 1.
      */
     @Deprecated("use rankDialogItems instead")
-    @RunProtected var rankDialogItemArray: Array<String> = emptyArray()
+    protected var rankDialogItemArray: Array<String> = emptyArray()
 
     //endregion
 
     // TODO remove
-    //    @RunProtected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
+    //    protected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
     //
     //    /**
     //     * Function must describe cashing data inside [deprecatedRestoreItem].
@@ -400,7 +398,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
-    @RunPrivate fun onMenuUndoRedo(isUndo: Boolean) {
+    private fun onMenuUndoRedo(isUndo: Boolean) {
         if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
 
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
@@ -417,7 +415,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     abstract fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean)
 
-    @RunProtected fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
+    protected fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
         val list = NumbersJoinConverter().toList(item[isUndo])
 
         if (list.size != 2) return
@@ -429,7 +427,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    @RunProtected fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
+    protected fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
         val colorFrom = deprecatedNoteItem.color
 
         // TODO record exception
@@ -442,7 +440,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         callback?.tintToolbar(colorFrom, colorTo)
     }
 
-    @RunProtected fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
+    protected fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
         val text = item[isUndo]
         val position = item.cursor[isUndo]
 
