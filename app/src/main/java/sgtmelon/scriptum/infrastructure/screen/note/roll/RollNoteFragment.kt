@@ -30,8 +30,6 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
     fun onBindingEnter()
 
 
-    fun onPressBack(): Boolean
-
     fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean)
 
     fun animateInfoVisible(isVisible: Boolean? = null)

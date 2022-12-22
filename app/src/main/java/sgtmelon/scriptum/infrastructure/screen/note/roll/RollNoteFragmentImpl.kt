@@ -12,7 +12,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -40,7 +39,6 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
@@ -135,34 +133,13 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             .inject(fragment = this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
-
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         open.attempt(withSwitch = false) { viewModel.onClickVisible() }
         return true
     }
 
-    override val isDialogOpen: Boolean get() = open.isBlocked
-
     override fun setTouchAction(inAction: Boolean) {
         open.isBlocked = inAction
-    }
-
-    override fun hideKeyboard() {
-        activity?.hideKeyboard()
     }
 
     override fun setupEnter(inputControl: IInputControl) {
@@ -267,8 +244,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }?.executePendingBindings()
     }
 
-
-    override fun onPressBack() = viewModel.onPressBack()
 
     override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {
         visibleMenuItem?.title = getString(if (isVisible) {
@@ -387,34 +362,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun notifyItemRemoved(list: List<RollItem>, p: Int) {
         adapter.setList(list).notifyItemRemoved(p)
     }
-
-
-    override fun showSaveToast(isSuccess: Boolean) {
-        val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
-        system.toast.show(context, text)
-    }
-
-    override fun finish() {
-        activity?.finish()
-    }
-
-    //region Broadcast functions
-
-    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        system.broadcast.sendSetAlarm(id, calendar, showToast)
-    }
-
-    override fun sendCancelAlarmBroadcast(id: Long) = system.broadcast.sendCancelAlarm(id)
-
-    override fun sendNotifyNotesBroadcast() = system.broadcast.sendNotifyNotesBind()
-
-    override fun sendCancelNoteBroadcast(id: Long) = system.broadcast.sendCancelNoteBind(id)
-
-    override fun sendNotifyInfoBroadcast(count: Int?) {
-        system.broadcast.sendNotifyInfoBind(count)
-    }
-
-    //endregion
 
     //endregion
 

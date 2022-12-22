@@ -11,11 +11,7 @@ interface TextNoteFragment : ParentNoteFragment<NoteItem.Text> {
 
     fun setupEnter(inputControl: IInputControl)
 
-
     fun onBindingLoad(isRankEmpty: Boolean)
-
-
-    fun onPressBack(): Boolean
 
 
     fun focusOnEdit(isCreate: Boolean)

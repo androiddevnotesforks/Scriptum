@@ -24,6 +24,8 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm
     fun onBindingInput(item: N, inputAccess: InputControl.Access)
 
 
+    fun onPressBack(): Boolean
+
     fun tintToolbar(from: Color, to: Color)
 
     fun tintToolbar(color: Color)

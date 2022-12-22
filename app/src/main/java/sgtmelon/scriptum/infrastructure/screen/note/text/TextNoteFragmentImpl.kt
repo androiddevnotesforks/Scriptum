@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.note.text
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
@@ -22,7 +21,6 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 
 /**
  * Fragment for display text note.
@@ -43,7 +41,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     //         - Move all binding related with it into UI classes
     // TODO 2. Make common use case for undo/redo (use flow?)
     // TODO 3. Move common functions into use cases? (don't use parent vm class?)
-
 
     override fun setupBinding(callback: NoteMenu) {
         binding?.menuCallback = callback
@@ -78,27 +75,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             .set(color)
             .build()
             .inject(fragment = this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
-
-    override val isDialogOpen: Boolean get() = open.isBlocked
-
-    override fun hideKeyboard() {
-        activity?.hideKeyboard()
     }
 
     override fun setupEnter(inputControl: IInputControl) {
@@ -154,8 +130,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
 
-    override fun onPressBack() = viewModel.onPressBack()
-
     override fun focusOnEdit(isCreate: Boolean) {
         view?.post {
             if (isCreate) {
@@ -181,34 +155,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             setSelection(cursor)
         }
     }
-
-
-    override fun showSaveToast(isSuccess: Boolean) {
-        val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
-        system.toast.show(context, text)
-    }
-
-    override fun finish() {
-        activity?.finish()
-    }
-
-    //region Broadcast functions
-
-    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        system.broadcast.sendSetAlarm(id, calendar, showToast)
-    }
-
-    override fun sendCancelAlarmBroadcast(id: Long) = system.broadcast.sendCancelAlarm(id)
-
-    override fun sendNotifyNotesBroadcast() = system.broadcast.sendNotifyNotesBind()
-
-    override fun sendCancelNoteBroadcast(id: Long) = system.broadcast.sendCancelNoteBind(id)
-
-    override fun sendNotifyInfoBroadcast(count: Int?) {
-        system.broadcast.sendNotifyInfoBind(count)
-    }
-
-    //endregion
 
     //endregion
 
