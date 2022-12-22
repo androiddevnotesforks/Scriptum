@@ -64,11 +64,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         super.setupDialogs()
 
         rankDialog.apply {
-            val rankDialogItems = viewModel.rankDialogItems.value
-            if (rankDialogItems != null) {
-                itemArray = rankDialogItems
-            }
-
             onPositiveClick { viewModel.onResultRankDialog(check = rankDialog.check - 1) }
             onDismiss { open.clear() }
         }
@@ -109,6 +104,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             bundleProvider?.updateColor(it)
             connector?.updateHolder(it)
         }
+        viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
     }
 
     abstract fun setupBinding(callback: NoteMenu)
