@@ -54,10 +54,7 @@
 
         <include
             android:id="@+id/app_bar"
-            layout="@layout/inc_toolbar_note"
-            app:isDataLoad='@{isDataLoad}'
-            app:isEditMode='@{isEditMode}'
-            app:item='@{item}' />
+            layout="@layout/inc_toolbar_note" />
 
         <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound. -->
         <FrameLayout

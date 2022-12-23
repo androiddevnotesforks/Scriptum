@@ -65,11 +65,7 @@ class TintNoteToolbar(
             toolbar?.setBackgroundColor(getToolbarColor(theme, color))
         } else {
             indicator?.setBackgroundColor(
-                context.getNoteToolbarColor(
-                    theme,
-                    color,
-                    needDark = true
-                )
+                context.getNoteToolbarColor(theme, color, needDark = true)
             )
         }
 

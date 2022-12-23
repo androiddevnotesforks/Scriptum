@@ -9,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleOr
 
 class ColorHolder(
     private val binding: ItemColorBinding
@@ -59,7 +59,7 @@ class ColorHolder(
         }
     }
 
-    private fun changeCheck(isVisible: Boolean) = binding.checkImage.makeVisible(isVisible)
+    private fun changeCheck(isVisible: Boolean) = binding.checkImage.makeVisibleOr(isVisible)
 
     override fun unbind() {
         binding.clickView.setOnClickListener(null)

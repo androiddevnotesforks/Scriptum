@@ -65,6 +65,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 ) : ParentViewModel<C>(callback),
     ParentNoteViewModel<N> {
 
+    override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
+
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
 
     override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.noteState)
@@ -92,6 +94,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             } else {
                 // TODO report about null item
             }
+
+            isDataReady.postValue(true)
         }
     }
 

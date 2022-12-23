@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleOr
 import sgtmelon.test.prod.RunNone
 
 @SuppressLint("ClickableViewAccessibility")
@@ -60,12 +60,12 @@ class RankHolder(
         val isAlarmVisible = isMaxTest || item.notificationCount != 0
         val isBindVisible = isMaxTest || item.bindCount != 0
 
-        imageContainer.makeVisible(condition = isAlarmVisible || isBindVisible)
+        imageContainer.makeVisibleOr(condition = isAlarmVisible || isBindVisible)
 
-        notificationContainer.makeVisible(isAlarmVisible)
+        notificationContainer.makeVisibleOr(isAlarmVisible)
         notificationText.text = getIndicatorCount(item.notificationCount)
 
-        bindContainer.makeVisible(isBindVisible)
+        bindContainer.makeVisibleOr(isBindVisible)
         bindText.text = getIndicatorCount(item.bindCount)
 
         countText.text = context.getString(R.string.list_rank_count, item.noteId.size)

@@ -21,6 +21,8 @@ interface ParentNoteViewModel<N : NoteItem> : IParentViewModel,
     SaveControlImpl.Callback,
     InputTextWatcher.Callback {
 
+    val isDataReady: LiveData<Boolean>
+
     val isEdit: LiveData<Boolean>
 
     val noteState: LiveData<NoteState>

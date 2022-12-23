@@ -54,7 +54,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private val touchControl = RankTouchControl(this)
     private val adapter by lazy {
         RankAdapter(touchControl, object : IconBlockCallback {
-            override fun setEnabled(isEnabled: Boolean) {
+            override fun setIconEnabled(isEnabled: Boolean) {
                 getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
                 parentOpen?.isBlocked = !isEnabled
             }

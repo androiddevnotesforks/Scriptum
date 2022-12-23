@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.ViewDataBinding
 import java.util.Calendar
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -23,6 +24,8 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleOr
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
@@ -58,11 +61,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         setupBinding(viewModel)
         setupToolbar(view.context, appBar?.content?.toolbar, appBar?.indicator?.colorView)
-    }
-
-    // TODO use it for pre-binding
-    override fun setupView() {
-        super.setupView()
     }
 
     override fun setupDialogs() {
@@ -101,6 +99,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupObservers() {
         super.setupObservers()
 
+        viewModel.isDataReady.observe(this) { TODO("change enable of button, fields and etc") }
         viewModel.isEdit.observe(this) { connector.init.isEdit = it }
         viewModel.noteState.observe(this) { connector.init.noteState = it }
         viewModel.id.observe(this) { connector.init.id = it }
@@ -110,6 +109,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
         viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
         viewModel.noteItem.observe(this) { observeNoteItem(it) }
+
+        // TODO add update of name in init (see noteActivity)
     }
 
     abstract fun observeNoteItem(item: N)
@@ -127,11 +128,32 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         navigationIcon = BackToCancelIcon(context, toolbar, callback = this)
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
+
+        /** Save changes of name to noteItem model (it's only will be available in edit mode). */
+        appBar?.content?.nameEnter?.doOnTextChanged { it, _, _, _ ->
+            viewModel.noteItem.value?.name = it?.toString() ?: return@doOnTextChanged
+        }
     }
 
-    override fun setEnabled(isEnabled: Boolean) {
+    override fun setIconEnabled(isEnabled: Boolean) {
         getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
         open.isBlocked = !isEnabled
+    }
+
+    @CallSuper
+    open fun invalidateToolbar() {
+        val isDataReady = viewModel.isDataReady.value ?: return
+        val isEdit = viewModel.isEdit.value ?: return
+        val item = viewModel.noteItem.value ?: return
+
+        appBar?.content?.run {
+            scrollView.makeVisibleOr(isDataReady) { makeInvisible() }
+            nameEnter.makeVisibleOr(isEdit) { makeInvisible() }
+            nameRead.makeVisibleOr(!isEdit) { makeInvisible() }
+
+            /** Set empty text needed for nameEnter has ability to change size. */
+            nameRead.text = if (isEdit) "" else item.name
+        }
     }
 
     //region Cleanup
