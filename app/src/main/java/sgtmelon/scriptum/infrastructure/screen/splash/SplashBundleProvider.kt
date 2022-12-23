@@ -35,10 +35,11 @@ class SplashBundleProvider : ParentBundleProvider {
 
     private fun getBindData(bundle: Bundle): SplashOpen.BindNote {
         val id = bundle.getLong(Note.Intent.ID, Note.Default.ID)
-        val color = bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
         val type = bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
+        val color = bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
+        val name = bundle.getString(Note.Intent.NAME, Note.Default.NAME) ?: Note.Default.NAME
 
-        return SplashOpen.BindNote(id, color, type)
+        return SplashOpen.BindNote(id, type, color, name)
     }
 
     override fun saveData(outState: Bundle) {

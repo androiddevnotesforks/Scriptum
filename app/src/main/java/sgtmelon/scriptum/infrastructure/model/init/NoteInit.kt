@@ -9,5 +9,6 @@ class NoteInit(
     var noteState: NoteState,
     var id: Long,
     var type: NoteType,
-    var color: Color
+    var color: Color,
+    var name: String
 )

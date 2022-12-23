@@ -83,16 +83,18 @@ class SplashBundleProviderTest : ParentTest() {
 
         every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
-        every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns color
         every { bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE) } returns type
+        every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns color
 
-        assertGetData(SplashOpen.BindNote(id, color, type), key)
+        TODO("get name string (null return also check)")
+
+        //        assertGetData(SplashOpen.BindNote(id, type, color), key)
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
-            bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
             bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
+            bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
             outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }

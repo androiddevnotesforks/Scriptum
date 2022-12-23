@@ -52,7 +52,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /** Call it after super function because it must be injected */
+        /** Call it after super function, because [bundleProvider] must be injected. */
         bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
 
         /**

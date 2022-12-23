@@ -16,6 +16,7 @@ object IntentData {
             const val ID = "${PREFIX}_ID"
             const val TYPE = "${PREFIX}_TYPE"
             const val COLOR = "${PREFIX}_COLOR"
+            const val NAME = "${PREFIX}_NAME"
         }
 
         object Default {
@@ -24,6 +25,7 @@ object IntentData {
             const val ID = -1L
             const val TYPE = -1
             const val COLOR = -1
+            const val NAME = ""
         }
     }
 

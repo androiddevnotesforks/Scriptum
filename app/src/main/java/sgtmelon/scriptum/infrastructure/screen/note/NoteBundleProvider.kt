@@ -35,8 +35,9 @@ class NoteBundleProvider(
         val id = bundle.getLong(Intent.ID, Default.ID)
         val type = bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter) ?: return
         val color = bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) ?: defaultColor
+        val name = bundle.getString(Intent.NAME, Default.NAME) ?: Default.NAME
 
-        _init = NoteInit(isEdit, noteState, id, type, color)
+        _init = NoteInit(isEdit, noteState, id, type, color, name)
     }
 
     override fun saveData(outState: Bundle) {
@@ -46,6 +47,7 @@ class NoteBundleProvider(
             outState.putLong(Intent.ID, it.id)
             outState.putEnum(Intent.TYPE, typeConverter, it.type)
             outState.putEnum(Intent.COLOR, colorConverter, it.color)
+            outState.putString(Intent.NAME, it.name)
         }
     }
 }

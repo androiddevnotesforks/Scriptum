@@ -10,6 +10,7 @@ import sgtmelon.scriptum.infrastructure.model.annotation.AppOpenFrom
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
+import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
@@ -78,17 +79,19 @@ object InstanceFactory {
     object Note {
 
         operator fun get(context: Context, item: NotificationItem): Intent {
-            return get(
-                context, isEdit = false, NoteState.EXIST,
-                item.note.type.ordinal, item.note.id, item.note.color.ordinal
-            )
+            with(item.note) {
+                return get(
+                    context, isEdit = false, NoteState.EXIST, type.ordinal, id, color.ordinal, name
+                )
+            }
         }
 
         operator fun get(context: Context, item: NoteItem, noteState: NoteState): Intent {
-            return get(
-                context, isEdit = false, noteState,
-                item.type.ordinal, item.id, item.color.ordinal
-            )
+            with(item) {
+                return get(
+                    context, isEdit = false, noteState, type.ordinal, id, color.ordinal, name
+                )
+            }
         }
 
         /**
@@ -101,14 +104,16 @@ object InstanceFactory {
             noteState: NoteState,
             type: Int,
             id: Long = IntentData.Note.Default.ID,
-            color: Int = IntentData.Note.Default.COLOR
+            color: Int = IntentData.Note.Default.COLOR,
+            name: String = IntentData.Note.Default.NAME
         ): Intent {
             return Intent(context, NoteActivity::class.java)
+                .putExtra(IntentData.Note.Intent.IS_EDIT, isEdit)
+                .putExtra(IntentData.Note.Intent.STATE, noteState.ordinal)
                 .putExtra(IntentData.Note.Intent.ID, id)
                 .putExtra(IntentData.Note.Intent.TYPE, type)
                 .putExtra(IntentData.Note.Intent.COLOR, color)
-                .putExtra(IntentData.Note.Intent.IS_EDIT, isEdit)
-                .putExtra(IntentData.Note.Intent.STATE, noteState.ordinal)
+                .putExtra(IntentData.Note.Intent.NAME, name)
         }
     }
 
@@ -173,11 +178,12 @@ object InstanceFactory {
 
         fun toNote(
             context: Context,
-            type: Int,
-            noteId: Long,
-            color: Int
+            data: SplashOpen.BindNote
         ): Array<Intent> = waitOpen {
-            arrayOf(Main[context], Note[context, false, NoteState.EXIST, type, noteId, color])
+            arrayOf(
+                Main[context],
+                with(data) { Note[context, false, NoteState.EXIST, type, id, color, name] }
+            )
         }
 
         fun toNote(context: Context, type: NoteType): Array<Intent> = waitOpen {

@@ -178,8 +178,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         addDialog.safeShow(DialogFactory.Main.ADD, owner = this)
     }
 
-    private fun openNoteScreen(noteType: NoteType) = open.attempt {
-        startActivity(InstanceFactory.Note[this, true, NoteState.CREATE, noteType.ordinal])
+    private fun openNoteScreen(type: NoteType) = open.attempt {
+        startActivity(InstanceFactory.Note[this, true, NoteState.CREATE, type.ordinal])
     }
 
     //region Fragment transaction staff

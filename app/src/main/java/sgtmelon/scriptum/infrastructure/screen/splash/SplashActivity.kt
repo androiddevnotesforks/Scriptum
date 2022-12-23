@@ -77,7 +77,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         when (val it = bundleProvider.open) {
             is SplashOpen.Main -> openMainScreen()
             is SplashOpen.Alarm -> openAlarmScreen(it.id)
-            is SplashOpen.BindNote -> openNoteScreen(it.type, it.id, it.color)
+            is SplashOpen.BindNote -> openNoteScreen(it)
             is SplashOpen.Notifications -> openNotificationsScreen()
             is SplashOpen.HelpDisappear -> openHelpDisappearScreen()
             is SplashOpen.CreateNote -> openNoteScreen(it.type)
@@ -90,8 +90,8 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         startActivities(InstanceFactory.Chains.toAlarm(context = this, noteId))
     }
 
-    private fun openNoteScreen(type: Int, noteId: Long, color: Int) = beforeFinish {
-        startActivities(InstanceFactory.Chains.toNote(context = this, type, noteId, color))
+    private fun openNoteScreen(data: SplashOpen.BindNote) = beforeFinish {
+        startActivities(InstanceFactory.Chains.toNote(context = this, data))
     }
 
     private fun openNotificationsScreen() = beforeFinish {
