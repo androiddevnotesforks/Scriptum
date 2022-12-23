@@ -7,8 +7,8 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 
-inline fun View.makeVisibleOr(condition: Boolean, or: View.() -> Unit = { makeGone() }) {
-    if (condition) makeVisible() else or()
+inline fun View.makeVisibleIf(condition: Boolean, otherwise: View.() -> Unit = { makeGone() }) {
+    if (condition) makeVisible() else otherwise()
 }
 
 fun View.makeVisible() = apply { visibility = View.VISIBLE }

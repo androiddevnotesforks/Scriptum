@@ -111,7 +111,8 @@ class TextNoteViewModelImpl(
     //region Cleanup
 
     override fun cacheData() {
-        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
+        // TODO add normal cache data (via use case probably)
+        //        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
     }
 
     // TODO remove

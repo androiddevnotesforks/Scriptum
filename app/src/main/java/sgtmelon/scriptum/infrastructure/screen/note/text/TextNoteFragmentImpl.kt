@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.note.text
 
-import android.os.Bundle
-import android.view.View
 import android.widget.EditText
 import javax.inject.Inject
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -43,7 +41,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     // TODO pass data for pre-binding: name
 
     override fun observeNoteItem(item: NoteItem.Text) {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 
     override fun setupBinding(callback: NoteMenu) {
@@ -55,10 +53,10 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     private val nameEnter: EditText?
         get() = binding?.appBar?.content?.nameEnter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.onSetup(bundle = arguments ?: savedInstanceState)
-    }
+    //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    //        super.onViewCreated(view, savedInstanceState)
+    //        viewModel.onSetup(bundle = arguments ?: savedInstanceState)
+    //    }
 
     // TODO check how it will work with rotation end other staff
     override fun inject(component: ScriptumComponent) {

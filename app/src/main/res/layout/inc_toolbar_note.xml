@@ -3,23 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_text_note">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="isDataLoad"
-            type="boolean" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem" />
-
-        <variable
-            name="isEditMode"
-            type="boolean" />
-    </data>
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/parent_container"
         style="@style/Toolbar.Flex">

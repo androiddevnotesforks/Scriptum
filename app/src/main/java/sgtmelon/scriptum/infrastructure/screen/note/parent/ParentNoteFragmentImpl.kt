@@ -16,6 +16,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
+import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -25,7 +26,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleOr
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
@@ -60,7 +61,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         super.onViewCreated(view, savedInstanceState)
 
         setupBinding(viewModel)
-        setupToolbar(view.context, appBar?.content?.toolbar, appBar?.indicator?.colorView)
+        setupToolbar(view.context, appBar?.content?.toolbar)
     }
 
     override fun setupDialogs() {
@@ -99,7 +100,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.isDataReady.observe(this) { TODO("change enable of button, fields and etc") }
+        viewModel.isDataReady.observe(this) {
+            // TODO("change enable of button, fields and etc")
+            invalidateToolbar()
+        }
         viewModel.isEdit.observe(this) { connector.init.isEdit = it }
         viewModel.noteState.observe(this) { connector.init.noteState = it }
         viewModel.id.observe(this) { connector.init.id = it }
@@ -118,12 +122,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract fun setupBinding(callback: NoteMenu)
 
     @CallSuper
-    open fun setupToolbar(
-        context: Context,
-        toolbar: Toolbar?,
-        colorIndicator: View?
-    ) {
+    open fun setupToolbar(context: Context, toolbar: Toolbar?) {
         val color = viewModel.color.value ?: return
+        val colorIndicator = appBar?.indicator?.colorView
         tintToolbar = TintNoteToolbar(context, activity?.window, toolbar, colorIndicator, color)
         navigationIcon = BackToCancelIcon(context, toolbar, callback = this)
 
@@ -147,12 +148,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val item = viewModel.noteItem.value ?: return
 
         appBar?.content?.run {
-            scrollView.makeVisibleOr(isDataReady) { makeInvisible() }
-            nameEnter.makeVisibleOr(isEdit) { makeInvisible() }
-            nameRead.makeVisibleOr(!isEdit) { makeInvisible() }
+            scrollView.makeVisibleIf(isDataReady) { makeInvisible() }
+            nameEnter.makeVisibleIf(isEdit) { makeInvisible() }
+            nameRead.makeVisibleIf(!isEdit) { makeInvisible() }
 
             /** Set empty text needed for nameEnter has ability to change size. */
-            nameRead.text = if (isEdit) "" else item.name
+            nameRead.text = if (isEdit) IntentData.Note.Default.NAME else item.name
         }
     }
 

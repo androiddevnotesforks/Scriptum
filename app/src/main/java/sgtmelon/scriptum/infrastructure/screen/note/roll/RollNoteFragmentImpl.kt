@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import android.content.Context
-import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
 import android.view.View
@@ -62,7 +61,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     // TODO pass data for pre-binding: name, visible state
 
     override fun observeNoteItem(item: NoteItem.Roll) {
-        TODO()
+        //        TODO()
         //        visibleMenuItem?.isEnabled = true
         //        setToolbarVisibleIcon()
     }
@@ -71,8 +70,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.menuCallback = callback
     }
 
-    override fun setupToolbar(context: Context, toolbar: Toolbar?, colorIndicator: View?) {
-        super.setupToolbar(context, toolbar, colorIndicator)
+    override fun setupToolbar(context: Context, toolbar: Toolbar?) {
+        super.setupToolbar(context, toolbar)
 
         toolbar?.inflateMenu(R.menu.fragment_roll_note)
         toolbar?.setOnMenuItemClickListener(this)
@@ -113,10 +112,10 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     private val visibleMenuItem: MenuItem?
         get() = appBar?.content?.toolbar?.menu?.findItem(R.id.item_visible)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.onSetup(bundle = arguments ?: savedInstanceState)
-    }
+    //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    //        super.onViewCreated(view, savedInstanceState)
+    //        viewModel.onSetup(bundle = arguments ?: savedInstanceState)
+    //    }
 
     // TODO check how it will work with rotation end other staff
     override fun inject(component: ScriptumComponent) {
