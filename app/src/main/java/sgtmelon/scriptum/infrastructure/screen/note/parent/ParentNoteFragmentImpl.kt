@@ -102,8 +102,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         super.setupObservers()
 
         viewModel.isDataReady.observe(this) {
-            // TODO("change enable of button, fields and etc")
             invalidateToolbar()
+
+            // TODO("change enable of button, fields and etc")
         }
         viewModel.isEdit.observe(this) { connector.init.isEdit = it }
         viewModel.noteState.observe(this) { connector.init.noteState = it }
@@ -122,12 +123,22 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper
     open fun setupToolbar(context: Context, toolbar: Toolbar?) {
-        val color = viewModel.color.value ?: return
+        val color = connector.init.color
+
         val colorIndicator = appBar?.indicator?.colorView
         tintToolbar = TintNoteToolbar(context, activity?.window, toolbar, colorIndicator, color)
         navigationIcon = BackToCancelIcon(context, toolbar, callback = this)
 
+        /**
+         * Don't need block back button while data not loaded. Because, if data exists (and
+         * loading) - it means not edit mode and we can't somehow harm any data. Button close
+         * the screen in this case.
+         */
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
+
+        /** Show cancel button (for undo all changes) only if note exists and in edit mode. */
+        val isCancel = with(connector.init) { noteState != NoteState.CREATE && isEdit }
+        setToolbarBackIcon(isCancel, needAnim = false)
 
         /** Save changes of name to noteItem model (it's only will be available in edit mode). */
         appBar?.content?.nameEnter?.doOnTextChanged { it, _, _, _ ->
@@ -145,7 +156,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     @CallSuper
     open fun invalidateToolbar() {
         val isDataReady = viewModel.isDataReady.value ?: return
-        val isEdit = viewModel.isEdit.value ?: return
+        val isEdit = connector.init.isEdit
 
         appBar?.content?.run {
             /**
