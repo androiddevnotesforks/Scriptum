@@ -148,9 +148,14 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val isEdit = viewModel.isEdit.value ?: return
 
         appBar?.content?.run {
-            nameEnter.makeVisibleIf(condition = !isDataReady && isEdit) { makeInvisible() }
-            /** XOR: 01, 10 - true; 00, 11 - false */
-            nameRead.makeVisibleIf(condition = isDataReady xor !isEdit) { makeInvisible() }
+            /**
+             * Don't need check ready data or not. Because:
+             * [NoteState.CREATE] - don't have any pre-binding -> show just enter;
+             * [NoteState.EXIST] - have pre-binding name -> show read and hide enter;
+             * [NoteState.DELETE] - same situation as with [NoteState.EXIST].
+             */
+            nameEnter.makeVisibleIf(isEdit) { makeInvisible() }
+            nameRead.makeVisibleIf(!isEdit) { makeInvisible() }
 
             if (isDataReady) {
                 val item = viewModel.noteItem.value ?: return
