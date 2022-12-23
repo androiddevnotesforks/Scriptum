@@ -57,9 +57,8 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
@@ -183,10 +182,7 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideTextNoteViewModel(
-        isEdit: Boolean,
-        noteState: NoteState,
-        id: Long,
-        color: Color,
+        init: NoteInit,
         createNote: CreateTextNoteUseCase,
         getNote: GetTextNoteUseCase,
 
@@ -207,7 +203,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            isEdit, noteState, id, color, createNote, getNote,
+            init, createNote, getNote,
 
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
@@ -224,10 +220,7 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideRollNoteViewModel(
-        isEdit: Boolean,
-        noteState: NoteState,
-        id: Long,
-        color: Color,
+        init: NoteInit,
         createNote: CreateRollNoteUseCase,
         getNote: GetRollNoteUseCase,
 
@@ -250,7 +243,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            isEdit, noteState, id, color, createNote, getNote,
+            init, createNote, getNote,
 
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,

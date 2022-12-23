@@ -49,9 +49,8 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
@@ -170,10 +169,7 @@ object ViewModelFactory {
         }
 
         class TextNote(
-            private val isEdit: Boolean,
-            private val noteState: NoteState,
-            private val id: Long,
-            private val color: Color,
+            private val init: NoteInit,
             private val createNote: CreateTextNoteUseCase,
             private val getNote: GetTextNoteUseCase,
 
@@ -197,7 +193,7 @@ object ViewModelFactory {
                 return modelClass.create(TextNoteViewModelImpl::class) {
                     val parentCallback = fragment.context as? NoteConnector
                     TextNoteViewModelImpl(
-                        isEdit, noteState, id, color, createNote, getNote,
+                        init, createNote, getNote,
 
                         // TODO cleanup
                         fragment, parentCallback, colorConverter, preferencesRepo,
@@ -210,10 +206,7 @@ object ViewModelFactory {
         }
 
         class RollNote(
-            private val isEdit: Boolean,
-            private val noteState: NoteState,
-            private val id: Long,
-            private val color: Color,
+            private val init: NoteInit,
             private val createNote: CreateRollNoteUseCase,
             private val getNote: GetRollNoteUseCase,
 
@@ -239,7 +232,7 @@ object ViewModelFactory {
                 return modelClass.create(RollNoteViewModelImpl::class) {
                     val parentCallback = fragment.context as? NoteConnector
                     RollNoteViewModelImpl(
-                        isEdit, noteState, id, color, createNote, getNote,
+                        init, createNote, getNote,
 
                         // TODO cleanup
                         fragment, parentCallback, colorConverter, preferencesRepo,

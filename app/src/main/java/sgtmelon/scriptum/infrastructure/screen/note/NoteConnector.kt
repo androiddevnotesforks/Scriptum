@@ -1,10 +1,11 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 interface NoteConnector {
 
-    val bundleProvider: NoteBundleProvider
+    val init: NoteInit
 
     fun updateHolder(color: Color)
 

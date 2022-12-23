@@ -10,6 +10,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
@@ -33,7 +34,9 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     override val layoutId: Int = R.layout.activity_note
 
     @Inject lateinit var viewModel: NoteViewModel
-    @Inject override lateinit var bundleProvider: NoteBundleProvider
+    @Inject lateinit var bundleProvider: NoteBundleProvider
+
+    override lateinit var init: NoteInit
 
     private val fragments = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragments.getTextNote()
@@ -52,14 +55,12 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         /** Call it after super function because it must be injected */
         bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
 
-        val (id, type, color) = bundleProvider.data
-
         /**
          * Checkout all needed data for display note screen. If something goes wrong - report
          * and close screen.
          */
-        if (id == null || type == null || color == null) {
-            recordDataException(id, type, color)
+        init = bundleProvider.init ?: run {
+            NullPointerException("Got wrong bundle init data").record()
             finish()
             return
         }
@@ -67,15 +68,8 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         /** Means this activity was rotated or something like that, and need to check cache. */
         val checkCache = savedInstanceState != null
 
-        updateHolder(color)
-        showFragment(type, checkCache)
-    }
-
-    private fun recordDataException(id: Long?, type: NoteType?, color: Color?) {
-        val description = "Null values on create: " +
-                "id=${id == null}, type=${type == null}, color=${color == null}"
-
-        NullPointerException(description).record()
+        updateHolder(init.color)
+        showFragment(init.type, checkCache)
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -113,10 +107,9 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     }
 
     override fun onBackPressed() {
-        val catchBackPress = when (bundleProvider.data.second) {
+        val catchBackPress = when (init.type) {
             NoteType.TEXT -> textNoteFragment?.onPressBack() ?: false
             NoteType.ROLL -> rollNoteFragment?.onPressBack() ?: false
-            null -> false
         }
 
         /** If back press was caught by child fragments - don't call activity back press. */
@@ -163,11 +156,9 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     }
 
     override fun convertNote() {
-        /** We already checkout type value inside [onCreate] func (just skip it). */
-        val type = bundleProvider.data.second ?: return
-        val newType = viewModel.convertType(type)
+        val newType = viewModel.convertType(init.type)
+        init.type = newType
 
-        bundleProvider.updateType(newType)
         showFragment(newType, checkCache = true)
     }
 

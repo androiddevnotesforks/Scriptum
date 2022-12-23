@@ -34,7 +34,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     ParentNoteFragment<N>,
     IconBlockCallback {
 
-    private val connector get() = activity as? NoteConnector
+    protected val connector get() = activity as NoteConnector
 
     abstract val type: NoteType
 
@@ -101,13 +101,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupObservers() {
         super.setupObservers()
 
-        val bundleProvider = connector?.bundleProvider
-        viewModel.isEdit.observe(this) { bundleProvider?.updateEdit(it) }
-        viewModel.noteState.observe(this) { bundleProvider?.updateState(it) }
-        viewModel.id.observe(this) { bundleProvider?.updateId(it) }
+        viewModel.isEdit.observe(this) { connector.init.isEdit = it }
+        viewModel.noteState.observe(this) { connector.init.noteState = it }
+        viewModel.id.observe(this) { connector.init.id = it }
         viewModel.color.observe(this) {
-            bundleProvider?.updateColor(it)
-            connector?.updateHolder(it)
+            connector.init.color = it
+            connector.updateHolder(it)
         }
         viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
         viewModel.noteItem.observe(this) { observeNoteItem(it) }

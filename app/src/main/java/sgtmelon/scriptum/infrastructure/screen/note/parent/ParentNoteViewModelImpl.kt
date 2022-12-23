@@ -32,6 +32,7 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
@@ -42,16 +43,13 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
  * TODO normal description
  */
 abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
-    isEdit: Boolean,
-    noteState: NoteState,
-    id: Long,
-    color: Color,
+    init: NoteInit,
     createNote: CreateNoteUseCase<N>,
     getNote: GetNoteUseCase<N>,
 
     //TODO cleanup
     callback: C,
-    protected var parentCallback: NoteConnector?,
+    private var parentCallback: NoteConnector?,
     protected val colorConverter: ColorConverter,
     protected val preferencesRepo: PreferencesRepo,
     private val convertNote: ConvertNoteUseCase,
@@ -67,13 +65,13 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 ) : ParentViewModel<C>(callback),
     ParentNoteViewModel<N> {
 
-    override val isEdit: MutableLiveData<Boolean> = MutableLiveData(isEdit)
+    override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
 
-    override val noteState: MutableLiveData<NoteState> = MutableLiveData(noteState)
+    override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.noteState)
 
-    override val id: MutableLiveData<Long> = MutableLiveData(id)
+    override val id: MutableLiveData<Long> = MutableLiveData(init.id)
 
-    override val color: MutableLiveData<Color> = MutableLiveData(color)
+    override val color: MutableLiveData<Color> = MutableLiveData(init.color)
 
     /** App doesn't have any categories (ranks) if size == 1. */
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
@@ -81,15 +79,18 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override val noteItem: MutableLiveData<N> = MutableLiveData()
     private var restoreItem: NoteItem? = null
 
-    // TODO add observers and remove initialization functions
+    // TODO add observers for note and remove initialization functions
     init {
         viewModelScope.launchBack {
             rankDialogItems.postValue(getRankDialogNames())
 
+            val id = init.id
             val value = if (id == Default.ID) createNote() else getNote(id)
             if (value != null) {
                 noteItem.postValue(value)
                 cacheData()
+            } else {
+                // TODO report about null item
             }
         }
     }

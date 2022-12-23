@@ -1,15 +1,13 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
 import android.os.Bundle
-import android.util.Log
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteStateConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentBundleProvider
 import sgtmelon.scriptum.infrastructure.utils.extensions.getEnum
 import sgtmelon.scriptum.infrastructure.utils.extensions.putEnum
@@ -24,65 +22,30 @@ class NoteBundleProvider(
     private val stateConverter: NoteStateConverter
 ) : ParentBundleProvider {
 
-    private var isEdit: Boolean? = null
-    private var noteState: NoteState? = null
-
-    val state: Pair<Boolean, NoteState>?
-        get() {
-            val isEdit = isEdit ?: return null
-            val noteState = noteState ?: return null
-            return isEdit to noteState
-        }
-
-    private var id: Long? = null
-    private var type: NoteType? = null
-    private var color: Color? = null
-
-    val data get() = Triple(id, type, color)
+    private var _init: NoteInit? = null
+    val init: NoteInit? get() = _init
 
     override fun getData(bundle: Bundle?) {
         if (bundle == null) return
 
-        isEdit = bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
-        noteState = bundle.getEnum(Intent.STATE, Default.STATE, stateConverter)
+        val isEdit = bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
+        val noteState = bundle.getEnum(Intent.STATE, Default.STATE, stateConverter) ?: return
 
         /** Id may be equals default value, because not created note hasn't id */
-        id = bundle.getLong(Intent.ID, Default.ID)
-        type = bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter)
-        color = bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) ?: defaultColor
+        val id = bundle.getLong(Intent.ID, Default.ID)
+        val type = bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter) ?: return
+        val color = bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) ?: defaultColor
+
+        _init = NoteInit(isEdit, noteState, id, type, color)
     }
 
     override fun saveData(outState: Bundle) {
-        isEdit?.let { outState.putBoolean(Intent.IS_EDIT, it) }
-        noteState?.let { outState.putEnum(Intent.STATE, stateConverter, it) }
-
-        id?.let { outState.putLong(Intent.ID, it) }
-        type?.let { outState.putEnum(Intent.TYPE, typeConverter, it) }
-        color?.let { outState.putEnum(Intent.COLOR, colorConverter, it) }
-    }
-
-    fun updateEdit(isEdit: Boolean) = run {
-        Log.i("HERE", "updateEdit: $isEdit")
-        this.isEdit = isEdit
-    }
-
-    fun updateState(noteState: NoteState) = run {
-        Log.i("HERE", "updateState: $noteState")
-        this.noteState = noteState
-    }
-
-    fun updateId(id: Long) = run {
-        Log.i("HERE", "updateId: $id")
-        this.id = id
-    }
-
-    fun updateType(type: NoteType) = run {
-        Log.i("HERE", "updateType: $type")
-        this.type = type
-    }
-
-    fun updateColor(color: Color) = run {
-        Log.i("HERE", "updateColor: $color")
-        this.color = color
+        init?.let {
+            outState.putBoolean(Intent.IS_EDIT, it.isEdit)
+            outState.putEnum(Intent.STATE, stateConverter, it.noteState)
+            outState.putLong(Intent.ID, it.id)
+            outState.putEnum(Intent.TYPE, typeConverter, it.type)
+            outState.putEnum(Intent.COLOR, colorConverter, it.color)
+        }
     }
 }

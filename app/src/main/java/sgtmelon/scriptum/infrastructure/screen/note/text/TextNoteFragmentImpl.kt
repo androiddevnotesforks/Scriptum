@@ -18,7 +18,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTe
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 
@@ -61,23 +60,11 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
     }
 
-    // TODO not save way to finish activity (view model is lateinit value)
+    // TODO check how it will work with rotation end other staff
     override fun inject(component: ScriptumComponent) {
-        val bundleProvider = (activity as? NoteActivity)?.bundleProvider
-        val (isEdit, noteState) = bundleProvider?.state ?: return run { activity?.finish() }
-        val (id, _, color) = bundleProvider.data
-
-        if (id == null || color == null) {
-            activity?.finish()
-            return
-        }
-
         component.getTextNoteBuilder()
             .set(fragment = this)
-            .set(isEdit)
-            .set(noteState)
-            .set(id)
-            .set(color)
+            .set(connector.init)
             .build()
             .inject(fragment = this)
     }

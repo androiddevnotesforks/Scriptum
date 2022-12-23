@@ -33,8 +33,8 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
@@ -44,10 +44,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
  * ViewModel for [RollNoteFragment].
  */
 class RollNoteViewModelImpl(
-    isEdit: Boolean,
-    noteState: NoteState,
-    id: Long,
-    color: Color,
+    init: NoteInit,
     createNote: CreateRollNoteUseCase,
     getNote: GetRollNoteUseCase,
 
@@ -70,7 +67,7 @@ class RollNoteViewModelImpl(
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
-    isEdit, noteState, id, color, createNote, getNote,
+    init, createNote, getNote,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
