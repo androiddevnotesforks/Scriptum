@@ -17,6 +17,7 @@ import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -113,8 +114,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
         viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
         viewModel.noteItem.observe(this) { observeNoteItem(it) }
-
-        // TODO add update of name in init (see noteActivity)
     }
 
     abstract fun observeNoteItem(item: N)
@@ -134,6 +133,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         appBar?.content?.nameEnter?.doOnTextChanged { it, _, _, _ ->
             viewModel.noteItem.value?.name = it?.toString() ?: return@doOnTextChanged
         }
+
+        // TODO setup back button (rely on edit mode, and disable click while data not loaded)
     }
 
     override fun setIconEnabled(isEnabled: Boolean) {
@@ -145,15 +146,25 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     open fun invalidateToolbar() {
         val isDataReady = viewModel.isDataReady.value ?: return
         val isEdit = viewModel.isEdit.value ?: return
-        val item = viewModel.noteItem.value ?: return
 
         appBar?.content?.run {
-            scrollView.makeVisibleIf(isDataReady) { makeInvisible() }
-            nameEnter.makeVisibleIf(isEdit) { makeInvisible() }
-            nameRead.makeVisibleIf(!isEdit) { makeInvisible() }
+            nameEnter.makeVisibleIf(condition = !isDataReady && isEdit) { makeInvisible() }
+            /** XOR: 01, 10 - true; 00, 11 - false */
+            nameRead.makeVisibleIf(condition = isDataReady xor !isEdit) { makeInvisible() }
 
-            /** Set empty text needed for nameEnter has ability to change size. */
-            nameRead.text = if (isEdit) IntentData.Note.Default.NAME else item.name
+            if (isDataReady) {
+                val item = viewModel.noteItem.value ?: return
+
+                nameEnter.setText(item.name)
+                /** Set empty text needed for nameEnter has ability to change size. */
+                nameRead.text = if (isEdit) IntentData.Note.Default.NAME else item.name
+            } else {
+                /**
+                 * Name in init only may exists if note is already in [NoteState.EXIST] state,
+                 * whats why don't need set text for nameEnter.
+                 */
+                nameRead.text = connector.init.name
+            }
         }
     }
 

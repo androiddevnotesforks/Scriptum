@@ -58,7 +58,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     private var visibleIcon: IconChangeCallback? = null
 
     // TODO plan
-    // TODO pass data for pre-binding: name, visible state
+    // TODO pass data for pre-binding: visible state
 
     override fun observeNoteItem(item: NoteItem.Roll) {
         //        TODO()
