@@ -85,7 +85,7 @@ class RollNoteViewModelImpl(
             setupEnter(inputControl)
             setupRecycler(inputControl)
 
-            showToolbarVisibleIcon(isShow = false)
+//            showToolbarVisibleIcon(isShow = false)
         }
     }
 
@@ -126,7 +126,7 @@ class RollNoteViewModelImpl(
         mayAnimateIcon = true
 
         callback?.apply {
-            showToolbarVisibleIcon(isShow = true)
+            //            showToolbarVisibleIcon(isShow = true)
             setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
             notifyDataSetChanged(getAdapterList())
         }

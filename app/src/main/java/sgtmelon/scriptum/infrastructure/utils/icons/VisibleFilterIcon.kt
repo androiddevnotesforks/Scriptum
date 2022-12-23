@@ -42,10 +42,10 @@ class VisibleFilterIcon(
     )
 
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
-        if (needAnim) {
-            menuItem?.icon = animatedIcon.getAndStart(isEnterIcon)
+        menuItem?.icon = if (needAnim) {
+            animatedIcon.getAndStart(isEnterIcon)
         } else {
-            menuItem?.icon = if (isEnterIcon) visibleEnter else visibleExit
+            if (isEnterIcon) visibleEnter else visibleExit
         }
     }
 }

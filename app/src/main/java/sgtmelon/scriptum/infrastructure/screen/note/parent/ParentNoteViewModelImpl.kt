@@ -79,7 +79,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
 
     override val noteItem: MutableLiveData<N> = MutableLiveData()
-
     private var restoreItem: NoteItem? = null
 
     // TODO add observers and remove initialization functions
@@ -171,57 +170,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //endregion
 
-    // TODO remove
-    //    protected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
-    //
-    //    /**
-    //     * Function must describe cashing data inside [deprecatedRestoreItem].
-    //     *
-    //     * It is important because if not cache data in [deprecatedRestoreItem] it will cause bug with restore.
-    //     * When do changes and click on CHANGE and cancel edit mode by back button or back arrow.
-    //     *
-    //     * Use example: restoreItem = noteItem.deepCopy().
-    //     */
-    //    abstract fun cacheData()
-    //
-    //    override fun onSetup(bundle: Bundle?) {
-    //        setupBeforeInitialize()
-    //
-    //        viewModelScope.launch {
-    //            if (tryInitializeNote()) {
-    //                setupAfterInitialize()
-    //            }
-    //        }
-    //    }
-    //
-    //    /**
-    //     * Call before [tryInitializeNote]
-    //     */
-    //    abstract fun setupBeforeInitialize()
-    //
-    //    /**
-    //     * Return false if happened error while initialize note.
-    //     */
-    //    @Deprecated("init noteItem during init")
-    //    abstract suspend fun tryInitializeNote(): Boolean
-    //
-    //    /**
-    //     * Call after [tryInitializeNote]
-    //     */
-    //    abstract suspend fun setupAfterInitialize()
-
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         parentCallback = null
         saveControl.changeAutoSaveWork(isWork = false)
     }
-
-
-    //    override fun onSaveData(bundle: Bundle) {
-    //        bundle.apply {
-    //            putLong(Intent.ID, deprecatedId)
-    //            putInt(Intent.COLOR, colorConverter.toInt(deprecatedColor))
-    //        }
-    //    }
 
     override fun onResume() {
         if (isEdit.value.isTrue()) {

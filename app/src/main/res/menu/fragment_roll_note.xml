@@ -5,6 +5,7 @@
     <item android:id="@+id/item_visible"
         android:icon="@drawable/ic_visible_enter"
         android:title="@string/menu_roll_visible"
+        android:enabled="false"
         app:showAsAction="always" />
 
 </menu>

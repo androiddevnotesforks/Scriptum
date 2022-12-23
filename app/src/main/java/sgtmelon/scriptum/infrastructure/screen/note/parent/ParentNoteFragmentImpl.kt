@@ -60,6 +60,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         setupToolbar(view.context, appBar?.content?.toolbar, appBar?.indicator?.colorView)
     }
 
+    // TODO use it for pre-binding
+    override fun setupView() {
+        super.setupView()
+    }
+
     override fun setupDialogs() {
         super.setupDialogs()
 
@@ -105,7 +110,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             connector?.updateHolder(it)
         }
         viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
+        viewModel.noteItem.observe(this) { observeNoteItem(it) }
     }
+
+    abstract fun observeNoteItem(item: N)
 
     abstract fun setupBinding(callback: NoteMenu)
 

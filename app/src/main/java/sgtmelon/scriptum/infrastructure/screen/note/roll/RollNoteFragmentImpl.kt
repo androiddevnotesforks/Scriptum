@@ -57,7 +57,16 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
 
+    private var visibleIcon: IconChangeCallback? = null
+
     // TODO plan
+    // TODO pass data for pre-binding: name, visible state
+
+    override fun observeNoteItem(item: NoteItem.Roll) {
+        TODO()
+        //        visibleMenuItem?.isEnabled = true
+        //        setToolbarVisibleIcon()
+    }
 
     override fun setupBinding(callback: NoteMenu) {
         binding?.menuCallback = callback
@@ -70,12 +79,10 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         toolbar?.setOnMenuItemClickListener(this)
 
         /** Call after menu inflating because otherwise visible icon will be null */
-        visibleIconControl = VisibleFilterIcon(context, visibleMenuItem, callback = this)
+        visibleIcon = VisibleFilterIcon(context, visibleMenuItem, callback = this)
     }
 
     //region Cleanup
-
-    private var visibleIconControl: IconChangeCallback? = null
 
     private val animTime by lazy {
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
@@ -199,9 +206,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
     }
 
-    override fun showToolbarVisibleIcon(isShow: Boolean) {
-        visibleMenuItem?.isVisible = isShow
-    }
+    //    override fun showToolbarVisibleIcon(isShow: Boolean) {
+    //        visibleMenuItem?.isVisible = isShow
+    //    }
 
 
     override fun onBindingLoad(isRankEmpty: Boolean) {
@@ -252,7 +259,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             R.string.menu_roll_invisible
         })
 
-        visibleIconControl?.setDrawable(isVisible, needAnim)
+        visibleIcon?.setDrawable(isVisible, needAnim)
     }
 
 

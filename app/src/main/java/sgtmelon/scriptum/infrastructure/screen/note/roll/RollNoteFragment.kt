@@ -20,7 +20,7 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
     /**
      * Need hide toolbar visible icon before information completely load.
      */
-    fun showToolbarVisibleIcon(isShow: Boolean)
+//    fun showToolbarVisibleIcon(isShow: Boolean)
 
 
     fun onBindingLoad(isRankEmpty: Boolean)
