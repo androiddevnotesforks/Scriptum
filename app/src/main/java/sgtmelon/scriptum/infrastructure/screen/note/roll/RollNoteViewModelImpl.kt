@@ -464,6 +464,7 @@ class RollNoteViewModelImpl(
         } else if (noteState.value == NoteState.CREATE) {
             /** Change toolbar icon from arrow to cancel for auto save case. */
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
+            // TODO post new value about noteState
         }
 
         viewModelScope.launch { saveBackgroundWork() }

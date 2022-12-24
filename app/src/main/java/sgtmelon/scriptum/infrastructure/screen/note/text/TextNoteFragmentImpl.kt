@@ -39,10 +39,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     // TODO 2. Make common use case for undo/redo (use flow?)
     // TODO 3. Move common functions into use cases? (don't use parent vm class?)
 
-    override fun observeNoteItem(item: NoteItem.Text) {
-//        TODO("Not yet implemented")
-    }
-
     override fun setupBinding(callback: NoteMenu) {
         binding?.menuCallback = callback
     }

@@ -57,14 +57,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     private var visibleIcon: IconChangeCallback? = null
 
-    // TODO plan
     // TODO pass data for pre-binding: visible state
-
-    override fun observeNoteItem(item: NoteItem.Roll) {
-        //        TODO()
-        //        visibleMenuItem?.isEnabled = true
-        //        setToolbarVisibleIcon()
-    }
 
     override fun setupBinding(callback: NoteMenu) {
         binding?.menuCallback = callback

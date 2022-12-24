@@ -106,18 +106,29 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
             // TODO("change enable of button, fields and etc")
         }
-        viewModel.isEdit.observe(this) { connector.init.isEdit = it }
-        viewModel.noteState.observe(this) { connector.init.noteState = it }
+        viewModel.isEdit.observe(this) { observeEdit(it) }
+        viewModel.noteState.observe(this) { observeState(it) }
         viewModel.id.observe(this) { connector.init.id = it }
-        viewModel.color.observe(this) {
-            connector.init.color = it
-            connector.updateHolder(it)
-        }
+        viewModel.color.observe(this) { observeColor(it) }
         viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
         viewModel.noteItem.observe(this) { observeNoteItem(it) }
     }
 
-    abstract fun observeNoteItem(item: N)
+    @CallSuper open fun observeEdit(it: Boolean) {
+        connector.init.isEdit = it
+    }
+
+    @CallSuper open fun observeState(it: NoteState) {
+        connector.init.noteState = it
+    }
+
+    @CallSuper open fun observeColor(it: Color) {
+        connector.init.color = it
+        connector.updateHolder(it)
+    }
+
+    // TODO add implementation, make it abstract
+    @CallSuper open fun observeNoteItem(it: N) = Unit
 
     abstract fun setupBinding(callback: NoteMenu)
 
@@ -144,8 +155,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         appBar?.content?.nameEnter?.doOnTextChanged { it, _, _, _ ->
             viewModel.noteItem.value?.name = it?.toString() ?: return@doOnTextChanged
         }
-
-        // TODO setup back button (rely on edit mode, and disable click while data not loaded)
     }
 
     override fun setIconEnabled(isEnabled: Boolean) {
