@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.data.noteHistory
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-
 /**
  * Model for [NoteHistoryImpl]
  */

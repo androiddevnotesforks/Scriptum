@@ -12,10 +12,10 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.data.noteHistory.HistoryItem
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
+import sgtmelon.scriptum.data.noteHistory.InputAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.testing.parent.ParentTest

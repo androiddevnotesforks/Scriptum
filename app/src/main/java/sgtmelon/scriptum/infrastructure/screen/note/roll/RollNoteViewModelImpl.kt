@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.extensions.runBack
-import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.data.noteHistory.HistoryItem
 import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
+import sgtmelon.scriptum.data.noteHistory.InputAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase

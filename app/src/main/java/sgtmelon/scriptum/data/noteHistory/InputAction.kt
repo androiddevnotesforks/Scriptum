@@ -1,15 +1,14 @@
-package sgtmelon.scriptum.cleanup.domain.model.annotation
+package sgtmelon.scriptum.data.noteHistory
 
 import androidx.annotation.IntDef
-import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 
 /**
  * Describes actions in [NoteHistoryImpl]
  */
 @IntDef(
-        InputAction.RANK, InputAction.COLOR,
-        InputAction.NAME, InputAction.TEXT, InputAction.ROLL,
-        InputAction.ROLL_ADD, InputAction.ROLL_REMOVE, InputAction.ROLL_MOVE
+    InputAction.RANK, InputAction.COLOR,
+    InputAction.NAME, InputAction.TEXT, InputAction.ROLL,
+    InputAction.ROLL_ADD, InputAction.ROLL_REMOVE, InputAction.ROLL_MOVE
 )
 annotation class InputAction {
     companion object {

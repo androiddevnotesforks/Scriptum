@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.data.noteHistory
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color

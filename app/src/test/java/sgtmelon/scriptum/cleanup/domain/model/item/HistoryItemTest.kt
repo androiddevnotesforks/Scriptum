@@ -2,9 +2,9 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.data.noteHistory.HistoryItem
 import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
+import sgtmelon.scriptum.data.noteHistory.InputAction
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**

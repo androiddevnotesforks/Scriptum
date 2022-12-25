@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.data.noteHistory.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.InputAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 
