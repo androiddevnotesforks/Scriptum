@@ -31,19 +31,19 @@ class NoteHistoryImpl : NoteHistory {
      */
     @RunPrivate var position = ND_POSITION
 
-    private val isUndoAccess get() = list.isNotEmpty() && position != ND_POSITION
-    private val isRedoAccess get() = list.isNotEmpty() && position != list.lastIndex
+    private val isUndoAvailable get() = list.isNotEmpty() && position != ND_POSITION
+    private val isRedoAvailable get() = list.isNotEmpty() && position != list.lastIndex
 
-    override val available get() = HistoryMoveAvailable(isUndoAccess, isRedoAccess)
+    override val available get() = HistoryMoveAvailable(isUndoAvailable, isRedoAvailable)
 
     override fun reset() {
         list.clear()
         position = ND_POSITION
     }
 
-    override fun undo(): HistoryItem? = if (isUndoAccess) list.getOrNull(position--) else null
+    override fun undo(): HistoryItem? = if (isUndoAvailable) list.getOrNull(position--) else null
 
-    override fun redo(): HistoryItem? = if (isRedoAccess) list.getOrNull(++position) else null
+    override fun redo(): HistoryItem? = if (isRedoAvailable) list.getOrNull(++position) else null
 
     @RunPrivate fun add(item: HistoryItem) {
         if (isEnabled) {
