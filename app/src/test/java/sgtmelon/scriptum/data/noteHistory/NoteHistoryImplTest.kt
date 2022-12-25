@@ -330,7 +330,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueTo = nextString()
         val cursor = mockk<HistoryItem.Cursor>()
 
-        val historyItem = HistoryItem(HistoryAction.TEXT, valueFrom, valueTo, cursor)
+        val historyItem = HistoryItem(HistoryAction.TEXT_CHANGE, valueFrom, valueTo, cursor)
 
         every { spyHistory.add(historyItem) } returns Unit
 
@@ -348,7 +348,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueTo = nextString()
         val cursor = mockk<HistoryItem.Cursor>()
 
-        val historyItem = HistoryItem(HistoryAction.ROLL, valueFrom, valueTo, cursor, p)
+        val historyItem = HistoryItem(HistoryAction.ROLL_CHANGE, valueFrom, valueTo, cursor, p)
 
         every { spyHistory.add(historyItem) } returns Unit
 

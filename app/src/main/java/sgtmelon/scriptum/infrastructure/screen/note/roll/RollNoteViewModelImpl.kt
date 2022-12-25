@@ -333,7 +333,7 @@ class RollNoteViewModelImpl(
             HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
             HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
             HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
-            HistoryAction.ROLL -> onMenuUndoRedoRoll(item, isUndo)
+            HistoryAction.ROLL_CHANGE -> onMenuUndoRedoRoll(item, isUndo)
             HistoryAction.ROLL_ADD -> onMenuUndoRedoAdd(item, isUndo)
             HistoryAction.ROLL_REMOVE -> onMenuUndoRedoRemove(item, isUndo)
             HistoryAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)

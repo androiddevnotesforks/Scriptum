@@ -12,7 +12,7 @@ data class HistoryItem(
 ) {
 
     init {
-        if (tag == HistoryAction.NAME || tag == HistoryAction.TEXT || tag == HistoryAction.ROLL) {
+        if (tag == HistoryAction.NAME || tag == HistoryAction.TEXT_CHANGE || tag == HistoryAction.ROLL_CHANGE) {
             if (cursor == null) {
                 throw NullPointerException(HistoryItem::class.java.simpleName + "#cursor is null")
             }

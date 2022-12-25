@@ -189,7 +189,7 @@ class TextNoteViewModelImpl(
             HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
             HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
             HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
-            HistoryAction.TEXT -> onMenuUndoRedoText(item, isUndo)
+            HistoryAction.TEXT_CHANGE -> onMenuUndoRedoText(item, isUndo)
             else -> Unit
         }
 

@@ -108,14 +108,14 @@ class NoteHistoryImpl : NoteHistory {
     }
 
     override fun onTextChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor) {
-        add(HistoryItem(HistoryAction.TEXT, valueFrom, valueTo, cursor))
+        add(HistoryItem(HistoryAction.TEXT_CHANGE, valueFrom, valueTo, cursor))
     }
 
     override fun onRollChange(
         p: Int, valueFrom: String, valueTo: String,
         cursor: HistoryItem.Cursor
     ) {
-        add(HistoryItem(HistoryAction.ROLL, valueFrom, valueTo, cursor, p))
+        add(HistoryItem(HistoryAction.ROLL_CHANGE, valueFrom, valueTo, cursor, p))
     }
 
     override fun onRollAdd(p: Int, valueTo: String) {

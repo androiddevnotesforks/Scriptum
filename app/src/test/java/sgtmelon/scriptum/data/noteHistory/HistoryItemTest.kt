@@ -52,7 +52,7 @@ class HistoryItemTest : ParentTest() {
     }
 
     @Test fun notThrowOnTextTag() {
-        HistoryItem(HistoryAction.TEXT, valueFrom, valueTo, cursor)
+        HistoryItem(HistoryAction.TEXT_CHANGE, valueFrom, valueTo, cursor)
     }
 
     @Test fun throwOnRollTag() {
@@ -63,19 +63,19 @@ class HistoryItemTest : ParentTest() {
     }
 
     @Test fun notThrowOnRollTag() {
-        HistoryItem(HistoryAction.ROLL, valueFrom, valueTo, cursor)
+        HistoryItem(HistoryAction.ROLL_CHANGE, valueFrom, valueTo, cursor)
     }
 
 
     @Test fun get() {
-        val item = HistoryItem(HistoryAction.TEXT, valueFrom, valueTo, cursor)
+        val item = HistoryItem(HistoryAction.TEXT_CHANGE, valueFrom, valueTo, cursor)
 
         assertEquals(valueFrom, item[true])
         assertEquals(valueTo, item[false])
     }
 
     @Test fun cursorGet() {
-        val item = HistoryItem(HistoryAction.TEXT, valueFrom, valueTo, cursor)
+        val item = HistoryItem(HistoryAction.TEXT_CHANGE, valueFrom, valueTo, cursor)
 
         assertEquals(cursorFrom, item.cursor[true])
         assertEquals(cursorTo, item.cursor[false])

@@ -36,7 +36,7 @@ class InputTextWatcher(
 
         when (tag) {
             HistoryAction.NAME -> history.onNameChange(textFrom, textTo, cursorItem)
-            HistoryAction.TEXT -> history.onTextChange(textFrom, textTo, cursorItem)
+            HistoryAction.TEXT_CHANGE -> history.onTextChange(textFrom, textTo, cursorItem)
         }
 
         textFrom = textTo

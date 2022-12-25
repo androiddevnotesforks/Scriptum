@@ -81,7 +81,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         val inputWatcher = InputTextWatcher(
             binding?.textEnter,
-            HistoryAction.TEXT,
+            HistoryAction.TEXT_CHANGE,
             viewModel,
             history
         )
