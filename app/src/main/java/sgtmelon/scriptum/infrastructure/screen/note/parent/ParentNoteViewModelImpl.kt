@@ -10,11 +10,11 @@ import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
+import sgtmelon.scriptum.data.noteHistory.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -238,7 +238,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         deprecatedNoteItem.color = newColor
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, history.access)
+            onBindingInput(deprecatedNoteItem, history.available)
             tintToolbar(newColor)
         }
     }
@@ -260,7 +260,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             }
 
             callback?.apply {
-                onBindingInput(deprecatedNoteItem, history.access)
+                onBindingInput(deprecatedNoteItem, history.available)
                 onBindingNote(deprecatedNoteItem)
             }
         }
@@ -363,7 +363,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             onMenuUndoRedoSelect(item, isUndo)
         }
 
-        callback?.onBindingInput(deprecatedNoteItem, history.access)
+        callback?.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     /**
@@ -490,7 +490,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onInputTextChange() {
         if (!isNoteInitialized()) return
 
-        callback?.onBindingInput(deprecatedNoteItem, history.access)
+        callback?.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     //endregion

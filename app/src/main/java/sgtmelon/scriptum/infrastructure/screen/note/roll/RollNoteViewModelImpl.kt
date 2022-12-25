@@ -7,14 +7,14 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
+import sgtmelon.scriptum.data.noteHistory.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -296,7 +296,7 @@ class RollNoteViewModelImpl(
         deprecatedNoteItem.list.add(p, rollItem)
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, history.access)
+            onBindingInput(deprecatedNoteItem, history.available)
             scrollToItem(simpleClick, p, getAdapterList())
         }
     }
@@ -505,7 +505,7 @@ class RollNoteViewModelImpl(
             )
 
             onBindingEdit(deprecatedNoteItem, isEdit)
-            onBindingInput(deprecatedNoteItem, history.access)
+            onBindingInput(deprecatedNoteItem, history.available)
             viewModelScope.launchBack { updateNoteState(isEdit, noteState) }
 
             if (isEdit) {
@@ -529,7 +529,7 @@ class RollNoteViewModelImpl(
 
         callback?.apply {
             setList(getAdapterList())
-            onBindingInput(deprecatedNoteItem, history.access)
+            onBindingInput(deprecatedNoteItem, history.available)
         }
     }
 
@@ -580,7 +580,7 @@ class RollNoteViewModelImpl(
         history.onRollRemove(absolutePosition, item.toJson())
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, history.access)
+            onBindingInput(deprecatedNoteItem, history.available)
             notifyItemRemoved(getAdapterList(), p)
         }
     }
@@ -613,7 +613,7 @@ class RollNoteViewModelImpl(
 
         history.onRollMove(absoluteFrom, absoluteTo)
 
-        callback?.onBindingInput(deprecatedNoteItem, history.access)
+        callback?.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     //endregion

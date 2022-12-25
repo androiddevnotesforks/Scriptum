@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.data.noteHistory
 
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
@@ -12,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 // TODO add tests
 interface NoteHistory {
 
-    val access: NoteHistoryImpl.Access
+    val available: HistoryMoveAvailable
 
     fun reset()
 

@@ -35,8 +35,8 @@
             type="boolean" />
 
         <variable
-            name="inputAccess"
-            type="sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl.Access" />
+            name="historyMove"
+            type="sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable" />
     </data>
 
     <LinearLayout
@@ -53,7 +53,7 @@
         <include
             android:id="@+id/content"
             layout="@layout/inc_note_panel_content"
-            app:inputAccess='@{inputAccess}'
+            app:historyMove='@{historyMove}'
             app:isDataLoad='@{isDataLoad}'
             app:isEditMode='@{isEditMode}'
             app:isRankEmpty='@{isRankEmpty}'

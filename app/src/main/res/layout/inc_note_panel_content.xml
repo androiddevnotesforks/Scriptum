@@ -34,8 +34,8 @@
             type="boolean" />
 
         <variable
-            name="inputAccess"
-            type="sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl.Access" />
+            name="historyMove"
+            type="sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable" />
     </data>
 
     <FrameLayout
@@ -93,8 +93,8 @@
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_undo"
                 android:onClick='@{() -> menuCallback.onMenuUndo()}'
-                app:boolExpression='@{inputAccess.isUndo}'
-                app:enabled='@{inputAccess.isUndo}'
+                app:boolExpression="@{historyMove.undo}"
+                app:enabled="@{historyMove.undo}"
                 app:falseColor='@{R.attr.clDisable}'
                 app:srcCompat="@drawable/ic_undo"
                 app:trueColor='@{R.attr.clContent}'
@@ -105,8 +105,8 @@
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_redo"
                 android:onClick='@{() -> menuCallback.onMenuRedo()}'
-                app:boolExpression='@{inputAccess.isRedo}'
-                app:enabled='@{inputAccess.isRedo}'
+                app:boolExpression="@{historyMove.redo}"
+                app:enabled="@{historyMove.redo}"
                 app:falseColor='@{R.attr.clDisable}'
                 app:srcCompat="@drawable/ic_redo"
                 app:trueColor='@{R.attr.clContent}'

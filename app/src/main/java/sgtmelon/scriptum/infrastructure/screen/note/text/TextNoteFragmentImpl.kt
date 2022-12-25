@@ -11,8 +11,8 @@ import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
-import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -107,10 +107,13 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         }?.executePendingBindings()
     }
 
-    override fun onBindingInput(item: NoteItem.Text, inputAccess: NoteHistoryImpl.Access) {
+    override fun onBindingInput(
+        item: NoteItem.Text,
+        historyMove: HistoryMoveAvailable
+    ) {
         binding?.apply {
             this.item = item
-            this.inputAccess = inputAccess
+            this.historyMove = historyMove
         }?.executePendingBindings()
     }
 

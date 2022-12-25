@@ -38,8 +38,8 @@
             type="boolean" />
 
         <variable
-            name="inputAccess"
-            type="sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl.Access" />
+            name="historyMove"
+            type="sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable" />
 
         <variable
             name="isEnterEmpty"
@@ -100,7 +100,7 @@
         <include
             android:id="@+id/panel"
             layout="@layout/inc_note_panel_roll"
-            app:inputAccess='@{inputAccess}'
+            app:historyMove='@{historyMove}'
             app:isDataLoad='@{isDataLoad}'
             app:isDividerHide='@{!isEditMode}'
             app:isEditMode='@{isEditMode}'

@@ -28,8 +28,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
-import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -223,17 +223,21 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
 
-    override fun onBindingInput(item: NoteItem.Roll, inputAccess: NoteHistoryImpl.Access) {
+    override fun onBindingInput(
+        item: NoteItem.Roll,
+        historyMove: HistoryMoveAvailable
+    ) {
         binding?.apply {
             this.item = item
-            this.inputAccess = inputAccess
+            this.historyMove = historyMove
         }?.executePendingBindings()
     }
 
 
     override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {
-        visibleMenuItem?.title = getString(if (isVisible) {
-            R.string.menu_roll_visible
+        visibleMenuItem?.title = getString(
+            if (isVisible) {
+                R.string.menu_roll_visible
         } else {
             R.string.menu_roll_invisible
         })

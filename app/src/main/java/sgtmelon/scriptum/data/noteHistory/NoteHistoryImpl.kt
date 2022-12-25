@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.data.noteHistory
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -36,7 +35,7 @@ class NoteHistoryImpl : NoteHistory {
     @RunPrivate val isUndoAccess get() = list.isNotEmpty() && position != ND_POSITION
     @RunPrivate val isRedoAccess get() = list.isNotEmpty() && position != list.lastIndex
 
-    override val access get() = Access(isUndoAccess, isRedoAccess)
+    override val available get() = HistoryMoveAvailable(isUndoAccess, isRedoAccess)
 
     override fun reset() {
         list.clear()
@@ -140,11 +139,6 @@ class NoteHistoryImpl : NoteHistory {
             Timber.i(message = "ps=$position | i=$i | item=${list.getOrNull(i).toString()}")
         }
     }
-
-    /**
-     * Class for control undo/redo call access
-     */
-    data class Access(val isUndo: Boolean, val isRedo: Boolean)
 
     companion object {
         @RunPrivate const val ND_POSITION = -1

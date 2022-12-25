@@ -13,8 +13,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
+import sgtmelon.scriptum.data.noteHistory.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.testing.parent.ParentTest
@@ -69,15 +70,15 @@ class NoteHistoryImplTest : ParentTest() {
     @Test fun access() {
         val isUndoAccess = Random.nextBoolean()
         val isRedoAccess = Random.nextBoolean()
-        val access = NoteHistoryImpl.Access(isUndoAccess, isRedoAccess)
+        val available = HistoryMoveAvailable(isUndoAccess, isRedoAccess)
 
         every { spyHistory.isUndoAccess } returns isUndoAccess
         every { spyHistory.isRedoAccess } returns isRedoAccess
 
-        assertEquals(access, spyHistory.access)
+        assertEquals(available, spyHistory.available)
 
         verifySequence {
-            spyHistory.access
+            spyHistory.available
             spyHistory.isUndoAccess
             spyHistory.isRedoAccess
         }

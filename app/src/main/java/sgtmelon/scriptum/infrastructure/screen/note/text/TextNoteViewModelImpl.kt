@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
-import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.data.noteHistory.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -254,7 +254,7 @@ class TextNoteViewModelImpl(
             )
 
             onBindingEdit(deprecatedNoteItem, isEdit)
-            onBindingInput(deprecatedNoteItem, history.access)
+            onBindingInput(deprecatedNoteItem, history.available)
 
             if (isEdit) focusOnEdit(isCreate = noteState == NoteState.CREATE)
         }
