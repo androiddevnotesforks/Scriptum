@@ -1,9 +1,8 @@
-package sgtmelon.scriptum.cleanup.domain.model.item
+package sgtmelon.scriptum.infrastructure.model.item
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.testing.parent.ParentTest
-import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.test.common.nextString
 
 /**
@@ -11,7 +10,7 @@ import sgtmelon.test.common.nextString
  */
 class MelodyItemTest : ParentTest() {
 
-    @Test fun secondConstructor() {
+    @Test fun `second constructor creation of full uri`() {
         val title = nextString()
         val uri = nextString()
         val id = nextString()
@@ -19,7 +18,7 @@ class MelodyItemTest : ParentTest() {
 
         val item = MelodyItem(title, uri, id)
 
-        assertEquals(title, item.title)
-        assertEquals(resultUri, item.uri)
+        assertEquals(item.title, title)
+        assertEquals(item.uri, resultUri)
     }
 }

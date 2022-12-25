@@ -10,8 +10,8 @@ import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
-import sgtmelon.scriptum.data.noteHistory.InputAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
@@ -67,7 +67,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         nameEnter?.let {
             it.addTextChangedListener(
-                InputTextWatcher(it, InputAction.NAME, viewModel, history)
+                InputTextWatcher(it, HistoryAction.NAME, viewModel, history)
             )
             it.addOnNextAction {
                 binding?.textEnter?.apply {
@@ -81,7 +81,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         val inputWatcher = InputTextWatcher(
             binding?.textEnter,
-            InputAction.TEXT,
+            HistoryAction.TEXT,
             viewModel,
             history
         )

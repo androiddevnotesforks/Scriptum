@@ -27,8 +27,8 @@ import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
-import sgtmelon.scriptum.data.noteHistory.InputAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
@@ -133,7 +133,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         nameEnter?.let {
             it.addTextChangedListener(
-                InputTextWatcher(it, InputAction.NAME, viewModel, history)
+                InputTextWatcher(it, HistoryAction.NAME, viewModel, history)
             )
 
             it.addOnNextAction { onFocusEnter() }

@@ -6,11 +6,11 @@ import androidx.annotation.IntDef
  * Describes actions in [NoteHistoryImpl]
  */
 @IntDef(
-    InputAction.RANK, InputAction.COLOR,
-    InputAction.NAME, InputAction.TEXT, InputAction.ROLL,
-    InputAction.ROLL_ADD, InputAction.ROLL_REMOVE, InputAction.ROLL_MOVE
+    HistoryAction.RANK, HistoryAction.COLOR,
+    HistoryAction.NAME, HistoryAction.TEXT, HistoryAction.ROLL,
+    HistoryAction.ROLL_ADD, HistoryAction.ROLL_REMOVE, HistoryAction.ROLL_MOVE
 )
-annotation class InputAction {
+annotation class HistoryAction {
     companion object {
         const val RANK = 0
         const val COLOR = 1

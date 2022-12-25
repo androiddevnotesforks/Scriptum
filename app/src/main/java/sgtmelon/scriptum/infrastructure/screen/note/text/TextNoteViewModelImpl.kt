@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryItem
 import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
-import sgtmelon.scriptum.data.noteHistory.InputAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -186,10 +186,10 @@ class TextNoteViewModelImpl(
         history.isEnabled = false
 
         when (item.tag) {
-            InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
-            InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
-            InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
-            InputAction.TEXT -> onMenuUndoRedoText(item, isUndo)
+            HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
+            HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
+            HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
+            HistoryAction.TEXT -> onMenuUndoRedoText(item, isUndo)
             else -> Unit
         }
 

@@ -10,7 +10,7 @@ import timber.log.Timber
  * Class for control input data inside note and work with undo/redo.
  * Model for store data: [HistoryItem]
  *
- * [InputAction] - Value which describes action:
+ * [HistoryAction] - Value which describes action:
  * Name change  - Text (before/after)
  * Rank change  - Checked id's (before/after)
  * Color change - Checked color (before/after)
@@ -90,13 +90,13 @@ class NoteHistoryImpl : NoteHistory {
         val valueFrom = arrayOf(idFrom, psFrom).joinToString()
         val valueTo = arrayOf(idTo, psTo).joinToString()
 
-        add(HistoryItem(InputAction.RANK, valueFrom, valueTo))
+        add(HistoryItem(HistoryAction.RANK, valueFrom, valueTo))
     }
 
     override fun onColorChange(valueFrom: Color, valueTo: Color) {
         add(
             HistoryItem(
-                InputAction.COLOR,
+                HistoryAction.COLOR,
                 valueFrom.ordinal.toString(),
                 valueTo.ordinal.toString()
             )
@@ -104,30 +104,30 @@ class NoteHistoryImpl : NoteHistory {
     }
 
     override fun onNameChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor) {
-        add(HistoryItem(InputAction.NAME, valueFrom, valueTo, cursor))
+        add(HistoryItem(HistoryAction.NAME, valueFrom, valueTo, cursor))
     }
 
     override fun onTextChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor) {
-        add(HistoryItem(InputAction.TEXT, valueFrom, valueTo, cursor))
+        add(HistoryItem(HistoryAction.TEXT, valueFrom, valueTo, cursor))
     }
 
     override fun onRollChange(
         p: Int, valueFrom: String, valueTo: String,
         cursor: HistoryItem.Cursor
     ) {
-        add(HistoryItem(InputAction.ROLL, valueFrom, valueTo, cursor, p))
+        add(HistoryItem(HistoryAction.ROLL, valueFrom, valueTo, cursor, p))
     }
 
     override fun onRollAdd(p: Int, valueTo: String) {
-        add(HistoryItem(InputAction.ROLL_ADD, "", valueTo, null, p))
+        add(HistoryItem(HistoryAction.ROLL_ADD, "", valueTo, null, p))
     }
 
     override fun onRollRemove(p: Int, valueFrom: String) {
-        add(HistoryItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p))
+        add(HistoryItem(HistoryAction.ROLL_REMOVE, valueFrom, "", null, p))
     }
 
     override fun onRollMove(valueFrom: Int, valueTo: Int) {
-        add(HistoryItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
+        add(HistoryItem(HistoryAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
     }
 
     @RunPrivate fun listAll() {

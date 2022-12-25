@@ -12,9 +12,9 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryItem
 import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
-import sgtmelon.scriptum.data.noteHistory.InputAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -330,13 +330,13 @@ class RollNoteViewModelImpl(
         history.isEnabled = false
 
         when (item.tag) {
-            InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
-            InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
-            InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
-            InputAction.ROLL -> onMenuUndoRedoRoll(item, isUndo)
-            InputAction.ROLL_ADD -> onMenuUndoRedoAdd(item, isUndo)
-            InputAction.ROLL_REMOVE -> onMenuUndoRedoRemove(item, isUndo)
-            InputAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
+            HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
+            HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
+            HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
+            HistoryAction.ROLL -> onMenuUndoRedoRoll(item, isUndo)
+            HistoryAction.ROLL_ADD -> onMenuUndoRedoAdd(item, isUndo)
+            HistoryAction.ROLL_REMOVE -> onMenuUndoRedoRemove(item, isUndo)
+            HistoryAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
         }
 
         history.isEnabled = true

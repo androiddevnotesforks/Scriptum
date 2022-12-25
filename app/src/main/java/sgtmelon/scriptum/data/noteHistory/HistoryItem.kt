@@ -4,7 +4,7 @@ package sgtmelon.scriptum.data.noteHistory
  * Model for [NoteHistoryImpl]
  */
 data class HistoryItem(
-    @InputAction val tag: Int,
+    @HistoryAction val tag: Int,
     private val valueFrom: String,
     private val valueTo: String,
     val cursor: Cursor? = ND_CURSOR,
@@ -12,7 +12,7 @@ data class HistoryItem(
 ) {
 
     init {
-        if (tag == InputAction.NAME || tag == InputAction.TEXT || tag == InputAction.ROLL) {
+        if (tag == HistoryAction.NAME || tag == HistoryAction.TEXT || tag == HistoryAction.ROLL) {
             if (cursor == null) {
                 throw NullPointerException(HistoryItem::class.java.simpleName + "#cursor is null")
             }

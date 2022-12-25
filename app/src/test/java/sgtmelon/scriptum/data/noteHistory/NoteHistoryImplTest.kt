@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.note.input
+package sgtmelon.scriptum.data.noteHistory
 
 import io.mockk.every
 import io.mockk.mockk
@@ -13,10 +13,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
-import sgtmelon.scriptum.data.noteHistory.HistoryItem
-import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
-import sgtmelon.scriptum.data.noteHistory.InputAction
-import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
@@ -37,6 +33,10 @@ class NoteHistoryImplTest : ParentTest() {
         assertTrue(history.isEnabled)
     }
 
+
+    @Test fun todo() {
+        TODO("Update tests")
+    }
 
     @Test fun isUndoAccess() {
         assertFalse(history.isUndoAccess)
@@ -267,7 +267,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueFrom = arrayOf(idFrom, psFrom).joinToString()
         val valueTo = arrayOf(idTo, psTo).joinToString()
 
-        val historyItem = HistoryItem(InputAction.RANK, valueFrom, valueTo)
+        val historyItem = HistoryItem(HistoryAction.RANK, valueFrom, valueTo)
 
         every { spyHistory.add(historyItem) } returns Unit
 
@@ -286,7 +286,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueToOrdinal = Random.nextInt()
 
         val historyItem = HistoryItem(
-            InputAction.COLOR,
+            HistoryAction.COLOR,
             valueFromOrdinal.toString(),
             valueToOrdinal.toString()
         )
@@ -310,7 +310,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueTo = nextString()
         val cursor = mockk<HistoryItem.Cursor>()
 
-        val historyItem = HistoryItem(InputAction.NAME, valueFrom, valueTo, cursor)
+        val historyItem = HistoryItem(HistoryAction.NAME, valueFrom, valueTo, cursor)
 
         every { spyHistory.add(historyItem) } returns Unit
 
@@ -327,7 +327,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueTo = nextString()
         val cursor = mockk<HistoryItem.Cursor>()
 
-        val historyItem = HistoryItem(InputAction.TEXT, valueFrom, valueTo, cursor)
+        val historyItem = HistoryItem(HistoryAction.TEXT, valueFrom, valueTo, cursor)
 
         every { spyHistory.add(historyItem) } returns Unit
 
@@ -345,7 +345,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueTo = nextString()
         val cursor = mockk<HistoryItem.Cursor>()
 
-        val historyItem = HistoryItem(InputAction.ROLL, valueFrom, valueTo, cursor, p)
+        val historyItem = HistoryItem(HistoryAction.ROLL, valueFrom, valueTo, cursor, p)
 
         every { spyHistory.add(historyItem) } returns Unit
 
@@ -361,7 +361,7 @@ class NoteHistoryImplTest : ParentTest() {
         val p = Random.nextInt()
         val valueTo = nextString()
 
-        val historyItem = HistoryItem(InputAction.ROLL_ADD, "", valueTo, null, p)
+        val historyItem = HistoryItem(HistoryAction.ROLL_ADD, "", valueTo, null, p)
 
         every { spyHistory.add(historyItem) } returns Unit
 
@@ -377,7 +377,7 @@ class NoteHistoryImplTest : ParentTest() {
         val p = Random.nextInt()
         val valueFrom = nextString()
 
-        val historyItem = HistoryItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p)
+        val historyItem = HistoryItem(HistoryAction.ROLL_REMOVE, valueFrom, "", null, p)
 
         every { spyHistory.add(historyItem) } returns Unit
 
@@ -394,7 +394,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueTo = Random.nextInt()
 
         val historyItem =
-            HistoryItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString())
+            HistoryItem(HistoryAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString())
 
         every { spyHistory.add(historyItem) } returns Unit
 
