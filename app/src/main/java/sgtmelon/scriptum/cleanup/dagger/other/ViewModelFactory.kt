@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
@@ -171,7 +171,7 @@ object ViewModelFactory {
 
         class TextNote(
             private val init: NoteInit,
-            private val history: INoteHistory,
+            private val history: NoteHistory,
             private val createNote: CreateTextNoteUseCase,
             private val getNote: GetTextNoteUseCase,
 
@@ -209,7 +209,7 @@ object ViewModelFactory {
 
         class RollNote(
             private val init: NoteInit,
-            private val history: INoteHistory,
+            private val history: NoteHistory,
             private val createNote: CreateRollNoteUseCase,
             private val getNote: GetRollNoteUseCase,
 

@@ -13,7 +13,7 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -44,7 +44,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
  */
 abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     init: NoteInit,
-    protected val history: INoteHistory,
+    protected val history: NoteHistory,
     createNote: CreateNoteUseCase<N>,
     getNote: GetNoteUseCase<N>,
 

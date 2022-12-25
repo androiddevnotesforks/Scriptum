@@ -6,12 +6,11 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 /**
  * Interface for communicate with [NoteHistoryImpl].
  */
-// TODO rename NoteHistory, NoteHistoryImpl
 // TODO add different interfaces for different noteType: Text, Roll
 // TODO pass different interfaces to viewmodels by noteType
 // TODO move to data module
 // TODO add tests
-interface INoteHistory {
+interface NoteHistory {
 
     val access: NoteHistoryImpl.Access
 

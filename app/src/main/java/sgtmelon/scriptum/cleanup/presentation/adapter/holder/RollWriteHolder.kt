@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
@@ -27,7 +27,7 @@ class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
     dragListener: ItemDragListener,
     private val callback: Callback,
-    private val history: INoteHistory?
+    private val history: NoteHistory?
 ) : ParentHolder(binding.root),
     TextWatcher {
 

@@ -25,7 +25,7 @@ import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
@@ -128,7 +128,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         open.isBlocked = inAction
     }
 
-    override fun setupEnter(history: INoteHistory) {
+    override fun setupEnter(history: NoteHistory) {
         binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
@@ -161,7 +161,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
 
-    override fun setupRecycler(history: INoteHistory) {
+    override fun setupRecycler(history: NoteHistory) {
         adapter.apply {
             this.history = history
 

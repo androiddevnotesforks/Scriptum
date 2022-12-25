@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -43,7 +43,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
 class RollNoteViewModelImpl(
     init: NoteInit,
-    history: INoteHistory,
+    history: NoteHistory,
     createNote: CreateRollNoteUseCase,
     getNote: GetRollNoteUseCase,
 

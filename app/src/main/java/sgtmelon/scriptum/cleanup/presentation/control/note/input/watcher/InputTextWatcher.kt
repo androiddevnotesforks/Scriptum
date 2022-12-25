@@ -5,7 +5,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 
 /**
@@ -15,7 +15,7 @@ class InputTextWatcher(
     private val view: EditText?,
     @InputAction private val tag: Int,
     private val callback: Callback,
-    private val history: INoteHistory
+    private val history: NoteHistory
 ) : TextWatcher {
 
     private var textFrom = ""

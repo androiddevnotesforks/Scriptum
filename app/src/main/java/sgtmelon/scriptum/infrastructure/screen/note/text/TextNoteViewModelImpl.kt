@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -33,7 +33,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
 class TextNoteViewModelImpl(
     init: NoteInit,
-    history: INoteHistory,
+    history: NoteHistory,
     createNote: CreateTextNoteUseCase,
     getNote: GetTextNoteUseCase,
 
