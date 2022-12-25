@@ -7,8 +7,6 @@ import io.mockk.spyk
 import io.mockk.verifySequence
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -39,49 +37,52 @@ class NoteHistoryImplTest : ParentTest() {
     }
 
     @Test fun isUndoAccess() {
-        assertFalse(history.isUndoAccess)
-
-        history.position = Random.nextInt()
-        assertFalse(history.isUndoAccess)
-
-        history.list.addAll(nextList())
-        history.position = NoteHistoryImpl.ND_POSITION
-        assertFalse(history.isUndoAccess)
-
-        history.position = Random.nextInt()
-        assertTrue(history.isUndoAccess)
+        TODO()
+        //        assertFalse(history.isUndoAccess)
+        //
+        //        history.position = Random.nextInt()
+        //        assertFalse(history.isUndoAccess)
+        //
+        //        history.list.addAll(nextList())
+        //        history.position = NoteHistoryImpl.ND_POSITION
+        //        assertFalse(history.isUndoAccess)
+        //
+        //        history.position = Random.nextInt()
+        //        assertTrue(history.isUndoAccess)
     }
 
     @Test fun isRedoAccess() {
-        assertFalse(history.isRedoAccess)
-
-        history.position = Random.nextInt()
-        assertFalse(history.isRedoAccess)
-
-        val list = nextList()
-        history.list.addAll(list)
-        history.position = list.lastIndex
-        assertFalse(history.isRedoAccess)
-
-        history.position = Random.nextInt()
-        assertTrue(history.isRedoAccess)
+        TODO()
+        //        assertFalse(history.isRedoAccess)
+        //
+        //        history.position = Random.nextInt()
+        //        assertFalse(history.isRedoAccess)
+        //
+        //        val list = nextList()
+        //        history.list.addAll(list)
+        //        history.position = list.lastIndex
+        //        assertFalse(history.isRedoAccess)
+        //
+        //        history.position = Random.nextInt()
+        //        assertTrue(history.isRedoAccess)
     }
 
     @Test fun access() {
-        val isUndoAccess = Random.nextBoolean()
-        val isRedoAccess = Random.nextBoolean()
-        val available = HistoryMoveAvailable(isUndoAccess, isRedoAccess)
-
-        every { spyHistory.isUndoAccess } returns isUndoAccess
-        every { spyHistory.isRedoAccess } returns isRedoAccess
-
-        assertEquals(available, spyHistory.available)
-
-        verifySequence {
-            spyHistory.available
-            spyHistory.isUndoAccess
-            spyHistory.isRedoAccess
-        }
+        TODO()
+        //        val isUndoAccess = Random.nextBoolean()
+        //        val isRedoAccess = Random.nextBoolean()
+        //        val available = HistoryMoveAvailable(isUndoAccess, isRedoAccess)
+        //
+        //        every { spyHistory.isUndoAccess } returns isUndoAccess
+        //        every { spyHistory.isRedoAccess } returns isRedoAccess
+        //
+        //        assertEquals(available, spyHistory.available)
+        //
+        //        verifySequence {
+        //            spyHistory.available
+        //            spyHistory.isUndoAccess
+        //            spyHistory.isRedoAccess
+        //        }
     }
 
     @Test fun reset() {
@@ -97,77 +98,79 @@ class NoteHistoryImplTest : ParentTest() {
     }
 
     @Test fun undo() {
-        val list = nextList()
-        val position = list.indices.random()
-
-        every { spyHistory.isUndoAccess } returns false
-        assertNull(spyHistory.undo())
-        assertEquals(NoteHistoryImpl.ND_POSITION, spyHistory.position)
-
-        every { spyHistory.isUndoAccess } returns true
-        assertNull(spyHistory.undo())
-        assertEquals(NoteHistoryImpl.ND_POSITION - 1, spyHistory.position)
-
-        spyHistory.list.addAll(list)
-        spyHistory.position = position
-
-        every { spyHistory.isUndoAccess } returns true
-        assertEquals(list[position], spyHistory.undo())
-        assertEquals(position - 1, spyHistory.position)
-
-        verifySequence {
-            spyHistory.undo()
-            spyHistory.isUndoAccess
-            spyHistory.position
-
-            spyHistory.undo()
-            spyHistory.isUndoAccess
-            spyHistory.position
-
-            spyHistory.list
-            spyHistory.position = position
-
-            spyHistory.undo()
-            spyHistory.isUndoAccess
-            spyHistory.position
-        }
+        TODO()
+        //        val list = nextList()
+        //        val position = list.indices.random()
+        //
+        //        every { spyHistory.isUndoAccess } returns false
+        //        assertNull(spyHistory.undo())
+        //        assertEquals(NoteHistoryImpl.ND_POSITION, spyHistory.position)
+        //
+        //        every { spyHistory.isUndoAccess } returns true
+        //        assertNull(spyHistory.undo())
+        //        assertEquals(NoteHistoryImpl.ND_POSITION - 1, spyHistory.position)
+        //
+        //        spyHistory.list.addAll(list)
+        //        spyHistory.position = position
+        //
+        //        every { spyHistory.isUndoAccess } returns true
+        //        assertEquals(list[position], spyHistory.undo())
+        //        assertEquals(position - 1, spyHistory.position)
+        //
+        //        verifySequence {
+        //            spyHistory.undo()
+        //            spyHistory.isUndoAccess
+        //            spyHistory.position
+        //
+        //            spyHistory.undo()
+        //            spyHistory.isUndoAccess
+        //            spyHistory.position
+        //
+        //            spyHistory.list
+        //            spyHistory.position = position
+        //
+        //            spyHistory.undo()
+        //            spyHistory.isUndoAccess
+        //            spyHistory.position
+        //        }
     }
 
     @Test fun redo() {
-        val list = nextList()
-        val position = (0 until list.lastIndex).random()
-
-        every { spyHistory.isRedoAccess } returns false
-        assertNull(spyHistory.redo())
-        assertEquals(NoteHistoryImpl.ND_POSITION, spyHistory.position)
-
-        every { spyHistory.isRedoAccess } returns true
-        assertNull(spyHistory.redo())
-        assertEquals(NoteHistoryImpl.ND_POSITION + 1, spyHistory.position)
-
-        spyHistory.list.addAll(list)
-        spyHistory.position = position
-
-        every { spyHistory.isRedoAccess } returns true
-        assertEquals(list[position + 1], spyHistory.redo())
-        assertEquals(position + 1, spyHistory.position)
-
-        verifySequence {
-            spyHistory.redo()
-            spyHistory.isRedoAccess
-            spyHistory.position
-
-            spyHistory.redo()
-            spyHistory.isRedoAccess
-            spyHistory.position
-
-            spyHistory.list
-            spyHistory.position = position
-
-            spyHistory.redo()
-            spyHistory.isRedoAccess
-            spyHistory.position
-        }
+        TODO()
+        //        val list = nextList()
+        //        val position = (0 until list.lastIndex).random()
+        //
+        //        every { spyHistory.isRedoAccess } returns false
+        //        assertNull(spyHistory.redo())
+        //        assertEquals(NoteHistoryImpl.ND_POSITION, spyHistory.position)
+        //
+        //        every { spyHistory.isRedoAccess } returns true
+        //        assertNull(spyHistory.redo())
+        //        assertEquals(NoteHistoryImpl.ND_POSITION + 1, spyHistory.position)
+        //
+        //        spyHistory.list.addAll(list)
+        //        spyHistory.position = position
+        //
+        //        every { spyHistory.isRedoAccess } returns true
+        //        assertEquals(list[position + 1], spyHistory.redo())
+        //        assertEquals(position + 1, spyHistory.position)
+        //
+        //        verifySequence {
+        //            spyHistory.redo()
+        //            spyHistory.isRedoAccess
+        //            spyHistory.position
+        //
+        //            spyHistory.redo()
+        //            spyHistory.isRedoAccess
+        //            spyHistory.position
+        //
+        //            spyHistory.list
+        //            spyHistory.position = position
+        //
+        //            spyHistory.redo()
+        //            spyHistory.isRedoAccess
+        //            spyHistory.position
+        //        }
     }
 
     @Test fun add() {

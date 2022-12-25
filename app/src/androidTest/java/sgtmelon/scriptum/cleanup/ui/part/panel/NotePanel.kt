@@ -333,13 +333,13 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     binContainer.isDisplayed(value = false)
                     editContainer.isDisplayed()
 
-                    val undo = inputControl.isUndoAccess
+                    val undo = inputControl.available.undo
                     undoButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
                         .withContentDescription(R.string.description_note_undo)
                         .isEnabled(undo)
 
-                    val redo = inputControl.isRedoAccess
+                    val redo = inputControl.available.redo
                     redoButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
                         .withContentDescription(R.string.description_note_redo)

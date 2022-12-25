@@ -31,8 +31,8 @@ class NoteHistoryImpl : NoteHistory {
      */
     @RunPrivate var position = ND_POSITION
 
-    @RunPrivate val isUndoAccess get() = list.isNotEmpty() && position != ND_POSITION
-    @RunPrivate val isRedoAccess get() = list.isNotEmpty() && position != list.lastIndex
+    private val isUndoAccess get() = list.isNotEmpty() && position != ND_POSITION
+    private val isRedoAccess get() = list.isNotEmpty() && position != list.lastIndex
 
     override val available get() = HistoryMoveAvailable(isUndoAccess, isRedoAccess)
 
