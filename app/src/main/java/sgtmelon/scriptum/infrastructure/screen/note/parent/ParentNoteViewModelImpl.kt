@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
@@ -13,7 +14,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -44,6 +44,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
  */
 abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     init: NoteInit,
+    protected val inputControl: IInputControl,
     createNote: CreateNoteUseCase<N>,
     getNote: GetNoteUseCase<N>,
 
@@ -153,8 +154,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     fun setSaveControl(saveControl: SaveControl) {
         this.saveControl = saveControl
     }
-
-    protected var inputControl: IInputControl = InputControl()
 
     @Deprecated("Use new realization")
     protected lateinit var deprecatedNoteItem: N

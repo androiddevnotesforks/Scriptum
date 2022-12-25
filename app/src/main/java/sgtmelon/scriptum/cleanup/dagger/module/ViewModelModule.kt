@@ -8,6 +8,7 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -183,6 +184,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideTextNoteViewModel(
         init: NoteInit,
+        inputControl: IInputControl,
         createNote: CreateTextNoteUseCase,
         getNote: GetTextNoteUseCase,
 
@@ -203,7 +205,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            init, createNote, getNote,
+            init, inputControl, createNote, getNote,
 
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
@@ -221,6 +223,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideRollNoteViewModel(
         init: NoteInit,
+        inputControl: IInputControl,
         createNote: CreateRollNoteUseCase,
         getNote: GetRollNoteUseCase,
 
@@ -243,7 +246,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            init, createNote, getNote,
+            init, inputControl, createNote, getNote,
 
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
