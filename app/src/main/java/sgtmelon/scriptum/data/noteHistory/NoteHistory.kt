@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.cleanup.presentation.control.note.input
+package sgtmelon.scriptum.data.noteHistory
 
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
@@ -16,9 +16,9 @@ interface NoteHistory {
 
     fun reset()
 
-    fun undo(): InputItem?
+    fun undo(): HistoryItem?
 
-    fun redo(): InputItem?
+    fun redo(): HistoryItem?
 
     var isEnabled: Boolean
 
@@ -26,11 +26,11 @@ interface NoteHistory {
 
     fun onColorChange(valueFrom: Color, valueTo: Color)
 
-    fun onNameChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor)
+    fun onNameChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor)
 
-    fun onTextChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor)
+    fun onTextChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor)
 
-    fun onRollChange(p: Int, valueFrom: String, valueTo: String, cursor: InputItem.Cursor)
+    fun onRollChange(p: Int, valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor)
 
     fun onRollAdd(p: Int, valueTo: String)
 

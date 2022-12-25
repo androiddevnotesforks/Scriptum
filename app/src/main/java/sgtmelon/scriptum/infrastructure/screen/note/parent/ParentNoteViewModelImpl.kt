@@ -10,12 +10,12 @@ import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.extensions.toCalendar
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
+import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -367,11 +367,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     /**
-     * Function must describe logic of [isUndo] switch by [InputItem.tag].
+     * Function must describe logic of [isUndo] switch by [HistoryItem.tag].
      */
-    abstract fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean)
+    abstract fun onMenuUndoRedoSelect(item: HistoryItem, isUndo: Boolean)
 
-    protected fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
+    protected fun onMenuUndoRedoRank(item: HistoryItem, isUndo: Boolean) {
         val list = NumbersJoinConverter().toList(item[isUndo])
 
         if (list.size != 2) return
@@ -383,7 +383,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    protected fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
+    protected fun onMenuUndoRedoColor(item: HistoryItem, isUndo: Boolean) {
         val colorFrom = deprecatedNoteItem.color
 
         // TODO record exception
@@ -396,7 +396,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         callback?.tintToolbar(colorFrom, colorTo)
     }
 
-    protected fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
+    protected fun onMenuUndoRedoName(item: HistoryItem, isUndo: Boolean) {
         val text = item[isUndo]
         val position = item.cursor[isUndo]
 

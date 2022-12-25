@@ -39,7 +39,7 @@
 
         <variable
             name="inputAccess"
-            type="sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl.Access" />
+            type="sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl.Access" />
 
         <variable
             name="isEnterEmpty"

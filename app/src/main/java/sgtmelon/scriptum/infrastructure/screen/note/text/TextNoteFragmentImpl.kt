@@ -10,9 +10,9 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.data.noteHistory.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType

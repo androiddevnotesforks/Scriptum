@@ -4,7 +4,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
@@ -58,7 +58,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
                     val valueTo = c.toString()
 
                     inputControl.onNameChange(
-                        valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
+                        valueFrom, valueTo, HistoryItem.Cursor(valueFrom.length, valueTo.length)
                     )
                 }
 

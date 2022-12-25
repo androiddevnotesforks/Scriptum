@@ -2,13 +2,13 @@ package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
@@ -90,7 +90,7 @@ class TextNoteScreen(
         if (text.isEmpty()) {
             val valueFrom = shadowItem.text
             inputControl.onTextChange(
-                valueFrom, valueTo = "", cursor = InputItem.Cursor(valueFrom.length, 0)
+                valueFrom, valueTo = "", cursor = HistoryItem.Cursor(valueFrom.length, 0)
             )
         } else {
             for ((i, c) in text.withIndex()) {
@@ -98,7 +98,7 @@ class TextNoteScreen(
                 val valueTo = c.toString()
 
                 inputControl.onTextChange(
-                    valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
+                    valueFrom, valueTo, HistoryItem.Cursor(valueFrom.length, valueTo.length)
                 )
             }
         }

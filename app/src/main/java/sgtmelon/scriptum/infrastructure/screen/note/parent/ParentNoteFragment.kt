@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 

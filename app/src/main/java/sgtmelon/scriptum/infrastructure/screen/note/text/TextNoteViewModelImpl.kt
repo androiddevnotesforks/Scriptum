@@ -4,10 +4,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -182,7 +182,7 @@ class TextNoteViewModelImpl(
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this
-    override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
+    override fun onMenuUndoRedoSelect(item: HistoryItem, isUndo: Boolean) {
         history.isEnabled = false
 
         when (item.tag) {
@@ -196,7 +196,7 @@ class TextNoteViewModelImpl(
         history.isEnabled = true
     }
 
-    private fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoText(item: HistoryItem, isUndo: Boolean) {
         val text = item[isUndo]
         val cursor = item.cursor[isUndo]
 

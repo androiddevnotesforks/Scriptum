@@ -3,13 +3,13 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
- * Test for [InputItem].
+ * Test for [HistoryItem].
  */
-class InputItemTest : ParentTest() {
+class HistoryItemTest : ParentTest() {
 
     //region Data
 
@@ -18,15 +18,15 @@ class InputItemTest : ParentTest() {
     private val cursorFrom = 1
     private val cursorTo = 4
 
-    private val cursor = InputItem.Cursor(cursorFrom, cursorTo)
+    private val cursor = HistoryItem.Cursor(cursorFrom, cursorTo)
 
     //endregion
 
     @Test fun defaultValues() {
-        val item = InputItem(InputAction.COLOR, valueFrom, valueTo)
+        val item = HistoryItem(InputAction.COLOR, valueFrom, valueTo)
 
-        assertEquals(InputItem.ND_CURSOR, item.cursor)
-        assertEquals(InputItem.ND_POSITION, item.p)
+        assertEquals(HistoryItem.ND_CURSOR, item.cursor)
+        assertEquals(HistoryItem.ND_POSITION, item.p)
     }
 
 
@@ -38,7 +38,7 @@ class InputItemTest : ParentTest() {
     }
 
     @Test fun notThrowOnNameTag() {
-        InputItem(InputAction.NAME, valueFrom, valueTo, cursor)
+        HistoryItem(InputAction.NAME, valueFrom, valueTo, cursor)
     }
 
     @Test fun throwOnTextTag() {
@@ -49,7 +49,7 @@ class InputItemTest : ParentTest() {
     }
 
     @Test fun notThrowOnTextTag() {
-        InputItem(InputAction.TEXT, valueFrom, valueTo, cursor)
+        HistoryItem(InputAction.TEXT, valueFrom, valueTo, cursor)
     }
 
     @Test fun throwOnRollTag() {
@@ -60,28 +60,28 @@ class InputItemTest : ParentTest() {
     }
 
     @Test fun notThrowOnRollTag() {
-        InputItem(InputAction.ROLL, valueFrom, valueTo, cursor)
+        HistoryItem(InputAction.ROLL, valueFrom, valueTo, cursor)
     }
 
 
     @Test fun get() {
-        val item = InputItem(InputAction.TEXT, valueFrom, valueTo, cursor)
+        val item = HistoryItem(InputAction.TEXT, valueFrom, valueTo, cursor)
 
         assertEquals(valueFrom, item[true])
         assertEquals(valueTo, item[false])
     }
 
     @Test fun cursorGet() {
-        val item = InputItem(InputAction.TEXT, valueFrom, valueTo, cursor)
+        val item = HistoryItem(InputAction.TEXT, valueFrom, valueTo, cursor)
 
         assertEquals(cursorFrom, item.cursor[true])
         assertEquals(cursorTo, item.cursor[false])
     }
 
     @Test fun nullCursorGet() {
-        val item = InputItem(InputAction.COLOR, valueFrom, valueTo)
+        val item = HistoryItem(InputAction.COLOR, valueFrom, valueTo)
 
-        assertEquals(InputItem.Cursor.ND_VALUE, item.cursor[true])
-        assertEquals(InputItem.Cursor.ND_VALUE, item.cursor[false])
+        assertEquals(HistoryItem.Cursor.ND_VALUE, item.cursor[true])
+        assertEquals(HistoryItem.Cursor.ND_VALUE, item.cursor[false])
     }
 }

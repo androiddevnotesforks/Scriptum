@@ -4,9 +4,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 
 /**
  * Text watcher of enter text for [NoteHistoryImpl]
@@ -32,7 +32,7 @@ class InputTextWatcher(
 
         if (textFrom == textTo) return
 
-        val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
+        val cursorItem = HistoryItem.Cursor(cursorFrom, cursorTo)
 
         when (tag) {
             InputAction.NAME -> history.onNameChange(textFrom, textTo, cursorItem)

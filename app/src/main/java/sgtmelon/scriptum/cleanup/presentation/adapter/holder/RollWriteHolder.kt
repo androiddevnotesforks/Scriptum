@@ -9,11 +9,11 @@ import android.widget.EditText
 import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
@@ -92,7 +92,7 @@ class RollWriteHolder(
         if (textFrom == textTo) return
 
         textFrom?.let {
-            val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
+            val cursorItem = HistoryItem.Cursor(cursorFrom, cursorTo)
             val absolutePosition = callback.getAbsolutePosition(adapterPosition) ?: return
             history?.onRollChange(absolutePosition, it, textTo, cursorItem)
 

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.model.annotation
 
 import androidx.annotation.IntDef
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 
 /**
  * Describes actions in [NoteHistoryImpl]

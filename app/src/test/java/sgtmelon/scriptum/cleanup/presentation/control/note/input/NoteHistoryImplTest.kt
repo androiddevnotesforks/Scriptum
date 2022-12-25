@@ -13,8 +13,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
@@ -169,8 +170,8 @@ class NoteHistoryImplTest : ParentTest() {
     }
 
     @Test fun add() {
-        val firstItem = mockk<InputItem>()
-        val secondItem = mockk<InputItem>()
+        val firstItem = mockk<HistoryItem>()
+        val secondItem = mockk<HistoryItem>()
 
         every { spyHistory.clearToPosition() } returns Unit
         every { spyHistory.clearToSize() } returns Unit
@@ -265,15 +266,15 @@ class NoteHistoryImplTest : ParentTest() {
         val valueFrom = arrayOf(idFrom, psFrom).joinToString()
         val valueTo = arrayOf(idTo, psTo).joinToString()
 
-        val inputItem = InputItem(InputAction.RANK, valueFrom, valueTo)
+        val historyItem = HistoryItem(InputAction.RANK, valueFrom, valueTo)
 
-        every { spyHistory.add(inputItem) } returns Unit
+        every { spyHistory.add(historyItem) } returns Unit
 
         spyHistory.onRankChange(idFrom, psFrom, idTo, psTo)
 
         verifySequence {
             spyHistory.onRankChange(idFrom, psFrom, idTo, psTo)
-            spyHistory.add(inputItem)
+            spyHistory.add(historyItem)
         }
     }
 
@@ -283,7 +284,7 @@ class NoteHistoryImplTest : ParentTest() {
         val valueFromOrdinal = Random.nextInt()
         val valueToOrdinal = Random.nextInt()
 
-        val inputItem = InputItem(
+        val historyItem = HistoryItem(
             InputAction.COLOR,
             valueFromOrdinal.toString(),
             valueToOrdinal.toString()
@@ -291,7 +292,7 @@ class NoteHistoryImplTest : ParentTest() {
 
         every { valueFrom.ordinal } returns valueFromOrdinal
         every { valueTo.ordinal } returns valueToOrdinal
-        every { spyHistory.add(inputItem) } returns Unit
+        every { spyHistory.add(historyItem) } returns Unit
 
         spyHistory.onColorChange(valueFrom, valueTo)
 
@@ -299,41 +300,41 @@ class NoteHistoryImplTest : ParentTest() {
             spyHistory.onColorChange(valueFrom, valueTo)
             valueFrom.ordinal
             valueTo.ordinal
-            spyHistory.add(inputItem)
+            spyHistory.add(historyItem)
         }
     }
 
     @Test fun onNameChange() {
         val valueFrom = nextString()
         val valueTo = nextString()
-        val cursor = mockk<InputItem.Cursor>()
+        val cursor = mockk<HistoryItem.Cursor>()
 
-        val inputItem = InputItem(InputAction.NAME, valueFrom, valueTo, cursor)
+        val historyItem = HistoryItem(InputAction.NAME, valueFrom, valueTo, cursor)
 
-        every { spyHistory.add(inputItem) } returns Unit
+        every { spyHistory.add(historyItem) } returns Unit
 
         spyHistory.onNameChange(valueFrom, valueTo, cursor)
 
         verifySequence {
             spyHistory.onNameChange(valueFrom, valueTo, cursor)
-            spyHistory.add(inputItem)
+            spyHistory.add(historyItem)
         }
     }
 
     @Test fun onTextChange() {
         val valueFrom = nextString()
         val valueTo = nextString()
-        val cursor = mockk<InputItem.Cursor>()
+        val cursor = mockk<HistoryItem.Cursor>()
 
-        val inputItem = InputItem(InputAction.TEXT, valueFrom, valueTo, cursor)
+        val historyItem = HistoryItem(InputAction.TEXT, valueFrom, valueTo, cursor)
 
-        every { spyHistory.add(inputItem) } returns Unit
+        every { spyHistory.add(historyItem) } returns Unit
 
         spyHistory.onTextChange(valueFrom, valueTo, cursor)
 
         verifySequence {
             spyHistory.onTextChange(valueFrom, valueTo, cursor)
-            spyHistory.add(inputItem)
+            spyHistory.add(historyItem)
         }
     }
 
@@ -341,17 +342,17 @@ class NoteHistoryImplTest : ParentTest() {
         val p = Random.nextInt()
         val valueFrom = nextString()
         val valueTo = nextString()
-        val cursor = mockk<InputItem.Cursor>()
+        val cursor = mockk<HistoryItem.Cursor>()
 
-        val inputItem = InputItem(InputAction.ROLL, valueFrom, valueTo, cursor, p)
+        val historyItem = HistoryItem(InputAction.ROLL, valueFrom, valueTo, cursor, p)
 
-        every { spyHistory.add(inputItem) } returns Unit
+        every { spyHistory.add(historyItem) } returns Unit
 
         spyHistory.onRollChange(p, valueFrom, valueTo, cursor)
 
         verifySequence {
             spyHistory.onRollChange(p, valueFrom, valueTo, cursor)
-            spyHistory.add(inputItem)
+            spyHistory.add(historyItem)
         }
     }
 
@@ -359,15 +360,15 @@ class NoteHistoryImplTest : ParentTest() {
         val p = Random.nextInt()
         val valueTo = nextString()
 
-        val inputItem = InputItem(InputAction.ROLL_ADD, "", valueTo, null, p)
+        val historyItem = HistoryItem(InputAction.ROLL_ADD, "", valueTo, null, p)
 
-        every { spyHistory.add(inputItem) } returns Unit
+        every { spyHistory.add(historyItem) } returns Unit
 
         spyHistory.onRollAdd(p, valueTo)
 
         verifySequence {
             spyHistory.onRollAdd(p, valueTo)
-            spyHistory.add(inputItem)
+            spyHistory.add(historyItem)
         }
     }
 
@@ -375,15 +376,15 @@ class NoteHistoryImplTest : ParentTest() {
         val p = Random.nextInt()
         val valueFrom = nextString()
 
-        val inputItem = InputItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p)
+        val historyItem = HistoryItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p)
 
-        every { spyHistory.add(inputItem) } returns Unit
+        every { spyHistory.add(historyItem) } returns Unit
 
         spyHistory.onRollRemove(p, valueFrom)
 
         verifySequence {
             spyHistory.onRollRemove(p, valueFrom)
-            spyHistory.add(inputItem)
+            spyHistory.add(historyItem)
         }
     }
 
@@ -391,18 +392,19 @@ class NoteHistoryImplTest : ParentTest() {
         val valueFrom = Random.nextInt()
         val valueTo = Random.nextInt()
 
-        val inputItem = InputItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString())
+        val historyItem =
+            HistoryItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString())
 
-        every { spyHistory.add(inputItem) } returns Unit
+        every { spyHistory.add(historyItem) } returns Unit
 
         spyHistory.onRollMove(valueFrom, valueTo)
 
         verifySequence {
             spyHistory.onRollMove(valueFrom, valueTo)
-            spyHistory.add(inputItem)
+            spyHistory.add(historyItem)
         }
     }
 
-    private fun nextList() = MutableList<InputItem>(size = 5) { mockk() }
+    private fun nextList() = MutableList<HistoryItem>(size = 5) { mockk() }
 
 }

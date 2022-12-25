@@ -1,23 +1,23 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 
 /**
  * Model for [NoteHistoryImpl]
  */
-data class InputItem(
-        @InputAction val tag: Int,
-        private val valueFrom: String,
-        private val valueTo: String,
-        val cursor: Cursor? = ND_CURSOR,
-        val p: Int = ND_POSITION
+data class HistoryItem(
+    @InputAction val tag: Int,
+    private val valueFrom: String,
+    private val valueTo: String,
+    val cursor: Cursor? = ND_CURSOR,
+    val p: Int = ND_POSITION
 ) {
 
     init {
         if (tag == InputAction.NAME || tag == InputAction.TEXT || tag == InputAction.ROLL) {
             if (cursor == null) {
-                throw NullPointerException(InputItem::class.java.simpleName + "#cursor is null")
+                throw NullPointerException(HistoryItem::class.java.simpleName + "#cursor is null")
             }
         }
     }
@@ -39,7 +39,7 @@ data class InputItem(
     }
 
     /**
-     * Model for save text cursor inside [InputItem]
+     * Model for save text cursor inside [HistoryItem]
      */
     data class Cursor(val valueFrom: Int, val valueTo: Int) {
 

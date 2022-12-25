@@ -7,15 +7,15 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -326,7 +326,7 @@ class RollNoteViewModelImpl(
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this
-    override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
+    override fun onMenuUndoRedoSelect(item: HistoryItem, isUndo: Boolean) {
         history.isEnabled = false
 
         when (item.tag) {
@@ -342,7 +342,7 @@ class RollNoteViewModelImpl(
         history.isEnabled = true
     }
 
-    private fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoRoll(item: HistoryItem, isUndo: Boolean) {
         val rollItem = deprecatedNoteItem.list.getOrNull(item.p) ?: return
 
         /**
@@ -358,7 +358,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onMenuUndoRedoAdd(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoAdd(item: HistoryItem, isUndo: Boolean) {
         if (isUndo) {
             onRemoveItem(item)
         } else {
@@ -366,7 +366,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoRemove(item: HistoryItem, isUndo: Boolean) {
         if (isUndo) {
             onInsertItem(item, isUndo = true)
         } else {
@@ -374,7 +374,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onRemoveItem(item: InputItem) {
+    private fun onRemoveItem(item: HistoryItem) {
         val rollItem = deprecatedNoteItem.list.getOrNull(item.p) ?: return
         val adapterPosition = getAdapterList().validIndexOfFirst(rollItem)
 
@@ -396,7 +396,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onInsertItem(item: InputItem, isUndo: Boolean) {
+    private fun onInsertItem(item: HistoryItem, isUndo: Boolean) {
         val rollItem = RollItem[item[isUndo]] ?: return
 
         /**
@@ -412,7 +412,7 @@ class RollNoteViewModelImpl(
     }
 
     private fun getInsertPosition(
-        item: InputItem,
+        item: HistoryItem,
         rollItem: RollItem
     ): Int? = when {
         deprecatedNoteItem.isVisible -> item.p
@@ -421,7 +421,7 @@ class RollNoteViewModelImpl(
     }
 
     // TODO record exception
-    private fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoMove(item: HistoryItem, isUndo: Boolean) {
         val from = item[!isUndo].toIntOrNull() ?: return
         val to = item[isUndo].toIntOrNull() ?: return
 

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 
 /**

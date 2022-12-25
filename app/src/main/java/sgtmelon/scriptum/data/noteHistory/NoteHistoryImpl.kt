@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.cleanup.presentation.control.note.input
+package sgtmelon.scriptum.data.noteHistory
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.cleanup.domain.model.item.HistoryItem
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -10,7 +10,7 @@ import timber.log.Timber
 
 /**
  * Class for control input data inside note and work with undo/redo.
- * Model for store data: [InputItem]
+ * Model for store data: [HistoryItem]
  *
  * [InputAction] - Value which describes action:
  * Name change  - Text (before/after)
@@ -26,7 +26,7 @@ class NoteHistoryImpl : NoteHistory {
 
     private var logEnabled = BuildProvider.isDebug()
 
-    @RunPrivate val list = mutableListOf<InputItem>()
+    @RunPrivate val list = mutableListOf<HistoryItem>()
 
     /**
      * Position in [list]
@@ -43,11 +43,11 @@ class NoteHistoryImpl : NoteHistory {
         position = ND_POSITION
     }
 
-    override fun undo(): InputItem? = if (isUndoAccess) list.getOrNull(position--) else null
+    override fun undo(): HistoryItem? = if (isUndoAccess) list.getOrNull(position--) else null
 
-    override fun redo(): InputItem? = if (isRedoAccess) list.getOrNull(++position) else null
+    override fun redo(): HistoryItem? = if (isRedoAccess) list.getOrNull(++position) else null
 
-    @RunPrivate fun add(item: InputItem) {
+    @RunPrivate fun add(item: HistoryItem) {
         if (isEnabled) {
             clearToPosition()
             clearToSize()
@@ -92,36 +92,44 @@ class NoteHistoryImpl : NoteHistory {
         val valueFrom = arrayOf(idFrom, psFrom).joinToString()
         val valueTo = arrayOf(idTo, psTo).joinToString()
 
-        add(InputItem(InputAction.RANK, valueFrom, valueTo))
+        add(HistoryItem(InputAction.RANK, valueFrom, valueTo))
     }
 
     override fun onColorChange(valueFrom: Color, valueTo: Color) {
-        add(InputItem(InputAction.COLOR, valueFrom.ordinal.toString(), valueTo.ordinal.toString()))
+        add(
+            HistoryItem(
+                InputAction.COLOR,
+                valueFrom.ordinal.toString(),
+                valueTo.ordinal.toString()
+            )
+        )
     }
 
-    override fun onNameChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) {
-        add(InputItem(InputAction.NAME, valueFrom, valueTo, cursor))
+    override fun onNameChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor) {
+        add(HistoryItem(InputAction.NAME, valueFrom, valueTo, cursor))
     }
 
-    override fun onTextChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) {
-        add(InputItem(InputAction.TEXT, valueFrom, valueTo, cursor))
+    override fun onTextChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor) {
+        add(HistoryItem(InputAction.TEXT, valueFrom, valueTo, cursor))
     }
 
-    override fun onRollChange(p: Int, valueFrom: String, valueTo: String,
-                              cursor: InputItem.Cursor) {
-        add(InputItem(InputAction.ROLL, valueFrom, valueTo, cursor, p))
+    override fun onRollChange(
+        p: Int, valueFrom: String, valueTo: String,
+        cursor: HistoryItem.Cursor
+    ) {
+        add(HistoryItem(InputAction.ROLL, valueFrom, valueTo, cursor, p))
     }
 
     override fun onRollAdd(p: Int, valueTo: String) {
-        add(InputItem(InputAction.ROLL_ADD, "", valueTo, null, p))
+        add(HistoryItem(InputAction.ROLL_ADD, "", valueTo, null, p))
     }
 
     override fun onRollRemove(p: Int, valueFrom: String) {
-        add(InputItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p))
+        add(HistoryItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p))
     }
 
     override fun onRollMove(valueFrom: Int, valueTo: Int) {
-        add(InputItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
+        add(HistoryItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
     }
 
     @RunPrivate fun listAll() {
