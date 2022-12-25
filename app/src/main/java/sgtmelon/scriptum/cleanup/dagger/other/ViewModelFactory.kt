@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
@@ -171,7 +171,7 @@ object ViewModelFactory {
 
         class TextNote(
             private val init: NoteInit,
-            private val inputControl: IInputControl,
+            private val history: INoteHistory,
             private val createNote: CreateTextNoteUseCase,
             private val getNote: GetTextNoteUseCase,
 
@@ -195,7 +195,7 @@ object ViewModelFactory {
                 return modelClass.create(TextNoteViewModelImpl::class) {
                     val parentCallback = fragment.context as? NoteConnector
                     TextNoteViewModelImpl(
-                        init, inputControl, createNote, getNote,
+                        init, history, createNote, getNote,
 
                         // TODO cleanup
                         fragment, parentCallback, colorConverter, preferencesRepo,
@@ -209,7 +209,7 @@ object ViewModelFactory {
 
         class RollNote(
             private val init: NoteInit,
-            private val inputControl: IInputControl,
+            private val history: INoteHistory,
             private val createNote: CreateRollNoteUseCase,
             private val getNote: GetRollNoteUseCase,
 
@@ -235,7 +235,7 @@ object ViewModelFactory {
                 return modelClass.create(RollNoteViewModelImpl::class) {
                     val parentCallback = fragment.context as? NoteConnector
                     RollNoteViewModelImpl(
-                        init, inputControl, createNote, getNote,
+                        init, history, createNote, getNote,
 
                         // TODO cleanup
                         fragment, parentCallback, colorConverter, preferencesRepo,

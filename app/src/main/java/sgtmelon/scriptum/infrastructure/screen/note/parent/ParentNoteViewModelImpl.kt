@@ -13,7 +13,7 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -44,7 +44,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
  */
 abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     init: NoteInit,
-    protected val inputControl: IInputControl,
+    protected val history: INoteHistory,
     createNote: CreateNoteUseCase<N>,
     getNote: GetNoteUseCase<N>,
 
@@ -232,13 +232,13 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onResultColorDialog(check: Int) {
         val newColor = colorConverter.toEnum(check) ?: return
 
-        inputControl.onColorChange(deprecatedNoteItem.color, newColor)
+        history.onColorChange(deprecatedNoteItem.color, newColor)
 
         color.postValue(newColor)
         deprecatedNoteItem.color = newColor
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, history.access)
             tintToolbar(newColor)
         }
     }
@@ -247,7 +247,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launch {
             val rankId = runBack { getRankId(check) }
 
-            inputControl.onRankChange(
+            history.onRankChange(
                 deprecatedNoteItem.rankId,
                 deprecatedNoteItem.rankPs,
                 rankId,
@@ -260,7 +260,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             }
 
             callback?.apply {
-                onBindingInput(deprecatedNoteItem, inputControl.access)
+                onBindingInput(deprecatedNoteItem, history.access)
                 onBindingNote(deprecatedNoteItem)
             }
         }
@@ -357,13 +357,13 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private fun onMenuUndoRedo(isUndo: Boolean) {
         if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
 
-        val item = if (isUndo) inputControl.undo() else inputControl.redo()
+        val item = if (isUndo) history.undo() else history.redo()
 
         if (item != null) {
             onMenuUndoRedoSelect(item, isUndo)
         }
 
-        callback?.onBindingInput(deprecatedNoteItem, inputControl.access)
+        callback?.onBindingInput(deprecatedNoteItem, history.access)
     }
 
     /**
@@ -490,7 +490,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onInputTextChange() {
         if (!isNoteInitialized()) return
 
-        callback?.onBindingInput(deprecatedNoteItem, inputControl.access)
+        callback?.onBindingInput(deprecatedNoteItem, history.access)
     }
 
     //endregion

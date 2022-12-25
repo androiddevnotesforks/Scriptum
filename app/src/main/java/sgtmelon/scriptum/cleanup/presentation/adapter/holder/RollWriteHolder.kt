@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
@@ -27,7 +27,7 @@ class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
     dragListener: ItemDragListener,
     private val callback: Callback,
-    private val inputControl: IInputControl?
+    private val history: INoteHistory?
 ) : ParentHolder(binding.root),
     TextWatcher {
 
@@ -55,7 +55,7 @@ class RollWriteHolder(
     }
 
     fun bind(item: RollItem) {
-        inputControl?.isEnabled = false
+        history?.isEnabled = false
 
         // TODO remove databinding and use only view binding
         binding.apply {
@@ -63,7 +63,7 @@ class RollWriteHolder(
             this.descText = item.text
         }.executePendingBindings()
 
-        inputControl?.isEnabled = true
+        history?.isEnabled = true
     }
 
     /**
@@ -94,7 +94,7 @@ class RollWriteHolder(
         textFrom?.let {
             val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
             val absolutePosition = callback.getAbsolutePosition(adapterPosition) ?: return
-            inputControl?.onRollChange(absolutePosition, it, textTo, cursorItem)
+            history?.onRollChange(absolutePosition, it, textTo, cursorItem)
 
             textFrom = textTo
             cursorFrom = cursorTo

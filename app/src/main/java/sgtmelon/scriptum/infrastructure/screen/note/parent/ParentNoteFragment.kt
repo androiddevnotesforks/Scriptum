@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 
@@ -21,7 +21,7 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm
 
     fun onBindingNote(item: N)
 
-    fun onBindingInput(item: N, inputAccess: InputControl.Access)
+    fun onBindingInput(item: N, inputAccess: NoteHistory.Access)
 
 
     fun onPressBack(): Boolean

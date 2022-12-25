@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -43,7 +43,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
 class RollNoteViewModelImpl(
     init: NoteInit,
-    inputControl: IInputControl,
+    history: INoteHistory,
     createNote: CreateRollNoteUseCase,
     getNote: GetRollNoteUseCase,
 
@@ -66,7 +66,7 @@ class RollNoteViewModelImpl(
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
-    init, inputControl, createNote, getNote,
+    init, history, createNote, getNote,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
@@ -76,12 +76,12 @@ class RollNoteViewModelImpl(
 
     override fun setupBeforeInitialize() {
         callback?.apply {
-//            setupBinding()
+            //            setupBinding()
             //            color.value?.let { setupToolbar(it) }
-            setupEnter(inputControl)
-            setupRecycler(inputControl)
+            setupEnter(history)
+            setupRecycler(history)
 
-//            showToolbarVisibleIcon(isShow = false)
+            //            showToolbarVisibleIcon(isShow = false)
         }
     }
 
@@ -217,7 +217,7 @@ class RollNoteViewModelImpl(
 
         callback?.tintToolbar(colorFrom, colorTo)
         color.postValue(colorTo)
-        inputControl.reset()
+        history.reset()
 
         return true
     }
@@ -292,11 +292,11 @@ class RollNoteViewModelImpl(
         val p = if (simpleClick) deprecatedNoteItem.list.size else 0
         val rollItem = RollItem(position = p, text = enterText)
 
-        inputControl.onRollAdd(p, rollItem.toJson())
+        history.onRollAdd(p, rollItem.toJson())
         deprecatedNoteItem.list.add(p, rollItem)
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, history.access)
             scrollToItem(simpleClick, p, getAdapterList())
         }
     }
@@ -327,7 +327,7 @@ class RollNoteViewModelImpl(
 
     // TODO move undo/redo staff inside use case or something like this
     override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
-        inputControl.isEnabled = false
+        history.isEnabled = false
 
         when (item.tag) {
             InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
@@ -339,7 +339,7 @@ class RollNoteViewModelImpl(
             InputAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
         }
 
-        inputControl.isEnabled = true
+        history.isEnabled = true
     }
 
     private fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
@@ -459,7 +459,7 @@ class RollNoteViewModelImpl(
         if (changeMode) {
             callback?.hideKeyboard()
             setupEditMode(isEdit = false)
-            inputControl.reset()
+            history.reset()
         } else if (noteState.value == NoteState.CREATE) {
             /** Change toolbar icon from arrow to cancel for auto save case. */
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
@@ -492,7 +492,7 @@ class RollNoteViewModelImpl(
     }
 
     override fun setupEditMode(isEdit: Boolean) {
-        inputControl.isEnabled = false
+        history.isEnabled = false
 
         this.isEdit.postValue(isEdit)
 
@@ -505,7 +505,7 @@ class RollNoteViewModelImpl(
             )
 
             onBindingEdit(deprecatedNoteItem, isEdit)
-            onBindingInput(deprecatedNoteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, history.access)
             viewModelScope.launchBack { updateNoteState(isEdit, noteState) }
 
             if (isEdit) {
@@ -518,7 +518,7 @@ class RollNoteViewModelImpl(
         saveControl.isNeedSave = true
         saveControl.changeAutoSaveWork(isEdit)
 
-        inputControl.isEnabled = true
+        history.isEnabled = true
     }
 
     //endregion
@@ -529,7 +529,7 @@ class RollNoteViewModelImpl(
 
         callback?.apply {
             setList(getAdapterList())
-            onBindingInput(deprecatedNoteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, history.access)
         }
     }
 
@@ -577,10 +577,10 @@ class RollNoteViewModelImpl(
         val absolutePosition = getAbsolutePosition(p) ?: return
         val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
 
-        inputControl.onRollRemove(absolutePosition, item.toJson())
+        history.onRollRemove(absolutePosition, item.toJson())
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, history.access)
             notifyItemRemoved(getAdapterList(), p)
         }
     }
@@ -611,9 +611,9 @@ class RollNoteViewModelImpl(
         val absoluteFrom = getAbsolutePosition(from) ?: return
         val absoluteTo = getAbsolutePosition(to) ?: return
 
-        inputControl.onRollMove(absoluteFrom, absoluteTo)
+        history.onRollMove(absoluteFrom, absoluteTo)
 
-        callback?.onBindingInput(deprecatedNoteItem, inputControl.access)
+        callback?.onBindingInput(deprecatedNoteItem, history.access)
     }
 
     //endregion

@@ -22,7 +22,7 @@ import timber.log.Timber
  * Roll swipe   - Roll number: value
  * Roll move    - Move position (before/after)
  */
-class InputControl : IInputControl {
+class NoteHistory : INoteHistory {
 
     private var logEnabled = BuildProvider.isDebug()
 
@@ -76,7 +76,7 @@ class InputControl : IInputControl {
      * If list size bigger than max size, then need clear first N items.
      */
     @RunPrivate fun clearToSize() {
-        while (list.size >= BuildProvider.inputControlMaxSize()) {
+        while (list.size >= BuildProvider.noteHistoryMaxSize()) {
             list.removeAtOrNull(0)
             position--
         }

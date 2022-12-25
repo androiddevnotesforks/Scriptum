@@ -4,11 +4,16 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
- * Interface for communicate with [InputControl].
+ * Interface for communicate with [NoteHistory].
  */
-interface IInputControl {
+// TODO rename NoteHistory, NoteHistoryImpl
+// TODO add different interfaces for different noteType: Text, Roll
+// TODO pass different interfaces to viewmodels by noteType
+// TODO move to data module
+// TODO add tests
+interface INoteHistory {
 
-    val access: InputControl.Access
+    val access: NoteHistory.Access
 
     fun reset()
 

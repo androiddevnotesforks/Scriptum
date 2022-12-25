@@ -25,8 +25,8 @@ import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
@@ -128,12 +128,12 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         open.isBlocked = inAction
     }
 
-    override fun setupEnter(inputControl: IInputControl) {
+    override fun setupEnter(history: INoteHistory) {
         binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(
-                InputTextWatcher(it, InputAction.NAME, viewModel, inputControl)
+                InputTextWatcher(it, InputAction.NAME, viewModel, history)
             )
 
             it.addOnNextAction { onFocusEnter() }
@@ -161,9 +161,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
 
-    override fun setupRecycler(inputControl: IInputControl) {
+    override fun setupRecycler(history: INoteHistory) {
         adapter.apply {
-            this.inputControl = inputControl
+            this.history = history
 
             registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 /**
@@ -223,7 +223,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
 
-    override fun onBindingInput(item: NoteItem.Roll, inputAccess: InputControl.Access) {
+    override fun onBindingInput(item: NoteItem.Roll, inputAccess: NoteHistory.Access) {
         binding?.apply {
             this.item = item
             this.inputAccess = inputAccess

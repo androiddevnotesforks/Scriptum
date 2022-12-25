@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
@@ -33,7 +33,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
 class TextNoteViewModelImpl(
     init: NoteInit,
-    inputControl: IInputControl,
+    history: INoteHistory,
     createNote: CreateTextNoteUseCase,
     getNote: GetTextNoteUseCase,
 
@@ -54,7 +54,7 @@ class TextNoteViewModelImpl(
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Text, TextNoteFragment>(
-    init, inputControl, createNote, getNote,
+    init, history, createNote, getNote,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
@@ -65,7 +65,7 @@ class TextNoteViewModelImpl(
     override fun setupBeforeInitialize() {
         //        callback?.setupBinding()
         //        color.value?.let { callback?.setupToolbar(it) }
-        callback?.setupEnter(inputControl)
+        callback?.setupEnter(history)
     }
 
     override suspend fun tryInitializeNote(): Boolean {
@@ -174,7 +174,7 @@ class TextNoteViewModelImpl(
 
         callback?.tintToolbar(colorFrom, colorTo)
         color.postValue(colorTo)
-        inputControl.reset()
+        history.reset()
 
         return true
     }
@@ -183,7 +183,7 @@ class TextNoteViewModelImpl(
 
     // TODO move undo/redo staff inside use case or something like this
     override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
-        inputControl.isEnabled = false
+        history.isEnabled = false
 
         when (item.tag) {
             InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
@@ -193,7 +193,7 @@ class TextNoteViewModelImpl(
             else -> Unit
         }
 
-        inputControl.isEnabled = true
+        history.isEnabled = true
     }
 
     private fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
@@ -216,7 +216,7 @@ class TextNoteViewModelImpl(
         if (changeMode) {
             callback?.hideKeyboard()
             setupEditMode(isEdit = false)
-            inputControl.reset()
+            history.reset()
         } else if (noteState.value == NoteState.CREATE) {
             /** Change toolbar icon from arrow to cancel for auto save case. */
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
@@ -241,7 +241,7 @@ class TextNoteViewModelImpl(
     }
 
     override fun setupEditMode(isEdit: Boolean) {
-        inputControl.isEnabled = false
+        history.isEnabled = false
 
         this.isEdit.postValue(isEdit)
 
@@ -254,7 +254,7 @@ class TextNoteViewModelImpl(
             )
 
             onBindingEdit(deprecatedNoteItem, isEdit)
-            onBindingInput(deprecatedNoteItem, inputControl.access)
+            onBindingInput(deprecatedNoteItem, history.access)
 
             if (isEdit) focusOnEdit(isCreate = noteState == NoteState.CREATE)
         }
@@ -262,7 +262,7 @@ class TextNoteViewModelImpl(
         saveControl.isNeedSave = true
         saveControl.changeAutoSaveWork(isEdit)
 
-        inputControl.isEnabled = true
+        history.isEnabled = true
     }
 
     //endregion

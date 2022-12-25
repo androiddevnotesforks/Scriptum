@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 
@@ -13,9 +13,9 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun setTouchAction(inAction: Boolean)
 
-    fun setupEnter(inputControl: IInputControl)
+    fun setupEnter(history: INoteHistory)
 
-    fun setupRecycler(inputControl: IInputControl)
+    fun setupRecycler(history: INoteHistory)
 
     /**
      * Need hide toolbar visible icon before information completely load.

@@ -5,17 +5,17 @@ import android.text.TextWatcher
 import android.widget.EditText
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 
 /**
- * Text watcher of enter text for [InputControl]
+ * Text watcher of enter text for [NoteHistory]
  */
 class InputTextWatcher(
-        private val view: EditText?,
-        @InputAction private val tag: Int,
-        private val callback: Callback,
-        private val inputControl: IInputControl
+    private val view: EditText?,
+    @InputAction private val tag: Int,
+    private val callback: Callback,
+    private val history: INoteHistory
 ) : TextWatcher {
 
     private var textFrom = ""
@@ -35,8 +35,8 @@ class InputTextWatcher(
         val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
 
         when (tag) {
-            InputAction.NAME -> inputControl.onNameChange(textFrom, textTo, cursorItem)
-            InputAction.TEXT -> inputControl.onTextChange(textFrom, textTo, cursorItem)
+            InputAction.NAME -> history.onNameChange(textFrom, textTo, cursorItem)
+            InputAction.TEXT -> history.onTextChange(textFrom, textTo, cursorItem)
         }
 
         textFrom = textTo

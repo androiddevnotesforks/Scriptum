@@ -3,15 +3,15 @@ package sgtmelon.scriptum.cleanup.dagger.module.data
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 
 @Module
 class NoteHistoryModule {
 
     @Provides
     @Singleton
-    fun provideNoteHistory(): IInputControl {
-        return InputControl()
+    fun provideNoteHistory(): INoteHistory {
+        return NoteHistory()
     }
 }

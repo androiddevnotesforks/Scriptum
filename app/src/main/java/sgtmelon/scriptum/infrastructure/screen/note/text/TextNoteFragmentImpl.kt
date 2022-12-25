@@ -10,8 +10,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
@@ -62,12 +62,12 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             .inject(fragment = this)
     }
 
-    override fun setupEnter(inputControl: IInputControl) {
+    override fun setupEnter(history: INoteHistory) {
         binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(it, InputAction.NAME, viewModel, inputControl)
+                InputTextWatcher(it, InputAction.NAME, viewModel, history)
             )
             it.addOnNextAction {
                 binding?.textEnter?.apply {
@@ -83,7 +83,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             binding?.textEnter,
             InputAction.TEXT,
             viewModel,
-            inputControl
+            history
         )
         binding?.textEnter?.addTextChangedListener(inputWatcher)
     }
@@ -107,7 +107,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         }?.executePendingBindings()
     }
 
-    override fun onBindingInput(item: NoteItem.Text, inputAccess: InputControl.Access) {
+    override fun onBindingInput(item: NoteItem.Text, inputAccess: NoteHistory.Access) {
         binding?.apply {
             this.item = item
             this.inputAccess = inputAccess

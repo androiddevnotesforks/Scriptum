@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
@@ -25,7 +25,7 @@ class RollAdapter(
     private val clickListener: ItemListener.ActionClick
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
-    var inputControl: IInputControl? = null
+    var history: INoteHistory? = null
 
     var isEdit: Boolean? = null
     var noteState: NoteState? = null
@@ -35,7 +35,7 @@ class RollAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         Type.WRITE -> RollWriteHolder(
             parent.inflateBinding(R.layout.item_roll_write),
-            dragListener, rollWriteCallback, inputControl
+            dragListener, rollWriteCallback, history
         )
         else -> RollReadHolder(parent.inflateBinding(R.layout.item_roll_read), clickListener)
     }
