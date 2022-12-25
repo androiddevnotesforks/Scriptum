@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.RollItemUi
@@ -108,7 +108,7 @@ class RollNoteScreen(
 
     override var shadowItem: NoteItem.Roll = item.deepCopy()
 
-    override val inputControl = NoteHistory()
+    override val inputControl = NoteHistoryImpl()
 
     override fun fullAssert() = apply {
         assert()

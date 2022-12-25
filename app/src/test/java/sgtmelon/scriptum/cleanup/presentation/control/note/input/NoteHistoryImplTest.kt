@@ -20,18 +20,18 @@ import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [NoteHistory].
+ * Test for [NoteHistoryImpl].
  */
-class NoteHistoryTest : ParentTest() {
+class NoteHistoryImplTest : ParentTest() {
 
-    private val history by lazy { NoteHistory() }
+    private val history by lazy { NoteHistoryImpl() }
     private val spyHistory by lazy { spyk(history) }
 
     @Before override fun setUp() {
         super.setUp()
 
         assertTrue(history.list.isEmpty())
-        assertEquals(NoteHistory.ND_POSITION, history.position)
+        assertEquals(NoteHistoryImpl.ND_POSITION, history.position)
         assertTrue(history.isEnabled)
     }
 
@@ -43,7 +43,7 @@ class NoteHistoryTest : ParentTest() {
         assertFalse(history.isUndoAccess)
 
         history.list.addAll(nextList())
-        history.position = NoteHistory.ND_POSITION
+        history.position = NoteHistoryImpl.ND_POSITION
         assertFalse(history.isUndoAccess)
 
         history.position = Random.nextInt()
@@ -68,7 +68,7 @@ class NoteHistoryTest : ParentTest() {
     @Test fun access() {
         val isUndoAccess = Random.nextBoolean()
         val isRedoAccess = Random.nextBoolean()
-        val access = NoteHistory.Access(isUndoAccess, isRedoAccess)
+        val access = NoteHistoryImpl.Access(isUndoAccess, isRedoAccess)
 
         every { spyHistory.isUndoAccess } returns isUndoAccess
         every { spyHistory.isRedoAccess } returns isRedoAccess
@@ -91,7 +91,7 @@ class NoteHistoryTest : ParentTest() {
         history.reset()
 
         assertTrue(history.list.isEmpty())
-        assertEquals(NoteHistory.ND_POSITION, history.position)
+        assertEquals(NoteHistoryImpl.ND_POSITION, history.position)
     }
 
     @Test fun undo() {
@@ -100,11 +100,11 @@ class NoteHistoryTest : ParentTest() {
 
         every { spyHistory.isUndoAccess } returns false
         assertNull(spyHistory.undo())
-        assertEquals(NoteHistory.ND_POSITION, spyHistory.position)
+        assertEquals(NoteHistoryImpl.ND_POSITION, spyHistory.position)
 
         every { spyHistory.isUndoAccess } returns true
         assertNull(spyHistory.undo())
-        assertEquals(NoteHistory.ND_POSITION - 1, spyHistory.position)
+        assertEquals(NoteHistoryImpl.ND_POSITION - 1, spyHistory.position)
 
         spyHistory.list.addAll(list)
         spyHistory.position = position
@@ -137,11 +137,11 @@ class NoteHistoryTest : ParentTest() {
 
         every { spyHistory.isRedoAccess } returns false
         assertNull(spyHistory.redo())
-        assertEquals(NoteHistory.ND_POSITION, spyHistory.position)
+        assertEquals(NoteHistoryImpl.ND_POSITION, spyHistory.position)
 
         every { spyHistory.isRedoAccess } returns true
         assertNull(spyHistory.redo())
-        assertEquals(NoteHistory.ND_POSITION + 1, spyHistory.position)
+        assertEquals(NoteHistoryImpl.ND_POSITION + 1, spyHistory.position)
 
         spyHistory.list.addAll(list)
         spyHistory.position = position

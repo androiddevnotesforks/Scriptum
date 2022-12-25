@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 
@@ -25,7 +25,7 @@ interface INoteScreen<T : ParentScreen, N : NoteItem> {
 
     val isRankEmpty: Boolean
 
-    val inputControl: NoteHistory
+    val inputControl: NoteHistoryImpl
 
     fun fullAssert(): T
 

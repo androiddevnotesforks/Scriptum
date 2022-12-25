@@ -22,7 +22,7 @@ import timber.log.Timber
  * Roll swipe   - Roll number: value
  * Roll move    - Move position (before/after)
  */
-class NoteHistory : INoteHistory {
+class NoteHistoryImpl : INoteHistory {
 
     private var logEnabled = BuildProvider.isDebug()
 

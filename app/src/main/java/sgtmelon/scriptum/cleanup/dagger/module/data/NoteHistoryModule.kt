@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 
 @Module
 class NoteHistoryModule {
@@ -12,6 +12,6 @@ class NoteHistoryModule {
     @Provides
     @Singleton
     fun provideNoteHistory(): INoteHistory {
-        return NoteHistory()
+        return NoteHistoryImpl()
     }
 }

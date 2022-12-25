@@ -4,7 +4,7 @@ import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
@@ -75,7 +75,7 @@ class TextNoteScreen(
 
     override var shadowItem: NoteItem.Text = item.deepCopy()
 
-    override val inputControl = NoteHistory()
+    override val inputControl = NoteHistoryImpl()
 
     override fun fullAssert() = apply {
         assert()

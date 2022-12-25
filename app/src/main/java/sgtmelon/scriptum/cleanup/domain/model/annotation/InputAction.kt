@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.domain.model.annotation
 
 import androidx.annotation.IntDef
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 
 /**
- * Describes actions in [NoteHistory]
+ * Describes actions in [NoteHistoryImpl]
  */
 @IntDef(
         InputAction.RANK, InputAction.COLOR,

@@ -4,7 +4,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 
 /**
- * Interface for communicate with [NoteHistory].
+ * Interface for communicate with [NoteHistoryImpl].
  */
 // TODO rename NoteHistory, NoteHistoryImpl
 // TODO add different interfaces for different noteType: Text, Roll
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 // TODO add tests
 interface INoteHistory {
 
-    val access: NoteHistory.Access
+    val access: NoteHistoryImpl.Access
 
     fun reset()
 

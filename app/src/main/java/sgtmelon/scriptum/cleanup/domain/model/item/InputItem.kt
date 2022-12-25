@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 
 /**
- * Model for [NoteHistory]
+ * Model for [NoteHistoryImpl]
  */
 data class InputItem(
         @InputAction val tag: Int,

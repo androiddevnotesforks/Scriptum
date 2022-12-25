@@ -6,10 +6,10 @@ import android.widget.EditText
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.INoteHistory
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistory
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.NoteHistoryImpl
 
 /**
- * Text watcher of enter text for [NoteHistory]
+ * Text watcher of enter text for [NoteHistoryImpl]
  */
 class InputTextWatcher(
     private val view: EditText?,
