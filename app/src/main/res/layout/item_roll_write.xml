@@ -16,7 +16,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/roll_write_parent_card"
+        android:id="@+id/parent_container"
         style="@style/Card.Item.Common">
 
         <LinearLayout
@@ -30,11 +30,11 @@
                 tools:background="@color/accent_ripple_light">
 
                 <CheckBox
-                    android:id="@+id/roll_write_check"
+                    android:id="@+id/check_box"
                     style="@style/Button.Roll.Write" />
 
                 <ImageButton
-                    android:id="@+id/roll_write_drag_button"
+                    android:id="@+id/drag_button"
                     style="@style/Container.Roll.Click"
                     android:contentDescription='@{@string/description_item_roll_move + " " + descText}'
                     app:boolExpression='@{item.check}'
@@ -46,7 +46,7 @@
             </FrameLayout>
 
             <EditText
-                android:id="@+id/roll_write_enter"
+                android:id="@+id/text_enter"
                 style="@style/EditText.Roll"
                 android:hint="@string/hind_enter_roll_empty"
                 android:imeOptions="flagNoFullscreen"

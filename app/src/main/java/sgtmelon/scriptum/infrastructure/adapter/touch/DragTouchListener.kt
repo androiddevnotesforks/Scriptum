@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.adapter.touch
 
+import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
@@ -12,6 +13,7 @@ class DragTouchListener(
     private val dragView: View
 ) : View.OnTouchListener {
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN) {
             listener.setDrag(v?.id == dragView.id)

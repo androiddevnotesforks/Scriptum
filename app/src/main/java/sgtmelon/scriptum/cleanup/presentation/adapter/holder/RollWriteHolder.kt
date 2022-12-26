@@ -3,12 +3,9 @@ package sgtmelon.scriptum.cleanup.presentation.adapter.holder
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
@@ -32,19 +29,15 @@ class RollWriteHolder(
 ) : ParentHolder(binding.root),
     TextWatcher {
 
-    /**
-     * Button fro drag
-     */
-    private val dragView: View = itemView.findViewById(R.id.roll_write_drag_button)
-    private val rollEnter: EditText = itemView.findViewById(R.id.roll_write_enter)
-
     init {
-        val touchListener = DragTouchListener(dragListener, dragView)
-        rollEnter.apply {
-            setRawInputType(InputType.TYPE_CLASS_TEXT
-                    or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-                    or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                    or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+        val touchListener = DragTouchListener(dragListener, binding.dragButton)
+
+        binding.textEnter.apply {
+            setRawInputType(
+                InputType.TYPE_CLASS_TEXT
+                        or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+                        or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                        or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
             )
             imeOptions = EditorInfo.IME_ACTION_NEXT or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
@@ -52,7 +45,8 @@ class RollWriteHolder(
             addTextChangedListener(this@RollWriteHolder)
             setOnTouchListener(touchListener)
         }
-        dragView.setOnTouchListener(touchListener)
+
+        binding.dragButton.setOnTouchListener(touchListener)
     }
 
     fun bind(item: RollItem) {
@@ -71,42 +65,42 @@ class RollWriteHolder(
      * TODO #ERROR error on fast add/remove
      * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
      */
-    fun setSelections(@IntRange(from = 0) position: Int) = rollEnter.apply {
+    fun setSelections(@IntRange(from = 0) position: Int) = binding.textEnter.apply {
         requestFocus()
         setSelection(if (position > text.toString().length) text.toString().length else position)
     }
 
     // TODO may be somehow apply HistoryTextWatcher?
 
-    private var textFrom: String? = null
+    private var valueFrom: String = ""
     private var cursorFrom = 0
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-        textFrom = s.toString()
-        cursorFrom = rollEnter.selectionEnd
+        valueFrom = s.toString()
+        cursorFrom = binding.textEnter.selectionEnd
     }
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        if (adapterPosition == RecyclerView.NO_POSITION) return
+        val valueTo = s.toString()
+        val cursorTo = binding.textEnter.selectionEnd
 
-        val textTo = s.toString()
-        val cursorTo = rollEnter.selectionEnd
+        if (valueFrom == valueTo) return
 
-        if (textFrom == textTo) return
-
-        textFrom?.let {
-            val absolutePosition = callback.getAbsolutePosition(adapterPosition) ?: return
-
-            val action = HistoryAction.Roll.Enter(
-                absolutePosition,
-                HistoryChange(it, textTo),
-                HistoryChange(cursorFrom, cursorTo)
-            )
-            history?.add(action)
-
-            textFrom = textTo
-            cursorFrom = cursorTo
+        val position = adapterPosition
+        if (position != RecyclerView.NO_POSITION) {
+            val absolutePosition = callback.getAbsolutePosition(position)
+            if (absolutePosition != null) {
+                val action = HistoryAction.Roll.Enter(
+                    absolutePosition,
+                    HistoryChange(valueFrom, valueTo),
+                    HistoryChange(cursorFrom, cursorTo)
+                )
+                history?.add(action)
+            }
         }
+
+        valueFrom = valueTo
+        cursorFrom = cursorTo
     }
 
     override fun afterTextChanged(s: Editable) {
