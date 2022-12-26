@@ -7,7 +7,8 @@ import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
-import sgtmelon.scriptum.data.noteHistory.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
@@ -89,17 +90,23 @@ class TextNoteScreen(
 
         if (text.isEmpty()) {
             val valueFrom = shadowItem.text
-            history.onTextEnter(
-                valueFrom, valueTo = "", cursor = HistoryItem.Cursor(valueFrom.length, 0)
+
+            /** Remember what text isEmpty - valueTo="", cursorTo=0 */
+            val action = HistoryAction.Text.Enter(
+                HistoryChange(valueFrom, text),
+                HistoryChange(valueFrom.length, text.length)
             )
+            history.add(action)
         } else {
             for ((i, c) in text.withIndex()) {
                 val valueFrom = if (i == 0) shadowItem.text else text[i - 1].toString()
                 val valueTo = c.toString()
 
-                history.onTextEnter(
-                    valueFrom, valueTo, HistoryItem.Cursor(valueFrom.length, valueTo.length)
+                val action = HistoryAction.Text.Enter(
+                    HistoryChange(valueFrom, valueTo),
+                    HistoryChange(valueFrom.length, valueTo.length)
                 )
+                history.add(action)
             }
         }
 

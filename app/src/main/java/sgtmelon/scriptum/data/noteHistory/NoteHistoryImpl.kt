@@ -2,7 +2,6 @@ package sgtmelon.scriptum.data.noteHistory
 
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import timber.log.Timber
 
 /**
@@ -64,51 +63,8 @@ class NoteHistoryImpl : NoteHistory {
         }
     }
 
-
-    /**
-     * Variable for prevent changes.
-     */
+    /** Variable for prevent changes. */
     override var isEnabled = true
-
-    override fun onRank(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int) {
-        val valueFrom = arrayOf(idFrom, psFrom).joinToString()
-        val valueTo = arrayOf(idTo, psTo).joinToString()
-
-        //        add(HistoryItem(HistoryAction.Rank, valueFrom, valueTo))
-    }
-
-    override fun onColor(valueFrom: Color, valueTo: Color) {
-        //        add(
-        //            HistoryItem(
-        //                HistoryAction.Color,
-        //                valueFrom.ordinal.toString(),
-        //                valueTo.ordinal.toString()
-        //            )
-        //        )
-    }
-
-    override fun onTextEnter(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor) {
-        //        add(HistoryItem(HistoryAction.TEXT_CHANGE, valueFrom, valueTo, cursor))
-    }
-
-    override fun onRollEnter(
-        p: Int, valueFrom: String, valueTo: String,
-        cursor: HistoryItem.Cursor
-    ) {
-        //        add(HistoryItem(HistoryAction.ROLL_CHANGE, valueFrom, valueTo, cursor, p))
-    }
-
-    override fun onRollAdd(p: Int, valueTo: String) {
-        //        add(HistoryItem(HistoryAction.ROLL_ADD, "", valueTo, null, p))
-    }
-
-    override fun onRollRemove(p: Int, valueFrom: String) {
-        //        add(HistoryItem(HistoryAction.ROLL_REMOVE, valueFrom, "", null, p))
-    }
-
-    override fun onRollMove(valueFrom: Int, valueTo: Int) {
-        //        add(HistoryItem(HistoryAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
-    }
 
     private fun listAll() {
         if (!BuildProvider.isDebug()) return

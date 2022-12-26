@@ -13,8 +13,8 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
-import sgtmelon.scriptum.data.noteHistory.HistoryItem
-import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -30,7 +30,6 @@ import sgtmelon.scriptum.domain.useCase.note.getNote.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -232,7 +231,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onResultColorDialog(check: Int) {
         val newColor = colorConverter.toEnum(check) ?: return
 
-        history.onColor(deprecatedNoteItem.color, newColor)
+        history.add(HistoryAction.Color(HistoryChange(deprecatedNoteItem.color, newColor)))
 
         color.postValue(newColor)
         deprecatedNoteItem.color = newColor
@@ -247,12 +246,12 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launch {
             val rankId = runBack { getRankId(check) }
 
-            history.onRank(
-                deprecatedNoteItem.rankId,
-                deprecatedNoteItem.rankPs,
-                rankId,
-                check
+            /** Need save data in history, before update it for [deprecatedNoteItem]. */
+            val historyAction = HistoryAction.Rank(
+                HistoryChange(deprecatedNoteItem.rankId, rankId),
+                HistoryChange(deprecatedNoteItem.rankPs, check)
             )
+            history.add(historyAction)
 
             deprecatedNoteItem.apply {
                 this.rankId = rankId
@@ -357,38 +356,30 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private fun onMenuUndoRedo(isUndo: Boolean) {
         if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
 
-        //        val item = if (isUndo) history.undo() else history.redo()
-        //
-        //        if (item != null) {
-        //            onMenuUndoRedoSelect(item, isUndo)
-        //        }
+        val item = if (isUndo) history.undo() else history.redo()
+        if (item != null) {
+            onMenuUndoRedoSelect(item, isUndo)
+        }
 
         callback?.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     /**
-     * Function must describe logic of [isUndo] switch by [HistoryItem.tag].
+     * TODO refactor description.
+     * Function must describe logic of [isUndo] switch by [HistoryAction] class.
      */
-    abstract fun onMenuUndoRedoSelect(item: HistoryItem, isUndo: Boolean)
+    abstract fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean)
 
-    protected fun onMenuUndoRedoRank(item: HistoryItem, isUndo: Boolean) {
-        val list = NumbersJoinConverter().toList(item[isUndo])
-
-        if (list.size != 2) return
-
-        // TODO assertSize and record exception in bad case
+    protected fun onMenuUndoRedoRank(action: HistoryAction.Rank, isUndo: Boolean) {
         deprecatedNoteItem.apply {
-            rankId = list.firstOrNull() ?: return
-            rankPs = list.lastOrNull()?.toInt() ?: return
+            rankId = action.id[isUndo]
+            rankPs = action.position[isUndo]
         }
     }
 
-    protected fun onMenuUndoRedoColor(item: HistoryItem, isUndo: Boolean) {
+    protected fun onMenuUndoRedoColor(action: HistoryAction.Color, isUndo: Boolean) {
         val colorFrom = deprecatedNoteItem.color
-
-        // TODO record exception
-        val colorOrdinalTo = item[isUndo].toIntOrNull() ?: return
-        val colorTo = colorConverter.toEnum(colorOrdinalTo) ?: return
+        val colorTo = action.value[isUndo]
 
         color.postValue(colorTo)
         deprecatedNoteItem.color = colorTo
@@ -396,11 +387,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         callback?.tintToolbar(colorFrom, colorTo)
     }
 
-    protected fun onMenuUndoRedoName(item: HistoryItem, isUndo: Boolean) {
-        val text = item[isUndo]
-        val position = item.cursor[isUndo]
-
-        callback?.changeName(text, position)
+    protected fun onMenuUndoRedoName(action: HistoryAction.Name, isUndo: Boolean) {
+        callback?.changeName(action.value[isUndo], action.cursor[isUndo])
     }
 
 

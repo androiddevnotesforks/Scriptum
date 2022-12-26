@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.data.noteHistory
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color as AppColor
 
 /**
  * Describes actions for [NoteHistoryImpl]
@@ -17,7 +18,7 @@ sealed class HistoryAction {
         val position: HistoryChange<Int>
     ) : HistoryAction()
 
-    data class Color(val value: HistoryChange<Color>) : HistoryAction()
+    data class Color(val value: HistoryChange<AppColor>) : HistoryAction()
 
     sealed class Text : HistoryAction() {
 
@@ -25,7 +26,6 @@ sealed class HistoryAction {
             val value: HistoryChange<String>,
             val cursor: HistoryChange<Int>
         ) : HistoryAction()
-
     }
 
     sealed class Roll : HistoryAction() {
@@ -36,11 +36,13 @@ sealed class HistoryAction {
             val cursor: HistoryChange<Int>
         ) : Roll()
 
-        data class Add(val p: Int, val item: RollItem) : Roll()
+        sealed class List(val p: Int, val item: RollItem) : Roll() {
 
-        data class Remove(val p: Int, val item: RollItem) : Roll()
+            class Add(p: Int, item: RollItem) : List(p, item)
+
+            class Remove(p: Int, item: RollItem) : List(p, item)
+        }
 
         data class Move(val value: HistoryChange<Int>) : Roll()
-
     }
 }

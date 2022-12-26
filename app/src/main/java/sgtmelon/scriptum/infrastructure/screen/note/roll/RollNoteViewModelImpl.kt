@@ -12,8 +12,8 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.data.noteHistory.HistoryItem
-import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -291,7 +291,7 @@ class RollNoteViewModelImpl(
         val p = if (simpleClick) deprecatedNoteItem.list.size else 0
         val rollItem = RollItem(position = p, text = enterText)
 
-        history.onRollAdd(p, rollItem.toJson())
+        history.add(HistoryAction.Roll.List.Add(p, rollItem))
         deprecatedNoteItem.list.add(p, rollItem)
 
         callback?.apply {
@@ -325,69 +325,66 @@ class RollNoteViewModelImpl(
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this
-    override fun onMenuUndoRedoSelect(item: HistoryItem, isUndo: Boolean) {
+    override fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean) {
         history.isEnabled = false
 
-        //        when (item.tag) {
-        //            HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
-        //            HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
-        //            HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
-        //            HistoryAction.ROLL_CHANGE -> onMenuUndoRedoRoll(item, isUndo)
-        //            HistoryAction.ROLL_ADD -> onMenuUndoRedoAdd(item, isUndo)
-        //            HistoryAction.ROLL_REMOVE -> onMenuUndoRedoRemove(item, isUndo)
-        //            HistoryAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
-        //        }
+        when (action) {
+            is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
+            is HistoryAction.Rank -> onMenuUndoRedoRank(action, isUndo)
+            is HistoryAction.Color -> onMenuUndoRedoColor(action, isUndo)
+            is HistoryAction.Roll.Enter -> onMenuUndoRedoRoll(action, isUndo)
+            is HistoryAction.Roll.List.Add -> onMenuUndoRedoAdd(action, isUndo)
+            is HistoryAction.Roll.List.Remove -> onMenuUndoRedoRemove(action, isUndo)
+            is HistoryAction.Roll.Move -> onMenuUndoRedoMove(action, isUndo)
+            else -> Unit
+        }
 
         history.isEnabled = true
     }
 
-    private fun onMenuUndoRedoRoll(item: HistoryItem, isUndo: Boolean) {
-        val rollItem = deprecatedNoteItem.list.getOrNull(item.p) ?: return
+    private fun onMenuUndoRedoRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
+        val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
 
-        /**
-         * Need update data anyway! Even if this item in list is currently hided.
-         */
-        rollItem.text = item[isUndo]
+        /** Need update data anyway! Even if this item in list is currently hided. */
+        rollItem.text = action.value[isUndo]
 
         val adapterList = getAdapterList()
         val adapterPosition = adapterList.validIndexOfFirst(rollItem) ?: return
 
-        if (deprecatedNoteItem.isVisible || (!deprecatedNoteItem.isVisible && !rollItem.isCheck)) {
-            callback?.notifyItemChanged(adapterList, adapterPosition, item.cursor[isUndo])
+        if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
+            callback?.notifyItemChanged(adapterList, adapterPosition, action.cursor[isUndo])
         }
     }
 
-    private fun onMenuUndoRedoAdd(item: HistoryItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoAdd(action: HistoryAction.Roll.List.Add, isUndo: Boolean) {
         if (isUndo) {
-            onRemoveItem(item)
+            onRemoveItem(action)
         } else {
-            onInsertItem(item, isUndo = false)
+            onInsertItem(action, isUndo = false)
         }
     }
 
-    private fun onMenuUndoRedoRemove(item: HistoryItem, isUndo: Boolean) {
+    private fun onMenuUndoRedoRemove(action: HistoryAction.Roll.List.Remove, isUndo: Boolean) {
         if (isUndo) {
-            onInsertItem(item, isUndo = true)
+            onInsertItem(action, isUndo = true)
         } else {
-            onRemoveItem(item)
+            onRemoveItem(action)
         }
     }
 
-    private fun onRemoveItem(item: HistoryItem) {
-        val rollItem = deprecatedNoteItem.list.getOrNull(item.p) ?: return
+    private fun onRemoveItem(action: HistoryAction.Roll.List) {
+        val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
         val adapterPosition = getAdapterList().validIndexOfFirst(rollItem)
 
-        /**
-         * Need update data anyway! Even if this item in list is currently hided.
-         *
+        /** Need update data anyway! Even if this item in list is currently hided. *
          * Also need remove item at the end. Because [getAdapterList] return list without
          * that item and you will get not valid index of item.
          */
-        deprecatedNoteItem.list.removeAtOrNull(item.p) ?: return
+        deprecatedNoteItem.list.removeAtOrNull(action.p) ?: return
 
         if (adapterPosition == null) return
 
-        if (deprecatedNoteItem.isVisible || (!deprecatedNoteItem.isVisible && !rollItem.isCheck)) {
+        if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
             /**
              * Need get new [getAdapterList] for clear effect, cause we remove one item from it.
              */
@@ -395,47 +392,40 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onInsertItem(item: HistoryItem, isUndo: Boolean) {
-        val rollItem = RollItem[item[isUndo]] ?: return
+    private fun onInsertItem(action: HistoryAction.Roll.List, isUndo: Boolean) {
+        val rollItem = action.item
 
-        /**
-         * Need update data anyway! Even if this item in list is currently hided.
-         */
-        deprecatedNoteItem.list.add(item.p, rollItem)
+        /** Need update data anyway! Even if this item in list is currently hided. */
+        deprecatedNoteItem.list.add(action.p, rollItem)
 
         val list = getAdapterList()
-        val position = getInsertPosition(item, rollItem) ?: return
+        val position = getInsertPosition(action) ?: return
         val cursor = rollItem.text.length
 
         callback?.notifyItemInserted(list, position, cursor)
     }
 
-    private fun getInsertPosition(
-        item: HistoryItem,
-        rollItem: RollItem
-    ): Int? = when {
-        deprecatedNoteItem.isVisible -> item.p
-        !rollItem.isCheck -> deprecatedNoteItem.list.subList(0, item.p).hide().size
+    private fun getInsertPosition(action: HistoryAction.Roll.List): Int? = when {
+        deprecatedNoteItem.isVisible -> action.p
+        !action.item.isCheck -> deprecatedNoteItem.list.subList(0, action.p).hide().size
         else -> null
     }
 
     // TODO record exception
-    private fun onMenuUndoRedoMove(item: HistoryItem, isUndo: Boolean) {
-        val from = item[!isUndo].toIntOrNull() ?: return
-        val to = item[isUndo].toIntOrNull() ?: return
+    private fun onMenuUndoRedoMove(action: HistoryAction.Roll.Move, isUndo: Boolean) {
+        val from = action.value[!isUndo]
+        val to = action.value[isUndo]
 
         val rollItem = deprecatedNoteItem.list.getOrNull(from) ?: return
 
-        /**
-         * Need update data anyway! Even if this item in list is currently hided.
-         */
+        /** Need update data anyway! Even if this item in list is currently hided. */
         val shiftFrom = getAdapterList().validIndexOfFirst(rollItem)
         deprecatedNoteItem.list.move(from, to)
         val shiftTo = getAdapterList().validIndexOfFirst(rollItem)
 
         if (shiftFrom == null || shiftTo == null) return
 
-        if (deprecatedNoteItem.isVisible || (!deprecatedNoteItem.isVisible && !rollItem.isCheck)) {
+        if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
             callback?.notifyItemMoved(getAdapterList(), shiftFrom, shiftTo)
         }
     }
@@ -450,9 +440,7 @@ class RollNoteViewModelImpl(
 
         deprecatedNoteItem.onSave()
 
-        /**
-         * Need update adapter after remove rows with empty text.
-         */
+        /** Need update adapter after remove rows with empty text. */
         callback?.setList(getAdapterList())
 
         if (changeMode) {
@@ -576,7 +564,7 @@ class RollNoteViewModelImpl(
         val absolutePosition = getAbsolutePosition(p) ?: return
         val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
 
-        history.onRollRemove(absolutePosition, item.toJson())
+        history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
 
         callback?.apply {
             onBindingInput(deprecatedNoteItem, history.available)
@@ -610,7 +598,7 @@ class RollNoteViewModelImpl(
         val absoluteFrom = getAbsolutePosition(from) ?: return
         val absoluteTo = getAbsolutePosition(to) ?: return
 
-        history.onRollMove(absoluteFrom, absoluteTo)
+        history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
 
         callback?.onBindingInput(deprecatedNoteItem, history.available)
     }

@@ -12,7 +12,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.data.noteHistory.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
@@ -75,6 +76,8 @@ class RollWriteHolder(
         setSelection(if (position > text.toString().length) text.toString().length else position)
     }
 
+    // TODO may be somehow apply HistoryTextWatcher?
+
     private var textFrom: String? = null
     private var cursorFrom = 0
 
@@ -92,9 +95,14 @@ class RollWriteHolder(
         if (textFrom == textTo) return
 
         textFrom?.let {
-            val cursorItem = HistoryItem.Cursor(cursorFrom, cursorTo)
             val absolutePosition = callback.getAbsolutePosition(adapterPosition) ?: return
-            history?.onRollEnter(absolutePosition, it, textTo, cursorItem)
+
+            val action = HistoryAction.Roll.Enter(
+                absolutePosition,
+                HistoryChange(it, textTo),
+                HistoryChange(cursorFrom, cursorTo)
+            )
+            history?.add(action)
 
             textFrom = textTo
             cursorFrom = cursorTo

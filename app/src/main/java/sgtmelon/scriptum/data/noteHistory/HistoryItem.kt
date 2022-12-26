@@ -3,6 +3,7 @@ package sgtmelon.scriptum.data.noteHistory
 /**
  * Model for [NoteHistoryImpl]
  */
+@Deprecated("Replace this class with HistoryAction")
 data class HistoryItem(
     /*@HistoryAction*/ val tag: Int,
                        private val valueFrom: String,

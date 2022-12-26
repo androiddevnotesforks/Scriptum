@@ -4,8 +4,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.data.noteHistory.HistoryItem
-import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -181,25 +180,22 @@ class TextNoteViewModelImpl(
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this
-    override fun onMenuUndoRedoSelect(item: HistoryItem, isUndo: Boolean) {
+    override fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean) {
         history.isEnabled = false
 
-        //        when (item.tag) {
-        //            HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
-        //            HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
-        //            HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
-        //            HistoryAction.TEXT_CHANGE -> onMenuUndoRedoText(item, isUndo)
-        //            else -> Unit
-        //        }
+        when (action) {
+            is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
+            is HistoryAction.Rank -> onMenuUndoRedoRank(action, isUndo)
+            is HistoryAction.Color -> onMenuUndoRedoColor(action, isUndo)
+            is HistoryAction.Text.Enter -> onMenuUndoRedoText(action, isUndo)
+            else -> Unit
+        }
 
         history.isEnabled = true
     }
 
-    private fun onMenuUndoRedoText(item: HistoryItem, isUndo: Boolean) {
-        val text = item[isUndo]
-        val cursor = item.cursor[isUndo]
-
-        callback?.changeText(text, cursor)
+    private fun onMenuUndoRedoText(action: HistoryAction.Text.Enter, isUndo: Boolean) {
+        callback?.changeText(action.value[isUndo], action.cursor[isUndo])
     }
 
     /**

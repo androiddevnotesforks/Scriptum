@@ -47,6 +47,7 @@ interface ParentNoteViewModel<N : NoteItem> : IParentViewModel,
     fun onPressBack(): Boolean
 
 
+    // TODO may be pass already color?
     fun onResultColorDialog(check: Int)
 
     fun onResultRankDialog(check: Int)

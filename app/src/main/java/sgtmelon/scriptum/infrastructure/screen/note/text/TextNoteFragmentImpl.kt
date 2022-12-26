@@ -80,12 +80,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         binding?.contentScroll?.requestFocusOnVisible(binding?.textEnter)
 
-        //        val inputWatcher = InputTextWatcher(
-        //            binding?.textEnter,
-        //            HistoryAction.TEXT_CHANGE,
-        //            viewModel,
-        //            history
-        //        )
         binding?.textEnter?.let {
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
                 history.add(HistoryAction.Text.Enter(value, cursor))

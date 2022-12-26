@@ -85,6 +85,7 @@ class RankDialogUi(
 
 
     interface Callback {
+        // TODO may make item not nullable?
         fun onResultRankDialog(item: RankItem?)
     }
 
