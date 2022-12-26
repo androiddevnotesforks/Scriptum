@@ -15,26 +15,33 @@ interface NoteHistory {
 
     fun reset()
 
-    fun undo(): HistoryItem?
+    fun undo(): HistoryAction?
 
-    fun redo(): HistoryItem?
+    fun redo(): HistoryAction?
+
+    fun add(action: HistoryAction)
 
     var isEnabled: Boolean
 
-    fun onRankChange(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int)
+    @Deprecated("Refactor")
+    fun onRank(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int)
 
-    fun onColorChange(valueFrom: Color, valueTo: Color)
+    @Deprecated("Refactor")
+    fun onColor(valueFrom: Color, valueTo: Color)
 
-    fun onNameChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor)
+    @Deprecated("Refactor")
+    fun onTextEnter(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor)
 
-    fun onTextChange(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor)
+    @Deprecated("Refactor")
+    fun onRollEnter(p: Int, valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor)
 
-    fun onRollChange(p: Int, valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor)
-
+    @Deprecated("Refactor")
     fun onRollAdd(p: Int, valueTo: String)
 
+    @Deprecated("Refactor")
     fun onRollRemove(p: Int, valueFrom: String)
 
+    @Deprecated("Refactor")
     fun onRollMove(valueFrom: Int, valueTo: Int)
 
 }

@@ -25,7 +25,7 @@ interface INoteScreen<T : ParentScreen, N : NoteItem> {
 
     val isRankEmpty: Boolean
 
-    val inputControl: NoteHistoryImpl
+    val history: NoteHistoryImpl
 
     fun fullAssert(): T
 

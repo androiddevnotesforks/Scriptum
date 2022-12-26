@@ -232,7 +232,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onResultColorDialog(check: Int) {
         val newColor = colorConverter.toEnum(check) ?: return
 
-        history.onColorChange(deprecatedNoteItem.color, newColor)
+        history.onColor(deprecatedNoteItem.color, newColor)
 
         color.postValue(newColor)
         deprecatedNoteItem.color = newColor
@@ -247,7 +247,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launch {
             val rankId = runBack { getRankId(check) }
 
-            history.onRankChange(
+            history.onRank(
                 deprecatedNoteItem.rankId,
                 deprecatedNoteItem.rankPs,
                 rankId,
@@ -357,11 +357,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private fun onMenuUndoRedo(isUndo: Boolean) {
         if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
 
-        val item = if (isUndo) history.undo() else history.redo()
-
-        if (item != null) {
-            onMenuUndoRedoSelect(item, isUndo)
-        }
+        //        val item = if (isUndo) history.undo() else history.redo()
+        //
+        //        if (item != null) {
+        //            onMenuUndoRedoSelect(item, isUndo)
+        //        }
 
         callback?.onBindingInput(deprecatedNoteItem, history.available)
     }
@@ -487,7 +487,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      * Need check [isNoteInitialized] for prevent crash. Strange what this function calls before
      * note initialisation, may be it related with view binding.
      */
-    override fun onInputTextChange() {
+    override fun onHistoryEnterChanged() {
         if (!isNoteInitialized()) return
 
         callback?.onBindingInput(deprecatedNoteItem, history.available)

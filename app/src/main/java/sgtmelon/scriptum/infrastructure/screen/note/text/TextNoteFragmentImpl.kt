@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.HistoryTextWatcher
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
@@ -66,9 +66,10 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
-            it.addTextChangedListener(
-                InputTextWatcher(it, HistoryAction.NAME, viewModel, history)
-            )
+            it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
+                history.add(HistoryAction.Name(value, cursor))
+            })
+
             it.addOnNextAction {
                 binding?.textEnter?.apply {
                     requestFocus()
@@ -79,13 +80,17 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         binding?.contentScroll?.requestFocusOnVisible(binding?.textEnter)
 
-        val inputWatcher = InputTextWatcher(
-            binding?.textEnter,
-            HistoryAction.TEXT_CHANGE,
-            viewModel,
-            history
-        )
-        binding?.textEnter?.addTextChangedListener(inputWatcher)
+        //        val inputWatcher = InputTextWatcher(
+        //            binding?.textEnter,
+        //            HistoryAction.TEXT_CHANGE,
+        //            viewModel,
+        //            history
+        //        )
+        binding?.textEnter?.let {
+            it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
+                history.add(HistoryAction.Text.Enter(value, cursor))
+            })
+        }
     }
 
 

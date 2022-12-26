@@ -147,7 +147,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     is NoteItem.Roll -> applyShadowRoll().onSave()
                 }
 
-                inputControl.reset()
+                history.reset()
             }.fullAssert()
         }
     }
@@ -203,7 +203,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
             it.state = NoteState.EDIT
             it.applyItem()
-            it.inputControl.reset()
+            it.history.reset()
             it.fullAssert()
         }
     }
@@ -237,7 +237,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
     override fun onColorDialogResult(color: Color) {
         callback.apply {
-            inputControl.onColorChange(shadowItem.color, color)
+            history.onColor(shadowItem.color, color)
             shadowItem.color = color
 
             fullAssert()
@@ -249,7 +249,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
             val idTo = item?.id ?: -1
             val psTo = item?.position ?: -1
 
-            inputControl.onRankChange(shadowItem.rankId, shadowItem.rankPs, idTo, psTo)
+            history.onRank(shadowItem.rankId, shadowItem.rankPs, idTo, psTo)
             shadowItem.apply {
                 rankId = idTo
                 rankPs = psTo
@@ -333,13 +333,13 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     binContainer.isDisplayed(value = false)
                     editContainer.isDisplayed()
 
-                    val undo = inputControl.available.undo
+                    val undo = history.available.undo
                     undoButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
                         .withContentDescription(R.string.description_note_undo)
                         .isEnabled(undo)
 
-                    val redo = inputControl.available.redo
+                    val redo = history.available.redo
                     redoButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
                         .withContentDescription(R.string.description_note_redo)

@@ -1,29 +1,37 @@
 package sgtmelon.scriptum.data.noteHistory
 
-import androidx.annotation.IntDef
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 
 /**
- * Describes actions in [NoteHistoryImpl]
+ * Describes actions for [NoteHistoryImpl]
  */
-@IntDef(
-    HistoryAction.RANK, HistoryAction.COLOR,
-    HistoryAction.NAME, HistoryAction.TEXT_CHANGE, HistoryAction.ROLL_CHANGE,
-    HistoryAction.ROLL_ADD, HistoryAction.ROLL_REMOVE, HistoryAction.ROLL_MOVE
-)
-annotation class HistoryAction {
-    companion object {
-        // Common staff
-        const val RANK = 0
-        const val COLOR = 1
-        const val NAME = 2
+sealed class HistoryAction {
 
-        // For text note
-        const val TEXT_CHANGE = 3
+    data class Name(val value: Change<String>, val cursor: Change<Int>) : HistoryAction()
 
-        // For roll note
-        const val ROLL_CHANGE = 4
-        const val ROLL_ADD = 5
-        const val ROLL_REMOVE = 6
-        const val ROLL_MOVE = 7
+    data class Rank(val id: Change<Long>, val position: Change<Int>) : HistoryAction()
+
+    data class Color(val value: Change<Color>) : HistoryAction()
+
+    sealed class Text : HistoryAction() {
+
+        data class Enter(val value: Change<String>, val cursor: Change<Int>) : HistoryAction()
+
+    }
+
+    sealed class Roll : HistoryAction() {
+
+        data class Enter(val p: Int, val value: Change<String>, val cursor: Change<Int>) : Roll()
+
+        data class Add(val p: Int, val item: RollItem) : Roll()
+
+        data class Remove(val p: Int, val item: RollItem) : Roll()
+
+        data class Move(val value: Change<Int>) : Roll()
+
+    }
+
+    class Change<T>(val from: T, val to: T) {
+        operator fun get(isUndo: Boolean) = if (isUndo) from else to
     }
 }

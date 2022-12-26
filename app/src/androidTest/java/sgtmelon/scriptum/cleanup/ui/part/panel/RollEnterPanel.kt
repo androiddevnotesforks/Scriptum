@@ -97,7 +97,7 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
                     item = shadowItem.deepCopy()
                     item.onSave()
 
-                    inputControl.reset()
+                    history.reset()
                 }.fullAssert()
             } else {
                 callback.shadowItem.list.apply {

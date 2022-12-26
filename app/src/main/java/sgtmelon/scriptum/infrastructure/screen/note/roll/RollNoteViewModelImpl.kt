@@ -12,7 +12,6 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryItem
 import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
@@ -329,15 +328,15 @@ class RollNoteViewModelImpl(
     override fun onMenuUndoRedoSelect(item: HistoryItem, isUndo: Boolean) {
         history.isEnabled = false
 
-        when (item.tag) {
-            HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
-            HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
-            HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
-            HistoryAction.ROLL_CHANGE -> onMenuUndoRedoRoll(item, isUndo)
-            HistoryAction.ROLL_ADD -> onMenuUndoRedoAdd(item, isUndo)
-            HistoryAction.ROLL_REMOVE -> onMenuUndoRedoRemove(item, isUndo)
-            HistoryAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
-        }
+        //        when (item.tag) {
+        //            HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
+        //            HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
+        //            HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
+        //            HistoryAction.ROLL_CHANGE -> onMenuUndoRedoRoll(item, isUndo)
+        //            HistoryAction.ROLL_ADD -> onMenuUndoRedoAdd(item, isUndo)
+        //            HistoryAction.ROLL_REMOVE -> onMenuUndoRedoRemove(item, isUndo)
+        //            HistoryAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
+        //        }
 
         history.isEnabled = true
     }

@@ -108,7 +108,7 @@ class RollNoteScreen(
 
     override var shadowItem: NoteItem.Roll = item.deepCopy()
 
-    override val inputControl = NoteHistoryImpl()
+    override val history = NoteHistoryImpl()
 
     override fun fullAssert() = apply {
         assert()
@@ -210,12 +210,12 @@ class RollNoteScreen(
             if (shadowItem.isSaveEnabled()) {
                 state = NoteState.READ
                 item = shadowItem.deepCopy()
-                inputControl.reset()
+                history.reset()
                 fullAssert()
             } else if (state == NoteState.EDIT) {
                 state = NoteState.READ
                 shadowItem = item.deepCopy()
-                inputControl.reset()
+                history.reset()
                 fullAssert()
             }
         }

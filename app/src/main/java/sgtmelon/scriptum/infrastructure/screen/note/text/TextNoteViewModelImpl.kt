@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryItem
 import sgtmelon.scriptum.data.noteHistory.HistoryItem.Cursor.Companion.get
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
@@ -185,13 +184,13 @@ class TextNoteViewModelImpl(
     override fun onMenuUndoRedoSelect(item: HistoryItem, isUndo: Boolean) {
         history.isEnabled = false
 
-        when (item.tag) {
-            HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
-            HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
-            HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
-            HistoryAction.TEXT_CHANGE -> onMenuUndoRedoText(item, isUndo)
-            else -> Unit
-        }
+        //        when (item.tag) {
+        //            HistoryAction.RANK -> onMenuUndoRedoRank(item, isUndo)
+        //            HistoryAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
+        //            HistoryAction.NAME -> onMenuUndoRedoName(item, isUndo)
+        //            HistoryAction.TEXT_CHANGE -> onMenuUndoRedoText(item, isUndo)
+        //            else -> Unit
+        //        }
 
         history.isEnabled = true
     }

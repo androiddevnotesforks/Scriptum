@@ -24,7 +24,7 @@ import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.HistoryTextWatcher
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
@@ -132,9 +132,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
-            it.addTextChangedListener(
-                InputTextWatcher(it, HistoryAction.NAME, viewModel, history)
-            )
+            it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
+                history.add(HistoryAction.Name(value, cursor))
+            })
 
             it.addOnNextAction { onFocusEnter() }
         }

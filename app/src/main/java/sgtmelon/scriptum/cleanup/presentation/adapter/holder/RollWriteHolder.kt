@@ -94,7 +94,7 @@ class RollWriteHolder(
         textFrom?.let {
             val cursorItem = HistoryItem.Cursor(cursorFrom, cursorTo)
             val absolutePosition = callback.getAbsolutePosition(adapterPosition) ?: return
-            history?.onRollChange(absolutePosition, it, textTo, cursorItem)
+            history?.onRollEnter(absolutePosition, it, textTo, cursorItem)
 
             textFrom = textTo
             cursorFrom = cursorTo

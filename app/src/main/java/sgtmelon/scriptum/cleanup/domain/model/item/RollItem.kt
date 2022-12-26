@@ -23,6 +23,7 @@ data class RollItem(
      * Replace [id] null value to -1 for [get] function
      */
     // TODO add converter toJson and back
+    @Deprecated("remove this shit")
     fun toJson(): String = JSONObject().apply {
         put(Roll.ID, if (id != null) id else -1L)
         put(Roll.POSITION, position)

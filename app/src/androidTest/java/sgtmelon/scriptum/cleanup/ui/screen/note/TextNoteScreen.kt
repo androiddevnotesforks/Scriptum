@@ -75,7 +75,7 @@ class TextNoteScreen(
 
     override var shadowItem: NoteItem.Text = item.deepCopy()
 
-    override val inputControl = NoteHistoryImpl()
+    override val history = NoteHistoryImpl()
 
     override fun fullAssert() = apply {
         assert()
@@ -89,7 +89,7 @@ class TextNoteScreen(
 
         if (text.isEmpty()) {
             val valueFrom = shadowItem.text
-            inputControl.onTextChange(
+            history.onTextEnter(
                 valueFrom, valueTo = "", cursor = HistoryItem.Cursor(valueFrom.length, 0)
             )
         } else {
@@ -97,7 +97,7 @@ class TextNoteScreen(
                 val valueFrom = if (i == 0) shadowItem.text else text[i - 1].toString()
                 val valueTo = c.toString()
 
-                inputControl.onTextChange(
+                history.onTextEnter(
                     valueFrom, valueTo, HistoryItem.Cursor(valueFrom.length, valueTo.length)
                 )
             }
@@ -131,12 +131,12 @@ class TextNoteScreen(
             if (shadowItem.isSaveEnabled()) {
                 state = NoteState.READ
                 item = shadowItem.deepCopy()
-                inputControl.reset()
+                history.reset()
                 fullAssert()
             } else if (state == NoteState.EDIT) {
                 state = NoteState.READ
                 shadowItem = item.deepCopy()
-                inputControl.reset()
+                history.reset()
                 fullAssert()
             }
         }

@@ -9,7 +9,8 @@ import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
-import sgtmelon.scriptum.data.noteHistory.HistoryItem
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.HistoryAction.Change
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
@@ -57,8 +58,11 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
                     val valueFrom = if (i == 0) shadowItem.text else name[i - 1].toString()
                     val valueTo = c.toString()
 
-                    inputControl.onNameChange(
-                        valueFrom, valueTo, HistoryItem.Cursor(valueFrom.length, valueTo.length)
+                    history.add(
+                        HistoryAction.Name(
+                            Change(valueFrom, valueTo),
+                            Change(valueFrom.length, valueTo.length)
+                        )
                     )
                 }
 
@@ -76,7 +80,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
 
                 applyItem()
 
-                inputControl.reset()
+                history.reset()
                 fullAssert()
             }
         }

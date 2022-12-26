@@ -4,20 +4,20 @@ package sgtmelon.scriptum.data.noteHistory
  * Model for [NoteHistoryImpl]
  */
 data class HistoryItem(
-    @HistoryAction val tag: Int,
-    private val valueFrom: String,
-    private val valueTo: String,
-    val cursor: Cursor? = ND_CURSOR,
-    val p: Int = ND_POSITION
+    /*@HistoryAction*/ val tag: Int,
+                       private val valueFrom: String,
+                       private val valueTo: String,
+                       val cursor: Cursor? = ND_CURSOR,
+                       val p: Int = ND_POSITION
 ) {
-
-    init {
-        if (tag == HistoryAction.NAME || tag == HistoryAction.TEXT_CHANGE || tag == HistoryAction.ROLL_CHANGE) {
-            if (cursor == null) {
-                throw NullPointerException(HistoryItem::class.java.simpleName + "#cursor is null")
-            }
-        }
-    }
+    //
+    //    init {
+    //        if (tag == HistoryAction.NAME || tag == HistoryAction.TEXT_CHANGE || tag == HistoryAction.ROLL_CHANGE) {
+    //            if (cursor == null) {
+    //                throw NullPointerException(HistoryItem::class.java.simpleName + "#cursor is null")
+    //            }
+    //        }
+    //    }
 
     operator fun get(isUndo: Boolean) = if (isUndo) valueFrom else valueTo
 
