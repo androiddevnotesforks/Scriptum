@@ -35,9 +35,9 @@ class HistoryTextWatcher(
         cursorFrom = cursorTo
     }
 
-    override fun afterTextChanged(s: Editable?) = callback.onHistoryEnterChanged()
+    override fun afterTextChanged(s: Editable?) = callback.onHistoryEnterChanged(s.toString())
 
     interface Callback {
-        fun onHistoryEnterChanged()
+        fun onHistoryEnterChanged(text: String)
     }
 }

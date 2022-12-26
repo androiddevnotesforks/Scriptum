@@ -475,7 +475,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      * Need check [isNoteInitialized] for prevent crash. Strange what this function calls before
      * note initialisation, may be it related with view binding.
      */
-    override fun onHistoryEnterChanged() {
+    override fun onHistoryEnterChanged(text: String) {
         if (!isNoteInitialized()) return
 
         callback?.onBindingInput(deprecatedNoteItem, history.available)

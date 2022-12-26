@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter.holder
 
+import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -8,26 +9,29 @@ import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
-import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
+import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
 
 /**
- * Holder of note roll row edit state, use in [RollAdapter]
+ * Holder of roll item in edit state.
  */
-// TODO add unbind function
+@SuppressLint("ClickableViewAccessibility")
 class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
     dragListener: ItemDragListener,
     private val callback: Callback,
     private val history: NoteHistory?
 ) : ParentHolder(binding.root),
+    UnbindCallback,
     TextWatcher {
+
+    private val textWatchers = mutableListOf<TextWatcher>()
 
     init {
         val touchListener = DragTouchListener(dragListener, binding.dragButton)
@@ -59,6 +63,14 @@ class RollWriteHolder(
         }.executePendingBindings()
 
         history?.isEnabled = true
+    }
+
+    override fun unbind() {
+        binding.textEnter.setOnTouchListener(null)
+        binding.dragButton.setOnTouchListener(null)
+
+        textWatchers.forEach { binding.textEnter.removeTextChangedListener(it) }
+        textWatchers.clear()
     }
 
     /**
