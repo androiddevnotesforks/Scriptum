@@ -70,11 +70,6 @@ class NoteHistoryImpl : NoteHistory {
      */
     override var isEnabled = true
 
-
-    override fun onName(valueFrom: String, valueTo: String, cursor: HistoryItem.Cursor) {
-        //        add(HistoryItem(HistoryAction.Name, valueFrom, valueTo, cursor))
-    }
-
     override fun onRank(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int) {
         val valueFrom = arrayOf(idFrom, psFrom).joinToString()
         val valueTo = arrayOf(idTo, psTo).joinToString()

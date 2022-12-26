@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import sgtmelon.scriptum.data.noteHistory.HistoryAction.Change
+import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 
 /**
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 class HistoryTextWatcher(
     private val view: EditText,
     private val callback: Callback,
-    private val onEnter: (value: Change<String>, cursor: Change<Int>) -> Unit
+    private val onEnter: (value: HistoryChange<String>, cursor: HistoryChange<Int>) -> Unit
 ) : TextWatcher {
 
     private var valueFrom = ""
@@ -29,7 +29,7 @@ class HistoryTextWatcher(
 
         if (valueFrom == valueTo) return
 
-        onEnter(Change(valueFrom, valueTo), Change(cursorFrom, cursorTo))
+        onEnter(HistoryChange(valueFrom, valueTo), HistoryChange(cursorFrom, cursorTo))
 
         valueFrom = valueTo
         cursorFrom = cursorTo

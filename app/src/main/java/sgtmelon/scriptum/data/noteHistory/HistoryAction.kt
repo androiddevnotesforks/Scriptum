@@ -7,31 +7,40 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
  */
 sealed class HistoryAction {
 
-    data class Name(val value: Change<String>, val cursor: Change<Int>) : HistoryAction()
+    data class Name(
+        val value: HistoryChange<String>,
+        val cursor: HistoryChange<Int>
+    ) : HistoryAction()
 
-    data class Rank(val id: Change<Long>, val position: Change<Int>) : HistoryAction()
+    data class Rank(
+        val id: HistoryChange<Long>,
+        val position: HistoryChange<Int>
+    ) : HistoryAction()
 
-    data class Color(val value: Change<Color>) : HistoryAction()
+    data class Color(val value: HistoryChange<Color>) : HistoryAction()
 
     sealed class Text : HistoryAction() {
 
-        data class Enter(val value: Change<String>, val cursor: Change<Int>) : HistoryAction()
+        data class Enter(
+            val value: HistoryChange<String>,
+            val cursor: HistoryChange<Int>
+        ) : HistoryAction()
 
     }
 
     sealed class Roll : HistoryAction() {
 
-        data class Enter(val p: Int, val value: Change<String>, val cursor: Change<Int>) : Roll()
+        data class Enter(
+            val p: Int,
+            val value: HistoryChange<String>,
+            val cursor: HistoryChange<Int>
+        ) : Roll()
 
         data class Add(val p: Int, val item: RollItem) : Roll()
 
         data class Remove(val p: Int, val item: RollItem) : Roll()
 
-        data class Move(val value: Change<Int>) : Roll()
+        data class Move(val value: HistoryChange<Int>) : Roll()
 
-    }
-
-    class Change<T>(val from: T, val to: T) {
-        operator fun get(isUndo: Boolean) = if (isUndo) from else to
     }
 }
