@@ -31,7 +31,7 @@
 
     <string name="description_item_roll_check">Check item with text:</string>
     <string name="description_item_roll_uncheck">Uncheck item with text:</string>
-    <string name="description_item_roll_move">Move item with text:</string>
+    <string name="description_item_roll_move">Move item with text: %s</string>
 
     <string name="description_item_color">Select %s color</string>
 

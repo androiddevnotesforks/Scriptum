@@ -29,7 +29,7 @@
 
     <string name="description_item_roll_check">Отметить пункт с тектом:</string>
     <string name="description_item_roll_uncheck">Снать отметку пункта с тектом:</string>
-    <string name="description_item_roll_move">Переместить пункт с тектом:</string>
+    <string name="description_item_roll_move">Переместить пункт с тектом: %s</string>
 
     <string name="description_item_color">Выбрать %s цвет</string>
 

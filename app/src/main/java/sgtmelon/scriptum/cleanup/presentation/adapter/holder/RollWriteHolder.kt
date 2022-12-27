@@ -4,8 +4,12 @@ import android.annotation.SuppressLint
 import android.text.InputType
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.IntRange
+import java.lang.Integer.min
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
+import sgtmelon.scriptum.cleanup.extension.bindBoolTint
+import sgtmelon.scriptum.cleanup.extension.bindTextColor
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.HistoryTextWatcher
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
@@ -60,27 +64,31 @@ class RollWriteHolder(
     fun bind(item: RollItem) {
         history?.isEnabled = false
 
-        // TODO remove databinding and use only view binding
-        binding.apply {
-            this.item = item
-            this.descText = item.text
-        }.executePendingBindings()
+        binding.dragButton.bindBoolTint(item.isCheck, R.attr.clAccent, R.attr.clContent)
+        bindContentDescription(item.text)
+        binding.textEnter.setText(item.text)
+        binding.textEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
 
         history?.isEnabled = true
+    }
+
+    private fun bindContentDescription(text: String) {
+        binding.dragButton.contentDescription =
+            context.getString(R.string.description_item_roll_move, text)
     }
 
     /**
      * TODO #ERROR error on fast add/remove
      * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
      */
-    fun setSelections(@IntRange(from = 0) position: Int) = binding.textEnter.apply {
+    fun setSelections(@IntRange(from = 0) position: Int) = with(binding.textEnter) {
         requestFocus()
-        setSelection(if (position > text.toString().length) text.toString().length else position)
+        setSelection(min(position, text.toString().length))
     }
 
     override fun onHistoryEnterChanged(text: String) {
         checkPosition { callback.onInputRollChange(it, text) }
-        binding.apply { descText = text }.executePendingBindings()
+        bindContentDescription(text)
     }
 
     override fun unbind() {
@@ -94,5 +102,4 @@ class RollWriteHolder(
         fun getAbsolutePosition(adapterPosition: Int): Int?
         fun onRollActionNext()
     }
-
 }
