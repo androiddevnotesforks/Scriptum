@@ -1,16 +1,13 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter.holder
 
 import android.annotation.SuppressLint
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.IntRange
-import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.HistoryTextWatcher
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
-import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
@@ -29,9 +26,16 @@ class RollWriteHolder(
     private val history: NoteHistory?
 ) : ParentHolder(binding.root),
     UnbindCallback,
-    TextWatcher {
+    HistoryTextWatcher.Callback {
 
-    private val textWatchers = mutableListOf<TextWatcher>()
+    private val textWatcher = HistoryTextWatcher(
+        binding.textEnter, callback = this
+    ) { value, cursor ->
+        checkPosition {
+            val absolutePosition = callback.getAbsolutePosition(it) ?: return@checkPosition
+            history?.add(HistoryAction.Roll.Enter(absolutePosition, value, cursor))
+        }
+    }
 
     init {
         val touchListener = DragTouchListener(dragListener, binding.dragButton)
@@ -46,7 +50,7 @@ class RollWriteHolder(
             imeOptions = EditorInfo.IME_ACTION_NEXT or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
             addOnNextAction { callback.onRollActionNext() }
-            addTextChangedListener(this@RollWriteHolder)
+            addTextChangedListener(textWatcher)
             setOnTouchListener(touchListener)
         }
 
@@ -65,14 +69,6 @@ class RollWriteHolder(
         history?.isEnabled = true
     }
 
-    override fun unbind() {
-        binding.textEnter.setOnTouchListener(null)
-        binding.dragButton.setOnTouchListener(null)
-
-        textWatchers.forEach { binding.textEnter.removeTextChangedListener(it) }
-        textWatchers.clear()
-    }
-
     /**
      * TODO #ERROR error on fast add/remove
      * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
@@ -82,44 +78,15 @@ class RollWriteHolder(
         setSelection(if (position > text.toString().length) text.toString().length else position)
     }
 
-    // TODO may be somehow apply HistoryTextWatcher?
-
-    private var valueFrom: String = ""
-    private var cursorFrom = 0
-
-    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-        valueFrom = s.toString()
-        cursorFrom = binding.textEnter.selectionEnd
-    }
-
-    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        val valueTo = s.toString()
-        val cursorTo = binding.textEnter.selectionEnd
-
-        if (valueFrom == valueTo) return
-
-        val position = adapterPosition
-        if (position != RecyclerView.NO_POSITION) {
-            val absolutePosition = callback.getAbsolutePosition(position)
-            if (absolutePosition != null) {
-                val action = HistoryAction.Roll.Enter(
-                    absolutePosition,
-                    HistoryChange(valueFrom, valueTo),
-                    HistoryChange(cursorFrom, cursorTo)
-                )
-                history?.add(action)
-            }
-        }
-
-        valueFrom = valueTo
-        cursorFrom = cursorTo
-    }
-
-    override fun afterTextChanged(s: Editable) {
-        val text = s.toString()
-
-        callback.onInputRollChange(adapterPosition, text)
+    override fun onHistoryEnterChanged(text: String) {
+        checkPosition { callback.onInputRollChange(it, text) }
         binding.apply { descText = text }.executePendingBindings()
+    }
+
+    override fun unbind() {
+        binding.textEnter.setOnTouchListener(null)
+        binding.textEnter.removeTextChangedListener(textWatcher)
+        binding.dragButton.setOnTouchListener(null)
     }
 
     interface Callback {
