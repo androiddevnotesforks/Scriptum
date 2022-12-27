@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModel
 
 /**

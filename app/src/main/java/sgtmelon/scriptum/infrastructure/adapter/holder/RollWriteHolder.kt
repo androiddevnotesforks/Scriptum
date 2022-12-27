@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.holder
+package sgtmelon.scriptum.infrastructure.adapter.holder
 
 import android.annotation.SuppressLint
 import android.text.InputType

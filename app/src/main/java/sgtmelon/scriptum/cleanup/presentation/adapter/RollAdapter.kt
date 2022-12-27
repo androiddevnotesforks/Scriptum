@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollReadHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
