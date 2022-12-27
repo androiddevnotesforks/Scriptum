@@ -166,9 +166,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             this.history = history
 
             registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                /**
-                 * Update before animation ends.
-                 */
+                /** Update before animation ends. */
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                     viewModel.onUpdateInfo()
                 }

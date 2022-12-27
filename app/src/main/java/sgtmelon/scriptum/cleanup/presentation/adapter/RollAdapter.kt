@@ -25,7 +25,7 @@ class RollAdapter(
     private val clickListener: ItemListener.ActionClick
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
-    var history: NoteHistory? = null
+    lateinit var history: NoteHistory
 
     var isEdit: Boolean? = null
     var noteState: NoteState? = null

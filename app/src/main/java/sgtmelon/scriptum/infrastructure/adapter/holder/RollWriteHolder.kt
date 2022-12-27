@@ -27,7 +27,7 @@ class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
     dragListener: ItemDragListener,
     private val callback: Callback,
-    private val history: NoteHistory?
+    private val history: NoteHistory
 ) : ParentHolder(binding.root),
     UnbindCallback,
     HistoryTextWatcher.Callback {
@@ -37,7 +37,7 @@ class RollWriteHolder(
     ) { value, cursor ->
         checkPosition {
             val absolutePosition = callback.getAbsolutePosition(it) ?: return@checkPosition
-            history?.add(HistoryAction.Roll.Enter(absolutePosition, value, cursor))
+            history.add(HistoryAction.Roll.Enter(absolutePosition, value, cursor))
         }
     }
 
@@ -62,14 +62,14 @@ class RollWriteHolder(
     }
 
     fun bind(item: RollItem) {
-        history?.isEnabled = false
+        history.saveChanges = false
 
         binding.dragButton.bindBoolTint(item.isCheck, R.attr.clAccent, R.attr.clContent)
         bindContentDescription(item.text)
         binding.textEnter.setText(item.text)
         binding.textEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
 
-        history?.isEnabled = true
+        history.saveChanges = true
     }
 
     private fun bindContentDescription(text: String) {

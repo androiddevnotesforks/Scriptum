@@ -326,7 +326,7 @@ class RollNoteViewModelImpl(
 
     // TODO move undo/redo staff inside use case or something like this
     override fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean) {
-        history.isEnabled = false
+        history.saveChanges = false
 
         when (action) {
             is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
@@ -339,7 +339,7 @@ class RollNoteViewModelImpl(
             else -> Unit
         }
 
-        history.isEnabled = true
+        history.saveChanges = true
     }
 
     private fun onMenuUndoRedoRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
@@ -479,7 +479,7 @@ class RollNoteViewModelImpl(
     }
 
     override fun setupEditMode(isEdit: Boolean) {
-        history.isEnabled = false
+        history.saveChanges = false
 
         this.isEdit.postValue(isEdit)
 
@@ -505,7 +505,7 @@ class RollNoteViewModelImpl(
         saveControl.isNeedSave = true
         saveControl.changeAutoSaveWork(isEdit)
 
-        history.isEnabled = true
+        history.saveChanges = true
     }
 
     //endregion

@@ -29,7 +29,7 @@ class NoteHistoryImpl : NoteHistory {
     override fun redo(): HistoryAction? = if (isRedoAvailable) list.getOrNull(++position) else null
 
     override fun add(action: HistoryAction) {
-        if (isEnabled) {
+        if (saveChanges) {
             clearToPosition()
             clearToSize()
 
@@ -64,7 +64,7 @@ class NoteHistoryImpl : NoteHistory {
     }
 
     /** Variable for prevent changes. */
-    override var isEnabled = true
+    override var saveChanges = true
 
     private fun listAll() {
         if (!BuildProvider.isDebug()) return

@@ -18,6 +18,6 @@ interface NoteHistory {
 
     fun add(action: HistoryAction)
 
-    var isEnabled: Boolean
+    var saveChanges: Boolean
 
 }
