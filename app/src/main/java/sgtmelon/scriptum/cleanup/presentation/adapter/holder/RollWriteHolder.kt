@@ -87,7 +87,7 @@ class RollWriteHolder(
     }
 
     override fun onHistoryEnterChanged(text: String) {
-        checkPosition { callback.onInputRollChange(it, text) }
+        checkPosition { callback.onRollEnterChanged(it, text) }
         bindContentDescription(text)
     }
 
@@ -98,8 +98,8 @@ class RollWriteHolder(
     }
 
     interface Callback {
-        fun onInputRollChange(p: Int, text: String)
         fun getAbsolutePosition(adapterPosition: Int): Int?
+        fun onRollEnterChanged(p: Int, text: String)
         fun onRollActionNext()
     }
 }

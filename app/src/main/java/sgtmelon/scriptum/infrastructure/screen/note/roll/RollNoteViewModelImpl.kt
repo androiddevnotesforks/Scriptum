@@ -510,16 +510,6 @@ class RollNoteViewModelImpl(
 
     //endregion
 
-    override fun onInputRollChange(p: Int, text: String) {
-        val absolutePosition = getAbsolutePosition(p) ?: return
-        deprecatedNoteItem.list.getOrNull(absolutePosition)?.text = text
-
-        callback?.apply {
-            setList(getAdapterList())
-            onBindingInput(deprecatedNoteItem, history.available)
-        }
-    }
-
     /**
      * Convert not pure position [adapterPosition] to absolute position in list (without hide).
      *
@@ -533,6 +523,16 @@ class RollNoteViewModelImpl(
             val hideItem = list.hide().getOrNull(adapterPosition) ?: return null
 
             return list.validIndexOfFirst(hideItem)
+        }
+    }
+
+    override fun onRollEnterChanged(p: Int, text: String) {
+        val absolutePosition = getAbsolutePosition(p) ?: return
+        deprecatedNoteItem.list.getOrNull(absolutePosition)?.text = text
+
+        callback?.apply {
+            setList(getAdapterList())
+            onBindingInput(deprecatedNoteItem, history.available)
         }
     }
 
