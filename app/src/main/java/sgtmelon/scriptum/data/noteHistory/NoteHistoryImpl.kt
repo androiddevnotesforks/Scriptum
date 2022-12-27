@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.data.noteHistory
 
-import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import timber.log.Timber
 
@@ -30,8 +29,8 @@ class NoteHistoryImpl : NoteHistory {
 
     override fun add(action: HistoryAction) {
         if (saveChanges) {
-            clearToPosition()
-            clearToSize()
+            removeListTail()
+            checkListOverflow()
 
             list.add(action)
             position++
@@ -41,42 +40,37 @@ class NoteHistoryImpl : NoteHistory {
     }
 
     /**
-     * If position not at end, when remove unused information before adding new.
+     * If position not last index, when remove unused information before adding a new one.
      */
-    private fun clearToPosition() {
-        val lastPosition = list.lastIndex
-
-        if (position != lastPosition) {
-            for (i in lastPosition downTo position + 1) {
-                list.removeAtOrNull(i)
-            }
+    private fun removeListTail() {
+        while (position != list.lastIndex) {
+            list.removeLastOrNull()
         }
     }
 
     /**
-     * If list size bigger than max size, then need clear first N items.
+     * If list size bigger than max size, when need clear first N items.
      */
-    private fun clearToSize() {
+    private fun checkListOverflow() {
         while (list.size >= BuildProvider.noteHistoryMaxSize()) {
-            list.removeAtOrNull(0)
+            list.removeFirstOrNull()
             position--
         }
     }
 
-    /** Variable for prevent changes. */
+    /** Variable for prevent changes in [add] call. */
     override var saveChanges = true
 
     private fun listAll() {
         if (!BuildProvider.isDebug()) return
 
-        Timber.i(message = "listAll:")
+        Timber.i(message = "Note history list (ps=$position):")
         for (i in list.indices) {
-            Timber.i(message = "ps=$position | i=$i | item=${list.getOrNull(i).toString()}")
+            Timber.i(message = "i=$i | item=${list.getOrNull(i).toString()}")
         }
     }
 
     companion object {
         private const val ND_POSITION = -1
     }
-
 }

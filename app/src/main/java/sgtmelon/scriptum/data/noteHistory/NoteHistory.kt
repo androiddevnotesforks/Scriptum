@@ -1,10 +1,5 @@
 package sgtmelon.scriptum.data.noteHistory
 
-/**
- * Interface for communicate with [NoteHistoryImpl].
- */
-// TODO add different interfaces for different noteType: Text, Roll
-// TODO pass different interfaces to viewmodels by noteType
 // TODO add tests
 interface NoteHistory {
 
