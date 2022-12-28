@@ -28,7 +28,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.onView
 import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
-import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
+import sgtmelon.scriptum.infrastructure.widgets.GradientFab
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 
 /**
@@ -53,7 +53,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     private val showHolder = ShowPlaceholder(lifecycle, context = this)
 
-    private var gradientFab: GradientFabDelegator? = null
+    private var gradientFab: GradientFab? = null
 
     private val pageConverter = MainPageConverter()
 

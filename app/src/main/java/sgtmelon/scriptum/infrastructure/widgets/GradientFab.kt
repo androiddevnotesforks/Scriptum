@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.widgets.delegators
+package sgtmelon.scriptum.infrastructure.widgets
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleYAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 
-internal class GradientFabDelegator(
+internal class GradientFab(
     private val activity: AppCompatActivity,
     private var isVisible: Boolean = true,
     private val onClick: (view: View) -> Unit
