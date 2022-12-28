@@ -35,31 +35,7 @@ class BinViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    @Test fun getShowList() {
-        TODO()
-    }
-
-    @Test fun getItemList() {
-        TODO()
-    }
-
-    @Test fun updateData() {
-        TODO()
-    }
-
-    @Test fun clearRecyclerBin() {
-        TODO()
-    }
-
-    @Test fun restoreNote() {
-        TODO()
-    }
-
-    @Test fun getCopyText() {
-        TODO()
-    }
-
-    @Test fun clearNote() {
+    @Test fun todo() {
         TODO()
     }
 }

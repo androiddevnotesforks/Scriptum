@@ -35,31 +35,7 @@ class NotificationsViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    @Test fun getShowList() {
-        TODO()
-    }
-
-    @Test fun getUpdateList() {
-        TODO()
-    }
-
-    @Test fun getItemList() {
-        TODO()
-    }
-
-    @Test fun getShowSnackbar() {
-        TODO()
-    }
-
-    @Test fun removeNotification() {
-        TODO()
-    }
-
-    @Test fun undoRemove() {
-        TODO()
-    }
-
-    @Test fun clearUndoStack() {
+    @Test fun todo() {
         TODO()
     }
 }

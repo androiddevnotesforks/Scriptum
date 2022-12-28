@@ -56,51 +56,7 @@ class NotesViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    @Test fun getShowList() {
-        TODO()
-    }
-
-    @Test fun getListHide() {
-        TODO()
-    }
-
-    @Test fun getItemList() {
-        TODO()
-    }
-
-    @Test fun updateData() {
-        TODO()
-    }
-
-    @Test fun getNoteNotification() {
-        TODO()
-    }
-
-    @Test fun getOccupiedDateList() {
-        TODO()
-    }
-
-    @Test fun deleteNoteNotification() {
-        TODO()
-    }
-
-    @Test fun setNoteNotification() {
-        TODO()
-    }
-
-    @Test fun updateNoteBind() {
-        TODO()
-    }
-
-    @Test fun convertNote() {
-        TODO()
-    }
-
-    @Test fun getNoteText() {
-        TODO()
-    }
-
-    @Test fun deleteNote() {
+    @Test fun todo() {
         TODO()
     }
 }

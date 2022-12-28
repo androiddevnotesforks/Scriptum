@@ -45,27 +45,7 @@ class AlarmViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    @Test fun setup() {
-        TODO()
-    }
-
-    @Test fun getState() {
-        TODO()
-    }
-
-    @Test fun getNoteItem() {
-        TODO()
-    }
-
-    @Test fun getAlarmState() {
-        TODO()
-    }
-
-    @Test fun postpone() {
-        TODO()
-    }
-
-    @Test fun onReceiveUnbindNote() {
+    @Test fun todo() {
         TODO()
     }
 }
