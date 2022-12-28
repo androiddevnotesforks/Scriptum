@@ -1,3 +1,5 @@
+@file:JvmName(name = "BundleExtensionsUtils")
+
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
 import android.os.Bundle
