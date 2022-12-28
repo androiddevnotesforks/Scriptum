@@ -9,13 +9,13 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher.HistoryTextWatcher
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.noteHistory.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 

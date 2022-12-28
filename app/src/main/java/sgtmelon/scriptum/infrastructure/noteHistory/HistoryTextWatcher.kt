@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.note.input.watcher
+package sgtmelon.scriptum.infrastructure.noteHistory
 
 import android.text.Editable
 import android.text.TextWatcher

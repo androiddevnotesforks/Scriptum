@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.backup.dataSource
+package sgtmelon.scriptum.infrastructure.backup
 
 import android.content.Context
 import androidx.annotation.StringRes
@@ -9,8 +9,8 @@ import io.mockk.verifySequence
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**

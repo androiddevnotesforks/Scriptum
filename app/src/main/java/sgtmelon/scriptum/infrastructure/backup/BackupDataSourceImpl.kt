@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.backup.dataSource
+package sgtmelon.scriptum.infrastructure.backup
 
 import android.content.Context
 import sgtmelon.scriptum.R
