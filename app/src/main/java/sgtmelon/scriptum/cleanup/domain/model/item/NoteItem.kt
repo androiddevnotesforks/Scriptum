@@ -41,10 +41,6 @@ sealed class NoteItem(
 
     //region Common functions
 
-    fun switchStatus() {
-        isStatus = !isStatus
-    }
-
     fun updateTime() = apply { change = getCalendarText() }
 
     fun haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
