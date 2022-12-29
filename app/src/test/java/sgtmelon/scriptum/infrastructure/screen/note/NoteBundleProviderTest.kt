@@ -18,8 +18,11 @@ import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.getEnum
+import sgtmelon.scriptum.infrastructure.utils.extensions.putEnum
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
@@ -58,78 +61,46 @@ class NoteBundleProviderTest : ParentTest() {
     }
 
     @Test fun `getData with bad noteState`() {
-        every { bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT) } returns init.isEdit
-        FastMock.bundleExtensions()
-        every { bundle.getEnum(Intent.STATE, Default.STATE, stateConverter) } returns null
+        with(init) { mockkGetData(isEdit, noteState = null, id, type, color, name) }
 
         provider.getData(bundle)
         assertNull(provider.init)
 
         verifySequence {
-            bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
-            bundle.getEnum(Intent.STATE, Default.STATE, stateConverter)
+            verifyGetData(noteState = null, init.type)
         }
     }
 
     @Test fun `getData with bad type`() {
-        every { bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT) } returns init.isEdit
-        FastMock.bundleExtensions()
-        every { bundle.getEnum(Intent.STATE, Default.STATE, stateConverter) } returns init.noteState
-        every { bundle.getLong(Intent.ID, Default.ID) } returns init.id
-        every { bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter) } returns null
+        with(init) { mockkGetData(isEdit, noteState, id, type = null, color, name) }
 
         provider.getData(bundle)
         assertNull(provider.init)
 
         verifySequence {
-            bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
-            bundle.getEnum(Intent.STATE, Default.STATE, stateConverter)
-            bundle.getLong(Intent.ID, Default.ID)
-            bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter)
+            verifyGetData(init.noteState, type = null)
         }
     }
 
     @Test fun `getData with bad color`() {
-        every { bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT) } returns init.isEdit
-        FastMock.bundleExtensions()
-        every { bundle.getEnum(Intent.STATE, Default.STATE, stateConverter) } returns init.noteState
-        every { bundle.getLong(Intent.ID, Default.ID) } returns init.id
-        every { bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter) } returns init.type
-        every { bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) } returns null
-        every { bundle.getString(Intent.NAME, Default.NAME) } returns init.name
+        with(init) { mockkGetData(isEdit, noteState, id, type, color = null, name) }
 
         provider.getData(bundle)
         assertEquals(provider.init, init.copy(color = defaultColor))
 
         verifySequence {
-            bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
-            bundle.getEnum(Intent.STATE, Default.STATE, stateConverter)
-            bundle.getLong(Intent.ID, Default.ID)
-            bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter)
-            bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter)
-            bundle.getString(Intent.NAME, Default.NAME)
+            verifyGetData(init.noteState, init.type)
         }
     }
 
     @Test fun `getData with bad name`() {
-        every { bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT) } returns init.isEdit
-        FastMock.bundleExtensions()
-        every { bundle.getEnum(Intent.STATE, Default.STATE, stateConverter) } returns init.noteState
-        every { bundle.getLong(Intent.ID, Default.ID) } returns init.id
-        every { bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter) } returns init.type
-        every { bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) } returns init.color
-        every { bundle.getString(Intent.NAME, Default.NAME) } returns null
+        with(init) { mockkGetData(isEdit, noteState, id, type, color, name = null) }
 
         provider.getData(bundle)
         assertEquals(provider.init, init.copy(name = Default.NAME))
 
         verifySequence {
-            bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
-            bundle.getEnum(Intent.STATE, Default.STATE, stateConverter)
-            bundle.getLong(Intent.ID, Default.ID)
-            bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter)
-            bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter)
-            bundle.getString(Intent.NAME, Default.NAME)
+            verifyGetData(init.noteState, init.type)
         }
     }
 
@@ -141,6 +112,61 @@ class NoteBundleProviderTest : ParentTest() {
     }
 
     @Test fun `getData and saveData`() {
-        TODO()
+        with(init) {
+            mockkGetData(isEdit, noteState, id, type, color, name)
+
+            every { outState.putBoolean(Intent.IS_EDIT, isEdit) } returns Unit
+            every { outState.putEnum(Intent.STATE, stateConverter, noteState) } returns Unit
+            every { outState.putLong(Intent.ID, id) } returns Unit
+            every { outState.putEnum(Intent.TYPE, typeConverter, type) } returns Unit
+            every { outState.putEnum(Intent.COLOR, colorConverter, color) } returns Unit
+            every { outState.putString(Intent.NAME, name) } returns Unit
+        }
+
+        provider.getData(bundle)
+        provider.saveData(outState)
+
+        verifySequence {
+            verifyGetData(init.noteState, init.type)
+
+            outState.putBoolean(Intent.IS_EDIT, init.isEdit)
+            outState.putEnum(Intent.STATE, stateConverter, init.noteState)
+            outState.putLong(Intent.ID, init.id)
+            outState.putEnum(Intent.TYPE, typeConverter, init.type)
+            outState.putEnum(Intent.COLOR, colorConverter, init.color)
+            outState.putString(Intent.NAME, init.name)
+        }
+    }
+
+    private fun mockkGetData(
+        isEdit: Boolean,
+        noteState: NoteState?,
+        id: Long,
+        type: NoteType?,
+        color: Color?,
+        name: String?
+    ) {
+        every { bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT) } returns isEdit
+        FastMock.bundleExtensions()
+        every { bundle.getEnum(Intent.STATE, Default.STATE, stateConverter) } returns noteState
+        every { bundle.getLong(Intent.ID, Default.ID) } returns id
+        every { bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter) } returns type
+        every { bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) } returns color
+        every { bundle.getString(Intent.NAME, Default.NAME) } returns name
+    }
+
+    private fun verifyGetData(noteState: NoteState?, type: NoteType?) {
+        bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
+        bundle.getEnum(Intent.STATE, Default.STATE, stateConverter)
+
+        if (noteState == null) return
+
+        bundle.getLong(Intent.ID, Default.ID)
+        bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter)
+
+        if (type == null) return
+
+        bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter)
+        bundle.getString(Intent.NAME, Default.NAME)
     }
 }
