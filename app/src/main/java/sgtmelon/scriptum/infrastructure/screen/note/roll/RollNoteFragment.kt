@@ -45,7 +45,7 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
 
-    fun updateNoteState(isEdit: Boolean, noteState: NoteState?)
+    fun updateNoteState(isEdit: Boolean, state: NoteState?)
 
     fun updateProgress(progress: Int, max: Int)
 

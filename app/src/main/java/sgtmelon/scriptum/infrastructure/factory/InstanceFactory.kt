@@ -86,11 +86,9 @@ object InstanceFactory {
             }
         }
 
-        operator fun get(context: Context, item: NoteItem, noteState: NoteState): Intent {
+        operator fun get(context: Context, item: NoteItem, state: NoteState): Intent {
             with(item) {
-                return get(
-                    context, isEdit = false, noteState, type.ordinal, id, color.ordinal, name
-                )
+                return get(context, isEdit = false, state, type.ordinal, id, color.ordinal, name)
             }
         }
 
@@ -101,7 +99,7 @@ object InstanceFactory {
         operator fun get(
             context: Context,
             isEdit: Boolean,
-            noteState: NoteState,
+            state: NoteState,
             type: Int,
             id: Long = IntentData.Note.Default.ID,
             color: Int = IntentData.Note.Default.COLOR,
@@ -109,7 +107,7 @@ object InstanceFactory {
         ): Intent {
             return Intent(context, NoteActivity::class.java)
                 .putExtra(IntentData.Note.Intent.IS_EDIT, isEdit)
-                .putExtra(IntentData.Note.Intent.STATE, noteState.ordinal)
+                .putExtra(IntentData.Note.Intent.STATE, state.ordinal)
                 .putExtra(IntentData.Note.Intent.ID, id)
                 .putExtra(IntentData.Note.Intent.TYPE, type)
                 .putExtra(IntentData.Note.Intent.COLOR, color)

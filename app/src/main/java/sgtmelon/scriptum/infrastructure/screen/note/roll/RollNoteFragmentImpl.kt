@@ -307,9 +307,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
 
-    override fun updateNoteState(isEdit: Boolean, noteState: NoteState?) {
+    override fun updateNoteState(isEdit: Boolean, state: NoteState?) {
         adapter.isEdit = isEdit
-        adapter.noteState = noteState
+        adapter.state = state
         binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
     }
 

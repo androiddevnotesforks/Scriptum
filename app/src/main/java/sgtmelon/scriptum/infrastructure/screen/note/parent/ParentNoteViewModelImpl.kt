@@ -69,7 +69,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
 
-    override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.noteState)
+    override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.state)
 
     override val id: MutableLiveData<Long> = MutableLiveData(init.id)
 

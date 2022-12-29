@@ -48,22 +48,22 @@ interface OpenNote {
 
         fun openText(
             item: NoteItem.Text,
-            noteState: NoteState,
+            state: NoteState,
             isRankEmpty: Boolean,
             func: TextNoteScreen.() -> Unit
         ) {
             openClick(item)
-            TextNoteScreen(func, noteState, item, isRankEmpty)
+            TextNoteScreen(func, state, item, isRankEmpty)
         }
 
         fun openRoll(
             item: NoteItem.Roll,
-            noteState: NoteState,
+            state: NoteState,
             isRankEmpty: Boolean,
             func: RollNoteScreen.() -> Unit
         ) {
             openClick(item)
-            RollNoteScreen(func, noteState, item, isRankEmpty)
+            RollNoteScreen(func, state, item, isRankEmpty)
         }
     }
 }

@@ -119,7 +119,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     @CallSuper open fun observeState(it: NoteState) {
-        connector.init.noteState = it
+        connector.init.state = it
     }
 
     @CallSuper open fun observeColor(it: Color) {
@@ -148,7 +148,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
 
         /** Show cancel button (for undo all changes) only if note exists and in edit mode. */
-        val isCancel = with(connector.init) { noteState != NoteState.CREATE && isEdit }
+        val isCancel = with(connector.init) { state != NoteState.CREATE && isEdit }
         setToolbarBackIcon(isCancel, needAnim = false)
 
         /** Save changes of name to noteItem model (it's only will be available in edit mode). */

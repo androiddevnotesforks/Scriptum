@@ -32,9 +32,9 @@ class RollReadHolder(
     }
 
     // TODO remove databinding and use only view binding
-    fun bind(item: RollItem, noteState: NoteState?) = binding.apply {
+    fun bind(item: RollItem, state: NoteState?) = binding.apply {
         this.item = item
-        this.isBin = noteState == NoteState.DELETE
+        this.isBin = state == NoteState.DELETE
     }.executePendingBindings()
 
 }

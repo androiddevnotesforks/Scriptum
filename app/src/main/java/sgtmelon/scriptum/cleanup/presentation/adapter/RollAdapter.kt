@@ -28,7 +28,7 @@ class RollAdapter(
     lateinit var history: NoteHistory
 
     var isEdit: Boolean? = null
-    var noteState: NoteState? = null
+    var state: NoteState? = null
 
     var cursorPosition = ND_CURSOR
 
@@ -44,7 +44,7 @@ class RollAdapter(
         val item = getItem(position) ?: return
 
         when (holder) {
-            is RollReadHolder -> holder.bind(item, noteState)
+            is RollReadHolder -> holder.bind(item, state)
             is RollWriteHolder -> {
                 holder.bind(item)
 

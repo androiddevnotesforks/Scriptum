@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 data class NoteInit(
     var isEdit: Boolean,
-    var noteState: NoteState,
+    var state: NoteState,
     var id: Long,
     var type: NoteType,
     var color: Color,
