@@ -31,6 +31,13 @@ sealed class NoteItem(
     var alarmDate: String
 ) {
 
+    // TODO create models for *rank* and *alarm*
+
+    // TODO Alarm(val id: Long, val date: String)
+    // TODO may be convert date into Calendar?
+
+    // TODO Rank(val id: Long, val position: Int)
+
     val type: NoteType
         get() = when (this) {
             is Text -> NoteType.TEXT
@@ -53,18 +60,6 @@ sealed class NoteItem(
     fun clearAlarm() = apply {
         alarmId = Alarm.Default.ID
         alarmDate = Alarm.Default.DATE
-    }
-
-
-    fun onDelete() = apply {
-        updateTime()
-        isBin = true
-        isStatus = false
-    }
-
-    fun onRestore() = apply {
-        updateTime()
-        isBin = false
     }
 
     //endregion

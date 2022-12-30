@@ -16,6 +16,8 @@ import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.scriptum.infrastructure.utils.extensions.onDelete
+import sgtmelon.scriptum.infrastructure.utils.extensions.onRestore
 import sgtmelon.test.prod.RunPrivate
 
 /**
