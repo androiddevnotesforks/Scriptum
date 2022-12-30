@@ -6,16 +6,16 @@ import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test for [NumbersJoinConverter].
+ * Test for [LongListConverter].
  */
-class NumbersJoinConverterTest : ParentTest() {
+class LongListConverterTest : ParentTest() {
 
     private val goodList: List<Long> = mutableListOf(1, 2, 3, 4, 5)
     private val goodString = "1, 2, 3, 4, 5"
     private val badList: List<Long> = mutableListOf(1, 93)
     private val badString = "asb, 1, asdj,12, 93"
 
-    private val converter = NumbersJoinConverter()
+    private val converter = LongListConverter()
 
     @Test fun `toList with empty text`() {
         assertEquals(converter.toList(value = ""), mutableListOf<Long>())
@@ -26,7 +26,7 @@ class NumbersJoinConverterTest : ParentTest() {
     }
 
     @Test fun `toList with EMPTY value`() {
-        assertEquals(converter.toList(NumbersJoinConverter.EMPTY), mutableListOf<Long>())
+        assertEquals(converter.toList(LongListConverter.EMPTY), mutableListOf<Long>())
     }
 
     @Test fun `toList with bad values`() {
@@ -38,11 +38,11 @@ class NumbersJoinConverterTest : ParentTest() {
     }
 
     @Test fun `toString with null list`() {
-        assertEquals(converter.toString(value = null), NumbersJoinConverter.EMPTY)
+        assertEquals(converter.toString(value = null), LongListConverter.EMPTY)
     }
 
     @Test fun `toString with empty list`() {
-        assertEquals(converter.toString(mutableListOf()), NumbersJoinConverter.EMPTY)
+        assertEquals(converter.toString(mutableListOf()), LongListConverter.EMPTY)
     }
 
     @Test fun `toString with normal values`() {

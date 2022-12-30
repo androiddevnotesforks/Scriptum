@@ -6,7 +6,7 @@ import sgtmelon.extensions.clearSplit
 /**
  * Converter from long list to string and vice versa.
  */
-class NumbersJoinConverter {
+class LongListConverter {
 
     @TypeConverter fun toList(value: String): MutableList<Long> {
         val list = mutableListOf<Long>()

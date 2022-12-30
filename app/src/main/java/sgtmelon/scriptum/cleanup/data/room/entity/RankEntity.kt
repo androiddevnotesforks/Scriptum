@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
-import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
+import sgtmelon.scriptum.infrastructure.converter.types.LongListConverter
 import sgtmelon.scriptum.infrastructure.database.DbData.Rank
 import sgtmelon.scriptum.infrastructure.database.DbData.Rank.Default
 import sgtmelon.scriptum.infrastructure.database.DbData.Rank.Room
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Rank.Room
     tableName = Rank.TABLE,
     indices = [Index(value = [Rank.NAME], name = Rank.INDEX_NAME, unique = true)]
 )
-@TypeConverters(BoolConverter::class, NumbersJoinConverter::class)
+@TypeConverters(BoolConverter::class, LongListConverter::class)
 data class RankEntity(
     @ColumnInfo(name = Rank.ID, defaultValue = Room.ID)
     @PrimaryKey(autoGenerate = true)

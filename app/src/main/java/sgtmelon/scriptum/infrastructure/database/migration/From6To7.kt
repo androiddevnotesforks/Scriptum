@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.database.migration
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
+import sgtmelon.scriptum.infrastructure.converter.types.LongListConverter
 
 /**
  * Add defaultValues to room entities.
@@ -165,7 +165,7 @@ object From6To7 {
         execSQL(
             """CREATE TABLE RANK_TABLE (
                     RK_ID INTEGER PRIMARY KEY NOT NULL DEFAULT 0,
-                    RK_NOTE_ID TEXT NOT NULL DEFAULT '${NumbersJoinConverter.EMPTY}',
+                    RK_NOTE_ID TEXT NOT NULL DEFAULT '${LongListConverter.EMPTY}',
                     RK_POSITION INTEGER NOT NULL DEFAULT 0,
                     RK_NAME TEXT NOT NULL DEFAULT '',
                     RK_VISIBLE INTEGER NOT NULL DEFAULT 1)"""

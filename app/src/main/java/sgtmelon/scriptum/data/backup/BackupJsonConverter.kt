@@ -9,13 +9,13 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
-import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
+import sgtmelon.scriptum.infrastructure.converter.types.LongListConverter
 import sgtmelon.scriptum.infrastructure.database.DbData
 
 class BackupJsonConverter(
     private val colorConverter: ColorConverter,
     private val typeConverter: NoteTypeConverter,
-    private val numbersJoinConverter: NumbersJoinConverter
+    private val longListConverter: LongListConverter
 ) {
 
     //region toJson
@@ -58,7 +58,7 @@ class BackupJsonConverter(
     fun toJson(entity: RankEntity): JSONObject {
         return JSONObject()
             .put(DbData.Rank.ID, entity.id)
-            .put(DbData.Rank.NOTE_ID, numbersJoinConverter.toString(entity.noteId))
+            .put(DbData.Rank.NOTE_ID, longListConverter.toString(entity.noteId))
             .put(DbData.Rank.POSITION, entity.position)
             .put(DbData.Rank.NAME, entity.name)
             .put(DbData.Rank.VISIBLE, entity.isVisible)
@@ -117,7 +117,7 @@ class BackupJsonConverter(
     fun toRankV1(jsonObject: JSONObject): RankEntity {
         return RankEntity(
             jsonObject.getLong(DbData.Rank.ID),
-            numbersJoinConverter.toList(jsonObject.getString(DbData.Rank.NOTE_ID)),
+            longListConverter.toList(jsonObject.getString(DbData.Rank.NOTE_ID)),
             jsonObject.getInt(DbData.Rank.POSITION),
             jsonObject.getString(DbData.Rank.NAME),
             jsonObject.getBoolean(DbData.Rank.VISIBLE)
