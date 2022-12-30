@@ -11,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.updateTime
 
 /**
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
@@ -39,8 +40,6 @@ sealed class NoteItem(
     abstract fun isSaveEnabled(): Boolean
 
     //region Common functions
-
-    fun updateTime() = apply { change = getCalendarText() }
 
     fun haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
 

@@ -11,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.onSave
+import sgtmelon.scriptum.infrastructure.utils.extensions.updateTime
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.INDICATOR_MAX_COUNT as MAX_COUNT
 
@@ -62,7 +63,11 @@ class NoteItemTest : ParentTest() {
         //        assertFalse(textItem.deepCopy(isStatus = true).switchStatus().isStatus)
     }
 
-    @Test fun updateTime() = assertChangeTime(rollItem.deepCopy(change = changeText).updateTime())
+    @Test fun updateTime() {
+        val item = rollItem.deepCopy(change = changeText)
+        item.updateTime()
+        assertChangeTime(item)
+    }
 
     @Test fun haveRank() {
         assertFalse(rollItem.deepCopy().haveRank())

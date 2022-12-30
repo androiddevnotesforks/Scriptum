@@ -2,12 +2,13 @@
 
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
+import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 
-fun NoteItem.switchStatus() {
-    isStatus = !isStatus
-}
+fun NoteItem.updateTime() = run { change = getCalendarText() }
+
+fun NoteItem.switchStatus() = run { isStatus = !isStatus }
 
 fun NoteItem.onSave() {
     name = name.removeExtraSpace()
