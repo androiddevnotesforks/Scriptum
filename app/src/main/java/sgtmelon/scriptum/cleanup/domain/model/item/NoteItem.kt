@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 
 import kotlin.math.min
 import sgtmelon.extensions.getCalendarText
-import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.extension.copy
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
@@ -155,15 +154,6 @@ sealed class NoteItem(
             alarmId, alarmDate
         )
 
-
-        fun splitText() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
-
-
-        fun onSave() = apply {
-            name = name.removeExtraSpace()
-            updateTime()
-        }
-
         fun onConvert(): Roll {
             val noteItem = Roll(
                 id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
@@ -179,6 +169,8 @@ sealed class NoteItem(
 
             return noteItem
         }
+
+        fun splitText() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
 
         //endregion
 
@@ -244,22 +236,6 @@ sealed class NoteItem(
         fun onItemCheck(p: Int) {
             list.getOrNull(p)?.apply { isCheck = !isCheck } ?: return
 
-            updateTime()
-            updateComplete()
-        }
-
-
-        fun onSave() {
-            list.apply {
-                removeAll { it.text.removeExtraSpace().isEmpty() }
-
-                for ((i, item) in withIndex()) {
-                    item.position = i
-                    item.text = item.text.removeExtraSpace()
-                }
-            }
-
-            name = name.removeExtraSpace()
             updateTime()
             updateComplete()
         }
