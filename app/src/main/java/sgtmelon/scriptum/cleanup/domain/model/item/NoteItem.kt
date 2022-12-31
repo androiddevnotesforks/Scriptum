@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 import kotlin.math.min
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.cleanup.extension.copy
-import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
@@ -148,22 +147,6 @@ sealed class NoteItem(
             alarmId, alarmDate
         )
 
-        fun onConvert(): Roll {
-            val noteItem = Roll(
-                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                alarmId, alarmDate
-            )
-
-            for ((i, it) in splitText().withIndex()) {
-                noteItem.list.add(RollItem(position = i, text = it))
-            }
-
-            noteItem.updateTime()
-            noteItem.updateComplete(knownCheckCount = 0)
-
-            return noteItem
-        }
-
         fun splitText() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
 
         //endregion
@@ -232,20 +215,6 @@ sealed class NoteItem(
 
             updateTime()
             updateComplete()
-        }
-
-        fun onConvert() = onConvert(list)
-
-        fun onConvert(list: List<RollItem>): Text {
-            val noteItem = Text(
-                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                alarmId, alarmDate
-            )
-
-            noteItem.updateTime()
-            noteItem.text = list.getText()
-
-            return noteItem
         }
 
         //endregion

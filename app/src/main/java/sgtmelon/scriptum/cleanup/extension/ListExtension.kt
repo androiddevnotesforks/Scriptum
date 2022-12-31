@@ -43,6 +43,8 @@ fun BooleanArray.safeSet(index: Int, value: Boolean) {
 
 // Roll list functions
 
+// TODO may be move it inside another extensions file?
+
 fun List<RollItem>.getText(): String = joinToString(separator = "\n") { it.text }
 
 fun MutableList<RollItem>.copy() = map { it.copy() }.toMutableList()

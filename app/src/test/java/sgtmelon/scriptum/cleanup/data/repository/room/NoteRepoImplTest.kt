@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
+import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.onDelete
 import sgtmelon.scriptum.infrastructure.utils.extensions.onRestore
 import sgtmelon.scriptum.testing.getRandomSize
@@ -489,7 +490,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { startItem.id } returns id
         coEvery { rollDataSource.getList(id) } returns entityList
         every { rollConverter.toItem(entityList) } returns itemList
-        every { startItem.onConvert(itemList) } returns finishItem
+        //        every { startItem.onConvert(itemList) } returns finishItem
 
         runBlocking {
             assertEquals(repository.convertNote(startItem), finishItem)
@@ -506,7 +507,7 @@ class NoteRepoImplTest : ParentRepoTest() {
             startItem.id
             rollDataSource.getList(id)
             rollConverter.toItem(entityList)
-            startItem.onConvert(itemList)
+            //            startItem.onConvert(itemList)
             noteConverter.toEntity(finishItem)
             noteDataSource.update(finishEntity)
             finishItem.id

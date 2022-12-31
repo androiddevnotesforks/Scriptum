@@ -19,6 +19,7 @@ import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.infrastructure.database.DbData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.onSave
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.screen.dialogs.ColorDialogUi

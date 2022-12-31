@@ -10,6 +10,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.onDelete
 import sgtmelon.scriptum.infrastructure.utils.extensions.onRestore
 import sgtmelon.scriptum.infrastructure.utils.extensions.onSave
@@ -314,7 +315,7 @@ class NoteItemTest : ParentTest() {
         }
 
         val list = rollList.subList(0, 2)
-        rollItem.deepCopy(change = changeText, list = list).onConvert(list).apply {
+        rollItem.deepCopy(change = changeText, list = list).onConvert().apply {
             assertEquals(NoteType.TEXT, type)
 
             assertChangeTime(this)
