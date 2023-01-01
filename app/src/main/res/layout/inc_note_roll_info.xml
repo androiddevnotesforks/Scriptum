@@ -36,7 +36,7 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:showDividers="middle"
-            android:visibility='@{!item.isVisible || item.haveAlarm() || item.status || item.haveRank() ? View.VISIBLE : View.GONE}'
+            android:visibility="@{!item.isVisible || item.haveAlarmDepr() || item.status || item.haveRankDepr() ? View.VISIBLE : View.GONE}"
             tools:visibility="visible">
 
             <ImageView
@@ -51,7 +51,7 @@
                 android:id="@+id/note_info_notification_image"
                 style="@style/Image.Note.Info"
                 android:importantForAccessibility="no"
-                android:visibility='@{item.haveAlarm() ? View.VISIBLE : View.GONE }'
+                android:visibility="@{item.haveAlarmDepr() ? View.VISIBLE : View.GONE }"
                 app:srcCompat="@drawable/ic_notifications"
                 tools:visibility="visible" />
 
@@ -67,7 +67,7 @@
                 android:id="@+id/note_info_rank_image"
                 style="@style/Image.Note.Info"
                 android:importantForAccessibility="no"
-                android:visibility='@{item.haveRank() ? View.VISIBLE : View.GONE}'
+                android:visibility="@{item.haveRankDepr() ? View.VISIBLE : View.GONE}"
                 app:srcCompat="@drawable/ic_rank"
                 tools:visibility="visible" />
 

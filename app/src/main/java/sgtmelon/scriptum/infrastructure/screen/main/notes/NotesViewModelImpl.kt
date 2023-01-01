@@ -24,6 +24,8 @@ import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.switchStatus
 
 class NotesViewModelImpl(

@@ -4,6 +4,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
+import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 
 /**
  * Repository for work with alarm.

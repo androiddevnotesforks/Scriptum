@@ -10,6 +10,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.type
 import sgtmelon.scriptum.infrastructure.utils.extensions.updateTime
 
 /**
@@ -37,31 +38,24 @@ sealed class NoteItem(
 
     // TODO Rank(val id: Long, val position: Int)
 
-    val type: NoteType
+    //region Remove after dataBinding refactor
+
+    @Deprecated("Use extensions")
+    fun haveRankDepr() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
+
+    @Deprecated("Use extensions")
+    fun haveAlarmDepr() = alarmId != Alarm.Default.ID && alarmDate != Alarm.Default.DATE
+
+    @Deprecated("Use extensions")
+    val typeDepr: NoteType
         get() = when (this) {
             is Text -> NoteType.TEXT
             is Roll -> NoteType.ROLL
         }
 
-    abstract fun isSaveEnabled(): Boolean
-
-    //region Common functions
-
-    fun haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
-
-    fun haveAlarm() = alarmId != Alarm.Default.ID && alarmDate != Alarm.Default.DATE
-
-    fun clearRank() = apply {
-        rankId = Note.Default.RANK_ID
-        rankPs = Note.Default.RANK_PS
-    }
-
-    fun clearAlarm() = apply {
-        alarmId = Alarm.Default.ID
-        alarmDate = Alarm.Default.DATE
-    }
-
     //endregion
+
+    abstract fun isSaveEnabled(): Boolean
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -207,7 +201,7 @@ sealed class NoteItem(
         }
 
         // TODO may be some optimization: in some cases get last check value (not calculate it from start).
-        fun getCheck(): Int = list.filter { it.isCheck }.size
+        fun getCheck(): Int = list.count { it.isCheck }
 
 
         fun onItemCheck(p: Int) {

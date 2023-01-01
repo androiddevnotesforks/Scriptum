@@ -13,6 +13,9 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.type
 import sgtmelon.scriptum.parent.ui.basic.withCardBackground
 import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
 import sgtmelon.scriptum.parent.ui.feature.OpenNote

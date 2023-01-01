@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.type
 
 /**
  * Converter for [NoteEntity]/[RollEntity]/[AlarmEntity] and [NoteItem]

@@ -35,6 +35,8 @@ import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.onRestore
@@ -87,6 +89,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     init {
         viewModelScope.launchBack {
             rankDialogItems.postValue(getRankDialogNames())
+
+            delay(5000)
 
             val id = init.id
             val value = if (id == Default.ID) createNote() else getNote(id)

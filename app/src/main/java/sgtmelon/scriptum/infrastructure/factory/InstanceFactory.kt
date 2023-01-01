@@ -19,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivi
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
+import sgtmelon.scriptum.infrastructure.utils.extensions.type
 import sgtmelon.test.idling.getWaitIdling
 
 /**

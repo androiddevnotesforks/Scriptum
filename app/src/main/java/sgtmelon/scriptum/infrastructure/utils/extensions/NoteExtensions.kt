@@ -7,12 +7,37 @@ import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
+import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
+import sgtmelon.scriptum.infrastructure.database.DbData.Note
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 // TODO create tests
+
+val NoteItem.type: NoteType
+    get() = when (this) {
+        is NoteItem.Text -> NoteType.TEXT
+        is NoteItem.Roll -> NoteType.ROLL
+    }
 
 fun NoteItem.updateTime() = run { change = getCalendarText() }
 
 fun NoteItem.switchStatus() = run { isStatus = !isStatus }
+
+fun NoteItem.haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
+
+fun NoteItem.haveAlarm() = alarmId != Alarm.Default.ID && alarmDate != Alarm.Default.DATE
+
+fun NoteItem.clearRank() = apply {
+    rankId = Note.Default.RANK_ID
+    rankPs = Note.Default.RANK_PS
+}
+
+fun NoteItem.clearAlarm() = apply {
+    alarmId = Alarm.Default.ID
+    alarmDate = Alarm.Default.DATE
+}
+
+//region On.. functions
 
 fun NoteItem.onSave() {
     name = name.removeExtraSpace()
@@ -70,3 +95,5 @@ fun NoteItem.onRestore() = apply {
     updateTime()
     isBin = false
 }
+
+//endregion
