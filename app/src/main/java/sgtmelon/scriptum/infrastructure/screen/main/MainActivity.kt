@@ -96,7 +96,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     override fun setupView() {
         super.setupView()
 
-        gradientFab = GradientFabDelegator(activity = this) { showAddDialog() }
+        gradientFab = GradientFab(activity = this) { showAddDialog() }
 
         /** Setup of selected item must be before setting navigation item selected listener */
         binding?.menuNavigation?.selectedItemId = pageConverter.convert(viewModel.currentPage.value)
