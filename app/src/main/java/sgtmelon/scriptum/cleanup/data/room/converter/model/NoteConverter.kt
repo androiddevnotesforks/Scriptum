@@ -13,7 +13,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.type
  * Converter for [NoteEntity]/[RollEntity]/[AlarmEntity] and [NoteItem]
  */
 class NoteConverter(
-    private val alarmConverter: AlarmConverter
+    private val alarmConverter: AlarmConverter,
+    private val rankConverter: RankConverter
 ) {
 
     // TODO check null, arraylist null usage
@@ -24,21 +25,24 @@ class NoteConverter(
         alarmEntity: AlarmEntity? = null
     ): NoteItem = with(noteEntity) {
         val isRollVisible = isVisible ?: RollVisible.Default.VALUE
+        val rank = rankConverter.toNoteRank(noteEntity)
         val alarm = alarmConverter.toNoteAlarm(alarmEntity)
 
         return@with when (noteEntity.type) {
             NoteType.TEXT -> NoteItem.Text(
-                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm
+                id, create, change, name, text, color, rank, isBin, isStatus, alarm
             )
             NoteType.ROLL -> NoteItem.Roll(
-                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+                id, create, change, name, text, color, rank, isBin, isStatus,
                 alarm, isRollVisible, rollList
             )
         }
     }
 
     fun toEntity(item: NoteItem) = with(item) {
-        NoteEntity(id, create, change, name, text, color, type, rankId, rankPs, isBin, isStatus)
+        NoteEntity(
+            id, create, change, name, text, color, type, rank.id, rank.position, isBin, isStatus
+        )
     }
 
     fun toEntity(list: List<NoteItem>): MutableList<NoteEntity> {

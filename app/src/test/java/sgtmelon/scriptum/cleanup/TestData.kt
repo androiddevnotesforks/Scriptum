@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup
 import kotlin.random.Random
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
@@ -53,23 +54,23 @@ object TestData {
 
         val firstNote get() = NoteItem.Text(
             id = 0, create = DATE_1, change = DATE_2, color = Color.RED,
-            rankId = -1, rankPs = -1, alarm = NoteAlarm(id = 1, date = DATE_3)
+            rank = NoteRank(), alarm = NoteAlarm(id = 1, date = DATE_3)
         )
 
         val secondNote get() = NoteItem.Roll(
-                id = 1, create = DATE_0, change = DATE_3, color = Color.INDIGO,
-                rankId = 1, rankPs = 1, isStatus = true
+            id = 1, create = DATE_0, change = DATE_3, color = Color.INDIGO,
+            rank = NoteRank(id = 1, position = 1), isStatus = true
         )
 
         val thirdNote get() = NoteItem.Text(
             id = 2, create = DATE_3, change = DATE_0, color = Color.TEAL,
-            rankId = 1, rankPs = 1, alarm = NoteAlarm(id = 2, date = DATE_2)
+            rank = NoteRank(id = 1, position = 1), alarm = NoteAlarm(id = 2, date = DATE_2)
         )
 
         val fourthNote
             get() = NoteItem.Roll(
                 id = 3, create = DATE_2, change = DATE_1, color = Color.INDIGO,
-                rankId = 2, rankPs = 2, isStatus = true
+                rank = NoteRank(id = 2, position = 2), isStatus = true
             )
 
         val itemList get() = mutableListOf(firstNote, secondNote, thirdNote, fourthNote)

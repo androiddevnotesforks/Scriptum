@@ -10,6 +10,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -44,37 +45,38 @@ class NoteConverterTest : ParentTest() {
 
     private val firstItem = NoteItem.Text(
         id = 1, create = "12", change = "34", name = "bla", text = "bla", color = Color.PURPLE,
-        rankId = 1, rankPs = 1, isBin = true, isStatus = true,
+        rank = NoteRank(id = 1, position = 1), isBin = true, isStatus = true,
         alarm = NoteAlarm(id = 1, date = "12345")
     )
 
     private val secondItem = NoteItem.Text(
         id = 1, create = "12", change = "34", name = "bla", text = "bla", color = Color.PURPLE,
-        rankId = 1, rankPs = 1, isBin = true, isStatus = true
+        rank = NoteRank(id = 1, position = 1), isBin = true, isStatus = true
     )
 
     private val thirdItem = NoteItem.Roll(
         id = 1, create = "12", change = "34", name = "bla", text = "bla", color = Color.PURPLE,
-        rankId = 1, rankPs = 1, isBin = true, isStatus = true,
+        rank = NoteRank(id = 1, position = 1), isBin = true, isStatus = true,
         alarm = NoteAlarm(id = 1, date = "12345"),
         isVisible = RollVisible.Default.VALUE, list = rollList
     )
 
     private val fourthItem = NoteItem.Roll(
         id = 1, create = "12", change = "34", name = "bla", text = "bla", color = Color.PURPLE,
-        rankId = 1, rankPs = 1, isBin = true, isStatus = true,
+        rank = NoteRank(id = 1, position = 1), isBin = true, isStatus = true,
         isVisible = Random.nextBoolean(), list = rollList
     )
 
     //endregion
 
     @MockK lateinit var alarmConverter: AlarmConverter
+    @MockK lateinit var rankConverter: RankConverter
 
-    private val converter = NoteConverter(alarmConverter)
+    private val converter = NoteConverter(alarmConverter, rankConverter)
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(alarmConverter)
+        confirmVerified(alarmConverter, rankConverter)
     }
 
     @Test fun toItem() {

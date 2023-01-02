@@ -81,9 +81,9 @@ class NoteItemTest : ParentTest() {
 
     @Test fun haveRank() {
         assertFalse(rollItem.deepCopy().haveRank())
-        assertFalse(rollItem.deepCopy(rankId = 0).haveRank())
-        assertFalse(rollItem.deepCopy(rankPs = 0).haveRank())
-        assertTrue(rollItem.deepCopy(rankId = 0, rankPs = 0).haveRank())
+        assertFalse(rollItem.deepCopy(rank = NoteRank(id = 0)).haveRank())
+        assertFalse(rollItem.deepCopy(rank = NoteRank(position = 0)).haveRank())
+        assertTrue(rollItem.deepCopy(rank = NoteRank(id = 0, position = 0)).haveRank())
     }
 
     @Test fun haveAlarm() {
@@ -94,7 +94,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun clearRank() {
-        val item = rollItem.deepCopy(rankId = 0, rankPs = 0)
+        val item = rollItem.deepCopy(rank = NoteRank(id = 0, position = 0))
 
         assertTrue(item.haveRank())
         assertFalse(item.clearRank().haveRank())
@@ -131,8 +131,8 @@ class NoteItemTest : ParentTest() {
             assertEquals(Note.Default.CHANGE, change)
             assertEquals(Note.Default.NAME, name)
             assertEquals(Note.Default.TEXT, text)
-            assertEquals(Note.Default.RANK_ID, rankId)
-            assertEquals(Note.Default.RANK_PS, rankPs)
+            assertEquals(Note.Default.RANK_ID, rank.id)
+            assertEquals(Note.Default.RANK_PS, rank.position)
             assertEquals(Note.Default.BIN, isBin)
             assertEquals(Note.Default.STATUS, isStatus)
             assertEquals(Alarm.Default.ID, alarm.id)
@@ -200,8 +200,8 @@ class NoteItemTest : ParentTest() {
             assertEquals(Note.Default.CHANGE, change)
             assertEquals(Note.Default.NAME, name)
             assertEquals(Note.Default.TEXT, text)
-            assertEquals(Note.Default.RANK_ID, rankId)
-            assertEquals(Note.Default.RANK_PS, rankPs)
+            assertEquals(Note.Default.RANK_ID, rank.id)
+            assertEquals(Note.Default.RANK_PS, rank.position)
             assertEquals(Note.Default.BIN, isBin)
             assertEquals(Note.Default.STATUS, isStatus)
             assertEquals(Alarm.Default.ID, alarm.id)

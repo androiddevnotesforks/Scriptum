@@ -40,7 +40,7 @@ class DbDelegator(
     private val rollConverter = RollConverter()
     private val rankConverter = RankConverter()
     private val alarmConverter = AlarmConverter()
-    private val noteConverter = NoteConverter(alarmConverter)
+    private val noteConverter = NoteConverter(alarmConverter, rankConverter)
 
     fun getInvalidNote(type: NoteType): NoteItem {
         return noteConverter.toItem(nextNoteEntity(Random.nextLong(), type = type))
@@ -119,8 +119,8 @@ class DbDelegator(
 
         inRoomTest {
             noteDao.update(noteConverter.toEntity(noteItem.apply {
-                rankId = rankItem.id
-                rankPs = rankItem.position
+                rank.id = rankItem.id
+                rank.position = rankItem.position
             }))
         }
 
@@ -139,8 +139,8 @@ class DbDelegator(
 
         inRoomTest {
             noteDao.update(noteConverter.toEntity(noteItem.apply {
-                rankId = rankItem.id
-                rankPs = rankItem.position
+                rank.id = rankItem.id
+                rank.position = rankItem.position
             }))
         }
 
@@ -289,8 +289,8 @@ class DbDelegator(
             inRoomTest {
                 for (item in noteList) {
                     noteDao.update(noteConverter.toEntity(item.apply {
-                        rankId = rankItem.id
-                        rankPs = rankItem.position
+                        rank.id = rankItem.id
+                        rank.position = rankItem.position
                     }))
                 }
             }

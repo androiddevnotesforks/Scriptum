@@ -6,9 +6,9 @@ import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
-import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 // TODO create tests
@@ -23,14 +23,11 @@ fun NoteItem.updateTime() = run { change = getCalendarText() }
 
 fun NoteItem.switchStatus() = run { isStatus = !isStatus }
 
-fun NoteItem.haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
+fun NoteItem.haveRank() = rank != NoteRank()
 
 fun NoteItem.haveAlarm() = alarm != NoteAlarm()
 
-fun NoteItem.clearRank() = apply {
-    rankId = Note.Default.RANK_ID
-    rankPs = Note.Default.RANK_PS
-}
+fun NoteItem.clearRank() = apply { rank = NoteRank() }
 
 fun NoteItem.clearAlarm() = apply { alarm = NoteAlarm() }
 
@@ -59,7 +56,7 @@ private fun NoteItem.Roll.onSave() {
 // TODO move it inside noteConverter?
 fun NoteItem.Text.onConvert(): NoteItem.Roll {
     val item = NoteItem.Roll(
-        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm.copy()
+        id, create, change, name, text, color, rank.copy(), isBin, isStatus, alarm.copy()
     )
 
     item.list.addAll(splitText().mapIndexed { i, it -> RollItem(position = i, text = it) })
@@ -72,7 +69,7 @@ fun NoteItem.Text.onConvert(): NoteItem.Roll {
 // TODO move it inside noteConverter?
 fun NoteItem.Roll.onConvert(): NoteItem.Text {
     val item = NoteItem.Text(
-        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm.copy()
+        id, create, change, name, text, color, rank.copy(), isBin, isStatus, alarm.copy()
     )
 
     item.updateTime()

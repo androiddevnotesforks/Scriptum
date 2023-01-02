@@ -374,7 +374,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         val entity = mockk<NoteEntity>()
 
         every { item.id } returns id
-        every { item.rankId } returns rankId
+        every { item.rank.id } returns rankId
         coEvery { spyRepository.clearConnection(id, rankId) } returns Unit
         every { noteConverter.toEntity(item) } returns entity
 
@@ -386,7 +386,7 @@ class NoteRepoImplTest : ParentRepoTest() {
             spyRepository.clearNote(item)
 
             item.id
-            item.rankId
+            item.rank.id
             spyRepository.clearConnection(id, rankId)
             noteConverter.toEntity(item)
             noteDataSource.delete(entity)

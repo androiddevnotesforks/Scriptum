@@ -36,8 +36,8 @@ class SortNoteListUseCase {
             return@Comparator when {
                 !o1.haveRank() && o2.haveRank() -> 1
                 o1.haveRank() && !o2.haveRank() -> -1
-                o1.rankPs > o2.rankPs -> 1
-                o1.rankPs < o2.rankPs -> -1
+                o1.rank.position > o2.rank.position -> 1
+                o1.rank.position < o2.rank.position -> -1
                 else -> 0
             }
         }.thenByDescending { it.change.toCalendar().timeInMillis })

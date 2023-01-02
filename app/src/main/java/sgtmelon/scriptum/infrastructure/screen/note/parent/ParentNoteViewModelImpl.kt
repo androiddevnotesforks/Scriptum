@@ -254,14 +254,14 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
             /** Need save data in history, before update it for [deprecatedNoteItem]. */
             val historyAction = HistoryAction.Rank(
-                HistoryChange(deprecatedNoteItem.rankId, rankId),
-                HistoryChange(deprecatedNoteItem.rankPs, check)
+                HistoryChange(deprecatedNoteItem.rank.id, rankId),
+                HistoryChange(deprecatedNoteItem.rank.position, check)
             )
             history.add(historyAction)
 
             deprecatedNoteItem.apply {
-                this.rankId = rankId
-                this.rankPs = check
+                this.rank.id = rankId
+                this.rank.position = check
             }
 
             callback?.apply {
@@ -378,8 +378,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     protected fun onMenuUndoRedoRank(action: HistoryAction.Rank, isUndo: Boolean) {
         deprecatedNoteItem.apply {
-            rankId = action.id[isUndo]
-            rankPs = action.position[isUndo]
+            rank.id = action.id[isUndo]
+            rank.position = action.position[isUndo]
         }
     }
 
@@ -401,7 +401,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onMenuRank() {
         if (isEdit.value.isFalse()) return
 
-        callback?.showRankDialog(check = deprecatedNoteItem.rankPs + 1)
+        callback?.showRankDialog(check = deprecatedNoteItem.rank.position + 1)
     }
 
     override fun onMenuColor() {

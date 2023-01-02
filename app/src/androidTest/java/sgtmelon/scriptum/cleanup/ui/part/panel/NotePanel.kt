@@ -258,14 +258,14 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
             val psTo = item?.position ?: -1
 
             val historyAction = HistoryAction.Rank(
-                HistoryChange(shadowItem.rankId, idTo),
-                HistoryChange(shadowItem.rankPs, psTo)
+                HistoryChange(shadowItem.rank.id, idTo),
+                HistoryChange(shadowItem.rank.position, psTo)
             )
             history.add(historyAction)
 
             shadowItem.apply {
-                rankId = idTo
-                rankPs = psTo
+                rank.id = idTo
+                rank.position = psTo
             }
 
             fullAssert()

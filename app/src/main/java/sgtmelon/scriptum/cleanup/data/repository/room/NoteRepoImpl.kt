@@ -169,7 +169,7 @@ class NoteRepoImpl(
      * Delete note forever and clear related categories
      */
     override suspend fun clearNote(item: NoteItem) {
-        clearConnection(item.id, item.rankId)
+        clearConnection(item.id, item.rank.id)
         noteDataSource.delete(noteConverter.toEntity(item))
     }
 

@@ -24,7 +24,7 @@ class RankDialogUi(
 
     // TODO make it common (RepeatDialogUi, RankDialogUi, ThemeDialogUi)
 
-    private var check = item.rankPs
+    private var check = item.rank.position
 
     //region Views
 
@@ -45,7 +45,7 @@ class RankDialogUi(
 
         check = p - 1
 
-        if (check == item.rankPs) {
+        if (check == item.rank.position) {
             onClickItem()
         } else {
             if (check == -1) noCategoryButton.click() else getItem(rankList[check].name).click()
@@ -57,7 +57,7 @@ class RankDialogUi(
     fun onClickCancel() = waitClose { cancelButton.click() }
 
     fun onClickApply() = waitClose {
-        if (item.rankPs == check) throw IllegalAccessException("Apply button not enabled")
+        if (item.rank.position == check) throw IllegalAccessException("Apply button not enabled")
 
         applyButton.click()
         callback.onResultRankDialog(rankList.getOrNull(check))
@@ -78,7 +78,7 @@ class RankDialogUi(
         }
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
-        applyButton.isDisplayed().isEnabled(value = item.rankPs != check) {
+        applyButton.isDisplayed().isEnabled(value = item.rank.position != check) {
             withTextColor(R.attr.clAccent)
         }
     }

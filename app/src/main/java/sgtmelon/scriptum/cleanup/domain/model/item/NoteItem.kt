@@ -5,17 +5,19 @@ import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.cleanup.extension.copy
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
-import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.type
 import sgtmelon.scriptum.infrastructure.utils.extensions.updateTime
 
 /**
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
  */
+// TODO may be convert create/change into Calendar?
 sealed class NoteItem(
     var id: Long,
     var create: String,
@@ -23,34 +25,23 @@ sealed class NoteItem(
     var name: String,
     var text: String,
     var color: Color,
-    var rankId: Long,
-    var rankPs: Int,
+    var rank: NoteRank,
     var isBin: Boolean,
     var isStatus: Boolean,
     var alarm: NoteAlarm
 ) {
 
-    // TODO create models for *rank* and *alarm*
-
-    // TODO Alarm(val id: Long, val date: String)
-    // TODO may be convert date into Calendar?
-
-    // TODO Rank(val id: Long, val position: Int)
-
     //region Remove after dataBinding refactor
 
     @Deprecated("Use extensions")
-    fun haveRankDepr() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
+    fun haveRankDepr() = haveRank()
 
     @Deprecated("Use extensions")
-    fun haveAlarmDepr() = alarm.id != Alarm.Default.ID && alarm.date != Alarm.Default.DATE
+    fun haveAlarmDepr() = haveAlarm()
 
     @Deprecated("Use extensions")
     val typeDepr: NoteType
-        get() = when (this) {
-            is Text -> NoteType.TEXT
-            is Roll -> NoteType.ROLL
-        }
+        get() = type
 
     //endregion
 
@@ -70,8 +61,7 @@ sealed class NoteItem(
         if (name != other.name) return false
         if (text != other.text) return false
         if (color != other.color) return false
-        if (rankId != other.rankId) return false
-        if (rankPs != other.rankPs) return false
+        if (rank != other.rank) return false
         if (isBin != other.isBin) return false
         if (isStatus != other.isStatus) return false
         if (alarm != other.alarm) return false
@@ -89,8 +79,7 @@ sealed class NoteItem(
         result = 31 * result + name.hashCode()
         result = 31 * result + text.hashCode()
         result = 31 * result + color.hashCode()
-        result = 31 * result + rankId.hashCode()
-        result = 31 * result + rankPs.hashCode()
+        result = 31 * result + rank.hashCode()
         result = 31 * result + isBin.hashCode()
         result = 31 * result + isStatus.hashCode()
         result = 31 * result + alarm.hashCode()
@@ -105,12 +94,11 @@ sealed class NoteItem(
         name: String = Note.Default.NAME,
         text: String = Note.Default.TEXT,
         color: Color,
-        rankId: Long = Note.Default.RANK_ID,
-        rankPs: Int = Note.Default.RANK_PS,
+        rank: NoteRank = NoteRank(),
         isBin: Boolean = Note.Default.BIN,
         isStatus: Boolean = Note.Default.STATUS,
         alarm: NoteAlarm = NoteAlarm()
-    ) : NoteItem(id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm) {
+    ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
 
         override fun isSaveEnabled(): Boolean = text.isNotEmpty()
 
@@ -123,12 +111,11 @@ sealed class NoteItem(
             name: String = this.name,
             text: String = this.text,
             color: Color = this.color,
-            rankId: Long = this.rankId,
-            rankPs: Int = this.rankPs,
+            rank: NoteRank = this.rank,
             isBin: Boolean = this.isBin,
             isStatus: Boolean = this.isStatus,
             alarm: NoteAlarm = this.alarm.copy()
-        ) = Text(id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm)
+        ) = Text(id, create, change, name, text, color, rank, isBin, isStatus, alarm)
 
         fun splitText() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
 
@@ -143,14 +130,13 @@ sealed class NoteItem(
         name: String = Note.Default.NAME,
         text: String = Note.Default.TEXT,
         color: Color,
-        rankId: Long = Note.Default.RANK_ID,
-        rankPs: Int = Note.Default.RANK_PS,
+        rank: NoteRank = NoteRank(),
         isBin: Boolean = Note.Default.BIN,
         isStatus: Boolean = Note.Default.STATUS,
         alarm: NoteAlarm = NoteAlarm(),
         var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
-    ) : NoteItem(id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm) {
+    ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
 
         override fun isSaveEnabled(): Boolean = list.any { it.text.isNotEmpty() }
 
@@ -163,16 +149,14 @@ sealed class NoteItem(
             name: String = this.name,
             text: String = this.text,
             color: Color = this.color,
-            rankId: Long = this.rankId,
-            rankPs: Int = this.rankPs,
+            rank: NoteRank = this.rank,
             isBin: Boolean = this.isBin,
             isStatus: Boolean = this.isStatus,
             alarm: NoteAlarm = this.alarm.copy(),
             isVisible: Boolean = this.isVisible,
             list: MutableList<RollItem> = this.list.copy()
         ) = Roll(
-            id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-            alarm, isVisible, list
+            id, create, change, name, text, color, rank, isBin, isStatus, alarm, isVisible, list
         )
 
 

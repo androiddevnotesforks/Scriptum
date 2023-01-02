@@ -321,7 +321,7 @@ class RankRepoImplTest : ParentRepoTest() {
         val checkArray = BooleanArray(size) { Random.nextBoolean() }
 
         every { noteItem.id } returns id
-        every { noteItem.rankId } returns rankId
+        every { noteItem.rank.id } returns rankId
         coEvery { rankDataSource.getList() } returns getList
         every { spyRepository.calculateCheckArray(getList, rankId) } returns checkArray
         every { spyRepository.updateNoteId(getList, checkArray, id) } returns updateList
@@ -334,7 +334,7 @@ class RankRepoImplTest : ParentRepoTest() {
             spyRepository.updateConnection(noteItem)
 
             rankDataSource.getList()
-            noteItem.rankId
+            noteItem.rank.id
             spyRepository.calculateCheckArray(getList, rankId)
             noteItem.id
             spyRepository.updateNoteId(getList, checkArray, id)
