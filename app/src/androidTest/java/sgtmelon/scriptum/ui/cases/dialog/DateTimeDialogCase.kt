@@ -39,7 +39,7 @@ abstract class DateTimeDialogCase<T : NoteItem> : ParentUiTest(),
     }
 
     open fun timeApplyEnableList() = launchDateDialog(insert()) {
-        val alarmDate = insertNotification().alarmDate
+        val alarmDate = insertNotification().alarm.date
         val calendar = alarmDate.toCalendar()
 
         set(calendar).applyDate(listOf(alarmDate)) { set(calendar) }

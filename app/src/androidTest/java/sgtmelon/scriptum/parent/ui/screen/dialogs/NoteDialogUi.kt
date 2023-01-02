@@ -102,13 +102,13 @@ class NoteDialogUi(val item: NoteItem) : UiPart(),
 
 
     override fun dateResetResult() {
-        item.alarmId = DbData.Alarm.Default.ID
-        item.alarmDate = DbData.Alarm.Default.DATE
+        item.alarm.id = DbData.Alarm.Default.ID
+        item.alarm.date = DbData.Alarm.Default.DATE
     }
 
     override fun timeSetResult(calendar: Calendar) {
-        item.alarmId = calendar.timeInMillis
-        item.alarmDate = calendar.toText()
+        item.alarm.id = calendar.timeInMillis
+        item.alarm.date = calendar.toText()
     }
 
     fun assert() = apply {

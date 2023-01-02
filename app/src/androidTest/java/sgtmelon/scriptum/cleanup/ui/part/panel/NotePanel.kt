@@ -219,15 +219,15 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
     override fun dateResetResult() {
         callback.apply {
-            item.alarmDate = DbData.Alarm.Default.DATE
+            item.alarm.date = DbData.Alarm.Default.DATE
             fullAssert()
         }
     }
 
     override fun timeSetResult(calendar: Calendar) {
         callback.apply {
-            item.alarmId = 1
-            item.alarmDate = calendar.toText()
+            item.alarm.id = 1
+            item.alarm.date = calendar.toText()
 
             fullAssert()
         }

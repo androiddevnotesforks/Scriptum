@@ -4,10 +4,10 @@ package sgtmelon.scriptum.infrastructure.utils.extensions
 
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.removeExtraSpace
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
-import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
@@ -25,17 +25,14 @@ fun NoteItem.switchStatus() = run { isStatus = !isStatus }
 
 fun NoteItem.haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
 
-fun NoteItem.haveAlarm() = alarmId != Alarm.Default.ID && alarmDate != Alarm.Default.DATE
+fun NoteItem.haveAlarm() = alarm != NoteAlarm()
 
 fun NoteItem.clearRank() = apply {
     rankId = Note.Default.RANK_ID
     rankPs = Note.Default.RANK_PS
 }
 
-fun NoteItem.clearAlarm() = apply {
-    alarmId = Alarm.Default.ID
-    alarmDate = Alarm.Default.DATE
-}
+fun NoteItem.clearAlarm() = apply { alarm = NoteAlarm() }
 
 //region On.. functions
 
@@ -62,7 +59,7 @@ private fun NoteItem.Roll.onSave() {
 // TODO move it inside noteConverter?
 fun NoteItem.Text.onConvert(): NoteItem.Roll {
     val item = NoteItem.Roll(
-        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarmId, alarmDate
+        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm.copy()
     )
 
     item.list.addAll(splitText().mapIndexed { i, it -> RollItem(position = i, text = it) })
@@ -75,7 +72,7 @@ fun NoteItem.Text.onConvert(): NoteItem.Roll {
 // TODO move it inside noteConverter?
 fun NoteItem.Roll.onConvert(): NoteItem.Text {
     val item = NoteItem.Text(
-        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarmId, alarmDate
+        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm.copy()
     )
 
     item.updateTime()

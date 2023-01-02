@@ -37,10 +37,10 @@ class DbDelegator(
     private val preferencesRepo: PreferencesRepo
 ) : RoomWorker {
 
-    private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
     private val rankConverter = RankConverter()
     private val alarmConverter = AlarmConverter()
+    private val noteConverter = NoteConverter(alarmConverter)
 
     fun getInvalidNote(type: NoteType): NoteItem {
         return noteConverter.toItem(nextNoteEntity(Random.nextLong(), type = type))
@@ -249,11 +249,11 @@ class DbDelegator(
         item: NoteItem = insertNote(),
         date: String = getRandomFutureTime()
     ): NoteItem {
-        item.alarmDate = date
+        item.alarm.date = date
 
         inRoomTest {
             val entity = alarmConverter.toEntity(item)
-            item.alarmId = alarmDao.insertSafe(entity) ?: throw NullPointerException()
+            item.alarm.id = alarmDao.insertSafe(entity) ?: throw NullPointerException()
         }
 
         return item

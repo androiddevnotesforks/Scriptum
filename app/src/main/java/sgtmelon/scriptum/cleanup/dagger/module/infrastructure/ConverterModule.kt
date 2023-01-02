@@ -25,7 +25,7 @@ class ConverterModule {
     fun provideAlarmConverter() = AlarmConverter()
 
     @Provides
-    fun provideNoteConverter() = NoteConverter()
+    fun provideNoteConverter(alarmConverter: AlarmConverter) = NoteConverter(alarmConverter)
 
     @Provides
     fun provideRankConverter() = RankConverter()

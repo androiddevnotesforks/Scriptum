@@ -420,7 +420,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         if (isEdit.value.isTrue()) return
 
         callback?.showDateDialog(
-            deprecatedNoteItem.alarmDate.toCalendar(),
+            deprecatedNoteItem.alarm.date.toCalendar(),
             deprecatedNoteItem.haveAlarm()
         )
     }

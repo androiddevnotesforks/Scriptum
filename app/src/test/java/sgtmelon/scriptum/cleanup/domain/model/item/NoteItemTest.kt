@@ -88,9 +88,9 @@ class NoteItemTest : ParentTest() {
 
     @Test fun haveAlarm() {
         assertFalse(rollItem.deepCopy().haveAlarm())
-        assertFalse(rollItem.deepCopy(alarmId = 1).haveAlarm())
-        assertFalse(rollItem.deepCopy(alarmDate = "DATE").haveAlarm())
-        assertTrue(rollItem.deepCopy(alarmId = 1, alarmDate = "DATE").haveAlarm())
+        assertFalse(rollItem.deepCopy(alarm = NoteAlarm(id = 1)).haveAlarm())
+        assertFalse(rollItem.deepCopy(alarm = NoteAlarm(date = "DATE")).haveAlarm())
+        assertTrue(rollItem.deepCopy(alarm = NoteAlarm(id = 1, date = "DATE")).haveAlarm())
     }
 
     @Test fun clearRank() {
@@ -101,7 +101,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun clearAlarm() {
-        val item = rollItem.deepCopy(alarmId = 1, alarmDate = "123")
+        val item = rollItem.deepCopy(alarm = NoteAlarm(id = 1, date = "123"))
 
         assertTrue(item.haveAlarm())
         assertFalse(item.clearAlarm().haveAlarm())
@@ -135,8 +135,8 @@ class NoteItemTest : ParentTest() {
             assertEquals(Note.Default.RANK_PS, rankPs)
             assertEquals(Note.Default.BIN, isBin)
             assertEquals(Note.Default.STATUS, isStatus)
-            assertEquals(Alarm.Default.ID, alarmId)
-            assertEquals(Alarm.Default.DATE, alarmDate)
+            assertEquals(Alarm.Default.ID, alarm.id)
+            assertEquals(Alarm.Default.DATE, alarm.date)
         }
     }
 
@@ -204,8 +204,8 @@ class NoteItemTest : ParentTest() {
             assertEquals(Note.Default.RANK_PS, rankPs)
             assertEquals(Note.Default.BIN, isBin)
             assertEquals(Note.Default.STATUS, isStatus)
-            assertEquals(Alarm.Default.ID, alarmId)
-            assertEquals(Alarm.Default.DATE, alarmDate)
+            assertEquals(Alarm.Default.ID, alarm.id)
+            assertEquals(Alarm.Default.DATE, alarm.date)
             assertEquals(0, list.size)
         }
     }

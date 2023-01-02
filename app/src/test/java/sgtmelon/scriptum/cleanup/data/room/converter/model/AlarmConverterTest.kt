@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.data.room.converter.model
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.test.common.nextString
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [AlarmConverter].
@@ -15,13 +15,15 @@ class AlarmConverterTest : ParentTest() {
 
     //region Data
 
-    private val item = NoteItem.Text(id = 1, create = nextString(), color = Color.values().random(), alarmId = 5, alarmDate = "12345")
-    private val entity = AlarmEntity(id = 5, noteId = 1, date = "12345")
+    private val noteAlarm = NoteAlarm(id = 5, date = "12345")
+    private val item = NoteItem.Text(id = 1, color = Color.values().random(), alarm = noteAlarm)
+    private val entity = AlarmEntity(id = noteAlarm.id, noteId = 1, date = noteAlarm.date)
 
     //endregion
 
     private val converter = AlarmConverter()
 
-    @Test fun toEntity() = assertEquals(entity, converter.toEntity(item))
+    @Test fun toEntity() = assertEquals(converter.toEntity(item), entity)
 
+    @Test fun toNoteAlarm() = assertEquals(converter.toNoteAlarm(entity), noteAlarm)
 }

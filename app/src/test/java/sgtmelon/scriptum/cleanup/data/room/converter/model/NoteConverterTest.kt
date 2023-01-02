@@ -1,10 +1,14 @@
 package sgtmelon.scriptum.cleanup.data.room.converter.model
 
+import io.mockk.confirmVerified
+import io.mockk.impl.annotations.MockK
 import kotlin.random.Random
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
@@ -41,7 +45,7 @@ class NoteConverterTest : ParentTest() {
     private val firstItem = NoteItem.Text(
         id = 1, create = "12", change = "34", name = "bla", text = "bla", color = Color.PURPLE,
         rankId = 1, rankPs = 1, isBin = true, isStatus = true,
-        alarmId = 1, alarmDate = "12345"
+        alarm = NoteAlarm(id = 1, date = "12345")
     )
 
     private val secondItem = NoteItem.Text(
@@ -51,7 +55,8 @@ class NoteConverterTest : ParentTest() {
 
     private val thirdItem = NoteItem.Roll(
         id = 1, create = "12", change = "34", name = "bla", text = "bla", color = Color.PURPLE,
-        rankId = 1, rankPs = 1, isBin = true, isStatus = true, alarmId = 1, alarmDate = "12345",
+        rankId = 1, rankPs = 1, isBin = true, isStatus = true,
+        alarm = NoteAlarm(id = 1, date = "12345"),
         isVisible = RollVisible.Default.VALUE, list = rollList
     )
 
@@ -63,7 +68,14 @@ class NoteConverterTest : ParentTest() {
 
     //endregion
 
-    private val converter = NoteConverter()
+    @MockK lateinit var alarmConverter: AlarmConverter
+
+    private val converter = NoteConverter(alarmConverter)
+
+    @After override fun tearDown() {
+        super.tearDown()
+        confirmVerified(alarmConverter)
+    }
 
     @Test fun toItem() {
         assertEquals(firstItem, converter.toItem(textEntity, alarmEntity = alarmEntity))

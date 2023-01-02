@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup
 
 import kotlin.random.Random
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
@@ -51,8 +52,8 @@ object TestData {
         const val DATE_3 = "1567-04-05 06:07:08"
 
         val firstNote get() = NoteItem.Text(
-                id = 0, create = DATE_1, change = DATE_2, color = Color.RED,
-                rankId = -1, rankPs = -1, alarmId = 1, alarmDate = DATE_3
+            id = 0, create = DATE_1, change = DATE_2, color = Color.RED,
+            rankId = -1, rankPs = -1, alarm = NoteAlarm(id = 1, date = DATE_3)
         )
 
         val secondNote get() = NoteItem.Roll(
@@ -62,7 +63,7 @@ object TestData {
 
         val thirdNote get() = NoteItem.Text(
             id = 2, create = DATE_3, change = DATE_0, color = Color.TEAL,
-            rankId = 1, rankPs = 1, alarmId = 2, alarmDate = DATE_2
+            rankId = 1, rankPs = 1, alarm = NoteAlarm(id = 2, date = DATE_2)
         )
 
         val fourthNote

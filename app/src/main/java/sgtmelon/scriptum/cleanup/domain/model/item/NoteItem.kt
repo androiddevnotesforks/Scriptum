@@ -27,8 +27,7 @@ sealed class NoteItem(
     var rankPs: Int,
     var isBin: Boolean,
     var isStatus: Boolean,
-    var alarmId: Long,
-    var alarmDate: String
+    var alarm: NoteAlarm
 ) {
 
     // TODO create models for *rank* and *alarm*
@@ -44,7 +43,7 @@ sealed class NoteItem(
     fun haveRankDepr() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
 
     @Deprecated("Use extensions")
-    fun haveAlarmDepr() = alarmId != Alarm.Default.ID && alarmDate != Alarm.Default.DATE
+    fun haveAlarmDepr() = alarm.id != Alarm.Default.ID && alarm.date != Alarm.Default.DATE
 
     @Deprecated("Use extensions")
     val typeDepr: NoteType
@@ -75,8 +74,7 @@ sealed class NoteItem(
         if (rankPs != other.rankPs) return false
         if (isBin != other.isBin) return false
         if (isStatus != other.isStatus) return false
-        if (alarmId != other.alarmId) return false
-        if (alarmDate != other.alarmDate) return false
+        if (alarm != other.alarm) return false
 
         return true
     }
@@ -95,8 +93,7 @@ sealed class NoteItem(
         result = 31 * result + rankPs.hashCode()
         result = 31 * result + isBin.hashCode()
         result = 31 * result + isStatus.hashCode()
-        result = 31 * result + alarmId.hashCode()
-        result = 31 * result + alarmDate.hashCode()
+        result = 31 * result + alarm.hashCode()
 
         return result
     }
@@ -112,12 +109,8 @@ sealed class NoteItem(
         rankPs: Int = Note.Default.RANK_PS,
         isBin: Boolean = Note.Default.BIN,
         isStatus: Boolean = Note.Default.STATUS,
-        alarmId: Long = Alarm.Default.ID,
-        alarmDate: String = Alarm.Default.DATE
-    ) : NoteItem(
-        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-        alarmId, alarmDate
-    ) {
+        alarm: NoteAlarm = NoteAlarm()
+    ) : NoteItem(id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm) {
 
         override fun isSaveEnabled(): Boolean = text.isNotEmpty()
 
@@ -134,12 +127,8 @@ sealed class NoteItem(
             rankPs: Int = this.rankPs,
             isBin: Boolean = this.isBin,
             isStatus: Boolean = this.isStatus,
-            alarmId: Long = this.alarmId,
-            alarmDate: String = this.alarmDate
-        ) = Text(
-            id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-            alarmId, alarmDate
-        )
+            alarm: NoteAlarm = this.alarm.copy()
+        ) = Text(id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm)
 
         fun splitText() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
 
@@ -158,14 +147,10 @@ sealed class NoteItem(
         rankPs: Int = Note.Default.RANK_PS,
         isBin: Boolean = Note.Default.BIN,
         isStatus: Boolean = Note.Default.STATUS,
-        alarmId: Long = Alarm.Default.ID,
-        alarmDate: String = Alarm.Default.DATE,
+        alarm: NoteAlarm = NoteAlarm(),
         var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
-    ) : NoteItem(
-        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-        alarmId, alarmDate
-    ) {
+    ) : NoteItem(id, create, change, name, text, color, rankId, rankPs, isBin, isStatus, alarm) {
 
         override fun isSaveEnabled(): Boolean = list.any { it.text.isNotEmpty() }
 
@@ -182,13 +167,12 @@ sealed class NoteItem(
             rankPs: Int = this.rankPs,
             isBin: Boolean = this.isBin,
             isStatus: Boolean = this.isStatus,
-            alarmId: Long = this.alarmId,
-            alarmDate: String = this.alarmDate,
+            alarm: NoteAlarm = this.alarm.copy(),
             isVisible: Boolean = this.isVisible,
             list: MutableList<RollItem> = this.list.copy()
         ) = Roll(
             id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-            alarmId, alarmDate, isVisible, list
+            alarm, isVisible, list
         )
 
 

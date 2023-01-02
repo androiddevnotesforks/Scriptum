@@ -72,7 +72,7 @@ class NotesViewModelImpl(
 
     override fun getNoteNotification(p: Int): Flow<Pair<Calendar, Boolean>> = flowOnBack {
         val item = _itemList.getOrNull(p) ?: return@flowOnBack
-        emit(value = item.alarmDate.toCalendar() to item.haveAlarm())
+        emit(value = item.alarm.date.toCalendar() to item.haveAlarm())
     }
 
     override fun getOccupiedDateList(): Flow<List<String>> = flowOnBack {

@@ -42,8 +42,8 @@ class AlarmRepoImplTest : ParentRepoTest() {
         val insertId = Random.nextLong()
         val updateId = Random.nextLong()
 
-        every { item.alarmDate = date } returns Unit
-        every { item.alarmId = insertId } returns Unit
+        every { item.alarm.date = date } returns Unit
+        every { item.alarm.id = insertId } returns Unit
 
         every { converter.toEntity(item) } returns entity
 
@@ -55,37 +55,37 @@ class AlarmRepoImplTest : ParentRepoTest() {
         }
 
         coEvery { alarmDataSource.insert(entity) } returns insertId
-        every { item.alarmId } returns insertId
+        every { item.alarm.id } returns insertId
 
         runBlocking {
             assertEquals(repository.insertOrUpdate(item, date), insertId)
         }
 
         every { item.haveAlarm() } returns true
-        every { item.alarmId } returns updateId
+        every { item.alarm.id } returns updateId
 
         runBlocking {
             assertEquals(repository.insertOrUpdate(item, date), updateId)
         }
 
         coVerifySequence {
-            item.alarmDate = date
+            item.alarm.date = date
             converter.toEntity(item)
             item.haveAlarm()
             alarmDataSource.insert(entity)
 
-            item.alarmDate = date
+            item.alarm.date = date
             converter.toEntity(item)
             item.haveAlarm()
             alarmDataSource.insert(entity)
-            item.alarmId = insertId
-            item.alarmId
+            item.alarm.id = insertId
+            item.alarm.id
 
-            item.alarmDate = date
+            item.alarm.date = date
             converter.toEntity(item)
             item.haveAlarm()
             alarmDataSource.update(entity)
-            item.alarmId
+            item.alarm.id
         }
     }
 
