@@ -12,6 +12,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
@@ -269,7 +270,7 @@ class NoteItemTest : ParentTest() {
         }
     }
 
-    @Test fun getCheck() = assertEquals(checkCount, rollItem.getCheck())
+    @Test fun getCheck() = assertEquals(checkCount, rollItem.list.getCheckCount())
 
 
     @Test fun onItemCheck() {

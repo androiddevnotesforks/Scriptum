@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
@@ -120,15 +121,12 @@ sealed class NoteItem(
     ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
 
         fun updateComplete(knownCheckCount: Int? = null) = apply {
-            val checkCount = knownCheckCount ?: getCheck()
+            val checkCount = knownCheckCount ?: list.getCheckCount()
             val checkText = min(checkCount, INDICATOR_MAX_COUNT)
             val allText = min(list.size, INDICATOR_MAX_COUNT)
 
             text = "$checkText/$allText"
         }
-
-        // TODO may be some optimization: in some cases get last check value (not calculate it from start).
-        fun getCheck(): Int = list.count { it.isCheck }
 
 
         fun onItemCheck(p: Int) {

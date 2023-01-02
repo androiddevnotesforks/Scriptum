@@ -15,6 +15,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
@@ -275,7 +276,7 @@ class RollNoteScreen(
         parentContainer.isDisplayed()
         doneProgress.isDisplayed(value = state == NoteState.READ || state == NoteState.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
-            withProgress(item.getCheck(), item.list.size)
+            withProgress(item.list.getCheckCount(), item.list.size)
         }
 
         recyclerView.isDisplayed()

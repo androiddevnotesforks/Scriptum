@@ -39,6 +39,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelIm
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
@@ -317,7 +318,7 @@ class RollNoteViewModelImpl(
             callback?.notifyItemRemoved(getAdapterList(), p)
         }
 
-        with(deprecatedNoteItem) { callback?.updateProgress(getCheck(), list.size) }
+        with(deprecatedNoteItem.list) { callback?.updateProgress(getCheckCount(), size) }
 
         viewModelScope.launch {
             runBack { updateCheck(deprecatedNoteItem, absolutePosition) }
@@ -502,7 +503,7 @@ class RollNoteViewModelImpl(
             if (isEdit) {
                 focusOnEdit(isCreate = noteState == NoteState.CREATE)
             } else {
-                updateProgress(deprecatedNoteItem.getCheck(), deprecatedNoteItem.list.size)
+                with(deprecatedNoteItem.list) { callback?.updateProgress(getCheckCount(), size) }
             }
         }
 
