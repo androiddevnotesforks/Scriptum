@@ -27,6 +27,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
+import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.onSave
 
@@ -205,7 +206,7 @@ class TextNoteViewModelImpl(
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false
 
-        if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled()) return false
+        if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled) return false
 
         deprecatedNoteItem.onSave()
 

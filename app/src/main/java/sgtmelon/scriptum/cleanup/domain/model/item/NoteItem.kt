@@ -11,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.type
 import sgtmelon.scriptum.infrastructure.utils.extensions.updateTime
 
@@ -34,18 +35,22 @@ sealed class NoteItem(
     //region Remove after dataBinding refactor
 
     @Deprecated("Use extensions")
-    fun haveRankDepr() = haveRank
+    val haveRankDepr
+        get() = haveRank
 
     @Deprecated("Use extensions")
-    fun haveAlarmDepr() = haveAlarm
+    val haveAlarmDepr
+        get() = haveAlarm
 
     @Deprecated("Use extensions")
     val typeDepr: NoteType
         get() = type
 
-    //endregion
+    @Deprecated("Use extensions")
+    val isSaveEnabledDepr
+        get() = isSaveEnabled
 
-    abstract fun isSaveEnabled(): Boolean
+    //endregion
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -100,8 +105,6 @@ sealed class NoteItem(
         alarm: NoteAlarm = NoteAlarm()
     ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
 
-        override fun isSaveEnabled(): Boolean = text.isNotEmpty()
-
         //region Common functions
 
         fun deepCopy(
@@ -137,8 +140,6 @@ sealed class NoteItem(
         var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
     ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
-
-        override fun isSaveEnabled(): Boolean = list.any { it.text.isNotEmpty() }
 
         //region Common functions
 

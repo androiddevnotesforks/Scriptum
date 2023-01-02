@@ -31,6 +31,14 @@ fun NoteItem.clearRank() = apply { rank = NoteRank() }
 
 fun NoteItem.clearAlarm() = apply { alarm = NoteAlarm() }
 
+val NoteItem.isSaveEnabled: Boolean
+    get() {
+        return when (this) {
+            is NoteItem.Text -> text.isNotEmpty()
+            is NoteItem.Roll -> list.any { it.text.isNotEmpty() }
+        }
+    }
+
 //region On.. functions
 
 fun NoteItem.onSave() {

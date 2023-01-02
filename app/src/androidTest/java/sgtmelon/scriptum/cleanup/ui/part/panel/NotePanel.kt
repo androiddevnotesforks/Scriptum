@@ -21,6 +21,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.type
@@ -372,7 +373,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                         .withContentDescription(R.string.description_note_color)
 
                     saveButton.withText(R.string.button_note_save).isDisplayed()
-                        .isEnabled(shadowItem.isSaveEnabled())
+                        .isEnabled(shadowItem.isSaveEnabled)
                 }
             }
         }

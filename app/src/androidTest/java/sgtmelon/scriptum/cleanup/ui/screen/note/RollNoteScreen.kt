@@ -15,6 +15,7 @@ import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.feature.BackPress
@@ -208,7 +209,7 @@ class RollNoteScreen(
         super.pressBack()
 
         if (state == NoteState.EDIT || state == NoteState.NEW) {
-            if (shadowItem.isSaveEnabled()) {
+            if (shadowItem.isSaveEnabled) {
                 state = NoteState.READ
                 item = shadowItem.deepCopy()
                 history.reset()

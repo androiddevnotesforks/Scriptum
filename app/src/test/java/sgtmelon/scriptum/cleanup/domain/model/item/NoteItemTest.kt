@@ -14,6 +14,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.onDelete
 import sgtmelon.scriptum.infrastructure.utils.extensions.onRestore
@@ -142,9 +143,9 @@ class NoteItemTest : ParentTest() {
 
     @Test fun `isSaveEnabled for text`() {
         textItem.deepCopy().apply {
-            assertFalse(isSaveEnabled())
+            assertFalse(isSaveEnabled)
             text = "123"
-            assertTrue(isSaveEnabled())
+            assertTrue(isSaveEnabled)
         }
     }
 
@@ -212,10 +213,9 @@ class NoteItemTest : ParentTest() {
 
     @Test fun `isSaveEnabled for roll`() {
         rollItem.deepCopy().apply {
-            assertTrue(isSaveEnabled())
-
-            for (it in list) it.text = ""
-            assertFalse(isSaveEnabled())
+            assertTrue(isSaveEnabled)
+            list.forEach { it.text = "" }
+            assertFalse(isSaveEnabled)
         }
     }
 
