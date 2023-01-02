@@ -14,6 +14,7 @@ import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
@@ -108,7 +109,7 @@ class RollNoteScreen(
 
     //endregion
 
-    override var shadowItem: NoteItem.Roll = item.deepCopy()
+    override var shadowItem: NoteItem.Roll = item.copy()
 
     override val history = NoteHistoryImpl()
 
@@ -211,12 +212,12 @@ class RollNoteScreen(
         if (state == NoteState.EDIT || state == NoteState.NEW) {
             if (shadowItem.isSaveEnabled) {
                 state = NoteState.READ
-                item = shadowItem.deepCopy()
+                item = shadowItem.copy()
                 history.reset()
                 fullAssert()
             } else if (state == NoteState.EDIT) {
                 state = NoteState.READ
-                shadowItem = item.deepCopy()
+                shadowItem = item.copy()
                 history.reset()
                 fullAssert()
             }

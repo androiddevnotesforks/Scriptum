@@ -28,6 +28,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 
@@ -167,7 +168,7 @@ class TextNoteViewModelImpl(
          * Get color before restore data.
          */
         val colorFrom = deprecatedNoteItem.color
-        deprecatedNoteItem = deprecatedRestoreItem.deepCopy()
+        deprecatedNoteItem = deprecatedRestoreItem.copy()
         val colorTo = deprecatedNoteItem.color
 
         setupEditMode(isEdit = false)

@@ -11,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
@@ -75,41 +76,41 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun updateTime() {
-        val item = rollItem.deepCopy(change = changeText)
+        val item = rollItem.copy(change = changeText)
         item.updateTime()
         assertChangeTime(item)
     }
 
     @Test fun haveRank() {
-        assertFalse(rollItem.deepCopy().haveRank)
-        assertFalse(rollItem.deepCopy(rank = NoteRank(id = 0)).haveRank)
-        assertFalse(rollItem.deepCopy(rank = NoteRank(position = 0)).haveRank)
-        assertTrue(rollItem.deepCopy(rank = NoteRank(id = 0, position = 0)).haveRank)
+        assertFalse(rollItem.copy().haveRank)
+        assertFalse(rollItem.copy(rank = NoteRank(id = 0)).haveRank)
+        assertFalse(rollItem.copy(rank = NoteRank(position = 0)).haveRank)
+        assertTrue(rollItem.copy(rank = NoteRank(id = 0, position = 0)).haveRank)
     }
 
     @Test fun haveAlarm() {
-        assertFalse(rollItem.deepCopy().haveAlarm)
-        assertFalse(rollItem.deepCopy(alarm = NoteAlarm(id = 1)).haveAlarm)
-        assertFalse(rollItem.deepCopy(alarm = NoteAlarm(date = "DATE")).haveAlarm)
-        assertTrue(rollItem.deepCopy(alarm = NoteAlarm(id = 1, date = "DATE")).haveAlarm)
+        assertFalse(rollItem.copy().haveAlarm)
+        assertFalse(rollItem.copy(alarm = NoteAlarm(id = 1)).haveAlarm)
+        assertFalse(rollItem.copy(alarm = NoteAlarm(date = "DATE")).haveAlarm)
+        assertTrue(rollItem.copy(alarm = NoteAlarm(id = 1, date = "DATE")).haveAlarm)
     }
 
     @Test fun clearRank() {
-        val item = rollItem.deepCopy(rank = NoteRank(id = 0, position = 0))
+        val item = rollItem.copy(rank = NoteRank(id = 0, position = 0))
 
         assertTrue(item.haveRank)
         assertFalse(item.clearRank().haveRank)
     }
 
     @Test fun clearAlarm() {
-        val item = rollItem.deepCopy(alarm = NoteAlarm(id = 1, date = "123"))
+        val item = rollItem.copy(alarm = NoteAlarm(id = 1, date = "123"))
 
         assertTrue(item.haveAlarm)
         assertFalse(item.clearAlarm().haveAlarm)
     }
 
     @Test fun onDelete() {
-        rollItem.deepCopy(change = changeText, isBin = false, isStatus = true).onDelete().let {
+        rollItem.copy(change = changeText, isBin = false, isStatus = true).onDelete().let {
             assertChangeTime(it)
             assertTrue(it.isBin)
             assertFalse(it.isStatus)
@@ -117,7 +118,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun onRestore() {
-        rollItem.deepCopy(change = changeText, isBin = true).onRestore().let {
+        rollItem.copy(change = changeText, isBin = true).onRestore().let {
             assertChangeTime(it)
             assertFalse(it.isBin)
         }
@@ -142,7 +143,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun `isSaveEnabled for text`() {
-        textItem.deepCopy().apply {
+        textItem.copy().apply {
             assertFalse(isSaveEnabled)
             text = "123"
             assertTrue(isSaveEnabled)
@@ -151,8 +152,8 @@ class NoteItemTest : ParentTest() {
 
 
     @Test fun `deepCopy for text`() {
-        val firstItem = textItem.deepCopy(text = realText)
-        val secondItem = firstItem.deepCopy()
+        val firstItem = textItem.copy(text = realText)
+        val secondItem = firstItem.copy()
 
         assertEquals(firstItem, secondItem)
 
@@ -167,7 +168,7 @@ class NoteItemTest : ParentTest() {
 
 
     @Test fun `onSave for text`() {
-        textItem.deepCopy(change = changeText, name = nameSpace).apply {
+        textItem.copy(change = changeText, name = nameSpace).apply {
             onSave()
 
             assertEquals(nameClear, name)
@@ -176,7 +177,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun `onConvert for text`() {
-        textItem.deepCopy(change = changeText, text = splitText).onConvert().apply {
+        textItem.copy(change = changeText, text = splitText).onConvert().apply {
             assertEquals(NoteType.ROLL, type)
 
             assertEquals(splitList.size, list.size)
@@ -213,7 +214,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun `isSaveEnabled for roll`() {
-        rollItem.deepCopy().apply {
+        rollItem.copy().apply {
             assertTrue(isSaveEnabled)
             list.forEach { it.text = "" }
             assertFalse(isSaveEnabled)
@@ -221,8 +222,8 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun `deepCopy for roll`() {
-        val firstItem = rollItem.deepCopy(name = realText)
-        val secondItem = firstItem.deepCopy()
+        val firstItem = rollItem.copy(name = realText)
+        val secondItem = firstItem.copy()
 
         assertEquals(firstItem, secondItem)
 
@@ -244,11 +245,11 @@ class NoteItemTest : ParentTest() {
         //            assertEquals("${list.size}/${list.size}", updateComplete().text)
         //        }
 
-        rollItem.deepCopy().apply {
+        rollItem.copy().apply {
             assertEquals("${checkCount}/${list.size}", updateComplete().text)
         }
 
-        rollItem.deepCopy().apply {
+        rollItem.copy().apply {
             with(list) { while (size != MAX_COUNT) add(first()) }
             assertEquals("${checkCount}/${MAX_COUNT}", updateComplete().text)
 
@@ -256,7 +257,7 @@ class NoteItemTest : ParentTest() {
             assertEquals("${checkCount}/${MAX_COUNT}", updateComplete().text)
         }
 
-        rollItem.deepCopy().apply {
+        rollItem.copy().apply {
             with(list) {
                 for (it in this) it.isCheck = true
                 while (size != MAX_COUNT) add(random().copy(isCheck = true))
@@ -272,7 +273,7 @@ class NoteItemTest : ParentTest() {
 
 
     @Test fun onItemCheck() {
-        rollItem.deepCopy(change = changeText).apply {
+        rollItem.copy(change = changeText).apply {
             onItemCheck(list.indices.first)
 
             assertTrue(list.first().isCheck)
@@ -280,7 +281,7 @@ class NoteItemTest : ParentTest() {
             assertEquals("3/3", text)
         }
 
-        rollItem.deepCopy(change = changeText).apply {
+        rollItem.copy(change = changeText).apply {
             onItemCheck(p = 4)
 
             assertEquals(changeText, change)
@@ -289,7 +290,7 @@ class NoteItemTest : ParentTest() {
 
 
     @Test fun `onSave for roll`() {
-        rollItem.deepCopy(change = changeText, name = nameSpace).apply {
+        rollItem.copy(change = changeText, name = nameSpace).apply {
             list.add(RollItem(position = 6, text = "   "))
             list.add(RollItem(position = 10, text = "   4  "))
 
@@ -313,7 +314,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun `onConvert for roll`() {
-        rollItem.deepCopy(change = changeText).onConvert().apply {
+        rollItem.copy(change = changeText).onConvert().apply {
             assertEquals(NoteType.TEXT, type)
 
             assertChangeTime(this)
@@ -321,7 +322,7 @@ class NoteItemTest : ParentTest() {
         }
 
         val list = rollList.subList(0, 2)
-        rollItem.deepCopy(change = changeText, list = list).onConvert().apply {
+        rollItem.copy(change = changeText, list = list).onConvert().apply {
             assertEquals(NoteType.TEXT, type)
 
             assertChangeTime(this)

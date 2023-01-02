@@ -11,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.adapter.diff.NoteDiff
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
@@ -23,8 +24,8 @@ class NoteAdapter(
     override fun getListCopy(list: List<NoteItem>): List<NoteItem> {
         return ArrayList(list.map {
             return@map when (it) {
-                is NoteItem.Text -> it.deepCopy()
-                is NoteItem.Roll -> it.deepCopy()
+                is NoteItem.Text -> it.copy()
+                is NoteItem.Roll -> it.copy()
             }
         })
     }

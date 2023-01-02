@@ -12,6 +12,7 @@ import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
@@ -76,7 +77,7 @@ class TextNoteScreen(
 
     //endregion
 
-    override var shadowItem: NoteItem.Text = item.deepCopy()
+    override var shadowItem: NoteItem.Text = item.copy()
 
     override val history = NoteHistoryImpl()
 
@@ -139,12 +140,12 @@ class TextNoteScreen(
         if (state == NoteState.EDIT || state == NoteState.NEW) {
             if (shadowItem.isSaveEnabled) {
                 state = NoteState.READ
-                item = shadowItem.deepCopy()
+                item = shadowItem.copy()
                 history.reset()
                 fullAssert()
             } else if (state == NoteState.EDIT) {
                 state = NoteState.READ
-                shadowItem = item.deepCopy()
+                shadowItem = item.copy()
                 history.reset()
                 fullAssert()
             }

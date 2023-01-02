@@ -8,7 +8,6 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
@@ -103,22 +102,7 @@ sealed class NoteItem(
         isBin: Boolean = Note.Default.BIN,
         isStatus: Boolean = Note.Default.STATUS,
         alarm: NoteAlarm = NoteAlarm()
-    ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
-
-        fun deepCopy(
-            id: Long = this.id,
-            create: String = this.create,
-            change: String = this.change,
-            name: String = this.name,
-            text: String = this.text,
-            color: Color = this.color,
-            rank: NoteRank = this.rank,
-            isBin: Boolean = this.isBin,
-            isStatus: Boolean = this.isStatus,
-            alarm: NoteAlarm = this.alarm.copy()
-        ) = Text(id, create, change, name, text, color, rank, isBin, isStatus, alarm)
-
-    }
+    ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm)
 
     class Roll(
         id: Long = Note.Default.ID,
@@ -134,24 +118,6 @@ sealed class NoteItem(
         var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
     ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
-
-        fun deepCopy(
-            id: Long = this.id,
-            create: String = this.create,
-            change: String = this.change,
-            name: String = this.name,
-            text: String = this.text,
-            color: Color = this.color,
-            rank: NoteRank = this.rank,
-            isBin: Boolean = this.isBin,
-            isStatus: Boolean = this.isStatus,
-            alarm: NoteAlarm = this.alarm.copy(),
-            isVisible: Boolean = this.isVisible,
-            list: MutableList<RollItem> = this.list.copy()
-        ) = Roll(
-            id, create, change, name, text, color, rank, isBin, isStatus, alarm, isVisible, list
-        )
-
 
         fun updateComplete(knownCheckCount: Int? = null) = apply {
             val checkCount = knownCheckCount ?: getCheck()

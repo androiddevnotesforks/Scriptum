@@ -7,6 +7,8 @@ import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 // TODO create tests
@@ -98,3 +100,37 @@ fun NoteItem.onRestore() = apply {
 }
 
 //endregion
+
+fun NoteItem.Text.copy(
+    id: Long = this.id,
+    create: String = this.create,
+    change: String = this.change,
+    name: String = this.name,
+    text: String = this.text,
+    color: Color = this.color,
+    rank: NoteRank = this.rank.copy(),
+    isBin: Boolean = this.isBin,
+    isStatus: Boolean = this.isStatus,
+    alarm: NoteAlarm = this.alarm.copy()
+): NoteItem.Text {
+    return NoteItem.Text(id, create, change, name, text, color, rank, isBin, isStatus, alarm)
+}
+
+fun NoteItem.Roll.copy(
+    id: Long = this.id,
+    create: String = this.create,
+    change: String = this.change,
+    name: String = this.name,
+    text: String = this.text,
+    color: Color = this.color,
+    rank: NoteRank = this.rank.copy(),
+    isBin: Boolean = this.isBin,
+    isStatus: Boolean = this.isStatus,
+    alarm: NoteAlarm = this.alarm.copy(),
+    isVisible: Boolean = this.isVisible,
+    list: MutableList<RollItem> = this.list.copy()
+): NoteItem.Roll {
+    return NoteItem.Roll(
+        id, create, change, name, text, color, rank, isBin, isStatus, alarm, isVisible, list
+    )
+}

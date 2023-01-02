@@ -38,6 +38,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
@@ -208,7 +209,7 @@ class RollNoteViewModelImpl(
          */
         val colorFrom = deprecatedNoteItem.color
         val isVisible = deprecatedNoteItem.isVisible
-        deprecatedNoteItem = deprecatedRestoreItem.deepCopy(isVisible = isVisible)
+        deprecatedNoteItem = deprecatedRestoreItem.copy(isVisible = isVisible)
         val colorTo = deprecatedNoteItem.color
 
         callback?.notifyDataSetChanged(getAdapterList())
