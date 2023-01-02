@@ -9,18 +9,18 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.extensions.clearAlarm
-import sgtmelon.scriptum.infrastructure.utils.extensions.clearRank
-import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
-import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
-import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.joinToText
-import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
-import sgtmelon.scriptum.infrastructure.utils.extensions.onDelete
-import sgtmelon.scriptum.infrastructure.utils.extensions.onRestore
-import sgtmelon.scriptum.infrastructure.utils.extensions.onSave
-import sgtmelon.scriptum.infrastructure.utils.extensions.type
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateTime
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onDelete
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateTime
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.INDICATOR_MAX_COUNT as MAX_COUNT
 
@@ -161,7 +161,8 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun splitText() {
-        assertEquals(splitList, textItem.deepCopy(text = splitText).splitText())
+        TODO("Move this test into rollExtensions test")
+        //        assertEquals(splitList, textItem.deepCopy(text = splitText).splitText())
     }
 
 

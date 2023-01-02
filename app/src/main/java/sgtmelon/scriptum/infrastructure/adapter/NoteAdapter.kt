@@ -11,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.adapter.diff.NoteDiff
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
-import sgtmelon.scriptum.infrastructure.utils.extensions.type
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
  * Adapter which displays list of [NoteItem]'s.

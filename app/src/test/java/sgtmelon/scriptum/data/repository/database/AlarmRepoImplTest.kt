@@ -17,7 +17,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
-import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.test.common.nextString
 
 /**

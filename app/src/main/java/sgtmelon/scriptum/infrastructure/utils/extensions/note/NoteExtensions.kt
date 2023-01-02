@@ -1,15 +1,13 @@
 @file:JvmName(name = "NoteExtensionsUtils")
 
-package sgtmelon.scriptum.infrastructure.utils.extensions
+package sgtmelon.scriptum.infrastructure.utils.extensions.note
 
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
-import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.joinToText
 
 // TODO create tests
 
@@ -63,11 +61,12 @@ private fun NoteItem.Roll.onSave() {
 
 // TODO move it inside noteConverter?
 fun NoteItem.Text.onConvert(): NoteItem.Roll {
+    // TODO по идее тут бессмысслено передавать text, так как в updateComplete он будет перезаписан
     val item = NoteItem.Roll(
         id, create, change, name, text, color, rank.copy(), isBin, isStatus, alarm.copy()
     )
 
-    item.list.addAll(splitText().mapIndexed { i, it -> RollItem(position = i, text = it) })
+    item.list.addAll(text.splitToRoll())
     item.updateTime()
     item.updateComplete(knownCheckCount = 0)
 

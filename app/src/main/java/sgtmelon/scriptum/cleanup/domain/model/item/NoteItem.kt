@@ -8,12 +8,12 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
-import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
-import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
-import sgtmelon.scriptum.infrastructure.utils.extensions.type
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateTime
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateTime
 
 /**
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
@@ -105,8 +105,6 @@ sealed class NoteItem(
         alarm: NoteAlarm = NoteAlarm()
     ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
 
-        //region Common functions
-
         fun deepCopy(
             id: Long = this.id,
             create: String = this.create,
@@ -119,10 +117,6 @@ sealed class NoteItem(
             isStatus: Boolean = this.isStatus,
             alarm: NoteAlarm = this.alarm.copy()
         ) = Text(id, create, change, name, text, color, rank, isBin, isStatus, alarm)
-
-        fun splitText() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
-
-        //endregion
 
     }
 
@@ -140,8 +134,6 @@ sealed class NoteItem(
         var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
     ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
-
-        //region Common functions
 
         fun deepCopy(
             id: Long = this.id,
@@ -179,8 +171,6 @@ sealed class NoteItem(
             updateTime()
             updateComplete()
         }
-
-        //endregion
 
         override fun equals(other: Any?): Boolean {
             if (!super.equals(other)) return false

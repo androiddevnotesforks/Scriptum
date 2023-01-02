@@ -35,12 +35,12 @@ import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
-import sgtmelon.scriptum.infrastructure.utils.extensions.clearAlarm
-import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
-import sgtmelon.scriptum.infrastructure.utils.extensions.onRestore
-import sgtmelon.scriptum.infrastructure.utils.extensions.switchStatus
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
 
 /**
  * TODO normal description

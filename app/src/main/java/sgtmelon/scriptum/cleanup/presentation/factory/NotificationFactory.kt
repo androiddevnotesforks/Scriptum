@@ -21,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver
 import sgtmelon.scriptum.infrastructure.service.EternalService
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
-import sgtmelon.scriptum.infrastructure.utils.extensions.type
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.test.prod.RunPrivate
 
 /**
