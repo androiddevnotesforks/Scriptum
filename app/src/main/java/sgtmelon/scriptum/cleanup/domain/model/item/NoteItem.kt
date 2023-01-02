@@ -34,10 +34,10 @@ sealed class NoteItem(
     //region Remove after dataBinding refactor
 
     @Deprecated("Use extensions")
-    fun haveRankDepr() = haveRank()
+    fun haveRankDepr() = haveRank
 
     @Deprecated("Use extensions")
-    fun haveAlarmDepr() = haveAlarm()
+    fun haveAlarmDepr() = haveAlarm
 
     @Deprecated("Use extensions")
     val typeDepr: NoteType

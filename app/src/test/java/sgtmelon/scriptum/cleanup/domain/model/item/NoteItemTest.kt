@@ -80,31 +80,31 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun haveRank() {
-        assertFalse(rollItem.deepCopy().haveRank())
-        assertFalse(rollItem.deepCopy(rank = NoteRank(id = 0)).haveRank())
-        assertFalse(rollItem.deepCopy(rank = NoteRank(position = 0)).haveRank())
-        assertTrue(rollItem.deepCopy(rank = NoteRank(id = 0, position = 0)).haveRank())
+        assertFalse(rollItem.deepCopy().haveRank)
+        assertFalse(rollItem.deepCopy(rank = NoteRank(id = 0)).haveRank)
+        assertFalse(rollItem.deepCopy(rank = NoteRank(position = 0)).haveRank)
+        assertTrue(rollItem.deepCopy(rank = NoteRank(id = 0, position = 0)).haveRank)
     }
 
     @Test fun haveAlarm() {
-        assertFalse(rollItem.deepCopy().haveAlarm())
-        assertFalse(rollItem.deepCopy(alarm = NoteAlarm(id = 1)).haveAlarm())
-        assertFalse(rollItem.deepCopy(alarm = NoteAlarm(date = "DATE")).haveAlarm())
-        assertTrue(rollItem.deepCopy(alarm = NoteAlarm(id = 1, date = "DATE")).haveAlarm())
+        assertFalse(rollItem.deepCopy().haveAlarm)
+        assertFalse(rollItem.deepCopy(alarm = NoteAlarm(id = 1)).haveAlarm)
+        assertFalse(rollItem.deepCopy(alarm = NoteAlarm(date = "DATE")).haveAlarm)
+        assertTrue(rollItem.deepCopy(alarm = NoteAlarm(id = 1, date = "DATE")).haveAlarm)
     }
 
     @Test fun clearRank() {
         val item = rollItem.deepCopy(rank = NoteRank(id = 0, position = 0))
 
-        assertTrue(item.haveRank())
-        assertFalse(item.clearRank().haveRank())
+        assertTrue(item.haveRank)
+        assertFalse(item.clearRank().haveRank)
     }
 
     @Test fun clearAlarm() {
         val item = rollItem.deepCopy(alarm = NoteAlarm(id = 1, date = "123"))
 
-        assertTrue(item.haveAlarm())
-        assertFalse(item.clearAlarm().haveAlarm())
+        assertTrue(item.haveAlarm)
+        assertFalse(item.clearAlarm().haveAlarm)
     }
 
     @Test fun onDelete() {

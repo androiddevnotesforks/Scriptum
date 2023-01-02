@@ -23,9 +23,9 @@ fun NoteItem.updateTime() = run { change = getCalendarText() }
 
 fun NoteItem.switchStatus() = run { isStatus = !isStatus }
 
-fun NoteItem.haveRank() = rank != NoteRank()
+val NoteItem.haveRank get() = rank != NoteRank()
 
-fun NoteItem.haveAlarm() = alarm != NoteAlarm()
+val NoteItem.haveAlarm get() = alarm != NoteAlarm()
 
 fun NoteItem.clearRank() = apply { rank = NoteRank() }
 

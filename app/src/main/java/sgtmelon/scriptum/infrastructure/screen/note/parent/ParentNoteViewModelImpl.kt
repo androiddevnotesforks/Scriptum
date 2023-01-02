@@ -421,7 +421,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
         callback?.showDateDialog(
             deprecatedNoteItem.alarm.date.toCalendar(),
-            deprecatedNoteItem.haveAlarm()
+            deprecatedNoteItem.haveAlarm
         )
     }
 

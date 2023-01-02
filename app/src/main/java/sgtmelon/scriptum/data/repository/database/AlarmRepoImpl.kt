@@ -18,7 +18,7 @@ class AlarmRepoImpl(
         item.alarm.date = date
 
         val entity = converter.toEntity(item)
-        if (item.haveAlarm()) {
+        if (item.haveAlarm) {
             dataSource.update(entity)
         } else {
             /** Catch of insert errors happen inside dataSource. */

@@ -205,7 +205,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             }
         )
 
-        itemArray[Options.NOTIFICATION.ordinal] = if (item.haveAlarm()) {
+        itemArray[Options.NOTIFICATION.ordinal] = if (item.haveAlarm) {
             getString(R.string.dialog_menu_notification_update)
         } else {
             getString(R.string.dialog_menu_notification_set)

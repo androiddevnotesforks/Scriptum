@@ -34,8 +34,8 @@ class SortNoteListUseCase {
     private fun sortByRank(list: List<NoteItem>): List<NoteItem> {
         return list.sortedWith(Comparator<NoteItem> { o1, o2 ->
             return@Comparator when {
-                !o1.haveRank() && o2.haveRank() -> 1
-                o1.haveRank() && !o2.haveRank() -> -1
+                !o1.haveRank && o2.haveRank -> 1
+                o1.haveRank && !o2.haveRank -> -1
                 o1.rank.position > o2.rank.position -> 1
                 o1.rank.position < o2.rank.position -> -1
                 else -> 0

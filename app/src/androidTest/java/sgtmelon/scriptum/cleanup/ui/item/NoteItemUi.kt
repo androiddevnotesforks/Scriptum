@@ -219,7 +219,7 @@ class NoteItemUi(
 
                 parentContainer.isDisplayed()
 
-                notificationImage.isDisplayed(item.haveAlarm()) {
+                notificationImage.isDisplayed(item.haveAlarm) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clIndicator)
 
@@ -230,7 +230,7 @@ class NoteItemUi(
                     NoteType.ROLL -> R.drawable.ic_bind_roll
                 }, R.attr.clIndicator)
 
-                rankImage.isDisplayed(item.haveRank()) {
+                rankImage.isDisplayed(item.haveRank) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(R.drawable.ic_rank, R.attr.clIndicator)
 

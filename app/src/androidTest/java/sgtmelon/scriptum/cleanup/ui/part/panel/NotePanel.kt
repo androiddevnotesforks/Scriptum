@@ -293,7 +293,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     editContainer.isDisplayed(value = false)
 
                     notificationButton.isDisplayed()
-                        .withDrawableAttr(R.drawable.ic_notifications, getTint(item.haveAlarm()))
+                        .withDrawableAttr(R.drawable.ic_notifications, getTint(item.haveAlarm))
                         .withContentDescription(R.string.description_note_notification)
 
                     val drawable = when (item.type) {
@@ -362,7 +362,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                         .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
                             getEnableTint(b = false)
                         } else {
-                            getTint(shadowItem.haveRank())
+                            getTint(shadowItem.haveRank)
                         })
                         .withContentDescription(R.string.description_note_rank)
                         .isEnabled(!isRankEmpty)

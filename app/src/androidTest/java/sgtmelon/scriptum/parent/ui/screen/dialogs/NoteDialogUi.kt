@@ -38,7 +38,7 @@ class NoteDialogUi(val item: NoteItem) : UiPart(),
     }
 
     private val notificationButton = getViewByText(
-        if (item.haveAlarm()) {
+        if (item.haveAlarm) {
             R.string.dialog_menu_notification_update
         } else {
             R.string.dialog_menu_notification_set
@@ -70,7 +70,7 @@ class NoteDialogUi(val item: NoteItem) : UiPart(),
 
     fun notification(func: DateDialogUi.() -> Unit) = waitClose {
         notificationButton.click()
-        DateDialogUi(func, item.haveAlarm(), callback = this)
+        DateDialogUi(func, item.haveAlarm, callback = this)
     }
 
     fun bind() = waitClose {

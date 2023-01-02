@@ -47,7 +47,7 @@ class AlarmRepoImplTest : ParentRepoTest() {
 
         every { converter.toEntity(item) } returns entity
 
-        every { item.haveAlarm() } returns false
+        every { item.haveAlarm } returns false
         coEvery { alarmDataSource.insert(entity) } returns null
 
         runBlocking {
@@ -61,7 +61,7 @@ class AlarmRepoImplTest : ParentRepoTest() {
             assertEquals(repository.insertOrUpdate(item, date), insertId)
         }
 
-        every { item.haveAlarm() } returns true
+        every { item.haveAlarm } returns true
         every { item.alarm.id } returns updateId
 
         runBlocking {
@@ -71,19 +71,19 @@ class AlarmRepoImplTest : ParentRepoTest() {
         coVerifySequence {
             item.alarm.date = date
             converter.toEntity(item)
-            item.haveAlarm()
+            item.haveAlarm
             alarmDataSource.insert(entity)
 
             item.alarm.date = date
             converter.toEntity(item)
-            item.haveAlarm()
+            item.haveAlarm
             alarmDataSource.insert(entity)
             item.alarm.id = insertId
             item.alarm.id
 
             item.alarm.date = date
             converter.toEntity(item)
-            item.haveAlarm()
+            item.haveAlarm
             alarmDataSource.update(entity)
             item.alarm.id
         }
