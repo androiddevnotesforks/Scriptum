@@ -8,7 +8,6 @@ import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
@@ -40,6 +39,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelIm
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.onSave
 
 class RollNoteViewModelImpl(
@@ -253,8 +253,9 @@ class RollNoteViewModelImpl(
      * Important thing for update visible: you must call func after adapter notify.
      */
     override fun onUpdateInfo() {
-        val isListEmpty = deprecatedNoteItem.list.size == 0
-        val isListHide = !deprecatedNoteItem.isVisible && deprecatedNoteItem.list.hide().size == 0
+        val isListEmpty = deprecatedNoteItem.list.isEmpty()
+        val isListHide =
+            !deprecatedNoteItem.isVisible && deprecatedNoteItem.list.hideChecked().isEmpty()
 
         if (isListEmpty || isListHide) {
             callback?.onBindingInfo(isListEmpty, isListHide)
@@ -409,7 +410,7 @@ class RollNoteViewModelImpl(
 
     private fun getInsertPosition(action: HistoryAction.Roll.List): Int? = when {
         deprecatedNoteItem.isVisible -> action.p
-        !action.item.isCheck -> deprecatedNoteItem.list.subList(0, action.p).hide().size
+        !action.item.isCheck -> deprecatedNoteItem.list.subList(0, action.p).hideChecked().size
         else -> null
     }
 
@@ -522,7 +523,7 @@ class RollNoteViewModelImpl(
             adapterPosition
         } else {
             val list = deprecatedNoteItem.list
-            val hideItem = list.hide().getOrNull(adapterPosition) ?: return null
+            val hideItem = list.hideChecked().getOrNull(adapterPosition) ?: return null
 
             return list.validIndexOfFirst(hideItem)
         }
@@ -615,7 +616,7 @@ class RollNoteViewModelImpl(
     private fun getAdapterList(): MutableList<RollItem> {
         val list = deprecatedNoteItem.list
 
-        return if (deprecatedNoteItem.isVisible) list else list.hide()
+        return if (deprecatedNoteItem.isVisible) list else list.hideChecked()
     }
 
     /**
@@ -624,7 +625,7 @@ class RollNoteViewModelImpl(
     private fun notifyListByVisible() {
         val list = ArrayList(deprecatedNoteItem.list)
 
-        if (list.size == 0) return
+        if (list.isEmpty()) return
 
         if (deprecatedNoteItem.isVisible) {
             notifyVisibleList(list)

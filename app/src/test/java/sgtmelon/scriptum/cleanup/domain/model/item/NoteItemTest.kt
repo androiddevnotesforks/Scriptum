@@ -5,7 +5,6 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.extensions.getCalendarText
-import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.clearRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.joinToText
 import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.onDelete
 import sgtmelon.scriptum.infrastructure.utils.extensions.onRestore
@@ -316,7 +316,7 @@ class NoteItemTest : ParentTest() {
             assertEquals(NoteType.TEXT, type)
 
             assertChangeTime(this)
-            assertEquals(rollList.getText(), text)
+            assertEquals(rollList.joinToText(), text)
         }
 
         val list = rollList.subList(0, 2)
@@ -324,7 +324,7 @@ class NoteItemTest : ParentTest() {
             assertEquals(NoteType.TEXT, type)
 
             assertChangeTime(this)
-            assertEquals(list.getText(), text)
+            assertEquals(list.joinToText(), text)
         }
     }
 

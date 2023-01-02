@@ -8,8 +8,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.joinToText
 
 // TODO create tests
 
@@ -81,7 +81,7 @@ fun NoteItem.Roll.onConvert(): NoteItem.Text {
     )
 
     item.updateTime()
-    item.text = list.getText()
+    item.text = list.joinToText()
 
     return item
 }

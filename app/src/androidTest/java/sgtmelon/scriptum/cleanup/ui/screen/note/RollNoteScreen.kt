@@ -4,7 +4,6 @@ import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.RollItemUi
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.onConvert
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.feature.BackPress
@@ -71,8 +71,8 @@ class RollNoteScreen(
             NoteState.EDIT, NoteState.NEW -> shadowItem.list
         }
 
-        val isListEmpty = list.size == 0
-        val isListHide = !item.isVisible && list.hide().size == 0
+        val isListEmpty = list.isEmpty()
+        val isListHide = !item.isVisible && list.hideChecked().isEmpty()
 
         return InfoContainerPart(parentContainer, InfoCase.Roll(isListEmpty, isListHide))
     }
@@ -232,7 +232,7 @@ class RollNoteScreen(
             NoteState.READ, NoteState.BIN -> item.list
             NoteState.EDIT, NoteState.NEW -> shadowItem.list
         }
-        val resultList = if (item.isVisible) list else list.hide()
+        val resultList = if (item.isVisible) list else list.hideChecked()
 
         for ((i, it) in resultList.withIndex()) {
             getItem(i).assert(it)
@@ -252,7 +252,7 @@ class RollNoteScreen(
                 NoteState.READ, NoteState.BIN -> item.list
                 NoteState.EDIT, NoteState.NEW -> shadowItem.list
             }.let {
-                if (item.isVisible) it.size == 0 else it.hide().size == 0
+                if (item.isVisible) it.isEmpty() else it.hideChecked().isEmpty()
             })
 
         toolbar {
@@ -286,7 +286,7 @@ class RollNoteScreen(
      * @Test - duplicate of original function in [RollNoteViewModelImpl].
      */
     private fun getCorrectPosition(p: Int, list: List<RollItem>): Int {
-        return if (item.isVisible) p else list.indexOf(list.hide()[p])
+        return if (item.isVisible) p else list.indexOf(list.hideChecked()[p])
     }
 
     companion object {

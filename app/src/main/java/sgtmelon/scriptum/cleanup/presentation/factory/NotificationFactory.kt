@@ -14,13 +14,13 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
-import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver
 import sgtmelon.scriptum.infrastructure.service.EternalService
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.type
 import sgtmelon.test.prod.RunPrivate
 
@@ -117,7 +117,8 @@ object NotificationFactory {
             return when (item) {
                 is NoteItem.Text -> item.text
                 is NoteItem.Roll -> {
-                    val finalList = if (item.isVisible) item.list else item.list.hide()
+                    val finalList = if (item.isVisible) item.list else item.list.hideChecked()
+                    // TODO первое условие тут точно нужно?
                     if (item.isVisible || finalList.isNotEmpty()) {
                         finalList.toStatusText()
                     } else {

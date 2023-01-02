@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 
 import kotlin.math.min
 import sgtmelon.extensions.getCalendarText
-import sgtmelon.scriptum.cleanup.extension.copy
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
@@ -12,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.type
 import sgtmelon.scriptum.infrastructure.utils.extensions.updateTime
 

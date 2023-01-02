@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.getText
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.joinToText
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
@@ -76,7 +76,7 @@ class GetCopyTextUseCaseTest : ParentTest() {
         every { item.name } returns ""
         every { item.id } returns id
         coEvery { repository.getRollList(id) } returns list
-        every { list.getText() } returns text
+        every { list.joinToText() } returns text
 
         runBlocking {
             assertEquals(useCase(item), text)
@@ -92,13 +92,13 @@ class GetCopyTextUseCaseTest : ParentTest() {
             item.name
             item.id
             repository.getRollList(id)
-            list.getText()
+            list.joinToText()
 
             item.name
             item.name
             item.id
             repository.getRollList(id)
-            list.getText()
+            list.joinToText()
         }
     }
 }

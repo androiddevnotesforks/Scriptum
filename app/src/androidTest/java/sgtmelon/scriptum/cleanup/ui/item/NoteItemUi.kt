@@ -9,12 +9,12 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.type
 import sgtmelon.scriptum.parent.ui.basic.withCardBackground
 import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
@@ -90,7 +90,7 @@ class NoteItemUi(
             super.assert(item)
 
             val visibleList = with(item) {
-                if (isVisible) list else list.hide().takeIf { it.isNotEmpty() } ?: list
+                if (isVisible) list else list.hideChecked().takeIf { it.isNotEmpty() } ?: list
             }
 
             for (i in 0 until 4) {

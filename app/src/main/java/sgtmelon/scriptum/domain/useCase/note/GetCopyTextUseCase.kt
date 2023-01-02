@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.useCase.note
 
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.getText
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.joinToText
 
 class GetCopyTextUseCase(private val repository: NoteRepo) {
 
@@ -15,7 +15,7 @@ class GetCopyTextUseCase(private val repository: NoteRepo) {
 
         when (item) {
             is NoteItem.Text -> builder.append(item.text)
-            is NoteItem.Roll -> builder.append(repository.getRollList(item.id).getText())
+            is NoteItem.Roll -> builder.append(repository.getRollList(item.id).joinToText())
         }
 
         return builder.toString()
