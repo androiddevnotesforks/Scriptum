@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
@@ -68,9 +69,9 @@ fun NoteItem.Text.onConvert(): NoteItem.Roll {
         id, create, change, name, text, color, rank.copy(), isBin, isStatus, alarm.copy()
     )
 
-    item.list.addAll(text.splitToRoll())
+    item.list.clearAdd(text.splitToRoll())
     item.updateTime()
-    item.updateComplete(knownCheckCount = 0)
+    item.updateComplete()
 
     return item
 }

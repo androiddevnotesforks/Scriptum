@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.MAX_COUNT
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
@@ -24,7 +25,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateTime
 import sgtmelon.scriptum.testing.parent.ParentTest
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.INDICATOR_MAX_COUNT as MAX_COUNT
 
 /**
  * Test for [NoteItem].

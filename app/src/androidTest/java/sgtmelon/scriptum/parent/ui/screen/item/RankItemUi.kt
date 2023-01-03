@@ -5,7 +5,8 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
-import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
+import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
+import sgtmelon.scriptum.infrastructure.utils.extensions.maxIndicatorTest
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.scriptum.parent.ui.screen.dialogs.RenameDialogUi
 import sgtmelon.test.cappuccino.utils.click
@@ -83,32 +84,24 @@ class RankItemUi(
     }
 
     private fun assertIndicators(item: RankItem) = with(item) {
-        val isNotificationVisible = RankHolder.isMaxTest || notificationCount != 0
-        val isBindVisible = RankHolder.isMaxTest || bindCount != 0
+        val isNotificationVisible = maxIndicatorTest || notificationCount != 0
+        val isBindVisible = maxIndicatorTest || bindCount != 0
 
         imageContainer.isDisplayed(value = isNotificationVisible || isBindVisible)
 
         notificationText.isDisplayed(isNotificationVisible)
-            .withText(getIndicatorCount(notificationCount), R.attr.clIndicator, R.dimen.text_14sp)
+            .withText(notificationCount.getIndicatorText(), R.attr.clIndicator, R.dimen.text_14sp)
         notificationImage.isDisplayed(isNotificationVisible) {
             withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
         }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clIndicator)
 
         bindText.isDisplayed(isBindVisible)
-            .withText(getIndicatorCount(bindCount), R.attr.clIndicator, R.dimen.text_14sp)
+            .withText(bindCount.getIndicatorText(), R.attr.clIndicator, R.dimen.text_14sp)
         bindImage.isDisplayed(isBindVisible) {
             withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
         }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clIndicator)
 
         val text = context.getString(R.string.list_rank_count, noteId.size)
         countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
-    }
-
-    private fun getIndicatorCount(count: Int): String {
-        return when {
-            RankHolder.isMaxTest -> RankHolder.MAX_COUNT_TEXT
-            count > RankHolder.MAX_COUNT -> RankHolder.MAX_COUNT_TEXT
-            else -> count.toString()
-        }
     }
 }

@@ -10,7 +10,9 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
+import sgtmelon.scriptum.infrastructure.utils.extensions.maxIndicatorTest
 import sgtmelon.test.prod.RunNone
 
 @SuppressLint("ClickableViewAccessibility")
@@ -57,26 +59,18 @@ class RankHolder(
     }
 
     private fun notifyIndicators(item: RankItem) = with(binding) {
-        val isAlarmVisible = isMaxTest || item.notificationCount != 0
-        val isBindVisible = isMaxTest || item.bindCount != 0
+        val isAlarmVisible = maxIndicatorTest || item.notificationCount != 0
+        val isBindVisible = maxIndicatorTest || item.bindCount != 0
 
         imageContainer.makeVisibleIf(condition = isAlarmVisible || isBindVisible)
 
         notificationContainer.makeVisibleIf(isAlarmVisible)
-        notificationText.text = getIndicatorCount(item.notificationCount)
+        notificationText.text = item.notificationCount.getIndicatorText()
 
         bindContainer.makeVisibleIf(isBindVisible)
-        bindText.text = getIndicatorCount(item.bindCount)
+        bindText.text = item.bindCount.getIndicatorText()
 
         countText.text = context.getString(R.string.list_rank_count, item.noteId.size)
-    }
-
-    private fun getIndicatorCount(count: Int): String {
-        return when {
-            isMaxTest -> MAX_COUNT_TEXT
-            count > MAX_COUNT -> MAX_COUNT_TEXT
-            else -> count.toString()
-        }
     }
 
     private fun onVisibleClick(callback: RankClickListener, item: RankItem, p: Int) {

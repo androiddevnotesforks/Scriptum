@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
-import kotlin.math.min
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
@@ -8,6 +7,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
@@ -120,11 +120,12 @@ sealed class NoteItem(
         val list: MutableList<RollItem> = ArrayList()
     ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
 
-        fun updateComplete(knownCheckCount: Int? = null) = apply {
-            val checkCount = knownCheckCount ?: list.getCheckCount()
-            val checkText = min(checkCount, INDICATOR_MAX_COUNT)
-            val allText = min(list.size, INDICATOR_MAX_COUNT)
-
+        // TODO make for maximum values like in RankHolder.getIndicatorCount(..)
+        // TODO Так же убрать выхов updateComplete из NoteItem.Text.onConvert() функции, оптимизировать
+        //      так как там всегда будет значение текст 0/list.size
+        fun updateComplete() = apply {
+            val checkText = list.getCheckCount().getIndicatorText()
+            val allText = list.size.getIndicatorText()
             text = "$checkText/$allText"
         }
 
@@ -158,7 +159,6 @@ sealed class NoteItem(
 
         companion object {
             const val PREVIEW_SIZE = 4
-            const val INDICATOR_MAX_COUNT = 99
         }
     }
 }
