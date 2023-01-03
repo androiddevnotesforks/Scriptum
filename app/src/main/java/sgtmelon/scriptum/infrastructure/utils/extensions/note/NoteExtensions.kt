@@ -77,7 +77,6 @@ private fun NoteItem.Roll.onSave() {
     text = getCompleteText(checkCount, list.size)
 }
 
-// TODO move it inside noteConverter?
 fun NoteItem.Text.onConvert(): NoteItem.Roll {
     val list = text.splitToRoll()
     val completeText = getCompleteText(check = 0, list.size)
@@ -92,7 +91,6 @@ fun NoteItem.Text.onConvert(): NoteItem.Roll {
     return item
 }
 
-// TODO move it inside noteConverter?
 fun NoteItem.Roll.onConvert(): NoteItem.Text {
     val item = NoteItem.Text(
         id, create, change, name, text, color, rank.copy(), isBin, isStatus, alarm.copy()

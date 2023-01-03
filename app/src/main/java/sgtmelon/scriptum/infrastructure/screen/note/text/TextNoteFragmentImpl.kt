@@ -13,10 +13,10 @@ import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
+import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.noteHistory.HistoryTextWatcher
-import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 
 /**
@@ -32,16 +32,13 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     @Inject override lateinit var viewModel: TextNoteViewModel
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
+    override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
     // TODO PLAN:
     // TODO 1. Change isEdit/noteState via new livedata value (if first time - skip animation - no views visible)
     //         - Move all binding related with it into UI classes
     // TODO 2. Make common use case for undo/redo (use flow?)
     // TODO 3. Move common functions into use cases? (don't use parent vm class?)
-
-    override fun setupBinding(callback: NoteMenu) {
-        binding?.menuCallback = callback
-    }
 
     //region Cleanup
 

@@ -14,10 +14,6 @@
             type="sgtmelon.scriptum.infrastructure.model.key.preference.NoteType" />
 
         <variable
-            name="menuCallback"
-            type="sgtmelon.scriptum.infrastructure.screen.note.NoteMenu" />
-
-        <variable
             name="isDataLoad"
             type="boolean" />
 
@@ -58,7 +54,6 @@
                 android:id="@+id/restore_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_restore"
-                android:onClick='@{() -> menuCallback.onMenuRestore()}'
                 app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_restore" />
 
@@ -66,7 +61,6 @@
                 android:id="@+id/restore_open_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_restore_open"
-                android:onClick='@{() -> menuCallback.onMenuRestoreOpen()}'
                 app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_restore_open" />
 
@@ -74,7 +68,6 @@
                 android:id="@+id/clear_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_clear"
-                android:onClick='@{() -> menuCallback.onMenuClear()}'
                 app:tint="?attr/clAccent"
                 app:srcCompat="@drawable/ic_clear" />
 
@@ -92,7 +85,6 @@
                 android:id="@+id/undo_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_undo"
-                android:onClick='@{() -> menuCallback.onMenuUndo()}'
                 app:boolExpression="@{historyMove.undo}"
                 app:enabled="@{historyMove.undo}"
                 app:falseColor='@{R.attr.clDisable}'
@@ -104,7 +96,6 @@
                 android:id="@+id/redo_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_redo"
-                android:onClick='@{() -> menuCallback.onMenuRedo()}'
                 app:boolExpression="@{historyMove.redo}"
                 app:enabled="@{historyMove.redo}"
                 app:falseColor='@{R.attr.clDisable}'
@@ -116,7 +107,6 @@
                 android:id="@+id/rank_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_rank"
-                android:onClick='@{() -> menuCallback.onMenuRank()}'
                 app:boolExpression='@{!isRankEmpty}'
                 app:enabled='@{!isRankEmpty}'
                 app:falseColor='@{R.attr.clDisable}'
@@ -128,7 +118,6 @@
                 android:id="@+id/color_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_color"
-                android:onClick='@{() -> menuCallback.onMenuColor()}'
                 app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_palette" />
 
@@ -141,8 +130,6 @@
                 android:id="@+id/save_button"
                 style="@style/Button.Small"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick='@{() -> menuCallback.onMenuSave(true)}'
-                android:onLongClick='@{() -> menuCallback.onMenuSave(false)}'
                 android:text="@string/button_note_save"
                 app:enabled="@{item.isSaveEnabledDepr}" />
 
@@ -160,7 +147,6 @@
                 android:id="@+id/notification_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_notification"
-                android:onClick='@{() -> menuCallback.onMenuNotification()}'
                 app:boolExpression="@{item.haveAlarmDepr}"
                 app:falseColor='@{R.attr.clContent}'
                 app:srcCompat="@drawable/ic_notifications"
@@ -171,7 +157,6 @@
                 android:id="@+id/bind_button"
                 style="@style/Button.Small"
                 android:contentDescription='@{item.status ? @string/description_note_unbind : @string/description_note_bind}'
-                android:onClick='@{() -> menuCallback.onMenuBind()}'
                 android:src="@{item.typeDepr == Type.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}"
                 app:boolExpression='@{item.status}'
                 app:falseColor='@{R.attr.clContent}'
@@ -179,19 +164,18 @@
                 tools:src="@drawable/ic_bind_text"
                 tools:tint="?attr/clAccent" />
 
+            <!--  Set contentDescription in ui class  -->
             <ImageButton
                 android:id="@+id/convert_button"
                 style="@style/Button.Small"
-                android:contentDescription="@{item.typeDepr == Type.TEXT ? @string/description_note_convert_text : @string/description_note_convert_roll}"
-                android:onClick='@{() -> menuCallback.onMenuConvert()}'
                 app:tint="?attr/clContent"
-                app:srcCompat="@drawable/ic_convert" />
+                app:srcCompat="@drawable/ic_convert"
+                tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/delete_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_delete"
-                android:onClick='@{() -> menuCallback.onMenuDelete()}'
                 app:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_bin" />
 
@@ -204,7 +188,6 @@
                 android:id="@+id/edit_button"
                 style="@style/Button.Small"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick='@{() -> menuCallback.onMenuEdit()}'
                 android:text="@string/button_note_edit" />
 
         </LinearLayout>

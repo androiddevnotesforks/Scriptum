@@ -13,6 +13,7 @@ import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -23,7 +24,6 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
-import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
@@ -46,6 +46,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract val viewModel: ParentNoteViewModel<N>
 
     abstract val appBar: IncToolbarNoteBinding?
+    abstract val panelBar: IncNotePanelContentBinding?
 
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
@@ -61,8 +62,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupBinding(viewModel)
         setupToolbar(view.context, appBar?.content?.toolbar)
+        setupPanel()
     }
 
     override fun setupDialogs() {
@@ -116,6 +117,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper open fun observeEdit(it: Boolean) {
         connector.init.isEdit = it
+        invalidatePanelState(it)
     }
 
     @CallSuper open fun observeState(it: NoteState) {
@@ -129,8 +131,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     // TODO add implementation, make it abstract
     @CallSuper open fun observeNoteItem(it: N) = Unit
-
-    abstract fun setupBinding(callback: NoteMenu)
 
     @CallSuper
     open fun setupToolbar(context: Context, toolbar: Toolbar?) {
@@ -155,6 +155,32 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         appBar?.content?.nameEnter?.doOnTextChanged { it, _, _, _ ->
             viewModel.noteItem.value?.name = it?.toString() ?: return@doOnTextChanged
         }
+    }
+
+    @CallSuper
+    open fun setupPanel() {
+        val panelBar = panelBar ?: return
+
+        panelBar.restoreButton.setOnClickListener { viewModel.onMenuRestore() }
+        panelBar.restoreOpenButton.setOnClickListener { viewModel.onMenuRestoreOpen() }
+        panelBar.clearButton.setOnClickListener { viewModel.onMenuClear() }
+        panelBar.undoButton.setOnClickListener { viewModel.onMenuUndo() }
+        panelBar.redoButton.setOnClickListener { viewModel.onMenuRedo() }
+        panelBar.rankButton.setOnClickListener { viewModel.onMenuRank() }
+        panelBar.colorButton.setOnClickListener { viewModel.onMenuColor() }
+        panelBar.saveButton.setOnClickListener { viewModel.onMenuSave(changeMode = true) }
+        panelBar.saveButton.setOnLongClickListener { viewModel.onMenuSave(changeMode = false) }
+        panelBar.notificationButton.setOnClickListener { viewModel.onMenuNotification() }
+        panelBar.bindButton.setOnClickListener { viewModel.onMenuBind() }
+        panelBar.convertButton.setOnClickListener { viewModel.onMenuConvert() }
+        panelBar.deleteButton.setOnClickListener { viewModel.onMenuDelete() }
+        panelBar.editButton.setOnClickListener { viewModel.onMenuEdit() }
+
+        val convertDescription = when (type) {
+            NoteType.TEXT -> R.string.description_note_convert_text
+            NoteType.ROLL -> R.string.description_note_convert_roll
+        }
+        panelBar.convertButton.contentDescription = getString(convertDescription)
     }
 
     override fun setIconEnabled(isEnabled: Boolean) {
@@ -191,6 +217,16 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                 nameRead.text = connector.init.name
             }
         }
+    }
+
+    @CallSuper
+    open fun invalidatePanelState(isEdit: Boolean) {
+        TODO()
+    }
+
+    @CallSuper
+    open fun invalidatePanelData() {
+        TODO()
     }
 
     //region Cleanup

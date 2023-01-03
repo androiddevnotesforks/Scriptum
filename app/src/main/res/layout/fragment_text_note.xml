@@ -8,10 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="menuCallback"
-            type="sgtmelon.scriptum.infrastructure.screen.note.NoteMenu" />
-
-        <variable
             name="isDataLoad"
             type="boolean" />
 
@@ -95,8 +91,7 @@
             app:isDataLoad='@{isDataLoad}'
             app:isEditMode='@{isEditMode}'
             app:isRankEmpty='@{isRankEmpty}'
-            app:item='@{item}'
-            app:menuCallback='@{menuCallback}' />
+            app:item='@{item}' />
 
     </LinearLayout>
 

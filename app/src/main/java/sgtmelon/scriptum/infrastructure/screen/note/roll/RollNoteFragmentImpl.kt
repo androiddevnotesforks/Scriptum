@@ -30,12 +30,12 @@ import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.noteHistory.HistoryTextWatcher
-import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -54,14 +54,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     @Inject override lateinit var viewModel: RollNoteViewModel
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
+    override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
     private var visibleIcon: IconChangeCallback? = null
 
     // TODO pass data for pre-binding: visible state
-
-    override fun setupBinding(callback: NoteMenu) {
-        binding?.menuCallback = callback
-    }
 
     override fun setupToolbar(context: Context, toolbar: Toolbar?) {
         super.setupToolbar(context, toolbar)
