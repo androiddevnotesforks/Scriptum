@@ -41,12 +41,12 @@ val NoteItem.isSaveEnabled: Boolean
         }
     }
 
-// TODO Так же убрать выхов updateComplete из NoteItem.Text.onConvert() функции, оптимизировать
-//      так как там всегда будет значение текст 0/list.size
 fun NoteItem.Roll.updateComplete() = apply {
-    val checkText = list.getCheckCount().getIndicatorText()
-    val allText = list.size.getIndicatorText()
-    text = "$checkText/$allText"
+    text = getCompleteText(list.getCheckCount(), list.size)
+}
+
+private fun getCompleteText(check: Int, size: Int): String {
+    return "${check.getIndicatorText()}/${size.getIndicatorText()}"
 }
 
 //region On.. functions
@@ -63,27 +63,31 @@ fun NoteItem.onSave() {
 
 private fun NoteItem.Roll.onSave() {
     list.removeAll { it.text.removeExtraSpace().isEmpty() }
+
+    var checkCount = 0
     list.forEachIndexed { i, it ->
+        if (it.isCheck) {
+            checkCount++
+        }
+
         it.position = i
         it.text = it.text.removeExtraSpace()
     }
 
-    // TODO you may calculate check count, prevent for circle in [updateComplete]
-    updateComplete()
+    text = getCompleteText(checkCount, list.size)
 }
 
 // TODO move it inside noteConverter?
 fun NoteItem.Text.onConvert(): NoteItem.Roll {
-    // TODO по идее тут бессмысслено передавать text, так как в updateComplete он будет перезаписан
+    val list = text.splitToRoll()
+    val completeText = getCompleteText(check = 0, list.size)
+
     val item = NoteItem.Roll(
-        id, create, change, name, text, color, rank.copy(), isBin, isStatus, alarm.copy()
+        id, create, change, name, completeText, color, rank.copy(), isBin, isStatus, alarm.copy()
     )
 
-    item.list.clearAdd(text.splitToRoll())
+    item.list.clearAdd(list)
     item.updateTime()
-
-    // TODO you may calculate check count, prevent for circle in [updateComplete]
-    item.updateComplete()
 
     return item
 }
@@ -116,8 +120,6 @@ fun NoteItem.Roll.onItemCheck(p: Int) = apply {
     list.getOrNull(p)?.apply { isCheck = !isCheck } ?: return@apply
 
     updateTime()
-
-    // TODO you may calculate check count, prevent for circle in [updateComplete]
     updateComplete()
 }
 
