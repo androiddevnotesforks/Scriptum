@@ -13,7 +13,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateTime
 
 /**
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
@@ -127,14 +126,6 @@ sealed class NoteItem(
             val checkText = list.getCheckCount().getIndicatorText()
             val allText = list.size.getIndicatorText()
             text = "$checkText/$allText"
-        }
-
-
-        fun onItemCheck(p: Int) {
-            list.getOrNull(p)?.apply { isCheck = !isCheck } ?: return
-
-            updateTime()
-            updateComplete()
         }
 
         override fun equals(other: Any?): Boolean {

@@ -59,6 +59,7 @@ private fun NoteItem.Roll.onSave() {
         it.text = it.text.removeExtraSpace()
     }
 
+    // TODO you may calculate check count, prevent for circle in [updateComplete]
     updateComplete()
 }
 
@@ -71,6 +72,8 @@ fun NoteItem.Text.onConvert(): NoteItem.Roll {
 
     item.list.clearAdd(text.splitToRoll())
     item.updateTime()
+
+    // TODO you may calculate check count, prevent for circle in [updateComplete]
     item.updateComplete()
 
     return item
@@ -98,6 +101,15 @@ fun NoteItem.onDelete() = apply {
 fun NoteItem.onRestore() = apply {
     updateTime()
     isBin = false
+}
+
+fun NoteItem.Roll.onItemCheck(p: Int) = apply {
+    list.getOrNull(p)?.apply { isCheck = !isCheck } ?: return@apply
+
+    updateTime()
+
+    // TODO you may calculate check count, prevent for circle in [updateComplete]
+    updateComplete()
 }
 
 //endregion

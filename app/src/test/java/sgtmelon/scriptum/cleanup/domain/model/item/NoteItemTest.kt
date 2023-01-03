@@ -20,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.joinToText
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onDelete
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type

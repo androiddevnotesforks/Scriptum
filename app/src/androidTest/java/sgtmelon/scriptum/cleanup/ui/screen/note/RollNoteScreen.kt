@@ -19,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose

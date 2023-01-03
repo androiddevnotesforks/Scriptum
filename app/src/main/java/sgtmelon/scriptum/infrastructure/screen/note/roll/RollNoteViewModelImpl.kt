@@ -42,6 +42,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 
 class RollNoteViewModelImpl(
