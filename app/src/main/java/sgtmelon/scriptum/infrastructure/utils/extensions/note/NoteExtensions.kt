@@ -11,6 +11,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
 
 // TODO create tests
 
@@ -39,6 +40,14 @@ val NoteItem.isSaveEnabled: Boolean
             is NoteItem.Roll -> list.any { it.text.isNotEmpty() }
         }
     }
+
+// TODO Так же убрать выхов updateComplete из NoteItem.Text.onConvert() функции, оптимизировать
+//      так как там всегда будет значение текст 0/list.size
+fun NoteItem.Roll.updateComplete() = apply {
+    val checkText = list.getCheckCount().getIndicatorText()
+    val allText = list.size.getIndicatorText()
+    text = "$checkText/$allText"
+}
 
 //region On.. functions
 

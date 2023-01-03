@@ -7,8 +7,6 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
@@ -118,15 +116,6 @@ sealed class NoteItem(
         var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
     ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
-
-        // TODO make for maximum values like in RankHolder.getIndicatorCount(..)
-        // TODO Так же убрать выхов updateComplete из NoteItem.Text.onConvert() функции, оптимизировать
-        //      так как там всегда будет значение текст 0/list.size
-        fun updateComplete() = apply {
-            val checkText = list.getCheckCount().getIndicatorText()
-            val allText = list.size.getIndicatorText()
-            text = "$checkText/$allText"
-        }
 
         override fun equals(other: Any?): Boolean {
             if (!super.equals(other)) return false
