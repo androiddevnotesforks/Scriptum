@@ -97,9 +97,7 @@
             android:id="@+id/panel"
             layout="@layout/inc_note_panel_roll"
             app:historyMove='@{historyMove}'
-            app:isDataLoad='@{isDataLoad}'
             app:isDividerHide='@{!isEditMode}'
-            app:isEditMode='@{isEditMode}'
             app:isRankEmpty='@{isRankEmpty}'
             app:item='@{item}' />
 

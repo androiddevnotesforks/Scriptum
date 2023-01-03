@@ -6,20 +6,10 @@
 
     <data>
 
-        <import type="sgtmelon.scriptum.R" />
-
         <import type="android.view.View" />
-
-        <import
-            alias="Type"
-            type="sgtmelon.scriptum.infrastructure.model.key.preference.NoteType" />
 
         <variable
             name="isDividerHide"
-            type="boolean" />
-
-        <variable
-            name="isDataLoad"
             type="boolean" />
 
         <variable
@@ -28,10 +18,6 @@
 
         <variable
             name="isRankEmpty"
-            type="boolean" />
-
-        <variable
-            name="isEditMode"
             type="boolean" />
 
         <variable
@@ -59,8 +45,6 @@
             android:id="@+id/content"
             layout="@layout/inc_note_panel_content"
             app:historyMove='@{historyMove}'
-            app:isDataLoad='@{isDataLoad}'
-            app:isEditMode='@{isEditMode}'
             app:isRankEmpty='@{isRankEmpty}'
             app:item='@{item}' />
 

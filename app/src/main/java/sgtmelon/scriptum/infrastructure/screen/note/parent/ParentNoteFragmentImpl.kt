@@ -27,6 +27,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
@@ -105,6 +106,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         viewModel.isDataReady.observe(this) {
             invalidateToolbar()
 
+            // TODO("block some buttons in panel bar while data not loaded")
             // TODO("change enable of button, fields and etc")
         }
         viewModel.isEdit.observe(this) { observeEdit(it) }
@@ -129,8 +131,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         connector.updateHolder(it)
     }
 
-    // TODO add implementation, make it abstract
-    @CallSuper open fun observeNoteItem(it: N) = Unit
+    @CallSuper open fun observeNoteItem(it: N) {
+        invalidatePanelData(it)
+    }
 
     @CallSuper
     open fun setupToolbar(context: Context, toolbar: Toolbar?) {
@@ -221,11 +224,19 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper
     open fun invalidatePanelState(isEdit: Boolean) {
-        TODO()
+        if (connector.init.state == NoteState.DELETE) {
+            panelBar?.binContainer?.makeVisible()
+            panelBar?.editContainer?.makeInvisible()
+            panelBar?.readContainer?.makeInvisible()
+        } else {
+            panelBar?.binContainer?.makeInvisible()
+            panelBar?.editContainer?.makeVisibleIf(isEdit) { makeInvisible() }
+            panelBar?.readContainer?.makeVisibleIf(!isEdit) { makeInvisible() }
+        }
     }
 
     @CallSuper
-    open fun invalidatePanelData() {
+    open fun invalidatePanelData(item: N) {
         TODO()
     }
 

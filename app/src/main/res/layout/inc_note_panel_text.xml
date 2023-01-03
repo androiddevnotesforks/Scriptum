@@ -6,18 +6,6 @@
 
     <data>
 
-        <import type="sgtmelon.scriptum.R" />
-
-        <import type="android.view.View" />
-
-        <import
-            alias="Type"
-            type="sgtmelon.scriptum.infrastructure.model.key.preference.NoteType" />
-
-        <variable
-            name="isDataLoad"
-            type="boolean" />
-
         <variable
             name="item"
             type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem" />
@@ -50,7 +38,6 @@
             android:id="@+id/content"
             layout="@layout/inc_note_panel_content"
             app:historyMove='@{historyMove}'
-            app:isDataLoad='@{isDataLoad}'
             app:isEditMode='@{isEditMode}'
             app:isRankEmpty='@{isRankEmpty}'
             app:item='@{item}' />

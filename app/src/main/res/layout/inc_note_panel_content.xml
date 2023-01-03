@@ -14,10 +14,6 @@
             type="sgtmelon.scriptum.infrastructure.model.key.preference.NoteType" />
 
         <variable
-            name="isDataLoad"
-            type="boolean" />
-
-        <variable
             name="item"
             type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem" />
 
@@ -47,7 +43,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:visibility='@{isDataLoad &amp;&amp; !isEditMode &amp;&amp; item.bin ? View.VISIBLE : View.INVISIBLE}'
             tools:visibility="invisible">
 
             <ImageButton
@@ -78,7 +73,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:visibility='@{isDataLoad &amp;&amp; isEditMode &amp;&amp; !item.bin ? View.VISIBLE : View.INVISIBLE}'
             tools:visibility="invisible">
 
             <ImageButton
@@ -140,7 +134,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:visibility='@{isDataLoad &amp;&amp; !isEditMode &amp;&amp; !item.bin ? View.VISIBLE  : View.INVISIBLE}'
             tools:visibility="visible">
 
             <ImageButton

@@ -88,8 +88,6 @@
             android:id="@+id/panel"
             layout="@layout/inc_note_panel_text"
             app:historyMove='@{historyMove}'
-            app:isDataLoad='@{isDataLoad}'
-            app:isEditMode='@{isEditMode}'
             app:isRankEmpty='@{isRankEmpty}'
             app:item='@{item}' />
 
