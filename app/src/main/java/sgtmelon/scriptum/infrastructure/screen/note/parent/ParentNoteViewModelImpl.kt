@@ -15,6 +15,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryChange
+import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -84,6 +85,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     override val noteItem: MutableLiveData<N> = MutableLiveData()
     private var restoreItem: NoteItem? = null
+
+    override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
 
     // TODO add observers for note and remove initialization functions
     init {
@@ -243,7 +246,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         deprecatedNoteItem.color = newColor
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, history.available)
+            historyAvailable.postValue(history.available)
+            //            onBindingInput(deprecatedNoteItem, history.available)
             tintToolbar(newColor)
         }
     }
@@ -265,7 +269,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             }
 
             callback?.apply {
-                onBindingInput(deprecatedNoteItem, history.available)
+                historyAvailable.postValue(history.available)
+                //                onBindingInput(deprecatedNoteItem, history.available)
                 onBindingNote(deprecatedNoteItem)
             }
         }
@@ -367,7 +372,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             onMenuUndoRedoSelect(item, isUndo)
         }
 
-        callback?.onBindingInput(deprecatedNoteItem, history.available)
+        historyAvailable.postValue(history.available)
+        //        callback?.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     /**
@@ -484,7 +490,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onHistoryEnterChanged(text: String) {
         if (!isNoteInitialized()) return
 
-        callback?.onBindingInput(deprecatedNoteItem, history.available)
+        historyAvailable.postValue(history.available)
+        //        callback?.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     //endregion

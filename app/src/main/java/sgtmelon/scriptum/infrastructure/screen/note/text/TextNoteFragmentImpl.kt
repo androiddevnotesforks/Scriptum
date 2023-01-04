@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
-import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -100,15 +99,15 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         }?.executePendingBindings()
     }
 
-    override fun onBindingInput(
-        item: NoteItem.Text,
-        historyMove: HistoryMoveAvailable
-    ) {
-        binding?.apply {
-            this.item = item
-            this.historyMove = historyMove
-        }?.executePendingBindings()
-    }
+    //    override fun onBindingInput(
+    //        item: NoteItem.Text,
+    //        historyMove: HistoryMoveAvailable
+    //    ) {
+    //        binding?.apply {
+    //            this.item = item
+    //            this.historyMove = historyMove
+    //        }?.executePendingBindings()
+    //    }
 
 
     override fun focusOnEdit(isCreate: Boolean) {

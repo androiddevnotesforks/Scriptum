@@ -301,7 +301,8 @@ class RollNoteViewModelImpl(
         deprecatedNoteItem.list.add(p, rollItem)
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, history.available)
+            historyAvailable.postValue(history.available)
+            //            onBindingInput(deprecatedNoteItem, history.available)
             scrollToItem(simpleClick, p, getAdapterList())
         }
     }
@@ -498,7 +499,8 @@ class RollNoteViewModelImpl(
             )
 
             onBindingEdit(deprecatedNoteItem, isEdit)
-            onBindingInput(deprecatedNoteItem, history.available)
+            historyAvailable.postValue(history.available)
+            //            onBindingInput(deprecatedNoteItem, history.available)
             viewModelScope.launchBack { updateNoteState(isEdit, noteState) }
 
             if (isEdit) {
@@ -538,7 +540,8 @@ class RollNoteViewModelImpl(
 
         callback?.apply {
             setList(getAdapterList())
-            onBindingInput(deprecatedNoteItem, history.available)
+            historyAvailable.postValue(history.available)
+            //            onBindingInput(deprecatedNoteItem, history.available)
         }
     }
 
@@ -573,7 +576,8 @@ class RollNoteViewModelImpl(
         history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
 
         callback?.apply {
-            onBindingInput(deprecatedNoteItem, history.available)
+            historyAvailable.postValue(history.available)
+            //            onBindingInput(deprecatedNoteItem, history.available)
             notifyItemRemoved(getAdapterList(), p)
         }
     }
@@ -606,7 +610,8 @@ class RollNoteViewModelImpl(
 
         history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
 
-        callback?.onBindingInput(deprecatedNoteItem, history.available)
+        historyAvailable.postValue(history.available)
+        //        callback?.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     //endregion

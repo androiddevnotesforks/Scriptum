@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -19,9 +18,6 @@
             name="isEditMode"
             type="boolean" />
 
-        <variable
-            name="historyMove"
-            type="sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable" />
     </data>
 
     <LinearLayout
@@ -82,8 +78,7 @@
 
         <include
             android:id="@+id/panel"
-            layout="@layout/inc_note_panel_text"
-            app:historyMove='@{historyMove}' />
+            layout="@layout/inc_note_panel_text" />
 
     </LinearLayout>
 

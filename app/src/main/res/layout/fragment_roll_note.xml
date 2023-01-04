@@ -26,10 +26,6 @@
             type="boolean" />
 
         <variable
-            name="historyMove"
-            type="sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable" />
-
-        <variable
             name="isEnterEmpty"
             type="boolean" />
     </data>
@@ -88,7 +84,6 @@
         <include
             android:id="@+id/panel"
             layout="@layout/inc_note_panel_roll"
-            app:historyMove='@{historyMove}'
             app:isDividerHide='@{!isEditMode}' />
 
     </LinearLayout>

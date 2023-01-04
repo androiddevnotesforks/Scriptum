@@ -15,6 +15,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
+import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -120,6 +121,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         viewModel.color.observe(this) { observeColor(it) }
         viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
         viewModel.noteItem.observe(this) { observeNoteItem(it) }
+        viewModel.historyAvailable.observe(this) { observeHistoryAvailable(it) }
     }
 
     @CallSuper open fun observeEdit(it: Boolean) {
@@ -140,8 +142,18 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         invalidatePanelData(it)
     }
 
-    @CallSuper
-    open fun setupToolbar(context: Context, toolbar: Toolbar?) {
+    @CallSuper open fun observeHistoryAvailable(available: HistoryMoveAvailable) {
+        panelBar?.undoButton?.apply {
+            isEnabled = available.undo
+            bindBoolTint(available.undo, R.attr.clContent, R.attr.clDisable)
+        }
+        panelBar?.redoButton?.apply {
+            isEnabled = available.redo
+            bindBoolTint(available.redo, R.attr.clContent, R.attr.clDisable)
+        }
+    }
+
+    @CallSuper open fun setupToolbar(context: Context, toolbar: Toolbar?) {
         val color = connector.init.color
 
         val colorIndicator = appBar?.indicator?.colorView
@@ -165,8 +177,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper
-    open fun setupPanel() {
+    @CallSuper open fun setupPanel() {
         val panelBar = panelBar ?: return
 
         panelBar.restoreButton.setOnClickListener { viewModel.onMenuRestore() }
@@ -202,8 +213,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         open.isBlocked = !isEnabled
     }
 
-    @CallSuper
-    open fun invalidateToolbar() {
+    @CallSuper open fun invalidateToolbar() {
         val isDataReady = viewModel.isDataReady.value ?: return
         val isEdit = connector.init.isEdit
 
@@ -233,8 +243,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper
-    open fun invalidatePanelState(isEdit: Boolean) {
+    @CallSuper open fun invalidatePanelState(isEdit: Boolean) {
         val panelBar = panelBar ?: return
 
         if (connector.init.state == NoteState.DELETE) {
@@ -248,8 +257,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper
-    open fun invalidatePanelData(item: N) {
+    @CallSuper open fun invalidatePanelData(item: N) {
         val panelBar = panelBar ?: return
 
         val rankItems = viewModel.rankDialogItems.value

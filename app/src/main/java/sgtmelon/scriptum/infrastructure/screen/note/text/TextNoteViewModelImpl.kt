@@ -252,7 +252,8 @@ class TextNoteViewModelImpl(
             )
 
             onBindingEdit(deprecatedNoteItem, isEdit)
-            onBindingInput(deprecatedNoteItem, history.available)
+            historyAvailable.postValue(history.available)
+            //            onBindingInput(deprecatedNoteItem, history.available)
 
             if (isEdit) focusOnEdit(isCreate = noteState == NoteState.CREATE)
         }

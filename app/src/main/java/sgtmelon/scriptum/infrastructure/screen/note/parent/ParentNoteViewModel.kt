@@ -5,6 +5,7 @@ import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.IParentViewModel
+import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.noteHistory.HistoryTextWatcher
@@ -34,6 +35,8 @@ interface ParentNoteViewModel<N : NoteItem> : IParentViewModel,
     val rankDialogItems: LiveData<Array<String>>
 
     val noteItem: LiveData<N>
+
+    val historyAvailable: LiveData<HistoryMoveAvailable>
 
     //region Cleanup
 
