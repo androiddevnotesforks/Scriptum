@@ -20,6 +20,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
+import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
@@ -67,6 +68,40 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         /** Call after menu inflating because otherwise visible icon will be null */
         visibleIcon = VisibleFilterIcon(context, visibleMenuItem, callback = this)
+    }
+
+    override fun setupPanel() {
+        super.setupPanel()
+
+        binding?.addPanel?.rollEnter?.apply {
+            setRawInputType(
+                InputType.TYPE_CLASS_TEXT
+                        or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+                        or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                        or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+            )
+            imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+
+            doOnTextChanged { it, _, _, _ ->
+                val isAddAvailable = it?.toString()?.removeExtraSpace()?.isNotEmpty()
+                    ?: return@doOnTextChanged
+
+                binding?.addPanel?.addButton?.apply {
+                    isEnabled = isAddAvailable
+                    bindBoolTint(isAddAvailable, R.attr.clAccent, R.attr.clDisable)
+                }
+            }
+
+            setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
+        }
+
+        binding?.addPanel?.addButton?.apply {
+            setOnClickListener { viewModel.onClickAdd(toBottom = true) }
+            setOnLongClickListener {
+                viewModel.onClickAdd(toBottom = false)
+                return@setOnLongClickListener true
+            }
+        }
     }
 
     //region Cleanup
@@ -128,6 +163,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
+            // TODO move to parent class
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
                 history.add(HistoryAction.Name(value, cursor))
             })
@@ -135,26 +171,26 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             it.addOnNextAction { onFocusEnter() }
         }
 
-        binding?.addPanel?.rollEnter?.apply {
-            setRawInputType(
-                InputType.TYPE_CLASS_TEXT
-                        or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-                        or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                        or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-            )
-            imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
-
-            doOnTextChanged { _, _, _, _ -> onBindingEnter() }
-            setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
-        }
-
-        binding?.addPanel?.addButton?.apply {
-            setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
-            setOnLongClickListener {
-                viewModel.onClickAdd(simpleClick = false)
-                return@setOnLongClickListener true
-            }
-        }
+        //        binding?.addPanel?.rollEnter?.apply {
+        //            setRawInputType(
+        //                InputType.TYPE_CLASS_TEXT
+        //                        or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        //                        or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+        //                        or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+        //            )
+        //            imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+        //
+        //            doOnTextChanged { _, _, _, _ -> onBindingEnter() }
+        //            setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
+        //        }
+        //
+        //        binding?.addPanel?.addButton?.apply {
+        //            setOnClickListener { viewModel.onClickAdd(toBottom = true) }
+        //            setOnLongClickListener {
+        //                viewModel.onClickAdd(toBottom = false)
+        //                return@setOnLongClickListener true
+        //            }
+        //        }
     }
 
     override fun setupRecycler(history: NoteHistory) {
@@ -202,18 +238,19 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             this.isEditMode = isEditMode
         }
 
-        onBindingEnter()
+        // TODO зачем тут нужно было обновлять поле ввода? мб при первом включении
+        //        onBindingEnter()
     }
 
     override fun onBindingNote(item: NoteItem.Roll) {
         TODO()
         //        binding?.apply { this.item = item }?.executePendingBindings()
     }
-
-    override fun onBindingEnter() {
-        binding?.isEnterEmpty = getEnterText().removeExtraSpace().isEmpty()
-        binding?.executePendingBindings()
-    }
+    //
+    //    override fun onBindingEnter() {
+    ////        binding?.isEnterEmpty = getEnterText().removeExtraSpace().isEmpty()
+    ////        binding?.executePendingBindings()
+    //    }
 
 
     //    override fun onBindingInput(
@@ -283,11 +320,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
 
-    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
+    override fun scrollToItem(toBottom: Boolean, p: Int, list: MutableList<RollItem>) {
         val smoothInsert = with(layoutManager) {
             if (adapter.itemCount == 0) return@with true
 
-            return@with if (simpleClick) {
+            return@with if (toBottom) {
                 findLastVisibleItemPosition() == p - 1
             } else {
                 findFirstVisibleItemPosition() == p

@@ -27,7 +27,7 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)
 
-    fun onBindingEnter()
+//    fun onBindingEnter()
 
 
     fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean)
@@ -43,7 +43,7 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
     fun clearEnterText()
 
 
-    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
+    fun scrollToItem(toBottom: Boolean, p: Int, list: MutableList<RollItem>)
 
     fun updateNoteState(isEdit: Boolean, state: NoteState?)
 

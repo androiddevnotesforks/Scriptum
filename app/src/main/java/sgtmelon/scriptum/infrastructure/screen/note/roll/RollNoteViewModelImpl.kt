@@ -275,7 +275,7 @@ class RollNoteViewModelImpl(
         if (enterText.isEmpty()) {
             onMenuSave(changeMode = true)
         } else {
-            onClickAdd(simpleClick = true)
+            onClickAdd(toBottom = true)
         }
 
         return true
@@ -285,7 +285,7 @@ class RollNoteViewModelImpl(
      * All item positions updates after call [onMenuSave], because it's hard
      * to control in Edit.
      */
-    override fun onClickAdd(simpleClick: Boolean) {
+    override fun onClickAdd(toBottom: Boolean) {
         if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
 
         val enterText = callback?.getEnterText()?.removeExtraSpace() ?: ""
@@ -294,7 +294,7 @@ class RollNoteViewModelImpl(
 
         callback?.clearEnterText()
 
-        val p = if (simpleClick) deprecatedNoteItem.list.size else 0
+        val p = if (toBottom) deprecatedNoteItem.list.size else 0
         val rollItem = RollItem(position = p, text = enterText)
 
         history.add(HistoryAction.Roll.List.Add(p, rollItem))
@@ -303,7 +303,7 @@ class RollNoteViewModelImpl(
         callback?.apply {
             historyAvailable.postValue(history.available)
             //            onBindingInput(deprecatedNoteItem, history.available)
-            scrollToItem(simpleClick, p, getAdapterList())
+            scrollToItem(toBottom, p, getAdapterList())
         }
     }
 

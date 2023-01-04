@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:showIn="@layout/fragment_roll_note">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/fragment_roll_note">
 
     <data>
-        <import type="sgtmelon.scriptum.R"/>
-        <import type="android.view.View"/>
 
-        <variable name="isEditMode" type="boolean"/>
-        <variable name="isEnterEmpty" type="boolean"/>
+        <import type="android.view.View" />
+
+        <variable
+            name="isEditMode"
+            type="boolean" />
+
     </data>
 
     <LinearLayout
-            android:id="@+id/parent_container"
+        android:id="@+id/parent_container"
         android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/clPrimary"
-            android:orientation="vertical"
-            android:visibility='@{isEditMode ? View.VISIBLE : View.GONE}'
-            tools:layout_gravity="center"
-            tools:visibility="visible">
+        android:layout_height="wrap_content"
+        android:background="?attr/clPrimary"
+        android:orientation="vertical"
+        android:visibility='@{isEditMode ? View.VISIBLE : View.GONE}'
+        tools:layout_gravity="center"
+        tools:visibility="visible">
 
         <View
             android:id="@+id/enter_divider_view"
             style="@style/Divider.Horizontal" />
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="@dimen/layout_4dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="@dimen/layout_4dp">
 
             <!--
                 Dream effect: multiline with done action button
@@ -41,26 +43,23 @@
             <EditText
                 android:id="@+id/roll_enter"
                 style="@style/EditText.SingleRow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/hint_enter_roll"
-                    android:importantForAutofill="noExcludeDescendants"
-                    android:maxLines="5"
-                    tools:ignore="TextFields"
-                    tools:text="@string/preview_note_text"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_enter_roll"
+                android:importantForAutofill="noExcludeDescendants"
+                android:maxLines="5"
+                tools:ignore="TextFields"
+                tools:text="@string/preview_note_text" />
 
             <ImageButton
                 android:id="@+id/add_button"
                 style="@style/Button.Small"
-                    android:layout_gravity="bottom"
-                    android:contentDescription="@string/description_enter_roll_add"
-                    app:boolExpression='@{!isEnterEmpty}'
-                    app:enabled='@{!isEnterEmpty}'
-                    app:falseColor='@{R.attr.clDisable}'
-                    app:srcCompat="@drawable/ic_add"
-                    app:trueColor='@{R.attr.clAccent}'
-                    tools:tint="?attr/clAccent"/>
+                android:layout_gravity="bottom"
+                android:contentDescription="@string/description_enter_roll_add"
+                app:srcCompat="@drawable/ic_add"
+                app:tint="?attr/clDisable"
+                tools:tint="?attr/clAccent" />
 
         </LinearLayout>
 

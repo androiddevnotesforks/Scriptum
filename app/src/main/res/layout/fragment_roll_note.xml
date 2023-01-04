@@ -25,9 +25,6 @@
             name="isListHide"
             type="boolean" />
 
-        <variable
-            name="isEnterEmpty"
-            type="boolean" />
     </data>
 
     <LinearLayout
@@ -67,8 +64,7 @@
         <include
             android:id="@+id/add_panel"
             layout="@layout/inc_roll_add_panel"
-            app:isEditMode='@{isEditMode}'
-            app:isEnterEmpty='@{isEnterEmpty}' />
+            app:isEditMode='@{isEditMode}' />
 
         <ProgressBar
             android:id="@+id/done_progress"

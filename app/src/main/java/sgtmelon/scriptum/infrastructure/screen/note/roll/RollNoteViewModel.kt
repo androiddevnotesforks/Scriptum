@@ -18,7 +18,7 @@ interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
 
     fun onEditorClick(i: Int): Boolean
 
-    fun onClickAdd(simpleClick: Boolean)
+    fun onClickAdd(toBottom: Boolean)
 
     fun onClickItemCheck(p: Int)
 }
