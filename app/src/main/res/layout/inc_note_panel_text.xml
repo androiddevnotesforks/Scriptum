@@ -11,7 +11,7 @@
         tools:layout_gravity="center">
 
         <View
-            android:id="@+id/panel_divider_view"
+            android:id="@+id/divider_view"
             style="@style/Divider.Horizontal" />
 
         <include

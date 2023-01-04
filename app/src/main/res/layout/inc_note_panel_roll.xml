@@ -3,16 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_roll_note">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="isDividerHide"
-            type="boolean" />
-
-    </data>
-
     <!--  Color needed because divider has horizontal spaces.  -->
     <LinearLayout
         android:id="@+id/parent_container"
@@ -23,10 +13,9 @@
         tools:layout_gravity="center">
 
         <View
-            android:id="@+id/panel_divider_view"
+            android:id="@+id/divider_view"
             style="@style/Divider.Horizontal"
             android:layout_marginHorizontal="@dimen/layout_8dp"
-            android:visibility='@{!isDividerHide ? View.VISIBLE : View.GONE}'
             tools:visibility="visible" />
 
         <include

@@ -14,10 +14,6 @@
             type="boolean" />
 
         <variable
-            name="isEditMode"
-            type="boolean" />
-
-        <variable
             name="isListEmpty"
             type="boolean" />
 
@@ -63,8 +59,7 @@
 
         <include
             android:id="@+id/add_panel"
-            layout="@layout/inc_roll_add_panel"
-            app:isEditMode='@{isEditMode}' />
+            layout="@layout/inc_roll_add_panel" />
 
         <ProgressBar
             android:id="@+id/done_progress"
@@ -73,14 +68,12 @@
             android:layout_height="@dimen/layout_4dp"
             android:max="0"
             tools:visibility="gone"
-            android:visibility='@{!isEditMode ? View.VISIBLE : View.GONE}'
             tools:max="100"
             tools:progress="65" />
 
         <include
             android:id="@+id/panel"
-            layout="@layout/inc_note_panel_roll"
-            app:isDividerHide='@{!isEditMode}' />
+            layout="@layout/inc_note_panel_roll" />
 
     </LinearLayout>
 

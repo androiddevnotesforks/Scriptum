@@ -55,7 +55,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     //region Views
 
     private val parentContainer = getViewById(R.id.parent_container)
-    private val dividerView = getViewById(R.id.panel_divider_view)
+    private val dividerView = getViewById(R.id.divider_view)
     private val buttonContainer = getViewById(R.id.parent_container)
 
     private val readContainer = getViewById(R.id.read_container)

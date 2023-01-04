@@ -37,6 +37,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.noteHistory.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
@@ -102,6 +103,14 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                 return@setOnLongClickListener true
             }
         }
+    }
+
+    override fun invalidatePanelState(isEdit: Boolean) {
+        super.invalidatePanelState(isEdit)
+
+        binding?.addPanel?.parentContainer?.makeVisibleIf(isEdit)
+        binding?.doneProgress?.makeVisibleIf(!isEdit)
+        binding?.panel?.dividerView?.makeVisibleIf(isEdit)
     }
 
     //region Cleanup
@@ -235,7 +244,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.apply {
             TODO()
             //            this.item = item
-            this.isEditMode = isEditMode
+            //            this.isEditMode = isEditMode
         }
 
         // TODO зачем тут нужно было обновлять поле ввода? мб при первом включении
