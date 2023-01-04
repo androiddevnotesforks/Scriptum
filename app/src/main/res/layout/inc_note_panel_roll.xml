@@ -13,14 +13,6 @@
             type="boolean" />
 
         <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem" />
-
-        <variable
-            name="isRankEmpty"
-            type="boolean" />
-
-        <variable
             name="historyMove"
             type="sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable" />
     </data>
@@ -44,9 +36,7 @@
         <include
             android:id="@+id/content"
             layout="@layout/inc_note_panel_content"
-            app:historyMove='@{historyMove}'
-            app:isRankEmpty='@{isRankEmpty}'
-            app:item='@{item}' />
+            app:historyMove='@{historyMove}' />
 
     </LinearLayout>
 

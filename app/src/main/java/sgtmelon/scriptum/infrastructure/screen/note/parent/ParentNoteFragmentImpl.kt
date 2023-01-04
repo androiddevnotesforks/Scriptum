@@ -13,6 +13,8 @@ import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.extension.bindBoolTint
+import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -29,6 +31,9 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
@@ -179,6 +184,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.deleteButton.setOnClickListener { viewModel.onMenuDelete() }
         panelBar.editButton.setOnClickListener { viewModel.onMenuEdit() }
 
+        val bindDrawable = when (type) {
+            NoteType.TEXT -> R.drawable.ic_bind_text
+            NoteType.ROLL -> R.drawable.ic_bind_roll
+        }
+        panelBar.bindButton.bindDrawable(bindDrawable, R.attr.clContent)
+
         val convertDescription = when (type) {
             NoteType.TEXT -> R.string.description_note_convert_text
             NoteType.ROLL -> R.string.description_note_convert_roll
@@ -224,19 +235,44 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper
     open fun invalidatePanelState(isEdit: Boolean) {
+        val panelBar = panelBar ?: return
+
         if (connector.init.state == NoteState.DELETE) {
-            panelBar?.binContainer?.makeVisible()
-            panelBar?.editContainer?.makeInvisible()
-            panelBar?.readContainer?.makeInvisible()
+            panelBar.binContainer.makeVisible()
+            panelBar.editContainer.makeInvisible()
+            panelBar.readContainer.makeInvisible()
         } else {
-            panelBar?.binContainer?.makeInvisible()
-            panelBar?.editContainer?.makeVisibleIf(isEdit) { makeInvisible() }
-            panelBar?.readContainer?.makeVisibleIf(!isEdit) { makeInvisible() }
+            panelBar.binContainer.makeInvisible()
+            panelBar.editContainer.makeVisibleIf(isEdit) { makeInvisible() }
+            panelBar.readContainer.makeVisibleIf(!isEdit) { makeInvisible() }
         }
     }
 
     @CallSuper
     open fun invalidatePanelData(item: N) {
+        val panelBar = panelBar ?: return
+
+        val rankItems = viewModel.rankDialogItems.value
+        if (rankItems != null) {
+            val isRankEmpty = rankItems.size == 1
+
+            val trueColor = if (item.haveRank) R.attr.clAccent else R.attr.clContent
+            panelBar.rankButton.bindBoolTint(!isRankEmpty, trueColor, R.attr.clDisable)
+            panelBar.rankButton.isEnabled = !isRankEmpty
+        }
+
+        panelBar.saveButton.isEnabled = item.isSaveEnabled
+        panelBar.notificationButton.bindBoolTint(item.haveAlarm, R.attr.clAccent, R.attr.clContent)
+
+        panelBar.bindButton.bindBoolTint(item.isStatus, R.attr.clAccent, R.attr.clContent)
+
+        val bindDescription = if (item.isStatus) {
+            R.string.description_note_unbind
+        } else {
+            R.string.description_note_bind
+        }
+        panelBar.bindButton.contentDescription = getString(bindDescription)
+
         TODO()
     }
 

@@ -185,11 +185,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     //    }
 
 
-    override fun onBindingLoad(isRankEmpty: Boolean) {
-        binding?.apply {
-            this.isDataLoad = true
-            this.isRankEmpty = isRankEmpty
-        }?.executePendingBindings()
+    override fun onBindingLoad() {
+        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
     }
 
     override fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean) {
@@ -201,7 +198,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean) {
         binding?.apply {
-            this.item = item
+            TODO()
+            //            this.item = item
             this.isEditMode = isEditMode
         }
 
@@ -209,7 +207,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun onBindingNote(item: NoteItem.Roll) {
-        binding?.apply { this.item = item }?.executePendingBindings()
+        TODO()
+        //        binding?.apply { this.item = item }?.executePendingBindings()
     }
 
     override fun onBindingEnter() {
@@ -223,7 +222,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         historyMove: HistoryMoveAvailable
     ) {
         binding?.apply {
-            this.item = item
+            TODO()
+            //            this.item = item
             this.historyMove = historyMove
         }?.executePendingBindings()
     }

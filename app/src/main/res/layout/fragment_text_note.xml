@@ -16,10 +16,6 @@
             type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Text" />
 
         <variable
-            name="isRankEmpty"
-            type="boolean" />
-
-        <variable
             name="isEditMode"
             type="boolean" />
 
@@ -87,9 +83,7 @@
         <include
             android:id="@+id/panel"
             layout="@layout/inc_note_panel_text"
-            app:historyMove='@{historyMove}'
-            app:isRankEmpty='@{isRankEmpty}'
-            app:item='@{item}' />
+            app:historyMove='@{historyMove}' />
 
     </LinearLayout>
 

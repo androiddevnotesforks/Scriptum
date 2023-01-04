@@ -11,7 +11,7 @@ interface TextNoteFragment : ParentNoteFragment<NoteItem.Text> {
 
     fun setupEnter(history: NoteHistory)
 
-    fun onBindingLoad(isRankEmpty: Boolean)
+    fun onBindingLoad()
 
 
     fun focusOnEdit(isCreate: Boolean)

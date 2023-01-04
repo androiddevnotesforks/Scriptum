@@ -7,24 +7,6 @@
 
         <import type="sgtmelon.scriptum.R" />
 
-        <import type="android.view.View" />
-
-        <import
-            alias="Type"
-            type="sgtmelon.scriptum.infrastructure.model.key.preference.NoteType" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem" />
-
-        <variable
-            name="isRankEmpty"
-            type="boolean" />
-
-        <variable
-            name="isEditMode"
-            type="boolean" />
-
         <variable
             name="historyMove"
             type="sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable" />
@@ -101,11 +83,8 @@
                 android:id="@+id/rank_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_rank"
-                app:boolExpression='@{!isRankEmpty}'
-                app:enabled='@{!isRankEmpty}'
-                app:falseColor='@{R.attr.clDisable}'
                 app:srcCompat="@drawable/ic_rank"
-                app:trueColor="@{item.haveRankDepr ? R.attr.clAccent : R.attr.clContent}"
+                app:tint="?attr/clContent"
                 tools:tint="?attr/clAccent" />
 
             <ImageButton
@@ -124,8 +103,7 @@
                 android:id="@+id/save_button"
                 style="@style/Button.Small"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:text="@string/button_note_save"
-                app:enabled="@{item.isSaveEnabledDepr}" />
+                android:text="@string/button_note_save" />
 
         </LinearLayout>
 
@@ -140,21 +118,17 @@
                 android:id="@+id/notification_button"
                 style="@style/Button.Small"
                 android:contentDescription="@string/description_note_notification"
-                app:boolExpression="@{item.haveAlarmDepr}"
-                app:falseColor='@{R.attr.clContent}'
                 app:srcCompat="@drawable/ic_notifications"
-                app:trueColor='@{R.attr.clAccent}'
+                app:tint="?attr/clContent"
                 tools:tint="?attr/clAccent" />
 
+            <!--  Set contentDescription in ui class  -->
             <ImageButton
                 android:id="@+id/bind_button"
                 style="@style/Button.Small"
-                android:contentDescription='@{item.status ? @string/description_note_unbind : @string/description_note_bind}'
-                android:src="@{item.typeDepr == Type.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}"
-                app:boolExpression='@{item.status}'
-                app:falseColor='@{R.attr.clContent}'
-                app:trueColor='@{R.attr.clAccent}'
+                app:tint="?attr/clContent"
                 tools:src="@drawable/ic_bind_text"
+                tools:ignore="ContentDescription"
                 tools:tint="?attr/clAccent" />
 
             <!--  Set contentDescription in ui class  -->

@@ -105,7 +105,7 @@ class TextNoteViewModelImpl(
         setupEditMode(isEdit.value.isTrue())
         mayAnimateIcon = true
 
-        callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
+        callback?.onBindingLoad()
     }
 
     //region Cleanup

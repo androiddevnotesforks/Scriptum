@@ -6,10 +6,8 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
@@ -38,14 +36,6 @@ sealed class NoteItem(
     @Deprecated("Use extensions")
     val haveAlarmDepr
         get() = haveAlarm
-
-    @Deprecated("Use extensions")
-    val typeDepr: NoteType
-        get() = type
-
-    @Deprecated("Use extensions")
-    val isSaveEnabledDepr
-        get() = isSaveEnabled
 
     //endregion
 

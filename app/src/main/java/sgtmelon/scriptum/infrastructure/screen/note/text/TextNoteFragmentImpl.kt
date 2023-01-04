@@ -85,11 +85,8 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
 
-    override fun onBindingLoad(isRankEmpty: Boolean) {
-        binding?.apply {
-            this.isDataLoad = true
-            this.isRankEmpty = isRankEmpty
-        }?.executePendingBindings()
+    override fun onBindingLoad() {
+        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
     }
 
     override fun onBindingNote(item: NoteItem.Text) {

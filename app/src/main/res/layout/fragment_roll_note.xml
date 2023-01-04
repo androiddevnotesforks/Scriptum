@@ -14,14 +14,6 @@
             type="boolean" />
 
         <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll" />
-
-        <variable
-            name="isRankEmpty"
-            type="boolean" />
-
-        <variable
             name="isEditMode"
             type="boolean" />
 
@@ -97,9 +89,7 @@
             android:id="@+id/panel"
             layout="@layout/inc_note_panel_roll"
             app:historyMove='@{historyMove}'
-            app:isDividerHide='@{!isEditMode}'
-            app:isRankEmpty='@{isRankEmpty}'
-            app:item='@{item}' />
+            app:isDividerHide='@{!isEditMode}' />
 
     </LinearLayout>
 

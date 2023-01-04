@@ -133,7 +133,7 @@ class RollNoteViewModelImpl(
 
         onUpdateInfo()
 
-        callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
+        callback?.onBindingLoad()
     }
 
     //region Cleanup
