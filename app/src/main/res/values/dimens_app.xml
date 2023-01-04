@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="page_indicator_size">8dp</dimen>
-    <dimen name="page_indicator_select_size">12dp</dimen>
-    <dimen name="page_indicator_space">10dp</dimen>
-
     <dimen name="text_18sp">18sp</dimen>
     <dimen name="text_16sp">16sp</dimen>
     <dimen name="text_14sp">14sp</dimen>
@@ -26,11 +22,9 @@
     <dimen name="elevation_2dp">2dp</dimen>
 
     <dimen name="radius_2dp">2dp</dimen>
-    <dimen name="radius_4dp">4dp</dimen>
     <dimen name="radius_8dp">8dp</dimen>
 
     <dimen name="stroke_4dp">4dp</dimen>
-
 
     <dimen name="note_panel_height">48dp</dimen>
 

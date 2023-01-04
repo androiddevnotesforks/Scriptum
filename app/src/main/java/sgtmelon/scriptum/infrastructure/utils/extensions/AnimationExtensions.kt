@@ -9,6 +9,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
+import sgtmelon.extensions.getDimen
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)
@@ -24,7 +25,7 @@ fun getScaleYAnimator(view: View, scaleTo: Float): Animator {
 
 fun getElevationAnimator(view: CardView, @DimenRes elevationTo: Int): Animator {
     val valueFrom = view.cardElevation
-    val valueTo = view.context.resources.getDimensionPixelSize(elevationTo).toFloat()
+    val valueTo = view.context.getDimen(elevationTo).toFloat()
     return view.getElevationAnimator(valueFrom, valueTo)
 }
 

@@ -20,6 +20,8 @@
 
     <dimen name="toolbar_elevation">8dp</dimen>
 
+    <dimen name="color_indicator_radius">4dp</dimen>
+    <dimen name="color_indicator_border">1dp</dimen>
     <dimen name="color_vertical_size">8dp</dimen>
     <dimen name="color_vertical_shift_space">0dp</dimen>
     <dimen name="color_horizontal_size">4dp</dimen>
@@ -71,5 +73,11 @@
     <dimen name="gradient_fab_radius">28dp</dimen>
     <dimen name="gradient_fab_elevation">4dp</dimen>
     <dimen name="gradient_fab_image_size">24dp</dimen>
+
+    <!-- Snackbar sizes -->
+    <!--  TODO optimization for different screens  -->
+    <dimen name="snackbar_height">48dp</dimen>
+    <dimen name="snackbar_radius">24dp</dimen>
+    <dimen name="snackbar_border">1dp</dimen>
 
 </resources>

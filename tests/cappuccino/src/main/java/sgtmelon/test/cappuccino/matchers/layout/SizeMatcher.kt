@@ -5,6 +5,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.DimenRes
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
+import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.getDimenAttr
 
 /**
@@ -28,20 +29,19 @@ class SizeMatcher(
         if (item == null) return false
 
         val context = item.context ?: return false
-        val resources = context.resources
 
         actualHeight = item.height
         actualWidth = item.width
 
         width = when {
-            widthId != null -> resources.getDimensionPixelSize(widthId)
-            widthAttr != null -> resources.getDimensionPixelSize(context.getDimenAttr(widthAttr))
+            widthId != null -> context.getDimen(widthId)
+            widthAttr != null -> context.getDimen(context.getDimenAttr(widthAttr))
             else -> null
         }
 
         height = when {
-            heightId != null -> resources.getDimensionPixelSize(heightId)
-            heightAttr != null -> resources.getDimensionPixelSize(context.getDimenAttr(heightAttr))
+            heightId != null -> context.getDimen(heightId)
+            heightAttr != null -> context.getDimen(context.getDimenAttr(heightAttr))
             else -> null
         }
 

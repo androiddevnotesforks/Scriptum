@@ -19,6 +19,8 @@
 
     <dimen name="toolbar_elevation">9dp</dimen> <!--1dp-->
 
+    <dimen name="color_indicator_radius">4.5dp</dimen> <!--0.5dp-->
+    <dimen name="color_indicator_border">1dp</dimen> <!--0dp-->
     <dimen name="color_vertical_size">9dp</dimen> <!--1dp-->
     <dimen name="color_vertical_shift_space">2dp</dimen> <!--2dp-->
     <dimen name="color_horizontal_size">8dp</dimen> <!--4dp-->

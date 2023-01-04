@@ -31,3 +31,5 @@ fun Context.getDimen(value: Float): Int {
 
     return TypedValue.applyDimension(unit, value, metrics).toInt()
 }
+
+fun Context.getDimen(@DimenRes id: Int): Int = resources.getDimensionPixelSize(id)

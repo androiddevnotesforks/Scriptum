@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.snackbar.Snackbar
 import sgtmelon.extensions.getColorAttr
+import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
@@ -73,6 +74,8 @@ class SnackbarDelegator(
         val textColor = context.getColorAttr(R.attr.clContent)
         val actionColor = context.getColorAttr(R.attr.clAccent)
 
+        /** Set height to be sure, for beautiful radius */
+        view.layoutParams.height = context.getDimen(R.dimen.snackbar_height)
         view.background = background
         view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
             .setTextColor(textColor)
