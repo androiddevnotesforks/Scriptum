@@ -25,10 +25,17 @@ fun getScaleYAnimator(view: View, scaleTo: Float): Animator {
 fun getElevationAnimator(view: CardView, @DimenRes elevationTo: Int): Animator {
     val valueFrom = view.cardElevation
     val valueTo = view.context.resources.getDimensionPixelSize(elevationTo).toFloat()
+    return view.getElevationAnimator(valueFrom, valueTo)
+}
 
+fun getElevationAnimator(view: CardView, elevationTo: Float): Animator {
+    return view.getElevationAnimator(view.cardElevation, elevationTo)
+}
+
+private fun CardView.getElevationAnimator(valueFrom: Float, valueTo: Float): ValueAnimator {
     return ValueAnimator.ofFloat(valueFrom, valueTo).apply {
         addUpdateListener {
-            view.cardElevation = it.animatedValue as? Float ?: return@addUpdateListener
+            cardElevation = it.animatedValue as? Float ?: return@addUpdateListener
         }
     }
 }

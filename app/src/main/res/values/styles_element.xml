@@ -41,8 +41,8 @@
         <item name="android:layout_marginEnd">@dimen/text_card_margin</item>
         <item name="android:layout_marginBottom">@dimen/text_card_margin</item>
         <item name="android:layout_marginTop">@dimen/text_card_margin</item>
-        <item name="cardElevation">@dimen/text_card_elevation</item>
-        <item name="cardCornerRadius">@dimen/text_card_radius</item>
+        <item name="cardElevation">@dimen/item_card_elevation</item>
+        <item name="cardCornerRadius">@dimen/item_card_radius</item>
         <item name="cardBackgroundColor">?attr/clBackgroundView</item>
     </style>
 

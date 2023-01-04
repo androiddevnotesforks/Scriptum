@@ -171,8 +171,8 @@ class TextNoteScreen(
         parentContainer.isDisplayed()
         contentCard.isDisplayed().withCard(
             R.attr.clBackgroundView,
-            R.dimen.text_card_radius,
-            R.dimen.text_card_elevation
+            R.dimen.item_card_radius,
+            R.dimen.item_card_elevation
         )
         contentScroll.isDisplayed()
 

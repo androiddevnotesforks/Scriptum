@@ -13,12 +13,15 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleYAnimator
 class TouchAnimation {
 
     private var isChanged = false
+    private var startCardElevation: Float = 0f
 
     /**
      * Change alpha, scale and elevation on drag start.
      */
     fun onDrag(viewHolder: RecyclerView.ViewHolder?) {
         val cardView = viewHolder?.itemView as? CardView ?: return
+
+        startCardElevation = cardView.cardElevation
 
         AnimatorSet().apply {
             this.duration = ANIM_DURATION
@@ -28,7 +31,7 @@ class TouchAnimation {
                 getAlphaAnimator(cardView, ALPHA_DRAG_MIN),
                 getScaleXAnimator(cardView, SCALE_MAX),
                 getScaleYAnimator(cardView, SCALE_MAX),
-                getElevationAnimator(cardView, R.dimen.elevation_6dp)
+                getElevationAnimator(cardView, R.dimen.item_card_drag_elevation)
             )
         }.start()
 
@@ -53,7 +56,7 @@ class TouchAnimation {
                 getAlphaAnimator(cardView, ALPHA_DRAG_MAX),
                 getScaleXAnimator(cardView, SCALE_MIN),
                 getScaleYAnimator(cardView, SCALE_MIN),
-                getElevationAnimator(cardView, R.dimen.elevation_2dp)
+                getElevationAnimator(cardView, startCardElevation)
             )
         }.start()
     }
@@ -63,6 +66,6 @@ class TouchAnimation {
         private const val ALPHA_DRAG_MIN = 0.7f
         private const val ALPHA_DRAG_MAX = 1f
         private const val SCALE_MIN = 1f
-        private const val SCALE_MAX = 1.02f
+        private const val SCALE_MAX = 1.015f
     }
 }
