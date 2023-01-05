@@ -1,11 +1,7 @@
 package sgtmelon.scriptum.cleanup.extension
 
-import android.annotation.SuppressLint
-import android.view.MotionEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import sgtmelon.scriptum.infrastructure.utils.extensions.isVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.showKeyboard
 
 /**
@@ -40,14 +36,4 @@ fun EditText.requestSelectionFocus() {
     if (!hasFocus()) requestFocus()
     setSelection(text.toString().length)
     showKeyboard()
-}
-
-// TODO rename: addRequestFocusOnTouchIfVisible (или что-то такое, а то сейчас не очень понятно, что это слушатель)
-@SuppressLint("ClickableViewAccessibility")
-fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, event ->
-    if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
-
-    editText?.let { if (it.isVisible()) it.requestSelectionFocus() }
-
-    return@setOnTouchListener false
 }

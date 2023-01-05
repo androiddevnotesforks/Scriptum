@@ -7,16 +7,16 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
-import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
+import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.noteHistory.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
 
 /**
  * Fragment for display text note.
@@ -59,7 +59,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     override fun setupEnter(history: NoteHistory) {
-        binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
+        //        binding?.appBar?.content?.scrollView?.setOnTouchSelectionListener(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
@@ -74,7 +74,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             }
         }
 
-        binding?.contentScroll?.requestFocusOnVisible(binding?.textEnter)
+        binding?.contentScroll?.setOnTouchSelectionListener(binding?.textEnter)
 
         binding?.textEnter?.let {
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->

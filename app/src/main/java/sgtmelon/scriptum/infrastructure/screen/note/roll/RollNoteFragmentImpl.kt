@@ -22,7 +22,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
-import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
@@ -32,10 +31,10 @@ import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
+import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
-import sgtmelon.scriptum.infrastructure.noteHistory.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
@@ -169,7 +168,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun setupEnter(history: NoteHistory) {
-        binding?.appBar?.content?.scrollView?.requestFocusOnVisible(nameEnter)
+        //        binding?.appBar?.content?.scrollView?.setOnTouchSelectionListener(nameEnter)
 
         nameEnter?.let {
             // TODO move to parent class
@@ -241,11 +240,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean) {
-        binding?.apply {
-            TODO()
-            //            this.item = item
-            //            this.isEditMode = isEditMode
-        }
+        //        binding?.apply {
+        //            TODO()
+        //            //            this.item = item
+        //            //            this.isEditMode = isEditMode
+        //        }
 
         // TODO зачем тут нужно было обновлять поле ввода? мб при первом включении
         //        onBindingEnter()

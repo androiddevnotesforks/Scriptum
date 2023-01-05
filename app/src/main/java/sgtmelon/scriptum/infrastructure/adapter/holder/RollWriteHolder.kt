@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
-import sgtmelon.scriptum.infrastructure.noteHistory.HistoryTextWatcher
+import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 
 /**
  * Holder of roll item in edit state.

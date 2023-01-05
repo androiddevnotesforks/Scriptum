@@ -86,8 +86,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override val noteItem: MutableLiveData<N> = MutableLiveData()
     private var restoreItem: NoteItem? = null
 
-    override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
-
     // TODO add observers for note and remove initialization functions
     init {
         viewModelScope.launchBack {
@@ -107,6 +105,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             isDataReady.postValue(true)
         }
     }
+
+    override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
+
+    override fun addToHistory(action: HistoryAction) = history.add(action)
 
     // TODO vvv remove SETUP and staff below vvv
 

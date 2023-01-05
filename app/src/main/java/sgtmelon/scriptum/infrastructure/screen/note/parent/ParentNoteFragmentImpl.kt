@@ -35,6 +35,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
@@ -175,6 +176,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         appBar?.content?.nameEnter?.doOnTextChanged { it, _, _, _ ->
             viewModel.noteItem.value?.name = it?.toString() ?: return@doOnTextChanged
         }
+
+        appBar?.content?.scrollView?.setOnTouchSelectionListener(appBar?.content?.nameEnter)
     }
 
     @CallSuper open fun setupPanel() {

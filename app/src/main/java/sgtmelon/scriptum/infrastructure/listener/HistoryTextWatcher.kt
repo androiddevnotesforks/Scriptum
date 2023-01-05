@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.noteHistory
+package sgtmelon.scriptum.infrastructure.listener
 
 import android.text.Editable
 import android.text.TextWatcher
