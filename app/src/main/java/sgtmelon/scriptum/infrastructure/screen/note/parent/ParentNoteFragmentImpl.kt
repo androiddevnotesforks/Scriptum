@@ -114,12 +114,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.isDataReady.observe(this) {
-            invalidateToolbar()
-
-            // TODO("block some buttons in panel bar while data not loaded")
-            // TODO("change enable of button, fields and etc")
-        }
+        viewModel.isDataReady.observe(this) { observeDataReady(it) }
         viewModel.isEdit.observe(this) { observeEdit(it) }
         viewModel.noteState.observe(this) { observeState(it) }
         viewModel.id.observe(this) { connector.init.id = it }
@@ -127,6 +122,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
         viewModel.noteItem.observe(this) { observeNoteItem(it) }
         viewModel.historyAvailable.observe(this) { observeHistoryAvailable(it) }
+    }
+
+    // TODO("block some buttons in panel bar while data not loaded")
+    // TODO("change enable of button, fields and etc")
+    @CallSuper open fun observeDataReady(it: Boolean) {
+        invalidateToolbar()
     }
 
     @CallSuper open fun observeEdit(it: Boolean) {

@@ -7,10 +7,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="isDataLoad"
-            type="boolean" />
-
-        <variable
             name="item"
             type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Text" />
 
@@ -44,8 +40,7 @@
                     android:id="@+id/content_scroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'>
+                    android:fillViewport="true">
 
                     <FrameLayout
                         android:layout_width="match_parent"

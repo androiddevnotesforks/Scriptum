@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
  */
 interface TextNoteFragment : ParentNoteFragment<NoteItem.Text> {
 
-    fun onBindingLoad()
+//    fun onBindingLoad()
 
 
     fun focusOnEdit(isCreate: Boolean)

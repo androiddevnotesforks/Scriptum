@@ -13,6 +13,8 @@ import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
 
 /**
@@ -29,6 +31,12 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
+
+    override fun observeDataReady(it: Boolean) {
+        super.observeDataReady(it)
+
+        binding?.contentScroll?.makeVisibleIf(it) { makeInvisible() }
+    }
 
     override fun focusAfterNameAction() {
         binding?.textEnter?.requestSelectionFocus()
@@ -62,9 +70,9 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             .inject(fragment = this)
     }
 
-    override fun onBindingLoad() {
-        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
-    }
+    //    override fun onBindingLoad() {
+    //        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
+    //    }
 
     override fun onBindingNote(item: NoteItem.Text) {
         binding?.apply { this.item = item }?.executePendingBindings()
