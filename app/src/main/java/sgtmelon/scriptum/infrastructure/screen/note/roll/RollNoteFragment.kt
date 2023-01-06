@@ -13,22 +13,11 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun setTouchAction(inAction: Boolean)
 
-    fun setupEnter(history: NoteHistory)
-
     fun setupRecycler(history: NoteHistory)
-
-    /**
-     * Need hide toolbar visible icon before information completely load.
-     */
-    //    fun showToolbarVisibleIcon(isShow: Boolean)
-
 
     fun onBindingLoad()
 
     fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)
-
-//    fun onBindingEnter()
-
 
     fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean)
 

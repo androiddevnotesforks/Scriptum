@@ -66,7 +66,7 @@ class TextNoteViewModelImpl(
     override fun setupBeforeInitialize() {
         //        callback?.setupBinding()
         //        color.value?.let { callback?.setupToolbar(it) }
-        callback?.setupEnter(history)
+        //        callback?.setupEnter(history)
     }
 
     override suspend fun tryInitializeNote(): Boolean {

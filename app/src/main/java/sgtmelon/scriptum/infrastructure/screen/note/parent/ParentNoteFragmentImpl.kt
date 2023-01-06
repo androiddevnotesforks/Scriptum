@@ -13,12 +13,15 @@ import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
+import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -72,6 +75,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         setupToolbar(view.context, appBar?.content?.toolbar)
         setupPanel()
+        setupContent()
     }
 
     override fun setupDialogs() {
@@ -172,13 +176,27 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val isCancel = with(connector.init) { state != NoteState.CREATE && isEdit }
         setToolbarBackIcon(isCancel, needAnim = false)
 
-        /** Save changes of name to noteItem model (it's only will be available in edit mode). */
-        appBar?.content?.nameEnter?.doOnTextChanged { it, _, _, _ ->
-            viewModel.noteItem.value?.name = it?.toString() ?: return@doOnTextChanged
-        }
-
         appBar?.content?.scrollView?.setOnTouchSelectionListener(appBar?.content?.nameEnter)
+        appBar?.content?.nameEnter?.let {
+            /** Save changes of name to noteItem model (available only in edit mode). */
+            it.doOnTextChanged { text, _, _, _ ->
+                viewModel.noteItem.value?.name = text?.toString() ?: return@doOnTextChanged
+            }
+
+            it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
+                HistoryAction.Name(value, cursor)
+            })
+
+            it.addOnNextAction { focusAfterNameAction() }
+        }
     }
+
+    override fun setIconEnabled(isEnabled: Boolean) {
+        getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
+        open.isBlocked = !isEnabled
+    }
+
+    abstract fun focusAfterNameAction()
 
     @CallSuper open fun setupPanel() {
         val panelBar = panelBar ?: return
@@ -211,10 +229,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.convertButton.contentDescription = getString(convertDescription)
     }
 
-    override fun setIconEnabled(isEnabled: Boolean) {
-        getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
-        open.isBlocked = !isEnabled
-    }
+    @CallSuper open fun setupContent() = Unit
 
     @CallSuper open fun invalidateToolbar() {
         val isDataReady = viewModel.isDataReady.value ?: return

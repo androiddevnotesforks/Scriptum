@@ -82,7 +82,7 @@ class RollNoteViewModelImpl(
         callback?.apply {
             //            setupBinding()
             //            color.value?.let { setupToolbar(it) }
-            setupEnter(history)
+            //            setupEnter(history)
             setupRecycler(history)
 
             //            showToolbarVisibleIcon(isShow = false)
