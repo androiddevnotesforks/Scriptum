@@ -173,7 +173,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         nameEnter?.let {
             // TODO move to parent class
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
-                history.add(HistoryAction.Name(value, cursor))
+                HistoryAction.Name(value, cursor)
             })
 
             it.addOnNextAction { onFocusEnter() }

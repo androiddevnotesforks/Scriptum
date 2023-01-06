@@ -108,8 +108,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
 
-    override fun addToHistory(action: HistoryAction) = history.add(action)
-
     // TODO vvv remove SETUP and staff below vvv
 
     protected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
@@ -484,6 +482,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onResultSaveControl() {
         callback?.showSaveToast(onMenuSave(changeMode = false))
     }
+
+    override fun onHistoryAdd(action: HistoryAction) = history.add(action)
 
     /**
      * Need check [isNoteInitialized] for prevent crash. Strange what this function calls before

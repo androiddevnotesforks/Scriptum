@@ -3,8 +3,9 @@ package sgtmelon.scriptum.infrastructure.listener
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import sgtmelon.scriptum.data.noteHistory.HistoryChange
+import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
+import sgtmelon.scriptum.data.noteHistory.HistoryChange as Change
 
 /**
  * Text watcher for track changes in [view], needed for [NoteHistoryImpl].
@@ -12,7 +13,7 @@ import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 class HistoryTextWatcher(
     private val view: EditText,
     private val callback: Callback,
-    private val onEnter: (value: HistoryChange<String>, cursor: HistoryChange<Int>) -> Unit
+    private val getAction: (value: Change<String>, cursor: Change<Int>) -> HistoryAction?
 ) : TextWatcher {
 
     private var valueFrom = ""
@@ -29,7 +30,10 @@ class HistoryTextWatcher(
 
         if (valueFrom == valueTo) return
 
-        onEnter(HistoryChange(valueFrom, valueTo), HistoryChange(cursorFrom, cursorTo))
+        val action = getAction(Change(valueFrom, valueTo), Change(cursorFrom, cursorTo))
+        if (action != null) {
+            callback.onHistoryAdd(action)
+        }
 
         valueFrom = valueTo
         cursorFrom = cursorTo
@@ -38,6 +42,7 @@ class HistoryTextWatcher(
     override fun afterTextChanged(s: Editable?) = callback.onHistoryEnterChanged(s.toString())
 
     interface Callback {
+        fun onHistoryAdd(action: HistoryAction)
         fun onHistoryEnterChanged(text: String)
     }
 }

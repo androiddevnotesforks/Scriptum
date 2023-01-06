@@ -63,7 +63,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         nameEnter?.let {
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
-                history.add(HistoryAction.Name(value, cursor))
+                HistoryAction.Name(value, cursor)
             })
 
             it.addOnNextAction {
@@ -78,7 +78,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         binding?.textEnter?.let {
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
-                history.add(HistoryAction.Text.Enter(value, cursor))
+                HistoryAction.Text.Enter(value, cursor)
             })
         }
     }

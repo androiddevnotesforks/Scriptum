@@ -36,9 +36,11 @@ class RollWriteHolder(
         binding.textEnter, callback = this
     ) { value, cursor ->
         checkPosition {
-            val absolutePosition = callback.getAbsolutePosition(it) ?: return@checkPosition
-            history.add(HistoryAction.Roll.Enter(absolutePosition, value, cursor))
+            val position = callback.getAbsolutePosition(it) ?: return@checkPosition
+            return@HistoryTextWatcher HistoryAction.Roll.Enter(position, value, cursor)
         }
+
+        return@HistoryTextWatcher null
     }
 
     init {
@@ -85,6 +87,8 @@ class RollWriteHolder(
         requestFocus()
         setSelection(min(position, text.toString().length))
     }
+
+    override fun onHistoryAdd(action: HistoryAction) = history.add(action)
 
     override fun onHistoryEnterChanged(text: String) {
         checkPosition { callback.onRollEnterChanged(it, text) }
