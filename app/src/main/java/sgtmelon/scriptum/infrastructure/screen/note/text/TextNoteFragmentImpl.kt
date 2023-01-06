@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.text
 
+import androidx.core.widget.doOnTextChanged
 import javax.inject.Inject
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
@@ -38,6 +39,23 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         binding?.contentScroll?.makeVisibleIf(it) { makeInvisible() }
     }
 
+    override fun observeEdit(it: Boolean) {
+        super.observeEdit(it)
+
+        binding?.textEnter?.makeVisibleIf(it) { makeInvisible() }
+        binding?.textRead?.makeVisibleIf(!it) { makeInvisible() }
+
+        val item = viewModel.noteItem.value
+        if (item != null) {
+            binding?.textEnter?.setText(item.text)
+            /**
+             * Set empty text needed for nameEnter has ability to change size
+             * inside scrollView.
+             */
+            binding?.textRead?.text = if (it) "" else item.text
+        }
+    }
+
     override fun focusAfterNameAction() {
         binding?.textEnter?.requestSelectionFocus()
     }
@@ -47,6 +65,11 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         binding?.contentScroll?.setOnTouchSelectionListener(binding?.textEnter)
         binding?.textEnter?.let {
+            /** Save changes of content to noteItem model (available only in edit mode). */
+            it.doOnTextChanged { text, _, _, _ ->
+                viewModel.noteItem.value?.text = text?.toString() ?: return@doOnTextChanged
+            }
+
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
                 HistoryAction.Text.Enter(value, cursor)
             })
@@ -70,19 +93,17 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             .inject(fragment = this)
     }
 
-    //    override fun onBindingLoad() {
-    //        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
-    //    }
-
     override fun onBindingNote(item: NoteItem.Text) {
-        binding?.apply { this.item = item }?.executePendingBindings()
+        TODO("remove")
+        //        binding?.apply { this.item = item }?.executePendingBindings()
     }
 
     override fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean) {
-        binding?.apply {
-            this.item = item
-            this.isEditMode = isEditMode
-        }?.executePendingBindings()
+        TODO("remove")
+        //        binding?.apply {
+        //            this.item = item
+        //            this.isEditMode = isEditMode
+        //        }?.executePendingBindings()
     }
 
     override fun focusOnEdit(isCreate: Boolean) {

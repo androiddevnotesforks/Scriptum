@@ -2,20 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Text" />
-
-        <variable
-            name="isEditMode"
-            type="boolean" />
-
-    </data>
-
     <LinearLayout
         android:id="@+id/parent_container"
         android:layout_width="match_parent"
@@ -51,16 +37,12 @@
                             style="@style/EditText.TextNote.Enter"
                             android:hint="@string/hint_enter_text"
                             android:importantForAutofill="noExcludeDescendants"
-                            android:text='@={item.text}'
-                            android:visibility='@{isEditMode ? View.VISIBLE : View.INVISIBLE}'
+                            tools:text="@string/preview_note_text"
                             tools:visibility="invisible" />
 
-                        <!-- Set empty text need for editText may change size -->
                         <TextView
                             android:id="@+id/text_read"
                             style="@style/EditText.TextNote.Read"
-                            android:text='@{isEditMode ? "" : item.text}'
-                            android:visibility='@{!isEditMode ? View.VISIBLE : View.INVISIBLE}'
                             tools:text="@string/preview_note_text" />
 
                     </FrameLayout>

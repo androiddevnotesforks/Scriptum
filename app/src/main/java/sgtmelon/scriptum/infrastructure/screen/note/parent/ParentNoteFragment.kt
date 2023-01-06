@@ -20,8 +20,6 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm
 
     fun onBindingNote(item: N)
 
-//    fun onBindingInput(item: N, historyMove: HistoryMoveAvailable)
-
 
     fun onPressBack(): Boolean
 

@@ -132,6 +132,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper open fun observeEdit(it: Boolean) {
         connector.init.isEdit = it
+
+        invalidateToolbar()
         invalidatePanelState(it)
     }
 
@@ -250,7 +252,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                 val item = viewModel.noteItem.value ?: return
 
                 nameEnter.setText(item.name)
-                /** Set empty text needed for nameEnter has ability to change size. */
+                /**
+                 * Set empty text needed for nameEnter has ability to change size
+                 * inside scrollView.
+                 */
                 nameRead.text = if (isEdit) IntentData.Note.Default.NAME else item.name
             } else {
                 /**
