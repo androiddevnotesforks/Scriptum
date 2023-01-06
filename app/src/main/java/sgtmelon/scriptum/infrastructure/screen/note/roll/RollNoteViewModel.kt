@@ -14,6 +14,7 @@ interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
 
     fun onClickVisible()
 
+    @Deprecated("Постарайся избегать таких обновлений")
     fun onUpdateInfo()
 
     fun onEditorClick(i: Int): Boolean

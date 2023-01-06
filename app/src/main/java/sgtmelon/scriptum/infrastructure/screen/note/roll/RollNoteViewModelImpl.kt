@@ -250,6 +250,8 @@ class RollNoteViewModelImpl(
     }
 
     /**
+     * TODO переделать как в других фрагментах со списками
+     *
      * Function for update empty info text and visible. This func also calls from UI then item
      * animation finished (e.g. after swipe).
      *

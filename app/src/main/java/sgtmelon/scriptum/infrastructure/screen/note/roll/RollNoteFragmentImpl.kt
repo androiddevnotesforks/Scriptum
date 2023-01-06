@@ -5,12 +5,10 @@ import android.text.InputType
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -101,6 +99,12 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
 
+    override fun setupContent() {
+        super.setupContent()
+
+        // TODO move here initialization of recyclerView
+    }
+
     override fun invalidatePanelState(isEdit: Boolean) {
         super.invalidatePanelState(isEdit)
 
@@ -117,7 +121,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
     }
 
-    private val touchCallback by lazy { RollTouchControl(viewModel) }
+    private val touchCallback = RollTouchControl(viewModel)
 
     private val adapter: RollAdapter by lazy {
         RollAdapter(touchCallback, viewModel, object : ItemListener.ActionClick {
@@ -137,8 +141,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         })
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
-
-    private val nameEnter: EditText? get() = appBar?.content?.nameEnter
 
     private val visibleMenuItem: MenuItem?
         get() = appBar?.content?.toolbar?.menu?.findItem(R.id.item_visible)
@@ -165,12 +167,13 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         adapter.apply {
             this.history = history
 
-            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                /** Update before animation ends. */
-                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    viewModel.onUpdateInfo()
-                }
-            })
+            // TODO remove if possible
+            //            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            //                /** Update before animation ends. */
+            //                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            //                    viewModel.onUpdateInfo()
+            //                }
+            //            })
         }
 
         binding?.recyclerView?.let {
@@ -236,7 +239,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun focusOnEdit(isCreate: Boolean) {
         view?.post {
             if (isCreate) {
-                nameEnter?.requestSelectionFocus()
+                appBar?.content?.nameEnter?.requestSelectionFocus()
             } else {
                 binding?.addPanel?.rollEnter?.requestSelectionFocus()
             }
@@ -244,7 +247,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun changeName(text: String, cursor: Int) {
-        nameEnter?.apply {
+        appBar?.content?.nameEnter?.apply {
             requestFocus()
             setText(text)
             setSelection(cursor)

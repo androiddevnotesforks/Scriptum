@@ -51,7 +51,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
     private val renameDialog by lazy { dialogs.getRename() }
 
-    private val touchControl = RankTouchControl(this)
+    private val touchControl = RankTouchControl(callback = this)
     private val adapter by lazy {
         RankAdapter(touchControl, object : IconBlockCallback {
             override fun setIconEnabled(isEnabled: Boolean) {
