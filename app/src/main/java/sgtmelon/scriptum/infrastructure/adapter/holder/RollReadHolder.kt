@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.adapter.holder
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.bindTextColor
-import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
@@ -12,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 
 /**
- * Holder of note roll row read state, use in [RollAdapter].
+ * Holder of roll item in read state.
  */
 class RollReadHolder(
     private val binding: ItemRollReadBinding,
