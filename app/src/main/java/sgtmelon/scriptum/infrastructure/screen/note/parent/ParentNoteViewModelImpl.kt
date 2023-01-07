@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.launch
+import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
@@ -107,7 +108,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
 
-    // TODO vvv remove SETUP and staff below vvv
+    //region Cleanup
 
     protected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
 
@@ -146,9 +147,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      * Call after [tryInitializeNote]
      */
     abstract suspend fun setupAfterInitialize()
-
-
-    //region Cleanup
 
     //region Variables
 
@@ -332,33 +330,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //region Menu click
 
-    override fun onMenuRestore() {
-        viewModelScope.launch {
-            runBack { restoreNote(deprecatedNoteItem) }
-            callback?.finish()
-        }
-    }
-
-    override fun onMenuRestoreOpen() {
-        noteState.postValue(NoteState.EXIST)
-
-        deprecatedNoteItem.onRestore()
-
-        mayAnimateIcon = false
-        setupEditMode(isEdit = false)
-        mayAnimateIcon = true
-
-        viewModelScope.launchBack { updateNote(deprecatedNoteItem) }
-    }
-
-    override fun onMenuClear() {
-        viewModelScope.launch {
-            runBack { clearNote(deprecatedNoteItem) }
-            callback?.finish()
-        }
-    }
-
-
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
@@ -496,5 +467,28 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     //endregion
+
+    override fun onMenuRestore() = flowOnBack {
+        noteItem.value?.let { restoreNote(it) }
+        emit(Unit)
+    }
+
+    override fun onMenuRestoreOpen() {
+        TODO()
+        noteState.postValue(NoteState.EXIST)
+
+        deprecatedNoteItem.onRestore()
+
+        mayAnimateIcon = false
+        setupEditMode(isEdit = false)
+        mayAnimateIcon = true
+
+        viewModelScope.launchBack { updateNote(deprecatedNoteItem) }
+    }
+
+    override fun onMenuClear() = flowOnBack {
+        noteItem.value?.let { clearNote(it) }
+        emit(Unit)
+    }
 
 }

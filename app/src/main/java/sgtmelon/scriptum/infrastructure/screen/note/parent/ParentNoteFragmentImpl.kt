@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.ViewDataBinding
 import java.util.Calendar
+import sgtmelon.extensions.collect
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
@@ -23,7 +24,6 @@ import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
-import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -49,6 +49,8 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     ParentNoteFragment<N>,
     IconBlockCallback {
+
+    // TODO update name in connector init
 
     protected val connector get() = activity as NoteConnector
 
@@ -204,9 +206,13 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     @CallSuper open fun setupPanel() {
         val panelBar = panelBar ?: return
 
-        panelBar.restoreButton.setOnClickListener { viewModel.onMenuRestore() }
+        panelBar.restoreButton.setOnClickListener {
+            viewModel.onMenuRestore().collect(owner = this) { activity?.finish() }
+        }
         panelBar.restoreOpenButton.setOnClickListener { viewModel.onMenuRestoreOpen() }
-        panelBar.clearButton.setOnClickListener { viewModel.onMenuClear() }
+        panelBar.clearButton.setOnClickListener {
+            viewModel.onMenuClear().collect(owner = this) { activity?.finish() }
+        }
         panelBar.undoButton.setOnClickListener { viewModel.onMenuUndo() }
         panelBar.redoButton.setOnClickListener { viewModel.onMenuRedo() }
         panelBar.rankButton.setOnClickListener { viewModel.onMenuRank() }
@@ -249,6 +255,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             nameRead.makeVisibleIf(!isEdit) { makeInvisible() }
 
             if (isDataReady) {
+                /** Always will notNull - because isDataReady==true. */
                 val item = viewModel.noteItem.value ?: return
 
                 nameEnter.setText(item.name)
@@ -256,7 +263,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                  * Set empty text needed for nameEnter has ability to change size
                  * inside scrollView.
                  */
-                nameRead.text = if (isEdit) IntentData.Note.Default.NAME else item.name
+                nameRead.text = if (isEdit) "" else item.name
             } else {
                 /**
                  * Name in init only may exists if note is already in [NoteState.EXIST] state,
@@ -284,6 +291,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     @CallSuper open fun invalidatePanelData(item: N) {
         val panelBar = panelBar ?: return
 
+        /** rankDialogItems always will be notNull, because it's loaded before [item]. */
         val rankItems = viewModel.rankDialogItems.value
         if (rankItems != null) {
             val isRankEmpty = rankItems.size == 1

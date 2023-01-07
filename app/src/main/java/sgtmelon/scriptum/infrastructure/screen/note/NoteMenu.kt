@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
+import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 
@@ -10,11 +11,11 @@ interface NoteMenu {
 
     //region Inside bin
 
-    fun onMenuRestore()
+    fun onMenuRestore(): Flow<Unit>
 
     fun onMenuRestoreOpen()
 
-    fun onMenuClear()
+    fun onMenuClear(): Flow<Unit>
 
     //endregion
 
