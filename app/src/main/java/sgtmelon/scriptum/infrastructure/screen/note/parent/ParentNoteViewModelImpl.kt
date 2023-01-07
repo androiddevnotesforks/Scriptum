@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
@@ -90,8 +89,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launchBack {
             rankDialogItems.postValue(getRankDialogNames())
 
-            // TODO remove
-            delay(5000)
+            //            // TODO remove
+            //            delay(5000)
 
             val id = init.id
             val value = if (id == Default.ID) createNote() else getNote(id)

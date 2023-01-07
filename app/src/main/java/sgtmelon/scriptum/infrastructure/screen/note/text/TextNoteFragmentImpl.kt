@@ -44,16 +44,12 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
         binding?.textEnter?.makeVisibleIf(it) { makeInvisible() }
         binding?.textRead?.makeVisibleIf(!it) { makeInvisible() }
+        invalidateContent()
+    }
 
-        val item = viewModel.noteItem.value
-        if (item != null) {
-            binding?.textEnter?.setText(item.text)
-            /**
-             * Set empty text needed for nameEnter has ability to change size
-             * inside scrollView.
-             */
-            binding?.textRead?.text = if (it) "" else item.text
-        }
+    override fun observeNoteItem(it: NoteItem.Text) {
+        super.observeNoteItem(it)
+        invalidateContent()
     }
 
     override fun focusAfterNameAction() {
@@ -74,6 +70,18 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
                 HistoryAction.Text.Enter(value, cursor)
             })
         }
+    }
+
+    private fun invalidateContent() {
+        val isEdit = viewModel.isEdit.value ?: return
+        val item = viewModel.noteItem.value ?: return
+
+        binding?.textEnter?.setText(item.text)
+        /**
+         * Set empty text needed for nameEnter has ability to change size
+         * inside scrollView.
+         */
+        binding?.textRead?.text = if (isEdit) "" else item.text
     }
 
     //region Cleanup
