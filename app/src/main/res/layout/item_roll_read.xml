@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="sgtmelon.scriptum.R" />
-
-        <import type="android.view.View" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.RollItem" />
-
-        <variable
-            name="isBin"
-            type="boolean" />
-    </data>
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/roll_read_parent_card"
+        android:id="@+id/parent_container"
         style="@style/Card.Item.Common">
 
         <LinearLayout
@@ -33,26 +17,22 @@
                 tools:background="@color/accent_ripple_light">
 
                 <CheckBox
-                    android:id="@+id/roll_read_check"
+                    android:id="@+id/check_box"
                     style="@style/Button.Roll.Read"
-                    app:checkState='@{item.check}'
                     tools:checked="true" />
 
+                <!--  Button which displays above checkBox for ripple effect on click  -->
+                <!--  Set contentDescription in UI class  -->
                 <ImageButton
-                    android:id="@+id/roll_read_click_button"
+                    android:id="@+id/click_button"
                     style="@style/Container.Roll.Click"
-                    android:contentDescription='@{(item.check ? @string/description_item_roll_uncheck : @string/description_item_roll_check) + " " + item.text}'
-                    android:visibility='@{!isBin ? View.VISIBLE : View.INVISIBLE}' />
+                    tools:ignore="ContentDescription" />
 
             </FrameLayout>
 
             <TextView
-                android:id="@+id/roll_read_text"
+                android:id="@+id/roll_text"
                 style="@style/EditText.Roll.Read"
-                android:text='@{item.text}'
-                app:boolExpression='@{!item.check}'
-                app:falseColor='@{R.attr.clContrast}'
-                app:trueColor='@{R.attr.clContent}'
                 tools:text="@string/preview_note_roll"
                 tools:textColor="?attr/clContrast" />
 

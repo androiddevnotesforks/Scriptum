@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.extension
 
 import android.view.View
-import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -70,21 +69,6 @@ fun TextView.bindTextColor(boolExpression: Boolean,
                              @AttrRes trueColor: Int,
                              @AttrRes falseColor: Int) {
     setTextColor(context.getColorAttr(if (boolExpression) trueColor else falseColor))
-}
-
-
-
-@BindingAdapter("enabled")
-fun ImageButton.bindEnabled(enabled: Boolean) {
-    isEnabled = enabled
-}
-
-/**
- * Change state of [CheckBox] via simple set
- */
-@BindingAdapter(value = ["checkState"])
-fun CheckBox.bindCheck(checkState: Boolean) {
-    isChecked = checkState
 }
 
 //endregion

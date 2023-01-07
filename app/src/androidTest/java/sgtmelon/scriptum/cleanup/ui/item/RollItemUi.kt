@@ -31,7 +31,7 @@ class RollItemUi(
         getChild(
             getView(
                 when (state) {
-                    NoteState.READ, NoteState.BIN -> R.id.roll_read_parent_card
+                    NoteState.READ, NoteState.BIN -> R.id.parent_container
                     NoteState.EDIT, NoteState.NEW -> R.id.parent_container
                 }
             )
@@ -42,7 +42,7 @@ class RollItemUi(
         getChild(
             getView(
                 when (state) {
-                    NoteState.READ, NoteState.BIN -> R.id.roll_read_check
+                    NoteState.READ, NoteState.BIN -> R.id.check_box
                     NoteState.EDIT, NoteState.NEW -> R.id.check_box
                 }
             )
@@ -53,7 +53,7 @@ class RollItemUi(
         getChild(
             getView(
                 when (state) {
-                    NoteState.READ, NoteState.BIN -> R.id.roll_read_click_button
+                    NoteState.READ, NoteState.BIN -> R.id.click_button
                     NoteState.EDIT, NoteState.NEW -> R.id.drag_button
                 }
             )
@@ -64,7 +64,7 @@ class RollItemUi(
         getChild(
             getView(
                 when (state) {
-                    NoteState.READ, NoteState.BIN -> R.id.roll_read_text
+                    NoteState.READ, NoteState.BIN -> R.id.roll_text
                     NoteState.EDIT, NoteState.NEW -> R.id.text_enter
                 }
             )

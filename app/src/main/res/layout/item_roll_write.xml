@@ -21,7 +21,7 @@
                     android:id="@+id/check_box"
                     style="@style/Button.Roll.Write" />
 
-                <!--  ContentDescription setup manually  -->
+                <!--  Set contentDescription in UI class  -->
                 <ImageButton
                     android:id="@+id/drag_button"
                     style="@style/Container.Roll.Click"
