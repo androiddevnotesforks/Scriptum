@@ -94,12 +94,12 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     override fun onBindingNote(item: NoteItem.Text) {
-        TODO("remove")
+//        TODO("remove")
         //        binding?.apply { this.item = item }?.executePendingBindings()
     }
 
     override fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean) {
-        TODO("remove")
+        //        TODO("remove")
         //        binding?.apply {
         //            this.item = item
         //            this.isEditMode = isEditMode

@@ -304,8 +304,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             R.string.description_note_bind
         }
         panelBar.bindButton.contentDescription = getString(bindDescription)
-
-        TODO()
     }
 
     //region Cleanup

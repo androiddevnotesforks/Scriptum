@@ -86,11 +86,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override val noteItem: MutableLiveData<N> = MutableLiveData()
     private var restoreItem: NoteItem? = null
 
-    // TODO add observers for note and remove initialization functions
     init {
         viewModelScope.launchBack {
             rankDialogItems.postValue(getRankDialogNames())
 
+            // TODO remove
             delay(5000)
 
             val id = init.id
