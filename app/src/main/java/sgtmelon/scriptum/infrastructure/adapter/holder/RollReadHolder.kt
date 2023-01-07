@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.holder
+package sgtmelon.scriptum.infrastructure.adapter.holder
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
