@@ -4,7 +4,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.bindTextColor
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
@@ -17,13 +16,15 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
  */
 class RollReadHolder(
     private val binding: ItemRollReadBinding,
-    private val clickListener: ItemListener.ActionClick
+    private val callback: Callback
 ) : ParentHolder(binding.root),
     UnbindCallback {
 
     init {
-        binding.clickButton.setOnClickListener { v ->
-            checkPosition { clickListener.onItemClick(v, it) { binding.checkBox.toggle() } }
+        binding.clickButton.setOnClickListener { _ ->
+            checkPosition {
+                callback.onReadCheckClick(it) { binding.checkBox.toggle() }
+            }
         }
     }
 
@@ -44,5 +45,9 @@ class RollReadHolder(
 
         rollText.text = item.text
         rollText.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
+    }
+
+    interface Callback {
+        fun onReadCheckClick(p: Int, action: () -> Unit)
     }
 }

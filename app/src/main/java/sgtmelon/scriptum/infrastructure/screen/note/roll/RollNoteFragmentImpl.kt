@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import android.content.Context
 import android.text.InputType
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
@@ -21,8 +20,8 @@ import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -124,8 +123,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     private val touchCallback = RollTouchControl(viewModel)
 
     private val adapter: RollAdapter by lazy {
-        RollAdapter(touchCallback, viewModel, object : ItemListener.ActionClick {
-            override fun onItemClick(view: View, p: Int, action: () -> Unit) {
+        RollAdapter(touchCallback, viewModel, object : RollReadHolder.Callback {
+            override fun onReadCheckClick(p: Int, action: () -> Unit) {
                 if (!open.isChangeEnabled && open.tag == OpenState.Tag.ANIM) {
                     open.isChangeEnabled = true
                 }
