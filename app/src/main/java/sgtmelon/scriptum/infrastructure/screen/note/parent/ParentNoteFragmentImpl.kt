@@ -118,6 +118,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
+    //region setupObservers staff
+
     override fun setupObservers() {
         super.setupObservers()
 
@@ -167,6 +169,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             bindBoolTint(available.redo, R.attr.clContent, R.attr.clDisable)
         }
     }
+
+    //endregion
 
     @CallSuper open fun setupToolbar(context: Context, toolbar: Toolbar?) {
         val color = connector.init.color
@@ -227,7 +231,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
         panelBar.bindButton.setOnClickListener { viewModel.onMenuBind() }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
-        panelBar.deleteButton.setOnClickListener { viewModel.onMenuDelete() }
+        panelBar.deleteButton.setOnClickListener { onDelete() }
         panelBar.editButton.setOnClickListener { viewModel.onMenuEdit() }
 
         val bindDrawable = when (type) {
@@ -437,6 +441,21 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         hideKeyboard()
         open.attempt {
             convertDialog.safeShow(DialogFactory.Note.CONVERT, owner = this)
+        }
+    }
+
+    //endregion
+
+    //region Menu
+
+    private fun onDelete() {
+        if (open.isBlocked || isEditMode) return
+
+        viewModel.onMenuDelete().collect(owner = this) {
+            system.broadcast.sendCancelAlarm(it)
+            system.broadcast.sendCancelNoteBind(it)
+            system.broadcast.sendNotifyInfoBind()
+            finish()
         }
     }
 

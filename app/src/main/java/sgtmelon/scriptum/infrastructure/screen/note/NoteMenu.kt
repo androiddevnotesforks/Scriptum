@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
 import kotlinx.coroutines.flow.Flow
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 
@@ -9,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
  */
 interface NoteMenu {
 
-    //region Inside bin
+    // Inside bin
 
     fun onMenuRestore(): Flow<Unit>
 
@@ -17,17 +18,12 @@ interface NoteMenu {
 
     fun onMenuClear(): Flow<Unit>
 
-    //endregion
 
-    //region Edit mode
+    // Edit mode
 
     fun onMenuUndo()
 
     fun onMenuRedo()
-
-//    fun onMenuRank()
-
-    //    fun onMenuColor()
 
     /**
      * Return true on success save
@@ -35,20 +31,12 @@ interface NoteMenu {
      */
     fun onMenuSave(changeMode: Boolean): Boolean
 
-    //endregion
-
-    //region Read mode
-
-    //    fun onMenuNotification()
+    // Read mode
 
     fun onMenuBind()
 
-    //    fun onMenuConvert()
-
-    fun onMenuDelete()
+    fun onMenuDelete(): Flow<NoteItem>
 
     fun onMenuEdit()
-
-    //endregion
 
 }

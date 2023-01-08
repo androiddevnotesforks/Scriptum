@@ -277,12 +277,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    //    override fun onResultDateDialog(calendar: Calendar) {
-    //        viewModelScope.launchBack {
-    //            callback?.showTimeDialog(calendar, getNotificationsDateList())
-    //        }
-    //    }
-
     override fun onResultDateDialogClear() {
         viewModelScope.launch {
             runBack { deleteNotification(deprecatedNoteItem) }
@@ -378,32 +372,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
 
-    //    override fun onMenuRank() {
-    //        if (isEdit.value.isFalse()) return
-    //
-    //        callback?.showRankDialog(check = deprecatedNoteItem.rank.position + 1)
-    //    }
-    //
-    //    override fun onMenuColor() {
-    //        if (isEdit.value.isFalse()) return
-    //
-    //        callback?.showColorDialog(deprecatedNoteItem.color)
-    //    }
-
     /**
      * Function of background work for note saving.
      */
     abstract suspend fun saveBackgroundWork()
-
-
-    //    override fun onMenuNotification() {
-    //        if (isEdit.value.isTrue()) return
-    //
-    //        callback?.showDateDialog(
-    //            deprecatedNoteItem.alarm.date.toCalendar(),
-    //            deprecatedNoteItem.haveAlarm
-    //        )
-    //    }
 
     override fun onMenuBind() {
         if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
@@ -420,25 +392,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    //    override fun onMenuConvert() {
-    //        if (isEdit.value.isTrue()) return
-    //
-    //        callback?.showConvertDialog()
-    //    }
 
-    override fun onMenuDelete() {
-        if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
-
-        viewModelScope.launch {
-            runBack { deleteNote(deprecatedNoteItem) }
-
-            callback?.sendCancelAlarmBroadcast(deprecatedNoteItem)
-            callback?.sendCancelNoteBroadcast(deprecatedNoteItem)
-            callback?.sendNotifyInfoBroadcast()
-
-            callback?.finish()
-        }
-    }
 
     override fun onMenuEdit() {
         if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
@@ -493,6 +447,13 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onMenuClear() = flowOnBack {
         noteItem.value?.let { clearNote(it) }
         emit(Unit)
+    }
+
+
+    override fun onMenuDelete(): Flow<NoteItem> = flowOnBack {
+        val item = noteItem.value ?: return@flowOnBack
+        deleteNote(item)
+        emit(item)
     }
 
 }

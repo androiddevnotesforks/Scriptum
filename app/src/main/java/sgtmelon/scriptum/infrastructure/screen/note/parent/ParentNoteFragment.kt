@@ -31,18 +31,6 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm
 
     fun changeName(text: String, cursor: Int)
 
-
-    //    fun showRankDialog(check: Int)
-    //
-    //    fun showColorDialog(color: Color)
-    //
-    //    fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
-    //
-    //    fun showTimeDialog(calendar: Calendar, dateList: List<String>)
-    //
-    //    fun showConvertDialog()
-
-
     fun showSaveToast(isSuccess: Boolean)
 
     fun finish()
