@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
@@ -25,8 +24,6 @@ class RollAdapter(
     private val readCallback: RollReadHolder.Callback
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
-    lateinit var history: NoteHistory
-
     var cursor = ND_CURSOR
 
     fun updateEdit(isEdit: Boolean) {
@@ -45,7 +42,7 @@ class RollAdapter(
         return when (Type.values()[viewType]) {
             Type.WRITE -> {
                 val binding: ItemRollWriteBinding = parent.inflateBinding(R.layout.item_roll_write)
-                RollWriteHolder(binding, dragListener, writeCallback, history)
+                RollWriteHolder(binding, dragListener, writeCallback)
             }
             Type.READ -> {
                 val binding: ItemRollReadBinding = parent.inflateBinding(R.layout.item_roll_read)

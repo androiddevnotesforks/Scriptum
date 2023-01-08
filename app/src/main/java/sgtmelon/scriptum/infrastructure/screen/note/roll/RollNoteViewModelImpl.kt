@@ -79,14 +79,14 @@ class RollNoteViewModelImpl(
 ), RollNoteViewModel {
 
     override fun setupBeforeInitialize() {
-        callback?.apply {
-            //            setupBinding()
-            //            color.value?.let { setupToolbar(it) }
-            //            setupEnter(history)
-            setupRecycler(history)
-
-            //            showToolbarVisibleIcon(isShow = false)
-        }
+        //        callback?.apply {
+        //            //            setupBinding()
+        //            //            color.value?.let { setupToolbar(it) }
+        //            //            setupEnter(history)
+        ////            setupRecycler(history)
+        //
+        //            //            showToolbarVisibleIcon(isShow = false)
+        //        }
     }
 
     override suspend fun tryInitializeNote(): Boolean {
@@ -535,6 +535,12 @@ class RollNoteViewModelImpl(
             return list.validIndexOfFirst(hideItem)
         }
     }
+
+    override fun onRollHistoryEnabled(enabled: Boolean) {
+        history.saveChanges = enabled
+    }
+
+    override fun onRollHistoryAdd(action: HistoryAction) = history.add(action)
 
     override fun onRollEnterChanged(p: Int, text: String) {
         val absolutePosition = getAbsolutePosition(p) ?: return

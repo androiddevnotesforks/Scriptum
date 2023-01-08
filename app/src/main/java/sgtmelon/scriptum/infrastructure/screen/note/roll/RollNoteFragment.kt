@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 
@@ -13,7 +12,7 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun setTouchAction(inAction: Boolean)
 
-    fun setupRecycler(history: NoteHistory)
+//    fun setupRecycler(history: NoteHistory)
 
     fun onBindingLoad()
 

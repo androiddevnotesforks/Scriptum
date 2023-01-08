@@ -21,7 +21,6 @@ import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
-import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
@@ -111,7 +110,14 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun setupContent() {
         super.setupContent()
 
-        // TODO move here initialization of recyclerView
+        binding?.recyclerView?.let {
+            it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
+            it.setHasFixedSize(true)
+            it.layoutManager = layoutManager
+            it.adapter = adapter
+        }
+
+        ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
     }
 
     override fun invalidatePanelState(isEdit: Boolean) {
@@ -175,28 +181,28 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         open.isBlocked = inAction
     }
 
-    override fun setupRecycler(history: NoteHistory) {
-        adapter.apply {
-            this.history = history
-
-            // TODO remove if possible
-            //            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            //                /** Update before animation ends. */
-            //                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            //                    viewModel.onUpdateInfo()
-            //                }
-            //            })
-        }
-
-        binding?.recyclerView?.let {
-            it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
-            it.setHasFixedSize(true)
-            it.layoutManager = layoutManager
-            it.adapter = adapter
-        }
-
-        ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
-    }
+    //    override fun setupRecycler(history: NoteHistory) {
+    //        adapter.apply {
+    ////            this.history = history
+    //
+    //            // TODO remove if possible
+    //            //            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    //            //                /** Update before animation ends. */
+    //            //                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+    //            //                    viewModel.onUpdateInfo()
+    //            //                }
+    //            //            })
+    //        }
+    //
+    //        binding?.recyclerView?.let {
+    //            it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
+    //            it.setHasFixedSize(true)
+    //            it.layoutManager = layoutManager
+    //            it.adapter = adapter
+    //        }
+    //
+    //        ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
+    //    }
 
     override fun onBindingLoad() {
         binding?.apply { this.isDataLoad = true }?.executePendingBindings()
