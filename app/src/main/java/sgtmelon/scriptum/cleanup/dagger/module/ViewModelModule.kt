@@ -22,8 +22,8 @@ import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopViewMod
 import sgtmelon.scriptum.develop.infrastructure.screen.service.ServiceDevelopViewModel
 import sgtmelon.scriptum.develop.infrastructure.screen.service.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
@@ -144,7 +144,7 @@ class ViewModelModule {
         deleteNote: DeleteNoteUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
-        getNotificationDateList: GetNotificationDateListUseCase
+        getNotificationDateList: GetNotificationsDateListUseCase
     ): NotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
             preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
@@ -200,7 +200,7 @@ class ViewModelModule {
         clearNote: ClearNoteUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
-        getNotificationDateList: GetNotificationDateListUseCase,
+        getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase
     ): TextNoteViewModel {
@@ -241,7 +241,7 @@ class ViewModelModule {
         updateCheck: UpdateRollCheckUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
-        getNotificationDateList: GetNotificationDateListUseCase,
+        getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): RollNoteViewModel {

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
@@ -51,7 +51,7 @@ class TextNoteViewModelImpl(
     clearNote: ClearNoteUseCase,
     setNotification: SetNotificationUseCase,
     deleteNotification: DeleteNotificationUseCase,
-    getNotificationDateList: GetNotificationDateListUseCase,
+    getNotificationDateList: GetNotificationsDateListUseCase,
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Text, TextNoteFragment>(

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import androidx.lifecycle.LiveData
 import java.util.Calendar
+import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.IParentViewModel
@@ -38,6 +39,8 @@ interface ParentNoteViewModel<N : NoteItem> : IParentViewModel,
 
     val historyAvailable: LiveData<HistoryMoveAvailable>
 
+    val notificationsDateList: Flow<List<String>>
+
     //region Cleanup
 
     fun onResume()
@@ -55,7 +58,7 @@ interface ParentNoteViewModel<N : NoteItem> : IParentViewModel,
 
     fun onResultRankDialog(check: Int)
 
-    fun onResultDateDialog(calendar: Calendar)
+    //    fun onResultDateDialog(calendar: Calendar)
 
     fun onResultDateDialogClear()
 

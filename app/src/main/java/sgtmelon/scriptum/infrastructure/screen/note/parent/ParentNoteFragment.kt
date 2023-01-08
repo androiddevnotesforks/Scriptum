@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
-import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
@@ -33,15 +32,15 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm
     fun changeName(text: String, cursor: Int)
 
 
-    fun showRankDialog(check: Int)
-
-    fun showColorDialog(color: Color)
-
-    fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
-
-    fun showTimeDialog(calendar: Calendar, dateList: List<String>)
-
-    fun showConvertDialog()
+    //    fun showRankDialog(check: Int)
+    //
+    //    fun showColorDialog(color: Color)
+    //
+    //    fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
+    //
+    //    fun showTimeDialog(calendar: Calendar, dateList: List<String>)
+    //
+    //    fun showConvertDialog()
 
 
     fun showSaveToast(isSuccess: Boolean)

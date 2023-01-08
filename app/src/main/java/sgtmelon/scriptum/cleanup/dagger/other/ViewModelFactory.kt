@@ -14,8 +14,8 @@ import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModelI
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopViewModelImpl
 import sgtmelon.scriptum.develop.infrastructure.screen.service.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
@@ -132,7 +132,7 @@ object ViewModelFactory {
             private val deleteNote: DeleteNoteUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationDateListUseCase
+            private val getNotificationDateList: GetNotificationsDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModelImpl::class) {
@@ -187,7 +187,7 @@ object ViewModelFactory {
             private val clearNote: ClearNoteUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationDateListUseCase,
+            private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
             private val getRankDialogNames: GetRankDialogNamesUseCase
         ) : ViewModelProvider.Factory {
@@ -227,7 +227,7 @@ object ViewModelFactory {
             private val updateCheck: UpdateRollCheckUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationDateListUseCase,
+            private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
             private val getRankDialogNames: GetRankDialogNamesUseCase,
         ) : ViewModelProvider.Factory {

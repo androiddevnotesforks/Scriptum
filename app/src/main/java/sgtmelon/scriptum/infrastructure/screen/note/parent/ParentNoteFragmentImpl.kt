@@ -9,6 +9,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.databinding.ViewDataBinding
 import java.util.Calendar
 import sgtmelon.extensions.collect
+import sgtmelon.extensions.toCalendar
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
@@ -32,6 +33,8 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
@@ -96,7 +99,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         dateDialog.apply {
             onPositiveClick {
                 open.skipClear = true
-                viewModel.onResultDateDialog(dateDialog.calendar)
+                viewModel.notificationsDateList.collect(owner = this) {
+                    showTimeDialog(dateDialog.calendar, it)
+                }
             }
             onNeutralClick { viewModel.onResultDateDialogClear() }
             onDismiss { open.clear() }
@@ -215,13 +220,13 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
         panelBar.undoButton.setOnClickListener { viewModel.onMenuUndo() }
         panelBar.redoButton.setOnClickListener { viewModel.onMenuRedo() }
-        panelBar.rankButton.setOnClickListener { viewModel.onMenuRank() }
-        panelBar.colorButton.setOnClickListener { viewModel.onMenuColor() }
+        panelBar.rankButton.setOnClickListener { showRankDialog() }
+        panelBar.colorButton.setOnClickListener { showColorDialog() }
         panelBar.saveButton.setOnClickListener { viewModel.onMenuSave(changeMode = true) }
         panelBar.saveButton.setOnLongClickListener { viewModel.onMenuSave(changeMode = false) }
-        panelBar.notificationButton.setOnClickListener { viewModel.onMenuNotification() }
+        panelBar.notificationButton.setOnClickListener { showDateDialog() }
         panelBar.bindButton.setOnClickListener { viewModel.onMenuBind() }
-        panelBar.convertButton.setOnClickListener { viewModel.onMenuConvert() }
+        panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener { viewModel.onMenuDelete() }
         panelBar.editButton.setOnClickListener { viewModel.onMenuEdit() }
 
@@ -351,40 +356,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         navigationIcon?.setDrawable(isCancel, needAnim)
     }
 
-    override fun showRankDialog(check: Int) = open.attempt {
-        hideKeyboard()
-        rankDialog.setArguments(check).safeShow(DialogFactory.Note.RANK, owner = this)
-    }
-
-    override fun showColorDialog(color: Color) = open.attempt {
-        tintToolbar?.setColorFrom(color)
-
-        hideKeyboard()
-        colorDialog.setArguments(color).safeShow(DialogFactory.Note.COLOR, owner = this)
-    }
-
-    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = open.attempt {
-        open.tag = OpenState.Tag.DIALOG
-
-        hideKeyboard()
-        dateDialog.setArguments(calendar, resetVisible)
-            .safeShow(DialogFactory.Note.DATE, owner = this)
-    }
-
-    override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
-        open.attempt(OpenState.Tag.DIALOG) {
-            hideKeyboard()
-            timeDialog.setArguments(calendar, dateList)
-                .safeShow(DialogFactory.Note.TIME, owner = this)
-        }
-    }
-
-    override fun showConvertDialog() = open.attempt {
-        hideKeyboard()
-        convertDialog.safeShow(DialogFactory.Note.CONVERT, owner = this)
-    }
-
-
     override fun showSaveToast(isSuccess: Boolean) {
         val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
         system.toast.show(context, text)
@@ -409,5 +380,69 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     //endregion
+
+    //region Dialogs
+
+    private fun showRankDialog() {
+        if (isReadMode) return
+
+        /** +1 because in rank dialog all items has shift by one (due to "no category" item). */
+        val check = (viewModel.noteItem.value?.rank?.position ?: return) + 1
+
+        hideKeyboard()
+        open.attempt {
+            rankDialog.setArguments(check).safeShow(DialogFactory.Note.RANK, owner = this)
+        }
+    }
+
+    private fun showColorDialog() {
+        if (isReadMode) return
+
+        val color = viewModel.noteItem.value?.color ?: return
+
+        hideKeyboard()
+        open.attempt {
+            tintToolbar?.setColorFrom(color)
+            colorDialog.setArguments(color).safeShow(DialogFactory.Note.COLOR, owner = this)
+        }
+    }
+
+    private fun showDateDialog() {
+        if (isEditMode) return
+
+        val item = viewModel.noteItem.value ?: return
+        val calendar = item.alarm.date.toCalendar()
+
+        hideKeyboard()
+        open.attempt {
+            open.tag = OpenState.Tag.DIALOG
+            dateDialog.setArguments(calendar, item.haveAlarm)
+                .safeShow(DialogFactory.Note.DATE, owner = this)
+        }
+    }
+
+    private fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
+        if (isEditMode) return
+
+        hideKeyboard()
+        open.attempt(OpenState.Tag.DIALOG) {
+            timeDialog.setArguments(calendar, dateList)
+                .safeShow(DialogFactory.Note.TIME, owner = this)
+        }
+    }
+
+    private fun showConvertDialog() {
+        if (isEditMode) return
+
+        hideKeyboard()
+        open.attempt {
+            convertDialog.safeShow(DialogFactory.Note.CONVERT, owner = this)
+        }
+    }
+
+    //endregion
+
+    private val isEditMode get() = viewModel.isEdit.value.isTrue()
+    private val isReadMode get() = viewModel.isEdit.value.isFalse()
 
 }

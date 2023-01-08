@@ -25,9 +25,9 @@ interface NoteMenu {
 
     fun onMenuRedo()
 
-    fun onMenuRank()
+//    fun onMenuRank()
 
-    fun onMenuColor()
+    //    fun onMenuColor()
 
     /**
      * Return true on success save
@@ -39,11 +39,11 @@ interface NoteMenu {
 
     //region Read mode
 
-    fun onMenuNotification()
+    //    fun onMenuNotification()
 
     fun onMenuBind()
 
-    fun onMenuConvert()
+    //    fun onMenuConvert()
 
     fun onMenuDelete()
 

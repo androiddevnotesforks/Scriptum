@@ -9,17 +9,17 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
- * Test for [GetNotificationDateListUseCase].
+ * Test for [GetNotificationsDateListUseCase].
  */
-class GetNotificationDateListUseCaseTest : ParentTest() {
+class GetNotificationsDateListUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 
-    private val useCase by lazy { GetNotificationDateListUseCase(repository) }
+    private val useCase by lazy { GetNotificationsDateListUseCase(repository) }
 
     @After override fun tearDown() {
         super.tearDown()

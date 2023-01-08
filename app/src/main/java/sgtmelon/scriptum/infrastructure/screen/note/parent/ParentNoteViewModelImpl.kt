@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
-import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
@@ -39,7 +39,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
 
@@ -64,7 +63,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val clearNote: ClearNoteUseCase,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
-    private val getNotificationDateList: GetNotificationDateListUseCase,
+    private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
     protected val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentViewModel<C>(callback),
@@ -107,6 +106,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
+
+    override val notificationsDateList: Flow<List<String>>
+        get() = flowOnBack {
+            emit(getNotificationsDateList())
+        }
 
     //region Cleanup
 
@@ -273,11 +277,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launchBack {
-            callback?.showTimeDialog(calendar, getNotificationDateList())
-        }
-    }
+    //    override fun onResultDateDialog(calendar: Calendar) {
+    //        viewModelScope.launchBack {
+    //            callback?.showTimeDialog(calendar, getNotificationsDateList())
+    //        }
+    //    }
 
     override fun onResultDateDialogClear() {
         viewModelScope.launch {
@@ -374,17 +378,17 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
 
-    override fun onMenuRank() {
-        if (isEdit.value.isFalse()) return
-
-        callback?.showRankDialog(check = deprecatedNoteItem.rank.position + 1)
-    }
-
-    override fun onMenuColor() {
-        if (isEdit.value.isFalse()) return
-
-        callback?.showColorDialog(deprecatedNoteItem.color)
-    }
+    //    override fun onMenuRank() {
+    //        if (isEdit.value.isFalse()) return
+    //
+    //        callback?.showRankDialog(check = deprecatedNoteItem.rank.position + 1)
+    //    }
+    //
+    //    override fun onMenuColor() {
+    //        if (isEdit.value.isFalse()) return
+    //
+    //        callback?.showColorDialog(deprecatedNoteItem.color)
+    //    }
 
     /**
      * Function of background work for note saving.
@@ -392,14 +396,14 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     abstract suspend fun saveBackgroundWork()
 
 
-    override fun onMenuNotification() {
-        if (isEdit.value.isTrue()) return
-
-        callback?.showDateDialog(
-            deprecatedNoteItem.alarm.date.toCalendar(),
-            deprecatedNoteItem.haveAlarm
-        )
-    }
+    //    override fun onMenuNotification() {
+    //        if (isEdit.value.isTrue()) return
+    //
+    //        callback?.showDateDialog(
+    //            deprecatedNoteItem.alarm.date.toCalendar(),
+    //            deprecatedNoteItem.haveAlarm
+    //        )
+    //    }
 
     override fun onMenuBind() {
         if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
@@ -416,11 +420,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    override fun onMenuConvert() {
-        if (isEdit.value.isTrue()) return
-
-        callback?.showConvertDialog()
-    }
+    //    override fun onMenuConvert() {
+    //        if (isEdit.value.isTrue()) return
+    //
+    //        callback?.showConvertDialog()
+    //    }
 
     override fun onMenuDelete() {
         if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
