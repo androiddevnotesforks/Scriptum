@@ -1,24 +1,25 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter
 
 import android.view.ViewGroup
-import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
+import sgtmelon.scriptum.databinding.ItemRollReadBinding
+import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
-import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
 /**
- * Adapter which displays list of rolls for [RollNoteFragmentImpl].
+ * Adapter which displays list of [RollItem]'s.
  */
 class RollAdapter(
+    private var isEdit: Boolean,
+    private var state: NoteState,
     private val dragListener: ItemDragListener,
     private val writeCallback: RollWriteHolder.Callback,
     private val readCallback: RollReadHolder.Callback
@@ -26,17 +27,31 @@ class RollAdapter(
 
     lateinit var history: NoteHistory
 
-    var isEdit: Boolean? = null
-    var state: NoteState? = null
+    var cursor = ND_CURSOR
 
-    var cursorPosition = ND_CURSOR
+    fun updateEdit(isEdit: Boolean) {
+        if (this.isEdit == isEdit) return
+        this.isEdit = isEdit
+        notifyDataSetChanged()
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        Type.WRITE -> RollWriteHolder(
-            parent.inflateBinding(R.layout.item_roll_write),
-            dragListener, writeCallback, history
-        )
-        else -> RollReadHolder(parent.inflateBinding(R.layout.item_roll_read), readCallback)
+    fun updateState(state: NoteState) {
+        if (this.state == state) return
+        this.state = state
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (Type.values()[viewType]) {
+            Type.WRITE -> {
+                val binding: ItemRollWriteBinding = parent.inflateBinding(R.layout.item_roll_write)
+                RollWriteHolder(binding, dragListener, writeCallback, history)
+            }
+            Type.READ -> {
+                val binding: ItemRollReadBinding = parent.inflateBinding(R.layout.item_roll_read)
+                RollReadHolder(binding, readCallback)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -47,25 +62,19 @@ class RollAdapter(
             is RollWriteHolder -> {
                 holder.bind(item)
 
-                if (cursorPosition != ND_CURSOR) {
-                    holder.setSelections(cursorPosition)
-                    cursorPosition = ND_CURSOR
+                if (cursor != ND_CURSOR) {
+                    holder.setSelections(cursor)
+                    cursor = ND_CURSOR
                 }
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (isEdit.isTrue()) Type.WRITE else Type.READ
+        return (if (isEdit) Type.WRITE else Type.READ).ordinal
     }
 
-    @IntDef(Type.WRITE, Type.READ)
-    private annotation class Type {
-        companion object {
-            const val WRITE = 0
-            const val READ = 1
-        }
-    }
+    private enum class Type { WRITE, READ }
 
     private companion object {
         const val ND_CURSOR = -1

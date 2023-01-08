@@ -52,6 +52,16 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     private var visibleIcon: IconChangeCallback? = null
 
+    override fun observeEdit(it: Boolean) {
+        super.observeEdit(it)
+        adapter.updateEdit(it)
+    }
+
+    override fun observeState(it: NoteState) {
+        super.observeState(it)
+        adapter.updateState(it)
+    }
+
     override fun setupToolbar(context: Context, toolbar: Toolbar?) {
         super.setupToolbar(context, toolbar)
 
@@ -121,9 +131,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     private val touchCallback = RollTouchControl(viewModel)
-
     private val adapter: RollAdapter by lazy {
-        RollAdapter(touchCallback, viewModel, object : RollReadHolder.Callback {
+        val readCallback = object : RollReadHolder.Callback {
             override fun onReadCheckClick(p: Int, action: () -> Unit) {
                 if (!open.isChangeEnabled && open.tag == OpenState.Tag.ANIM) {
                     open.isChangeEnabled = true
@@ -137,7 +146,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                     viewModel.onClickItemCheck(p)
                 }
             }
-        })
+        }
+
+        return@lazy with(connector.init) {
+            RollAdapter(isEdit, state, touchCallback, viewModel, readCallback)
+        }
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
@@ -286,9 +299,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun updateNoteState(isEdit: Boolean, state: NoteState?) {
-        adapter.isEdit = isEdit
-        adapter.state = state
-        binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
+        //        adapter.isEdit = isEdit
+        //        adapter.state = state
+        //        binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun updateProgress(progress: Int, max: Int) {
@@ -310,7 +323,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?) {
-        if (cursor != null) adapter.cursorPosition = cursor
+        if (cursor != null) adapter.cursor = cursor
 
         adapter.setList(list).notifyItemChanged(p)
     }
@@ -320,7 +333,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int?) {
-        if (cursor != null) adapter.cursorPosition = cursor
+        if (cursor != null) adapter.cursor = cursor
 
         adapter.setList(list).notifyItemInserted(p)
     }

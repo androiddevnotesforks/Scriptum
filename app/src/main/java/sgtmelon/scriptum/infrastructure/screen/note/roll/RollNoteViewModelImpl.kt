@@ -493,7 +493,7 @@ class RollNoteViewModelImpl(
         this.isEdit.postValue(isEdit)
 
         callback?.apply {
-            val noteState = noteState.value
+            val noteState = noteState.value ?: return@apply
             val notCreate = noteState != NoteState.CREATE
             setToolbarBackIcon(
                 isCancel = notCreate && isEdit,

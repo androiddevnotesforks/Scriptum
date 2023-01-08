@@ -31,7 +31,7 @@ class RollReadHolder(
         binding.clickButton.setOnClickListener(null)
     }
 
-    fun bind(item: RollItem, state: NoteState?) = with(binding) {
+    fun bind(item: RollItem, state: NoteState) = with(binding) {
         checkBox.isChecked = item.isCheck
 
         val checkDescription = if (item.isCheck) {
