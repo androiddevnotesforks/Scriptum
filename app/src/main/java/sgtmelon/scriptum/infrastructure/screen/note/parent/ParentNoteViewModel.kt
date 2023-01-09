@@ -16,9 +16,9 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
  * Parent interface for communicate with children of [ParentNoteViewModelImpl].
  */
 @Deprecated("Remove ParentViewModel, change name")
-interface ParentNoteViewModel<N : NoteItem> : /*IParentViewModel,*/
-    UnbindNoteReceiver.Callback,
+interface ParentNoteViewModel<N : NoteItem> :
     NoteMenu,
+    UnbindNoteReceiver.Callback,
     SaveControlImpl.Callback,
     HistoryTextWatcher.Callback {
 

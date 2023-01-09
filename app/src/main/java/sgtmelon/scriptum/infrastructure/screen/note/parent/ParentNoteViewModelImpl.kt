@@ -285,19 +285,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //endregion
 
-    /**
-     * Calls on note notification cancel from status bar for update bind indicator.
-     */
-    override fun onReceiveUnbindNote(noteId: Long) {
-        if (id.value != noteId) return
-
-        deprecatedNoteItem.isStatus = false
-        cacheNote.item?.isStatus = false
-        //        deprecatedRestoreItem.isStatus = false
-
-        callback.onBindingNote(deprecatedNoteItem)
-    }
-
     //region Menu click
 
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
@@ -426,4 +413,17 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(item)
     }
 
+
+    /**
+     * Calls on note notification cancel from status bar for update bind indicator.
+     */
+    override fun onReceiveUnbindNote(noteId: Long) {
+        if (id.value != noteId) return
+
+        val item = noteItem.value
+        item?.isStatus = false
+        cacheNote.item?.isStatus = false
+
+        noteItem.postValue(item)
+    }
 }
