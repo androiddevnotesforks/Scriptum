@@ -26,6 +26,7 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
@@ -50,6 +51,7 @@ class RollNoteViewModelImpl(
     history: NoteHistory,
     createNote: CreateRollNoteUseCase,
     getNote: GetRollNoteUseCase,
+    cacheNote: CacheRollNoteUseCase,
 
     // TODO cleanup
     callback: RollNoteFragment,
@@ -70,7 +72,7 @@ class RollNoteViewModelImpl(
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
-    init, history, createNote, getNote,
+    init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
@@ -138,10 +140,10 @@ class RollNoteViewModelImpl(
 
     //region Cleanup
 
-    override fun cacheData() {
-        // TODO add normal cache data (via use case probably)
-        //        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
-    }
+    //    override fun cacheData() {
+    //        // TODO add normal cache data (via use case probably)
+    //        //        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
+    //    }
 
     // TODO remove
     //    override fun setupBeforeInitialize() {
@@ -210,8 +212,11 @@ class RollNoteViewModelImpl(
          * restore, because it should be the same after restore.
          */
         val colorFrom = deprecatedNoteItem.color
-        val isVisible = deprecatedNoteItem.isVisible
-        deprecatedNoteItem = deprecatedRestoreItem.copy(isVisible = isVisible)
+        val restoreItem = cacheNote.item
+        if (restoreItem != null) {
+            deprecatedNoteItem = restoreItem.copy(isVisible = deprecatedNoteItem.isVisible)
+        }
+        //        deprecatedNoteItem = deprecatedRestoreItem.copy(isVisible = isVisible)
         val colorTo = deprecatedNoteItem.color
 
         callback?.notifyDataSetChanged(getAdapterList())
@@ -314,7 +319,8 @@ class RollNoteViewModelImpl(
 
         val absolutePosition = getAbsolutePosition(p) ?: return
         deprecatedNoteItem.onItemCheck(absolutePosition)
-        cacheData()
+        cacheNote(deprecatedNoteItem)
+        //        cacheData()
 
         if (deprecatedNoteItem.isVisible) {
             callback?.notifyItemChanged(getAdapterList(), p)
@@ -470,7 +476,8 @@ class RollNoteViewModelImpl(
     override suspend fun saveBackgroundWork() {
         val isCreate = noteState.value == NoteState.CREATE
         runBack { saveNote(deprecatedNoteItem, isCreate) }
-        cacheData()
+        cacheNote(deprecatedNoteItem)
+        //        cacheData()
 
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)

@@ -26,6 +26,7 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
@@ -50,6 +51,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     protected val history: NoteHistory,
     createNote: CreateNoteUseCase<N>,
     getNote: GetNoteUseCase<N>,
+    protected val cacheNote: CacheNoteUseCase<N>,
 
     //TODO cleanup
     callback: C,
@@ -89,14 +91,12 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launchBack {
             rankDialogItems.postValue(getRankDialogNames())
 
-            //            // TODO remove
-            //            delay(5000)
-
             val id = init.id
             val value = if (id == Default.ID) createNote() else getNote(id)
             if (value != null) {
                 noteItem.postValue(value)
-                cacheData()
+                cacheNote(value)
+                //                cacheData()
             } else {
                 // TODO report about null item
             }
@@ -124,7 +124,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      *
      * Use example: restoreItem = noteItem.deepCopy().
      */
-    abstract fun cacheData()
+    //    abstract fun cacheData()
 
     override fun onSetup(bundle: Bundle?) {
         setupBeforeInitialize()
@@ -167,11 +167,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     @Deprecated("Use new realization")
     protected lateinit var deprecatedNoteItem: N
 
-    /**
-     * Item for cash data before enter edit mode (for easy data restore).
-     */
-    @Deprecated("Use new realization")
-    protected lateinit var deprecatedRestoreItem: N
+    //    /**
+    //     * Item for cash data before enter edit mode (for easy data restore).
+    //     */
+    //    @Deprecated("Use new realization")
+    //    protected lateinit var deprecatedRestoreItem: N
 
     protected var mayAnimateIcon = true
 
@@ -286,7 +286,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
 
         deprecatedNoteItem.clearAlarm()
-        cacheData()
+        cacheNote(deprecatedNoteItem)
+        //        cacheData()
 
         callback?.onBindingNote(deprecatedNoteItem)
     }
@@ -296,7 +297,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
         viewModelScope.launch {
             runBack { setNotification(deprecatedNoteItem, calendar) }
-            cacheData()
+            cacheNote(deprecatedNoteItem)
+            //            cacheData()
 
             callback?.onBindingNote(deprecatedNoteItem)
 
@@ -321,7 +323,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         if (id.value != noteId) return
 
         deprecatedNoteItem.isStatus = false
-        deprecatedRestoreItem.isStatus = false
+        cacheNote.item?.isStatus = false
+        //        deprecatedRestoreItem.isStatus = false
 
         callback?.onBindingNote(deprecatedNoteItem)
     }
@@ -381,7 +384,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
 
         deprecatedNoteItem.switchStatus()
-        cacheData()
+        cacheNote(deprecatedNoteItem)
+        //        cacheData()
 
         callback?.onBindingEdit(deprecatedNoteItem, isEdit.value.isTrue())
 

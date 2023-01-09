@@ -42,6 +42,8 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
@@ -187,6 +189,7 @@ class ViewModelModule {
         history: NoteHistory,
         createNote: CreateTextNoteUseCase,
         getNote: GetTextNoteUseCase,
+        cacheNote: CacheTextNoteUseCase,
 
         // TODO refactor
         fragment: TextNoteFragmentImpl,
@@ -205,7 +208,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            init, history, createNote, getNote,
+            init, history, createNote, getNote, cacheNote,
 
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
@@ -226,6 +229,7 @@ class ViewModelModule {
         history: NoteHistory,
         createNote: CreateRollNoteUseCase,
         getNote: GetRollNoteUseCase,
+        cacheNote: CacheRollNoteUseCase,
 
         // TODO refactor
         fragment: RollNoteFragmentImpl,
@@ -246,7 +250,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            init, history, createNote, getNote,
+            init, history, createNote, getNote, cacheNote,
 
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,

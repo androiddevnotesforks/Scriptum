@@ -34,6 +34,8 @@ import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
@@ -174,6 +176,7 @@ object ViewModelFactory {
             private val history: NoteHistory,
             private val createNote: CreateTextNoteUseCase,
             private val getNote: GetTextNoteUseCase,
+            private val cacheNote: CacheTextNoteUseCase,
 
             // TODO refactor
             private val fragment: TextNoteFragmentImpl,
@@ -195,7 +198,7 @@ object ViewModelFactory {
                 return modelClass.create(TextNoteViewModelImpl::class) {
                     val parentCallback = fragment.context as? NoteConnector
                     TextNoteViewModelImpl(
-                        init, history, createNote, getNote,
+                        init, history, createNote, getNote, cacheNote,
 
                         // TODO cleanup
                         fragment, parentCallback, colorConverter, preferencesRepo,
@@ -212,6 +215,7 @@ object ViewModelFactory {
             private val history: NoteHistory,
             private val createNote: CreateRollNoteUseCase,
             private val getNote: GetRollNoteUseCase,
+            private val cacheNote: CacheRollNoteUseCase,
 
             // TODO refactor
             private val fragment: RollNoteFragmentImpl,
@@ -235,7 +239,7 @@ object ViewModelFactory {
                 return modelClass.create(RollNoteViewModelImpl::class) {
                     val parentCallback = fragment.context as? NoteConnector
                     RollNoteViewModelImpl(
-                        init, history, createNote, getNote,
+                        init, history, createNote, getNote, cacheNote,
 
                         // TODO cleanup
                         fragment, parentCallback, colorConverter, preferencesRepo,

@@ -16,6 +16,7 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
@@ -37,6 +38,7 @@ class TextNoteViewModelImpl(
     history: NoteHistory,
     createNote: CreateTextNoteUseCase,
     getNote: GetTextNoteUseCase,
+    cacheNote: CacheTextNoteUseCase,
 
     // TODO cleanup
     callback: TextNoteFragment,
@@ -55,7 +57,7 @@ class TextNoteViewModelImpl(
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Text, TextNoteFragment>(
-    init, history, createNote, getNote,
+    init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
@@ -105,15 +107,15 @@ class TextNoteViewModelImpl(
         setupEditMode(isEdit.value.isTrue())
         mayAnimateIcon = true
 
-//        callback?.onBindingLoad()
+        //        callback?.onBindingLoad()
     }
 
     //region Cleanup
 
-    override fun cacheData() {
-        // TODO add normal cache data (via use case probably)
-        //        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
-    }
+    //    override fun cacheData() {
+    //        // TODO add normal cache data (via use case probably)
+    //        //        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
+    //    }
 
     // TODO remove
     //    override fun setupBeforeInitialize() {
@@ -168,7 +170,11 @@ class TextNoteViewModelImpl(
          * Get color before restore data.
          */
         val colorFrom = deprecatedNoteItem.color
-        deprecatedNoteItem = deprecatedRestoreItem.copy()
+        val restoreItem = cacheNote.item
+        if (restoreItem != null) {
+            deprecatedNoteItem = restoreItem.copy()
+        }
+        //        deprecatedNoteItem = deprecatedRestoreItem.copy()
         val colorTo = deprecatedNoteItem.color
 
         setupEditMode(isEdit = false)
@@ -228,7 +234,8 @@ class TextNoteViewModelImpl(
     override suspend fun saveBackgroundWork() {
         val isCreate = noteState.value == NoteState.CREATE
         runBack { saveNote(deprecatedNoteItem, isCreate) }
-        cacheData()
+        cacheNote(deprecatedNoteItem)
+        //        cacheData()
 
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)
