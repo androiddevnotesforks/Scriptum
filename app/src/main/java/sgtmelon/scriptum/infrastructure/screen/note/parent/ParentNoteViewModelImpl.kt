@@ -361,7 +361,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     // TODO correct order of menu functions
 
-    override fun onMenuRestore() = flowOnBack {
+    override fun restore() = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
         restoreNote(item)
         emit(Unit)
@@ -380,14 +380,14 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launchBack { updateNote(deprecatedNoteItem) }
     }
 
-    override fun onMenuClear() = flowOnBack {
+    override fun deleteForever() = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
         clearNote(item)
         emit(Unit)
     }
 
 
-    override fun onMenuBind(): Flow<Unit> = flowOnBack {
+    override fun switchBind(): Flow<Unit> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
 
         item.switchStatus()
@@ -398,22 +398,16 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(Unit)
     }
 
-    override fun onMenuDelete(): Flow<NoteItem> = flowOnBack {
-        val item = noteItem.value ?: return@flowOnBack
-        deleteNote(item)
-        emit(item)
-    }
-
-    //endregion
-
-    //reginon Dialog results
-
-    // TODO correct order (see dialogs order in fragment)
-
-    override fun onResultConvertDialog(): Flow<Unit> = flowOnBack {
+    override fun convert(): Flow<Unit> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
         convertNote(item)
         emit(Unit)
+    }
+
+    override fun delete(): Flow<NoteItem> = flowOnBack {
+        val item = noteItem.value ?: return@flowOnBack
+        deleteNote(item)
+        emit(item)
     }
 
     //endregion

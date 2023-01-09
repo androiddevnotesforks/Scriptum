@@ -12,11 +12,11 @@ interface NoteMenu {
 
     // Inside bin
 
-    fun onMenuRestore(): Flow<Unit>
+    fun restore(): Flow<Unit>
 
     fun onMenuRestoreOpen()
 
-    fun onMenuClear(): Flow<Unit>
+    fun deleteForever(): Flow<Unit>
 
 
     // Edit mode
@@ -33,9 +33,9 @@ interface NoteMenu {
 
     // Read mode
 
-    fun onMenuBind(): Flow<Unit>
+    fun switchBind(): Flow<Unit>
 
-    fun onMenuDelete(): Flow<NoteItem>
+    fun delete(): Flow<NoteItem>
 
     fun onMenuEdit()
 

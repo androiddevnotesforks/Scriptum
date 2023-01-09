@@ -114,9 +114,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         convertDialog.apply {
             onPositiveClick {
-                viewModel.onResultConvertDialog().collect(owner = this) {
-                    connector.convertNote()
-                }
+                viewModel.convert().collect(owner = this) { connector.convertNote() }
             }
             onDismiss { open.clear() }
         }
@@ -220,11 +218,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val panelBar = panelBar ?: return
 
         panelBar.restoreButton.setOnClickListener {
-            viewModel.onMenuRestore().collect(owner = this) { activity?.finish() }
+            viewModel.restore().collect(owner = this) { activity?.finish() }
         }
         panelBar.restoreOpenButton.setOnClickListener { viewModel.onMenuRestoreOpen() }
         panelBar.clearButton.setOnClickListener {
-            viewModel.onMenuClear().collect(owner = this) { activity?.finish() }
+            viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
         panelBar.undoButton.setOnClickListener { viewModel.onMenuUndo() }
         panelBar.redoButton.setOnClickListener { viewModel.onMenuRedo() }
@@ -455,7 +453,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private fun onBind() {
         if (isEditMode) return
 
-        viewModel.onMenuBind().collect(owner = this) {
+        viewModel.switchBind().collect(owner = this) {
             system.broadcast.sendNotifyNotesBind()
         }
     }
@@ -463,7 +461,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private fun onDelete() {
         if (open.isBlocked || isEditMode) return
 
-        viewModel.onMenuDelete().collect(owner = this) {
+        viewModel.delete().collect(owner = this) {
             system.broadcast.sendCancelAlarm(it)
             system.broadcast.sendCancelNoteBind(it)
             system.broadcast.sendNotifyInfoBind()
