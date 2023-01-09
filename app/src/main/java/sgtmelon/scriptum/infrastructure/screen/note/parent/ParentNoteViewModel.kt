@@ -5,7 +5,6 @@ import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
-import sgtmelon.scriptum.cleanup.presentation.screen.IParentViewModel
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -17,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
  * Parent interface for communicate with children of [ParentNoteViewModelImpl].
  */
 @Deprecated("Remove ParentViewModel, change name")
-interface ParentNoteViewModel<N : NoteItem> : IParentViewModel,
+interface ParentNoteViewModel<N : NoteItem> : /*IParentViewModel,*/
     UnbindNoteReceiver.Callback,
     NoteMenu,
     SaveControlImpl.Callback,

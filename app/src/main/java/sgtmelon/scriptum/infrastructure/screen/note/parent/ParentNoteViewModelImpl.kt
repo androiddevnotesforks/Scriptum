@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
-import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,6 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ParentViewModel
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
@@ -54,7 +53,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     protected val cacheNote: CacheNoteUseCase<N>,
 
     //TODO cleanup
-    callback: C,
+    protected val callback: C,
     private var parentCallback: NoteConnector?,
     protected val colorConverter: ColorConverter,
     protected val preferencesRepo: PreferencesRepo,
@@ -68,7 +67,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
     protected val getRankDialogNames: GetRankDialogNamesUseCase
-) : ParentViewModel<C>(callback),
+) : ViewModel(),
     ParentNoteViewModel<N> {
 
     override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -96,7 +95,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             if (value != null) {
                 noteItem.postValue(value)
                 cacheNote(value)
-                //                cacheData()
             } else {
                 // TODO report about null item
             }
@@ -116,36 +114,15 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     protected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
 
-    /**
-     * Function must describe cashing data inside [deprecatedRestoreItem].
-     *
-     * It is important because if not cache data in [deprecatedRestoreItem] it will cause bug with restore.
-     * When do changes and click on CHANGE and cancel edit mode by back button or back arrow.
-     *
-     * Use example: restoreItem = noteItem.deepCopy().
-     */
-    //    abstract fun cacheData()
-
-    override fun onSetup(bundle: Bundle?) {
-        setupBeforeInitialize()
-
-        viewModelScope.launch {
-            if (tryInitializeNote()) {
-                setupAfterInitialize()
-            }
-        }
-    }
-
-    /**
-     * Call before [tryInitializeNote]
-     */
-    abstract fun setupBeforeInitialize()
-
-    /**
-     * Return false if happened error while initialize note.
-     */
-    @Deprecated("init noteItem during init")
-    abstract suspend fun tryInitializeNote(): Boolean
+    //    override fun onSetup(bundle: Bundle?) {
+    //        setupBeforeInitialize()
+    //
+    //        viewModelScope.launch {
+    //            if (tryInitializeNote()) {
+    //                setupAfterInitialize()
+    //            }
+    //        }
+    //    }
 
     /**
      * Call after [tryInitializeNote]
@@ -167,12 +144,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     @Deprecated("Use new realization")
     protected lateinit var deprecatedNoteItem: N
 
-    //    /**
-    //     * Item for cash data before enter edit mode (for easy data restore).
-    //     */
-    //    @Deprecated("Use new realization")
-    //    protected lateinit var deprecatedRestoreItem: N
-
     protected var mayAnimateIcon = true
 
     /**
@@ -183,7 +154,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //endregion
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+    /*override*/ fun onDestroy(func: () -> Unit) /*= super.onDestroy*/ {
         parentCallback = null
         saveControl.changeAutoSaveWork(isWork = false)
     }
@@ -206,11 +177,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     override fun onClickBackArrow() {
         if (noteState.value != NoteState.CREATE && isEdit.value.isTrue()) {
-            callback?.hideKeyboard()
+            callback.hideKeyboard()
             onRestoreData()
         } else {
             saveControl.isNeedSave = false
-            callback?.finish()
+            callback.finish()
         }
     }
 
@@ -246,7 +217,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         color.postValue(newColor)
         deprecatedNoteItem.color = newColor
 
-        callback?.apply {
+        callback.apply {
             historyAvailable.postValue(history.available)
             //            onBindingInput(deprecatedNoteItem, history.available)
             tintToolbar(newColor)
@@ -269,7 +240,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
                 this.rank.position = check
             }
 
-            callback?.apply {
+            callback.apply {
                 historyAvailable.postValue(history.available)
                 //                onBindingInput(deprecatedNoteItem, history.available)
                 onBindingNote(deprecatedNoteItem)
@@ -281,15 +252,14 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launch {
             runBack { deleteNotification(deprecatedNoteItem) }
 
-            callback?.sendCancelAlarmBroadcast(deprecatedNoteItem)
-            callback?.sendNotifyInfoBroadcast()
+            callback.sendCancelAlarmBroadcast(deprecatedNoteItem)
+            callback.sendNotifyInfoBroadcast()
         }
 
         deprecatedNoteItem.clearAlarm()
         cacheNote(deprecatedNoteItem)
-        //        cacheData()
 
-        callback?.onBindingNote(deprecatedNoteItem)
+        callback.onBindingNote(deprecatedNoteItem)
     }
 
     override fun onResultTimeDialog(calendar: Calendar) {
@@ -298,12 +268,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launch {
             runBack { setNotification(deprecatedNoteItem, calendar) }
             cacheNote(deprecatedNoteItem)
-            //            cacheData()
 
-            callback?.onBindingNote(deprecatedNoteItem)
+            callback.onBindingNote(deprecatedNoteItem)
 
-            callback?.sendSetAlarmBroadcast(deprecatedNoteItem.id, calendar)
-            callback?.sendNotifyInfoBroadcast()
+            callback.sendSetAlarmBroadcast(deprecatedNoteItem.id, calendar)
+            callback.sendNotifyInfoBroadcast()
         }
     }
 
@@ -326,7 +295,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         cacheNote.item?.isStatus = false
         //        deprecatedRestoreItem.isStatus = false
 
-        callback?.onBindingNote(deprecatedNoteItem)
+        callback.onBindingNote(deprecatedNoteItem)
     }
 
     //region Menu click
@@ -336,7 +305,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
-        if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
+        if (callback.isDialogOpen == true || isEdit.value.isFalse()) return
 
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
@@ -344,7 +313,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
 
         historyAvailable.postValue(history.available)
-        //        callback?.onBindingInput(deprecatedNoteItem, history.available)
+        //        callback.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     /**
@@ -367,11 +336,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         color.postValue(colorTo)
         deprecatedNoteItem.color = colorTo
 
-        callback?.tintToolbar(colorFrom, colorTo)
+        callback.tintToolbar(colorFrom, colorTo)
     }
 
     protected fun onMenuUndoRedoName(action: HistoryAction.Name, isUndo: Boolean) {
-        callback?.changeName(action.value[isUndo], action.cursor[isUndo])
+        callback.changeName(action.value[isUndo], action.cursor[isUndo])
     }
 
 
@@ -381,25 +350,24 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     abstract suspend fun saveBackgroundWork()
 
     override fun onMenuBind() {
-        if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
+        if (callback.isDialogOpen == true || isEdit.value.isTrue()) return
 
         deprecatedNoteItem.switchStatus()
         cacheNote(deprecatedNoteItem)
-        //        cacheData()
 
-        callback?.onBindingEdit(deprecatedNoteItem, isEdit.value.isTrue())
+        callback.onBindingEdit(deprecatedNoteItem, isEdit.value.isTrue())
 
         viewModelScope.launch {
             runBack { updateNote(deprecatedNoteItem) }
 
-            callback?.sendNotifyNotesBroadcast()
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
 
 
     override fun onMenuEdit() {
-        if (callback?.isDialogOpen == true || isEdit.value.isTrue()) return
+        if (callback.isDialogOpen == true || isEdit.value.isTrue()) return
 
         setupEditMode(isEdit = true)
     }
@@ -412,7 +380,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     //endregion
 
     override fun onResultSaveControl() {
-        callback?.showSaveToast(onMenuSave(changeMode = false))
+        callback.showSaveToast(onMenuSave(changeMode = false))
     }
 
     override fun onHistoryAdd(action: HistoryAction) = history.add(action)
@@ -425,7 +393,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         if (!isNoteInitialized()) return
 
         historyAvailable.postValue(history.available)
-        //        callback?.onBindingInput(deprecatedNoteItem, history.available)
+        //        callback.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     //endregion

@@ -65,40 +65,6 @@ class TextNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames
 ), TextNoteViewModel {
 
-    override fun setupBeforeInitialize() {
-        //        callback?.setupBinding()
-        //        color.value?.let { callback?.setupToolbar(it) }
-        //        callback?.setupEnter(history)
-    }
-
-    override suspend fun tryInitializeNote(): Boolean {
-        TODO("Remove it")
-        //        /** If first open. */
-        //        if (!isNoteInitialized()) {
-        //            rankDialogItemArray = runBack { getRankDialogNames() }
-        //
-        //            val id = id.value
-        //            if (id == null || id == Default.ID) {
-        //                val defaultColor = preferencesRepo.defaultColor
-        //                deprecatedNoteItem =
-        //                    NoteItem.Text.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
-        //                cacheData()
-        //            } else {
-        //                runBack { getNote(id) }?.let {
-        //                    deprecatedNoteItem = it
-        //                    cacheData()
-        //
-        //                    callback?.sendNotifyNotesBroadcast()
-        //                } ?: run {
-        //                    callback?.finish()
-        //                    return false
-        //                }
-        //            }
-        //        }
-        //
-        //        return true
-    }
-
     override suspend fun setupAfterInitialize() {
 //        callback?.setupDialog(rankDialogItemArray)
 
@@ -111,57 +77,6 @@ class TextNoteViewModelImpl(
     }
 
     //region Cleanup
-
-    //    override fun cacheData() {
-    //        // TODO add normal cache data (via use case probably)
-    //        //        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
-    //    }
-
-    // TODO remove
-    //    override fun setupBeforeInitialize() {
-    //        callback?.setupBinding()
-    //        color.value?.let { callback?.setupToolbar(it) }
-    //        callback?.setupEnter(inputControl)
-    //    }
-    //
-    //    override suspend fun tryInitializeNote(): Boolean {
-    //        TODO("Remove it")
-    //        //        /** If first open. */
-    //        //        if (!isNoteInitialized()) {
-    //        //            rankDialogItemArray = runBack { getRankDialogNames() }
-    //        //
-    //        //            val id = id.value
-    //        //            if (id == null || id == Default.ID) {
-    //        //                val defaultColor = preferencesRepo.defaultColor
-    //        //                deprecatedNoteItem =
-    //        //                    NoteItem.Text.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
-    //        //                cacheData()
-    //        //            } else {
-    //        //                runBack { getNote(id) }?.let {
-    //        //                    deprecatedNoteItem = it
-    //        //                    cacheData()
-    //        //
-    //        //                    callback?.sendNotifyNotesBroadcast()
-    //        //                } ?: run {
-    //        //                    callback?.finish()
-    //        //                    return false
-    //        //                }
-    //        //            }
-    //        //        }
-    //        //
-    //        //        return true
-    //    }
-    //
-    //    override suspend fun setupAfterInitialize() {
-    //        callback?.setupDialog(rankDialogItemArray)
-    //
-    //        mayAnimateIcon = false
-    //        // TODO may this is not needed?
-    //        setupEditMode(isEdit.value.isTrue())
-    //        mayAnimateIcon = true
-    //
-    //        callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
-    //    }
 
     override fun onRestoreData(): Boolean {
         if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false

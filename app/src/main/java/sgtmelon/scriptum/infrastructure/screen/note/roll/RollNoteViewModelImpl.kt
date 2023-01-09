@@ -80,54 +80,15 @@ class RollNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames
 ), RollNoteViewModel {
 
-    override fun setupBeforeInitialize() {
-        //        callback?.apply {
-        //            //            setupBinding()
-        //            //            color.value?.let { setupToolbar(it) }
-        //            //            setupEnter(history)
-        ////            setupRecycler(history)
-        //
-        //            //            showToolbarVisibleIcon(isShow = false)
-        //        }
-    }
-
-    override suspend fun tryInitializeNote(): Boolean {
-        TODO("Remove it")
-        //        /** If first open. */
-        //        if (!isNoteInitialized()) {
-        //            rankDialogItemArray = runBack { getRankDialogNames() }
-        //
-        //            val id = id.value
-        //            if (id == null || id == Default.ID) {
-        //                val defaultColor = preferencesRepo.defaultColor
-        //                deprecatedNoteItem =
-        //                    NoteItem.Roll.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
-        //                cacheData()
-        //            } else {
-        //                runBack { getNote(id) }?.let {
-        //                    deprecatedNoteItem = it
-        //                    cacheData()
-        //
-        //                    callback?.sendNotifyNotesBroadcast()
-        //                } ?: run {
-        //                    callback?.finish()
-        //                    return false
-        //                }
-        //            }
-        //        }
-        //
-        //        return true
-    }
-
     override suspend fun setupAfterInitialize() {
-//        callback?.setupDialog(rankDialogItemArray)
+//        callback.setupDialog(rankDialogItemArray)
 
         mayAnimateIcon = false
         // TODO may this is not needed?
         setupEditMode(isEdit.value.isTrue())
         mayAnimateIcon = true
 
-        callback?.apply {
+        callback.apply {
             //            showToolbarVisibleIcon(isShow = true)
             setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
             notifyDataSetChanged(getAdapterList())
@@ -135,74 +96,10 @@ class RollNoteViewModelImpl(
 
         onUpdateInfo()
 
-        callback?.onBindingLoad()
+        callback.onBindingLoad()
     }
 
     //region Cleanup
-
-    //    override fun cacheData() {
-    //        // TODO add normal cache data (via use case probably)
-    //        //        deprecatedRestoreItem = deprecatedNoteItem.deepCopy()
-    //    }
-
-    // TODO remove
-    //    override fun setupBeforeInitialize() {
-    //        callback?.apply {
-    //            setupBinding()
-    //            color.value?.let { setupToolbar(it) }
-    //            setupEnter(inputControl)
-    //            setupRecycler(inputControl)
-    //
-    //            showToolbarVisibleIcon(isShow = false)
-    //        }
-    //    }
-    //
-    //    override suspend fun tryInitializeNote(): Boolean {
-    //        TODO("Remove it")
-    //        //        /** If first open. */
-    //        //        if (!isNoteInitialized()) {
-    //        //            rankDialogItemArray = runBack { getRankDialogNames() }
-    //        //
-    //        //            val id = id.value
-    //        //            if (id == null || id == Default.ID) {
-    //        //                val defaultColor = preferencesRepo.defaultColor
-    //        //                deprecatedNoteItem =
-    //        //                    NoteItem.Roll.getCreate(defaultColor) // TODO по идее в color уже ставится дефолтный, если не было что-то передано
-    //        //                cacheData()
-    //        //            } else {
-    //        //                runBack { getNote(id) }?.let {
-    //        //                    deprecatedNoteItem = it
-    //        //                    cacheData()
-    //        //
-    //        //                    callback?.sendNotifyNotesBroadcast()
-    //        //                } ?: run {
-    //        //                    callback?.finish()
-    //        //                    return false
-    //        //                }
-    //        //            }
-    //        //        }
-    //        //
-    //        //        return true
-    //    }
-    //
-    //    override suspend fun setupAfterInitialize() {
-    //        callback?.setupDialog(rankDialogItemArray)
-    //
-    //        mayAnimateIcon = false
-    //        // TODO may this is not needed?
-    //        setupEditMode(isEdit.value.isTrue())
-    //        mayAnimateIcon = true
-    //
-    //        callback?.apply {
-    //            showToolbarVisibleIcon(isShow = true)
-    //            setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
-    //            notifyDataSetChanged(getAdapterList())
-    //        }
-    //
-    //        onUpdateInfo()
-    //
-    //        callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
-    //    }
 
     override fun onRestoreData(): Boolean {
         if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
@@ -219,12 +116,12 @@ class RollNoteViewModelImpl(
         //        deprecatedNoteItem = deprecatedRestoreItem.copy(isVisible = isVisible)
         val colorTo = deprecatedNoteItem.color
 
-        callback?.notifyDataSetChanged(getAdapterList())
+        callback.notifyDataSetChanged(getAdapterList())
 
         setupEditMode(isEdit = false)
         onUpdateInfo()
 
-        callback?.tintToolbar(colorFrom, colorTo)
+        callback.tintToolbar(colorFrom, colorTo)
         color.postValue(colorTo)
         history.reset()
 
@@ -235,7 +132,7 @@ class RollNoteViewModelImpl(
     override fun onClickVisible() {
         deprecatedNoteItem.isVisible = !deprecatedNoteItem.isVisible
 
-        callback?.setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = true)
+        callback.setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = true)
 
         notifyListByVisible()
 
@@ -248,7 +145,7 @@ class RollNoteViewModelImpl(
                 runBack { updateVisible(deprecatedNoteItem) }
 
                 if (isEdit.value.isFalse()) {
-                    callback?.sendNotifyNotesBroadcast()
+                    callback.sendNotifyNotesBroadcast()
                 }
             }
         }
@@ -268,16 +165,16 @@ class RollNoteViewModelImpl(
             !deprecatedNoteItem.isVisible && deprecatedNoteItem.list.hideChecked().isEmpty()
 
         if (isListEmpty || isListHide) {
-            callback?.onBindingInfo(isListEmpty, isListHide)
+            callback.onBindingInfo(isListEmpty, isListHide)
         }
 
-        callback?.animateInfoVisible()
+        callback.animateInfoVisible()
     }
 
     override fun onEditorClick(i: Int): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        val enterText = callback?.getEnterText()?.removeExtraSpace() ?: ""
+        val enterText = callback.getEnterText()?.removeExtraSpace() ?: ""
 
         if (enterText.isEmpty()) {
             onMenuSave(changeMode = true)
@@ -293,13 +190,13 @@ class RollNoteViewModelImpl(
      * to control in Edit.
      */
     override fun onClickAdd(toBottom: Boolean) {
-        if (callback?.isDialogOpen == true || isEdit.value.isFalse()) return
+        if (callback.isDialogOpen == true || isEdit.value.isFalse()) return
 
-        val enterText = callback?.getEnterText()?.removeExtraSpace() ?: ""
+        val enterText = callback.getEnterText()?.removeExtraSpace() ?: ""
 
         if (enterText.isEmpty()) return
 
-        callback?.clearEnterText()
+        callback.clearEnterText()
 
         val p = if (toBottom) deprecatedNoteItem.list.size else 0
         val rollItem = RollItem(position = p, text = enterText)
@@ -307,7 +204,7 @@ class RollNoteViewModelImpl(
         history.add(HistoryAction.Roll.List.Add(p, rollItem))
         deprecatedNoteItem.list.add(p, rollItem)
 
-        callback?.apply {
+        callback.apply {
             historyAvailable.postValue(history.available)
             //            onBindingInput(deprecatedNoteItem, history.available)
             scrollToItem(toBottom, p, getAdapterList())
@@ -320,20 +217,19 @@ class RollNoteViewModelImpl(
         val absolutePosition = getAbsolutePosition(p) ?: return
         deprecatedNoteItem.onItemCheck(absolutePosition)
         cacheNote(deprecatedNoteItem)
-        //        cacheData()
 
         if (deprecatedNoteItem.isVisible) {
-            callback?.notifyItemChanged(getAdapterList(), p)
+            callback.notifyItemChanged(getAdapterList(), p)
         } else {
-            callback?.notifyItemRemoved(getAdapterList(), p)
+            callback.notifyItemRemoved(getAdapterList(), p)
         }
 
-        with(deprecatedNoteItem.list) { callback?.updateProgress(getCheckCount(), size) }
+        with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
 
         viewModelScope.launch {
             runBack { updateCheck(deprecatedNoteItem, absolutePosition) }
 
-            callback?.sendNotifyNotesBroadcast()
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -367,7 +263,7 @@ class RollNoteViewModelImpl(
         val adapterPosition = adapterList.validIndexOfFirst(rollItem) ?: return
 
         if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
-            callback?.notifyItemChanged(adapterList, adapterPosition, action.cursor[isUndo])
+            callback.notifyItemChanged(adapterList, adapterPosition, action.cursor[isUndo])
         }
     }
 
@@ -403,7 +299,7 @@ class RollNoteViewModelImpl(
             /**
              * Need get new [getAdapterList] for clear effect, cause we remove one item from it.
              */
-            callback?.notifyItemRemoved(getAdapterList(), adapterPosition)
+            callback.notifyItemRemoved(getAdapterList(), adapterPosition)
         }
     }
 
@@ -417,7 +313,7 @@ class RollNoteViewModelImpl(
         val position = getInsertPosition(action) ?: return
         val cursor = rollItem.text.length
 
-        callback?.notifyItemInserted(list, position, cursor)
+        callback.notifyItemInserted(list, position, cursor)
     }
 
     private fun getInsertPosition(action: HistoryAction.Roll.List): Int? = when {
@@ -441,7 +337,7 @@ class RollNoteViewModelImpl(
         if (shiftFrom == null || shiftTo == null) return
 
         if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
-            callback?.notifyItemMoved(getAdapterList(), shiftFrom, shiftTo)
+            callback.notifyItemMoved(getAdapterList(), shiftFrom, shiftTo)
         }
     }
 
@@ -449,22 +345,22 @@ class RollNoteViewModelImpl(
      * Don't need update [color] because it's happen in [onResultColorDialog] function.
      */
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        if (changeMode && callback?.isDialogOpen == true) return false
+        if (changeMode && callback.isDialogOpen == true) return false
 
         if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled) return false
 
         deprecatedNoteItem.onSave()
 
         /** Need update adapter after remove rows with empty text. */
-        callback?.setList(getAdapterList())
+        callback.setList(getAdapterList())
 
         if (changeMode) {
-            callback?.hideKeyboard()
+            callback.hideKeyboard()
             setupEditMode(isEdit = false)
             history.reset()
         } else if (noteState.value == NoteState.CREATE) {
             /** Change toolbar icon from arrow to cancel for auto save case. */
-            callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
+            callback.setToolbarBackIcon(isCancel = true, needAnim = true)
             // TODO post new value about noteState
         }
 
@@ -477,7 +373,6 @@ class RollNoteViewModelImpl(
         val isCreate = noteState.value == NoteState.CREATE
         runBack { saveNote(deprecatedNoteItem, isCreate) }
         cacheNote(deprecatedNoteItem)
-        //        cacheData()
 
         if (isCreate) {
             noteState.postValue(NoteState.EXIST)
@@ -490,8 +385,8 @@ class RollNoteViewModelImpl(
             runBack { updateVisible(deprecatedNoteItem) }
         }
 
-        callback?.setList(getAdapterList())
-        callback?.sendNotifyNotesBroadcast()
+        callback.setList(getAdapterList())
+        callback.sendNotifyNotesBroadcast()
     }
 
     override fun setupEditMode(isEdit: Boolean) {
@@ -499,7 +394,7 @@ class RollNoteViewModelImpl(
 
         this.isEdit.postValue(isEdit)
 
-        callback?.apply {
+        callback.apply {
             val noteState = noteState.value ?: return@apply
             val notCreate = noteState != NoteState.CREATE
             setToolbarBackIcon(
@@ -515,7 +410,7 @@ class RollNoteViewModelImpl(
             if (isEdit) {
                 focusOnEdit(isCreate = noteState == NoteState.CREATE)
             } else {
-                with(deprecatedNoteItem.list) { callback?.updateProgress(getCheckCount(), size) }
+                with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
             }
         }
 
@@ -553,7 +448,7 @@ class RollNoteViewModelImpl(
         val absolutePosition = getAbsolutePosition(p) ?: return
         deprecatedNoteItem.list.getOrNull(absolutePosition)?.text = text
 
-        callback?.apply {
+        callback.apply {
             setList(getAdapterList())
             historyAvailable.postValue(history.available)
             //            onBindingInput(deprecatedNoteItem, history.available)
@@ -561,13 +456,13 @@ class RollNoteViewModelImpl(
     }
 
     override fun onRollActionNext() {
-        callback?.onFocusEnter()
+        callback.onFocusEnter()
     }
 
     //region Touch callbacks
 
     override fun onTouchAction(inAction: Boolean) {
-        callback?.setTouchAction(inAction)
+        callback.setTouchAction(inAction)
     }
 
     override fun onTouchGetDrag(isDragAvailable: Boolean): Boolean {
@@ -577,7 +472,7 @@ class RollNoteViewModelImpl(
     override fun onTouchGetSwipe(): Boolean = isEdit.value.isTrue()
 
     override fun onTouchDragStart() {
-        callback?.hideKeyboard()
+        callback.hideKeyboard()
     }
 
     /**
@@ -590,7 +485,7 @@ class RollNoteViewModelImpl(
 
         history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
 
-        callback?.apply {
+        callback.apply {
             historyAvailable.postValue(history.available)
             //            onBindingInput(deprecatedNoteItem, history.available)
             notifyItemRemoved(getAdapterList(), p)
@@ -607,8 +502,8 @@ class RollNoteViewModelImpl(
 
         deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
 
-        callback?.notifyItemMoved(getAdapterList(), from, to)
-        callback?.hideKeyboard()
+        callback.notifyItemMoved(getAdapterList(), from, to)
+        callback.hideKeyboard()
 
         return true
     }
@@ -616,7 +511,7 @@ class RollNoteViewModelImpl(
     override fun onTouchClear(position: Int) {
         val absolute = getAbsolutePosition(position) ?: return
 
-        callback?.notifyItemChanged(getAdapterList(), absolute)
+        callback.notifyItemChanged(getAdapterList(), absolute)
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) {
@@ -626,7 +521,7 @@ class RollNoteViewModelImpl(
         history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
 
         historyAvailable.postValue(history.available)
-        //        callback?.onBindingInput(deprecatedNoteItem, history.available)
+        //        callback.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     //endregion
@@ -664,15 +559,15 @@ class RollNoteViewModelImpl(
          * If all items are checked (and hided).
          */
         if (filterList.size == list.size) {
-            callback?.animateInfoVisible(isVisible = false)
+            callback.animateInfoVisible(isVisible = false)
 
             for (i in list.indices) {
-                callback?.notifyItemInserted(list, i)
+                callback.notifyItemInserted(list, i)
             }
         } else {
             for (item in filterList) {
                 val index = list.validIndexOfFirst(item) ?: continue
-                callback?.notifyItemInserted(list, index)
+                callback.notifyItemInserted(list, index)
             }
         }
     }
@@ -682,7 +577,7 @@ class RollNoteViewModelImpl(
             val index = list.validIndexOfFirst(item) ?: continue
 
             list.removeAtOrNull(index)
-            callback?.notifyItemRemoved(list, index)
+            callback.notifyItemRemoved(list, index)
         }
     }
 
