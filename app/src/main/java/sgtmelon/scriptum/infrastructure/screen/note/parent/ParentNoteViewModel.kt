@@ -46,6 +46,8 @@ interface ParentNoteViewModel<N : NoteItem> : /*IParentViewModel,*/
 
     fun onPause()
 
+    fun onDestroy()
+
 
     fun onClickBackArrow()
 

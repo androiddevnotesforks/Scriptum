@@ -154,7 +154,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //endregion
 
-    /*override*/ fun onDestroy(func: () -> Unit) /*= super.onDestroy*/ {
+    /*override*/ override fun onDestroy(/*func: () -> Unit*/) /*= super.onDestroy*/ {
         parentCallback = null
         saveControl.changeAutoSaveWork(isWork = false)
     }

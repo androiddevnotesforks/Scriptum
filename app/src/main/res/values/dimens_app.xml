@@ -21,10 +21,8 @@
     <dimen name="icon_16dp">16dp</dimen>
 
     <dimen name="elevation_0dp">0dp</dimen>
-    <dimen name="elevation_2dp">2dp</dimen>
 
     <dimen name="radius_2dp">2dp</dimen>
-    <dimen name="radius_8dp">8dp</dimen>
 
     <dimen name="stroke_4dp">4dp</dimen>
 

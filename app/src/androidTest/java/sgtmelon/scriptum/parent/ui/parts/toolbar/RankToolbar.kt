@@ -84,7 +84,7 @@ class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer)
             .withNavigationDrawable(resourceId = null)
 
         enterCard.isDisplayed()
-            .withCard(R.attr.clBackgroundEnter, R.dimen.radius_8dp, R.dimen.elevation_2dp)
+            .withCard(R.attr.clBackgroundEnter, R.dimen.item_card_radius, R.dimen.elevation_0dp)
 
         val isEnterEmpty = currentEnter.isEmpty()
         nameEnter.isDisplayed()
