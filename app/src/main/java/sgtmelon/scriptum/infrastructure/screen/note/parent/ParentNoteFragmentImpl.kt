@@ -448,6 +448,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //region Menu
 
+    private fun onBind() {
+        if (isEditMode) return
+
+
+    }
+
     private fun onDelete() {
         if (open.isBlocked || isEditMode) return
 
