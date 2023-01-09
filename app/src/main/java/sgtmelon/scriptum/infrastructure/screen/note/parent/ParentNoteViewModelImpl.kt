@@ -207,7 +207,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     abstract fun onRestoreData(): Boolean
 
-    //region Results of dialogs
+    // Results of dialogs
 
     override fun onResultColorDialog(check: Int) {
         val newColor = colorConverter.toEnum(check) ?: return
@@ -276,16 +276,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    override fun onResultConvertDialog() {
-        viewModelScope.launch {
-            runBack { convertNote(deprecatedNoteItem) }
-            parentCallback?.convertNote()
-        }
-    }
-
-    //endregion
-
-    //region Menu click
+    // Menu click
 
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
@@ -330,13 +321,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         callback.changeName(action.value[isUndo], action.cursor[isUndo])
     }
 
-
     /**
      * Function of background work for note saving.
      */
     abstract suspend fun saveBackgroundWork()
-
-
 
     override fun onMenuEdit() {
         if (callback.isDialogOpen == true || isEdit.value.isTrue()) return
@@ -349,7 +337,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     abstract fun setupEditMode(isEdit: Boolean)
 
-    //endregion
 
     override fun onResultSaveControl() {
         callback.showSaveToast(onMenuSave(changeMode = false))
@@ -370,10 +357,13 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //endregion
 
+    //region Menu clicks
+
     // TODO correct order of menu functions
 
     override fun onMenuRestore() = flowOnBack {
-        noteItem.value?.let { restoreNote(it) }
+        val item = noteItem.value ?: return@flowOnBack
+        restoreNote(item)
         emit(Unit)
     }
 
@@ -391,7 +381,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override fun onMenuClear() = flowOnBack {
-        noteItem.value?.let { clearNote(it) }
+        val item = noteItem.value ?: return@flowOnBack
+        clearNote(item)
         emit(Unit)
     }
 
@@ -413,6 +404,21 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(item)
     }
 
+    //endregion
+
+    //reginon Dialog results
+
+    // TODO correct order (see dialogs order in fragment)
+
+    override fun onResultConvertDialog(): Flow<Unit> = flowOnBack {
+        val item = noteItem.value ?: return@flowOnBack
+        convertNote(item)
+        emit(Unit)
+    }
+
+    //endregion
+
+    // Other
 
     /**
      * Calls on note notification cancel from status bar for update bind indicator.

@@ -113,7 +113,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
 
         convertDialog.apply {
-            onPositiveClick { viewModel.onResultConvertDialog() }
+            onPositiveClick {
+                viewModel.onResultConvertDialog().collect(owner = this) {
+                    connector.convertNote()
+                }
+            }
             onDismiss { open.clear() }
         }
     }

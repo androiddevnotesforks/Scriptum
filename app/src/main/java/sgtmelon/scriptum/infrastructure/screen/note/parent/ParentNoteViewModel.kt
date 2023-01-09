@@ -65,7 +65,7 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun onResultTimeDialog(calendar: Calendar)
 
-    fun onResultConvertDialog()
+    fun onResultConvertDialog(): Flow<Unit>
 
     //endregion
 
