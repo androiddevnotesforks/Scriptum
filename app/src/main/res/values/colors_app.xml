@@ -39,7 +39,7 @@
     <color name="background_view_dark">#2C2C2C</color>
 
     <!--  Color for views which placed upper primary_light/dark.  -->
-    <color name="background_enter_light">#FFFFFF</color>
+    <color name="background_enter_light">#F0F0F0</color>
     <color name="background_enter_dark">#202020</color>
 
     <!--  Color for important content. For give user main information.  -->
