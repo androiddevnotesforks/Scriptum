@@ -33,7 +33,7 @@ interface NoteMenu {
 
     // Read mode
 
-    fun onMenuBind()
+    fun onMenuBind(): Flow<Unit>
 
     fun onMenuDelete(): Flow<NoteItem>
 

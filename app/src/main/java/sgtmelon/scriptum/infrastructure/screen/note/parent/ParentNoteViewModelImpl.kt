@@ -349,21 +349,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     abstract suspend fun saveBackgroundWork()
 
-    override fun onMenuBind() {
-        if (callback.isDialogOpen == true || isEdit.value.isTrue()) return
-
-        deprecatedNoteItem.switchStatus()
-        cacheNote(deprecatedNoteItem)
-
-        callback.onBindingEdit(deprecatedNoteItem, isEdit.value.isTrue())
-
-        viewModelScope.launch {
-            runBack { updateNote(deprecatedNoteItem) }
-
-            callback.sendNotifyNotesBroadcast()
-        }
-    }
-
 
 
     override fun onMenuEdit() {
@@ -398,6 +383,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //endregion
 
+    // TODO correct order of menu functions
+
     override fun onMenuRestore() = flowOnBack {
         noteItem.value?.let { restoreNote(it) }
         emit(Unit)
@@ -421,6 +408,17 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(Unit)
     }
 
+
+    override fun onMenuBind(): Flow<Unit> = flowOnBack {
+        val item = noteItem.value ?: return@flowOnBack
+
+        item.switchStatus()
+        cacheNote(item)
+        noteItem.postValue(item)
+
+        updateNote(item)
+        emit(Unit)
+    }
 
     override fun onMenuDelete(): Flow<NoteItem> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack

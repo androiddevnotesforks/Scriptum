@@ -229,7 +229,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.saveButton.setOnClickListener { viewModel.onMenuSave(changeMode = true) }
         panelBar.saveButton.setOnLongClickListener { viewModel.onMenuSave(changeMode = false) }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
-        panelBar.bindButton.setOnClickListener { viewModel.onMenuBind() }
+        panelBar.bindButton.setOnClickListener { onBind() }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener { onDelete() }
         panelBar.editButton.setOnClickListener { viewModel.onMenuEdit() }
@@ -451,7 +451,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private fun onBind() {
         if (isEditMode) return
 
-
+        viewModel.onMenuBind().collect(owner = this) {
+            system.broadcast.sendNotifyNotesBind()
+        }
     }
 
     private fun onDelete() {
