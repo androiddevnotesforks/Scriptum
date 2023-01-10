@@ -11,6 +11,7 @@ import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryChange
@@ -331,25 +332,19 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     override fun changeRank(check: Int) {
         viewModelScope.launch {
+            val item = noteItem.value ?: return@launch
+
             val rankId = runBack { getRankId(check) }
-
-            /** Need save data in history, before update it for [deprecatedNoteItem]. */
             val historyAction = HistoryAction.Rank(
-                HistoryChange(deprecatedNoteItem.rank.id, rankId),
-                HistoryChange(deprecatedNoteItem.rank.position, check)
+                HistoryChange(item.rank.id, rankId),
+                HistoryChange(item.rank.position, check)
             )
+
             history.add(historyAction)
+            historyAvailable.postValue(history.available)
 
-            deprecatedNoteItem.apply {
-                this.rank.id = rankId
-                this.rank.position = check
-            }
-
-            callback.apply {
-                historyAvailable.postValue(history.available)
-                //                onBindingInput(deprecatedNoteItem, history.available)
-                onBindingNote(deprecatedNoteItem)
-            }
+            item.rank = NoteRank(rankId, check)
+            noteItem.postValue(item)
         }
     }
 
