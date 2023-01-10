@@ -7,8 +7,8 @@ import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 /**
  * Parent interface for [TextNoteFragment] and [RollNoteFragment].
  */
-interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Alarm,
-    EternalServiceReceiver.Bridge.Bind {
+@Deprecated("Don't use it")
+interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind {
 
     val isDialogOpen: Boolean
 

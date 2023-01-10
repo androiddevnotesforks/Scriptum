@@ -103,12 +103,23 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                     showTimeDialog(dateDialog.calendar, it)
                 }
             }
-            onNeutralClick { onRemoveNotification() }
+            onNeutralClick {
+                viewModel.removeNotification().collect(owner = this) {
+                    system.broadcast.sendCancelAlarm(it)
+                    system.broadcast.sendNotifyInfoBind()
+                }
+            }
             onDismiss { open.clear() }
         }
 
         timeDialog.apply {
-            onPositiveClick { viewModel.onResultTimeDialog(timeDialog.calendar) }
+            onPositiveClick {
+                val calendar = timeDialog.calendar
+                viewModel.setNotification(calendar).collect(owner = this) {
+                    system.broadcast.sendSetAlarm(it, calendar)
+                    system.broadcast.sendNotifyInfoBind()
+                }
+            }
             onDismiss { open.clear() }
         }
 
@@ -231,9 +242,24 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.saveButton.setOnClickListener { viewModel.save(changeMode = true) }
         panelBar.saveButton.setOnLongClickListener { viewModel.save(changeMode = false) }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
-        panelBar.bindButton.setOnClickListener { onBind() }
+        panelBar.bindButton.setOnClickListener {
+            if (isEditMode) return@setOnClickListener
+
+            viewModel.switchBind().collect(owner = this) {
+                system.broadcast.sendNotifyNotesBind()
+            }
+        }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
-        panelBar.deleteButton.setOnClickListener { onDelete() }
+        panelBar.deleteButton.setOnClickListener {
+            if (open.isBlocked || isEditMode) return@setOnClickListener
+
+            viewModel.delete().collect(owner = this) {
+                system.broadcast.sendCancelAlarm(it)
+                system.broadcast.sendCancelNoteBind(it)
+                system.broadcast.sendNotifyInfoBind()
+                activity?.finish()
+            }
+        }
         panelBar.editButton.setOnClickListener { viewModel.edit() }
 
         val bindDrawable = when (type) {
@@ -371,19 +397,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         activity?.finish()
     }
 
-    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
-        system.broadcast.sendSetAlarm(id, calendar, showToast)
-    }
-
-    override fun sendCancelAlarmBroadcast(id: Long) = system.broadcast.sendCancelAlarm(id)
-
     override fun sendNotifyNotesBroadcast() = system.broadcast.sendNotifyNotesBind()
-
-    override fun sendCancelNoteBroadcast(id: Long) = system.broadcast.sendCancelNoteBind(id)
-
-    override fun sendNotifyInfoBroadcast(count: Int?) {
-        system.broadcast.sendNotifyInfoBind(count)
-    }
 
     //endregion
 
@@ -443,36 +457,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         hideKeyboard()
         open.attempt {
             convertDialog.safeShow(DialogFactory.Note.CONVERT, owner = this)
-        }
-    }
-
-    //endregion
-
-    //region Menu
-
-    private fun onRemoveNotification() {
-        viewModel.removeNotification().collect(owner = this) {
-            system.broadcast.sendCancelAlarm(it)
-            system.broadcast.sendNotifyInfoBind()
-        }
-    }
-
-    private fun onBind() {
-        if (isEditMode) return
-
-        viewModel.switchBind().collect(owner = this) {
-            system.broadcast.sendNotifyNotesBind()
-        }
-    }
-
-    private fun onDelete() {
-        if (open.isBlocked || isEditMode) return
-
-        viewModel.delete().collect(owner = this) {
-            system.broadcast.sendCancelAlarm(it)
-            system.broadcast.sendCancelNoteBind(it)
-            system.broadcast.sendNotifyInfoBind()
-            finish()
         }
     }
 

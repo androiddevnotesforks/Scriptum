@@ -58,9 +58,7 @@ interface ParentNoteViewModel<N : NoteItem> :
     fun onResultRankDialog(check: Int)
 
 
-    fun onResultTimeDialog(calendar: Calendar)
 
-    fun convert(): Flow<Unit>
 
     //endregion
 
@@ -89,9 +87,13 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     // Read mode
 
+    fun setNotification(calendar: Calendar): Flow<NoteItem>
+
     fun removeNotification(): Flow<NoteItem>
 
     fun switchBind(): Flow<Unit>
+
+    fun convert(): Flow<Unit>
 
     fun delete(): Flow<NoteItem>
 

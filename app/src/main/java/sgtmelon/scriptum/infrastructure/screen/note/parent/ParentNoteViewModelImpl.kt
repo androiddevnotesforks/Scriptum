@@ -244,22 +244,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-
-
-    override fun onResultTimeDialog(calendar: Calendar) {
-        if (calendar.isBeforeNow()) return
-
-        viewModelScope.launch {
-            runBack { setNotification(deprecatedNoteItem, calendar) }
-            cacheNote(deprecatedNoteItem)
-
-            callback.onBindingNote(deprecatedNoteItem)
-
-            callback.sendSetAlarmBroadcast(deprecatedNoteItem.id, calendar)
-            callback.sendNotifyInfoBroadcast()
-        }
-    }
-
     // Menu click
 
     override fun undoAction() = onMenuUndoRedo(isUndo = true)
@@ -370,6 +354,18 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(Unit)
     }
 
+
+    override fun setNotification(calendar: Calendar): Flow<NoteItem> = flowOnBack {
+        val item = noteItem.value
+
+        if (item == null || calendar.isBeforeNow()) return@flowOnBack
+
+        setNotification(item, calendar)
+        cacheNote(item)
+
+        noteItem.postValue(item)
+        emit(item)
+    }
 
     override fun removeNotification(): Flow<NoteItem> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack

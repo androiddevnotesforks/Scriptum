@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import java.util.Calendar
 import sgtmelon.extensions.toCalendarOrNull
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Eternal
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
@@ -103,25 +101,8 @@ class EternalServiceReceiver : BroadcastReceiver() {
     @Deprecated("use delegators class, remove calls from vm")
     interface Bridge {
 
-        interface Alarm {
-            fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean = true)
-            fun sendCancelAlarmBroadcast(id: Long)
-
-            fun sendCancelAlarmBroadcast(item: NoteItem) = sendCancelAlarmBroadcast(item.id)
-            fun sendCancelAlarmBroadcast(item: NotificationItem) =
-                sendCancelAlarmBroadcast(item.note.id)
-        }
-
         interface Bind {
             fun sendNotifyNotesBroadcast()
-
-            fun sendCancelNoteBroadcast(item: NoteItem) = sendCancelNoteBroadcast(item.id)
-            fun sendCancelNoteBroadcast(id: Long)
-
-            /**
-             * If [count] == null it means what need take value from database.
-             */
-            fun sendNotifyInfoBroadcast(count: Int? = null)
         }
     }
 
