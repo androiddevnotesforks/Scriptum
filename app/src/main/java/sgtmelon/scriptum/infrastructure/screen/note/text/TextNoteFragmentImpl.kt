@@ -101,11 +101,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             .inject(fragment = this)
     }
 
-    override fun onBindingNote(item: NoteItem.Text) {
-//        TODO("remove")
-        //        binding?.apply { this.item = item }?.executePendingBindings()
-    }
-
     override fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean) {
         //        TODO("remove")
         //        binding?.apply {

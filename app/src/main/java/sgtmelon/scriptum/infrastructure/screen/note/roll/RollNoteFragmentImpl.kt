@@ -136,7 +136,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
     }
 
-    private val touchCallback = RollTouchControl(viewModel)
+    private val touchCallback by lazy { RollTouchControl(viewModel) }
     private val adapter: RollAdapter by lazy {
         val readCallback = object : RollReadHolder.Callback {
             override fun onReadCheckClick(p: Int, action: () -> Unit) {
@@ -173,36 +173,13 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        open.attempt(withSwitch = false) { viewModel.onClickVisible() }
+        open.attempt(withSwitch = false) { viewModel.changeVisible() }
         return true
     }
 
     override fun setTouchAction(inAction: Boolean) {
         open.isBlocked = inAction
     }
-
-    //    override fun setupRecycler(history: NoteHistory) {
-    //        adapter.apply {
-    ////            this.history = history
-    //
-    //            // TODO remove if possible
-    //            //            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-    //            //                /** Update before animation ends. */
-    //            //                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-    //            //                    viewModel.onUpdateInfo()
-    //            //                }
-    //            //            })
-    //        }
-    //
-    //        binding?.recyclerView?.let {
-    //            it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
-    //            it.setHasFixedSize(true)
-    //            it.layoutManager = layoutManager
-    //            it.adapter = adapter
-    //        }
-    //
-    //        ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
-    //    }
 
     override fun onBindingLoad() {
         binding?.apply { this.isDataLoad = true }?.executePendingBindings()
@@ -224,11 +201,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         // TODO зачем тут нужно было обновлять поле ввода? мб при первом включении
         //        onBindingEnter()
-    }
-
-    override fun onBindingNote(item: NoteItem.Roll) {
-        TODO()
-        //        binding?.apply { this.item = item }?.executePendingBindings()
     }
 
     override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {

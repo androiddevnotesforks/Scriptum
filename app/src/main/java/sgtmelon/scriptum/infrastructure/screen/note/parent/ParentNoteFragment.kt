@@ -18,8 +18,6 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind 
 
     fun onBindingEdit(item: N, isEditMode: Boolean)
 
-    fun onBindingNote(item: N)
-
 
     fun onPressBack(): Boolean
 

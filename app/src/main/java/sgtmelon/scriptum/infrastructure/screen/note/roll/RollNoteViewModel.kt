@@ -12,7 +12,7 @@ interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
     RollWriteHolder.Callback,
     RollTouchControl.Callback {
 
-    fun onClickVisible()
+    fun changeVisible()
 
     @Deprecated("Постарайся избегать таких обновлений")
     fun onUpdateInfo()

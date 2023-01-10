@@ -129,7 +129,7 @@ class RollNoteViewModelImpl(
     }
 
 
-    override fun onClickVisible() {
+    override fun changeVisible() {
         deprecatedNoteItem.isVisible = !deprecatedNoteItem.isVisible
 
         callback.setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = true)
@@ -379,7 +379,7 @@ class RollNoteViewModelImpl(
             id.postValue(deprecatedNoteItem.id)
 
             /**
-             * Need if [deprecatedNoteItem] isVisible changes wasn't set inside [onClickVisible] because of
+             * Need if [deprecatedNoteItem] isVisible changes wasn't set inside [changeVisible] because of
              * not created note.
              */
             runBack { updateVisible(deprecatedNoteItem) }
