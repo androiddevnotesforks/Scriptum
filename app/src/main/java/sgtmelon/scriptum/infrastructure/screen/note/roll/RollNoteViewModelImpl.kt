@@ -355,7 +355,7 @@ class RollNoteViewModelImpl(
         callback.setList(getAdapterList())
 
         if (changeMode) {
-            callback.hideKeyboard()
+            callback.hideKeyboardDepr()
             setupEditMode(isEdit = false)
             history.reset()
         } else if (noteState.value == NoteState.CREATE) {
@@ -472,7 +472,7 @@ class RollNoteViewModelImpl(
     override fun onTouchGetSwipe(): Boolean = isEdit.value.isTrue()
 
     override fun onTouchDragStart() {
-        callback.hideKeyboard()
+        callback.hideKeyboardDepr()
     }
 
     /**
@@ -503,7 +503,7 @@ class RollNoteViewModelImpl(
         deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
 
         callback.notifyItemMoved(getAdapterList(), from, to)
-        callback.hideKeyboard()
+        callback.hideKeyboardDepr()
 
         return true
     }

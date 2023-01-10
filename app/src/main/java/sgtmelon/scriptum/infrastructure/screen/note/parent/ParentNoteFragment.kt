@@ -12,7 +12,8 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind 
 
     val isDialogOpen: Boolean
 
-    fun hideKeyboard()
+    @Deprecated("Use fragment extensions")
+    fun hideKeyboardDepr()
 
 
     fun onBindingEdit(item: N, isEditMode: Boolean)

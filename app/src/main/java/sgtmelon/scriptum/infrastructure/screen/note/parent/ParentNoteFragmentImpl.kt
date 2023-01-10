@@ -374,7 +374,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     override val isDialogOpen: Boolean get() = open.isBlocked
 
-    override fun hideKeyboard() {
+    override fun hideKeyboardDepr() {
         activity?.hideKeyboard()
     }
 
