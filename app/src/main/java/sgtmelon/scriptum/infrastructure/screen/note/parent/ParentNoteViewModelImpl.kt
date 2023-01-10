@@ -85,7 +85,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
 
     override val noteItem: MutableLiveData<N> = MutableLiveData()
-    private var restoreItem: NoteItem? = null
 
     init {
         viewModelScope.launchBack {
@@ -107,9 +106,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
 
     override val notificationsDateList: Flow<List<String>>
-        get() = flowOnBack {
-            emit(getNotificationsDateList())
-        }
+        get() = flowOnBack { emit(getNotificationsDateList()) }
 
     //region Cleanup
 
@@ -289,10 +286,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     // TODO correct order of menu functions
 
-    override fun restore() = flowOnBack {
+    override fun restore(): Flow<NoteItem> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
         restoreNote(item)
-        emit(Unit)
+        emit(item)
     }
 
     override fun restoreOpen() {
@@ -308,26 +305,24 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         viewModelScope.launchBack { updateNote(deprecatedNoteItem) }
     }
 
-    override fun deleteForever() = flowOnBack {
+    override fun deleteForever(): Flow<NoteItem> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
         clearNote(item)
-        emit(Unit)
+        emit(item)
     }
 
 
-    override fun changeColor(check: Int) {
-        val newColor = colorConverter.toEnum(check) ?: return
+    override fun changeColor(check: Int): Flow<Color> = flowOnBack {
+        val newColor = colorConverter.toEnum(check) ?: return@flowOnBack
+        val item = noteItem.value ?: return@flowOnBack
 
-        history.add(HistoryAction.Color(HistoryChange(deprecatedNoteItem.color, newColor)))
+        history.add(HistoryAction.Color(HistoryChange(item.color, newColor)))
+        historyAvailable.postValue(history.available)
 
         color.postValue(newColor)
-        deprecatedNoteItem.color = newColor
+        item.color = newColor
 
-        callback.apply {
-            historyAvailable.postValue(history.available)
-            //            onBindingInput(deprecatedNoteItem, history.available)
-            tintToolbar(newColor)
-        }
+        emit(newColor)
     }
 
     override fun changeRank(check: Int) {
@@ -349,7 +344,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
 
-    override fun setNotification(calendar: Calendar): Flow<NoteItem> = flowOnBack {
+    override fun setNotification(calendar: Calendar): Flow<N> = flowOnBack {
         val item = noteItem.value
 
         if (item == null || calendar.isBeforeNow()) return@flowOnBack
@@ -361,7 +356,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(item)
     }
 
-    override fun removeNotification(): Flow<NoteItem> = flowOnBack {
+    override fun removeNotification(): Flow<N> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
 
         deleteNotification(item)
@@ -372,7 +367,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(item)
     }
 
-    override fun switchBind(): Flow<Unit> = flowOnBack {
+    override fun switchBind(): Flow<N> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
 
         item.switchStatus()
@@ -380,16 +375,16 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         noteItem.postValue(item)
 
         updateNote(item)
-        emit(Unit)
+        emit(item)
     }
 
-    override fun convert(): Flow<Unit> = flowOnBack {
+    override fun convert(): Flow<N> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
         convertNote(item)
-        emit(Unit)
+        emit(item)
     }
 
-    override fun delete(): Flow<NoteItem> = flowOnBack {
+    override fun delete(): Flow<N> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
         deleteNote(item)
         emit(item)

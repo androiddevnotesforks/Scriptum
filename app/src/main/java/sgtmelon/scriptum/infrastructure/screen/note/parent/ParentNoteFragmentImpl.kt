@@ -92,7 +92,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
 
         colorDialog.apply {
-            onPositiveClick { viewModel.changeColor(colorDialog.check) }
+            onPositiveClick {
+                viewModel.changeColor(colorDialog.check).collect(owner = this) {
+                    tintToolbar?.startTint(it)
+                }
+            }
             onDismiss { open.clear() }
         }
 
@@ -378,10 +382,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     override fun tintToolbar(from: Color, to: Color) {
         tintToolbar?.setColorFrom(from)?.startTint(to)
-    }
-
-    override fun tintToolbar(color: Color) {
-        tintToolbar?.startTint(color)
     }
 
     override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {

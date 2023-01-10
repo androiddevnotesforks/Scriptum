@@ -60,11 +60,11 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     // Inside bin
 
-    fun restore(): Flow<Unit>
+    fun restore(): Flow<NoteItem>
 
     fun restoreOpen()
 
-    fun deleteForever(): Flow<Unit>
+    fun deleteForever(): Flow<NoteItem>
 
 
     // Edit mode
@@ -74,7 +74,7 @@ interface ParentNoteViewModel<N : NoteItem> :
     fun redoAction()
 
     // TODO may be pass already color?
-    fun changeColor(check: Int)
+    fun changeColor(check: Int): Flow<Color>
 
     fun changeRank(check: Int)
 
@@ -86,15 +86,15 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     // Read mode
 
-    fun setNotification(calendar: Calendar): Flow<NoteItem>
+    fun setNotification(calendar: Calendar): Flow<N>
 
-    fun removeNotification(): Flow<NoteItem>
+    fun removeNotification(): Flow<N>
 
-    fun switchBind(): Flow<Unit>
+    fun switchBind(): Flow<N>
 
-    fun convert(): Flow<Unit>
+    fun convert(): Flow<N>
 
-    fun delete(): Flow<NoteItem>
+    fun delete(): Flow<N>
 
     fun edit()
 
