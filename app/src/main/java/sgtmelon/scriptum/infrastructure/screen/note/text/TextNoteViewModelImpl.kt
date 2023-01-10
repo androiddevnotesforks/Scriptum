@@ -123,7 +123,7 @@ class TextNoteViewModelImpl(
     }
 
     /**
-     * Don't need update [color] because it's happen in [onResultColorDialog] function.
+     * Don't need update [color] because it's happen in [changeColor] function.
      */
     override fun save(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false

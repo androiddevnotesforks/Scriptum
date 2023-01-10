@@ -203,47 +203,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     abstract fun onRestoreData(): Boolean
 
-    // Results of dialogs
-
-    override fun onResultColorDialog(check: Int) {
-        val newColor = colorConverter.toEnum(check) ?: return
-
-        history.add(HistoryAction.Color(HistoryChange(deprecatedNoteItem.color, newColor)))
-
-        color.postValue(newColor)
-        deprecatedNoteItem.color = newColor
-
-        callback.apply {
-            historyAvailable.postValue(history.available)
-            //            onBindingInput(deprecatedNoteItem, history.available)
-            tintToolbar(newColor)
-        }
-    }
-
-    override fun onResultRankDialog(check: Int) {
-        viewModelScope.launch {
-            val rankId = runBack { getRankId(check) }
-
-            /** Need save data in history, before update it for [deprecatedNoteItem]. */
-            val historyAction = HistoryAction.Rank(
-                HistoryChange(deprecatedNoteItem.rank.id, rankId),
-                HistoryChange(deprecatedNoteItem.rank.position, check)
-            )
-            history.add(historyAction)
-
-            deprecatedNoteItem.apply {
-                this.rank.id = rankId
-                this.rank.position = check
-            }
-
-            callback.apply {
-                historyAvailable.postValue(history.available)
-                //                onBindingInput(deprecatedNoteItem, history.available)
-                onBindingNote(deprecatedNoteItem)
-            }
-        }
-    }
-
     // Menu click
 
     override fun undoAction() = onMenuUndoRedo(isUndo = true)
@@ -352,6 +311,46 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         val item = noteItem.value ?: return@flowOnBack
         clearNote(item)
         emit(Unit)
+    }
+
+
+    override fun changeColor(check: Int) {
+        val newColor = colorConverter.toEnum(check) ?: return
+
+        history.add(HistoryAction.Color(HistoryChange(deprecatedNoteItem.color, newColor)))
+
+        color.postValue(newColor)
+        deprecatedNoteItem.color = newColor
+
+        callback.apply {
+            historyAvailable.postValue(history.available)
+            //            onBindingInput(deprecatedNoteItem, history.available)
+            tintToolbar(newColor)
+        }
+    }
+
+    override fun changeRank(check: Int) {
+        viewModelScope.launch {
+            val rankId = runBack { getRankId(check) }
+
+            /** Need save data in history, before update it for [deprecatedNoteItem]. */
+            val historyAction = HistoryAction.Rank(
+                HistoryChange(deprecatedNoteItem.rank.id, rankId),
+                HistoryChange(deprecatedNoteItem.rank.position, check)
+            )
+            history.add(historyAction)
+
+            deprecatedNoteItem.apply {
+                this.rank.id = rankId
+                this.rank.position = check
+            }
+
+            callback.apply {
+                historyAvailable.postValue(history.available)
+                //                onBindingInput(deprecatedNoteItem, history.available)
+                onBindingNote(deprecatedNoteItem)
+            }
+        }
     }
 
 

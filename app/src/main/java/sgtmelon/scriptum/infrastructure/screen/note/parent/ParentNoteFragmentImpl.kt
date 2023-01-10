@@ -87,12 +87,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         super.setupDialogs()
 
         rankDialog.apply {
-            onPositiveClick { viewModel.onResultRankDialog(check = rankDialog.check - 1) }
+            onPositiveClick { viewModel.changeRank(check = rankDialog.check - 1) }
             onDismiss { open.clear() }
         }
 
         colorDialog.apply {
-            onPositiveClick { viewModel.onResultColorDialog(colorDialog.check) }
+            onPositiveClick { viewModel.changeColor(colorDialog.check) }
             onDismiss { open.clear() }
         }
 
