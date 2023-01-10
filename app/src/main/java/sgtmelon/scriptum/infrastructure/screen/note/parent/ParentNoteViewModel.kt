@@ -57,9 +57,6 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun onResultRankDialog(check: Int)
 
-    //    fun onResultDateDialog(calendar: Calendar)
-
-    fun onResultDateDialogClear()
 
     fun onResultTimeDialog(calendar: Calendar)
 
@@ -80,9 +77,9 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     // Edit mode
 
-    fun undo()
+    fun undoAction()
 
-    fun redo()
+    fun redoAction()
 
     /**
      * Return true on success save
@@ -91,6 +88,8 @@ interface ParentNoteViewModel<N : NoteItem> :
     fun save(changeMode: Boolean): Boolean
 
     // Read mode
+
+    fun removeNotification(): Flow<NoteItem>
 
     fun switchBind(): Flow<Unit>
 

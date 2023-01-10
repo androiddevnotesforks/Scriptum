@@ -103,7 +103,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                     showTimeDialog(dateDialog.calendar, it)
                 }
             }
-            onNeutralClick { viewModel.onResultDateDialogClear() }
+            onNeutralClick { onRemoveNotification() }
             onDismiss { open.clear() }
         }
 
@@ -224,8 +224,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.clearButton.setOnClickListener {
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
-        panelBar.undoButton.setOnClickListener { viewModel.undo() }
-        panelBar.redoButton.setOnClickListener { viewModel.redo() }
+        panelBar.undoButton.setOnClickListener { viewModel.undoAction() }
+        panelBar.redoButton.setOnClickListener { viewModel.redoAction() }
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
         panelBar.saveButton.setOnClickListener { viewModel.save(changeMode = true) }
@@ -449,6 +449,13 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     //endregion
 
     //region Menu
+
+    private fun onRemoveNotification() {
+        viewModel.removeNotification().collect(owner = this) {
+            system.broadcast.sendCancelAlarm(it)
+            system.broadcast.sendNotifyInfoBind()
+        }
+    }
 
     private fun onBind() {
         if (isEditMode) return

@@ -129,8 +129,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     abstract suspend fun setupAfterInitialize()
 
-    //region Variables
-
     /**
      * Abstract because need setup callback but this class not final.
      */
@@ -151,8 +149,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     @Deprecated("use rankDialogItems instead")
     protected var rankDialogItemArray: Array<String> = emptyArray()
-
-    //endregion
 
     /*override*/ override fun onDestroy(/*func: () -> Unit*/) /*= super.onDestroy*/ {
         parentCallback = null
@@ -248,19 +244,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    override fun onResultDateDialogClear() {
-        viewModelScope.launch {
-            runBack { deleteNotification(deprecatedNoteItem) }
 
-            callback.sendCancelAlarmBroadcast(deprecatedNoteItem)
-            callback.sendNotifyInfoBroadcast()
-        }
-
-        deprecatedNoteItem.clearAlarm()
-        cacheNote(deprecatedNoteItem)
-
-        callback.onBindingNote(deprecatedNoteItem)
-    }
 
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.isBeforeNow()) return
@@ -278,9 +262,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     // Menu click
 
-    override fun undo() = onMenuUndoRedo(isUndo = true)
+    override fun undoAction() = onMenuUndoRedo(isUndo = true)
 
-    override fun redo() = onMenuUndoRedo(isUndo = false)
+    override fun redoAction() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
         if (callback.isDialogOpen == true || isEdit.value.isFalse()) return
@@ -386,6 +370,17 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(Unit)
     }
 
+
+    override fun removeNotification(): Flow<NoteItem> = flowOnBack {
+        val item = noteItem.value ?: return@flowOnBack
+
+        deleteNotification(item)
+        item.clearAlarm()
+        cacheNote(item)
+
+        noteItem.postValue(item)
+        emit(item)
+    }
 
     override fun switchBind(): Flow<Unit> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
