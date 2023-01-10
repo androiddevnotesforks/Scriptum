@@ -293,16 +293,15 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override fun restoreOpen() {
-        TODO()
-        noteState.postValue(NoteState.EXIST)
+        viewModelScope.launch {
+            val item = noteItem.value ?: return@launch
 
-        deprecatedNoteItem.onRestore()
+            item.onRestore()
+            launchBack { updateNote(item) }
 
-        mayAnimateIcon = false
-        setupEditMode(isEdit = false)
-        mayAnimateIcon = true
-
-        viewModelScope.launchBack { updateNote(deprecatedNoteItem) }
+            noteItem.postValue(item)
+            noteState.postValue(NoteState.EXIST)
+        }
     }
 
     override fun deleteForever(): Flow<NoteItem> = flowOnBack {

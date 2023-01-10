@@ -137,6 +137,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //region setupObservers staff
 
+    // TODO проверить, чтобы не было задвоений вызовов (а они наверное есть, см invalidatePanelState)
     override fun setupObservers() {
         super.setupObservers()
 
@@ -165,6 +166,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper open fun observeState(it: NoteState) {
         connector.init.state = it
+
+        invalidatePanelState(connector.init.isEdit)
     }
 
     @CallSuper open fun observeColor(it: Color) {
