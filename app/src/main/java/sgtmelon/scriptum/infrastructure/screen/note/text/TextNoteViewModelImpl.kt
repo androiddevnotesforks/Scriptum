@@ -125,7 +125,7 @@ class TextNoteViewModelImpl(
     /**
      * Don't need update [color] because it's happen in [onResultColorDialog] function.
      */
-    override fun onMenuSave(changeMode: Boolean): Boolean {
+    override fun save(changeMode: Boolean): Boolean {
         if (changeMode && callback?.isDialogOpen == true) return false
 
         if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled) return false

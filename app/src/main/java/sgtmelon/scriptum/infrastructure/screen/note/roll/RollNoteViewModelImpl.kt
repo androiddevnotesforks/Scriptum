@@ -138,7 +138,7 @@ class RollNoteViewModelImpl(
 
         /**
          * Foreign key can't be created without note [id].
-         * Insert will happen inside [onMenuSave].
+         * Insert will happen inside [save].
          */
         if (noteState.value != NoteState.CREATE) {
             viewModelScope.launch {
@@ -177,7 +177,7 @@ class RollNoteViewModelImpl(
         val enterText = callback.getEnterText()?.removeExtraSpace() ?: ""
 
         if (enterText.isEmpty()) {
-            onMenuSave(changeMode = true)
+            save(changeMode = true)
         } else {
             onClickAdd(toBottom = true)
         }
@@ -186,7 +186,7 @@ class RollNoteViewModelImpl(
     }
 
     /**
-     * All item positions updates after call [onMenuSave], because it's hard
+     * All item positions updates after call [save], because it's hard
      * to control in Edit.
      */
     override fun onClickAdd(toBottom: Boolean) {
@@ -344,7 +344,7 @@ class RollNoteViewModelImpl(
     /**
      * Don't need update [color] because it's happen in [onResultColorDialog] function.
      */
-    override fun onMenuSave(changeMode: Boolean): Boolean {
+    override fun save(changeMode: Boolean): Boolean {
         if (changeMode && callback.isDialogOpen == true) return false
 
         if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled) return false
@@ -476,7 +476,7 @@ class RollNoteViewModelImpl(
     }
 
     /**
-     * All item positions updates after call [onMenuSave], because it's hard
+     * All item positions updates after call [save], because it's hard
      * to control in Edit.
      */
     override fun onTouchSwiped(p: Int) {
@@ -493,7 +493,7 @@ class RollNoteViewModelImpl(
     }
 
     /**
-     * All item positions updates after call [onMenuSave], because it's hard
+     * All item positions updates after call [save], because it's hard
      * to control in Edit.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {

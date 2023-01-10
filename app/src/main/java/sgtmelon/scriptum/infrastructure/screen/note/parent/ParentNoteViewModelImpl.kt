@@ -194,7 +194,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         /** If note can't be saved and activity will be closed. */
         saveControl.isNeedSave = false
 
-        return if (!onMenuSave(changeMode = true)) {
+        return if (!save(changeMode = true)) {
             if (noteState.value != NoteState.CREATE) onRestoreData() else false
         } else {
             true
@@ -278,9 +278,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     // Menu click
 
-    override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
+    override fun undo() = onMenuUndoRedo(isUndo = true)
 
-    override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
+    override fun redo() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
         if (callback.isDialogOpen == true || isEdit.value.isFalse()) return
@@ -326,7 +326,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     abstract suspend fun saveBackgroundWork()
 
-    override fun onMenuEdit() {
+    override fun edit() {
         if (callback.isDialogOpen == true || isEdit.value.isTrue()) return
 
         setupEditMode(isEdit = true)
@@ -339,7 +339,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
 
     override fun onResultSaveControl() {
-        callback.showSaveToast(onMenuSave(changeMode = false))
+        callback.showSaveToast(save(changeMode = false))
     }
 
     override fun onHistoryAdd(action: HistoryAction) = history.add(action)
@@ -367,7 +367,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         emit(Unit)
     }
 
-    override fun onMenuRestoreOpen() {
+    override fun restoreOpen() {
         TODO()
         noteState.postValue(NoteState.EXIST)
 

@@ -10,14 +10,12 @@ import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.note.NoteMenu
 
 /**
  * Parent interface for communicate with children of [ParentNoteViewModelImpl].
  */
 @Deprecated("Remove ParentViewModel, change name")
 interface ParentNoteViewModel<N : NoteItem> :
-    NoteMenu,
     UnbindNoteReceiver.Callback,
     SaveControlImpl.Callback,
     HistoryTextWatcher.Callback {
@@ -68,5 +66,36 @@ interface ParentNoteViewModel<N : NoteItem> :
     fun convert(): Flow<Unit>
 
     //endregion
+
+    // TODO move this functions into ParentNoteViewModel
+
+    // Inside bin
+
+    fun restore(): Flow<Unit>
+
+    fun restoreOpen()
+
+    fun deleteForever(): Flow<Unit>
+
+
+    // Edit mode
+
+    fun undo()
+
+    fun redo()
+
+    /**
+     * Return true on success save
+     * [changeMode] - need change mode or not.
+     */
+    fun save(changeMode: Boolean): Boolean
+
+    // Read mode
+
+    fun switchBind(): Flow<Unit>
+
+    fun delete(): Flow<NoteItem>
+
+    fun edit()
 
 }

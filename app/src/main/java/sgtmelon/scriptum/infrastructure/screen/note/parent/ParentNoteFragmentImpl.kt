@@ -220,21 +220,21 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.restoreButton.setOnClickListener {
             viewModel.restore().collect(owner = this) { activity?.finish() }
         }
-        panelBar.restoreOpenButton.setOnClickListener { viewModel.onMenuRestoreOpen() }
+        panelBar.restoreOpenButton.setOnClickListener { viewModel.restoreOpen() }
         panelBar.clearButton.setOnClickListener {
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
-        panelBar.undoButton.setOnClickListener { viewModel.onMenuUndo() }
-        panelBar.redoButton.setOnClickListener { viewModel.onMenuRedo() }
+        panelBar.undoButton.setOnClickListener { viewModel.undo() }
+        panelBar.redoButton.setOnClickListener { viewModel.redo() }
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
-        panelBar.saveButton.setOnClickListener { viewModel.onMenuSave(changeMode = true) }
-        panelBar.saveButton.setOnLongClickListener { viewModel.onMenuSave(changeMode = false) }
+        panelBar.saveButton.setOnClickListener { viewModel.save(changeMode = true) }
+        panelBar.saveButton.setOnLongClickListener { viewModel.save(changeMode = false) }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
         panelBar.bindButton.setOnClickListener { onBind() }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener { onDelete() }
-        panelBar.editButton.setOnClickListener { viewModel.onMenuEdit() }
+        panelBar.editButton.setOnClickListener { viewModel.edit() }
 
         val bindDrawable = when (type) {
             NoteType.TEXT -> R.drawable.ic_bind_text
