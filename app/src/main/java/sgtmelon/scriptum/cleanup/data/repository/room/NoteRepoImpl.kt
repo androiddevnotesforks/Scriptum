@@ -185,14 +185,14 @@ class NoteRepoImpl(
 
     // Repo save and update functions
 
+    // TODO may be insert without forEach circle? Check out list insert, and it will return list with ids.
     override suspend fun convertNote(item: NoteItem.Text): NoteItem.Roll {
         val newItem = item.onConvert()
 
-        for (it in newItem.list) {
+        noteDataSource.update(noteConverter.toEntity(newItem))
+        newItem.list.forEach {
             it.id = rollDataSource.insert(rollConverter.toEntity(newItem.id, it))
         }
-
-        noteDataSource.update(noteConverter.toEntity(newItem))
 
         return newItem
     }

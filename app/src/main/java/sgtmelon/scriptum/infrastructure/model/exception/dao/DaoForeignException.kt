@@ -6,6 +6,7 @@ package sgtmelon.scriptum.infrastructure.model.exception.dao
  */
 class DaoForeignException(cause: Throwable) : Throwable(
     message = "Something happened during insertion to db.\n" +
-            "May be it's related with ForeignKey (parent entity not exist).",
+            "May be it's related with ForeignKey (parent entity not exist).\n" +
+            "Message: ${cause.message}",
     cause
 )

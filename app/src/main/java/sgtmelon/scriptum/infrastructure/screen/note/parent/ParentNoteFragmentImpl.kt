@@ -86,53 +86,43 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupDialogs() {
         super.setupDialogs()
 
-        rankDialog.apply {
-            onPositiveClick { viewModel.changeRank(check = rankDialog.check - 1) }
-            onDismiss { open.clear() }
-        }
+        rankDialog.onPositiveClick { viewModel.changeRank(check = rankDialog.check - 1) }
+        rankDialog.onDismiss { open.clear() }
 
-        colorDialog.apply {
-            onPositiveClick {
-                viewModel.changeColor(colorDialog.check).collect(owner = this) {
-                    tintToolbar?.startTint(it)
-                }
+        colorDialog.onPositiveClick {
+            viewModel.changeColor(colorDialog.check).collect(owner = this) {
+                tintToolbar?.startTint(it)
             }
-            onDismiss { open.clear() }
         }
+        colorDialog.onDismiss { open.clear() }
 
-        dateDialog.apply {
-            onPositiveClick {
-                open.skipClear = true
-                viewModel.notificationsDateList.collect(owner = this) {
-                    showTimeDialog(dateDialog.calendar, it)
-                }
+        dateDialog.onPositiveClick {
+            open.skipClear = true
+            viewModel.notificationsDateList.collect(owner = this) {
+                showTimeDialog(dateDialog.calendar, it)
             }
-            onNeutralClick {
-                viewModel.removeNotification().collect(owner = this) {
-                    system.broadcast.sendCancelAlarm(it)
-                    system.broadcast.sendNotifyInfoBind()
-                }
-            }
-            onDismiss { open.clear() }
         }
+        dateDialog.onNeutralClick {
+            viewModel.removeNotification().collect(owner = this) {
+                system.broadcast.sendCancelAlarm(it)
+                system.broadcast.sendNotifyInfoBind()
+            }
+        }
+        dateDialog.onDismiss { open.clear() }
 
-        timeDialog.apply {
-            onPositiveClick {
-                val calendar = timeDialog.calendar
-                viewModel.setNotification(calendar).collect(owner = this) {
-                    system.broadcast.sendSetAlarm(it, calendar)
-                    system.broadcast.sendNotifyInfoBind()
-                }
+        timeDialog.onPositiveClick {
+            val calendar = timeDialog.calendar
+            viewModel.setNotification(calendar).collect(owner = this) {
+                system.broadcast.sendSetAlarm(it, calendar)
+                system.broadcast.sendNotifyInfoBind()
             }
-            onDismiss { open.clear() }
         }
+        timeDialog.onDismiss { open.clear() }
 
-        convertDialog.apply {
-            onPositiveClick {
-                viewModel.convert().collect(owner = this) { connector.convertNote() }
-            }
-            onDismiss { open.clear() }
+        convertDialog.onPositiveClick {
+            viewModel.convert().collect(owner = this) { connector.convertNote() }
         }
+        convertDialog.onDismiss { open.clear() }
     }
 
     //region setupObservers staff
