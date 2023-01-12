@@ -7,12 +7,6 @@
 
         <import type="sgtmelon.scriptum.R" />
 
-        <import type="android.view.View" />
-
-        <variable
-            name="isDataLoad"
-            type="boolean" />
-
         <variable
             name="isListEmpty"
             type="boolean" />
@@ -51,7 +45,8 @@
                 style="@style/RecyclerView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'
+                android:visibility='invisible'
+                tools:visibility="visible"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_roll_write" />
 

@@ -29,6 +29,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -50,6 +51,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
     private var visibleIcon: IconChangeCallback? = null
+
+    override fun observeDataReady(it: Boolean) {
+        super.observeDataReady(it)
+        binding?.recyclerView?.makeVisibleIf(it) { makeInvisible() }
+    }
 
     override fun observeEdit(it: Boolean) {
         super.observeEdit(it)
@@ -182,7 +188,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun onBindingLoad() {
-        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
+        //        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
     }
 
     override fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean) {
