@@ -150,6 +150,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     @CallSuper open fun observeEdit(it: Boolean) {
         connector.init.isEdit = it
 
+        if (!it) hideKeyboard()
+
         invalidateToolbar()
         invalidatePanelState(it)
     }
@@ -367,9 +369,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     override val isDialogOpen: Boolean get() = open.isBlocked
 
-    override fun hideKeyboardDepr() {
-        activity?.hideKeyboard()
-    }
+    override fun hideKeyboardDepr() = hideKeyboard()
 
     override fun onPressBack() = viewModel.onPressBack()
 
