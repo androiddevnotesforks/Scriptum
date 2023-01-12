@@ -10,10 +10,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
  */
 interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
-//    fun setTouchAction(inAction: Boolean)
-
-//    fun setupRecycler(history: NoteHistory)
-
     fun onBindingLoad()
 
     fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)

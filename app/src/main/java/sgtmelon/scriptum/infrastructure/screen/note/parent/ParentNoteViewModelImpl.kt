@@ -201,7 +201,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
 
         historyAvailable.postValue(history.available)
-        //        callback.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     /**
@@ -257,7 +256,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         if (!isNoteInitialized()) return
 
         historyAvailable.postValue(history.available)
-        //        callback.onBindingInput(deprecatedNoteItem, history.available)
     }
 
     //endregion

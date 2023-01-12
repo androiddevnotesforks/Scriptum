@@ -183,10 +183,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             .inject(fragment = this)
     }
 
-    //    override fun setTouchAction(inAction: Boolean) {
-    //        open.isBlocked = inAction
-    //    }
-
     override fun onBindingLoad() {
         //        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
     }

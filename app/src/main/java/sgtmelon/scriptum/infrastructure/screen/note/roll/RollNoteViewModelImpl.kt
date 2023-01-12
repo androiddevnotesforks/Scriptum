@@ -207,7 +207,6 @@ class RollNoteViewModelImpl(
 
         callback.apply {
             historyAvailable.postValue(history.available)
-            //            onBindingInput(deprecatedNoteItem, history.available)
             scrollToItem(toBottom, p, getAdapterList())
         }
     }
@@ -346,7 +345,7 @@ class RollNoteViewModelImpl(
      * Don't need update [color] because it's happen in [changeColor] function.
      */
     override fun save(changeMode: Boolean): Boolean {
-        if (changeMode && callback.isDialogOpen == true) return false
+        if (changeMode && callback.isDialogOpen) return false
 
         if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled) return false
 
@@ -403,7 +402,6 @@ class RollNoteViewModelImpl(
 
             onBindingEdit(deprecatedNoteItem, isEdit)
             historyAvailable.postValue(history.available)
-            //            onBindingInput(deprecatedNoteItem, history.available)
             viewModelScope.launchBack { updateNoteState(isEdit, noteState) }
 
             if (isEdit) {
@@ -450,7 +448,6 @@ class RollNoteViewModelImpl(
         callback.apply {
             setList(getAdapterList())
             historyAvailable.postValue(history.available)
-            //            onBindingInput(deprecatedNoteItem, history.available)
         }
     }
 
