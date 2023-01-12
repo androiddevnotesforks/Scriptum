@@ -29,6 +29,8 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
@@ -39,7 +41,8 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  */
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
     RollNoteFragment,
-    IconBlockCallback {
+    IconBlockCallback,
+    RollTouchControl.Callback {
 
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
@@ -144,7 +147,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
     }
 
-    private val touchCallback by lazy { RollTouchControl(viewModel) }
+    private val touchCallback by lazy { RollTouchControl(callback = this) }
     private val adapter: RollAdapter by lazy {
         val readCallback = object : RollReadHolder.Callback {
             override fun onReadCheckClick(p: Int, action: () -> Unit) {
@@ -180,9 +183,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             .inject(fragment = this)
     }
 
-    override fun setTouchAction(inAction: Boolean) {
-        open.isBlocked = inAction
-    }
+    //    override fun setTouchAction(inAction: Boolean) {
+    //        open.isBlocked = inAction
+    //    }
 
     override fun onBindingLoad() {
         //        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
@@ -325,4 +328,62 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     //endregion
 
+    override fun onTouchAction(inAction: Boolean) {
+        open.isBlocked = inAction
+    }
+
+    override fun onTouchGetDrag(isDragAvailable: Boolean): Boolean {
+        return viewModel.isEdit.value.isTrue() && isDragAvailable
+    }
+
+    override fun onTouchGetSwipe(): Boolean = viewModel.isEdit.value.isTrue()
+
+    override fun onTouchDragStart() = hideKeyboard()
+
+    /**
+     * All item positions updates after call [save], because it's hard
+     * to control in Edit.
+     */
+    override fun onTouchSwiped(p: Int) {
+        TODO()
+        //        val absolutePosition = getAbsolutePosition(p) ?: return
+        //        val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
+        //
+        //        history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
+        //        historyAvailable.postValue(history.available)
+        //
+        //        callback.notifyItemRemoved(getAdapterList(), p)
+    }
+
+    /**
+     * All item positions updates after call [save], because it's hard
+     * to control in Edit.
+     */
+    override fun onTouchMove(from: Int, to: Int): Boolean {
+        TODO()
+        //        val absoluteFrom = getAbsolutePosition(from) ?: return true
+        //        val absoluteTo = getAbsolutePosition(to) ?: return true
+        //
+        //        deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
+        //
+        //        callback.notifyItemMoved(getAdapterList(), from, to)
+        //        callback.hideKeyboardDepr()
+        //
+        //        return true
+    }
+
+    override fun onTouchClear(position: Int) {
+        TODO()
+        //        val absolute = getAbsolutePosition(position) ?: return
+        //        callback.notifyItemChanged(getAdapterList(), absolute)
+    }
+
+    override fun onTouchMoveResult(from: Int, to: Int) {
+        TODO()
+        //        val absoluteFrom = getAbsolutePosition(from) ?: return
+        //        val absoluteTo = getAbsolutePosition(to) ?: return
+        //
+        //        history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
+        //        historyAvailable.postValue(history.available)
+    }
 }

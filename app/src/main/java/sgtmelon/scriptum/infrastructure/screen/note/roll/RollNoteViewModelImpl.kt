@@ -13,7 +13,6 @@ import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
-import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -458,73 +457,6 @@ class RollNoteViewModelImpl(
     override fun onRollActionNext() {
         callback.onFocusEnter()
     }
-
-    //region Touch callbacks
-
-    override fun onTouchAction(inAction: Boolean) {
-        callback.setTouchAction(inAction)
-    }
-
-    override fun onTouchGetDrag(isDragAvailable: Boolean): Boolean {
-        return isEdit.value.isTrue() && isDragAvailable
-    }
-
-    override fun onTouchGetSwipe(): Boolean = isEdit.value.isTrue()
-
-    override fun onTouchDragStart() {
-        callback.hideKeyboardDepr()
-    }
-
-    /**
-     * All item positions updates after call [save], because it's hard
-     * to control in Edit.
-     */
-    override fun onTouchSwiped(p: Int) {
-        val absolutePosition = getAbsolutePosition(p) ?: return
-        val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
-
-        history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
-
-        callback.apply {
-            historyAvailable.postValue(history.available)
-            //            onBindingInput(deprecatedNoteItem, history.available)
-            notifyItemRemoved(getAdapterList(), p)
-        }
-    }
-
-    /**
-     * All item positions updates after call [save], because it's hard
-     * to control in Edit.
-     */
-    override fun onTouchMove(from: Int, to: Int): Boolean {
-        val absoluteFrom = getAbsolutePosition(from) ?: return true
-        val absoluteTo = getAbsolutePosition(to) ?: return true
-
-        deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
-
-        callback.notifyItemMoved(getAdapterList(), from, to)
-        callback.hideKeyboardDepr()
-
-        return true
-    }
-
-    override fun onTouchClear(position: Int) {
-        val absolute = getAbsolutePosition(position) ?: return
-
-        callback.notifyItemChanged(getAdapterList(), absolute)
-    }
-
-    override fun onTouchMoveResult(from: Int, to: Int) {
-        val absoluteFrom = getAbsolutePosition(from) ?: return
-        val absoluteTo = getAbsolutePosition(to) ?: return
-
-        history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
-
-        historyAvailable.postValue(history.available)
-        //        callback.onBindingInput(deprecatedNoteItem, history.available)
-    }
-
-    //endregion
 
     /**
      * Use only for different notify functions. Don't use for change data.
