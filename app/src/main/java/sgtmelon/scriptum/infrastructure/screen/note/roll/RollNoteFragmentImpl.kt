@@ -39,7 +39,6 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  */
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
     RollNoteFragment,
-    Toolbar.OnMenuItemClickListener,
     IconBlockCallback {
 
     override val layoutId: Int = R.layout.fragment_roll_note
@@ -71,7 +70,10 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         super.setupToolbar(context, toolbar)
 
         toolbar?.inflateMenu(R.menu.fragment_roll_note)
-        toolbar?.setOnMenuItemClickListener(this)
+        toolbar?.setOnMenuItemClickListener {
+            open.attempt(withSwitch = false) { viewModel.changeVisible() }
+            return@setOnMenuItemClickListener true
+        }
 
         /** Call after menu inflating because otherwise visible icon will be null */
         visibleIcon = VisibleFilterIcon(context, visibleMenuItem, callback = this)
@@ -176,11 +178,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             .set(connector.init)
             .build()
             .inject(fragment = this)
-    }
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        open.attempt(withSwitch = false) { viewModel.changeVisible() }
-        return true
     }
 
     override fun setTouchAction(inAction: Boolean) {
