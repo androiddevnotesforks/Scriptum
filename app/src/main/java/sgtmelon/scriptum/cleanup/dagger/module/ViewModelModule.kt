@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.dagger.module
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.Module
@@ -207,17 +208,18 @@ class ViewModelModule {
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase
     ): TextNoteViewModel {
+        val saveControl = provideSaveControl(fragment, preferencesRepo)
         val factory = ViewModelFactory.NoteScreen.TextNote(
             init, history, createNote, getNote, cacheNote,
 
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames
+            getNotificationDateList, getRankId, getRankDialogNames, saveControl
         )
         val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModelImpl::class.java]
-        val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
-        viewModel.setSaveControl(saveControl)
+
+        saveControl.callback = viewModel
 
         return viewModel
     }
@@ -249,6 +251,7 @@ class ViewModelModule {
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
     ): RollNoteViewModel {
+        val saveControl = provideSaveControl(fragment, preferencesRepo)
         val factory = ViewModelFactory.NoteScreen.RollNote(
             init, history, createNote, getNote, cacheNote,
 
@@ -256,13 +259,20 @@ class ViewModelModule {
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
-            getRankDialogNames
+            getRankDialogNames, saveControl
         )
         val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModelImpl::class.java]
-        val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
-        viewModel.setSaveControl(saveControl)
+
+        saveControl.callback = viewModel
 
         return viewModel
+    }
+
+    private fun provideSaveControl(
+        fragment: Fragment,
+        preferencesRepo: PreferencesRepo
+    ): SaveControlImpl {
+        return SaveControlImpl(fragment.resources, preferencesRepo.saveState)
     }
 
     //endregion

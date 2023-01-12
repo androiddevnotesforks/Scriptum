@@ -11,6 +11,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
@@ -70,14 +71,15 @@ class RollNoteViewModelImpl(
     deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationsDateListUseCase,
     getRankId: GetRankIdUseCase,
-    getRankDialogNames: GetRankDialogNamesUseCase
+    getRankDialogNames: GetRankDialogNamesUseCase,
+    saveControl: SaveControl
 ) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
     init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList, getRankId, getRankDialogNames
+    getNotificationDateList, getRankId, getRankDialogNames, saveControl
 ), RollNoteViewModel {
 
     override suspend fun setupAfterInitialize() {

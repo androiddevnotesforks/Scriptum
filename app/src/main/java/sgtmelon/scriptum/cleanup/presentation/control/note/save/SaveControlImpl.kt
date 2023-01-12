@@ -17,9 +17,10 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.record
  */
 class SaveControlImpl(
     resources: Resources,
-    private val saveState: NoteSaveState,
-    private val callback: Callback
+    private val saveState: NoteSaveState
 ) : SaveControl {
+
+    lateinit var callback: Callback
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
     private var job: Job? = null

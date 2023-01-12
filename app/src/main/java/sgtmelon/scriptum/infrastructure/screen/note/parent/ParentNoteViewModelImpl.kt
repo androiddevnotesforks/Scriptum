@@ -67,7 +67,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
-    protected val getRankDialogNames: GetRankDialogNamesUseCase
+    protected val getRankDialogNames: GetRankDialogNamesUseCase,
+    protected val saveControl: SaveControl
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
@@ -127,26 +128,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     abstract suspend fun setupAfterInitialize()
 
-    /**
-     * Abstract because need setup callback but this class not final.
-     */
-    protected lateinit var saveControl: SaveControl
-        private set
-
-    fun setSaveControl(saveControl: SaveControl) {
-        this.saveControl = saveControl
-    }
-
     @Deprecated("Use new realization")
     protected lateinit var deprecatedNoteItem: N
 
     protected var mayAnimateIcon = true
-
-    /**
-     * App doesn't have ranks if size == 1.
-     */
-    @Deprecated("use rankDialogItems instead")
-    protected var rankDialogItemArray: Array<String> = emptyArray()
 
     /*override*/ override fun onDestroy(/*func: () -> Unit*/) /*= super.onDestroy*/ {
         parentCallback = null

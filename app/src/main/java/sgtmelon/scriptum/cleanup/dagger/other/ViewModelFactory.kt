@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -192,7 +193,8 @@ object ViewModelFactory {
             private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase
+            private val getRankDialogNames: GetRankDialogNamesUseCase,
+            private val saveControl: SaveControl
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModelImpl::class) {
@@ -204,7 +206,7 @@ object ViewModelFactory {
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames
+                        getRankId, getRankDialogNames, saveControl
                     )
                 }
             }
@@ -234,6 +236,7 @@ object ViewModelFactory {
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
             private val getRankDialogNames: GetRankDialogNamesUseCase,
+            private val saveControl: SaveControl
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
@@ -245,7 +248,7 @@ object ViewModelFactory {
                         fragment, parentCallback, colorConverter, preferencesRepo,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, updateVisible, updateCheck, setNotification, deleteNotification,
-                        getNotificationDateList, getRankId, getRankDialogNames
+                        getNotificationDateList, getRankId, getRankDialogNames, saveControl
                     )
                 }
             }
