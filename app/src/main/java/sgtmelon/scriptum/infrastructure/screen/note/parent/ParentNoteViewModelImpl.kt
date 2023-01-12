@@ -193,7 +193,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun redoAction() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
-        if (callback.isDialogOpen == true || isEdit.value.isFalse()) return
+        if (callback.isDialogOpen || isEdit.value.isFalse()) return
 
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
@@ -231,13 +231,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         callback.changeName(action.value[isUndo], action.cursor[isUndo])
     }
 
-    /**
-     * Function of background work for note saving.
-     */
-    abstract suspend fun saveBackgroundWork()
-
     override fun edit() {
-        if (callback.isDialogOpen == true || isEdit.value.isTrue()) return
+        if (callback.isDialogOpen || isEdit.value.isTrue()) return
 
         setupEditMode(isEdit = true)
     }

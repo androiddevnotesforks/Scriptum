@@ -69,14 +69,14 @@ class TextNoteViewModelImpl(
 ), TextNoteViewModel {
 
     override suspend fun setupAfterInitialize() {
-//        callback?.setupDialog(rankDialogItemArray)
+//        callback.setupDialog(rankDialogItemArray)
 
         mayAnimateIcon = false
         // TODO may this is not needed?
         setupEditMode(isEdit.value.isTrue())
         mayAnimateIcon = true
 
-        //        callback?.onBindingLoad()
+        //        callback.onBindingLoad()
     }
 
     //region Cleanup
@@ -97,7 +97,7 @@ class TextNoteViewModelImpl(
 
         setupEditMode(isEdit = false)
 
-        callback?.tintToolbar(colorFrom, colorTo)
+        callback.tintToolbar(colorFrom, colorTo)
         color.postValue(colorTo)
         history.reset()
 
@@ -122,45 +122,43 @@ class TextNoteViewModelImpl(
     }
 
     private fun onMenuUndoRedoText(action: HistoryAction.Text.Enter, isUndo: Boolean) {
-        callback?.changeText(action.value[isUndo], action.cursor[isUndo])
+        callback.changeText(action.value[isUndo], action.cursor[isUndo])
     }
 
     /**
      * Don't need update [color] because it's happen in [changeColor] function.
      */
     override fun save(changeMode: Boolean): Boolean {
-        if (changeMode && callback?.isDialogOpen == true) return false
+        if (changeMode && callback.isDialogOpen) return false
 
         if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled) return false
 
         deprecatedNoteItem.onSave()
 
         if (changeMode) {
-            callback?.hideKeyboardDepr()
+            callback.hideKeyboardDepr()
             setupEditMode(isEdit = false)
             history.reset()
         } else if (noteState.value == NoteState.CREATE) {
             /** Change toolbar icon from arrow to cancel for auto save case. */
-            callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
+            callback.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
-        viewModelScope.launch { saveBackgroundWork() }
+        viewModelScope.launch {
+            val isCreate = noteState.value == NoteState.CREATE
+            runBack { saveNote(deprecatedNoteItem, isCreate) }
+            cacheNote(deprecatedNoteItem)
+            //        cacheData()
+
+            if (isCreate) {
+                noteState.postValue(NoteState.EXIST)
+                id.postValue(deprecatedNoteItem.id)
+            }
+
+            callback.sendNotifyNotesBroadcast()
+        }
 
         return true
-    }
-
-    override suspend fun saveBackgroundWork() {
-        val isCreate = noteState.value == NoteState.CREATE
-        runBack { saveNote(deprecatedNoteItem, isCreate) }
-        cacheNote(deprecatedNoteItem)
-        //        cacheData()
-
-        if (isCreate) {
-            noteState.postValue(NoteState.EXIST)
-            id.postValue(deprecatedNoteItem.id)
-        }
-
-        callback?.sendNotifyNotesBroadcast()
     }
 
     override fun setupEditMode(isEdit: Boolean) {
@@ -168,7 +166,7 @@ class TextNoteViewModelImpl(
 
         this.isEdit.postValue(isEdit)
 
-        callback?.apply {
+        callback.apply {
             val noteState = noteState.value
             val notCreate = noteState != NoteState.CREATE
             setToolbarBackIcon(

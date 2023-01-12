@@ -176,7 +176,7 @@ class RollNoteViewModelImpl(
     override fun onEditorClick(i: Int): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        val enterText = callback.getEnterText()?.removeExtraSpace() ?: ""
+        val enterText = callback.getEnterText().removeExtraSpace()
 
         if (enterText.isEmpty()) {
             save(changeMode = true)
@@ -192,9 +192,9 @@ class RollNoteViewModelImpl(
      * to control in Edit.
      */
     override fun onClickAdd(toBottom: Boolean) {
-        if (callback.isDialogOpen == true || isEdit.value.isFalse()) return
+        if (callback.isDialogOpen || isEdit.value.isFalse()) return
 
-        val enterText = callback.getEnterText()?.removeExtraSpace() ?: ""
+        val enterText = callback.getEnterText().removeExtraSpace()
 
         if (enterText.isEmpty()) return
 
@@ -366,29 +366,27 @@ class RollNoteViewModelImpl(
             // TODO post new value about noteState
         }
 
-        viewModelScope.launch { saveBackgroundWork() }
+        viewModelScope.launch {
+            val isCreate = noteState.value == NoteState.CREATE
+            runBack { saveNote(deprecatedNoteItem, isCreate) }
+            cacheNote(deprecatedNoteItem)
 
-        return true
-    }
+            if (isCreate) {
+                noteState.postValue(NoteState.EXIST)
+                id.postValue(deprecatedNoteItem.id)
 
-    override suspend fun saveBackgroundWork() {
-        val isCreate = noteState.value == NoteState.CREATE
-        runBack { saveNote(deprecatedNoteItem, isCreate) }
-        cacheNote(deprecatedNoteItem)
+                /**
+                 * Need if [deprecatedNoteItem] isVisible changes wasn't set inside [changeVisible] because of
+                 * not created note.
+                 */
+                runBack { updateVisible(deprecatedNoteItem) }
+            }
 
-        if (isCreate) {
-            noteState.postValue(NoteState.EXIST)
-            id.postValue(deprecatedNoteItem.id)
-
-            /**
-             * Need if [deprecatedNoteItem] isVisible changes wasn't set inside [changeVisible] because of
-             * not created note.
-             */
-            runBack { updateVisible(deprecatedNoteItem) }
+            callback.setList(getAdapterList())
+            callback.sendNotifyNotesBroadcast()
         }
 
-        callback.setList(getAdapterList())
-        callback.sendNotifyNotesBroadcast()
+        return true
     }
 
     override fun setupEditMode(isEdit: Boolean) {
