@@ -385,17 +385,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     override val isDialogOpen: Boolean get() = open.isBlocked
 
-//    override fun hideKeyboardDepr() = hideKeyboard()
-
     override fun onPressBack() = viewModel.onPressBack()
 
     override fun tintToolbar(from: Color, to: Color) {
         tintToolbar?.setColorFrom(from)?.startTint(to)
     }
-
-    //    override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
-    //        navigationIcon?.setDrawable(isCancel, needAnim)
-    //    }
 
     override fun showSaveToast(isSuccess: Boolean) {
         val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error

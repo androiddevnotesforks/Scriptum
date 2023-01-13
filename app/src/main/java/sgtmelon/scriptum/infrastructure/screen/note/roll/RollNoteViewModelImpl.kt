@@ -355,7 +355,6 @@ class RollNoteViewModelImpl(
         callback.setList(getAdapterList())
 
         if (changeMode) {
-//            callback.hideKeyboardDepr()
             setupEditMode(isEdit = false)
             history.reset()
         } else if (noteState.value == NoteState.CREATE) {

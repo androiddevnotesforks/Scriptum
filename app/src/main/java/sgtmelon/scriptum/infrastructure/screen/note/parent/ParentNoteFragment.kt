@@ -12,18 +12,12 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind 
 
     val isDialogOpen: Boolean
 
-    //    @Deprecated("Use fragment extensions")
-    //    fun hideKeyboardDepr()
-
-
     fun onBindingEdit(item: N, isEditMode: Boolean)
 
 
     fun onPressBack(): Boolean
 
     fun tintToolbar(from: Color, to: Color)
-
-    //    fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
 
 
     fun changeName(text: String, cursor: Int)
