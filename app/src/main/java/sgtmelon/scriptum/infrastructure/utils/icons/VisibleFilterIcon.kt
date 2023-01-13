@@ -41,7 +41,11 @@ class VisibleFilterIcon(
         context, visibleEnterIcon, visibleExitIcon, changeCallback = this, callback
     )
 
+    override var isEnterIcon: Boolean? = null
+
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
+        this.isEnterIcon = isEnterIcon
+
         menuItem?.icon = if (needAnim) {
             animatedIcon.getAndStart(isEnterIcon)
         } else {

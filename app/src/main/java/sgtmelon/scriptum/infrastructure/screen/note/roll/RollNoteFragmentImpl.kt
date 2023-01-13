@@ -59,14 +59,14 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.recyclerView?.makeVisibleIf(it) { makeInvisible() }
     }
 
-    override fun observeEdit(it: Boolean) {
-        super.observeEdit(it)
-        adapter.updateEdit(it)
+    override fun observeEdit(isEdit: Boolean) {
+        super.observeEdit(isEdit)
+        adapter.updateEdit(isEdit)
     }
 
-    override fun observeState(it: NoteState) {
-        super.observeState(it)
-        adapter.updateState(it)
+    override fun observeState(state: NoteState) {
+        super.observeState(state)
+        adapter.updateState(state)
     }
 
     override fun setupToolbar(context: Context, toolbar: Toolbar?) {

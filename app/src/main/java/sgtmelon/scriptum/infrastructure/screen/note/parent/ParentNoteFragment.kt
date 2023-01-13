@@ -23,7 +23,7 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind 
 
     fun tintToolbar(from: Color, to: Color)
 
-    fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
+//    fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
 
 
     fun changeName(text: String, cursor: Int)

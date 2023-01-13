@@ -147,28 +147,44 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         invalidateToolbar()
     }
 
-    @CallSuper open fun observeEdit(it: Boolean) {
-        connector.init.isEdit = it
+    @CallSuper open fun observeEdit(isEdit: Boolean) {
+        connector.init.isEdit = isEdit
 
-        if (!it) hideKeyboard()
+        if (!isEdit) hideKeyboard()
 
         invalidateToolbar()
-        invalidatePanelState(it)
+        invalidatePanelState(isEdit)
+
+        /** If [isEdit] not equals last icon value - that means edit mode was changed. */
+        val backIconValue = navigationIcon?.isEnterIcon ?: return
+        if (backIconValue != isEdit) {
+            navigationIcon?.setDrawable(isEdit, needAnim = true)
+        }
     }
 
-    @CallSuper open fun observeState(it: NoteState) {
-        connector.init.state = it
+    @CallSuper open fun observeState(state: NoteState) {
+        connector.init.state = state
 
         invalidatePanelState(connector.init.isEdit)
+
+        /**
+         * If [NoteState.EXIST] and in isEdit mode - that means note was created [NoteState.CREATE]
+         * and saved without changing edit mode. This may happens if auto save is on.
+         *
+         * And that's why need change icon from ARROW to CANCEL.
+         */
+        if (state == NoteState.EXIST && viewModel.isEdit.value == true) {
+            navigationIcon?.setDrawable(isEnterIcon = true, needAnim = true)
+        }
     }
 
-    @CallSuper open fun observeColor(it: Color) {
-        connector.init.color = it
-        connector.updateHolder(it)
+    @CallSuper open fun observeColor(color: Color) {
+        connector.init.color = color
+        connector.updateHolder(color)
     }
 
-    @CallSuper open fun observeNoteItem(it: N) {
-        invalidatePanelData(it)
+    @CallSuper open fun observeNoteItem(item: N) {
+        invalidatePanelData(item)
     }
 
     @CallSuper open fun observeHistoryAvailable(available: HistoryMoveAvailable) {
@@ -200,7 +216,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         /** Show cancel button (for undo all changes) only if note exists and in edit mode. */
         val isCancel = with(connector.init) { state != NoteState.CREATE && isEdit }
-        setToolbarBackIcon(isCancel, needAnim = false)
+        navigationIcon?.setDrawable(isCancel, needAnim = false)
 
         appBar?.content?.scrollView?.setOnTouchSelectionListener(appBar?.content?.nameEnter)
         appBar?.content?.nameEnter?.let {
@@ -377,9 +393,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         tintToolbar?.setColorFrom(from)?.startTint(to)
     }
 
-    override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
-        navigationIcon?.setDrawable(isCancel, needAnim)
-    }
+    //    override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
+    //        navigationIcon?.setDrawable(isCancel, needAnim)
+    //    }
 
     override fun showSaveToast(isSuccess: Boolean) {
         val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error

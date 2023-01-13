@@ -81,7 +81,11 @@ class SwitchButton(
         animControl.setBlockCallback(blockCallback)
     }
 
+    override var isEnterIcon: Boolean? = null
+
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
+        this.isEnterIcon = isEnterIcon
+
         val icon = if (needAnim) {
             animControl.getAndStart(isEnterIcon)
         } else {

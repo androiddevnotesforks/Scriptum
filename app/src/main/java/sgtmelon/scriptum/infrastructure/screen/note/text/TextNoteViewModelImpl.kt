@@ -140,8 +140,9 @@ class TextNoteViewModelImpl(
             setupEditMode(isEdit = false)
             history.reset()
         } else if (noteState.value == NoteState.CREATE) {
-            /** Change toolbar icon from arrow to cancel for auto save case. */
-            callback.setToolbarBackIcon(isCancel = true, needAnim = true)
+            // TODO noteState will be changed later
+            //            /** Change toolbar icon from arrow to cancel for auto save case. */
+            //            callback.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
         viewModelScope.launch {
@@ -167,17 +168,20 @@ class TextNoteViewModelImpl(
         this.isEdit.postValue(isEdit)
 
         callback.apply {
+            // TODO isEdit value already posted
             val noteState = noteState.value
-            val notCreate = noteState != NoteState.CREATE
-            setToolbarBackIcon(
-                isCancel = notCreate && isEdit,
-                needAnim = notCreate && mayAnimateIcon
-            )
+            //            val notCreate = noteState != NoteState.CREATE
+            //            setToolbarBackIcon(
+            //                isCancel = notCreate && isEdit,
+            //                needAnim = notCreate && mayAnimateIcon
+            //            )
 
             onBindingEdit(deprecatedNoteItem, isEdit)
             historyAvailable.postValue(history.available)
 
-            if (isEdit) focusOnEdit(isCreate = noteState == NoteState.CREATE)
+            if (isEdit) {
+                focusOnEdit(isCreate = noteState == NoteState.CREATE)
+            }
         }
 
         saveControl.isNeedSave = true

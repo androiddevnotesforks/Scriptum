@@ -39,16 +39,16 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         binding?.contentScroll?.makeVisibleIf(it) { makeInvisible() }
     }
 
-    override fun observeEdit(it: Boolean) {
-        super.observeEdit(it)
+    override fun observeEdit(isEdit: Boolean) {
+        super.observeEdit(isEdit)
 
-        binding?.textEnter?.makeVisibleIf(it) { makeInvisible() }
-        binding?.textRead?.makeVisibleIf(!it) { makeInvisible() }
+        binding?.textEnter?.makeVisibleIf(isEdit) { makeInvisible() }
+        binding?.textRead?.makeVisibleIf(!isEdit) { makeInvisible() }
         invalidateContent()
     }
 
-    override fun observeNoteItem(it: NoteItem.Text) {
-        super.observeNoteItem(it)
+    override fun observeNoteItem(item: NoteItem.Text) {
+        super.observeNoteItem(item)
         invalidateContent()
     }
 
