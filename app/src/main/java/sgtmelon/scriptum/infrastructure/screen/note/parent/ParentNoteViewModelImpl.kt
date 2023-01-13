@@ -156,7 +156,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     override fun onClickBackArrow() {
         if (noteState.value != NoteState.CREATE && isEdit.value.isTrue()) {
-            callback.hideKeyboardDepr()
+            // TODO keyboard will be hided on edit mode change
+            //            callback.hideKeyboardDepr()
             onRestoreData()
         } else {
             saveControl.isNeedSave = false
