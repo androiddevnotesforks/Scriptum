@@ -39,7 +39,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelIm
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
@@ -217,7 +216,8 @@ class RollNoteViewModelImpl(
             callback.notifyItemRemoved(getAdapterList(), p)
         }
 
-        with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
+        // TODO post to noteItem
+        //        with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
 
         viewModelScope.launch {
             runBack { updateCheck(deprecatedNoteItem, absolutePosition) }
@@ -377,10 +377,6 @@ class RollNoteViewModelImpl(
     override fun setupEditMode(isEdit: Boolean) {
         this.isEdit.postValue(isEdit)
         historyAvailable.postValue(history.available)
-
-        if (!isEdit) {
-            with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
-        }
 
         saveControl.isNeedSave = true
         saveControl.changeAutoSaveWork(isEdit)

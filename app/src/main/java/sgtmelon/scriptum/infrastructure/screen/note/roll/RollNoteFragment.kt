@@ -26,8 +26,6 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun scrollToItem(toBottom: Boolean, p: Int, list: MutableList<RollItem>)
 
-    fun updateProgress(progress: Int, max: Int)
-
     fun setList(list: List<RollItem>)
 
     fun notifyDataSetChanged(list: List<RollItem>)

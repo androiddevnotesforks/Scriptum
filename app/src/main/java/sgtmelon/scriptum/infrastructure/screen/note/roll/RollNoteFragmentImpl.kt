@@ -33,6 +33,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
@@ -67,6 +68,13 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun observeState(previousState: NoteState, state: NoteState) {
         super.observeState(previousState, state)
         adapter.updateState(state)
+    }
+
+    override fun observeNoteItem(item: NoteItem.Roll) {
+        super.observeNoteItem(item)
+
+        binding?.doneProgress?.max = item.list.size
+        binding?.doneProgress?.setProgress(item.list.getCheckCount(), true)
     }
 
     override fun setupToolbar(context: Context, toolbar: Toolbar?) {
@@ -251,11 +259,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             adapter.setList(list)
             binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
         }
-    }
-
-    override fun updateProgress(progress: Int, max: Int) {
-        binding?.doneProgress?.max = max
-        binding?.doneProgress?.setProgress(progress, true)
     }
 
     override fun setList(list: List<RollItem>) {
