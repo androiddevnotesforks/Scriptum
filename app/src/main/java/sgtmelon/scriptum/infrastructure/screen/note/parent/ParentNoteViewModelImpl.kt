@@ -113,16 +113,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     protected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
 
-    //    override fun onSetup(bundle: Bundle?) {
-    //        setupBeforeInitialize()
-    //
-    //        viewModelScope.launch {
-    //            if (tryInitializeNote()) {
-    //                setupAfterInitialize()
-    //            }
-    //        }
-    //    }
-
     /**
      * Call after [tryInitializeNote]
      */

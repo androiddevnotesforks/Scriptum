@@ -183,26 +183,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             .inject(fragment = this)
     }
 
-    override fun onBindingLoad() {
-        //        binding?.apply { this.isDataLoad = true }?.executePendingBindings()
-    }
-
     override fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean) {
         binding?.apply {
             this.isListEmpty = isListEmpty
             this.isListHide = isListHide
         }?.executePendingBindings()
-    }
-
-    override fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean) {
-        //        binding?.apply {
-        //            TODO()
-        //            //            this.item = item
-        //            //            this.isEditMode = isEditMode
-        //        }
-
-        // TODO зачем тут нужно было обновлять поле ввода? мб при первом включении
-        //        onBindingEnter()
     }
 
     override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {
@@ -227,16 +212,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             isVisible = isVisible ?: isListEmpty
         )
     }
-
-//    override fun focusOnEdit(isCreate: Boolean) {
-//        view?.post {
-//            if (isCreate) {
-//                appBar?.content?.nameEnter?.requestSelectionFocus()
-//            } else {
-//                binding?.addPanel?.rollEnter?.requestSelectionFocus()
-//            }
-//        }
-//    }
 
     override fun changeName(text: String, cursor: Int) {
         appBar?.content?.nameEnter?.apply {
@@ -276,12 +251,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             adapter.setList(list)
             binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
         }
-    }
-
-    override fun updateNoteState(isEdit: Boolean, state: NoteState?) {
-        //        adapter.isEdit = isEdit
-        //        adapter.state = state
-        //        binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun updateProgress(progress: Int, max: Int) {

@@ -101,24 +101,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             .inject(fragment = this)
     }
 
-    override fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean) {
-        //        TODO("remove")
-        //        binding?.apply {
-        //            this.item = item
-        //            this.isEditMode = isEditMode
-        //        }?.executePendingBindings()
-    }
-
-//    override fun focusOnEdit(isCreate: Boolean) {
-//        view?.post {
-//            if (isCreate) {
-//                appBar?.content?.nameEnter?.requestSelectionFocus()
-//            } else {
-//                binding?.textEnter?.requestSelectionFocus()
-//            }
-//        }
-//    }
-
     override fun changeName(text: String, cursor: Int) {
         appBar?.content?.nameEnter?.apply {
             requestFocus()

@@ -12,9 +12,6 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind 
 
     val isDialogOpen: Boolean
 
-    fun onBindingEdit(item: N, isEditMode: Boolean)
-
-
     fun onPressBack(): Boolean
 
     fun tintToolbar(from: Color, to: Color)

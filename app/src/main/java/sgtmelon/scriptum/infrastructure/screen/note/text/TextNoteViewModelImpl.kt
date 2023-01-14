@@ -69,14 +69,10 @@ class TextNoteViewModelImpl(
 ), TextNoteViewModel {
 
     override suspend fun setupAfterInitialize() {
-//        callback.setupDialog(rankDialogItemArray)
-
         mayAnimateIcon = false
         // TODO may this is not needed?
         setupEditMode(isEdit.value.isTrue())
         mayAnimateIcon = true
-
-        //        callback.onBindingLoad()
     }
 
     //region Cleanup
@@ -92,7 +88,6 @@ class TextNoteViewModelImpl(
         if (restoreItem != null) {
             deprecatedNoteItem = restoreItem.copy()
         }
-        //        deprecatedNoteItem = deprecatedRestoreItem.copy()
         val colorTo = deprecatedNoteItem.color
 
         setupEditMode(isEdit = false)
@@ -136,20 +131,14 @@ class TextNoteViewModelImpl(
         deprecatedNoteItem.onSave()
 
         if (changeMode) {
-//            callback.hideKeyboardDepr()
             setupEditMode(isEdit = false)
             history.reset()
-        } else if (noteState.value == NoteState.CREATE) {
-            // TODO noteState will be changed later
-            //            /** Change toolbar icon from arrow to cancel for auto save case. */
-            //            callback.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
         viewModelScope.launch {
             val isCreate = noteState.value == NoteState.CREATE
             runBack { saveNote(deprecatedNoteItem, isCreate) }
             cacheNote(deprecatedNoteItem)
-            //        cacheData()
 
             if (isCreate) {
                 noteState.postValue(NoteState.EXIST)
@@ -162,27 +151,12 @@ class TextNoteViewModelImpl(
         return true
     }
 
+    // TODO may be post noteItem?
     override fun setupEditMode(isEdit: Boolean) {
         history.saveChanges = false
 
         this.isEdit.postValue(isEdit)
-
-        callback.apply {
-            // TODO isEdit value already posted
-            val noteState = noteState.value
-            //            val notCreate = noteState != NoteState.CREATE
-            //            setToolbarBackIcon(
-            //                isCancel = notCreate && isEdit,
-            //                needAnim = notCreate && mayAnimateIcon
-            //            )
-
-            onBindingEdit(deprecatedNoteItem, isEdit)
-            historyAvailable.postValue(history.available)
-
-//            if (isEdit) {
-//                focusOnEdit(isCreate = noteState == NoteState.CREATE)
-//            }
-        }
+        historyAvailable.postValue(history.available)
 
         saveControl.isNeedSave = true
         saveControl.changeAutoSaveWork(isEdit)

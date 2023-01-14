@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -82,22 +81,17 @@ class RollNoteViewModelImpl(
 ), RollNoteViewModel {
 
     override suspend fun setupAfterInitialize() {
-//        callback.setupDialog(rankDialogItemArray)
-
         mayAnimateIcon = false
         // TODO may this is not needed?
         setupEditMode(isEdit.value.isTrue())
         mayAnimateIcon = true
 
         callback.apply {
-            //            showToolbarVisibleIcon(isShow = true)
             setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
             notifyDataSetChanged(getAdapterList())
         }
 
         onUpdateInfo()
-
-        callback.onBindingLoad()
     }
 
     //region Cleanup
@@ -114,7 +108,6 @@ class RollNoteViewModelImpl(
         if (restoreItem != null) {
             deprecatedNoteItem = restoreItem.copy(isVisible = deprecatedNoteItem.isVisible)
         }
-        //        deprecatedNoteItem = deprecatedRestoreItem.copy(isVisible = isVisible)
         val colorTo = deprecatedNoteItem.color
 
         callback.notifyDataSetChanged(getAdapterList())
@@ -357,10 +350,6 @@ class RollNoteViewModelImpl(
         if (changeMode) {
             setupEditMode(isEdit = false)
             history.reset()
-        } else if (noteState.value == NoteState.CREATE) {
-            // TODO noteState will be changed later
-            //            /** Change toolbar icon from arrow to cancel for auto save case. */
-            //            callback.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
         viewModelScope.launch {
@@ -386,29 +375,15 @@ class RollNoteViewModelImpl(
         return true
     }
 
+    // TODO may be post noteItem?
     override fun setupEditMode(isEdit: Boolean) {
         history.saveChanges = false
 
         this.isEdit.postValue(isEdit)
+        historyAvailable.postValue(history.available)
 
-        callback.apply {
-            // TODO isEdit value already posted
-            val noteState = noteState.value ?: return@apply
-            //            val notCreate = noteState != NoteState.CREATE
-            //            setToolbarBackIcon(
-            //                isCancel = notCreate && isEdit,
-            //                needAnim = notCreate && mayAnimateIcon
-            //            )
-
-            onBindingEdit(deprecatedNoteItem, isEdit)
-            historyAvailable.postValue(history.available)
-            viewModelScope.launchBack { updateNoteState(isEdit, noteState) }
-
-            if (!isEdit) {
-//                focusOnEdit(isCreate = noteState == NoteState.CREATE)
-//            } else {
-                with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
-            }
+        if (!isEdit) {
+            with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
         }
 
         saveControl.isNeedSave = true
