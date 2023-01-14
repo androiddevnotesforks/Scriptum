@@ -373,15 +373,6 @@ class RollNoteViewModelImpl(
         return true
     }
 
-    // TODO may be post noteItem?
-    override fun setupEditMode(isEdit: Boolean) {
-        this.isEdit.postValue(isEdit)
-        historyAvailable.postValue(history.available)
-
-        saveControl.isNeedSave = true
-        saveControl.changeAutoSaveWork(isEdit)
-    }
-
     //endregion
 
     /**

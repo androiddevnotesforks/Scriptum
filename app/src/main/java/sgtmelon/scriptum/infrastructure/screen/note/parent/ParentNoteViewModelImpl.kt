@@ -228,7 +228,16 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     /**
      * Function must describe changing of edit/read modes.
      */
-    abstract fun setupEditMode(isEdit: Boolean)
+    protected fun setupEditMode(isEdit: Boolean) {
+        this.isEdit.postValue(isEdit)
+
+        // TODO may be post noteItem?
+
+        historyAvailable.postValue(history.available) // TODO it's really needed?
+
+        saveControl.isNeedSave = true
+        saveControl.changeAutoSaveWork(isEdit)
+    }
 
 
     override fun onResultSaveControl() {
