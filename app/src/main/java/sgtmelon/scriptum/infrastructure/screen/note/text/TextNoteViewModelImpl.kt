@@ -103,17 +103,15 @@ class TextNoteViewModelImpl(
 
     // TODO move undo/redo staff inside use case or something like this
     override fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean) {
-        history.saveChanges = false
-
-        when (action) {
-            is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
-            is HistoryAction.Rank -> onMenuUndoRedoRank(action, isUndo)
-            is HistoryAction.Color -> onMenuUndoRedoColor(action, isUndo)
-            is HistoryAction.Text.Enter -> onMenuUndoRedoText(action, isUndo)
-            else -> Unit
+        disableHistoryChanges {
+            when (action) {
+                is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
+                is HistoryAction.Rank -> onMenuUndoRedoRank(action, isUndo)
+                is HistoryAction.Color -> onMenuUndoRedoColor(action, isUndo)
+                is HistoryAction.Text.Enter -> onMenuUndoRedoText(action, isUndo)
+                else -> Unit
+            }
         }
-
-        history.saveChanges = true
     }
 
     private fun onMenuUndoRedoText(action: HistoryAction.Text.Enter, isUndo: Boolean) {
@@ -153,15 +151,11 @@ class TextNoteViewModelImpl(
 
     // TODO may be post noteItem?
     override fun setupEditMode(isEdit: Boolean) {
-        history.saveChanges = false
-
         this.isEdit.postValue(isEdit)
         historyAvailable.postValue(history.available)
 
         saveControl.isNeedSave = true
         saveControl.changeAutoSaveWork(isEdit)
-
-        history.saveChanges = true
     }
 
     //endregion

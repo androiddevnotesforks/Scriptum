@@ -230,20 +230,18 @@ class RollNoteViewModelImpl(
 
     // TODO move undo/redo staff inside use case or something like this
     override fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean) {
-        history.saveChanges = false
-
-        when (action) {
-            is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
-            is HistoryAction.Rank -> onMenuUndoRedoRank(action, isUndo)
-            is HistoryAction.Color -> onMenuUndoRedoColor(action, isUndo)
-            is HistoryAction.Roll.Enter -> onMenuUndoRedoRoll(action, isUndo)
-            is HistoryAction.Roll.List.Add -> onMenuUndoRedoAdd(action, isUndo)
-            is HistoryAction.Roll.List.Remove -> onMenuUndoRedoRemove(action, isUndo)
-            is HistoryAction.Roll.Move -> onMenuUndoRedoMove(action, isUndo)
-            else -> Unit
+        disableHistoryChanges {
+            when (action) {
+                is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
+                is HistoryAction.Rank -> onMenuUndoRedoRank(action, isUndo)
+                is HistoryAction.Color -> onMenuUndoRedoColor(action, isUndo)
+                is HistoryAction.Roll.Enter -> onMenuUndoRedoRoll(action, isUndo)
+                is HistoryAction.Roll.List.Add -> onMenuUndoRedoAdd(action, isUndo)
+                is HistoryAction.Roll.List.Remove -> onMenuUndoRedoRemove(action, isUndo)
+                is HistoryAction.Roll.Move -> onMenuUndoRedoMove(action, isUndo)
+                else -> Unit
+            }
         }
-
-        history.saveChanges = true
     }
 
     private fun onMenuUndoRedoRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
@@ -377,8 +375,6 @@ class RollNoteViewModelImpl(
 
     // TODO may be post noteItem?
     override fun setupEditMode(isEdit: Boolean) {
-        history.saveChanges = false
-
         this.isEdit.postValue(isEdit)
         historyAvailable.postValue(history.available)
 
@@ -388,8 +384,6 @@ class RollNoteViewModelImpl(
 
         saveControl.isNeedSave = true
         saveControl.changeAutoSaveWork(isEdit)
-
-        history.saveChanges = true
     }
 
     //endregion
@@ -408,10 +402,6 @@ class RollNoteViewModelImpl(
 
             return list.validIndexOfFirst(hideItem)
         }
-    }
-
-    override fun onRollHistoryEnabled(enabled: Boolean) {
-        history.saveChanges = enabled
     }
 
     override fun onRollHistoryAdd(action: HistoryAction) = history.add(action)

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnable
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -17,6 +18,9 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 @Deprecated("Remove ParentViewModel, change name")
 interface ParentNoteViewModel<N : NoteItem> :
     UnbindNoteReceiver.Callback,
+    NoteHistoryEnable,
+
+    // TODO cleanup
     SaveControlImpl.Callback,
     HistoryTextWatcher.Callback {
 

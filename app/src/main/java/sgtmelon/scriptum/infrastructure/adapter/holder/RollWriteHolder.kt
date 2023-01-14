@@ -11,6 +11,7 @@ import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindTextColor
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnable
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
@@ -61,20 +62,18 @@ class RollWriteHolder(
         binding.dragButton.setOnTouchListener(touchListener)
     }
 
-    fun bind(item: RollItem) {
-        callback.onRollHistoryEnabled(enabled = false)
-
-        binding.dragButton.bindBoolTint(item.isCheck, R.attr.clAccent, R.attr.clContent)
-        bindContentDescription(item.text)
-        binding.textEnter.setText(item.text)
-        binding.textEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
-
-        callback.onRollHistoryEnabled(enabled = true)
+    fun bind(item: RollItem) = callback.disableHistoryChanges {
+        with(binding) {
+            dragButton.bindBoolTint(item.isCheck, R.attr.clAccent, R.attr.clContent)
+            bindContentDescription(item.text)
+            textEnter.setText(item.text)
+            textEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
+        }
     }
 
     private fun bindContentDescription(text: String) {
-        binding.dragButton.contentDescription =
-            context.getString(R.string.description_item_roll_move, text)
+        val description = context.getString(R.string.description_item_roll_move, text)
+        binding.dragButton.contentDescription = description
     }
 
     /**
@@ -99,9 +98,8 @@ class RollWriteHolder(
         binding.dragButton.setOnTouchListener(null)
     }
 
-    interface Callback {
+    interface Callback : NoteHistoryEnable {
         fun getAbsolutePosition(adapterPosition: Int): Int?
-        fun onRollHistoryEnabled(enabled: Boolean)
         fun onRollHistoryAdd(action: HistoryAction)
         fun onRollEnterChanged(p: Int, text: String)
         fun onRollActionNext()

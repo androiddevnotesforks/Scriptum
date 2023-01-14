@@ -372,4 +372,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
         noteItem.postValue(item)
     }
+
+    override fun disableHistoryChanges(func: () -> Unit) {
+        history.saveChanges = false
+        func()
+        history.saveChanges = true
+    }
 }

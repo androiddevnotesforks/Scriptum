@@ -7,6 +7,8 @@ import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import java.util.Calendar
 import sgtmelon.extensions.collect
 import sgtmelon.extensions.toCalendar
@@ -54,7 +56,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     ParentNoteFragment<N>,
     IconBlockCallback {
 
-    // TODO update name in connector init
+    // TODO update name in connector init (after save?)
 
     protected val connector get() = activity as NoteConnector
 
@@ -132,14 +134,25 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.isDataReady.observe(this) { observeDataReady(it) }
-        viewModel.isEdit.observe(this) { observeEdit(connector.init.isEdit, it) }
-        viewModel.noteState.observe(this) { observeState(connector.init.state, it) }
-        viewModel.id.observe(this) { connector.init.id = it }
-        viewModel.color.observe(this) { observeColor(it) }
-        viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
-        viewModel.noteItem.observe(this) { observeNoteItem(it) }
-        viewModel.historyAvailable.observe(this) { observeHistoryAvailable(it) }
+        observeWithHistoryDisable(viewModel.isDataReady) { observeDataReady(it) }
+        observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
+        observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
+        observeWithHistoryDisable(viewModel.id) { connector.init.id = it }
+        observeWithHistoryDisable(viewModel.color) { observeColor(it) }
+        observeWithHistoryDisable(viewModel.rankDialogItems) { rankDialog.itemArray = it }
+        observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
+        observeWithHistoryDisable(viewModel.historyAvailable) { observeHistoryAvailable(it) }
+    }
+
+    /**
+     * Watch observable [data] with disabling history-changes tracker. It's needed for skip
+     * e.g. TextWatchers calls on any data setup.
+     */
+    private inline fun <T> Fragment.observeWithHistoryDisable(
+        data: LiveData<T>,
+        crossinline onCall: (T) -> Unit
+    ) {
+        data.observe(this) { viewModel.disableHistoryChanges { onCall(it) } }
     }
 
     // TODO("block some buttons in panel bar while data not loaded")
