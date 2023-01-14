@@ -404,9 +404,9 @@ class RollNoteViewModelImpl(
             historyAvailable.postValue(history.available)
             viewModelScope.launchBack { updateNoteState(isEdit, noteState) }
 
-            if (isEdit) {
-                focusOnEdit(isCreate = noteState == NoteState.CREATE)
-            } else {
+            if (!isEdit) {
+//                focusOnEdit(isCreate = noteState == NoteState.CREATE)
+//            } else {
                 with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
             }
         }

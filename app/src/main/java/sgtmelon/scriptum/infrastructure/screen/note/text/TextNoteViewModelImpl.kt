@@ -179,9 +179,9 @@ class TextNoteViewModelImpl(
             onBindingEdit(deprecatedNoteItem, isEdit)
             historyAvailable.postValue(history.available)
 
-            if (isEdit) {
-                focusOnEdit(isCreate = noteState == NoteState.CREATE)
-            }
+//            if (isEdit) {
+//                focusOnEdit(isCreate = noteState == NoteState.CREATE)
+//            }
         }
 
         saveControl.isNeedSave = true

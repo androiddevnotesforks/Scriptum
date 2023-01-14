@@ -39,8 +39,8 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         binding?.contentScroll?.makeVisibleIf(it) { makeInvisible() }
     }
 
-    override fun observeEdit(isEdit: Boolean) {
-        super.observeEdit(isEdit)
+    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
+        super.observeEdit(previousEdit, isEdit)
 
         binding?.textEnter?.makeVisibleIf(isEdit) { makeInvisible() }
         binding?.textRead?.makeVisibleIf(!isEdit) { makeInvisible() }
@@ -52,7 +52,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         invalidateContent()
     }
 
-    override fun focusAfterNameAction() {
+    override fun focusOnEnter() {
         binding?.textEnter?.requestSelectionFocus()
     }
 
@@ -109,15 +109,15 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         //        }?.executePendingBindings()
     }
 
-    override fun focusOnEdit(isCreate: Boolean) {
-        view?.post {
-            if (isCreate) {
-                appBar?.content?.nameEnter?.requestSelectionFocus()
-            } else {
-                binding?.textEnter?.requestSelectionFocus()
-            }
-        }
-    }
+//    override fun focusOnEdit(isCreate: Boolean) {
+//        view?.post {
+//            if (isCreate) {
+//                appBar?.content?.nameEnter?.requestSelectionFocus()
+//            } else {
+//                binding?.textEnter?.requestSelectionFocus()
+//            }
+//        }
+//    }
 
     override fun changeName(text: String, cursor: Int) {
         appBar?.content?.nameEnter?.apply {

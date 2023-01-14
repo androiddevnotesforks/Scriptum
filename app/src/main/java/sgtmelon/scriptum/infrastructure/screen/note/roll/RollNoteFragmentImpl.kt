@@ -59,13 +59,13 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.recyclerView?.makeVisibleIf(it) { makeInvisible() }
     }
 
-    override fun observeEdit(isEdit: Boolean) {
-        super.observeEdit(isEdit)
+    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
+        super.observeEdit(previousEdit, isEdit)
         adapter.updateEdit(isEdit)
     }
 
-    override fun observeState(state: NoteState) {
-        super.observeState(state)
+    override fun observeState(previousState: NoteState, state: NoteState) {
+        super.observeState(previousState, state)
         adapter.updateState(state)
     }
 
@@ -82,7 +82,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         visibleIcon = VisibleFilterIcon(context, visibleMenuItem, callback = this)
     }
 
-    override fun focusAfterNameAction() = onFocusEnter()
+    override fun focusOnEnter() = onFocusEnter()
 
     override fun setupPanel() {
         super.setupPanel()
@@ -228,15 +228,15 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         )
     }
 
-    override fun focusOnEdit(isCreate: Boolean) {
-        view?.post {
-            if (isCreate) {
-                appBar?.content?.nameEnter?.requestSelectionFocus()
-            } else {
-                binding?.addPanel?.rollEnter?.requestSelectionFocus()
-            }
-        }
-    }
+//    override fun focusOnEdit(isCreate: Boolean) {
+//        view?.post {
+//            if (isCreate) {
+//                appBar?.content?.nameEnter?.requestSelectionFocus()
+//            } else {
+//                binding?.addPanel?.rollEnter?.requestSelectionFocus()
+//            }
+//        }
+//    }
 
     override fun changeName(text: String, cursor: Int) {
         appBar?.content?.nameEnter?.apply {

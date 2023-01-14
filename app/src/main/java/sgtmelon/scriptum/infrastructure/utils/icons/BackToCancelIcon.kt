@@ -31,11 +31,7 @@ class BackToCancelIcon(
         context, cancelEnterIcon, cancelExitIcon, changeCallback = this, callback
     )
 
-    override var isEnterIcon: Boolean? = null
-
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
-        this.isEnterIcon = isEnterIcon
-
         toolbar?.navigationIcon = if (needAnim) {
             animatedIcon.getAndStart(isEnterIcon)
         } else {

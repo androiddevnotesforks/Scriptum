@@ -18,8 +18,8 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun animateInfoVisible(isVisible: Boolean? = null)
 
-    fun focusOnEdit(isCreate: Boolean)
-
+//    fun focusOnEdit(isCreate: Boolean)
+    @Deprecated("remove it and use focusOnEnter")
     fun onFocusEnter()
 
     fun getEnterText(): String

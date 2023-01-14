@@ -18,6 +18,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
+import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -132,8 +133,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         super.setupObservers()
 
         viewModel.isDataReady.observe(this) { observeDataReady(it) }
-        viewModel.isEdit.observe(this) { observeEdit(it) }
-        viewModel.noteState.observe(this) { observeState(it) }
+        viewModel.isEdit.observe(this) { observeEdit(connector.init.isEdit, it) }
+        viewModel.noteState.observe(this) { observeState(connector.init.state, it) }
         viewModel.id.observe(this) { connector.init.id = it }
         viewModel.color.observe(this) { observeColor(it) }
         viewModel.rankDialogItems.observe(this) { rankDialog.itemArray = it }
@@ -147,7 +148,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         invalidateToolbar()
     }
 
-    @CallSuper open fun observeEdit(isEdit: Boolean) {
+    @CallSuper open fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
         connector.init.isEdit = isEdit
 
         if (!isEdit) hideKeyboard()
@@ -155,25 +156,40 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         invalidateToolbar()
         invalidatePanelState(isEdit)
 
-        /** If [isEdit] not equals last icon value - that means edit mode was changed. */
-        val backIconValue = navigationIcon?.isEnterIcon ?: return
-        if (backIconValue != isEdit) {
+        /**
+         * If [isEdit] not equals [previousEdit] - that means edit mode was changed.
+         *
+         * Need check [previousEdit], because screen may be rotated and in this case all
+         * observe staff will be called (it comes to animation false call). Need to determinate
+         * case when [isEdit] really was changed.
+         */
+        if (previousEdit != isEdit) {
             navigationIcon?.setDrawable(isEdit, needAnim = true)
+
+            if (isEdit) {
+                focusOnEnter()
+            }
         }
     }
 
-    @CallSuper open fun observeState(state: NoteState) {
+    @CallSuper open fun observeState(previousState: NoteState, state: NoteState) {
         connector.init.state = state
 
-        invalidatePanelState(connector.init.isEdit)
+        val isEdit = connector.init.isEdit
+
+        invalidatePanelState(isEdit)
 
         /**
          * If [NoteState.EXIST] and in isEdit mode - that means note was created [NoteState.CREATE]
          * and saved without changing edit mode. This may happens if auto save is on.
          *
          * And that's why need change icon from ARROW to CANCEL.
+         *
+         * Need check [previousState], because screen may be rotated and in this case all
+         * observe staff will be called (it comes to animation false call). Need to determinate
+         * case when [state] really was changed.
          */
-        if (state == NoteState.EXIST && viewModel.isEdit.value == true) {
+        if (previousState == NoteState.CREATE && state == NoteState.EXIST && isEdit) {
             navigationIcon?.setDrawable(isEnterIcon = true, needAnim = true)
         }
     }
@@ -218,6 +234,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val isCancel = with(connector.init) { state != NoteState.CREATE && isEdit }
         navigationIcon?.setDrawable(isCancel, needAnim = false)
 
+        /** If note was just created and data not loaded (first toolbar setup, not rotation) */
+        if (connector.init.state == NoteState.CREATE && viewModel.isDataReady.value.isFalse()) {
+            appBar?.content?.nameEnter?.requestSelectionFocus()
+        }
+
         appBar?.content?.scrollView?.setOnTouchSelectionListener(appBar?.content?.nameEnter)
         appBar?.content?.nameEnter?.let {
             /** Save changes of name to noteItem model (available only in edit mode). */
@@ -229,7 +250,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                 HistoryAction.Name(value, cursor)
             })
 
-            it.addOnNextAction { focusAfterNameAction() }
+            it.addOnNextAction { focusOnEnter() }
         }
     }
 
@@ -238,7 +259,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         open.isBlocked = !isEnabled
     }
 
-    abstract fun focusAfterNameAction()
+    abstract fun focusOnEnter()
 
     @CallSuper open fun setupPanel() {
         val panelBar = panelBar ?: return
