@@ -21,7 +21,8 @@ class RollAdapter(
     private var state: NoteState,
     private val dragListener: ItemDragListener,
     private val writeCallback: RollWriteHolder.Callback,
-    private val readCallback: RollReadHolder.Callback
+    private val readCallback: RollReadHolder.Callback,
+    private val onEnterNext: () -> Unit
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
     var cursor = ND_CURSOR
@@ -42,7 +43,7 @@ class RollAdapter(
         return when (Type.values()[viewType]) {
             Type.WRITE -> {
                 val binding: ItemRollWriteBinding = parent.inflateBinding(R.layout.item_roll_write)
-                RollWriteHolder(binding, dragListener, writeCallback)
+                RollWriteHolder(binding, dragListener, writeCallback, onEnterNext)
             }
             Type.READ -> {
                 val binding: ItemRollReadBinding = parent.inflateBinding(R.layout.item_roll_read)

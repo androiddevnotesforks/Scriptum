@@ -26,7 +26,8 @@ import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
     dragListener: ItemDragListener,
-    private val callback: Callback
+    private val callback: Callback,
+    private val onEnterNext: () -> Unit
 ) : ParentHolder(binding.root),
     UnbindCallback,
     HistoryTextWatcher.Callback {
@@ -54,7 +55,7 @@ class RollWriteHolder(
             )
             imeOptions = EditorInfo.IME_ACTION_NEXT or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
-            addOnNextAction { callback.onRollActionNext() }
+            addOnNextAction { onEnterNext() }
             addTextChangedListener(textWatcher)
             setOnTouchListener(touchListener)
         }
@@ -102,6 +103,5 @@ class RollWriteHolder(
         fun getAbsolutePosition(adapterPosition: Int): Int?
         fun onRollHistoryAdd(action: HistoryAction)
         fun onRollEnterChanged(p: Int, text: String)
-        fun onRollActionNext()
     }
 }

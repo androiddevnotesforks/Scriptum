@@ -73,7 +73,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         visibleIcon = VisibleFilterIcon(context, visibleMenuItem, callback = this)
     }
 
-    override fun focusOnEnter() = onFocusEnter()
+    override fun focusOnEnter() {
+        binding?.addPanel?.rollEnter?.requestSelectionFocus()
+    }
 
     override fun setupPanel() {
         super.setupPanel()
@@ -190,7 +192,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
 
         return@lazy with(connector.init) {
-            RollAdapter(isEdit, state, touchCallback, viewModel, readCallback)
+            RollAdapter(isEdit, state, touchCallback, viewModel, readCallback) {
+                focusOnEnter()
+            }
         }
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
@@ -228,10 +232,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             setText(text)
             setSelection(cursor)
         }
-    }
-
-    override fun onFocusEnter() {
-        binding?.addPanel?.rollEnter?.requestSelectionFocus()
     }
 
     override fun getEnterText() = binding?.addPanel?.rollEnter?.text?.toString() ?: ""

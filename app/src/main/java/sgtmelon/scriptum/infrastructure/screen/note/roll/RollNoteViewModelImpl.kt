@@ -405,10 +405,6 @@ class RollNoteViewModelImpl(
         }
     }
 
-    override fun onRollActionNext() {
-        callback.onFocusEnter()
-    }
-
     /**
      * Use only for different notify functions. Don't use for change data.
      *
