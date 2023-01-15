@@ -29,6 +29,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
@@ -45,6 +46,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     IconBlockCallback,
     RollTouchControl.Callback {
 
+    // TODO pass data for pre-binding: visible state
+
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
 
@@ -54,28 +57,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
     private var visibleIcon: IconChangeCallback? = null
-
-    override fun observeDataReady(it: Boolean) {
-        super.observeDataReady(it)
-        binding?.recyclerView?.makeVisibleIf(it) { makeInvisible() }
-    }
-
-    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
-        super.observeEdit(previousEdit, isEdit)
-        adapter.updateEdit(isEdit)
-    }
-
-    override fun observeState(previousState: NoteState, state: NoteState) {
-        super.observeState(previousState, state)
-        adapter.updateState(state)
-    }
-
-    override fun observeNoteItem(item: NoteItem.Roll) {
-        super.observeNoteItem(item)
-
-        binding?.doneProgress?.max = item.list.size
-        binding?.doneProgress?.setProgress(item.list.getCheckCount(), true)
-    }
+    private val visibleMenuItem: MenuItem?
+        get() = appBar?.content?.toolbar?.getItem(R.id.item_visible)
 
     override fun setupToolbar(context: Context, toolbar: Toolbar?) {
         super.setupToolbar(context, toolbar)
@@ -139,6 +122,39 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
     }
 
+    //region Observable staff
+
+    override fun observeDataReady(it: Boolean) {
+        super.observeDataReady(it)
+        binding?.recyclerView?.makeVisibleIf(it) { makeInvisible() }
+        visibleMenuItem?.isVisible = it
+        visibleMenuItem?.isEnabled = it
+    }
+
+    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
+        super.observeEdit(previousEdit, isEdit)
+        adapter.updateEdit(isEdit)
+    }
+
+    override fun observeState(previousState: NoteState, state: NoteState) {
+        super.observeState(previousState, state)
+        adapter.updateState(state)
+    }
+
+    override fun observeNoteItem(item: NoteItem.Roll) {
+        super.observeNoteItem(item)
+
+        binding?.doneProgress?.max = item.list.size
+        binding?.doneProgress?.setProgress(item.list.getCheckCount(), true)
+
+        val isVisible = item.isVisible
+        val titleId = if (isVisible) R.string.menu_roll_visible else R.string.menu_roll_invisible
+        visibleMenuItem?.title = getString(titleId)
+
+        /** Skip animation on first icon setup. */
+        visibleIcon?.setDrawable(isVisible, needAnim = visibleIcon?.isEnterIcon != null)
+    }
+
     override fun invalidatePanelState(isEdit: Boolean) {
         super.invalidatePanelState(isEdit)
 
@@ -147,7 +163,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.panel?.dividerView?.makeVisibleIf(isEdit)
     }
 
-    // TODO pass data for pre-binding: visible state
+    //endregion
 
     //region Cleanup
 
@@ -179,9 +195,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
-    private val visibleMenuItem: MenuItem?
-        get() = appBar?.content?.toolbar?.menu?.findItem(R.id.item_visible)
-
     // TODO check how it will work with rotation end other staff
     override fun inject(component: ScriptumComponent) {
         component.getRollNoteBuilder()
@@ -196,18 +209,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             this.isListEmpty = isListEmpty
             this.isListHide = isListHide
         }?.executePendingBindings()
-    }
-
-    override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {
-        visibleMenuItem?.title = getString(
-            if (isVisible) {
-                R.string.menu_roll_visible
-            } else {
-                R.string.menu_roll_invisible
-            }
-        )
-
-        visibleIcon?.setDrawable(isVisible, needAnim)
     }
 
 

@@ -86,7 +86,8 @@ class RollNoteViewModelImpl(
         mayAnimateIcon = true
 
         callback.apply {
-            setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
+            // TODO post noteItem to change visible icon
+            //            setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
             notifyDataSetChanged(getAdapterList())
         }
 
@@ -125,7 +126,8 @@ class RollNoteViewModelImpl(
     override fun changeVisible() {
         deprecatedNoteItem.isVisible = !deprecatedNoteItem.isVisible
 
-        callback.setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = true)
+        // TODO post noteItem to change visible icon
+        //        callback.setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = true)
 
         notifyListByVisible()
 

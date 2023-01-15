@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
+import android.content.Context
 import android.content.IntentFilter
 import android.view.View
 import androidx.core.widget.doOnTextChanged
@@ -88,8 +89,8 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             .inject(fragment = this)
     }
 
-    override fun setupView() {
-        super.setupView()
+    override fun setupView(context: Context) {
+        super.setupView(context)
 
         /**
          * Use [OpenState.attempt] inside add category feature, because calculations happens

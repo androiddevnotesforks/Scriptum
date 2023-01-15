@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.parent
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,7 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
         _system = SystemDelegatorFactory(view.context, lifecycle)
         open.restore(savedInstanceState)
 
-        setupView()
+        setupView(view.context)
         setupDialogs()
         setupObservers()
         registerReceivers()
@@ -68,7 +69,7 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
 
     abstract fun inject(component: ScriptumComponent)
 
-    open fun setupView() = Unit
+    open fun setupView(context: Context) = Unit
 
     open fun setupDialogs() = Unit
 

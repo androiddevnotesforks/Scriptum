@@ -12,8 +12,6 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)
 
-    fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean)
-
     fun animateInfoVisible(isVisible: Boolean? = null)
 
     @Deprecated("remove it and use focusOnEnter")

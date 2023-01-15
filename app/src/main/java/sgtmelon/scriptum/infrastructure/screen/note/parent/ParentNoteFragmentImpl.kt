@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import android.content.Context
-import android.os.Bundle
-import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
@@ -57,6 +55,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     IconBlockCallback {
 
     // TODO update name in connector init (after save?)
+    // TODO block some buttons in panel bar while data not loaded
+    // TODO change enable of button (while data not loaded), fields and etc
 
     protected val connector get() = activity as NoteConnector
 
@@ -78,156 +78,17 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private val timeDialog by lazy { dialogs.getTime() }
     private val convertDialog by lazy { dialogs.getConvert(type) }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupView(context: Context) {
+        super.setupView(context)
 
-        setupToolbar(view.context, appBar?.content?.toolbar)
+        /**
+         * This must be called before [setupObservers], to init all needed variables, like
+         * a [navigationIcon].
+         */
+        setupToolbar(context, appBar?.content?.toolbar)
         setupPanel()
         setupContent()
     }
-
-    override fun setupDialogs() {
-        super.setupDialogs()
-
-        rankDialog.onPositiveClick { viewModel.changeRank(check = rankDialog.check - 1) }
-        rankDialog.onDismiss { open.clear() }
-
-        colorDialog.onPositiveClick {
-            viewModel.changeColor(colorDialog.check).collect(owner = this) {
-                tintToolbar?.startTint(it)
-            }
-        }
-        colorDialog.onDismiss { open.clear() }
-
-        dateDialog.onPositiveClick {
-            open.skipClear = true
-            viewModel.notificationsDateList.collect(owner = this) {
-                showTimeDialog(dateDialog.calendar, it)
-            }
-        }
-        dateDialog.onNeutralClick {
-            viewModel.removeNotification().collect(owner = this) {
-                system.broadcast.sendCancelAlarm(it)
-                system.broadcast.sendNotifyInfoBind()
-            }
-        }
-        dateDialog.onDismiss { open.clear() }
-
-        timeDialog.onPositiveClick {
-            val calendar = timeDialog.calendar
-            viewModel.setNotification(calendar).collect(owner = this) {
-                system.broadcast.sendSetAlarm(it, calendar)
-                system.broadcast.sendNotifyInfoBind()
-            }
-        }
-        timeDialog.onDismiss { open.clear() }
-
-        convertDialog.onPositiveClick {
-            viewModel.convert().collect(owner = this) { connector.convertNote() }
-        }
-        convertDialog.onDismiss { open.clear() }
-    }
-
-    //region setupObservers staff
-
-    // TODO проверить, чтобы не было задвоений вызовов (а они наверное есть, см invalidatePanelState)
-    override fun setupObservers() {
-        super.setupObservers()
-
-        observeWithHistoryDisable(viewModel.isDataReady) { observeDataReady(it) }
-        observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
-        observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
-        observeWithHistoryDisable(viewModel.id) { connector.init.id = it }
-        observeWithHistoryDisable(viewModel.color) { observeColor(it) }
-        observeWithHistoryDisable(viewModel.rankDialogItems) { rankDialog.itemArray = it }
-        observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
-        observeWithHistoryDisable(viewModel.historyAvailable) { observeHistoryAvailable(it) }
-    }
-
-    /**
-     * Watch observable [data] with disabling history-changes tracker. It's needed for skip
-     * e.g. TextWatchers calls on any data setup.
-     */
-    private inline fun <T> Fragment.observeWithHistoryDisable(
-        data: LiveData<T>,
-        crossinline onCall: (T) -> Unit
-    ) {
-        data.observe(this) { viewModel.disableHistoryChanges { onCall(it) } }
-    }
-
-    // TODO("block some buttons in panel bar while data not loaded")
-    // TODO("change enable of button, fields and etc")
-    @CallSuper open fun observeDataReady(it: Boolean) {
-        invalidateToolbar()
-    }
-
-    @CallSuper open fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
-        connector.init.isEdit = isEdit
-
-        if (!isEdit) hideKeyboard()
-
-        invalidateToolbar()
-        invalidatePanelState(isEdit)
-
-        /**
-         * If [isEdit] not equals [previousEdit] - that means edit mode was changed.
-         *
-         * Need check [previousEdit], because screen may be rotated and in this case all
-         * observe staff will be called (it comes to animation false call). Need to determinate
-         * case when [isEdit] really was changed.
-         */
-        if (previousEdit != isEdit) {
-            navigationIcon?.setDrawable(isEdit, needAnim = true)
-
-            if (isEdit) {
-                focusOnEnter()
-            }
-        }
-    }
-
-    @CallSuper open fun observeState(previousState: NoteState, state: NoteState) {
-        connector.init.state = state
-
-        val isEdit = connector.init.isEdit
-
-        invalidatePanelState(isEdit)
-
-        /**
-         * If [NoteState.EXIST] and in isEdit mode - that means note was created [NoteState.CREATE]
-         * and saved without changing edit mode. This may happens if auto save is on.
-         *
-         * And that's why need change icon from ARROW to CANCEL.
-         *
-         * Need check [previousState], because screen may be rotated and in this case all
-         * observe staff will be called (it comes to animation false call). Need to determinate
-         * case when [state] really was changed.
-         */
-        if (previousState == NoteState.CREATE && state == NoteState.EXIST && isEdit) {
-            navigationIcon?.setDrawable(isEnterIcon = true, needAnim = true)
-        }
-    }
-
-    @CallSuper open fun observeColor(color: Color) {
-        connector.init.color = color
-        connector.updateHolder(color)
-    }
-
-    @CallSuper open fun observeNoteItem(item: N) {
-        invalidatePanelData(item)
-    }
-
-    @CallSuper open fun observeHistoryAvailable(available: HistoryMoveAvailable) {
-        panelBar?.undoButton?.apply {
-            isEnabled = available.undo
-            bindBoolTint(available.undo, R.attr.clContent, R.attr.clDisable)
-        }
-        panelBar?.redoButton?.apply {
-            isEnabled = available.redo
-            bindBoolTint(available.redo, R.attr.clContent, R.attr.clDisable)
-        }
-    }
-
-    //endregion
 
     @CallSuper open fun setupToolbar(context: Context, toolbar: Toolbar?) {
         val color = connector.init.color
@@ -326,6 +187,145 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper open fun setupContent() = Unit
 
+    override fun setupDialogs() {
+        super.setupDialogs()
+
+        rankDialog.onPositiveClick { viewModel.changeRank(check = rankDialog.check - 1) }
+        rankDialog.onDismiss { open.clear() }
+
+        colorDialog.onPositiveClick {
+            viewModel.changeColor(colorDialog.check).collect(owner = this) {
+                tintToolbar?.startTint(it)
+            }
+        }
+        colorDialog.onDismiss { open.clear() }
+
+        dateDialog.onPositiveClick {
+            open.skipClear = true
+            viewModel.notificationsDateList.collect(owner = this) {
+                showTimeDialog(dateDialog.calendar, it)
+            }
+        }
+        dateDialog.onNeutralClick {
+            viewModel.removeNotification().collect(owner = this) {
+                system.broadcast.sendCancelAlarm(it)
+                system.broadcast.sendNotifyInfoBind()
+            }
+        }
+        dateDialog.onDismiss { open.clear() }
+
+        timeDialog.onPositiveClick {
+            val calendar = timeDialog.calendar
+            viewModel.setNotification(calendar).collect(owner = this) {
+                system.broadcast.sendSetAlarm(it, calendar)
+                system.broadcast.sendNotifyInfoBind()
+            }
+        }
+        timeDialog.onDismiss { open.clear() }
+
+        convertDialog.onPositiveClick {
+            viewModel.convert().collect(owner = this) { connector.convertNote() }
+        }
+        convertDialog.onDismiss { open.clear() }
+    }
+
+    //region Observable staff
+
+    // TODO проверить, чтобы не было задвоений вызовов (а они наверное есть, см invalidatePanelState)
+    override fun setupObservers() {
+        super.setupObservers()
+
+        observeWithHistoryDisable(viewModel.isDataReady) { observeDataReady(it) }
+        observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
+        observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
+        observeWithHistoryDisable(viewModel.id) { connector.init.id = it }
+        observeWithHistoryDisable(viewModel.color) { observeColor(it) }
+        observeWithHistoryDisable(viewModel.rankDialogItems) { rankDialog.itemArray = it }
+        observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
+        observeWithHistoryDisable(viewModel.historyAvailable) { observeHistoryAvailable(it) }
+    }
+
+    /**
+     * Watch observable [data] with disabling history-changes tracker. It's needed for skip
+     * e.g. TextWatchers calls on any data setup.
+     */
+    private inline fun <T> Fragment.observeWithHistoryDisable(
+        data: LiveData<T>,
+        crossinline onCall: (T) -> Unit
+    ) {
+        data.observe(this) { viewModel.disableHistoryChanges { onCall(it) } }
+    }
+
+    @CallSuper open fun observeDataReady(it: Boolean) {
+        invalidateToolbar()
+    }
+
+    @CallSuper open fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
+        connector.init.isEdit = isEdit
+
+        if (!isEdit) hideKeyboard()
+
+        invalidateToolbar()
+        invalidatePanelState(isEdit)
+
+        /**
+         * If [isEdit] not equals [previousEdit] - that means edit mode was changed.
+         *
+         * Need check [previousEdit], because screen may be rotated and in this case all
+         * observe staff will be called (it comes to animation false call). Need to determinate
+         * case when [isEdit] really was changed.
+         */
+        if (previousEdit != isEdit) {
+            navigationIcon?.setDrawable(isEdit, needAnim = true)
+
+            if (isEdit) {
+                focusOnEnter()
+            }
+        }
+    }
+
+    @CallSuper open fun observeState(previousState: NoteState, state: NoteState) {
+        connector.init.state = state
+
+        val isEdit = connector.init.isEdit
+
+        invalidatePanelState(isEdit)
+
+        /**
+         * If [NoteState.EXIST] and in isEdit mode - that means note was created [NoteState.CREATE]
+         * and saved without changing edit mode. This may happens if auto save is on.
+         *
+         * And that's why need change icon from ARROW to CANCEL.
+         *
+         * Need check [previousState], because screen may be rotated and in this case all
+         * observe staff will be called (it comes to animation false call). Need to determinate
+         * case when [state] really was changed.
+         */
+        if (previousState == NoteState.CREATE && state == NoteState.EXIST && isEdit) {
+            navigationIcon?.setDrawable(isEnterIcon = true, needAnim = true)
+        }
+    }
+
+    @CallSuper open fun observeColor(color: Color) {
+        connector.init.color = color
+        connector.updateHolder(color)
+    }
+
+    @CallSuper open fun observeNoteItem(item: N) {
+        invalidatePanelData(item)
+    }
+
+    @CallSuper open fun observeHistoryAvailable(available: HistoryMoveAvailable) {
+        panelBar?.undoButton?.apply {
+            isEnabled = available.undo
+            bindBoolTint(available.undo, R.attr.clContent, R.attr.clDisable)
+        }
+        panelBar?.redoButton?.apply {
+            isEnabled = available.redo
+            bindBoolTint(available.redo, R.attr.clContent, R.attr.clDisable)
+        }
+    }
+
     @CallSuper open fun invalidateToolbar() {
         val isDataReady = viewModel.isDataReady.value ?: return
         val isEdit = connector.init.isEdit
@@ -399,6 +399,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
         panelBar.bindButton.contentDescription = getString(bindDescription)
     }
+
+    //endregion
 
     //region Cleanup
 

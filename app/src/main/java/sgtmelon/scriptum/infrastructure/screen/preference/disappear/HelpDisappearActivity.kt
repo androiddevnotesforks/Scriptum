@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityHelpDisappearBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
@@ -53,7 +54,7 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
                 return@setOnMenuItemClickListener true
             }
 
-            menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
+            getItem(R.id.item_video_lesson).tintIcon(context)
         }
 
         binding?.settingsButton?.setOnClickListener {

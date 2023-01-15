@@ -33,25 +33,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
-    override fun observeDataReady(it: Boolean) {
-        super.observeDataReady(it)
-
-        binding?.contentScroll?.makeVisibleIf(it) { makeInvisible() }
-    }
-
-    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
-        super.observeEdit(previousEdit, isEdit)
-
-        binding?.textEnter?.makeVisibleIf(isEdit) { makeInvisible() }
-        binding?.textRead?.makeVisibleIf(!isEdit) { makeInvisible() }
-        invalidateContent()
-    }
-
-    override fun observeNoteItem(item: NoteItem.Text) {
-        super.observeNoteItem(item)
-        invalidateContent()
-    }
-
     override fun focusOnEnter() {
         binding?.textEnter?.requestSelectionFocus()
     }
@@ -72,6 +53,27 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         }
     }
 
+    //region Observable staff
+
+    override fun observeDataReady(it: Boolean) {
+        super.observeDataReady(it)
+
+        binding?.contentScroll?.makeVisibleIf(it) { makeInvisible() }
+    }
+
+    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
+        super.observeEdit(previousEdit, isEdit)
+
+        binding?.textEnter?.makeVisibleIf(isEdit) { makeInvisible() }
+        binding?.textRead?.makeVisibleIf(!isEdit) { makeInvisible() }
+        invalidateContent()
+    }
+
+    override fun observeNoteItem(item: NoteItem.Text) {
+        super.observeNoteItem(item)
+        invalidateContent()
+    }
+
     private fun invalidateContent() {
         val isEdit = viewModel.isEdit.value ?: return
         val item = viewModel.noteItem.value ?: return
@@ -83,6 +85,8 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
          */
         binding?.textRead?.text = if (isEdit) "" else item.text
     }
+
+    //endregion
 
     //region Cleanup
 

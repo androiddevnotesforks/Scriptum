@@ -5,7 +5,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.view.MenuItem
 import sgtmelon.iconanim.callback.IconBlockCallback
-import sgtmelon.iconanim.callback.IconChangeCallback
+import sgtmelon.iconanim.callback.ParentIconChange
 import sgtmelon.iconanim.control.AnimatedIcon
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
@@ -17,7 +17,7 @@ class VisibleFilterIcon(
     context: Context,
     private val menuItem: MenuItem?,
     callback: IconBlockCallback
-) : IconChangeCallback {
+) : ParentIconChange {
 
     private val visibleEnter: Drawable?
     private val visibleExit: Drawable?
@@ -37,15 +37,16 @@ class VisibleFilterIcon(
                 as? AnimatedVectorDrawable
     }
 
-    private val animatedIcon = AnimatedIcon(
+    override val animatedIcon = AnimatedIcon(
         context, visibleEnterIcon, visibleExitIcon, changeCallback = this, callback
     )
 
-    override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
-        menuItem?.icon = if (needAnim) {
-            animatedIcon.getAndStart(isEnterIcon)
-        } else {
-            if (isEnterIcon) visibleEnter else visibleExit
-        }
+    override val enterIcon: Drawable? = visibleEnter
+    override val exitIcon: Drawable? = visibleExit
+
+    override var isEnterIcon: Boolean? = null
+
+    override fun setDrawableAfterChange(drawable: Drawable?) {
+        menuItem?.icon = drawable
     }
 }

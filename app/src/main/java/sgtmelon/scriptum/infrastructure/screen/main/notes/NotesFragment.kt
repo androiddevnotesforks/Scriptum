@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
+import android.content.Context
 import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
@@ -24,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
@@ -66,16 +68,16 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             .inject(fragment = this)
     }
 
-    override fun setupView() {
-        super.setupView()
+    override fun setupView(context: Context) {
+        super.setupView(context)
 
         binding?.appBar?.toolbar?.apply {
             title = getString(R.string.title_notes)
             inflateMenu(R.menu.fragment_notes)
             setOnMenuItemClickListener(this@NotesFragment)
 
-            menu?.findItem(R.id.item_notifications)?.tintIcon(context)
-            menu?.findItem(R.id.item_preferences)?.tintIcon(context)
+            getItem(R.id.item_notifications).tintIcon(context)
+            getItem(R.id.item_preferences).tintIcon(context)
         }
 
         binding?.recyclerView?.let {
