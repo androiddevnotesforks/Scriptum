@@ -7,7 +7,6 @@ import androidx.annotation.IntRange
 import java.lang.Integer.min
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindTextColor
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
@@ -18,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
+import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
 
 /**
  * Holder of roll item in edit state.
@@ -55,7 +55,7 @@ class RollWriteHolder(
             )
             imeOptions = EditorInfo.IME_ACTION_NEXT or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
-            addOnNextAction { onEnterNext() }
+            setEditorNextAction { onEnterNext() }
             addTextChangedListener(textWatcher)
             setOnTouchListener(touchListener)
         }

@@ -14,10 +14,6 @@ interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
 
     fun animateInfoVisible(isVisible: Boolean? = null)
 
-    fun getEnterText(): String
-
-    fun clearEnterText()
-
 
     fun scrollToItem(toBottom: Boolean, p: Int, list: MutableList<RollItem>)
 

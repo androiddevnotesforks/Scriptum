@@ -35,6 +35,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
+import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
@@ -89,9 +90,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             )
             imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
-            doOnTextChanged { it, _, _, _ ->
-                val isAddAvailable = it?.toString()?.removeExtraSpace()?.isNotEmpty()
-                    ?: return@doOnTextChanged
+            doOnTextChanged { _, _, _, _ ->
+                val isAddAvailable = getAddText().isNotEmpty()
 
                 binding?.addPanel?.addButton?.apply {
                     isEnabled = isAddAvailable
@@ -99,13 +99,21 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                 }
             }
 
-            setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
+            setEditorDoneAction {
+                val addText = getAddText()
+                if (addText.isEmpty()) {
+                    viewModel.save(changeMode = true)
+                } else {
+                    binding?.addPanel?.rollEnter?.setText("")
+                    viewModel.addItem(toBottom = true, addText)
+                }
+            }
         }
 
         binding?.addPanel?.addButton?.apply {
-            setOnClickListener { viewModel.onClickAdd(toBottom = true) }
+            setOnClickListener { viewModel.addItem(toBottom = true, getAddText()) }
             setOnLongClickListener {
-                viewModel.onClickAdd(toBottom = false)
+                viewModel.addItem(toBottom = false, getAddText())
                 return@setOnLongClickListener true
             }
         }
@@ -167,6 +175,10 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     //endregion
 
+    private fun getAddText(): String {
+        return binding?.addPanel?.rollEnter?.text?.toString()?.removeExtraSpace() ?: ""
+    }
+
     //region Cleanup
 
     private val touchCallback by lazy { RollTouchControl(callback = this) }
@@ -182,7 +194,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                     open.block(animTime)
                     open.tag = OpenState.Tag.ANIM
                     action()
-                    viewModel.onClickItemCheck(p)
+                    viewModel.changeItemCheck(p)
                 }
             }
         }
@@ -228,12 +240,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             setText(text)
             setSelection(cursor)
         }
-    }
-
-    override fun getEnterText() = binding?.addPanel?.rollEnter?.text?.toString() ?: ""
-
-    override fun clearEnterText() {
-        binding?.addPanel?.rollEnter?.setText("")
     }
 
 

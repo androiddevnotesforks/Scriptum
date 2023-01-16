@@ -12,7 +12,6 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.addOnDoneAction
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
@@ -29,6 +28,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
 import sgtmelon.scriptum.infrastructure.widgets.recycler.NotifyListDelegator
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
@@ -107,7 +107,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
                 return@setOnLongClickListener true
             }
             rankEnter.doOnTextChanged { _, _, _, _ -> notifyToolbar() }
-            rankEnter.addOnDoneAction { if (addButton.isEnabled) addButton.callOnClick() }
+            rankEnter.setEditorDoneAction { if (addButton.isEnabled) addButton.callOnClick() }
         }
 
         notifyToolbar()

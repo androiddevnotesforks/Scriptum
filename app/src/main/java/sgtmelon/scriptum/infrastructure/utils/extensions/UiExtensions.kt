@@ -6,6 +6,7 @@ import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import sgtmelon.extensions.getInputService
 
 inline fun Activity.beforeFinish(func: () -> Unit) {
@@ -37,4 +38,8 @@ inline fun ViewGroup.afterLayoutConfiguration(crossinline func: () -> Unit) {
             func()
         }
     })
+}
+
+inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String): F? {
+    return findFragmentByTag(tag) as? F
 }

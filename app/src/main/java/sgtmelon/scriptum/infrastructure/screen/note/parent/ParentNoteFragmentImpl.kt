@@ -15,7 +15,6 @@ import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.addOnNextAction
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
@@ -42,6 +41,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
@@ -124,7 +124,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                 HistoryAction.Name(value, cursor)
             })
 
-            it.addOnNextAction { focusOnEnter() }
+            it.setEditorNextAction { focusOnEnter() }
         }
     }
 

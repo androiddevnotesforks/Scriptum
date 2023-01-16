@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
-import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
@@ -166,35 +164,15 @@ class RollNoteViewModelImpl(
         callback.animateInfoVisible()
     }
 
-    override fun onEditorClick(i: Int): Boolean {
-        if (i != EditorInfo.IME_ACTION_DONE) return false
-
-        val enterText = callback.getEnterText().removeExtraSpace()
-
-        if (enterText.isEmpty()) {
-            save(changeMode = true)
-        } else {
-            onClickAdd(toBottom = true)
-        }
-
-        return true
-    }
-
     /**
      * All item positions updates after call [save], because it's hard
      * to control in Edit.
      */
-    override fun onClickAdd(toBottom: Boolean) {
+    override fun addItem(toBottom: Boolean, text: String) {
         if (callback.isDialogOpen || isEdit.value.isFalse()) return
 
-        val enterText = callback.getEnterText().removeExtraSpace()
-
-        if (enterText.isEmpty()) return
-
-        callback.clearEnterText()
-
         val p = if (toBottom) deprecatedNoteItem.list.size else 0
-        val rollItem = RollItem(position = p, text = enterText)
+        val rollItem = RollItem(position = p, text = text)
 
         history.add(HistoryAction.Roll.List.Add(p, rollItem))
         deprecatedNoteItem.list.add(p, rollItem)
@@ -205,7 +183,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    override fun onClickItemCheck(p: Int) {
+    override fun changeItemCheck(p: Int) {
         if (isEdit.value.isTrue()) return
 
         val absolutePosition = getAbsolutePosition(p) ?: return
