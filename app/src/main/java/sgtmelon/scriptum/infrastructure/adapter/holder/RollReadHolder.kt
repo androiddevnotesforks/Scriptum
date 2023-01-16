@@ -20,9 +20,11 @@ class RollReadHolder(
     UnbindCallback {
 
     init {
+        val animTime = context.resources.getInteger(R.integer.icon_animation_time).toLong()
+
         binding.clickButton.setOnClickListener { _ ->
             checkPosition {
-                callback.onReadCheckClick(it) { binding.checkBox.toggle() }
+                callback.onReadCheckClick(it, animTime) { binding.checkBox.toggle() }
             }
         }
     }
@@ -47,6 +49,6 @@ class RollReadHolder(
     }
 
     interface Callback {
-        fun onReadCheckClick(p: Int, action: () -> Unit)
+        fun onReadCheckClick(p: Int, animTime: Long, action: () -> Unit)
     }
 }

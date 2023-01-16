@@ -169,14 +169,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     //region Cleanup
 
-    private val animTime by lazy {
-        context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
-    }
-
     private val touchCallback by lazy { RollTouchControl(callback = this) }
     private val adapter: RollAdapter by lazy {
         val readCallback = object : RollReadHolder.Callback {
-            override fun onReadCheckClick(p: Int, action: () -> Unit) {
+            override fun onReadCheckClick(p: Int, animTime: Long, action: () -> Unit) {
+                // TODO зачем это условие? (опиши комментарием)
                 if (!open.isChangeEnabled && open.tag == OpenState.Tag.ANIM) {
                     open.isChangeEnabled = true
                 }
@@ -184,7 +181,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                 open.attempt(OpenState.Tag.ANIM) {
                     open.block(animTime)
                     open.tag = OpenState.Tag.ANIM
-
                     action()
                     viewModel.onClickItemCheck(p)
                 }
