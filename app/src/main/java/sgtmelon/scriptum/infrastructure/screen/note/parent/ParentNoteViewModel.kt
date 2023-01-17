@@ -78,7 +78,7 @@ interface ParentNoteViewModel<N : NoteItem> :
     fun redoAction()
 
     // TODO may be pass already color?
-    fun changeColor(check: Int): Flow<Color>
+    fun changeColor(check: Int)
 
     fun changeRank(check: Int)
 

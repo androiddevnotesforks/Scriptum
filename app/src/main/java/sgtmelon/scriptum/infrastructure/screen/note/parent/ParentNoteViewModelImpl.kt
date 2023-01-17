@@ -211,8 +211,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
         color.postValue(colorTo)
         deprecatedNoteItem.color = colorTo
-
-        callback.tintToolbar(colorFrom, colorTo)
     }
 
     protected fun onMenuUndoRedoName(action: HistoryAction.Name, isUndo: Boolean) {
@@ -287,17 +285,15 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
 
-    override fun changeColor(check: Int): Flow<Color> = flowOnBack {
-        val newColor = colorConverter.toEnum(check) ?: return@flowOnBack
-        val item = noteItem.value ?: return@flowOnBack
+    override fun changeColor(check: Int) {
+        val newColor = colorConverter.toEnum(check) ?: return
+        val item = noteItem.value ?: return
 
         history.add(HistoryAction.Color(HistoryChange(item.color, newColor)))
         historyAvailable.postValue(history.available)
 
         color.postValue(newColor)
         item.color = newColor
-
-        emit(newColor)
     }
 
     override fun changeRank(check: Int) {

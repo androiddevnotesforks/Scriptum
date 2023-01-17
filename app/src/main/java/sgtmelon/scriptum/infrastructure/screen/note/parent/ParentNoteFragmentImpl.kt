@@ -193,11 +193,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         rankDialog.onPositiveClick { viewModel.changeRank(check = rankDialog.check - 1) }
         rankDialog.onDismiss { open.clear() }
 
-        colorDialog.onPositiveClick {
-            viewModel.changeColor(colorDialog.check).collect(owner = this) {
-                tintToolbar?.startTint(it)
-            }
-        }
+        colorDialog.onPositiveClick { viewModel.changeColor(colorDialog.check) }
         colorDialog.onDismiss { open.clear() }
 
         dateDialog.onPositiveClick {
@@ -239,7 +235,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
         observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
         observeWithHistoryDisable(viewModel.id) { connector.init.id = it }
-        observeWithHistoryDisable(viewModel.color) { observeColor(it) }
+        observeWithHistoryDisable(viewModel.color) { observeColor(connector.init.color, it) }
         observeWithHistoryDisable(viewModel.rankDialogItems) { rankDialog.itemArray = it }
         observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
         observeWithHistoryDisable(viewModel.historyAvailable) { observeHistoryAvailable(it) }
@@ -306,9 +302,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper open fun observeColor(color: Color) {
+    @CallSuper open fun observeColor(previousColor: Color, color: Color) {
         connector.init.color = color
         connector.updateHolder(color)
+        tintToolbar?.setColorFrom(previousColor)?.startTint(color)
     }
 
     @CallSuper open fun observeNoteItem(item: N) {
@@ -423,10 +420,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     override fun onPressBack() = viewModel.onPressBack()
 
-    override fun tintToolbar(from: Color, to: Color) {
-        tintToolbar?.setColorFrom(from)?.startTint(to)
-    }
-
     override fun showSaveToast(isSuccess: Boolean) {
         val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
         system.toast.show(context, text)
@@ -461,7 +454,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         hideKeyboard()
         open.attempt {
-            tintToolbar?.setColorFrom(color)
             colorDialog.setArguments(color).safeShow(DialogFactory.Note.COLOR, owner = this)
         }
     }

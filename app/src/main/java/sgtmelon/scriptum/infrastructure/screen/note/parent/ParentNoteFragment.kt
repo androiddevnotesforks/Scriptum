@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 
 /**
@@ -13,8 +12,6 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind 
     val isDialogOpen: Boolean
 
     fun onPressBack(): Boolean
-
-    fun tintToolbar(from: Color, to: Color)
 
 
     fun changeName(text: String, cursor: Int)

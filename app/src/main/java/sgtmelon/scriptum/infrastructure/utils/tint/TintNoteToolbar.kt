@@ -81,18 +81,16 @@ class TintNoteToolbar(
     }
 
     /**
-     * Set end [color] and start animation if need.
+     * Set end [colorTo] and start animation if it needed.
      */
-    fun startTint(color: Color) {
+    fun startTint(colorTo: Color) {
         val theme = theme ?: return
 
-        statusBarColor.to = context.getNoteToolbarColor(theme, color, needDark = false)
-        toolbarColor.to = context.getNoteToolbarColor(theme, color, needDark = false)
-        indicatorColor.to = context.getAppSimpleColor(color, ColorShade.DARK)
+        statusBarColor.to = context.getNoteToolbarColor(theme, colorTo, needDark = false)
+        toolbarColor.to = context.getNoteToolbarColor(theme, colorTo, needDark = false)
+        indicatorColor.to = context.getAppSimpleColor(colorTo, ColorShade.DARK)
 
-        if (statusBarColor.isReady()
-            || toolbarColor.isReady()
-            || indicatorColor.isReady()) {
+        if (statusBarColor.isReady() || toolbarColor.isReady() || indicatorColor.isReady()) {
             colorAnimator.start()
         }
     }

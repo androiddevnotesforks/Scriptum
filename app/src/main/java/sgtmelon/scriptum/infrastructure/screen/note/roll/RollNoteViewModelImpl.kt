@@ -98,10 +98,9 @@ class RollNoteViewModelImpl(
         if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
 
         /**
-         * Get color before restore data. Also get [NoteItem.Roll.isVisible] before
-         * restore, because it should be the same after restore.
+         * Get [NoteItem.Roll.isVisible] before restore, because it should be the same
+         * after restore.
          */
-        val colorFrom = deprecatedNoteItem.color
         val restoreItem = cacheNote.item
         if (restoreItem != null) {
             deprecatedNoteItem = restoreItem.copy(isVisible = deprecatedNoteItem.isVisible)
@@ -113,7 +112,6 @@ class RollNoteViewModelImpl(
         setupEditMode(isEdit = false)
         onUpdateInfo()
 
-        callback.tintToolbar(colorFrom, colorTo)
         color.postValue(colorTo)
         history.reset()
 

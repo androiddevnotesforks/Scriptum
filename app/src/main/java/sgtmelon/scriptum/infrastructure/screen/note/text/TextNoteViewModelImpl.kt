@@ -80,10 +80,6 @@ class TextNoteViewModelImpl(
     override fun onRestoreData(): Boolean {
         if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
 
-        /**
-         * Get color before restore data.
-         */
-        val colorFrom = deprecatedNoteItem.color
         val restoreItem = cacheNote.item
         if (restoreItem != null) {
             deprecatedNoteItem = restoreItem.copy()
@@ -92,7 +88,6 @@ class TextNoteViewModelImpl(
 
         setupEditMode(isEdit = false)
 
-        callback.tintToolbar(colorFrom, colorTo)
         color.postValue(colorTo)
         history.reset()
 
