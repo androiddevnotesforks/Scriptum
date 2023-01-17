@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnable
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
@@ -21,7 +20,6 @@ interface ParentNoteViewModel<N : NoteItem> :
     NoteHistoryEnable,
 
     // TODO cleanup
-    SaveControlImpl.Callback,
     HistoryTextWatcher.Callback {
 
     val isDataReady: LiveData<Boolean>

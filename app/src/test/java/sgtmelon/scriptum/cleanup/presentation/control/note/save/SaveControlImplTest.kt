@@ -122,7 +122,7 @@ class SaveControlImplTest : ParentCoTest() {
 
             repeat(times) {
                 saveState.isAutoSaveOn
-                callback.onResultSaveControl()
+                callback.onAutoSave()
             }
 
             saveState.isAutoSaveOn
@@ -146,7 +146,7 @@ class SaveControlImplTest : ParentCoTest() {
             saveState.isAutoSaveOn
             // From second function
             saveState.isAutoSaveOn
-            callback.onResultSaveControl()
+            callback.onAutoSave()
             // From second function but next loop iteration
             saveState.isAutoSaveOn
         }
@@ -181,7 +181,7 @@ class SaveControlImplTest : ParentCoTest() {
             saveState.isPauseSaveOn
 
             saveState.isPauseSaveOn
-            callback.onResultSaveControl()
+            callback.onAutoSave()
         }
     }
 

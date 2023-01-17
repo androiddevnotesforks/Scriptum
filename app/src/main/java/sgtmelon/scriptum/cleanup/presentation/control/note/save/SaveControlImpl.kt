@@ -17,11 +17,11 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.record
  */
 class SaveControlImpl(
     resources: Resources,
-    private val saveState: NoteSaveState
+    private val saveState: NoteSaveState,
+    private val callback: Callback
 ) : SaveControl {
 
-    lateinit var callback: Callback
-
+    // TODO may be use delayed delegator?
     private val ioScope = CoroutineScope(Dispatchers.IO)
     private var job: Job? = null
 
@@ -58,7 +58,7 @@ class SaveControlImpl(
     @MainThread
     private fun makeSave() {
         job = null
-        callback.onResultSaveControl()
+        callback.onAutoSave()
         changeAutoSaveWork(isWork = true)
     }
 
@@ -66,11 +66,11 @@ class SaveControlImpl(
         if (!saveState.isPauseSaveOn) return
 
         if (isNeedSave) {
-            callback.onResultSaveControl()
+            callback.onAutoSave()
         }
     }
 
     interface Callback {
-        fun onResultSaveControl()
+        fun onAutoSave()
     }
 }

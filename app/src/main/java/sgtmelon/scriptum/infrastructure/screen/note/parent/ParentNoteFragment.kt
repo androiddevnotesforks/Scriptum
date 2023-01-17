@@ -16,8 +16,6 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind 
 
     fun changeName(text: String, cursor: Int)
 
-    fun showSaveToast(isSuccess: Boolean)
-
     fun finish()
 
 }

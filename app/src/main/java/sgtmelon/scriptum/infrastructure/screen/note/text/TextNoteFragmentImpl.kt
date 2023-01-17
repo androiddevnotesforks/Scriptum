@@ -100,6 +100,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     override fun inject(component: ScriptumComponent) {
         component.getTextNoteBuilder()
             .set(fragment = this)
+            .set(callback = this)
             .set(connector.init)
             .build()
             .inject(fragment = this)

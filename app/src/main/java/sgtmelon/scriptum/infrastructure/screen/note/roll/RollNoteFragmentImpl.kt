@@ -211,6 +211,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun inject(component: ScriptumComponent) {
         component.getRollNoteBuilder()
             .set(fragment = this)
+            .set(callback = this)
             .set(connector.init)
             .build()
             .inject(fragment = this)

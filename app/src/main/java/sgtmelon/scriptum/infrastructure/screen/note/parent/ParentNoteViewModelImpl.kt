@@ -237,11 +237,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         saveControl.changeAutoSaveWork(isEdit)
     }
 
-
-    override fun onResultSaveControl() {
-        callback.showSaveToast(save(changeMode = false))
-    }
-
     override fun onHistoryAdd(action: HistoryAction) = history.add(action)
 
     /**

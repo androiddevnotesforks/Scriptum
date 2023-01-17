@@ -18,6 +18,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -52,7 +53,8 @@ import sgtmelon.test.idling.getIdling
  */
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     ParentNoteFragment<N>,
-    IconBlockCallback {
+    IconBlockCallback,
+    SaveControlImpl.Callback {
 
     // TODO update name in connector init (after save?)
     // TODO block some buttons in panel bar while data not loaded
@@ -399,6 +401,16 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //endregion
 
+    override fun onAutoSave() {
+        val text = if (viewModel.save(changeMode = false)) {
+            R.string.toast_note_save_done
+        } else {
+            R.string.toast_note_save_error
+        }
+
+        system.toast.show(context, text)
+    }
+
     //region Cleanup
 
     override fun onResume() {
@@ -419,11 +431,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override val isDialogOpen: Boolean get() = open.isBlocked
 
     override fun onPressBack() = viewModel.onPressBack()
-
-    override fun showSaveToast(isSuccess: Boolean) {
-        val text = if (isSuccess) R.string.toast_note_save_done else R.string.toast_note_save_error
-        system.toast.show(context, text)
-    }
 
     override fun finish() {
         activity?.finish()
