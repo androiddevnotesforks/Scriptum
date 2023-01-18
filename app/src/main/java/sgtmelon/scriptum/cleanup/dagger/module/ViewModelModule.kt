@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.dagger.module
 
-import androidx.fragment.app.Fragment
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.Module
@@ -266,11 +266,11 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideSaveControl(
-        fragment: Fragment,
+        context: Context,
         preferencesRepo: PreferencesRepo,
         callback: SaveControlImpl.Callback
     ): SaveControl {
-        return SaveControlImpl(fragment.resources, preferencesRepo.saveState, callback)
+        return SaveControlImpl(context.resources, preferencesRepo.saveState, callback)
     }
 
     //endregion
