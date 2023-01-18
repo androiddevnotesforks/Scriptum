@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
-interface SaveControl {
+interface NoteAutoSave {
 
     var isNeedSave: Boolean
 

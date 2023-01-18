@@ -22,17 +22,17 @@ import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**
- * Test for [SaveControlImpl].
+ * Test for [NoteAutoSaveImpl].
  */
 @ExperimentalCoroutinesApi
-class SaveControlImplTest : ParentCoTest() {
+class NoteAutoSaveImplTest : ParentCoTest() {
 
     @MockK lateinit var resources: Resources
 
     @MockK lateinit var saveState: NoteSaveState
-    @MockK lateinit var callback: SaveControlImpl.Callback
+    @MockK lateinit var callback: NoteAutoSaveImpl.Callback
 
-    private val saveControl by lazy { SaveControlImpl(resources, saveState, callback) }
+    private val saveControl by lazy { NoteAutoSaveImpl(resources, saveState, callback) }
 
     @After override fun tearDown() {
         super.tearDown()

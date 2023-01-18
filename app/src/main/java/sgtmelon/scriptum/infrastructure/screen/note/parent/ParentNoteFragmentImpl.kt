@@ -18,7 +18,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSaveImpl
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -54,7 +54,7 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     ParentNoteFragment<N>,
     IconBlockCallback,
-    SaveControlImpl.Callback {
+    NoteAutoSaveImpl.Callback {
 
     // TODO update name in connector init (after save?)
     // TODO block some buttons in panel bar while data not loaded

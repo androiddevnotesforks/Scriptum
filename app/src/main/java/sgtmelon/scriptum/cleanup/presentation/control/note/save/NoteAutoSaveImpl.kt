@@ -15,11 +15,11 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.record
 /**
  * Class for help control note pause/auto save.
  */
-class SaveControlImpl(
+class NoteAutoSaveImpl(
     resources: Resources,
     private val saveState: NoteSaveState,
     private val callback: Callback
-) : SaveControl {
+) : NoteAutoSave {
 
     // TODO may be use delayed delegator?
     private val ioScope = CoroutineScope(Dispatchers.IO)
@@ -50,13 +50,13 @@ class SaveControlImpl(
 
             job = ioScope.launch {
                 delay(period)
-                runMain { makeSave() }
+                runMain { saveChanges() }
             }
         }
     }
 
     @MainThread
-    private fun makeSave() {
+    private fun saveChanges() {
         job = null
         callback.onAutoSave()
         changeAutoSaveWork(isWork = true)

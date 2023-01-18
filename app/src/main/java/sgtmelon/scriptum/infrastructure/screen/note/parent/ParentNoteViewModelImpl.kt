@@ -12,7 +12,7 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
@@ -68,7 +68,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
     protected val getRankDialogNames: GetRankDialogNamesUseCase,
-    protected val saveControl: SaveControl
+    protected val noteAutoSave: NoteAutoSave
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
@@ -125,12 +125,12 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     /*override*/ override fun onDestroy(/*func: () -> Unit*/) /*= super.onDestroy*/ {
         parentCallback = null
-        saveControl.changeAutoSaveWork(isWork = false)
+        noteAutoSave.changeAutoSaveWork(isWork = false)
     }
 
     override fun onResume() {
         if (isEdit.value.isTrue()) {
-            saveControl.changeAutoSaveWork(isWork = true)
+            noteAutoSave.changeAutoSaveWork(isWork = true)
         }
     }
 
@@ -138,8 +138,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         if (parentCallback?.isOrientationChanging() == true) return
 
         if (isEdit.value.isTrue()) {
-            saveControl.onPauseSave()
-            saveControl.changeAutoSaveWork(isWork = false)
+            noteAutoSave.onPauseSave()
+            noteAutoSave.changeAutoSaveWork(isWork = false)
         }
     }
 
@@ -148,7 +148,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         if (noteState.value != NoteState.CREATE && isEdit.value.isTrue()) {
             onRestoreData()
         } else {
-            saveControl.isNeedSave = false
+            noteAutoSave.isNeedSave = false
             callback.finish()
         }
     }
@@ -160,7 +160,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         if (isEdit.value.isFalse()) return false
 
         /** If note can't be saved and activity will be closed. */
-        saveControl.isNeedSave = false
+        noteAutoSave.isNeedSave = false
 
         return if (!save(changeMode = true)) {
             if (noteState.value != NoteState.CREATE) onRestoreData() else false
@@ -233,8 +233,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
         historyAvailable.postValue(history.available) // TODO it's really needed?
 
-        saveControl.isNeedSave = true
-        saveControl.changeAutoSaveWork(isEdit)
+        noteAutoSave.isNeedSave = true
+        noteAutoSave.changeAutoSaveWork(isEdit)
     }
 
     override fun onHistoryAdd(action: HistoryAction) = history.add(action)

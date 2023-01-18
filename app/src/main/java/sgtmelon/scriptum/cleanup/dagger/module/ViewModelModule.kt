@@ -9,8 +9,8 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSaveImpl
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -208,7 +208,7 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
-        saveControl: SaveControl
+        noteAutoSave: NoteAutoSave
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             init, history, createNote, getNote, cacheNote,
@@ -216,7 +216,7 @@ class ViewModelModule {
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames, saveControl
+            getNotificationDateList, getRankId, getRankDialogNames, noteAutoSave
         )
 
         return ViewModelProvider(fragment, factory)[TextNoteViewModelImpl::class.java]
@@ -248,7 +248,7 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
-        saveControl: SaveControl
+        noteAutoSave: NoteAutoSave
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             init, history, createNote, getNote, cacheNote,
@@ -257,7 +257,7 @@ class ViewModelModule {
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
-            getRankDialogNames, saveControl
+            getRankDialogNames, noteAutoSave
         )
 
         return ViewModelProvider(fragment, factory)[RollNoteViewModelImpl::class.java]
@@ -265,12 +265,12 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideSaveControl(
+    fun provideNoteAutoSave(
         context: Context,
         preferencesRepo: PreferencesRepo,
-        callback: SaveControlImpl.Callback
-    ): SaveControl {
-        return SaveControlImpl(context.resources, preferencesRepo.saveState, callback)
+        callback: NoteAutoSaveImpl.Callback
+    ): NoteAutoSave {
+        return NoteAutoSaveImpl(context.resources, preferencesRepo.saveState, callback)
     }
 
     //endregion
