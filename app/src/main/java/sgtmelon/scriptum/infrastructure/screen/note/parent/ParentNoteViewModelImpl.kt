@@ -153,6 +153,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     // TODO remove/rename this function (don't use ui logic in viewModel)
     override fun onPressBack(): Boolean {
+        if (isReadMode) return false
+
         /** If note can't be saved and activity will be closed. */
         noteAutoSave.isNeedSave = false
 
@@ -176,6 +178,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun redoAction() = onUndoRedoAction(isUndo = false)
 
     private fun onUndoRedoAction(isUndo: Boolean) {
+        if (isReadMode) return
+
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
             selectUndoRedoAction(item, isUndo)
@@ -211,7 +215,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
         }
     }
 
-    override fun edit() = setupEditMode(isEdit = true)
+    override fun edit() {
+        if (isEditMode) return
+
+        setupEditMode(isEdit = true)
+    }
 
     /**
      * Function must describe changing of edit/read modes.
@@ -271,6 +279,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
 
     override fun changeColor(check: Int) {
+        if (isReadMode) return
+
         val newColor = colorConverter.toEnum(check) ?: return
         val item = noteItem.value ?: return
 
@@ -282,6 +292,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override fun changeRank(check: Int) {
+        if (isReadMode) return
+
         viewModelScope.launch {
             val item = noteItem.value ?: return@launch
 
@@ -301,6 +313,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
 
     override fun setNotification(calendar: Calendar): Flow<N> = flowOnBack {
+        if (isEditMode) return@flowOnBack
+
         val item = noteItem.value
 
         if (item == null || calendar.isBeforeNow()) return@flowOnBack
@@ -313,6 +327,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override fun removeNotification(): Flow<N> = flowOnBack {
+        if (isEditMode) return@flowOnBack
+
         val item = noteItem.value ?: return@flowOnBack
 
         deleteNotification(item)
@@ -324,6 +340,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override fun switchBind(): Flow<N> = flowOnBack {
+        if (isEditMode) return@flowOnBack
+
         val item = noteItem.value ?: return@flowOnBack
 
         item.switchStatus()
@@ -335,12 +353,16 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override fun convert(): Flow<N> = flowOnBack {
+        if (isEditMode) return@flowOnBack
+
         val item = noteItem.value ?: return@flowOnBack
         convertNote(item)
         emit(item)
     }
 
     override fun delete(): Flow<N> = flowOnBack {
+        if (isEditMode) return@flowOnBack
+
         val item = noteItem.value ?: return@flowOnBack
         deleteNote(item)
         emit(item)
@@ -356,8 +378,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onReceiveUnbindNote(noteId: Long) {
         if (id.value != noteId) return
 
-        val item = noteItem.value
-        item?.isStatus = false
+        val item = noteItem.value ?: return
+        item.isStatus = false
         cacheNote.item?.isStatus = false
 
         noteItem.postValue(item)

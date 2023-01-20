@@ -120,7 +120,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     private fun addItem(toBottom: Boolean, text: String) {
-        if (isEditMode && !isSomethingOpened) viewModel.addItem(toBottom, text)
+        if (viewModel.isEditMode && !isSomethingOpened) viewModel.addItem(toBottom, text)
     }
 
     override fun setupContent() {

@@ -35,7 +35,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
-import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
@@ -147,27 +146,21 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.clearButton.setOnClickListener {
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
-        panelBar.undoButton.setOnClickListener {
-            if (isEditMode && !isSomethingOpened) viewModel.undoAction()
-        }
-        panelBar.redoButton.setOnClickListener {
-            if (isEditMode && !isSomethingOpened) viewModel.redoAction()
-        }
+        panelBar.undoButton.setOnClickListener { if (!isSomethingOpened) viewModel.undoAction() }
+        panelBar.redoButton.setOnClickListener { if (!isSomethingOpened) viewModel.redoAction() }
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
         panelBar.saveButton.setOnClickListener { viewModel.save(changeMode = true) }
         panelBar.saveButton.setOnLongClickListener { viewModel.save(changeMode = false) }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
         panelBar.bindButton.setOnClickListener {
-            if (isEditMode) return@setOnClickListener
-
             viewModel.switchBind().collect(owner = this) {
                 system.broadcast.sendNotifyNotesBind()
             }
         }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener {
-            if (isEditMode || isSomethingOpened) return@setOnClickListener
+            if (isSomethingOpened) return@setOnClickListener
 
             viewModel.delete().collect(owner = this) {
                 system.broadcast.sendCancelAlarm(it)
@@ -176,9 +169,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                 activity?.finish()
             }
         }
-        panelBar.editButton.setOnClickListener {
-            if (isReadMode && !isSomethingOpened) viewModel.edit()
-        }
+        panelBar.editButton.setOnClickListener { if (!isSomethingOpened) viewModel.edit() }
 
         val bindDrawable = when (type) {
             NoteType.TEXT -> R.drawable.ic_bind_text
@@ -439,11 +430,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     /**
      * FALSE result will call super.onBackPress() in parent activity.
      */
-    fun onPressBack(): Boolean {
-        if (viewModel.isEdit.value.isFalse()) return false
-
-        return viewModel.onPressBack()
-    }
+    fun onPressBack(): Boolean = viewModel.onPressBack()
 
     override fun finish() {
         activity?.finish()
@@ -456,7 +443,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     //region Dialogs
 
     private fun showRankDialog() {
-        if (isReadMode) return
+        if (viewModel.isReadMode) return
 
         /** +1 because in rank dialog all items has shift by one (due to "no category" item). */
         val check = (viewModel.noteItem.value?.rank?.position ?: return) + 1
@@ -468,7 +455,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     private fun showColorDialog() {
-        if (isReadMode) return
+        if (viewModel.isReadMode) return
 
         val color = viewModel.noteItem.value?.color ?: return
 
@@ -479,7 +466,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     private fun showDateDialog() {
-        if (isEditMode) return
+        if (viewModel.isEditMode) return
 
         val item = viewModel.noteItem.value ?: return
         val calendar = item.alarm.date.toCalendar()
@@ -493,7 +480,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     private fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
-        if (isEditMode) return
+        if (viewModel.isEditMode) return
 
         hideKeyboard()
         open.attempt(OpenState.Tag.DIALOG) {
@@ -503,7 +490,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     private fun showConvertDialog() {
-        if (isEditMode) return
+        if (viewModel.isEditMode) return
 
         hideKeyboard()
         open.attempt {
@@ -513,8 +500,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //endregion
 
-    protected val isEditMode get() = viewModel.isEdit.value.isTrue()
-    protected val isReadMode get() = viewModel.isEdit.value.isFalse()
     protected val isSomethingOpened get() = open.isBlocked
 
 }

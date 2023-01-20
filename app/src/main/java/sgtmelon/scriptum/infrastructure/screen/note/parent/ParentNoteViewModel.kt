@@ -10,6 +10,8 @@ import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
 /**
  * Parent interface for communicate with children of [ParentNoteViewModelImpl].
@@ -25,6 +27,9 @@ interface ParentNoteViewModel<N : NoteItem> :
     val isDataReady: LiveData<Boolean>
 
     val isEdit: LiveData<Boolean>
+
+    val isEditMode: Boolean get() = isEdit.value.isTrue()
+    val isReadMode: Boolean get() = isEdit.value.isFalse()
 
     val noteState: LiveData<NoteState>
 
