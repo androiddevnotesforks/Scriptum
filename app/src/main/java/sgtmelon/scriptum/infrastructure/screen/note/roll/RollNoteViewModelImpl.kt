@@ -167,8 +167,6 @@ class RollNoteViewModelImpl(
      * to control in Edit.
      */
     override fun addItem(toBottom: Boolean, text: String) {
-        if (callback.isDialogOpen || isEdit.value.isFalse()) return
-
         val p = if (toBottom) deprecatedNoteItem.list.size else 0
         val rollItem = RollItem(position = p, text = text)
 

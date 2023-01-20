@@ -105,18 +105,22 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                     viewModel.save(changeMode = true)
                 } else {
                     binding?.addPanel?.rollEnter?.setText("")
-                    viewModel.addItem(toBottom = true, addText)
+                    addItem(toBottom = true, addText)
                 }
             }
         }
 
         binding?.addPanel?.addButton?.apply {
-            setOnClickListener { viewModel.addItem(toBottom = true, getAddText()) }
+            setOnClickListener { addItem(toBottom = true, getAddText()) }
             setOnLongClickListener {
-                viewModel.addItem(toBottom = false, getAddText())
+                addItem(toBottom = false, getAddText())
                 return@setOnLongClickListener true
             }
         }
+    }
+
+    private fun addItem(toBottom: Boolean, text: String) {
+        if (isEditMode && !isSomethingOpened) viewModel.addItem(toBottom, text)
     }
 
     override fun setupContent() {

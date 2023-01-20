@@ -67,7 +67,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
     protected val getRankDialogNames: GetRankDialogNamesUseCase,
-    protected val noteAutoSave: NoteAutoSave
+    private val noteAutoSave: NoteAutoSave // TODO move inside parent UI class and use lifecycle?
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 

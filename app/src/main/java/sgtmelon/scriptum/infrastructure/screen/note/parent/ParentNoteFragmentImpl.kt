@@ -148,14 +148,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
         panelBar.undoButton.setOnClickListener {
-            if (open.isBlocked || !isEditMode) return@setOnClickListener
-
-            viewModel.undoAction()
+            if (isEditMode && !isSomethingOpened) viewModel.undoAction()
         }
         panelBar.redoButton.setOnClickListener {
-            if (open.isBlocked || !isEditMode) return@setOnClickListener
-
-            viewModel.redoAction()
+            if (isEditMode && !isSomethingOpened) viewModel.redoAction()
         }
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
@@ -171,7 +167,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener {
-            if (open.isBlocked || isEditMode) return@setOnClickListener
+            if (isEditMode || isSomethingOpened) return@setOnClickListener
 
             viewModel.delete().collect(owner = this) {
                 system.broadcast.sendCancelAlarm(it)
@@ -181,9 +177,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             }
         }
         panelBar.editButton.setOnClickListener {
-            if (open.isBlocked || isEditMode) return@setOnClickListener
-
-            viewModel.edit()
+            if (isReadMode && !isSomethingOpened) viewModel.edit()
         }
 
         val bindDrawable = when (type) {
@@ -440,9 +434,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         viewModel.onDestroy()
     }
 
-    override val isDialogOpen: Boolean get() = open.isBlocked
+    override val isDialogOpen: Boolean get() = isSomethingOpened
 
-    override fun onPressBack(): Boolean {
+    /**
+     * FALSE result will call super.onBackPress() in parent activity.
+     */
+    fun onPressBack(): Boolean {
         if (viewModel.isEdit.value.isFalse()) return false
 
         return viewModel.onPressBack()
@@ -516,7 +513,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //endregion
 
-    private val isEditMode get() = viewModel.isEdit.value.isTrue()
-    private val isReadMode get() = viewModel.isEdit.value.isFalse()
+    protected val isEditMode get() = viewModel.isEdit.value.isTrue()
+    protected val isReadMode get() = viewModel.isEdit.value.isFalse()
+    protected val isSomethingOpened get() = open.isBlocked
 
 }
