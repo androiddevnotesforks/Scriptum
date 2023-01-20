@@ -11,6 +11,9 @@ interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind 
 
     val isDialogOpen: Boolean
 
+    /**
+     * FALSE result will call super.onBackPress() in parent activity.
+     */
     fun onPressBack(): Boolean
 
 

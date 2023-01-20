@@ -37,7 +37,6 @@ import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
-import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
@@ -111,8 +110,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //region Cleanup
 
-    protected fun isNoteInitialized(): Boolean = ::deprecatedNoteItem.isInitialized
-
     /**
      * Call after [tryInitializeNote]
      */
@@ -121,9 +118,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     @Deprecated("Use new realization")
     protected lateinit var deprecatedNoteItem: N
 
-    protected var mayAnimateIcon = true
-
-    /*override*/ override fun onDestroy(/*func: () -> Unit*/) /*= super.onDestroy*/ {
+    override fun onDestroy() {
         parentCallback = null
         noteAutoSave.changeAutoSaveWork(isWork = false)
     }
@@ -156,9 +151,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     /**
      * FALSE - will call super.onBackPress()
      */
+    // TODO remove/rename this function (don't use ui logic in viewModel)
     override fun onPressBack(): Boolean {
-        if (isEdit.value.isFalse()) return false
-
         /** If note can't be saved and activity will be closed. */
         noteAutoSave.isNeedSave = false
 
@@ -177,16 +171,14 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     // Menu click
 
-    override fun undoAction() = onMenuUndoRedo(isUndo = true)
+    override fun undoAction() = onUndoRedoAction(isUndo = true)
 
-    override fun redoAction() = onMenuUndoRedo(isUndo = false)
+    override fun redoAction() = onUndoRedoAction(isUndo = false)
 
-    private fun onMenuUndoRedo(isUndo: Boolean) {
-        if (callback.isDialogOpen || isEdit.value.isFalse()) return
-
+    private fun onUndoRedoAction(isUndo: Boolean) {
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
-            onMenuUndoRedoSelect(item, isUndo)
+            selectUndoRedoAction(item, isUndo)
         }
 
         historyAvailable.postValue(history.available)
@@ -196,32 +188,30 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      * TODO refactor description.
      * Function must describe logic of [isUndo] switch by [HistoryAction] class.
      */
-    abstract fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean)
+    abstract fun selectUndoRedoAction(action: HistoryAction, isUndo: Boolean)
 
-    protected fun onMenuUndoRedoRank(action: HistoryAction.Rank, isUndo: Boolean) {
-        deprecatedNoteItem.apply {
-            rank.id = action.id[isUndo]
-            rank.position = action.position[isUndo]
-        }
-    }
-
-    protected fun onMenuUndoRedoColor(action: HistoryAction.Color, isUndo: Boolean) {
-        val colorFrom = deprecatedNoteItem.color
-        val colorTo = action.value[isUndo]
-
-        color.postValue(colorTo)
-        deprecatedNoteItem.color = colorTo
-    }
-
-    protected fun onMenuUndoRedoName(action: HistoryAction.Name, isUndo: Boolean) {
+    protected fun onUndoRedoName(action: HistoryAction.Name, isUndo: Boolean) {
         callback.changeName(action.value[isUndo], action.cursor[isUndo])
     }
 
-    override fun edit() {
-        if (callback.isDialogOpen || isEdit.value.isTrue()) return
-
-        setupEditMode(isEdit = true)
+    protected fun onUndoRedoRank(action: HistoryAction.Rank, isUndo: Boolean) {
+        noteItem.value?.let {
+            it.rank = NoteRank(action.id[isUndo], action.position[isUndo])
+            noteItem.postValue(it)
+        }
     }
+
+    protected fun onUndoRedoColor(action: HistoryAction.Color, isUndo: Boolean) {
+        val colorTo = action.value[isUndo]
+
+        color.postValue(colorTo)
+        noteItem.value?.let {
+            it.color = colorTo
+            noteItem.postValue(it)
+        }
+    }
+
+    override fun edit() = setupEditMode(isEdit = true)
 
     /**
      * Function must describe changing of edit/read modes.
@@ -240,12 +230,12 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onHistoryAdd(action: HistoryAction) = history.add(action)
 
     /**
-     * Need check [isNoteInitialized] for prevent crash. Strange what this function calls before
+     * TODO check issue described below:
+     * Need check isNoteInitialized for prevent crash. Strange what this function calls before
      * note initialisation, may be it related with view binding.
      */
     override fun onHistoryEnterChanged(text: String) {
-        if (!isNoteInitialized()) return
-
+        //        if (!isNoteInitialized()) return
         historyAvailable.postValue(history.available)
     }
 

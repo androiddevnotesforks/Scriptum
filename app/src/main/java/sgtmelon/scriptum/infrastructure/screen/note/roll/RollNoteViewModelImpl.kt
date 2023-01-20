@@ -78,10 +78,10 @@ class RollNoteViewModelImpl(
 ), RollNoteViewModel {
 
     override suspend fun setupAfterInitialize() {
-        mayAnimateIcon = false
+//        mayAnimateIcon = false
         // TODO may this is not needed?
         setupEditMode(isEdit.value.isTrue())
-        mayAnimateIcon = true
+        //        mayAnimateIcon = true
 
         callback.apply {
             // TODO post noteItem to change visible icon
@@ -207,22 +207,22 @@ class RollNoteViewModelImpl(
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this
-    override fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean) {
+    override fun selectUndoRedoAction(action: HistoryAction, isUndo: Boolean) {
         disableHistoryChanges {
             when (action) {
-                is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
-                is HistoryAction.Rank -> onMenuUndoRedoRank(action, isUndo)
-                is HistoryAction.Color -> onMenuUndoRedoColor(action, isUndo)
-                is HistoryAction.Roll.Enter -> onMenuUndoRedoRoll(action, isUndo)
-                is HistoryAction.Roll.List.Add -> onMenuUndoRedoAdd(action, isUndo)
-                is HistoryAction.Roll.List.Remove -> onMenuUndoRedoRemove(action, isUndo)
-                is HistoryAction.Roll.Move -> onMenuUndoRedoMove(action, isUndo)
+                is HistoryAction.Name -> onUndoRedoName(action, isUndo)
+                is HistoryAction.Rank -> onUndoRedoRank(action, isUndo)
+                is HistoryAction.Color -> onUndoRedoColor(action, isUndo)
+                is HistoryAction.Roll.Enter -> onUndoRedoRoll(action, isUndo)
+                is HistoryAction.Roll.List.Add -> onUndoRedoAdd(action, isUndo)
+                is HistoryAction.Roll.List.Remove -> onUndoRedoRemove(action, isUndo)
+                is HistoryAction.Roll.Move -> onUndoRedoMove(action, isUndo)
                 else -> Unit
             }
         }
     }
 
-    private fun onMenuUndoRedoRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
+    private fun onUndoRedoRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
         val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
 
         /** Need update data anyway! Even if this item in list is currently hided. */
@@ -236,7 +236,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onMenuUndoRedoAdd(action: HistoryAction.Roll.List.Add, isUndo: Boolean) {
+    private fun onUndoRedoAdd(action: HistoryAction.Roll.List.Add, isUndo: Boolean) {
         if (isUndo) {
             onRemoveItem(action)
         } else {
@@ -244,7 +244,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onMenuUndoRedoRemove(action: HistoryAction.Roll.List.Remove, isUndo: Boolean) {
+    private fun onUndoRedoRemove(action: HistoryAction.Roll.List.Remove, isUndo: Boolean) {
         if (isUndo) {
             onInsertItem(action, isUndo = true)
         } else {
@@ -292,7 +292,7 @@ class RollNoteViewModelImpl(
     }
 
     // TODO record exception
-    private fun onMenuUndoRedoMove(action: HistoryAction.Roll.Move, isUndo: Boolean) {
+    private fun onUndoRedoMove(action: HistoryAction.Roll.Move, isUndo: Boolean) {
         val from = action.value[!isUndo]
         val to = action.value[isUndo]
 

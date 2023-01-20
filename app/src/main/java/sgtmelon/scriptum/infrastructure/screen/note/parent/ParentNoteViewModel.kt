@@ -48,17 +48,11 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun onDestroy()
 
-
     fun onClickBackArrow()
 
     fun onPressBack(): Boolean
 
-
-
-
     //endregion
-
-    // TODO move this functions into ParentNoteViewModel
 
     // Inside bin
 
@@ -68,14 +62,13 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun deleteForever(): Flow<NoteItem>
 
-
     // Edit mode
 
     fun undoAction()
 
     fun redoAction()
 
-    // TODO may be pass already color?
+    // TODO may be pass Color value as parameter (not Int)?
     fun changeColor(check: Int)
 
     fun changeRank(check: Int)

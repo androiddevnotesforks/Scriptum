@@ -147,8 +147,16 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.clearButton.setOnClickListener {
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
-        panelBar.undoButton.setOnClickListener { viewModel.undoAction() }
-        panelBar.redoButton.setOnClickListener { viewModel.redoAction() }
+        panelBar.undoButton.setOnClickListener {
+            if (open.isBlocked || !isEditMode) return@setOnClickListener
+
+            viewModel.undoAction()
+        }
+        panelBar.redoButton.setOnClickListener {
+            if (open.isBlocked || !isEditMode) return@setOnClickListener
+
+            viewModel.redoAction()
+        }
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
         panelBar.saveButton.setOnClickListener { viewModel.save(changeMode = true) }
@@ -172,7 +180,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                 activity?.finish()
             }
         }
-        panelBar.editButton.setOnClickListener { viewModel.edit() }
+        panelBar.editButton.setOnClickListener {
+            if (open.isBlocked || isEditMode) return@setOnClickListener
+
+            viewModel.edit()
+        }
 
         val bindDrawable = when (type) {
             NoteType.TEXT -> R.drawable.ic_bind_text
@@ -430,7 +442,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     override val isDialogOpen: Boolean get() = open.isBlocked
 
-    override fun onPressBack() = viewModel.onPressBack()
+    override fun onPressBack(): Boolean {
+        if (viewModel.isEdit.value.isFalse()) return false
+
+        return viewModel.onPressBack()
+    }
 
     override fun finish() {
         activity?.finish()

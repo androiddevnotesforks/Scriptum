@@ -69,10 +69,10 @@ class TextNoteViewModelImpl(
 ), TextNoteViewModel {
 
     override suspend fun setupAfterInitialize() {
-        mayAnimateIcon = false
+//        mayAnimateIcon = false
         // TODO may this is not needed?
         setupEditMode(isEdit.value.isTrue())
-        mayAnimateIcon = true
+        //        mayAnimateIcon = true
     }
 
     //region Cleanup
@@ -97,19 +97,19 @@ class TextNoteViewModelImpl(
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this
-    override fun onMenuUndoRedoSelect(action: HistoryAction, isUndo: Boolean) {
+    override fun selectUndoRedoAction(action: HistoryAction, isUndo: Boolean) {
         disableHistoryChanges {
             when (action) {
-                is HistoryAction.Name -> onMenuUndoRedoName(action, isUndo)
-                is HistoryAction.Rank -> onMenuUndoRedoRank(action, isUndo)
-                is HistoryAction.Color -> onMenuUndoRedoColor(action, isUndo)
-                is HistoryAction.Text.Enter -> onMenuUndoRedoText(action, isUndo)
+                is HistoryAction.Name -> onUndoRedoName(action, isUndo)
+                is HistoryAction.Rank -> onUndoRedoRank(action, isUndo)
+                is HistoryAction.Color -> onUndoRedoColor(action, isUndo)
+                is HistoryAction.Text.Enter -> onUndoRedoText(action, isUndo)
                 else -> Unit
             }
         }
     }
 
-    private fun onMenuUndoRedoText(action: HistoryAction.Text.Enter, isUndo: Boolean) {
+    private fun onUndoRedoText(action: HistoryAction.Text.Enter, isUndo: Boolean) {
         callback.changeText(action.value[isUndo], action.cursor[isUndo])
     }
 
