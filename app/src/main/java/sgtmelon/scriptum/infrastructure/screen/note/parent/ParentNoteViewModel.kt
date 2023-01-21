@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnable
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
@@ -47,17 +48,46 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     //region Cleanup
 
+    // TODO move inside parent UI class and use lifecycle?
+    val noteAutoSave: NoteAutoSave
+
     fun onResume()
 
     fun onPause()
 
     fun onDestroy()
 
-    fun onClickBackArrow()
-
-    fun onPressBack(): Boolean
-
     //endregion
+
+    /**
+     * Return TRUE if [noteItem] data successfully restored.
+     */
+    fun restoreDataOrExit(): Boolean {
+        if (isEditMode && noteState.value != NoteState.CREATE) {
+            return restoreData()
+        }
+
+        return false
+    }
+
+    /**
+     * Return FALSE if can't save or restore [noteItem] data.
+     */
+    fun saveOrRestoreData(): Boolean {
+        if (isReadMode) return false
+
+        return when {
+            save(changeMode = true) -> true
+            noteState.value != NoteState.CREATE -> restoreData()
+            else -> false
+        }
+    }
+
+    /**
+     * Function must describe restoring all data (in code and for screen) after changes in
+     * [isEditMode] was canceled.
+     */
+    fun restoreData(): Boolean
 
     // Inside bin
 

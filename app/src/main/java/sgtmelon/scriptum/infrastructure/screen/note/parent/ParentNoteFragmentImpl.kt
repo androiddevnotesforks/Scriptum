@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import android.content.Context
+import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
@@ -103,7 +104,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
          * loading) - it means not edit mode and we can't somehow harm any data. Button close
          * the screen in this case.
          */
-        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
+        toolbar?.setNavigationOnClickListener(toolbarBackListener)
 
         /** Show cancel button (for undo all changes) only if note exists and in edit mode. */
         val isCancel = with(connector.init) { state != NoteState.CREATE && isEdit }
@@ -408,6 +409,33 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         system.toast.show(context, text)
     }
 
+    //region UI staff
+
+    private val toolbarBackListener = View.OnClickListener {
+        val isDataRestored = viewModel.restoreDataOrExit()
+
+        if (!isDataRestored) {
+            viewModel.noteAutoSave.isNeedSave = false
+            activity?.finish()
+        }
+    }
+
+    /**
+     * FALSE result will call super.onBackPress() in parent activity.
+     */
+    fun onPressBack(): Boolean {
+        val isScreenOpen = viewModel.saveOrRestoreData()
+
+        if (!isScreenOpen) {
+            /** If note can't be saved and activity will be closed (because return FALSE). */
+            viewModel.noteAutoSave.isNeedSave = false
+        }
+
+        return isScreenOpen
+    }
+
+    //endregion
+
     //region Cleanup
 
     override fun onResume() {
@@ -426,11 +454,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     override val isDialogOpen: Boolean get() = isSomethingOpened
-
-    /**
-     * FALSE result will call super.onBackPress() in parent activity.
-     */
-    fun onPressBack(): Boolean = viewModel.onPressBack()
 
     override fun finish() {
         activity?.finish()

@@ -66,7 +66,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
     protected val getRankDialogNames: GetRankDialogNamesUseCase,
-    private val noteAutoSave: NoteAutoSave // TODO move inside parent UI class and use lifecycle?
+    override val noteAutoSave: NoteAutoSave // TODO move inside parent UI class and use lifecycle?
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
@@ -123,9 +123,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override fun onResume() {
-        if (isEditMode) {
-            noteAutoSave.changeAutoSaveWork(isWork = true)
-        }
+        noteAutoSave.isNeedSave = true
+        noteAutoSave.changeAutoSaveWork(isEditMode)
     }
 
     override fun onPause() {
@@ -136,39 +135,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
             noteAutoSave.changeAutoSaveWork(isWork = false)
         }
     }
-
-
-    override fun onClickBackArrow() {
-        if (noteState.value != NoteState.CREATE && isEditMode) {
-            onRestoreData()
-        } else {
-            noteAutoSave.isNeedSave = false
-            callback.finish()
-        }
-    }
-
-    /**
-     * FALSE - will call super.onBackPress()
-     */
-    // TODO remove/rename this function (don't use ui logic in viewModel)
-    override fun onPressBack(): Boolean {
-        if (isReadMode) return false
-
-        /** If note can't be saved and activity will be closed. */
-        noteAutoSave.isNeedSave = false
-
-        return if (!save(changeMode = true)) {
-            if (noteState.value != NoteState.CREATE) onRestoreData() else false
-        } else {
-            true
-        }
-    }
-
-    /**
-     * Function must describe restoring all data (in code and on screen) after changes
-     * was canceled.
-     */
-    abstract fun onRestoreData(): Boolean
 
     // Menu click
 
@@ -230,7 +196,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
         historyAvailable.postValue(history.available) // TODO it's really needed?
 
-        noteAutoSave.isNeedSave = true
         noteAutoSave.changeAutoSaveWork(isEdit)
     }
 

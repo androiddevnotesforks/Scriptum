@@ -75,7 +75,7 @@ class TextNoteViewModelImpl(
 
     //region Cleanup
 
-    override fun onRestoreData(): Boolean {
+    override fun restoreData(): Boolean {
         if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
 
         val restoreItem = cacheNote.item
