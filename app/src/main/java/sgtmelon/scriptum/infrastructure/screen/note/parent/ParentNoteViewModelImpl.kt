@@ -37,7 +37,6 @@ import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
-import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
@@ -124,7 +123,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     }
 
     override fun onResume() {
-        if (isEdit.value.isTrue()) {
+        if (isEditMode) {
             noteAutoSave.changeAutoSaveWork(isWork = true)
         }
     }
@@ -132,7 +131,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     override fun onPause() {
         if (parentCallback?.isOrientationChanging() == true) return
 
-        if (isEdit.value.isTrue()) {
+        if (isEditMode) {
             noteAutoSave.onPauseSave()
             noteAutoSave.changeAutoSaveWork(isWork = false)
         }
@@ -140,7 +139,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
 
     override fun onClickBackArrow() {
-        if (noteState.value != NoteState.CREATE && isEdit.value.isTrue()) {
+        if (noteState.value != NoteState.CREATE && isEditMode) {
             onRestoreData()
         } else {
             noteAutoSave.isNeedSave = false

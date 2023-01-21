@@ -34,8 +34,6 @@ import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
-import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
@@ -80,7 +78,7 @@ class RollNoteViewModelImpl(
     override suspend fun setupAfterInitialize() {
 //        mayAnimateIcon = false
         // TODO may this is not needed?
-        setupEditMode(isEdit.value.isTrue())
+        setupEditMode(isEditMode)
         //        mayAnimateIcon = true
 
         callback.apply {
@@ -135,7 +133,7 @@ class RollNoteViewModelImpl(
             viewModelScope.launch {
                 runBack { updateVisible(deprecatedNoteItem) }
 
-                if (isEdit.value.isFalse()) {
+                if (isReadMode) {
                     callback.sendNotifyNotesBroadcast()
                 }
             }
@@ -180,7 +178,7 @@ class RollNoteViewModelImpl(
     }
 
     override fun changeItemCheck(p: Int) {
-        if (isEdit.value.isTrue()) return
+        if (isEditMode) return
 
         val absolutePosition = getAbsolutePosition(p) ?: return
         deprecatedNoteItem.onItemCheck(absolutePosition)
@@ -314,7 +312,7 @@ class RollNoteViewModelImpl(
     override fun save(changeMode: Boolean): Boolean {
         if (changeMode && callback.isDialogOpen) return false
 
-        if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled) return false
+        if (isReadMode || !deprecatedNoteItem.isSaveEnabled) return false
 
         deprecatedNoteItem.onSave()
 

@@ -28,8 +28,6 @@ import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
-import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
@@ -71,7 +69,7 @@ class TextNoteViewModelImpl(
     override suspend fun setupAfterInitialize() {
 //        mayAnimateIcon = false
         // TODO may this is not needed?
-        setupEditMode(isEdit.value.isTrue())
+        setupEditMode(isEditMode)
         //        mayAnimateIcon = true
     }
 
@@ -119,7 +117,7 @@ class TextNoteViewModelImpl(
     override fun save(changeMode: Boolean): Boolean {
         if (changeMode && callback.isDialogOpen) return false
 
-        if (isEdit.value.isFalse() || !deprecatedNoteItem.isSaveEnabled) return false
+        if (isReadMode || !deprecatedNoteItem.isSaveEnabled) return false
 
         deprecatedNoteItem.onSave()
 

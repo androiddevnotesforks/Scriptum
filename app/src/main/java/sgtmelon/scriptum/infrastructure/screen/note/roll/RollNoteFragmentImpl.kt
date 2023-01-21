@@ -31,7 +31,6 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
-import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
@@ -309,10 +308,10 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun onTouchGetDrag(isDragAvailable: Boolean): Boolean {
-        return viewModel.isEdit.value.isTrue() && isDragAvailable
+        return viewModel.isEditMode && isDragAvailable
     }
 
-    override fun onTouchGetSwipe(): Boolean = viewModel.isEdit.value.isTrue()
+    override fun onTouchGetSwipe(): Boolean = viewModel.isEditMode
 
     override fun onTouchDragStart() = hideKeyboard()
 
