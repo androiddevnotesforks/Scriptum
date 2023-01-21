@@ -19,6 +19,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSaveImpl
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
@@ -65,6 +66,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract val type: NoteType
 
     abstract val viewModel: ParentNoteViewModel<N>
+    abstract val noteAutoSave: NoteAutoSave
 
     abstract val appBar: IncToolbarNoteBinding?
     abstract val panelBar: IncNotePanelContentBinding?
@@ -258,6 +260,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper open fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
         connector.init.isEdit = isEdit
+        noteAutoSave.changeAutoSaveWork(isEdit)
 
         if (!isEdit) hideKeyboard()
 
@@ -409,13 +412,19 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         system.toast.show(context, text)
     }
 
+    override val isAutoSaveAvailable: Boolean get() = viewModel.isEditMode
+    override val isPauseSaveAvailable: Boolean
+        get() {
+            return viewModel.isEditMode && connector.isOrientationChanging().isFalse()
+        }
+
     //region UI staff
 
     private val toolbarBackListener = View.OnClickListener {
         val isDataRestored = viewModel.restoreDataOrExit()
 
         if (!isDataRestored) {
-            viewModel.noteAutoSave.isNeedSave = false
+            noteAutoSave.skipPauseSave()
             activity?.finish()
         }
     }
@@ -428,7 +437,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         if (!isScreenOpen) {
             /** If note can't be saved and activity will be closed (because return FALSE). */
-            viewModel.noteAutoSave.isNeedSave = false
+            noteAutoSave.skipPauseSave()
         }
 
         return isScreenOpen
@@ -437,21 +446,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     //endregion
 
     //region Cleanup
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.onDestroy()
-    }
 
     override val isDialogOpen: Boolean get() = isSomethingOpened
 

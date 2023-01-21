@@ -2,9 +2,7 @@ package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
 interface NoteAutoSave {
 
-    var isNeedSave: Boolean
+    fun skipPauseSave()
 
     fun changeAutoSaveWork(isWork: Boolean)
-
-    fun onPauseSave()
 }

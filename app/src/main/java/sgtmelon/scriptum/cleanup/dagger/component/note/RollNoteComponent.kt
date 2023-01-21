@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.dagger.component.note
 
+import androidx.lifecycle.Lifecycle
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
@@ -21,6 +22,9 @@ interface RollNoteComponent {
     interface Builder {
         @BindsInstance
         fun set(fragment: RollNoteFragmentImpl): Builder
+
+        @BindsInstance
+        fun set(lifecycle: Lifecycle): Builder
 
         @BindsInstance
         fun set(callback: NoteAutoSaveImpl.Callback): Builder

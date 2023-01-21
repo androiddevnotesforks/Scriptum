@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -54,16 +53,14 @@ class TextNoteViewModelImpl(
     deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationsDateListUseCase,
     getRankId: GetRankIdUseCase,
-    getRankDialogNames: GetRankDialogNamesUseCase,
-    noteAutoSave: NoteAutoSave
+    getRankDialogNames: GetRankDialogNamesUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Text, TextNoteFragment>(
     init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
     callback, parentCallback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList, getRankId, getRankDialogNames,
-    noteAutoSave
+    getNotificationDateList, getRankId, getRankDialogNames
 ), TextNoteViewModel {
 
     override suspend fun setupAfterInitialize() {

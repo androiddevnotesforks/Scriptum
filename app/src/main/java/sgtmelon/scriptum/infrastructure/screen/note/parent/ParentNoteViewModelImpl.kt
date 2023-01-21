@@ -12,7 +12,6 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
@@ -65,8 +64,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
-    protected val getRankDialogNames: GetRankDialogNamesUseCase,
-    override val noteAutoSave: NoteAutoSave // TODO move inside parent UI class and use lifecycle?
+    protected val getRankDialogNames: GetRankDialogNamesUseCase
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
@@ -116,25 +114,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     @Deprecated("Use new realization")
     protected lateinit var deprecatedNoteItem: N
-
-    override fun onDestroy() {
-        parentCallback = null
-        noteAutoSave.changeAutoSaveWork(isWork = false)
-    }
-
-    override fun onResume() {
-        noteAutoSave.isNeedSave = true
-        noteAutoSave.changeAutoSaveWork(isEditMode)
-    }
-
-    override fun onPause() {
-        if (parentCallback?.isOrientationChanging() == true) return
-
-        if (isEditMode) {
-            noteAutoSave.onPauseSave()
-            noteAutoSave.changeAutoSaveWork(isWork = false)
-        }
-    }
 
     // Menu click
 
@@ -191,12 +170,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      */
     protected fun setupEditMode(isEdit: Boolean) {
         this.isEdit.postValue(isEdit)
-
         // TODO may be post noteItem?
-
         historyAvailable.postValue(history.available) // TODO it's really needed?
-
-        noteAutoSave.changeAutoSaveWork(isEdit)
     }
 
     override fun onHistoryAdd(action: HistoryAction) = history.add(action)

@@ -29,6 +29,7 @@ import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfiguration
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
+import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 import sgtmelon.test.idling.getIdling
@@ -149,7 +150,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun onPause() {
         super.onPause()
 
-        if (system?.phoneAwake?.isAwake == false) {
+        if (system?.phoneAwake?.isAwake.isFalse()) {
             finish()
         }
     }

@@ -28,6 +28,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
 import sgtmelon.scriptum.infrastructure.widgets.recycler.NotifyListDelegator
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -171,7 +172,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         viewModel.updateData()
 
         /** Restore our snack bar if it must be shown. */
-        if (viewModel.showSnackbar.value == true && !snackbar.isDisplayed) {
+        if (viewModel.showSnackbar.value.isTrue() && !snackbar.isDisplayed) {
             showSnackbar()
         }
     }

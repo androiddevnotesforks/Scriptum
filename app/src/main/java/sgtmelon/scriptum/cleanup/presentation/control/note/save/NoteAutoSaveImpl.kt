@@ -1,76 +1,92 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
 import android.content.res.Resources
-import androidx.annotation.MainThread
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import sgtmelon.extensions.runMain
+import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
-import sgtmelon.scriptum.infrastructure.utils.extensions.record
+import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 
 /**
  * Class for help control note pause/auto save.
  */
 class NoteAutoSaveImpl(
+    lifecycle: Lifecycle,
     resources: Resources,
-    private val saveState: NoteSaveState,
+    private val state: NoteSaveState,
     private val callback: Callback
-) : NoteAutoSave {
+) : NoteAutoSave,
+    DefaultLifecycleObserver {
 
-    // TODO may be use delayed delegator?
-    private val ioScope = CoroutineScope(Dispatchers.IO)
-    private var job: Job? = null
+    init {
+        lifecycle.addObserver(this)
+    }
 
-    private val periodTime: Long? = try {
-        val timeArray = resources.getIntArray(R.array.pref_note_save_period_array)
-        timeArray[saveState.savePeriod.ordinal].toLong()
-    } catch (e: Throwable) {
-        e.record()
-        null
+    private val saveDelay = DelayedJob(lifecycle)
+
+    private val periodGap: Long = run {
+        val array = resources.getIntArray(R.array.pref_note_save_period_array)
+        return@run array[state.savePeriod.ordinal].toLong()
     }
 
     /**
-     * onPause happen not only if application close (e.g. if we close activity).
-     * In this cases we must skip note saving.
+     * [onPause] happen not only if application close (e.g. if we close activity).
+     * In some cases we must skip note saving in [onPauseSave].
      */
-    override var isNeedSave = true
+    private var skipPauseSave = false
+
+    override fun skipPauseSave() {
+        skipPauseSave = true
+    }
 
     override fun changeAutoSaveWork(isWork: Boolean) {
-        if (!saveState.isAutoSaveOn) return
+        if (!state.isAutoSaveOn) return
 
-        job?.cancel()
-        job = null
+        saveDelay.cancel()
 
         if (isWork) {
-            val period = periodTime ?: return
-
-            job = ioScope.launch {
-                delay(period)
-                runMain { saveChanges() }
+            saveDelay.start(periodGap) {
+                callback.onAutoSave()
+                changeAutoSaveWork(isWork = true)
             }
         }
     }
 
-    @MainThread
-    private fun saveChanges() {
-        job = null
-        callback.onAutoSave()
-        changeAutoSaveWork(isWork = true)
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+        skipPauseSave = false
+        changeAutoSaveWork(callback.isAutoSaveAvailable)
+        Log.i("HERE", "onResume")
     }
 
-    override fun onPauseSave() {
-        if (!saveState.isPauseSaveOn) return
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
 
-        if (isNeedSave) {
+        if (callback.isPauseSaveAvailable) {
+            onPauseSave()
+            changeAutoSaveWork(isWork = false)
+        }
+    }
+
+    private fun onPauseSave() {
+        if (!state.isPauseSaveOn) return
+
+        if (!skipPauseSave) {
             callback.onAutoSave()
         }
     }
 
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+        changeAutoSaveWork(isWork = false)
+        Log.i("HERE", "onDestory")
+    }
+
     interface Callback {
         fun onAutoSave()
+        val isAutoSaveAvailable: Boolean
+        val isPauseSaveAvailable: Boolean
     }
 }

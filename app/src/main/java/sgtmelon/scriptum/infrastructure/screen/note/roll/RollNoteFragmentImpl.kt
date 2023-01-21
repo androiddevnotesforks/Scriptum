@@ -20,6 +20,7 @@ import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -52,6 +53,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val type: NoteType = NoteType.ROLL
 
     @Inject override lateinit var viewModel: RollNoteViewModel
+    @Inject override lateinit var noteAutoSave: NoteAutoSave
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
@@ -214,6 +216,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun inject(component: ScriptumComponent) {
         component.getRollNoteBuilder()
             .set(fragment = this)
+            .set(lifecycle)
             .set(callback = this)
             .set(connector.init)
             .build()

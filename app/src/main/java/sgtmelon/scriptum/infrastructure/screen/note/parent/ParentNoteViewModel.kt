@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnable
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
@@ -46,19 +45,6 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     val notificationsDateList: Flow<List<String>>
 
-    //region Cleanup
-
-    // TODO move inside parent UI class and use lifecycle?
-    val noteAutoSave: NoteAutoSave
-
-    fun onResume()
-
-    fun onPause()
-
-    fun onDestroy()
-
-    //endregion
-
     /**
      * Return TRUE if [noteItem] data successfully restored.
      */
@@ -88,6 +74,8 @@ interface ParentNoteViewModel<N : NoteItem> :
      * [isEditMode] was canceled.
      */
     fun restoreData(): Boolean
+
+    //region Cleanup
 
     // Inside bin
 
@@ -127,5 +115,7 @@ interface ParentNoteViewModel<N : NoteItem> :
     fun delete(): Flow<N>
 
     fun edit()
+
+    //endregion
 
 }

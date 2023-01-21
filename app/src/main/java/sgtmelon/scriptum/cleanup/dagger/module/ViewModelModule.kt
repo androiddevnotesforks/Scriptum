@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.dagger.module
 
 import android.content.Context
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.Module
@@ -263,14 +264,16 @@ class ViewModelModule {
         return ViewModelProvider(fragment, factory)[RollNoteViewModelImpl::class.java]
     }
 
+    // TODO move into another module
     @Provides
     @ActivityScope
     fun provideNoteAutoSave(
+        lifecycle: Lifecycle,
         context: Context,
         preferencesRepo: PreferencesRepo,
         callback: NoteAutoSaveImpl.Callback
     ): NoteAutoSave {
-        return NoteAutoSaveImpl(context.resources, preferencesRepo.saveState, callback)
+        return NoteAutoSaveImpl(lifecycle, context.resources, preferencesRepo.saveState, callback)
     }
 
     //endregion

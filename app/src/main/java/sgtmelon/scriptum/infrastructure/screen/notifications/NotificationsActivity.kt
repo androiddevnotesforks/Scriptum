@@ -17,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.NotifyListDelegator
@@ -110,7 +111,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         open.clear()
 
         /** Restore our snack bar if it must be shown. */
-        if (viewModel.showSnackbar.value == true && !snackbar.isDisplayed) {
+        if (viewModel.showSnackbar.value.isTrue() && !snackbar.isDisplayed) {
             showSnackbar()
         }
     }
