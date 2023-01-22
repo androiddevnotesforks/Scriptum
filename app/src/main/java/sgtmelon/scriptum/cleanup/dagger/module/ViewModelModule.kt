@@ -10,8 +10,8 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSaveImpl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteSave
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteSaveImpl
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -265,13 +265,13 @@ class ViewModelModule {
     // TODO move into another module
     @Provides
     @ActivityScope
-    fun provideNoteAutoSave(
+    fun provideNoteSave(
         lifecycle: Lifecycle,
         context: Context,
         preferencesRepo: PreferencesRepo,
-        callback: NoteAutoSaveImpl.Callback
-    ): NoteAutoSave {
-        return NoteAutoSaveImpl(lifecycle, context.resources, preferencesRepo.saveState, callback)
+        callback: NoteSaveImpl.Callback
+    ): NoteSave {
+        return NoteSaveImpl(lifecycle, context.resources, preferencesRepo.saveState, callback)
     }
 
     //endregion

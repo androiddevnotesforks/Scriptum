@@ -5,10 +5,10 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 
 /**
- * Test for [NoteAutoSaveImpl].
+ * Test for [NoteSaveImpl].
  */
 @ExperimentalCoroutinesApi
-class NoteAutoSaveImplTest : ParentCoTest() {
+class NoteSaveImplTest : ParentCoTest() {
 
     @Test fun test() {
         TODO()

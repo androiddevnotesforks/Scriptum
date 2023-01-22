@@ -11,12 +11,12 @@ import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 /**
  * Class for help control note pause/auto save.
  */
-class NoteAutoSaveImpl(
+class NoteSaveImpl(
     lifecycle: Lifecycle,
     resources: Resources,
     private val state: NoteSaveState,
     private val callback: Callback
-) : NoteAutoSave,
+) : NoteSave,
     DefaultLifecycleObserver {
 
     init {

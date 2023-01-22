@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteSave
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -30,7 +30,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     override val type: NoteType = NoteType.TEXT
 
     @Inject override lateinit var viewModel: TextNoteViewModel
-    @Inject override lateinit var noteAutoSave: NoteAutoSave
+    @Inject override lateinit var noteSave: NoteSave
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content

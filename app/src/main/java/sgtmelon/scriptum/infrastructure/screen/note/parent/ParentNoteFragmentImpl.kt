@@ -19,8 +19,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSave
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteAutoSaveImpl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteSave
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteSaveImpl
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -55,7 +55,7 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     ParentNoteFragment<N>,
     IconBlockCallback,
-    NoteAutoSaveImpl.Callback {
+    NoteSaveImpl.Callback {
 
     // TODO update name in connector init (after save?)
     // TODO block some buttons in panel bar while data not loaded
@@ -66,7 +66,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract val type: NoteType
 
     abstract val viewModel: ParentNoteViewModel<N>
-    abstract val noteAutoSave: NoteAutoSave
+    abstract val noteSave: NoteSave
 
     abstract val appBar: IncToolbarNoteBinding?
     abstract val panelBar: IncNotePanelContentBinding?
@@ -260,7 +260,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper open fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
         connector.init.isEdit = isEdit
-        noteAutoSave.changeAutoSaveWork(isEdit)
+        noteSave.changeAutoSaveWork(isEdit)
 
         if (!isEdit) hideKeyboard()
 
@@ -424,7 +424,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val isDataRestored = viewModel.restoreDataOrExit()
 
         if (!isDataRestored) {
-            noteAutoSave.skipPauseSave()
+            noteSave.skipPauseSave()
             activity?.finish()
         }
     }
@@ -437,7 +437,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         if (!isScreenOpen) {
             /** If note can't be saved and activity will be closed (because return FALSE). */
-            noteAutoSave.skipPauseSave()
+            noteSave.skipPauseSave()
         }
 
         return isScreenOpen
