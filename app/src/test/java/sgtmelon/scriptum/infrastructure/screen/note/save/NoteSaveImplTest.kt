@@ -1,14 +1,14 @@
-package sgtmelon.scriptum.cleanup.presentation.control.note.save
+package sgtmelon.scriptum.infrastructure.screen.note.save
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.parent.ParentCoTest
+import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [NoteSaveImpl].
  */
-@ExperimentalCoroutinesApi
-class NoteSaveImplTest : ParentCoTest() {
+class NoteSaveImplTest : ParentTest() {
 
     @Test fun test() {
         TODO()

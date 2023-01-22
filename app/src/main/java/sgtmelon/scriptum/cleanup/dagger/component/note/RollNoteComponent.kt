@@ -5,7 +5,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteSaveImpl
+import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 

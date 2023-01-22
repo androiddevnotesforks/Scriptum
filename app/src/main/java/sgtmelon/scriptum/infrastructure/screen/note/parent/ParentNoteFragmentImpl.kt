@@ -19,8 +19,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteSave
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.NoteSaveImpl
+import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
+import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control.note.save
+package sgtmelon.scriptum.infrastructure.screen.note.save
 
 interface NoteSave {
 
