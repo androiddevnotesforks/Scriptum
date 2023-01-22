@@ -25,7 +25,6 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
@@ -111,8 +110,6 @@ class TextNoteViewModelImpl(
      * Don't need update [color] because it's happen in [changeColor] function.
      */
     override fun save(changeMode: Boolean): Boolean {
-        if (changeMode && callback.isDialogOpen) return false
-
         if (isReadMode || !deprecatedNoteItem.isSaveEnabled) return false
 
         deprecatedNoteItem.onSave()

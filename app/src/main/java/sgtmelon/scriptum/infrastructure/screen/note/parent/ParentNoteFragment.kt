@@ -9,8 +9,6 @@ import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 @Deprecated("Don't use it")
 interface ParentNoteFragment<N : NoteItem> : EternalServiceReceiver.Bridge.Bind {
 
-    val isDialogOpen: Boolean
-
     fun changeName(text: String, cursor: Int)
 
 }

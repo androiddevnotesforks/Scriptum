@@ -149,11 +149,13 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.clearButton.setOnClickListener {
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
-        panelBar.undoButton.setOnClickListener { if (!isSomethingOpened) viewModel.undoAction() }
-        panelBar.redoButton.setOnClickListener { if (!isSomethingOpened) viewModel.redoAction() }
+        panelBar.undoButton.setOnClickListener { if (!isActionsBlocked) viewModel.undoAction() }
+        panelBar.redoButton.setOnClickListener { if (!isActionsBlocked) viewModel.redoAction() }
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
-        panelBar.saveButton.setOnClickListener { viewModel.save(changeMode = true) }
+        panelBar.saveButton.setOnClickListener {
+            if (!isActionsBlocked) viewModel.save(changeMode = true)
+        }
         panelBar.saveButton.setOnLongClickListener { viewModel.save(changeMode = false) }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
         panelBar.bindButton.setOnClickListener {
@@ -163,7 +165,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener {
-            if (isSomethingOpened) return@setOnClickListener
+            if (isActionsBlocked) return@setOnClickListener
 
             viewModel.delete().collect(owner = this) {
                 system.broadcast.sendCancelAlarm(it)
@@ -172,7 +174,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                 activity?.finish()
             }
         }
-        panelBar.editButton.setOnClickListener { if (!isSomethingOpened) viewModel.edit() }
+        panelBar.editButton.setOnClickListener { if (!isActionsBlocked) viewModel.edit() }
 
         val bindDrawable = when (type) {
             NoteType.TEXT -> R.drawable.ic_bind_text
@@ -433,6 +435,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
      * FALSE result will call super.onBackPress() in parent activity.
      */
     fun onPressBack(): Boolean {
+        /** Actually this case isn't possible, but it's here for sure */
+        if (isActionsBlocked) return false
+
         val isScreenOpen = viewModel.saveOrRestoreData()
 
         if (!isScreenOpen) {
@@ -446,8 +451,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     //endregion
 
     //region Cleanup
-
-    override val isDialogOpen: Boolean get() = isSomethingOpened
 
     override fun sendNotifyNotesBroadcast() = system.broadcast.sendNotifyNotesBind()
 
@@ -513,6 +516,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //endregion
 
-    protected val isSomethingOpened get() = open.isBlocked
+    protected val isActionsBlocked get() = open.isBlocked
 
 }

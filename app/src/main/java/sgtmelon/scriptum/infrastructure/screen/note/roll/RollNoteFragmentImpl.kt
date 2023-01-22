@@ -20,7 +20,6 @@ import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -30,6 +29,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
@@ -101,6 +101,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             }
 
             setEditorDoneAction {
+                if (isActionsBlocked) return@setEditorDoneAction
+
                 val addText = getAddText()
                 if (addText.isEmpty()) {
                     viewModel.save(changeMode = true)
@@ -121,7 +123,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     private fun addItem(toBottom: Boolean, text: String) {
-        if (viewModel.isEditMode && !isSomethingOpened) viewModel.addItem(toBottom, text)
+        if (viewModel.isEditMode && !isActionsBlocked) viewModel.addItem(toBottom, text)
     }
 
     override fun setupContent() {
