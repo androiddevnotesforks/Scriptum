@@ -52,7 +52,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     //TODO cleanup
     protected val callback: C,
-    private var parentCallback: NoteConnector?,
     protected val colorConverter: ColorConverter,
     protected val preferencesRepo: PreferencesRepo,
     private val convertNote: ConvertNoteUseCase,

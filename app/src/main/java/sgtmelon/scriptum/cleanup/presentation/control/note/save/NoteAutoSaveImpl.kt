@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
 import android.content.res.Resources
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -58,7 +57,6 @@ class NoteAutoSaveImpl(
         super.onResume(owner)
         skipPauseSave = false
         changeAutoSaveWork(callback.isAutoSaveAvailable)
-        Log.i("HERE", "onResume")
     }
 
     override fun onPause(owner: LifecycleOwner) {
@@ -81,7 +79,6 @@ class NoteAutoSaveImpl(
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         changeAutoSaveWork(isWork = false)
-        Log.i("HERE", "onDestory")
     }
 
     interface Callback {

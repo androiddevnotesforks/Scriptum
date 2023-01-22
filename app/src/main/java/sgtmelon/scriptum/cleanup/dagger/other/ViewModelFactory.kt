@@ -193,20 +193,18 @@ object ViewModelFactory {
             private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase,
-            private val noteAutoSave: NoteAutoSave
+            private val getRankDialogNames: GetRankDialogNamesUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModelImpl::class) {
-                    val parentCallback = fragment.context as? NoteConnector
                     TextNoteViewModelImpl(
                         init, history, createNote, getNote, cacheNote,
 
                         // TODO cleanup
-                        fragment, parentCallback, colorConverter, preferencesRepo,
+                        fragment, colorConverter, preferencesRepo,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames, noteAutoSave
+                        getRankId, getRankDialogNames
                     )
                 }
             }
@@ -235,20 +233,18 @@ object ViewModelFactory {
             private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase,
-            private val noteAutoSave: NoteAutoSave
+            private val getRankDialogNames: GetRankDialogNamesUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
-                    val parentCallback = fragment.context as? NoteConnector
                     RollNoteViewModelImpl(
                         init, history, createNote, getNote, cacheNote,
 
                         // TODO cleanup
-                        fragment, parentCallback, colorConverter, preferencesRepo,
+                        fragment, colorConverter, preferencesRepo,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, updateVisible, updateCheck, setNotification, deleteNotification,
-                        getNotificationDateList, getRankId, getRankDialogNames, noteAutoSave
+                        getNotificationDateList, getRankId, getRankDialogNames
                     )
                 }
             }

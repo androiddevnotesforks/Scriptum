@@ -208,8 +208,7 @@ class ViewModelModule {
         deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
-        getRankDialogNames: GetRankDialogNamesUseCase,
-        noteAutoSave: NoteAutoSave
+        getRankDialogNames: GetRankDialogNamesUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             init, history, createNote, getNote, cacheNote,
@@ -217,7 +216,7 @@ class ViewModelModule {
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames, noteAutoSave
+            getNotificationDateList, getRankId, getRankDialogNames
         )
 
         return ViewModelProvider(fragment, factory)[TextNoteViewModelImpl::class.java]
@@ -248,8 +247,7 @@ class ViewModelModule {
         deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
-        getRankDialogNames: GetRankDialogNamesUseCase,
-        noteAutoSave: NoteAutoSave
+        getRankDialogNames: GetRankDialogNamesUseCase
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             init, history, createNote, getNote, cacheNote,
@@ -258,7 +256,7 @@ class ViewModelModule {
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
-            getRankDialogNames, noteAutoSave
+            getRankDialogNames
         )
 
         return ViewModelProvider(fragment, factory)[RollNoteViewModelImpl::class.java]

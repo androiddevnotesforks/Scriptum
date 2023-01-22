@@ -40,7 +40,6 @@ class TextNoteViewModelImpl(
 
     // TODO cleanup
     callback: TextNoteFragment,
-    parentCallback: NoteConnector?,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     private val saveNote: SaveNoteUseCase,
@@ -58,7 +57,7 @@ class TextNoteViewModelImpl(
     init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
-    callback, parentCallback, colorConverter, preferencesRepo, convertNote,
+    callback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId, getRankDialogNames
 ), TextNoteViewModel {
