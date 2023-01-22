@@ -54,8 +54,7 @@ import sgtmelon.test.idling.getIdling
  */
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     ParentNoteFragment<N>,
-    IconBlockCallback,
-    NoteSaveImpl.Callback {
+    IconBlockCallback {
 
     // TODO update name in connector init (after save?)
     // TODO block some buttons in panel bar while data not loaded
@@ -404,21 +403,23 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //endregion
 
-    override fun onAutoSave() {
-        val text = if (viewModel.save(changeMode = false)) {
-            R.string.toast_note_save_done
-        } else {
-            R.string.toast_note_save_error
+    protected val noteSaveCallback = object : NoteSaveImpl.Callback {
+
+        override fun onAutoSave() {
+            val text = if (viewModel.save(changeMode = false)) {
+                R.string.toast_note_save_done
+            } else {
+                R.string.toast_note_save_error
+            }
+
+            system.toast.show(context, text)
         }
 
-        system.toast.show(context, text)
+        override val isAutoSaveAvailable: Boolean get() = viewModel.isEditMode
+
+        override val isPauseSaveAvailable: Boolean
+            get() = viewModel.isEditMode && connector.isOrientationChanging().isFalse()
     }
-
-    override val isAutoSaveAvailable: Boolean get() = viewModel.isEditMode
-    override val isPauseSaveAvailable: Boolean
-        get() {
-            return viewModel.isEditMode && connector.isOrientationChanging().isFalse()
-        }
 
     //region UI staff
 

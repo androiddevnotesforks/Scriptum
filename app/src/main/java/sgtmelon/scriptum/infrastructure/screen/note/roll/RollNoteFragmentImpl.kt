@@ -219,7 +219,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         component.getRollNoteBuilder()
             .set(fragment = this)
             .set(lifecycle)
-            .set(callback = this)
+            .set(noteSaveCallback)
             .set(connector.init)
             .build()
             .inject(fragment = this)
