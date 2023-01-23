@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.data.noteHistory
 
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import timber.log.Timber
 
 /**

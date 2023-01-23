@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnable
+import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
+import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -87,9 +88,9 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     // Edit mode
 
-    fun undoAction()
+    fun undoAction(): Flow<HistoryResult>
 
-    fun redoAction()
+    fun redoAction(): Flow<HistoryResult>
 
     // TODO may be pass Color value as parameter (not Int)?
     fun changeColor(check: Int)

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.data.noteHistory
+package sgtmelon.scriptum.data.noteHistory.model
 
 /**
  * Class for store information about undo/redo moves availability.

@@ -1,5 +1,8 @@
 package sgtmelon.scriptum.data.noteHistory
 
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
+
 // TODO add tests
 interface NoteHistory {
 

@@ -29,6 +29,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -191,7 +192,8 @@ object ViewModelFactory {
             private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase
+            private val getRankDialogNames: GetRankDialogNamesUseCase,
+            private val getHistoryResult: GetHistoryResultUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModelImpl::class) {
@@ -202,7 +204,7 @@ object ViewModelFactory {
                         fragment, colorConverter, preferencesRepo,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames
+                        getRankId, getRankDialogNames, getHistoryResult
                     )
                 }
             }
@@ -231,7 +233,8 @@ object ViewModelFactory {
             private val deleteNotification: DeleteNotificationUseCase,
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase
+            private val getRankDialogNames: GetRankDialogNamesUseCase,
+            private val getHistoryResult: GetHistoryResultUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
@@ -242,7 +245,7 @@ object ViewModelFactory {
                         fragment, colorConverter, preferencesRepo,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, updateVisible, updateCheck, setNotification, deleteNotification,
-                        getNotificationDateList, getRankId, getRankDialogNames
+                        getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
                     )
                 }
             }

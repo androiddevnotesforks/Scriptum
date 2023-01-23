@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.data.noteHistory
+package sgtmelon.scriptum.data.noteHistory.model
 
 /**
  * Model for store information about some changes.

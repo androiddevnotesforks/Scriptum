@@ -1,6 +1,7 @@
-package sgtmelon.scriptum.data.noteHistory
+package sgtmelon.scriptum.data.noteHistory.model
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color as AppColor
 
 /**

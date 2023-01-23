@@ -10,8 +10,6 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
-import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -40,6 +38,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -80,6 +79,8 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
+import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
@@ -208,7 +209,8 @@ class ViewModelModule {
         deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
-        getRankDialogNames: GetRankDialogNamesUseCase
+        getRankDialogNames: GetRankDialogNamesUseCase,
+        getHistoryResult: GetHistoryResultUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             init, history, createNote, getNote, cacheNote,
@@ -216,7 +218,7 @@ class ViewModelModule {
             // TODO cleanup
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames
+            getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
         )
 
         return ViewModelProvider(fragment, factory)[TextNoteViewModelImpl::class.java]
@@ -247,7 +249,8 @@ class ViewModelModule {
         deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
-        getRankDialogNames: GetRankDialogNamesUseCase
+        getRankDialogNames: GetRankDialogNamesUseCase,
+        getHistoryResult: GetHistoryResultUseCase
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             init, history, createNote, getNote, cacheNote,
@@ -256,7 +259,7 @@ class ViewModelModule {
             fragment, colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
-            getRankDialogNames
+            getRankDialogNames, getHistoryResult
         )
 
         return ViewModelProvider(fragment, factory)[RollNoteViewModelImpl::class.java]

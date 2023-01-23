@@ -12,17 +12,19 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
-import sgtmelon.scriptum.data.noteHistory.HistoryAction
-import sgtmelon.scriptum.data.noteHistory.HistoryChange
-import sgtmelon.scriptum.data.noteHistory.HistoryMoveAvailable
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
+import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheNoteUseCase
@@ -62,7 +64,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
-    protected val getRankDialogNames: GetRankDialogNamesUseCase
+    protected val getRankDialogNames: GetRankDialogNamesUseCase,
+    private val getHistoryResult: GetHistoryResultUseCase
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
@@ -115,30 +118,31 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
     // Menu click
 
-    override fun undoAction() = onUndoRedoAction(isUndo = true)
+    override fun undoAction(): Flow<HistoryResult> = onUndoRedoAction(isUndo = true)
 
-    override fun redoAction() = onUndoRedoAction(isUndo = false)
+    override fun redoAction(): Flow<HistoryResult> = onUndoRedoAction(isUndo = false)
 
-    private fun onUndoRedoAction(isUndo: Boolean) {
-        if (isReadMode) return
+    private fun onUndoRedoAction(isUndo: Boolean): Flow<HistoryResult> = flowOnBack {
+        if (isReadMode) return@flowOnBack
 
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
-            selectUndoRedoAction(item, isUndo)
+            disableHistoryChanges {
+                selectUndoRedoAction(getHistoryResult(item, isUndo)) { emit(it) }
+            }
         }
 
         historyAvailable.postValue(history.available)
     }
 
     /**
-     * TODO refactor description.
-     * Function must describe logic of [isUndo] switch by [HistoryAction] class.
+     * Function must describe logic of switching by [HistoryResult] and call [onEmit] if it's
+     * needed.
      */
-    abstract fun selectUndoRedoAction(action: HistoryAction, isUndo: Boolean)
-
-    protected fun onUndoRedoName(action: HistoryAction.Name, isUndo: Boolean) {
-        callback.changeName(action.value[isUndo], action.cursor[isUndo])
-    }
+    abstract fun selectUndoRedoAction(
+        result: HistoryResult,
+        onEmit: suspend (HistoryResult) -> Unit
+    )
 
     protected fun onUndoRedoRank(action: HistoryAction.Rank, isUndo: Boolean) {
         noteItem.value?.let {

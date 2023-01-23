@@ -9,6 +9,7 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -89,7 +90,7 @@ class NoteUseCaseModule {
         return ClearNoteUseCase(repository)
     }
 
-    //region Roll use cases
+    //region Roll useCases
 
     @Provides
     fun provideUpdateRollVisibleUseCase(repository: NoteRepo): UpdateRollVisibleUseCase {
@@ -102,4 +103,8 @@ class NoteUseCaseModule {
     }
 
     //endregion
+
+    @Provides
+    fun provideGetHistoryResultUseCase(): GetHistoryResultUseCase = GetHistoryResultUseCase()
+
 }

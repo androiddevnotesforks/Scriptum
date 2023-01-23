@@ -4,15 +4,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -51,14 +53,15 @@ class TextNoteViewModelImpl(
     deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationsDateListUseCase,
     getRankId: GetRankIdUseCase,
-    getRankDialogNames: GetRankDialogNamesUseCase
+    getRankDialogNames: GetRankDialogNamesUseCase,
+    getHistoryResult: GetHistoryResultUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Text, TextNoteFragment>(
     init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
     callback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList, getRankId, getRankDialogNames
+    getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
 ), TextNoteViewModel {
 
     override suspend fun setupAfterInitialize() {
@@ -90,16 +93,18 @@ class TextNoteViewModelImpl(
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this
-    override fun selectUndoRedoAction(action: HistoryAction, isUndo: Boolean) {
-        disableHistoryChanges {
-            when (action) {
-                is HistoryAction.Name -> onUndoRedoName(action, isUndo)
-                is HistoryAction.Rank -> onUndoRedoRank(action, isUndo)
-                is HistoryAction.Color -> onUndoRedoColor(action, isUndo)
-                is HistoryAction.Text.Enter -> onUndoRedoText(action, isUndo)
-                else -> Unit
-            }
-        }
+    override fun selectUndoRedoAction(
+        result: HistoryResult,
+        onEmit: suspend (HistoryResult) -> Unit
+    ) {
+        TODO()
+        //        when (result) {
+        //            is HistoryAction.Name -> onEmit(HistoryResult.Name[result, isUndo])
+        //            is HistoryAction.Rank -> onUndoRedoRank(result, isUndo)
+        //            is HistoryAction.Color -> onUndoRedoColor(result, isUndo)
+        //            is HistoryAction.Text.Enter -> onUndoRedoText(result, isUndo)
+        //            else -> Unit
+        //        }
     }
 
     private fun onUndoRedoText(action: HistoryAction.Text.Enter, isUndo: Boolean) {

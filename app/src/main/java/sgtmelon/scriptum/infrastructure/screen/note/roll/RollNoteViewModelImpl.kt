@@ -8,15 +8,17 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
-import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -61,18 +63,19 @@ class RollNoteViewModelImpl(
     deleteNotification: DeleteNotificationUseCase,
     getNotificationDateList: GetNotificationsDateListUseCase,
     getRankId: GetRankIdUseCase,
-    getRankDialogNames: GetRankDialogNamesUseCase
+    getRankDialogNames: GetRankDialogNamesUseCase,
+    getHistoryResult: GetHistoryResultUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
     init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
     callback, colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList, getRankId, getRankDialogNames
+    getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
 ), RollNoteViewModel {
 
     override suspend fun setupAfterInitialize() {
-//        mayAnimateIcon = false
+        //        mayAnimateIcon = false
         // TODO may this is not needed?
         setupEditMode(isEditMode)
         //        mayAnimateIcon = true
@@ -199,19 +202,21 @@ class RollNoteViewModelImpl(
     //region Menu click
 
     // TODO move undo/redo staff inside use case or something like this
-    override fun selectUndoRedoAction(action: HistoryAction, isUndo: Boolean) {
-        disableHistoryChanges {
-            when (action) {
-                is HistoryAction.Name -> onUndoRedoName(action, isUndo)
-                is HistoryAction.Rank -> onUndoRedoRank(action, isUndo)
-                is HistoryAction.Color -> onUndoRedoColor(action, isUndo)
-                is HistoryAction.Roll.Enter -> onUndoRedoRoll(action, isUndo)
-                is HistoryAction.Roll.List.Add -> onUndoRedoAdd(action, isUndo)
-                is HistoryAction.Roll.List.Remove -> onUndoRedoRemove(action, isUndo)
-                is HistoryAction.Roll.Move -> onUndoRedoMove(action, isUndo)
-                else -> Unit
-            }
-        }
+    override fun selectUndoRedoAction(
+        result: HistoryResult,
+        onEmit: suspend (HistoryResult) -> Unit
+    ) {
+        TODO()
+        //        when (action) {
+        //            is HistoryAction.Name -> onUndoRedoName(action, isUndo)
+        //            is HistoryAction.Rank -> onUndoRedoRank(action, isUndo)
+        //            is HistoryAction.Color -> onUndoRedoColor(action, isUndo)
+        //            is HistoryAction.Roll.Enter -> onUndoRedoRoll(action, isUndo)
+        //            is HistoryAction.Roll.List.Add -> onUndoRedoAdd(action, isUndo)
+        //            is HistoryAction.Roll.List.Remove -> onUndoRedoRemove(action, isUndo)
+        //            is HistoryAction.Roll.Move -> onUndoRedoMove(action, isUndo)
+        //            else -> Unit
+        //        }
     }
 
     private fun onUndoRedoRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {

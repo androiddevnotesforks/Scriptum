@@ -3,9 +3,9 @@ package sgtmelon.scriptum.infrastructure.listener
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import sgtmelon.scriptum.data.noteHistory.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
-import sgtmelon.scriptum.data.noteHistory.HistoryChange as Change
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.model.HistoryChange as Change
 
 /**
  * Text watcher for track changes in [view], needed for [NoteHistoryImpl].
