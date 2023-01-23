@@ -10,7 +10,6 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
 import sgtmelon.scriptum.infrastructure.service.EternalServiceLogicImpl
-import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 
 /**
  * Receiver for [EternalServiceLogicImpl] commands.
@@ -93,17 +92,6 @@ class EternalServiceReceiver : BroadcastReceiver() {
         fun clearBind()
 
         fun clearAlarm()
-    }
-
-    /**
-     * Interface for fast data pass to this class. ALso see [BroadcastDelegator].
-     */
-    @Deprecated("use delegators class, remove calls from vm")
-    interface Bridge {
-
-        interface Bind {
-            fun sendNotifyNotesBroadcast()
-        }
     }
 
     companion object {

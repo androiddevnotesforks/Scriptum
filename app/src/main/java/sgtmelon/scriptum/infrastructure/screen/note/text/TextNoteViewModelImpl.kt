@@ -39,7 +39,6 @@ class TextNoteViewModelImpl(
     cacheNote: CacheTextNoteUseCase,
 
     // TODO cleanup
-    private val callback: TextNoteFragment,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     private val saveNote: SaveNoteUseCase,
@@ -106,6 +105,8 @@ class TextNoteViewModelImpl(
 
         deprecatedNoteItem.onSave()
 
+        // TODO post note item
+
         if (changeMode) {
             setupEditMode(isEdit = false)
             history.reset()
@@ -121,7 +122,7 @@ class TextNoteViewModelImpl(
                 id.postValue(deprecatedNoteItem.id)
             }
 
-            callback.sendNotifyNotesBroadcast()
+            //            callback.sendNotifyNotesBroadcast()
         }
 
         return true

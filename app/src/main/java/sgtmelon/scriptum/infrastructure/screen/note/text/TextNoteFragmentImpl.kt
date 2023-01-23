@@ -24,8 +24,13 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionList
  * Fragment for display text note.
  */
 class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextNoteBinding>(),
-    TextNoteFragment,
     IconBlockCallback {
+
+    // TODO PLAN:
+    // TODO 1. Change isEdit/noteState via new livedata value (if first time - skip animation - no views visible)
+    //         - Move all binding related with it into UI classes
+    // TODO 2. Make common use case for undo/redo (use flow?)
+    // TODO 3. Move common functions into use cases? (don't use parent vm class?)
 
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT
@@ -35,6 +40,16 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
+
+    // TODO check how it will work with rotation end other staff
+    override fun inject(component: ScriptumComponent) {
+        component.getTextNoteBuilder()
+            .set(lifecycle)
+            .set(noteSaveCallback)
+            .set(connector.init)
+            .build()
+            .inject(fragment = this)
+    }
 
     override fun focusOnEnter() {
         binding?.textEnter?.requestSelectionFocus()
@@ -103,27 +118,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
          * inside scrollView.
          */
         binding?.textRead?.text = if (isEdit) "" else item.text
-    }
-
-    //endregion
-
-    //region Cleanup
-
-    // TODO PLAN:
-    // TODO 1. Change isEdit/noteState via new livedata value (if first time - skip animation - no views visible)
-    //         - Move all binding related with it into UI classes
-    // TODO 2. Make common use case for undo/redo (use flow?)
-    // TODO 3. Move common functions into use cases? (don't use parent vm class?)
-
-    // TODO check how it will work with rotation end other staff
-    override fun inject(component: ScriptumComponent) {
-        component.getTextNoteBuilder()
-            .set(fragment = this)
-            .set(lifecycle)
-            .set(noteSaveCallback)
-            .set(connector.init)
-            .build()
-            .inject(fragment = this)
     }
 
     //endregion

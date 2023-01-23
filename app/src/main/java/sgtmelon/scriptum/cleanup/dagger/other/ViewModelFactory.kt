@@ -63,7 +63,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
@@ -179,7 +178,6 @@ object ViewModelFactory {
             private val cacheNote: CacheTextNoteUseCase,
 
             // TODO refactor
-            private val fragment: TextNoteFragmentImpl,
             private val colorConverter: ColorConverter,
             private val preferencesRepo: PreferencesRepo,
             private val saveNote: SaveNoteUseCase,
@@ -201,7 +199,7 @@ object ViewModelFactory {
                         init, history, createNote, getNote, cacheNote,
 
                         // TODO cleanup
-                        fragment, colorConverter, preferencesRepo,
+                        colorConverter, preferencesRepo,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, setNotification, deleteNotification, getNotificationDateList,
                         getRankId, getRankDialogNames, getHistoryResult

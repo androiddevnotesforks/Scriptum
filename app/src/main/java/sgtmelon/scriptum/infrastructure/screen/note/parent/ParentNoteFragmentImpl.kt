@@ -31,7 +31,6 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
-import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
@@ -55,7 +54,6 @@ import sgtmelon.test.idling.getIdling
  * Parent class for fragments which will be displayed in [NoteActivity].
  */
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
-    EternalServiceReceiver.Bridge.Bind,
     IconBlockCallback {
 
     // TODO update name in connector init (after save?)
@@ -336,6 +334,13 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper open fun observeNoteItem(item: N) {
         invalidatePanelData(item)
+
+        /**
+         * TODO посмотри как это опитимизировать (и надо ли вообще?), могут быть лишнии вызовы.
+         *      Чекни где вызовы функции sendNotifyNotesBroadcast были по истории изменений.
+         */
+
+        system.broadcast.sendNotifyNotesBind()
     }
 
     @CallSuper open fun observeHistoryAvailable(available: HistoryMoveAvailable) {
@@ -470,12 +475,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         return isScreenOpen
     }
-
-    //endregion
-
-    //region Cleanup
-
-    override fun sendNotifyNotesBroadcast() = system.broadcast.sendNotifyNotesBind()
 
     //endregion
 

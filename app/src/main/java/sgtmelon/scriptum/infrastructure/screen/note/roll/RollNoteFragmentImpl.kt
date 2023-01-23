@@ -63,6 +63,20 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     private val visibleMenuItem: MenuItem?
         get() = appBar?.content?.toolbar?.getItem(R.id.item_visible)
 
+    // TODO check how it will work with rotation end other staff
+    override fun inject(component: ScriptumComponent) {
+        component.getRollNoteBuilder()
+            .set(owner = this)
+            .set(fragment = this)
+            .set(lifecycle)
+            .set(noteSaveCallback)
+            .set(connector.init)
+            .build()
+            .inject(fragment = this)
+    }
+
+    //region Setup functions
+
     override fun setupToolbar(context: Context, toolbar: Toolbar?) {
         super.setupToolbar(context, toolbar)
 
@@ -127,13 +141,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         if (viewModel.isEditMode && !isActionsBlocked) viewModel.addItem(toBottom, text)
     }
 
-    override fun collectUndoRedo(result: HistoryResult) {
-        when (result) {
-            is HistoryResult.Name -> onHistoryName(result)
-            else -> TODO()
-        }
-    }
-
     override fun setupContent() {
         super.setupContent()
 
@@ -145,6 +152,19 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
 
         ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
+    }
+
+    //endregion
+
+    override fun collectUndoRedo(result: HistoryResult) {
+        when (result) {
+            is HistoryResult.Name -> onHistoryName(result)
+            else -> TODO()
+        }
+    }
+
+    private fun getAddText(): String {
+        return binding?.addPanel?.rollEnter?.text?.toString()?.removeExtraSpace() ?: ""
     }
 
     //region Observable staff
@@ -190,10 +210,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     //endregion
 
-    private fun getAddText(): String {
-        return binding?.addPanel?.rollEnter?.text?.toString()?.removeExtraSpace() ?: ""
-    }
-
     //region Cleanup
 
     private val touchCallback by lazy { RollTouchControl(callback = this) }
@@ -221,17 +237,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
-
-    // TODO check how it will work with rotation end other staff
-    override fun inject(component: ScriptumComponent) {
-        component.getRollNoteBuilder()
-            .set(fragment = this)
-            .set(lifecycle)
-            .set(noteSaveCallback)
-            .set(connector.init)
-            .build()
-            .inject(fragment = this)
-    }
 
     override fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean) {
         binding?.apply {

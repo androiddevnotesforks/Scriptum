@@ -81,7 +81,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
@@ -189,6 +188,7 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideTextNoteViewModel(
+        owner: ViewModelStoreOwner,
         init: NoteInit,
         history: NoteHistory,
         createNote: CreateTextNoteUseCase,
@@ -196,7 +196,6 @@ class ViewModelModule {
         cacheNote: CacheTextNoteUseCase,
 
         // TODO refactor
-        fragment: TextNoteFragmentImpl,
         colorConverter: ColorConverter,
         preferencesRepo: PreferencesRepo,
         saveNote: SaveNoteUseCase,
@@ -216,17 +215,18 @@ class ViewModelModule {
             init, history, createNote, getNote, cacheNote,
 
             // TODO cleanup
-            fragment, colorConverter, preferencesRepo, saveNote, convertNote,
+            colorConverter, preferencesRepo, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
         )
 
-        return ViewModelProvider(fragment, factory)[TextNoteViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[TextNoteViewModelImpl::class.java]
     }
 
     @Provides
     @ActivityScope
     fun provideRollNoteViewModel(
+        owner: ViewModelStoreOwner,
         init: NoteInit,
         history: NoteHistory,
         createNote: CreateRollNoteUseCase,
@@ -262,7 +262,7 @@ class ViewModelModule {
             getRankDialogNames, getHistoryResult
         )
 
-        return ViewModelProvider(fragment, factory)[RollNoteViewModelImpl::class.java]
+        return ViewModelProvider(owner, factory)[RollNoteViewModelImpl::class.java]
     }
 
     // TODO move into another module

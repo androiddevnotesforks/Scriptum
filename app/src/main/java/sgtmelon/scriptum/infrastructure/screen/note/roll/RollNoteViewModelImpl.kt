@@ -133,7 +133,7 @@ class RollNoteViewModelImpl(
                 runBack { updateVisible(deprecatedNoteItem) }
 
                 if (isReadMode) {
-                    callback.sendNotifyNotesBroadcast()
+//                    callback.sendNotifyNotesBroadcast()
                 }
             }
         }
@@ -195,7 +195,7 @@ class RollNoteViewModelImpl(
         viewModelScope.launch {
             runBack { updateCheck(deprecatedNoteItem, absolutePosition) }
 
-            callback.sendNotifyNotesBroadcast()
+            //            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -317,6 +317,8 @@ class RollNoteViewModelImpl(
 
         deprecatedNoteItem.onSave()
 
+        // TODO post note item
+
         /** Need update adapter after remove rows with empty text. */
         callback.setList(getAdapterList())
 
@@ -342,7 +344,7 @@ class RollNoteViewModelImpl(
             }
 
             callback.setList(getAdapterList())
-            callback.sendNotifyNotesBroadcast()
+            //            callback.sendNotifyNotesBroadcast()
         }
 
         return true
