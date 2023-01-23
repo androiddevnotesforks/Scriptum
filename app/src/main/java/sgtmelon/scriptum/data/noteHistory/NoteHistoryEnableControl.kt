@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.data.noteHistory
 
-interface NoteHistoryEnable {
+interface NoteHistoryEnableControl {
 
     fun disableHistoryChanges(func: () -> Unit)
 }

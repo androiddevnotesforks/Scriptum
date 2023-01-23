@@ -9,7 +9,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindTextColor
-import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnable
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnableControl
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
@@ -99,7 +99,7 @@ class RollWriteHolder(
         binding.dragButton.setOnTouchListener(null)
     }
 
-    interface Callback : NoteHistoryEnable {
+    interface Callback : NoteHistoryEnableControl {
         fun getAbsolutePosition(adapterPosition: Int): Int?
         fun onRollHistoryAdd(action: HistoryAction)
         fun onRollEnterChanged(p: Int, text: String)

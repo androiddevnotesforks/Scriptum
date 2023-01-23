@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnable
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnableControl
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 @Deprecated("Remove ParentViewModel, change name")
 interface ParentNoteViewModel<N : NoteItem> :
     UnbindNoteReceiver.Callback,
-    NoteHistoryEnable,
+    NoteHistoryEnableControl,
 
     // TODO cleanup
     HistoryTextWatcher.Callback {

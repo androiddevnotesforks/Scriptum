@@ -311,7 +311,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         adapter.setList(list).notifyItemRemoved(p)
     }
 
-    //endregion
 
     override fun onTouchAction(inAction: Boolean) {
         open.isBlocked = inAction
@@ -371,4 +370,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         //        history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
         //        historyAvailable.postValue(history.available)
     }
+
+    //endregion
+
 }

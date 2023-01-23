@@ -56,9 +56,11 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     IconBlockCallback {
 
-    // TODO update name in connector init (after save?)
-    // TODO block some buttons in panel bar while data not loaded
-    // TODO change enable of button (while data not loaded), fields and etc
+    /**
+     * TODO update name in connector init (after save?)
+     * TODO block some buttons in panel bar while data not loaded
+     * TODO change enable of button (while data not loaded), fields and etc
+     */
 
     protected val connector get() = activity as NoteConnector
 
@@ -74,7 +76,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private var navigationIcon: IconChangeCallback? = null
 
     private val dialogs by lazy { DialogFactory.Note(context, fm) }
-
     private val rankDialog by lazy { dialogs.getRank() }
     private val colorDialog by lazy { dialogs.getColor() }
     private val dateDialog by lazy { dialogs.getDate() }
@@ -430,6 +431,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //endregion
 
+    protected val isActionsBlocked get() = open.isBlocked
+
     protected val noteSaveCallback = object : NoteSaveImpl.Callback {
 
         override fun onAutoSave() {
@@ -447,8 +450,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         override val isPauseSaveAvailable: Boolean
             get() = viewModel.isEditMode && connector.isOrientationChanging().isFalse()
     }
-
-    //region UI staff
 
     private val toolbarBackListener = View.OnClickListener {
         val isDataRestored = viewModel.restoreDataOrExit()
@@ -475,8 +476,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         return isScreenOpen
     }
-
-    //endregion
 
     //region Dialogs
 
@@ -537,7 +536,5 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     //endregion
-
-    protected val isActionsBlocked get() = open.isBlocked
 
 }
