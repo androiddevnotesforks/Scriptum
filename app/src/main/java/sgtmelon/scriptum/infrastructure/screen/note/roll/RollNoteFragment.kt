@@ -1,13 +1,12 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
+import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragmentImpl].
  */
-interface RollNoteFragment : ParentNoteFragment<NoteItem.Roll> {
+interface RollNoteFragment : EternalServiceReceiver.Bridge.Bind {
 
 
     fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)

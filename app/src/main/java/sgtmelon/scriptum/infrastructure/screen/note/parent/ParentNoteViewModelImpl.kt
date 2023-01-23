@@ -44,7 +44,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
 /**
  * TODO normal description
  */
-abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
+abstract class ParentNoteViewModelImpl<N : NoteItem>(
     init: NoteInit,
     protected val history: NoteHistory,
     createNote: CreateNoteUseCase<N>,
@@ -52,7 +52,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
     protected val cacheNote: CacheNoteUseCase<N>,
 
     //TODO cleanup
-    protected val callback: C,
     protected val colorConverter: ColorConverter,
     protected val preferencesRepo: PreferencesRepo,
     private val convertNote: ConvertNoteUseCase,
@@ -127,9 +126,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
 
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
-            disableHistoryChanges {
-                selectUndoRedoAction(getHistoryResult(item, isUndo)) { emit(it) }
-            }
+            // TODO disable after select and when collect emit
+            val result = getHistoryResult(item, isUndo)
+            selectHistoryResult(result)
+            emit(result)
         }
 
         historyAvailable.postValue(history.available)
@@ -139,20 +139,17 @@ abstract class ParentNoteViewModelImpl<N : NoteItem, C : ParentNoteFragment<N>>(
      * Function must describe logic of switching by [HistoryResult] and call [onEmit] if it's
      * needed.
      */
-    abstract fun selectUndoRedoAction(
-        result: HistoryResult,
-        onEmit: suspend (HistoryResult) -> Unit
-    )
+    abstract fun selectHistoryResult(result: HistoryResult)
 
-    protected fun onUndoRedoRank(action: HistoryAction.Rank, isUndo: Boolean) {
+    protected fun onHistoryRank(result: HistoryResult.Rank) {
         noteItem.value?.let {
-            it.rank = NoteRank(action.id[isUndo], action.position[isUndo])
+            it.rank = NoteRank(result.id, result.position)
             noteItem.postValue(it)
         }
     }
 
-    protected fun onUndoRedoColor(action: HistoryAction.Color, isUndo: Boolean) {
-        val colorTo = action.value[isUndo]
+    protected fun onHistoryColor(action: HistoryResult.Color) {
+        val colorTo = action.value
 
         color.postValue(colorTo)
         noteItem.value?.let {

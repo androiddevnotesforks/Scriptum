@@ -5,7 +5,6 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
-import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -40,7 +39,7 @@ class TextNoteViewModelImpl(
     cacheNote: CacheTextNoteUseCase,
 
     // TODO cleanup
-    callback: TextNoteFragment,
+    private val callback: TextNoteFragment,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     private val saveNote: SaveNoteUseCase,
@@ -55,15 +54,16 @@ class TextNoteViewModelImpl(
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase,
     getHistoryResult: GetHistoryResultUseCase
-) : ParentNoteViewModelImpl<NoteItem.Text, TextNoteFragment>(
+) : ParentNoteViewModelImpl<NoteItem.Text>(
     init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
-    callback, colorConverter, preferencesRepo, convertNote,
+    colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
 ), TextNoteViewModel {
 
+    // TODO remove
     override suspend fun setupAfterInitialize() {
 //        mayAnimateIcon = false
         // TODO may this is not needed?
@@ -90,25 +90,12 @@ class TextNoteViewModelImpl(
         return true
     }
 
-    //region Menu click
-
-    // TODO move undo/redo staff inside use case or something like this
-    override fun selectUndoRedoAction(
-        result: HistoryResult,
-        onEmit: suspend (HistoryResult) -> Unit
-    ) {
-        TODO()
-        //        when (result) {
-        //            is HistoryAction.Name -> onEmit(HistoryResult.Name[result, isUndo])
-        //            is HistoryAction.Rank -> onUndoRedoRank(result, isUndo)
-        //            is HistoryAction.Color -> onUndoRedoColor(result, isUndo)
-        //            is HistoryAction.Text.Enter -> onUndoRedoText(result, isUndo)
-        //            else -> Unit
-        //        }
-    }
-
-    private fun onUndoRedoText(action: HistoryAction.Text.Enter, isUndo: Boolean) {
-        callback.changeText(action.value[isUndo], action.cursor[isUndo])
+    override fun selectHistoryResult(result: HistoryResult) {
+        when (result) {
+            is HistoryResult.Rank -> onHistoryRank(result)
+            is HistoryResult.Color -> onHistoryColor(result)
+            else -> return
+        }
     }
 
     /**
@@ -139,8 +126,6 @@ class TextNoteViewModelImpl(
 
         return true
     }
-
-    //endregion
 
     //endregion
 

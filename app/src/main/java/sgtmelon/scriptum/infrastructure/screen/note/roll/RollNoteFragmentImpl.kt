@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
+import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -124,6 +125,13 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     private fun addItem(toBottom: Boolean, text: String) {
         if (viewModel.isEditMode && !isActionsBlocked) viewModel.addItem(toBottom, text)
+    }
+
+    override fun collectUndoRedo(result: HistoryResult) {
+        when (result) {
+            is HistoryResult.Name -> onHistoryName(result)
+            else -> TODO()
+        }
     }
 
     override fun setupContent() {
@@ -241,14 +249,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             binding?.emptyInfo?.root,
             isVisible = isVisible ?: isListEmpty
         )
-    }
-
-    override fun changeName(text: String, cursor: Int) {
-        appBar?.content?.nameEnter?.apply {
-            requestFocus()
-            setText(text)
-            setSelection(cursor)
-        }
     }
 
 

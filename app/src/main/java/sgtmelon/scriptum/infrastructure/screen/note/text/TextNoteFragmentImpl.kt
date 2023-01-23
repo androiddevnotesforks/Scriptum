@@ -11,6 +11,7 @@ import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
+import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
@@ -52,6 +53,22 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->
                 HistoryAction.Text.Enter(value, cursor)
             })
+        }
+    }
+
+    override fun collectUndoRedo(result: HistoryResult) {
+        when (result) {
+            is HistoryResult.Name -> onHistoryName(result)
+            is HistoryResult.Text.Enter -> onHistoryEnter(result)
+            else -> return
+        }
+    }
+
+    private fun onHistoryEnter(result: HistoryResult.Text.Enter) {
+        binding?.textEnter?.apply {
+            requestFocus()
+            setText(result.value)
+            setSelection(result.cursor)
         }
     }
 
@@ -107,22 +124,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
             .set(connector.init)
             .build()
             .inject(fragment = this)
-    }
-
-    override fun changeName(text: String, cursor: Int) {
-        appBar?.content?.nameEnter?.apply {
-            requestFocus()
-            setText(text)
-            setSelection(cursor)
-        }
-    }
-
-    override fun changeText(text: String, cursor: Int) {
-        binding?.textEnter?.apply {
-            requestFocus()
-            setText(text)
-            setSelection(cursor)
-        }
     }
 
     //endregion

@@ -23,6 +23,7 @@ import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
+import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -30,6 +31,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
@@ -53,7 +55,7 @@ import sgtmelon.test.idling.getIdling
  * Parent class for fragments which will be displayed in [NoteActivity].
  */
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
-    ParentNoteFragment<N>,
+    EternalServiceReceiver.Bridge.Bind,
     IconBlockCallback {
 
     // TODO update name in connector init (after save?)
@@ -80,6 +82,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private val dateDialog by lazy { dialogs.getDate() }
     private val timeDialog by lazy { dialogs.getTime() }
     private val convertDialog by lazy { dialogs.getConvert(type) }
+
+    //region Setup functions
 
     override fun setupView(context: Context) {
         super.setupView(context)
@@ -148,8 +152,14 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.clearButton.setOnClickListener {
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
-        panelBar.undoButton.setOnClickListener { if (!isActionsBlocked) viewModel.undoAction() }
-        panelBar.redoButton.setOnClickListener { if (!isActionsBlocked) viewModel.redoAction() }
+        panelBar.undoButton.setOnClickListener { _ ->
+            if (isActionsBlocked) return@setOnClickListener
+            viewModel.undoAction().collect(owner = this) { collectUndoRedo(it) }
+        }
+        panelBar.redoButton.setOnClickListener { _ ->
+            if (isActionsBlocked) return@setOnClickListener
+            viewModel.redoAction().collect(owner = this) { collectUndoRedo(it) }
+        }
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
         panelBar.saveButton.setOnClickListener {
@@ -226,6 +236,18 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             viewModel.convert().collect(owner = this) { connector.convertNote() }
         }
         convertDialog.onDismiss { open.clear() }
+    }
+
+    //endregion
+
+    abstract fun collectUndoRedo(result: HistoryResult)
+
+    protected fun onHistoryName(result: HistoryResult.Name) = viewModel.disableHistoryChanges {
+        appBar?.content?.nameEnter?.apply {
+            requestFocus()
+            setText(result.value)
+            setSelection(result.cursor)
+        }
     }
 
     //region Observable staff

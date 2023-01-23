@@ -48,7 +48,7 @@ class RollNoteViewModelImpl(
     cacheNote: CacheRollNoteUseCase,
 
     // TODO cleanup
-    callback: RollNoteFragment,
+    private val callback: RollNoteFragment,
     colorConverter: ColorConverter,
     preferencesRepo: PreferencesRepo,
     private val saveNote: SaveNoteUseCase,
@@ -65,11 +65,11 @@ class RollNoteViewModelImpl(
     getRankId: GetRankIdUseCase,
     getRankDialogNames: GetRankDialogNamesUseCase,
     getHistoryResult: GetHistoryResultUseCase
-) : ParentNoteViewModelImpl<NoteItem.Roll, RollNoteFragment>(
+) : ParentNoteViewModelImpl<NoteItem.Roll>(
     init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
-    callback, colorConverter, preferencesRepo, convertNote,
+    colorConverter, preferencesRepo, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
 ), RollNoteViewModel {
@@ -201,25 +201,27 @@ class RollNoteViewModelImpl(
 
     //region Menu click
 
-    // TODO move undo/redo staff inside use case or something like this
-    override fun selectUndoRedoAction(
-        result: HistoryResult,
-        onEmit: suspend (HistoryResult) -> Unit
-    ) {
+    override fun selectHistoryResult(result: HistoryResult) {
+        when (result) {
+            is HistoryResult.Rank -> onHistoryRank(result)
+            is HistoryResult.Color -> onHistoryColor(result)
+            is HistoryResult.Roll -> TODO()
+            else -> return
+        }
         TODO()
         //        when (action) {
-        //            is HistoryAction.Name -> onUndoRedoName(action, isUndo)
-        //            is HistoryAction.Rank -> onUndoRedoRank(action, isUndo)
-        //            is HistoryAction.Color -> onUndoRedoColor(action, isUndo)
-        //            is HistoryAction.Roll.Enter -> onUndoRedoRoll(action, isUndo)
-        //            is HistoryAction.Roll.List.Add -> onUndoRedoAdd(action, isUndo)
-        //            is HistoryAction.Roll.List.Remove -> onUndoRedoRemove(action, isUndo)
-        //            is HistoryAction.Roll.Move -> onUndoRedoMove(action, isUndo)
+        //            is HistoryResult.Name -> onUndoRedoName(action, isUndo)
+        //            is HistoryResult.Rank -> onUndoRedoRank(action, isUndo)
+        //            is HistoryResult.Color -> onUndoRedoColor(action, isUndo)
+        //            is HistoryResult.Roll.Enter -> onHistoryRoll(action, isUndo)
+        //            is HistoryResult.Roll.List.Add -> onHistoryAdd(action, isUndo)
+        //            is HistoryResult.Roll.List.Remove -> onHistoryRemove(action, isUndo)
+        //            is HistoryResult.Roll.Move -> onHistoryMove(action, isUndo)
         //            else -> Unit
         //        }
     }
 
-    private fun onUndoRedoRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
+    private fun onHistoryRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
         val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
 
         /** Need update data anyway! Even if this item in list is currently hided. */
@@ -233,7 +235,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onUndoRedoAdd(action: HistoryAction.Roll.List.Add, isUndo: Boolean) {
+    private fun onHistoryAdd(action: HistoryAction.Roll.List.Add, isUndo: Boolean) {
         if (isUndo) {
             onRemoveItem(action)
         } else {
@@ -241,7 +243,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    private fun onUndoRedoRemove(action: HistoryAction.Roll.List.Remove, isUndo: Boolean) {
+    private fun onHistoryRemove(action: HistoryAction.Roll.List.Remove, isUndo: Boolean) {
         if (isUndo) {
             onInsertItem(action, isUndo = true)
         } else {
@@ -289,7 +291,7 @@ class RollNoteViewModelImpl(
     }
 
     // TODO record exception
-    private fun onUndoRedoMove(action: HistoryAction.Roll.Move, isUndo: Boolean) {
+    private fun onHistoryMove(action: HistoryAction.Roll.Move, isUndo: Boolean) {
         val from = action.value[!isUndo]
         val to = action.value[isUndo]
 
