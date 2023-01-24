@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.adapter.touch
+package sgtmelon.scriptum.infrastructure.adapter.touch.listener
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent

@@ -1,20 +1,16 @@
-package sgtmelon.scriptum.cleanup.presentation.control.touch
+package sgtmelon.scriptum.infrastructure.adapter.touch
 
 import android.graphics.Canvas
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-import sgtmelon.scriptum.infrastructure.adapter.touch.ItemDragListener
-import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
 
 /**
- * Control drag and swipe for [RollNoteFragmentImpl], setup in [RollNoteViewModelImpl]
+ * Common class for control drag/swipe actions with [RecyclerView] items.
  */
-// TODO make common parent for roll and rank touch controls
-class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
+class DragAndSwipeTouchHelper(private val callback: Callback) : EdgeDragTouchHelper(callback),
     ItemDragListener {
 
     /**
@@ -45,7 +41,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         if (dragFrom != RecyclerView.NO_POSITION) return
 
         if (actionState.isDrag()) {
-            callback.onTouchDragStart()
+            callback.onTouchMoveStarts()
         }
 
         dragFrom = if (actionState.isDrag()) {
@@ -90,19 +86,13 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         actionState: Int, isCurrentlyActive: Boolean
     ) {
         if (actionState.isSwipe()) {
-            /**
-             * Corner position where alpha will be equal [ALPHA_SWIPE_MIN].
-             */
+            /** Corner position where alpha will be equal [ALPHA_SWIPE_MIN]. */
             val targetX = viewHolder.itemView.width.toFloat() / 2
 
-            /**
-             * Position of x between -targetX and targetX.
-             */
+            /** Position of x between -targetX and targetX. */
             val translationX = abs(if (dX > 0) min(dX, targetX) else max(dX, -targetX))
 
-            /**
-             * Have values between 0.0 and 1.0.
-             */
+            /** Have values between 0.0 and 1.0. */
             val ratio = translationX / targetX
 
             val alpha = ALPHA_SWIPE_MAX - ratio
@@ -115,6 +105,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
     }
 
     interface Callback : EdgeDragCallback {
+
         /**
          * Calls when user start make drag/swipe, inside [getMovementFlags].
          * Need for check permission for drag/swipe.
@@ -125,14 +116,14 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         fun onTouchGetSwipe(): Boolean
 
         /**
-         * Calls when user only start drag item.
-         */
-        fun onTouchDragStart()
-
-        /**
-         * Calls when user swipe card, inside [onSwiped]
+         * Calls when user swipe card, inside [onSwiped].
          */
         fun onTouchSwiped(position: Int)
+
+        /**
+         * Calls when user only start drag item.
+         */
+        fun onTouchMoveStarts()
 
         /**
          * Calls when user hold card and move it between another cards, inside [onMove].
@@ -161,5 +152,4 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         private const val ALPHA_SWIPE_MIN = 0.2f
         private const val ALPHA_SWIPE_MAX = 1.0f
     }
-
 }

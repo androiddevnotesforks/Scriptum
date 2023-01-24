@@ -1,6 +1,4 @@
-package sgtmelon.scriptum.infrastructure.adapter.touch
-
-import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
+package sgtmelon.scriptum.infrastructure.adapter.touch.listener
 
 /**
  * Listener for control cards dragging inside [EdgeDragTouchHelper]. It helps to know

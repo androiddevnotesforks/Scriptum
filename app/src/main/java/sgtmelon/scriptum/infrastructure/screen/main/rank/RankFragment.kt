@@ -13,10 +13,10 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
-import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
+import sgtmelon.scriptum.infrastructure.adapter.touch.DragAndSwipeTouchHelper
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -39,7 +39,7 @@ import sgtmelon.test.idling.getIdling
  */
 class RankFragment : BindingFragment<FragmentRankBinding>(),
     SnackbarDelegator.Callback,
-    RankTouchControl.Callback,
+    DragAndSwipeTouchHelper.Callback,
     ScrollTopCallback {
 
     override val layoutId: Int = R.layout.fragment_rank
@@ -53,9 +53,9 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
     private val renameDialog by lazy { dialogs.getRename() }
 
-    private val touchControl = RankTouchControl(callback = this)
+    private val touchHelper = DragAndSwipeTouchHelper(callback = this)
     private val adapter by lazy {
-        RankAdapter(touchControl, object : IconBlockCallback {
+        RankAdapter(touchHelper, object : IconBlockCallback {
             override fun setIconEnabled(isEnabled: Boolean) {
                 getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
                 parentOpen?.isBlocked = !isEnabled
@@ -121,7 +121,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             it.adapter = adapter
         }
 
-        ItemTouchHelper(touchControl).attachToRecyclerView(binding?.recyclerView)
+        ItemTouchHelper(touchHelper).attachToRecyclerView(binding?.recyclerView)
     }
 
     override fun setupDialogs() {
@@ -270,10 +270,14 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     override fun onTouchGetDrag(): Boolean = parentOpen?.isBlocked != true
 
-    override fun onTouchDragStart() = hideKeyboard()
+    override fun onTouchGetSwipe(): Boolean = false
+
+    override fun onTouchSwiped(position: Int) = Unit
+
+    override fun onTouchMoveStarts() = hideKeyboard()
 
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        /** I know it was closed inside [onTouchDragStart], but it's for sure. */
+        /** I know it was closed inside [onTouchMoveStarts], but it's for sure. */
         hideKeyboard()
 
         viewModel.moveRank(from, to)
@@ -281,10 +285,12 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         return true
     }
 
-    override fun onTouchMoveResult() {
+    override fun onTouchMoveResult(from: Int, to: Int) {
         parentOpen?.clear()
         viewModel.moveRankResult()
     }
+
+    override fun onTouchClear(position: Int) = Unit
 
     //endregion
 

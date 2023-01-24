@@ -20,12 +20,12 @@ import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.cleanup.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
+import sgtmelon.scriptum.infrastructure.adapter.touch.DragAndSwipeTouchHelper
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -46,7 +46,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
     RollNoteFragment,
     IconBlockCallback,
-    RollTouchControl.Callback {
+    DragAndSwipeTouchHelper.Callback {
 
     // TODO pass data for pre-binding: visible state
 
@@ -151,7 +151,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             it.adapter = adapter
         }
 
-        ItemTouchHelper(touchCallback).attachToRecyclerView(binding?.recyclerView)
+        ItemTouchHelper(touchHelper).attachToRecyclerView(binding?.recyclerView)
     }
 
     //endregion
@@ -212,7 +212,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     //region Cleanup
 
-    private val touchCallback by lazy { RollTouchControl(callback = this) }
+    private val touchHelper by lazy { DragAndSwipeTouchHelper(callback = this) }
     private val adapter: RollAdapter by lazy {
         val readCallback = object : RollReadHolder.Callback {
             override fun onReadCheckClick(p: Int, animTime: Long, action: () -> Unit) {
@@ -231,7 +231,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
 
         return@lazy with(connector.init) {
-            RollAdapter(isEdit, state, touchCallback, viewModel, readCallback) {
+            RollAdapter(isEdit, state, touchHelper, viewModel, readCallback) {
                 focusOnEnter()
             }
         }
@@ -323,12 +323,12 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun onTouchGetSwipe(): Boolean = viewModel.isEditMode
 
-    override fun onTouchDragStart() = hideKeyboard()
-
     override fun onTouchSwiped(position: Int) = viewModel.swipeItem(position)
 
+    override fun onTouchMoveStarts() = hideKeyboard()
+
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        /** I know it was closed inside [onTouchDragStart], but it's for sure. */
+        /** I know it was closed inside [onTouchMoveStarts], but it's for sure. */
         hideKeyboard()
 
         return viewModel.moveItem(from, to)
