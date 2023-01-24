@@ -13,6 +13,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 /**
  * Control drag and swipe for [RollNoteFragmentImpl], setup in [RollNoteViewModelImpl]
  */
+// TODO make common parent for roll and rank touch controls
 class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
     ItemDragListener {
 
@@ -26,13 +27,13 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         this.isDragAvailable = isDragAvailable
     }
 
-    private var dragFrom = RecyclerView.NO_POSITION
+    private var dragFrom: Int = RecyclerView.NO_POSITION
 
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val dragFlags = getDrag(callback.onTouchGetDrag(isDragAvailable))
+        val dragFlags = getDrag(isEnabled = callback.onTouchGetDrag() && isDragAvailable)
         val swipeFlags = getSwipe(callback.onTouchGetSwipe())
 
         return makeMovementFlags(dragFlags, swipeFlags)
@@ -41,11 +42,11 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
 
+        if (dragFrom != RecyclerView.NO_POSITION) return
+
         if (actionState.isDrag()) {
             callback.onTouchDragStart()
         }
-
-        if (dragFrom != RecyclerView.NO_POSITION) return
 
         dragFrom = if (actionState.isDrag()) {
             movePosition
@@ -54,10 +55,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         }
     }
 
-    override fun clearView(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder
-    ) {
+    override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
 
         val position = viewHolder.adapterPosition
@@ -122,11 +120,8 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
          * Need for check permission for drag/swipe.
          *
          * @return true if user can drag/swipe cards.
-         *
-         * Pass here [isDragAvailable] need for detect when to close keyboard. Otherwise keyboard will
-         * be closed on long press inside rollEnter.
          */
-        fun onTouchGetDrag(isDragAvailable: Boolean): Boolean
+        fun onTouchGetDrag(): Boolean
         fun onTouchGetSwipe(): Boolean
 
         /**

@@ -110,6 +110,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     /**
      * Call after [tryInitializeNote]
      */
+    @Deprecated("Remove it from use")
     abstract suspend fun setupAfterInitialize()
 
     @Deprecated("Use new realization")

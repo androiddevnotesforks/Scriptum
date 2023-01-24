@@ -268,16 +268,12 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
-    override fun onTouchGetDrag(): Boolean {
-        val canDrag = parentOpen?.isBlocked != true
+    override fun onTouchGetDrag(): Boolean = parentOpen?.isBlocked != true
 
-        if (canDrag) hideKeyboard()
-
-        return canDrag
-    }
+    override fun onTouchDragStart() = hideKeyboard()
 
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        /** I know it was closed inside [onTouchGetDrag], but it's for sure. */
+        /** I know it was closed inside [onTouchDragStart], but it's for sure. */
         hideKeyboard()
 
         viewModel.moveRank(from, to)

@@ -319,9 +319,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         open.isBlocked = inAction
     }
 
-    override fun onTouchGetDrag(isDragAvailable: Boolean): Boolean {
-        return viewModel.isEditMode && isDragAvailable
-    }
+    override fun onTouchGetDrag(): Boolean = viewModel.isEditMode
 
     override fun onTouchGetSwipe(): Boolean = viewModel.isEditMode
 
@@ -329,7 +327,12 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun onTouchSwiped(position: Int) = viewModel.swipeItem(position)
 
-    override fun onTouchMove(from: Int, to: Int): Boolean = viewModel.moveItem(from, to)
+    override fun onTouchMove(from: Int, to: Int): Boolean {
+        /** I know it was closed inside [onTouchDragStart], but it's for sure. */
+        hideKeyboard()
+
+        return viewModel.moveItem(from, to)
+    }
 
     override fun onTouchMoveResult(from: Int, to: Int) = viewModel.moveItemResult(from, to)
 

@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 /**
  * Control drag for [RankFragment], setup in [RankViewModelImpl]
  */
+// TODO make common parent for roll and rank touch controls
 class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
     ItemDragListener {
 
@@ -37,17 +38,29 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
 
+        if (dragFrom != RecyclerView.NO_POSITION) return
+
         if (actionState.isDrag()) {
-            dragFrom = movePosition
+            callback.onTouchDragStart()
+        }
+
+        dragFrom = if (actionState.isDrag()) {
+            movePosition
+        } else {
+            RecyclerView.NO_POSITION
         }
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
 
-        val dragTo = viewHolder.adapterPosition
-        if (dragFrom != dragTo) {
+        val position = viewHolder.adapterPosition
+
+        if (position == RecyclerView.NO_POSITION) return
+
+        if (dragFrom != RecyclerView.NO_POSITION && dragFrom != position) {
             callback.onTouchMoveResult()
+            dragFrom = RecyclerView.NO_POSITION
         }
     }
 
@@ -70,6 +83,11 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
          * @return true if user can drag cards.
          */
         fun onTouchGetDrag(): Boolean
+
+        /**
+         * Calls when user only start drag item.
+         */
+        fun onTouchDragStart()
 
         /**
          * Calls when user rank card and move it between another cards, inside [onMove].

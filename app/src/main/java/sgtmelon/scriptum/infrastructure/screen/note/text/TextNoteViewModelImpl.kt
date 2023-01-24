@@ -70,8 +70,6 @@ class TextNoteViewModelImpl(
         //        mayAnimateIcon = true
     }
 
-    //region Cleanup
-
     override fun restoreData(): Boolean {
         if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
 
@@ -127,7 +125,5 @@ class TextNoteViewModelImpl(
 
         return true
     }
-
-    //endregion
 
 }

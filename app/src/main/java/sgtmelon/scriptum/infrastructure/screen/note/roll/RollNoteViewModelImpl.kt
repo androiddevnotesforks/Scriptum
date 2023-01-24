@@ -466,9 +466,6 @@ class RollNoteViewModelImpl(
         deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
         callback.notifyItemMoved(getAdapterList(), from, to)
 
-        // TODO need hide keyboard on item move?
-//        callback.hideKeyboardDepr()
-
         return true
     }
 
