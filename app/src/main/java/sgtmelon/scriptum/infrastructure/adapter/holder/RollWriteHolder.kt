@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.extension.bindTextColor
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnableControl
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
-import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
+import sgtmelon.scriptum.infrastructure.adapter.touch.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener

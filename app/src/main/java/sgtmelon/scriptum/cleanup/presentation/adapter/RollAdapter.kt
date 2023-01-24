@@ -6,7 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
-import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
+import sgtmelon.scriptum.infrastructure.adapter.touch.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter

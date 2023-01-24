@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.adapter.touch
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
-import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
 
 /**
  * Realization of Touch listener for make drag available only for [dragView].

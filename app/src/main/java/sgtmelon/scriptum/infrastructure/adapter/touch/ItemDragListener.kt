@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.adapter.callback
+package sgtmelon.scriptum.infrastructure.adapter.touch
 
 import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
 

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.control.touch
 
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
+import sgtmelon.scriptum.infrastructure.adapter.touch.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.touch.EdgeDragTouchHelper
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
