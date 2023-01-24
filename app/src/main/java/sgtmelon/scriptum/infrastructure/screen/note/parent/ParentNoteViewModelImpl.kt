@@ -107,12 +107,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     //region Cleanup
 
-    /**
-     * Call after [tryInitializeNote]
-     */
-    @Deprecated("Remove it from use")
-    abstract suspend fun setupAfterInitialize()
-
     @Deprecated("Use new realization")
     protected lateinit var deprecatedNoteItem: N
 
@@ -157,21 +151,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
             it.color = colorTo
             noteItem.postValue(it)
         }
-    }
-
-    override fun edit() {
-        if (isEditMode) return
-
-        setupEditMode(isEdit = true)
-    }
-
-    /**
-     * Function must describe changing of edit/read modes.
-     */
-    protected fun setupEditMode(isEdit: Boolean) {
-        this.isEdit.postValue(isEdit)
-        // TODO may be post noteItem?
-        historyAvailable.postValue(history.available) // TODO it's really needed?
     }
 
     //endregion
@@ -294,6 +273,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         deleteNote(item)
         emit(item)
     }
+
+    override fun edit() = isEdit.postValue(true)
 
     //endregion
 

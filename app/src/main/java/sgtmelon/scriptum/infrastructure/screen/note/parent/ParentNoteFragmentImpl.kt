@@ -57,7 +57,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     IconBlockCallback {
 
     /**
-     * TODO update name in connector init (after save?)
+     * TODO update 'name' in connector init (after save?)
      * TODO block some buttons in panel bar while data not loaded
      * TODO change enable of button (while data not loaded), fields and etc
      */
@@ -340,7 +340,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
          * TODO посмотри как это опитимизировать (и надо ли вообще?), могут быть лишнии вызовы.
          *      Чекни где вызовы функции sendNotifyNotesBroadcast были по истории изменений.
          */
-
         system.broadcast.sendNotifyNotesBind()
     }
 
@@ -464,7 +463,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
      * FALSE result will call super.onBackPress() in parent activity.
      */
     fun onPressBack(): Boolean {
-        /** Actually this case isn't possible, but it's here for sure */
+        /** Actually this case isn't possible, but it's here for sure. */
         if (isActionsBlocked) return false
 
         val isScreenOpen = viewModel.saveOrRestoreData()

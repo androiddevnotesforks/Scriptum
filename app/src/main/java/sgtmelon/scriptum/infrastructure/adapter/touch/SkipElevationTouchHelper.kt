@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.ItemTouchUIUtil
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Parent class of [ItemTouchHelper] but without setup any elevation inside [onChildDraw]
+ * Parent class of [ItemTouchHelper], but without setup any elevation inside [onChildDraw]
  * and [clearView]. Check out realization of this functions inside [ItemTouchHelper] and you will
  * understand.
+ *
+ * [ItemTouchUIUtilImpl.clearView]
  */
 abstract class SkipElevationTouchHelper : ParentTouchHelper() {
 

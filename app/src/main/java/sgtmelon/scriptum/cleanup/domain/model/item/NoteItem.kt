@@ -62,9 +62,8 @@ sealed class NoteItem(
     }
 
     override fun hashCode(): Int {
-        var result = 0
+        var result: Int = type.hashCode()
 
-        result = type.hashCode() // 31 * result = always zero
         result = 31 * result + id.hashCode()
         result = 31 * result + create.hashCode()
         result = 31 * result + change.hashCode()

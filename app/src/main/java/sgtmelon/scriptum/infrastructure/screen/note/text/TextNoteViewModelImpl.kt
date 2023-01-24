@@ -62,14 +62,6 @@ class TextNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
 ), TextNoteViewModel {
 
-    // TODO remove
-    override suspend fun setupAfterInitialize() {
-//        mayAnimateIcon = false
-        // TODO may this is not needed?
-        setupEditMode(isEditMode)
-        //        mayAnimateIcon = true
-    }
-
     override fun restoreData(): Boolean {
         if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
 
@@ -79,7 +71,7 @@ class TextNoteViewModelImpl(
         }
         val colorTo = deprecatedNoteItem.color
 
-        setupEditMode(isEdit = false)
+        isEdit.postValue(false)
 
         color.postValue(colorTo)
         history.reset()
@@ -106,7 +98,7 @@ class TextNoteViewModelImpl(
         // TODO post note item
 
         if (changeMode) {
-            setupEditMode(isEdit = false)
+            isEdit.postValue(false)
             history.reset()
         }
 

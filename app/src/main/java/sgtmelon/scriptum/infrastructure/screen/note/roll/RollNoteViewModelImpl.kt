@@ -75,10 +75,11 @@ class RollNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
 ), RollNoteViewModel {
 
-    override suspend fun setupAfterInitialize() {
+    // TODO remove
+    /*override suspend*/ fun setupAfterInitialize() {
         //        mayAnimateIcon = false
         // TODO may this is not needed?
-        setupEditMode(isEditMode)
+//        setupEditMode(isEditMode)
         //        mayAnimateIcon = true
 
         callback.apply {
@@ -107,7 +108,7 @@ class RollNoteViewModelImpl(
 
         callback.notifyDataSetChanged(getAdapterList())
 
-        setupEditMode(isEdit = false)
+        isEdit.postValue(false)
         onUpdateInfo()
 
         color.postValue(colorTo)
@@ -324,7 +325,7 @@ class RollNoteViewModelImpl(
         callback.setList(getAdapterList())
 
         if (changeMode) {
-            setupEditMode(isEdit = false)
+            isEdit.postValue(false)
             history.reset()
         }
 
