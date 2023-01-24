@@ -10,6 +10,7 @@ import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -433,6 +434,55 @@ class RollNoteViewModelImpl(
             list.removeAtOrNull(index)
             callback.notifyItemRemoved(list, index)
         }
+    }
+
+    // Touch staff
+
+    /**
+     * All item positions updates after call [save], because it's hard
+     * to control in Edit.
+     */
+    override fun swipeItem(position: Int) {
+        val absolutePosition = getAbsolutePosition(position) ?: return
+        val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
+
+        history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
+        historyAvailable.postValue(history.available)
+
+        callback.notifyItemRemoved(getAdapterList(), position)
+    }
+
+    /**
+     * All item positions updates after call [save], because it's hard
+     * to control in Edit.
+     *
+     * TODO description
+     * Return true if everything was successful.
+     */
+    override fun moveItem(from: Int, to: Int): Boolean {
+        val absoluteFrom = getAbsolutePosition(from) ?: return false
+        val absoluteTo = getAbsolutePosition(to) ?: return false
+
+        deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
+        callback.notifyItemMoved(getAdapterList(), from, to)
+
+        // TODO need hide keyboard on item move?
+//        callback.hideKeyboardDepr()
+
+        return true
+    }
+
+    override fun moveItemResult(from: Int, to: Int) {
+        val absoluteFrom = getAbsolutePosition(from) ?: return
+        val absoluteTo = getAbsolutePosition(to) ?: return
+
+        history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
+        historyAvailable.postValue(history.available)
+    }
+
+    override fun releaseItem(position: Int) {
+        val absolute = getAbsolutePosition(position) ?: return
+        callback.notifyItemChanged(getAdapterList(), absolute)
     }
 
     //endregion

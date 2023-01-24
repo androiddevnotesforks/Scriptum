@@ -137,7 +137,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         /**
          * Calls when user swipe card, inside [onSwiped]
          */
-        fun onTouchSwiped(p: Int)
+        fun onTouchSwiped(position: Int)
 
         /**
          * Calls when user hold card and move it between another cards, inside [onMove].
@@ -148,18 +148,18 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         fun onTouchMove(from: Int, to: Int): Boolean
 
         /**
+         * Calls only after user cancel hold need update positions, inside [clearView].
+         * Need for description drag result.
+         */
+        fun onTouchMoveResult(from: Int, to: Int)
+
+        /**
          * Calls inside [clearView].
          *
          * Need update item for prevent lags in future. After change note mode list disappear for
          * a second if don't call [RecyclerView.Adapter.notifyItemChanged] inside [clearView].
          */
         fun onTouchClear(position: Int)
-
-        /**
-         * Calls only after user cancel hold need update positions, inside [clearView].
-         * Need for description drag result.
-         */
-        fun onTouchMoveResult(from: Int, to: Int)
     }
 
     companion object {

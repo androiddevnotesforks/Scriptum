@@ -311,6 +311,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         adapter.setList(list).notifyItemRemoved(p)
     }
 
+    //endregion
+
+    //region Touch callback
 
     override fun onTouchAction(inAction: Boolean) {
         open.isBlocked = inAction
@@ -324,52 +327,13 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun onTouchDragStart() = hideKeyboard()
 
-    /**
-     * All item positions updates after call [save], because it's hard
-     * to control in Edit.
-     */
-    override fun onTouchSwiped(p: Int) {
-        TODO()
-        //        val absolutePosition = getAbsolutePosition(p) ?: return
-        //        val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
-        //
-        //        history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
-        //        historyAvailable.postValue(history.available)
-        //
-        //        callback.notifyItemRemoved(getAdapterList(), p)
-    }
+    override fun onTouchSwiped(position: Int) = viewModel.swipeItem(position)
 
-    /**
-     * All item positions updates after call [save], because it's hard
-     * to control in Edit.
-     */
-    override fun onTouchMove(from: Int, to: Int): Boolean {
-        TODO()
-        //        val absoluteFrom = getAbsolutePosition(from) ?: return true
-        //        val absoluteTo = getAbsolutePosition(to) ?: return true
-        //
-        //        deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
-        //
-        //        callback.notifyItemMoved(getAdapterList(), from, to)
-        //        callback.hideKeyboardDepr()
-        //
-        //        return true
-    }
+    override fun onTouchMove(from: Int, to: Int): Boolean = viewModel.moveItem(from, to)
 
-    override fun onTouchClear(position: Int) {
-        TODO()
-        //        val absolute = getAbsolutePosition(position) ?: return
-        //        callback.notifyItemChanged(getAdapterList(), absolute)
-    }
+    override fun onTouchMoveResult(from: Int, to: Int) = viewModel.moveItemResult(from, to)
 
-    override fun onTouchMoveResult(from: Int, to: Int) {
-        TODO()
-        //        val absoluteFrom = getAbsolutePosition(from) ?: return
-        //        val absoluteTo = getAbsolutePosition(to) ?: return
-        //
-        //        history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
-        //        historyAvailable.postValue(history.available)
-    }
+    override fun onTouchClear(position: Int) = viewModel.releaseItem(position)
 
     //endregion
 
