@@ -84,17 +84,16 @@ class TextNoteViewModelImpl(
         }
     }
 
-    // vvv CLEANUP vvv
-
     /**
      * Don't need update [color] because it's happen in [changeColor] function.
      */
     override fun save(changeMode: Boolean): Boolean {
-        if (isReadMode || !deprecatedNoteItem.isSaveEnabled) return false
+        val item = noteItem.value ?: return false
 
-        deprecatedNoteItem.onSave()
+        if (isReadMode || !item.isSaveEnabled) return false
 
-        // TODO post note item
+        item.onSave()
+        noteItem.postValue(item)
 
         if (changeMode) {
             isEdit.postValue(false)
@@ -103,18 +102,16 @@ class TextNoteViewModelImpl(
 
         viewModelScope.launch {
             val isCreate = noteState.value == NoteState.CREATE
-            runBack { saveNote(deprecatedNoteItem, isCreate) }
-            cacheNote(deprecatedNoteItem)
+            /** [saveNote] updates [NoteItem.id], if it was in [NoteState.CREATE] */
+            runBack { saveNote(item, isCreate) }
+            cacheNote(item)
 
             if (isCreate) {
                 noteState.postValue(NoteState.EXIST)
-                id.postValue(deprecatedNoteItem.id)
+                id.postValue(item.id)
             }
-
-            //            callback.sendNotifyNotesBroadcast()
         }
 
         return true
     }
-
 }

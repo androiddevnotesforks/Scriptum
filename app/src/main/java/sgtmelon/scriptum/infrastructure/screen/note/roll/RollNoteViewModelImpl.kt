@@ -211,7 +211,7 @@ class RollNoteViewModelImpl(
             is HistoryResult.Roll -> TODO()
             else -> return
         }
-        TODO()
+
         //        when (action) {
         //            is HistoryResult.Name -> onUndoRedoName(action, isUndo)
         //            is HistoryResult.Rank -> onUndoRedoRank(action, isUndo)
@@ -332,6 +332,7 @@ class RollNoteViewModelImpl(
 
         viewModelScope.launch {
             val isCreate = noteState.value == NoteState.CREATE
+            /** [saveNote] updates [NoteItem.id], if it was in [NoteState.CREATE] */
             runBack { saveNote(deprecatedNoteItem, isCreate) }
             cacheNote(deprecatedNoteItem)
 
