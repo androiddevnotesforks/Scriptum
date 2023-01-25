@@ -29,6 +29,10 @@ import sgtmelon.scriptum.infrastructure.model.key.dialog.BinDialogOptions as Opt
 class BinFragment : BindingFragment<FragmentBinBinding>(),
     ScrollTopCallback {
 
+    // TODO bugs:
+    // 1. similar glitch as in NoteFragment (with single item delete animation of info not smooth)
+    //    May be skip animation?
+
     override val layoutId: Int = R.layout.fragment_bin
 
     @Inject lateinit var viewModel: BinViewModel

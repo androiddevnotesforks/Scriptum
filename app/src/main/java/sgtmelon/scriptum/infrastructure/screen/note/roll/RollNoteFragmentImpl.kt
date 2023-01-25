@@ -63,7 +63,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     private val visibleMenuItem: MenuItem?
         get() = appBar?.content?.toolbar?.getItem(R.id.item_visible)
 
-    // TODO check how it will work with rotation end other staff
     override fun inject(component: ScriptumComponent) {
         component.getRollNoteBuilder()
             .set(owner = this)

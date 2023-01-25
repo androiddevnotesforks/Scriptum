@@ -39,6 +39,10 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     Toolbar.OnMenuItemClickListener,
     ScrollTopCallback {
 
+    // TODO bugs:
+    // 1. create one note -> open it and delete -> got not smooth animation of info and item remove
+    //    May be skip animation?
+
     override val layoutId: Int = R.layout.fragment_notes
 
     @Inject lateinit var viewModel: NotesViewModel

@@ -26,6 +26,16 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionList
 class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextNoteBinding>(),
     IconBlockCallback {
 
+    // TODO FIX:
+    // 1. Wrong cursor position after rotation (for name, text). Enter text -> rotate -> BUG
+    // 2. Don't work undo/redo buttons -> after click got crash
+    // 3. After filling note -> save button don't change enable state (only after rotation)
+    // 4. After trigger several times save-change -> keyboard not hides
+    // 5. Enter created note -> click change -> keyboard not shows (and no cursor for editText)
+    // 6. Enter created note -> fast click change + back system button -> BUG note is closed (but must return to read state)
+    // 7. Enter created note -> fast click change + back toolbar button -> animation lags
+    // 8. Add animation for bottom panel (now it's not smooth)
+
     // TODO PLAN:
     // TODO 1. Change isEdit/noteState via new livedata value (if first time - skip animation - no views visible)
     //         - Move all binding related with it into UI classes
@@ -41,9 +51,9 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
-    // TODO check how it will work with rotation end other staff
     override fun inject(component: ScriptumComponent) {
         component.getTextNoteBuilder()
+            .set(owner = this)
             .set(lifecycle)
             .set(noteSaveCallback)
             .set(connector.init)

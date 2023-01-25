@@ -21,8 +21,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 interface ParentNoteViewModel<N : NoteItem> :
     UnbindNoteReceiver.Callback,
     NoteHistoryEnableControl,
-
-    // TODO cleanup
     HistoryTextWatcher.Callback {
 
     val isDataReady: LiveData<Boolean>
