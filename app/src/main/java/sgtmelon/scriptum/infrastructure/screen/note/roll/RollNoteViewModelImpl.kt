@@ -51,7 +51,6 @@ class RollNoteViewModelImpl(
     // TODO cleanup
     private val callback: RollNoteFragment,
     colorConverter: ColorConverter,
-    preferencesRepo: PreferencesRepo,
     private val saveNote: SaveNoteUseCase,
     convertNote: ConvertNoteUseCase,
     updateNote: UpdateNoteUseCase,
@@ -70,7 +69,7 @@ class RollNoteViewModelImpl(
     init, history, createNote, getNote, cacheNote,
 
     // TODO cleanup
-    colorConverter, preferencesRepo, convertNote,
+    colorConverter, convertNote,
     updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
     getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
 ), RollNoteViewModel {

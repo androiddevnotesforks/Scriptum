@@ -36,12 +36,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     // 7. Enter created note -> fast click change + back toolbar button -> animation lags
     // 8. Add animation for bottom panel (now it's not smooth)
 
-    // TODO PLAN:
-    // TODO 1. Change isEdit/noteState via new livedata value (if first time - skip animation - no views visible)
-    //         - Move all binding related with it into UI classes
-    // TODO 2. Make common use case for undo/redo (use flow?)
-    // TODO 3. Move common functions into use cases? (don't use parent vm class?)
-
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT
 

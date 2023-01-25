@@ -197,7 +197,6 @@ class ViewModelModule {
 
         // TODO refactor
         colorConverter: ColorConverter,
-        preferencesRepo: PreferencesRepo,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
@@ -215,7 +214,7 @@ class ViewModelModule {
             init, history, createNote, getNote, cacheNote,
 
             // TODO cleanup
-            colorConverter, preferencesRepo, saveNote, convertNote,
+            colorConverter, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
             getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
         )
@@ -236,7 +235,6 @@ class ViewModelModule {
         // TODO refactor
         fragment: RollNoteFragmentImpl,
         colorConverter: ColorConverter,
-        preferencesRepo: PreferencesRepo,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
@@ -256,7 +254,7 @@ class ViewModelModule {
             init, history, createNote, getNote, cacheNote,
 
             // TODO cleanup
-            fragment, colorConverter, preferencesRepo, saveNote, convertNote,
+            fragment, colorConverter, saveNote, convertNote,
             updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList, getRankId,
             getRankDialogNames, getHistoryResult

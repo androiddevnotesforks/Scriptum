@@ -53,7 +53,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     //TODO cleanup
     protected val colorConverter: ColorConverter,
-    protected val preferencesRepo: PreferencesRepo,
     private val convertNote: ConvertNoteUseCase,
     private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,

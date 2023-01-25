@@ -179,7 +179,6 @@ object ViewModelFactory {
 
             // TODO refactor
             private val colorConverter: ColorConverter,
-            private val preferencesRepo: PreferencesRepo,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
@@ -199,7 +198,7 @@ object ViewModelFactory {
                         init, history, createNote, getNote, cacheNote,
 
                         // TODO cleanup
-                        colorConverter, preferencesRepo,
+                        colorConverter,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, setNotification, deleteNotification, getNotificationDateList,
                         getRankId, getRankDialogNames, getHistoryResult
@@ -218,7 +217,6 @@ object ViewModelFactory {
             // TODO refactor
             private val fragment: RollNoteFragmentImpl,
             private val colorConverter: ColorConverter,
-            private val preferencesRepo: PreferencesRepo,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
@@ -240,7 +238,7 @@ object ViewModelFactory {
                         init, history, createNote, getNote, cacheNote,
 
                         // TODO cleanup
-                        fragment, colorConverter, preferencesRepo,
+                        fragment, colorConverter,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, updateVisible, updateCheck, setNotification, deleteNotification,
                         getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
