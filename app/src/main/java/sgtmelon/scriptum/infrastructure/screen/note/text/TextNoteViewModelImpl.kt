@@ -63,17 +63,14 @@ class TextNoteViewModelImpl(
 ), TextNoteViewModel {
 
     override fun restoreData(): Boolean {
-        if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
+        val restoreItem = cacheNote.item ?: return false
 
-        val restoreItem = cacheNote.item
-        if (restoreItem != null) {
-            deprecatedNoteItem = restoreItem.copy()
-        }
-        val colorTo = deprecatedNoteItem.color
+        if (id.value == Default.ID || noteItem.value?.id == Default.ID) return false
 
         isEdit.postValue(false)
+        noteItem.postValue(restoreItem.copy())
+        color.postValue(restoreItem.color)
 
-        color.postValue(colorTo)
         history.reset()
 
         return true
@@ -86,6 +83,8 @@ class TextNoteViewModelImpl(
             else -> return
         }
     }
+
+    // vvv CLEANUP vvv
 
     /**
      * Don't need update [color] because it's happen in [changeColor] function.

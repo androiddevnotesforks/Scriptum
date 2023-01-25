@@ -75,6 +75,31 @@ class RollNoteViewModelImpl(
     getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
 ), RollNoteViewModel {
 
+    override fun restoreData(): Boolean {
+        val item = noteItem.value ?: return false
+        val restoreItem = cacheNote.item ?: return false
+
+        if (id.value == Default.ID || item.id == Default.ID) return false
+
+        isEdit.postValue(false)
+        /**
+         * Get [NoteItem.Roll.isVisible] before restore, because it should be the same
+         * after restore.
+         */
+        noteItem.postValue(restoreItem.copy(isVisible = item.isVisible))
+        color.postValue(restoreItem.color)
+
+        history.reset()
+
+        // TODO add list update
+        callback.notifyDataSetChanged(getAdapterList())
+        onUpdateInfo()
+
+        return true
+    }
+
+    //region Cleanup
+
     // TODO remove
     /*override suspend*/ fun setupAfterInitialize() {
         //        mayAnimateIcon = false
@@ -91,31 +116,6 @@ class RollNoteViewModelImpl(
         onUpdateInfo()
     }
 
-    //region Cleanup
-
-    override fun restoreData(): Boolean {
-        if (id.value == Default.ID || deprecatedNoteItem.id == Default.ID) return false
-
-        /**
-         * Get [NoteItem.Roll.isVisible] before restore, because it should be the same
-         * after restore.
-         */
-        val restoreItem = cacheNote.item
-        if (restoreItem != null) {
-            deprecatedNoteItem = restoreItem.copy(isVisible = deprecatedNoteItem.isVisible)
-        }
-        val colorTo = deprecatedNoteItem.color
-
-        callback.notifyDataSetChanged(getAdapterList())
-
-        isEdit.postValue(false)
-        onUpdateInfo()
-
-        color.postValue(colorTo)
-        history.reset()
-
-        return true
-    }
 
 
     override fun changeVisible() {
@@ -135,6 +135,7 @@ class RollNoteViewModelImpl(
                 runBack { updateVisible(deprecatedNoteItem) }
 
                 if (isReadMode) {
+                    // TODO
 //                    callback.sendNotifyNotesBroadcast()
                 }
             }
