@@ -451,6 +451,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     private val toolbarBackListener = View.OnClickListener {
+        if (isActionsBlocked) return@OnClickListener
+
         val isDataRestored = viewModel.restoreDataOrExit()
 
         if (!isDataRestored) {
@@ -460,11 +462,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     /**
-     * FALSE result will call super.onBackPress() in parent activity.
+     * FALSE - will call super.onBackPress() in parent activity.
+     * TRUE  - will do nothing.
      */
     fun onPressBack(): Boolean {
-        /** Actually this case isn't possible, but it's here for sure. */
-        if (isActionsBlocked) return false
+        /** If user click fastly 2 times back (and icon is animating). */
+        if (isActionsBlocked) return true
 
         val isScreenOpen = viewModel.saveOrRestoreData()
 
