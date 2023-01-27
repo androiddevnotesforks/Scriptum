@@ -32,9 +32,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     // 3. After filling note -> save button don't change enable state (only after rotation)
     // 4. After trigger several times save-change -> keyboard not hides
     // 5. Enter created note -> click change -> keyboard not shows (and no cursor for editText)
-    // 6. Enter created note -> fast click change + back system button -> BUG note is closed (but must return to read state)
-    // 7. Enter created note -> fast click change + back toolbar button -> animation lags
-    // 8. Add animation for bottom panel (now it's not smooth)
+    // 6. Add animation for bottom panel (now it's not smooth)
 
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT
