@@ -5,7 +5,6 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
-import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase

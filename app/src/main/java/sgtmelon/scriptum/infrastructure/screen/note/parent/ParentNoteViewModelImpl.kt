@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.postValueWithChange
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
@@ -16,7 +17,6 @@ import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
-import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
@@ -67,6 +67,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
+    // TODO remove
+    @Deprecated("Use new realization")
+    protected lateinit var deprecatedNoteItem: N
+
+
     override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
@@ -104,12 +109,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     override val notificationsDateList: Flow<List<String>>
         get() = flowOnBack { emit(getNotificationsDateList()) }
 
-    //region Cleanup
+    //region Menu clicks
 
-    @Deprecated("Use new realization")
-    protected lateinit var deprecatedNoteItem: N
-
-    // Menu click
+    // TODO correct order of menu functions
 
     override fun undoAction(): Flow<HistoryResult> = onUndoRedoAction(isUndo = true)
 
@@ -136,27 +138,15 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     abstract fun selectHistoryResult(result: HistoryResult)
 
     protected fun onHistoryRank(result: HistoryResult.Rank) {
-        noteItem.value?.let {
-            it.rank = NoteRank(result.id, result.position)
-            noteItem.postValue(it)
-        }
+        noteItem.postValueWithChange { it.rank = NoteRank(result.id, result.position) }
     }
 
     protected fun onHistoryColor(action: HistoryResult.Color) {
         val colorTo = action.value
 
         color.postValue(colorTo)
-        noteItem.value?.let {
-            it.color = colorTo
-            noteItem.postValue(it)
-        }
+        noteItem.postValueWithChange { it.color = colorTo }
     }
-
-    //endregion
-
-    //region Menu clicks
-
-    // TODO correct order of menu functions
 
     override fun restore(): Flow<NoteItem> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
@@ -277,7 +267,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     //endregion
 
-    // Other
+    //region Other
 
     /**
      * Calls on note notification cancel from status bar for update bind indicator.
@@ -309,5 +299,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
      * if (!isNoteInitialized()) return - was before historyAvailable update
      */
     override fun onHistoryEnterChanged(text: String) = historyAvailable.postValue(history.available)
+
+    //endregion
 
 }

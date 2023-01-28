@@ -1,6 +1,7 @@
 package sgtmelon.extensions
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,4 +45,11 @@ inline fun <T> flowOnBack(crossinline func: suspend FlowCollector<T>.() -> Unit)
  */
 inline fun <T> Flow<T>.collect(owner: LifecycleOwner, crossinline onCollect: (T) -> Unit) {
     owner.lifecycleScope.launch { collect { onCollect(it) } }
+}
+
+inline fun <T> MutableLiveData<T>.postValueWithChange(onChange: (T) -> Unit) {
+    value?.let {
+        it.apply(onChange)
+        postValue(it)
+    }
 }

@@ -336,6 +336,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     @CallSuper open fun observeNoteItem(item: N) {
         invalidatePanelData(item)
 
+        // TODO может вызов сделать только в readmode?
         /**
          * TODO посмотри как это опитимизировать (и надо ли вообще?), могут быть лишнии вызовы.
          *      Чекни где вызовы функции sendNotifyNotesBroadcast были по истории изменений.
@@ -415,7 +416,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             panelBar.rankButton.isEnabled = !isRankEmpty
         }
 
-        panelBar.saveButton.isEnabled = item.isSaveEnabled
+        invalidateSaveButton(item)
         panelBar.notificationButton.bindBoolTint(item.haveAlarm, R.attr.clAccent, R.attr.clContent)
 
         panelBar.bindButton.bindBoolTint(item.isStatus, R.attr.clAccent, R.attr.clContent)
@@ -426,6 +427,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             R.string.description_note_bind
         }
         panelBar.bindButton.contentDescription = getString(bindDescription)
+    }
+
+    protected fun invalidateSaveButton(item: N) {
+        panelBar?.saveButton?.isEnabled = item.isSaveEnabled
     }
 
     //endregion
