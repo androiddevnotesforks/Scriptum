@@ -50,6 +50,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     // TODO pass data for pre-binding: visible state
 
+    // TODO FIX:
+    // 1. After filling note -> save button don't change enable state (only after rotation)
+
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
 
