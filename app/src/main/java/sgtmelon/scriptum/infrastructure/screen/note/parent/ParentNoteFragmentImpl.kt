@@ -27,6 +27,7 @@ import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -336,12 +337,21 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     @CallSuper open fun observeNoteItem(item: N) {
         invalidatePanelData(item)
 
-        // TODO может вызов сделать только в readmode?
+        if (viewModel.noteState.value == NoteState.EXIST) {
+            /**
+             * Call it only in read mode - bad choice, because sometimes need invalidate bind
+             * notes during edit mode (e.g. click unbind in status bar during edit mode).
+             */
+            system.broadcast.sendNotifyNotesBind()
+        }
+
         /**
-         * TODO посмотри как это опитимизировать (и надо ли вообще?), могут быть лишнии вызовы.
-         *      Чекни где вызовы функции sendNotifyNotesBroadcast были по истории изменений.
+         * Update note name inside [NoteInit] only in read mode, because it's mean for sure
+         * note was saved.
          */
-        system.broadcast.sendNotifyNotesBind()
+        if (viewModel.isReadMode) {
+            connector.init.name = item.name
+        }
     }
 
     @CallSuper open fun observeHistoryAvailable(available: HistoryMoveAvailable) {

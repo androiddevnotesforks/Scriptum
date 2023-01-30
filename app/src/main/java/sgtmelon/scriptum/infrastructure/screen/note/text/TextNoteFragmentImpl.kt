@@ -30,12 +30,9 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     // 1. Wrong cursor position after rotation (for name, text). Enter text -> rotate -> BUG
     // 2. Don't work undo/redo buttons -> after click got crash
     // 3. After filling note -> save button don't change enable state (only after rotation)
-    //    Надо вынести внутрь viewModel изменения для имени и текста, чтобы постить в liveData
     // 4. After trigger several times save-change -> keyboard not hides
     // 5. Enter created note -> click change -> keyboard not shows (and no cursor for editText)
     // 6. Add animation for bottom panel (now it's not smooth)
-    // 7. При обновлении noteItem обновлять name в init если read state
-    // 8. Вызывать обновление заметки в статус баре только при readMode? (Parent line:339)
 
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT
