@@ -168,4 +168,5 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         textNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)
         rollNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)
     }
+
 }

@@ -77,7 +77,7 @@
     <!-- Snackbar sizes -->
     <!--  TODO optimization for different screens  -->
     <dimen name="snackbar_height">48dp</dimen>
-    <dimen name="snackbar_radius">24dp</dimen>
+    <dimen name="snackbar_radius">8dp</dimen>
     <dimen name="snackbar_border">1dp</dimen>
 
 </resources>
