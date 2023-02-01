@@ -5,6 +5,10 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.showKeyboard
 
 fun EditText.requestSelectionFocus() {
     if (!hasFocus()) requestFocus()
-    setSelection(text.toString().length)
-    showKeyboard()
+
+    /** Post here is needed because sometimes keyboard not shows and selection not applies. */
+    post {
+        setSelection(text.toString().length)
+        showKeyboard()
+    }
 }
