@@ -93,7 +93,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun focusOnEnter() {
-        binding?.addPanel?.rollEnter?.requestSelectionFocus()
+        binding?.addPanel?.rollEnter?.requestSelectionFocus(binding)
     }
 
     override fun setupPanel() {

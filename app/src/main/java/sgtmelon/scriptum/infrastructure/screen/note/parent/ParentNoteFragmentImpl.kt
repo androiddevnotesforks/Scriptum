@@ -117,7 +117,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         /** If note was just created and data not loaded (first toolbar setup, not rotation) */
         if (connector.init.state == NoteState.CREATE && viewModel.isDataReady.value.isFalse()) {
-            appBar?.content?.nameEnter?.requestSelectionFocus()
+            appBar?.content?.nameEnter?.requestSelectionFocus(binding)
         }
 
         appBar?.content?.scrollView?.setOnTouchSelectionListener(appBar?.content?.nameEnter)

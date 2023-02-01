@@ -53,7 +53,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     override fun focusOnEnter() {
-        binding?.textEnter?.requestSelectionFocus()
+        binding?.textEnter?.requestSelectionFocus(binding)
     }
 
     override fun setupContent() {
