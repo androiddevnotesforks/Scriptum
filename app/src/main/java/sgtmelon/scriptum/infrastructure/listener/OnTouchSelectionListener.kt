@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
-import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
+import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.infrastructure.utils.extensions.isVisible
 
 /**
@@ -22,7 +22,7 @@ class OnTouchSelectionListener(private val editText: EditText?) : View.OnTouchLi
         if (editText == null || event == null) return false
 
         if (event.action == MotionEvent.ACTION_DOWN && editText.isVisible()) {
-            editText.requestSelectionFocus()
+            editText.requestFocusWithCursor()
         }
 
         return false

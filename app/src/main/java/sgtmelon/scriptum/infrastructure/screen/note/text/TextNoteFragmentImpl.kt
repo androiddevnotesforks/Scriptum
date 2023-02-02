@@ -6,7 +6,7 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
+import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -53,7 +53,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     override fun focusOnEnter() {
-        binding?.textEnter?.requestSelectionFocus(binding)
+        binding?.textEnter?.requestFocusWithCursor(binding)
     }
 
     override fun setupContent() {

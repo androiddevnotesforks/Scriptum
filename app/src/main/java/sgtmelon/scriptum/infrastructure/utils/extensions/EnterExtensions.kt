@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.databinding.ViewDataBinding
 
 inline fun EditText.setEditorNextAction(crossinline func: () -> Unit) {
     setOnEditorAction(EditorInfo.IME_ACTION_NEXT, func)
@@ -23,4 +25,23 @@ inline fun EditText.setOnEditorAction(expected: Int, crossinline func: () -> Uni
 
         return@setOnEditorActionListener false
     }
+}
+
+fun EditText.requestFocusWithCursor(binding: ViewDataBinding?) =
+    requestFocusWithCursor(binding?.root)
+
+fun EditText.requestFocusWithCursor(rootView: View? = null) {
+    val selectionRunnable = {
+        if (!hasFocus()) requestFocus()
+        setSelection(text.toString().length)
+        showKeyboard()
+    }
+
+    /**
+     * Post here is needed because sometimes keyboard not shows and selection not applies.
+     *
+     * Bulletproof way - pass [rootView] and selection will applies when [rootView] will be
+     * ready.
+     */
+    rootView?.post(selectionRunnable) ?: post(selectionRunnable)
 }

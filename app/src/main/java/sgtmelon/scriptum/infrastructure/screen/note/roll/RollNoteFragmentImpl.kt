@@ -18,7 +18,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
-import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
+import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -93,7 +93,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     override fun focusOnEnter() {
-        binding?.addPanel?.rollEnter?.requestSelectionFocus(binding)
+        binding?.addPanel?.rollEnter?.requestFocusWithCursor(binding)
     }
 
     override fun setupPanel() {

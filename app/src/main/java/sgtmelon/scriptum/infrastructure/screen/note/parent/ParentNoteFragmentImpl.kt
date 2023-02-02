@@ -18,7 +18,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
-import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
+import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -117,7 +117,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         /** If note was just created and data not loaded (first toolbar setup, not rotation) */
         if (connector.init.state == NoteState.CREATE && viewModel.isDataReady.value.isFalse()) {
-            appBar?.content?.nameEnter?.requestSelectionFocus(binding)
+            appBar?.content?.nameEnter?.requestFocusWithCursor(binding)
         }
 
         appBar?.content?.scrollView?.setOnTouchSelectionListener(appBar?.content?.nameEnter)
