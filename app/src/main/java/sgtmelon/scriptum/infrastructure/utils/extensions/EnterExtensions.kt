@@ -3,7 +3,9 @@ package sgtmelon.scriptum.infrastructure.utils.extensions
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.annotation.IntRange
 import androidx.databinding.ViewDataBinding
+import kotlin.math.min
 
 inline fun EditText.setEditorNextAction(crossinline func: () -> Unit) {
     setOnEditorAction(EditorInfo.IME_ACTION_NEXT, func)
@@ -14,7 +16,7 @@ inline fun EditText.setEditorDoneAction(crossinline func: () -> Unit) {
 }
 
 /**
- * Return false value will close a keyboard.
+ * Return FALSE value will close a keyboard.
  */
 inline fun EditText.setOnEditorAction(expected: Int, crossinline func: () -> Unit) {
     setOnEditorActionListener { _, i, _ ->
@@ -33,7 +35,7 @@ fun EditText.requestFocusWithCursor(binding: ViewDataBinding?) =
 fun EditText.requestFocusWithCursor(rootView: View? = null) {
     val selectionRunnable = {
         if (!hasFocus()) requestFocus()
-        setSelection(text.toString().length)
+        setSelectionSafe()
         showKeyboard()
     }
 
@@ -45,3 +47,20 @@ fun EditText.requestFocusWithCursor(rootView: View? = null) {
      */
     rootView?.post(selectionRunnable) ?: post(selectionRunnable)
 }
+
+fun EditText.setTextSelectionSafe(text: String, @IntRange(from = 0) cursor: Int) {
+    requestFocus()
+    setText(text)
+    setSelection(getCorrectCursor(cursor))
+}
+
+/**
+ * TODO #ERROR error on fast roll add/remove (undo/redo). Check it, bug disappear or not.
+ * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
+ */
+fun EditText.setSelectionSafe(@IntRange(from = 0) cursor: Int = length()) {
+    requestFocus()
+    setSelection(getCorrectCursor(cursor))
+}
+
+private fun EditText.getCorrectCursor(value: Int) = min(value, length())

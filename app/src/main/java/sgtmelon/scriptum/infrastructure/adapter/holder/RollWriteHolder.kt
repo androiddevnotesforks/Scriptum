@@ -18,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.DragTouchListener
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
+import sgtmelon.scriptum.infrastructure.utils.extensions.setSelectionSafe
 
 /**
  * Holder of roll item in edit state.
@@ -77,14 +78,7 @@ class RollWriteHolder(
         binding.dragButton.contentDescription = description
     }
 
-    /**
-     * TODO #ERROR error on fast add/remove
-     * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
-     */
-    fun setSelections(@IntRange(from = 0) position: Int) = with(binding.textEnter) {
-        requestFocus()
-        setSelection(min(position, text.toString().length))
-    }
+    fun setSelections(position: Int) = binding.textEnter.setSelectionSafe(position)
 
     override fun onHistoryAdd(action: HistoryAction) = callback.onRollHistoryAdd(action)
 

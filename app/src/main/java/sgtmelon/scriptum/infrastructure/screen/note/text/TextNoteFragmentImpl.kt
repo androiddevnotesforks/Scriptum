@@ -19,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
 
 /**
  * Fragment for display text note.
@@ -85,11 +86,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     private fun onHistoryEnter(result: HistoryResult.Text.Enter) = viewModel.disableHistoryChanges {
-        binding?.textEnter?.apply {
-            requestFocus()
-            setText(result.value)
-            setSelection(result.cursor)
-        }
+        binding?.textEnter?.setTextSelectionSafe(result.value, result.cursor)
     }
 
     //region Observable staff

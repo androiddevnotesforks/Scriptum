@@ -47,6 +47,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
@@ -243,11 +244,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract fun collectUndoRedo(result: HistoryResult)
 
     protected fun onHistoryName(result: HistoryResult.Name) = viewModel.disableHistoryChanges {
-        appBar?.content?.nameEnter?.apply {
-            requestFocus()
-            setText(result.value)
-            setSelection(result.cursor)
-        }
+        appBar?.content?.nameEnter?.setTextSelectionSafe(result.value, result.cursor)
     }
 
     //region Observable staff
