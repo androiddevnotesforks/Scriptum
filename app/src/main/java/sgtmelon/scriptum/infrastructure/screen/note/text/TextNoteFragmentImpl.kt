@@ -84,7 +84,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         }
     }
 
-    private fun onHistoryEnter(result: HistoryResult.Text.Enter) {
+    private fun onHistoryEnter(result: HistoryResult.Text.Enter) = viewModel.disableHistoryChanges {
         binding?.textEnter?.apply {
             requestFocus()
             setText(result.value)
