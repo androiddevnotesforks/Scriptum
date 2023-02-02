@@ -29,9 +29,9 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     // TODO FIX:
     // 1. Wrong cursor position after rotation (for name, text). Enter text -> rotate -> BUG
     //    Случается потому что вызов фокусировки происходит при observeEdit, после чего происходит установка текста от заметки
-    // 2. Don't work undo/redo buttons -> after click got crash
-    // 3. After trigger several times save-change -> keyboard not hides in read state
-    // 4. Add animation for bottom panel (now it's not smooth)
+    // 2.1 После возврата по undo происходит затирание redo (записывается новое изменение) - не работает disableChanges
+    // 2.2 После поворота тоже disableChanges не работает
+    // 3. Add animation for bottom panel (now it's not smooth)
 
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT
