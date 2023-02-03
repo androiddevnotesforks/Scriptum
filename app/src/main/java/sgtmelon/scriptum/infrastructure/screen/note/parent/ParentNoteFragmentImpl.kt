@@ -59,7 +59,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     IconBlockCallback {
 
     /**
-     * TODO update 'name' in connector init (after save?)
      * TODO block some buttons in panel bar while data not loaded
      * TODO change enable of button (while data not loaded), fields and etc
      */
@@ -90,8 +89,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         super.setupView(context)
 
         /**
-         * This must be called before [setupObservers], to init all needed variables, like
-         * a [navigationIcon].
+         * This functions must be called before [setupObservers], to init all needed variables,
+         * like a [navigationIcon].
          */
         setupToolbar(context, appBar?.content?.toolbar)
         setupPanel()

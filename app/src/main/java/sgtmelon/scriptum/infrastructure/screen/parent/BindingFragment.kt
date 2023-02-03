@@ -2,9 +2,11 @@ package sgtmelon.scriptum.infrastructure.screen.parent
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -49,11 +51,36 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         _system = SystemDelegatorFactory(view.context, lifecycle)
         open.restore(savedInstanceState)
+        registerReceivers()
+    }
 
-        setupView(view.context)
+    /**
+     * [onViewStateRestored] - is a final function before STARTED fragment state.
+     *
+     * Link: https://developer.android.com/guide/fragments/lifecycle
+     */
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+        /**
+         * Call all setup staff here, for prevent [TextWatcher]'s false call.
+         *
+         * Bad case:
+         * 1. [onViewCreated] = [EditText] is empty
+         * 2. [setupView] = add [TextWatcher]
+         * 3. [onViewStateRestored] = [EditText] restore text and it calls [TextWatcher]
+         * You got text change from '' to 'your text'.
+         *
+         * Good case:
+         * 1. [onViewCreated] = [EditText] is empty
+         * 2. [onViewStateRestored] = [EditText] restore text
+         * 3. [setupView] = add [TextWatcher]
+         * You didn't get any text changes while [BindingFragment] initialization.
+         */
+        val context = context ?: return
+        setupView(context)
         setupDialogs()
         setupObservers()
-        registerReceivers()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
