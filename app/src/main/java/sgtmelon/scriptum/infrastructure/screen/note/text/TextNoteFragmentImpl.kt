@@ -28,8 +28,8 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     IconBlockCallback {
 
     // TODO FIX:
-    // 1. Wrong cursor position after rotation (for name, text). Enter text -> rotate -> BUG
-    //    Случается потому что вызов фокусировки происходит при observeEdit, после чего происходит установка текста от заметки
+    // 1. Wrong cursor position after onpause (for name, text).
+    //    Enter text -> pause -> open app -> wrong cursor (at start) BUG
     // 2. Add animation for bottom panel (now it's not smooth)
 
     override val layoutId: Int = R.layout.fragment_text_note
@@ -121,5 +121,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     }
 
     //endregion
+
+    override fun isContentEmpty(): Boolean = binding?.textEnter?.text?.toString().isNullOrEmpty()
 
 }

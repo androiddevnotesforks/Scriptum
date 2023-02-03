@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
 import android.app.Activity
+import android.util.Log
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowManager

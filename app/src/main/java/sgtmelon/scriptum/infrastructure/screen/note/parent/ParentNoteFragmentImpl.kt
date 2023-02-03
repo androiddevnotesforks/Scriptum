@@ -115,11 +115,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val isCancel = with(connector.init) { state != NoteState.CREATE && isEdit }
         navigationIcon?.setDrawable(isCancel, needAnim = false)
 
-        /** If note was just created and data not loaded (first toolbar setup, not rotation) */
-        if (connector.init.state == NoteState.CREATE && viewModel.isDataReady.value.isFalse()) {
-            appBar?.content?.nameEnter?.requestFocusWithCursor(binding)
-        }
-
         appBar?.content?.scrollView?.setOnTouchSelectionListener(appBar?.content?.nameEnter)
         appBar?.content?.nameEnter?.let {
             /** Save changes of name to noteItem model (available only in edit mode). */
@@ -281,7 +276,19 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         connector.init.isEdit = isEdit
         noteSave.changeAutoSaveWork(isEdit)
 
-        if (!isEdit) hideKeyboard()
+        if (isEdit) {
+            /** If note was just created and data not filled. */
+            if (connector.init.state == NoteState.CREATE && isContentEmpty()) {
+                /** Focus on name enter if it's empty, otherwise (if filled) [focusOnEnter]. */
+                appBar?.content?.nameEnter?.let {
+                    if (it.text.isEmpty()) it.requestFocusWithCursor(binding) else focusOnEnter()
+                }
+            } else {
+                focusOnEnter()
+            }
+        } else {
+            hideKeyboard()
+        }
 
         invalidateToolbar()
         invalidatePanelState(isEdit)
@@ -295,10 +302,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
          */
         if (previousEdit != isEdit) {
             navigationIcon?.setDrawable(isEdit, needAnim = true)
-
-            if (isEdit) {
-                focusOnEnter()
-            }
         }
     }
 
@@ -440,6 +443,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     //endregion
+
+    /**
+     * Function for detect created notes with not filled content.
+     */
+    abstract fun isContentEmpty(): Boolean
 
     protected val isActionsBlocked get() = open.isBlocked
 

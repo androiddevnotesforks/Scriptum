@@ -33,6 +33,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImp
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
@@ -211,6 +212,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     //endregion
+
+    /**
+     * Take list size from [viewModel], because there are maybe a hide state (hide done items).
+     */
+    override fun isContentEmpty(): Boolean = viewModel.noteItem.value?.list?.isEmpty().isTrue()
 
     //region Cleanup
 
