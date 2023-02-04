@@ -75,6 +75,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract val appBar: IncToolbarNoteBinding?
     abstract val panelBar: IncNotePanelContentBinding?
 
+    private val animation = ParentNoteAnimation()
+
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
 
@@ -399,14 +401,16 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     @CallSuper open fun invalidatePanelState(isEdit: Boolean) {
         val panelBar = panelBar ?: return
 
-        if (connector.init.state == NoteState.DELETE) {
-            panelBar.binContainer.makeVisible()
-            panelBar.editContainer.makeInvisible()
-            panelBar.readContainer.makeInvisible()
-        } else {
-            panelBar.binContainer.makeInvisible()
-            panelBar.editContainer.makeVisibleIf(isEdit) { makeInvisible() }
-            panelBar.readContainer.makeVisibleIf(!isEdit) { makeInvisible() }
+        animation.startPanelFade(panelBar) {
+            if (connector.init.state == NoteState.DELETE) {
+                panelBar.binContainer.makeVisible()
+                panelBar.editContainer.makeInvisible()
+                panelBar.readContainer.makeInvisible()
+            } else {
+                panelBar.binContainer.makeInvisible()
+                panelBar.editContainer.makeVisibleIf(isEdit) { makeInvisible() }
+                panelBar.readContainer.makeVisibleIf(!isEdit) { makeInvisible() }
+            }
         }
     }
 
