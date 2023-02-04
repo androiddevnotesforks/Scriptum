@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import android.content.Context
 import android.text.InputType
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged

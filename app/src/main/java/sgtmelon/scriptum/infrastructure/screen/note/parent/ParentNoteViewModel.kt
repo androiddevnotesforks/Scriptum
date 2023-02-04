@@ -14,10 +14,6 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 
-/**
- * Parent interface for communicate with children of [ParentNoteViewModelImpl].
- */
-@Deprecated("Remove ParentViewModel, change name")
 interface ParentNoteViewModel<N : NoteItem> :
     UnbindNoteReceiver.Callback,
     NoteHistoryEnableControl,
@@ -74,9 +70,7 @@ interface ParentNoteViewModel<N : NoteItem> :
      */
     fun restoreData(): Boolean
 
-    //region Cleanup
-
-    // Inside bin
+    //region Menu clicks
 
     fun restore(): Flow<NoteItem>
 
@@ -84,7 +78,6 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun deleteForever(): Flow<NoteItem>
 
-    // Edit mode
 
     fun undoAction(): Flow<HistoryResult>
 
@@ -101,7 +94,6 @@ interface ParentNoteViewModel<N : NoteItem> :
      */
     fun save(changeMode: Boolean): Boolean
 
-    // Read mode
 
     fun setNotification(calendar: Calendar): Flow<N>
 

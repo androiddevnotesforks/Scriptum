@@ -111,43 +111,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     //region Menu clicks
 
-    // TODO correct order of menu functions
-
-    override fun undoAction(): Flow<HistoryResult> = onUndoRedoAction(isUndo = true)
-
-    override fun redoAction(): Flow<HistoryResult> = onUndoRedoAction(isUndo = false)
-
-    private fun onUndoRedoAction(isUndo: Boolean): Flow<HistoryResult> = flowOnBack {
-        if (isReadMode) return@flowOnBack
-
-        val item = if (isUndo) history.undo() else history.redo()
-        if (item != null) {
-            // TODO disable after select and when collect emit
-            val result = getHistoryResult(item, isUndo)
-            selectHistoryResult(result)
-            emit(result)
-        }
-
-        historyAvailable.postValue(history.available)
-    }
-
-    /**
-     * Function must describe logic of switching by [HistoryResult] and call [onEmit] if it's
-     * needed.
-     */
-    abstract fun selectHistoryResult(result: HistoryResult)
-
-    protected fun onHistoryRank(result: HistoryResult.Rank) {
-        noteItem.postValueWithChange { it.rank = NoteRank(result.id, result.position) }
-    }
-
-    protected fun onHistoryColor(action: HistoryResult.Color) {
-        val colorTo = action.value
-
-        color.postValue(colorTo)
-        noteItem.postValueWithChange { it.color = colorTo }
-    }
-
     override fun restore(): Flow<NoteItem> = flowOnBack {
         val item = noteItem.value ?: return@flowOnBack
         restoreNote(item)
@@ -172,6 +135,40 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         emit(item)
     }
 
+
+    override fun undoAction(): Flow<HistoryResult> = onUndoRedoAction(isUndo = true)
+
+    override fun redoAction(): Flow<HistoryResult> = onUndoRedoAction(isUndo = false)
+
+    private fun onUndoRedoAction(isUndo: Boolean): Flow<HistoryResult> = flowOnBack {
+        if (isReadMode) return@flowOnBack
+
+        val item = if (isUndo) history.undo() else history.redo()
+        if (item != null) {
+            val result = getHistoryResult(item, isUndo)
+            selectHistoryResult(result)
+            emit(result)
+        }
+
+        historyAvailable.postValue(history.available)
+    }
+
+    /**
+     * Function must describe logic of switching by [HistoryResult] and call [onEmit] if it's
+     * needed.
+     */
+    abstract fun selectHistoryResult(result: HistoryResult)
+
+    protected fun onHistoryRank(result: HistoryResult.Rank) {
+        noteItem.postValueWithChange { it.rank = NoteRank(result.id, result.position) }
+    }
+
+    protected fun onHistoryColor(action: HistoryResult.Color) {
+        val colorTo = action.value
+
+        color.postValue(colorTo)
+        noteItem.postValueWithChange { it.color = colorTo }
+    }
 
     override fun changeColor(check: Int) {
         if (isReadMode) return

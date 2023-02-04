@@ -28,9 +28,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
 class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextNoteBinding>(),
     IconBlockCallback {
 
-    // TODO FIX:
-    // 1. Add animation for bottom panel (now it's not smooth)
-
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT
 

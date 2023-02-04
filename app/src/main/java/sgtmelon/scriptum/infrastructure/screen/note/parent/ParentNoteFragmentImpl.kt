@@ -62,6 +62,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     /**
      * TODO block some buttons in panel bar while data not loaded
      * TODO change enable of button (while data not loaded), fields and etc
+     * Add animation for bottom panel (now it's not smooth)
      */
 
     protected val connector get() = activity as NoteConnector
