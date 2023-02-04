@@ -19,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
 
 /**
@@ -28,9 +29,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     IconBlockCallback {
 
     // TODO FIX:
-    // 1. Wrong cursor position after onpause (for name, text).
-    //    Enter text -> pause -> open app -> wrong cursor (at start) BUG
-    // 2. Add animation for bottom panel (now it's not smooth)
+    // 1. Add animation for bottom panel (now it's not smooth)
 
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT
@@ -112,7 +111,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         val isEdit = viewModel.isEdit.value ?: return
         val item = viewModel.noteItem.value ?: return
 
-        binding?.textEnter?.setText(item.text)
+        binding?.textEnter?.setTextIfDifferent(item.text)
         /**
          * Set empty text needed for nameEnter has ability to change size
          * inside scrollView.

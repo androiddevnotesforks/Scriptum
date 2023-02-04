@@ -47,6 +47,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
@@ -378,7 +379,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                 /** Always will notNull - because isDataReady==true. */
                 val item = viewModel.noteItem.value ?: return
 
-                nameEnter.setText(item.name)
+                nameEnter.setTextIfDifferent(item.name)
                 /**
                  * Set empty text needed for nameEnter has ability to change size
                  * inside scrollView.

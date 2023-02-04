@@ -64,3 +64,14 @@ fun EditText.setSelectionSafe(@IntRange(from = 0) cursor: Int = length()) {
 }
 
 private fun EditText.getCorrectCursor(value: Int) = min(value, length())
+
+fun EditText.clearText() = setText("")
+
+/**
+ * Set [text] to [EditText] if it different from the current one.
+ */
+fun EditText.setTextIfDifferent(text: CharSequence) {
+    if (this.text.toString() != text) {
+        setText(text)
+    }
+}

@@ -31,6 +31,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearText
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
@@ -125,7 +126,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                 if (addText.isEmpty()) {
                     viewModel.save(changeMode = true)
                 } else {
-                    binding?.addPanel?.rollEnter?.setText("")
+                    binding?.addPanel?.rollEnter?.clearText()
                     addItem(toBottom = true, addText)
                 }
             }

@@ -3,8 +3,6 @@ package sgtmelon.scriptum.infrastructure.adapter.holder
 import android.annotation.SuppressLint
 import android.text.InputType
 import android.view.inputmethod.EditorInfo
-import androidx.annotation.IntRange
-import java.lang.Integer.min
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
@@ -19,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.adapter.touch.listener.DragTouchListener
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
 import sgtmelon.scriptum.infrastructure.utils.extensions.setSelectionSafe
+import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 
 /**
  * Holder of roll item in edit state.
@@ -68,7 +67,7 @@ class RollWriteHolder(
         with(binding) {
             dragButton.bindBoolTint(item.isCheck, R.attr.clAccent, R.attr.clContent)
             bindContentDescription(item.text)
-            textEnter.setText(item.text)
+            textEnter.setTextIfDifferent(item.text)
             textEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
         }
     }
