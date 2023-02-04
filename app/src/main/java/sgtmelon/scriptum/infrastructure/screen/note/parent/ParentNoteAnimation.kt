@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
@@ -24,8 +22,8 @@ class ParentNoteAnimation {
         val resources = binding.root.context.resources
         val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
 
+        // TODO think about interpolator
         val transition = AutoTransition()
-            .setInterpolator(AccelerateDecelerateInterpolator())
             .setDuration(duration)
             .addListener(object : TransitionListenerAdapter() {
                 override fun onTransitionEnd(transition: Transition) {

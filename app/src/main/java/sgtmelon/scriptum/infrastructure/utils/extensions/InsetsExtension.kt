@@ -8,6 +8,10 @@ import android.view.animation.DecelerateInterpolator
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.children
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
+import sgtmelon.scriptum.R
 import sgtmelon.test.idling.getWaitIdling
 
 fun View.addSystemInsetsPadding(
@@ -155,47 +159,55 @@ fun View.updateMargin(
     }
 
     if (withAnimation) {
-        updateMarginAnimation(dir, valueTo, this)
-    } else when (dir) {
-        InsetsDir.LEFT -> updateMargin(left = valueTo)
-        InsetsDir.TOP -> updateMargin(top = valueTo)
-        InsetsDir.RIGHT -> updateMargin(right = valueTo)
-        InsetsDir.BOTTOM -> updateMargin(bottom = valueTo)
+        updateMarginAnimation(dir, valueTo)
+    } else {
+        updateMargin(dir, valueTo)
     }
 }
 
-private const val KEYBOARD_SHOW_TIME_MS = 35L
+private fun View.updateMargin(dir: InsetsDir, valueTo: Int) = when (dir) {
+    InsetsDir.LEFT -> updateMargin(left = valueTo)
+    InsetsDir.TOP -> updateMargin(top = valueTo)
+    InsetsDir.RIGHT -> updateMargin(right = valueTo)
+    InsetsDir.BOTTOM -> updateMargin(bottom = valueTo)
+}
 
-private fun updateMarginAnimation(
-    dir: InsetsDir,
-    valueTo: Int,
-    view: View
-) {
-    val params = view.layoutParams as? ViewGroup.MarginLayoutParams ?: return
-    val valueFrom = when (dir) {
-        InsetsDir.LEFT -> params.leftMargin
-        InsetsDir.TOP -> params.topMargin
-        InsetsDir.RIGHT -> params.rightMargin
-        InsetsDir.BOTTOM -> params.bottomMargin
+/**
+ * If [this] is [ViewGroup] use delayed transition (for smooth animation), otherwise use
+ * [ValueAnimator], but it seems not so smooth.
+ */
+private fun View.updateMarginAnimation(dir: InsetsDir, valueTo: Int) {
+    val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
+
+    if (this is ViewGroup) {
+        val transition = ChangeBounds()
+            .setInterpolator(DecelerateInterpolator())
+            .setDuration(duration)
+            .apply { children.forEach { excludeChildren(it, true) } }
+
+        TransitionManager.beginDelayedTransition(this, transition)
+
+        updateMargin(dir, valueTo)
+    } else {
+        val params = layoutParams as? ViewGroup.MarginLayoutParams ?: return
+        val valueFrom = when (dir) {
+            InsetsDir.LEFT -> params.leftMargin
+            InsetsDir.TOP -> params.topMargin
+            InsetsDir.RIGHT -> params.rightMargin
+            InsetsDir.BOTTOM -> params.bottomMargin
+        }
+
+        ValueAnimator.ofInt(valueFrom, valueTo).apply {
+            this.interpolator = DecelerateInterpolator()
+            this.duration = duration
+            addUpdateListener {
+                val value = it.animatedValue as? Int ?: return@addUpdateListener
+                updateMargin(dir, value)
+            }
+        }.start()
     }
 
-    ValueAnimator.ofInt(valueFrom, valueTo).apply {
-        this.interpolator = DecelerateInterpolator()
-        this.duration = KEYBOARD_SHOW_TIME_MS
-
-        addUpdateListener {
-            val value = it.animatedValue as? Int ?: return@addUpdateListener
-
-            when (dir) {
-                InsetsDir.LEFT -> view.updateMargin(left = value)
-                InsetsDir.TOP -> view.updateMargin(top = value)
-                InsetsDir.RIGHT -> view.updateMargin(right = value)
-                InsetsDir.BOTTOM -> view.updateMargin(bottom = value)
-            }
-        }
-    }.start()
-
-    getWaitIdling().start(KEYBOARD_SHOW_TIME_MS)
+    getWaitIdling().start(duration)
 }
 
 fun View.updateMargin(

@@ -6,6 +6,8 @@
 
     <integer name="color_column_count">4</integer>
 
+    <integer name="keyboard_change_time">35</integer>
+
     <integer name="fragment_fade_time">200</integer>
     <integer name="fab_change_time">200</integer>
     <integer name="color_fade_time">300</integer>
