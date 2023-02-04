@@ -107,7 +107,7 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun removeNotification(): Flow<N>
 
-    fun switchBind(): Flow<N>
+    fun switchBind()
 
     fun convert(): Flow<N>
 

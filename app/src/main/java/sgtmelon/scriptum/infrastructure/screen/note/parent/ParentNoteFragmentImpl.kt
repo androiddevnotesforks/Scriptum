@@ -162,11 +162,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
         panelBar.saveButton.setOnLongClickListener { viewModel.save(changeMode = false) }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
-        panelBar.bindButton.setOnClickListener {
-            viewModel.switchBind().collect(owner = this) {
-                system.broadcast.sendNotifyNotesBind()
-            }
-        }
+        panelBar.bindButton.setOnClickListener { viewModel.switchBind() }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener {
             if (isActionsBlocked) return@setOnClickListener
