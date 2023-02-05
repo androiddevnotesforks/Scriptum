@@ -121,7 +121,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             }
 
             setEditorDoneAction {
-                if (isActionsBlocked) return@setEditorDoneAction
+                if (open.isBlocked) return@setEditorDoneAction
 
                 val addText = getAddText()
                 if (addText.isEmpty()) {
@@ -143,7 +143,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     private fun addItem(toBottom: Boolean, text: String) {
-        if (viewModel.isEditMode && !isActionsBlocked) viewModel.addItem(toBottom, text)
+        if (viewModel.isEditMode) open.ifNotBlocked { viewModel.addItem(toBottom, text) }
     }
 
     override fun setupContent() {

@@ -62,7 +62,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     /**
      * TODO block some buttons in panel bar while data not loaded
      * TODO change enable of button (while data not loaded), fields and etc
-     * Add animation for bottom panel (now it's not smooth)
      */
 
     protected val connector get() = activity as NoteConnector
@@ -152,33 +151,35 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
         panelBar.undoButton.setOnClickListener { _ ->
-            if (isActionsBlocked) return@setOnClickListener
-            viewModel.undoAction().collect(owner = this) { collectUndoRedo(it) }
+            open.ifNotBlocked {
+                viewModel.undoAction().collect(owner = this) { collectUndoRedo(it) }
+            }
         }
         panelBar.redoButton.setOnClickListener { _ ->
-            if (isActionsBlocked) return@setOnClickListener
-            viewModel.redoAction().collect(owner = this) { collectUndoRedo(it) }
+            open.ifNotBlocked {
+                viewModel.redoAction().collect(owner = this) { collectUndoRedo(it) }
+            }
         }
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
         panelBar.saveButton.setOnClickListener {
-            if (!isActionsBlocked) viewModel.save(changeMode = true)
+            open.ifNotBlocked { viewModel.save(changeMode = true) }
         }
         panelBar.saveButton.setOnLongClickListener { viewModel.save(changeMode = false) }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
         panelBar.bindButton.setOnClickListener { viewModel.switchBind() }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener {
-            if (isActionsBlocked) return@setOnClickListener
-
-            viewModel.delete().collect(owner = this) {
-                system.broadcast.sendCancelAlarm(it)
-                system.broadcast.sendCancelNoteBind(it)
-                system.broadcast.sendNotifyInfoBind()
-                activity?.finish()
+            open.ifNotBlocked {
+                viewModel.delete().collect(owner = this) {
+                    system.broadcast.sendCancelAlarm(it)
+                    system.broadcast.sendCancelNoteBind(it)
+                    system.broadcast.sendNotifyInfoBind()
+                    activity?.finish()
+                }
             }
         }
-        panelBar.editButton.setOnClickListener { if (!isActionsBlocked) viewModel.edit() }
+        panelBar.editButton.setOnClickListener { open.ifNotBlocked { viewModel.edit() } }
 
         val bindDrawable = when (type) {
             NoteType.TEXT -> R.drawable.ic_bind_text
@@ -269,6 +270,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     @CallSuper open fun observeDataReady(it: Boolean) {
+        open.isBlocked = !it
         invalidateToolbar()
     }
 
@@ -451,8 +453,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
      */
     abstract fun isContentEmpty(): Boolean
 
-    protected val isActionsBlocked get() = open.isBlocked
-
     protected val noteSaveCallback = object : NoteSaveImpl.Callback {
 
         override fun onAutoSave() {
@@ -472,7 +472,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     private val toolbarBackListener = View.OnClickListener {
-        if (isActionsBlocked) return@OnClickListener
+        if (open.isBlocked) return@OnClickListener
 
         val isDataRestored = viewModel.restoreDataOrExit()
 
@@ -488,7 +488,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
      */
     fun onPressBack(): Boolean {
         /** If user click fastly 2 times back (and icon is animating). */
-        if (isActionsBlocked) return true
+        if (open.isBlocked) return true
 
         val isScreenOpen = viewModel.saveOrRestoreData()
 

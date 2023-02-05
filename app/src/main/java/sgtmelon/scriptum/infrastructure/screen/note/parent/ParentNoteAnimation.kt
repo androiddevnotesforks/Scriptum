@@ -25,7 +25,6 @@ class ParentNoteAnimation {
         val resources = binding.root.context.resources
         val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
 
-        // TODO think about interpolator
         val transition = AutoTransition()
             .setDuration(duration)
             .setInterpolator(AccelerateDecelerateInterpolator())
