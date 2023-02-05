@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import android.content.Context
 import android.text.InputType
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.doOnTextChanged
@@ -55,6 +54,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     // TODO FIX:
     // 1. After filling note -> save button don't change enable state (only after rotation)
+    // 2. Create note - cursor not on name (it's placed on enter)
 
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
