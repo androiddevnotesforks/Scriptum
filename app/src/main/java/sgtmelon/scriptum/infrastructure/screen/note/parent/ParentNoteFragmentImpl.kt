@@ -59,11 +59,6 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     IconBlockCallback {
 
-    /**
-     * TODO block some buttons in panel bar while data not loaded
-     * TODO change enable of button (while data not loaded), fields and etc
-     */
-
     protected val connector get() = activity as NoteConnector
 
     abstract val type: NoteType
