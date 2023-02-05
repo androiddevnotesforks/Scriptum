@@ -27,5 +27,5 @@
     <integer name="alarm_show_delay">500</integer>
     <integer name="alarm_show_time">500</integer>
 
-    <integer name="note_panel_change_time">100</integer>
+    <integer name="note_panel_change_time">200</integer>
 </resources>

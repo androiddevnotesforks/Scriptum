@@ -1,9 +1,12 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -25,6 +28,8 @@ class ParentNoteAnimation {
         // TODO think about interpolator
         val transition = AutoTransition()
             .setDuration(duration)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .setOrdering(TransitionSet.ORDERING_TOGETHER)
             .addListener(object : TransitionListenerAdapter() {
                 override fun onTransitionEnd(transition: Transition) {
                     getIdling().stop(IdlingTag.Alarm.ANIM)
