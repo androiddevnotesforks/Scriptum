@@ -173,12 +173,10 @@ object ViewModelFactory {
         class TextNote(
             private val init: NoteInit,
             private val history: NoteHistory,
+            private val colorConverter: ColorConverter,
             private val createNote: CreateTextNoteUseCase,
             private val getNote: GetTextNoteUseCase,
             private val cacheNote: CacheTextNoteUseCase,
-
-            // TODO refactor
-            private val colorConverter: ColorConverter,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
@@ -195,10 +193,10 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModelImpl::class) {
                     TextNoteViewModelImpl(
-                        init, history, createNote, getNote, cacheNote,
+                        colorConverter, init, history, createNote, getNote,
 
                         // TODO cleanup
-                        colorConverter,
+                        cacheNote,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote,
                         clearNote, setNotification, deleteNotification, getNotificationDateList,
                         getRankId, getRankDialogNames, getHistoryResult
@@ -208,15 +206,13 @@ object ViewModelFactory {
         }
 
         class RollNote(
+            private val fragment: RollNoteFragmentImpl,
             private val init: NoteInit,
             private val history: NoteHistory,
+            private val colorConverter: ColorConverter,
             private val createNote: CreateRollNoteUseCase,
             private val getNote: GetRollNoteUseCase,
             private val cacheNote: CacheRollNoteUseCase,
-
-            // TODO refactor
-            private val fragment: RollNoteFragmentImpl,
-            private val colorConverter: ColorConverter,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
@@ -235,13 +231,11 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
                     RollNoteViewModelImpl(
-                        init, history, createNote, getNote, cacheNote,
-
-                        // TODO cleanup
-                        fragment, colorConverter,
-                        saveNote, convertNote, updateNote, deleteNote, restoreNote,
-                        clearNote, updateVisible, updateCheck, setNotification, deleteNotification,
-                        getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
+                        fragment, init, history, colorConverter, createNote, getNote, cacheNote,
+                        saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+                        updateVisible, updateCheck,
+                        setNotification, deleteNotification, getNotificationDateList,
+                        getRankId, getRankDialogNames, getHistoryResult
                     )
                 }
             }

@@ -45,14 +45,12 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
  * TODO normal description
  */
 abstract class ParentNoteViewModelImpl<N : NoteItem>(
+    private val colorConverter: ColorConverter,
     init: NoteInit,
     protected val history: NoteHistory,
     createNote: CreateNoteUseCase<N>,
     getNote: GetNoteUseCase<N>,
     protected val cacheNote: CacheNoteUseCase<N>,
-
-    //TODO cleanup
-    protected val colorConverter: ColorConverter,
     private val convertNote: ConvertNoteUseCase,
     private val updateNote: UpdateNoteUseCase,
     private val deleteNote: DeleteNoteUseCase,
@@ -62,7 +60,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
-    protected val getRankDialogNames: GetRankDialogNamesUseCase,
+    private val getRankDialogNames: GetRankDialogNamesUseCase,
     private val getHistoryResult: GetHistoryResultUseCase
 ) : ViewModel(),
     ParentNoteViewModel<N> {
@@ -149,8 +147,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     }
 
     /**
-     * Function must describe logic of switching by [HistoryResult] and call [onEmit] if it's
-     * needed.
+     * Function must describe logic of switching by [HistoryResult].
      */
     abstract fun selectHistoryResult(result: HistoryResult)
 

@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
-import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
@@ -42,15 +41,13 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 
 class RollNoteViewModelImpl(
+    private val callback: RollNoteFragment,
     init: NoteInit,
     history: NoteHistory,
+    colorConverter: ColorConverter,
     createNote: CreateRollNoteUseCase,
     getNote: GetRollNoteUseCase,
     cacheNote: CacheRollNoteUseCase,
-
-    // TODO cleanup
-    private val callback: RollNoteFragment,
-    colorConverter: ColorConverter,
     private val saveNote: SaveNoteUseCase,
     convertNote: ConvertNoteUseCase,
     updateNote: UpdateNoteUseCase,
@@ -66,12 +63,10 @@ class RollNoteViewModelImpl(
     getRankDialogNames: GetRankDialogNamesUseCase,
     getHistoryResult: GetHistoryResultUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll>(
-    init, history, createNote, getNote, cacheNote,
-
-    // TODO cleanup
-    colorConverter, convertNote,
-    updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
+    colorConverter, init, history, createNote, getNote, cacheNote,
+    convertNote, updateNote, deleteNote, restoreNote, clearNote,
+    setNotification, deleteNotification, getNotificationDateList,
+    getRankId, getRankDialogNames, getHistoryResult
 ), RollNoteViewModel {
 
     override fun restoreData(): Boolean {

@@ -191,12 +191,10 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         init: NoteInit,
         history: NoteHistory,
+        colorConverter: ColorConverter,
         createNote: CreateTextNoteUseCase,
         getNote: GetTextNoteUseCase,
         cacheNote: CacheTextNoteUseCase,
-
-        // TODO refactor
-        colorConverter: ColorConverter,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
@@ -211,12 +209,10 @@ class ViewModelModule {
         getHistoryResult: GetHistoryResultUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            init, history, createNote, getNote, cacheNote,
-
-            // TODO cleanup
-            colorConverter, saveNote, convertNote,
-            updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-            getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
+            init, history, colorConverter, createNote, getNote, cacheNote,
+            saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+            setNotification, deleteNotification, getNotificationDateList,
+            getRankId, getRankDialogNames, getHistoryResult
         )
 
         return ViewModelProvider(owner, factory)[TextNoteViewModelImpl::class.java]
@@ -225,16 +221,14 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideRollNoteViewModel(
+        fragment: RollNoteFragmentImpl,
         owner: ViewModelStoreOwner,
         init: NoteInit,
         history: NoteHistory,
+        colorConverter: ColorConverter,
         createNote: CreateRollNoteUseCase,
         getNote: GetRollNoteUseCase,
         cacheNote: CacheRollNoteUseCase,
-
-        // TODO refactor
-        fragment: RollNoteFragmentImpl,
-        colorConverter: ColorConverter,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
         updateNote: UpdateNoteUseCase,
@@ -251,13 +245,11 @@ class ViewModelModule {
         getHistoryResult: GetHistoryResultUseCase
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            init, history, createNote, getNote, cacheNote,
-
-            // TODO cleanup
-            fragment, colorConverter, saveNote, convertNote,
-            updateNote, deleteNote, restoreNote, clearNote, updateVisible, updateCheck,
-            setNotification, deleteNotification, getNotificationDateList, getRankId,
-            getRankDialogNames, getHistoryResult
+            fragment, init, history, colorConverter, createNote, getNote, cacheNote,
+            saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+            updateVisible, updateCheck,
+            setNotification, deleteNotification, getNotificationDateList,
+            getRankId, getRankDialogNames, getHistoryResult
         )
 
         return ViewModelProvider(owner, factory)[RollNoteViewModelImpl::class.java]

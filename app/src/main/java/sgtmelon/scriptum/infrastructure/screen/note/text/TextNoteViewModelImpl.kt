@@ -31,14 +31,12 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 
 class TextNoteViewModelImpl(
+    colorConverter: ColorConverter,
     init: NoteInit,
     history: NoteHistory,
     createNote: CreateTextNoteUseCase,
     getNote: GetTextNoteUseCase,
     cacheNote: CacheTextNoteUseCase,
-
-    // TODO cleanup
-    colorConverter: ColorConverter,
     private val saveNote: SaveNoteUseCase,
     convertNote: ConvertNoteUseCase,
     updateNote: UpdateNoteUseCase,
@@ -52,12 +50,10 @@ class TextNoteViewModelImpl(
     getRankDialogNames: GetRankDialogNamesUseCase,
     getHistoryResult: GetHistoryResultUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Text>(
-    init, history, createNote, getNote, cacheNote,
-
-    // TODO cleanup
-    colorConverter, convertNote,
-    updateNote, deleteNote, restoreNote, clearNote, setNotification, deleteNotification,
-    getNotificationDateList, getRankId, getRankDialogNames, getHistoryResult
+    colorConverter, init, history, createNote, getNote, cacheNote,
+    convertNote, updateNote, deleteNote, restoreNote, clearNote,
+    setNotification, deleteNotification, getNotificationDateList,
+    getRankId, getRankDialogNames, getHistoryResult
 ), TextNoteViewModel {
 
     override fun restoreData(): Boolean {
