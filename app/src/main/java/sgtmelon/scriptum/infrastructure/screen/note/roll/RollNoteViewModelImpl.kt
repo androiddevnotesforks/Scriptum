@@ -176,17 +176,17 @@ class RollNoteViewModelImpl(
         }
     }
 
-    override fun changeItemCheck(p: Int) {
+    override fun changeItemCheck(position: Int) {
         if (isEditMode) return
 
-        val absolutePosition = getAbsolutePosition(p) ?: return
+        val absolutePosition = getAbsolutePosition(position) ?: return
         deprecatedNoteItem.onItemCheck(absolutePosition)
         cacheNote(deprecatedNoteItem)
 
         if (deprecatedNoteItem.isVisible) {
-            callback.notifyItemChanged(getAdapterList(), p)
+            callback.notifyItemChanged(getAdapterList(), position)
         } else {
-            callback.notifyItemRemoved(getAdapterList(), p)
+            callback.notifyItemRemoved(getAdapterList(), position)
         }
 
         // TODO post to noteItem
