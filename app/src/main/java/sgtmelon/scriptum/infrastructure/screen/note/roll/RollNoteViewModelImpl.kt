@@ -99,6 +99,9 @@ class RollNoteViewModelImpl(
 
     //region Cleanup
 
+    @Deprecated("Use new realization")
+    private lateinit var deprecatedNoteItem: NoteItem.Roll
+
     // TODO remove
     /*override suspend*/ fun setupAfterInitialize() {
         //        mayAnimateIcon = false

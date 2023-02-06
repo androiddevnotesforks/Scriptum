@@ -67,11 +67,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
-    // TODO remove
-    @Deprecated("Use new realization")
-    protected lateinit var deprecatedNoteItem: N
-
-
     override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
