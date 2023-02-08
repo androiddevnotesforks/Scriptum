@@ -1,16 +1,18 @@
-package sgtmelon.scriptum.infrastructure.widgets.recycler
+package sgtmelon.scriptum.infrastructure.screen.parent.list
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 
 /**
- * Needed for custom items notify in [ListAdapter].
+ * Needed for catch custom [adapter] updates.
  */
-interface CustomListNotify<T> {
+interface CustomListNotifyUi<T> {
+
+    val viewModel: CustomListNotifyViewModel<T>
 
     val adapter: ParentDiffAdapter<T, *>
 
@@ -24,8 +26,8 @@ interface CustomListNotify<T> {
      * and list fade in animation concurrent with each other and it's looks laggy.
      */
     @SuppressLint("NotifyDataSetChanged")
-    fun catchListUpdate(state: UpdateListState, list: List<T>) {
-        when (state) {
+    fun catchListUpdate(list: List<T>) {
+        when (val state = viewModel.updateList) {
             is UpdateListState.Set -> adapter.setList(list)
             is UpdateListState.Notify -> adapter.notifyList(list)
             is UpdateListState.NotifyHard -> adapter.setList(list).notifyDataSetChanged()

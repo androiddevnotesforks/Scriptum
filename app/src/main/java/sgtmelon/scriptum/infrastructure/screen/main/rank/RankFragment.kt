@@ -27,12 +27,12 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
-import sgtmelon.scriptum.infrastructure.widgets.recycler.CustomListNotify
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
 
@@ -40,14 +40,14 @@ import sgtmelon.test.idling.getIdling
  * Screen with list of categories and with ability to create them.
  */
 class RankFragment : BindingFragment<FragmentRankBinding>(),
-    CustomListNotify<RankItem>,
+    CustomListNotifyUi<RankItem>,
     SnackbarDelegator.Callback,
     DragAndSwipeTouchHelper.Callback,
     ScrollTopCallback {
 
     override val layoutId: Int = R.layout.fragment_rank
 
-    @Inject lateinit var viewModel: RankViewModel
+    @Inject override lateinit var viewModel: RankViewModel
 
     private val animation = ShowListAnimation()
 
@@ -148,7 +148,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             /** If toolbar enter contains any text then need update add button. */
             notifyToolbar()
         }
-        viewModel.itemList.observe(this) { catchListUpdate(viewModel.updateList, it) }
+        viewModel.itemList.observe(this) { catchListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 

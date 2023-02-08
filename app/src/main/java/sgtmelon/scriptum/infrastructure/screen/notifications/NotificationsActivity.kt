@@ -13,6 +13,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClick
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
@@ -21,14 +22,13 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.setPaddingInsets
-import sgtmelon.scriptum.infrastructure.widgets.recycler.CustomListNotify
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
  * Screen with list of feature notifications.
  */
 class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
-    CustomListNotify<NotificationItem>,
+    CustomListNotifyUi<NotificationItem>,
     SnackbarDelegator.Callback {
 
     override val layoutId: Int = R.layout.activity_notifications
@@ -36,7 +36,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    @Inject lateinit var viewModel: NotificationsViewModel
+    @Inject override lateinit var viewModel: NotificationsViewModel
 
     private val animation = ShowListAnimation()
 
@@ -99,7 +99,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { catchListUpdate(viewModel.updateList, it) }
+        viewModel.itemList.observe(this) { catchListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 

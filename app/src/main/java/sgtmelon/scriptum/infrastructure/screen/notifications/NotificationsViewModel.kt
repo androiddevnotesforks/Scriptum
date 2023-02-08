@@ -3,17 +3,10 @@ package sgtmelon.scriptum.infrastructure.screen.notifications
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModel
 
-interface NotificationsViewModel {
-
-    val showList: LiveData<ShowListState>
-
-    val itemList: LiveData<List<NotificationItem>>
-
-    val updateList: UpdateListState
+interface NotificationsViewModel : CustomListNotifyViewModel<NotificationItem> {
 
     val showSnackbar: LiveData<Boolean>
 

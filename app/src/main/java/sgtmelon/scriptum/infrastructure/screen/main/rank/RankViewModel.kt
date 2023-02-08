@@ -3,17 +3,11 @@ package sgtmelon.scriptum.infrastructure.screen.main.rank
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModel
 
-interface RankViewModel : UnbindNoteReceiver.Callback {
-
-    val showList: LiveData<ShowListState>
-
-    val itemList: LiveData<List<RankItem>>
-
-    val updateList: UpdateListState
+interface RankViewModel : CustomListNotifyViewModel<RankItem>,
+    UnbindNoteReceiver.Callback {
 
     val showSnackbar: LiveData<Boolean>
 
