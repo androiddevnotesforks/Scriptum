@@ -1,15 +1,10 @@
 package sgtmelon.scriptum.infrastructure.screen.main.bin
 
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.screen.parent.list.InfoListViewModel
 
-interface BinViewModel {
-
-    val showList: LiveData<ShowListState>
-
-    val itemList: LiveData<List<NoteItem>>
+interface BinViewModel : InfoListViewModel<NoteItem> {
 
     fun updateData()
 

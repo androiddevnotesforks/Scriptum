@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.bin
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.extensions.flowOnBack
@@ -12,8 +10,7 @@ import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.InfoListViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
@@ -23,24 +20,8 @@ class BinViewModelImpl(
     private val restoreNote: RestoreNoteUseCase,
     private val clearBin: ClearBinUseCase,
     private val clearNote: ClearNoteUseCase
-) : ViewModel(),
+) : InfoListViewModelImpl<NoteItem>(),
     BinViewModel {
-
-    override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
-
-    /**
-     * There is no reason check current [showList] state for skip identical values (like it done
-     * for [NotificationsViewModelImpl.showList]). Because here we only can remove items from
-     * list, without ability to undo this action.
-     */
-    private fun notifyShowList() {
-        showList.postValue(if (_itemList.isEmpty()) ShowListState.Empty else ShowListState.List)
-    }
-
-    override val itemList: MutableLiveData<List<NoteItem>> = MutableLiveData()
-
-    /** This list needed because don't want put mutable list inside liveData. */
-    private val _itemList: MutableList<NoteItem> = mutableListOf()
 
     override fun updateData() {
         viewModelScope.launchBack {

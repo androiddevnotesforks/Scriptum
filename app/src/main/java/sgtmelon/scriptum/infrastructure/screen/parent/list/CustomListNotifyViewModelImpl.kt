@@ -25,7 +25,7 @@ abstract class CustomListNotifyViewModelImpl<T> : ViewModel(),
 
     override val itemList: MutableLiveData<List<T>> = MutableLiveData()
 
-    /** Local storage for [T] items. Skip get null value from [itemList]. */
+    /** Local storage for [T] items, because don't want put mutable list inside [itemList]. */
     protected val _itemList: MutableList<T> = mutableListOf()
 
     /** This variable will be reset after getting value. */
