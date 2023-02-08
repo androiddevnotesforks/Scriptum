@@ -8,13 +8,15 @@ import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 
 /**
- * Delegator for custom items notify with [ListAdapter].
+ * Needed for custom items notify in [ListAdapter].
  */
-class NotifyListDelegator<T>(
-    val recyclerView: RecyclerView?,
-    val adapter: ParentDiffAdapter<T, *>,
+interface CustomListNotify<T> {
+
+    val adapter: ParentDiffAdapter<T, *>
+
     val layoutManager: LinearLayoutManager
-) {
+
+    val recyclerView: RecyclerView?
 
     /**
      * Use here [UpdateListState.NotifyHard] case, because it will prevent lags during
@@ -22,7 +24,7 @@ class NotifyListDelegator<T>(
      * and list fade in animation concurrent with each other and it's looks laggy.
      */
     @SuppressLint("NotifyDataSetChanged")
-    fun catch(state: UpdateListState, list: List<T>) {
+    fun catchListUpdate(state: UpdateListState, list: List<T>) {
         when (state) {
             is UpdateListState.Set -> adapter.setList(list)
             is UpdateListState.Notify -> adapter.notifyList(list)

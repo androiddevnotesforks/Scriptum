@@ -6,12 +6,14 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
@@ -30,7 +32,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
-import sgtmelon.scriptum.infrastructure.widgets.recycler.NotifyListDelegator
+import sgtmelon.scriptum.infrastructure.widgets.recycler.CustomListNotify
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
 
@@ -38,6 +40,7 @@ import sgtmelon.test.idling.getIdling
  * Screen with list of categories and with ability to create them.
  */
 class RankFragment : BindingFragment<FragmentRankBinding>(),
+    CustomListNotify<RankItem>,
     SnackbarDelegator.Callback,
     DragAndSwipeTouchHelper.Callback,
     ScrollTopCallback {
@@ -54,7 +57,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private val renameDialog by lazy { dialogs.getRename() }
 
     private val touchHelper = DragAndSwipeTouchHelper(callback = this)
-    private val adapter by lazy {
+    override val adapter by lazy {
         RankAdapter(touchHelper, object : IconBlockCallback {
             override fun setIconEnabled(isEnabled: Boolean) {
                 getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
@@ -69,11 +72,8 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             override fun onRankCancelClick(p: Int) = removeRank(p)
         })
     }
-    private val layoutManager by lazy { LinearLayoutManager(context) }
-
-    private val notifyList by lazy {
-        NotifyListDelegator(binding?.recyclerView, adapter, layoutManager)
-    }
+    override val layoutManager by lazy { LinearLayoutManager(context) }
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     val snackbar = SnackbarDelegator(
         lifecycle, R.string.snackbar_message_rank, R.string.snackbar_action_cancel, callback = this
@@ -148,7 +148,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             /** If toolbar enter contains any text then need update add button. */
             notifyToolbar()
         }
-        viewModel.itemList.observe(this) { notifyList.catch(viewModel.updateList, it) }
+        viewModel.itemList.observe(this) { catchListUpdate(viewModel.updateList, it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 

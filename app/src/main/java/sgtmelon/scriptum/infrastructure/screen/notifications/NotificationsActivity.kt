@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
@@ -20,13 +21,14 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.setPaddingInsets
-import sgtmelon.scriptum.infrastructure.widgets.recycler.NotifyListDelegator
+import sgtmelon.scriptum.infrastructure.widgets.recycler.CustomListNotify
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
  * Screen with list of feature notifications.
  */
 class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
+    CustomListNotify<NotificationItem>,
     SnackbarDelegator.Callback {
 
     override val layoutId: Int = R.layout.activity_notifications
@@ -38,17 +40,14 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
 
     private val animation = ShowListAnimation()
 
-    private val adapter: NotificationAdapter by lazy {
+    override val adapter: NotificationAdapter by lazy {
         NotificationAdapter(object : NotificationClickListener {
             override fun onNotificationClick(item: NotificationItem) = openNoteScreen(item)
             override fun onNotificationCancel(p: Int) = removeNotification(p)
         })
     }
-    private val layoutManager by lazy { LinearLayoutManager(this) }
-
-    private val notifyList by lazy {
-        NotifyListDelegator(binding?.recyclerView, adapter, layoutManager)
-    }
+    override val layoutManager by lazy { LinearLayoutManager(this) }
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     private val snackbar = SnackbarDelegator(
         lifecycle,
@@ -100,7 +99,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { notifyList.catch(viewModel.updateList, it) }
+        viewModel.itemList.observe(this) { catchListUpdate(viewModel.updateList, it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 
