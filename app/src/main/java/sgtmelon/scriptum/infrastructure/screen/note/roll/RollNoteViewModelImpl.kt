@@ -69,6 +69,12 @@ class RollNoteViewModelImpl(
     getRankId, getRankDialogNames, getHistoryResult
 ), RollNoteViewModel {
 
+    // TODO Plan:
+    // 1. Add CustomListNotifyViewModel here
+    // 2. Add this into UI
+    // 3. Change callback calls (for notify items) with CustomListNotifyViewModel realization (see Rank/NotificationViewModel)
+    // 4.
+
     override fun restoreData(): Boolean {
         val item = noteItem.value ?: return false
         val restoreItem = cacheNote.item ?: return false
