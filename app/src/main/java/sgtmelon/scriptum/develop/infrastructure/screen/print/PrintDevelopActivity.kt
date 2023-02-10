@@ -27,7 +27,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
     @Inject lateinit var viewModel: PrintDevelopViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
     private val bundleProvider = PrintDevelopBundleProvider()
 
     private val adapter = sgtmelon.scriptum.develop.infrastructure.adapter.PrintAdapter()
@@ -69,7 +69,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
 
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )

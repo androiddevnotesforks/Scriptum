@@ -13,7 +13,7 @@ import sgtmelon.test.idling.getWaitIdling
 
 class ShowListAnimation {
 
-    fun startListFade(
+    fun startFade(
         showList: ShowListState,
         parentContainer: ViewGroup,
         progressBar: View,

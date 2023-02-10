@@ -37,7 +37,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
     @Inject lateinit var viewModel: BinViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
     private val optionsDialog by lazy { dialogs.getOptions() }
@@ -103,7 +103,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )

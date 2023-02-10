@@ -38,7 +38,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
 
     @Inject override lateinit var viewModel: NotificationsViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
     override val adapter: NotificationAdapter by lazy {
         NotificationAdapter(object : NotificationClickListener {
@@ -94,7 +94,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )

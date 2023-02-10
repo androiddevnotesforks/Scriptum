@@ -69,7 +69,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
     private var visibleIcon: IconChangeCallback? = null
     private val visibleMenuItem: MenuItem?
@@ -97,7 +97,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             return@setOnMenuItemClickListener true
         }
 
-        /** Call after menu inflating because otherwise visible icon will be null */
+        /** Call after menu inflating because otherwise visible icon will be null. */
         visibleIcon = VisibleFilterIcon(context, visibleMenuItem, callback = this)
     }
 
@@ -185,7 +185,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )

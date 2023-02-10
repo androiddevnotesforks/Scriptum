@@ -49,7 +49,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     @Inject override lateinit var viewModel: RankViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
@@ -140,7 +140,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )

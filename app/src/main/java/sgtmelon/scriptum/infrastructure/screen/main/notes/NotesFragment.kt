@@ -47,7 +47,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     @Inject lateinit var viewModel: NotesViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
@@ -136,7 +136,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
