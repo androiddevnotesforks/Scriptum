@@ -4,12 +4,14 @@
     <item name="color_recycler_view" type="id"/>
 
 
-    <!--  Id's for UI tests  -->
+    <!--  Some id's used for UI tests  -->
 
     <!--  Preference screen recyclerView  -->
     <item name="recycler_view" type="id"/>
 
     <!--  Alert dialog list  -->
     <item name="select_dialog_listview" type="id"/>
+
+    <item name="progress_bar" type="id"/>
 
 </resources>

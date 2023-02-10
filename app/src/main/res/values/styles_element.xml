@@ -17,6 +17,8 @@
         <item name="colorControlHighlight">?attr/clAccentRipple</item>
     </style>
 
+    <!-- CardView -->
+
     <style name="Card" />
 
     <style name="Card.Item">
@@ -45,6 +47,8 @@
         <item name="cardCornerRadius">@dimen/item_card_radius</item>
         <item name="cardBackgroundColor">?attr/clBackgroundView</item>
     </style>
+
+    <!-- Recyclerview -->
 
     <style name="RecyclerView">
         <item name="android:clipToPadding">false</item>
@@ -411,7 +415,6 @@
         <item name="android:visibility">invisible</item>
     </style>
 
-
     <!-- Image -->
 
     <style name="Image"/>
@@ -471,6 +474,18 @@
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:elevation">@dimen/toolbar_elevation</item>
         <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!--  Other  -->
+
+    <style name="ProgressBar">
+        <item name="android:id">@id/progress_bar</item>
+    </style>
+
+    <style name="ProgressBar.Center">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
 </resources>

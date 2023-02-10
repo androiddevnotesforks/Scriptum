@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.adapter.diff
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiff
 
 /**
  * Diff for [RankItem].
