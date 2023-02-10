@@ -32,7 +32,9 @@
                 app:icon='@{R.mipmap.img_info_bin}'
                 app:title='@{R.string.info_bin_empty_title}' />
 
-            <ProgressBar style="@style/ProgressBar.Center" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/ProgressBar.Center" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

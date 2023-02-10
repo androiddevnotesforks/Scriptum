@@ -33,7 +33,9 @@
                 app:icon='@{R.mipmap.img_info_notifications}'
                 app:title='@{R.string.info_notification_empty_title}' />
 
-            <ProgressBar style="@style/ProgressBar.Center" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/ProgressBar.Center" />
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/recycler_container"

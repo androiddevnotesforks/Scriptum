@@ -12,6 +12,4 @@
     <!--  Alert dialog list  -->
     <item name="select_dialog_listview" type="id"/>
 
-    <item name="progress_bar" type="id"/>
-
 </resources>

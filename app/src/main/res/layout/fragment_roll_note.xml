@@ -40,7 +40,9 @@
                 app:details='@{isListEmpty ? R.string.info_roll_empty_details : isListHide ? R.string.info_roll_hide_details : R.string.info_null}'
                 app:title='@{isListEmpty ? R.string.info_roll_empty_title : isListHide ? R.string.info_roll_hide_title : R.string.info_null}' />
 
-            <ProgressBar style="@style/ProgressBar.Center" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/ProgressBar.Center" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

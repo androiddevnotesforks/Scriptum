@@ -30,7 +30,9 @@
                 layout="@layout/inc_info"
                 app:icon='@{R.mipmap.img_info_notes}' />
 
-            <ProgressBar style="@style/ProgressBar.Center" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/ProgressBar.Center" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
