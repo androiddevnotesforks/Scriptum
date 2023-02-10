@@ -80,6 +80,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     override val noteItem: MutableLiveData<N> = MutableLiveData()
 
+    override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
+
+    override val notificationsDateList: Flow<List<String>>
+        get() = flowOnBack { emit(getNotificationsDateList()) }
+
     init {
         viewModelScope.launchBack {
             rankDialogItems.postValue(getRankDialogNames())
@@ -94,13 +99,13 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
             }
 
             isDataReady.postValue(true)
+
+            initAfterDataReady()
         }
     }
 
-    override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
-
-    override val notificationsDateList: Flow<List<String>>
-        get() = flowOnBack { emit(getNotificationsDateList()) }
+    /** Describes initialization which must be done after [noteItem] loading. */
+    abstract suspend fun initAfterDataReady()
 
     //region Menu clicks
 

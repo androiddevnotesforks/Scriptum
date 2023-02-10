@@ -1,15 +1,32 @@
 package sgtmelon.scriptum.infrastructure.screen.parent.list
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 
-interface CustomListNotifyViewModel<T> {
+/**
+ * Interface for getting functional without inheritance from [CustomListNotifyViewModelImpl].
+ */
+interface CustomListNotifyViewModel<T> : CustomListNotifyViewModelFacade<T> {
 
-    val showList: LiveData<ShowListState>
+    override val showList: MutableLiveData<ShowListState>
 
-    val itemList: LiveData<List<T>>
+    fun notifyShowList() {
+        val state = showList.value ?: return
+        val newState = if (_itemList.isEmpty()) ShowListState.Empty else ShowListState.List
 
-    val updateList: UpdateListState
+        /** Skip same state. */
+        if (state != newState) {
+            showList.postValue(newState)
+        }
+    }
+
+    override val itemList: MutableLiveData<List<T>>
+
+    /** Local storage for [T] items, because don't want put mutable list inside [itemList]. */
+    val _itemList: MutableList<T>
+
+    /** This variable will be reset after getting value. */
+    override var updateList: UpdateListState
 
 }

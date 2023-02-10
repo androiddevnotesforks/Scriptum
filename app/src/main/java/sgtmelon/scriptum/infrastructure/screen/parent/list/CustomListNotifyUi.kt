@@ -12,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
  */
 interface CustomListNotifyUi<T> {
 
-    val viewModel: CustomListNotifyViewModel<T>
+    val viewModel: CustomListNotifyViewModelFacade<T>
 
     val adapter: ParentDiffAdapter<T, *>
 

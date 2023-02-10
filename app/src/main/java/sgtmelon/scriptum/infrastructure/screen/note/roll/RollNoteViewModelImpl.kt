@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
@@ -33,7 +34,10 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModel
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
@@ -67,7 +71,23 @@ class RollNoteViewModelImpl(
     convertNote, updateNote, deleteNote, restoreNote, clearNote,
     setNotification, deleteNotification, getNotificationDateList,
     getRankId, getRankDialogNames, getHistoryResult
-), RollNoteViewModel {
+), CustomListNotifyViewModel<RollItem>,
+    RollNoteViewModel {
+
+    override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
+    override val itemList: MutableLiveData<List<RollItem>> = MutableLiveData()
+    override val _itemList: MutableList<RollItem> = mutableListOf()
+    override var updateList: UpdateListState = UpdateListState.Notify
+        get() {
+            val value = field
+            updateList = UpdateListState.Notify
+            return value
+        }
+
+
+    override suspend fun initAfterDataReady() {
+        TODO("Not yet implemented")
+    }
 
     // TODO Plan:
     // 1. Add CustomListNotifyViewModel here

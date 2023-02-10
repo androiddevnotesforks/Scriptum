@@ -6,10 +6,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
-import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
+import sgtmelon.scriptum.infrastructure.adapter.diff.RollDiff
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollWriteHolder
-import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
+import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
@@ -23,7 +24,11 @@ class RollAdapter(
     private val writeCallback: RollWriteHolder.Callback,
     private val readCallback: RollReadHolder.Callback,
     private val onEnterNext: () -> Unit
-) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
+) : ParentDiffAdapter<RollItem, RecyclerView.ViewHolder>(RollDiff()) {
+
+    override fun getListCopy(list: List<RollItem>): List<RollItem> {
+        return ArrayList(list.map { it.copy() })
+    }
 
     var cursor = ND_CURSOR
 

@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModel
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModelFacade
 
-interface RankViewModel : CustomListNotifyViewModel<RankItem>,
+interface RankViewModel : CustomListNotifyViewModelFacade<RankItem>,
     UnbindNoteReceiver.Callback {
 
     val showSnackbar: LiveData<Boolean>

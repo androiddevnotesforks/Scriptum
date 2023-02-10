@@ -3,8 +3,9 @@ package sgtmelon.scriptum.infrastructure.adapter
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
+import sgtmelon.scriptum.infrastructure.adapter.diff.ColorDiff
 import sgtmelon.scriptum.infrastructure.adapter.holder.ColorHolder
-import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentListAdapter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
@@ -14,12 +15,14 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 class ColorAdapter(
     private val callback: ColorClickListener,
     private var check: Int
-) : ParentAdapter<Color, ColorHolder>() {
+) : ParentListAdapter<Color, ColorHolder>(ColorDiff()) {
+
+    override fun getListCopy(list: List<Color>): List<Color> = list
 
     private val checkArray: BooleanArray
 
     init {
-        setList(Color.values().toList())
+        submitList(Color.values().toList())
 
         checkArray = BooleanArray(itemCount)
         checkArray.fill(element = false)

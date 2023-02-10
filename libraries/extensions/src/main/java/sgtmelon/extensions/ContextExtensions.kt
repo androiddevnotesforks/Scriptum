@@ -6,7 +6,6 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 
-
 @ColorInt
 fun Context.getColorAttr(@AttrRes attr: Int): Int {
     val typedValue = TypedValue()

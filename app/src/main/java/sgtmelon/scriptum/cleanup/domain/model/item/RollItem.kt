@@ -15,5 +15,6 @@ data class RollItem(
     @ColumnInfo(name = Roll.ID) var id: Long? = Default.ID,
     @ColumnInfo(name = Roll.POSITION) var position: Int,
     @ColumnInfo(name = Roll.CHECK) var isCheck: Boolean = Default.CHECK,
-    @ColumnInfo(name = Roll.TEXT) var text: String
+    @ColumnInfo(name = Roll.TEXT) var text: String,
+    val uniqueId: String = sgtmelon.extensions.uniqueId
 )
