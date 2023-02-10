@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
@@ -84,9 +85,42 @@ class RollNoteViewModelImpl(
             return value
         }
 
+    override suspend fun initAfterDataReady(item: NoteItem.Roll) {
+        val list = getCurrentItemList(item)
+        _itemList.clearAdd(list)
+        itemList.postValue(list)
+        notifyShowList()
+    }
 
-    override suspend fun initAfterDataReady() {
-        TODO("Not yet implemented")
+    // TODO check: it's needed or not?
+    private fun getCurrentItemList(): List<RollItem>? {
+        val item = noteItem.value ?: return null
+        return getCurrentItemList(item)
+    }
+
+    private fun getCurrentItemList(item: NoteItem.Roll): List<RollItem> {
+        return if (item.isVisible) item.list else item.list.hideChecked()
+    }
+
+    override fun restoreData(): Boolean {
+        val item = noteItem.value ?: return false
+        /** Save [NoteItem.Roll.isVisible], because it should be the same after restore. */
+        val restoreItem = cacheNote.item?.copy(isVisible = item.isVisible) ?: return false
+
+        if (id.value == Default.ID || item.id == Default.ID) return false
+
+        isEdit.postValue(false)
+        noteItem.postValue(restoreItem)
+        color.postValue(restoreItem.color)
+
+        history.reset()
+
+        val list = getCurrentItemList(restoreItem)
+        _itemList.clearAdd(list)
+        itemList.postValue(list)
+        notifyShowList()
+
+        return true
     }
 
     // TODO Plan:
@@ -95,51 +129,11 @@ class RollNoteViewModelImpl(
     // 3. Change callback calls (for notify items) with CustomListNotifyViewModel realization (see Rank/NotificationViewModel)
     // 4.
 
-    override fun restoreData(): Boolean {
-        val item = noteItem.value ?: return false
-        val restoreItem = cacheNote.item ?: return false
-
-        if (id.value == Default.ID || item.id == Default.ID) return false
-
-        isEdit.postValue(false)
-        /**
-         * Get [NoteItem.Roll.isVisible] before restore, because it should be the same
-         * after restore.
-         */
-        noteItem.postValue(restoreItem.copy(isVisible = item.isVisible))
-        color.postValue(restoreItem.color)
-
-        history.reset()
-
-        // TODO add list update
-        callback.notifyDataSetChanged(getAdapterList())
-        onUpdateInfo()
-
-        return true
-    }
 
     //region Cleanup
 
     @Deprecated("Use new realization")
     private lateinit var deprecatedNoteItem: NoteItem.Roll
-
-    // TODO remove
-    /*override suspend*/ fun setupAfterInitialize() {
-        //        mayAnimateIcon = false
-        // TODO may this is not needed?
-//        setupEditMode(isEditMode)
-        //        mayAnimateIcon = true
-
-        callback.apply {
-            // TODO post noteItem to change visible icon
-            //            setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = false)
-            notifyDataSetChanged(getAdapterList())
-        }
-
-        onUpdateInfo()
-    }
-
-
 
     override fun changeVisible() {
         deprecatedNoteItem.isVisible = !deprecatedNoteItem.isVisible
@@ -412,7 +406,7 @@ class RollNoteViewModelImpl(
      *
      * @return - list which uses for screen adapter.
      */
-    private fun getAdapterList(): MutableList<RollItem> {
+    private fun getAdapterList(): List<RollItem> {
         val list = deprecatedNoteItem.list
 
         return if (deprecatedNoteItem.isVisible) list else list.hideChecked()

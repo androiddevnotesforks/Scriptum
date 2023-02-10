@@ -287,7 +287,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
 
-    override fun scrollToItem(toBottom: Boolean, p: Int, list: MutableList<RollItem>) {
+    override fun scrollToItem(toBottom: Boolean, p: Int, list: List<RollItem>) {
         val smoothInsert = with(layoutManager) {
             if (adapter.itemCount == 0) return@with true
 

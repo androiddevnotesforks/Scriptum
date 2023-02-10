@@ -13,7 +13,7 @@ interface RollNoteFragment {
     fun animateInfoVisible(isVisible: Boolean? = null)
 
 
-    fun scrollToItem(toBottom: Boolean, p: Int, list: MutableList<RollItem>)
+    fun scrollToItem(toBottom: Boolean, p: Int, list: List<RollItem>)
 
     fun setList(list: List<RollItem>)
 

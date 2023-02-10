@@ -56,7 +56,7 @@ class TextNoteViewModelImpl(
     getRankId, getRankDialogNames, getHistoryResult
 ), TextNoteViewModel {
 
-    override suspend fun initAfterDataReady() = Unit
+    override suspend fun initAfterDataReady(item: NoteItem.Text) = Unit
 
     override fun restoreData(): Boolean {
         val restoreItem = cacheNote.item ?: return false

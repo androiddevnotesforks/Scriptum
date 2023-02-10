@@ -94,18 +94,17 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
             if (value != null) {
                 noteItem.postValue(value)
                 cacheNote(value)
+
+                isDataReady.postValue(true)
+                initAfterDataReady(value)
             } else {
-                // TODO report about null item
+                // TODO report about null item and close screen
             }
-
-            isDataReady.postValue(true)
-
-            initAfterDataReady()
         }
     }
 
     /** Describes initialization which must be done after [noteItem] loading. */
-    abstract suspend fun initAfterDataReady()
+    abstract suspend fun initAfterDataReady(item: N)
 
     //region Menu clicks
 
