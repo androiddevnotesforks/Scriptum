@@ -145,7 +145,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
 
-            /** If toolbar enter contains any text then need update add button. */
+            /**
+             * Need notify because enter field may contain text like in item name from list
+             * (need update add button).
+             */
             notifyToolbar()
         }
         viewModel.itemList.observe(this) { catchListUpdate(it) }

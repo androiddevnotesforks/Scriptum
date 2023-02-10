@@ -26,6 +26,7 @@ import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragAndSwipeTouchHelper
+import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -67,6 +68,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
+
+    private val animation = ShowListAnimation()
 
     private var visibleIcon: IconChangeCallback? = null
     private val visibleMenuItem: MenuItem?
@@ -176,6 +179,19 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     //region Observable staff
+
+    override fun setupObservers() {
+        super.setupObservers()
+
+        viewModel.showList.observe(this) {
+            val binding = binding ?: return@observe
+            animation.startListFade(
+                it, binding.parentContainer, binding.progressBar,
+                binding.recyclerView, binding.emptyInfo.parentContainer
+            )
+        }
+        viewModel.itemList.observe(this) { catchListUpdate(it) }
+    }
 
     override fun observeDataReady(it: Boolean) {
         super.observeDataReady(it)

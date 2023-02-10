@@ -8,8 +8,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.test.idling.getWaitIdling
 
 class ShowListAnimation {
@@ -51,22 +50,8 @@ class ShowListAnimation {
         recyclerView: View,
         infoContainer: View
     ) {
-        when (showList) {
-            is ShowListState.Loading -> {
-                progressBar.makeVisible()
-                recyclerView.makeGone()
-                infoContainer.makeGone()
-            }
-            is ShowListState.List -> {
-                progressBar.makeGone()
-                recyclerView.makeVisible()
-                infoContainer.makeGone()
-            }
-            is ShowListState.Empty -> {
-                progressBar.makeGone()
-                recyclerView.makeGone()
-                infoContainer.makeVisible()
-            }
-        }
+        progressBar.makeVisibleIf(showList is ShowListState.Loading)
+        recyclerView.makeVisibleIf(showList is ShowListState.List)
+        infoContainer.makeVisibleIf(showList is ShowListState.Empty)
     }
 }
