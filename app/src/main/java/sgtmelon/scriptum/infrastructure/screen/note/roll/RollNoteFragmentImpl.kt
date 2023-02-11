@@ -281,15 +281,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         adapter.setList(list)
     }
 
-    override fun notifyDataSetChanged(list: List<RollItem>) {
-        adapter.setList(list)
-        binding?.recyclerView?.post { adapter.notifyDataSetChanged() }
-    }
-
-    override fun notifyDataRangeChanged(list: List<RollItem>) {
-        adapter.setList(list).notifyItemRangeChanged(0, list.size)
-    }
-
     override fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?) {
         if (cursor != null) adapter.cursor = cursor
 

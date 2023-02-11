@@ -110,6 +110,7 @@ class RollNoteViewModelImpl(
 
         isEdit.postValue(false)
         noteItem.postValue(restoreItem)
+        // TODO тут было жёсткое обновление (notifyDataSetChanged), надо проверить как будет работать
         postNotifyItemList(restoreItem)
         color.postValue(restoreItem.color)
 
@@ -155,10 +156,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    /**
-     * All item positions updates after call [save], because it's hard
-     * to control in Edit.
-     */
+    /** All item positions updates after call [save], because it's hard to control in Edit. */
     override fun addItem(toBottom: Boolean, text: String) {
         val item = noteItem.value ?: return
 
