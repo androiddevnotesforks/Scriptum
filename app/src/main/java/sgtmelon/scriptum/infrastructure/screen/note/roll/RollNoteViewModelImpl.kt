@@ -96,9 +96,8 @@ class RollNoteViewModelImpl(
         notifyShowList()
     }
 
-    // TODO may be move inside [postNotifyItemList]?
-    private fun getCurrentItemList(item: NoteItem.Roll): List<RollItem> {
-        return if (item.isVisible) item.list else item.list.hideChecked()
+    private fun getCurrentItemList(item: NoteItem.Roll): List<RollItem> = with(item) {
+        return if (isVisible) list else list.hideChecked()
     }
 
     override fun restoreData(): Boolean {
@@ -210,7 +209,7 @@ class RollNoteViewModelImpl(
         /** Need update data anyway! Even if this item in list is currently hided. */
         rollItem.text = action.value[isUndo]
 
-        val adapterList = getAdapterList()
+        val adapterList = getCurrentItemList(noteItem.value ?: return)
         val adapterPosition = adapterList.validIndexOfFirst(rollItem) ?: return
 
         if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
@@ -236,10 +235,10 @@ class RollNoteViewModelImpl(
 
     private fun onRemoveItem(action: HistoryAction.Roll.List) {
         val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
-        val adapterPosition = getAdapterList().validIndexOfFirst(rollItem)
+        val adapterPosition = getCurrentItemList(noteItem.value ?: return).validIndexOfFirst(rollItem)
 
         /** Need update data anyway! Even if this item in list is currently hided. *
-         * Also need remove item at the end. Because [getAdapterList] return list without
+         * Also need remove item at the end. Because [getCurrentItemList] return list without
          * that item and you will get not valid index of item.
          */
         deprecatedNoteItem.list.removeAtOrNull(action.p) ?: return
@@ -248,9 +247,9 @@ class RollNoteViewModelImpl(
 
         if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
             /**
-             * Need get new [getAdapterList] for clear effect, cause we remove one item from it.
+             * Need get new [getCurrentItemList] for clear effect, cause we remove one item from it.
              */
-            callback.notifyItemRemoved(getAdapterList(), adapterPosition)
+            callback.notifyItemRemoved(getCurrentItemList(noteItem.value ?: return), adapterPosition)
         }
     }
 
@@ -260,7 +259,7 @@ class RollNoteViewModelImpl(
         /** Need update data anyway! Even if this item in list is currently hided. */
         deprecatedNoteItem.list.add(action.p, rollItem)
 
-        val list = getAdapterList()
+        val list = getCurrentItemList(noteItem.value ?: return)
         val position = getInsertPosition(action) ?: return
         val cursor = rollItem.text.length
 
@@ -281,14 +280,14 @@ class RollNoteViewModelImpl(
         val rollItem = deprecatedNoteItem.list.getOrNull(from) ?: return
 
         /** Need update data anyway! Even if this item in list is currently hided. */
-        val shiftFrom = getAdapterList().validIndexOfFirst(rollItem)
+        val shiftFrom = getCurrentItemList(noteItem.value ?: return).validIndexOfFirst(rollItem)
         deprecatedNoteItem.list.move(from, to)
-        val shiftTo = getAdapterList().validIndexOfFirst(rollItem)
+        val shiftTo = getCurrentItemList(noteItem.value ?: return).validIndexOfFirst(rollItem)
 
         if (shiftFrom == null || shiftTo == null) return
 
         if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
-            callback.notifyItemMoved(getAdapterList(), shiftFrom, shiftTo)
+            callback.notifyItemMoved(getCurrentItemList(noteItem.value ?: return), shiftFrom, shiftTo)
         }
     }
 
@@ -301,7 +300,7 @@ class RollNoteViewModelImpl(
         // TODO post note item
 
         /** Need update adapter after remove rows with empty text. */
-        callback.setList(getAdapterList())
+        callback.setList(getCurrentItemList(noteItem.value ?: return false))
 
         if (changeMode) {
             isEdit.postValue(false)
@@ -325,7 +324,7 @@ class RollNoteViewModelImpl(
                 runBack { updateVisible(deprecatedNoteItem) }
             }
 
-            callback.setList(getAdapterList())
+            callback.setList(getCurrentItemList(noteItem.value ?: return@launch))
             //            callback.sendNotifyNotesBroadcast()
         }
 
@@ -333,18 +332,6 @@ class RollNoteViewModelImpl(
     }
 
     //endregion
-
-    // TODO replace with getCurrentItemList()
-    /**
-     * Use only for different notify functions. Don't use for change data.
-     *
-     * @return - list which uses for screen adapter.
-     */
-    private fun getAdapterList(): List<RollItem> {
-        val list = deprecatedNoteItem.list
-
-        return if (deprecatedNoteItem.isVisible) list else list.hideChecked()
-    }
 
     // Touch staff
 
@@ -356,7 +343,7 @@ class RollNoteViewModelImpl(
         history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
         historyAvailable.postValue(history.available)
 
-        callback.notifyItemRemoved(getAdapterList(), position)
+        callback.notifyItemRemoved(getCurrentItemList(noteItem.value ?: return), position)
     }
 
     /** All item positions updates after call [save], because it's hard to control in Edit. */
@@ -387,7 +374,7 @@ class RollNoteViewModelImpl(
     // TODO зачем вообще надо это вызывать? Какие данные там надо обновить?
     override fun releaseItem(position: Int) {
         val correctPosition = getCorrectPosition(position) ?: return
-        callback.notifyItemChanged(getAdapterList(), correctPosition)
+        callback.notifyItemChanged(getCurrentItemList(noteItem.value ?: return), correctPosition)
     }
 
     //endregion
