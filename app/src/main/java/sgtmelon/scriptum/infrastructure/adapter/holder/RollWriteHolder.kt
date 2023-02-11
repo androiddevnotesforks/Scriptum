@@ -10,10 +10,10 @@ import sgtmelon.scriptum.cleanup.extension.bindTextColor
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnableControl
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
-import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.DragTouchListener
+import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
 import sgtmelon.scriptum.infrastructure.utils.extensions.setSelectionSafe
@@ -36,7 +36,7 @@ class RollWriteHolder(
         binding.textEnter, callback = this
     ) { value, cursor ->
         checkPosition {
-            val position = callback.getAbsolutePosition(it) ?: return@checkPosition
+            val position = callback.getCorrectPosition(it) ?: return@checkPosition
             return@HistoryTextWatcher HistoryAction.Roll.Enter(position, value, cursor)
         }
 
@@ -93,8 +93,8 @@ class RollWriteHolder(
     }
 
     interface Callback : NoteHistoryEnableControl {
-        fun getAbsolutePosition(adapterPosition: Int): Int?
+        fun getCorrectPosition(adapterPosition: Int): Int?
         fun onRollHistoryAdd(action: HistoryAction)
-        fun onRollEnterChanged(p: Int, text: String)
+        fun onRollEnterChanged(position: Int, text: String)
     }
 }

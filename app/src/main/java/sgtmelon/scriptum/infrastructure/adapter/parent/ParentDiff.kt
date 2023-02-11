@@ -22,9 +22,11 @@ abstract class ParentDiff<T> : DiffUtil.Callback() {
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+        return areContentsTheSame(oldList[oldItemPosition], newList[newItemPosition])
     }
 
     abstract fun areItemsTheSame(oldItem: T, newItem: T): Boolean
+
+    private fun areContentsTheSame(oldItem: T, newItem: T): Boolean = oldItem == newItem
 
 }

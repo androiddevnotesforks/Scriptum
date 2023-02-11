@@ -352,7 +352,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         /** I know it was closed inside [onTouchMoveStarts], but it's for sure. */
         hideKeyboard()
 
-        return viewModel.moveItem(from, to)
+        viewModel.moveItem(from, to)
+
+        return true
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) = viewModel.moveItemResult(from, to)

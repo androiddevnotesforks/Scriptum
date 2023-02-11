@@ -168,7 +168,7 @@ class RollNoteViewModelImpl(
     override fun changeItemCheck(position: Int) {
         if (isEditMode) return
 
-        val absolutePosition = getAbsolutePosition(position) ?: return
+        val absolutePosition = getCorrectPosition(position) ?: return
         deprecatedNoteItem.onItemCheck(absolutePosition)
         cacheNote(deprecatedNoteItem)
 
@@ -342,32 +342,35 @@ class RollNoteViewModelImpl(
 
     //endregion
 
+    // TODO Have same functions in the test screen.
     /**
-     * Convert not pure position [adapterPosition] to absolute position in list (without hide).
-     *
-     * @Test - Have duplicate in test screen.
+     * Convert not pure position [adapterPosition] to correct (absolute) position in list
+     * (without hided items).
      */
-    override fun getAbsolutePosition(adapterPosition: Int): Int? {
-        return if (deprecatedNoteItem.isVisible) {
+    override fun getCorrectPosition(adapterPosition: Int): Int? {
+        val item = noteItem.value ?: return null
+
+        return if (item.isVisible) {
             adapterPosition
         } else {
-            val list = deprecatedNoteItem.list
-            val hideItem = list.hideChecked().getOrNull(adapterPosition) ?: return null
-
-            return list.validIndexOfFirst(hideItem)
+            val currentItem = _itemList.getOrNull(adapterPosition) ?: return null
+            return item.list.validIndexOfFirst(currentItem)
         }
     }
 
     override fun onRollHistoryAdd(action: HistoryAction) = history.add(action)
 
-    override fun onRollEnterChanged(p: Int, text: String) {
-        val absolutePosition = getAbsolutePosition(p) ?: return
-        deprecatedNoteItem.list.getOrNull(absolutePosition)?.text = text
+    override fun onRollEnterChanged(position: Int, text: String) {
+        val correctPosition = getCorrectPosition(position) ?: return
+        val list = noteItem.value?.list ?: return
 
-        callback.apply {
-            setList(getAdapterList())
-            historyAvailable.postValue(history.available)
-        }
+        list.getOrNull(correctPosition)?.text = text
+        _itemList.getOrNull(position)?.text = text
+
+        updateList = UpdateListState.Set
+        itemList.postValue(_itemList)
+
+        historyAvailable.postValue(history.available)
     }
 
     // TODO replace with getCurrentItemList()
@@ -384,12 +387,9 @@ class RollNoteViewModelImpl(
 
     // Touch staff
 
-    /**
-     * All item positions updates after call [save], because it's hard
-     * to control in Edit.
-     */
+    /** All item positions updates after call [save], because it's hard to control in Edit. */
     override fun swipeItem(position: Int) {
-        val absolutePosition = getAbsolutePosition(position) ?: return
+        val absolutePosition = getCorrectPosition(position) ?: return
         val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
 
         history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
@@ -398,33 +398,32 @@ class RollNoteViewModelImpl(
         callback.notifyItemRemoved(getAdapterList(), position)
     }
 
-    /**
-     * All item positions updates after call [save], because it's hard
-     * to control in Edit.
-     *
-     * TODO description
-     * Return true if everything was successful.
-     */
-    override fun moveItem(from: Int, to: Int): Boolean {
-        val absoluteFrom = getAbsolutePosition(from) ?: return false
-        val absoluteTo = getAbsolutePosition(to) ?: return false
+    /** All item positions updates after call [save], because it's hard to control in Edit. */
+    override fun moveItem(from: Int, to: Int) {
+        val correctFrom = getCorrectPosition(from)
+        val correctTo = getCorrectPosition(to)
 
-        deprecatedNoteItem.list.move(absoluteFrom, absoluteTo)
-        callback.notifyItemMoved(getAdapterList(), from, to)
+        if (correctFrom == null || correctTo == null) return
 
-        return true
+        _itemList.move(correctFrom, correctTo)
+        updateList = UpdateListState.Move(correctFrom, correctTo)
+        itemList.value = _itemList
     }
 
+    /** All item positions updates after call [save], because it's hard to control in Edit. */
     override fun moveItemResult(from: Int, to: Int) {
-        val absoluteFrom = getAbsolutePosition(from) ?: return
-        val absoluteTo = getAbsolutePosition(to) ?: return
+        val correctFrom = getCorrectPosition(from)
+        val correctTo = getCorrectPosition(to)
 
-        history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))
+        if (correctFrom == null || correctTo == null) return
+
+        noteItem.value?.list?.move(correctFrom, correctTo)
+        history.add(HistoryAction.Roll.Move(HistoryChange(correctFrom, correctTo)))
         historyAvailable.postValue(history.available)
     }
 
     override fun releaseItem(position: Int) {
-        val absolute = getAbsolutePosition(position) ?: return
+        val absolute = getCorrectPosition(position) ?: return
         callback.notifyItemChanged(getAdapterList(), absolute)
     }
 

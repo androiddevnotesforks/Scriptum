@@ -18,7 +18,7 @@ interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
 
     fun swipeItem(position: Int)
 
-    fun moveItem(from: Int, to: Int): Boolean
+    fun moveItem(from: Int, to: Int)
 
     fun moveItemResult(from: Int, to: Int)
 
