@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
@@ -85,17 +86,13 @@ class RollNoteViewModelImpl(
             return value
         }
 
-    override suspend fun initAfterDataReady(item: NoteItem.Roll) {
+    override suspend fun initAfterDataReady(item: NoteItem.Roll) = postNotifyItemList(item)
+
+    private fun postNotifyItemList(item: NoteItem.Roll) {
         val list = getCurrentItemList(item)
         _itemList.clearAdd(list)
         itemList.postValue(list)
         notifyShowList()
-    }
-
-    // TODO check: it's needed or not?
-    private fun getCurrentItemList(): List<RollItem>? {
-        val item = noteItem.value ?: return null
-        return getCurrentItemList(item)
     }
 
     private fun getCurrentItemList(item: NoteItem.Roll): List<RollItem> {
@@ -111,17 +108,34 @@ class RollNoteViewModelImpl(
 
         isEdit.postValue(false)
         noteItem.postValue(restoreItem)
+        postNotifyItemList(restoreItem)
         color.postValue(restoreItem.color)
 
         history.reset()
 
-        val list = getCurrentItemList(restoreItem)
-        _itemList.clearAdd(list)
-        itemList.postValue(list)
-        notifyShowList()
 
         return true
     }
+
+    override fun changeVisible() {
+        val item = noteItem.value ?: return
+        item.isVisible = !item.isVisible
+
+        noteItem.postValue(item)
+        postNotifyItemList(item)
+
+        /**
+         * Foreign key can't be created without note [id]. Insert will happen inside [save].
+         * That's why call update only for created notes.
+         */
+        if (noteState.value != NoteState.CREATE) {
+            viewModelScope.launchBack { updateVisible(item) }
+        }
+    }
+
+
+
+
 
     // TODO Plan:
     // 1. Add CustomListNotifyViewModel here
@@ -133,30 +147,6 @@ class RollNoteViewModelImpl(
 
     @Deprecated("Use new realization")
     private lateinit var deprecatedNoteItem: NoteItem.Roll
-
-    override fun changeVisible() {
-        deprecatedNoteItem.isVisible = !deprecatedNoteItem.isVisible
-
-        // TODO post noteItem to change visible icon
-        //        callback.setToolbarVisibleIcon(deprecatedNoteItem.isVisible, needAnim = true)
-
-        notifyListByVisible()
-
-        /**
-         * Foreign key can't be created without note [id].
-         * Insert will happen inside [save].
-         */
-        if (noteState.value != NoteState.CREATE) {
-            viewModelScope.launch {
-                runBack { updateVisible(deprecatedNoteItem) }
-
-                if (isReadMode) {
-                    // TODO
-//                    callback.sendNotifyNotesBroadcast()
-                }
-            }
-        }
-    }
 
 
     /**
@@ -391,50 +381,6 @@ class RollNoteViewModelImpl(
         val list = deprecatedNoteItem.list
 
         return if (deprecatedNoteItem.isVisible) list else list.hideChecked()
-    }
-
-    /**
-     * Make good animation for items, remove or insert one by one.
-     */
-    private fun notifyListByVisible() {
-        val list = ArrayList(deprecatedNoteItem.list)
-
-        if (list.isEmpty()) return
-
-        if (deprecatedNoteItem.isVisible) {
-            notifyVisibleList(list)
-        } else {
-            notifyInvisibleList(list)
-        }
-    }
-
-    private fun notifyVisibleList(list: MutableList<RollItem>) {
-        val filterList = list.filter { it.isCheck }
-
-        /**
-         * If all items are checked (and hided).
-         */
-        if (filterList.size == list.size) {
-//            callback.animateInfoVisible(isVisible = false)
-
-            for (i in list.indices) {
-                callback.notifyItemInserted(list, i)
-            }
-        } else {
-            for (item in filterList) {
-                val index = list.validIndexOfFirst(item) ?: continue
-                callback.notifyItemInserted(list, index)
-            }
-        }
-    }
-
-    private fun notifyInvisibleList(list: MutableList<RollItem>) {
-        for (item in list.filter { it.isCheck }) {
-            val index = list.validIndexOfFirst(item) ?: continue
-
-            list.removeAtOrNull(index)
-            callback.notifyItemRemoved(list, index)
-        }
     }
 
     // Touch staff

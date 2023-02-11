@@ -277,6 +277,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val layoutManager by lazy { LinearLayoutManager(activity) }
     override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
+    // TODO Check [CustomListNotifyUi] and [RecyclerInsertScroll]
     override fun scrollToItem(toBottom: Boolean, p: Int, list: List<RollItem>) {
         val smoothInsert = with(layoutManager) {
             if (adapter.itemCount == 0) return@with true
