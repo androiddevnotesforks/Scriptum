@@ -80,9 +80,7 @@ class TextNoteViewModelImpl(
         }
     }
 
-    /**
-     * Don't need update [color] because it's happen in [changeColor] function.
-     */
+    /** Don't need update [color] because it's happen in [changeColor] function. */
     override fun save(changeMode: Boolean): Boolean {
         val item = noteItem.value ?: return false
 

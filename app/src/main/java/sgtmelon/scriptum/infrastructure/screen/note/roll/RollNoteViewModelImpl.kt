@@ -134,6 +134,27 @@ class RollNoteViewModelImpl(
         }
     }
 
+    override fun changeItemCheck(position: Int) {
+        if (isEditMode) return
+
+        val correctPosition = getCorrectPosition(position) ?: return
+        val item = noteItem.value ?: return
+
+        item.onItemCheck(correctPosition)
+        cacheNote(item)
+
+        updateList = if (item.isVisible) {
+            UpdateListState.Change(position)
+        } else {
+            UpdateListState.Remove(position)
+        }
+        postNotifyItemList(item)
+
+        viewModelScope.launchBack {
+            updateCheck(item, correctPosition)
+        }
+    }
+
     //region Cleanup
 
     @Deprecated("Use new realization")
@@ -153,27 +174,6 @@ class RollNoteViewModelImpl(
         callback.apply {
             historyAvailable.postValue(history.available)
             scrollToItem(toBottom, p, getAdapterList())
-        }
-    }
-
-    override fun changeItemCheck(position: Int) {
-        if (isEditMode) return
-
-        val correctPosition = getCorrectPosition(position) ?: return
-        val item = noteItem.value ?: return
-
-        item.onItemCheck(correctPosition)
-        cacheNote(item)
-
-        updateList = if (item.isVisible) {
-            UpdateListState.Change(position)
-        } else {
-            UpdateListState.Remove(position)
-        }
-        postNotifyItemList(item)
-
-        viewModelScope.launchBack {
-            updateCheck(item, correctPosition)
         }
     }
 
@@ -287,9 +287,7 @@ class RollNoteViewModelImpl(
         }
     }
 
-    /**
-     * Don't need update [color] because it's happen in [changeColor] function.
-     */
+    /** Don't need update [color] because it's happen in [changeColor] function. */
     override fun save(changeMode: Boolean): Boolean {
         if (isReadMode || !deprecatedNoteItem.isSaveEnabled) return false
 

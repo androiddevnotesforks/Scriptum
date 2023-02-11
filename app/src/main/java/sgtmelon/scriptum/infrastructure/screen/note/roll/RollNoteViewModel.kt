@@ -12,9 +12,9 @@ interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
 
     fun changeVisible()
 
-    fun addItem(toBottom: Boolean, text: String)
-
     fun changeItemCheck(position: Int)
+
+    fun addItem(toBottom: Boolean, text: String)
 
     fun swipeItem(position: Int)
 

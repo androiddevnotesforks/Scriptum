@@ -89,7 +89,7 @@ interface ParentNoteViewModel<N : NoteItem> :
     fun changeRank(check: Int)
 
     /**
-     * Return true on success save
+     * Return TRUE on success save.
      * [changeMode] - need change mode or not.
      */
     fun save(changeMode: Boolean): Boolean
