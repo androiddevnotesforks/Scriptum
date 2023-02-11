@@ -12,9 +12,6 @@ interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
 
     fun changeVisible()
 
-    @Deprecated("Постарайся избегать таких обновлений")
-    fun onUpdateInfo()
-
     fun addItem(toBottom: Boolean, text: String)
 
     fun changeItemCheck(position: Int)

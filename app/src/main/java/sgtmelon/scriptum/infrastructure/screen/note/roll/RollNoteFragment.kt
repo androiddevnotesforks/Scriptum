@@ -7,12 +7,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
  */
 interface RollNoteFragment {
 
-
-    fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)
-
-    fun animateInfoVisible(isVisible: Boolean? = null)
-
-
     fun scrollToItem(toBottom: Boolean, p: Int, list: List<RollItem>)
 
     fun setList(list: List<RollItem>)

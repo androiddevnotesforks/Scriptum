@@ -18,7 +18,6 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
-import sgtmelon.scriptum.cleanup.extension.createVisibleAnim
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -246,9 +245,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     //endregion
 
-    /**
-     * Take list size from [viewModel], because there are maybe a hide state (hide done items).
-     */
+    /** Take list size from [viewModel], because there are maybe a hide state (hide done items). */
     override fun isContentEmpty(): Boolean = viewModel.noteItem.value?.list?.isEmpty().isTrue()
 
     //region Cleanup
@@ -279,25 +276,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
     override val layoutManager by lazy { LinearLayoutManager(activity) }
     override val recyclerView: RecyclerView? get() = binding?.recyclerView
-
-    override fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean) {
-//        binding?.apply {
-//            this.isListEmpty = isListEmpty
-//            this.isListHide = isListHide
-//        }?.executePendingBindings()
-    }
-
-
-    // TODO remove this way of animation
-    override fun animateInfoVisible(isVisible: Boolean?) {
-        val isListEmpty = adapter.itemCount == 0
-
-        binding?.parentContainer?.createVisibleAnim(
-            binding?.emptyInfo?.root,
-            isVisible = isVisible ?: isListEmpty
-        )
-    }
-
 
     override fun scrollToItem(toBottom: Boolean, p: Int, list: List<RollItem>) {
         val smoothInsert = with(layoutManager) {

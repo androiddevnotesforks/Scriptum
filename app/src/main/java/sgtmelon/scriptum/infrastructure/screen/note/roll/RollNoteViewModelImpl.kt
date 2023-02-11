@@ -129,7 +129,6 @@ class RollNoteViewModelImpl(
     // 3. Change callback calls (for notify items) with CustomListNotifyViewModel realization (see Rank/NotificationViewModel)
     // 4.
 
-
     //region Cleanup
 
     @Deprecated("Use new realization")
@@ -159,25 +158,6 @@ class RollNoteViewModelImpl(
         }
     }
 
-    /**
-     * TODO переделать как в других фрагментах со списками
-     *
-     * Function for update empty info text and visible. This func also calls from UI then item
-     * animation finished (e.g. after swipe).
-     *
-     * Important thing for update visible: you must call func after adapter notify.
-     */
-    override fun onUpdateInfo() {
-        val isListEmpty = deprecatedNoteItem.list.isEmpty()
-        val isListHide =
-            !deprecatedNoteItem.isVisible && deprecatedNoteItem.list.hideChecked().isEmpty()
-
-        if (isListEmpty || isListHide) {
-//            callback.onBindingInfo(isListEmpty, isListHide)
-        }
-
-        callback.animateInfoVisible()
-    }
 
     /**
      * All item positions updates after call [save], because it's hard
@@ -401,6 +381,7 @@ class RollNoteViewModelImpl(
         }
     }
 
+    // TODO replace with getCurrentItemList()
     /**
      * Use only for different notify functions. Don't use for change data.
      *
@@ -434,7 +415,7 @@ class RollNoteViewModelImpl(
          * If all items are checked (and hided).
          */
         if (filterList.size == list.size) {
-            callback.animateInfoVisible(isVisible = false)
+//            callback.animateInfoVisible(isVisible = false)
 
             for (i in list.indices) {
                 callback.notifyItemInserted(list, i)
