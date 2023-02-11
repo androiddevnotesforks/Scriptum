@@ -132,10 +132,6 @@ class RollNoteViewModelImpl(
         }
     }
 
-
-
-
-
     // TODO Plan:
     // 1. Add CustomListNotifyViewModel here
     // 2. Add this into UI
@@ -146,7 +142,6 @@ class RollNoteViewModelImpl(
 
     @Deprecated("Use new realization")
     private lateinit var deprecatedNoteItem: NoteItem.Roll
-
 
     /**
      * All item positions updates after call [save], because it's hard
@@ -342,37 +337,6 @@ class RollNoteViewModelImpl(
 
     //endregion
 
-    // TODO Have same functions in the test screen.
-    /**
-     * Convert not pure position [adapterPosition] to correct (absolute) position in list
-     * (without hided items).
-     */
-    override fun getCorrectPosition(adapterPosition: Int): Int? {
-        val item = noteItem.value ?: return null
-
-        return if (item.isVisible) {
-            adapterPosition
-        } else {
-            val currentItem = _itemList.getOrNull(adapterPosition) ?: return null
-            return item.list.validIndexOfFirst(currentItem)
-        }
-    }
-
-    override fun onRollHistoryAdd(action: HistoryAction) = history.add(action)
-
-    override fun onRollEnterChanged(position: Int, text: String) {
-        val correctPosition = getCorrectPosition(position) ?: return
-        val list = noteItem.value?.list ?: return
-
-        list.getOrNull(correctPosition)?.text = text
-        _itemList.getOrNull(position)?.text = text
-
-        updateList = UpdateListState.Set
-        itemList.postValue(_itemList)
-
-        historyAvailable.postValue(history.available)
-    }
-
     // TODO replace with getCurrentItemList()
     /**
      * Use only for different notify functions. Don't use for change data.
@@ -428,5 +392,36 @@ class RollNoteViewModelImpl(
     }
 
     //endregion
+
+    // TODO Have same functions in the test screen.
+    /**
+     * Convert not pure position [adapterPosition] to correct (absolute) position in list
+     * (without hided items).
+     */
+    override fun getCorrectPosition(adapterPosition: Int): Int? {
+        val item = noteItem.value ?: return null
+
+        return if (item.isVisible) {
+            adapterPosition
+        } else {
+            val currentItem = _itemList.getOrNull(adapterPosition) ?: return null
+            return item.list.validIndexOfFirst(currentItem)
+        }
+    }
+
+    override fun onRollHistoryAdd(action: HistoryAction) = history.add(action)
+
+    override fun onRollEnterChanged(position: Int, text: String) {
+        val correctPosition = getCorrectPosition(position) ?: return
+        val list = noteItem.value?.list ?: return
+
+        list.getOrNull(correctPosition)?.text = text
+        _itemList.getOrNull(position)?.text = text
+
+        updateList = UpdateListState.Set
+        itemList.postValue(_itemList)
+
+        historyAvailable.postValue(history.available)
+    }
 
 }
