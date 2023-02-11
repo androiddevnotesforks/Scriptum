@@ -7,8 +7,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
  */
 interface RollNoteFragment {
 
-    fun scrollToItem(toBottom: Boolean, p: Int, list: List<RollItem>)
-
     fun setList(list: List<RollItem>)
 
     fun notifyDataSetChanged(list: List<RollItem>)

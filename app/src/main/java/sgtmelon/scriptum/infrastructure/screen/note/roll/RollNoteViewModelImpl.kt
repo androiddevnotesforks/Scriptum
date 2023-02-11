@@ -165,16 +165,23 @@ class RollNoteViewModelImpl(
      * to control in Edit.
      */
     override fun addItem(toBottom: Boolean, text: String) {
-        val p = if (toBottom) deprecatedNoteItem.list.size else 0
-        val rollItem = RollItem(position = p, text = text)
+        val item = noteItem.value ?: return
 
-        history.add(HistoryAction.Roll.List.Add(p, rollItem))
-        deprecatedNoteItem.list.add(p, rollItem)
+        val position = if (toBottom) item.list.size else 0
+        val hidePosition = if (toBottom) _itemList.size else 0
+        val rollItem = RollItem(position = position, text = text)
 
-        callback.apply {
-            historyAvailable.postValue(history.available)
-            scrollToItem(toBottom, p, getAdapterList())
-        }
+        item.list.add(position, rollItem)
+        _itemList.add(hidePosition, rollItem)
+
+        /** Post to [noteItem] because list size was changed and need to update a progressBar. */
+        noteItem.postValue(item)
+        updateList = UpdateListState.chooseInsert(_itemList.size, hidePosition)
+        itemList.postValue(_itemList)
+        notifyShowList()
+
+        history.add(HistoryAction.Roll.List.Add(position, rollItem))
+        historyAvailable.postValue(history.available)
     }
 
     //region Menu click
@@ -374,6 +381,7 @@ class RollNoteViewModelImpl(
         if (correctFrom == null || correctTo == null) return
 
         noteItem.value?.list?.move(correctFrom, correctTo)
+
         history.add(HistoryAction.Roll.Move(HistoryChange(correctFrom, correctTo)))
         historyAvailable.postValue(history.available)
     }
