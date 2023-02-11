@@ -13,6 +13,8 @@ sealed class UpdateListState {
 
     object NotifyHard : UpdateListState()
 
+    class Change(val p: Int) : UpdateListState()
+
     class Remove(val p: Int) : UpdateListState()
 
     class Insert(val p: Int) : UpdateListState()

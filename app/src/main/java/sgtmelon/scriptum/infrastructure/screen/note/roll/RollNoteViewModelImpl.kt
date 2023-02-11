@@ -88,6 +88,7 @@ class RollNoteViewModelImpl(
 
     override suspend fun initAfterDataReady(item: NoteItem.Roll) = postNotifyItemList(item)
 
+    /** For custom updates set value to [updateList] before call this functions. */
     private fun postNotifyItemList(item: NoteItem.Roll) {
         val list = getCurrentItemList(item)
         _itemList.clearAdd(list)
@@ -95,6 +96,7 @@ class RollNoteViewModelImpl(
         notifyShowList()
     }
 
+    // TODO may be move inside [postNotifyItemList]?
     private fun getCurrentItemList(item: NoteItem.Roll): List<RollItem> {
         return if (item.isVisible) item.list else item.list.hideChecked()
     }
@@ -132,12 +134,6 @@ class RollNoteViewModelImpl(
         }
     }
 
-    // TODO Plan:
-    // 1. Add CustomListNotifyViewModel here
-    // 2. Add this into UI
-    // 3. Change callback calls (for notify items) with CustomListNotifyViewModel realization (see Rank/NotificationViewModel)
-    // 4.
-
     //region Cleanup
 
     @Deprecated("Use new realization")
@@ -163,23 +159,21 @@ class RollNoteViewModelImpl(
     override fun changeItemCheck(position: Int) {
         if (isEditMode) return
 
-        val absolutePosition = getCorrectPosition(position) ?: return
-        deprecatedNoteItem.onItemCheck(absolutePosition)
-        cacheNote(deprecatedNoteItem)
+        val correctPosition = getCorrectPosition(position) ?: return
+        val item = noteItem.value ?: return
 
-        if (deprecatedNoteItem.isVisible) {
-            callback.notifyItemChanged(getAdapterList(), position)
+        item.onItemCheck(correctPosition)
+        cacheNote(item)
+
+        updateList = if (item.isVisible) {
+            UpdateListState.Change(position)
         } else {
-            callback.notifyItemRemoved(getAdapterList(), position)
+            UpdateListState.Remove(position)
         }
+        postNotifyItemList(item)
 
-        // TODO post to noteItem
-        //        with(deprecatedNoteItem.list) { callback.updateProgress(getCheckCount(), size) }
-
-        viewModelScope.launch {
-            runBack { updateCheck(deprecatedNoteItem, absolutePosition) }
-
-            //            callback.sendNotifyNotesBroadcast()
+        viewModelScope.launchBack {
+            updateCheck(item, correctPosition)
         }
     }
 
@@ -386,17 +380,18 @@ class RollNoteViewModelImpl(
         historyAvailable.postValue(history.available)
     }
 
+    // TODO зачем вообще надо это вызывать? Какие данные там надо обновить?
     override fun releaseItem(position: Int) {
-        val absolute = getCorrectPosition(position) ?: return
-        callback.notifyItemChanged(getAdapterList(), absolute)
+        val correctPosition = getCorrectPosition(position) ?: return
+        callback.notifyItemChanged(getAdapterList(), correctPosition)
     }
 
     //endregion
 
     // TODO Have same functions in the test screen.
     /**
-     * Convert not pure position [adapterPosition] to correct (absolute) position in list
-     * (without hided items).
+     * Convert not pure position [adapterPosition] to correct one (absolute position in list
+     * without hided items).
      */
     override fun getCorrectPosition(adapterPosition: Int): Int? {
         val item = noteItem.value ?: return null

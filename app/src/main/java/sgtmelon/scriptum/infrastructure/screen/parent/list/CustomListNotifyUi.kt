@@ -31,6 +31,7 @@ interface CustomListNotifyUi<T> {
             is UpdateListState.Set -> adapter.setList(list)
             is UpdateListState.Notify -> adapter.notifyList(list)
             is UpdateListState.NotifyHard -> adapter.setList(list).notifyDataSetChanged()
+            is UpdateListState.Change -> adapter.setList(list).notifyItemChanged(state.p)
             is UpdateListState.Remove -> adapter.setList(list).notifyItemRemoved(state.p)
             is UpdateListState.Insert -> {
                 adapter.setList(list).notifyItemInserted(state.p)
