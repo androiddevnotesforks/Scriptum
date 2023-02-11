@@ -113,7 +113,6 @@ class RollNoteViewModelImpl(
 
         history.reset()
 
-
         return true
     }
 

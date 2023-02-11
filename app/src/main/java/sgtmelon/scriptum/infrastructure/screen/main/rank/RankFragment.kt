@@ -129,7 +129,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
         renameDialog.apply {
             onPositiveClick {
-                viewModel.renameRank(position, name).collect(owner = this) { notifyToolbar() }
+                viewModel.renameItem(position, name).collect(owner = this) { notifyToolbar() }
             }
             onDismiss { parentOpen?.clear() }
         }
@@ -207,7 +207,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
          */
         snackbar.cancel()
 
-        viewModel.addRank(getEnterText(), toBottom).collect(owner = this) {
+        viewModel.addItem(getEnterText(), toBottom).collect(owner = this) {
             when (it) {
                 AddState.Deny -> parentOpen?.clear()
                 AddState.Prepare -> {
@@ -227,7 +227,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private inline fun changeVisibility(p: Int, onAction: () -> Unit) {
         parentOpen?.attempt(withSwitch = false) {
             onAction()
-            viewModel.changeRankVisibility(p).collect(owner = this) { updateNotesBind() }
+            viewModel.changeVisibility(p).collect(owner = this) { updateNotesBind() }
         }
     }
 
@@ -249,7 +249,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     private fun removeRank(p: Int) {
         parentOpen?.attempt(withSwitch = false) {
-            viewModel.removeRank(p).collect(owner = this) { updateNotesBind() }
+            viewModel.removeItem(p).collect(owner = this) { updateNotesBind() }
         }
     }
 
@@ -283,14 +283,14 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         /** I know it was closed inside [onTouchMoveStarts], but it's for sure. */
         hideKeyboard()
 
-        viewModel.moveRank(from, to)
+        viewModel.moveItem(from, to)
 
         return true
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) {
         parentOpen?.clear()
-        viewModel.moveRankResult()
+        viewModel.moveItemResult()
     }
 
     override fun onTouchClear(position: Int) = Unit

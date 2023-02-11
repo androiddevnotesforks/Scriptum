@@ -127,7 +127,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     }
 
     private fun removeNotification(p: Int) = open.attempt(withSwitch = false) {
-        viewModel.removeNotification(p).collect(owner = this) {
+        viewModel.removeItem(p).collect(owner = this) {
             val (item, size) = it
             system?.broadcast?.sendCancelAlarm(item)
             system?.broadcast?.sendNotifyInfoBind(size)

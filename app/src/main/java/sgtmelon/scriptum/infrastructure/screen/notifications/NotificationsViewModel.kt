@@ -10,7 +10,7 @@ interface NotificationsViewModel : CustomListNotifyViewModelFacade<NotificationI
 
     val showSnackbar: LiveData<Boolean>
 
-    fun removeNotification(p: Int): Flow<Pair<NotificationItem, Int>>
+    fun removeItem(position: Int): Flow<Pair<NotificationItem, Int>>
 
     fun undoRemove(): Flow<UndoState>
 

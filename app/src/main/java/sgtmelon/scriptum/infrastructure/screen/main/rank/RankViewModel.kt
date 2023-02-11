@@ -15,19 +15,19 @@ interface RankViewModel : CustomListNotifyViewModelFacade<RankItem>,
 
     fun getToolbarEnable(name: String): Pair<Boolean, Boolean>
 
-    fun addRank(enter: String, toBottom: Boolean): Flow<AddState>
+    fun addItem(enter: String, toBottom: Boolean): Flow<AddState>
 
-    fun moveRank(from: Int, to: Int)
+    fun moveItem(from: Int, to: Int)
 
-    fun moveRankResult()
+    fun moveItemResult()
 
-    fun changeRankVisibility(p: Int): Flow<Unit>
+    fun changeVisibility(position: Int): Flow<Unit>
 
-    fun getRenameData(p: Int): Flow<Pair<String, List<String>>>
+    fun getRenameData(position: Int): Flow<Pair<String, List<String>>>
 
-    fun renameRank(p: Int, name: String): Flow<Unit>
+    fun renameItem(position: Int, name: String): Flow<Unit>
 
-    fun removeRank(p: Int): Flow<Unit>
+    fun removeItem(position: Int): Flow<Unit>
 
     fun undoRemove(): Flow<Unit>
 
