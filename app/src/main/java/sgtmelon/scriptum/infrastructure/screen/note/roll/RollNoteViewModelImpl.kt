@@ -181,7 +181,7 @@ class RollNoteViewModelImpl(
     @Deprecated("Use new realization")
     private lateinit var deprecatedNoteItem: NoteItem.Roll
 
-    //region Menu click
+    // Menu click
 
     override fun selectHistoryResult(result: HistoryResult) {
         when (result) {
@@ -330,8 +330,6 @@ class RollNoteViewModelImpl(
 
         return true
     }
-
-    //endregion
 
     // Touch staff
 
