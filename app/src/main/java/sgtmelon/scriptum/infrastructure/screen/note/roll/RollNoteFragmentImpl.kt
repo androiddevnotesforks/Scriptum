@@ -217,11 +217,23 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.doneProgress?.setProgress(item.list.getCheckCount(), true)
 
         val isVisible = item.isVisible
-        val titleId = if (isVisible) R.string.menu_roll_visible else R.string.menu_roll_invisible
-        visibleMenuItem?.title = getString(titleId)
+        visibleMenuItem?.setTitle(
+            if (isVisible) R.string.menu_roll_visible else R.string.menu_roll_invisible
+        )
 
         /** Skip animation on first icon setup. */
         visibleIcon?.setDrawable(isVisible, needAnim = visibleIcon?.isEnterIcon != null)
+
+        val isListEmpty = item.list.isEmpty()
+        val isListHide = !item.isVisible && !isListEmpty && adapter.itemCount == 0
+        when {
+            isListEmpty -> R.string.info_roll_empty_title to R.string.info_roll_empty_details
+            isListHide -> R.string.info_roll_hide_title to R.string.info_roll_hide_details
+            else -> null
+        }?.also {
+            binding?.emptyInfo?.titleText?.setText(it.first)
+            binding?.emptyInfo?.detailsText?.setText(it.second)
+        }
     }
 
     override fun invalidatePanelState(isEdit: Boolean) {
@@ -269,10 +281,10 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     override fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean) {
-        binding?.apply {
-            this.isListEmpty = isListEmpty
-            this.isListHide = isListHide
-        }?.executePendingBindings()
+//        binding?.apply {
+//            this.isListEmpty = isListEmpty
+//            this.isListHide = isListHide
+//        }?.executePendingBindings()
     }
 
 

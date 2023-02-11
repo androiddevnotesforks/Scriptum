@@ -173,7 +173,7 @@ class RollNoteViewModelImpl(
             !deprecatedNoteItem.isVisible && deprecatedNoteItem.list.hideChecked().isEmpty()
 
         if (isListEmpty || isListHide) {
-            callback.onBindingInfo(isListEmpty, isListHide)
+//            callback.onBindingInfo(isListEmpty, isListHide)
         }
 
         callback.animateInfoVisible()
