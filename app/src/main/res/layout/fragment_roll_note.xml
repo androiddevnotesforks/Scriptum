@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <import type="sgtmelon.scriptum.R" />
-
-        <variable
-            name="isListEmpty"
-            type="boolean" />
-
-        <variable
-            name="isListHide"
-            type="boolean" />
-
-    </data>
 
     <LinearLayout
         android:id="@+id/parent_container"
@@ -33,12 +18,11 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
+            <!--  TODO надо ли тут чтобы был ключ visible gone?  -->
             <include
                 android:id="@+id/empty_info"
                 layout="@layout/inc_info"
-                android:visibility="gone"
-                app:details='@{isListEmpty ? R.string.info_roll_empty_details : isListHide ? R.string.info_roll_hide_details : R.string.info_null}'
-                app:title='@{isListEmpty ? R.string.info_roll_empty_title : isListHide ? R.string.info_roll_hide_title : R.string.info_null}' />
+                android:visibility="gone" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
