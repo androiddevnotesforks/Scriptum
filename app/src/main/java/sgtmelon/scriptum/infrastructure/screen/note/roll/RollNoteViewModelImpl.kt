@@ -155,11 +155,6 @@ class RollNoteViewModelImpl(
         }
     }
 
-    //region Cleanup
-
-    @Deprecated("Use new realization")
-    private lateinit var deprecatedNoteItem: NoteItem.Roll
-
     /**
      * All item positions updates after call [save], because it's hard
      * to control in Edit.
@@ -183,6 +178,11 @@ class RollNoteViewModelImpl(
         history.add(HistoryAction.Roll.List.Add(position, rollItem))
         historyAvailable.postValue(history.available)
     }
+
+    //region Cleanup
+
+    @Deprecated("Use new realization")
+    private lateinit var deprecatedNoteItem: NoteItem.Roll
 
     //region Menu click
 
