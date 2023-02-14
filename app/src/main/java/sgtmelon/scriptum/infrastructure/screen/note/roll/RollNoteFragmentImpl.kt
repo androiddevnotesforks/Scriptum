@@ -132,7 +132,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                 if (addText.isEmpty()) {
                     viewModel.save(changeMode = true)
                 } else {
-                    binding?.addPanel?.rollEnter?.clearText()
                     addItem(toBottom = true, addText)
                 }
             }
@@ -148,7 +147,10 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     private fun addItem(toBottom: Boolean, text: String) {
-        if (viewModel.isEditMode) open.ifNotBlocked { viewModel.addItem(toBottom, text) }
+        if (viewModel.isEditMode) open.ifNotBlocked {
+            binding?.addPanel?.rollEnter?.clearText()
+            viewModel.addItem(toBottom, text)
+        }
     }
 
     override fun setupContent() {
