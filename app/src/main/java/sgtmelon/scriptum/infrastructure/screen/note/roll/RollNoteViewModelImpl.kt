@@ -118,6 +118,53 @@ class RollNoteViewModelImpl(
         return true
     }
 
+    // TODO history staff here
+
+    /** Don't need update [color] because it's happen in [changeColor] function. */
+    override fun save(changeMode: Boolean): Boolean {
+        val item = noteItem.value ?: return false
+
+        if (isReadMode || !item.isSaveEnabled) return false
+
+        item.onSave()
+        noteItem.postValue(item)
+
+        /** Need update adapter after remove rows with empty text, position indexing. */
+        _itemList.clearAdd(item.list)
+        updateList = UpdateListState.Set
+        itemList.postValue(_itemList)
+
+        if (changeMode) {
+            isEdit.postValue(false)
+            history.reset()
+        }
+
+        viewModelScope.launch {
+            val isCreate = noteState.value == NoteState.CREATE
+            /** [saveNote] updates [NoteItem.id], if it was in [NoteState.CREATE] */
+            runBack { saveNote(item, isCreate) }
+            cacheNote(item)
+
+            if (isCreate) {
+                noteState.postValue(NoteState.EXIST)
+                id.postValue(item.id)
+
+                /**
+                 * Need if [noteItem] isVisible changes wasn't set inside [changeVisible]
+                 * because of note wasn't exist.
+                 */
+                runBack { updateVisible(item) }
+            }
+
+            /** Need update data after [saveNote] there was some changes. */
+            _itemList.clearAdd(item.list)
+            updateList = UpdateListState.Set
+            itemList.postValue(_itemList)
+        }
+
+        return true
+    }
+
     override fun changeVisible() {
         val item = noteItem.value ?: return
         item.isVisible = !item.isVisible
@@ -291,46 +338,6 @@ class RollNoteViewModelImpl(
         }
     }
 
-    /** Don't need update [color] because it's happen in [changeColor] function. */
-    override fun save(changeMode: Boolean): Boolean {
-        if (isReadMode || !deprecatedNoteItem.isSaveEnabled) return false
-
-        deprecatedNoteItem.onSave()
-
-        // TODO post note item
-
-        /** Need update adapter after remove rows with empty text. */
-        callback.setList(getCurrentItemList(noteItem.value ?: return false))
-
-        if (changeMode) {
-            isEdit.postValue(false)
-            history.reset()
-        }
-
-        viewModelScope.launch {
-            val isCreate = noteState.value == NoteState.CREATE
-            /** [saveNote] updates [NoteItem.id], if it was in [NoteState.CREATE] */
-            runBack { saveNote(deprecatedNoteItem, isCreate) }
-            cacheNote(deprecatedNoteItem)
-
-            if (isCreate) {
-                noteState.postValue(NoteState.EXIST)
-                id.postValue(deprecatedNoteItem.id)
-
-                /**
-                 * Need if [deprecatedNoteItem] isVisible changes wasn't set inside [changeVisible] because of
-                 * not created note.
-                 */
-                runBack { updateVisible(deprecatedNoteItem) }
-            }
-
-            callback.setList(getCurrentItemList(noteItem.value ?: return@launch))
-            //            callback.sendNotifyNotesBroadcast()
-        }
-
-        return true
-    }
-
     // Touch staff
 
     /** All item positions updates after call [save], because it's hard to control in Edit. */
@@ -376,6 +383,8 @@ class RollNoteViewModelImpl(
     }
 
     //endregion
+
+    // TODO touch staff
 
     // TODO Have same functions in the test screen.
     /**

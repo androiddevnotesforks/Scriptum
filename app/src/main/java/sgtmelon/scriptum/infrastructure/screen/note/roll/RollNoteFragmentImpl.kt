@@ -279,10 +279,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val layoutManager by lazy { LinearLayoutManager(activity) }
     override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
-    override fun setList(list: List<RollItem>) {
-        adapter.setList(list)
-    }
-
     override fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?) {
         if (cursor != null) adapter.cursor = cursor
 
