@@ -88,10 +88,15 @@ class RollNoteViewModelImpl(
 
     override suspend fun initAfterDataReady(item: NoteItem.Roll) = postNotifyItemList(item)
 
-    /** For custom updates set value to [updateList] before call this functions. */
-    private fun postNotifyItemList(item: NoteItem.Roll) {
+    /** [updateList] needed for custom updates. */
+    private fun postNotifyItemList(item: NoteItem.Roll, updateList: UpdateListState? = null) {
         val list = getCurrentItemList(item)
         _itemList.clearAdd(list)
+
+        if (updateList != null) {
+            this.updateList = updateList
+        }
+
         itemList.postValue(list)
         notifyShowList()
     }
@@ -130,9 +135,7 @@ class RollNoteViewModelImpl(
         noteItem.postValue(item)
 
         /** Need update adapter after remove rows with empty text, position indexing. */
-        _itemList.clearAdd(item.list)
-        updateList = UpdateListState.Set
-        itemList.postValue(_itemList)
+        postNotifyItemList(item, UpdateListState.Set)
 
         if (changeMode) {
             isEdit.postValue(false)
@@ -157,9 +160,7 @@ class RollNoteViewModelImpl(
             }
 
             /** Need update data after [saveNote] there was some changes. */
-            _itemList.clearAdd(item.list)
-            updateList = UpdateListState.Set
-            itemList.postValue(_itemList)
+            postNotifyItemList(item, UpdateListState.Set)
         }
 
         return true
