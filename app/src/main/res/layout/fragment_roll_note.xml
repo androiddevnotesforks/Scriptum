@@ -18,11 +18,9 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <!--  TODO надо ли тут чтобы был ключ visible gone?  -->
             <include
                 android:id="@+id/empty_info"
-                layout="@layout/inc_info"
-                android:visibility="gone" />
+                layout="@layout/inc_info" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"

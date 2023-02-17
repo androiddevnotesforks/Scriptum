@@ -18,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
@@ -82,6 +83,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         }
 
         binding?.recyclerView?.let {
+            it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager

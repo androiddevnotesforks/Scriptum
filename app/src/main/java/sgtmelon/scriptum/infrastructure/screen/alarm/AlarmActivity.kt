@@ -29,6 +29,7 @@ import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfiguration
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
+import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
@@ -193,6 +194,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         binding?.parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
 
         binding?.recyclerView?.let {
+            it.disableChangeAnimations()
             it.layoutManager = LinearLayoutManager(this)
             it.setHasFixedSize(true)
             it.adapter = adapter

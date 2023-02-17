@@ -25,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
@@ -85,6 +86,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         }
 
         binding?.recyclerView?.let {
+            it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)

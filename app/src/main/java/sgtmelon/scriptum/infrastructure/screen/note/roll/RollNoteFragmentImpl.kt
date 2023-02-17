@@ -37,7 +37,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
@@ -198,7 +197,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun observeDataReady(it: Boolean) {
         super.observeDataReady(it)
-        binding?.recyclerView?.makeVisibleIf(it) { makeInvisible() }
+
         visibleMenuItem?.isVisible = it
         visibleMenuItem?.isEnabled = it
     }
