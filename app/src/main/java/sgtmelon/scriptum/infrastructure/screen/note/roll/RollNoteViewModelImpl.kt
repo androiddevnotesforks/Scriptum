@@ -376,15 +376,6 @@ class RollNoteViewModelImpl(
         historyAvailable.postValue(history.available)
     }
 
-    /**
-     * This notify fixing bug. List disappear for a moment when dismiss move/swipe item (stop
-     * dragging) + change note mode.
-     */
-    override fun releaseItem(position: Int) {
-        val correctPosition = getCorrectPosition(position) ?: return
-        callback.notifyItemChanged(getCurrentItemList(noteItem.value ?: return), correctPosition)
-    }
-
     //endregion
 
     // TODO touch staff

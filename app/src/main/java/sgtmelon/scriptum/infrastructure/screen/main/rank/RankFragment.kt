@@ -293,8 +293,6 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         viewModel.moveItemResult()
     }
 
-    override fun onTouchClear(position: Int) = Unit
-
     //endregion
 
     override fun scrollTop() {

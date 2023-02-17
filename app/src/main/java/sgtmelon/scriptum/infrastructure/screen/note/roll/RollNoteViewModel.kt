@@ -22,6 +22,4 @@ interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
 
     fun moveItemResult(from: Int, to: Int)
 
-    fun releaseItem(position: Int)
-
 }

@@ -58,8 +58,6 @@ class DragAndSwipeTouchHelper(private val callback: Callback) : EdgeDragTouchHel
 
         if (position == RecyclerView.NO_POSITION) return
 
-        callback.onTouchClear(position)
-
         if (dragFrom != RecyclerView.NO_POSITION && dragFrom != position) {
             callback.onTouchMoveResult(dragFrom, position)
             dragFrom = RecyclerView.NO_POSITION
@@ -138,14 +136,6 @@ class DragAndSwipeTouchHelper(private val callback: Callback) : EdgeDragTouchHel
          * Need for description drag result.
          */
         fun onTouchMoveResult(from: Int, to: Int)
-
-        /**
-         * Calls inside [clearView].
-         *
-         * Need update item for prevent lags in future. After change note mode list disappear for
-         * a second if don't call [RecyclerView.Adapter.notifyItemChanged] inside [clearView].
-         */
-        fun onTouchClear(position: Int)
     }
 
     companion object {

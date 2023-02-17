@@ -326,8 +326,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun onTouchMoveResult(from: Int, to: Int) = viewModel.moveItemResult(from, to)
 
-    override fun onTouchClear(position: Int) = viewModel.releaseItem(position)
-
     //endregion
 
 }
