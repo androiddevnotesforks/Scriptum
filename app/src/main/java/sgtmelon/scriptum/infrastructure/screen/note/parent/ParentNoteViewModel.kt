@@ -40,9 +40,7 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     val notificationsDateList: Flow<List<String>>
 
-    /**
-     * Return TRUE if [noteItem] data successfully restored.
-     */
+    /** Return TRUE if [noteItem] data successfully restored. */
     fun restoreDataOrExit(): Boolean {
         if (isEditMode && noteState.value != NoteState.CREATE) {
             return restoreData()

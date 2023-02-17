@@ -86,11 +86,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         get() = flowOnBack { emit(getNotificationsDateList()) }
 
     init {
-        viewModelScope.launchBack {
-            rankDialogItems.postValue(getRankDialogNames())
+        viewModelScope.launch {
+            runBack { rankDialogItems.postValue(getRankDialogNames()) }
 
             val id = init.id
-            val value = if (id == Default.ID) createNote() else getNote(id)
+            val value = runBack { if (id == Default.ID) createNote() else getNote(id) }
             if (value != null) {
                 noteItem.postValue(value)
                 cacheNote(value)

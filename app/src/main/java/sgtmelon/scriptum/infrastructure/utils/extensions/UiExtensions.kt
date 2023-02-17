@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
 import android.app.Activity
-import android.util.Log
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowManager
@@ -32,7 +31,7 @@ fun Fragment.hideKeyboard() {
 /**
  * Function for detect when layout completely configure.
  */
-inline fun ViewGroup.afterLayoutConfiguration(crossinline func: () -> Unit) {
+inline fun ViewGroup.afterLayoutConfigured(crossinline func: () -> Unit) {
     viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             viewTreeObserver?.removeOnGlobalLayoutListener(this)

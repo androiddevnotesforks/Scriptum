@@ -27,7 +27,7 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfiguration
+import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfigured
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
@@ -191,7 +191,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun setupView() {
         super.setupView()
 
-        binding?.parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
+        binding?.parentContainer?.afterLayoutConfigured { isLayoutConfigure = true }
 
         binding?.recyclerView?.let {
             it.disableChangeAnimations()
@@ -235,7 +235,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             onStartState()
         } else {
             getIdling().start(IdlingTag.Alarm.CONFIGURE)
-            binding?.parentContainer?.afterLayoutConfiguration {
+            binding?.parentContainer?.afterLayoutConfigured {
                 isLayoutConfigure = true
                 onStartState()
                 getIdling().stop(IdlingTag.Alarm.CONFIGURE)
