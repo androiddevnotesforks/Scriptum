@@ -28,10 +28,13 @@
             <include
                 android:id="@+id/empty_info"
                 layout="@layout/inc_info"
+                android:visibility="gone"
                 app:details='@{R.string.info_bin_empty_details}'
                 app:icon='@{R.mipmap.img_info_bin}'
-                app:title='@{R.string.info_bin_empty_title}' />
+                app:title='@{R.string.info_bin_empty_title}'
+                tools:visibility="visible" />
 
+            <!--  Make only progress visible on screen clean-open.  -->
             <ProgressBar
                 android:id="@+id/progress_bar"
                 style="@style/ProgressBar.Center" />
@@ -41,7 +44,7 @@
                 style="@style/RecyclerView.Normal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"
+                android:visibility="gone"
                 tools:visibility="visible"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_note_text" />

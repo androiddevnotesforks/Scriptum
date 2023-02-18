@@ -20,8 +20,11 @@
 
             <include
                 android:id="@+id/empty_info"
-                layout="@layout/inc_info" />
+                layout="@layout/inc_info"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
+            <!--  Make only progress visible on screen clean-open.  -->
             <ProgressBar
                 android:id="@+id/progress_bar"
                 style="@style/ProgressBar.Center" />
@@ -31,6 +34,8 @@
                 style="@style/RecyclerView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_roll_write" />
 

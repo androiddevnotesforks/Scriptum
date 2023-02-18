@@ -11,6 +11,11 @@ import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.test.idling.getWaitIdling
 
+/**
+ * Some tips for improve elements hide/show:
+ * - Make only progress bar visible, hide others elements (empty info, recycler). Progress bar
+ *   will be always displayed on clean screen open.
+ */
 class ShowListAnimation {
 
     fun startFade(
@@ -20,18 +25,19 @@ class ShowListAnimation {
         recyclerView: View,
         infoContainer: View
     ) {
-        val duration = parentContainer.resources.getInteger(R.integer.list_fade_time).toLong()
-        val transition = getListTransition(duration, progressBar, recyclerView, infoContainer)
+        /** Post needed for better UI performance. */
+        parentContainer.post {
+            val duration = parentContainer.resources.getInteger(R.integer.list_fade_time).toLong()
+            val transition = getListTransition(duration, progressBar, recyclerView, infoContainer)
 
-        TransitionManager.beginDelayedTransition(parentContainer, transition)
+            TransitionManager.beginDelayedTransition(parentContainer, transition)
 
-        getWaitIdling().start(duration)
-        changeVisibility(showList, progressBar, recyclerView, infoContainer)
+            getWaitIdling().start(duration)
+            changeVisibility(showList, progressBar, recyclerView, infoContainer)
+        }
     }
 
-    /**
-     * Transition for animate hide and show of elements related with list.
-     */
+    /** Transition for animate hide and show of [targets] related with list. */
     private fun getListTransition(duration: Long, vararg targets: View): Transition {
         val transition = Fade()
             .setDuration(duration)

@@ -343,14 +343,22 @@ class RollNoteViewModelImpl(
 
     /** All item positions updates after call [save], because it's hard to control in Edit. */
     override fun swipeItem(position: Int) {
-        val absolutePosition = getCorrectPosition(position) ?: return
-        val item = deprecatedNoteItem.list.removeAtOrNull(absolutePosition) ?: return
+        val correctPosition = getCorrectPosition(position) ?: return
 
-        history.add(HistoryAction.Roll.List.Remove(absolutePosition, item))
+        val item = _itemList.removeAtOrNull(correctPosition) ?: return
+        updateList = UpdateListState.Remove(correctPosition)
+        itemList.postValue(_itemList)
+        notifyShowList()
+
+        noteItem.value?.list?.removeAtOrNull(correctPosition) ?: return
+
+        history.add(HistoryAction.Roll.List.Remove(correctPosition, item))
         historyAvailable.postValue(history.available)
-
-        callback.notifyItemRemoved(getCurrentItemList(noteItem.value ?: return), position)
     }
+
+    //endregion
+
+    // TODO touch staff
 
     /** All item positions updates after call [save], because it's hard to control in Edit. */
     override fun moveItem(from: Int, to: Int) {
@@ -361,7 +369,7 @@ class RollNoteViewModelImpl(
 
         _itemList.move(correctFrom, correctTo)
         updateList = UpdateListState.Move(correctFrom, correctTo)
-        itemList.value = _itemList
+        itemList.postValue(_itemList)
     }
 
     /** All item positions updates after call [save], because it's hard to control in Edit. */
@@ -377,9 +385,7 @@ class RollNoteViewModelImpl(
         historyAvailable.postValue(history.available)
     }
 
-    //endregion
-
-    // TODO touch staff
+    //region Write holder functions
 
     // TODO Have same functions in the test screen.
     /**
@@ -411,5 +417,7 @@ class RollNoteViewModelImpl(
 
         historyAvailable.postValue(history.available)
     }
+
+    //endregion
 
 }
