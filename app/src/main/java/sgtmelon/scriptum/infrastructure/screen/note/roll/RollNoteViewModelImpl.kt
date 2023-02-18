@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.postValueWithChange
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
@@ -339,6 +340,9 @@ class RollNoteViewModelImpl(
         }
     }
 
+
+    //endregion
+
     // Touch staff
 
     /** All item positions updates after call [save], because it's hard to control in Edit. */
@@ -350,15 +354,11 @@ class RollNoteViewModelImpl(
         itemList.postValue(_itemList)
         notifyShowList()
 
-        noteItem.value?.list?.removeAtOrNull(correctPosition) ?: return
+        noteItem.postValueWithChange { it.list.removeAtOrNull(correctPosition) }
 
         history.add(HistoryAction.Roll.List.Remove(correctPosition, item))
         historyAvailable.postValue(history.available)
     }
-
-    //endregion
-
-    // TODO touch staff
 
     /** All item positions updates after call [save], because it's hard to control in Edit. */
     override fun moveItem(from: Int, to: Int) {
@@ -385,7 +385,7 @@ class RollNoteViewModelImpl(
         historyAvailable.postValue(history.available)
     }
 
-    //region Write holder functions
+    // Write holder functions
 
     // TODO Have same functions in the test screen.
     /**
