@@ -26,7 +26,7 @@ class ShowListAnimation {
         infoContainer: View
     ) {
         /** Post needed for better UI performance. */
-        parentContainer.post {
+        parentContainer.rootView.post {
             val duration = parentContainer.resources.getInteger(R.integer.list_fade_time).toLong()
             val transition = getListTransition(duration, progressBar, recyclerView, infoContainer)
 

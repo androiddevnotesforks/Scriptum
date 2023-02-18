@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
@@ -16,27 +15,28 @@ class ParentNoteAnimation {
 
     inline fun startPanelFade(
         binding: IncNotePanelContentBinding?,
-        changeUi: () -> Unit
+        crossinline changeUi: (IncNotePanelContentBinding) -> Unit
     ) {
-        if (binding == null) return
+        /** Post needed for better UI performance. */
+        binding?.root?.rootView?.post {
+            getIdling().start(IdlingTag.Alarm.ANIM)
 
-        getIdling().start(IdlingTag.Alarm.ANIM)
+            val resources = binding.root.context.resources
+            val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
 
-        val resources = binding.root.context.resources
-        val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
+            val transition = AutoTransition()
+                .setDuration(duration)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .setOrdering(TransitionSet.ORDERING_TOGETHER)
+                .addListener(object : TransitionListenerAdapter() {
+                    override fun onTransitionEnd(transition: Transition) {
+                        getIdling().stop(IdlingTag.Alarm.ANIM)
+                    }
+                })
 
-        val transition = AutoTransition()
-            .setDuration(duration)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .setOrdering(TransitionSet.ORDERING_TOGETHER)
-            .addListener(object : TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition) {
-                    getIdling().stop(IdlingTag.Alarm.ANIM)
-                }
-            })
+            TransitionManager.beginDelayedTransition(binding.parentContainer, transition)
 
-        TransitionManager.beginDelayedTransition(binding.parentContainer, transition)
-
-        changeUi()
+            changeUi(binding)
+        }
     }
 }

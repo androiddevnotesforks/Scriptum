@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
-import android.animation.ValueAnimator
 import android.graphics.Rect
 import android.view.View
 import android.view.ViewGroup
@@ -158,7 +157,7 @@ fun View.updateMargin(
         InsetsDir.BOTTOM -> margin.bottom + insets.systemWindowInsetBottom
     }
 
-    if (withAnimation) {
+    if (withAnimation && this is ViewGroup) {
         updateMarginAnimation(dir, valueTo)
     } else {
         updateMargin(dir, valueTo)
@@ -172,42 +171,19 @@ private fun View.updateMargin(dir: InsetsDir, valueTo: Int) = when (dir) {
     InsetsDir.BOTTOM -> updateMargin(bottom = valueTo)
 }
 
-/**
- * If [this] is [ViewGroup] use delayed transition (for smooth animation), otherwise use
- * [ValueAnimator], but it seems not so smooth.
- */
-private fun View.updateMarginAnimation(dir: InsetsDir, valueTo: Int) {
+private fun ViewGroup.updateMarginAnimation(dir: InsetsDir, valueTo: Int) {
     val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
 
-    if (this is ViewGroup) {
-        val transition = ChangeBounds()
-            .setInterpolator(DecelerateInterpolator())
-            .setDuration(duration)
-            .apply { children.forEach { excludeChildren(it, true) } }
+    /** Post don't needed, because this animation must be first in queue. */
+    val transition = ChangeBounds()
+        .setInterpolator(DecelerateInterpolator())
+        .setDuration(duration)
+        .apply { children.forEach { excludeChildren(it, true) } }
 
-        TransitionManager.beginDelayedTransition(this, transition)
-
-        updateMargin(dir, valueTo)
-    } else {
-        val params = layoutParams as? ViewGroup.MarginLayoutParams ?: return
-        val valueFrom = when (dir) {
-            InsetsDir.LEFT -> params.leftMargin
-            InsetsDir.TOP -> params.topMargin
-            InsetsDir.RIGHT -> params.rightMargin
-            InsetsDir.BOTTOM -> params.bottomMargin
-        }
-
-        ValueAnimator.ofInt(valueFrom, valueTo).apply {
-            this.interpolator = DecelerateInterpolator()
-            this.duration = duration
-            addUpdateListener {
-                val value = it.animatedValue as? Int ?: return@addUpdateListener
-                updateMargin(dir, value)
-            }
-        }.start()
-    }
+    TransitionManager.beginDelayedTransition(this, transition)
 
     getWaitIdling().start(duration)
+    updateMargin(dir, valueTo)
 }
 
 fun View.updateMargin(

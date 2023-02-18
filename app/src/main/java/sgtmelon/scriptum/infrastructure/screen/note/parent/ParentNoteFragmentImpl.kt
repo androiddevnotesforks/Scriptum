@@ -396,17 +396,15 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     @CallSuper open fun invalidatePanelState(isEdit: Boolean) {
-        val panelBar = panelBar ?: return
-
         animation.startPanelFade(panelBar) {
             if (connector.init.state == NoteState.DELETE) {
-                panelBar.binContainer.makeVisible()
-                panelBar.editContainer.makeInvisible()
-                panelBar.readContainer.makeInvisible()
+                it.binContainer.makeVisible()
+                it.editContainer.makeInvisible()
+                it.readContainer.makeInvisible()
             } else {
-                panelBar.binContainer.makeInvisible()
-                panelBar.editContainer.makeVisibleIf(isEdit) { makeInvisible() }
-                panelBar.readContainer.makeVisibleIf(!isEdit) { makeInvisible() }
+                it.binContainer.makeInvisible()
+                it.editContainer.makeVisibleIf(isEdit) { makeInvisible() }
+                it.readContainer.makeVisibleIf(!isEdit) { makeInvisible() }
             }
         }
     }
