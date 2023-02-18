@@ -283,14 +283,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     override fun onHistoryAdd(action: HistoryAction) = history.add(action)
 
-    /**
-     * TODO check issue described below:
-     *
-     * Need check isNoteInitialized for prevent crash. Strange what this function calls before
-     * note initialisation, may be it related with view binding.
-     *
-     * if (!isNoteInitialized()) return - was before historyAvailable update
-     */
     override fun onHistoryEnterChanged(text: String) = historyAvailable.postValue(history.available)
 
     //endregion

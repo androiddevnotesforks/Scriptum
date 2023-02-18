@@ -31,8 +31,6 @@
                 style="@style/RecyclerView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility='invisible'
-                tools:visibility="visible"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_roll_write" />
 
