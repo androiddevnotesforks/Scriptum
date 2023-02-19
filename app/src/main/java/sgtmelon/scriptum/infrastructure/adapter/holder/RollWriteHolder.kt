@@ -25,7 +25,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 @SuppressLint("ClickableViewAccessibility")
 class RollWriteHolder(
     private val binding: ItemRollWriteBinding,
-    dragListener: ItemDragListener,
+    private val dragListener: ItemDragListener,
     private val callback: Callback,
     private val onEnterNext: () -> Unit
 ) : ParentHolder(binding.root),
@@ -43,10 +43,20 @@ class RollWriteHolder(
         return@HistoryTextWatcher null
     }
 
-    init {
-        val touchListener = DragTouchListener(dragListener, binding.dragButton)
+    fun bind(item: RollItem) = callback.disableHistoryChanges {
+        with(binding) {
+            bindDrag()
+            dragButton.bindBoolTint(item.isCheck, R.attr.clAccent, R.attr.clContent)
+            bindContentDescription(item.text)
+            textEnter.setTextIfDifferent(item.text)
+            textEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
+        }
+    }
 
-        binding.textEnter.apply {
+    private fun bindDrag() = with(binding) {
+        val touchListener = DragTouchListener(dragListener, dragButton)
+
+        textEnter.apply {
             setRawInputType(
                 InputType.TYPE_CLASS_TEXT
                         or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
@@ -60,16 +70,7 @@ class RollWriteHolder(
             setOnTouchListener(touchListener)
         }
 
-        binding.dragButton.setOnTouchListener(touchListener)
-    }
-
-    fun bind(item: RollItem) = callback.disableHistoryChanges {
-        with(binding) {
-            dragButton.bindBoolTint(item.isCheck, R.attr.clAccent, R.attr.clContent)
-            bindContentDescription(item.text)
-            textEnter.setTextIfDifferent(item.text)
-            textEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
-        }
+        dragButton.setOnTouchListener(touchListener)
     }
 
     private fun bindContentDescription(text: String) {
