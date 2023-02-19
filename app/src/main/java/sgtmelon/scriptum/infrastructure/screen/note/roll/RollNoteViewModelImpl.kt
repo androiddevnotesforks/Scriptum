@@ -192,12 +192,12 @@ class RollNoteViewModelImpl(
         item.onItemCheck(correctPosition)
         cacheNote(item)
 
-        updateList = if (item.isVisible) {
+        val updateList = if (item.isVisible) {
             UpdateListState.Change(position)
         } else {
             UpdateListState.Remove(position)
         }
-        postNotifyItemList(item)
+        postNotifyItemList(item, updateList)
 
         viewModelScope.launchBack {
             updateCheck(item, correctPosition)

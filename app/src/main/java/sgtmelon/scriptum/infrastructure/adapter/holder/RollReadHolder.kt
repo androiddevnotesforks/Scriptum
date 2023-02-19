@@ -19,20 +19,6 @@ class RollReadHolder(
 ) : ParentHolder(binding.root),
     UnbindCallback {
 
-    init {
-        val animTime = context.resources.getInteger(R.integer.icon_animation_time).toLong()
-
-        binding.clickButton.setOnClickListener { _ ->
-            checkPosition {
-                callback.onReadCheckClick(it, animTime) { binding.checkBox.toggle() }
-            }
-        }
-    }
-
-    override fun unbind() {
-        binding.clickButton.setOnClickListener(null)
-    }
-
     fun bind(item: RollItem, state: NoteState) = with(binding) {
         checkBox.isChecked = item.isCheck
 
@@ -44,8 +30,19 @@ class RollReadHolder(
         clickButton.contentDescription = checkDescription
         clickButton.makeVisibleIf(condition = state != NoteState.DELETE) { makeInvisible() }
 
+        val animTime = context.resources.getInteger(R.integer.icon_animation_time).toLong()
+        clickButton.setOnClickListener { _ ->
+            checkPosition {
+                callback.onReadCheckClick(it, animTime) { checkBox.toggle() }
+            }
+        }
+
         rollText.text = item.text
         rollText.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
+    }
+
+    override fun unbind() {
+        binding.clickButton.setOnClickListener(null)
     }
 
     interface Callback {
