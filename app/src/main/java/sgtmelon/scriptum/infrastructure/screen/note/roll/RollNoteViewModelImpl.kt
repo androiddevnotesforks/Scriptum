@@ -367,9 +367,13 @@ class RollNoteViewModelImpl(
 
         if (correctFrom == null || correctTo == null) return
 
+        /**
+         * Important: don't use [MutableLiveData.postValue] here with [itemList], because it
+         * leads to UI glitches during item drag/move.
+         */
         _itemList.move(correctFrom, correctTo)
         updateList = UpdateListState.Move(correctFrom, correctTo)
-        itemList.postValue(_itemList)
+        itemList.value = _itemList
     }
 
     /** All item positions updates after call [save], because it's hard to control in Edit. */

@@ -57,8 +57,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     // TODO FIX:
     // 0. Create note - strange keyboard adjust
-    // 1. Item check not working
-    // 2. Item move not working
     // 3. Undo/redo not working
 
     // 1. After filling note -> save button don't change enable state (only after rotation)

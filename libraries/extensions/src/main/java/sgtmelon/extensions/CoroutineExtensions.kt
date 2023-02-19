@@ -28,6 +28,10 @@ suspend inline fun <T> runMain(crossinline func: () -> T): T {
     return withContext(Dispatchers.Main) { func() }
 }
 
+inline fun CoroutineScope.launchMain(crossinline func: () -> Unit): Job {
+    return launch { runMain(func) }
+}
+
 inline fun CoroutineScope.launchBack(crossinline func: suspend () -> Unit): Job {
     return launch { runBack(func) }
 }
