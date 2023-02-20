@@ -190,6 +190,8 @@ class RollNoteViewModelImpl(
         val item = noteItem.value ?: return
 
         item.onItemCheck(correctPosition)
+
+        noteItem.postValue(item)
         cacheNote(item)
 
         val updateList = if (item.isVisible) {
