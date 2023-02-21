@@ -17,12 +17,12 @@ import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
-import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
-import sgtmelon.scriptum.infrastructure.utils.extensions.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**

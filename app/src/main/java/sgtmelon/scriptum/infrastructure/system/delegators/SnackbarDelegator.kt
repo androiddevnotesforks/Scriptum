@@ -11,8 +11,8 @@ import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.getDrawableCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
 
 class SnackbarDelegator(
     lifecycle: Lifecycle,

@@ -18,10 +18,10 @@ import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNotePlaceholder
 
 /**

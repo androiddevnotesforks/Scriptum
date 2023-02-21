@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.utils.extensions
+package sgtmelon.scriptum.infrastructure.utils.extensions.insets
 
 import android.animation.ValueAnimator
 import android.graphics.Rect

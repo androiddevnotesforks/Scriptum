@@ -22,12 +22,12 @@ import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.extensions.addSystemInsetsMargin
-import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.addSystemInsetsMargin
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.extensions.onView
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
 import sgtmelon.scriptum.infrastructure.widgets.GradientFab
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 
