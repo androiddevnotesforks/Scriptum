@@ -4,12 +4,15 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
 import sgtmelon.extensions.getDimen
+import sgtmelon.scriptum.R
+import sgtmelon.test.idling.getWaitIdling
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)
@@ -43,4 +46,19 @@ private fun CardView.getElevationAnimator(valueFrom: Float, valueTo: Float): Val
 
 fun getAlphaInterpolator(isVisible: Boolean): Interpolator {
     return if (isVisible) AccelerateInterpolator() else DecelerateInterpolator()
+}
+
+inline fun View.updateWithAnimation(
+    valueFrom: Int,
+    valueTo: Int,
+    crossinline onChange: (Int) -> Unit
+) {
+    val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
+    ValueAnimator.ofInt(valueFrom, valueTo).apply {
+        this.interpolator = AccelerateDecelerateInterpolator()
+        this.duration = duration
+        addUpdateListener { onChange(it.animatedValue as Int) }
+    }.start()
+
+    getWaitIdling().start(duration)
 }
