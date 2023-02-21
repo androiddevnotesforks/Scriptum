@@ -82,11 +82,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     override fun setupInsets() {
         super.setupInsets()
 
-        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
+        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin, !isFirstTime)
             return@doOnApplyWindowInsets insets
         }
     }

@@ -3,18 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--  Test padding here to see how it will be changed on keyboard appears.  -->
     <FrameLayout
         android:id="@+id/parent_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/note_panel_height"
+        android:layout_height="wrap_content"
         android:background="?attr/clPrimary"
         android:paddingHorizontal="@dimen/layout_8dp"
+        tools:paddingBottom="64dp"
         tools:layout_gravity="bottom">
 
         <LinearLayout
             android:id="@+id/bin_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/note_panel_height"
             android:gravity="center_vertical"
             android:visibility="invisible"
             tools:visibility="invisible">
@@ -45,7 +47,7 @@
         <LinearLayout
             android:id="@+id/edit_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/note_panel_height"
             android:gravity="center_vertical"
             android:visibility="invisible"
             tools:visibility="visible">
@@ -97,7 +99,7 @@
         <LinearLayout
             android:id="@+id/read_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/note_panel_height"
             android:gravity="center_vertical"
             android:visibility="invisible"
             tools:visibility="invisible">

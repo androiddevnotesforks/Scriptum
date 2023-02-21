@@ -36,6 +36,8 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
@@ -49,6 +51,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
+import sgtmelon.scriptum.infrastructure.utils.extensions.updatePadding
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
@@ -85,6 +88,15 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private val convertDialog by lazy { dialogs.getConvert(type) }
 
     //region Setup functions
+
+    override fun setupInsets() {
+        super.setupInsets()
+
+        panelBar?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, padding, _ ->
+            view.updatePadding(InsetsDir.BOTTOM, insets, padding, !isFirstTime)
+            return@doOnApplyWindowInsets insets
+        }
+    }
 
     override fun setupView(context: Context) {
         super.setupView(context)

@@ -78,6 +78,8 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
          * You didn't get any text changes while [BindingFragment] initialization.
          */
         val context = context ?: return
+
+        setupInsets()
         setupView(context)
         setupDialogs()
         setupObservers()
@@ -95,6 +97,9 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
     }
 
     abstract fun inject(component: ScriptumComponent)
+
+    /** Setup spaces from android bars and other staff for current screen. */
+    open fun setupInsets() = Unit
 
     open fun setupView(context: Context) = Unit
 

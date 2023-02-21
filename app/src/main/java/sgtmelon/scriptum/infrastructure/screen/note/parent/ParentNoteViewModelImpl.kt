@@ -262,9 +262,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     //region Other
 
-    /**
-     * Calls on note notification cancel from status bar for update bind indicator.
-     */
+    /** Calls on note notification cancel from status bar for update bind indicator. */
     override fun onReceiveUnbindNote(noteId: Long) {
         if (id.value != noteId) return
 

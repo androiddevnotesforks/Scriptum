@@ -1,15 +1,13 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
+import android.animation.ValueAnimator
 import android.graphics.Rect
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
-import androidx.transition.ChangeBounds
-import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.test.idling.getWaitIdling
 
@@ -20,7 +18,7 @@ fun View.addSystemInsetsPadding(
 ) {
     if (targetView == null) return
 
-    val initialPadding = getInitialPadding(targetView)
+    val initialPadding = targetView.getInitialPadding()
     doOnApplyWindowInsets { _, insets, _, _, _ ->
         targetView.updatePadding(dir, insets, initialPadding)
 
@@ -44,7 +42,7 @@ fun View.addSystemInsetsMargin(
 ) {
     if (targetView == null) return
 
-    val initialMargin = getInitialMargin(targetView) ?: return
+    val initialMargin = targetView.getInitialMargin()
     doOnApplyWindowInsets { _, insets, _, _, _ ->
         targetView.updateMargin(dir, insets, initialMargin)
 
@@ -62,15 +60,13 @@ inline fun View.doOnApplyWindowInsets(
         insets: WindowInsetsCompat,
         isFirstTime: Boolean,
         padding: Rect,
-        margin: Rect?
+        margin: Rect
     ) -> WindowInsetsCompat
 ) {
-    val initialPadding = getInitialPadding(view = this)
-    val initialMargin = getInitialMargin(view = this)
+    val initialPadding = getInitialPadding()
+    val initialMargin = this.getInitialMargin()
 
-    /**
-     * Variable for detect fist applying of insets.
-     */
+    /** Variable for detect first applying of insets. */
     var isFirstTime = true
 
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
@@ -90,14 +86,37 @@ fun View.removeWindowInsetsListener() {
     ViewCompat.setOnApplyWindowInsetsListener(this, null)
 }
 
-fun getInitialPadding(view: View): Rect {
-    return Rect(view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom)
+fun View.getInitialPadding(): Rect {
+    return Rect(
+        getPadding(InsetsDir.LEFT), getPadding(InsetsDir.TOP),
+        getPadding(InsetsDir.RIGHT), getPadding(InsetsDir.BOTTOM)
+    )
 }
 
-fun getInitialMargin(view: View): Rect? {
-    val params = view.layoutParams as? ViewGroup.MarginLayoutParams ?: return null
+private fun View.getPadding(dir: InsetsDir): Int {
+    return when (dir) {
+        InsetsDir.LEFT -> paddingLeft
+        InsetsDir.TOP -> paddingTop
+        InsetsDir.RIGHT -> paddingRight
+        InsetsDir.BOTTOM -> paddingBottom
+    }
+}
 
-    return Rect(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin)
+fun View.getInitialMargin(): Rect {
+    return Rect(
+        getMargin(InsetsDir.LEFT), getMargin(InsetsDir.TOP),
+        getMargin(InsetsDir.RIGHT), getMargin(InsetsDir.BOTTOM)
+    )
+}
+
+private fun View.getMargin(dir: InsetsDir): Int {
+    val params = layoutParams as ViewGroup.MarginLayoutParams
+    return when (dir) {
+        InsetsDir.LEFT -> params.leftMargin
+        InsetsDir.TOP -> params.topMargin
+        InsetsDir.RIGHT -> params.rightMargin
+        InsetsDir.BOTTOM -> params.bottomMargin
+    }
 }
 
 fun View.requestApplyInsetsWhenAttached() {
@@ -125,14 +144,36 @@ fun WindowInsetsCompat.removeSystemWindowInsets(dir: InsetsDir): WindowInsetsCom
         if (dir == InsetsDir.BOTTOM) 0 else systemWindowInsetBottom
     )
 
-    return WindowInsetsCompat.Builder(this).setSystemWindowInsets(Insets.of(newRect)).build()
+    return WindowInsetsCompat.Builder(this)
+        .setSystemWindowInsets(Insets.of(newRect))
+        .build()
 }
 
-fun View.updatePadding(dir: InsetsDir, insets: WindowInsetsCompat, padding: Rect) = when (dir) {
-    InsetsDir.LEFT -> updatePadding(left = padding.left + insets.systemWindowInsetLeft)
-    InsetsDir.TOP -> updatePadding(top = padding.top + insets.systemWindowInsetTop)
-    InsetsDir.RIGHT -> updatePadding(right = padding.right + insets.systemWindowInsetRight)
-    InsetsDir.BOTTOM -> updatePadding(bottom = padding.bottom + insets.systemWindowInsetBottom)
+fun View.updatePadding(
+    dir: InsetsDir,
+    insets: WindowInsetsCompat,
+    padding: Rect,
+    withAnimation: Boolean = false
+) {
+    val valueTo = when (dir) {
+        InsetsDir.LEFT -> padding.left + insets.systemWindowInsetLeft
+        InsetsDir.TOP -> padding.top + insets.systemWindowInsetTop
+        InsetsDir.RIGHT -> padding.right + insets.systemWindowInsetRight
+        InsetsDir.BOTTOM -> padding.bottom + insets.systemWindowInsetBottom
+    }
+
+    if (withAnimation) {
+        updateWithAnimation(getPadding(dir), valueTo) { updatePadding(dir, it) }
+    } else {
+        updatePadding(dir, valueTo)
+    }
+}
+
+private fun View.updatePadding(dir: InsetsDir, valueTo: Int) = when (dir) {
+    InsetsDir.LEFT -> updatePadding(left = valueTo)
+    InsetsDir.TOP -> updatePadding(top = valueTo)
+    InsetsDir.RIGHT -> updatePadding(right = valueTo)
+    InsetsDir.BOTTOM -> updatePadding(bottom = valueTo)
 }
 
 private fun View.updatePadding(
@@ -145,11 +186,9 @@ private fun View.updatePadding(
 fun View.updateMargin(
     dir: InsetsDir,
     insets: WindowInsetsCompat,
-    margin: Rect?,
+    margin: Rect,
     withAnimation: Boolean = false
 ) {
-    if (margin == null) return
-
     val valueTo = when (dir) {
         InsetsDir.LEFT -> margin.left + insets.systemWindowInsetLeft
         InsetsDir.TOP -> margin.top + insets.systemWindowInsetTop
@@ -157,8 +196,8 @@ fun View.updateMargin(
         InsetsDir.BOTTOM -> margin.bottom + insets.systemWindowInsetBottom
     }
 
-    if (withAnimation && this is ViewGroup) {
-        updateMarginAnimation(dir, valueTo)
+    if (withAnimation) {
+        updateWithAnimation(getMargin(dir), valueTo) { updateMargin(dir, it) }
     } else {
         updateMargin(dir, valueTo)
     }
@@ -171,32 +210,30 @@ private fun View.updateMargin(dir: InsetsDir, valueTo: Int) = when (dir) {
     InsetsDir.BOTTOM -> updateMargin(bottom = valueTo)
 }
 
-private fun ViewGroup.updateMarginAnimation(dir: InsetsDir, valueTo: Int) {
-    val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
-
-    /** Post don't needed, because this animation must be first in queue. */
-    val transition = ChangeBounds()
-        .setInterpolator(DecelerateInterpolator())
-        .setDuration(duration)
-        .apply { children.forEach { excludeChildren(it, true) } }
-
-    TransitionManager.beginDelayedTransition(this, transition)
-
-    getWaitIdling().start(duration)
-    updateMargin(dir, valueTo)
-}
-
 fun View.updateMargin(
-    left: Int? = (layoutParams as? ViewGroup.MarginLayoutParams)?.leftMargin,
-    top: Int? = (layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin,
-    right: Int? = (layoutParams as? ViewGroup.MarginLayoutParams)?.rightMargin,
-    bottom: Int? = (layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin
+    left: Int = (layoutParams as ViewGroup.MarginLayoutParams).leftMargin,
+    top: Int = (layoutParams as ViewGroup.MarginLayoutParams).topMargin,
+    right: Int = (layoutParams as ViewGroup.MarginLayoutParams).rightMargin,
+    bottom: Int = (layoutParams as ViewGroup.MarginLayoutParams).bottomMargin
 ) {
-    if (left == null || top == null || right == null || bottom == null) return
-
-    val params = layoutParams as? ViewGroup.MarginLayoutParams ?: return
+    val params = layoutParams as ViewGroup.MarginLayoutParams
     params.setMargins(left, top, right, bottom)
     layoutParams = params
+}
+
+private inline fun View.updateWithAnimation(
+    valueFrom: Int,
+    valueTo: Int,
+    crossinline onChange: (Int) -> Unit
+) {
+    val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
+    ValueAnimator.ofInt(valueFrom, valueTo).apply {
+        this.interpolator = AccelerateDecelerateInterpolator()
+        this.duration = duration
+        addUpdateListener { onChange(it.animatedValue as Int) }
+    }.start()
+
+    getWaitIdling().start(duration)
 }
 
 enum class InsetsDir { LEFT, TOP, RIGHT, BOTTOM }

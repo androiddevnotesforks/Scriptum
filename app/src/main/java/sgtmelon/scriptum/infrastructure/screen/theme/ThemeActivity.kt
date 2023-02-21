@@ -40,9 +40,7 @@ abstract class ThemeActivity<T : ViewDataBinding> : BindingActivity<T>(),
         windowUi.setup(context = this)
     }
 
-    /**
-     * Setup spaces from android bars and other staff for current screen.
-     */
+    /** Setup spaces from android bars and other staff for current screen. */
     open fun setupInsets() = Unit
 
     open fun setupView() = Unit
