@@ -66,6 +66,9 @@ class DragAndSwipeTouchHelper(private val callback: Callback) : EdgeDragTouchHel
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
         callback.onTouchSwiped(viewHolder.adapterPosition)
+
+        /** Don't know why, but after swipe [clearView] not called. */
+        callback.onTouchAction(inAction = false)
     }
 
     override fun onMove(

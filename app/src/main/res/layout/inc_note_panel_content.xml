@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/clPrimary"
         android:paddingHorizontal="@dimen/layout_8dp"
-        tools:paddingBottom="64dp"
+        tools:paddingBottom="32dp"
         tools:layout_gravity="bottom">
 
         <LinearLayout

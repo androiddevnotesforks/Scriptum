@@ -351,6 +351,7 @@ class RollNoteViewModelImpl(
     override fun swipeItem(position: Int) {
         val correctPosition = getCorrectPosition(position) ?: return
 
+        // TODO Надо проверить свайп, потому что как-то не корректно работает
         val item = _itemList.removeAtOrNull(correctPosition) ?: return
         updateList = UpdateListState.Remove(correctPosition)
         itemList.postValue(_itemList)
