@@ -246,6 +246,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //endregion
 
+    /** Use this function to collect undo/redo [result] and change something directly in UI. */
     abstract fun collectUndoRedo(result: HistoryResult)
 
     protected fun onHistoryName(result: HistoryResult.Name) = viewModel.disableHistoryChanges {

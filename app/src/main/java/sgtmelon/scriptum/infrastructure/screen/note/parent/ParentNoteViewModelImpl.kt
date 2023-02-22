@@ -143,8 +143,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
             val result = getHistoryResult(item, isUndo)
-            selectHistoryResult(result)
             emit(result)
+            selectHistoryResult(result)
         }
 
         historyAvailable.postValue(history.available)

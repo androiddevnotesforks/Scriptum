@@ -172,7 +172,9 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun collectUndoRedo(result: HistoryResult) {
         when (result) {
             is HistoryResult.Name -> onHistoryName(result)
-            else -> return // TODO
+            is HistoryResult.Roll.Enter -> adapter.cursor = result.cursor
+            is HistoryResult.Roll.Add -> adapter.cursor = result.item.text.length
+            else -> return // TODO write comment
         }
     }
 
@@ -279,20 +281,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
     override val layoutManager by lazy { LinearLayoutManager(activity) }
     override val recyclerView: RecyclerView? get() = binding?.recyclerView
-
-    // TODO remove
-    /*override*/ fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?) {
-        if (cursor != null) adapter.cursor = cursor
-
-        adapter.setList(list).notifyItemChanged(p)
-    }
-
-    // TODO remove
-    /*override*/ fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int?) {
-        if (cursor != null) adapter.cursor = cursor
-
-        adapter.setList(list).notifyItemInserted(p)
-    }
 
     //endregion
 

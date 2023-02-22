@@ -6,7 +6,6 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
@@ -18,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImp
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
+import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
@@ -75,7 +75,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         when (result) {
             is HistoryResult.Name -> onHistoryName(result)
             is HistoryResult.Text.Enter -> onHistoryEnter(result)
-            else -> return
+            else -> return // TODO write comment
         }
     }
 
