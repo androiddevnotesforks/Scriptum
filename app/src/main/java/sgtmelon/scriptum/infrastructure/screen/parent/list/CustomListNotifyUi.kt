@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.parent.list
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
@@ -33,10 +32,7 @@ interface CustomListNotifyUi<T> {
             is UpdateListState.Notify -> adapter.notifyList(list)
             is UpdateListState.NotifyHard -> adapter.setList(list).notifyDataSetChanged()
             is UpdateListState.Change -> adapter.setList(list).notifyItemChanged(state.p)
-            is UpdateListState.Remove -> {
-                Log.i("HERE", "p: ${state.p} | list: ${list.joinToString()}")
-                adapter.setList(list).notifyItemRemoved(state.p)
-            }
+            is UpdateListState.Remove -> adapter.setList(list).notifyItemRemoved(state.p)
             is UpdateListState.Insert -> {
                 adapter.setList(list).notifyItemInserted(state.p)
                 RecyclerInsertScroll(recyclerView, layoutManager).scroll(list, state.p)

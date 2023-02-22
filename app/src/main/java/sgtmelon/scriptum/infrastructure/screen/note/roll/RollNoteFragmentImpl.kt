@@ -49,7 +49,6 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  */
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
     CustomListNotifyUi<RollItem>,
-    RollNoteFragment,
     IconBlockCallback,
     DragAndSwipeTouchHelper.Callback {
 
@@ -58,7 +57,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     // TODO FIX:
     // 0. Create note - strange keyboard adjust
     // 3. Undo/redo not working
-
     // 1. After filling note -> save button don't change enable state (only after rotation)
     // 2. Create note - cursor not on name (it's placed on enter)
 
@@ -80,7 +78,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun inject(component: ScriptumComponent) {
         component.getRollNoteBuilder()
             .set(owner = this)
-            .set(fragment = this)
             .set(lifecycle)
             .set(noteSaveCallback)
             .set(connector.init)
@@ -283,24 +280,18 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val layoutManager by lazy { LinearLayoutManager(activity) }
     override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
-    override fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?) {
+    // TODO remove
+    /*override*/ fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?) {
         if (cursor != null) adapter.cursor = cursor
 
         adapter.setList(list).notifyItemChanged(p)
     }
 
-    override fun notifyItemMoved(list: List<RollItem>, from: Int, to: Int) {
-        adapter.setList(list).notifyItemMoved(from, to)
-    }
-
-    override fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int?) {
+    // TODO remove
+    /*override*/ fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int?) {
         if (cursor != null) adapter.cursor = cursor
 
         adapter.setList(list).notifyItemInserted(p)
-    }
-
-    override fun notifyItemRemoved(list: List<RollItem>, p: Int) {
-        adapter.setList(list).notifyItemRemoved(p)
     }
 
     //endregion

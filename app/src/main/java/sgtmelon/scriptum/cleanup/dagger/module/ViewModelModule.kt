@@ -76,7 +76,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
@@ -221,7 +220,6 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideRollNoteViewModel(
-        fragment: RollNoteFragmentImpl,
         owner: ViewModelStoreOwner,
         init: NoteInit,
         history: NoteHistory,
@@ -245,7 +243,7 @@ class ViewModelModule {
         getHistoryResult: GetHistoryResultUseCase
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            fragment, init, history, colorConverter, createNote, getNote, cacheNote,
+            init, history, colorConverter, createNote, getNote, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList,

@@ -24,10 +24,6 @@ interface RollNoteComponent {
         @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
-        @Deprecated("Remove callback from vm")
-        @BindsInstance
-        fun set(fragment: RollNoteFragmentImpl): Builder
-
         @BindsInstance
         fun set(lifecycle: Lifecycle): Builder
 

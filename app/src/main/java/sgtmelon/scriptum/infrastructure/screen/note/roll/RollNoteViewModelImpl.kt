@@ -48,7 +48,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 
 class RollNoteViewModelImpl(
-    private val callback: RollNoteFragment,
     init: NoteInit,
     history: NoteHistory,
     colorConverter: ColorConverter,
@@ -130,21 +129,61 @@ class RollNoteViewModelImpl(
         return true
     }
 
+    //region History staff
 
     override fun selectHistoryResult(result: HistoryResult) {
         when (result) {
             is HistoryResult.Name -> return /** [noteItem] will be updated through UI. */
             is HistoryResult.Rank -> onHistoryRank(result)
             is HistoryResult.Color -> onHistoryColor(result)
-//            is HistoryResult.Roll.Enter -> onHistoryRoll(result)
-//            is HistoryResult.Roll.Add -> onHistoryAdd(result)
-//            is HistoryResult.Roll.Remove -> onHistoryRemove(result)
+            is HistoryResult.Roll.Enter -> onHistoryRoll(result)
+            is HistoryResult.Roll.Add -> onHistoryAdd(result)
+            is HistoryResult.Roll.Remove -> onHistoryRemove(result)
             is HistoryResult.Roll.Move -> onHistoryMove(result)
             else -> return /** For another note types. */
         }
     }
 
-    // TODO other history staff here
+    private fun onHistoryRoll(result: HistoryResult.Roll.Enter) {
+        TODO()
+//        val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
+//
+//        /** Need update data anyway! Even if this item in list is currently hided. */
+//        rollItem.text = action.value[isUndo]
+//
+//        val adapterList = getCurrentItemList(noteItem.value ?: return)
+//        val adapterPosition = adapterList.validIndexOfFirst(rollItem) ?: return
+//
+//        if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
+//            callback.notifyItemChanged(adapterList, adapterPosition, action.cursor[isUndo])
+//        }
+    }
+
+    private fun onHistoryAdd(result: HistoryResult.Roll.Add) {
+        TODO()
+//        val rollItem = action.item
+//
+//        /** Need update data anyway! Even if this item in list is currently hided. */
+//        deprecatedNoteItem.list.add(action.p, rollItem)
+//
+//        val list = getCurrentItemList(noteItem.value ?: return)
+//        val position = getInsertPosition(action) ?: return
+//        val cursor = rollItem.text.length
+//
+//        callback.notifyItemInserted(list, position, cursor)
+    }
+
+//        private fun getInsertPosition(action: HistoryAction.Roll.List): Int? = when {
+//            deprecatedNoteItem.isVisible -> action.p
+//            !action.item.isCheck -> deprecatedNoteItem.list.subList(0, action.p).hideChecked().size
+//            else -> null
+//        }
+
+    private fun onHistoryRemove(result: HistoryResult.Roll.Remove) {
+        val item = noteItem.value ?: return
+        item.list.removeAtOrNull(result.p)
+        postNotifyItemList(item)
+    }
 
     private fun onHistoryMove(result: HistoryResult.Roll.Move) {
         val item = noteItem.value ?: return
@@ -152,6 +191,7 @@ class RollNoteViewModelImpl(
         postNotifyItemList(item)
     }
 
+    //endregion
 
     /** Don't need update [color] because it's happen in [changeColor] function. */
     override fun save(changeMode: Boolean): Boolean {
@@ -256,84 +296,6 @@ class RollNoteViewModelImpl(
         history.add(HistoryAction.Roll.List.Add(position, rollItem))
         historyAvailable.postValue(history.available)
     }
-
-    //region Cleanup
-
-    @Deprecated("Use new realization")
-    private lateinit var deprecatedNoteItem: NoteItem.Roll
-
-    // Menu click
-
-    private fun onHistoryRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
-        val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
-
-        /** Need update data anyway! Even if this item in list is currently hided. */
-        rollItem.text = action.value[isUndo]
-
-        val adapterList = getCurrentItemList(noteItem.value ?: return)
-        val adapterPosition = adapterList.validIndexOfFirst(rollItem) ?: return
-
-        if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
-            callback.notifyItemChanged(adapterList, adapterPosition, action.cursor[isUndo])
-        }
-    }
-
-    private fun onHistoryAdd(action: HistoryAction.Roll.List.Add, isUndo: Boolean) {
-        if (isUndo) {
-            onRemoveItem(action)
-        } else {
-            onInsertItem(action, isUndo = false)
-        }
-    }
-
-    private fun onHistoryRemove(action: HistoryAction.Roll.List.Remove, isUndo: Boolean) {
-        if (isUndo) {
-            onInsertItem(action, isUndo = true)
-        } else {
-            onRemoveItem(action)
-        }
-    }
-
-    private fun onRemoveItem(action: HistoryAction.Roll.List) {
-        val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
-        val adapterPosition = getCurrentItemList(noteItem.value ?: return).validIndexOfFirst(rollItem)
-
-        /** Need update data anyway! Even if this item in list is currently hided. *
-         * Also need remove item at the end. Because [getCurrentItemList] return list without
-         * that item and you will get not valid index of item.
-         */
-        deprecatedNoteItem.list.removeAtOrNull(action.p) ?: return
-
-        if (adapterPosition == null) return
-
-        if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
-            /**
-             * Need get new [getCurrentItemList] for clear effect, cause we remove one item from it.
-             */
-            callback.notifyItemRemoved(getCurrentItemList(noteItem.value ?: return), adapterPosition)
-        }
-    }
-
-    private fun onInsertItem(action: HistoryAction.Roll.List, isUndo: Boolean) {
-        val rollItem = action.item
-
-        /** Need update data anyway! Even if this item in list is currently hided. */
-        deprecatedNoteItem.list.add(action.p, rollItem)
-
-        val list = getCurrentItemList(noteItem.value ?: return)
-        val position = getInsertPosition(action) ?: return
-        val cursor = rollItem.text.length
-
-        callback.notifyItemInserted(list, position, cursor)
-    }
-
-    private fun getInsertPosition(action: HistoryAction.Roll.List): Int? = when {
-        deprecatedNoteItem.isVisible -> action.p
-        !action.item.isCheck -> deprecatedNoteItem.list.subList(0, action.p).hideChecked().size
-        else -> null
-    }
-
-    //endregion
 
     // Touch staff
 

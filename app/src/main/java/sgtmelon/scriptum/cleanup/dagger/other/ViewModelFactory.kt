@@ -61,7 +61,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
@@ -193,12 +192,9 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModelImpl::class) {
                     TextNoteViewModelImpl(
-                        colorConverter, init, history, createNote, getNote,
-
-                        // TODO cleanup
-                        cacheNote,
-                        saveNote, convertNote, updateNote, deleteNote, restoreNote,
-                        clearNote, setNotification, deleteNotification, getNotificationDateList,
+                        colorConverter, init, history, createNote, getNote, cacheNote,
+                        saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+                        setNotification, deleteNotification, getNotificationDateList,
                         getRankId, getRankDialogNames, getHistoryResult
                     )
                 }
@@ -206,7 +202,6 @@ object ViewModelFactory {
         }
 
         class RollNote(
-            private val fragment: RollNoteFragmentImpl,
             private val init: NoteInit,
             private val history: NoteHistory,
             private val colorConverter: ColorConverter,
@@ -231,7 +226,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
                     RollNoteViewModelImpl(
-                        fragment, init, history, colorConverter, createNote, getNote, cacheNote,
+                        init, history, colorConverter, createNote, getNote, cacheNote,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
                         updateVisible, updateCheck,
                         setNotification, deleteNotification, getNotificationDateList,
