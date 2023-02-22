@@ -132,7 +132,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         appBar?.content?.nameEnter?.let {
             /** Save changes of name to noteItem model (available only in edit mode). */
             it.doOnTextChanged { text, _, _, _ ->
-                viewModel.noteItem.value?.name = text?.toString() ?: return@doOnTextChanged
+                viewModel.changeName(value = text?.toString() ?: return@doOnTextChanged)
             }
 
             it.addTextChangedListener(HistoryTextWatcher(it, viewModel) { value, cursor ->

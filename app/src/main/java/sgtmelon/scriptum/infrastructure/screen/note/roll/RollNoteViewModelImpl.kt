@@ -130,7 +130,28 @@ class RollNoteViewModelImpl(
         return true
     }
 
-    // TODO history staff here
+
+    override fun selectHistoryResult(result: HistoryResult) {
+        when (result) {
+            is HistoryResult.Name -> return /** [noteItem] will be updated through UI. */
+            is HistoryResult.Rank -> onHistoryRank(result)
+            is HistoryResult.Color -> onHistoryColor(result)
+//            is HistoryResult.Roll.Enter -> onHistoryRoll(result)
+//            is HistoryResult.Roll.Add -> onHistoryAdd(result)
+//            is HistoryResult.Roll.Remove -> onHistoryRemove(result)
+            is HistoryResult.Roll.Move -> onHistoryMove(result)
+            else -> return /** For another note types. */
+        }
+    }
+
+    // TODO other history staff here
+
+    private fun onHistoryMove(result: HistoryResult.Roll.Move) {
+        val item = noteItem.value ?: return
+        item.list.move(result.from, result.to)
+        postNotifyItemList(item)
+    }
+
 
     /** Don't need update [color] because it's happen in [changeColor] function. */
     override fun save(changeMode: Boolean): Boolean {
@@ -243,26 +264,6 @@ class RollNoteViewModelImpl(
 
     // Menu click
 
-    override fun selectHistoryResult(result: HistoryResult) {
-        when (result) {
-            is HistoryResult.Rank -> onHistoryRank(result)
-            is HistoryResult.Color -> onHistoryColor(result)
-            is HistoryResult.Roll -> TODO()
-            else -> return
-        }
-
-        //        when (action) {
-        //            is HistoryResult.Name -> onUndoRedoName(action, isUndo)
-        //            is HistoryResult.Rank -> onUndoRedoRank(action, isUndo)
-        //            is HistoryResult.Color -> onUndoRedoColor(action, isUndo)
-        //            is HistoryResult.Roll.Enter -> onHistoryRoll(action, isUndo)
-        //            is HistoryResult.Roll.List.Add -> onHistoryAdd(action, isUndo)
-        //            is HistoryResult.Roll.List.Remove -> onHistoryRemove(action, isUndo)
-        //            is HistoryResult.Roll.Move -> onHistoryMove(action, isUndo)
-        //            else -> Unit
-        //        }
-    }
-
     private fun onHistoryRoll(action: HistoryAction.Roll.Enter, isUndo: Boolean) {
         val rollItem = deprecatedNoteItem.list.getOrNull(action.p) ?: return
 
@@ -331,26 +332,6 @@ class RollNoteViewModelImpl(
         !action.item.isCheck -> deprecatedNoteItem.list.subList(0, action.p).hideChecked().size
         else -> null
     }
-
-    // TODO record exception
-    private fun onHistoryMove(action: HistoryAction.Roll.Move, isUndo: Boolean) {
-        val from = action.value[!isUndo]
-        val to = action.value[isUndo]
-
-        val rollItem = deprecatedNoteItem.list.getOrNull(from) ?: return
-
-        /** Need update data anyway! Even if this item in list is currently hided. */
-        val shiftFrom = getCurrentItemList(noteItem.value ?: return).validIndexOfFirst(rollItem)
-        deprecatedNoteItem.list.move(from, to)
-        val shiftTo = getCurrentItemList(noteItem.value ?: return).validIndexOfFirst(rollItem)
-
-        if (shiftFrom == null || shiftTo == null) return
-
-        if (deprecatedNoteItem.isVisible || !rollItem.isCheck) {
-            callback.notifyItemMoved(getCurrentItemList(noteItem.value ?: return), shiftFrom, shiftTo)
-        }
-    }
-
 
     //endregion
 

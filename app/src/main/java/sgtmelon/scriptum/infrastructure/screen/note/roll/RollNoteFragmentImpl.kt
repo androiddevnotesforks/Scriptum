@@ -175,7 +175,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun collectUndoRedo(result: HistoryResult) {
         when (result) {
             is HistoryResult.Name -> onHistoryName(result)
-            else -> TODO()
+            else -> return // TODO
         }
     }
 

@@ -49,9 +49,7 @@ interface ParentNoteViewModel<N : NoteItem> :
         return false
     }
 
-    /**
-     * Return FALSE if can't save or restore [noteItem] data.
-     */
+    /** Return FALSE if can't save or restore [noteItem] data. */
     fun saveOrRestoreData(): Boolean {
         if (isReadMode) return false
 
@@ -68,6 +66,8 @@ interface ParentNoteViewModel<N : NoteItem> :
      */
     fun restoreData(): Boolean
 
+    fun changeName(value: String) = run { noteItem.value?.name = value }
+
     //region Menu clicks
 
     fun restore(): Flow<NoteItem>
@@ -81,7 +81,6 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun redoAction(): Flow<HistoryResult>
 
-    // TODO may be pass Color value as parameter (not Int)?
     fun changeColor(check: Int)
 
     fun changeRank(check: Int)

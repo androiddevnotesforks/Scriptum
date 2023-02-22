@@ -74,9 +74,11 @@ class TextNoteViewModelImpl(
 
     override fun selectHistoryResult(result: HistoryResult) {
         when (result) {
+            is HistoryResult.Name -> return /** [noteItem] will be updated through UI. */
             is HistoryResult.Rank -> onHistoryRank(result)
             is HistoryResult.Color -> onHistoryColor(result)
-            else -> return
+            is HistoryResult.Text -> return /** [noteItem] will be updated through UI. */
+            else -> return /** For another note types. */
         }
     }
 

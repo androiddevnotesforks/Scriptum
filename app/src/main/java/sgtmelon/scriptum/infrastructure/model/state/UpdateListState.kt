@@ -9,6 +9,7 @@ sealed class UpdateListState {
 
     object Set : UpdateListState()
 
+    /** Rely on [ListAdapter] power. */
     object Notify : UpdateListState()
 
     object NotifyHard : UpdateListState()

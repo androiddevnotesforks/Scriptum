@@ -159,11 +159,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         noteItem.postValueWithChange { it.rank = NoteRank(result.id, result.position) }
     }
 
-    protected fun onHistoryColor(action: HistoryResult.Color) {
-        val colorTo = action.value
-
-        color.postValue(colorTo)
-        noteItem.postValueWithChange { it.color = colorTo }
+    protected fun onHistoryColor(result: HistoryResult.Color) {
+        color.postValue(result.value)
+        noteItem.postValueWithChange { it.color = result.value }
     }
 
     override fun changeColor(check: Int) {
@@ -176,7 +174,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         historyAvailable.postValue(history.available)
 
         color.postValue(newColor)
-        item.color = newColor
+        noteItem.postValueWithChange { it.color = newColor }
     }
 
     override fun changeRank(check: Int) {
@@ -194,8 +192,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
             history.add(historyAction)
             historyAvailable.postValue(history.available)
 
-            item.rank = NoteRank(rankId, check)
-            noteItem.postValue(item)
+            noteItem.postValueWithChange { it.rank = NoteRank(rankId, check) }
         }
     }
 

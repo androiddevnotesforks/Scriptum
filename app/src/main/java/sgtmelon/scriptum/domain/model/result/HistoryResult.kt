@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.model.result
 
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color as AppColor
 
 sealed class HistoryResult {
@@ -17,5 +18,12 @@ sealed class HistoryResult {
 
     sealed class Roll : HistoryResult() {
 
+        data class Enter(val p: Int, val value: String, val cursor: Int) : Roll()
+
+        data class Add(val p: Int, val item: RollItem) : Roll()
+
+        data class Remove(val p: Int) : Roll()
+
+        data class Move(val from: Int, val to: Int) : Roll()
     }
 }
