@@ -36,7 +36,7 @@ class RollWriteHolder(
         binding.textEnter, callback = this
     ) { value, cursor ->
         checkPosition {
-            val position = callback.getCorrectPosition(it) ?: return@checkPosition
+            val position = callback.getAbsolutePosition(it) ?: return@checkPosition
             return@HistoryTextWatcher HistoryAction.Roll.Enter(position, value, cursor)
         }
 
@@ -94,7 +94,7 @@ class RollWriteHolder(
     }
 
     interface Callback : NoteHistoryEnableControl {
-        fun getCorrectPosition(adapterPosition: Int): Int?
+        fun getAbsolutePosition(adapterPosition: Int): Int?
         fun onRollHistoryAdd(action: HistoryAction)
         fun onRollEnterChanged(position: Int, text: String)
     }
