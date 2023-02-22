@@ -294,6 +294,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     override fun onTouchGetSwipe(): Boolean = viewModel.isEditMode
 
+    // TODO move cursor into enter field
     override fun onTouchSwiped(position: Int) = viewModel.swipeItem(position)
 
     override fun onTouchMoveStarts() = hideKeyboard()
