@@ -52,6 +52,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     // TODO FIX:
     // 1. Create note - cursor not on name (it's placed on enter)
+    // 2. Drag'n'drop in not visible mode -> switch visible -> item moved by themselfs
+    // 3. Add animation for Add panel (hide it with slide animation and change bottom padding in recycler)
 
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
