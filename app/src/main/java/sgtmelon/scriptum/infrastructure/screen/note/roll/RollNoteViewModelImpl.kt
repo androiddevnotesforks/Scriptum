@@ -339,16 +339,16 @@ class RollNoteViewModelImpl(
 
     // TODO Have same functions in the test screen.
     /**
-     * Convert not pure position [adapterPosition] to correct one (absolute position in list
+     * Convert not pure adapter [position] to correct one (absolute position in list
      * without hided items).
      */
-    override fun getAbsolutePosition(adapterPosition: Int): Int? {
+    override fun getAbsolutePosition(position: Int): Int? {
         val item = noteItem.value ?: return null
 
         return if (item.isVisible) {
-            adapterPosition
+            position
         } else {
-            val currentItem = _itemList.getOrNull(adapterPosition) ?: return null
+            val currentItem = _itemList.getOrNull(position) ?: return null
             return item.list.validIndexOfFirst(currentItem)
         }
     }

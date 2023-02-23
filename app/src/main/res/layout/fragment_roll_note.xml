@@ -37,7 +37,7 @@
                 android:visibility="gone"
                 tools:visibility="visible"
                 tools:itemCount="3"
-                tools:listitem="@layout/item_roll_write" />
+                tools:listitem="@layout/item_roll" />
 
         </FrameLayout>
 

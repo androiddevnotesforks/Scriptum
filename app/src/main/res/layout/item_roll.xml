@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/parent_container"
+        style="@style/Card.Item.Common">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/item_roll_icon_horizontal_space"
+                tools:background="@color/accent_ripple_light">
+
+                <CheckBox
+                    android:id="@+id/check_box"
+                    style="@style/Button.Roll"
+                    tools:checked="true" />
+
+                <!--  Button which displays above checkBox for ripple effect on click  -->
+                <!--  Set contentDescription and src in UI class  -->
+                <ImageButton
+                    android:id="@+id/click_button"
+                    style="@style/Container.Roll.Click"
+                    tools:srcCompat="@drawable/ic_move"
+                    tools:ignore="ContentDescription"
+                    tools:tint="?attr/clAccent" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/item_text"
+                    style="@style/EditText.Roll.Read"
+                    tools:text="@string/preview_note_roll"
+                    tools:visibility="visible"
+                    tools:textColor="?attr/clContrast" />
+
+                <EditText
+                    android:id="@+id/item_enter"
+                    style="@style/EditText.Roll"
+                    android:hint="@string/hind_enter_roll_empty"
+                    android:imeOptions="flagNoFullscreen"
+                    tools:visibility="gone"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                    tools:text="@string/preview_note_roll"
+                    tools:textColor="?attr/clContrast" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

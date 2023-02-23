@@ -22,7 +22,7 @@ import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
-import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragAndSwipeTouchHelper
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -66,8 +66,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     private val touchHelper = DragAndSwipeTouchHelper(callback = this)
     override val adapter: RollAdapter by lazy {
-        val readCallback = object : RollReadHolder.Callback {
-            override fun onReadCheckClick(p: Int, animTime: Long, action: () -> Unit) {
+        val readCallback = object : RollHolder.ReadCallback {
+            override fun onRollChangeCheck(p: Int, animTime: Long, action: () -> Unit) {
                 /** This 'if' needed for fast click on many checkBoxes at one time. */
                 if (!open.isChangeEnabled && open.tag == OpenState.Tag.ANIM) {
                     open.isChangeEnabled = true
@@ -85,7 +85,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
 
         return@lazy with(connector.init) {
-            RollAdapter(isEdit, state, touchHelper, viewModel, readCallback) {
+            RollAdapter(isEdit, state, readCallback, viewModel, touchHelper) {
                 focusOnEnter()
             }
         }
@@ -194,8 +194,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun collectUndoRedo(result: HistoryResult) {
         when (result) {
             is HistoryResult.Name -> onHistoryName(result)
-            is HistoryResult.Roll.Enter -> adapter.cursor = result.cursor
-            is HistoryResult.Roll.Add -> adapter.cursor = result.item.text.length
+            is HistoryResult.Roll.Enter -> adapter.setCursor(result.cursor)
+            is HistoryResult.Roll.Add -> adapter.setCursor(result.item.text.length)
             else -> return /** Other cases would not be updated in UI. */
         }
     }

@@ -1,14 +1,12 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.databinding.ItemRollReadBinding
-import sgtmelon.scriptum.databinding.ItemRollWriteBinding
+import sgtmelon.scriptum.databinding.ItemRollBinding
 import sgtmelon.scriptum.infrastructure.adapter.diff.RollDiff
-import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
-import sgtmelon.scriptum.infrastructure.adapter.holder.RollWriteHolder
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolderNotify
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -20,66 +18,59 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 class RollAdapter(
     private var isEdit: Boolean,
     private var state: NoteState,
+    private val readCallback: RollHolder.ReadCallback,
+    private val writeCallback: RollHolder.WriteCallback,
     private val dragListener: ItemDragListener,
-    private val writeCallback: RollWriteHolder.Callback,
-    private val readCallback: RollReadHolder.Callback,
     private val onEnterNext: () -> Unit
-) : ParentDiffAdapter<RollItem, RecyclerView.ViewHolder>(RollDiff()) {
+) : ParentDiffAdapter<RollItem, RollHolder>(RollDiff()) {
 
     override fun getListCopy(list: List<RollItem>): List<RollItem> {
         return ArrayList(list.map { it.copy() })
     }
 
-    var cursor = ND_CURSOR
+    /** Pass this cursor into the next one notified [RollHolder]. Reset to default after get. */
+    private var cursor: Int? = null
+        get() {
+            val value = field
+            cursor = null
+            return value
+        }
+
+    fun setCursor(cursor: Int) = apply { this.cursor = cursor }
+
+    private val notifyMap = mutableMapOf<RollHolderNotify, RollItem>()
 
     fun updateEdit(isEdit: Boolean) {
-        if (this.isEdit == isEdit) return
-        this.isEdit = isEdit
-        notifyDataSetChanged()
+        if (this.isEdit != isEdit) {
+            this.isEdit = isEdit
+            notifyMap.forEach { (notify, it) -> notify.bindEdit(isEdit, it) }
+        }
     }
 
     fun updateState(state: NoteState) {
-        if (this.state == state) return
-        this.state = state
-        notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (Type.values()[viewType]) {
-            Type.WRITE -> {
-                val binding: ItemRollWriteBinding = parent.inflateBinding(R.layout.item_roll_write)
-                RollWriteHolder(binding, dragListener, writeCallback, onEnterNext)
-            }
-            Type.READ -> {
-                val binding: ItemRollReadBinding = parent.inflateBinding(R.layout.item_roll_read)
-                RollReadHolder(binding, readCallback)
-            }
+        if (this.state != state) {
+            this.state = state
+            notifyMap.forEach { it.key.bindState(state) }
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RollHolder {
+        val binding: ItemRollBinding = parent.inflateBinding(R.layout.item_roll)
+        return RollHolder(binding, readCallback, writeCallback, dragListener, onEnterNext)
+    }
+
+    override fun onBindViewHolder(holder: RollHolder, position: Int) {
         val item = getItem(position) ?: return
 
-        when (holder) {
-            is RollReadHolder -> holder.bind(item, state)
-            is RollWriteHolder -> {
-                holder.bind(item)
+        holder.bindEdit(isEdit, item)
+        holder.bindState(state)
+        cursor?.let { holder.bindSelection(it) }
 
-                if (cursor != ND_CURSOR) {
-                    holder.setSelections(cursor)
-                    cursor = ND_CURSOR
-                }
-            }
-        }
+        notifyMap[holder] = item
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return (if (isEdit) Type.WRITE else Type.READ).ordinal
-    }
-
-    private enum class Type { WRITE, READ }
-
-    private companion object {
-        const val ND_CURSOR = -1
+    override fun onViewRecycled(holder: RollHolder) {
+        super.onViewRecycled(holder)
+        notifyMap.remove(holder)
     }
 }
