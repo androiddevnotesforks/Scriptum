@@ -68,6 +68,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val adapter: RollAdapter by lazy {
         val readCallback = object : RollReadHolder.Callback {
             override fun onReadCheckClick(p: Int, animTime: Long, action: () -> Unit) {
+                /** This 'if' needed for fast click on many checkBoxes at one time. */
+                if (!open.isChangeEnabled && open.tag == OpenState.Tag.ANIM) {
+                    open.isChangeEnabled = true
+                }
+
                 /** Tag needed here to protect from cross click: check box and visible icon */
                 open.attempt(OpenState.Tag.ANIM) {
                     open.block(animTime)
