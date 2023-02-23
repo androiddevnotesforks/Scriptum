@@ -55,7 +55,7 @@ fun EditText.setTextSelectionSafe(text: String, @IntRange(from = 0) cursor: Int)
 }
 
 /**
- * TODO #ERROR error on fast roll add/remove (undo/redo). Check it, bug disappear or not.
+ * Extension helps to skip this error:
  * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
  */
 fun EditText.setSelectionSafe(@IntRange(from = 0) cursor: Int = length()) {
