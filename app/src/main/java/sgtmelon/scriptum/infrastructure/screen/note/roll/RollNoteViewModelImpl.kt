@@ -137,8 +137,8 @@ class RollNoteViewModelImpl(
             is HistoryResult.Name -> return /** [noteItem] will be updated through UI. */
             is HistoryResult.Rank -> onHistoryRank(result)
             is HistoryResult.Color -> onHistoryColor(result)
-            is HistoryResult.Roll.Enter -> onHistoryRoll(result) // TODO comment about cursor
-            is HistoryResult.Roll.Add -> onHistoryAdd(result) // TODO comment about cursor
+            is HistoryResult.Roll.Enter -> onHistoryRoll(result) /** Cursor will be set in UI. */
+            is HistoryResult.Roll.Add -> onHistoryAdd(result) /** Cursor will be set in UI. */
             is HistoryResult.Roll.Remove -> onHistoryRemove(result)
             is HistoryResult.Roll.Move -> onHistoryMove(result)
             else -> return /** For another note types. */

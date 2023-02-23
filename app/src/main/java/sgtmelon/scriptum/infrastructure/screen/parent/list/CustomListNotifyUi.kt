@@ -35,7 +35,7 @@ interface CustomListNotifyUi<T> {
             is UpdateListState.Remove -> adapter.setList(list).notifyItemRemoved(state.p)
             is UpdateListState.Insert -> {
                 adapter.setList(list).notifyItemInserted(state.p)
-                RecyclerInsertScroll(recyclerView, layoutManager).scroll(list, state.p)
+                RecyclerInsertScroll(recyclerView, layoutManager).scroll(state.p)
             }
             is UpdateListState.Move -> adapter.setList(list).notifyItemMoved(state.from, state.to)
         }

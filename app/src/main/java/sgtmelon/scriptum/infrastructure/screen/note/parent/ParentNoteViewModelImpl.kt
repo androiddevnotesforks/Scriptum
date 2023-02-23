@@ -143,6 +143,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
             val result = getHistoryResult(item, isUndo)
+            /** Emit needed for change something directly in UI. Request focus, set cursor, ect. */
             emit(result)
             selectHistoryResult(result)
         }
