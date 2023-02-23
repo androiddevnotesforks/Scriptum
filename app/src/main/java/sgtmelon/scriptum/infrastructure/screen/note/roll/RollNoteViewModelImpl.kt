@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -164,6 +165,7 @@ class RollNoteViewModelImpl(
 
     private fun onHistoryMove(result: HistoryResult.Roll.Move) {
         val item = noteItem.value ?: return
+        /** It's okay not to notify about items move. */
         item.list.move(result.from, result.to)
         postNotifyItemList(item)
     }
@@ -280,6 +282,7 @@ class RollNoteViewModelImpl(
      * All item [RollItem.position] updates after call [save], because it's hard to control
      * during [isEditMode].
      */
+    @MainThread
     override fun swipeItem(position: Int) {
         val absolutePosition = getAbsolutePosition(position) ?: return
 
@@ -302,6 +305,7 @@ class RollNoteViewModelImpl(
      * All item [RollItem.position] updates after call [save], because it's hard to control
      * during [isEditMode].
      */
+    @MainThread
     override fun moveItem(from: Int, to: Int) {
         /**
          * Important: don't use [MutableLiveData.postValue] here with [itemList], because it
@@ -316,12 +320,14 @@ class RollNoteViewModelImpl(
      * All item [RollItem.position] updates after call [save], because it's hard to control
      * during [isEditMode].
      */
+    @MainThread
     override fun moveItemResult(from: Int, to: Int) {
         val absoluteFrom = getAbsolutePosition(from)
         val absoluteTo = getAbsolutePosition(to)
 
         if (absoluteFrom == null || absoluteTo == null) return
 
+        /** It's okay not to notify about items move. */
         noteItem.value?.list?.move(absoluteFrom, absoluteTo)
 
         history.add(HistoryAction.Roll.Move(HistoryChange(absoluteFrom, absoluteTo)))

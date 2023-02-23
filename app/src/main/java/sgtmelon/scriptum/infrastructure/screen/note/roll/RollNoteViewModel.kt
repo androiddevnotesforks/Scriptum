@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
+import androidx.annotation.MainThread
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollWriteHolder
@@ -16,10 +17,13 @@ interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
 
     fun addItem(toBottom: Boolean, text: String)
 
+    @MainThread
     fun swipeItem(position: Int)
 
+    @MainThread
     fun moveItem(from: Int, to: Int)
 
+    @MainThread
     fun moveItemResult(from: Int, to: Int)
 
 }

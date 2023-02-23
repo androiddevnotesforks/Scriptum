@@ -312,7 +312,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     //endregion
 
-    // TODO mark touch callbacks as mainThread
     // TODO scroll to changed item (undo/redo)
     // TODO after item swiped - move cursor to enter field
 
