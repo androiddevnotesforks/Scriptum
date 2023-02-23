@@ -71,6 +71,30 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     private val listAnimation = ShowListAnimation()
 
+    private val touchHelper = DragAndSwipeTouchHelper(callback = this)
+    override val adapter: RollAdapter by lazy {
+        val readCallback = object : RollReadHolder.Callback {
+            override fun onReadCheckClick(p: Int, animTime: Long, action: () -> Unit) {
+                /** Tag needed here to protect from cross click: check box and visible icon */
+                open.attempt(OpenState.Tag.ANIM) {
+                    open.block(animTime)
+                    open.tag = OpenState.Tag.ANIM
+
+                    action()
+                    viewModel.changeItemCheck(p)
+                }
+            }
+        }
+
+        return@lazy with(connector.init) {
+            RollAdapter(isEdit, state, touchHelper, viewModel, readCallback) {
+                focusOnEnter()
+            }
+        }
+    }
+    override val layoutManager by lazy { LinearLayoutManager(activity) }
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
+
     private var visibleIcon: IconChangeCallback? = null
     private val visibleMenuItem: MenuItem?
         get() = appBar?.content?.toolbar?.getItem(R.id.item_visible)
@@ -174,7 +198,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             is HistoryResult.Name -> onHistoryName(result)
             is HistoryResult.Roll.Enter -> adapter.cursor = result.cursor
             is HistoryResult.Roll.Add -> adapter.cursor = result.item.text.length
-            else -> return // TODO write comment
+            else -> return /** Other cases would not be updated in UI. */
         }
     }
 
@@ -252,37 +276,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
     /** Take list size from [viewModel], because there are maybe a hide state (hide done items). */
     override fun isContentEmpty(): Boolean = viewModel.noteItem.value?.list?.isEmpty().isTrue()
-
-    //region Cleanup
-
-    private val touchHelper by lazy { DragAndSwipeTouchHelper(callback = this) }
-    override val adapter: RollAdapter by lazy {
-        val readCallback = object : RollReadHolder.Callback {
-            override fun onReadCheckClick(p: Int, animTime: Long, action: () -> Unit) {
-                // TODO зачем это условие? (опиши комментарием)
-                if (!open.isChangeEnabled && open.tag == OpenState.Tag.ANIM) {
-                    open.isChangeEnabled = true
-                }
-
-                open.attempt(OpenState.Tag.ANIM) {
-                    open.block(animTime)
-                    open.tag = OpenState.Tag.ANIM
-                    action()
-                    viewModel.changeItemCheck(p)
-                }
-            }
-        }
-
-        return@lazy with(connector.init) {
-            RollAdapter(isEdit, state, touchHelper, viewModel, readCallback) {
-                focusOnEnter()
-            }
-        }
-    }
-    override val layoutManager by lazy { LinearLayoutManager(activity) }
-    override val recyclerView: RecyclerView? get() = binding?.recyclerView
-
-    //endregion
 
     //region Touch callback
 

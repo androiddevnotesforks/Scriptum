@@ -75,7 +75,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
         when (result) {
             is HistoryResult.Name -> onHistoryName(result)
             is HistoryResult.Text.Enter -> onHistoryEnter(result)
-            else -> return // TODO write comment
+            else -> return /** Other cases would not be updated in UI. */
         }
     }
 
