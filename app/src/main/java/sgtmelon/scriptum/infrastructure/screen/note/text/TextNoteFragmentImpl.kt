@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import androidx.core.widget.doOnTextChanged
 import javax.inject.Inject
-import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -25,8 +24,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
 /**
  * Fragment for display text note.
  */
-class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextNoteBinding>(),
-    IconBlockCallback {
+class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextNoteBinding>() {
 
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT

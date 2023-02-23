@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.removeExtraSpace
-import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -49,16 +48,10 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  */
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
     CustomListNotifyUi<RollItem>,
-    IconBlockCallback,
     DragAndSwipeTouchHelper.Callback {
 
-    // TODO pass data for pre-binding: visible state
-
     // TODO FIX:
-    // 0. Create note - strange keyboard adjust
-    // 3. Undo/redo not working
-    // 1. After filling note -> save button don't change enable state (only after rotation)
-    // 2. Create note - cursor not on name (it's placed on enter)
+    // 1. Create note - cursor not on name (it's placed on enter)
 
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL

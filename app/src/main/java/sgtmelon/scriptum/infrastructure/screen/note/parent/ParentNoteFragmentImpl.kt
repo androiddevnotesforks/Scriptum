@@ -62,9 +62,6 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     IconBlockCallback {
 
-    // TODO Ошибки:
-    // 1. Создал заметку - редактируешь - стераешь текст (кнопка сохранить не активна) - нажми на крестик и будет видно как кнопка загорелась
-
     protected val connector get() = activity as NoteConnector
 
     abstract val type: NoteType
