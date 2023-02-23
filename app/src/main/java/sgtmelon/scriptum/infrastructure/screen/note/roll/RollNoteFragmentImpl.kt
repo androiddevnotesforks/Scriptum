@@ -211,12 +211,34 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
+
+            invalidateEmptyInfo()
             listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
         viewModel.itemList.observe(this) { catchListUpdate(it) }
+    }
+
+    private fun invalidateEmptyInfo() {
+        val item = viewModel.noteItem.value ?: return
+
+        val isListEmpty = item.list.isEmpty()
+        /**
+         * May simply get count from [adapter] (not from [RollNoteViewModel.itemList]), because
+         * it will be before animation - it's mean all items already passed into [adapter].
+         */
+        val isListHide = !item.isVisible && !isListEmpty && adapter.itemCount == 0
+
+        when {
+            isListEmpty -> R.string.info_roll_empty_title to R.string.info_roll_empty_details
+            isListHide -> R.string.info_roll_hide_title to R.string.info_roll_hide_details
+            else -> null
+        }?.also {
+            binding?.emptyInfo?.titleText?.setText(it.first)
+            binding?.emptyInfo?.detailsText?.setText(it.second)
+        }
     }
 
     override fun observeDataReady(it: Boolean) {
@@ -249,17 +271,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         /** Skip animation on first icon setup. */
         visibleIcon?.setDrawable(isVisible, needAnim = visibleIcon?.isEnterIcon != null)
-
-        val isListEmpty = item.list.isEmpty()
-        val isListHide = !item.isVisible && !isListEmpty && adapter.itemCount == 0
-        when {
-            isListEmpty -> R.string.info_roll_empty_title to R.string.info_roll_empty_details
-            isListHide -> R.string.info_roll_hide_title to R.string.info_roll_hide_details
-            else -> null
-        }?.also {
-            binding?.emptyInfo?.titleText?.setText(it.first)
-            binding?.emptyInfo?.detailsText?.setText(it.second)
-        }
     }
 
     override fun invalidatePanelState(isEdit: Boolean) {
