@@ -30,12 +30,7 @@ class UnbindActionReceiver : BroadcastReceiver() {
             val intent = Intent(context, UnbindActionReceiver::class.java)
                 .putExtra(Note.Intent.ID, item.id)
 
-            val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
-
+            val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             return PendingIntent.getBroadcast(context, item.id.toInt(), intent, flags)
         }
     }

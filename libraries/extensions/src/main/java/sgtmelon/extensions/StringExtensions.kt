@@ -1,5 +1,9 @@
 package sgtmelon.extensions
 
+import java.util.UUID
+
+val uniqueId: String get() = UUID.randomUUID().toString()
+
 fun String.clearSplit(regex: Regex) = split(regex).dropLastWhile { it.isEmpty() }
 
 fun String.clearSplit(regex: String) = clearSplit(regex.toRegex())

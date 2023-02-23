@@ -7,11 +7,11 @@ import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.safedialog.utils.DialogOwner
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.extensions.setPaddingInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**

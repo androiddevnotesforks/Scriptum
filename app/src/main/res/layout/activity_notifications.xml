@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/toolbar_include"
+            android:id="@+id/app_bar"
             layout="@layout/inc_toolbar_simple" />
 
         <FrameLayout
@@ -27,18 +27,20 @@
             android:layout_height="match_parent">
 
             <include
-                android:id="@+id/info_include"
+                android:id="@+id/empty_info"
                 layout="@layout/inc_info"
+                android:visibility="gone"
                 app:details='@{R.string.info_notification_empty_details}'
                 app:icon='@{R.mipmap.img_info_notifications}'
-                app:title='@{R.string.info_notification_empty_title}' />
+                app:title='@{R.string.info_notification_empty_title}'
+                tools:visibility="visible" />
 
+            <!--  Make only progress visible on screen clean-open.  -->
             <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                style="@style/ProgressBar.Center" />
 
+            <!--  Parent container needed for snackbar show.  -->
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/recycler_container"
                 android:layout_width="match_parent"
@@ -49,7 +51,7 @@
                     style="@style/RecyclerView.Normal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_notification"
                     tools:visibility="visible" />

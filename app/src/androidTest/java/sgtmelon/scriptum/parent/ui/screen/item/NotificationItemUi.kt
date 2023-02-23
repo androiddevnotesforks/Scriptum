@@ -50,8 +50,8 @@ class NotificationItemUi(
         )
 
         val name = item.name.ifEmpty { context.getString(R.string.empty_note_name) }
-        val date = item.alarmDate.toCalendar().formatFuture(context)
-        val cancelDesc = context.getString(R.string.desc_notification_cancel, name, item.alarmDate)
+        val date = item.alarm.date.toCalendar().formatFuture(context)
+        val cancelDesc = context.getString(R.string.desc_notification_cancel, name, item.alarm.date)
 
         colorView.isDisplayed()
             .withSize(widthId = R.dimen.layout_8dp)

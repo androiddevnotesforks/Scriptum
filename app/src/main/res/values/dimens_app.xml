@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="page_indicator_size">8dp</dimen>
-    <dimen name="page_indicator_select_size">12dp</dimen>
-    <dimen name="page_indicator_space">10dp</dimen>
+    <!--  TODO refactor this xml file and make normal names and move all dimens inside dimens_device with screen optimization.  -->
 
     <dimen name="text_18sp">18sp</dimen>
     <dimen name="text_16sp">16sp</dimen>
@@ -23,17 +21,10 @@
     <dimen name="icon_16dp">16dp</dimen>
 
     <dimen name="elevation_0dp">0dp</dimen>
-    <dimen name="elevation_2dp">2dp</dimen>
-    <dimen name="elevation_4dp">4dp</dimen>
-    <dimen name="elevation_6dp">6dp</dimen>
-    <dimen name="elevation_8dp">8dp</dimen>
 
     <dimen name="radius_2dp">2dp</dimen>
-    <dimen name="radius_4dp">4dp</dimen>
-    <dimen name="radius_8dp">8dp</dimen>
 
     <dimen name="stroke_4dp">4dp</dimen>
-
 
     <dimen name="note_panel_height">48dp</dimen>
 

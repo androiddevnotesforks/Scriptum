@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlin.math.max
 import kotlinx.coroutines.flow.Flow
@@ -19,8 +18,8 @@ import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
 import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.recordException
 
 class RankViewModelImpl(
@@ -30,34 +29,10 @@ class RankViewModelImpl(
     private val updateRank: UpdateRankUseCase,
     private val correctRankPositions: CorrectRankPositionsUseCase,
     private val updateRankPositions: UpdateRankPositionsUseCase
-) : ViewModel(),
+) : CustomListNotifyViewModelImpl<RankItem>(),
     RankViewModel {
 
-    override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
-
-    private fun notifyShowList() {
-        val state = showList.value ?: return
-        val newState = if (_itemList.isEmpty()) ShowListState.Empty else ShowListState.List
-
-        /** Skip same state. */
-        if (state != newState) {
-            showList.postValue(newState)
-        }
-    }
-
-    override val itemList: MutableLiveData<List<RankItem>> = MutableLiveData()
-
-    private val _itemList: MutableList<RankItem> = mutableListOf()
     private val uniqueNameList: List<String> get() = _itemList.map { it.name.uppercase() }
-
-    // TODO make this variable common (see also in NotificationsViewModelImpl)
-    /** Variable for specific list updates (when need update not all items). */
-    override var updateList: UpdateListState = UpdateListState.Notify
-        get() {
-            val value = field
-            updateList = UpdateListState.Notify
-            return value
-        }
 
     override val showSnackbar: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -86,7 +61,7 @@ class RankViewModelImpl(
         return name.isNotEmpty() && !uniqueNameList.contains(name.uppercase())
     }
 
-    override fun addRank(enter: String, toBottom: Boolean): Flow<AddState> = flowOnBack {
+    override fun addItem(enter: String, toBottom: Boolean): Flow<AddState> = flowOnBack {
         val name = enter.removeExtraSpace()
 
         if (!isValidName(name)) {
@@ -113,13 +88,13 @@ class RankViewModelImpl(
         emit(AddState.Complete)
     }
 
-    override fun moveRank(from: Int, to: Int) {
+    override fun moveItem(from: Int, to: Int) {
         _itemList.move(from, to)
         updateList = UpdateListState.Move(from, to)
         itemList.value = _itemList
     }
 
-    override fun moveRankResult() {
+    override fun moveItemResult() {
         val noteIdList = correctRankPositions(_itemList)
 
         itemList.postValue(_itemList)
@@ -129,8 +104,8 @@ class RankViewModelImpl(
         }
     }
 
-    override fun changeRankVisibility(p: Int): Flow<Unit> = flowOnBack {
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
+    override fun changeVisibility(position: Int): Flow<Unit> = flowOnBack {
+        val item = _itemList.getOrNull(position) ?: return@flowOnBack
 
         item.isVisible = !item.isVisible
 
@@ -142,13 +117,13 @@ class RankViewModelImpl(
         emit(Unit)
     }
 
-    override fun getRenameData(p: Int): Flow<Pair<String, List<String>>> = flowOnBack {
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
+    override fun getRenameData(position: Int): Flow<Pair<String, List<String>>> = flowOnBack {
+        val item = _itemList.getOrNull(position) ?: return@flowOnBack
         emit(value = item.name to uniqueNameList)
     }
 
-    override fun renameRank(p: Int, name: String): Flow<Unit> = flowOnBack {
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
+    override fun renameItem(position: Int, name: String): Flow<Unit> = flowOnBack {
+        val item = _itemList.getOrNull(position) ?: return@flowOnBack
 
         item.name = name
         updateRank(item)
@@ -157,15 +132,15 @@ class RankViewModelImpl(
         emit(Unit)
     }
 
-    override fun removeRank(p: Int): Flow<Unit> = flowOnBack {
-        val item = _itemList.removeAtOrNull(p) ?: return@flowOnBack
+    override fun removeItem(position: Int): Flow<Unit> = flowOnBack {
+        val item = _itemList.removeAtOrNull(position) ?: return@flowOnBack
         val noteIdList = correctRankPositions(_itemList)
 
         /** Save item for snackbar undo action. */
-        undoList.add(Pair(p, item))
+        undoList.add(Pair(position, item))
         showSnackbar.postValue(true)
 
-        updateList = UpdateListState.Remove(p)
+        updateList = UpdateListState.Remove(position)
         itemList.postValue(_itemList)
         notifyShowList()
 
@@ -198,9 +173,7 @@ class RankViewModelImpl(
         /** Show/hide snackbar for next item. */
         showSnackbar.postValue(undoList.isNotEmpty())
 
-        /**
-         * After insert don't need update item in list (due to item already have id).
-         */
+        /** After insert don't need update item in list (due to item already have id). */
         insertRank(item)
         updateRankPositions(_itemList, correctRankPositions(_itemList))
 

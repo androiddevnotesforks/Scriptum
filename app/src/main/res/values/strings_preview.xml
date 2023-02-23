@@ -3,6 +3,8 @@
 
     <!-- Test strings for layout -->
 
+    <!--  TODO use: @tools:sample/lorem  -->
+
     <!-- Item note test -->
     <string name="preview_note_name" translatable="false">Не глупое заглавие заметки</string>
 

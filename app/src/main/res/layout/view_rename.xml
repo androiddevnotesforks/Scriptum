@@ -25,7 +25,6 @@
         android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
         android:maxLength="@integer/rank_name_max_length"
         android:maxLines="1"
-        android:textSize="@dimen/text_18sp"
-        tools:targetApi="o" />
+        android:textSize="@dimen/text_18sp" />
 
 </LinearLayout>

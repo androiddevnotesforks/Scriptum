@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.cleanup.test.ui.control.notification.bind
 
-import kotlin.random.Random
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
@@ -105,28 +103,28 @@ class BindMainTest : ParentNotificationTest() {
 
     private fun insertRankWithStatusNote(): NoteItem {
         TODO()
-
-        val noteItem = with(db) {
-            return@with if (Random.nextBoolean()) {
-                insertText(textNote.copy(isStatus = true))
-            } else {
-                insertRoll(rollNote.copy(isStatus = true))
-            }
-        }
-
-        val rankEntity = with(db) {
-            insertRank(rankEntity.copy(noteId = arrayListOf(noteItem.id)))
-        }
-
-        val converter = NoteConverter()
-        db.inRoomTest {
-            noteDao.update(converter.toEntity(noteItem.apply {
-                rankId = rankEntity.id
-                rankPs = rankEntity.position
-            }))
-        }
-
-        return noteItem
+        //
+        //        val noteItem = with(db) {
+        //            return@with if (Random.nextBoolean()) {
+        //                insertText(textNote.copy(isStatus = true))
+        //            } else {
+        //                insertRoll(rollNote.copy(isStatus = true))
+        //            }
+        //        }
+        //
+        //        val rankEntity = with(db) {
+        //            insertRank(rankEntity.copy(noteId = arrayListOf(noteItem.id)))
+        //        }
+        //
+        //        val converter = NoteConverter()
+        //        db.inRoomTest {
+        //            noteDao.update(converter.toEntity(noteItem.apply {
+        //                rankId = rankEntity.id
+        //                rankPs = rankEntity.position
+        //            }))
+        //        }
+        //
+        //        return noteItem
     }
 
 

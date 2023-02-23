@@ -5,7 +5,7 @@ import androidx.databinding.ViewDataBinding
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
@@ -32,9 +32,8 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     private val bundleProvider = SplashBundleProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
+        super.onCreate(savedInstanceState)
 
         setCrashlyticsKeys()
         chooseOpenScreen()
@@ -78,7 +77,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         when (val it = bundleProvider.open) {
             is SplashOpen.Main -> openMainScreen()
             is SplashOpen.Alarm -> openAlarmScreen(it.id)
-            is SplashOpen.BindNote -> openNoteScreen(it.id, it.color, it.type)
+            is SplashOpen.BindNote -> openNoteScreen(it)
             is SplashOpen.Notifications -> openNotificationsScreen()
             is SplashOpen.HelpDisappear -> openHelpDisappearScreen()
             is SplashOpen.CreateNote -> openNoteScreen(it.type)
@@ -91,8 +90,8 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         startActivities(InstanceFactory.Chains.toAlarm(context = this, noteId))
     }
 
-    private fun openNoteScreen(noteId: Long, color: Int, type: Int) = beforeFinish {
-        startActivities(InstanceFactory.Chains.toNote(context = this, noteId, color, type))
+    private fun openNoteScreen(data: SplashOpen.BindNote) = beforeFinish {
+        startActivities(InstanceFactory.Chains.toNote(context = this, data))
     }
 
     private fun openNotificationsScreen() = beforeFinish {

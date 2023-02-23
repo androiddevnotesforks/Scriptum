@@ -9,10 +9,13 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.parent.ui.basic.withCardBackground
 import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
@@ -87,7 +90,7 @@ class NoteItemUi(
             super.assert(item)
 
             val visibleList = with(item) {
-                if (isVisible) list else list.hide().takeIf { it.isNotEmpty() } ?: list
+                if (isVisible) list else list.hideChecked().takeIf { it.isNotEmpty() } ?: list
             }
 
             for (i in 0 until 4) {
@@ -216,7 +219,7 @@ class NoteItemUi(
 
                 parentContainer.isDisplayed()
 
-                notificationImage.isDisplayed(item.haveAlarm()) {
+                notificationImage.isDisplayed(item.haveAlarm) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clIndicator)
 
@@ -227,7 +230,7 @@ class NoteItemUi(
                     NoteType.ROLL -> R.drawable.ic_bind_roll
                 }, R.attr.clIndicator)
 
-                rankImage.isDisplayed(item.haveRank()) {
+                rankImage.isDisplayed(item.haveRank) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(R.drawable.ic_rank, R.attr.clIndicator)
 

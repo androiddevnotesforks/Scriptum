@@ -1,49 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="menuCallback"
-            type="sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteMenu" />
-
-        <variable
-            name="isDataLoad"
-            type="boolean" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Text" />
-
-        <variable
-            name="isRankEmpty"
-            type="boolean" />
-
-        <variable
-            name="isEditMode"
-            type="boolean" />
-
-        <variable
-            name="inputAccess"
-            type="sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl.Access" />
-    </data>
-
     <LinearLayout
-        android:id="@+id/text_note_parent_container"
+        android:id="@+id/parent_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <include
-            android:id="@+id/toolbar_include"
-            layout="@layout/inc_toolbar_note"
-            app:isDataLoad='@{isDataLoad}'
-            app:isEditMode='@{isEditMode}'
-            app:item='@{item}' />
+            android:id="@+id/app_bar"
+            layout="@layout/inc_toolbar_note" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -51,37 +18,31 @@
             android:layout_weight="1">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/text_note_content_card"
+                android:id="@+id/content_card"
                 style="@style/Card.Text"
                 android:layout_height="match_parent">
 
                 <ScrollView
-                    android:id="@+id/text_note_content_scroll"
+                    android:id="@+id/content_scroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'>
+                    android:fillViewport="true">
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/text_note_content_enter"
+                            android:id="@+id/text_enter"
                             style="@style/EditText.TextNote.Enter"
                             android:hint="@string/hint_enter_text"
                             android:importantForAutofill="noExcludeDescendants"
-                            android:text='@={item.text}'
-                            android:visibility='@{isEditMode ? View.VISIBLE : View.INVISIBLE}'
-                            tools:targetApi="o"
+                            tools:text="@string/preview_note_text"
                             tools:visibility="invisible" />
 
-                        <!-- Set empty text need for editText may change size -->
                         <TextView
-                            android:id="@+id/text_note_content_text"
+                            android:id="@+id/text_read"
                             style="@style/EditText.TextNote.Read"
-                            android:text='@{isEditMode ? "" : item.text}'
-                            android:visibility='@{!isEditMode ? View.VISIBLE : View.INVISIBLE}'
                             tools:text="@string/preview_note_text" />
 
                     </FrameLayout>
@@ -93,14 +54,8 @@
         </FrameLayout>
 
         <include
-            android:id="@+id/panel_include"
-            layout="@layout/inc_note_panel_text"
-            app:inputAccess='@{inputAccess}'
-            app:isDataLoad='@{isDataLoad}'
-            app:isEditMode='@{isEditMode}'
-            app:isRankEmpty='@{isRankEmpty}'
-            app:item='@{item}'
-            app:menuCallback='@{menuCallback}' />
+            android:id="@+id/panel"
+            layout="@layout/inc_note_panel_text" />
 
     </LinearLayout>
 

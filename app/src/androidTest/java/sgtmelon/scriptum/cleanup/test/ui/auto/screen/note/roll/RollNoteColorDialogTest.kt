@@ -3,15 +3,15 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.ui.cases.value.ColorCase
 
 /**
- * Test of [PreferencesImpl.defaultColor] setup for [RollNoteFragment].
+ * Test of [PreferencesImpl.defaultColor] setup for [RollNoteFragmentImpl].
  */
 @RunWith(AndroidJUnit4::class)
 class RollNoteColorDialogTest : ParentUiTest(), ColorCase {

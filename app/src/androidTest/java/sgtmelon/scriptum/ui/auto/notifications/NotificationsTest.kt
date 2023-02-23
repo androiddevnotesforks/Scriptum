@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchNotes

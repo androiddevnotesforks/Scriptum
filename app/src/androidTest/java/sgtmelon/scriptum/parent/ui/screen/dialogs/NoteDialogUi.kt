@@ -7,6 +7,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.database.DbData
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onDelete
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
@@ -32,7 +38,7 @@ class NoteDialogUi(val item: NoteItem) : UiPart(),
     }
 
     private val notificationButton = getViewByText(
-        if (item.haveAlarm()) {
+        if (item.haveAlarm) {
             R.string.dialog_menu_notification_update
         } else {
             R.string.dialog_menu_notification_set
@@ -64,7 +70,7 @@ class NoteDialogUi(val item: NoteItem) : UiPart(),
 
     fun notification(func: DateDialogUi.() -> Unit) = waitClose {
         notificationButton.click()
-        DateDialogUi(func, item.haveAlarm(), callback = this)
+        DateDialogUi(func, item.haveAlarm, callback = this)
     }
 
     fun bind() = waitClose {
@@ -96,13 +102,13 @@ class NoteDialogUi(val item: NoteItem) : UiPart(),
 
 
     override fun dateResetResult() {
-        item.alarmId = DbData.Alarm.Default.ID
-        item.alarmDate = DbData.Alarm.Default.DATE
+        item.alarm.id = DbData.Alarm.Default.ID
+        item.alarm.date = DbData.Alarm.Default.DATE
     }
 
     override fun timeSetResult(calendar: Calendar) {
-        item.alarmId = calendar.timeInMillis
-        item.alarmDate = calendar.toText()
+        item.alarm.id = calendar.timeInMillis
+        item.alarm.date = calendar.toText()
     }
 
     fun assert() = apply {

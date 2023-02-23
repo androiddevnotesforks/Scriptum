@@ -12,7 +12,7 @@ import sgtmelon.scriptum.data.backup.BackupParserImpl
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
-import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
+import sgtmelon.scriptum.infrastructure.converter.types.LongListConverter
 
 @Module
 class BackupModule {
@@ -48,8 +48,8 @@ class BackupModule {
     fun provideJsonConverter(
         colorConverter: ColorConverter,
         typeConverter: NoteTypeConverter,
-        numbersJoinConverter: NumbersJoinConverter
+        longListConverter: LongListConverter
     ): BackupJsonConverter {
-        return BackupJsonConverter(colorConverter, typeConverter, numbersJoinConverter)
+        return BackupJsonConverter(colorConverter, typeConverter, longListConverter)
     }
 }

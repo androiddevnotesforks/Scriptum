@@ -16,6 +16,10 @@ import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onDelete
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.test.prod.RunPrivate
 
 /**
@@ -78,10 +82,10 @@ class NoteRepoImpl(
         if (sort != Sort.RANK) return@apply
 
         /** List must contains item with and without rank. */
-        if (any { it.haveRank() } && any { !it.haveRank() }) {
+        if (any { it.haveRank } && any { !it.haveRank }) {
 
             /** Move items without rank to list end. */
-            while (!first().haveRank()) {
+            while (!first().haveRank) {
                 moveToEnd(from = 0)
             }
         }
@@ -165,7 +169,7 @@ class NoteRepoImpl(
      * Delete note forever and clear related categories
      */
     override suspend fun clearNote(item: NoteItem) {
-        clearConnection(item.id, item.rankId)
+        clearConnection(item.id, item.rank.id)
         noteDataSource.delete(noteConverter.toEntity(item))
     }
 
@@ -181,14 +185,14 @@ class NoteRepoImpl(
 
     // Repo save and update functions
 
+    // TODO may be insert without forEach circle? Check out list insert, and it will return list with ids.
     override suspend fun convertNote(item: NoteItem.Text): NoteItem.Roll {
         val newItem = item.onConvert()
 
-        for (it in newItem.list) {
+        noteDataSource.update(noteConverter.toEntity(newItem))
+        newItem.list.forEach {
             it.id = rollDataSource.insert(rollConverter.toEntity(newItem.id, it))
         }
-
-        noteDataSource.update(noteConverter.toEntity(newItem))
 
         return newItem
     }

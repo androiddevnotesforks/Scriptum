@@ -4,15 +4,21 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 
@@ -25,6 +31,16 @@ class NoteUseCaseModule {
     }
 
     @Provides
+    fun provideCreateTextNoteUseCase(repository: PreferencesRepo): CreateTextNoteUseCase {
+        return CreateTextNoteUseCase(repository)
+    }
+
+    @Provides
+    fun provideCreateRollNoteUseCase(repository: PreferencesRepo): CreateRollNoteUseCase {
+        return CreateRollNoteUseCase(repository)
+    }
+
+    @Provides
     fun provideGetTextNoteUseCase(repository: NoteRepo): GetTextNoteUseCase {
         return GetTextNoteUseCase(repository)
     }
@@ -32,6 +48,16 @@ class NoteUseCaseModule {
     @Provides
     fun provideGetRollNoteUseCase(repository: NoteRepo): GetRollNoteUseCase {
         return GetRollNoteUseCase(repository)
+    }
+
+    @Provides
+    fun provideCacheTextNoteUseCase(): CacheTextNoteUseCase {
+        return CacheTextNoteUseCase()
+    }
+
+    @Provides
+    fun provideCacheRollNoteUseCase(): CacheRollNoteUseCase {
+        return CacheRollNoteUseCase()
     }
 
     @Provides
@@ -64,7 +90,7 @@ class NoteUseCaseModule {
         return ClearNoteUseCase(repository)
     }
 
-    //region Roll use cases
+    //region Roll useCases
 
     @Provides
     fun provideUpdateRollVisibleUseCase(repository: NoteRepo): UpdateRollVisibleUseCase {
@@ -77,4 +103,8 @@ class NoteUseCaseModule {
     }
 
     //endregion
+
+    @Provides
+    fun provideGetHistoryResultUseCase(): GetHistoryResultUseCase = GetHistoryResultUseCase()
+
 }

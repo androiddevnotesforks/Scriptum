@@ -1,22 +1,24 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
+import android.content.Context
 import android.content.IntentFilter
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.extension.addOnDoneAction
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
-import sgtmelon.scriptum.cleanup.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
+import sgtmelon.scriptum.infrastructure.adapter.touch.DragAndSwipeTouchHelper
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -25,10 +27,12 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
-import sgtmelon.scriptum.infrastructure.widgets.recycler.NotifyListDelegator
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
+import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
 
@@ -36,25 +40,26 @@ import sgtmelon.test.idling.getIdling
  * Screen with list of categories and with ability to create them.
  */
 class RankFragment : BindingFragment<FragmentRankBinding>(),
+    CustomListNotifyUi<RankItem>,
     SnackbarDelegator.Callback,
-    RankTouchControl.Callback,
+    DragAndSwipeTouchHelper.Callback,
     ScrollTopCallback {
 
     override val layoutId: Int = R.layout.fragment_rank
 
-    @Inject lateinit var viewModel: RankViewModel
+    @Inject override lateinit var viewModel: RankViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
     private val renameDialog by lazy { dialogs.getRename() }
 
-    private val touchControl = RankTouchControl(this)
-    private val adapter by lazy {
-        RankAdapter(touchControl, object : IconBlockCallback {
-            override fun setEnabled(isEnabled: Boolean) {
+    private val touchHelper = DragAndSwipeTouchHelper(callback = this)
+    override val adapter by lazy {
+        RankAdapter(touchHelper, object : IconBlockCallback {
+            override fun setIconEnabled(isEnabled: Boolean) {
                 getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
                 parentOpen?.isBlocked = !isEnabled
             }
@@ -67,17 +72,14 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             override fun onRankCancelClick(p: Int) = removeRank(p)
         })
     }
-    private val layoutManager by lazy { LinearLayoutManager(context) }
-
-    private val notifyList by lazy {
-        NotifyListDelegator(binding?.recyclerView, adapter, layoutManager)
-    }
+    override val layoutManager by lazy { LinearLayoutManager(context) }
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     val snackbar = SnackbarDelegator(
         lifecycle, R.string.snackbar_message_rank, R.string.snackbar_action_cancel, callback = this
     )
 
-    val enterCard: View? get() = binding?.toolbarInclude?.enterCard
+    val enterCard: View? get() = binding?.appBar?.enterCard
 
     //region System
 
@@ -88,14 +90,14 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             .inject(fragment = this)
     }
 
-    override fun setupView() {
-        super.setupView()
+    override fun setupView(context: Context) {
+        super.setupView(context)
 
         /**
          * Use [OpenState.attempt] inside add category feature, because calculations happens
          * inside coroutine, not main thread.
          */
-        binding?.toolbarInclude?.apply {
+        binding?.appBar?.apply {
             toolbar.title = getString(R.string.title_rank)
             clearButton.setOnClickListener { clearEnter() }
             addButton.setOnClickListener {
@@ -106,7 +108,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
                 return@setOnLongClickListener true
             }
             rankEnter.doOnTextChanged { _, _, _, _ -> notifyToolbar() }
-            rankEnter.addOnDoneAction { if (addButton.isEnabled) addButton.callOnClick() }
+            rankEnter.setEditorDoneAction { if (addButton.isEnabled) addButton.callOnClick() }
         }
 
         notifyToolbar()
@@ -119,7 +121,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             it.adapter = adapter
         }
 
-        ItemTouchHelper(touchControl).attachToRecyclerView(binding?.recyclerView)
+        ItemTouchHelper(touchHelper).attachToRecyclerView(binding?.recyclerView)
     }
 
     override fun setupDialogs() {
@@ -127,7 +129,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
         renameDialog.apply {
             onPositiveClick {
-                viewModel.renameRank(position, name).collect(owner = this) { notifyToolbar() }
+                viewModel.renameItem(position, name).collect(owner = this) { notifyToolbar() }
             }
             onDismiss { parentOpen?.clear() }
         }
@@ -138,15 +140,18 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInclude.parentContainer
+                binding.recyclerView, binding.emptyInfo.parentContainer
             )
 
-            /** If toolbar enter contains any text then need update add button. */
+            /**
+             * Need notify because enter field may contain text like in item name from list
+             * (need update add button).
+             */
             notifyToolbar()
         }
-        viewModel.itemList.observe(this) { notifyList.catch(viewModel.updateList, it) }
+        viewModel.itemList.observe(this) { catchListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 
@@ -170,7 +175,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         viewModel.updateData()
 
         /** Restore our snack bar if it must be shown. */
-        if (viewModel.showSnackbar.value == true && !snackbar.isDisplayed) {
+        if (viewModel.showSnackbar.value.isTrue() && !snackbar.isDisplayed) {
             showSnackbar()
         }
     }
@@ -180,7 +185,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private fun notifyToolbar() {
         val (isClearEnable, isAddEnable) = viewModel.getToolbarEnable(getEnterText())
 
-        binding?.toolbarInclude?.apply {
+        binding?.appBar?.apply {
             clearButton.isEnabled = isClearEnable
             clearButton.bindBoolTint(isClearEnable, R.attr.clContent, R.attr.clDisable)
 
@@ -189,10 +194,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
-    private fun getEnterText(): String = binding?.toolbarInclude?.rankEnter?.text?.toString() ?: ""
+    private fun getEnterText(): String = binding?.appBar?.rankEnter?.text?.toString() ?: ""
 
     private fun clearEnter() {
-        binding?.toolbarInclude?.rankEnter?.setText("")
+        binding?.appBar?.rankEnter?.setText("")
     }
 
     private fun addFromEnter(toBottom: Boolean) {
@@ -202,7 +207,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
          */
         snackbar.cancel()
 
-        viewModel.addRank(getEnterText(), toBottom).collect(owner = this) {
+        viewModel.addItem(getEnterText(), toBottom).collect(owner = this) {
             when (it) {
                 AddState.Deny -> parentOpen?.clear()
                 AddState.Prepare -> {
@@ -222,7 +227,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private inline fun changeVisibility(p: Int, onAction: () -> Unit) {
         parentOpen?.attempt(withSwitch = false) {
             onAction()
-            viewModel.changeRankVisibility(p).collect(owner = this) { updateNotesBind() }
+            viewModel.changeVisibility(p).collect(owner = this) { updateNotesBind() }
         }
     }
 
@@ -244,7 +249,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     private fun removeRank(p: Int) {
         parentOpen?.attempt(withSwitch = false) {
-            viewModel.removeRank(p).collect(owner = this) { updateNotesBind() }
+            viewModel.removeItem(p).collect(owner = this) { updateNotesBind() }
         }
     }
 
@@ -266,26 +271,26 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
-    override fun onTouchGetDrag(): Boolean {
-        val canDrag = parentOpen?.isBlocked != true
+    override fun onTouchGetDrag(): Boolean = parentOpen?.isBlocked != true
 
-        if (canDrag) hideKeyboard()
+    override fun onTouchGetSwipe(): Boolean = false
 
-        return canDrag
-    }
+    override fun onTouchSwiped(position: Int) = Unit
+
+    override fun onTouchMoveStarts() = hideKeyboard()
 
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        /** I know it was closed inside [onTouchGetDrag], but it's for sure. */
+        /** I know it was closed inside [onTouchMoveStarts], but it's for sure. */
         hideKeyboard()
 
-        viewModel.moveRank(from, to)
+        viewModel.moveItem(from, to)
 
         return true
     }
 
-    override fun onTouchMoveResult() {
+    override fun onTouchMoveResult(from: Int, to: Int) {
         parentOpen?.clear()
-        viewModel.moveRankResult()
+        viewModel.moveItemResult()
     }
 
     //endregion

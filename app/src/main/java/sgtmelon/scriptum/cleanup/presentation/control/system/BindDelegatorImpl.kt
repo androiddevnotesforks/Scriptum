@@ -46,15 +46,12 @@ class BindDelegatorImpl(private val context: Context) : BindDelegator {
 
         noteItemList.clearAdd(itemList)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (noteItemList.size > 1) {
-                val summaryNotification = Factory.Notes.getBindSummary(context)
-
-                manager.notify(Tag.NOTE_GROUP, Id.NOTE_GROUP, summaryNotification)
-                tagIdMap[Tag.NOTE_GROUP] = Id.NOTE_GROUP
-            } else {
-                clearRecent(Tag.NOTE_GROUP)
-            }
+        if (noteItemList.size > 1) {
+            val summaryNotification = Factory.Notes.getBindSummary(context)
+            manager.notify(Tag.NOTE_GROUP, Id.NOTE_GROUP, summaryNotification)
+            tagIdMap[Tag.NOTE_GROUP] = Id.NOTE_GROUP
+        } else {
+            clearRecent(Tag.NOTE_GROUP)
         }
 
         for (item in noteItemList.reversed()) {

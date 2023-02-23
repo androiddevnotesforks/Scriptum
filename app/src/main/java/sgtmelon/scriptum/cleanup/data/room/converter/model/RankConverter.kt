@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.cleanup.data.room.converter.model
 
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 
 /**
@@ -19,5 +21,7 @@ class RankConverter {
     }
 
     fun toEntity(list: List<RankItem>) = list.map { toEntity(it) }
+
+    fun toNoteRank(entity: NoteEntity) = with(entity) { NoteRank(rankId, rankPs) }
 
 }

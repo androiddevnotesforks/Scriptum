@@ -1,15 +1,15 @@
 package sgtmelon.test.common
 
 import java.util.Calendar
-import java.util.UUID
 import kotlin.random.Random
 import org.junit.Assert.assertNotEquals
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
+import sgtmelon.extensions.uniqueId
 
 //region Random functions
 
-fun nextString() = UUID.randomUUID().toString().substring(0, 16)
+fun nextString() = uniqueId.substring(0, 16)
 
 fun nextShortString() = nextString().substring(0, 4)
 

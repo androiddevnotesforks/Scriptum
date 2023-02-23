@@ -5,12 +5,14 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.databinding.ItemRankBinding
-import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
+import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
-import sgtmelon.scriptum.infrastructure.adapter.touch.DragTouchListener
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
+import sgtmelon.scriptum.infrastructure.adapter.touch.listener.DragTouchListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
+import sgtmelon.scriptum.infrastructure.utils.extensions.maxIndicatorTest
 import sgtmelon.test.prod.RunNone
 
 @SuppressLint("ClickableViewAccessibility")
@@ -57,26 +59,18 @@ class RankHolder(
     }
 
     private fun notifyIndicators(item: RankItem) = with(binding) {
-        val isAlarmVisible = isMaxTest || item.notificationCount != 0
-        val isBindVisible = isMaxTest || item.bindCount != 0
+        val isAlarmVisible = maxIndicatorTest || item.notificationCount != 0
+        val isBindVisible = maxIndicatorTest || item.bindCount != 0
 
-        imageContainer.makeVisible(condition = isAlarmVisible || isBindVisible)
+        imageContainer.makeVisibleIf(condition = isAlarmVisible || isBindVisible)
 
-        notificationContainer.makeVisible(isAlarmVisible)
-        notificationText.text = getIndicatorCount(item.notificationCount)
+        notificationContainer.makeVisibleIf(isAlarmVisible)
+        notificationText.text = item.notificationCount.getIndicatorText()
 
-        bindContainer.makeVisible(isBindVisible)
-        bindText.text = getIndicatorCount(item.bindCount)
+        bindContainer.makeVisibleIf(isBindVisible)
+        bindText.text = item.bindCount.getIndicatorText()
 
         countText.text = context.getString(R.string.list_rank_count, item.noteId.size)
-    }
-
-    private fun getIndicatorCount(count: Int): String {
-        return when {
-            isMaxTest -> MAX_COUNT_TEXT
-            count > MAX_COUNT -> MAX_COUNT_TEXT
-            else -> count.toString()
-        }
     }
 
     private fun onVisibleClick(callback: RankClickListener, item: RankItem, p: Int) {

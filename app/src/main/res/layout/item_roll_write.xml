@@ -3,20 +3,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <import type="sgtmelon.scriptum.R"/>
-
-        <variable name="item" type="sgtmelon.scriptum.cleanup.domain.model.item.RollItem"/>
-
-        <!--
-            Use when user change roll text need update contentDescription without
-            calling onTextChanged in EditText.
-        -->
-        <variable name="descText" type="String"/>
-    </data>
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/roll_write_parent_card"
+        android:id="@+id/parent_container"
         style="@style/Card.Item.Common">
 
         <LinearLayout
@@ -30,33 +18,27 @@
                 tools:background="@color/accent_ripple_light">
 
                 <CheckBox
-                    android:id="@+id/roll_write_check"
+                    android:id="@+id/check_box"
                     style="@style/Button.Roll.Write" />
 
+                <!--  Set contentDescription in UI class  -->
                 <ImageButton
-                    android:id="@+id/roll_write_drag_button"
+                    android:id="@+id/drag_button"
                     style="@style/Container.Roll.Click"
-                    android:contentDescription='@{@string/description_item_roll_move + " " + descText}'
-                    app:boolExpression='@{item.check}'
-                    app:falseColor='@{R.attr.clContent}'
                     app:srcCompat="@drawable/ic_move"
-                    app:trueColor='@{R.attr.clAccent}'
+                    tools:ignore="ContentDescription"
                     tools:tint="?attr/clAccent" />
 
             </FrameLayout>
 
             <EditText
-                android:id="@+id/roll_write_enter"
+                android:id="@+id/text_enter"
                 style="@style/EditText.Roll"
                 android:hint="@string/hind_enter_roll_empty"
                 android:imeOptions="flagNoFullscreen"
                 android:importantForAutofill="noExcludeDescendants"
                 android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                android:text='@{item.text}'
-                app:boolExpression='@{!item.check}'
-                app:falseColor='@{R.attr.clContrast}'
-                app:trueColor='@{R.attr.clContent}'
-                tools:targetApi="o"
+                tools:textColor="?attr/clContrast"
                 tools:text="@string/preview_note_roll" />
 
         </LinearLayout>

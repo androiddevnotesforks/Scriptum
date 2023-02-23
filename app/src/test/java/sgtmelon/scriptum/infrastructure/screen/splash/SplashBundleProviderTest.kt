@@ -78,22 +78,30 @@ class SplashBundleProviderTest : ParentTest() {
     @Test fun `getData for bind`() {
         val key = AppOpenFrom.BIND_NOTE
         val id = Random.nextLong()
-        val color = Random.nextInt()
         val type = Random.nextInt()
+        val color = Random.nextInt()
+        val name = nextString()
 
         every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
-        every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns color
         every { bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE) } returns type
+        every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns color
 
-        assertGetData(SplashOpen.BindNote(id, color, type), key)
+        every { bundle.getString(Note.Intent.NAME, Note.Default.NAME) } returns null
+        assertGetData(SplashOpen.BindNote(id, type, color, Note.Default.NAME), key)
+
+        every { bundle.getString(Note.Intent.NAME, Note.Default.NAME) } returns name
+        assertGetData(SplashOpen.BindNote(id, type, color, name), key)
 
         verifySequence {
-            bundle.getString(AppOpenFrom.INTENT_KEY)
-            bundle.getLong(Note.Intent.ID, Note.Default.ID)
-            bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
-            bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
-            outState.putString(AppOpenFrom.INTENT_KEY, key)
+            repeat(times = 2) {
+                bundle.getString(AppOpenFrom.INTENT_KEY)
+                bundle.getLong(Note.Intent.ID, Note.Default.ID)
+                bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
+                bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
+                bundle.getString(Note.Intent.NAME, Note.Default.NAME)
+                outState.putString(AppOpenFrom.INTENT_KEY, key)
+            }
         }
     }
 

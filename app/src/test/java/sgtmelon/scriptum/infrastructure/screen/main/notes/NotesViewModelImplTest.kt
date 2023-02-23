@@ -7,7 +7,7 @@ import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
 import sgtmelon.scriptum.domain.useCase.main.SortNoteListUseCase
@@ -34,7 +34,7 @@ class NotesViewModelImplTest : ParentLiveDataTest() {
     @MockK lateinit var deleteNote: DeleteNoteUseCase
     @MockK lateinit var setNotification: SetNotificationUseCase
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
-    @MockK lateinit var getNotificationDateList: GetNotificationDateListUseCase
+    @MockK lateinit var getNotificationDateList: GetNotificationsDateListUseCase
 
     @MockK lateinit var calendar: Calendar
 
@@ -56,51 +56,7 @@ class NotesViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    @Test fun getShowList() {
-        TODO()
-    }
-
-    @Test fun getListHide() {
-        TODO()
-    }
-
-    @Test fun getItemList() {
-        TODO()
-    }
-
-    @Test fun updateData() {
-        TODO()
-    }
-
-    @Test fun getNoteNotification() {
-        TODO()
-    }
-
-    @Test fun getOccupiedDateList() {
-        TODO()
-    }
-
-    @Test fun deleteNoteNotification() {
-        TODO()
-    }
-
-    @Test fun setNoteNotification() {
-        TODO()
-    }
-
-    @Test fun updateNoteBind() {
-        TODO()
-    }
-
-    @Test fun convertNote() {
-        TODO()
-    }
-
-    @Test fun getNoteText() {
-        TODO()
-    }
-
-    @Test fun deleteNote() {
+    @Test fun todo() {
         TODO()
     }
 }

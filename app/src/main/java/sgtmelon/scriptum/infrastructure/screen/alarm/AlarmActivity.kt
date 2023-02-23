@@ -19,17 +19,20 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.DelayedJob
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfiguration
+import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfigured
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
+import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
-import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
 
@@ -84,8 +87,9 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         setupScreen()
     }
 
+    // TODO not save way to finish activity (view model is lateinit value)
     override fun inject(component: ScriptumComponent) {
-        val noteId = bundleProvider.noteId ?: return run { finish() }
+        val noteId = bundleProvider.noteId ?: return finish()
 
         component.getAlarmBuilder()
             .set(owner = this)
@@ -147,7 +151,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun onPause() {
         super.onPause()
 
-        if (system?.phoneAwake?.isAwake == false) {
+        if (system?.phoneAwake?.isAwake.isFalse()) {
             finish()
         }
     }
@@ -187,9 +191,10 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun setupView() {
         super.setupView()
 
-        binding?.parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
+        binding?.parentContainer?.afterLayoutConfigured { isLayoutConfigure = true }
 
         binding?.recyclerView?.let {
+            it.disableChangeAnimations()
             it.layoutManager = LinearLayoutManager(this)
             it.setHasFixedSize(true)
             it.adapter = adapter
@@ -230,7 +235,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             onStartState()
         } else {
             getIdling().start(IdlingTag.Alarm.CONFIGURE)
-            binding?.parentContainer?.afterLayoutConfiguration {
+            binding?.parentContainer?.afterLayoutConfigured {
                 isLayoutConfigure = true
                 onStartState()
                 getIdling().stop(IdlingTag.Alarm.CONFIGURE)
@@ -307,7 +312,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
-        open.attempt { startActivity(InstanceFactory.Note[this, item]) }
+        open.attempt { startActivity(InstanceFactory.Note[this, item, NoteState.EXIST]) }
     }
 
     companion object {

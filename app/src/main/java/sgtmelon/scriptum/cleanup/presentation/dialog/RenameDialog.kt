@@ -7,7 +7,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.safedialog.annotation.SavedTag
@@ -77,7 +77,7 @@ class RenameDialog : BlankDialog(),
             setHintTextColor(context.getColorAttr(R.attr.clDisable))
 
             setOnEditorActionListener(this@RenameDialog)
-            addTextChangedListener(onTextChanged = { _, _, _, _ -> changeButtonEnable() })
+            doOnTextChanged { _, _, _, _ -> changeButtonEnable() }
 
             requestFocus()
         }

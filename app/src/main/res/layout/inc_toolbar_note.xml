@@ -1,41 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_text_note">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="isDataLoad"
-            type="boolean" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem" />
-
-        <variable
-            name="isEditMode"
-            type="boolean" />
-    </data>
-
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/toolbar_note_parent_container"
+        android:id="@+id/parent_container"
         style="@style/Toolbar.Flex">
 
         <include
-            android:id="@+id/content_include"
-            layout="@layout/inc_toolbar_note_content"
-            app:isDataLoad="@{isDataLoad}"
-            app:isEditMode="@{isEditMode}"
-            app:item="@{item}" />
+            android:id="@+id/content"
+            layout="@layout/inc_toolbar_note_content" />
 
-        <View
-            android:id="@+id/toolbar_note_color_view"
-            style="@style/View.Color.Horizontal"
-            android:visibility="gone" />
+        <include
+            android:id="@+id/indicator"
+            layout="@layout/inc_toolbar_note_color" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -4,6 +4,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 
 /**
  * Repository for work with alarm.
@@ -14,17 +15,17 @@ class AlarmRepoImpl(
 ) : AlarmRepo {
 
     override suspend fun insertOrUpdate(item: NoteItem, date: String): Long? {
-        item.alarmDate = date
+        item.alarm.date = date
 
         val entity = converter.toEntity(item)
-        if (item.haveAlarm()) {
+        if (item.haveAlarm) {
             dataSource.update(entity)
         } else {
             /** Catch of insert errors happen inside dataSource. */
-            item.alarmId = dataSource.insert(entity) ?: return null
+            item.alarm.id = dataSource.insert(entity) ?: return null
         }
 
-        return item.alarmId
+        return item.alarm.id
     }
 
     override suspend fun delete(noteId: Long) = dataSource.delete(noteId)

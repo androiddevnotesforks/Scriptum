@@ -89,7 +89,7 @@ class AlarmScreen(
             }
         }
 
-        item.alarmDate = calendar.toText()
+        item.alarm.date = calendar.toText()
 
         return calendar
     }

@@ -4,12 +4,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
@@ -37,14 +38,14 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
 
     //region Views
 
-    private val toolbarContainer = getView(R.id.toolbar_note_parent_container)
-    override val toolbar = getView(R.id.toolbar_note_content_container)
-    private val nameScroll = getView(R.id.toolbar_note_scroll)
+    private val toolbarContainer = getView(R.id.parent_container)
+    override val toolbar = getView(R.id.toolbar)
+    private val nameScroll = getView(R.id.scroll_view)
 
-    private val colorView = getView(R.id.toolbar_note_color_view)
+    private val colorView = getView(R.id.color_view)
 
-    private val nameText = getView(R.id.toolbar_note_text)
-    private val nameEnter = getView(R.id.toolbar_note_enter)
+    private val nameEnter = getView(R.id.name_enter)
+    private val nameRead = getView(R.id.name_read)
 
     //endregion
 
@@ -57,8 +58,11 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
                     val valueFrom = if (i == 0) shadowItem.text else name[i - 1].toString()
                     val valueTo = c.toString()
 
-                    inputControl.onNameChange(
-                        valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
+                    history.add(
+                        HistoryAction.Name(
+                            HistoryChange(valueFrom, valueTo),
+                            HistoryChange(valueFrom.length, valueTo.length)
+                        )
                     )
                 }
 
@@ -76,7 +80,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
 
                 applyItem()
 
-                inputControl.reset()
+                history.reset()
                 fullAssert()
             }
         }
@@ -118,7 +122,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
                     val name = item.name
 
                     nameEnter.isDisplayed(value = false)
-                    nameText.isDisplayed {
+                    nameRead.isDisplayed {
                         if (name.isNotEmpty()) {
                             withText(name, R.attr.clContent)
                         } else {
@@ -129,7 +133,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
                 NoteState.EDIT, NoteState.NEW -> {
                     val name = shadowItem.name
 
-                    nameText.isDisplayed(value = false)
+                    nameRead.isDisplayed(value = false)
                     nameEnter.isDisplayed()
                         .withImeAction(EditorInfo.IME_ACTION_NEXT)
                         .withBackgroundColor(android.R.color.transparent)

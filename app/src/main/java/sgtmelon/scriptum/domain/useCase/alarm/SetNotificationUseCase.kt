@@ -27,6 +27,9 @@ class SetNotificationUseCase(
         invoke(item, calendar.toText())
     }
 
+    /**
+     * [item] update happens inside [AlarmRepo.insertOrUpdate].
+     */
     suspend operator fun invoke(item: NoteItem, date: String) {
         alarmRepo.insertOrUpdate(item, date)
     }

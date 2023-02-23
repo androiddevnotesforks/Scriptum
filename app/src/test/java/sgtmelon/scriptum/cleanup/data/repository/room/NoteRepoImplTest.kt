@@ -24,6 +24,9 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onDelete
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
@@ -371,7 +374,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         val entity = mockk<NoteEntity>()
 
         every { item.id } returns id
-        every { item.rankId } returns rankId
+        every { item.rank.id } returns rankId
         coEvery { spyRepository.clearConnection(id, rankId) } returns Unit
         every { noteConverter.toEntity(item) } returns entity
 
@@ -383,7 +386,7 @@ class NoteRepoImplTest : ParentRepoTest() {
             spyRepository.clearNote(item)
 
             item.id
-            item.rankId
+            item.rank.id
             spyRepository.clearConnection(id, rankId)
             noteConverter.toEntity(item)
             noteDataSource.delete(entity)
@@ -487,7 +490,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         every { startItem.id } returns id
         coEvery { rollDataSource.getList(id) } returns entityList
         every { rollConverter.toItem(entityList) } returns itemList
-        every { startItem.onConvert(itemList) } returns finishItem
+        //        every { startItem.onConvert(itemList) } returns finishItem
 
         runBlocking {
             assertEquals(repository.convertNote(startItem), finishItem)
@@ -504,7 +507,7 @@ class NoteRepoImplTest : ParentRepoTest() {
             startItem.id
             rollDataSource.getList(id)
             rollConverter.toItem(entityList)
-            startItem.onConvert(itemList)
+            //            startItem.onConvert(itemList)
             noteConverter.toEntity(finishItem)
             noteDataSource.update(finishEntity)
             finishItem.id

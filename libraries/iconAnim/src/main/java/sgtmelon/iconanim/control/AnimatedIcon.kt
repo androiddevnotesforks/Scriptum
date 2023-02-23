@@ -51,7 +51,7 @@ class AnimatedIcon(
     private fun launchSimpleIconSet(isEnterIcon: Boolean) {
         if (isEnabled) {
             isEnabled = false
-            blockCallback?.setEnabled(isEnabled = false)
+            blockCallback?.setIconEnabled(isEnabled = false)
         }
 
         ioScope.launch {
@@ -68,7 +68,7 @@ class AnimatedIcon(
         } else {
             if (!isEnabled) {
                 isEnabled = true
-                blockCallback?.setEnabled(isEnabled = true)
+                blockCallback?.setIconEnabled(isEnabled = true)
             }
 
             changeCallback.setDrawable(isEnterIcon, needAnim = false)

@@ -10,9 +10,9 @@ import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
-import sgtmelon.scriptum.infrastructure.utils.extensions.setPaddingInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setPaddingInsets
 
 /**
  * Screen for display different [PreferenceScreen]'s.
@@ -27,13 +27,10 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
     private val bundleProvider = PreferenceBundleProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
 
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
-        val screen = bundleProvider.screen ?: run {
-            finish()
-            return
-        }
+        val screen = bundleProvider.screen ?: return finish()
 
         setupView(screen)
         showFragment(screen)
@@ -79,7 +76,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             PreferenceScreen.SERVICE -> R.string.pref_header_service
         }
 
-        binding?.toolbarInclude?.toolbar?.apply {
+        binding?.appBar?.toolbar?.apply {
             title = getString(titleId)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }

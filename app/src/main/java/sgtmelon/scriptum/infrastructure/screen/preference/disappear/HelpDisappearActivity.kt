@@ -5,9 +5,10 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityHelpDisappearBinding
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
-import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.startUrlActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
@@ -42,7 +43,7 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
     override fun setupView() {
         super.setupView()
 
-        binding?.toolbarInclude?.toolbar?.apply {
+        binding?.appBar?.toolbar?.apply {
             title = getString(R.string.pref_title_help_disappear)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
@@ -53,7 +54,7 @@ class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
                 return@setOnMenuItemClickListener true
             }
 
-            menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
+            getItem(R.id.item_video_lesson).tintIcon(context)
         }
 
         binding?.settingsButton?.setOnClickListener {

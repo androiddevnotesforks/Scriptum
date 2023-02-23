@@ -10,6 +10,6 @@ object BuildProvider {
 
     fun isDebug() = BuildConfig.DEBUG
 
-    fun inputControlMaxSize() = BuildConfig.INPUT_CONTROL_MAX_SIZE
+    fun noteHistoryMaxSize() = BuildConfig.NOTE_HISTORY_MAX_SIZE
 
 }

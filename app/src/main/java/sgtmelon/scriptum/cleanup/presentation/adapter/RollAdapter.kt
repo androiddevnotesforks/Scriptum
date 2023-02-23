@@ -1,70 +1,83 @@
 package sgtmelon.scriptum.cleanup.presentation.adapter
 
 import android.view.ViewGroup
-import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollReadHolder
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RollWriteHolder
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.infrastructure.adapter.callback.ItemDragListener
-import sgtmelon.scriptum.infrastructure.adapter.parent.ParentAdapter
+import sgtmelon.scriptum.databinding.ItemRollReadBinding
+import sgtmelon.scriptum.databinding.ItemRollWriteBinding
+import sgtmelon.scriptum.infrastructure.adapter.diff.RollDiff
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollReadHolder
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollWriteHolder
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
+import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 /**
- * Adapter which displays list of rolls for [RollNoteFragment].
+ * Adapter which displays list of [RollItem]'s.
  */
 class RollAdapter(
+    private var isEdit: Boolean,
+    private var state: NoteState,
     private val dragListener: ItemDragListener,
-    private val rollWriteCallback: RollWriteHolder.Callback,
-    private val clickListener: ItemListener.ActionClick
-) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
+    private val writeCallback: RollWriteHolder.Callback,
+    private val readCallback: RollReadHolder.Callback,
+    private val onEnterNext: () -> Unit
+) : ParentDiffAdapter<RollItem, RecyclerView.ViewHolder>(RollDiff()) {
 
-    var inputControl: IInputControl? = null
+    override fun getListCopy(list: List<RollItem>): List<RollItem> {
+        return ArrayList(list.map { it.copy() })
+    }
 
-    var noteState: NoteState? = null
+    var cursor = ND_CURSOR
 
-    var cursorPosition = ND_CURSOR
+    fun updateEdit(isEdit: Boolean) {
+        if (this.isEdit == isEdit) return
+        this.isEdit = isEdit
+        notifyDataSetChanged()
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        Type.WRITE -> RollWriteHolder(
-            parent.inflateBinding(R.layout.item_roll_write),
-            dragListener, rollWriteCallback, inputControl
-        )
-        else -> RollReadHolder(parent.inflateBinding(R.layout.item_roll_read), clickListener)
+    fun updateState(state: NoteState) {
+        if (this.state == state) return
+        this.state = state
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (Type.values()[viewType]) {
+            Type.WRITE -> {
+                val binding: ItemRollWriteBinding = parent.inflateBinding(R.layout.item_roll_write)
+                RollWriteHolder(binding, dragListener, writeCallback, onEnterNext)
+            }
+            Type.READ -> {
+                val binding: ItemRollReadBinding = parent.inflateBinding(R.layout.item_roll_read)
+                RollReadHolder(binding, readCallback)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position) ?: return
 
         when (holder) {
-            is RollReadHolder -> holder.bind(item, noteState)
+            is RollReadHolder -> holder.bind(item, state)
             is RollWriteHolder -> {
                 holder.bind(item)
 
-                if (cursorPosition != ND_CURSOR) {
-                    holder.setSelections(cursorPosition)
-                    cursorPosition = ND_CURSOR
+                if (cursor != ND_CURSOR) {
+                    holder.setSelections(cursor)
+                    cursor = ND_CURSOR
                 }
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (noteState?.isEdit == true) Type.WRITE else Type.READ
+        return (if (isEdit) Type.WRITE else Type.READ).ordinal
     }
 
-    @IntDef(Type.WRITE, Type.READ)
-    private annotation class Type {
-        companion object {
-            const val WRITE = 0
-            const val READ = 1
-        }
-    }
+    private enum class Type { WRITE, READ }
 
     private companion object {
         const val ND_CURSOR = -1

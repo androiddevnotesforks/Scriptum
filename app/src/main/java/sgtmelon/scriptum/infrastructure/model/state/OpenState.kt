@@ -52,6 +52,11 @@ class OpenState(lifecycle: Lifecycle) {
         }
     }
 
+    inline fun ifNotBlocked(func: () -> Unit) {
+        if (isBlocked) return
+        func()
+    }
+
     /**
      * Use when need block calls for [time] period.
      */

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.bin
 
+import android.content.Context
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import javax.inject.Inject
@@ -14,8 +15,10 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -27,11 +30,15 @@ import sgtmelon.scriptum.infrastructure.model.key.dialog.BinDialogOptions as Opt
 class BinFragment : BindingFragment<FragmentBinBinding>(),
     ScrollTopCallback {
 
+    // TODO bugs:
+    // 1. similar glitch as in NoteFragment (with single item delete animation of info not smooth)
+    //    May be skip animation?
+
     override val layoutId: Int = R.layout.fragment_bin
 
     @Inject lateinit var viewModel: BinViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
     private val optionsDialog by lazy { dialogs.getOptions() }
@@ -45,7 +52,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     }
 
     private val itemClearBin: MenuItem?
-        get() = binding?.toolbarInclude?.toolbar?.getItem(R.id.item_clear)
+        get() = binding?.appBar?.toolbar?.getItem(R.id.item_clear)
 
     //region System
 
@@ -56,10 +63,10 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
             .inject(fragment = this)
     }
 
-    override fun setupView() {
-        super.setupView()
+    override fun setupView(context: Context) {
+        super.setupView(context)
 
-        binding?.toolbarInclude?.toolbar?.apply {
+        binding?.appBar?.toolbar?.apply {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
@@ -71,6 +78,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
         }
 
         binding?.recyclerView?.let {
+            it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
@@ -97,9 +105,9 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInclude.parentContainer
+                binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
         viewModel.itemList.observe(this) {
@@ -123,7 +131,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     private fun openNoteScreen(item: NoteItem) {
         val context = context ?: return
 
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item]) }
+        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item, NoteState.DELETE]) }
     }
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {

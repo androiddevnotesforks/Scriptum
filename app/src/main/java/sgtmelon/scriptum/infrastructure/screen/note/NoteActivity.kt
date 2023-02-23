@@ -7,32 +7,36 @@ import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNotePlaceholder
 
 /**
- * Screen which display note - [TextNoteFragment], [RollNoteFragment].
+ * Screen which display note - [TextNoteFragmentImpl], [RollNoteFragmentImpl].
  */
 class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
-    INoteConnector,
+    NoteConnector,
     UnbindNoteReceiver.Callback {
 
     override val layoutId: Int = R.layout.activity_note
 
     @Inject lateinit var viewModel: NoteViewModel
     @Inject lateinit var bundleProvider: NoteBundleProvider
+
+    override lateinit var init: NoteInit
 
     private val fragments = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragments.getTextNote()
@@ -48,21 +52,24 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val bundle = savedInstanceState ?: intent.extras
-        bundleProvider.getData(bundle, viewModel.defaultColor)
+        /** Call it after super function, because [bundleProvider] must be injected. */
+        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
 
-        val (id, type, color) = bundleProvider.values
-
-        if (id == null || type == null || color == null) {
+        /**
+         * Checkout all needed data for display note screen. If something goes wrong - report
+         * and close screen.
+         */
+        init = bundleProvider.init ?: run {
+            NullPointerException("Got wrong bundle init data").record()
             finish()
             return
         }
 
-        /** Means this activity was rotated or something like that, and need check some cache. */
+        /** Means this activity was rotated or something like that, and need to check cache. */
         val checkCache = savedInstanceState != null
 
-        updateHolder(color)
-        showFragment(id, type, color, checkCache)
+        updateHolder(init.color)
+        showFragment(init.type, checkCache)
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -75,11 +82,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     override fun setupInsets() {
         super.setupInsets()
 
-        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
+        binding?.parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin, !isFirstTime)
             return@doOnApplyWindowInsets insets
         }
     }
@@ -100,10 +106,9 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     }
 
     override fun onBackPressed() {
-        val catchBackPress = when (bundleProvider.type) {
+        val catchBackPress = when (init.type) {
             NoteType.TEXT -> textNoteFragment?.onPressBack() ?: false
             NoteType.ROLL -> rollNoteFragment?.onPressBack() ?: false
-            null -> false
         }
 
         /** If back press was caught by child fragments - don't call activity back press. */
@@ -114,27 +119,27 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     //endregion
 
-    private fun updateHolder(color: Color) {
+    override fun updateHolder(color: Color) {
         tintPlaceholder.changeColor(color, window, binding?.toolbarHolder)
     }
 
     /**
      * [checkCache] - find fragment by tag or create new.
      */
-    private fun showFragment(id: Long, type: NoteType, color: Color, checkCache: Boolean) {
+    private fun showFragment(type: NoteType, checkCache: Boolean) {
         when (type) {
-            NoteType.TEXT -> showTextFragment(id, color, checkCache)
-            NoteType.ROLL -> showRollFragment(id, color, checkCache)
+            NoteType.TEXT -> showTextFragment(checkCache)
+            NoteType.ROLL -> showRollFragment(checkCache)
         }
     }
 
-    private fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
-        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment[id, color]
+    private fun showTextFragment(checkCache: Boolean) {
+        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragmentImpl()
         showFragment(fragment, FragmentFactory.Note.Tag.TEXT)
     }
 
-    private fun showRollFragment(id: Long, color: Color, checkCache: Boolean) {
-        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragment[id, color]
+    private fun showRollFragment(checkCache: Boolean) {
+        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragmentImpl()
         showFragment(fragment, FragmentFactory.Note.Tag.ROLL)
     }
 
@@ -149,35 +154,18 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         }
     }
 
-    override fun updateNoteId(id: Long) = bundleProvider.updateId(id)
+    override fun convertNote() {
+        val newType = viewModel.convertType(init.type)
+        init.type = newType
 
-    override fun updateNoteColor(color: Color) {
-        bundleProvider.updateColor(color)
-        updateHolder(color)
+        showFragment(newType, checkCache = true)
     }
 
-    override fun convertNote() = with(bundleProvider) {
-        val id = id
-        val convertType = type?.let { viewModel.convertType(it) }
-        val color = color
-
-        if (id == null || convertType == null || color == null) {
-            finish()
-            return
-        }
-
-        showFragment(id, convertType, color, checkCache = true)
-    }
-
-    /**
-     * TODO improve it, i don't think it's work correct with split screen for example.
-     */
-    override fun isOrientationChanging(): Boolean {
-        return isChangingConfigurations
-    }
+    override fun isOrientationChanging(): Boolean = isChangingConfigurations
 
     override fun onReceiveUnbindNote(noteId: Long) {
         textNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)
         rollNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)
     }
+
 }

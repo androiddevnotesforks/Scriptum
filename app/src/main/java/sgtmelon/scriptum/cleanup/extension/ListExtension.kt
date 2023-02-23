@@ -2,8 +2,6 @@
 
 package sgtmelon.scriptum.cleanup.extension
 
-import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-
 fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {
     return if (index in indices) removeAt(index) else null
 }
@@ -40,11 +38,3 @@ fun <T> MutableList<T>.clearAdd(replace: List<T>) = apply {
 fun BooleanArray.safeSet(index: Int, value: Boolean) {
     if (index in indices) set(index, value)
 }
-
-// Roll list functions
-
-fun List<RollItem>.getText(): String = joinToString(separator = "\n") { it.text }
-
-fun MutableList<RollItem>.copy() = map { it.copy() }.toMutableList()
-
-fun List<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })

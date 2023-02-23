@@ -15,10 +15,13 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateComplete
 import sgtmelon.scriptum.parent.RoomWorker
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.ui.auto.NEXT_HOUR
@@ -35,10 +38,10 @@ class DbDelegator(
     private val preferencesRepo: PreferencesRepo
 ) : RoomWorker {
 
-    private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
     private val rankConverter = RankConverter()
     private val alarmConverter = AlarmConverter()
+    private val noteConverter = NoteConverter(alarmConverter, rankConverter)
 
     fun getInvalidNote(type: NoteType): NoteItem {
         return noteConverter.toItem(nextNoteEntity(Random.nextLong(), type = type))
@@ -94,9 +97,9 @@ class DbDelegator(
 
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
 
-    fun createText(): NoteItem.Text = NoteItem.Text.getCreate(preferencesRepo.defaultColor)
+    fun createText(): NoteItem.Text = CreateTextNoteUseCase(preferencesRepo).invoke()
 
-    fun createRoll(): NoteItem.Roll = NoteItem.Roll.getCreate(preferencesRepo.defaultColor)
+    fun createRoll(): NoteItem.Roll = CreateRollNoteUseCase(preferencesRepo).invoke()
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {
@@ -117,8 +120,8 @@ class DbDelegator(
 
         inRoomTest {
             noteDao.update(noteConverter.toEntity(noteItem.apply {
-                rankId = rankItem.id
-                rankPs = rankItem.position
+                rank.id = rankItem.id
+                rank.position = rankItem.position
             }))
         }
 
@@ -137,8 +140,8 @@ class DbDelegator(
 
         inRoomTest {
             noteDao.update(noteConverter.toEntity(noteItem.apply {
-                rankId = rankItem.id
-                rankPs = rankItem.position
+                rank.id = rankItem.id
+                rank.position = rankItem.position
             }))
         }
 
@@ -247,11 +250,11 @@ class DbDelegator(
         item: NoteItem = insertNote(),
         date: String = getRandomFutureTime()
     ): NoteItem {
-        item.alarmDate = date
+        item.alarm.date = date
 
         inRoomTest {
             val entity = alarmConverter.toEntity(item)
-            item.alarmId = alarmDao.insertSafe(entity) ?: throw NullPointerException()
+            item.alarm.id = alarmDao.insertSafe(entity) ?: throw NullPointerException()
         }
 
         return item
@@ -287,8 +290,8 @@ class DbDelegator(
             inRoomTest {
                 for (item in noteList) {
                     noteDao.update(noteConverter.toEntity(item.apply {
-                        rankId = rankItem.id
-                        rankPs = rankItem.position
+                        rank.id = rankItem.id
+                        rank.position = rankItem.position
                     }))
                 }
             }

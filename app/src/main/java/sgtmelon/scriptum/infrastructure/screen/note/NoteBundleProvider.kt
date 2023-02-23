@@ -2,75 +2,52 @@ package sgtmelon.scriptum.infrastructure.screen.note
 
 import android.os.Bundle
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.NoteStateConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.screen.parent.ParentBundleProvider
+import sgtmelon.scriptum.infrastructure.utils.extensions.getEnum
+import sgtmelon.scriptum.infrastructure.utils.extensions.putEnum
 
 /**
  * Bundle data provider for [NoteActivity] screen.
  */
 class NoteBundleProvider(
+    private val defaultColor: Color,
     private val typeConverter: NoteTypeConverter,
-    private val colorConverter: ColorConverter
-) {
+    private val colorConverter: ColorConverter,
+    private val stateConverter: NoteStateConverter
+) : ParentBundleProvider {
 
-    private var _id: Long? = null
-    val id: Long? get() = _id
+    private var _init: NoteInit? = null
+    val init: NoteInit? get() = _init
 
-    private var _type: NoteType? = null
-    val type get() = _type
-
-    private var _color: Color? = null
-    val color get() = _color
-
-    val values get() = Triple(id, type, color)
-
-    fun getData(bundle: Bundle?, defaultColor: Color) {
+    override fun getData(bundle: Bundle?) {
         if (bundle == null) return
 
-        _id = bundle.getLong(Intent.ID, Default.ID).takeIf { it != Default.ID }
+        val isEdit = bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
+        val state = bundle.getEnum(Intent.STATE, Default.STATE, stateConverter) ?: return
 
-        val typeOrdinal = bundle.getInt(Intent.TYPE, Default.TYPE).takeIf { it != Default.TYPE }
-        if (typeOrdinal != null) {
-            _type = typeConverter.toEnum(typeOrdinal)
-        }
+        /** Id may be equals default value, because not created note hasn't id */
+        val id = bundle.getLong(Intent.ID, Default.ID)
+        val type = bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter) ?: return
+        val color = bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) ?: defaultColor
+        val name = bundle.getString(Intent.NAME, Default.NAME) ?: Default.NAME
 
-        val colorOrdinal = bundle.getInt(Intent.COLOR, Default.COLOR).takeIf { it != Default.COLOR }
-        if (colorOrdinal != null) {
-            _color = colorConverter.toEnum(colorOrdinal) ?: defaultColor
-        } else {
-            _color = defaultColor
-        }
+        _init = NoteInit(isEdit, state, id, type, color, name)
     }
 
-    fun saveData(outState: Bundle) {
-        val id = id
-        if (id != null) {
-            outState.putLong(Intent.ID, id)
+    override fun saveData(outState: Bundle) {
+        init?.let {
+            outState.putBoolean(Intent.IS_EDIT, it.isEdit)
+            outState.putEnum(Intent.STATE, stateConverter, it.state)
+            outState.putLong(Intent.ID, it.id)
+            outState.putEnum(Intent.TYPE, typeConverter, it.type)
+            outState.putEnum(Intent.COLOR, colorConverter, it.color)
+            outState.putString(Intent.NAME, it.name)
         }
-
-        val type = type
-        if (type != null) {
-            outState.putInt(Intent.TYPE, typeConverter.toInt(type))
-        }
-
-        val color = color
-        if (color != null) {
-            outState.putInt(Intent.COLOR, colorConverter.toInt(color))
-        }
-    }
-
-    fun updateId(id: Long) {
-        _id = id
-    }
-
-    fun updateType(type: NoteType) {
-        _type = type
-    }
-
-    fun updateColor(color: Color) {
-        _color = color
     }
 }

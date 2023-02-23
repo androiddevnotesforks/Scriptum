@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
+import android.content.Context
 import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
@@ -18,11 +19,15 @@ import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
+import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -35,11 +40,15 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     Toolbar.OnMenuItemClickListener,
     ScrollTopCallback {
 
+    // TODO bugs:
+    // 1. create one note -> open it and delete -> got not smooth animation of info and item remove
+    //    May be skip animation?
+
     override val layoutId: Int = R.layout.fragment_notes
 
     @Inject lateinit var viewModel: NotesViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
@@ -64,19 +73,20 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             .inject(fragment = this)
     }
 
-    override fun setupView() {
-        super.setupView()
+    override fun setupView(context: Context) {
+        super.setupView(context)
 
-        binding?.toolbarInclude?.toolbar?.apply {
+        binding?.appBar?.toolbar?.apply {
             title = getString(R.string.title_notes)
             inflateMenu(R.menu.fragment_notes)
             setOnMenuItemClickListener(this@NotesFragment)
 
-            menu?.findItem(R.id.item_notifications)?.tintIcon(context)
-            menu?.findItem(R.id.item_preferences)?.tintIcon(context)
+            getItem(R.id.item_notifications).tintIcon(context)
+            getItem(R.id.item_preferences).tintIcon(context)
         }
 
         binding?.recyclerView?.let {
+            it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
@@ -128,9 +138,9 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInclude.parentContainer
+                binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
         viewModel.isListHide.observe(this) { observeListHide(it) }
@@ -163,14 +173,14 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         } else {
             R.string.info_notes_empty_title
         }
-        binding?.infoInclude?.titleText?.setText(titleId)
+        binding?.emptyInfo?.titleText?.setText(titleId)
 
         val subtitleId = if (isListHide) {
             R.string.info_notes_hide_details
         } else {
             R.string.info_notes_empty_details
         }
-        binding?.infoInclude?.detailsText?.setText(subtitleId)
+        binding?.emptyInfo?.detailsText?.setText(subtitleId)
     }
 
     //endregion
@@ -178,7 +188,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     private fun openNoteScreen(item: NoteItem) {
         val context = context ?: return
 
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item]) }
+        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item, NoteState.EXIST]) }
     }
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {
@@ -203,7 +213,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             }
         )
 
-        itemArray[Options.NOTIFICATION.ordinal] = if (item.haveAlarm()) {
+        itemArray[Options.NOTIFICATION.ordinal] = if (item.haveAlarm) {
             getString(R.string.dialog_menu_notification_update)
         } else {
             getString(R.string.dialog_menu_notification_set)

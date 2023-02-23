@@ -1,12 +1,13 @@
 package sgtmelon.scriptum.domain.useCase.rank
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 
 class CorrectRankPositionsUseCase {
 
     /**
-     * Return list of [NoteItem.id] for which need update [NoteItem.rankPs].
+     * Return list of [NoteItem.id] for which need update [NoteRank.position].
      */
     operator fun invoke(list: List<RankItem>): List<Long> {
         val noteIdSet = mutableSetOf<Long>()

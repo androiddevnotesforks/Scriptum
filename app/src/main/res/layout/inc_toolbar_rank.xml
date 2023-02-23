@@ -21,8 +21,8 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 app:cardBackgroundColor="?attr/clBackgroundEnter"
-                app:cardCornerRadius="@dimen/radius_8dp"
-                app:cardElevation="@dimen/elevation_2dp"
+                app:cardCornerRadius="@dimen/item_card_radius"
+                app:cardElevation="@dimen/elevation_0dp"
                 app:cardUseCompatPadding="false">
 
                 <LinearLayout
@@ -47,8 +47,7 @@
                         android:importantForAutofill="noExcludeDescendants"
                         android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
                         android:maxLength="@integer/rank_name_max_length"
-                        android:maxLines="1"
-                        tools:targetApi="o"/>
+                        android:maxLines="1" />
 
                     <ImageButton
                         android:id="@+id/add_button"

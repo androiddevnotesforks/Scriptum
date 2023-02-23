@@ -1,21 +1,19 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
-import kotlin.math.min
 import sgtmelon.extensions.getCalendarText
-import sgtmelon.extensions.removeExtraSpace
-import sgtmelon.scriptum.cleanup.extension.copy
-import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
-import sgtmelon.scriptum.infrastructure.database.DbData.Alarm
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
  */
+// TODO may be convert create/change into Calendar?
 sealed class NoteItem(
     var id: Long,
     var create: String,
@@ -23,55 +21,21 @@ sealed class NoteItem(
     var name: String,
     var text: String,
     var color: Color,
-    var rankId: Long,
-    var rankPs: Int,
+    var rank: NoteRank,
     var isBin: Boolean,
     var isStatus: Boolean,
-    var alarmId: Long,
-    var alarmDate: String
+    var alarm: NoteAlarm
 ) {
 
-    val type: NoteType
-        get() = when (this) {
-            is Text -> NoteType.TEXT
-            is Roll -> NoteType.ROLL
-        }
+    //region Remove after dataBinding refactor
 
-    abstract fun isSaveEnabled(): Boolean
+    @Deprecated("Use extensions")
+    val haveRankDepr
+        get() = haveRank
 
-    //region Common functions
-
-    fun switchStatus() {
-        isStatus = !isStatus
-    }
-
-    fun updateTime() = apply { change = getCalendarText() }
-
-    fun haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
-
-    fun haveAlarm() = alarmId != Alarm.Default.ID && alarmDate != Alarm.Default.DATE
-
-    fun clearRank() = apply {
-        rankId = Note.Default.RANK_ID
-        rankPs = Note.Default.RANK_PS
-    }
-
-    fun clearAlarm() = apply {
-        alarmId = Alarm.Default.ID
-        alarmDate = Alarm.Default.DATE
-    }
-
-
-    fun onDelete() = apply {
-        updateTime()
-        isBin = true
-        isStatus = false
-    }
-
-    fun onRestore() = apply {
-        updateTime()
-        isBin = false
-    }
+    @Deprecated("Use extensions")
+    val haveAlarmDepr
+        get() = haveAlarm
 
     //endregion
 
@@ -89,32 +53,27 @@ sealed class NoteItem(
         if (name != other.name) return false
         if (text != other.text) return false
         if (color != other.color) return false
-        if (rankId != other.rankId) return false
-        if (rankPs != other.rankPs) return false
+        if (rank != other.rank) return false
         if (isBin != other.isBin) return false
         if (isStatus != other.isStatus) return false
-        if (alarmId != other.alarmId) return false
-        if (alarmDate != other.alarmDate) return false
+        if (alarm != other.alarm) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = 0
+        var result: Int = type.hashCode()
 
-        result = 31 * result + type.hashCode()
         result = 31 * result + id.hashCode()
         result = 31 * result + create.hashCode()
         result = 31 * result + change.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + text.hashCode()
         result = 31 * result + color.hashCode()
-        result = 31 * result + rankId.hashCode()
-        result = 31 * result + rankPs.hashCode()
+        result = 31 * result + rank.hashCode()
         result = 31 * result + isBin.hashCode()
         result = 31 * result + isStatus.hashCode()
-        result = 31 * result + alarmId.hashCode()
-        result = 31 * result + alarmDate.hashCode()
+        result = 31 * result + alarm.hashCode()
 
         return result
     }
@@ -126,71 +85,11 @@ sealed class NoteItem(
         name: String = Note.Default.NAME,
         text: String = Note.Default.TEXT,
         color: Color,
-        rankId: Long = Note.Default.RANK_ID,
-        rankPs: Int = Note.Default.RANK_PS,
+        rank: NoteRank = NoteRank(),
         isBin: Boolean = Note.Default.BIN,
         isStatus: Boolean = Note.Default.STATUS,
-        alarmId: Long = Alarm.Default.ID,
-        alarmDate: String = Alarm.Default.DATE
-    ) : NoteItem(
-        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-        alarmId, alarmDate
-    ) {
-
-        override fun isSaveEnabled(): Boolean = text.isNotEmpty()
-
-        //region Common functions
-
-        fun deepCopy(
-            id: Long = this.id,
-            create: String = this.create,
-            change: String = this.change,
-            name: String = this.name,
-            text: String = this.text,
-            color: Color = this.color,
-            rankId: Long = this.rankId,
-            rankPs: Int = this.rankPs,
-            isBin: Boolean = this.isBin,
-            isStatus: Boolean = this.isStatus,
-            alarmId: Long = this.alarmId,
-            alarmDate: String = this.alarmDate
-        ) = Text(
-            id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-            alarmId, alarmDate
-        )
-
-
-        fun splitText() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
-
-
-        fun onSave() = apply {
-            name = name.removeExtraSpace()
-            updateTime()
-        }
-
-        fun onConvert(): Roll {
-            val noteItem = Roll(
-                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                alarmId, alarmDate
-            )
-
-            for ((i, it) in splitText().withIndex()) {
-                noteItem.list.add(RollItem(position = i, text = it))
-            }
-
-            noteItem.updateTime()
-            noteItem.updateComplete(knownCheckCount = 0)
-
-            return noteItem
-        }
-
-        //endregion
-
-        companion object {
-            fun getCreate(color: Color): Text = Text(color = color)
-        }
-
-    }
+        alarm: NoteAlarm = NoteAlarm()
+    ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm)
 
     class Roll(
         id: Long = Note.Default.ID,
@@ -199,94 +98,13 @@ sealed class NoteItem(
         name: String = Note.Default.NAME,
         text: String = Note.Default.TEXT,
         color: Color,
-        rankId: Long = Note.Default.RANK_ID,
-        rankPs: Int = Note.Default.RANK_PS,
+        rank: NoteRank = NoteRank(),
         isBin: Boolean = Note.Default.BIN,
         isStatus: Boolean = Note.Default.STATUS,
-        alarmId: Long = Alarm.Default.ID,
-        alarmDate: String = Alarm.Default.DATE,
+        alarm: NoteAlarm = NoteAlarm(),
         var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
-    ) : NoteItem(
-        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-        alarmId, alarmDate
-    ) {
-
-        override fun isSaveEnabled(): Boolean = list.any { it.text.isNotEmpty() }
-
-        //region Common functions
-
-        fun deepCopy(
-            id: Long = this.id,
-            create: String = this.create,
-            change: String = this.change,
-            name: String = this.name,
-            text: String = this.text,
-            color: Color = this.color,
-            rankId: Long = this.rankId,
-            rankPs: Int = this.rankPs,
-            isBin: Boolean = this.isBin,
-            isStatus: Boolean = this.isStatus,
-            alarmId: Long = this.alarmId,
-            alarmDate: String = this.alarmDate,
-            isVisible: Boolean = this.isVisible,
-            list: MutableList<RollItem> = this.list.copy()
-        ) = Roll(
-            id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-            alarmId, alarmDate, isVisible, list
-        )
-
-
-        fun updateComplete(knownCheckCount: Int? = null) = apply {
-            val checkCount = knownCheckCount ?: getCheck()
-            val checkText = min(checkCount, INDICATOR_MAX_COUNT)
-            val allText = min(list.size, INDICATOR_MAX_COUNT)
-
-            text = "$checkText/$allText"
-        }
-
-        // TODO may be some optimization: in some cases get last check value (not calculate it from start).
-        fun getCheck(): Int = list.filter { it.isCheck }.size
-
-
-        fun onItemCheck(p: Int) {
-            list.getOrNull(p)?.apply { isCheck = !isCheck } ?: return
-
-            updateTime()
-            updateComplete()
-        }
-
-
-        fun onSave() {
-            list.apply {
-                removeAll { it.text.removeExtraSpace().isEmpty() }
-
-                for ((i, item) in withIndex()) {
-                    item.position = i
-                    item.text = item.text.removeExtraSpace()
-                }
-            }
-
-            name = name.removeExtraSpace()
-            updateTime()
-            updateComplete()
-        }
-
-        fun onConvert() = onConvert(list)
-
-        fun onConvert(list: List<RollItem>): Text {
-            val noteItem = Text(
-                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                alarmId, alarmDate
-            )
-
-            noteItem.updateTime()
-            noteItem.text = list.getText()
-
-            return noteItem
-        }
-
-        //endregion
+    ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
 
         override fun equals(other: Any?): Boolean {
             if (!super.equals(other)) return false
@@ -310,9 +128,6 @@ sealed class NoteItem(
 
         companion object {
             const val PREVIEW_SIZE = 4
-            const val INDICATOR_MAX_COUNT = 99
-
-            fun getCreate(color: Color): Roll = Roll(color = color)
         }
     }
 }

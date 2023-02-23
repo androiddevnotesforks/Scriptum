@@ -1,14 +1,17 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
+import sgtmelon.scriptum.infrastructure.listener.OnTouchSelectionListener
 
-inline fun View.makeVisible(condition: Boolean, onOtherwise: () -> Unit = { makeGone() }) {
-    if (condition) makeVisible() else onOtherwise()
+inline fun View.makeVisibleIf(condition: Boolean, otherwise: View.() -> Unit = { makeGone() }) {
+    if (condition) makeVisible() else otherwise()
 }
 
 fun View.makeVisible() = apply { visibility = View.VISIBLE }
@@ -35,3 +38,8 @@ fun MotionEvent?.onView(view: View?): Boolean {
 }
 
 fun Toolbar.getItem(@IdRes id: Int): MenuItem = menu.findItem(id)
+
+@SuppressLint("ClickableViewAccessibility")
+fun View.setOnTouchSelectionListener(editText: EditText?) {
+    setOnTouchListener(OnTouchSelectionListener(editText))
+}

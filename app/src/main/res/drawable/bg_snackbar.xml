@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:shape="rectangle">
 
-    <solid android:color="?attr/clBackgroundView" />
-    <stroke android:width="@dimen/layout_1dp"
+    <solid android:color="@color/bg_snackbar" />
+    <stroke android:width="@dimen/snackbar_border"
         android:color="?attr/clAccent" />
-    <corners android:radius="@dimen/radius_4dp" />
-    <size tools:height="@dimen/icon_48dp"
-        tools:width="@dimen/icon_128dp" />
+    <corners android:radius="@dimen/snackbar_radius" />
+    <size tools:height="@dimen/snackbar_height"
+        tools:width="128dp" />
 
 </shape>

@@ -3,14 +3,13 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.error.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.test.ui.auto.error.Description
-
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test fix of old errors for [RollNoteFragment].
+ * Test fix of old errors for [RollNoteFragmentImpl].
  */
 @RunWith(AndroidJUnit4::class)
 class RollNoteErrorTest : ParentUiTest() {

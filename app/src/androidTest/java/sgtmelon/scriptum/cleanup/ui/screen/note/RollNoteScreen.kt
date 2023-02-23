@@ -4,17 +4,22 @@ import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.hide
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.RollItemUi
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
@@ -37,7 +42,7 @@ import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withSizeAttr
 
 /**
- * Class for UI control of [NoteActivity], [RollNoteFragment].
+ * Class for UI control of [NoteActivity], [RollNoteFragmentImpl].
  *
  * Note:
  *  Call [NoteItem.Roll.isVisible] only from [INoteScreen.item] because it's a save way.
@@ -47,7 +52,7 @@ class RollNoteScreen(
     override var state: NoteState,
     override var item: NoteItem.Roll,
     override val isRankEmpty: Boolean
-) : ParentRecyclerScreen(R.id.roll_note_recycler),
+) : ParentRecyclerScreen(R.id.recycler_view),
     INoteScreen<RollNoteScreen, NoteItem.Roll>,
     NoteToolbar.ImeCallback,
     INoteAfterConvert<TextNoteScreen>,
@@ -69,14 +74,14 @@ class RollNoteScreen(
             NoteState.EDIT, NoteState.NEW -> shadowItem.list
         }
 
-        val isListEmpty = list.size == 0
-        val isListHide = !item.isVisible && list.hide().size == 0
+        val isListEmpty = list.isEmpty()
+        val isListHide = !item.isVisible && list.hideChecked().isEmpty()
 
         return InfoContainerPart(parentContainer, InfoCase.Roll(isListEmpty, isListHide))
     }
 
-    private val parentContainer = getViewById(R.id.roll_note_parent_container)
-    private val progressBar = getViewById(R.id.roll_note_progress)
+    private val parentContainer = getViewById(R.id.parent_container)
+    private val doneProgress = getViewById(R.id.done_progress)
 
     private fun getItem(p: Int) = RollItemUi(recyclerView, p, state)
 
@@ -106,9 +111,9 @@ class RollNoteScreen(
 
     //endregion
 
-    override var shadowItem: NoteItem.Roll = item.deepCopy()
+    override var shadowItem: NoteItem.Roll = item.copy()
 
-    override val inputControl = InputControl()
+    override val history = NoteHistoryImpl()
 
     override fun fullAssert() = apply {
         assert()
@@ -207,15 +212,15 @@ class RollNoteScreen(
         super.pressBack()
 
         if (state == NoteState.EDIT || state == NoteState.NEW) {
-            if (shadowItem.isSaveEnabled()) {
+            if (shadowItem.isSaveEnabled) {
                 state = NoteState.READ
-                item = shadowItem.deepCopy()
-                inputControl.reset()
+                item = shadowItem.copy()
+                history.reset()
                 fullAssert()
             } else if (state == NoteState.EDIT) {
                 state = NoteState.READ
-                shadowItem = item.deepCopy()
-                inputControl.reset()
+                shadowItem = item.copy()
+                history.reset()
                 fullAssert()
             }
         }
@@ -230,7 +235,7 @@ class RollNoteScreen(
             NoteState.READ, NoteState.BIN -> item.list
             NoteState.EDIT, NoteState.NEW -> shadowItem.list
         }
-        val resultList = if (item.isVisible) list else list.hide()
+        val resultList = if (item.isVisible) list else list.hideChecked()
 
         for ((i, it) in resultList.withIndex()) {
             getItem(i).assert(it)
@@ -250,7 +255,7 @@ class RollNoteScreen(
                 NoteState.READ, NoteState.BIN -> item.list
                 NoteState.EDIT, NoteState.NEW -> shadowItem.list
             }.let {
-                if (item.isVisible) it.size == 0 else it.hide().size == 0
+                if (item.isVisible) it.isEmpty() else it.hideChecked().isEmpty()
             })
 
         toolbar {
@@ -270,9 +275,9 @@ class RollNoteScreen(
         }
 
         parentContainer.isDisplayed()
-        progressBar.isDisplayed(value = state == NoteState.READ || state == NoteState.BIN) {
+        doneProgress.isDisplayed(value = state == NoteState.READ || state == NoteState.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
-            withProgress(item.getCheck(), item.list.size)
+            withProgress(item.list.getCheckCount(), item.list.size)
         }
 
         recyclerView.isDisplayed()
@@ -281,10 +286,10 @@ class RollNoteScreen(
     //endregion
 
     /**
-     * @Test - duplicate of original function in [RollNoteViewModel].
+     * @Test - duplicate of original function in [RollNoteViewModelImpl].
      */
     private fun getCorrectPosition(p: Int, list: List<RollItem>): Int {
-        return if (item.isVisible) p else list.indexOf(list.hide()[p])
+        return if (item.isVisible) p else list.indexOf(list.hideChecked()[p])
     }
 
     companion object {

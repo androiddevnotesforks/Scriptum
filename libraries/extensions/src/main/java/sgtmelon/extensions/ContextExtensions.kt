@@ -6,7 +6,6 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 
-
 @ColorInt
 fun Context.getColorAttr(@AttrRes attr: Int): Int {
     val typedValue = TypedValue()
@@ -31,3 +30,5 @@ fun Context.getDimen(value: Float): Int {
 
     return TypedValue.applyDimension(unit, value, metrics).toInt()
 }
+
+fun Context.getDimen(@DimenRes id: Int): Int = resources.getDimensionPixelSize(id)

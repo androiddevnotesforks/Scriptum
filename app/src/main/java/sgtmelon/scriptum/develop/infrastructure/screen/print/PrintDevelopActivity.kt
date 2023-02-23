@@ -9,10 +9,10 @@ import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
-import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
-import sgtmelon.scriptum.infrastructure.utils.extensions.setPaddingInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
@@ -27,7 +27,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
     @Inject lateinit var viewModel: PrintDevelopViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
     private val bundleProvider = PrintDevelopBundleProvider()
 
     private val adapter = sgtmelon.scriptum.develop.infrastructure.adapter.PrintAdapter()
@@ -40,8 +40,9 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
         setupRecycler()
     }
 
+    // TODO not save way to finish activity (view model is lateinit value)
     override fun inject(component: ScriptumComponent) {
-        val type = bundleProvider.type ?: return run { finish() }
+        val type = bundleProvider.type ?: return finish()
 
         component.getPrintBuilder()
             .set(owner = this)
@@ -68,9 +69,9 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
 
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInclude.parentContainer
+                binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
         viewModel.itemList.observe(this) { adapter.notifyList(it) }
@@ -78,7 +79,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
     private fun setupToolbar() {
         val type = bundleProvider.type ?: return
-        val toolbar = binding?.toolbarInclude?.toolbar ?: return
+        val toolbar = binding?.appBar?.toolbar ?: return
 
         val titleId = when (type) {
             PrintType.NOTE, PrintType.BIN -> R.string.pref_title_print_note

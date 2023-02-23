@@ -9,6 +9,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
@@ -35,11 +37,11 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
 
     //region Views
 
-    private val enterContainer = getViewById(R.id.roll_add_panel_container)
-    private val dividerView = getViewById(R.id.roll_add_panel_divider_view)
+    private val enterContainer = getViewById(R.id.parent_container)
+    private val dividerView = getViewById(R.id.enter_divider_view)
 
-    private val textEnter = getViewById(R.id.roll_add_panel_enter)
-    private val addButton = getViewById(R.id.roll_add_panel_button)
+    private val textEnter = getViewById(R.id.roll_enter)
+    private val addButton = getViewById(R.id.add_button)
 
     //endregion
 
@@ -94,10 +96,10 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
                 callback.apply {
                     state = NoteState.READ
 
-                    item = shadowItem.deepCopy()
+                    item = shadowItem.copy()
                     item.onSave()
 
-                    inputControl.reset()
+                    history.reset()
                 }.fullAssert()
             } else {
                 callback.shadowItem.list.apply {

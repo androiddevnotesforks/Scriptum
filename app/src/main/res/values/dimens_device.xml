@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="item_card_horizontal_margin">8dp</dimen>
-    <dimen name="item_card_vertical_margin">4dp</dimen>
-    <dimen name="item_card_elevation">2dp</dimen>
-    <dimen name="item_card_radius">8dp</dimen>
+    <dimen name="item_card_horizontal_margin">6dp</dimen>
+    <dimen name="item_card_vertical_margin">3dp</dimen>
+    <dimen name="item_card_elevation">0dp</dimen>
+    <dimen name="item_card_radius">12dp</dimen>
 
+    <dimen name="item_card_drag_elevation">4dp</dimen>
+
+    <!--  TODO может надо подправить отступы, так же как это сделал у карточки заметки?  -->
     <dimen name="text_card_margin">8dp</dimen>
-    <dimen name="text_card_elevation">2dp</dimen>
-    <dimen name="text_card_radius">8dp</dimen>
     <dimen name="text_card_text">18sp</dimen>
     <dimen name="text_card_space">8dp</dimen>
 
@@ -19,6 +20,8 @@
 
     <dimen name="toolbar_elevation">8dp</dimen>
 
+    <dimen name="color_indicator_radius">4dp</dimen>
+    <dimen name="color_indicator_border">1dp</dimen>
     <dimen name="color_vertical_size">8dp</dimen>
     <dimen name="color_vertical_shift_space">0dp</dimen>
     <dimen name="color_horizontal_size">4dp</dimen>
@@ -70,5 +73,11 @@
     <dimen name="gradient_fab_radius">28dp</dimen>
     <dimen name="gradient_fab_elevation">4dp</dimen>
     <dimen name="gradient_fab_image_size">24dp</dimen>
+
+    <!-- Snackbar sizes -->
+    <!--  TODO optimization for different screens  -->
+    <dimen name="snackbar_height">48dp</dimen>
+    <dimen name="snackbar_radius">8dp</dimen>
+    <dimen name="snackbar_border">1dp</dimen>
 
 </resources>

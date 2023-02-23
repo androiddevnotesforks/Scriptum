@@ -93,7 +93,7 @@ class RankRepoImpl(
      */
     override suspend fun updateConnection(item: NoteItem) {
         val list = rankDataSource.getList()
-        val checkArray = calculateCheckArray(list, item.rankId)
+        val checkArray = calculateCheckArray(list, item.rank.id)
 
         rankDataSource.update(updateNoteId(list, checkArray, item.id))
     }

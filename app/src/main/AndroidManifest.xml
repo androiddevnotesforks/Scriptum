@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".cleanup.presentation.screen.ui.ScriptumApplication"
+        android:name=".cleanup.presentation.screen.ScriptumApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
@@ -47,6 +47,7 @@
         <activity
             android:name=".infrastructure.screen.note.NoteActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".infrastructure.screen.main.MainActivity" />
 
         <activity

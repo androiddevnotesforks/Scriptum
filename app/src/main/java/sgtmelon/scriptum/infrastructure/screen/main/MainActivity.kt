@@ -16,18 +16,19 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
-import sgtmelon.scriptum.infrastructure.utils.extensions.addSystemInsetsMargin
-import sgtmelon.scriptum.infrastructure.utils.extensions.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.addSystemInsetsMargin
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.doOnApplyWindowInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.extensions.onView
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateMargin
-import sgtmelon.scriptum.infrastructure.widgets.delegators.GradientFabDelegator
+import sgtmelon.scriptum.infrastructure.widgets.GradientFab
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 
 /**
@@ -52,7 +53,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     private val showHolder = ShowPlaceholder(lifecycle, context = this)
 
-    private var gradientFab: GradientFabDelegator? = null
+    private var gradientFab: GradientFab? = null
 
     private val pageConverter = MainPageConverter()
 
@@ -95,7 +96,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     override fun setupView() {
         super.setupView()
 
-        gradientFab = GradientFabDelegator(activity = this) { showAddDialog() }
+        gradientFab = GradientFab(activity = this) { showAddDialog() }
 
         /** Setup of selected item must be before setting navigation item selected listener */
         binding?.menuNavigation?.selectedItemId = pageConverter.convert(viewModel.currentPage.value)
@@ -177,8 +178,8 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         addDialog.safeShow(DialogFactory.Main.ADD, owner = this)
     }
 
-    private fun openNoteScreen(noteType: NoteType) = open.attempt {
-        startActivity(InstanceFactory.Note[this, noteType.ordinal])
+    private fun openNoteScreen(type: NoteType) = open.attempt {
+        startActivity(InstanceFactory.Note[this, true, NoteState.CREATE, type.ordinal])
     }
 
     //region Fragment transaction staff

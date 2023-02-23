@@ -41,63 +41,7 @@ class RankViewModelImplTest : ParentLiveDataTest() {
 
     //endregion
 
-    @Test fun getShowList() {
-        TODO()
-    }
-
-    @Test fun getItemList() {
-        TODO()
-    }
-
-    @Test fun getUpdateList() {
-        TODO()
-    }
-
-    @Test fun getShowSnackbar() {
-        TODO()
-    }
-
-    @Test fun updateData() {
-        TODO()
-    }
-
-    @Test fun getToolbarEnable() {
-        TODO()
-    }
-
-    @Test fun addRank() {
-        TODO()
-    }
-
-    @Test fun moveRank() {
-        TODO()
-    }
-
-    @Test fun moveRankResult() {
-        TODO()
-    }
-
-    @Test fun changeRankVisibility() {
-        TODO()
-    }
-
-    @Test fun getRenameData() {
-        TODO()
-    }
-
-    @Test fun renameRank() {
-        TODO()
-    }
-
-    @Test fun removeRank() {
-        TODO()
-    }
-
-    @Test fun undoRemove() {
-        TODO()
-    }
-
-    @Test fun clearUndoStack() {
+    @Test fun todo() {
         TODO()
     }
 }

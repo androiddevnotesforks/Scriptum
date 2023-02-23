@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 
 /**
  * More stylish version of [ListAdapter] :D.
+ * There not available custom notify calls (like it does in [ParentDiffAdapter]).
  */
 abstract class ParentListAdapter<T, VH : RecyclerView.ViewHolder>(
     diffCallback: DiffUtil.ItemCallback<T>

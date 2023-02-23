@@ -37,7 +37,7 @@ class RollNoteDateTimeDialogTest : ParentUiTest(), DateTimeDialogCase {
 
     @Test override fun timeApplyEnableList() = db.insertRoll().let {
         runTest(it) {
-            val date = db.insertNotification().alarmDate
+            val date = db.insertNotification().alarm.date
             controlPanel { onNotification { runTimeApplyEnableList(date) } }
         }
     }

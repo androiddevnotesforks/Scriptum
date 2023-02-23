@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
@@ -12,20 +13,23 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClick
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
-import sgtmelon.scriptum.infrastructure.utils.extensions.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
-import sgtmelon.scriptum.infrastructure.utils.extensions.setMarginInsets
-import sgtmelon.scriptum.infrastructure.utils.extensions.setPaddingInsets
-import sgtmelon.scriptum.infrastructure.widgets.recycler.NotifyListDelegator
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setPaddingInsets
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 
 /**
  * Screen with list of feature notifications.
  */
 class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
+    CustomListNotifyUi<NotificationItem>,
     SnackbarDelegator.Callback {
 
     override val layoutId: Int = R.layout.activity_notifications
@@ -33,21 +37,18 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    @Inject lateinit var viewModel: NotificationsViewModel
+    @Inject override lateinit var viewModel: NotificationsViewModel
 
-    private val animation = ShowListAnimation()
+    private val listAnimation = ShowListAnimation()
 
-    private val adapter: NotificationAdapter by lazy {
+    override val adapter: NotificationAdapter by lazy {
         NotificationAdapter(object : NotificationClickListener {
             override fun onNotificationClick(item: NotificationItem) = openNoteScreen(item)
             override fun onNotificationCancel(p: Int) = removeNotification(p)
         })
     }
-    private val layoutManager by lazy { LinearLayoutManager(this) }
-
-    private val notifyList by lazy {
-        NotifyListDelegator(binding?.recyclerView, adapter, layoutManager)
-    }
+    override val layoutManager by lazy { LinearLayoutManager(this) }
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     private val snackbar = SnackbarDelegator(
         lifecycle,
@@ -75,13 +76,14 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     override fun setupView() {
         super.setupView()
 
-        binding?.toolbarInclude?.toolbar?.apply {
+        binding?.appBar?.toolbar?.apply {
             title = getString(R.string.title_notification)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
         }
 
         binding?.recyclerView?.let {
+            it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
@@ -94,12 +96,12 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
 
         viewModel.showList.observe(this) {
             val binding = binding ?: return@observe
-            animation.startListFade(
+            listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.infoInclude.parentContainer
+                binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { notifyList.catch(viewModel.updateList, it) }
+        viewModel.itemList.observe(this) { catchListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 
@@ -110,7 +112,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         open.clear()
 
         /** Restore our snack bar if it must be shown. */
-        if (viewModel.showSnackbar.value == true && !snackbar.isDisplayed) {
+        if (viewModel.showSnackbar.value.isTrue() && !snackbar.isDisplayed) {
             showSnackbar()
         }
     }
@@ -127,7 +129,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     }
 
     private fun removeNotification(p: Int) = open.attempt(withSwitch = false) {
-        viewModel.removeNotification(p).collect(owner = this) {
+        viewModel.removeItem(p).collect(owner = this) {
             val (item, size) = it
             system?.broadcast?.sendCancelAlarm(item)
             system?.broadcast?.sendNotifyInfoBind(size)

@@ -4,11 +4,15 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
+import sgtmelon.extensions.getDimen
+import sgtmelon.scriptum.R
+import sgtmelon.test.idling.getWaitIdling
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)
@@ -24,15 +28,37 @@ fun getScaleYAnimator(view: View, scaleTo: Float): Animator {
 
 fun getElevationAnimator(view: CardView, @DimenRes elevationTo: Int): Animator {
     val valueFrom = view.cardElevation
-    val valueTo = view.context.resources.getDimensionPixelSize(elevationTo).toFloat()
+    val valueTo = view.context.getDimen(elevationTo).toFloat()
+    return view.getElevationAnimator(valueFrom, valueTo)
+}
 
+fun getElevationAnimator(view: CardView, elevationTo: Float): Animator {
+    return view.getElevationAnimator(view.cardElevation, elevationTo)
+}
+
+private fun CardView.getElevationAnimator(valueFrom: Float, valueTo: Float): ValueAnimator {
     return ValueAnimator.ofFloat(valueFrom, valueTo).apply {
         addUpdateListener {
-            view.cardElevation = it.animatedValue as? Float ?: return@addUpdateListener
+            cardElevation = it.animatedValue as? Float ?: return@addUpdateListener
         }
     }
 }
 
 fun getAlphaInterpolator(isVisible: Boolean): Interpolator {
     return if (isVisible) AccelerateInterpolator() else DecelerateInterpolator()
+}
+
+inline fun View.updateWithAnimation(
+    valueFrom: Int,
+    valueTo: Int,
+    crossinline onChange: (Int) -> Unit
+) {
+    val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
+    ValueAnimator.ofInt(valueFrom, valueTo).apply {
+        this.interpolator = AccelerateDecelerateInterpolator()
+        this.duration = duration
+        addUpdateListener { onChange(it.animatedValue as Int) }
+    }.start()
+
+    getWaitIdling().start(duration)
 }

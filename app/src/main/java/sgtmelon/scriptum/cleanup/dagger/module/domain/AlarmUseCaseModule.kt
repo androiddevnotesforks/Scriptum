@@ -5,8 +5,8 @@ import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.TidyUpAlarmUseCase
@@ -40,8 +40,8 @@ class AlarmUseCaseModule {
     @Provides
     fun provideGetNotificationDateListUseCase(
         repository: AlarmRepo
-    ): GetNotificationDateListUseCase {
-        return GetNotificationDateListUseCase(repository)
+    ): GetNotificationsDateListUseCase {
+        return GetNotificationsDateListUseCase(repository)
     }
 
     @Provides

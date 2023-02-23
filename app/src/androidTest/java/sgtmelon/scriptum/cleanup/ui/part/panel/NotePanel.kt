@@ -14,9 +14,17 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteAfterConvert
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.infrastructure.database.DbData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.screen.dialogs.ColorDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
@@ -46,28 +54,28 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.note_panel_container)
-    private val dividerView = getViewById(R.id.note_panel_divider_view)
-    private val buttonContainer = getViewById(R.id.note_panel_button_container)
+    private val parentContainer = getViewById(R.id.parent_container)
+    private val dividerView = getViewById(R.id.divider_view)
+    private val buttonContainer = getViewById(R.id.parent_container)
 
-    private val readContainer = getViewById(R.id.note_panel_read_container)
-    private val notificationButton = getViewById(R.id.note_panel_notification_button)
-    private val bindButton = getViewById(R.id.note_panel_bind_button)
-    private val convertButton = getViewById(R.id.note_panel_convert_button)
-    private val deleteButton = getViewById(R.id.note_panel_delete_button)
-    private val editButton = getViewById(R.id.note_panel_edit_button)
+    private val readContainer = getViewById(R.id.read_container)
+    private val notificationButton = getViewById(R.id.notification_button)
+    private val bindButton = getViewById(R.id.bind_button)
+    private val convertButton = getViewById(R.id.convert_button)
+    private val deleteButton = getViewById(R.id.delete_button)
+    private val editButton = getViewById(R.id.edit_button)
 
-    private val binContainer = getViewById(R.id.note_panel_bin_container)
-    private val restoreButton = getViewById(R.id.note_panel_restore_button)
-    private val restoreOpenButton = getViewById(R.id.note_panel_restore_open_button)
-    private val clearButton = getViewById(R.id.note_panel_clear_button)
+    private val binContainer = getViewById(R.id.bin_container)
+    private val restoreButton = getViewById(R.id.restore_button)
+    private val restoreOpenButton = getViewById(R.id.restore_open_button)
+    private val clearButton = getViewById(R.id.clear_button)
 
-    private val editContainer = getViewById(R.id.note_panel_edit_container)
-    private val undoButton = getViewById(R.id.note_panel_undo_button)
-    private val redoButton = getViewById(R.id.note_panel_redo_button)
-    private val rankButton = getViewById(R.id.note_panel_rank_button)
-    private val colorButton = getViewById(R.id.note_panel_color_button)
-    private val saveButton = getViewById(R.id.note_panel_save_button)
+    private val editContainer = getViewById(R.id.edit_container)
+    private val undoButton = getViewById(R.id.undo_button)
+    private val redoButton = getViewById(R.id.redo_button)
+    private val rankButton = getViewById(R.id.rank_button)
+    private val colorButton = getViewById(R.id.color_button)
+    private val saveButton = getViewById(R.id.save_button)
 
     //endregion
 
@@ -147,7 +155,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     is NoteItem.Roll -> applyShadowRoll().onSave()
                 }
 
-                inputControl.reset()
+                history.reset()
             }.fullAssert()
         }
     }
@@ -163,6 +171,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     is NoteItem.Text -> applyShadowText().onSave()
                     is NoteItem.Roll -> applyShadowRoll().onSave()
                 }
+
                 /**
                  * Need apply [NoteItem.Text.onSave]/[NoteItem.Roll.onSave] for
                  * [INoteScreen.shadowItem] because [INoteScreen.state] not changed.
@@ -203,7 +212,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
             it.state = NoteState.EDIT
             it.applyItem()
-            it.inputControl.reset()
+            it.history.reset()
             it.fullAssert()
         }
     }
@@ -211,15 +220,15 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
     override fun dateResetResult() {
         callback.apply {
-            item.alarmDate = DbData.Alarm.Default.DATE
+            item.alarm.date = DbData.Alarm.Default.DATE
             fullAssert()
         }
     }
 
     override fun timeSetResult(calendar: Calendar) {
         callback.apply {
-            item.alarmId = 1
-            item.alarmDate = calendar.toText()
+            item.alarm.id = 1
+            item.alarm.date = calendar.toText()
 
             fullAssert()
         }
@@ -237,7 +246,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
     override fun onColorDialogResult(color: Color) {
         callback.apply {
-            inputControl.onColorChange(shadowItem.color, color)
+            history.add(HistoryAction.Color(HistoryChange(shadowItem.color, color)))
             shadowItem.color = color
 
             fullAssert()
@@ -249,10 +258,15 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
             val idTo = item?.id ?: -1
             val psTo = item?.position ?: -1
 
-            inputControl.onRankChange(shadowItem.rankId, shadowItem.rankPs, idTo, psTo)
+            val historyAction = HistoryAction.Rank(
+                HistoryChange(shadowItem.rank.id, idTo),
+                HistoryChange(shadowItem.rank.position, psTo)
+            )
+            history.add(historyAction)
+
             shadowItem.apply {
-                rankId = idTo
-                rankPs = psTo
+                rank.id = idTo
+                rank.position = psTo
             }
 
             fullAssert()
@@ -280,7 +294,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     editContainer.isDisplayed(value = false)
 
                     notificationButton.isDisplayed()
-                        .withDrawableAttr(R.drawable.ic_notifications, getTint(item.haveAlarm()))
+                        .withDrawableAttr(R.drawable.ic_notifications, getTint(item.haveAlarm))
                         .withContentDescription(R.string.description_note_notification)
 
                     val drawable = when (item.type) {
@@ -333,13 +347,13 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                     binContainer.isDisplayed(value = false)
                     editContainer.isDisplayed()
 
-                    val undo = inputControl.isUndoAccess
+                    val undo = history.available.undo
                     undoButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
                         .withContentDescription(R.string.description_note_undo)
                         .isEnabled(undo)
 
-                    val redo = inputControl.isRedoAccess
+                    val redo = history.available.redo
                     redoButton.isDisplayed()
                         .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
                         .withContentDescription(R.string.description_note_redo)
@@ -349,7 +363,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                         .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
                             getEnableTint(b = false)
                         } else {
-                            getTint(shadowItem.haveRank())
+                            getTint(shadowItem.haveRank)
                         })
                         .withContentDescription(R.string.description_note_rank)
                         .isEnabled(!isRankEmpty)
@@ -359,7 +373,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
                         .withContentDescription(R.string.description_note_color)
 
                     saveButton.withText(R.string.button_note_save).isDisplayed()
-                        .isEnabled(shadowItem.isSaveEnabled())
+                        .isEnabled(shadowItem.isSaveEnabled)
                 }
             }
         }

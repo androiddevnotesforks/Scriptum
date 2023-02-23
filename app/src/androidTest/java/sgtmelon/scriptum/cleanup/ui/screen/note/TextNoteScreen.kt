@@ -2,15 +2,19 @@ package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
+import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
+import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
+import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
@@ -31,7 +35,7 @@ import sgtmelon.test.cappuccino.utils.withSizeAttr
 import sgtmelon.test.cappuccino.utils.withText
 
 /**
- * Class for UI control of [NoteActivity], [TextNoteFragment].
+ * Class for UI control of [NoteActivity], [TextNoteFragmentImpl].
  */
 class TextNoteScreen(
     override var state: NoteState,
@@ -51,13 +55,13 @@ class TextNoteScreen(
     private val panelHolder = getViewById(R.id.panel_holder)
     private val fragmentContainer = getViewById(R.id.fragment_container)
 
-    private val parentContainer = getViewById(R.id.text_note_parent_container)
+    private val parentContainer = getViewById(R.id.parent_container)
 
-    private val contentCard = getViewById(R.id.text_note_content_card)
-    private val contentScroll = getViewById(R.id.text_note_content_scroll)
+    private val contentCard = getViewById(R.id.content_card)
+    private val contentScroll = getViewById(R.id.content_scroll)
 
-    private val contentText = getViewById(R.id.text_note_content_text)
-    private val contentEnter = getViewById(R.id.text_note_content_enter)
+    private val textEnter = getViewById(R.id.text_enter)
+    private val textRead = getViewById(R.id.text_read)
 
     override val toolbar: ToolbarPart get() = toolbar()
 
@@ -73,9 +77,9 @@ class TextNoteScreen(
 
     //endregion
 
-    override var shadowItem: NoteItem.Text = item.deepCopy()
+    override var shadowItem: NoteItem.Text = item.copy()
 
-    override val inputControl = InputControl()
+    override val history = NoteHistoryImpl()
 
     override fun fullAssert() = apply {
         assert()
@@ -85,21 +89,27 @@ class TextNoteScreen(
 
 
     fun onEnterText(text: String = "") = apply {
-        contentEnter.typeText(text)
+        textEnter.typeText(text)
 
         if (text.isEmpty()) {
             val valueFrom = shadowItem.text
-            inputControl.onTextChange(
-                valueFrom, valueTo = "", cursor = InputItem.Cursor(valueFrom.length, 0)
+
+            /** Remember what text isEmpty - valueTo="", cursorTo=0 */
+            val action = HistoryAction.Text.Enter(
+                HistoryChange(valueFrom, text),
+                HistoryChange(valueFrom.length, text.length)
             )
+            history.add(action)
         } else {
             for ((i, c) in text.withIndex()) {
                 val valueFrom = if (i == 0) shadowItem.text else text[i - 1].toString()
                 val valueTo = c.toString()
 
-                inputControl.onTextChange(
-                    valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
+                val action = HistoryAction.Text.Enter(
+                    HistoryChange(valueFrom, valueTo),
+                    HistoryChange(valueFrom.length, valueTo.length)
                 )
+                history.add(action)
             }
         }
 
@@ -112,7 +122,7 @@ class TextNoteScreen(
      */
     fun onImeOptionText() = apply {
         throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
-            contentEnter.imeOption()
+            textEnter.imeOption()
         }
     }
 
@@ -128,15 +138,15 @@ class TextNoteScreen(
         super.pressBack()
 
         if (state == NoteState.EDIT || state == NoteState.NEW) {
-            if (shadowItem.isSaveEnabled()) {
+            if (shadowItem.isSaveEnabled) {
                 state = NoteState.READ
-                item = shadowItem.deepCopy()
-                inputControl.reset()
+                item = shadowItem.copy()
+                history.reset()
                 fullAssert()
             } else if (state == NoteState.EDIT) {
                 state = NoteState.READ
-                shadowItem = item.deepCopy()
-                inputControl.reset()
+                shadowItem = item.copy()
+                history.reset()
                 fullAssert()
             }
         }
@@ -147,7 +157,7 @@ class TextNoteScreen(
     //region Assertion
 
     fun assertFocus() = throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
-        contentEnter.isFocused().withCursor(shadowItem.text.length)
+        textEnter.isFocused().withCursor(shadowItem.text.length)
     }
 
     fun assert() {
@@ -161,27 +171,27 @@ class TextNoteScreen(
         parentContainer.isDisplayed()
         contentCard.isDisplayed().withCard(
             R.attr.clBackgroundView,
-            R.dimen.text_card_radius,
-            R.dimen.text_card_elevation
+            R.dimen.item_card_radius,
+            R.dimen.item_card_elevation
         )
         contentScroll.isDisplayed()
 
         when (state) {
             NoteState.READ, NoteState.BIN -> {
-                contentText.isDisplayed()
+                textRead.isDisplayed()
                     .withBackgroundColor(android.R.color.transparent)
                     .withText(item.text, R.attr.clContent, R.dimen.text_18sp)
 
-                contentEnter.isDisplayed(value = false)
+                textEnter.isDisplayed(value = false)
             }
             NoteState.EDIT, NoteState.NEW -> {
-                contentText.isDisplayed(value = false)
+                textRead.isDisplayed(value = false)
 
                 /**
                  * TODO not work with: withImeAction(EditorInfo.IME_ACTION_UNSPECIFIED)
                  */
                 val text = shadowItem.text
-                contentEnter.isDisplayed()
+                textEnter.isDisplayed()
                     .withBackgroundColor(android.R.color.transparent)
                     .apply {
                         if (text.isNotEmpty()) {

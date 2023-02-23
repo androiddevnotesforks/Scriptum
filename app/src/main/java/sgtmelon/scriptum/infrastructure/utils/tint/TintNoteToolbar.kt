@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.utils.ColorTransformation
  */
 class TintNoteToolbar(
     context: Context,
-    private val window: Window,
+    private val window: Window?,
     private val toolbar: View?,
     private val indicator: View?,
     startColor: Color
@@ -44,7 +44,7 @@ class TintNoteToolbar(
             val ratio = it.animatedFraction
 
             if (theme != ThemeDisplayed.DARK) {
-                window.statusBarColor = statusBarColor[ratio]
+                window?.statusBarColor = statusBarColor[ratio]
                 toolbar?.setBackgroundColor(toolbarColor[ratio])
             } else {
                 indicator?.setBackgroundColor(indicatorColor[ratio])
@@ -61,15 +61,11 @@ class TintNoteToolbar(
         val theme = theme ?: return
 
         if (theme != ThemeDisplayed.DARK) {
-            window.statusBarColor = getStatusBarColor(theme, color)
+            window?.statusBarColor = getStatusBarColor(theme, color)
             toolbar?.setBackgroundColor(getToolbarColor(theme, color))
         } else {
             indicator?.setBackgroundColor(
-                context.getNoteToolbarColor(
-                    theme,
-                    color,
-                    needDark = true
-                )
+                context.getNoteToolbarColor(theme, color, needDark = true)
             )
         }
 
@@ -85,18 +81,16 @@ class TintNoteToolbar(
     }
 
     /**
-     * Set end [color] and start animation if need.
+     * Set end [colorTo] and start animation if it needed.
      */
-    fun startTint(color: Color) {
+    fun startTint(colorTo: Color) {
         val theme = theme ?: return
 
-        statusBarColor.to = context.getNoteToolbarColor(theme, color, needDark = false)
-        toolbarColor.to = context.getNoteToolbarColor(theme, color, needDark = false)
-        indicatorColor.to = context.getAppSimpleColor(color, ColorShade.DARK)
+        statusBarColor.to = context.getNoteToolbarColor(theme, colorTo, needDark = false)
+        toolbarColor.to = context.getNoteToolbarColor(theme, colorTo, needDark = false)
+        indicatorColor.to = context.getAppSimpleColor(colorTo, ColorShade.DARK)
 
-        if (statusBarColor.isReady()
-            || toolbarColor.isReady()
-            || indicatorColor.isReady()) {
+        if (statusBarColor.isReady() || toolbarColor.isReady() || indicatorColor.isReady()) {
             colorAnimator.start()
         }
     }

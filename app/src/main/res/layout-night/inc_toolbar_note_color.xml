@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/inc_toolbar_note">
+
+    <merge>
+
+        <View
+            android:id="@+id/color_view"
+            style="@style/View.Color.Horizontal"
+            tools:background="@color/note_red_dark" />
+
+    </merge>
+
+</layout>

@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.callback.NotifyAdapterCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
-import sgtmelon.scriptum.infrastructure.adapter.diff.ParentDiff
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 
 /**

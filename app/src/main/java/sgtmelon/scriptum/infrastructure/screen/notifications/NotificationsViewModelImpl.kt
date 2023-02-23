@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.extensions.flowOnBack
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
+import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
@@ -22,33 +22,8 @@ class NotificationsViewModelImpl(
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getList: GetNotificationListUseCase
-) : ViewModel(),
+) : CustomListNotifyViewModelImpl<NotificationItem>(),
     NotificationsViewModel {
-
-    override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
-
-    private fun notifyShowList() {
-        val state = showList.value ?: return
-        val newState = if (_itemList.isEmpty()) ShowListState.Empty else ShowListState.List
-
-        /** Skip same state. */
-        if (state != newState) {
-            showList.postValue(newState)
-        }
-    }
-
-    override val itemList: MutableLiveData<List<NotificationItem>> = MutableLiveData()
-
-    /** This list needed because don't want put mutable list inside liveData. */
-    private val _itemList: MutableList<NotificationItem> = mutableListOf()
-
-    /** Variable for specific list updates (when need update not all items). */
-    override var updateList: UpdateListState = UpdateListState.Notify
-        get() {
-            val value = field
-            updateList = UpdateListState.Notify
-            return value
-        }
 
     override val showSnackbar: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -66,14 +41,14 @@ class NotificationsViewModelImpl(
         notifyShowList()
     }
 
-    override fun removeNotification(p: Int) = flowOnBack {
-        val item = _itemList.removeAtOrNull(p) ?: return@flowOnBack
+    override fun removeItem(position: Int) = flowOnBack {
+        val item = _itemList.removeAtOrNull(position) ?: return@flowOnBack
 
         /** Save item for snackbar undo action. */
-        undoList.add(Pair(p, item))
+        undoList.add(Pair(position, item))
         showSnackbar.postValue(true)
 
-        updateList = UpdateListState.Remove(p)
+        updateList = UpdateListState.Remove(position)
         itemList.postValue(_itemList)
         notifyShowList()
 

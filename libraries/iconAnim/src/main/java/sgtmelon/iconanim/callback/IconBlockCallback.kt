@@ -5,5 +5,5 @@ package sgtmelon.iconanim.callback
  */
 interface IconBlockCallback {
 
-    fun setEnabled(isEnabled: Boolean)
+    fun setIconEnabled(isEnabled: Boolean)
 }

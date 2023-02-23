@@ -11,7 +11,12 @@ sealed class SplashOpen {
 
     data class Alarm(val id: Long) : SplashOpen()
 
-    data class BindNote(val id: Long, val color: Int, val type: Int) : SplashOpen()
+    data class BindNote(
+        val id: Long,
+        val type: Int,
+        val color: Int,
+        val name: String
+    ) : SplashOpen()
 
     object Notifications : SplashOpen()
 

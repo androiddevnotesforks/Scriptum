@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
-import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.TextNoteViewModel
+import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
@@ -17,8 +14,8 @@ import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModelI
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopViewModelImpl
 import sgtmelon.scriptum.develop.infrastructure.screen.service.ServiceDevelopViewModelImpl
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
-import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
+import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
@@ -32,11 +29,16 @@ import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
@@ -51,14 +53,16 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.INoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
@@ -128,7 +132,7 @@ object ViewModelFactory {
             private val deleteNote: DeleteNoteUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationDateListUseCase
+            private val getNotificationDateList: GetNotificationsDateListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModelImpl::class) {
@@ -157,21 +161,21 @@ object ViewModelFactory {
 
     object NoteScreen {
 
-        class Note(
-            private val preferencesRepo: PreferencesRepo
-        ) : ViewModelProvider.Factory {
+        class Note : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NoteViewModelImpl::class) {
-                    NoteViewModelImpl(preferencesRepo)
+                    NoteViewModelImpl()
                 }
             }
         }
 
         class TextNote(
-            private val fragment: TextNoteFragment,
+            private val init: NoteInit,
+            private val history: NoteHistory,
             private val colorConverter: ColorConverter,
-            private val preferencesRepo: PreferencesRepo,
+            private val createNote: CreateTextNoteUseCase,
             private val getNote: GetTextNoteUseCase,
+            private val cacheNote: CacheTextNoteUseCase,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
@@ -180,28 +184,30 @@ object ViewModelFactory {
             private val clearNote: ClearNoteUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationDateListUseCase,
+            private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase
+            private val getRankDialogNames: GetRankDialogNamesUseCase,
+            private val getHistoryResult: GetHistoryResultUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(TextNoteViewModel::class) {
-                    val parentCallback = fragment.context as? INoteConnector
-                    TextNoteViewModel(
-                        fragment, parentCallback, colorConverter, preferencesRepo,
-                        getNote, saveNote, convertNote, updateNote, deleteNote, restoreNote,
-                        clearNote, setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames
+                return modelClass.create(TextNoteViewModelImpl::class) {
+                    TextNoteViewModelImpl(
+                        colorConverter, init, history, createNote, getNote, cacheNote,
+                        saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+                        setNotification, deleteNotification, getNotificationDateList,
+                        getRankId, getRankDialogNames, getHistoryResult
                     )
                 }
             }
         }
 
         class RollNote(
-            private val fragment: RollNoteFragment,
+            private val init: NoteInit,
+            private val history: NoteHistory,
             private val colorConverter: ColorConverter,
-            private val preferencesRepo: PreferencesRepo,
+            private val createNote: CreateRollNoteUseCase,
             private val getNote: GetRollNoteUseCase,
+            private val cacheNote: CacheRollNoteUseCase,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
             private val updateNote: UpdateNoteUseCase,
@@ -212,18 +218,19 @@ object ViewModelFactory {
             private val updateCheck: UpdateRollCheckUseCase,
             private val setNotification: SetNotificationUseCase,
             private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationDateListUseCase,
+            private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
             private val getRankDialogNames: GetRankDialogNamesUseCase,
+            private val getHistoryResult: GetHistoryResultUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(RollNoteViewModel::class) {
-                    val parentCallback = fragment.context as? INoteConnector
-                    RollNoteViewModel(
-                        fragment, parentCallback, colorConverter, preferencesRepo,
-                        getNote, saveNote, convertNote, updateNote, deleteNote, restoreNote,
-                        clearNote, updateVisible, updateCheck, setNotification, deleteNotification,
-                        getNotificationDateList, getRankId, getRankDialogNames
+                return modelClass.create(RollNoteViewModelImpl::class) {
+                    RollNoteViewModelImpl(
+                        init, history, colorConverter, createNote, getNote, cacheNote,
+                        saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+                        updateVisible, updateCheck,
+                        setNotification, deleteNotification, getNotificationDateList,
+                        getRankId, getRankDialogNames, getHistoryResult
                     )
                 }
             }

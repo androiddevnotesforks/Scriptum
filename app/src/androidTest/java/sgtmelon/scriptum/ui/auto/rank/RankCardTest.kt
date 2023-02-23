@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.auto.rank
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
+import sgtmelon.scriptum.infrastructure.utils.extensions.maxIndicatorTest
 import sgtmelon.scriptum.parent.ui.screen.item.RankItemUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchMain
@@ -46,8 +46,8 @@ class RankCardTest : ParentUiTest() {
     }
 
     @Test fun maxCountIndicator() {
-        RankHolder.isMaxTest = true
+        maxIndicatorTest = true
         launchRankItem(db.insertRank()) { assertItem(it) }
-        RankHolder.isMaxTest = false
+        maxIndicatorTest = false
     }
 }

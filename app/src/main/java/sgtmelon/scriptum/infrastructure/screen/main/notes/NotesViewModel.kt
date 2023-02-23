@@ -4,16 +4,13 @@ import androidx.lifecycle.LiveData
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.parent.list.InfoListViewModel
 
-interface NotesViewModel : UnbindNoteReceiver.Callback {
-
-    val showList: LiveData<ShowListState>
+interface NotesViewModel : InfoListViewModel<NoteItem>,
+    UnbindNoteReceiver.Callback {
 
     val isListHide: LiveData<Boolean>
-
-    val itemList: LiveData<List<NoteItem>>
 
     fun updateData()
 

@@ -1,63 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="sgtmelon.scriptum.R" />
-
-        <import type="android.view.View" />
-
-        <variable
-            name="menuCallback"
-            type="sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteMenu" />
-
-        <variable
-            name="isDataLoad"
-            type="boolean" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll" />
-
-        <variable
-            name="isRankEmpty"
-            type="boolean" />
-
-        <variable
-            name="isEditMode"
-            type="boolean" />
-
-        <variable
-            name="isListEmpty"
-            type="boolean" />
-
-        <variable
-            name="isListHide"
-            type="boolean" />
-
-        <variable
-            name="inputAccess"
-            type="sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl.Access" />
-
-        <variable
-            name="isEnterEmpty"
-            type="boolean" />
-    </data>
-
     <LinearLayout
-        android:id="@+id/roll_note_parent_container"
+        android:id="@+id/parent_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <include
-            android:id="@+id/toolbar_include"
-            layout="@layout/inc_toolbar_note"
-            app:isDataLoad='@{isDataLoad}'
-            app:isEditMode='@{isEditMode}'
-            app:item='@{item}' />
+            android:id="@+id/app_bar"
+            layout="@layout/inc_toolbar_note" />
 
         <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound. -->
         <FrameLayout
@@ -66,50 +19,45 @@
             android:layout_weight="1">
 
             <include
-                android:id="@+id/info_include"
+                android:id="@+id/empty_info"
                 layout="@layout/inc_info"
                 android:visibility="gone"
-                app:details='@{isListEmpty ? R.string.info_roll_empty_details : isListHide ? R.string.info_roll_hide_details : R.string.info_null}'
-                app:title='@{isListEmpty ? R.string.info_roll_empty_title : isListHide ? R.string.info_roll_hide_title : R.string.info_null}' />
+                tools:visibility="visible" />
+
+            <!--  Make only progress visible on screen clean-open.  -->
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/ProgressBar.Center" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/roll_note_recycler"
+                android:id="@+id/recycler_view"
                 style="@style/RecyclerView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'
+                android:visibility="gone"
+                tools:visibility="visible"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_roll_write" />
 
         </FrameLayout>
 
         <include
-            android:id="@+id/add_include"
-            layout="@layout/inc_roll_add_panel"
-            app:isEditMode='@{isEditMode}'
-            app:isEnterEmpty='@{isEnterEmpty}' />
+            android:id="@+id/add_panel"
+            layout="@layout/inc_roll_add_panel" />
 
         <ProgressBar
-            android:id="@+id/roll_note_progress"
+            android:id="@+id/done_progress"
             style="?attr/styleProgressHorizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_4dp"
             android:max="0"
             tools:visibility="gone"
-            android:visibility='@{!isEditMode ? View.VISIBLE : View.GONE}'
             tools:max="100"
             tools:progress="65" />
 
         <include
-            android:id="@+id/panel_include"
-            layout="@layout/inc_note_panel_roll"
-            app:inputAccess='@{inputAccess}'
-            app:isDataLoad='@{isDataLoad}'
-            app:isDividerHide='@{!isEditMode}'
-            app:isEditMode='@{isEditMode}'
-            app:isRankEmpty='@{isRankEmpty}'
-            app:item='@{item}'
-            app:menuCallback='@{menuCallback}' />
+            android:id="@+id/panel"
+            layout="@layout/inc_note_panel_roll" />
 
     </LinearLayout>
 

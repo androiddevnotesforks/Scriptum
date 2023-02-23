@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.database.migration
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import java.util.UUID
+import sgtmelon.extensions.uniqueId
 
 @Suppress("KDocUnresolvedReference")
 object From1To2 {
@@ -161,7 +161,7 @@ object From1To2 {
      * foreignKeys=[], indices=[]}
      */
     private fun SupportSQLiteDatabase.migrateRank() {
-        execSQL("UPDATE RANK_TABLE SET RK_NAME = '${UUID.randomUUID()}' WHERE RK_NAME IS NULL")
+        execSQL("UPDATE RANK_TABLE SET RK_NAME = '$uniqueId' WHERE RK_NAME IS NULL")
         execSQL("UPDATE RANK_TABLE SET RK_ID_NOTE = 'NONE' WHERE RK_ID_NOTE IS NULL")
 
         val tempRankTable = "tempRankTable"

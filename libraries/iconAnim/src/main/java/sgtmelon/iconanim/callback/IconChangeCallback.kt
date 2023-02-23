@@ -8,6 +8,11 @@ import android.graphics.drawable.AnimatedVectorDrawable
 interface IconChangeCallback {
 
     /**
+     * Will be null if [setDrawable] was not called.
+     */
+    val isEnterIcon: Boolean?
+
+    /**
      * [needAnim] - need for start [AnimatedVectorDrawable].
      */
     fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean)

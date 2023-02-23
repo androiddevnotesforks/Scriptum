@@ -8,12 +8,13 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.NoteStateConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
-import sgtmelon.scriptum.infrastructure.converter.types.NumbersJoinConverter
+import sgtmelon.scriptum.infrastructure.converter.types.LongListConverter
 
 @Module
 class ConverterModule {
@@ -24,7 +25,12 @@ class ConverterModule {
     fun provideAlarmConverter() = AlarmConverter()
 
     @Provides
-    fun provideNoteConverter() = NoteConverter()
+    fun provideNoteConverter(
+        alarmConverter: AlarmConverter,
+        rankConverter: RankConverter
+    ): NoteConverter {
+        return NoteConverter(alarmConverter, rankConverter)
+    }
 
     @Provides
     fun provideRankConverter() = RankConverter()
@@ -37,7 +43,7 @@ class ConverterModule {
     //region Type converters
 
     @Provides
-    fun provideStringConverter() = NumbersJoinConverter()
+    fun provideStringConverter() = LongListConverter()
 
     @Provides
     fun provideNoteTypeConverter() = NoteTypeConverter()
@@ -61,5 +67,8 @@ class ConverterModule {
 
     @Provides
     fun provideSignalConverter() = SignalConverter()
+
+    @Provides
+    fun provideNoteStateConverter() = NoteStateConverter()
 
 }
