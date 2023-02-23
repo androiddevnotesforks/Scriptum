@@ -187,6 +187,7 @@ class RollNoteViewModelImpl(
         if (changeMode) {
             isEdit.postValue(false)
             history.reset()
+            historyAvailable.postValue(history.available)
         }
 
         viewModelScope.launch {
