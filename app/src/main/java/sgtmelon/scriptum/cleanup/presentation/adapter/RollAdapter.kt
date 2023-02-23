@@ -25,7 +25,24 @@ class RollAdapter(
 ) : ParentDiffAdapter<RollItem, RollHolder>(RollDiff()) {
 
     override fun getListCopy(list: List<RollItem>): List<RollItem> {
-        return ArrayList(list.map { it.copy() })
+        val copyList = ArrayList(list.map { it.copy() })
+
+        /**
+         * Need search for items and update them in [notifyMap]. For correct work
+         * of [updateEdit].
+         */
+        notifyMap.forEach { (notify, item) ->
+            /** If didn't find item in list -> it was deleted. */
+            val newItem = copyList.firstOrNull { item.uniqueId == it.uniqueId }
+
+            if (newItem != null) {
+                notifyMap[notify] = newItem
+            } else {
+                notifyMap.remove(notify)
+            }
+        }
+
+        return copyList
     }
 
     /** Pass this cursor into the next one notified [RollHolder]. Reset to default after get. */
@@ -38,6 +55,10 @@ class RollAdapter(
 
     fun setCursor(cursor: Int) = apply { this.cursor = cursor }
 
+    /**
+     * This map needed fast [RollHolder] bindings and skip adapter standard notify functions.
+     * Make UI more smooth.
+     */
     private val notifyMap = mutableMapOf<RollHolderNotify, RollItem>()
 
     fun updateEdit(isEdit: Boolean) {
@@ -50,7 +71,7 @@ class RollAdapter(
     fun updateState(state: NoteState) {
         if (this.state != state) {
             this.state = state
-            notifyMap.forEach { it.key.bindState(state) }
+            notifyMap.forEach { (notify, _) -> notify.bindState(state) }
         }
     }
 
