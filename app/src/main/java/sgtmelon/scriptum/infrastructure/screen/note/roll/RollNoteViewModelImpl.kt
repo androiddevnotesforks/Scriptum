@@ -146,19 +146,19 @@ class RollNoteViewModelImpl(
 
     private fun onHistoryRoll(result: HistoryResult.Roll.Enter) {
         val item = noteItem.value ?: return
-        item.list.getOrNull(result.p)?.text = result.value
+        noteItem.postValueWithChange { it.list.getOrNull(result.p)?.text = result.value }
         postNotifyItemList(item)
     }
 
     private fun onHistoryAdd(result: HistoryResult.Roll.Add) {
         val item = noteItem.value ?: return
-        item.list.add(result.p, result.item)
+        noteItem.postValueWithChange { it.list.add(result.p, result.item) }
         postNotifyItemList(item)
     }
 
     private fun onHistoryRemove(result: HistoryResult.Roll.Remove) {
         val item = noteItem.value ?: return
-        item.list.removeAtOrNull(result.p)
+        noteItem.postValueWithChange { it.list.removeAtOrNull(result.p) }
         postNotifyItemList(item)
     }
 
@@ -350,9 +350,8 @@ class RollNoteViewModelImpl(
 
     override fun onRollEnterChanged(position: Int, text: String) {
         val absolutePosition = getAbsolutePosition(position) ?: return
-        val list = noteItem.value?.list ?: return
 
-        list.getOrNull(absolutePosition)?.text = text
+        noteItem.postValueWithChange { it.list.getOrNull(absolutePosition)?.text = text }
         _itemList.getOrNull(position)?.text = text
 
         updateList = UpdateListState.Set
@@ -360,5 +359,4 @@ class RollNoteViewModelImpl(
 
         historyAvailable.postValue(history.available)
     }
-
 }

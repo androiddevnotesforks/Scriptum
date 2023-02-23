@@ -150,9 +150,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         historyAvailable.postValue(history.available)
     }
 
-    /**
-     * Function must describe logic of switching by [HistoryResult].
-     */
+    /** Function must describe logic of switching by [HistoryResult]. */
     abstract fun selectHistoryResult(result: HistoryResult)
 
     protected fun onHistoryRank(result: HistoryResult.Rank) {
@@ -263,11 +261,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     override fun onReceiveUnbindNote(noteId: Long) {
         if (id.value != noteId) return
 
-        val item = noteItem.value ?: return
-        item.isStatus = false
+        noteItem.postValueWithChange { it.isStatus = false }
         cacheNote.item?.isStatus = false
-
-        noteItem.postValue(item)
     }
 
     override fun disableHistoryChanges(func: () -> Unit) {
