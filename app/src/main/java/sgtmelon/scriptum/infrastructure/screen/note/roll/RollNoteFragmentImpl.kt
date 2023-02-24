@@ -51,7 +51,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     DragAndSwipeTouchHelper.Callback {
 
     // TODO FIX:
-    // 1. Create note - cursor not on name (it's placed on enter)
     // 2. Drag'n'drop in not visible mode -> switch visible -> item moved by themselfs
     // 3. Add animation for Add panel (hide it with slide animation and change bottom padding in recycler)
 
@@ -286,7 +285,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     //endregion
 
     /** Take list size from [viewModel], because there are maybe a hide state (hide done items). */
-    override fun isContentEmpty(): Boolean = viewModel.noteItem.value?.list?.isEmpty().isTrue()
+    override fun isContentEmpty(): Boolean = viewModel.noteItem.value?.list.isNullOrEmpty().isTrue()
 
     //region Touch callback
 
