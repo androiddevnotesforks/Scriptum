@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 
 import androidx.room.ColumnInfo
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
+import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
 import sgtmelon.scriptum.infrastructure.database.DbData.Roll
 import sgtmelon.scriptum.infrastructure.database.DbData.Roll.Default

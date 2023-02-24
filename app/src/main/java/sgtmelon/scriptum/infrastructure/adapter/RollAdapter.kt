@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter
+package sgtmelon.scriptum.infrastructure.adapter
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
