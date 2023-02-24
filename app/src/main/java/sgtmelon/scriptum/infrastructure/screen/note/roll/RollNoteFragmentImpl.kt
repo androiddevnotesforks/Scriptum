@@ -183,7 +183,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         binding?.recyclerView?.let {
             it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
-            it.setHasFixedSize(true)
+            it.setHasFixedSize(false) /** The height of all items may be not the same. */
             it.layoutManager = layoutManager
             it.adapter = adapter
         }

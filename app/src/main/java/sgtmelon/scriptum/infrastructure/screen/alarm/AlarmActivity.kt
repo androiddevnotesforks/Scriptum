@@ -196,7 +196,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         binding?.recyclerView?.let {
             it.disableChangeAnimations()
             it.layoutManager = LinearLayoutManager(this)
-            it.setHasFixedSize(true)
+            it.setHasFixedSize(true) /** The height of all items absolutely the same. */
             it.adapter = adapter
         }
 

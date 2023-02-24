@@ -106,10 +106,10 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     }
 
     private fun setupRecycler() {
-        val recyclerView = binding?.recyclerView ?: return
-
-        recyclerView.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
+        binding?.recyclerView?.let {
+            it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
+            it.setHasFixedSize(true) /** The height of all items absolutely the same. */
+            it.adapter = adapter
+        }
     }
 }

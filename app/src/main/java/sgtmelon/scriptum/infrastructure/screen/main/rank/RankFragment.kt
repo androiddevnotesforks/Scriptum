@@ -116,7 +116,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         binding?.recyclerView?.let {
             it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener())
-            it.setHasFixedSize(true)
+            it.setHasFixedSize(true) /** The height of all items absolutely the same. */
             it.layoutManager = layoutManager
             it.adapter = adapter
         }

@@ -85,7 +85,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         binding?.recyclerView?.let {
             it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
-            it.setHasFixedSize(true)
+            it.setHasFixedSize(true) /** The height of all items absolutely the same. */
             it.layoutManager = layoutManager
             it.adapter = adapter
         }

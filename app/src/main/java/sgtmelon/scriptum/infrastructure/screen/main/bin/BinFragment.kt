@@ -80,7 +80,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
         binding?.recyclerView?.let {
             it.disableChangeAnimations()
             it.addOnScrollListener(RecyclerOverScrollListener())
-            it.setHasFixedSize(true)
+            it.setHasFixedSize(false) /** The height of all items may be not the same. */
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
         }

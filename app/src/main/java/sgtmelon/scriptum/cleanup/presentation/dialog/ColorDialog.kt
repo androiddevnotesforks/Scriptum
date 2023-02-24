@@ -61,6 +61,8 @@ class ColorDialog : BlankDialog(),
         recyclerView.adapter = ColorAdapter(callback = this@ColorDialog, check)
 
         (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+
+        /** The height of all items absolutely the same. */
         recyclerView.setHasFixedSize(true)
 
         return recyclerView
