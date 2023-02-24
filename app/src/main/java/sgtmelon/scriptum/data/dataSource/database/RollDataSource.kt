@@ -20,7 +20,4 @@ interface RollDataSource {
 
     suspend fun getList(noteIdList: List<Long>): List<RollEntity>
 
-    suspend fun getPreviewList(noteId: Long): MutableList<RollEntity>
-
-    suspend fun getPreviewHideList(noteId: Long): MutableList<RollEntity>
 }

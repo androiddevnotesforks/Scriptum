@@ -44,14 +44,14 @@ class NoteRepoImpl(
         return noteDataSource.getList(sort, isBin = false)
             .filter { it.isStatus }
             .filterVisible(idVisibleList)
-            .map { transformNoteEntity(it, isOptimal = false) }
+            .map { transformNoteEntity(it) }
             .toMutableList()
             .correctRankSort(sort)
     }
 
     override suspend fun getBinList(sort: Sort): List<NoteItem> {
         return noteDataSource.getList(sort, isBin = true)
-            .map { transformNoteEntity(it, isOptimal = true) }
+            .map { transformNoteEntity(it) }
             .toMutableList()
             .correctRankSort(sort)
     }
@@ -61,7 +61,7 @@ class NoteRepoImpl(
 
         val entityList = noteDataSource.getList(sort, isBin = false)
         val itemList = entityList.filterVisible(idVisibleList)
-            .map { transformNoteEntity(it, isOptimal = true) }
+            .map { transformNoteEntity(it) }
             .toMutableList()
             .correctRankSort(sort)
 
@@ -95,46 +95,21 @@ class NoteRepoImpl(
      * Return null if note doesn't exist.
      *
      * [noteId] - note item id.
-     * [isOptimal] - need for note lists where displays short information.
      */
-    override suspend fun getItem(noteId: Long, isOptimal: Boolean): NoteItem? {
+    override suspend fun getItem(noteId: Long): NoteItem? {
         val entity = noteDataSource.get(noteId) ?: return null
 
-        return transformNoteEntity(entity, isOptimal)
+        return transformNoteEntity(entity)
     }
 
     // TODO move inside some mapper or something like this
     @RunPrivate
-    suspend fun transformNoteEntity(entity: NoteEntity, isOptimal: Boolean): NoteItem {
+    suspend fun transformNoteEntity(entity: NoteEntity): NoteItem {
         val isVisible = rollVisibleDataSource.getVisible(entity.id)
-        val rollList = rollConverter.toItem(getPreview(entity.id, isVisible, isOptimal))
+        val rollList = getRollList(entity.id)
         val alarmEntity = alarmDataSource.get(entity.id)
 
         return noteConverter.toItem(entity, isVisible, rollList, alarmEntity)
-    }
-
-    @RunPrivate
-    suspend fun getPreview(
-        id: Long,
-        isVisible: Boolean?,
-        isOptimal: Boolean
-    ): MutableList<RollEntity> {
-        return if (isOptimal) {
-            /**
-             * If:
-             *  1. list items not hide (true or null) -> get simple view
-             *  2. is hide and not all done -> get only not checked items view
-             *  3. is hide and all done -> get simple view
-             */
-            if (isVisible != false) {
-                rollDataSource.getPreviewList(id)
-            } else {
-                rollDataSource.getPreviewHideList(id).takeIf { it.isNotEmpty() }
-                    ?: rollDataSource.getPreviewList(id)
-            }
-        } else {
-            rollDataSource.getList(id)
-        }
     }
 
     /**

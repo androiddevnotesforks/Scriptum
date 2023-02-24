@@ -16,7 +16,7 @@ interface NoteRepo {
 
     suspend fun getNotesList(sort: Sort): Pair<List<NoteItem>, Boolean>
 
-    suspend fun getItem(noteId: Long, isOptimal: Boolean): NoteItem?
+    suspend fun getItem(noteId: Long): NoteItem?
 
     suspend fun getRollList(noteId: Long): MutableList<RollItem>
 

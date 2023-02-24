@@ -16,7 +16,7 @@ class SetNotificationUseCase(
 ) {
 
     suspend operator fun invoke(item: NotificationItem): NotificationItem? {
-        val noteItem = noteRepo.getItem(item.note.id, isOptimal = true) ?: return null
+        val noteItem = noteRepo.getItem(item.note.id) ?: return null
         val newId = alarmRepo.insertOrUpdate(noteItem, item.alarm.date) ?: return null
 
         /** After insert need return item with new id. */

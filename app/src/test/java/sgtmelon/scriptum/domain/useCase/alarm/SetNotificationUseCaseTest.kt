@@ -19,8 +19,8 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextLongOrNull
 import sgtmelon.test.common.nextString
 
@@ -54,13 +54,13 @@ class SetNotificationUseCaseTest : ParentTest() {
 
         every { item.note } returns note
         every { note.id } returns noteId
-        coEvery { noteRepo.getItem(noteId, isOptimal = true) } returns null
+        coEvery { noteRepo.getItem(noteId) } returns null
 
         runBlocking {
             assertNull(useCase(item))
         }
 
-        coEvery { noteRepo.getItem(noteId, isOptimal = true) } returns noteItem
+        coEvery { noteRepo.getItem(noteId) } returns noteItem
         every { item.alarm } returns alarm
         every { alarm.date } returns date
         coEvery { alarmRepo.insertOrUpdate(noteItem, date) } returns null
@@ -81,18 +81,18 @@ class SetNotificationUseCaseTest : ParentTest() {
         coVerifySequence {
             item.note
             note.id
-            noteRepo.getItem(noteId, isOptimal = true)
+            noteRepo.getItem(noteId)
 
             item.note
             note.id
-            noteRepo.getItem(noteId, isOptimal = true)
+            noteRepo.getItem(noteId)
             item.alarm
             alarm.date
             alarmRepo.insertOrUpdate(noteItem, date)
 
             item.note
             note.id
-            noteRepo.getItem(noteId, isOptimal = true)
+            noteRepo.getItem(noteId)
             item.alarm
             alarm.date
             alarmRepo.insertOrUpdate(noteItem, date)

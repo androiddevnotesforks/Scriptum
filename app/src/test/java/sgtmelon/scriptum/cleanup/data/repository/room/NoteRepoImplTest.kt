@@ -160,115 +160,59 @@ class NoteRepoImplTest : ParentRepoTest() {
 
     @Test fun getItem() {
         val id = Random.nextLong()
-        val isOptimal = Random.nextBoolean()
         val entity = mockk<NoteEntity>()
         val item = mockk<NoteItem>()
 
         coEvery { noteDataSource.get(id) } returns null
 
         runBlocking {
-            assertNull(repository.getItem(id, isOptimal))
+            assertNull(repository.getItem(id))
         }
 
         coEvery { noteDataSource.get(id) } returns entity
-        coEvery { spyRepository.transformNoteEntity(entity, isOptimal) } returns item
+        coEvery { spyRepository.transformNoteEntity(entity) } returns item
 
         runBlocking {
-            assertEquals(item, spyRepository.getItem(id, isOptimal))
+            assertEquals(item, spyRepository.getItem(id))
         }
 
         coVerifyOrder {
             noteDataSource.get(id)
 
-            spyRepository.getItem(id, isOptimal)
+            spyRepository.getItem(id)
             noteDataSource.get(id)
-            spyRepository.transformNoteEntity(entity, isOptimal)
+            spyRepository.transformNoteEntity(entity)
         }
     }
 
     @Test fun transformNoteEntity() {
         val entity = mockk<NoteEntity>()
         val id = Random.nextLong()
-        val isOptimal = Random.nextBoolean()
 
         val isVisible = Random.nextBoolean()
-        val previewList = mockk<MutableList<RollEntity>>()
         val rollList = mockk<MutableList<RollItem>>()
         val alarmEntity = mockk<AlarmEntity>()
         val item = mockk<NoteItem>()
 
         every { entity.id } returns id
         coEvery { rollVisibleDataSource.getVisible(id) } returns isVisible
-        coEvery { spyRepository.getPreview(id, isVisible, isOptimal) } returns previewList
-        every { rollConverter.toItem(previewList) } returns rollList
+        coEvery { spyRepository.getRollList(id) } returns rollList
         coEvery { alarmDataSource.get(id) } returns alarmEntity
         every { noteConverter.toItem(entity, isVisible, rollList, alarmEntity) } returns item
 
         runBlocking {
-            assertEquals(spyRepository.transformNoteEntity(entity, isOptimal), item)
+            assertEquals(spyRepository.transformNoteEntity(entity), item)
         }
 
         coVerifySequence {
-            spyRepository.transformNoteEntity(entity, isOptimal)
+            spyRepository.transformNoteEntity(entity)
 
             entity.id
             rollVisibleDataSource.getVisible(id)
             entity.id
-            spyRepository.getPreview(id, isVisible, isOptimal)
-            rollConverter.toItem(previewList)
-            entity.id
+            spyRepository.getRollList(id)
             alarmDataSource.get(id)
             noteConverter.toItem(entity, isVisible, rollList, alarmEntity)
-        }
-    }
-
-    @Test fun getPreview() {
-        val id = Random.nextLong()
-
-        val firstList = mockk<MutableList<RollEntity>>()
-        val secondList = mockk<MutableList<RollEntity>>()
-        val thirdList = mockk<MutableList<RollEntity>>()
-
-        coEvery { rollDataSource.getList(id) } returns firstList
-
-        runBlocking {
-            assertEquals(
-                repository.getPreview(id, isVisible = Random.nextBoolean(), isOptimal = false),
-                firstList
-            )
-        }
-
-        coEvery { rollDataSource.getPreviewList(id) } returns secondList
-
-        runBlocking {
-            assertEquals(repository.getPreview(id, isVisible = null, isOptimal = true), secondList)
-            assertEquals(repository.getPreview(id, isVisible = true, isOptimal = true), secondList)
-        }
-
-        coEvery { rollDataSource.getPreviewHideList(id) } returns thirdList
-        every { thirdList.isEmpty() } returns false
-
-        runBlocking {
-            assertEquals(repository.getPreview(id, isVisible = false, isOptimal = true), thirdList)
-        }
-
-        coEvery { rollDataSource.getPreviewHideList(id) } returns thirdList
-        every { thirdList.isEmpty() } returns true
-
-        runBlocking {
-            assertEquals(repository.getPreview(id, isVisible = false, isOptimal = true), secondList)
-        }
-
-        coVerifySequence {
-            rollDataSource.getList(id)
-            rollDataSource.getPreviewList(id)
-            rollDataSource.getPreviewList(id)
-            rollDataSource.getPreviewHideList(id)
-            thirdList.isEmpty()
-            thirdList == thirdList
-            rollDataSource.getPreviewHideList(id)
-            thirdList.isEmpty()
-            rollDataSource.getPreviewList(id)
         }
     }
 

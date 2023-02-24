@@ -14,7 +14,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.PREVIEW_SIZE
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.dao.RollDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.deleteSafe
@@ -335,21 +334,5 @@ class RollDaoTest : ParentRoomTest() {
         val resultList = rollsList.filterIndexed { i, _ -> i.isDivideEntirely() }.flatten()
 
         assertEquals(rollDao.getListSafe(idList), resultList)
-    }
-
-    @Test fun getPreviewList() = inRoomTest {
-        val (note, rollList) = firstPair
-        insertRelation(note, rollList)
-
-        val resultList = rollList.take(PREVIEW_SIZE)
-        assertEquals(rollDao.getPreviewList(note.id), resultList)
-    }
-
-    @Test fun getPreviewHideList() = inRoomTest {
-        val (note, rollList) = firstPair
-        insertRelation(note, rollList)
-
-        val resultList = rollList.filter { !it.isCheck }.take(PREVIEW_SIZE)
-        assertEquals(rollDao.getPreviewHideList(note.id), resultList)
     }
 }

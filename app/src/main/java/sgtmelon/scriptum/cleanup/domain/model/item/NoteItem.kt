@@ -125,9 +125,5 @@ sealed class NoteItem(
 
             return result
         }
-
-        companion object {
-            const val PREVIEW_SIZE = 4
-        }
     }
 }
