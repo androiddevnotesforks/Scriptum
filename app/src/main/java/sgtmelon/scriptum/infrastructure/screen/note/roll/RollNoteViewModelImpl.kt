@@ -348,7 +348,14 @@ class RollNoteViewModelImpl(
         return if (item.isVisible) {
             position
         } else {
-            val currentItem = _itemList.getOrNull(position) ?: return null
+            /**
+             * Need every time filter checked, because [_itemList] in some cases not
+             * representative (some items was moved) and it may produce position bugs.
+             *
+             * For example, in [moveItemResult] changes was applied (in [moveItem]) before
+             * [getAbsolutePosition] call.
+             */
+            val currentItem = item.list.hideChecked().getOrNull(position) ?: return null
             return item.list.validIndexOfFirst(currentItem)
         }
     }
