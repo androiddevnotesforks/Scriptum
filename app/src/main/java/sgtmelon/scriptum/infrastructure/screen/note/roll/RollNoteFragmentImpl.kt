@@ -50,9 +50,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     CustomListNotifyUi<RollItem>,
     DragAndSwipeTouchHelper.Callback {
 
-    // TODO FIX:
-    // 1. Add animation for Add panel (hide it with slide animation and change bottom padding in recycler)
-
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
 
