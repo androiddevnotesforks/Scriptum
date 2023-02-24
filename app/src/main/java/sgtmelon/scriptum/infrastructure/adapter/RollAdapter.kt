@@ -70,8 +70,7 @@ class RollAdapter(
     }
 
     override fun onBindViewHolder(holder: RollHolder, position: Int) {
-        holder.bindEdit(isEdit, getItem(position))
-        holder.bindState(state)
+        holder.bind(isEdit, state, getItem(position))
         cursor?.let { holder.bindSelection(it) }
     }
 }
