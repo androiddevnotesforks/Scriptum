@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.View
@@ -11,7 +12,6 @@ import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
 import sgtmelon.extensions.getDimen
-import sgtmelon.scriptum.R
 import sgtmelon.test.idling.getWaitIdling
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
@@ -48,16 +48,21 @@ fun getAlphaInterpolator(isVisible: Boolean): Interpolator {
     return if (isVisible) AccelerateInterpolator() else DecelerateInterpolator()
 }
 
-inline fun View.updateWithAnimation(
+inline fun updateWithAnimation(
+    duration: Long,
     valueFrom: Int,
     valueTo: Int,
+    crossinline onEnd: () -> Unit = {},
     crossinline onChange: (Int) -> Unit
 ) {
-    val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
     ValueAnimator.ofInt(valueFrom, valueTo).apply {
         this.interpolator = AccelerateDecelerateInterpolator()
         this.duration = duration
+
         addUpdateListener { onChange(it.animatedValue as Int) }
+        addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) = onEnd()
+        })
     }.start()
 
     getWaitIdling().start(duration)

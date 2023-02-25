@@ -8,9 +8,10 @@
         android:id="@+id/parent_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:background="?attr/clPrimary"
         android:orientation="vertical"
-        tools:layout_gravity="center"
+        tools:alpha="0.8"
         tools:visibility="visible">
 
         <View

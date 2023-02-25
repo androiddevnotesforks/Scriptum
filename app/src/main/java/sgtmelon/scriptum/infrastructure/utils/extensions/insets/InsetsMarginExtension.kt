@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.WindowInsetsCompat
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.updateWithAnimation
 
 /**
@@ -74,7 +75,8 @@ fun View.updateMargin(
     }
 
     if (withAnimation) {
-        updateWithAnimation(getMargin(dir), valueTo) { updateMargin(dir, it) }
+        val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
+        updateWithAnimation(duration, getMargin(dir), valueTo) { updateMargin(dir, it) }
     } else {
         updateMargin(dir, valueTo)
     }

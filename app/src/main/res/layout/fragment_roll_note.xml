@@ -21,12 +21,16 @@
             <include
                 android:id="@+id/empty_info"
                 layout="@layout/inc_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/layout_4dp"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
             <!--  Make only progress visible on screen clean-open.  -->
             <ProgressBar
                 android:id="@+id/progress_bar"
+                android:layout_marginBottom="@dimen/layout_4dp"
                 style="@style/ProgressBar.Center" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -34,26 +38,29 @@
                 style="@style/RecyclerView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/layout_4dp"
                 android:visibility="gone"
                 tools:visibility="visible"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_roll" />
 
+            <!--  Add to info/progress/recycler a bottom margin = size of this done progress.  -->
+            <ProgressBar
+                android:id="@+id/done_progress"
+                style="?attr/styleProgressHorizontal"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_height="@dimen/layout_4dp"
+                android:max="0"
+                tools:visibility="visible"
+                tools:max="100"
+                tools:progress="65" />
+
+            <include
+                android:id="@+id/add_panel"
+                layout="@layout/inc_roll_add_panel" />
+
         </FrameLayout>
-
-        <include
-            android:id="@+id/add_panel"
-            layout="@layout/inc_roll_add_panel" />
-
-        <ProgressBar
-            android:id="@+id/done_progress"
-            style="?attr/styleProgressHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/layout_4dp"
-            android:max="0"
-            tools:visibility="gone"
-            tools:max="100"
-            tools:progress="65" />
 
         <include
             android:id="@+id/panel"
