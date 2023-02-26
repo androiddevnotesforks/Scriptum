@@ -1,38 +1,79 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
+import android.animation.Animator
+import android.util.Log
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateWithAnimation
+import sgtmelon.scriptum.infrastructure.utils.extensions.*
 
 class RollNoteAnimation {
 
-    fun startAddPanelTranslation(binding: FragmentRollNoteBinding?, isEdit: Boolean) {
-        if (binding == null) return
+    /** Current state of isEdit mode. Needed for skip animation during note open. */
+    private var isEdit: Boolean? = null
 
+    private var animator: Animator? = null
+
+    fun startAddPanelChange(binding: FragmentRollNoteBinding, isEdit: Boolean) {
+        /** Value setup needed to init [isEdit] and skip next isNull case. */
+        if (this.isEdit == null) {
+            this.isEdit = isEdit
+        }
+
+        if (this.isEdit == isEdit) {
+            if (animator?.isRunning.isTrue()) return
+
+            Log.i("HERE", "just setup")
+
+            /** Make it invisible in read state to prevent layout size change. */
+            binding.panel.dividerView.makeVisibleIf(isEdit) { makeInvisible() }
+            binding.addPanel.parentContainer.makeVisibleIf(isEdit)
+            binding.doneProgress.makeVisibleIf(!isEdit)
+            return
+        }
+
+        this.isEdit = isEdit
+
+        addPanelTranslation(binding, isEdit)
+    }
+
+    private fun addPanelTranslation(
+        binding: FragmentRollNoteBinding,
+        isEdit: Boolean
+    ) = with(binding) {
         if (isEdit) {
-            binding.addPanel.parentContainer.apply {
+            addPanel.parentContainer.apply {
                 makeVisible()
                 translationY = height.toFloat()
             }
+            panel.dividerView.makeVisible()
         } else {
-            binding.doneProgress.makeVisible()
+            doneProgress.makeVisible()
         }
 
-        val valueFrom = if (isEdit) binding.addPanel.parentContainer.height else 0
-        val valueTo = if (isEdit) 0 else binding.addPanel.parentContainer.height
+        Log.i("HERE", "anim")
 
-        binding.root.rootView.post {
-            updateWithAnimation(200, valueFrom, valueTo, onEnd = {
+        // TODO у первой анимации (открыл созданную заметку - нажал редактировать) не будет анимации
+        // TODO потому что слой ещё не прогрузился и его высота не извесна
+        val valueFrom = if (isEdit) addPanel.parentContainer.height else 0
+        val valueTo = if (isEdit) 0 else addPanel.parentContainer.height
+
+        root.rootView.post {
+            animator = updateWithAnimation(200, valueFrom, valueTo, onEnd = {
+                animator = null
+
                 if (isEdit) {
-                    binding.doneProgress.makeGone()
-                    binding.addPanel.parentContainer.translationY = 0f
+                    doneProgress.makeGone()
+                    addPanel.parentContainer.translationY = DEF_TRANSLATION
                 } else {
-                    binding.addPanel.parentContainer.makeGone()
+                    addPanel.parentContainer.makeGone()
+                    panel.dividerView.makeInvisible()
                 }
             }) {
-                binding.addPanel.parentContainer.translationY = it.toFloat()
+                addPanel.parentContainer.translationY = it.toFloat()
             }
         }
+    }
+
+    companion object {
+        private const val DEF_TRANSLATION = 0f
     }
 }

@@ -54,8 +54,8 @@ inline fun updateWithAnimation(
     valueTo: Int,
     crossinline onEnd: () -> Unit = {},
     crossinline onChange: (Int) -> Unit
-) {
-    ValueAnimator.ofInt(valueFrom, valueTo).apply {
+): Animator {
+    val animator = ValueAnimator.ofInt(valueFrom, valueTo).apply {
         this.interpolator = AccelerateDecelerateInterpolator()
         this.duration = duration
 
@@ -63,7 +63,10 @@ inline fun updateWithAnimation(
         addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) = onEnd()
         })
-    }.start()
+    }
 
+    animator.start()
     getWaitIdling().start(duration)
+
+    return animator
 }

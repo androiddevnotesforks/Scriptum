@@ -11,6 +11,7 @@
         android:layout_gravity="bottom"
         android:background="?attr/clPrimary"
         android:orientation="vertical"
+        android:visibility="visible"
         tools:alpha="0.8"
         tools:visibility="visible">
 

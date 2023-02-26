@@ -36,8 +36,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
@@ -275,9 +273,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun invalidatePanelState(isEdit: Boolean) {
         super.invalidatePanelState(isEdit)
 
-        /** Make it invisible in read state to prevent layout size change. */
-        binding?.panel?.dividerView?.makeVisibleIf(isEdit) { makeInvisible() }
-        animation.startAddPanelTranslation(binding, isEdit)
+        animation.startAddPanelChange(binding = binding ?: return, isEdit)
     }
 
     //endregion
