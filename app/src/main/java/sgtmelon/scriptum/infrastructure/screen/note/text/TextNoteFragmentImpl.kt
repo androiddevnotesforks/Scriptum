@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
-import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
+import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
@@ -33,7 +33,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
     @Inject override lateinit var noteSave: NoteSave
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
-    override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
+    override val panelBar: IncNotePanelBinding? get() = binding?.panel
 
     override fun inject(component: ScriptumComponent) {
         component.getTextNoteBuilder()

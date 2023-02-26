@@ -1,6 +1,7 @@
 package sgtmelon.extensions
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
@@ -31,4 +32,5 @@ fun Context.getDimen(value: Float): Int {
     return TypedValue.applyDimension(unit, value, metrics).toInt()
 }
 
-fun Context.getDimen(@DimenRes id: Int): Int = resources.getDimensionPixelSize(id)
+fun Context.getDimen(@DimenRes id: Int): Int = resources.getDimen(id)
+fun Resources.getDimen(@DimenRes id: Int): Int = getDimensionPixelSize(id)

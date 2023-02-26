@@ -7,7 +7,7 @@ import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
+import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
@@ -27,7 +27,7 @@ class ParentNoteAnimation(
     private var isRunning = false
 
     fun startPanelFade(
-        binding: IncNotePanelContentBinding?,
+        binding: IncNotePanelBinding?,
         isEdit: Boolean,
         state: NoteState
     ) {
@@ -50,7 +50,7 @@ class ParentNoteAnimation(
         }
     }
 
-    private fun panelFade(binding: IncNotePanelContentBinding, isEdit: Boolean, state: NoteState) {
+    private fun panelFade(binding: IncNotePanelBinding, isEdit: Boolean, state: NoteState) {
         getIdling().start(IdlingTag.Alarm.ANIM)
         isRunning = true
 
@@ -74,7 +74,7 @@ class ParentNoteAnimation(
     }
 
     private fun changePanel(
-        binding: IncNotePanelContentBinding,
+        binding: IncNotePanelBinding,
         isEdit: Boolean,
         state: NoteState
     ) = with(binding) {

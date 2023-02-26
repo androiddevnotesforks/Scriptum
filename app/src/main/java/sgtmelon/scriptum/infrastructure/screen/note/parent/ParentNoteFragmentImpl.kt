@@ -20,7 +20,7 @@ import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
-import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
+import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -69,7 +69,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract val noteSave: NoteSave
 
     abstract val appBar: IncToolbarNoteBinding?
-    abstract val panelBar: IncNotePanelContentBinding?
+    abstract val panelBar: IncNotePanelBinding?
 
     private val animation by lazy { with(connector.init) { ParentNoteAnimation(isEdit, state) } }
 

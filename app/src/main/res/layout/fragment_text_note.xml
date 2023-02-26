@@ -55,7 +55,7 @@
 
         <include
             android:id="@+id/panel"
-            layout="@layout/inc_note_panel_text" />
+            layout="@layout/inc_note_panel" />
 
     </LinearLayout>
 

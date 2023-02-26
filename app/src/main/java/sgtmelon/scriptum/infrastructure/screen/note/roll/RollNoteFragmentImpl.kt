@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
+import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.scriptum.R
@@ -18,7 +19,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
-import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
+import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
@@ -35,6 +36,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.clearText
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
@@ -56,7 +58,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     @Inject override lateinit var noteSave: NoteSave
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
-    override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
+    override val panelBar: IncNotePanelBinding? get() = binding?.panel
 
     private val animation by lazy { RollNoteAnimation(connector.init.isEdit) }
     private val listAnimation = ShowListAnimation()
@@ -126,6 +128,12 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun setupPanel() {
         super.setupPanel()
 
+        /** Setup small horizontal spaces for edit mode, in read - divider will be hided. */
+        panelBar?.dividerView?.updateMargin(
+            left = resources.getDimen(R.dimen.layout_8dp),
+            right = resources.getDimen(R.dimen.layout_8dp),
+        )
+
         binding?.addPanel?.rollEnter?.apply {
             setRawInputType(
                 InputType.TYPE_CLASS_TEXT
@@ -177,7 +185,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         binding?.recyclerView?.let {
             it.disableChangeAnimations()
-            it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
+            it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(false) /** The height of all items may be not the same. */
             it.layoutManager = layoutManager
             it.adapter = adapter

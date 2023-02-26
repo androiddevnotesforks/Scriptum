@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/clPrimary"
-        android:paddingHorizontal="@dimen/layout_8dp"
         tools:paddingBottom="32dp"
         tools:layout_gravity="bottom">
 
@@ -17,6 +16,7 @@
             android:id="@+id/bin_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/note_panel_height"
+            android:paddingHorizontal="@dimen/layout_8dp"
             android:gravity="center_vertical"
             android:visibility="invisible"
             tools:visibility="invisible">
@@ -48,6 +48,7 @@
             android:id="@+id/edit_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/note_panel_height"
+            android:paddingHorizontal="@dimen/layout_8dp"
             android:gravity="center_vertical"
             android:visibility="invisible"
             tools:visibility="visible">
@@ -100,6 +101,7 @@
             android:id="@+id/read_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/note_panel_height"
+            android:paddingHorizontal="@dimen/layout_8dp"
             android:gravity="center_vertical"
             android:visibility="invisible"
             tools:visibility="invisible">
@@ -148,6 +150,11 @@
                 android:text="@string/button_note_edit" />
 
         </LinearLayout>
+
+        <!--  It placed in FrameLayout (not linear) to provide ripple effect behind this view.  -->
+        <View
+            android:id="@+id/divider_view"
+            style="@style/Divider.Horizontal" />
 
     </FrameLayout>
 
