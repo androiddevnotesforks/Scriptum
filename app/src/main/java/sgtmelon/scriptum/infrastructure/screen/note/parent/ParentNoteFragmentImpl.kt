@@ -42,7 +42,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.insets.doOnApplyWindowI
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updatePadding
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
@@ -72,7 +71,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract val appBar: IncToolbarNoteBinding?
     abstract val panelBar: IncNotePanelContentBinding?
 
-    private val animation = ParentNoteAnimation()
+    private val animation by lazy { with(connector.init) { ParentNoteAnimation(isEdit, state) } }
 
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
@@ -409,17 +408,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     @CallSuper open fun invalidatePanelState(isEdit: Boolean) {
-        animation.startPanelFade(panelBar) {
-            if (connector.init.state == NoteState.DELETE) {
-                it.binContainer.makeVisible()
-                it.editContainer.makeInvisible()
-                it.readContainer.makeInvisible()
-            } else {
-                it.binContainer.makeInvisible()
-                it.editContainer.makeVisibleIf(isEdit) { makeInvisible() }
-                it.readContainer.makeVisibleIf(!isEdit) { makeInvisible() }
-            }
-        }
+        animation.startPanelFade(panelBar, isEdit, connector.init.state)
     }
 
     @CallSuper open fun invalidatePanelData(item: N) {
