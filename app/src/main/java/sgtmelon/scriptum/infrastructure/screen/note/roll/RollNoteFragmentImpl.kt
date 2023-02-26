@@ -58,7 +58,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
-    private val animation = RollNoteAnimation()
+    private val animation by lazy { RollNoteAnimation(connector.init.isEdit) }
     private val listAnimation = ShowListAnimation()
 
     private val touchHelper = DragAndSwipeTouchHelper(callback = this)
