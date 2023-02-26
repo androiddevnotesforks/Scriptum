@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.record
 class GetTextNoteUseCase(private val repository: NoteRepo) : GetNoteUseCase<NoteItem.Text> {
 
     override suspend operator fun invoke(noteId: Long): NoteItem.Text? {
-        val noteItem = repository.getItem(noteId, isOptimal = false)
+        val noteItem = repository.getItem(noteId)
 
         if (noteItem !is NoteItem.Text) {
             IllegalNoteTypeException(NoteItem.Text::class, noteItem).record()

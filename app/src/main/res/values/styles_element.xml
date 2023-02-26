@@ -132,14 +132,6 @@
         <item name="android:padding">@dimen/item_container_space</item>
     </style>
 
-    <style name="Container.Roll"/>
-
-    <style name="Container.Roll.Click">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
-    </style>
-
     <style name="Container.ToolbarNote" />
 
     <style name="Container.ToolbarNote.Scroll">
@@ -333,8 +325,6 @@
     </style>
 
     <style name="EditText.Roll">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:paddingStart">@dimen/item_roll_start_space</item>
         <item name="android:paddingTop">@dimen/item_roll_space</item>
@@ -400,12 +390,6 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="Button.Roll">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:clickable">false</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
 
     <!-- Image -->
 

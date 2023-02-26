@@ -28,7 +28,6 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.extensions.afterLayoutConfigured
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
-import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
@@ -194,7 +193,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         binding?.parentContainer?.afterLayoutConfigured { isLayoutConfigure = true }
 
         binding?.recyclerView?.let {
-            it.disableChangeAnimations()
             it.layoutManager = LinearLayoutManager(this)
             it.setHasFixedSize(true) /** The height of all items absolutely the same. */
             it.adapter = adapter

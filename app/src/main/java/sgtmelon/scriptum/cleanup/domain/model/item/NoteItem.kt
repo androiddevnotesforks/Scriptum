@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
 import sgtmelon.extensions.getCalendarText
-import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -124,10 +124,6 @@ sealed class NoteItem(
             result = 31 * result + list.hashCode()
 
             return result
-        }
-
-        companion object {
-            const val PREVIEW_SIZE = 4
         }
     }
 }

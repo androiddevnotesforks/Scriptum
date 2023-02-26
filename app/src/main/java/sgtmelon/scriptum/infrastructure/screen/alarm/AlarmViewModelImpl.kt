@@ -45,7 +45,7 @@ class AlarmViewModelImpl(
          */
         deleteNotification(noteId)
 
-        val item = noteRepo.getItem(noteId, isOptimal = true)
+        val item = noteRepo.getItem(noteId)
         if (item != null) {
             noteItem.postValue(item)
         } else {

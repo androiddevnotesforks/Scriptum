@@ -17,11 +17,11 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
-import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelContentBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
+import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragAndSwipeTouchHelper
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
@@ -36,6 +36,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
@@ -50,11 +51,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     CustomListNotifyUi<RollItem>,
     DragAndSwipeTouchHelper.Callback {
 
-    // TODO FIX:
-    // 1. Create note - cursor not on name (it's placed on enter)
-    // 2. Drag'n'drop in not visible mode -> switch visible -> item moved by themselfs
-    // 3. Add animation for Add panel (hide it with slide animation and change bottom padding in recycler)
-
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
 
@@ -64,6 +60,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelContentBinding? get() = binding?.panel?.content
 
+    private val animation = RollNoteAnimation()
     private val listAnimation = ShowListAnimation()
 
     private val touchHelper = DragAndSwipeTouchHelper(callback = this)
@@ -278,15 +275,15 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun invalidatePanelState(isEdit: Boolean) {
         super.invalidatePanelState(isEdit)
 
-        binding?.addPanel?.parentContainer?.makeVisibleIf(isEdit)
-        binding?.doneProgress?.makeVisibleIf(!isEdit)
-        binding?.panel?.dividerView?.makeVisibleIf(isEdit)
+        /** Make it invisible in read state to prevent layout size change. */
+        binding?.panel?.dividerView?.makeVisibleIf(isEdit) { makeInvisible() }
+        animation.startAddPanelTranslation(binding, isEdit)
     }
 
     //endregion
 
     /** Take list size from [viewModel], because there are maybe a hide state (hide done items). */
-    override fun isContentEmpty(): Boolean = viewModel.noteItem.value?.list?.isEmpty().isTrue()
+    override fun isContentEmpty(): Boolean = viewModel.noteItem.value?.list.isNullOrEmpty().isTrue()
 
     //region Touch callback
 

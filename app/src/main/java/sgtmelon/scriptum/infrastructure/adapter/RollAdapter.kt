@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.infrastructure.adapter
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollBinding
 import sgtmelon.scriptum.infrastructure.adapter.diff.RollDiff
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
-import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolderNotify
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
@@ -24,26 +24,11 @@ class RollAdapter(
     private val onEnterNext: () -> Unit
 ) : ParentDiffAdapter<RollItem, RollHolder>(RollDiff()) {
 
-    override fun getListCopy(list: List<RollItem>): List<RollItem> {
-        val copyList = ArrayList(list.map { it.copy() })
-
-        /**
-         * Need search for items and update them in [notifyMap]. For correct work
-         * of [updateEdit].
-         */
-        notifyMap.forEach { (notify, item) ->
-            /** If didn't find item in list -> it was deleted. */
-            val newItem = copyList.firstOrNull { item.uniqueId == it.uniqueId }
-
-            if (newItem != null) {
-                notifyMap[notify] = newItem
-            } else {
-                notifyMap.remove(notify)
-            }
-        }
-
-        return copyList
+    init {
+        setHasStableIds(true)
     }
+
+    //region Custom functions
 
     /** Pass this cursor into the next one notified [RollHolder]. Reset to default after get. */
     private var cursor: Int? = null
@@ -55,25 +40,29 @@ class RollAdapter(
 
     fun setCursor(cursor: Int) = apply { this.cursor = cursor }
 
-    /**
-     * This map needed fast [RollHolder] bindings and skip adapter standard notify functions.
-     * Make UI more smooth.
-     */
-    private val notifyMap = mutableMapOf<RollHolderNotify, RollItem>()
-
+    @SuppressLint("NotifyDataSetChanged")
     fun updateEdit(isEdit: Boolean) {
         if (this.isEdit != isEdit) {
             this.isEdit = isEdit
-            notifyMap.forEach { (notify, it) -> notify.bindEdit(isEdit, it) }
+            notifyDataSetChanged()
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateState(state: NoteState) {
         if (this.state != state) {
             this.state = state
-            notifyMap.forEach { (notify, _) -> notify.bindState(state) }
+            notifyDataSetChanged()
         }
     }
+
+    //endregion
+
+    override fun getListCopy(list: List<RollItem>): List<RollItem> {
+        return ArrayList(list.map { it.copy() })
+    }
+
+    override fun getItemId(position: Int): Long = getItem(position).uniqueId.hashCode().toLong()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RollHolder {
         val binding: ItemRollBinding = parent.inflateBinding(R.layout.item_roll)
@@ -81,17 +70,7 @@ class RollAdapter(
     }
 
     override fun onBindViewHolder(holder: RollHolder, position: Int) {
-        val item = getItem(position) ?: return
-
-        holder.bindEdit(isEdit, item)
-        holder.bindState(state)
+        holder.bind(isEdit, state, getItem(position))
         cursor?.let { holder.bindSelection(it) }
-
-        notifyMap[holder] = item
-    }
-
-    override fun onViewRecycled(holder: RollHolder) {
-        super.onViewRecycled(holder)
-        notifyMap.remove(holder)
     }
 }

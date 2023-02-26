@@ -31,8 +31,7 @@ class RollHolder(
     private val dragListener: ItemDragListener,
     private val onEnterNext: () -> Unit
 ) : ParentHolder(binding.root),
-    UnbindCallback,
-    RollHolderNotify {
+    UnbindCallback {
 
     private val textWatcher = HistoryTextWatcher(
         binding.itemEnter, callback = object : HistoryTextWatcher.Callback {
@@ -56,15 +55,15 @@ class RollHolder(
 
     fun bindSelection(cursor: Int) = binding.itemEnter.setSelectionSafe(cursor)
 
-    override fun bindEdit(isEdit: Boolean, item: RollItem) {
-        /** Remove all listeners what was set before */
+    fun bind(isEdit: Boolean, state: NoteState, item: RollItem) {
+        /** Remove all listeners what was set before. */
         unbind()
 
         with(binding) {
             checkBox.isChecked = item.isCheck
             checkBox.makeVisibleIf(!isEdit) { makeInvisible() }
 
-            bindClickButton(isEdit, item)
+            bindClickButton(isEdit, state, item)
 
             itemText.makeVisibleIf(!isEdit)
             itemEnter.makeVisibleIf(isEdit)
@@ -85,7 +84,9 @@ class RollHolder(
         }
     }
 
-    private fun bindClickButton(isEdit: Boolean, item: RollItem) = with(binding) {
+    private fun bindClickButton(isEdit: Boolean, state: NoteState, item: RollItem) = with(binding) {
+        clickButton.isEnabled = state != NoteState.DELETE
+
         if (isEdit) {
             val colorAttr = if (item.isCheck) R.attr.clAccent else R.attr.clContent
             clickButton.bindDrawable(R.drawable.ic_move, colorAttr)
@@ -134,10 +135,6 @@ class RollHolder(
     private fun bindWriteDescription(text: String) {
         val description = context.getString(R.string.description_item_roll_move, text)
         binding.clickButton.contentDescription = description
-    }
-
-    override fun bindState(state: NoteState) {
-        binding.clickButton.isEnabled = state != NoteState.DELETE
     }
 
     override fun unbind() = with(binding) {

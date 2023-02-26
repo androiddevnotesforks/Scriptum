@@ -42,7 +42,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
 
 /**
- * TODO normal description
+ * Parent ViewModel for notes, describes main logic and features.
  */
 abstract class ParentNoteViewModelImpl<N : NoteItem>(
     private val colorConverter: ColorConverter,

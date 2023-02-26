@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.TypeConverters
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.PREVIEW_SIZE
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.database.DbData
@@ -70,27 +69,4 @@ interface RollDao {
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID IN (:noteIdList)")
     suspend fun getList(noteIdList: List<Long>): List<RollEntity>
 
-    // TODO make list not mutable?
-    /**
-     * Get only first 4 items for preview.
-     */
-    @Query(
-        value = """SELECT * FROM ROLL_TABLE
-            WHERE RL_NOTE_ID = :noteId
-            ORDER BY RL_POSITION
-            LIMIT $PREVIEW_SIZE"""
-    )
-    suspend fun getPreviewList(noteId: Long): MutableList<RollEntity>
-
-    // TODO make list not mutable?
-    /**
-     * Get only first 4 visible items (not hide) for preview.
-     */
-    @Query(
-        value = """SELECT * FROM ROLL_TABLE
-            WHERE RL_NOTE_ID = :noteId AND RL_CHECK = "0"
-            ORDER BY RL_POSITION
-            LIMIT $PREVIEW_SIZE"""
-    )
-    suspend fun getPreviewHideList(noteId: Long): MutableList<RollEntity>
 }

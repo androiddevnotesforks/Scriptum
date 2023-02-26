@@ -1,62 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/parent_container"
         style="@style/Card.Item.Common">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
+            <CheckBox
+                android:id="@+id/check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/item_roll_icon_horizontal_space"
+                android:clickable="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:checked="true" />
+
+            <!--  Button which displays above checkBox for ripple effect on click  -->
+            <!--  Set contentDescription and src in UI class  -->
+            <ImageButton
+                android:id="@+id/click_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackground"
                 android:paddingHorizontal="@dimen/item_roll_icon_horizontal_space"
-                tools:background="@color/accent_ripple_light">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@color/accent_ripple_light"
+                tools:ignore="ContentDescription"
+                tools:srcCompat="@drawable/ic_move"
+                tools:tint="?attr/clAccent" />
 
-                <CheckBox
-                    android:id="@+id/check_box"
-                    style="@style/Button.Roll"
-                    tools:checked="true" />
+            <View
+                android:id="@+id/text_guideline"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="invisible"
+                android:layout_marginStart="@dimen/item_roll_icon_horizontal_space"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/check_box"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <!--  Button which displays above checkBox for ripple effect on click  -->
-                <!--  Set contentDescription and src in UI class  -->
-                <ImageButton
-                    android:id="@+id/click_button"
-                    style="@style/Container.Roll.Click"
-                    tools:srcCompat="@drawable/ic_move"
-                    tools:ignore="ContentDescription"
-                    tools:tint="?attr/clAccent" />
+            <TextView
+                android:id="@+id/item_text"
+                style="@style/EditText.Roll.Read"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/item_roll_icon_horizontal_space"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/check_box"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/preview_note_roll"
+                tools:textColor="?attr/clContrast"
+                tools:visibility="visible" />
 
-            </FrameLayout>
+            <EditText
+                android:id="@+id/item_enter"
+                style="@style/EditText.Roll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/item_roll_icon_horizontal_space"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/check_box"
+                app:layout_constraintTop_toTopOf="parent"
+                android:hint="@string/hind_enter_roll_empty"
+                android:imeOptions="flagNoFullscreen"
+                android:importantForAutofill="noExcludeDescendants"
+                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                tools:text="@string/preview_note_roll"
+                tools:textColor="?attr/clContrast"
+                tools:visibility="gone" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/item_text"
-                    style="@style/EditText.Roll.Read"
-                    tools:text="@string/preview_note_roll"
-                    tools:visibility="visible"
-                    tools:textColor="?attr/clContrast" />
-
-                <EditText
-                    android:id="@+id/item_enter"
-                    style="@style/EditText.Roll"
-                    android:hint="@string/hind_enter_roll_empty"
-                    android:imeOptions="flagNoFullscreen"
-                    tools:visibility="gone"
-                    android:importantForAutofill="noExcludeDescendants"
-                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    tools:text="@string/preview_note_roll"
-                    tools:textColor="?attr/clContrast" />
-
-            </FrameLayout>
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 

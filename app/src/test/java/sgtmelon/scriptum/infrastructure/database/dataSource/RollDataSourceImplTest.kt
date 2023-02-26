@@ -12,11 +12,11 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.RollDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.deleteSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -153,36 +153,6 @@ class RollDataSourceImplTest : ParentTest() {
 
         coVerifySequence {
             dao.getListSafe(noteIdList)
-        }
-    }
-
-    @Test fun getPreviewList() {
-        val noteId = Random.nextLong()
-        val list = mockk<MutableList<RollEntity>>()
-
-        coEvery { dao.getPreviewList(noteId) } returns list
-
-        runBlocking {
-            assertEquals(dataSource.getPreviewList(noteId), list)
-        }
-
-        coVerifySequence {
-            dao.getPreviewList(noteId)
-        }
-    }
-
-    @Test fun getPreviewHideList() {
-        val noteId = Random.nextLong()
-        val list = mockk<MutableList<RollEntity>>()
-
-        coEvery { dao.getPreviewHideList(noteId) } returns list
-
-        runBlocking {
-            assertEquals(dataSource.getPreviewHideList(noteId), list)
-        }
-
-        coVerifySequence {
-            dao.getPreviewHideList(noteId)
         }
     }
 }

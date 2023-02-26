@@ -37,13 +37,13 @@ class GetTextNoteUseCaseTest : ParentTest() {
         val noteId = Random.nextLong()
         val item = mockk<NoteItem.Text>()
 
-        coEvery { repository.getItem(noteId, isOptimal = false) } returns item
+        coEvery { repository.getItem(noteId) } returns item
         runBlocking {
             assertEquals(item, useCase(noteId))
         }
 
         coVerifySequence {
-            repository.getItem(noteId, isOptimal = false)
+            repository.getItem(noteId)
         }
     }
 
@@ -54,20 +54,20 @@ class GetTextNoteUseCaseTest : ParentTest() {
         FastMock.fireExtensions()
         every { any<IllegalNoteTypeException>().record() } returns mockk()
 
-        coEvery { repository.getItem(noteId, isOptimal = false) } returns null
+        coEvery { repository.getItem(noteId) } returns null
         runBlocking {
             assertNull(useCase(noteId))
         }
 
-        coEvery { repository.getItem(noteId, isOptimal = false) } returns wrongItem
+        coEvery { repository.getItem(noteId) } returns wrongItem
         runBlocking {
             assertNull(useCase(noteId))
         }
 
         coVerifySequence {
-            repository.getItem(noteId, isOptimal = false)
+            repository.getItem(noteId)
             any<IllegalNoteTypeException>().record()
-            repository.getItem(noteId, isOptimal = false)
+            repository.getItem(noteId)
             any<IllegalNoteTypeException>().record()
         }
     }

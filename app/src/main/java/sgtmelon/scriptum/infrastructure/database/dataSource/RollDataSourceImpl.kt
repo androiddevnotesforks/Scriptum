@@ -31,11 +31,4 @@ class RollDataSourceImpl(private val dao: RollDao) : RollDataSource {
         return dao.getListSafe(noteIdList)
     }
 
-    override suspend fun getPreviewList(noteId: Long): MutableList<RollEntity> {
-        return dao.getPreviewList(noteId)
-    }
-
-    override suspend fun getPreviewHideList(noteId: Long): MutableList<RollEntity> {
-        return dao.getPreviewHideList(noteId)
-    }
 }
