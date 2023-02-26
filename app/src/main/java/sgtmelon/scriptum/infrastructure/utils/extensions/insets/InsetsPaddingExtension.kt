@@ -4,7 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.core.view.WindowInsetsCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateWithAnimation
+import sgtmelon.scriptum.infrastructure.utils.extensions.animateValue
 
 /**
  * [this] - must be viewGroup
@@ -74,7 +74,7 @@ fun View.updatePadding(
 
     if (withAnimation) {
         val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
-        updateWithAnimation(duration, getPadding(dir), valueTo) { updatePadding(dir, it) }
+        animateValue(getPadding(dir), valueTo, duration) { updatePadding(dir, it) }
     } else {
         updatePadding(dir, valueTo)
     }

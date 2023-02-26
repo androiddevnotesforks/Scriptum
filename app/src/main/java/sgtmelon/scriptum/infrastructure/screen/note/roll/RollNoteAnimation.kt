@@ -3,12 +3,12 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import android.animation.Animator
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.animateValue
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateWithAnimation
 
 /**
  * Current state of [isEdit] mode needed for skip animation during note open.
@@ -65,7 +65,7 @@ class RollNoteAnimation(private var isEdit: Boolean) {
         val valueFrom = if (isEdit) maxTranslation else MIN_TRANSLATION
         val valueTo = if (isEdit) MIN_TRANSLATION else maxTranslation
 
-        animator = updateWithAnimation(duration, valueFrom, valueTo, onEnd = {
+        animator = animateValue(valueFrom, valueTo, duration, onEnd = {
             animator = null
 
             if (isEdit) {

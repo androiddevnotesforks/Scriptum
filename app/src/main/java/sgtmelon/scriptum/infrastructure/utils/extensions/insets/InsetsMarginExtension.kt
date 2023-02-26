@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.WindowInsetsCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.extensions.updateWithAnimation
+import sgtmelon.scriptum.infrastructure.utils.extensions.animateValue
 
 /**
  * [this] - must be viewGroup
@@ -76,7 +76,7 @@ fun View.updateMargin(
 
     if (withAnimation) {
         val duration = resources.getInteger(R.integer.keyboard_change_time).toLong()
-        updateWithAnimation(duration, getMargin(dir), valueTo) { updateMargin(dir, it) }
+        animateValue(getMargin(dir), valueTo, duration) { updateMargin(dir, it) }
     } else {
         updateMargin(dir, valueTo)
     }

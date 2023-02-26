@@ -48,16 +48,17 @@ fun getAlphaInterpolator(isVisible: Boolean): Interpolator {
     return if (isVisible) AccelerateInterpolator() else DecelerateInterpolator()
 }
 
-inline fun updateWithAnimation(
+inline fun animateValue(
+    from: Int,
+    to: Int,
     duration: Long,
-    valueFrom: Int,
-    valueTo: Int,
+    interpolator: Interpolator = AccelerateDecelerateInterpolator(),
     crossinline onEnd: () -> Unit = {},
     crossinline onChange: (Int) -> Unit
 ): Animator {
-    val animator = ValueAnimator.ofInt(valueFrom, valueTo).apply {
-        this.interpolator = AccelerateDecelerateInterpolator()
+    val animator = ValueAnimator.ofInt(from, to).apply {
         this.duration = duration
+        this.interpolator = interpolator
 
         addUpdateListener { onChange(it.animatedValue as Int) }
         addListener(object : AnimatorListenerAdapter() {
