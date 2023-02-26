@@ -1,8 +1,12 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import android.animation.Animator
+import sgtmelon.extensions.PERCENT_MAX
+import sgtmelon.extensions.PERCENT_MIN
+import sgtmelon.extensions.getPercent
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MAX
 import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MIN
 import sgtmelon.scriptum.infrastructure.utils.extensions.animateValue
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
@@ -52,19 +56,19 @@ class RollNoteAnimation(private var isEdit: Boolean) {
         val resources = binding.root.context.resources
         val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
 
-        val addMaxTranslation = addPanel.parentContainer.height
+        val addMaxTranslation = addPanel.parentContainer.height.toFloat()
 
-        onAddPanelTranslationStart(binding, isEdit, addMaxTranslation.toFloat())
+        onAddPanelTranslationStart(binding, isEdit, addMaxTranslation)
 
-        val valueFrom = if (isEdit) addMaxTranslation else MIN_TRANSLATION
-        val valueTo = if (isEdit) MIN_TRANSLATION else addMaxTranslation
+        val from = if (isEdit) PERCENT_MAX else PERCENT_MIN
+        val to = if (isEdit) PERCENT_MIN else PERCENT_MAX
 
-        animator = animateValue(valueFrom, valueTo, duration, onEnd = {
+        animator = animateValue(from, to, duration, onEnd = {
             animator = null
             onAddPanelTranslationEnd(binding, isEdit)
         }) {
-            addPanel.parentContainer.translationY = it.toFloat()
-            // TODO add fade for divider (from 0 to 100)
+            addPanel.parentContainer.translationY = addMaxTranslation.getPercent(it)
+            panel.dividerView.alpha = ALPHA_MAX - ALPHA_MAX.getPercent(it)
         }
     }
 

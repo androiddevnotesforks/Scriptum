@@ -11,8 +11,6 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
-import sgtmelon.extensions.PERCENT_MAX
-import sgtmelon.extensions.PERCENT_MIN
 import sgtmelon.extensions.getDimen
 import sgtmelon.test.idling.getWaitIdling
 
@@ -52,13 +50,6 @@ private fun CardView.getElevationAnimator(valueFrom: Float, valueTo: Float): Val
 fun getAlphaInterpolator(isVisible: Boolean): Interpolator {
     return if (isVisible) AccelerateInterpolator() else DecelerateInterpolator()
 }
-
-inline fun animatePercent(
-    duration: Long,
-    interpolator: Interpolator = AccelerateDecelerateInterpolator(),
-    crossinline onEnd: () -> Unit = {},
-    crossinline onChange: (Int) -> Unit
-): Animator = animateValue(PERCENT_MIN, PERCENT_MAX, duration, interpolator, onEnd, onChange)
 
 inline fun animateValue(
     from: Int,
