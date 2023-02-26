@@ -16,6 +16,9 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.test.idling.getIdling
 
+/**
+ * Current state of [isEdit]/[state] needed for skip animation during note open.
+ */
 class ParentNoteAnimation(
     private var isEdit: Boolean,
     private var state: NoteState
@@ -43,27 +46,31 @@ class ParentNoteAnimation(
 
         /** Post needed for better UI performance. */
         binding.root.rootView.post {
-            getIdling().start(IdlingTag.Alarm.ANIM)
-            isRunning = true
-
-            val resources = binding.root.context.resources
-            val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
-
-            val transition = AutoTransition()
-                .setDuration(duration)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .setOrdering(TransitionSet.ORDERING_TOGETHER)
-                .addListener(object : TransitionListenerAdapter() {
-                    override fun onTransitionEnd(transition: Transition) {
-                        getIdling().stop(IdlingTag.Alarm.ANIM)
-                        isRunning = false
-                    }
-                })
-
-            TransitionManager.beginDelayedTransition(binding.parentContainer, transition)
-
-            changePanel(binding, isEdit, state)
+            panelFade(binding, isEdit, state)
         }
+    }
+
+    private fun panelFade(binding: IncNotePanelContentBinding, isEdit: Boolean, state: NoteState) {
+        getIdling().start(IdlingTag.Alarm.ANIM)
+        isRunning = true
+
+        val resources = binding.root.context.resources
+        val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
+
+        val transition = AutoTransition()
+            .setDuration(duration)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .setOrdering(TransitionSet.ORDERING_TOGETHER)
+            .addListener(object : TransitionListenerAdapter() {
+                override fun onTransitionEnd(transition: Transition) {
+                    getIdling().stop(IdlingTag.Alarm.ANIM)
+                    isRunning = false
+                }
+            })
+
+        TransitionManager.beginDelayedTransition(binding.parentContainer, transition)
+
+        changePanel(binding, isEdit, state)
     }
 
     private fun changePanel(

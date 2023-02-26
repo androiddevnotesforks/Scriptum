@@ -273,7 +273,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun invalidatePanelState(isEdit: Boolean) {
         super.invalidatePanelState(isEdit)
 
-        animation.startAddPanelChange(binding = binding ?: return, isEdit)
+        animation.startAddPanelChange(binding, isEdit)
     }
 
     //endregion

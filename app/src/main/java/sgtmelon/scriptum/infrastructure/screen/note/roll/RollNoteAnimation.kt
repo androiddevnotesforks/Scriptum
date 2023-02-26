@@ -16,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 
 /**
- * Current state of [isEdit] mode needed for skip animation during note open.
+ * Current state of [isEdit] needed for skip animation during note open.
  */
 class RollNoteAnimation(private var isEdit: Boolean) {
 
@@ -27,7 +27,9 @@ class RollNoteAnimation(private var isEdit: Boolean) {
 
     private var animator: Animator? = null
 
-    fun startAddPanelChange(binding: FragmentRollNoteBinding, isEdit: Boolean) {
+    fun startAddPanelChange(binding: FragmentRollNoteBinding?, isEdit: Boolean) {
+        if (binding == null) return
+
         if (this.isEdit == isEdit) {
             /** Skip setup if was double call and animation already running. */
             if (animator?.isRunning.isTrue()) return
