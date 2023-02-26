@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import android.animation.Animator
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MIN
 import sgtmelon.scriptum.infrastructure.utils.extensions.animateValue
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
@@ -27,11 +28,12 @@ class RollNoteAnimation(private var isEdit: Boolean) {
             /** Skip setup if was double call and animation already running. */
             if (animator?.isRunning.isTrue()) return
 
-            /** Make it invisible in read state to prevent layout size change. */
-            binding.panel.dividerView.makeVisibleIf(isEdit) { makeInvisible() }
             /** Make it invisible because needed calculated height of container for anim. */
             binding.addPanel.parentContainer.makeVisibleIf(isEdit) { makeInvisible() }
+            /** Make it invisible in read state to prevent layout size change. */
+            binding.panel.dividerView.makeVisibleIf(isEdit) { makeInvisible() }
             binding.doneProgress.makeVisibleIf(!isEdit)
+
             return
         }
 
@@ -47,40 +49,65 @@ class RollNoteAnimation(private var isEdit: Boolean) {
         binding: FragmentRollNoteBinding,
         isEdit: Boolean
     ) = with(binding) {
-        val maxTranslation = addPanel.parentContainer.height
-
-        /** This preparation is opposite of changes inside onEnd call. */
-        if (isEdit) {
-            addPanel.parentContainer.apply {
-                makeVisible()
-                translationY = maxTranslation.toFloat()
-            }
-            panel.dividerView.makeVisible()
-        } else {
-            doneProgress.makeVisible()
-        }
-
         val resources = binding.root.context.resources
         val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
-        val valueFrom = if (isEdit) maxTranslation else MIN_TRANSLATION
-        val valueTo = if (isEdit) MIN_TRANSLATION else maxTranslation
+
+        val addMaxTranslation = addPanel.parentContainer.height
+
+        onAddPanelTranslationStart(binding, isEdit, addMaxTranslation.toFloat())
+
+        val valueFrom = if (isEdit) addMaxTranslation else MIN_TRANSLATION
+        val valueTo = if (isEdit) MIN_TRANSLATION else addMaxTranslation
 
         animator = animateValue(valueFrom, valueTo, duration, onEnd = {
             animator = null
-
-            if (isEdit) {
-                doneProgress.makeGone()
-                addPanel.parentContainer.translationY = MIN_TRANSLATION.toFloat()
-            } else {
-                addPanel.parentContainer.makeInvisible()
-                panel.dividerView.makeInvisible()
-            }
+            onAddPanelTranslationEnd(binding, isEdit)
         }) {
             addPanel.parentContainer.translationY = it.toFloat()
-
             // TODO add fade for divider (from 0 to 100)
         }
     }
+
+    /** This preparation is opposite of changes inside onEnd call - [onAddPanelTranslationEnd]. */
+    private fun onAddPanelTranslationStart(
+        binding: FragmentRollNoteBinding,
+        isEdit: Boolean,
+        addMaxTranslation: Float
+    ) = with(binding) {
+        if (isEdit) {
+            /** Make visible but hide add panel before slide in animation. */
+            addPanel.parentContainer.makeVisible()
+            addPanel.parentContainer.translationY = addMaxTranslation
+
+            /** Make visible but completely transparent for start fade in. */
+            panel.dividerView.makeVisible()
+            panel.dividerView.alpha = ALPHA_MIN
+        } else {
+            /**
+             * Make visible progress for good look anim of add panel slide out. Progress placed
+             * behind, and to animation end it must be already displayed.
+             */
+            doneProgress.makeVisible()
+        }
+    }
+
+    private fun onAddPanelTranslationEnd(
+        binding: FragmentRollNoteBinding,
+        isEdit: Boolean
+    ) = with(binding) {
+        if (isEdit) {
+            /** Add panel is completely slide in, we may hide progress. */
+            doneProgress.makeGone()
+        } else {
+            /**
+             * Add panel is completely slide out, may hide it and divider. It's not displayed
+             * in screen already: panel is translation to end position, divider has empty alpha.
+             */
+            addPanel.parentContainer.makeInvisible()
+            panel.dividerView.makeInvisible()
+        }
+    }
+
 
     companion object {
         private const val MIN_TRANSLATION = 0

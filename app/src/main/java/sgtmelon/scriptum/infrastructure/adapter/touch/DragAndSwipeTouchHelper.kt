@@ -6,6 +6,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MAX
 
 /**
  * Common class for control drag/swipe actions with [RecyclerView] items.
@@ -87,7 +88,7 @@ class DragAndSwipeTouchHelper(private val callback: Callback) : EdgeDragTouchHel
         actionState: Int, isCurrentlyActive: Boolean
     ) {
         if (actionState.isSwipe()) {
-            /** Corner position where alpha will be equal [ALPHA_SWIPE_MIN]. */
+            /** Corner position where alpha will be equal [ALPHA_MIN_SWIPE]. */
             val targetX = viewHolder.itemView.width.toFloat() / 2
 
             /** Position of x between -targetX and targetX. */
@@ -96,8 +97,8 @@ class DragAndSwipeTouchHelper(private val callback: Callback) : EdgeDragTouchHel
             /** Have values between 0.0 and 1.0. */
             val ratio = translationX / targetX
 
-            val alpha = ALPHA_SWIPE_MAX - ratio
-            val resultAlpha = max(alpha, ALPHA_SWIPE_MIN)
+            val alpha = ALPHA_MAX - ratio
+            val resultAlpha = max(alpha, ALPHA_MIN_SWIPE)
 
             viewHolder.itemView.alpha = resultAlpha
         }
@@ -142,7 +143,6 @@ class DragAndSwipeTouchHelper(private val callback: Callback) : EdgeDragTouchHel
     }
 
     companion object {
-        private const val ALPHA_SWIPE_MIN = 0.2f
-        private const val ALPHA_SWIPE_MAX = 1.0f
+        private const val ALPHA_MIN_SWIPE = 0.2f
     }
 }
