@@ -5,6 +5,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MAX
 import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.getElevationAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleXAnimator
@@ -53,7 +54,7 @@ class TouchAnimation {
             this.interpolator = AccelerateDecelerateInterpolator()
 
             playTogether(
-                getAlphaAnimator(cardView, ALPHA_DRAG_MAX),
+                getAlphaAnimator(cardView, ALPHA_MAX),
                 getScaleXAnimator(cardView, SCALE_MIN),
                 getScaleYAnimator(cardView, SCALE_MIN),
                 getElevationAnimator(cardView, startCardElevation)
@@ -62,9 +63,8 @@ class TouchAnimation {
     }
 
     companion object {
-        private const val ANIM_DURATION = 300L
+        private const val ANIM_DURATION = 300L // TODO move into resources
         private const val ALPHA_DRAG_MIN = 0.7f
-        private const val ALPHA_DRAG_MAX = 1f
         private const val SCALE_MIN = 1f
         private const val SCALE_MAX = 1.015f
     }
