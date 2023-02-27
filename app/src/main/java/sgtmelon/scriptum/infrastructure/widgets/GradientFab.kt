@@ -144,9 +144,9 @@ internal class GradientFab(
         )
 
         playTogether(
-            getAlphaAnimator(parentCard, alpha).apply { interpolator = alphaInterpolator },
-            getScaleXAnimator(parentCard, scale).apply { interpolator = scaleInterpolator },
-            getScaleYAnimator(parentCard, scale).apply { interpolator = scaleInterpolator }
+            parentCard.getAlphaAnimator(alpha).apply { interpolator = alphaInterpolator },
+            parentCard.getScaleXAnimator(scale).apply { interpolator = scaleInterpolator },
+            parentCard.getScaleYAnimator(scale).apply { interpolator = scaleInterpolator }
         )
 
         return this

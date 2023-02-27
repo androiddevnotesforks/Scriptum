@@ -7,7 +7,11 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.utils.extensions.*
+import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
+import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
+import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.test.idling.getWaitIdling
 
 /**
@@ -71,9 +75,9 @@ class ParentNoteAnimation(
             val isBin = state == NoteState.DELETE
             playTogether(with(binding) {
                 listOfNotNull(
-                    getAlphaAnimator(binContainer, visibleTo = isBin),
-                    getAlphaAnimator(editContainer, visibleTo = !isBin && isEdit),
-                    getAlphaAnimator(readContainer, visibleTo = !isBin && !isEdit)
+                    binContainer.getAlphaAnimator(visibleTo = isBin),
+                    editContainer.getAlphaAnimator(visibleTo = !isBin && isEdit),
+                    readContainer.getAlphaAnimator(visibleTo = !isBin && !isEdit)
                 )
             })
 

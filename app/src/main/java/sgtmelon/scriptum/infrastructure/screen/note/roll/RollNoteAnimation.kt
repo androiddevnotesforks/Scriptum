@@ -20,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
+import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Current state of [isEdit] needed for skip animation during note open.
@@ -135,11 +136,15 @@ class RollNoteAnimation(private var isEdit: Boolean) {
     fun startProgress(binding: FragmentRollNoteBinding?, max: Int, done: Int) {
         if (binding == null) return
 
-        val duration = binding.root.context.resources.getInteger(R.integer.progress_change_time)
-        getProgressAnimator(binding.doneProgress, max, done)
-            .apply { interpolator = AccelerateDecelerateInterpolator() }
-            .setDuration(duration.toLong())
-            .start()
+        val resources = binding.root.context.resources
+        val duration = resources.getInteger(R.integer.progress_change_time).toLong()
+
+        binding.doneProgress.getProgressAnimator(max, done).apply {
+            this.duration = duration
+            this.interpolator = AccelerateDecelerateInterpolator()
+        }.start()
+
+        getWaitIdling().start(duration)
     }
 
     companion object {

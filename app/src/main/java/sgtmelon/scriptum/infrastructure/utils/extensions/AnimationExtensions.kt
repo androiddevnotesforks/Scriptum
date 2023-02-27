@@ -18,39 +18,39 @@ import sgtmelon.test.idling.getWaitIdling
 const val ALPHA_MIN = 0f
 const val ALPHA_MAX = 1f
 
-fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
-    return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)
+fun View.getAlphaAnimator(alphaTo: Float): Animator {
+    return ObjectAnimator.ofFloat(this, View.ALPHA, alpha, alphaTo)
 }
 
-/** Provide fade animator and prepare [view] before animation run. */
-fun getAlphaAnimator(view: View, visibleTo: Boolean) : Animator? {
+/** Provide fade animator and prepare [this] before animation run. */
+fun View.getAlphaAnimator(visibleTo: Boolean) : Animator? {
     /** If it has the same [visibleTo] value -> it must not be animated. */
-    if (view.isVisible() == visibleTo) return null
+    if (isVisible() == visibleTo) return null
 
     val alphaFrom = if (visibleTo) ALPHA_MIN else ALPHA_MAX
     val alphaTo = if (visibleTo) ALPHA_MAX else ALPHA_MIN
 
     /** Prepare view before animation. */
-    view.makeVisible()
-    view.alpha = alphaFrom
+    makeVisible()
+    alpha = alphaFrom
 
-    return getAlphaAnimator(view, alphaTo)
+    return getAlphaAnimator(alphaTo)
 }
 
-fun getScaleXAnimator(view: View, scaleTo: Float): Animator {
-    return ObjectAnimator.ofFloat(view, View.SCALE_X, view.scaleX, scaleTo)
+fun View.getScaleXAnimator(scaleTo: Float): Animator {
+    return ObjectAnimator.ofFloat(this, View.SCALE_X, scaleX, scaleTo)
 }
 
-fun getScaleYAnimator(view: View, scaleTo: Float): Animator {
-    return ObjectAnimator.ofFloat(view, View.SCALE_Y, view.scaleX, scaleTo)
+fun View.getScaleYAnimator(scaleTo: Float): Animator {
+    return ObjectAnimator.ofFloat(this, View.SCALE_Y, scaleX, scaleTo)
 }
 
-fun getElevationAnimator(view: CardView, @DimenRes elevationTo: Int): Animator {
-    return getElevationAnimator(view, view.context.getDimen(elevationTo).toFloat())
+fun CardView.getElevationAnimator(@DimenRes elevationTo: Int): Animator {
+    return this.getElevationAnimator(context.getDimen(elevationTo).toFloat())
 }
 
-fun getElevationAnimator(view: CardView, elevationTo: Float): Animator {
-    return view.getElevationAnimator(view.cardElevation, elevationTo)
+fun CardView.getElevationAnimator(elevationTo: Float): Animator {
+    return getElevationAnimator(cardElevation, elevationTo)
 }
 
 private fun CardView.getElevationAnimator(valueFrom: Float, valueTo: Float): ValueAnimator {
@@ -61,9 +61,9 @@ private fun CardView.getElevationAnimator(valueFrom: Float, valueTo: Float): Val
     }
 }
 
-fun getProgressAnimator(view: ProgressBar, max: Int, done: Int): Animator {
-    view.max = max * PROGRESS_ANIM_SCALE
-    return ObjectAnimator.ofInt(view, "progress", done * PROGRESS_ANIM_SCALE)
+fun ProgressBar.getProgressAnimator(max: Int, done: Int): Animator {
+    this.max = max * PROGRESS_ANIM_SCALE
+    return ObjectAnimator.ofInt(this, "progress", done * PROGRESS_ANIM_SCALE)
 }
 
 /**

@@ -28,10 +28,10 @@ class TouchAnimation {
             this.interpolator = AccelerateDecelerateInterpolator()
 
             playTogether(
-                getAlphaAnimator(cardView, ALPHA_DRAG_MIN),
-                getScaleXAnimator(cardView, SCALE_MAX),
-                getScaleYAnimator(cardView, SCALE_MAX),
-                getElevationAnimator(cardView, R.dimen.item_card_drag_elevation)
+                cardView.getAlphaAnimator(ALPHA_DRAG_MIN),
+                cardView.getScaleXAnimator(SCALE_MAX),
+                cardView.getScaleYAnimator(SCALE_MAX),
+                cardView.getElevationAnimator(R.dimen.item_card_drag_elevation)
             )
         }.start()
 
@@ -52,10 +52,10 @@ class TouchAnimation {
             this.interpolator = AccelerateDecelerateInterpolator()
 
             playTogether(
-                getAlphaAnimator(cardView, ALPHA_MAX),
-                getScaleXAnimator(cardView, SCALE_MIN),
-                getScaleYAnimator(cardView, SCALE_MIN),
-                getElevationAnimator(cardView, startCardElevation)
+                cardView.getAlphaAnimator(ALPHA_MAX),
+                cardView.getScaleXAnimator(SCALE_MIN),
+                cardView.getScaleYAnimator(SCALE_MIN),
+                cardView.getElevationAnimator(startCardElevation)
             )
         }.start()
     }

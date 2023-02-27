@@ -53,8 +53,8 @@ class AlarmAnimation {
             this.duration = duration
 
             playTogether(
-                getAlphaAnimator(binding.recyclerView, alphaTo = 1f),
-                getAlphaAnimator(binding.buttonContainer, alphaTo = 1f)
+                binding.recyclerView.getAlphaAnimator(alphaTo = 1f),
+                binding.buttonContainer.getAlphaAnimator(alphaTo = 1f)
             )
         }.start()
 
