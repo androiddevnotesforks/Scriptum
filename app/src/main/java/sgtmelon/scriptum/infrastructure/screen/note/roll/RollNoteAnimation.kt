@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import android.animation.Animator
+import android.view.animation.AccelerateDecelerateInterpolator
 import kotlin.math.max
 import sgtmelon.extensions.PERCENT_MAX
 import sgtmelon.extensions.PERCENT_MIN
@@ -11,6 +12,7 @@ import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MAX
 import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MIN
 import sgtmelon.scriptum.infrastructure.utils.extensions.animateValue
+import sgtmelon.scriptum.infrastructure.utils.extensions.getProgressAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.isVisible
@@ -23,11 +25,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
  * Current state of [isEdit] needed for skip animation during note open.
  */
 class RollNoteAnimation(private var isEdit: Boolean) {
-
-    // TODO 1. анимация для отступов главных контейнеров
-
-    // TODO 2. при изменении текста в поле ввода обновлять отступы снизу контейнеров (если
-    //         переходит на следующую линию
 
     private var animator: Animator? = null
 
@@ -131,9 +128,18 @@ class RollNoteAnimation(private var isEdit: Boolean) {
                 if (isVisible()) height - translationY else MIN_TRANSLATION
             }.toInt()
 
-            // TODO update padding?
             recyclerView.updateMargin(bottom = max(progressMargin, addMargin))
         }
+    }
+
+    fun startProgress(binding: FragmentRollNoteBinding?, max: Int, done: Int) {
+        if (binding == null) return
+
+        val duration = binding.root.context.resources.getInteger(R.integer.progress_change_time)
+        getProgressAnimator(binding.doneProgress, max, done)
+            .apply { interpolator = AccelerateDecelerateInterpolator() }
+            .setDuration(duration.toLong())
+            .start()
     }
 
     companion object {

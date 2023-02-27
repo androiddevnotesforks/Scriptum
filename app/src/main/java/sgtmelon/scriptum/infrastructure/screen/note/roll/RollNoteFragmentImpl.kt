@@ -51,8 +51,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     CustomListNotifyUi<RollItem>,
     DragAndSwipeTouchHelper.Callback {
 
-    // TODO after rotation recycler margin is standard and add button is disabled
-
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
 
@@ -280,8 +278,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun observeNoteItem(item: NoteItem.Roll) {
         super.observeNoteItem(item)
 
-        binding?.doneProgress?.max = item.list.size
-        binding?.doneProgress?.setProgress(item.list.getCheckCount(), true)
+        animation.startProgress(binding, item.list.size, item.list.getCheckCount())
 
         val isVisible = item.isVisible
         visibleMenuItem?.setTitle(

@@ -9,6 +9,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
+import android.widget.ProgressBar
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
 import sgtmelon.extensions.getDimen
@@ -59,6 +60,17 @@ private fun CardView.getElevationAnimator(valueFrom: Float, valueTo: Float): Val
         }
     }
 }
+
+fun getProgressAnimator(view: ProgressBar, max: Int, done: Int): Animator {
+    view.max = max * PROGRESS_ANIM_SCALE
+    return ObjectAnimator.ofInt(view, "progress", done * PROGRESS_ANIM_SCALE)
+}
+
+/**
+ * Variable for increase [ProgressBar.setMax] and [ProgressBar.setProgress] values, and change of
+ * them will look smoother.
+ */
+const val PROGRESS_ANIM_SCALE = 2500
 
 fun getAlphaInterpolator(isVisible: Boolean): Interpolator {
     return if (isVisible) AccelerateInterpolator() else DecelerateInterpolator()
