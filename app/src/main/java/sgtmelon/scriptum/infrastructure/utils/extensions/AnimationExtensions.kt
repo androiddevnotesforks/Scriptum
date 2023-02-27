@@ -63,7 +63,9 @@ private fun CardView.getElevationAnimator(valueFrom: Float, valueTo: Float): Val
 
 fun ProgressBar.getProgressAnimator(max: Int, done: Int): Animator {
     this.max = max * PROGRESS_ANIM_SCALE
-    return ObjectAnimator.ofInt(this, "progress", done * PROGRESS_ANIM_SCALE)
+    val valueTo = done * PROGRESS_ANIM_SCALE
+
+    return ObjectAnimator.ofInt(this, "progress", valueTo)
 }
 
 /**
