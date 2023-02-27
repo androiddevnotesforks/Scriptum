@@ -112,7 +112,7 @@ sealed class NoteItem(
             other as Roll
 
             if (isVisible != other.isVisible) return false
-            if (list.size != other.list.size || !list.containsAll(other.list)) return false
+            if (list != other.list) return false
 
             return true
         }
