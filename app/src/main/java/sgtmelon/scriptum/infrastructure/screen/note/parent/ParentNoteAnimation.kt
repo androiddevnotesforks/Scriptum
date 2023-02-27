@@ -3,19 +3,11 @@ package sgtmelon.scriptum.infrastructure.screen.note.parent
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
-import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MAX
-import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MIN
-import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
-import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
-import sgtmelon.scriptum.infrastructure.utils.extensions.isVisible
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
+import sgtmelon.scriptum.infrastructure.utils.extensions.*
 import sgtmelon.test.idling.getWaitIdling
 
 /**
@@ -76,11 +68,12 @@ class ParentNoteAnimation(
             this.duration = duration
             this.interpolator = AccelerateDecelerateInterpolator()
 
+            val isBin = state == NoteState.DELETE
             playTogether(with(binding) {
                 listOfNotNull(
-                    getAnimator(binContainer, toVisible = state == NoteState.DELETE),
-                    getAnimator(editContainer, toVisible = state != NoteState.DELETE && isEdit),
-                    getAnimator(readContainer, toVisible = state != NoteState.DELETE && !isEdit)
+                    getAlphaAnimator(binContainer, visibleTo = isBin),
+                    getAlphaAnimator(editContainer, visibleTo = !isBin && isEdit),
+                    getAlphaAnimator(readContainer, visibleTo = !isBin && !isEdit)
                 )
             })
 
@@ -96,20 +89,5 @@ class ParentNoteAnimation(
         }
 
         getWaitIdling().start(duration)
-    }
-
-    /** Provide fade animator and prepare [view] before animation run. */
-    private fun getAnimator(view: ViewGroup, toVisible: Boolean): Animator? {
-        /** If it has the same [toVisible] value -> it must not be animated. */
-        if (view.isVisible() == toVisible) return null
-
-        val alphaFrom = if (toVisible) ALPHA_MIN else ALPHA_MAX
-        val alphaTo = if (toVisible) ALPHA_MAX else ALPHA_MIN
-
-        /** Prepare view before animation. */
-        view.makeVisible()
-        view.alpha = alphaFrom
-
-        return getAlphaAnimator(view, alphaTo)
     }
 }

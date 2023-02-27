@@ -21,6 +21,21 @@ fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)
 }
 
+/** Provide fade animator and prepare [view] before animation run. */
+fun getAlphaAnimator(view: View, visibleTo: Boolean) : Animator? {
+    /** If it has the same [visibleTo] value -> it must not be animated. */
+    if (view.isVisible() == visibleTo) return null
+
+    val alphaFrom = if (visibleTo) ALPHA_MIN else ALPHA_MAX
+    val alphaTo = if (visibleTo) ALPHA_MAX else ALPHA_MIN
+
+    /** Prepare view before animation. */
+    view.makeVisible()
+    view.alpha = alphaFrom
+
+    return getAlphaAnimator(view, alphaTo)
+}
+
 fun getScaleXAnimator(view: View, scaleTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.SCALE_X, view.scaleX, scaleTo)
 }
@@ -30,9 +45,7 @@ fun getScaleYAnimator(view: View, scaleTo: Float): Animator {
 }
 
 fun getElevationAnimator(view: CardView, @DimenRes elevationTo: Int): Animator {
-    val valueFrom = view.cardElevation
-    val valueTo = view.context.getDimen(elevationTo).toFloat()
-    return view.getElevationAnimator(valueFrom, valueTo)
+    return getElevationAnimator(view, view.context.getDimen(elevationTo).toFloat())
 }
 
 fun getElevationAnimator(view: CardView, elevationTo: Float): Animator {
