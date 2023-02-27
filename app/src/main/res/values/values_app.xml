@@ -12,6 +12,7 @@
     <integer name="fab_change_time">200</integer>
     <integer name="color_fade_time">300</integer>
     <integer name="color_transition_time">300</integer>
+    <integer name="touch_change_time">300</integer>
 
     <integer name="gradient_enter_time">10</integer>
     <integer name="gradient_exit_time">1500</integer>

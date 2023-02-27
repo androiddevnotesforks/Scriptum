@@ -16,16 +16,15 @@ class TouchAnimation {
     private var isChanged = false
     private var startCardElevation: Float = 0f
 
-    /**
-     * Change alpha, scale and elevation on drag start.
-     */
+    /** Change alpha, scale and elevation on drag start. */
     fun onDrag(viewHolder: RecyclerView.ViewHolder?) {
         val cardView = viewHolder?.itemView as? CardView ?: return
+        val duration = cardView.context.resources.getInteger(R.integer.touch_change_time).toLong()
 
         startCardElevation = cardView.cardElevation
 
         AnimatorSet().apply {
-            this.duration = ANIM_DURATION
+            this.duration = duration
             this.interpolator = AccelerateDecelerateInterpolator()
 
             playTogether(
@@ -39,18 +38,17 @@ class TouchAnimation {
         isChanged = true
     }
 
-    /**
-     * Clear alpha, scale and elevation, if it was changed in drag.
-     */
+    /** Clear alpha, scale and elevation, if it was changed in drag. */
     fun onClear(viewHolder: RecyclerView.ViewHolder?) {
         if (!isChanged) return
 
         isChanged = false
 
         val cardView = viewHolder?.itemView as? CardView ?: return
+        val duration = cardView.context.resources.getInteger(R.integer.touch_change_time).toLong()
 
         AnimatorSet().apply {
-            this.duration = ANIM_DURATION
+            this.duration = duration
             this.interpolator = AccelerateDecelerateInterpolator()
 
             playTogether(
@@ -63,7 +61,6 @@ class TouchAnimation {
     }
 
     companion object {
-        private const val ANIM_DURATION = 300L // TODO move into resources
         private const val ALPHA_DRAG_MIN = 0.7f
         private const val SCALE_MIN = 1f
         private const val SCALE_MAX = 1.015f
