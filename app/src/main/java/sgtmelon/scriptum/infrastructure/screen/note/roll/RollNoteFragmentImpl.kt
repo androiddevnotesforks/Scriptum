@@ -5,7 +5,7 @@ import android.text.InputType
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.Toolbar
-import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -136,6 +136,14 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             right = resources.getDimen(R.dimen.layout_8dp),
         )
 
+        /** Invalidate during setup needed in rotation case - enter field may contain text. */
+        invalidateAddButton()
+
+        /** Needed if text field will become more than 2 lines (change size). */
+        binding?.addPanel?.parentContainer?.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            animation.updateContainerMargin(binding)
+        }
+
         binding?.addPanel?.rollEnter?.apply {
             setRawInputType(
                 InputType.TYPE_CLASS_TEXT
@@ -145,26 +153,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             )
             imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
-            addTextChangedListener(
-                onTextChanged =  { _, _, _, _ ->
-                    val isAddAvailable = getAddText().isNotEmpty()
-
-                    binding?.addPanel?.addButton?.apply {
-                        isEnabled = isAddAvailable
-                        bindBoolTint(isAddAvailable, R.attr.clAccent, R.attr.clDisable)
-                    }
-                },
-                afterTextChanged = {
-                    /**
-                     * Post needed for wait when addPanel container change size (from 2/4 lines,
-                     * back to 1)
-                     */
-                    rootView.post {
-                        /** Needed if text will be more than 2 lines. */
-                        this@RollNoteFragmentImpl.animation.updateContainerMargin(binding)
-                    }
-                }
-            )
+            doOnTextChanged { _, _, _, _ -> invalidateAddButton() }
 
             setEditorDoneAction {
                 if (open.isBlocked) return@setEditorDoneAction
@@ -187,19 +176,21 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
 
+    private fun invalidateAddButton() {
+        val isAddAvailable = getAddText().isNotEmpty()
+
+        binding?.addPanel?.addButton?.apply {
+            isEnabled = isAddAvailable
+            bindBoolTint(isAddAvailable, R.attr.clAccent, R.attr.clDisable)
+        }
+    }
+
     private fun addItem(toBottom: Boolean, text: String) {
         if (viewModel.isReadMode) return
 
-        val binding = binding ?: return
-
         open.ifNotBlocked {
-            binding.addPanel.rollEnter.clearText()
-
-            /**
-             * Post - wait for a moment, when addPanel change size back to 1 line after
-             * [clearText] call.
-             */
-            binding.root.rootView.post { viewModel.addItem(toBottom, text) }
+            binding?.addPanel?.rollEnter?.clearText()
+            viewModel.addItem(toBottom, text)
         }
     }
 
