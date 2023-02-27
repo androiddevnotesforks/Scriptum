@@ -5,7 +5,7 @@ import android.text.InputType
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.Toolbar
-import androidx.core.widget.doOnTextChanged
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +50,8 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
     CustomListNotifyUi<RollItem>,
     DragAndSwipeTouchHelper.Callback {
+
+    // TODO after rotation recycler margin is standard and add button is disabled
 
     override val layoutId: Int = R.layout.fragment_roll_note
     override val type: NoteType = NoteType.ROLL
@@ -143,14 +145,26 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
             )
             imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
-            doOnTextChanged { _, _, _, _ ->
-                val isAddAvailable = getAddText().isNotEmpty()
+            addTextChangedListener(
+                onTextChanged =  { _, _, _, _ ->
+                    val isAddAvailable = getAddText().isNotEmpty()
 
-                binding?.addPanel?.addButton?.apply {
-                    isEnabled = isAddAvailable
-                    bindBoolTint(isAddAvailable, R.attr.clAccent, R.attr.clDisable)
+                    binding?.addPanel?.addButton?.apply {
+                        isEnabled = isAddAvailable
+                        bindBoolTint(isAddAvailable, R.attr.clAccent, R.attr.clDisable)
+                    }
+                },
+                afterTextChanged = {
+                    /**
+                     * Post needed for wait when addPanel container change size (from 2/4 lines,
+                     * back to 1)
+                     */
+                    rootView.post {
+                        /** Needed if text will be more than 2 lines. */
+                        this@RollNoteFragmentImpl.animation.updateContainerMargin(binding)
+                    }
                 }
-            }
+            )
 
             setEditorDoneAction {
                 if (open.isBlocked) return@setEditorDoneAction
@@ -174,9 +188,18 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     private fun addItem(toBottom: Boolean, text: String) {
-        if (viewModel.isEditMode) open.ifNotBlocked {
-            binding?.addPanel?.rollEnter?.clearText()
-            viewModel.addItem(toBottom, text)
+        if (viewModel.isReadMode) return
+
+        val binding = binding ?: return
+
+        open.ifNotBlocked {
+            binding.addPanel.rollEnter.clearText()
+
+            /**
+             * Post - wait for a moment, when addPanel change size back to 1 line after
+             * [clearText] call.
+             */
+            binding.root.rootView.post { viewModel.addItem(toBottom, text) }
         }
     }
 

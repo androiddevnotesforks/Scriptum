@@ -30,9 +30,9 @@
             <!--  Make only progress visible on screen clean-open.  -->
             <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_marginBottom="@dimen/layout_4dp"
                 style="@style/ProgressBar.Center" />
 
+            <!--  In UI class  -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 style="@style/RecyclerView.Small"

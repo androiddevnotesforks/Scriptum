@@ -61,6 +61,8 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     IconBlockCallback {
 
+    // TODO check work after rotation. All buttons enable and ect.
+
     protected val connector get() = activity as NoteConnector
 
     abstract val type: NoteType

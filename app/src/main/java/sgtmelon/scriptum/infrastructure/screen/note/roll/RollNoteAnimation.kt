@@ -1,15 +1,19 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import android.animation.Animator
+import kotlin.math.max
 import sgtmelon.extensions.PERCENT_MAX
 import sgtmelon.extensions.PERCENT_MIN
+import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.getPercent
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MAX
 import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MIN
 import sgtmelon.scriptum.infrastructure.utils.extensions.animateValue
+import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
+import sgtmelon.scriptum.infrastructure.utils.extensions.isVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
@@ -39,6 +43,9 @@ class RollNoteAnimation(private var isEdit: Boolean) {
             /** Make it invisible in read state to prevent layout size change. */
             binding.panel.dividerView.makeVisibleIf(isEdit) { makeInvisible() }
             binding.doneProgress.makeVisibleIf(!isEdit)
+
+            /** Update margin for main container during screen setup (after views configured). */
+            updateContainerMargin(binding)
 
             return
         }
@@ -71,6 +78,7 @@ class RollNoteAnimation(private var isEdit: Boolean) {
         }) {
             addPanel.parentContainer.translationY = addMaxTranslation.getPercent(it)
             panel.dividerView.alpha = ALPHA_MAX - ALPHA_MAX.getPercent(it)
+            updateContainerMargin(binding)
         }
     }
 
@@ -114,6 +122,19 @@ class RollNoteAnimation(private var isEdit: Boolean) {
         }
     }
 
+    fun updateContainerMargin(binding: FragmentRollNoteBinding?) {
+        if (binding == null) return
+
+        with(binding) {
+            val progressMargin = root.context.getDimen(R.dimen.layout_4dp)
+            val addMargin = with(addPanel.parentContainer) {
+                if (isVisible()) height - translationY else MIN_TRANSLATION
+            }.toInt()
+
+            // TODO update padding?
+            recyclerView.updateMargin(bottom = max(progressMargin, addMargin))
+        }
+    }
 
     companion object {
         private const val MIN_TRANSLATION = 0
