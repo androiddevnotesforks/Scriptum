@@ -278,7 +278,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun observeNoteItem(item: NoteItem.Roll) {
         super.observeNoteItem(item)
 
-        animation.startProgress(binding, item.list.size, item.list.getCheckCount())
+        binding?.doneProgress?.setProgressSmooth(item.list.size, item.list.getCheckCount())
 
         val isVisible = item.isVisible
         visibleMenuItem?.setTitle(

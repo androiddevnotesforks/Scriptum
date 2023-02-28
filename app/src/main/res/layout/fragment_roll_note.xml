@@ -45,7 +45,7 @@
                 tools:listitem="@layout/item_roll" />
 
             <!--  Add to info/progress/recycler a bottom margin = size of this done progress.  -->
-            <ProgressBar
+            <sgtmelon.scriptum.infrastructure.widgets.SmoothProgressBar
                 android:id="@+id/done_progress"
                 style="?attr/styleProgressHorizontal"
                 android:layout_width="match_parent"
