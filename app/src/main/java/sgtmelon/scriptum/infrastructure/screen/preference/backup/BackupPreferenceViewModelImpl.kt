@@ -18,7 +18,6 @@ import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportSta
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportSummaryState
 
 class BackupPreferenceViewModelImpl(
-    initPermissionResult: PermissionResult?,
     private val getBackupFileList: GetBackupFileListUseCase,
     private val startBackupExport: StartBackupExportUseCase,
     private val startBackupImport: StartBackupImportUseCase
@@ -33,8 +32,8 @@ class BackupPreferenceViewModelImpl(
 
     override val importEnabled: MutableLiveData<Boolean> = MutableLiveData()
 
-    init {
-        if (initPermissionResult == PermissionResult.GRANTED) {
+    override fun updateData(permission: PermissionResult?) {
+        if (permission == PermissionResult.GRANTED) {
             viewModelScope.launchBack { updateBackupFiles() }
         } else {
             exportEnabled.postValue(true)

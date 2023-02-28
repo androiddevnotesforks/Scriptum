@@ -28,7 +28,7 @@ class BackupPreferenceViewModelImplTest : ParentLiveDataTest() {
 
     private val viewModel by lazy {
         BackupPreferenceViewModelImpl(
-            initPermissionResult, getBackupFileList, startBackupExport, startBackupImport
+            getBackupFileList, startBackupExport, startBackupImport
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }

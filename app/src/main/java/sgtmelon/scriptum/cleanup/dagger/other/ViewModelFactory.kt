@@ -54,7 +54,6 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
-import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
@@ -282,7 +281,6 @@ object ViewModelFactory {
         }
 
         class Backup(
-            private val permissionResult: PermissionResult?,
             private val getBackupFileList: GetBackupFileListUseCase,
             private val startBackupExport: StartBackupExportUseCase,
             private val startBackupImport: StartBackupImportUseCase
@@ -290,7 +288,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BackupPreferenceViewModelImpl::class) {
                     BackupPreferenceViewModelImpl(
-                        permissionResult, getBackupFileList, startBackupExport, startBackupImport
+                        getBackupFileList, startBackupExport, startBackupImport
                     )
                 }
             }

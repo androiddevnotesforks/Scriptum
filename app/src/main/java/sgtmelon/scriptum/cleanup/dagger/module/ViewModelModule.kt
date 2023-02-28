@@ -63,7 +63,6 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
-import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModel
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.MainViewModel
@@ -316,13 +315,12 @@ class ViewModelModule {
     @ActivityScope
     fun provideBackupPreferenceViewModel(
         owner: ViewModelStoreOwner,
-        permissionResult: PermissionResult?,
         getBackupFileList: GetBackupFileListUseCase,
         startBackupExport: StartBackupExportUseCase,
         startBackupImport: StartBackupImportUseCase
     ): BackupPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Backup(
-            permissionResult, getBackupFileList, startBackupExport, startBackupImport
+            getBackupFileList, startBackupExport, startBackupImport
         )
         return ViewModelProvider(owner, factory)[BackupPreferenceViewModelImpl::class.java]
     }

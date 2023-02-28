@@ -61,9 +61,15 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     override fun inject(component: ScriptumComponent) {
         component.getBackupPrefBuilder()
             .set(owner = this)
-            .set(permissionState.getResult(activity))
             .build()
             .inject(fragment = this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /** Update data after every return to screen - user may change files or permission. */
+        viewModel.updateData(permissionState.getResult(activity))
     }
 
     override fun onRequestPermissionsResult(
