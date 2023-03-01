@@ -64,6 +64,10 @@ class NoteItemTest : ParentTest() {
 
     //endregion
 
+    @Test fun todo() {
+        TODO()
+    }
+
     private fun assertChangeTime(noteItem: NoteItem) =
         assertEquals(getCalendarText(), noteItem.change)
 

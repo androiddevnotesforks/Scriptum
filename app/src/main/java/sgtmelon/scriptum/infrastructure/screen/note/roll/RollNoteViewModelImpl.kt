@@ -178,7 +178,11 @@ class RollNoteViewModelImpl(
 
         if (isReadMode || !item.isSaveEnabled) return false
 
-        item.onSave()
+        /**
+         * If we don't [changeMode] - need save empty items (without text) for future use.
+         * Them will be cleared only in [changeMode] case.
+         */
+        item.onSave(clearEmpty = changeMode)
         noteItem.postValue(item)
 
         /** Need update adapter after remove rows with empty text, position indexing. */

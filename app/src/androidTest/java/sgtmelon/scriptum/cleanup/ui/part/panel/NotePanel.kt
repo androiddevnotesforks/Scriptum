@@ -169,7 +169,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
                 when (item) {
                     is NoteItem.Text -> applyShadowText().onSave()
-                    is NoteItem.Roll -> applyShadowRoll().onSave()
+                    is NoteItem.Roll -> applyShadowRoll().onSave(clearEmpty = false)
                 }
 
                 /**

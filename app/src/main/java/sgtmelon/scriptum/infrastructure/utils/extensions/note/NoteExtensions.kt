@@ -56,11 +56,13 @@ fun NoteItem.Text.onSave() {
     updateTime()
 }
 
-fun NoteItem.Roll.onSave() {
+fun NoteItem.Roll.onSave(clearEmpty: Boolean = true) {
     name = name.removeExtraSpace()
     updateTime()
 
-    list.removeAll { it.text.removeExtraSpace().isEmpty() }
+    if (clearEmpty) {
+        list.removeAll { it.text.removeExtraSpace().isEmpty() }
+    }
 
     var checkCount = 0
     list.forEachIndexed { i, it ->
