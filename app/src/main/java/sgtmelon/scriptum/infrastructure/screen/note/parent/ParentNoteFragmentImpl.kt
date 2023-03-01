@@ -171,7 +171,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.saveButton.setOnClickListener {
             open.ifNotBlocked { viewModel.save(changeMode = true) }
         }
-        panelBar.saveButton.setOnLongClickListener { viewModel.save(changeMode = false) }
+        panelBar.saveButton.setOnLongClickListener {
+            saveAndContinueEdit()
+            return@setOnLongClickListener true
+        }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
         panelBar.bindButton.setOnClickListener { viewModel.switchBind() }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
@@ -448,15 +451,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     protected val noteSaveCallback = object : NoteSaveImpl.Callback {
 
-        override fun onAutoSave() {
-            val text = if (viewModel.save(changeMode = false)) {
-                R.string.toast_note_save_done
-            } else {
-                R.string.toast_note_save_error
-            }
-
-            system.toast.show(context, text)
-        }
+        override fun onAutoSave() = saveAndContinueEdit()
 
         override val isAutoSaveAvailable: Boolean get() = viewModel.isEditMode
 
@@ -491,6 +486,17 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
 
         return isScreenOpen
+    }
+
+    /** In this case we don't change edit mode, just notice user about saving. */
+    private fun saveAndContinueEdit() {
+        val text = if (viewModel.save(changeMode = false)) {
+            R.string.toast_note_save_done
+        } else {
+            R.string.toast_note_save_error
+        }
+
+        system.toast.show(context, text)
     }
 
     //region Dialogs
