@@ -88,7 +88,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
          */
         if (grantResults.firstOrNull()?.isGranted() != true) return
 
-        when (PermissionRequest.values()[requestCode]) {
+        when (PermissionRequest.values().getOrNull(requestCode)) {
             PermissionRequest.EXPORT -> onExportPermission(PermissionResult.GRANTED)
             PermissionRequest.IMPORT -> onImportPermission(PermissionResult.GRANTED)
             else -> return

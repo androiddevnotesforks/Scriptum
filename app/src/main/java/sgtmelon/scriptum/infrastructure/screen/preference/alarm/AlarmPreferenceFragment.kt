@@ -70,7 +70,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         val isGranted = grantResults.firstOrNull()?.isGranted() ?: return
         val result = if (isGranted) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
 
-        when (PermissionRequest.values()[requestCode]) {
+        when (PermissionRequest.values().getOrNull(requestCode)) {
             PermissionRequest.MELODY -> onMelodyPermission(result)
             else -> return
         }
