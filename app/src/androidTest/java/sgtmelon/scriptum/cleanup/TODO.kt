@@ -72,6 +72,19 @@ class Rotation {
 
 class AutoSave {
     /**
+     * Glitches:
+     *
+     * Case 1: https://trello.com/c/XuMLUPeU/435-note-roll-list-item-disappear
+     * create roll note - add some items - close note - check notes list - open roll note - edit -
+     * remove some items - rotate and rotate back - undo swiped items - save note -
+     * close and check notes list
+     *
+     * Case 2: the same but before rotation we clear text in item (it mustn't be removed after
+     * rotation, due to it's empty).
+     */
+
+
+    /**
      * TODO #TEST animation from arrow to cross on text/roll auto save
      * [NoteIconAnimTest]
      */

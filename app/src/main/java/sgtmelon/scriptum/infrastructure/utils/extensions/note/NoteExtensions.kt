@@ -51,17 +51,15 @@ private fun getCompleteText(check: Int, size: Int): String {
 
 //region On.. functions
 
-fun NoteItem.onSave() {
+fun NoteItem.Text.onSave() {
+    name = name.removeExtraSpace()
+    updateTime()
+}
+
+fun NoteItem.Roll.onSave() {
     name = name.removeExtraSpace()
     updateTime()
 
-    when (this) {
-        is NoteItem.Text -> Unit
-        is NoteItem.Roll -> onSave()
-    }
-}
-
-private fun NoteItem.Roll.onSave() {
     list.removeAll { it.text.removeExtraSpace().isEmpty() }
 
     var checkCount = 0
