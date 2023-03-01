@@ -10,7 +10,7 @@ import timber.log.Timber
  */
 class NoteHistoryImpl : NoteHistory {
 
-    private val list = mutableListOf<HistoryAction>()
+    override val list = mutableListOf<HistoryAction>()
 
     /** Current position in [list]. */
     private var position = ND_POSITION

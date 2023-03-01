@@ -188,6 +188,16 @@ class RollNoteViewModelImpl(
             isEdit.postValue(false)
             history.reset()
             historyAvailable.postValue(history.available)
+        } else {
+            /**
+             * In case if we not [changeMode], after [saveNote] all related [RollItem]s with this
+             * [noteItem] will be deleted from DataBase, if [NoteItem.Roll.list] don't contains
+             * them [RollItem.id].
+             *
+             * What's why need reset [RollItem.id] to default value in history list (for swiped
+             * items). It will be inserted back in case if we will use undo/redo.
+             */
+            history.list.forEach { if (it is HistoryAction.Roll.List.Remove) it.item.id = null }
         }
 
         viewModelScope.launch {

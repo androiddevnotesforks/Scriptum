@@ -210,7 +210,6 @@ class NoteRepoImpl(
 
             for (rollItem in item.list) {
                 val id = rollItem.id
-
                 if (id == null) {
                     rollItem.id = rollDataSource.insert(rollConverter.toEntity(item.id, rollItem))
                 } else {
@@ -220,9 +219,7 @@ class NoteRepoImpl(
                 rollItem.id?.let { excludeIdList.add(it) }
             }
 
-            /**
-             * Remove swiped rolls.
-             */
+            /** Remove swiped rolls. */
             rollDataSource.delete(item.id, excludeIdList)
         }
     }
