@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.extensions.getColorAttr
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
 import sgtmelon.scriptum.cleanup.extension.bindNoteColor
@@ -39,7 +41,7 @@ abstract class NoteParentHolder<T: NoteItem>(itemView: View) : ParentHolder(item
 
     /**
      * [ThemeDisplayed.LIGHT] - set color only for card and hide indicator.
-     * [ThemeDisplayed.DARK]  - set color for indicator, don't set anything for card
+     * [ThemeDisplayed.DARK]  - set default card color + set color for indicator
      */
     private fun bindTheme(item: NoteItem) {
         when (context.getDisplayedTheme() ?: return) {
@@ -48,6 +50,7 @@ abstract class NoteParentHolder<T: NoteItem>(itemView: View) : ParentHolder(item
                 colorView.makeGone()
             }
             ThemeDisplayed.DARK -> {
+                parentCard.setCardBackgroundColor(context.getColorAttr(R.attr.clBackgroundView))
                 colorView.makeVisible()
                 colorView.bindIndicatorColor(item.color)
             }
