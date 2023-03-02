@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.holder
+package sgtmelon.scriptum.infrastructure.adapter.holder
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
