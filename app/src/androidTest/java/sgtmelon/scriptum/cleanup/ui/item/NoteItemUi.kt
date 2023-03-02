@@ -64,7 +64,7 @@ class NoteItemUi(
 
         override val infoLayout = TextInfo()
 
-        val contentText = getChild(getView(R.id.note_text_content_text))
+        val contentText = getChild(getView(R.id.content_text))
 
         override fun assert(item: NoteItem.Text) {
             super.assert(item)
@@ -148,7 +148,7 @@ class NoteItemUi(
         val parentCard = getChild(
             getView(
                 when (type) {
-                    NoteType.TEXT -> R.id.note_text_parent_card
+                    NoteType.TEXT -> R.id.parent_card
                     NoteType.ROLL -> R.id.note_roll_parent_card
                 }
             )
@@ -157,7 +157,7 @@ class NoteItemUi(
         val clickContainer = getChild(
             getView(
                 when (type) {
-                    NoteType.TEXT -> R.id.note_text_click_container
+                    NoteType.TEXT -> R.id.click_container
                     NoteType.ROLL -> R.id.note_roll_click_container
                 }
             )
@@ -166,7 +166,7 @@ class NoteItemUi(
         val nameText = getChild(
             getView(
                 when (type) {
-                    NoteType.TEXT -> R.id.note_text_name_text
+                    NoteType.TEXT -> R.id.name_text
                     NoteType.ROLL -> R.id.note_roll_name_text
                 }
             )
@@ -177,7 +177,7 @@ class NoteItemUi(
         val colorView = getChild(
             getView(
                 when (type) {
-                    NoteType.TEXT -> R.id.note_text_color_view
+                    NoteType.TEXT -> R.id.color_view
                     NoteType.ROLL -> R.id.note_roll_color_view
                 }
             )
@@ -207,12 +207,12 @@ class NoteItemUi(
         abstract inner class Info<N : NoteItem> {
             private val parentContainer = getChild(getView(R.id.note_info_container))
 
-            private val notificationImage = getChild(getView(R.id.note_info_notification_image))
-            private val bindImage = getChild(getView(R.id.note_info_bind_image))
-            private val rankImage = getChild(getView(R.id.note_info_rank_image))
+            private val notificationImage = getChild(getView(R.id.alarm_image))
+            private val bindImage = getChild(getView(R.id.bind_image))
+            private val rankImage = getChild(getView(R.id.rank_image))
 
-            private val changeText = getChild(getView(R.id.note_info_change_text))
-            private val createText = getChild(getView(R.id.note_info_create_text))
+            private val changeText = getChild(getView(R.id.change_text))
+            private val createText = getChild(getView(R.id.create_text))
 
             @CallSuper open fun assert(item: N) {
                 val type = item.type

@@ -48,7 +48,7 @@
                 tools:visibility="visible" />
 
             <ImageView
-                android:id="@+id/note_info_notification_image"
+                android:id="@+id/alarm_image"
                 style="@style/Image.Note.Info"
                 android:importantForAccessibility="no"
                 android:visibility="@{item.haveAlarmDepr ? View.VISIBLE : View.GONE }"
@@ -56,7 +56,7 @@
                 tools:visibility="visible" />
 
             <ImageView
-                android:id="@+id/note_info_bind_image"
+                android:id="@+id/bind_image"
                 style="@style/Image.Note.Info"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_bind_roll"
@@ -64,7 +64,7 @@
                 tools:visibility="visible" />
 
             <ImageView
-                android:id="@+id/note_info_rank_image"
+                android:id="@+id/rank_image"
                 style="@style/Image.Note.Info"
                 android:importantForAccessibility="no"
                 android:visibility="@{item.haveRankDepr ? View.VISIBLE : View.GONE}"
@@ -74,7 +74,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/note_info_change_text"
+            android:id="@+id/change_text"
             style="@style/Text.Note.Info"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -82,7 +82,7 @@
             tools:text="@string/preview_note_time" />
 
         <TextView
-            android:id="@+id/note_info_create_text"
+            android:id="@+id/create_text"
             style="@style/Text.Note.Info"
             android:layout_width="wrap_content"
             app:pastTime='@{item.create}'

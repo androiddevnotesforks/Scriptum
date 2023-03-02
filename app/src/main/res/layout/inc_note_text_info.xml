@@ -4,15 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/item_note_text">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Text" />
-    </data>
-
     <LinearLayout
         android:id="@+id/note_info_container"
         android:layout_width="match_parent"
@@ -24,54 +15,49 @@
         android:showDividers="middle">
 
         <LinearLayout
+            android:id="@+id/indicator_container"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:divider="@drawable/div_vertical_small"
             android:orientation="horizontal"
             android:gravity="center"
             android:showDividers="middle"
-            android:visibility="@{item.haveAlarmDepr || item.status || item.haveRankDepr ? View.VISIBLE : View.GONE}"
             tools:visibility="visible">
 
             <ImageView
-                android:id="@+id/note_info_notification_image"
+                android:id="@+id/alarm_image"
                 style="@style/Image.Note.Info"
                 android:importantForAccessibility="no"
-                android:visibility="@{item.haveAlarmDepr ? View.VISIBLE : View.GONE }"
                 app:srcCompat="@drawable/ic_notifications"
                 tools:visibility="visible" />
 
             <ImageView
-                android:id="@+id/note_info_bind_image"
+                android:id="@+id/bind_image"
                 style="@style/Image.Note.Info"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_bind_text"
-                android:visibility='@{item.status ? View.VISIBLE : View.GONE}'
                 tools:visibility="visible" />
 
             <ImageView
-                android:id="@+id/note_info_rank_image"
+                android:id="@+id/rank_image"
                 style="@style/Image.Note.Info"
                 android:importantForAccessibility="no"
-                android:visibility="@{item.haveRankDepr ? View.VISIBLE : View.GONE}"
                 app:srcCompat="@drawable/ic_rank"
                 tools:visibility="visible" />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/note_info_change_text"
+            android:id="@+id/change_text"
             style="@style/Text.Note.Info"
             android:layout_width="0dp"
             android:layout_weight="1"
-            app:pastTime='@{item.change}'
             tools:text="@string/preview_note_time" />
 
         <TextView
-            android:id="@+id/note_info_create_text"
+            android:id="@+id/create_text"
             style="@style/Text.Note.Info"
             android:layout_width="wrap_content"
-            app:pastTime='@{item.create}'
             tools:text="@string/preview_note_time" />
 
     </LinearLayout>
