@@ -21,6 +21,7 @@ import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.OverflowDelegator
+import sgtmelon.test.common.nextString
 
 /**
  * Test for RollVisibleDaoSafe.
@@ -55,8 +56,11 @@ class RollVisibleDaoSafeTest : ParentTest() {
 
     @Test fun `insertSafe with throw`() {
         val entity = mockk<RollVisibleEntity>()
+        val throwable = mockk<Throwable>()
+        val message = nextString()
 
-        coEvery { dao.insert(entity) } throws mockk()
+        coEvery { dao.insert(entity) } throws throwable
+        every { throwable.message } returns message
         FastMock.fireExtensions()
         every { any<DaoForeignException>().record() } returns mockk()
 

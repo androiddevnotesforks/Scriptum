@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.save
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
@@ -10,7 +8,7 @@ import sgtmelon.scriptum.testing.parent.ParentTest
  */
 class NoteSaveImplTest : ParentTest() {
 
-    @Test fun test() {
+    @Test fun todo() {
         TODO()
     }
 

@@ -15,10 +15,13 @@ class AlarmRepoImpl(
 ) : AlarmRepo {
 
     override suspend fun insertOrUpdate(item: NoteItem, date: String): Long? {
+        /** Need get value before setup new [date]. */
+        val haveAlarm = item.haveAlarm
+
         item.alarm.date = date
 
         val entity = converter.toEntity(item)
-        if (item.haveAlarm) {
+        if (haveAlarm) {
             dataSource.update(entity)
         } else {
             /** Catch of insert errors happen inside dataSource. */

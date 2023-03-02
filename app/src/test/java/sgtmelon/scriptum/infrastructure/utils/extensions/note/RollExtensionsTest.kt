@@ -5,7 +5,7 @@ import sgtmelon.scriptum.testing.parent.ParentTest
 
 class RollExtensionsTest : ParentTest() {
 
-    @Test fun test() {
+    @Test fun todo() {
         TODO()
     }
 }

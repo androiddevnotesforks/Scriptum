@@ -12,8 +12,10 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
@@ -38,54 +40,62 @@ class AlarmRepoImplTest : ParentRepoTest() {
         val item = mockk<NoteItem>()
         val entity = mockk<AlarmEntity>()
 
+        val alarm = mockk<NoteAlarm>()
         val date = nextString()
         val insertId = Random.nextLong()
         val updateId = Random.nextLong()
 
-        every { item.alarm.date = date } returns Unit
-        every { item.alarm.id = insertId } returns Unit
-
-        every { converter.toEntity(item) } returns entity
-
+        FastMock.noteExtensions()
         every { item.haveAlarm } returns false
+        every { item.alarm } returns alarm
+        every { alarm.date = date } returns Unit
+        every { converter.toEntity(item) } returns entity
         coEvery { alarmDataSource.insert(entity) } returns null
+        every { alarm.id = insertId } returns Unit
 
         runBlocking {
             assertNull(repository.insertOrUpdate(item, date))
         }
 
         coEvery { alarmDataSource.insert(entity) } returns insertId
-        every { item.alarm.id } returns insertId
+        every { alarm.id } returns insertId
 
         runBlocking {
             assertEquals(repository.insertOrUpdate(item, date), insertId)
         }
 
         every { item.haveAlarm } returns true
-        every { item.alarm.id } returns updateId
+        every { alarm.id } returns updateId
 
         runBlocking {
             assertEquals(repository.insertOrUpdate(item, date), updateId)
         }
 
         coVerifySequence {
-            item.alarm.date = date
-            converter.toEntity(item)
             item.haveAlarm
+            item.alarm
+            alarm.date = date
+            converter.toEntity(item)
+            item.alarm
             alarmDataSource.insert(entity)
 
-            item.alarm.date = date
-            converter.toEntity(item)
             item.haveAlarm
+            item.alarm
+            alarm.date = date
+            converter.toEntity(item)
+            item.alarm
             alarmDataSource.insert(entity)
-            item.alarm.id = insertId
-            item.alarm.id
+            alarm.id = insertId
+            item.alarm
+            alarm.id
 
-            item.alarm.date = date
-            converter.toEntity(item)
             item.haveAlarm
+            item.alarm
+            alarm.date = date
+            converter.toEntity(item)
             alarmDataSource.update(entity)
-            item.alarm.id
+            item.alarm
+            alarm.id
         }
     }
 

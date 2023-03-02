@@ -20,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.OverflowDelegator
+import sgtmelon.test.common.nextString
 
 /**
  * Test for AlarmDaoSafe.
@@ -38,8 +39,12 @@ class AlarmDaoSafeTest : ParentTest() {
 
     @Test fun `insertSafe with throw`() {
         val entity = mockk<AlarmEntity>()
+        val throwable = mockk<Throwable>()
+        val message = nextString()
 
-        coEvery { dao.insert(entity) } throws mockk()
+        coEvery { dao.insert(entity) } throws throwable
+        every { throwable.message } returns message
+        coEvery { dao.insert(entity) } throws throwable
         FastMock.fireExtensions()
         every { any<DaoForeignException>().record() } returns mockk()
 

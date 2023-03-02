@@ -31,7 +31,10 @@ object FastMock {
 
     fun listExtension() = mockkStatic("sgtmelon.scriptum.cleanup.extension.ListExtensionUtils")
 
+    fun noteExtensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.extensions.note.NoteExtensionsUtils")
+
     object Note {
+
 
         //        fun deepCopy(
         //            item: NoteItem.Text,

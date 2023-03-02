@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
@@ -8,6 +9,7 @@ import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.toCalendar
+import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
@@ -78,6 +80,7 @@ class NotesViewModelImpl(
 
         val item = _itemList.getOrNull(p) ?: return@flowOnBack
 
+        Log.i("HERE", "set notification: ${calendar.toText()}")
         setNotification(item, calendar)
         itemList.postValue(_itemList)
 
