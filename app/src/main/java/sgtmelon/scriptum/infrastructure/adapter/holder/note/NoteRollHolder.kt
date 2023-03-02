@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.adapter.holder
+package sgtmelon.scriptum.infrastructure.adapter.holder.note
 
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.cleanup.extension.bindPastTime
 import sgtmelon.scriptum.databinding.IncItemNoteRollBinding
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
-import sgtmelon.scriptum.infrastructure.adapter.holder.NoteParentHolder
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
