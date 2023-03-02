@@ -4,8 +4,6 @@ package sgtmelon.scriptum.infrastructure.utils.extensions.note
 
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 
-// TODO create tests
-
 fun List<RollItem>.joinToText(): String = joinToString(separator = "\n") { it.text }
 
 fun MutableList<RollItem>.copy() = map { it.copy() }.toMutableList()

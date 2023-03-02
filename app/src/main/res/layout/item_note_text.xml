@@ -40,7 +40,7 @@
                     android:id="@+id/color_view"
                     style="@style/View.Color.Vertical.Note"
                     android:importantForAccessibility="no"
-                    android:visibility="gone" />
+                    tools:visibility="gone" />
 
             </LinearLayout>
 

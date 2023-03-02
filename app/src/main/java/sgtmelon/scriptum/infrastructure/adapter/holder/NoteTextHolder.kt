@@ -1,71 +1,37 @@
 package sgtmelon.scriptum.infrastructure.adapter.holder
 
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
-import sgtmelon.scriptum.cleanup.extension.bindNoteColor
 import sgtmelon.scriptum.cleanup.extension.bindPastTime
-import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
-import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
-import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
-import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeGone
-import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 
 class NoteTextHolder(
     private val binding: ItemNoteTextBinding
-) : ParentHolder(binding.root),
-    UnbindCallback {
+) : NoteParentHolder<NoteItem.Text>(binding.root) {
 
-    fun bind(item: NoteItem.Text, callback: NoteClickListener) = with(binding) {
-        bindTheme(item)
+    override val parentCard: CardView get() = binding.parentCard
+    override val clickContainer: ViewGroup get() = binding.clickContainer
+    override val nameText: TextView get() = binding.nameText
+    override val colorView: View get() = binding.colorView
 
-        nameText.text = item.name
-        nameText.makeVisibleIf(item.name.isNotEmpty())
-        contentText.text = item.text
-
-        bindInfo(item)
-
-        clickContainer.setOnClickListener { callback.onNoteClick(item) }
-        clickContainer.setOnLongClickListener {
-            checkPosition { callback.onNoteLongClick(item, it) }
-            return@setOnLongClickListener true
-        }
+    override fun bindContent(item: NoteItem.Text) {
+        binding.contentText.text = item.text
     }
 
-    /**
-     * [ThemeDisplayed.LIGHT] - set color only for card and hide indicator.
-     * [ThemeDisplayed.DARK]  - set color for indicator, don't set anything for card
-     */
-    private fun bindTheme(item: NoteItem.Text) {
-        when (context.getDisplayedTheme() ?: return) {
-            ThemeDisplayed.LIGHT -> {
-                binding.parentCard.bindNoteColor(item.color)
-                binding.colorView.makeGone()
-            }
-            ThemeDisplayed.DARK -> {
-                binding.colorView.makeVisible()
-                binding.colorView.bindIndicatorColor(item.color)
-            }
-        }
-    }
-
-    private fun bindInfo(item: NoteItem.Text) = with(binding.info) {
-        indicatorContainer.makeVisibleIf(condition = item.haveAlarm || item.isStatus || item.haveRank)
+    override fun bindInfo(item: NoteItem.Text) = with(binding.info) {
+        val haveIndicators = with(item) { haveAlarm || isStatus || haveRank }
+        indicatorContainer.makeVisibleIf(haveIndicators)
         alarmImage.makeVisibleIf(item.haveAlarm)
         bindImage.makeVisibleIf(item.isStatus)
         rankImage.makeVisibleIf(item.haveRank)
 
         changeText.bindPastTime(item.change)
         createText.bindPastTime(item.create)
-    }
-
-    override fun unbind() = with(binding) {
-        clickContainer.setOnClickListener(null)
-        clickContainer.setOnLongClickListener(null)
     }
 }

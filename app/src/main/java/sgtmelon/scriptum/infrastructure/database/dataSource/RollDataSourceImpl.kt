@@ -25,7 +25,7 @@ class RollDataSourceImpl(private val dao: RollDao) : RollDataSource {
 
     override suspend fun getList(): List<RollEntity> = dao.getList()
 
-    override suspend fun getList(noteId: Long): MutableList<RollEntity> = dao.getList(noteId)
+    override suspend fun getList(noteId: Long): List<RollEntity> = dao.getList(noteId)
 
     override suspend fun getList(noteIdList: List<Long>): List<RollEntity> {
         return dao.getListSafe(noteIdList)

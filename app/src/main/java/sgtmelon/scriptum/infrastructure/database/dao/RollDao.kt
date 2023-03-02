@@ -58,9 +58,8 @@ interface RollDao {
     @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID, RL_POSITION")
     suspend fun getList(): List<RollEntity>
 
-    // TODO make list not mutable?
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
-    suspend fun getList(noteId: Long): MutableList<RollEntity>
+    suspend fun getList(noteId: Long): List<RollEntity>
 
     @Query(value = "SELECT RL_ID FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId")
     suspend fun getIdList(noteId: Long): List<Long>

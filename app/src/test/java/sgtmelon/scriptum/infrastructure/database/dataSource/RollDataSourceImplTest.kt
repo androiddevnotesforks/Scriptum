@@ -127,7 +127,7 @@ class RollDataSourceImplTest : ParentTest() {
 
     @Test fun `getList by noteId`() {
         val noteId = Random.nextLong()
-        val list = mockk<MutableList<RollEntity>>()
+        val list = mockk<List<RollEntity>>()
 
         coEvery { dao.getList(noteId) } returns list
 

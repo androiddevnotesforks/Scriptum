@@ -38,13 +38,17 @@ fun View.bindIndicatorColor(color: Color): ColorItem? {
 
 @BindingAdapter(value = ["drawableId", "colorAttr"])
 fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
+    bindDrawable(drawableId)
+    setColorFilter(context.getColorAttr(color))
+}
+
+fun ImageView.bindDrawable(@DrawableRes drawableId: Int) {
     if (drawableId == 0) {
         visibility = View.GONE
         return
     }
 
     setImageDrawable(context.getDrawableCompat(drawableId))
-    setColorFilter(context.getColorAttr(color))
 }
 
 //endregion

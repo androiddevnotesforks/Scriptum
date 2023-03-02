@@ -5,7 +5,7 @@
     tools:showIn="@layout/item_note_text">
 
     <LinearLayout
-        android:id="@+id/note_info_container"
+        android:id="@+id/info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/item_content_between_space"

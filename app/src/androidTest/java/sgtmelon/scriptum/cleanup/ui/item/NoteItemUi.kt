@@ -80,10 +80,10 @@ class NoteItemUi(
         override val infoLayout = RollInfo()
 
         fun getRow(p: Int) = Row(when (p) {
-            0 -> R.id.note_roll_row0_container
-            1 -> R.id.note_roll_row1_container
-            2 -> R.id.note_roll_row2_container
-            else -> R.id.note_roll_row3_container
+            0 -> R.id.first_row
+            1 -> R.id.second_row
+            2 -> R.id.third_row
+            else -> R.id.fourth_row
         })
 
         override fun assert(item: NoteItem.Roll) {
@@ -102,11 +102,11 @@ class NoteItemUi(
             val parentContainer = getChild(getView(parentId))
 
             val checkImage = getChild(
-                getView(R.id.note_roll_check_image).includeParent(getView(parentId))
+                getView(R.id.check_image).includeParent(getView(parentId))
             )
 
             val contentText = getChild(
-                getView(R.id.note_roll_content_text).includeParent(getView(parentId))
+                getView(R.id.content_text).includeParent(getView(parentId))
             )
 
             fun assert(item: RollItem?) {
@@ -127,8 +127,8 @@ class NoteItemUi(
 
         inner class RollInfo : Info<NoteItem.Roll>() {
 
-            private val visibleImage = getChild(getView(R.id.note_info_visible_image))
-            private val progressText by lazy { getChild(getView(R.id.note_info_progress_text)) }
+            private val visibleImage = getChild(getView(R.id.visible_image))
+            private val progressText by lazy { getChild(getView(R.id.progress_text)) }
 
             override fun assert(item: NoteItem.Roll) {
                 super.assert(item)
@@ -149,7 +149,7 @@ class NoteItemUi(
             getView(
                 when (type) {
                     NoteType.TEXT -> R.id.parent_card
-                    NoteType.ROLL -> R.id.note_roll_parent_card
+                    NoteType.ROLL -> R.id.parent_card
                 }
             )
         )
@@ -158,7 +158,7 @@ class NoteItemUi(
             getView(
                 when (type) {
                     NoteType.TEXT -> R.id.click_container
-                    NoteType.ROLL -> R.id.note_roll_click_container
+                    NoteType.ROLL -> R.id.click_container
                 }
             )
         )
@@ -167,7 +167,7 @@ class NoteItemUi(
             getView(
                 when (type) {
                     NoteType.TEXT -> R.id.name_text
-                    NoteType.ROLL -> R.id.note_roll_name_text
+                    NoteType.ROLL -> R.id.name_text
                 }
             )
         )
@@ -178,7 +178,7 @@ class NoteItemUi(
             getView(
                 when (type) {
                     NoteType.TEXT -> R.id.color_view
-                    NoteType.ROLL -> R.id.note_roll_color_view
+                    NoteType.ROLL -> R.id.color_view
                 }
             )
         )
@@ -205,7 +205,7 @@ class NoteItemUi(
         }
 
         abstract inner class Info<N : NoteItem> {
-            private val parentContainer = getChild(getView(R.id.note_info_container))
+            private val parentContainer = getChild(getView(R.id.info_container))
 
             private val notificationImage = getChild(getView(R.id.alarm_image))
             private val bindImage = getChild(getView(R.id.bind_image))

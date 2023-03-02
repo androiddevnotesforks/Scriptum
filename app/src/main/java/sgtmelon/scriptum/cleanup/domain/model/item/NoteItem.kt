@@ -6,8 +6,6 @@ import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
@@ -26,18 +24,6 @@ sealed class NoteItem(
     var isStatus: Boolean,
     var alarm: NoteAlarm
 ) {
-
-    //region Remove after dataBinding refactor
-
-    @Deprecated("Use extensions")
-    val haveRankDepr
-        get() = haveRank
-
-    @Deprecated("Use extensions")
-    val haveAlarmDepr
-        get() = haveAlarm
-
-    //endregion
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

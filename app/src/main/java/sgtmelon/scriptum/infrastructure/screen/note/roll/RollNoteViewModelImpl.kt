@@ -47,6 +47,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.visibleList
 
 class RollNoteViewModelImpl(
     init: NoteInit,
@@ -98,7 +99,7 @@ class RollNoteViewModelImpl(
 
     /** [updateList] needed for custom updates. */
     private fun postNotifyItemList(item: NoteItem.Roll, updateList: UpdateListState? = null) {
-        val list = getCurrentItemList(item)
+        val list = item.visibleList
         _itemList.clearAdd(list)
 
         if (updateList != null) {
@@ -107,10 +108,6 @@ class RollNoteViewModelImpl(
 
         itemList.postValue(list)
         notifyShowList()
-    }
-
-    private fun getCurrentItemList(item: NoteItem.Roll): List<RollItem> = with(item) {
-        return if (isVisible) list else list.hideChecked()
     }
 
     override fun restoreData(): Boolean {

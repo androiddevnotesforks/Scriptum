@@ -218,7 +218,7 @@ class NoteRepoImplTest : ParentRepoTest() {
 
     @Test fun getRollList() {
         val noteId = Random.nextLong()
-        val entityList = mockk<MutableList<RollEntity>>()
+        val entityList = mockk<List<RollEntity>>()
         val itemList = mockk<MutableList<RollItem>>()
 
         coEvery { rollDataSource.getList(noteId) } returns entityList
@@ -420,7 +420,7 @@ class NoteRepoImplTest : ParentRepoTest() {
         val finishEntity = mockk<NoteEntity>()
 
         val id = Random.nextLong()
-        val entityList = mockk<MutableList<RollEntity>>()
+        val entityList = mockk<List<RollEntity>>()
         val itemList = mockk<MutableList<RollItem>>()
 
         every { startItem.onConvert() } returns finishItem

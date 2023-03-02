@@ -13,8 +13,6 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
 
-// TODO create tests
-
 val NoteItem.type: NoteType
     get() = when (this) {
         is NoteItem.Text -> NoteType.TEXT
@@ -48,6 +46,9 @@ fun NoteItem.Roll.updateComplete() = apply {
 private fun getCompleteText(check: Int, size: Int): String {
     return "${check.getIndicatorText()}/${size.getIndicatorText()}"
 }
+
+val NoteItem.Roll.visibleList: MutableList<RollItem>
+    get() = if (isVisible) list else list.hideChecked()
 
 //region On.. functions
 
