@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.infrastructure.screen.splash
 
 import android.os.Bundle
+import sgtmelon.scriptum.infrastructure.bundle.ParentBundleProvider
 import sgtmelon.scriptum.infrastructure.model.annotation.AppOpenFrom
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentBundleProvider
 
 class SplashBundleProvider : ParentBundleProvider {
 

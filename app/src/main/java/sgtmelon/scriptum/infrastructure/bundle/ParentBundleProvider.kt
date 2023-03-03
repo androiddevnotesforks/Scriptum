@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.parent
+package sgtmelon.scriptum.infrastructure.bundle
 
 import android.os.Bundle
 

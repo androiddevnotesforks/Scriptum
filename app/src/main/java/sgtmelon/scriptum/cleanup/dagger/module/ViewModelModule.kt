@@ -373,7 +373,7 @@ class ViewModelModule {
     @ActivityScope
     fun providePrintDevelopViewModel(
         owner: ViewModelStoreOwner,
-        type: PrintType,
+        type: PrintType?,
         getList: GetPrintListUseCase
     ): PrintDevelopViewModel {
         val factory = ViewModelFactory.Develop.Print(type, getList)

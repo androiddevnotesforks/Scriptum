@@ -7,6 +7,7 @@ import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
+import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivity
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
@@ -56,7 +57,7 @@ class DevelopFragment : ParentPreferenceFragment() {
 
     private fun Preference.setOnPrintClickListener(type: PrintType) {
         setOnClickListener {
-            startActivity(InstanceFactory.Preference.Develop.Print[it.context, type])
+            startActivity(PrintDevelopActivity[it.context, type])
         }
     }
 

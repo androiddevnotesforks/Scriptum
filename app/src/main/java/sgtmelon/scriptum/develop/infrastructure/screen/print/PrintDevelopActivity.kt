@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.develop.infrastructure.screen.print
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import javax.inject.Inject
 import sgtmelon.scriptum.R
@@ -8,6 +10,9 @@ import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
 import sgtmelon.scriptum.develop.infrastructure.adapter.PrintAdapter
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
+import sgtmelon.scriptum.infrastructure.bundle.SerializableBundleValue
+import sgtmelon.scriptum.infrastructure.bundle.intent
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Key
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
@@ -29,25 +34,22 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     @Inject lateinit var viewModel: PrintDevelopViewModel
 
     private val listAnimation = ShowListAnimation()
-    private val bundleProvider = PrintDevelopBundleProvider()
+    private val type = SerializableBundleValue<PrintType>(Key.TYPE)
 
     private val adapter = PrintAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
+        type.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
 
         setupToolbar()
         setupRecycler()
     }
 
-    // TODO not save way to finish activity (view model is lateinit value)
     override fun inject(component: ScriptumComponent) {
-        val type = bundleProvider.type ?: return finish()
-
         component.getPrintBuilder()
             .set(owner = this)
-            .set(type)
+            .set(type.value)
             .build()
             .inject(activity = this)
     }
@@ -61,7 +63,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        bundleProvider.saveData(outState)
+        type.saveData(outState)
     }
 
     override fun setupObservers() {
@@ -79,7 +81,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     }
 
     private fun setupToolbar() {
-        val type = bundleProvider.type ?: return
+        val type = type.value ?: return
         val toolbar = binding?.appBar?.toolbar ?: return
 
         val titleId = when (type) {
@@ -111,6 +113,12 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true) /** The height of all items absolutely the same. */
             it.adapter = adapter
+        }
+    }
+
+    companion object {
+        operator fun get(context: Context, type: PrintType): Intent {
+            return context.intent<PrintDevelopActivity>(Key.TYPE to type)
         }
     }
 }

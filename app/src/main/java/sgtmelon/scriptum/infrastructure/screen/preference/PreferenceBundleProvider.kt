@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.infrastructure.screen.preference
 
 import android.os.Bundle
+import sgtmelon.scriptum.infrastructure.bundle.ParentBundleProvider
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Intent
 import sgtmelon.scriptum.infrastructure.model.exception.BundleException
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentBundleProvider
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**

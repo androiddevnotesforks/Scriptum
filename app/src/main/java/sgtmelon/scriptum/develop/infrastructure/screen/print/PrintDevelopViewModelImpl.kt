@@ -10,7 +10,7 @@ import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 
 class PrintDevelopViewModelImpl(
-    type: PrintType,
+    type: PrintType?,
     private val getList: GetPrintListUseCase
 ) : ViewModel(),
     PrintDevelopViewModel {
@@ -20,7 +20,9 @@ class PrintDevelopViewModelImpl(
     override val itemList: MutableLiveData<List<PrintItem>> = MutableLiveData()
 
     init {
-        viewModelScope.launchBack { fetchList(type) }
+        if (type != null) {
+            viewModelScope.launchBack { fetchList(type) }
+        }
     }
 
     private suspend fun fetchList(type: PrintType) {

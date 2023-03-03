@@ -43,13 +43,9 @@ object IntentData {
 
     object Print {
 
-        object Intent {
+        object Key {
             private const val PREFIX = "INTENT_PRINT"
             const val TYPE = "${PREFIX}_TYPE"
-        }
-
-        object Default {
-            const val TYPE = -1
         }
     }
 

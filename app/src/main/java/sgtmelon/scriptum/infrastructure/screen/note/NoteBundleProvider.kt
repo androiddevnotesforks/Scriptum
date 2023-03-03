@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
 import android.os.Bundle
+import sgtmelon.scriptum.infrastructure.bundle.ParentBundleProvider
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteStateConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
@@ -8,7 +9,6 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentBundleProvider
 import sgtmelon.scriptum.infrastructure.utils.extensions.getEnum
 import sgtmelon.scriptum.infrastructure.utils.extensions.putEnum
 

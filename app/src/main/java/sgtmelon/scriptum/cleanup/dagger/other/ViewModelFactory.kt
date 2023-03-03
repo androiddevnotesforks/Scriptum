@@ -342,7 +342,7 @@ object ViewModelFactory {
         }
 
         class Print(
-            private val type: PrintType,
+            private val type: PrintType?,
             private val getList: GetPrintListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
