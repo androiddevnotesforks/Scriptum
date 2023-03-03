@@ -5,6 +5,7 @@ import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
+import sgtmelon.scriptum.develop.infrastructure.adapter.PrintAdapter
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -30,7 +31,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     private val listAnimation = ShowListAnimation()
     private val bundleProvider = PrintDevelopBundleProvider()
 
-    private val adapter = sgtmelon.scriptum.develop.infrastructure.adapter.PrintAdapter()
+    private val adapter = PrintAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
