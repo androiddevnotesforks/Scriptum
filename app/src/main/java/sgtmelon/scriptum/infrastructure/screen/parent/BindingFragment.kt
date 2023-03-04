@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import sgtmelon.safedialog.utils.DialogOwner
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
+import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
@@ -34,6 +35,12 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
     private lateinit var _system: SystemDelegatorFactory
     protected val system get() = _system
 
+    /**
+     * List for skip repeatable code of get/save values. Override it in realization and put
+     * inside your [BundleValue]s.
+     */
+    open val bundleValues: List<BundleValue> = listOf()
+
     protected val open: OpenState = OpenState(lifecycle)
     protected val parentOpen: OpenState? get() = (activity as? BindingActivity<*>)?.open
 
@@ -50,7 +57,10 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _system = SystemDelegatorFactory(view.context, lifecycle)
+
+        bundleValues.forEach { it.get(bundle = savedInstanceState ?: arguments) }
         open.restore(savedInstanceState)
+
         registerReceivers()
     }
 
@@ -87,6 +97,7 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        bundleValues.forEach { it.save(outState) }
         open.save(outState)
     }
 

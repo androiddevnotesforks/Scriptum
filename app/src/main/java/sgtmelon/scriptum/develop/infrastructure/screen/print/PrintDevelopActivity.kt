@@ -11,6 +11,7 @@ import sgtmelon.scriptum.develop.infrastructure.adapter.PrintAdapter
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.bundle.BundleEnumValue
+import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Key
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -34,12 +35,13 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
     @Inject lateinit var viewModel: PrintDevelopViewModel
 
     private val listAnimation = ShowListAnimation()
+
     private val type = BundleEnumValue<PrintType>(Key.TYPE)
+    override val bundleValues: List<BundleValue> = listOf(type)
 
     private val adapter = PrintAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        type.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
 
         setupToolbar()
@@ -59,11 +61,6 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
         binding?.parentContainer?.setMarginInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
         binding?.recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        type.saveData(outState)
     }
 
     override fun setupObservers() {
