@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.parent.list
+package sgtmelon.scriptum.infrastructure.screen.parent.list.notify
 
 import androidx.lifecycle.LiveData
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState

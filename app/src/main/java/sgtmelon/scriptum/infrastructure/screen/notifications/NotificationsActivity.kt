@@ -13,7 +13,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClick
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
-import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyUi
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys

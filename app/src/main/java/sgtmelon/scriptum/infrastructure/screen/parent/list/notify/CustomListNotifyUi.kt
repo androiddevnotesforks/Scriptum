@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.screen.parent.list
+package sgtmelon.scriptum.infrastructure.screen.parent.list.notify
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
