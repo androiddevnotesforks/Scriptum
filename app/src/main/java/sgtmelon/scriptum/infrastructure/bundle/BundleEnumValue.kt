@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.bundle
 
 import android.os.Bundle
 
-class SerializableBundleValue<T : java.io.Serializable>(private val key: String) {
+class BundleEnumValue<T : Enum<T>>(private val key: String) {
 
     private var _value: T? = null
     val value: T? get() = _value
