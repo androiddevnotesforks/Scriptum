@@ -152,7 +152,7 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     inline fun launchSplash(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
-        launchSplash(before, InstanceFactory.Splash[context], after)
+        launchSplash(before, SplashActivity[context], after)
     }
 
     inline fun launchSplashAlarm(
@@ -160,7 +160,7 @@ abstract class ParentUiTest : ParentTest() {
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launchSplash(before, InstanceFactory.Splash.getAlarm(context, item.id), after)
+        launchSplash(before, SplashActivity.getAlarm(context, item.id), after)
     }
 
     inline fun launchSplashBind(

@@ -29,15 +29,6 @@ object InstanceFactory {
 
         operator fun get(context: Context): Intent = Intent(context, SplashActivity::class.java)
 
-        fun getAlarm(context: Context, noteId: Long): Intent {
-            val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-
-            return get(context)
-                .addFlags(flags)
-                .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.ALARM)
-                .putExtra(IntentData.Note.Key.ID, noteId)
-        }
-
         fun getBind(context: Context, item: NoteItem): Intent {
             return get(context)
                 .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.BIND_NOTE)
@@ -149,7 +140,7 @@ object InstanceFactory {
         ): Array<Intent> = waitOpen {
             arrayOf(
                 Main[context],
-                with(data) { Note[context, false, NoteState.EXIST, type, id, color, name] }
+                with(data) { Note[context, false, NoteState.EXIST, type, noteId, color, name] }
             )
         }
 

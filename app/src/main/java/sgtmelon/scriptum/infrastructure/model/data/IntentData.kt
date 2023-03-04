@@ -7,6 +7,14 @@ package sgtmelon.scriptum.infrastructure.model.data
  */
 object IntentData {
 
+    object Splash {
+
+        object Key {
+            private const val PREFIX = "INTENT_SPLASH"
+            const val OPEN = "${PREFIX}_OPEN"
+        }
+    }
+
     object Note {
 
         object Key {

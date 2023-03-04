@@ -1,13 +1,22 @@
 package sgtmelon.scriptum.infrastructure.screen.splash
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
+import sgtmelon.scriptum.infrastructure.bundle.BundleValue
+import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
+import sgtmelon.scriptum.infrastructure.bundle.decode
+import sgtmelon.scriptum.infrastructure.bundle.encode
+import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Splash.Key
 import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
 import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -16,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.NO_LAYOUT
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.extensions.getCrashlytics
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
  * Start screen of application.
@@ -29,10 +39,10 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
-    private val bundleProvider = SplashBundleProvider()
+    private val openFrom = BundleValueImpl<String>(Key.OPEN)
+    override val bundleValues: List<BundleValue> = listOf(openFrom)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
 
         setCrashlyticsKeys()
@@ -44,11 +54,6 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
             .set(owner = this)
             .build()
             .inject(activity = this)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        bundleProvider.saveData(outState)
     }
 
     override fun finish() {
@@ -74,13 +79,14 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
             sendNotifyInfoBind()
         }
 
-        when (val it = bundleProvider.open) {
+        when (val it = openFrom.value?.decode<SplashOpen>()) {
             is SplashOpen.Main -> openMainScreen()
-            is SplashOpen.Alarm -> openAlarmScreen(it.id)
+            is SplashOpen.Alarm -> openAlarmScreen(it.noteId)
             is SplashOpen.BindNote -> openNoteScreen(it)
             is SplashOpen.Notifications -> openNotificationsScreen()
             is SplashOpen.HelpDisappear -> openHelpDisappearScreen()
             is SplashOpen.CreateNote -> openNoteScreen(it.type)
+            else -> openMainScreen()
         }
     }
 
@@ -104,5 +110,22 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
 
     private fun openNoteScreen(type: NoteType) = beforeFinish {
         startActivities(InstanceFactory.Chains.toNote(context = this, type))
+    }
+
+    companion object {
+
+        operator fun get(context: Context): Intent = context.intent<SplashActivity>()
+
+        operator fun get(context: Context, open: SplashOpen): Intent =
+            context.intent<SplashActivity>(Key.OPEN to open.encode())
+
+        fun getAlarm(context: Context, noteId: Long): Intent {
+            val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            return get(context, SplashOpen.Alarm(noteId)).addFlags(flags)
+        }
+
+        fun getBind(context: Context, item: NoteItem): Intent {
+            return get(context, with(item) { SplashOpen.BindNote(id, color, type) })
+        }
     }
 }
