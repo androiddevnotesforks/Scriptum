@@ -9,10 +9,10 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.startMarketActivity
@@ -68,8 +68,8 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
         }
     }
 
-    private fun Preference.openScreen(key: PreferenceScreen) = open.attempt {
-        startActivity(InstanceFactory.Preference[context, key])
+    private fun Preference.openScreen(screen: PreferenceScreen) = open.attempt {
+        startActivity(PreferenceActivity[context, screen])
     }
 
     override fun setupObservers() {

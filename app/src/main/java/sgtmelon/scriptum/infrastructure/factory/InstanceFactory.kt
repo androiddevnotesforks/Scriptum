@@ -137,7 +137,7 @@ object InstanceFactory {
             screen: PreferenceScreen
         ): Intent {
             return Intent(context, PreferenceActivity::class.java)
-                .putExtra(IntentData.Preference.Intent.SCREEN, screen.ordinal)
+                .putExtra(IntentData.Preference.Key.SCREEN, screen.ordinal)
         }
 
         object HelpDisappear {
@@ -183,8 +183,8 @@ object InstanceFactory {
         fun toHelpDisappear(context: Context): Array<Intent> = waitOpen {
             arrayOf(
                 Main[context],
-                Preference[context, PreferenceScreen.MENU],
-                Preference[context, PreferenceScreen.HELP],
+                PreferenceActivity[context, PreferenceScreen.MENU],
+                PreferenceActivity[context, PreferenceScreen.HELP],
                 Preference.HelpDisappear[context]
             )
         }

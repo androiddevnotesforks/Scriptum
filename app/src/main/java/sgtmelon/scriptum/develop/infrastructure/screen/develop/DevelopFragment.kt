@@ -11,6 +11,7 @@ import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivit
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
 /**
@@ -45,7 +46,7 @@ class DevelopFragment : ParentPreferenceFragment() {
             alarmButton?.setOnClickListener { openRandomAlarm(it.context) }
 
             eternalButton?.setOnClickListener {
-                startActivity(InstanceFactory.Preference[it.context, PreferenceScreen.SERVICE])
+                startActivity(PreferenceActivity[it.context, PreferenceScreen.SERVICE])
             }
 
             resetButton?.setOnClickListener {

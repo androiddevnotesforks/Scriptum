@@ -31,13 +31,9 @@ object IntentData {
 
     object Preference {
 
-        object Intent {
+        object Key {
             private const val PREFIX = "INTENT_PREFERENCE"
             const val SCREEN = "${PREFIX}_SCREEN"
-        }
-
-        object Default {
-            const val SCREEN = -1
         }
     }
 

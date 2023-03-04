@@ -25,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
@@ -272,7 +273,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         parentOpen?.attempt {
             val intent = when (item?.itemId) {
                 R.id.item_notifications -> InstanceFactory.Notifications[context]
-                R.id.item_preferences -> InstanceFactory.Preference[context, PreferenceScreen.MENU]
+                R.id.item_preferences -> PreferenceActivity[context, PreferenceScreen.MENU]
                 else -> return false
             }
 

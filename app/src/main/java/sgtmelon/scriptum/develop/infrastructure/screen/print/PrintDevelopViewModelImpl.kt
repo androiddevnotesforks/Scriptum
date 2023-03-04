@@ -22,6 +22,8 @@ class PrintDevelopViewModelImpl(
     init {
         if (type != null) {
             viewModelScope.launchBack { fetchList(type) }
+        } else {
+            // TODO post error (if type == null) to live data and catch it in parent activity/fragment
         }
     }
 
