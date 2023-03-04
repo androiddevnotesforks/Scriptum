@@ -10,8 +10,8 @@ import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
 import sgtmelon.scriptum.develop.infrastructure.adapter.PrintAdapter
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
-import sgtmelon.scriptum.infrastructure.bundle.BundleEnumValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
+import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Key
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -36,7 +36,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
 
     private val listAnimation = ShowListAnimation()
 
-    private val type = BundleEnumValue<PrintType>(Key.TYPE)
+    private val type = BundleValueImpl<PrintType>(Key.TYPE)
     override val bundleValues: List<BundleValue> = listOf(type)
 
     private val adapter = PrintAdapter()

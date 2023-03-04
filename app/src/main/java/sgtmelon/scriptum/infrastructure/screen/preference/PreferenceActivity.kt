@@ -7,8 +7,8 @@ import sgtmelon.extensions.emptyString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityPreferenceBinding
-import sgtmelon.scriptum.infrastructure.bundle.BundleEnumValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
+import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
@@ -31,7 +31,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    private val screen = BundleEnumValue<PreferenceScreen>(Key.SCREEN)
+    private val screen = BundleValueImpl<PreferenceScreen>(Key.SCREEN)
     override val bundleValues: List<BundleValue> = listOf(screen)
 
     override fun onCreate(savedInstanceState: Bundle?) {

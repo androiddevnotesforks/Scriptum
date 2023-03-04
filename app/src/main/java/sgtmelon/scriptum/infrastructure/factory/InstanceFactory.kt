@@ -35,15 +35,15 @@ object InstanceFactory {
             return get(context)
                 .addFlags(flags)
                 .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.ALARM)
-                .putExtra(IntentData.Note.Intent.ID, noteId)
+                .putExtra(IntentData.Note.Key.ID, noteId)
         }
 
         fun getBind(context: Context, item: NoteItem): Intent {
             return get(context)
                 .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.BIND_NOTE)
-                .putExtra(IntentData.Note.Intent.ID, item.id)
-                .putExtra(IntentData.Note.Intent.COLOR, item.color)
-                .putExtra(IntentData.Note.Intent.TYPE, item.type.ordinal)
+                .putExtra(IntentData.Note.Key.ID, item.id)
+                .putExtra(IntentData.Note.Key.COLOR, item.color)
+                .putExtra(IntentData.Note.Key.TYPE, item.type.ordinal)
         }
 
         fun getNotification(context: Context): Intent {
@@ -56,9 +56,7 @@ object InstanceFactory {
                 .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.HELP_DISAPPEAR)
         }
 
-        /**
-         * This instance also used inside xml/shortcuts.xml
-         */
+        /** This instance also used inside xml/shortcuts.xml. */
         fun getNewNote(context: Context, type: NoteType): Intent {
             val key = when (type) {
                 NoteType.TEXT -> AppOpenFrom.CREATE_TEXT
@@ -105,27 +103,12 @@ object InstanceFactory {
             name: String = IntentData.Note.Default.NAME
         ): Intent {
             return Intent(context, NoteActivity::class.java)
-                .putExtra(IntentData.Note.Intent.IS_EDIT, isEdit)
-                .putExtra(IntentData.Note.Intent.STATE, state.ordinal)
-                .putExtra(IntentData.Note.Intent.ID, id)
-                .putExtra(IntentData.Note.Intent.TYPE, type)
-                .putExtra(IntentData.Note.Intent.COLOR, color)
-                .putExtra(IntentData.Note.Intent.NAME, name)
-        }
-    }
-
-    object Alarm {
-
-        operator fun get(context: Context, id: Long): Intent {
-            return Intent(context, AlarmActivity::class.java)
-                .putExtra(IntentData.Note.Intent.ID, id)
-        }
-    }
-
-    object Notifications {
-
-        operator fun get(context: Context): Intent {
-            return Intent(context, NotificationsActivity::class.java)
+                .putExtra(IntentData.Note.Key.IS_EDIT, isEdit)
+                .putExtra(IntentData.Note.Key.STATE, state.ordinal)
+                .putExtra(IntentData.Note.Key.ID, id)
+                .putExtra(IntentData.Note.Key.TYPE, type)
+                .putExtra(IntentData.Note.Key.COLOR, color)
+                .putExtra(IntentData.Note.Key.NAME, name)
         }
     }
 
@@ -150,16 +133,14 @@ object InstanceFactory {
 
     object Chains {
 
-        /**
-         * Idling before open chain of screens, needed for Android (UI) tests
-         */
+        /** Idling before open chain of screens, needed for Android (UI) tests. */
         private inline fun <T> waitOpen(func: () -> T): T {
             getWaitIdling().start(waitMillis = 3000)
             return func()
         }
 
         fun toAlarm(context: Context, noteId: Long): Array<Intent> = waitOpen {
-            arrayOf(Main[context], Alarm[context, noteId])
+            arrayOf(Main[context], AlarmActivity[context, noteId])
         }
 
         fun toNote(
@@ -177,7 +158,7 @@ object InstanceFactory {
         }
 
         fun toNotifications(context: Context): Array<Intent> = waitOpen {
-            arrayOf(Main[context], Notifications[context])
+            arrayOf(Main[context], NotificationsActivity[context])
         }
 
         fun toHelpDisappear(context: Context): Array<Intent> = waitOpen {

@@ -83,17 +83,17 @@ class OpenState(lifecycle: Lifecycle) {
     }
 
     fun save(bundle: Bundle) {
-        bundle.putBoolean(Open.Intent.KEY_CHANGE, isChangeEnabled)
-        bundle.putBoolean(Open.Intent.KEY_VALUE, isBlocked)
-        bundle.putString(Open.Intent.KEY_TAG, tag)
+        bundle.putBoolean(Open.Key.KEY_CHANGE, isChangeEnabled)
+        bundle.putBoolean(Open.Key.KEY_VALUE, isBlocked)
+        bundle.putString(Open.Key.KEY_TAG, tag)
     }
 
     fun restore(bundle: Bundle?) {
         if (bundle == null) return
 
-        isChangeEnabled = bundle.getBoolean(Open.Intent.KEY_CHANGE)
-        isBlocked = bundle.getBoolean(Open.Intent.KEY_VALUE)
-        tag = bundle.getString(Open.Intent.KEY_TAG, Tag.ND)
+        isChangeEnabled = bundle.getBoolean(Open.Key.KEY_CHANGE)
+        isBlocked = bundle.getBoolean(Open.Key.KEY_VALUE)
+        tag = bundle.getString(Open.Key.KEY_TAG, Tag.ND)
     }
 
     object Tag {

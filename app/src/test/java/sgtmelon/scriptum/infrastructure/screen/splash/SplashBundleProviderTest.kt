@@ -64,13 +64,13 @@ class SplashBundleProviderTest : ParentTest() {
         val id = Random.nextLong()
 
         every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
-        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
+        every { bundle.getLong(Note.Key.ID, Note.Default.ID) } returns id
 
         assertGetData(SplashOpen.Alarm(id), key)
 
         verifySequence {
             bundle.getString(AppOpenFrom.INTENT_KEY)
-            bundle.getLong(Note.Intent.ID, Note.Default.ID)
+            bundle.getLong(Note.Key.ID, Note.Default.ID)
             outState.putString(AppOpenFrom.INTENT_KEY, key)
         }
     }
@@ -83,23 +83,23 @@ class SplashBundleProviderTest : ParentTest() {
         val name = nextString()
 
         every { bundle.getString(AppOpenFrom.INTENT_KEY) } returns key
-        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
-        every { bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE) } returns type
-        every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns color
+        every { bundle.getLong(Note.Key.ID, Note.Default.ID) } returns id
+        every { bundle.getInt(Note.Key.TYPE, Note.Default.TYPE) } returns type
+        every { bundle.getInt(Note.Key.COLOR, Note.Default.COLOR) } returns color
 
-        every { bundle.getString(Note.Intent.NAME, Note.Default.NAME) } returns null
+        every { bundle.getString(Note.Key.NAME, Note.Default.NAME) } returns null
         assertGetData(SplashOpen.BindNote(id, type, color, Note.Default.NAME), key)
 
-        every { bundle.getString(Note.Intent.NAME, Note.Default.NAME) } returns name
+        every { bundle.getString(Note.Key.NAME, Note.Default.NAME) } returns name
         assertGetData(SplashOpen.BindNote(id, type, color, name), key)
 
         verifySequence {
             repeat(times = 2) {
                 bundle.getString(AppOpenFrom.INTENT_KEY)
-                bundle.getLong(Note.Intent.ID, Note.Default.ID)
-                bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
-                bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
-                bundle.getString(Note.Intent.NAME, Note.Default.NAME)
+                bundle.getLong(Note.Key.ID, Note.Default.ID)
+                bundle.getInt(Note.Key.TYPE, Note.Default.TYPE)
+                bundle.getInt(Note.Key.COLOR, Note.Default.COLOR)
+                bundle.getString(Note.Key.NAME, Note.Default.NAME)
                 outState.putString(AppOpenFrom.INTENT_KEY, key)
             }
         }

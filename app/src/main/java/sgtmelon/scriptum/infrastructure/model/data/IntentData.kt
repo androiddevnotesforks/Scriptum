@@ -9,7 +9,7 @@ object IntentData {
 
     object Note {
 
-        object Intent {
+        object Key {
             private const val PREFIX = "INTENT_NOTE"
             const val IS_EDIT = "${PREFIX}_IS_EDIT"
             const val STATE = "${PREFIX}_STATE"
@@ -47,7 +47,7 @@ object IntentData {
 
     object Eternal {
 
-        object Intent {
+        object Key {
             private const val PREFIX = "INTENT_BIND"
             const val COUNT = "${PREFIX}_COUNT"
             const val DATE = "${PREFIX}_DATE"
@@ -62,7 +62,7 @@ object IntentData {
 
     object Open {
 
-        object Intent {
+        object Key {
             private const val KEY_PREFIX = "OPEN_STATE"
             const val KEY_CHANGE = "${KEY_PREFIX}_CHANGE"
             const val KEY_VALUE = "${KEY_PREFIX}_VALUE"

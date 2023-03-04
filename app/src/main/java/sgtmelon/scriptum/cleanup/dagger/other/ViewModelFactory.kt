@@ -237,7 +237,7 @@ object ViewModelFactory {
     }
 
     class Alarm(
-        private val noteId: Long,
+        private val noteId: Long?,
         private val preferencesRepo: PreferencesRepo,
         private val noteRepo: NoteRepo,
         private val getMelodyList: GetMelodyListUseCase,

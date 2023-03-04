@@ -270,7 +270,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideAlarmViewModel(
         owner: ViewModelStoreOwner,
-        noteId: Long,
+        noteId: Long?,
         preferencesRepo: PreferencesRepo,
         noteRepo: NoteRepo,
         getMelodyList: GetMelodyListUseCase,

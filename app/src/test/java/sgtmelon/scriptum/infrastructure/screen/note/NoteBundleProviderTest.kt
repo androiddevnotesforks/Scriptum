@@ -16,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteStateConverter
 import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Intent
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Key
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -115,12 +115,12 @@ class NoteBundleProviderTest : ParentTest() {
         with(init) {
             mockkGetData(isEdit, state, id, type, color, name)
 
-            every { outState.putBoolean(Intent.IS_EDIT, isEdit) } returns Unit
-            every { outState.putEnum(Intent.STATE, stateConverter, state) } returns Unit
-            every { outState.putLong(Intent.ID, id) } returns Unit
-            every { outState.putEnum(Intent.TYPE, typeConverter, type) } returns Unit
-            every { outState.putEnum(Intent.COLOR, colorConverter, color) } returns Unit
-            every { outState.putString(Intent.NAME, name) } returns Unit
+            every { outState.putBoolean(Key.IS_EDIT, isEdit) } returns Unit
+            every { outState.putEnum(Key.STATE, stateConverter, state) } returns Unit
+            every { outState.putLong(Key.ID, id) } returns Unit
+            every { outState.putEnum(Key.TYPE, typeConverter, type) } returns Unit
+            every { outState.putEnum(Key.COLOR, colorConverter, color) } returns Unit
+            every { outState.putString(Key.NAME, name) } returns Unit
         }
 
         provider.getData(bundle)
@@ -129,12 +129,12 @@ class NoteBundleProviderTest : ParentTest() {
         verifySequence {
             verifyGetData(init.state, init.type)
 
-            outState.putBoolean(Intent.IS_EDIT, init.isEdit)
-            outState.putEnum(Intent.STATE, stateConverter, init.state)
-            outState.putLong(Intent.ID, init.id)
-            outState.putEnum(Intent.TYPE, typeConverter, init.type)
-            outState.putEnum(Intent.COLOR, colorConverter, init.color)
-            outState.putString(Intent.NAME, init.name)
+            outState.putBoolean(Key.IS_EDIT, init.isEdit)
+            outState.putEnum(Key.STATE, stateConverter, init.state)
+            outState.putLong(Key.ID, init.id)
+            outState.putEnum(Key.TYPE, typeConverter, init.type)
+            outState.putEnum(Key.COLOR, colorConverter, init.color)
+            outState.putString(Key.NAME, init.name)
         }
     }
 
@@ -146,27 +146,27 @@ class NoteBundleProviderTest : ParentTest() {
         color: Color?,
         name: String?
     ) {
-        every { bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT) } returns isEdit
+        every { bundle.getBoolean(Key.IS_EDIT, Default.IS_EDIT) } returns isEdit
         FastMock.bundleExtensions()
-        every { bundle.getEnum(Intent.STATE, Default.STATE, stateConverter) } returns state
-        every { bundle.getLong(Intent.ID, Default.ID) } returns id
-        every { bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter) } returns type
-        every { bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter) } returns color
-        every { bundle.getString(Intent.NAME, Default.NAME) } returns name
+        every { bundle.getEnum(Key.STATE, Default.STATE, stateConverter) } returns state
+        every { bundle.getLong(Key.ID, Default.ID) } returns id
+        every { bundle.getEnum(Key.TYPE, Default.TYPE, typeConverter) } returns type
+        every { bundle.getEnum(Key.COLOR, Default.COLOR, colorConverter) } returns color
+        every { bundle.getString(Key.NAME, Default.NAME) } returns name
     }
 
     private fun verifyGetData(state: NoteState?, type: NoteType?) {
-        bundle.getBoolean(Intent.IS_EDIT, Default.IS_EDIT)
-        bundle.getEnum(Intent.STATE, Default.STATE, stateConverter)
+        bundle.getBoolean(Key.IS_EDIT, Default.IS_EDIT)
+        bundle.getEnum(Key.STATE, Default.STATE, stateConverter)
 
         if (state == null) return
 
-        bundle.getLong(Intent.ID, Default.ID)
-        bundle.getEnum(Intent.TYPE, Default.TYPE, typeConverter)
+        bundle.getLong(Key.ID, Default.ID)
+        bundle.getEnum(Key.TYPE, Default.TYPE, typeConverter)
 
         if (type == null) return
 
-        bundle.getEnum(Intent.COLOR, Default.COLOR, colorConverter)
-        bundle.getString(Intent.NAME, Default.NAME)
+        bundle.getEnum(Key.COLOR, Default.COLOR, colorConverter)
+        bundle.getString(Key.NAME, Default.NAME)
     }
 }

@@ -34,9 +34,9 @@ class EternalServiceReceiver : BroadcastReceiver() {
     }
 
     private fun setAlarm(intent: Intent) {
-        val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
-        val date = intent.getStringExtra(Eternal.Intent.DATE)
-        val showToast = intent.getBooleanExtra(Eternal.Intent.TOAST, Eternal.Default.TOAST)
+        val id = intent.getLongExtra(Note.Key.ID, Note.Default.ID)
+        val date = intent.getStringExtra(Eternal.Key.DATE)
+        val showToast = intent.getBooleanExtra(Eternal.Key.TOAST, Eternal.Default.TOAST)
 
         val calendar = date?.toCalendarOrNull()
 
@@ -46,7 +46,7 @@ class EternalServiceReceiver : BroadcastReceiver() {
     }
 
     private fun cancelAlarm(intent: Intent) {
-        val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
+        val id = intent.getLongExtra(Note.Key.ID, Note.Default.ID)
 
         if (id == Note.Default.ID) return
 
@@ -54,7 +54,7 @@ class EternalServiceReceiver : BroadcastReceiver() {
     }
 
     private fun cancelNote(intent: Intent) {
-        val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
+        val id = intent.getLongExtra(Note.Key.ID, Note.Default.ID)
 
         if (id == Note.Default.ID) return
 
@@ -62,7 +62,7 @@ class EternalServiceReceiver : BroadcastReceiver() {
     }
 
     private fun notifyInfo(intent: Intent) {
-        val count = intent.getIntExtra(Eternal.Intent.COUNT, Eternal.Default.COUNT)
+        val count = intent.getIntExtra(Eternal.Key.COUNT, Eternal.Default.COUNT)
 
         if (count == Eternal.Default.COUNT) return
 

@@ -21,7 +21,7 @@ class BroadcastDelegator(private val context: Context) {
         val places = listOf(Filter.RANK, Filter.NOTES, Filter.NOTE, Filter.ALARM)
 
         context.sendTo(places, Command.UI.UNBIND_NOTE) {
-            putExtra(IntentData.Note.Intent.ID, noteId)
+            putExtra(IntentData.Note.Key.ID, noteId)
         }
     }
 
@@ -33,7 +33,7 @@ class BroadcastDelegator(private val context: Context) {
 
     fun sendCancelNoteBind(noteId: Long) {
         context.sendTo(Filter.SYSTEM, Command.System.CANCEL_NOTE) {
-            putExtra(IntentData.Note.Intent.ID, noteId)
+            putExtra(IntentData.Note.Key.ID, noteId)
         }
     }
 
@@ -43,7 +43,7 @@ class BroadcastDelegator(private val context: Context) {
     fun sendNotifyInfoBind(count: Int? = null) {
         context.sendTo(Filter.SYSTEM, Command.System.NOTIFY_INFO) {
             if (count != null) {
-                putExtra(IntentData.Eternal.Intent.COUNT, count)
+                putExtra(IntentData.Eternal.Key.COUNT, count)
             }
         }
     }
@@ -61,9 +61,9 @@ class BroadcastDelegator(private val context: Context) {
 
     fun sendSetAlarm(noteId: Long, calendar: Calendar, showToast: Boolean) {
         context.sendTo(Filter.SYSTEM, Command.System.SET_ALARM) {
-            putExtra(IntentData.Note.Intent.ID, noteId)
-            putExtra(IntentData.Eternal.Intent.DATE, calendar.toText())
-            putExtra(IntentData.Eternal.Intent.TOAST, showToast)
+            putExtra(IntentData.Note.Key.ID, noteId)
+            putExtra(IntentData.Eternal.Key.DATE, calendar.toText())
+            putExtra(IntentData.Eternal.Key.TOAST, showToast)
         }
     }
 
@@ -73,7 +73,7 @@ class BroadcastDelegator(private val context: Context) {
 
     fun sendCancelAlarm(noteId: Long) {
         context.sendTo(Filter.SYSTEM, Command.System.CANCEL_ALARM) {
-            putExtra(IntentData.Note.Intent.ID, noteId)
+            putExtra(IntentData.Note.Key.ID, noteId)
         }
     }
 

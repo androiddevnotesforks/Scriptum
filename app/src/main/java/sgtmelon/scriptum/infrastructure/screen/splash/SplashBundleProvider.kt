@@ -29,15 +29,15 @@ class SplashBundleProvider : ParentBundleProvider {
     }
 
     private fun getAlarmData(bundle: Bundle): SplashOpen.Alarm {
-        val id = bundle.getLong(Note.Intent.ID, Note.Default.ID)
+        val id = bundle.getLong(Note.Key.ID, Note.Default.ID)
         return SplashOpen.Alarm(id)
     }
 
     private fun getBindData(bundle: Bundle): SplashOpen.BindNote {
-        val id = bundle.getLong(Note.Intent.ID, Note.Default.ID)
-        val type = bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
-        val color = bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
-        val name = bundle.getString(Note.Intent.NAME, Note.Default.NAME) ?: Note.Default.NAME
+        val id = bundle.getLong(Note.Key.ID, Note.Default.ID)
+        val type = bundle.getInt(Note.Key.TYPE, Note.Default.TYPE)
+        val color = bundle.getInt(Note.Key.COLOR, Note.Default.COLOR)
+        val name = bundle.getString(Note.Key.NAME, Note.Default.NAME) ?: Note.Default.NAME
 
         return SplashOpen.BindNote(id, type, color, name)
     }

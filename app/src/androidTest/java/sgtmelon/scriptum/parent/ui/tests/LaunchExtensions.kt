@@ -157,7 +157,7 @@ inline fun ParentUiTest.launchNotifications(
     after: NotificationsScreen.() -> Unit = {}
 ) {
     before()
-    launchActivity<NotificationsActivity>(InstanceFactory.Notifications[context])
+    launchActivity<NotificationsActivity>(NotificationsActivity[context])
     NotificationsScreen(after, isEmpty)
 }
 

@@ -17,7 +17,7 @@ class UnbindNoteReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.getStringExtra(Values.COMMAND) != Command.UI.UNBIND_NOTE) return
 
-        val noteId = intent.getLongExtra(IntentData.Note.Intent.ID, IntentData.Note.Default.ID)
+        val noteId = intent.getLongExtra(IntentData.Note.Key.ID, IntentData.Note.Default.ID)
         if (noteId != IntentData.Note.Default.ID) {
             callback?.onReceiveUnbindNote(noteId)
         }
