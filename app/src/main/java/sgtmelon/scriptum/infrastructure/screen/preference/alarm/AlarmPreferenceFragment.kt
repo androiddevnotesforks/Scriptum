@@ -33,7 +33,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     override val xmlId: Int = R.xml.preference_alarm
 
-    private val binding = AlarmPreferenceDataBinding(fragment = this)
+    private val binding = AlarmPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: AlarmPreferenceViewModel
 

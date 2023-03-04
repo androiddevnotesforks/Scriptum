@@ -5,7 +5,7 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
 
-class ServiceDevelopDataBinding(val fragment: PreferenceFragmentCompat) {
+class ServiceDevelopBinding(val fragment: PreferenceFragmentCompat) {
 
     val serviceRefreshButton: Preference? get() = fragment.findPreference(R.string.pref_key_service_refresh)
     val serviceRunButton: Preference? get() = fragment.findPreference(R.string.pref_key_service_run)

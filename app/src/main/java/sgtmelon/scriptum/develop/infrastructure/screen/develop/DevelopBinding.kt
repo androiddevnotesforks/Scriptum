@@ -5,7 +5,7 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
 
-class DevelopDataBinding(val fragment: PreferenceFragmentCompat) {
+class DevelopBinding(val fragment: PreferenceFragmentCompat) {
 
     val printNoteButton: Preference? get() = fragment.findPreference(R.string.pref_key_print_note)
     val printBinButton: Preference? get() = fragment.findPreference(R.string.pref_key_print_bin)

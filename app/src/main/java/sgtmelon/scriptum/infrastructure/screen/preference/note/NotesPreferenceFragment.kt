@@ -20,7 +20,7 @@ class NotesPreferenceFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_notes
 
-    private val binding = NotesPreferenceDataBinding(fragment = this)
+    private val binding = NotesPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: NotesPreferenceViewModel
 

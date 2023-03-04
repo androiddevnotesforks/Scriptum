@@ -5,7 +5,7 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
 
-class HelpPreferenceDataBinding(val fragment: PreferenceFragmentCompat) {
+class HelpPreferenceBinding(val fragment: PreferenceFragmentCompat) {
 
     val disappearButton: Preference? get() = fragment.findPreference(R.string.pref_key_help_disappear)
 

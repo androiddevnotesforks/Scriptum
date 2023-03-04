@@ -5,7 +5,7 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
 
-class MenuPreferenceDataBinding(val fragment: PreferenceFragmentCompat) {
+class MenuPreferenceBinding(val fragment: PreferenceFragmentCompat) {
 
     val themeButton: Preference? get() = fragment.findPreference(R.string.pref_key_theme)
 

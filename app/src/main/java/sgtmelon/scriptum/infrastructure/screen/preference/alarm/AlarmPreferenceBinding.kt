@@ -5,7 +5,7 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
 
-class AlarmPreferenceDataBinding(val fragment: PreferenceFragmentCompat) {
+class AlarmPreferenceBinding(val fragment: PreferenceFragmentCompat) {
 
     val signalButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_signal)
     val repeatButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_repeat)

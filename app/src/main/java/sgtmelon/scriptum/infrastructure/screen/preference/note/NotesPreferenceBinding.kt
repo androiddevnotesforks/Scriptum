@@ -5,7 +5,7 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
 
-class NotesPreferenceDataBinding(val fragment: PreferenceFragmentCompat) {
+class NotesPreferenceBinding(val fragment: PreferenceFragmentCompat) {
 
     val sortButton: Preference? get() = fragment.findPreference(R.string.pref_key_note_sort)
     val colorButton: Preference? get() = fragment.findPreference(R.string.pref_key_note_color)

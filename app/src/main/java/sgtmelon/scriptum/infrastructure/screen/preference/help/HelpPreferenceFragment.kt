@@ -13,7 +13,7 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_help
 
-    private val binding = HelpPreferenceDataBinding(fragment = this)
+    private val binding = HelpPreferenceBinding(fragment = this)
 
     override fun inject(component: ScriptumComponent) = Unit
 
