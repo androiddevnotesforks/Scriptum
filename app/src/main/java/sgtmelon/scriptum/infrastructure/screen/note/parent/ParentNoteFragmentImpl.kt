@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import java.util.Calendar
 import sgtmelon.extensions.collect
+import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.toCalendar
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
@@ -399,7 +400,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
                  * Set empty text needed for nameEnter has ability to change size
                  * inside scrollView.
                  */
-                nameRead.text = if (isEdit) "" else item.name
+                nameRead.text = if (isEdit) emptyString() else item.name
             } else {
                 /**
                  * Name in init only may exists if note is already in [NoteState.EXIST] state,

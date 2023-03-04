@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.converter.types
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.extensions.emptyString
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
@@ -18,7 +19,7 @@ class LongListConverterTest : ParentTest() {
     private val converter = LongListConverter()
 
     @Test fun `toList with empty text`() {
-        assertEquals(converter.toList(value = ""), mutableListOf<Long>())
+        assertEquals(converter.toList(emptyString()), mutableListOf<Long>())
     }
 
     @Test fun `toList with wrong value`() {

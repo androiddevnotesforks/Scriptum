@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.preference
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import sgtmelon.extensions.emptyString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityPreferenceBinding
@@ -62,7 +63,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             PreferenceScreen.BACKUP -> TestViewTag.PREF_BACKUP
             PreferenceScreen.NOTES -> TestViewTag.PREF_NOTE
             PreferenceScreen.ALARM -> TestViewTag.PREF_ALARM
-            else -> ""
+            else -> emptyString()
         }
 
         val titleId = when (screen) {

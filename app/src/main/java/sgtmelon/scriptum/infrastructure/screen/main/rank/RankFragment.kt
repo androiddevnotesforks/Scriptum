@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
+import sgtmelon.extensions.emptyString
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -29,6 +30,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyUi
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearText
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
@@ -194,10 +196,12 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
-    private fun getEnterText(): String = binding?.appBar?.rankEnter?.text?.toString() ?: ""
+    private fun getEnterText(): String {
+        return binding?.appBar?.rankEnter?.text?.toString() ?: emptyString()
+    }
 
     private fun clearEnter() {
-        binding?.appBar?.rankEnter?.setText("")
+        binding?.appBar?.rankEnter?.clearText()
     }
 
     private fun addFromEnter(toBottom: Boolean) {

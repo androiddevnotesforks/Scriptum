@@ -97,9 +97,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             .inject(activity = this)
     }
 
-    /**
-     * This activity not rotatable (don't need setup margin for left and right).
-     */
+    /** This activity not rotatable (don't need setup margin for left and right). */
     override fun setupInsets() {
         super.setupInsets()
 

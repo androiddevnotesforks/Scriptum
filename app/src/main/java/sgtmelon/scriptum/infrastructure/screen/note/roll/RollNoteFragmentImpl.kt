@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
+import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.iconanim.callback.IconChangeCallback
@@ -218,7 +219,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     private fun getAddText(): String {
-        return binding?.addPanel?.rollEnter?.text?.toString()?.removeExtraSpace() ?: ""
+        return binding?.addPanel?.rollEnter?.text?.toString()?.removeExtraSpace() ?: emptyString()
     }
 
     //region Observable staff

@@ -98,7 +98,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
                 isDataReady.postValue(true)
                 initAfterDataReady(value)
             } else {
-                // TODO report about null item and close screen
+                // TODO #ERROR_HANDLER report about null item and close screen
             }
         }
     }

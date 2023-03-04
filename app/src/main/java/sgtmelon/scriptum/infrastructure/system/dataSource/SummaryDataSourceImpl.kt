@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.system.dataSource
 
 import android.content.res.Resources
 import java.util.Locale
+import sgtmelon.extensions.emptyString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
@@ -84,7 +85,7 @@ class SummaryDataSourceImpl(private val resources: Resources) : SummaryDataSourc
 
         if (summaryArray.size != valueArray.size) {
             DifferentSizeException(valueArray.size, summaryArray.size).record()
-            return ""
+            return emptyString()
         }
 
         return StringBuilder().apply {

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import androidx.core.widget.doOnTextChanged
 import javax.inject.Inject
+import sgtmelon.extensions.emptyString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -111,7 +112,7 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
          * Set empty text needed for nameEnter has ability to change size
          * inside scrollView.
          */
-        binding?.textRead?.text = if (isEdit) "" else item.text
+        binding?.textRead?.text = if (isEdit) emptyString() else item.text
     }
 
     //endregion
