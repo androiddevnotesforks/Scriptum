@@ -12,8 +12,9 @@
             android:targetClass="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
             android:targetPackage="sgtmelon.scriptum">
 
-            <extra android:name="OPEN_FROM_INTENT_KEY"
-                android:value="OPEN_FROM_CREATE_ROLL" />
+            <!--  {"type":"sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen.NewNote","noteType":"ROLL"}  -->
+            <extra android:name="INTENT_SPLASH_OPEN"
+                android:value="{&quot;type&quot;:&quot;sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen.NewNote&quot;,&quot;noteType&quot;:&quot;ROLL&quot;}" />
         </intent>
     </shortcut>
 
@@ -28,8 +29,9 @@
             android:targetClass="sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity"
             android:targetPackage="sgtmelon.scriptum">
 
-            <extra android:name="OPEN_FROM_INTENT_KEY"
-                android:value="OPEN_FROM_CREATE_TEXT" />
+            <!--  {"type":"sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen.NewNote","noteType":"TEXT"}  -->
+            <extra android:name="INTENT_SPLASH_OPEN"
+                android:value="{&quot;type&quot;:&quot;sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen.NewNote&quot;,&quot;noteType&quot;:&quot;TEXT&quot;}" />
         </intent>
     </shortcut>
 </shortcuts>

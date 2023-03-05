@@ -17,8 +17,9 @@ import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 /**
  * Describes which screen need open after splash.
  *
- * !!! BE CAREFUL !!!
- * - Some serializations from here is used inside xml/shortcuts.xml, change names carefully
+ * Some serializations from here is used inside xml/shortcuts.xml, be carefully with:
+ * - Change class names
+ * - Moving this class into another directory
  */
 @Serializable
 sealed class SplashOpen {
