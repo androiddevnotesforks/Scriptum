@@ -14,10 +14,8 @@ import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.bundle.decode
 import sgtmelon.scriptum.infrastructure.bundle.encode
 import sgtmelon.scriptum.infrastructure.bundle.intent
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Splash.Key
-import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
 import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -26,6 +24,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.NO_LAYOUT
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.extensions.getCrashlytics
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
+import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Start screen of application.
@@ -46,6 +45,13 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         super.onCreate(savedInstanceState)
 
         setCrashlyticsKeys()
+
+        system?.broadcast?.run {
+            sendTidyUpAlarm()
+            sendNotifyNotesBind()
+            sendNotifyInfoBind()
+        }
+
         chooseOpenScreen()
     }
 
@@ -72,52 +78,24 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         instance.setCustomKey(FireData.RUN_TYPE, runType.name)
     }
 
-    private fun chooseOpenScreen() {
-        system?.broadcast?.run {
-            sendTidyUpAlarm()
-            sendNotifyNotesBind()
-            sendNotifyInfoBind()
+    private fun chooseOpenScreen() = beforeFinish {
+        val open = openFrom.value?.decode<SplashOpen>() ?: SplashOpen.Main
+
+        /** Needed for Android (UI) tests, when we open chain of screens. */
+        if (open !is SplashOpen.Main) {
+            getWaitIdling().start(waitMillis = 2000)
         }
 
-        when (val it = openFrom.value?.decode<SplashOpen>()) {
-            is SplashOpen.Main -> openMainScreen()
-            is SplashOpen.Alarm -> openAlarmScreen(it.noteId)
-            is SplashOpen.BindNote -> openNoteScreen(it)
-            is SplashOpen.Notifications -> openNotificationsScreen()
-            is SplashOpen.HelpDisappear -> openHelpDisappearScreen()
-            is SplashOpen.CreateNote -> openNoteScreen(it.type)
-            else -> openMainScreen()
-        }
-    }
-
-    private fun openMainScreen() = beforeFinish { startActivity(InstanceFactory.Main[this]) }
-
-    private fun openAlarmScreen(noteId: Long) = beforeFinish {
-        startActivities(InstanceFactory.Chains.toAlarm(context = this, noteId))
-    }
-
-    private fun openNoteScreen(data: SplashOpen.BindNote) = beforeFinish {
-        startActivities(InstanceFactory.Chains.toNote(context = this, data))
-    }
-
-    private fun openNotificationsScreen() = beforeFinish {
-        startActivities(InstanceFactory.Chains.toNotifications(context = this))
-    }
-
-    private fun openHelpDisappearScreen() = beforeFinish {
-        startActivities(InstanceFactory.Chains.toHelpDisappear(context = this))
-    }
-
-    private fun openNoteScreen(type: NoteType) = beforeFinish {
-        startActivities(InstanceFactory.Chains.toNote(context = this, type))
+        startActivities(open.getIntents(context = this))
     }
 
     companion object {
 
         operator fun get(context: Context): Intent = context.intent<SplashActivity>()
 
-        operator fun get(context: Context, open: SplashOpen): Intent =
-            context.intent<SplashActivity>(Key.OPEN to open.encode())
+        operator fun get(context: Context, open: SplashOpen): Intent {
+            return context.intent<SplashActivity>(Key.OPEN to open.encode())
+        }
 
         fun getAlarm(context: Context, noteId: Long): Intent {
             val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -125,7 +103,18 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         }
 
         fun getBind(context: Context, item: NoteItem): Intent {
-            return get(context, with(item) { SplashOpen.BindNote(id, color, type) })
+            return get(context, with(item) { SplashOpen.BindNote(id, type, color, name) })
         }
+
+        fun getNotification(context: Context): Intent = get(context, SplashOpen.Notifications)
+
+        @Deprecated("Remove after help disappear refactor")
+        fun getHelpDisappear(context: Context): Intent = get(context, SplashOpen.HelpDisappear)
+
+        /** This instance also used inside xml/shortcuts.xml. */
+        fun getNewNote(context: Context, type: NoteType): Intent {
+            return get(context, SplashOpen.NewNote(type))
+        }
+
     }
 }

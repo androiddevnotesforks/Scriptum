@@ -13,7 +13,6 @@ import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Key
-import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
@@ -66,18 +65,8 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             else -> emptyString()
         }
 
-        val titleId = when (screen) {
-            PreferenceScreen.MENU -> R.string.title_preference
-            PreferenceScreen.BACKUP -> R.string.pref_title_backup
-            PreferenceScreen.NOTES -> R.string.pref_title_note
-            PreferenceScreen.ALARM -> R.string.pref_title_alarm
-            PreferenceScreen.HELP -> R.string.pref_title_help
-            PreferenceScreen.DEVELOP -> R.string.pref_title_developer
-            PreferenceScreen.SERVICE -> R.string.pref_header_service
-        }
-
         binding?.appBar?.toolbar?.apply {
-            title = getString(titleId)
+            title = getString(screen.titleId)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
         }

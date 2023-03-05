@@ -9,7 +9,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
@@ -168,11 +167,11 @@ abstract class ParentUiTest : ParentTest() {
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launchSplash(before, InstanceFactory.Splash.getBind(context, item), after)
+        launchSplash(before, SplashActivity.getBind(context, item), after)
     }
 
     inline fun launchSplashNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
-        launchSplash(before, InstanceFactory.Splash.getNotification(context), after)
+        launchSplash(before, SplashActivity.getNotification(context), after)
     }
 
     inline fun launchSplashNewNote(
@@ -180,7 +179,7 @@ abstract class ParentUiTest : ParentTest() {
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launchSplash(before, InstanceFactory.Splash.getNewNote(context, type), after)
+        launchSplash(before, SplashActivity.getNewNote(context, type), after)
     }
 
     //endregion

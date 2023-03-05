@@ -1,5 +1,8 @@
 package sgtmelon.scriptum.infrastructure.screen.main
 
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,6 +13,8 @@ import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityMainBinding
+import sgtmelon.scriptum.infrastructure.bundle.encode
+import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.converter.MainPageConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.AddSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -20,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
@@ -136,6 +142,12 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
         /** Show FAB (if it is possible) after returning to the screen. */
         changeFabVisibility()
+
+        try {
+            Log.i("HERE", "rollOpen: ${(SplashOpen.NewNote(NoteType.ROLL) as SplashOpen).encode()}")
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
     }
 
     override fun onDestroy() {
@@ -242,5 +254,10 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     override fun changeFabVisibility(isVisible: Boolean, withGap: Boolean) {
         gradientFab?.changeVisibility(isVisible = isVisible && viewModel.isFabPage, withGap)
+    }
+
+    companion object {
+
+        operator fun get(context: Context): Intent = context.intent<MainActivity>()
     }
 }

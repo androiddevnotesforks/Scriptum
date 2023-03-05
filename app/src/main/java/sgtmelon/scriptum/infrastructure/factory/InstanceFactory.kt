@@ -4,65 +4,16 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.infrastructure.model.annotation.AppOpenFrom
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
-import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
-import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
-import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
-import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
-import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Factory for build intents and get access to them from one place.
  */
 object InstanceFactory {
-
-    object Splash {
-
-        operator fun get(context: Context): Intent = Intent(context, SplashActivity::class.java)
-
-        fun getBind(context: Context, item: NoteItem): Intent {
-            return get(context)
-                .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.BIND_NOTE)
-                .putExtra(IntentData.Note.Key.ID, item.id)
-                .putExtra(IntentData.Note.Key.COLOR, item.color)
-                .putExtra(IntentData.Note.Key.TYPE, item.type.ordinal)
-        }
-
-        fun getNotification(context: Context): Intent {
-            return get(context)
-                .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.NOTIFICATIONS)
-        }
-
-        fun getHelpDisappear(context: Context): Intent {
-            return get(context)
-                .putExtra(AppOpenFrom.INTENT_KEY, AppOpenFrom.HELP_DISAPPEAR)
-        }
-
-        /** This instance also used inside xml/shortcuts.xml. */
-        fun getNewNote(context: Context, type: NoteType): Intent {
-            val key = when (type) {
-                NoteType.TEXT -> AppOpenFrom.CREATE_TEXT
-                NoteType.ROLL -> AppOpenFrom.CREATE_ROLL
-            }
-
-            return Intent(context, SplashActivity::class.java)
-                .putExtra(AppOpenFrom.INTENT_KEY, key)
-        }
-    }
-
-    object Main {
-
-        operator fun get(context: Context): Intent = Intent(context, MainActivity::class.java)
-    }
 
     object Note {
 
@@ -106,59 +57,12 @@ object InstanceFactory {
 
     object Preference {
 
-        operator fun get(
-            context: Context,
-            screen: PreferenceScreen
-        ): Intent {
-            return Intent(context, PreferenceActivity::class.java)
-                .putExtra(IntentData.Preference.Key.SCREEN, screen.ordinal)
-        }
-
+        @Deprecated("Remove after help disappear refactor")
         object HelpDisappear {
 
             operator fun get(context: Context): Intent {
                 return Intent(context, HelpDisappearActivity::class.java)
             }
-        }
-    }
-
-    object Chains {
-
-        /** Idling before open chain of screens, needed for Android (UI) tests. */
-        private inline fun <T> waitOpen(func: () -> T): T {
-            getWaitIdling().start(waitMillis = 3000)
-            return func()
-        }
-
-        fun toAlarm(context: Context, noteId: Long): Array<Intent> = waitOpen {
-            arrayOf(Main[context], AlarmActivity[context, noteId])
-        }
-
-        fun toNote(
-            context: Context,
-            data: SplashOpen.BindNote
-        ): Array<Intent> = waitOpen {
-            arrayOf(
-                Main[context],
-                with(data) { Note[context, false, NoteState.EXIST, type, noteId, color, name] }
-            )
-        }
-
-        fun toNote(context: Context, type: NoteType): Array<Intent> = waitOpen {
-            arrayOf(Main[context], Note[context, true, NoteState.CREATE, type.ordinal])
-        }
-
-        fun toNotifications(context: Context): Array<Intent> = waitOpen {
-            arrayOf(Main[context], NotificationsActivity[context])
-        }
-
-        fun toHelpDisappear(context: Context): Array<Intent> = waitOpen {
-            arrayOf(
-                Main[context],
-                PreferenceActivity[context, PreferenceScreen.MENU],
-                PreferenceActivity[context, PreferenceScreen.HELP],
-                Preference.HelpDisappear[context]
-            )
         }
     }
 }

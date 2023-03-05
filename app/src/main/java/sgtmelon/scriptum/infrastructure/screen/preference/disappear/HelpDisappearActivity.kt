@@ -16,6 +16,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 /**
  * Screen with help about disappearing notifications.
  */
+@Deprecated("Remove after help disappear refactor")
 class HelpDisappearActivity : ThemeActivity<ActivityHelpDisappearBinding>() {
 
     override val layoutId: Int = R.layout.activity_help_disappear
