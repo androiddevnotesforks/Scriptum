@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.preference
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import sgtmelon.extensions.emptyString
 import sgtmelon.scriptum.R
@@ -9,7 +7,6 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityPreferenceBinding
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
-import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Key
@@ -78,11 +75,5 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
         fm.beginTransaction()
             .replace(R.id.fragment_container, fragment, tag)
             .commit()
-    }
-
-    companion object {
-        operator fun get(context: Context, screen: PreferenceScreen): Intent {
-            return context.intent<PreferenceActivity>(Key.SCREEN to screen)
-        }
     }
 }

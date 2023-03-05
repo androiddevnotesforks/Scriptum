@@ -22,10 +22,9 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
@@ -273,8 +272,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
         parentOpen?.attempt {
             val intent = when (item?.itemId) {
-                R.id.item_notifications -> NotificationsActivity[context]
-                R.id.item_preferences -> PreferenceActivity[context, PreferenceScreen.MENU]
+                R.id.item_notifications -> Screens.toNotifications(context)
+                R.id.item_preferences -> Screens.toPreference(context, PreferenceScreen.MENU)
                 else -> return false
             }
 

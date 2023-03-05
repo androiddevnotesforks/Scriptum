@@ -9,9 +9,6 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.Screens
-import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
-import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
-import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 
 /**
@@ -33,12 +30,31 @@ sealed class SplashOpen {
     }
 
     @Serializable
+    object Notifications : SplashOpen() {
+
+        override fun getIntents(context: Context): Array<Intent> {
+            return arrayOf(Screens.toMain(context), Screens.toNotifications(context))
+        }
+    }
+
+    @Serializable
     data class Alarm(val noteId: Long) : SplashOpen() {
+
+        override fun getIntents(context: Context): Array<Intent> {
+            return arrayOf(Screens.toMain(context), Screens.toAlarm(context, noteId))
+        }
+    }
+
+    @Serializable
+    @Deprecated("Remove after help disappear refactor")
+    object HelpDisappear : SplashOpen() {
 
         override fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
                 Screens.toMain(context),
-                AlarmActivity[context, noteId]
+                Screens.toPreference(context, PreferenceScreen.MENU),
+                Screens.toPreference(context, PreferenceScreen.HELP),
+                Screens.toHelpDisappear(context)
             )
         }
     }
@@ -60,31 +76,6 @@ sealed class SplashOpen {
                 Screens.toMain(context),
                 // TODO make it shorter
                 InstanceFactory.Note[context, false, NoteState.EXIST, type.ordinal, noteId, color.ordinal, name]
-            )
-        }
-    }
-
-    @Serializable
-    object Notifications : SplashOpen() {
-
-        override fun getIntents(context: Context): Array<Intent> {
-            return arrayOf(
-                Screens.toMain(context),
-                NotificationsActivity[context]
-            )
-        }
-    }
-
-    @Serializable
-    @Deprecated("Remove after help disappear refactor")
-    object HelpDisappear : SplashOpen() {
-
-        override fun getIntents(context: Context): Array<Intent> {
-            return arrayOf(
-                Screens.toMain(context),
-                PreferenceActivity[context, PreferenceScreen.MENU],
-                PreferenceActivity[context, PreferenceScreen.HELP],
-                InstanceFactory.Preference.HelpDisappear[context]
             )
         }
     }

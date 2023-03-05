@@ -112,7 +112,7 @@ inline fun ParentUiTest.launchMenuPreference(
     after: MenuPreferenceScreen.() -> Unit
 ) {
     before()
-    val intent = PreferenceActivity[context, PreferenceScreen.MENU]
+    val intent = Screens.toPreference(context, PreferenceScreen.MENU)
     launchActivity<PreferenceActivity>(intent)
     MenuPreferenceScreen(after)
 }
@@ -122,7 +122,7 @@ inline fun ParentUiTest.launchBackupPreference(
     after: BackupPreferenceScreen.() -> Unit
 ) {
     before()
-    val intent = PreferenceActivity[context, PreferenceScreen.BACKUP]
+    val intent = Screens.toPreference(context, PreferenceScreen.BACKUP)
     launchActivity<PreferenceActivity>(intent)
     BackupPreferenceScreen(after)
 }
@@ -132,7 +132,7 @@ inline fun ParentUiTest.launchNotesPreference(
     after: NotesPreferenceScreen.() -> Unit
 ) {
     before()
-    val intent = PreferenceActivity[context, PreferenceScreen.NOTES]
+    val intent = Screens.toPreference(context, PreferenceScreen.NOTES)
     launchActivity<PreferenceActivity>(intent)
     NotesPreferenceScreen(after)
 }
@@ -142,7 +142,7 @@ inline fun ParentUiTest.launchAlarmPreference(
     after: AlarmPreferenceScreen.() -> Unit
 ) {
     before()
-    val intent = PreferenceActivity[context, PreferenceScreen.ALARM]
+    val intent = Screens.toPreference(context, PreferenceScreen.ALARM)
     launchActivity<PreferenceActivity>(intent)
     AlarmPreferenceScreen(after)
 }
@@ -157,7 +157,7 @@ inline fun ParentUiTest.launchNotifications(
     after: NotificationsScreen.() -> Unit = {}
 ) {
     before()
-    launchActivity<NotificationsActivity>(NotificationsActivity[context])
+    launchActivity<NotificationsActivity>(Screens.toNotifications(context))
     NotificationsScreen(after, isEmpty)
 }
 

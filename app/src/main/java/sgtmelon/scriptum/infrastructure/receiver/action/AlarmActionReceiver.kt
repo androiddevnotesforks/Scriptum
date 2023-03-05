@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
-import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 
 /**
  * Receiver for open [AlarmActivity] by time.
@@ -19,7 +19,7 @@ class AlarmActionReceiver : BroadcastReceiver() {
 
         val noteId = intent.getLongExtra(Note.Key.ID, Note.Default.ID)
         if (noteId != Note.Default.ID) {
-            context.startActivity(SplashActivity.getAlarm(context, noteId))
+            context.startActivity(Screens.Splash.toAlarm(context, noteId))
         }
     }
 

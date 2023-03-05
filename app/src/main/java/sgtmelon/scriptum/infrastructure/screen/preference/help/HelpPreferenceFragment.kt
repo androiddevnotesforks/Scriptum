@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.preference.help
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
@@ -20,7 +20,7 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
     override fun setup() {
         binding.disappearButton?.setOnClickListener {
             open.attempt {
-                startActivity(InstanceFactory.Preference.HelpDisappear[it.context])
+                startActivity(Screens.toHelpDisappear(it.context))
             }
         }
     }

@@ -8,10 +8,9 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivity
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
-import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
 /**
@@ -46,7 +45,7 @@ class DevelopFragment : ParentPreferenceFragment() {
             alarmButton?.setOnClickListener { openRandomAlarm(it.context) }
 
             eternalButton?.setOnClickListener {
-                startActivity(PreferenceActivity[it.context, PreferenceScreen.SERVICE])
+                startActivity(Screens.toPreference(it.context, PreferenceScreen.SERVICE))
             }
 
             resetButton?.setOnClickListener {
@@ -64,7 +63,7 @@ class DevelopFragment : ParentPreferenceFragment() {
 
     private fun openRandomAlarm(context: Context) {
         viewModel.randomNoteId.collect(owner = this) { id ->
-            startActivity(SplashActivity.getAlarm(context, id))
+            startActivity(Screens.Splash.toAlarm(context, id))
         }
     }
 }

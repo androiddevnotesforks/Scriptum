@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.alarm
 
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.view.WindowManager
@@ -16,7 +14,6 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
-import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
@@ -309,9 +306,5 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         @RunPrivate var isFinishOnStop = true
 
         const val TIMEOUT_TIME = 20000L
-
-        operator fun get(context: Context, noteId: Long): Intent {
-            return context.intent<AlarmActivity>(Key.ID to noteId)
-        }
     }
 }

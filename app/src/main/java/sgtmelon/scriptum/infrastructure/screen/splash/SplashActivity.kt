@@ -1,29 +1,22 @@
 package sgtmelon.scriptum.infrastructure.screen.splash
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.bundle.decode
-import sgtmelon.scriptum.infrastructure.bundle.encode
-import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Splash.Key
 import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.NO_LAYOUT
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.extensions.getCrashlytics
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.test.idling.getWaitIdling
 
 /**
@@ -87,34 +80,5 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         }
 
         startActivities(open.getIntents(context = this))
-    }
-
-    companion object {
-
-        operator fun get(context: Context): Intent = context.intent<SplashActivity>()
-
-        operator fun get(context: Context, open: SplashOpen): Intent {
-            return context.intent<SplashActivity>(Key.OPEN to open.encode())
-        }
-
-        fun getAlarm(context: Context, noteId: Long): Intent {
-            val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            return get(context, SplashOpen.Alarm(noteId)).addFlags(flags)
-        }
-
-        fun getBind(context: Context, item: NoteItem): Intent {
-            return get(context, with(item) { SplashOpen.BindNote(id, type, color, name) })
-        }
-
-        fun getNotification(context: Context): Intent = get(context, SplashOpen.Notifications)
-
-        @Deprecated("Remove after help disappear refactor")
-        fun getHelpDisappear(context: Context): Intent = get(context, SplashOpen.HelpDisappear)
-
-        /** This instance also used inside xml/shortcuts.xml. */
-        fun getNewNote(context: Context, type: NoteType): Intent {
-            return get(context, SplashOpen.NewNote(type))
-        }
-
     }
 }

@@ -7,7 +7,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
@@ -51,18 +50,6 @@ object InstanceFactory {
                 .putExtra(IntentData.Note.Key.TYPE, type)
                 .putExtra(IntentData.Note.Key.COLOR, color)
                 .putExtra(IntentData.Note.Key.NAME, name)
-        }
-    }
-
-
-    object Preference {
-
-        @Deprecated("Remove after help disappear refactor")
-        object HelpDisappear {
-
-            operator fun get(context: Context): Intent {
-                return Intent(context, HelpDisappearActivity::class.java)
-            }
         }
     }
 }

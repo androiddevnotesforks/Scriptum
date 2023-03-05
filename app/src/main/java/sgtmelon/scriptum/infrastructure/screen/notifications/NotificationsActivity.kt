@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
-import android.content.Context
-import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
@@ -13,7 +11,6 @@ import sgtmelon.scriptum.databinding.ActivityNotificationsBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
-import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
 import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyUi
@@ -152,7 +149,4 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
 
     override fun onSnackbarDismiss() = viewModel.clearUndoStack()
 
-    companion object {
-        operator fun get(context: Context): Intent = context.intent<NotificationsActivity>()
-    }
 }
