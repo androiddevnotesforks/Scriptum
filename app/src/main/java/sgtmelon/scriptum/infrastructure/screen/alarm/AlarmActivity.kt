@@ -17,13 +17,12 @@ import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Key
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
@@ -299,7 +298,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
-        open.attempt { startActivity(InstanceFactory.Note[this, item, NoteState.EXIST]) }
+        open.attempt { startActivity(Screens.Note.toExist(context = this, item)) }
     }
 
     companion object {

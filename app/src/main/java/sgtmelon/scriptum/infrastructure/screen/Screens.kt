@@ -3,12 +3,16 @@ package sgtmelon.scriptum.infrastructure.screen
 import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.bundle.encode
 import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
+import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
@@ -50,6 +54,47 @@ object Screens {
     }
 
     fun toMain(context: Context) = context.intent<MainActivity>()
+
+    object Note {
+
+        private fun get(
+            context: Context,
+            state: NoteState,
+            type: NoteType,
+            id: Long,
+            color: Color?,
+            name: String
+        ): Intent {
+            return context.intent<NoteActivity>(
+                IntentData.Note.Key.STATE to state,
+                IntentData.Note.Key.IS_EDIT to (state == NoteState.CREATE),
+                IntentData.Note.Key.TYPE to type,
+                IntentData.Note.Key.ID to id,
+                IntentData.Note.Key.COLOR to color,
+                IntentData.Note.Key.NAME to name
+            )
+        }
+
+        fun toExist(context: Context, item: NotificationItem): Intent = with(item.note) {
+            return get(context, NoteState.EXIST, type, id, color, name)
+        }
+
+        fun toExist(context: Context, item: NoteItem): Intent = with(item) {
+            val state = if (item.isBin) NoteState.DELETE else NoteState.EXIST
+            return get(context, state, type, id, color, name)
+        }
+
+        fun toNew(context: Context, type: NoteType): Intent {
+            return get(
+                context,
+                NoteState.CREATE,
+                type,
+                IntentData.Note.Default.ID,
+                IntentData.Note.Default.COLOR,
+                IntentData.Note.Default.NAME
+            )
+        }
+    }
 
     fun toNotifications(context: Context) = context.intent<NotificationsActivity>()
 

@@ -29,10 +29,8 @@ object IntentData {
 
         object Default {
             const val IS_EDIT = false
-            const val STATE = -1
             const val ID = -1L
-            const val TYPE = -1
-            const val COLOR = -1
+            val COLOR = null
             const val NAME = ""
         }
     }

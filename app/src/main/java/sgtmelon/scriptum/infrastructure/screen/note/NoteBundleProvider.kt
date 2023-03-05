@@ -8,9 +8,9 @@ import sgtmelon.scriptum.infrastructure.converter.key.NoteTypeConverter
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Key
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
+import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.utils.extensions.getEnum
-import sgtmelon.scriptum.infrastructure.utils.extensions.putEnum
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 /**
  * Bundle data provider for [NoteActivity] screen.
@@ -28,25 +28,25 @@ class NoteBundleProvider(
     override fun getData(bundle: Bundle?) {
         if (bundle == null) return
 
+        val state = bundle.get(Key.STATE) as NoteState
         val isEdit = bundle.getBoolean(Key.IS_EDIT, Default.IS_EDIT)
-        val state = bundle.getEnum(Key.STATE, Default.STATE, stateConverter) ?: return
 
         /** Id may be equals default value, because not created note hasn't id */
         val id = bundle.getLong(Key.ID, Default.ID)
-        val type = bundle.getEnum(Key.TYPE, Default.TYPE, typeConverter) ?: return
-        val color = bundle.getEnum(Key.COLOR, Default.COLOR, colorConverter) ?: defaultColor
+        val type = bundle.get(Key.TYPE) as NoteType
+        val color = bundle.get(Key.COLOR) as? Color ?: defaultColor
         val name = bundle.getString(Key.NAME, Default.NAME) ?: Default.NAME
 
-        _init = NoteInit(isEdit, state, id, type, color, name)
+        _init = NoteInit(state, isEdit, id, type, color, name)
     }
 
     override fun saveData(outState: Bundle) {
         init?.let {
             outState.putBoolean(Key.IS_EDIT, it.isEdit)
-            outState.putEnum(Key.STATE, stateConverter, it.state)
+            outState.putSerializable(Key.STATE, it.state)
             outState.putLong(Key.ID, it.id)
-            outState.putEnum(Key.TYPE, typeConverter, it.type)
-            outState.putEnum(Key.COLOR, colorConverter, it.color)
+            outState.putSerializable(Key.TYPE, it.type)
+            outState.putSerializable(Key.COLOR, it.color)
             outState.putString(Key.NAME, it.name)
         }
     }

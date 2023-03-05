@@ -11,7 +11,7 @@ import sgtmelon.scriptum.databinding.ActivityNotificationsBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
 import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyUi
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -123,7 +123,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     }
 
     private fun openNoteScreen(item: NotificationItem) = open.attempt {
-        startActivity(InstanceFactory.Note[this, item])
+        startActivity(Screens.Note.toExist(context = this, item))
     }
 
     private fun removeNotification(p: Int) = open.attempt(withSwitch = false) {

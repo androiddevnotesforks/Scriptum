@@ -2,12 +2,9 @@ package sgtmelon.scriptum.infrastructure.factory
 
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
  * Factory for build intents and get access to them from one place.
@@ -15,20 +12,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 object InstanceFactory {
 
     object Note {
-
-        operator fun get(context: Context, item: NotificationItem): Intent {
-            with(item.note) {
-                return get(
-                    context, isEdit = false, NoteState.EXIST, type.ordinal, id, color.ordinal, name
-                )
-            }
-        }
-
-        operator fun get(context: Context, item: NoteItem, state: NoteState): Intent {
-            with(item) {
-                return get(context, isEdit = false, state, type.ordinal, id, color.ordinal, name)
-            }
-        }
 
         /**
          * If [id] and [color] have default values - it means that note will be created,

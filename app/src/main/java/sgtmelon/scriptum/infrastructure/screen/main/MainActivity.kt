@@ -14,10 +14,9 @@ import sgtmelon.scriptum.infrastructure.converter.MainPageConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.AddSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -179,7 +178,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     }
 
     private fun openNoteScreen(type: NoteType) = open.attempt {
-        startActivity(InstanceFactory.Note[this, true, NoteState.CREATE, type.ordinal])
+        startActivity(Screens.Note.toNew(context = this, type))
     }
 
     //region Fragment transaction staff

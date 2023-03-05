@@ -84,10 +84,7 @@ sealed class SplashOpen {
     data class NewNote(@SerialName("noteType") val type: NoteType) : SplashOpen() {
 
         override fun getIntents(context: Context): Array<Intent> {
-            return arrayOf(
-                Screens.toMain(context),
-                InstanceFactory.Note[context, true, NoteState.CREATE, type.ordinal]
-            )
+            return arrayOf(Screens.toMain(context), Screens.Note.toNew(context, type))
         }
     }
 }
