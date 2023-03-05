@@ -3,6 +3,7 @@ package sgtmelon.scriptum.parent.ui.tests
 import androidx.test.core.app.launchActivity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
@@ -23,7 +24,7 @@ inline fun ParentUiTest.launchMain(
     after: MainScreen.() -> Unit
 ) {
     before()
-    launchActivity<MainActivity>(MainActivity[context])
+    launchActivity<MainActivity>(Screens.toMain(context))
     MainScreen(after)
 }
 

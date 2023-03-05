@@ -8,8 +8,8 @@ import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
-import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
@@ -29,7 +29,7 @@ sealed class SplashOpen {
     @Serializable
     object Main : SplashOpen() {
 
-        override fun getIntents(context: Context): Array<Intent> = arrayOf(MainActivity[context])
+        override fun getIntents(context: Context): Array<Intent> = arrayOf(Screens.toMain(context))
     }
 
     @Serializable
@@ -37,13 +37,16 @@ sealed class SplashOpen {
 
         override fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
-                MainActivity[context],
+                Screens.toMain(context),
                 AlarmActivity[context, noteId]
             )
         }
     }
 
-    // TODO после того, как сделаешь сериализацию для noteItem можно её сюда будет передавать и спокойно юзать (сейчас ошибку выдаст)
+    /**
+     * TODO после того, как сделаешь сериализацию для noteItem можно её сюда будет передавать и
+     *      спокойно юзать (сейчас ошибку выдаст)
+     */
     @Serializable
     data class BindNote(
         val noteId: Long,
@@ -54,7 +57,7 @@ sealed class SplashOpen {
 
         override fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
-                MainActivity[context],
+                Screens.toMain(context),
                 // TODO make it shorter
                 InstanceFactory.Note[context, false, NoteState.EXIST, type.ordinal, noteId, color.ordinal, name]
             )
@@ -66,7 +69,7 @@ sealed class SplashOpen {
 
         override fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
-                MainActivity[context],
+                Screens.toMain(context),
                 NotificationsActivity[context]
             )
         }
@@ -78,7 +81,7 @@ sealed class SplashOpen {
 
         override fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
-                MainActivity[context],
+                Screens.toMain(context),
                 PreferenceActivity[context, PreferenceScreen.MENU],
                 PreferenceActivity[context, PreferenceScreen.HELP],
                 InstanceFactory.Preference.HelpDisappear[context]
@@ -91,7 +94,7 @@ sealed class SplashOpen {
 
         override fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
-                MainActivity[context],
+                Screens.toMain(context),
                 InstanceFactory.Note[context, true, NoteState.CREATE, type.ordinal]
             )
         }
