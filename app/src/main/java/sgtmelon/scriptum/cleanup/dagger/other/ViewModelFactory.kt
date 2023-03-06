@@ -160,10 +160,12 @@ object ViewModelFactory {
 
     object NoteScreen {
 
-        class Note : ViewModelProvider.Factory {
+        class Note(
+            private val preferencesRepo: PreferencesRepo
+        ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NoteViewModelImpl::class) {
-                    NoteViewModelImpl()
+                    NoteViewModelImpl(preferencesRepo)
                 }
             }
         }
@@ -186,7 +188,8 @@ object ViewModelFactory {
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
             private val getRankDialogNames: GetRankDialogNamesUseCase,
-            private val getHistoryResult: GetHistoryResultUseCase
+            private val getHistoryResult: GetHistoryResultUseCase,
+            private val preferencesRepo: PreferencesRepo
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModelImpl::class) {
@@ -194,7 +197,8 @@ object ViewModelFactory {
                         colorConverter, init, history, createNote, getNote, cacheNote,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
                         setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames, getHistoryResult
+                        getRankId, getRankDialogNames, getHistoryResult,
+                        preferencesRepo
                     )
                 }
             }
@@ -220,7 +224,8 @@ object ViewModelFactory {
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
             private val getRankDialogNames: GetRankDialogNamesUseCase,
-            private val getHistoryResult: GetHistoryResultUseCase
+            private val getHistoryResult: GetHistoryResultUseCase,
+            private val preferencesRepo: PreferencesRepo
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
@@ -229,7 +234,8 @@ object ViewModelFactory {
                         saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
                         updateVisible, updateCheck,
                         setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames, getHistoryResult
+                        getRankId, getRankDialogNames, getHistoryResult,
+                        preferencesRepo
                     )
                 }
             }

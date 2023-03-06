@@ -72,7 +72,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     abstract val appBar: IncToolbarNoteBinding?
     abstract val panelBar: IncNotePanelBinding?
 
-    private val animation by lazy { with(connector.init) { ParentNoteAnimation(isEdit, state) } }
+    private val animation by lazy {
+        with(viewModel) { ParentNoteAnimation(noteState.value, isEdit.value) }
+    }
 
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
@@ -108,7 +110,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     @CallSuper open fun setupToolbar(context: Context, toolbar: Toolbar?) {
-        val color = connector.init.color
+        val color = viewModel.color.value ?: return
 
         val colorIndicator = appBar?.indicator?.colorView
         tintToolbar = TintNoteToolbar(context, activity?.window, toolbar, colorIndicator, color)
@@ -122,7 +124,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         toolbar?.setNavigationOnClickListener(toolbarBackListener)
 
         /** Show cancel button (for undo all changes) only if note exists and in edit mode. */
-        val isCancel = with(connector.init) { state != NoteState.CREATE && isEdit }
+        val isCancel = with(viewModel) { noteState.value != NoteState.CREATE && isEditMode }
         navigationIcon?.setDrawable(isCancel, needAnim = false)
 
         appBar?.content?.scrollView?.setOnTouchSelectionListener(appBar?.content?.nameEnter)
@@ -260,8 +262,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         super.setupObservers()
 
         observeWithHistoryDisable(viewModel.isDataReady) { observeDataReady(it) }
-        observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
         observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
+        observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
         observeWithHistoryDisable(viewModel.id) { connector.init.id = it }
         observeWithHistoryDisable(viewModel.color) { observeColor(connector.init.color, it) }
         observeWithHistoryDisable(viewModel.rankDialogItems) { rankDialog.itemArray = it }
@@ -285,13 +287,35 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         invalidateToolbar()
     }
 
+    @CallSuper open fun observeState(previousState: NoteState, state: NoteState) {
+        connector.init.state = state
+
+        val isEdit = viewModel.isEditMode
+
+        invalidatePanelState(isEdit)
+
+        /**
+         * If [NoteState.EXIST] and in isEdit mode - that means note was created [NoteState.CREATE]
+         * and saved without changing edit mode. This may happens if auto save is on.
+         *
+         * And that's why need change icon from ARROW to CANCEL.
+         *
+         * Need check [previousState], because screen may be rotated and in this case all
+         * observe staff will be called (it comes to animation false call). Need to determinate
+         * case when [state] really was changed.
+         */
+        if (previousState == NoteState.CREATE && state == NoteState.EXIST && isEdit) {
+            navigationIcon?.setDrawable(isEnterIcon = true, needAnim = true)
+        }
+    }
+
     @CallSuper open fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
         connector.init.isEdit = isEdit
         noteSave.changeAutoSaveWork(isEdit)
 
         if (isEdit) {
             /** If note was just created and data not filled. */
-            if (connector.init.state == NoteState.CREATE && isContentEmpty()) {
+            if (viewModel.noteState.value == NoteState.CREATE && isContentEmpty()) {
                 /** Focus on name enter if it's empty, otherwise (if filled) [focusOnEnter]. */
                 appBar?.content?.nameEnter?.let {
                     if (it.text.isEmpty()) it.requestFocusWithCursor(binding) else focusOnEnter()
@@ -318,32 +342,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper open fun observeState(previousState: NoteState, state: NoteState) {
-        connector.init.state = state
-
-        val isEdit = connector.init.isEdit
-
-        invalidatePanelState(isEdit)
-
-        /**
-         * If [NoteState.EXIST] and in isEdit mode - that means note was created [NoteState.CREATE]
-         * and saved without changing edit mode. This may happens if auto save is on.
-         *
-         * And that's why need change icon from ARROW to CANCEL.
-         *
-         * Need check [previousState], because screen may be rotated and in this case all
-         * observe staff will be called (it comes to animation false call). Need to determinate
-         * case when [state] really was changed.
-         */
-        if (previousState == NoteState.CREATE && state == NoteState.EXIST && isEdit) {
-            navigationIcon?.setDrawable(isEnterIcon = true, needAnim = true)
-        }
-    }
-
-    @CallSuper open fun observeColor(previousColor: Color, color: Color) {
+    @CallSuper open fun observeColor(previousColor: Color?, color: Color) {
         connector.init.color = color
         connector.updateHolder(color)
-        tintToolbar?.setColorFrom(previousColor)?.startTint(color)
+
+        tintToolbar?.setColorFrom(color = previousColor ?: viewModel.defaultColor)?.startTint(color)
     }
 
     @CallSuper open fun observeNoteItem(item: N) {
@@ -379,7 +382,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     @CallSuper open fun invalidateToolbar() {
         val isDataReady = viewModel.isDataReady.value ?: return
-        val isEdit = connector.init.isEdit
+        val isEdit = viewModel.isEditMode
 
         appBar?.content?.run {
             /**
@@ -412,7 +415,8 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     @CallSuper open fun invalidatePanelState(isEdit: Boolean) {
-        animation.startPanelFade(panelBar, isEdit, connector.init.state)
+        val state = viewModel.noteState.value ?: return
+        animation.startPanelFade(panelBar, isEdit, state)
     }
 
     @CallSuper open fun invalidatePanelData(item: N) {

@@ -178,8 +178,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideNoteViewModel(owner: ViewModelStoreOwner): NoteViewModel {
-        val factory = ViewModelFactory.NoteScreen.Note()
+    fun provideNoteViewModel(
+        owner: ViewModelStoreOwner,
+        preferencesRepo: PreferencesRepo
+    ): NoteViewModel {
+        val factory = ViewModelFactory.NoteScreen.Note(preferencesRepo)
         return ViewModelProvider(owner, factory)[NoteViewModelImpl::class.java]
     }
 
@@ -204,13 +207,15 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
-        getHistoryResult: GetHistoryResultUseCase
+        getHistoryResult: GetHistoryResultUseCase,
+        preferencesRepo: PreferencesRepo
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             init, history, colorConverter, createNote, getNote, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             setNotification, deleteNotification, getNotificationDateList,
-            getRankId, getRankDialogNames, getHistoryResult
+            getRankId, getRankDialogNames, getHistoryResult,
+            preferencesRepo
         )
 
         return ViewModelProvider(owner, factory)[TextNoteViewModelImpl::class.java]
@@ -239,14 +244,16 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
-        getHistoryResult: GetHistoryResultUseCase
+        getHistoryResult: GetHistoryResultUseCase,
+        preferencesRepo: PreferencesRepo
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             init, history, colorConverter, createNote, getNote, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList,
-            getRankId, getRankDialogNames, getHistoryResult
+            getRankId, getRankDialogNames, getHistoryResult,
+            preferencesRepo
         )
 
         return ViewModelProvider(owner, factory)[RollNoteViewModelImpl::class.java]

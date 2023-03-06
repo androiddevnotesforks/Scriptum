@@ -61,7 +61,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelBinding? get() = binding?.panel
 
-    private val animation by lazy { RollNoteAnimation(connector.init.isEdit) }
+    private val animation by lazy { RollNoteAnimation(viewModel.isEditMode) }
     private val listAnimation = ShowListAnimation()
 
     private val touchHelper = DragAndSwipeTouchHelper(callback = this)
@@ -266,14 +266,14 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         visibleMenuItem?.isEnabled = it
     }
 
-    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
-        super.observeEdit(previousEdit, isEdit)
-        adapter.updateEdit(isEdit)
-    }
-
     override fun observeState(previousState: NoteState, state: NoteState) {
         super.observeState(previousState, state)
         adapter.updateState(state)
+    }
+
+    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
+        super.observeEdit(previousEdit, isEdit)
+        adapter.updateEdit(isEdit)
     }
 
     override fun observeNoteItem(item: NoteItem.Roll) {

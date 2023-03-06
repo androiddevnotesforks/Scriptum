@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.splash
 import android.content.Context
 import android.content.Intent
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.Screens

@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.bundle.encode
 import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
+import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -65,14 +66,9 @@ object Screens {
             color: Color?,
             name: String
         ): Intent {
-            return context.intent<NoteActivity>(
-                IntentData.Note.Key.STATE to state,
-                IntentData.Note.Key.IS_EDIT to (state == NoteState.CREATE),
-                IntentData.Note.Key.TYPE to type,
-                IntentData.Note.Key.ID to id,
-                IntentData.Note.Key.COLOR to color,
-                IntentData.Note.Key.NAME to name
-            )
+            val isEdit = state == NoteState.CREATE
+            val init = NoteInit(state, isEdit, id, type, color, name)
+            return context.intent<NoteActivity>(IntentData.Note.Key.INIT to init.encode())
         }
 
         fun toExist(context: Context, item: NotificationItem): Intent = with(item.note) {

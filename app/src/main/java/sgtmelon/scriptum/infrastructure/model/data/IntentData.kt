@@ -19,6 +19,8 @@ object IntentData {
 
         object Key {
             private const val PREFIX = "INTENT_NOTE"
+            const val INIT = "${PREFIX}_INIT"
+
             const val IS_EDIT = "${PREFIX}_IS_EDIT"
             const val STATE = "${PREFIX}_STATE"
             const val ID = "${PREFIX}_ID"
