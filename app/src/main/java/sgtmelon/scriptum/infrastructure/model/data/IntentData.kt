@@ -20,19 +20,11 @@ object IntentData {
         object Key {
             private const val PREFIX = "INTENT_NOTE"
             const val INIT = "${PREFIX}_INIT"
-
-            const val IS_EDIT = "${PREFIX}_IS_EDIT"
-            const val STATE = "${PREFIX}_STATE"
             const val ID = "${PREFIX}_ID"
-            const val TYPE = "${PREFIX}_TYPE"
-            const val COLOR = "${PREFIX}_COLOR"
-            const val NAME = "${PREFIX}_NAME"
         }
 
         object Default {
-            const val IS_EDIT = false
             const val ID = -1L
-            val COLOR = null
             const val NAME = ""
         }
     }

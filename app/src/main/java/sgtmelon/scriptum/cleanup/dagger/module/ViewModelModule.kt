@@ -91,11 +91,23 @@ import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceVie
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModel
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 @Module
 class ViewModelModule {
+
+    @Provides
+    @ActivityScope
+    fun provideSplashViewModel(
+        owner: ViewModelStoreOwner,
+        preferencesRepo: PreferencesRepo
+    ): SplashViewModel {
+        val factory = ViewModelFactory.Splash(preferencesRepo)
+        return ViewModelProvider(owner, factory)[SplashViewModelImpl::class.java]
+    }
 
     @Provides
     @ActivityScope
@@ -112,8 +124,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideMainViewModel(owner: ViewModelStoreOwner): MainViewModel {
-        val factory = ViewModelFactory.MainScreen.Main()
+    fun provideMainViewModel(
+        owner: ViewModelStoreOwner,
+        preferencesRepo: PreferencesRepo
+    ): MainViewModel {
+        val factory = ViewModelFactory.MainScreen.Main(preferencesRepo)
         return ViewModelProvider(owner, factory)[MainViewModelImpl::class.java]
     }
 
@@ -178,11 +193,8 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideNoteViewModel(
-        owner: ViewModelStoreOwner,
-        preferencesRepo: PreferencesRepo
-    ): NoteViewModel {
-        val factory = ViewModelFactory.NoteScreen.Note(preferencesRepo)
+    fun provideNoteViewModel(owner: ViewModelStoreOwner): NoteViewModel {
+        val factory = ViewModelFactory.NoteScreen.Note()
         return ViewModelProvider(owner, factory)[NoteViewModelImpl::class.java]
     }
 
@@ -207,15 +219,13 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
-        getHistoryResult: GetHistoryResultUseCase,
-        preferencesRepo: PreferencesRepo
+        getHistoryResult: GetHistoryResultUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
             init, history, colorConverter, createNote, getNote, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             setNotification, deleteNotification, getNotificationDateList,
-            getRankId, getRankDialogNames, getHistoryResult,
-            preferencesRepo
+            getRankId, getRankDialogNames, getHistoryResult
         )
 
         return ViewModelProvider(owner, factory)[TextNoteViewModelImpl::class.java]
@@ -244,16 +254,14 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationsDateListUseCase,
         getRankId: GetRankIdUseCase,
         getRankDialogNames: GetRankDialogNamesUseCase,
-        getHistoryResult: GetHistoryResultUseCase,
-        preferencesRepo: PreferencesRepo
+        getHistoryResult: GetHistoryResultUseCase
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
             init, history, colorConverter, createNote, getNote, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList,
-            getRankId, getRankDialogNames, getHistoryResult,
-            preferencesRepo
+            getRankId, getRankDialogNames, getHistoryResult
         )
 
         return ViewModelProvider(owner, factory)[RollNoteViewModelImpl::class.java]

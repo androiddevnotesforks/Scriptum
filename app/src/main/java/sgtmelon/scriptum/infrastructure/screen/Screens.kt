@@ -63,7 +63,7 @@ object Screens {
             state: NoteState,
             type: NoteType,
             id: Long,
-            color: Color?,
+            color: Color,
             name: String
         ): Intent {
             val isEdit = state == NoteState.CREATE
@@ -94,13 +94,13 @@ object Screens {
             return get(context, NoteState.EXIST, type, id, color, name)
         }
 
-        fun toNew(context: Context, type: NoteType): Intent {
+        fun toNew(context: Context, type: NoteType, defaultColor: Color): Intent {
             return get(
                 context,
                 NoteState.CREATE,
                 type,
                 IntentData.Note.Default.ID,
-                IntentData.Note.Default.COLOR,
+                defaultColor,
                 IntentData.Note.Default.NAME
             )
         }

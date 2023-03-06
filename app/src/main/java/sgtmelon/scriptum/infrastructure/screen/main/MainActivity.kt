@@ -178,7 +178,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     }
 
     private fun openNoteScreen(type: NoteType) = open.attempt {
-        startActivity(Screens.Note.toNew(context = this, type))
+        startActivity(Screens.Note.toNew(context = this, type, viewModel.defaultColor))
     }
 
     //region Fragment transaction staff

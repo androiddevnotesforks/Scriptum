@@ -17,7 +17,6 @@ import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
-import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
@@ -62,12 +61,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     private val getNotificationsDateList: GetNotificationsDateListUseCase,
     private val getRankId: GetRankIdUseCase,
     private val getRankDialogNames: GetRankDialogNamesUseCase,
-    private val getHistoryResult: GetHistoryResultUseCase,
-    private val preferencesRepo: PreferencesRepo
+    private val getHistoryResult: GetHistoryResultUseCase
 ) : ViewModel(),
     ParentNoteViewModel<N> {
-
-    override val defaultColor: Color get() = preferencesRepo.defaultColor
 
     override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -77,9 +73,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     override val id: MutableLiveData<Long> = MutableLiveData(init.id)
 
-    override val color: MutableLiveData<Color> = MutableLiveData(
-        init.color ?: preferencesRepo.defaultColor
-    )
+    override val color: MutableLiveData<Color> = MutableLiveData(init.color)
 
     /** App doesn't have any categories (ranks) if size == 1. */
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()

@@ -59,7 +59,7 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         /** Means this activity was rotated or something like that, and need to check cache. */
         val checkCache = savedInstanceState != null
 
-        updateHolder(color = init.color ?: viewModel.defaultColor)
+        updateHolder(init.color)
         showFragment(init.type, checkCache)
     }
 

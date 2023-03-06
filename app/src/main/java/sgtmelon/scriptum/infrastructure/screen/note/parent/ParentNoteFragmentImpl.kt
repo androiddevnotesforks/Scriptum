@@ -342,11 +342,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper open fun observeColor(previousColor: Color?, color: Color) {
+    @CallSuper open fun observeColor(previousColor: Color, color: Color) {
         connector.init.color = color
         connector.updateHolder(color)
 
-        tintToolbar?.setColorFrom(color = previousColor ?: viewModel.defaultColor)?.startTint(color)
+        tintToolbar?.setColorFrom(previousColor)?.startTint(color)
     }
 
     @CallSuper open fun observeNoteItem(item: N) {

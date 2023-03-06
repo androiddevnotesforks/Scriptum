@@ -19,18 +19,16 @@ import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 @Serializable
 sealed class SplashOpen {
 
-    abstract fun getIntents(context: Context): Array<Intent>
-
     @Serializable
     object Main : SplashOpen() {
 
-        override fun getIntents(context: Context): Array<Intent> = arrayOf(Screens.toMain(context))
+        fun getIntent(context: Context): Intent = Screens.toMain(context)
     }
 
     @Serializable
     object Notifications : SplashOpen() {
 
-        override fun getIntents(context: Context): Array<Intent> {
+        fun getIntents(context: Context): Array<Intent> {
             return arrayOf(Screens.toMain(context), Screens.toNotifications(context))
         }
     }
@@ -38,7 +36,7 @@ sealed class SplashOpen {
     @Serializable
     data class Alarm(val noteId: Long) : SplashOpen() {
 
-        override fun getIntents(context: Context): Array<Intent> {
+        fun getIntents(context: Context): Array<Intent> {
             return arrayOf(Screens.toMain(context), Screens.toAlarm(context, noteId))
         }
     }
@@ -47,7 +45,7 @@ sealed class SplashOpen {
     @Deprecated("Remove after help disappear refactor")
     object HelpDisappear : SplashOpen() {
 
-        override fun getIntents(context: Context): Array<Intent> {
+        fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
                 Screens.toMain(context),
                 Screens.toPreference(context, PreferenceScreen.MENU),
@@ -69,7 +67,7 @@ sealed class SplashOpen {
         val name: String
     ) : SplashOpen() {
 
-        override fun getIntents(context: Context): Array<Intent> {
+        fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
                 Screens.toMain(context),
                 Screens.Note.toExist(context, type, id, color, name)
@@ -80,8 +78,8 @@ sealed class SplashOpen {
     @Serializable
     data class NewNote(@SerialName("noteType") val type: NoteType) : SplashOpen() {
 
-        override fun getIntents(context: Context): Array<Intent> {
-            return arrayOf(Screens.toMain(context), Screens.Note.toNew(context, type))
+        fun getIntents(context: Context, defaultColor: Color): Array<Intent> {
+            return arrayOf(Screens.toMain(context), Screens.Note.toNew(context, type, defaultColor))
         }
     }
 }

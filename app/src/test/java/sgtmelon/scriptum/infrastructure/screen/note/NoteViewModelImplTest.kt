@@ -12,10 +12,6 @@ class NoteViewModelImplTest : ParentTest() {
 
     private val viewModel by lazy { NoteViewModelImpl() }
 
-    @Test fun getDefaultColor() {
-        TODO()
-    }
-
     @Test fun `convertType from text`() {
         assertEquals(viewModel.convertType(NoteType.TEXT), NoteType.ROLL)
     }

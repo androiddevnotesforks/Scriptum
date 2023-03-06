@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.splash
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
+import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -18,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.NO_LAYOUT
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.extensions.getCrashlytics
 import sgtmelon.test.idling.getWaitIdling
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen as Open
 
 /**
  * Start screen of application.
@@ -26,6 +28,8 @@ import sgtmelon.test.idling.getWaitIdling
 class SplashActivity : ThemeActivity<ViewDataBinding>() {
 
     override val layoutId: Int = NO_LAYOUT
+
+    @Inject lateinit var viewModel: SplashViewModel
 
     override val statusBar = WindowUiKeys.StatusBar.Transparent
     override val navigation = WindowUiKeys.Navigation.Transparent
@@ -72,13 +76,21 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     }
 
     private fun chooseOpenScreen() = beforeFinish {
-        val open = openFrom.value?.decode<SplashOpen>() ?: SplashOpen.Main
+        val open = openFrom.value?.decode<Open>() ?: Open.Main
 
         /** Needed for Android (UI) tests, when we open chain of screens. */
-        if (open !is SplashOpen.Main) {
+        if (open !is Open.Main) {
             getWaitIdling().start(waitMillis = 2000)
         }
 
-        startActivities(open.getIntents(context = this))
+        val context = this
+        when(open) {
+            is Open.Main -> startActivity(open.getIntent(context))
+            is Open.Notifications -> startActivities(open.getIntents(context))
+            is Open.Alarm -> startActivities(open.getIntents(context))
+            is Open.HelpDisappear -> startActivities(open.getIntents(context))
+            is Open.BindNote -> startActivities(open.getIntents(context))
+            is Open.NewNote -> startActivities(open.getIntents(context, viewModel.defaultColor))
+        }
     }
 }

@@ -67,6 +67,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceV
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 /**
@@ -85,6 +86,14 @@ object ViewModelFactory {
 
     //endregion
 
+    class Splash(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return modelClass.create(SplashViewModelImpl::class) {
+                SplashViewModelImpl(preferencesRepo)
+            }
+        }
+    }
+
     class Theme(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(ThemeViewModelImpl::class) {
@@ -95,10 +104,12 @@ object ViewModelFactory {
 
     object MainScreen {
 
-        class Main : ViewModelProvider.Factory {
+        class Main(
+            private val preferencesRepo: PreferencesRepo
+        ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(MainViewModelImpl::class) {
-                    MainViewModelImpl()
+                    MainViewModelImpl(preferencesRepo)
                 }
             }
         }
@@ -160,12 +171,10 @@ object ViewModelFactory {
 
     object NoteScreen {
 
-        class Note(
-            private val preferencesRepo: PreferencesRepo
-        ) : ViewModelProvider.Factory {
+        class Note : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NoteViewModelImpl::class) {
-                    NoteViewModelImpl(preferencesRepo)
+                    NoteViewModelImpl()
                 }
             }
         }
@@ -188,8 +197,7 @@ object ViewModelFactory {
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
             private val getRankDialogNames: GetRankDialogNamesUseCase,
-            private val getHistoryResult: GetHistoryResultUseCase,
-            private val preferencesRepo: PreferencesRepo
+            private val getHistoryResult: GetHistoryResultUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModelImpl::class) {
@@ -197,8 +205,7 @@ object ViewModelFactory {
                         colorConverter, init, history, createNote, getNote, cacheNote,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
                         setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames, getHistoryResult,
-                        preferencesRepo
+                        getRankId, getRankDialogNames, getHistoryResult
                     )
                 }
             }
@@ -224,8 +231,7 @@ object ViewModelFactory {
             private val getNotificationDateList: GetNotificationsDateListUseCase,
             private val getRankId: GetRankIdUseCase,
             private val getRankDialogNames: GetRankDialogNamesUseCase,
-            private val getHistoryResult: GetHistoryResultUseCase,
-            private val preferencesRepo: PreferencesRepo
+            private val getHistoryResult: GetHistoryResultUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
@@ -234,8 +240,7 @@ object ViewModelFactory {
                         saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
                         updateVisible, updateCheck,
                         setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames, getHistoryResult,
-                        preferencesRepo
+                        getRankId, getRankDialogNames, getHistoryResult
                     )
                 }
             }

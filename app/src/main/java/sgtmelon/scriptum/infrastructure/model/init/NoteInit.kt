@@ -11,6 +11,6 @@ data class NoteInit(
     var isEdit: Boolean,
     var id: Long,
     var type: NoteType,
-    var color: Color?,
+    var color: Color,
     var name: String // TODO после того, как сюда будет добавлена моделька заметки, можно будет убрать
 )
