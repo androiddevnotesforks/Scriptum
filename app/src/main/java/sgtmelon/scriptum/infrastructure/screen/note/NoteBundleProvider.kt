@@ -29,6 +29,12 @@ class NoteBundleProvider(
         if (bundle == null) return
 
         val state = bundle.get(Key.STATE) as NoteState
+
+        /**
+         * TODO надо ли тут передавать isEdit? Это значение можно передать внутрь viewModel
+         *      основываясь на noteState (если новая - значит редактирование), для других состояний
+         *      такого нет.
+         */
         val isEdit = bundle.getBoolean(Key.IS_EDIT, Default.IS_EDIT)
 
         /** Id may be equals default value, because not created note hasn't id */

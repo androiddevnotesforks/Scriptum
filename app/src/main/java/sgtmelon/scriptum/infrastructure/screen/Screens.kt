@@ -84,6 +84,20 @@ object Screens {
             return get(context, state, type, id, color, name)
         }
 
+        /**
+         * TODO после того, как сделаешь сериализацию для noteItem можно заменить эту функцию той,
+         *      что выше
+         */
+        fun toExist(
+            context: Context,
+            type: NoteType,
+            id: Long,
+            color: Color,
+            name: String
+        ): Intent {
+            return get(context, NoteState.EXIST, type, id, color, name)
+        }
+
         fun toNew(context: Context, type: NoteType): Intent {
             return get(
                 context,

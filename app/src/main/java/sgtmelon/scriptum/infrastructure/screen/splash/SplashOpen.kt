@@ -3,9 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.splash
 import android.content.Context
 import android.content.Intent
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.Screens
@@ -65,7 +62,7 @@ sealed class SplashOpen {
      */
     @Serializable
     data class BindNote(
-        val noteId: Long,
+        val id: Long,
         @SerialName("noteType") val type: NoteType,
         val color: Color,
         val name: String
@@ -74,8 +71,7 @@ sealed class SplashOpen {
         override fun getIntents(context: Context): Array<Intent> {
             return arrayOf(
                 Screens.toMain(context),
-                // TODO make it shorter
-                InstanceFactory.Note[context, false, NoteState.EXIST, type.ordinal, noteId, color.ordinal, name]
+                Screens.Note.toExist(context, type, id, color, name)
             )
         }
     }
