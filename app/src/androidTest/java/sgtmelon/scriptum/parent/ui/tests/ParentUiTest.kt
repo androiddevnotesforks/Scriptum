@@ -151,6 +151,7 @@ abstract class ParentUiTest : ParentTest() {
         SplashScreen(after)
     }
 
+    @Deprecated("Replace with launchMain")
     inline fun launchSplash(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         launchSplash(before, Screens.Splash.toMain(context), after)
     }
