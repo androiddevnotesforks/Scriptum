@@ -9,7 +9,6 @@ import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
@@ -20,7 +19,6 @@ import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
  * Class providing access to screen intents.
@@ -61,13 +59,10 @@ object Screens {
         private fun get(
             context: Context,
             state: NoteState,
-            type: NoteType,
-            id: Long,
-            color: Color,
-            name: String
+            item: NoteItem
         ): Intent {
             val isEdit = state == NoteState.CREATE
-            val init = NoteInit(state, isEdit, id, type, color, name)
+            val init = NoteInit(state, isEdit, item)
             return context.intent<NoteActivity>(IntentData.Note.Key.INIT to init.encode())
         }
 
@@ -77,18 +72,11 @@ object Screens {
 
         fun toExist(context: Context, item: NoteItem): Intent = with(item) {
             val state = if (item.isBin) NoteState.DELETE else NoteState.EXIST
-            return get(context, state, type, id, color, name)
+            return get(context, state, item)
         }
 
-        fun toNew(context: Context, type: NoteType, defaultColor: Color): Intent {
-            return get(
-                context,
-                NoteState.CREATE,
-                type,
-                IntentData.Note.Default.ID,
-                defaultColor,
-                IntentData.Note.Default.NAME
-            )
+        fun toNew(context: Context, item: NoteItem): Intent {
+            return get(context, NoteState.CREATE, item)
         }
     }
 

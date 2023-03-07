@@ -17,6 +17,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
@@ -28,6 +29,14 @@ class NoteUseCaseModule {
     @Provides
     fun provideGetCopyTextUseCase(repository: NoteRepo): GetCopyTextUseCase {
         return GetCopyTextUseCase(repository)
+    }
+
+    @Provides
+    fun provideCreateNoteByTypeUseCase(
+        createText: CreateTextNoteUseCase,
+        createRoll: CreateRollNoteUseCase
+    ): CreateNoteUseCase {
+        return CreateNoteUseCase(createText, createRoll)
     }
 
     @Provides

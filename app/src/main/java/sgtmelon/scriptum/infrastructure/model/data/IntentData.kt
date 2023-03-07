@@ -25,7 +25,6 @@ object IntentData {
 
         object Default {
             const val ID = -1L
-            const val NAME = ""
         }
     }
 

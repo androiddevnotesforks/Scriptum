@@ -28,12 +28,11 @@ import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTypeNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -48,8 +47,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     private val colorConverter: ColorConverter,
     init: NoteInit,
     protected val history: NoteHistory,
-    createNote: CreateNoteUseCase<N>,
-    getNote: GetNoteUseCase<N>,
+    createNote: CreateTypeNoteUseCase<N>, // TODO remove (refactor use case)?
+    getNote: GetNoteUseCase<N>, // TODO remove (also check useCase)?
     protected val cacheNote: CacheNoteUseCase<N>,
     private val convertNote: ConvertNoteUseCase,
     private val updateNote: UpdateNoteUseCase,
@@ -65,15 +64,14 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
+    @Deprecated("Remove it, everything is ready")
     override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.state)
 
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
 
-    override val id: MutableLiveData<Long> = MutableLiveData(init.id)
-
-    override val color: MutableLiveData<Color> = MutableLiveData(init.color)
+    override val color: MutableLiveData<Color> = MutableLiveData(init.noteItem.color)
 
     /** App doesn't have any categories (ranks) if size == 1. */
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
@@ -89,17 +87,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         viewModelScope.launch {
             runBack { rankDialogItems.postValue(getRankDialogNames()) }
 
-            val id = init.id
-            val value = runBack { if (id == Default.ID) createNote() else getNote(id) }
-            if (value != null) {
-                noteItem.postValue(value)
-                cacheNote(value)
-
-                isDataReady.postValue(true)
-                initAfterDataReady(value)
-            } else {
-                // TODO #ERROR_HANDLER report about null item and close screen
-            }
+            val item = init.noteItem as N // TODO think about it
+            noteItem.postValue(item)
+            cacheNote(item)
+            isDataReady.postValue(true)
+            initAfterDataReady(item)
         }
     }
 

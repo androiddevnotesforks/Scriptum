@@ -27,7 +27,6 @@ import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
-import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -241,7 +240,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         timeDialog.onDismiss { open.clear() }
 
         convertDialog.onPositiveClick {
-            viewModel.convert().collect(owner = this) { connector.convertNote() }
+            viewModel.convert().collect(owner = this) { connector.convertNote(it) }
         }
         convertDialog.onDismiss { open.clear() }
     }
@@ -264,7 +263,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         observeWithHistoryDisable(viewModel.isDataReady) { observeDataReady(it) }
         observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
         observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
-        observeWithHistoryDisable(viewModel.id) { connector.init.id = it }
         observeWithHistoryDisable(viewModel.color) { observeColor(connector.init.color, it) }
         observeWithHistoryDisable(viewModel.rankDialogItems) { rankDialog.itemArray = it }
         observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
@@ -282,6 +280,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         data.observe(this) { viewModel.disableHistoryChanges { onCall(it) } }
     }
 
+    @Deprecated("remove it after remove isDataReady")
     @CallSuper open fun observeDataReady(it: Boolean) {
         open.isBlocked = !it
         invalidateToolbar()
@@ -358,14 +357,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
              * notes during edit mode (e.g. click unbind in status bar during edit mode).
              */
             system.broadcast.sendNotifyNotesBind()
-        }
-
-        /**
-         * Update note name inside [NoteInit] only in read mode, because it's mean for sure
-         * note was saved.
-         */
-        if (viewModel.isReadMode) {
-            connector.init.name = item.name
         }
     }
 

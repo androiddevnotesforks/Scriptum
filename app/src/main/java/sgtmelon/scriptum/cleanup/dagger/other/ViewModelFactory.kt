@@ -37,6 +37,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
@@ -59,7 +60,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
@@ -86,10 +86,10 @@ object ViewModelFactory {
 
     //endregion
 
-    class Splash(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
+    class Splash(private val createNote: CreateNoteUseCase) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(SplashViewModelImpl::class) {
-                SplashViewModelImpl(preferencesRepo)
+                SplashViewModelImpl(createNote)
             }
         }
     }
@@ -104,12 +104,10 @@ object ViewModelFactory {
 
     object MainScreen {
 
-        class Main(
-            private val preferencesRepo: PreferencesRepo
-        ) : ViewModelProvider.Factory {
+        class Main(private val createNote: CreateNoteUseCase) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(MainViewModelImpl::class) {
-                    MainViewModelImpl(preferencesRepo)
+                    MainViewModelImpl(createNote)
                 }
             }
         }
@@ -170,14 +168,6 @@ object ViewModelFactory {
     }
 
     object NoteScreen {
-
-        class Note : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(NoteViewModelImpl::class) {
-                    NoteViewModelImpl()
-                }
-            }
-        }
 
         class TextNote(
             private val init: NoteInit,

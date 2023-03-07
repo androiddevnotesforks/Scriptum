@@ -19,6 +19,7 @@ interface ParentNoteViewModel<N : NoteItem> :
     NoteHistoryEnableControl,
     HistoryTextWatcher.Callback {
 
+    @Deprecated("remove it")
     val isDataReady: LiveData<Boolean>
 
     val noteState: LiveData<NoteState>
@@ -27,8 +28,6 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     val isEditMode: Boolean get() = isEdit.value.isTrue()
     val isReadMode: Boolean get() = isEdit.value.isFalse()
-
-    val id: LiveData<Long>
 
     val color: LiveData<Color>
 

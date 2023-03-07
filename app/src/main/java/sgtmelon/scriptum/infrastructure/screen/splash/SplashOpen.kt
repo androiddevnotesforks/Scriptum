@@ -5,7 +5,6 @@ import android.content.Intent
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
@@ -67,8 +66,8 @@ sealed class SplashOpen {
     @Serializable
     data class NewNote(@SerialName("noteType") val type: NoteType) : SplashOpen() {
 
-        fun getIntents(context: Context, defaultColor: Color): Array<Intent> {
-            return arrayOf(Screens.toMain(context), Screens.Note.toNew(context, type, defaultColor))
+        fun getIntents(context: Context, item: NoteItem): Array<Intent> {
+            return arrayOf(Screens.toMain(context), Screens.Note.toNew(context, item))
         }
     }
 }

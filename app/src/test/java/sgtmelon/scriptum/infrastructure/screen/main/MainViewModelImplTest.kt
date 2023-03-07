@@ -15,7 +15,7 @@ import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
  */
 class MainViewModelImplTest : ParentLiveDataTest() {
 
-    private val viewModel by lazy { MainViewModelImpl() }
+    private val viewModel by lazy { MainViewModelImpl(TODO()) }
 
     @Before override fun setUp() {
         super.setUp()
@@ -23,6 +23,10 @@ class MainViewModelImplTest : ParentLiveDataTest() {
         assertNull(viewModel.previousPage)
         assertEquals(viewModel.currentPage.getOrAwaitValue(), MainPage.NOTES)
         assertTrue(viewModel.isFabPage)
+    }
+
+    @Test fun todo() {
+        TODO()
     }
 
     @Test fun changePage() {

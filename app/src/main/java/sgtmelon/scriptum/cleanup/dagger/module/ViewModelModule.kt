@@ -46,6 +46,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
@@ -73,8 +74,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
@@ -103,9 +102,9 @@ class ViewModelModule {
     @ActivityScope
     fun provideSplashViewModel(
         owner: ViewModelStoreOwner,
-        preferencesRepo: PreferencesRepo
+        createNote: CreateNoteUseCase
     ): SplashViewModel {
-        val factory = ViewModelFactory.Splash(preferencesRepo)
+        val factory = ViewModelFactory.Splash(createNote)
         return ViewModelProvider(owner, factory)[SplashViewModelImpl::class.java]
     }
 
@@ -126,9 +125,9 @@ class ViewModelModule {
     @ActivityScope
     fun provideMainViewModel(
         owner: ViewModelStoreOwner,
-        preferencesRepo: PreferencesRepo
+        createNote: CreateNoteUseCase
     ): MainViewModel {
-        val factory = ViewModelFactory.MainScreen.Main(preferencesRepo)
+        val factory = ViewModelFactory.MainScreen.Main(createNote)
         return ViewModelProvider(owner, factory)[MainViewModelImpl::class.java]
     }
 
@@ -190,13 +189,6 @@ class ViewModelModule {
     //endregion
 
     //region Note
-
-    @Provides
-    @ActivityScope
-    fun provideNoteViewModel(owner: ViewModelStoreOwner): NoteViewModel {
-        val factory = ViewModelFactory.NoteScreen.Note()
-        return ViewModelProvider(owner, factory)[NoteViewModelImpl::class.java]
-    }
 
     @Provides
     @ActivityScope
