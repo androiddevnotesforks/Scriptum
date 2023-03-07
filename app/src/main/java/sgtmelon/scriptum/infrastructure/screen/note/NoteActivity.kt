@@ -9,9 +9,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
-import sgtmelon.scriptum.infrastructure.bundle.NoteBundleValue
+import sgtmelon.scriptum.infrastructure.bundle.json.BundleNoteValue
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Key
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -37,10 +36,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     @Inject lateinit var viewModel: NoteViewModel
 
-    private val _init = NoteBundleValue(Key.INIT)
-    override val bundleValues: List<BundleValue> = listOf(_init)
+    private val initBundle = BundleNoteValue()
+    override val bundleValues: List<BundleValue> = listOf(initBundle)
 
-    override val init: NoteInit get() = _init.value
+    override val init: NoteInit get() = initBundle.value
 
     private val fragments = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragments.getTextNote()

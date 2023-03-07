@@ -8,10 +8,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
-import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
-import sgtmelon.scriptum.infrastructure.bundle.decode
+import sgtmelon.scriptum.infrastructure.bundle.json.BundleSplashValue
 import sgtmelon.scriptum.infrastructure.model.data.FireData
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Splash.Key
 import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
@@ -35,7 +33,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
-    private val openFrom = BundleValueImpl<String>(Key.OPEN) // TODO default value Open.Main
+    private val openFrom = BundleSplashValue()
     override val bundleValues: List<BundleValue> = listOf(openFrom)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +74,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     }
 
     private fun chooseOpenScreen() = beforeFinish {
-        val open = openFrom.value.decode<Open>()
+        val open = openFrom.value
 
         /** Needed for Android (UI) tests, when we open chain of screens. */
         if (open !is Open.Main) {
