@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.Screens
@@ -34,7 +35,7 @@ sealed class SplashOpen {
     }
 
     @Serializable
-    data class Alarm(val noteId: Long) : SplashOpen() {
+    data class Alarm(private val noteId: Long) : SplashOpen() {
 
         fun getIntents(context: Context): Array<Intent> {
             return arrayOf(Screens.toMain(context), Screens.toAlarm(context, noteId))
@@ -55,23 +56,11 @@ sealed class SplashOpen {
         }
     }
 
-    /**
-     * TODO после того, как сделаешь сериализацию для noteItem можно её сюда будет передавать и
-     *      спокойно юзать (сейчас ошибку выдаст)
-     */
     @Serializable
-    data class BindNote(
-        val id: Long,
-        @SerialName("noteType") val type: NoteType,
-        val color: Color,
-        val name: String
-    ) : SplashOpen() {
+    data class BindNote(private val item: NoteItem) : SplashOpen() {
 
         fun getIntents(context: Context): Array<Intent> {
-            return arrayOf(
-                Screens.toMain(context),
-                Screens.Note.toExist(context, type, id, color, name)
-            )
+            return arrayOf(Screens.toMain(context), Screens.Note.toExist(context, item))
         }
     }
 

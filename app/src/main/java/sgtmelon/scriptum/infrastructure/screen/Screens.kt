@@ -46,7 +46,7 @@ object Screens {
         fun toHelpDisappear(context: Context) = get(context, SplashOpen.HelpDisappear)
 
         fun toBindNote(context: Context, item: NoteItem): Intent {
-            return get(context, with(item) { SplashOpen.BindNote(id, type, color, name) })
+            return get(context, SplashOpen.BindNote(item))
         }
 
         /** This intent also used inside xml/shortcuts.xml. */
@@ -78,20 +78,6 @@ object Screens {
         fun toExist(context: Context, item: NoteItem): Intent = with(item) {
             val state = if (item.isBin) NoteState.DELETE else NoteState.EXIST
             return get(context, state, type, id, color, name)
-        }
-
-        /**
-         * TODO после того, как сделаешь сериализацию для noteItem можно заменить эту функцию той,
-         *      что выше
-         */
-        fun toExist(
-            context: Context,
-            type: NoteType,
-            id: Long,
-            color: Color,
-            name: String
-        ): Intent {
-            return get(context, NoteState.EXIST, type, id, color, name)
         }
 
         fun toNew(context: Context, type: NoteType, defaultColor: Color): Intent {
