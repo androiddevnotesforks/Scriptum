@@ -248,7 +248,7 @@ object ViewModelFactory {
     }
 
     class Alarm(
-        private val noteId: Long?,
+        private val noteId: Long,
         private val preferencesRepo: PreferencesRepo,
         private val noteRepo: NoteRepo,
         private val getMelodyList: GetMelodyListUseCase,
@@ -353,7 +353,7 @@ object ViewModelFactory {
         }
 
         class Print(
-            private val type: PrintType?,
+            private val type: PrintType,
             private val getList: GetPrintListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {

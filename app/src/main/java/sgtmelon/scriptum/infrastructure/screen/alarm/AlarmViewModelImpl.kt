@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 
 class AlarmViewModelImpl(
-    noteId: Long?,
+    noteId: Long,
     private val preferencesRepo: PreferencesRepo,
     private val noteRepo: NoteRepo,
     private val getMelodyList: GetMelodyListUseCase,
@@ -34,11 +34,7 @@ class AlarmViewModelImpl(
     override val alarmState: AlarmState get() = preferencesRepo.alarmState
 
     init {
-        if (noteId != null) {
-            viewModelScope.launchBack { fetchData(noteId) }
-        } else {
-            // TODO #ERROR_HANDLER post error (if isNull) to live data and catch it in parent activity/fragment
-        }
+        viewModelScope.launchBack { fetchData(noteId) }
     }
 
     private suspend fun fetchData(noteId: Long) {

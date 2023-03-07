@@ -285,7 +285,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideAlarmViewModel(
         owner: ViewModelStoreOwner,
-        noteId: Long?,
+        noteId: Long,
         preferencesRepo: PreferencesRepo,
         noteRepo: NoteRepo,
         getMelodyList: GetMelodyListUseCase,
@@ -388,7 +388,7 @@ class ViewModelModule {
     @ActivityScope
     fun providePrintDevelopViewModel(
         owner: ViewModelStoreOwner,
-        type: PrintType?,
+        type: PrintType,
         getList: GetPrintListUseCase
     ): PrintDevelopViewModel {
         val factory = ViewModelFactory.Develop.Print(type, getList)

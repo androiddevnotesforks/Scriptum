@@ -22,7 +22,7 @@ interface AlarmComponent {
         fun set(owner: ViewModelStoreOwner): Builder
 
         @BindsInstance
-        fun set(noteId: Long?): Builder
+        fun set(noteId: Long): Builder
 
         fun build(): AlarmComponent
     }

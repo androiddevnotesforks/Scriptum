@@ -32,11 +32,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        /** Simply finish our activity, because [inject] already done (all lateinit injected). */
-        val screen = screen.value ?: return finish()
-        setupView(screen)
-        showFragment(screen)
+        showFragment()
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -53,7 +49,9 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
         binding?.parentContainer?.setPaddingInsets(InsetsDir.LEFT, InsetsDir.TOP, InsetsDir.RIGHT)
     }
 
-    private fun setupView(screen: PreferenceScreen) {
+    override fun setupView() {
+        val screen = screen.value
+
         binding?.parentContainer?.tag = when (screen) {
             PreferenceScreen.MENU -> TestViewTag.PREF_MENU
             PreferenceScreen.BACKUP -> TestViewTag.PREF_BACKUP
@@ -69,8 +67,8 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
         }
     }
 
-    private fun showFragment(screen: PreferenceScreen) {
-        val (fragment, tag) = FragmentFactory.Preference(fm).get(screen)
+    private fun showFragment() {
+        val (fragment, tag) = FragmentFactory.Preference(fm).get(screen.value)
 
         fm.beginTransaction()
             .replace(R.id.fragment_container, fragment, tag)

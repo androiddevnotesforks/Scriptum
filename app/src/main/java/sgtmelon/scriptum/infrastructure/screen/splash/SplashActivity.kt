@@ -35,7 +35,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
-    private val openFrom = BundleValueImpl<String>(Key.OPEN)
+    private val openFrom = BundleValueImpl<String>(Key.OPEN) // TODO default value Open.Main
     override val bundleValues: List<BundleValue> = listOf(openFrom)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +76,7 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
     }
 
     private fun chooseOpenScreen() = beforeFinish {
-        val open = openFrom.value?.decode<Open>() ?: Open.Main
+        val open = openFrom.value.decode<Open>()
 
         /** Needed for Android (UI) tests, when we open chain of screens. */
         if (open !is Open.Main) {

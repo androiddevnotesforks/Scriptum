@@ -23,7 +23,7 @@ interface PrintDevelopComponent {
         fun set(owner: ViewModelStoreOwner): Builder
 
         @BindsInstance
-        fun set(type: PrintType?): Builder
+        fun set(type: PrintType): Builder
 
         fun build(): PrintDevelopComponent
     }
