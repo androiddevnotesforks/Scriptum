@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
+import androidx.annotation.CallSuper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,6 +35,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
@@ -60,18 +62,29 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
-    override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
-
     override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.state)
 
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
 
     override val color: MutableLiveData<Color> = MutableLiveData(init.noteItem.color)
 
-    /** App doesn't have any categories (ranks) if size == 1. */
-    override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
-
     override val noteItem: MutableLiveData<N> = MutableLiveData()
+
+    init {
+        /** Launch prevent "Accessing non-final property noteItem in constructor". */
+        viewModelScope.launch {
+            /** This cast is save because we choose (UI class + viewModel) rely on [NoteType]. */
+            @Suppress("UNCHECKED_CAST")
+            val item = init.noteItem as N
+
+            noteItem.postValue(item)
+            cacheNote(item)
+            afterDataInit(item)
+        }
+    }
+
+    /** If app doesn't have any categories (ranks) when array size == 1. */
+    override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
 
     override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
 
@@ -79,21 +92,11 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         get() = flowOnBack { emit(getNotificationsDateList()) }
 
     init {
-        viewModelScope.launch {
-            val item = init.noteItem as N // TODO think about it
-
-            noteItem.postValue(item)
-            cacheNote(item)
-            afterDataInit(item)
-
-            runBack { rankDialogItems.postValue(getRankDialogNames()) }
-
-            isDataReady.postValue(true)
-        }
+        viewModelScope.launchBack { rankDialogItems.postValue(getRankDialogNames()) }
     }
 
-    /** Describes initialization which must be done after [noteItem] loading. */
-    abstract suspend fun afterDataInit(item: N)
+    /** Describes initialization which must be done after [noteItem] setting up. */
+    @CallSuper open fun afterDataInit(item: N) = Unit
 
     //region Menu clicks
 

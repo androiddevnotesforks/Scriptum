@@ -260,12 +260,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupObservers() {
         super.setupObservers()
 
-        observeWithHistoryDisable(viewModel.isDataReady) { open.isBlocked = !it }
         observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
         observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
         observeWithHistoryDisable(viewModel.color) { observeColor(it) }
-        observeWithHistoryDisable(viewModel.rankDialogItems) { rankDialog.itemArray = it }
         observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
+        observeWithHistoryDisable(viewModel.rankDialogItems) { observeRankDialogItems(it) }
         observeWithHistoryDisable(viewModel.historyAvailable) { observeHistoryAvailable(it) }
     }
 
@@ -335,7 +334,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper open fun observeColor(color: Color) {
+    private fun observeColor(color: Color) {
         connector.updateHolder(color)
 
         // TODO check how will work color change, may be need update color from after animation ends
@@ -355,7 +354,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper open fun observeHistoryAvailable(available: HistoryMoveAvailable) {
+    private fun observeRankDialogItems(itemArray: Array<String>) {
+        rankDialog.itemArray = itemArray
+        invalidateRankButton()
+    }
+
+    private fun observeHistoryAvailable(available: HistoryMoveAvailable) {
         panelBar?.undoButton?.apply {
             isEnabled = available.undo
             bindBoolTint(available.undo, R.attr.clContent, R.attr.clDisable)
@@ -366,7 +370,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper open fun invalidateToolbar() {
+    private fun invalidateToolbar() {
         val item = viewModel.noteItem.value ?: return
         val isEdit = viewModel.isEditMode
 
@@ -395,19 +399,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         animation.startPanelFade(panelBar, isEdit, state)
     }
 
-    @CallSuper open fun invalidatePanelData(item: N) {
+    private fun invalidatePanelData(item: N) {
         val panelBar = panelBar ?: return
 
-        /** rankDialogItems always will be notNull, because it's loaded before [item]. */
-        val rankItems = viewModel.rankDialogItems.value
-        if (rankItems != null) {
-            val isRankEmpty = rankItems.size == 1
-
-            val trueColor = if (item.haveRank) R.attr.clAccent else R.attr.clContent
-            panelBar.rankButton.bindBoolTint(!isRankEmpty, trueColor, R.attr.clDisable)
-            panelBar.rankButton.isEnabled = !isRankEmpty
-        }
-
+        invalidateRankButton()
         invalidateSaveButton(item)
         panelBar.notificationButton.bindBoolTint(item.haveAlarm, R.attr.clAccent, R.attr.clContent)
 
@@ -419,6 +414,16 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             R.string.description_note_bind
         }
         panelBar.bindButton.contentDescription = getString(bindDescription)
+    }
+
+    private fun invalidateRankButton() {
+        val item = viewModel.noteItem.value ?: return
+        val rankItems = viewModel.rankDialogItems.value
+        val isRankEmpty = rankItems == null || rankItems.size == 1
+
+        val trueColor = if (item.haveRank) R.attr.clAccent else R.attr.clContent
+        panelBar?.rankButton?.bindBoolTint(!isRankEmpty, trueColor, R.attr.clDisable)
+        panelBar?.rankButton?.isEnabled = !isRankEmpty
     }
 
     protected fun invalidateSaveButton(item: N) {

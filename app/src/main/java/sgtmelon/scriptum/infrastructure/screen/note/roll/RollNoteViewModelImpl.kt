@@ -91,7 +91,10 @@ class RollNoteViewModelImpl(
             return value
         }
 
-    override suspend fun afterDataInit(item: NoteItem.Roll) = postNotifyItemList(item)
+    override fun afterDataInit(item: NoteItem.Roll) {
+        super.afterDataInit(item)
+        postNotifyItemList(item)
+    }
 
     /** [updateList] needed for custom updates. */
     private fun postNotifyItemList(item: NoteItem.Roll, updateList: UpdateListState? = null) {
