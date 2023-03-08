@@ -208,8 +208,6 @@ class RollNoteViewModelImpl(
 
             if (isCreate) {
                 noteState.postValue(NoteState.EXIST)
-                // TODO check: id will be updated inside init?
-                //id.postValue(item.id)
 
                 /**
                  * Need if [noteItem] isVisible changes wasn't set inside [changeVisible]

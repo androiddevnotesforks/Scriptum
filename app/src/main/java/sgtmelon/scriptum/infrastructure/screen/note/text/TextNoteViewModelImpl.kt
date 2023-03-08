@@ -100,8 +100,6 @@ class TextNoteViewModelImpl(
 
             if (isCreate) {
                 noteState.postValue(NoteState.EXIST)
-                // TODO check: id will be updated inside init?
-                //id.postValue(item.id)
             }
         }
 
