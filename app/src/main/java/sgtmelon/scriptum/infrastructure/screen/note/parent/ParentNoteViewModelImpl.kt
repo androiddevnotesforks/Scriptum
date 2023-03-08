@@ -225,12 +225,12 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         }
     }
 
-    override fun convert(): Flow<N> = flowOnBack {
+    override fun convert(): Flow<NoteItem> = flowOnBack {
         if (isEditMode) return@flowOnBack
 
         val item = noteItem.value ?: return@flowOnBack
-        convertNote(item)
-        emit(item)
+        val newNote = convertNote(item)
+        emit(newNote)
     }
 
     override fun delete(): Flow<N> = flowOnBack {

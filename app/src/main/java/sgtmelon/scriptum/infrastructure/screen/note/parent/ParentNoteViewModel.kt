@@ -94,7 +94,7 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun switchBind()
 
-    fun convert(): Flow<N>
+    fun convert(): Flow<NoteItem>
 
     fun delete(): Flow<N>
 
