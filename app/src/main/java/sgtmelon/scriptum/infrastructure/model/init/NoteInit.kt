@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 
 @Serializable
 data class NoteInit(
+    var noteItem: NoteItem,
     var state: NoteState,
-    var isEdit: Boolean,
-    var noteItem: NoteItem
+    var isEdit: Boolean
 )

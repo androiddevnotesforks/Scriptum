@@ -58,11 +58,11 @@ object Screens {
 
         private fun get(
             context: Context,
-            state: NoteState,
-            item: NoteItem
+            item: NoteItem,
+            state: NoteState
         ): Intent {
             val isEdit = state == NoteState.CREATE
-            val init = NoteInit(state, isEdit, item)
+            val init = NoteInit(item, state, isEdit)
             return context.intent<NoteActivity>(IntentData.Note.Key.INIT to init.encode())
         }
 
@@ -73,11 +73,11 @@ object Screens {
 
         fun toExist(context: Context, item: NoteItem): Intent = with(item) {
             val state = if (item.isBin) NoteState.DELETE else NoteState.EXIST
-            return get(context, state, item)
+            return get(context, item, state)
         }
 
         fun toNew(context: Context, item: NoteItem): Intent {
-            return get(context, NoteState.CREATE, item)
+            return get(context, item, NoteState.CREATE)
         }
     }
 
