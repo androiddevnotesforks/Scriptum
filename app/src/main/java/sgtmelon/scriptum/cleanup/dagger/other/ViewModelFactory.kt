@@ -74,7 +74,7 @@ object ViewModelFactory {
 
     //region Help func
 
-    private fun onNotFound() = IllegalArgumentException("ViewModel Not Found")
+    private fun onNotFound() = IllegalArgumentException("ViewModel not found")
 
     private inline fun <T> Class<T>.create(modelClass: KClass<*>, createFunc: () -> Any): T {
         return if (isAssignableFrom(modelClass.java)) createFunc() as T else throw onNotFound()

@@ -61,8 +61,6 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     IconBlockCallback {
 
-    // TODO names overlay
-
     protected val connector get() = activity as NoteConnector
 
     abstract val type: NoteType
@@ -262,10 +260,10 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupObservers() {
         super.setupObservers()
 
+        observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
         observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
         observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
         observeWithHistoryDisable(viewModel.color) { observeColor(it) }
-        observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
         observeWithHistoryDisable(viewModel.rankDialogItems) { observeRankDialogItems(it) }
         observeWithHistoryDisable(viewModel.historyAvailable) { observeHistoryAvailable(it) }
     }
@@ -279,6 +277,19 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         crossinline onCall: (T) -> Unit
     ) {
         data.observe(this) { viewModel.disableHistoryChanges { onCall(it) } }
+    }
+
+    @CallSuper open fun observeNoteItem(item: N) {
+        connector.init.noteItem = item
+        invalidatePanelData(item)
+
+        if (viewModel.noteState.value == NoteState.EXIST) {
+            /**
+             * Call it only in read mode - bad choice, because sometimes need invalidate bind
+             * notes during edit mode (e.g. click unbind in status bar during edit mode).
+             */
+            system.broadcast.sendNotifyNotesBind()
+        }
     }
 
     @CallSuper open fun observeState(previousState: NoteState, state: NoteState) {
@@ -341,19 +352,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         tintToolbar?.startTint(color)
     }
 
-    @CallSuper open fun observeNoteItem(item: N) {
-        connector.init.noteItem = item
-        invalidatePanelData(item)
-
-        if (viewModel.noteState.value == NoteState.EXIST) {
-            /**
-             * Call it only in read mode - bad choice, because sometimes need invalidate bind
-             * notes during edit mode (e.g. click unbind in status bar during edit mode).
-             */
-            system.broadcast.sendNotifyNotesBind()
-        }
-    }
-
     private fun observeRankDialogItems(itemArray: Array<String>) {
         rankDialog.itemArray = itemArray
         invalidateRankButton()
@@ -374,7 +372,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val item = viewModel.noteItem.value ?: return
         val isEdit = viewModel.isEditMode
 
-        // TODO not working after note open
         appBar?.content?.run {
             /**
              * Don't need check ready data or not. Because:

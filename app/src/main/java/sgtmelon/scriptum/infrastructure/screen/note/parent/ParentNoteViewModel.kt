@@ -19,6 +19,8 @@ interface ParentNoteViewModel<N : NoteItem> :
     NoteHistoryEnableControl,
     HistoryTextWatcher.Callback {
 
+    val noteItem: LiveData<N>
+
     val noteState: LiveData<NoteState>
 
     val isEdit: LiveData<Boolean>
@@ -27,8 +29,6 @@ interface ParentNoteViewModel<N : NoteItem> :
     val isReadMode: Boolean get() = isEdit.value.isFalse()
 
     val color: LiveData<Color>
-
-    val noteItem: LiveData<N>
 
     val rankDialogItems: LiveData<Array<String>>
 

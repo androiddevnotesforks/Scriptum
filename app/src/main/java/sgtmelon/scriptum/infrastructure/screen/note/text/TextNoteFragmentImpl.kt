@@ -84,16 +84,16 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
     //region Observable staff
 
+    override fun observeNoteItem(item: NoteItem.Text) {
+        super.observeNoteItem(item)
+        invalidateContent()
+    }
+
     override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
         super.observeEdit(previousEdit, isEdit)
 
         binding?.textEnter?.makeVisibleIf(isEdit) { makeInvisible() }
         binding?.textRead?.makeVisibleIf(!isEdit) { makeInvisible() }
-        invalidateContent()
-    }
-
-    override fun observeNoteItem(item: NoteItem.Text) {
-        super.observeNoteItem(item)
         invalidateContent()
     }
 

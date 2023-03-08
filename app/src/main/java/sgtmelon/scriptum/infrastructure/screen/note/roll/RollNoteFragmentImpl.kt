@@ -259,16 +259,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
 
-    override fun observeState(previousState: NoteState, state: NoteState) {
-        super.observeState(previousState, state)
-        adapter.updateState(state)
-    }
-
-    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
-        super.observeEdit(previousEdit, isEdit)
-        adapter.updateEdit(isEdit)
-    }
-
     override fun observeNoteItem(item: NoteItem.Roll) {
         super.observeNoteItem(item)
 
@@ -281,6 +271,16 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         /** Skip animation on first icon setup. */
         visibleIcon?.setDrawable(isVisible, needAnim = visibleIcon?.isEnterIcon != null)
+    }
+
+    override fun observeState(previousState: NoteState, state: NoteState) {
+        super.observeState(previousState, state)
+        adapter.updateState(state)
+    }
+
+    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
+        super.observeEdit(previousEdit, isEdit)
+        adapter.updateEdit(isEdit)
     }
 
     override fun invalidatePanelState(isEdit: Boolean) {

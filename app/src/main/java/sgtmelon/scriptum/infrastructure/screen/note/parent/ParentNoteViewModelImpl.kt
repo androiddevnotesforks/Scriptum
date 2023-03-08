@@ -62,26 +62,23 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
+    /** Init everything inside lazy, for post [noteItem] faster then other [MutableLiveData]s. */
+    override val noteItem: MutableLiveData<N> by lazy {
+        /** This cast is save because we chose (UI class + viewModel) rely on [NoteType]. */
+        @Suppress("UNCHECKED_CAST")
+        val item = init.noteItem as N
+
+        cacheNote(item)
+        afterDataInit(item)
+
+        return@lazy MutableLiveData(item)
+    }
+
     override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.state)
 
     override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
 
     override val color: MutableLiveData<Color> = MutableLiveData(init.noteItem.color)
-
-    override val noteItem: MutableLiveData<N> = MutableLiveData()
-
-    init {
-        /** Launch prevent "Accessing non-final property noteItem in constructor". */
-        viewModelScope.launch {
-            /** This cast is save because we choose (UI class + viewModel) rely on [NoteType]. */
-            @Suppress("UNCHECKED_CAST")
-            val item = init.noteItem as N
-
-            noteItem.postValue(item)
-            cacheNote(item)
-            afterDataInit(item)
-        }
-    }
 
     /** If app doesn't have any categories (ranks) when array size == 1. */
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
