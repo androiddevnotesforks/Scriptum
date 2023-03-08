@@ -61,6 +61,8 @@ import sgtmelon.test.idling.getIdling
 abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     IconBlockCallback {
 
+    // TODO names overlay
+
     protected val connector get() = activity as NoteConnector
 
     abstract val type: NoteType
@@ -336,8 +338,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     private fun observeColor(color: Color) {
         connector.updateHolder(color)
-
-        // TODO check how will work color change, may be need update color from after animation ends
         tintToolbar?.startTint(color)
     }
 

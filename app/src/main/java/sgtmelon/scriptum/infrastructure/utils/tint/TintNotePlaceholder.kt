@@ -16,8 +16,9 @@ class TintNotePlaceholder(context: Context) : TintNoteBar(context) {
 
     fun changeColor(color: Color, window: Window, holder: View?) {
         val theme = theme?.takeIf { it != ThemeDisplayed.DARK } ?: return
+        val barColor = getColors(theme, color).bar
 
-        window.statusBarColor = getStatusBarColor(theme, color)
-        holder?.setBackgroundColor(getToolbarColor(theme, color))
+        window.statusBarColor = barColor
+        holder?.setBackgroundColor(barColor)
     }
 }
