@@ -84,12 +84,6 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
 
     //region Observable staff
 
-    override fun observeDataReady(it: Boolean) {
-        super.observeDataReady(it)
-
-        binding?.contentScroll?.makeVisibleIf(it) { makeInvisible() }
-    }
-
     override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
         super.observeEdit(previousEdit, isEdit)
 

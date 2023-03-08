@@ -56,12 +56,12 @@ class TextNoteViewModelImpl(
     getRankId, getRankDialogNames, getHistoryResult
 ), TextNoteViewModel {
 
-    override suspend fun initAfterDataReady(item: NoteItem.Text) = Unit
+    override suspend fun afterDataInit(item: NoteItem.Text) = Unit
 
     override fun restoreData(): Boolean {
         val restoreItem = cacheNote.item?.copy() ?: return false
 
-        if (id.value == Default.ID || noteItem.value?.id == Default.ID) return false
+        if (noteItem.value?.id == Default.ID) return false
 
         isEdit.postValue(false)
         noteItem.postValue(restoreItem)

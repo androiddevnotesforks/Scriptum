@@ -95,7 +95,7 @@ class RollNoteViewModelImpl(
             return value
         }
 
-    override suspend fun initAfterDataReady(item: NoteItem.Roll) = postNotifyItemList(item)
+    override suspend fun afterDataInit(item: NoteItem.Roll) = postNotifyItemList(item)
 
     /** [updateList] needed for custom updates. */
     private fun postNotifyItemList(item: NoteItem.Roll, updateList: UpdateListState? = null) {
@@ -115,7 +115,7 @@ class RollNoteViewModelImpl(
         /** Save [NoteItem.Roll.isVisible], because it should be the same after restore. */
         val restoreItem = cacheNote.item?.copy(isVisible = item.isVisible) ?: return false
 
-        if (id.value == Default.ID || item.id == Default.ID) return false
+        if (item.id == Default.ID) return false
 
         isEdit.postValue(false)
         noteItem.postValue(restoreItem)
@@ -233,7 +233,7 @@ class RollNoteViewModelImpl(
         postNotifyItemList(item)
 
         /**
-         * Foreign key can't be created without note [id]. Insert will happen inside [save].
+         * Foreign key can't be created without [NoteItem.id]. Insert will happen inside [save].
          * That's why call update only for created notes.
          */
         if (noteState.value != NoteState.CREATE) {

@@ -259,13 +259,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
 
-    override fun observeDataReady(it: Boolean) {
-        super.observeDataReady(it)
-
-        visibleMenuItem?.isVisible = it
-        visibleMenuItem?.isEnabled = it
-    }
-
     override fun observeState(previousState: NoteState, state: NoteState) {
         super.observeState(previousState, state)
         adapter.updateState(state)

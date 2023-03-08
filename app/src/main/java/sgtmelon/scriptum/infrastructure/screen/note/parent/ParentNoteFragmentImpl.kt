@@ -260,7 +260,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupObservers() {
         super.setupObservers()
 
-        observeWithHistoryDisable(viewModel.isDataReady) { observeDataReady(it) }
+        observeWithHistoryDisable(viewModel.isDataReady) { open.isBlocked = !it }
         observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
         observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
         observeWithHistoryDisable(viewModel.color) { observeColor(connector.init.color, it) }
@@ -278,12 +278,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         crossinline onCall: (T) -> Unit
     ) {
         data.observe(this) { viewModel.disableHistoryChanges { onCall(it) } }
-    }
-
-    @Deprecated("remove it after remove isDataReady")
-    @CallSuper open fun observeDataReady(it: Boolean) {
-        open.isBlocked = !it
-        invalidateToolbar()
     }
 
     @CallSuper open fun observeState(previousState: NoteState, state: NoteState) {
@@ -372,7 +366,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     @CallSuper open fun invalidateToolbar() {
-        val isDataReady = viewModel.isDataReady.value ?: return
+        val item = viewModel.noteItem.value ?: return
         val isEdit = viewModel.isEditMode
 
         appBar?.content?.run {
@@ -385,23 +379,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             nameEnter.makeVisibleIf(isEdit) { makeInvisible() }
             nameRead.makeVisibleIf(!isEdit) { makeInvisible() }
 
-            if (isDataReady) {
-                /** Always will notNull - because isDataReady==true. */
-                val item = viewModel.noteItem.value ?: return
-
-                nameEnter.setTextIfDifferent(item.name)
-                /**
-                 * Set empty text needed for nameEnter has ability to change size
-                 * inside scrollView.
-                 */
-                nameRead.text = if (isEdit) emptyString() else item.name
-            } else {
-                /**
-                 * Name in init only may exists if note is already in [NoteState.EXIST] state,
-                 * whats why don't need set text for nameEnter.
-                 */
-                nameRead.text = connector.init.name
-            }
+            nameEnter.setTextIfDifferent(item.name)
+            /**
+             * Set empty text needed for nameEnter has ability to change size
+             * inside scrollView.
+             */
+            nameRead.text = if (isEdit) emptyString() else item.name
         }
     }
 

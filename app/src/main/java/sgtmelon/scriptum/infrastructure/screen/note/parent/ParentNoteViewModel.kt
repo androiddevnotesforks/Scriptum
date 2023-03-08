@@ -19,7 +19,6 @@ interface ParentNoteViewModel<N : NoteItem> :
     NoteHistoryEnableControl,
     HistoryTextWatcher.Callback {
 
-    @Deprecated("remove it")
     val isDataReady: LiveData<Boolean>
 
     val noteState: LiveData<NoteState>

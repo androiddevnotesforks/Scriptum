@@ -67,7 +67,8 @@ object Screens {
         }
 
         fun toExist(context: Context, item: NotificationItem): Intent = with(item.note) {
-            return get(context, NoteState.EXIST, type, id, color, name)
+            return TODO("Получать заметку, а не notificationItem")
+//            return get(context, NoteState.EXIST, type, id, color, name)
         }
 
         fun toExist(context: Context, item: NoteItem): Intent = with(item) {

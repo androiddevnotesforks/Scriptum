@@ -64,7 +64,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
-    @Deprecated("Remove it, everything is ready")
     override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.state)
@@ -85,18 +84,20 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     init {
         viewModelScope.launch {
-            runBack { rankDialogItems.postValue(getRankDialogNames()) }
-
             val item = init.noteItem as N // TODO think about it
+
             noteItem.postValue(item)
             cacheNote(item)
+            afterDataInit(item)
+
+            runBack { rankDialogItems.postValue(getRankDialogNames()) }
+
             isDataReady.postValue(true)
-            initAfterDataReady(item)
         }
     }
 
     /** Describes initialization which must be done after [noteItem] loading. */
-    abstract suspend fun initAfterDataReady(item: N)
+    abstract suspend fun afterDataInit(item: N)
 
     //region Menu clicks
 
@@ -252,7 +253,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     /** Calls on note notification cancel from status bar for update bind indicator. */
     override fun onReceiveUnbindNote(noteId: Long) {
-        if (id.value != noteId) return
+        if (noteItem.value?.id != noteId) return
 
         noteItem.postValueWithChange { it.isStatus = false }
         cacheNote.item?.isStatus = false
