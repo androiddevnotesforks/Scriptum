@@ -67,7 +67,7 @@ sealed class NoteItem {
     }
 
     @Serializable
-    class Text(
+    data class Text(
         override var id: Long = Note.Default.ID,
         override var create: String = getCalendarText(),
         override var change: String = Note.Default.CHANGE,
@@ -81,7 +81,7 @@ sealed class NoteItem {
     ) : NoteItem()
 
     @Serializable
-    class Roll(
+    data class Roll(
         override var id: Long = Note.Default.ID,
         override var create: String = getCalendarText(),
         override var change: String = Note.Default.CHANGE,

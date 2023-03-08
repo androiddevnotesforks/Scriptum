@@ -40,7 +40,6 @@ import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModel
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
@@ -98,7 +97,7 @@ class RollNoteViewModelImpl(
 
     /** [updateList] needed for custom updates. */
     private fun postNotifyItemList(item: NoteItem.Roll, updateList: UpdateListState? = null) {
-        val list = item.visibleList // TODO got error
+        val list = item.visibleList
         _itemList.clearAdd(list)
 
         if (updateList != null) {
