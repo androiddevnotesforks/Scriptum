@@ -28,8 +28,6 @@ import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTypeNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
@@ -47,8 +45,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     private val colorConverter: ColorConverter,
     init: NoteInit,
     protected val history: NoteHistory,
-    createNote: CreateTypeNoteUseCase<N>, // TODO remove (refactor use case)?
-    getNote: GetNoteUseCase<N>, // TODO remove (also check useCase)?
     protected val cacheNote: CacheNoteUseCase<N>,
     private val convertNote: ConvertNoteUseCase,
     private val updateNote: UpdateNoteUseCase,

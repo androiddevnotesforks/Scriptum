@@ -9,7 +9,6 @@ import dagger.Provides
 import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -39,6 +38,7 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -47,10 +47,6 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -197,8 +193,6 @@ class ViewModelModule {
         init: NoteInit,
         history: NoteHistory,
         colorConverter: ColorConverter,
-        createNote: CreateTextNoteUseCase,
-        getNote: GetTextNoteUseCase,
         cacheNote: CacheTextNoteUseCase,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
@@ -214,7 +208,7 @@ class ViewModelModule {
         getHistoryResult: GetHistoryResultUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            init, history, colorConverter, createNote, getNote, cacheNote,
+            init, history, colorConverter, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             setNotification, deleteNotification, getNotificationDateList,
             getRankId, getRankDialogNames, getHistoryResult
@@ -230,8 +224,6 @@ class ViewModelModule {
         init: NoteInit,
         history: NoteHistory,
         colorConverter: ColorConverter,
-        createNote: CreateRollNoteUseCase,
-        getNote: GetRollNoteUseCase,
         cacheNote: CacheRollNoteUseCase,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
@@ -249,7 +241,7 @@ class ViewModelModule {
         getHistoryResult: GetHistoryResultUseCase
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            init, history, colorConverter, createNote, getNote, cacheNote,
+            init, history, colorConverter, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList,
@@ -279,14 +271,14 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         noteId: Long,
         preferencesRepo: PreferencesRepo,
-        noteRepo: NoteRepo,
+        getNote: GetNoteUseCase,
         getMelodyList: GetMelodyListUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         shiftDateIfExist: ShiftDateIfExistUseCase
     ): AlarmViewModel {
         val factory = ViewModelFactory.Alarm(
-            noteId, preferencesRepo, noteRepo, getMelodyList,
+            noteId, preferencesRepo, getNote, getMelodyList,
             setNotification, deleteNotification, shiftDateIfExist
         )
 

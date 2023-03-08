@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.launchBack
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 class AlarmViewModelImpl(
     noteId: Long,
     private val preferencesRepo: PreferencesRepo,
-    private val noteRepo: NoteRepo,
+    private val getNote: GetNoteUseCase,
     private val getMelodyList: GetMelodyListUseCase,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
@@ -44,7 +44,7 @@ class AlarmViewModelImpl(
          */
         deleteNotification(noteId)
 
-        val item = noteRepo.getItem(noteId)
+        val item = getNote(noteId)
         if (item != null) {
             noteItem.postValue(item)
         } else {

@@ -263,7 +263,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         observeWithHistoryDisable(viewModel.isDataReady) { open.isBlocked = !it }
         observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
         observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
-        observeWithHistoryDisable(viewModel.color) { observeColor(connector.init.color, it) }
+        observeWithHistoryDisable(viewModel.color) { observeColor(it) }
         observeWithHistoryDisable(viewModel.rankDialogItems) { rankDialog.itemArray = it }
         observeWithHistoryDisable(viewModel.noteItem) { observeNoteItem(it) }
         observeWithHistoryDisable(viewModel.historyAvailable) { observeHistoryAvailable(it) }
@@ -335,14 +335,15 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    @CallSuper open fun observeColor(previousColor: Color, color: Color) {
-        connector.init.color = color
+    @CallSuper open fun observeColor(color: Color) {
         connector.updateHolder(color)
 
-        tintToolbar?.setColorFrom(previousColor)?.startTint(color)
+        // TODO check how will work color change, may be need update color from after animation ends
+        tintToolbar?.startTint(color)
     }
 
     @CallSuper open fun observeNoteItem(item: N) {
+        connector.init.noteItem = item
         invalidatePanelData(item)
 
         if (viewModel.noteState.value == NoteState.EXIST) {
@@ -369,6 +370,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         val item = viewModel.noteItem.value ?: return
         val isEdit = viewModel.isEditMode
 
+        // TODO not working after note open
         appBar?.content?.run {
             /**
              * Don't need check ready data or not. Because:

@@ -30,12 +30,10 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.infrastructure.database.DbData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
@@ -53,8 +51,6 @@ class RollNoteViewModelImpl(
     init: NoteInit,
     history: NoteHistory,
     colorConverter: ColorConverter,
-    createNote: CreateRollNoteUseCase,
-    getNote: GetRollNoteUseCase,
     cacheNote: CacheRollNoteUseCase,
     private val saveNote: SaveNoteUseCase,
     convertNote: ConvertNoteUseCase,
@@ -71,7 +67,7 @@ class RollNoteViewModelImpl(
     getRankDialogNames: GetRankDialogNamesUseCase,
     getHistoryResult: GetHistoryResultUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll>(
-    colorConverter, init, history, createNote, getNote, cacheNote,
+    colorConverter, init, history, cacheNote,
     convertNote, updateNote, deleteNote, restoreNote, clearNote,
     setNotification, deleteNotification, getNotificationDateList,
     getRankId, getRankDialogNames, getHistoryResult
@@ -99,7 +95,7 @@ class RollNoteViewModelImpl(
 
     /** [updateList] needed for custom updates. */
     private fun postNotifyItemList(item: NoteItem.Roll, updateList: UpdateListState? = null) {
-        val list = item.visibleList
+        val list = item.visibleList // TODO got error
         _itemList.clearAdd(list)
 
         if (updateList != null) {
@@ -209,7 +205,8 @@ class RollNoteViewModelImpl(
 
             if (isCreate) {
                 noteState.postValue(NoteState.EXIST)
-                id.postValue(item.id)
+                // TODO check: id will be updated inside init?
+                //id.postValue(item.id)
 
                 /**
                  * Need if [noteItem] isVisible changes wasn't set inside [changeVisible]

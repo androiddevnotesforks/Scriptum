@@ -72,7 +72,7 @@ class TintNoteToolbar(
         setColorFrom(color)
     }
 
-    fun setColorFrom(color: Color) = apply {
+    private fun setColorFrom(color: Color) = apply {
         val theme = theme ?: return@apply
 
         statusBarColor.from = context.getNoteToolbarColor(theme, color, needDark = false)
@@ -92,6 +92,7 @@ class TintNoteToolbar(
 
         if (statusBarColor.isReady() || toolbarColor.isReady() || indicatorColor.isReady()) {
             colorAnimator.start()
+            // TODO setup color from after animation ends?
         }
     }
 }
