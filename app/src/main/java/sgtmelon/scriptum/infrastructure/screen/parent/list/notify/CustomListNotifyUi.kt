@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.screen.parent.list.InfoListViewModel
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 
 /**
@@ -12,7 +13,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
  */
 interface CustomListNotifyUi<T> {
 
-    val viewModel: CustomListNotifyViewModelFacade<T>
+    val viewModel: InfoListViewModel<T>
 
     val adapter: ParentDiffAdapter<T, *>
 
