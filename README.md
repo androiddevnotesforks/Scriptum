@@ -20,3 +20,9 @@ It's an **open source** project, and the main **goal** of it is to create an app
 📍 Download app from [Google Play](https://play.google.com/store/apps/details?id=sgtmelon.scriptum)\
 📍 Check out [Privacy Policy](https://github.com/SerjantArbuz/Scriptum/blob/master/PrivacyPolicy.md)\
 📍 Contact me: lex.kuznet@gmail.com.
+
+### Plans
+
+:heavy_exclamation_mark: Refactor to correct MVVM architecture
+:heavy_exclamation_mark: Fix Unit/UI tests work
+:heavy_exclamation_mark: Support Android 11
