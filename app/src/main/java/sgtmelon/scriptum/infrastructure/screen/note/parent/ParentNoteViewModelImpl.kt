@@ -62,17 +62,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
-    /** Init everything inside lazy, for post [noteItem] faster then other [MutableLiveData]s. */
-    override val noteItem: MutableLiveData<N> by lazy {
-        /** This cast is save because we chose (UI class + viewModel) rely on [NoteType]. */
-        @Suppress("UNCHECKED_CAST")
-        val item = init.noteItem as N
-
-        cacheNote(item)
-        afterDataInit(item)
-
-        return@lazy MutableLiveData(item)
-    }
+    /** This cast is save because we chose (UI class + viewModel) rely on [NoteType]. */
+    @Suppress("UNCHECKED_CAST")
+    override val noteItem: MutableLiveData<N> = MutableLiveData(init.noteItem as N)
 
     override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.state)
 
@@ -89,7 +81,15 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         get() = flowOnBack { emit(getNotificationsDateList()) }
 
     init {
-        viewModelScope.launchBack { rankDialogItems.postValue(getRankDialogNames()) }
+        viewModelScope.launch {
+            runBack { rankDialogItems.postValue(getRankDialogNames()) }
+
+            val item = noteItem.value
+            if (item != null) {
+                cacheNote(item)
+                afterDataInit(item)
+            }
+        }
     }
 
     /** Describes initialization which must be done after [noteItem] setting up. */
