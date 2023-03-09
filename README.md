@@ -23,6 +23,6 @@ It's an **open source** project, and the main **goal** of it is to create an app
 
 ### Plans
 
-:heavy_exclamation_mark: Refactor to correct MVVM architecture
-:heavy_exclamation_mark: Fix Unit/UI tests work
-:heavy_exclamation_mark: Support Android 11
+:small_orange_diamond: Refactor to correct MVVM architecture\
+:small_orange_diamond: Fix Unit/UI tests work\
+:small_orange_diamond: Support Android 11 :moyai:
