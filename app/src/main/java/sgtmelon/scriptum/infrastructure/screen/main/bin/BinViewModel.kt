@@ -2,9 +2,9 @@ package sgtmelon.scriptum.infrastructure.screen.main.bin
 
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.screen.parent.list.InfoListViewModel
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelFacade
 
-interface BinViewModel : InfoListViewModel<NoteItem> {
+interface BinViewModel : CustomListNotifyViewModelFacade<NoteItem> {
 
     fun updateData()
 

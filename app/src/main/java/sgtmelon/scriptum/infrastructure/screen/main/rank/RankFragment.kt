@@ -153,7 +153,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
              */
             notifyToolbar()
         }
-        viewModel.itemList.observe(this) { catchListUpdate(it) }
+        viewModel.itemList.observe(this) { onListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 

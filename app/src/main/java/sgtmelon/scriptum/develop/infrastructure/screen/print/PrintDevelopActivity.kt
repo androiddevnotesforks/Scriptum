@@ -3,17 +3,21 @@ package sgtmelon.scriptum.develop.infrastructure.screen.print
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
 import sgtmelon.scriptum.develop.infrastructure.adapter.PrintAdapter
+import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Key
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
@@ -25,21 +29,24 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Screen for print data of data base and preference.
  */
-class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
+class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(),
+    ListScreen<PrintItem> {
 
     override val layoutId: Int = R.layout.activity_develop_print
 
     override val navigation = WindowUiKeys.Navigation.RotationCatch
     override val navDivider = WindowUiKeys.NavDivider.RotationCatch
 
-    @Inject lateinit var viewModel: PrintDevelopViewModel
+    @Inject override lateinit var viewModel: PrintDevelopViewModel
 
     private val listAnimation = ShowListAnimation()
 
     private val type = BundleValueImpl<PrintType>(Key.TYPE)
     override val bundleValues: List<BundleValue> = listOf(type)
 
-    private val adapter = PrintAdapter()
+    override val adapter = PrintAdapter()
+    override val layoutManager = LinearLayoutManager(this)
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +81,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { adapter.notifyList(it) }
+        viewModel.itemList.observe(this) { onListUpdate(it) }
     }
 
     private fun setupToolbar() {
@@ -109,6 +116,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>() {
         binding?.recyclerView?.let {
             it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true) /** The height of all items absolutely the same. */
+            it.layoutManager = layoutManager
             it.adapter = adapter
         }
     }

@@ -5,6 +5,7 @@ import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.extensions.collect
@@ -23,6 +24,7 @@ import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
@@ -35,6 +37,7 @@ import sgtmelon.scriptum.infrastructure.model.key.dialog.NotesDialogOptions as O
  * Screen to display the list of main notes.
  */
 class NotesFragment : BindingFragment<FragmentNotesBinding>(),
+    ListScreen<NoteItem>,
     Toolbar.OnMenuItemClickListener,
     ScrollTopCallback {
 
@@ -44,7 +47,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     override val layoutId: Int = R.layout.fragment_notes
 
-    @Inject lateinit var viewModel: NotesViewModel
+    @Inject override lateinit var viewModel: NotesViewModel
 
     private val listAnimation = ShowListAnimation()
 
@@ -55,12 +58,14 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     private val dateDialog by lazy { dialogs.getDate() }
     private val timeDialog by lazy { dialogs.getTime() }
 
-    private val adapter: NoteAdapter by lazy {
+    override val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {
             override fun onNoteClick(item: NoteItem) = openNoteScreen(item)
             override fun onNoteLongClick(item: NoteItem, p: Int) = showOptionsDialog(item, p)
         })
     }
+    override val layoutManager by lazy { LinearLayoutManager(context) }
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     //region System
 
@@ -86,7 +91,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         binding?.recyclerView?.let {
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(false) /** The height of all items may be not the same. */
-            it.layoutManager = LinearLayoutManager(context)
+            it.layoutManager = layoutManager
             it.adapter = adapter
 
             val fabCallback = activity as? RecyclerMainFabListener.Callback
@@ -141,7 +146,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             )
         }
         viewModel.isListHide.observe(this) { observeListHide(it) }
-        viewModel.itemList.observe(this) { adapter.notifyList(it) }
+        viewModel.itemList.observe(this) { onListUpdate(it) }
     }
 
     override fun registerReceivers() {

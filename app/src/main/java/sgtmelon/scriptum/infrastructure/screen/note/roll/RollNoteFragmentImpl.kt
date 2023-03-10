@@ -236,7 +236,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { catchListUpdate(it) }
+        viewModel.itemList.observe(this) { onListUpdate(it) }
     }
 
     private fun invalidateEmptyInfo() {

@@ -19,7 +19,7 @@ interface ListScreen<T> : Adapter.Custom.Callback,
     override val layoutManager: LinearLayoutManager
     override val recyclerView: RecyclerView?
 
-    fun catchListUpdate(list: List<T>) = adapter.let {
+    fun onListUpdate(list: List<T>) = adapter.let {
         when (it) {
             is Adapter.Simple -> it.notifyList(list)
             is Adapter.Custom -> it.notifyList(list, viewModel.updateList, callback = this)

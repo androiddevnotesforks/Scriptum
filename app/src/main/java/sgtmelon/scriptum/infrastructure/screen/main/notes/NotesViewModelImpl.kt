@@ -23,7 +23,7 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
-import sgtmelon.scriptum.infrastructure.screen.parent.list.InfoListViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
@@ -39,7 +39,7 @@ class NotesViewModelImpl(
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationDateList: GetNotificationsDateListUseCase
-) : InfoListViewModelImpl<NoteItem>(),
+) : CustomListNotifyViewModelImpl<NoteItem>(),
     NotesViewModel {
 
     override val isListHide: MutableLiveData<Boolean> = MutableLiveData()
