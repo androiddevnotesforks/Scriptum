@@ -40,6 +40,7 @@ import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModel
+import sgtmelon.scriptum.infrastructure.utils.ResetValueDelegator
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
@@ -83,12 +84,7 @@ class RollNoteViewModelImpl(
     override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
     override val itemList: MutableLiveData<List<RollItem>> = MutableLiveData()
     override val _itemList: MutableList<RollItem> = mutableListOf()
-    override var updateList: UpdateListState = UpdateListState.Notify
-        get() {
-            val value = field
-            updateList = UpdateListState.Notify
-            return value
-        }
+    override var updateList by ResetValueDelegator<UpdateListState>(UpdateListState.Notify)
 
     override fun afterDataInit(item: NoteItem.Roll) {
         super.afterDataInit(item)
