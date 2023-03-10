@@ -9,12 +9,12 @@ import kotlin.math.min
 /**
  * Class for correct scrolling to inserted item.
  */
-class RecyclerInsertScroll(
-    private val recyclerView: RecyclerView?,
-    private val layoutManager: LinearLayoutManager
-) {
+interface RecyclerInsertScroll {
 
-    fun scroll(p: Int) {
+    val layoutManager: LinearLayoutManager
+    val recyclerView: RecyclerView?
+
+    fun scroll(position: Int) {
         val size = recyclerView?.adapter?.itemCount?.takeIf { it != 0 } ?: return
         val indices = 0 until size
 
@@ -28,8 +28,8 @@ class RecyclerInsertScroll(
          * Если позиция за пределами видимости - плавный скролл.
          */
         when {
-            p <= firstVisible -> scrollTop(indices, p, firstVisible)
-            p >= lastVisible -> scrollBottom(indices, p, lastVisible)
+            position <= firstVisible -> scrollTop(indices, position, firstVisible)
+            position >= lastVisible -> scrollBottom(indices, position, lastVisible)
         }
     }
 
