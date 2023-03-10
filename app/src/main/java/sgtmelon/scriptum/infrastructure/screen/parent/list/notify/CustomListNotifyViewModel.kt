@@ -3,12 +3,11 @@ package sgtmelon.scriptum.infrastructure.screen.parent.list.notify
 import androidx.lifecycle.MutableLiveData
 import sgtmelon.scriptum.infrastructure.model.state.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
-import sgtmelon.scriptum.infrastructure.screen.parent.list.InfoListViewModel
 
 /**
  * Interface for getting functional without inheritance from [CustomListNotifyViewModelImpl].
  */
-interface CustomListNotifyViewModel<T> : InfoListViewModel<T> {
+interface CustomListNotifyViewModel<T> : CustomListNotifyViewModelFacade<T> {
 
     override val showList: MutableLiveData<ShowListState>
 
