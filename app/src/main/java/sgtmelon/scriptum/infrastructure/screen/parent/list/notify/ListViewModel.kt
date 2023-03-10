@@ -5,9 +5,9 @@ import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 
 /**
- * Interface for getting functional without inheritance from [CustomListNotifyViewModelImpl].
+ * Interface for getting functional without inheritance from [ListViewModelImpl].
  */
-interface CustomListNotifyViewModel<T> : CustomListNotifyViewModelFacade<T> {
+interface ListViewModel<T> : ListViewModelFacade<T> {
 
     override val showList: MutableLiveData<ShowListState>
 

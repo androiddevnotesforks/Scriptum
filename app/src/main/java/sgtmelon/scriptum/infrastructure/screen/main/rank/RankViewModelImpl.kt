@@ -19,7 +19,7 @@ import sgtmelon.scriptum.domain.useCase.rank.InsertRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.recordException
 
 class RankViewModelImpl(
@@ -29,7 +29,7 @@ class RankViewModelImpl(
     private val updateRank: UpdateRankUseCase,
     private val correctRankPositions: CorrectRankPositionsUseCase,
     private val updateRankPositions: UpdateRankPositionsUseCase
-) : CustomListNotifyViewModelImpl<RankItem>(),
+) : ListViewModelImpl<RankItem>(),
     RankViewModel {
 
     private val uniqueNameList: List<String> get() = _itemList.map { it.name.uppercase() }

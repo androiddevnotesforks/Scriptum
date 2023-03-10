@@ -8,8 +8,8 @@ import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 /**
  * ViewModel for specific list updates (when need update not all items).
  */
-abstract class CustomListNotifyViewModelImpl<T> : ViewModel(),
-    CustomListNotifyViewModel<T> {
+abstract class ListViewModelImpl<T> : ViewModel(),
+    ListViewModel<T> {
 
     override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
     override val itemList: MutableLiveData<List<T>> = MutableLiveData()

@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelFacade
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModelFacade
 
-interface NotificationsViewModel : CustomListNotifyViewModelFacade<NotificationItem> {
+interface NotificationsViewModel : ListViewModelFacade<NotificationItem> {
 
     val showSnackbar: LiveData<Boolean>
 

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
@@ -22,7 +22,7 @@ class NotificationsViewModelImpl(
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getList: GetNotificationListUseCase
-) : CustomListNotifyViewModelImpl<NotificationItem>(),
+) : ListViewModelImpl<NotificationItem>(),
     NotificationsViewModel {
 
     override val showSnackbar: MutableLiveData<Boolean> = MutableLiveData(false)

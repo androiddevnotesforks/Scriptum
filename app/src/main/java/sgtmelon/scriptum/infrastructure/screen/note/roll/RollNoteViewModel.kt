@@ -5,10 +5,10 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModel
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelFacade
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModelFacade
 
 interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
-    CustomListNotifyViewModelFacade<RollItem>,
+    ListViewModelFacade<RollItem>,
     RollHolder.WriteCallback {
 
     fun changeVisible()

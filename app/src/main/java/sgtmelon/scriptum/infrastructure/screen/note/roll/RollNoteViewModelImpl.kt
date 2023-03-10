@@ -39,7 +39,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModel
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModel
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
@@ -70,7 +70,7 @@ class RollNoteViewModelImpl(
     convertNote, updateNote, deleteNote, restoreNote, clearNote,
     setNotification, deleteNotification, getNotificationDateList,
     getRankId, getRankDialogNames, getHistoryResult
-), CustomListNotifyViewModel<RollItem>,
+), ListViewModel<RollItem>,
     RollNoteViewModel {
 
     /**

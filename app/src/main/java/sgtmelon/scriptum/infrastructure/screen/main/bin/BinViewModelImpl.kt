@@ -10,7 +10,7 @@ import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
@@ -20,7 +20,7 @@ class BinViewModelImpl(
     private val restoreNote: RestoreNoteUseCase,
     private val clearBin: ClearBinUseCase,
     private val clearNote: ClearNoteUseCase
-) : CustomListNotifyViewModelImpl<NoteItem>(),
+) : ListViewModelImpl<NoteItem>(),
     BinViewModel {
 
     override fun updateData() {

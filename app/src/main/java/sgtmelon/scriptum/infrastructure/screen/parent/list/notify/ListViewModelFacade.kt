@@ -5,9 +5,9 @@ import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 
 /**
- * Facade for [CustomListNotifyViewModel], hide some variable and make some immutable.
+ * Facade for [ListViewModel], hide some variable and make some immutable.
  */
-interface CustomListNotifyViewModelFacade<T> {
+interface ListViewModelFacade<T> {
 
     val showList: LiveData<ShowListState>
 

@@ -8,12 +8,12 @@ import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModelImpl
 
 class PrintDevelopViewModelImpl(
     type: PrintType,
     private val getList: GetPrintListUseCase
-) : CustomListNotifyViewModelImpl<PrintItem>(),
+) : ListViewModelImpl<PrintItem>(),
     PrintDevelopViewModel {
 
     override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
