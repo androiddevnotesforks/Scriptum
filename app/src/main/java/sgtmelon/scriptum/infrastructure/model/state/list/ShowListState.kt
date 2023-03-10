@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.model.state
+package sgtmelon.scriptum.infrastructure.model.state.list
 
 /**
  * State of list loading process.

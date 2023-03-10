@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.parent.list
 
 import androidx.lifecycle.LiveData
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 
 interface InfoListViewModel<T> {
 

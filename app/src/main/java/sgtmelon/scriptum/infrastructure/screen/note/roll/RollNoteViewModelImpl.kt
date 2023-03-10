@@ -36,8 +36,8 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.database.DbData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
+import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModel
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked

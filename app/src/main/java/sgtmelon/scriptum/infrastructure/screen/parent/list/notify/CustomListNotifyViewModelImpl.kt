@@ -2,8 +2,8 @@ package sgtmelon.scriptum.infrastructure.screen.parent.list.notify
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
+import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 
 /**
  * ViewModel for specific list updates (when need update not all items).

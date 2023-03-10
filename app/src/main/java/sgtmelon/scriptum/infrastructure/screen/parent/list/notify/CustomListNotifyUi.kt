@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
-import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 
 /**

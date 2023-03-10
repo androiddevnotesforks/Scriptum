@@ -7,7 +7,7 @@ import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 
 class PrintDevelopViewModelImpl(
     type: PrintType,

@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.parent.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 
 /**
  * ViewModel for list with info state. When list is empty -> show info.
