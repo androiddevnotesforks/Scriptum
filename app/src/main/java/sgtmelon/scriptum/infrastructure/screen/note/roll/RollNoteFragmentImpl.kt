@@ -32,7 +32,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyUi
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearText
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
@@ -49,7 +49,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  * Fragment for display roll note.
  */
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
-    CustomListNotifyUi<RollItem>,
+    ListScreen<RollItem>,
     DragAndSwipeTouchHelper.Callback {
 
     override val layoutId: Int = R.layout.fragment_roll_note

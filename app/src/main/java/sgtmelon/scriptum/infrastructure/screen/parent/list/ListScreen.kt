@@ -1,14 +1,15 @@
-package sgtmelon.scriptum.infrastructure.screen.parent.list.notify
+package sgtmelon.scriptum.infrastructure.screen.parent.list
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.parent.Adapter
+import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.CustomListNotifyViewModelFacade
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 
 /**
  * Class for catch sealed [adapter] updates.
  */
-interface CustomListNotifyUi<T> : Adapter.Custom.Callback,
+interface ListScreen<T> : Adapter.Custom.Callback,
     RecyclerInsertScroll {
 
     val viewModel: CustomListNotifyViewModelFacade<T>
