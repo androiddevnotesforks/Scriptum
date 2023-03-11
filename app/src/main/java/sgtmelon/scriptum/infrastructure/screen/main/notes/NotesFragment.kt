@@ -138,15 +138,15 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.showList.observe(this) {
+        viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
             listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
+        viewModel.list.data.observe(this) { onListUpdate(it) }
         viewModel.isListHide.observe(this) { observeListHide(it) }
-        viewModel.itemList.observe(this) { onListUpdate(it) }
     }
 
     override fun registerReceivers() {
@@ -161,11 +161,6 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     override fun onResume() {
         super.onResume()
-
-        /**
-         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
-         * call of this function inside parent activity (during fragment transaction).
-         */
         viewModel.updateData()
     }
 

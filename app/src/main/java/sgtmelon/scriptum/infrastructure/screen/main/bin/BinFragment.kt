@@ -120,11 +120,6 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
     override fun onResume() {
         super.onResume()
-
-        /**
-         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
-         * call of this function inside parent activity (during fragment transaction).
-         */
         viewModel.updateData()
     }
 

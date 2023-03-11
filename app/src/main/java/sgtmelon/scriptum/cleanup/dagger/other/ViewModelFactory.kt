@@ -2,13 +2,15 @@ package sgtmelon.scriptum.cleanup.dagger.other
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import kotlin.reflect.KClass
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
 import sgtmelon.scriptum.develop.domain.ResetPreferencesUseCase
+import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopViewModelImpl
@@ -111,6 +113,7 @@ object ViewModelFactory {
         }
 
         class Rank(
+            private val list: ListStorageImpl<RankItem>,
             private val getList: GetRankListUseCase,
             private val insertRank: InsertRankUseCase,
             private val deleteRank: DeleteRankUseCase,
@@ -121,7 +124,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RankViewModelImpl::class) {
                     RankViewModelImpl(
-                        getList, insertRank, deleteRank, updateRank,
+                        list, getList, insertRank, deleteRank, updateRank,
                         correctRankPositions, updateRankPositions
                     )
                 }
@@ -130,6 +133,7 @@ object ViewModelFactory {
 
         class Notes(
             private val preferencesRepo: PreferencesRepo,
+            private val list: ListStorageImpl<NoteItem>,
             private val getList: GetNotesListUseCase,
             private val sortList: SortNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
@@ -143,7 +147,8 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModelImpl::class) {
                     NotesViewModelImpl(
-                        preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote,
+                        preferencesRepo, list,
+                        getList, sortList, getCopyText, convertNote, updateNote,
                         deleteNote, setNotification, deleteNotification, getNotificationDateList
                     )
                 }
@@ -339,11 +344,12 @@ object ViewModelFactory {
 
         class Print(
             private val type: PrintType,
+            private val list: ListStorageImpl<PrintItem>,
             private val getList: GetPrintListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(PrintDevelopViewModelImpl::class) {
-                    PrintDevelopViewModelImpl(type, getList)
+                    PrintDevelopViewModelImpl(type, list, getList)
                 }
             }
         }

@@ -140,7 +140,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.showList.observe(this) {
+        viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
             listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
@@ -153,7 +153,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
              */
             notifyToolbar()
         }
-        viewModel.itemList.observe(this) { onListUpdate(it) }
+        viewModel.list.data.observe(this) { onListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 
@@ -170,10 +170,6 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     override fun onResume() {
         super.onResume()
 
-        /**
-         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
-         * call of this function inside parent activity (during fragment transaction).
-         */
         viewModel.updateData()
 
         /** Restore our snack bar if it must be shown. */

@@ -19,9 +19,9 @@ val NoteItem.type: NoteType
         is NoteItem.Roll -> NoteType.ROLL
     }
 
-fun NoteItem.updateTime() = run { change = getCalendarText() }
+fun NoteItem.updateTime() = apply { change = getCalendarText() }
 
-fun NoteItem.switchStatus() = run { isStatus = !isStatus }
+fun NoteItem.switchStatus() = apply { isStatus = !isStatus }
 
 val NoteItem.haveRank get() = rank != NoteRank()
 

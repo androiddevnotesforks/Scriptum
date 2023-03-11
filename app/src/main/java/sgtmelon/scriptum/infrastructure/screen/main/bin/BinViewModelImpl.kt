@@ -42,7 +42,7 @@ class BinViewModelImpl(
     }
 
     override fun getNoteText(p: Int): Flow<String> = flowOnBack {
-        val item = list.work { it.getOrNull(p) } ?: return@flowOnBack
+        val item = list.localData.getOrNull(p) ?: return@flowOnBack
         emit(getCopyText(item))
     }
 

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.develop.infrastructure.screen.print
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
@@ -48,13 +47,6 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(),
     override val layoutManager = LinearLayoutManager(this)
     override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setupToolbar()
-        setupRecycler()
-    }
-
     override fun inject(component: ScriptumComponent) {
         component.getPrintBuilder()
             .set(owner = this)
@@ -70,22 +62,14 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(),
         binding?.recyclerView?.setPaddingInsets(InsetsDir.BOTTOM)
     }
 
-    override fun setupObservers() {
-        super.setupObservers()
-
-        viewModel.showList.observe(this) {
-            val binding = binding ?: return@observe
-
-            listAnimation.startFade(
-                it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.emptyInfo.parentContainer
-            )
-        }
-        viewModel.itemList.observe(this) { onListUpdate(it) }
+    override fun setupView() {
+        super.setupView()
+        setupToolbar()
+        setupRecycler()
     }
 
     private fun setupToolbar() {
-        val type = type.value ?: return
+        val type = type.value
         val toolbar = binding?.appBar?.toolbar ?: return
 
         val titleId = when (type) {
@@ -119,6 +103,25 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(),
             it.layoutManager = layoutManager
             it.adapter = adapter
         }
+    }
+
+    override fun setupObservers() {
+        super.setupObservers()
+
+        viewModel.list.show.observe(this) {
+            val binding = binding ?: return@observe
+
+            listAnimation.startFade(
+                it, binding.parentContainer, binding.progressBar,
+                binding.recyclerView, binding.emptyInfo.parentContainer
+            )
+        }
+        viewModel.list.data.observe(this) { onListUpdate(it) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateData()
     }
 
     companion object {

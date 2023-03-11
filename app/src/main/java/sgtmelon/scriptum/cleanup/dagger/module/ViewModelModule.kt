@@ -10,11 +10,13 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
 import sgtmelon.scriptum.develop.domain.ResetPreferencesUseCase
+import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModelImpl
@@ -133,6 +135,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideRankViewModel(
         owner: ViewModelStoreOwner,
+        list: ListStorageImpl<RankItem>,
         getList: GetRankListUseCase,
         insertRank: InsertRankUseCase,
         deleteRank: DeleteRankUseCase,
@@ -141,7 +144,8 @@ class ViewModelModule {
         updateRankPositions: UpdateRankPositionsUseCase
     ): RankViewModel {
         val factory = ViewModelFactory.MainScreen.Rank(
-            getList, insertRank, deleteRank, updateRank, correctRankPositions, updateRankPositions
+            list, getList, insertRank, deleteRank, updateRank, correctRankPositions,
+            updateRankPositions
         )
         return ViewModelProvider(owner, factory)[RankViewModelImpl::class.java]
     }
@@ -151,6 +155,7 @@ class ViewModelModule {
     fun provideNotesViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
+        list: ListStorageImpl<NoteItem>,
         getList: GetNotesListUseCase,
         sortList: SortNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
@@ -162,7 +167,8 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationsDateListUseCase
     ): NotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
-            preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
+            preferencesRepo, list,
+            getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
             setNotification, deleteNotification, getNotificationDateList
         )
         return ViewModelProvider(owner, factory)[NotesViewModelImpl::class.java]
@@ -376,9 +382,10 @@ class ViewModelModule {
     fun providePrintDevelopViewModel(
         owner: ViewModelStoreOwner,
         type: PrintType,
+        list: ListStorageImpl<PrintItem>,
         getList: GetPrintListUseCase
     ): PrintDevelopViewModel {
-        val factory = ViewModelFactory.Develop.Print(type, getList)
+        val factory = ViewModelFactory.Develop.Print(type, list, getList)
         return ViewModelProvider(owner, factory)[PrintDevelopViewModelImpl::class.java]
     }
 
