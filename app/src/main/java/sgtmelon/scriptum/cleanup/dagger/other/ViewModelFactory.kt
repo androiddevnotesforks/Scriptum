@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.dagger.other
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -59,6 +60,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
@@ -149,6 +151,7 @@ object ViewModelFactory {
         }
 
         class Bin(
+            private val list: ListStorageImpl<NoteItem>,
             private val getList: GetBinListUseCase,
             private val getCopyText: GetCopyTextUseCase,
             private val restoreNote: RestoreNoteUseCase,
@@ -157,7 +160,7 @@ object ViewModelFactory {
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BinViewModelImpl::class) {
-                    BinViewModelImpl(getList, getCopyText, restoreNote, clearBin, clearNote)
+                    BinViewModelImpl(list, getList, getCopyText, restoreNote, clearBin, clearNote)
                 }
             }
         }

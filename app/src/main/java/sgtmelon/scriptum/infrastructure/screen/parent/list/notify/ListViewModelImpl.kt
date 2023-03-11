@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.utils.ResetValueDelegator
 /**
  * ViewModel for specific list updates (when need update not all items).
  */
+@Deprecated("Remove")
 abstract class ListViewModelImpl<T> : ViewModel(),
     ListViewModel<T> {
 

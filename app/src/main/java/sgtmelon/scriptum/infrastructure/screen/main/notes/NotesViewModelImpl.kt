@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.main.notes
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
@@ -39,7 +40,7 @@ class NotesViewModelImpl(
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationDateList: GetNotificationsDateListUseCase
-) : ListViewModelImpl<NoteItem>(),
+) : ViewModel<NoteItem>(),
     NotesViewModel {
 
     override val isListHide: MutableLiveData<Boolean> = MutableLiveData()
@@ -80,7 +81,6 @@ class NotesViewModelImpl(
 
         val item = _itemList.getOrNull(p) ?: return@flowOnBack
 
-        Log.i("HERE", "set notification: ${calendar.toText()}")
         setNotification(item, calendar)
         itemList.postValue(_itemList)
 

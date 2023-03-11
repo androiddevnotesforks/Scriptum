@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen.parent.list
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.parent.Adapter
-import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModelFacade
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 
 /**
@@ -12,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 interface ListScreen<T> : Adapter.Custom.Callback,
     RecyclerInsertScroll {
 
-    val viewModel: ListViewModelFacade<T>
+    val viewModel: ListViewModel<T>
 
     val adapter: Adapter<T>
 
@@ -22,7 +21,7 @@ interface ListScreen<T> : Adapter.Custom.Callback,
     fun onListUpdate(list: List<T>) = adapter.let {
         when (it) {
             is Adapter.Simple -> it.notifyList(list)
-            is Adapter.Custom -> it.notifyList(list, viewModel.updateList, callback = this)
+            is Adapter.Custom -> it.notifyList(list, viewModel.list.update, callback = this)
         }
     }
 

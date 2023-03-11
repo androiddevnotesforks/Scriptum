@@ -2,9 +2,10 @@ package sgtmelon.scriptum.infrastructure.screen.main.bin
 
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListViewModel
 import sgtmelon.scriptum.infrastructure.screen.parent.list.notify.ListViewModelFacade
 
-interface BinViewModel : ListViewModelFacade<NoteItem> {
+interface BinViewModel : ListViewModel<NoteItem> {
 
     fun updateData()
 

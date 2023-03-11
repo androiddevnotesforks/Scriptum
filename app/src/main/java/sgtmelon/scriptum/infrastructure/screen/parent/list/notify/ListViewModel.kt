@@ -7,6 +7,7 @@ import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 /**
  * Interface for getting functional without inheritance from [ListViewModelImpl].
  */
+@Deprecated("Remove")
 interface ListViewModel<T> : ListViewModelFacade<T> {
 
     override val showList: MutableLiveData<ShowListState>

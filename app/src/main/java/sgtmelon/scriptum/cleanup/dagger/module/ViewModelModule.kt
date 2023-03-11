@@ -9,6 +9,7 @@ import dagger.Provides
 import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -78,6 +79,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModel
@@ -170,6 +172,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideBinViewModel(
         owner: ViewModelStoreOwner,
+        list: ListStorageImpl<NoteItem>,
         getList: GetBinListUseCase,
         getCopyText: GetCopyTextUseCase,
         restoreNote: RestoreNoteUseCase,
@@ -177,7 +180,7 @@ class ViewModelModule {
         clearNote: ClearNoteUseCase
     ): BinViewModel {
         val factory = ViewModelFactory.MainScreen.Bin(
-            getList, getCopyText, restoreNote, clearBin, clearNote
+            list, getList, getCopyText, restoreNote, clearBin, clearNote
         )
         return ViewModelProvider(owner, factory)[BinViewModelImpl::class.java]
     }
