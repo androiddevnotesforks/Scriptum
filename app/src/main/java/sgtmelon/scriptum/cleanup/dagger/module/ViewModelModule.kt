@@ -10,6 +10,7 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -298,11 +299,14 @@ class ViewModelModule {
     @ActivityScope
     fun provideNotificationViewModel(
         owner: ViewModelStoreOwner,
+        list: ListStorageImpl<NotificationItem>,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         getList: GetNotificationListUseCase
     ): NotificationsViewModel {
-        val factory = ViewModelFactory.Notification(setNotification, deleteNotification, getList)
+        val factory = ViewModelFactory.Notification(
+            list, setNotification, deleteNotification, getList
+        )
         return ViewModelProvider(owner, factory)[NotificationsViewModelImpl::class.java]
     }
 

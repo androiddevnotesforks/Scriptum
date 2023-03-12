@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -257,13 +258,14 @@ object ViewModelFactory {
     }
 
     class Notification(
+        private val list: ListStorageImpl<NotificationItem>,
         private val setNotification: SetNotificationUseCase,
         private val deleteNotification: DeleteNotificationUseCase,
         private val getList: GetNotificationListUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(NotificationsViewModelImpl::class) {
-                NotificationsViewModelImpl(setNotification, deleteNotification, getList)
+                NotificationsViewModelImpl(list, setNotification, deleteNotification, getList)
             }
         }
     }
