@@ -9,27 +9,27 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 /**
  * Class with result of backup processing (export/import).
  */
-sealed class ParserResult(
-    open val noteList: List<NoteEntity>,
-    open val rollList: List<RollEntity>,
-    open val rollVisibleList: List<RollVisibleEntity>,
-    open val rankList: List<RankEntity>,
-    open val alarmList: List<AlarmEntity>
-) {
+sealed class ParserResult {
 
-    class Export(
-        noteList: List<NoteEntity>,
-        rollList: List<RollEntity>,
-        rollVisibleList: List<RollVisibleEntity>,
-        rankList: List<RankEntity>,
-        alarmList: List<AlarmEntity>
-    ) : ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
+    abstract val noteList: List<NoteEntity>
+    abstract val rollList: List<RollEntity>
+    abstract val rollVisibleList: List<RollVisibleEntity>
+    abstract val rankList: List<RankEntity>
+    abstract val alarmList: List<AlarmEntity>
 
-    class Import(
+    data class Export(
+        override val noteList: List<NoteEntity>,
+        override val rollList: List<RollEntity>,
+        override val rollVisibleList: List<RollVisibleEntity>,
+        override val rankList: List<RankEntity>,
+        override val alarmList: List<AlarmEntity>
+    ) : ParserResult()
+
+    data class Import(
         override val noteList: MutableList<NoteEntity>,
         override val rollList: MutableList<RollEntity>,
         override val rollVisibleList: MutableList<RollVisibleEntity>,
         override val rankList: MutableList<RankEntity>,
         override val alarmList: MutableList<AlarmEntity>
-    ) : ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
+    ) : ParserResult()
 }
