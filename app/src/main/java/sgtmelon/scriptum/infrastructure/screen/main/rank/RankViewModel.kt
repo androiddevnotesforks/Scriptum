@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
@@ -17,6 +18,7 @@ interface RankViewModel : ListViewModel<RankItem>,
 
     fun addItem(enter: String, toBottom: Boolean): Flow<AddState>
 
+    @MainThread
     fun moveItem(from: Int, to: Int)
 
     fun moveItemResult()

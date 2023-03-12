@@ -227,7 +227,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.showList.observe(this) {
+        viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
 
             invalidateEmptyInfo()
@@ -236,7 +236,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { onListUpdate(it) }
+        viewModel.list.data.observe(this) { onListUpdate(it) }
     }
 
     private fun invalidateEmptyInfo() {
@@ -244,7 +244,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         val isListEmpty = item.list.isEmpty()
         /**
-         * May simply get count from [adapter] (not from [RollNoteViewModel.itemList]), because
+         * May simply get count from [adapter] (not from [RollNoteViewModel.list]), because
          * it will be before animation - it's mean all items already passed into [adapter].
          */
         val isListHide = !item.isVisible && !isListEmpty && adapter.itemCount == 0

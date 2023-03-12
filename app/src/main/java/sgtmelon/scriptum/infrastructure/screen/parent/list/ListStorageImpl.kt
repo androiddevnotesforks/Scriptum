@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.infrastructure.screen.parent.list
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.ResetValueDelegator
@@ -65,10 +67,26 @@ class ListStorageImpl<T> : ListStorage<T> {
      * Important: don't use [MutableLiveData.postValue] here with [data], because it
      * leads to UI glitches (during item drag/move).
      */
+    @MainThread
     fun move(from: Int, to: Int) {
         localData.move(from, to)
         update = UpdateListState.Move(from, to)
         data.value = localData
+    }
+
+    /**
+     * Important: don't use [MutableLiveData.postValue] here with [data], because it
+     * leads to UI glitches (during item swipe).
+     */
+    @MainThread
+    fun swipe(position: Int): T? {
+        val item = localData.removeAtOrNull(position) ?: return null
+
+        update = UpdateListState.Remove(position)
+        data.value = localData
+        notifyShow()
+
+        return item
     }
 
     override var update by ResetValueDelegator<UpdateListState>(UpdateListState.Notify)

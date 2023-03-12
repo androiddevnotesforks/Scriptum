@@ -6,6 +6,7 @@ import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -208,6 +209,7 @@ object ViewModelFactory {
             private val init: NoteInit,
             private val history: NoteHistory,
             private val colorConverter: ColorConverter,
+            private val list: ListStorageImpl<RollItem>,
             private val cacheNote: CacheRollNoteUseCase,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
@@ -227,7 +229,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
                     RollNoteViewModelImpl(
-                        init, history, colorConverter, cacheNote,
+                        init, history, colorConverter, list, cacheNote,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
                         updateVisible, updateCheck,
                         setNotification, deleteNotification, getNotificationDateList,

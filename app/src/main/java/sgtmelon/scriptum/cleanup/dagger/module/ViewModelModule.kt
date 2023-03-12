@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.dagger.module
 
-import android.content.Context
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.Module
@@ -12,6 +10,7 @@ import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
@@ -76,8 +75,6 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
-import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
@@ -136,7 +133,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideRankViewModel(
         owner: ViewModelStoreOwner,
-        list: ListStorageImpl<RankItem>,
+        @Named("Rank") list: ListStorageImpl<RankItem>,
         getList: GetRankListUseCase,
         insertRank: InsertRankUseCase,
         deleteRank: DeleteRankUseCase,
@@ -156,7 +153,7 @@ class ViewModelModule {
     fun provideNotesViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
-        list: ListStorageImpl<NoteItem>,
+        @Named("Note") list: ListStorageImpl<NoteItem>,
         getList: GetNotesListUseCase,
         sortList: SortNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
@@ -179,7 +176,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideBinViewModel(
         owner: ViewModelStoreOwner,
-        list: ListStorageImpl<NoteItem>,
+        @Named("Note") list: ListStorageImpl<NoteItem>,
         getList: GetBinListUseCase,
         getCopyText: GetCopyTextUseCase,
         restoreNote: RestoreNoteUseCase,
@@ -234,6 +231,7 @@ class ViewModelModule {
         init: NoteInit,
         history: NoteHistory,
         colorConverter: ColorConverter,
+        @Named("Roll") list: ListStorageImpl<RollItem>,
         cacheNote: CacheRollNoteUseCase,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
@@ -251,7 +249,7 @@ class ViewModelModule {
         getHistoryResult: GetHistoryResultUseCase
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            init, history, colorConverter, cacheNote,
+            init, history, colorConverter, list, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList,
@@ -259,18 +257,6 @@ class ViewModelModule {
         )
 
         return ViewModelProvider(owner, factory)[RollNoteViewModelImpl::class.java]
-    }
-
-    // TODO move into another module
-    @Provides
-    @ActivityScope
-    fun provideNoteSave(
-        lifecycle: Lifecycle,
-        context: Context,
-        preferencesRepo: PreferencesRepo,
-        callback: NoteSaveImpl.Callback
-    ): NoteSave {
-        return NoteSaveImpl(lifecycle, context.resources, preferencesRepo.saveState, callback)
     }
 
     //endregion
@@ -299,7 +285,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideNotificationViewModel(
         owner: ViewModelStoreOwner,
-        list: ListStorageImpl<NotificationItem>,
+        @Named("Notification") list: ListStorageImpl<NotificationItem>,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         getList: GetNotificationListUseCase
@@ -386,7 +372,7 @@ class ViewModelModule {
     fun providePrintDevelopViewModel(
         owner: ViewModelStoreOwner,
         type: PrintType,
-        list: ListStorageImpl<PrintItem>,
+        @Named("Print") list: ListStorageImpl<PrintItem>,
         getList: GetPrintListUseCase
     ): PrintDevelopViewModel {
         val factory = ViewModelFactory.Develop.Print(type, list, getList)

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -88,6 +89,7 @@ class RankViewModelImpl(
         emit(AddState.Complete)
     }
 
+    @MainThread
     override fun moveItem(from: Int, to: Int) = list.move(from, to)
 
     override fun moveItemResult() {
