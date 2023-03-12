@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.infrastructure.screen.parent.list
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
@@ -41,7 +43,26 @@ class ListStorageImpl<T> : ListStorage<T> {
     }
 
     /**
-     * Important: don't use [MutableLiveData.postValue] here with [itemList], because it
+     * Set [data] value on mainThread needed for creating a queue of values, which must be posted.
+     * Check [LiveData.postValue] documentation to get deeper.
+     */
+    suspend inline fun <V> changeNext(
+        update: UpdateListState? = null,
+        crossinline func: suspend (MutableList<T>) -> V
+    ): V {
+        val value = func(localData)
+
+        if (update != null) {
+            this.update = update
+        }
+
+        runMain { data.value = localData }
+        notifyShow()
+        return value
+    }
+
+    /**
+     * Important: don't use [MutableLiveData.postValue] here with [data], because it
      * leads to UI glitches (during item drag/move).
      */
     fun move(from: Int, to: Int) {

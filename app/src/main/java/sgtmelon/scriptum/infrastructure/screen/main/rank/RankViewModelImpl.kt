@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.removeExtraSpace
-import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
@@ -75,13 +74,16 @@ class RankViewModelImpl(
             return@flowOnBack
         }
 
-        val p = if (toBottom) _itemList.size else 0
-        _itemList.add(p, item)
-        updateRankPositions(_itemList, correctRankPositions(_itemList))
+        val noteIdList = list.change {
+            val p = if (toBottom) it.size else 0
+            it.add(p, item)
+            list.update = UpdateListState.chooseInsert(it.size, p)
 
-        updateList = UpdateListState.chooseInsert(_itemList.size, p)
-        itemList.postValue(_itemList)
-        notifyShowList()
+            /** Inside will be updated data about positions. */
+            return@change correctRankPositions(it)
+        }
+
+        updateRankPositions(list.localData, noteIdList)
 
         emit(AddState.Complete)
     }
@@ -124,19 +126,19 @@ class RankViewModelImpl(
     }
 
     override fun removeItem(position: Int): Flow<Unit> = flowOnBack {
-        val item = _itemList.removeAtOrNull(position) ?: return@flowOnBack
-        val noteIdList = correctRankPositions(_itemList)
+        val (item, noteIdList) = list.change(UpdateListState.Remove(position)) {
+            val item = it.removeAtOrNull(position) ?: return@flowOnBack
 
-        /** Save item for snackbar undo action. */
+            /** Inside will be updated data about positions. */
+            return@change item to correctRankPositions(it)
+        }
+
+        /** Save item for snackbar undo action and display it. */
         undoList.add(Pair(position, item))
         showSnackbar.postValue(true)
 
-        updateList = UpdateListState.Remove(position)
-        itemList.postValue(_itemList)
-        notifyShowList()
-
         deleteRank(item)
-        updateRankPositions(_itemList, noteIdList)
+        updateRankPositions(list.localData, noteIdList)
 
         emit(Unit)
     }
@@ -147,31 +149,29 @@ class RankViewModelImpl(
         val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flowOnBack
         val item = pair.second
 
-        /**
-         * Check item position correct, just in case.
-         * List size after adding item, will be last index.
-         */
-        val isCorrect = pair.first in _itemList.indices
-        val position = if (isCorrect) pair.first else _itemList.size
-        _itemList.add(position, item)
-
-        updateList = UpdateListState.chooseInsert(_itemList.size, position)
-
         /** Need set list value on mainThread for prevent postValue overriding. */
-        runMain { itemList.value = _itemList }
-        notifyShowList()
+        list.changeNext {
+            /** Check item position correct, just in case. */
+            val isCorrect = pair.first in it.indices
+            /** List size after adding item, will be last index. */
+            val position = if (isCorrect) pair.first else it.size
+            it.add(position, item)
+
+            list.update = UpdateListState.chooseInsert(it.size, position)
+        }
 
         /** Show/hide snackbar for next item. */
         showSnackbar.postValue(undoList.isNotEmpty())
 
         /** After insert don't need update item in list (due to item already have id). */
         insertRank(item)
-        updateRankPositions(_itemList, correctRankPositions(_itemList))
-
-        updateList = UpdateListState.Set
 
         /** Need set list value on mainThread for prevent postValue overriding. */
-        runMain { itemList.value = _itemList }
+        val noteIdList = list.changeNext(UpdateListState.Set) {
+            correctRankPositions(it)
+        }
+
+        updateRankPositions(list.localData, noteIdList)
 
         emit(Unit)
     }

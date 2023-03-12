@@ -44,7 +44,7 @@ class NotificationsViewModelImpl(
     override fun removeItem(position: Int) = flowOnBack {
         val item = _itemList.removeAtOrNull(position) ?: return@flowOnBack
 
-        /** Save item for snackbar undo action. */
+        /** Save item for snackbar undo action and display it. */
         undoList.add(Pair(position, item))
         showSnackbar.postValue(true)
 
