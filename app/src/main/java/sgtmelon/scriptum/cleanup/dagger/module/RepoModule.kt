@@ -20,6 +20,7 @@ import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 
 // TODO remove it, after migration all repos to another package (from 'cleanup' to 'data')
 @Module
+@Deprecated("Check todo")
 class RepoModule {
 
     @Provides
