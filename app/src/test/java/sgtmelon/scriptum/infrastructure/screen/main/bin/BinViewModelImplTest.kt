@@ -24,9 +24,9 @@ class BinViewModelImplTest : ParentLiveDataTest() {
     @MockK lateinit var clearBin: ClearBinUseCase
     @MockK lateinit var clearNote: ClearNoteUseCase
 
-    private val viewModel by lazy {
-        BinViewModelImpl(getList, getCopyText, restoreNote, clearBin, clearNote)
-    }
+//    private val viewModel by lazy {
+//        BinViewModelImpl(getList, getCopyText, restoreNote, clearBin, clearNote)
+//    }
 
     @After override fun tearDown() {
         super.tearDown()

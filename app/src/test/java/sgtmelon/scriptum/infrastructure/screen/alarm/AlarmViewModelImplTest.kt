@@ -28,12 +28,12 @@ class AlarmViewModelImplTest : ParentLiveDataTest() {
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
     @MockK lateinit var shiftDateIfExist: ShiftDateIfExistUseCase
 
-    private val viewModel by lazy {
-        AlarmViewModelImpl(
-            noteId, preferencesRepo, noteRepo, getMelodyList, setNotification, deleteNotification,
-            shiftDateIfExist
-        )
-    }
+//    private val viewModel by lazy {
+//        AlarmViewModelImpl(
+//            noteId, preferencesRepo, noteRepo, getMelodyList, setNotification, deleteNotification,
+//            shiftDateIfExist
+//        )
+//    }
 
     @After override fun tearDown() {
         super.tearDown()

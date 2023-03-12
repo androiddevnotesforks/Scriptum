@@ -38,12 +38,12 @@ class NotesViewModelImplTest : ParentLiveDataTest() {
 
     @MockK lateinit var calendar: Calendar
 
-    private val viewModel by lazy {
-        NotesViewModelImpl(
-            preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
-            setNotification, deleteNotification, getNotificationDateList
-        )
-    }
+//    private val viewModel by lazy {
+//        NotesViewModelImpl(
+//            preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
+//            setNotification, deleteNotification, getNotificationDateList
+//        )
+//    }
 
     @After override fun tearDown() {
         super.tearDown()
