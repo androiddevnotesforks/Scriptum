@@ -54,7 +54,7 @@ class DevelopRepoImpl(
             PrintPref.Key(key.isFirstStart, def.isFirstStart, isFirstStart),
             PrintPref.Key(key.theme, def.theme, theme),
             PrintPref.Title(R.string.pref_title_backup),
-            PrintPref.Key(key.isBackupSkipImports, def.isBackupSkipImports, isBackupSkipImports),
+            PrintPref.Key(key.isBackupSkip, def.isBackupSkip, isBackupSkip),
             PrintPref.Title(R.string.pref_title_note),
             PrintPref.Key(key.sort, def.sort, sort),
             PrintPref.Key(key.defaultColor, def.defaultColor, defaultColor),

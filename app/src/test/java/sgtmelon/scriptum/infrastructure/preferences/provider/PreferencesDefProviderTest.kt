@@ -30,7 +30,7 @@ class PreferencesDefProviderTest : ParentTest() {
     @Test fun `correct links`() {
         val isFirstStart = Random.nextBoolean()
         val theme = Random.nextInt()
-        val isBackupSkipImports = Random.nextBoolean()
+        val isBackupSkip = Random.nextBoolean()
         val sort = Random.nextInt()
         val defaultColor = Random.nextInt()
         val isPauseSaveOn = Random.nextBoolean()
@@ -45,7 +45,7 @@ class PreferencesDefProviderTest : ParentTest() {
 
         every { resources.getBoolean(R.bool.pref_first_start) } returns isFirstStart
         every { resources.getInteger(R.integer.pref_app_theme) } returns theme
-        every { resources.getBoolean(R.bool.pref_backup_skip) } returns isBackupSkipImports
+        every { resources.getBoolean(R.bool.pref_backup_skip) } returns isBackupSkip
         every { resources.getInteger(R.integer.pref_note_sort) } returns sort
         every { resources.getInteger(R.integer.pref_note_color) } returns defaultColor
         every { resources.getBoolean(R.bool.pref_note_pause_save) } returns isPauseSaveOn
@@ -60,7 +60,7 @@ class PreferencesDefProviderTest : ParentTest() {
 
         assertEquals(isFirstStart, providerDef.isFirstStart)
         assertEquals(theme, providerDef.theme)
-        assertEquals(isBackupSkipImports, providerDef.isBackupSkipImports)
+        assertEquals(isBackupSkip, providerDef.isBackupSkip)
         assertEquals(sort, providerDef.sort)
         assertEquals(defaultColor, providerDef.defaultColor)
         assertEquals(isPauseSaveOn, providerDef.isPauseSaveOn)

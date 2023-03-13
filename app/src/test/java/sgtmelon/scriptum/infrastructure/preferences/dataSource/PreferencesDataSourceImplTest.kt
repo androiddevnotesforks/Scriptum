@@ -8,8 +8,8 @@ import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -72,10 +72,10 @@ class PreferencesDataSourceImplTest : ParentTest() {
 
     // Backup settings
 
-    @Test fun isBackupSkipImports() = getTest(
+    @Test fun isBackupSkip() = getTest(
         Random.nextBoolean(),
-        { preferences.isBackupSkipImports },
-        { dataSource.isBackupSkipImports }
+        { preferences.isBackupSkip },
+        { dataSource.isBackupSkip }
     )
 
     // Note settings

@@ -10,9 +10,9 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -167,17 +167,17 @@ class PreferencesImplTest : ParentTest() {
 
     // Backup settings
 
-    @Test fun isBackupSkipImports() = getTest(
+    @Test fun isBackupSkip() = getTest(
         Pair(Random.nextBoolean(), Random.nextBoolean()),
-        { keyProvider.isBackupSkipImports },
-        { defProvider.isBackupSkipImports },
-        { preferences.isBackupSkipImports }
+        { keyProvider.isBackupSkip },
+        { defProvider.isBackupSkip },
+        { preferences.isBackupSkip }
     )
 
-    @Test fun setBackupSkipImports() = setTest(
+    @Test fun setBackupSkip() = setTest(
         Random.nextBoolean(),
-        { keyProvider.isBackupSkipImports },
-        { preferences.isBackupSkipImports = it }
+        { keyProvider.isBackupSkip },
+        { preferences.isBackupSkip = it }
     )
 
     // Note settings

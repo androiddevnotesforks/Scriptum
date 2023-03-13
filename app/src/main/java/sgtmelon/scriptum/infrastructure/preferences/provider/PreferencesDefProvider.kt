@@ -12,7 +12,7 @@ class PreferencesDefProvider(resources: Resources) {
     val isFirstStart: Boolean = resources.getBoolean(R.bool.pref_first_start)
     val theme: Int = resources.getInteger(R.integer.pref_app_theme)
 
-    val isBackupSkipImports: Boolean = resources.getBoolean(R.bool.pref_backup_skip)
+    val isBackupSkip: Boolean = resources.getBoolean(R.bool.pref_backup_skip)
 
     val sort: Int = resources.getInteger(R.integer.pref_note_sort)
     val defaultColor: Int = resources.getInteger(R.integer.pref_note_color)

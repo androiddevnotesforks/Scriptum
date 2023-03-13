@@ -12,7 +12,6 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.backup.BackupParser
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
 
@@ -79,7 +79,7 @@ class StartBackupImportUseCaseTest : ParentTest() {
         }
 
         every { backupParser.convert(data) } returns parserResult
-        every { preferencesRepo.isBackupSkipImports } returns isSkipImports
+        every { preferencesRepo.isBackupSkip } returns isSkipImports
         coEvery { backupRepo.insertData(parserResult, isSkipImports) } returns ImportResult.Simple
 
         runBlocking {
@@ -103,7 +103,7 @@ class StartBackupImportUseCaseTest : ParentTest() {
                 fileDataSource.readFile(item.path)
                 cipherDataSource.decrypt(encryptData)
                 backupParser.convert(data)
-                preferencesRepo.isBackupSkipImports
+                preferencesRepo.isBackupSkip
                 backupRepo.insertData(parserResult, isSkipImports)
             }
         }

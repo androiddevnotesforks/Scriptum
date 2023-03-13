@@ -49,7 +49,7 @@ class PreferencesRepoImpl(
 
     // Backup settings
 
-    override val isBackupSkipImports: Boolean get() = dataSource.isBackupSkipImports
+    override val isBackupSkip: Boolean get() = dataSource.isBackupSkip
 
     // Note settings
 

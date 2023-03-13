@@ -31,7 +31,7 @@ class BackupPreferenceLogic : PreferenceLogic() {
         val skipSwitch = Switch(
             R.string.pref_title_import_skip,
             R.string.pref_summary_import_skip,
-            preferencesRepo.isBackupSkipImports
+            preferencesRepo.isBackupSkip
         )
         list.add(Header(R.string.pref_header_options))
         list.add(skipSwitch)

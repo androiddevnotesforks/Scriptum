@@ -20,7 +20,7 @@ interface PreferencesRepo {
 
     // Backup settings
 
-    val isBackupSkipImports: Boolean
+    val isBackupSkip: Boolean
 
     // Note settings
 

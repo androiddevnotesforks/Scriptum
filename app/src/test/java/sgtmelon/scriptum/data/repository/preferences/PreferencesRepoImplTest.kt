@@ -179,10 +179,10 @@ class PreferencesRepoImplTest : ParentTest() {
 
     // Backup settings
 
-    @Test fun isBackupSkipImports() = getTest(
+    @Test fun isBackupSkip() = getTest(
         Random.nextBoolean(),
-        { dataSource.isBackupSkipImports },
-        { repo.isBackupSkipImports }
+        { dataSource.isBackupSkip },
+        { repo.isBackupSkip }
     )
 
     // Note settings

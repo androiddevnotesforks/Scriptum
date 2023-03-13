@@ -23,7 +23,7 @@ class PreferencesDataSourceImpl(
 
     // Backup settings
 
-    override val isBackupSkipImports: Boolean get() = preferences.isBackupSkipImports
+    override val isBackupSkip: Boolean get() = preferences.isBackupSkip
 
     // Note settings
 

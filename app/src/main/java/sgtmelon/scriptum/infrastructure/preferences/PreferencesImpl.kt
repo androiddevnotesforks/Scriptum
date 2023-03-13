@@ -27,9 +27,9 @@ class PreferencesImpl(
     // Backup settings
 
     /** Change of this variable happen inside preference.xml screen (or inside UI tests). */
-    override var isBackupSkipImports: Boolean
-        get() = preferences.getBoolean(key.isBackupSkipImports, def.isBackupSkipImports)
-        set(value) = edit { putBoolean(key.isBackupSkipImports, value) }
+    override var isBackupSkip: Boolean
+        get() = preferences.getBoolean(key.isBackupSkip, def.isBackupSkip)
+        set(value) = edit { putBoolean(key.isBackupSkip, value) }
 
     // Note settings
 

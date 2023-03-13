@@ -11,7 +11,7 @@ interface Preferences {
     // Backup settings
 
     /** Change of this variable happen inside preference.xml screen (or inside UI tests). */
-    var isBackupSkipImports: Boolean
+    var isBackupSkip: Boolean
 
     // Note settings
 
