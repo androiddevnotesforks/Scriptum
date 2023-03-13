@@ -2,10 +2,13 @@ package sgtmelon.scriptum.data.repository.preferences
 
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.ParentEnumConverter
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
@@ -20,13 +23,29 @@ import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
+private class EnumDelegator<E: Enum<E>>(
+    private val converter: ParentEnumConverter<E>,
+    private val default: E,
+    private inline val get: () -> Int,
+    private inline val set: (Int) -> Unit
+) : ReadWriteProperty<Any, E> {
+
+    override fun getValue(thisRef: Any, property: KProperty<*>): E {
+        return converter.toEnum(get()) ?: default.also { setValue(thisRef, property, it) }
+    }
+
+    override fun setValue(thisRef: Any, property: KProperty<*>, value: E) {
+        set(converter.toInt(value))
+    }
+}
+
 class PreferencesRepoImpl(
     private val dataSource: PreferencesDataSource,
-    private val themeConverter: ThemeConverter,
-    private val sortConverter: SortConverter,
-    private val colorConverter: ColorConverter,
-    private val savePeriodConverter: SavePeriodConverter,
-    private val repeatConverter: RepeatConverter,
+    themeConverter: ThemeConverter,
+    sortConverter: SortConverter,
+    colorConverter: ColorConverter,
+    savePeriodConverter: SavePeriodConverter,
+    repeatConverter: RepeatConverter,
     private val signalConverter: SignalConverter
 ) : PreferencesRepo {
 
@@ -38,13 +57,11 @@ class PreferencesRepoImpl(
 
     // App settings
 
-    override var theme: Theme
-        get() = themeConverter.toEnum(dataSource.theme) ?: Theme.SYSTEM.also {
-            theme = it
-        }
-        set(value) {
-            dataSource.theme = themeConverter.toInt(value)
-        }
+    override var theme by EnumDelegator(
+        themeConverter, Theme.SYSTEM,
+        get = { dataSource.theme },
+        set = { dataSource.theme = it }
+    )
 
     // Backup settings
 
@@ -52,42 +69,34 @@ class PreferencesRepoImpl(
 
     // Note settings
 
-    override var sort: Sort
-        get() = sortConverter.toEnum(dataSource.sort) ?: Sort.CHANGE.also {
-            sort = it
-        }
-        set(value) {
-            dataSource.sort = sortConverter.toInt(value)
-        }
+    override var sort: Sort by EnumDelegator(
+        sortConverter, Sort.CHANGE,
+        get = { dataSource.sort },
+        set = { dataSource.sort = it }
+    )
 
-    override var defaultColor: Color
-        get() = colorConverter.toEnum(dataSource.defaultColor) ?: Color.WHITE.also {
-            defaultColor = it
-        }
-        set(value) {
-            dataSource.defaultColor = colorConverter.toInt(value)
-        }
+    override var defaultColor: Color by EnumDelegator(
+        colorConverter, Color.WHITE,
+        get = { dataSource.defaultColor },
+        set = { dataSource.defaultColor = it }
+    )
 
     override val saveState: NoteSaveState
         get() = NoteSaveState(dataSource.isPauseSaveOn, dataSource.isAutoSaveOn, savePeriod)
 
-    override var savePeriod: SavePeriod
-        get() = savePeriodConverter.toEnum(dataSource.savePeriod) ?: SavePeriod.MIN_1.also {
-            savePeriod = it
-        }
-        set(value) {
-            dataSource.savePeriod = savePeriodConverter.toInt(value)
-        }
+    override var savePeriod: SavePeriod by EnumDelegator(
+        savePeriodConverter, SavePeriod.MIN_1,
+        get = { dataSource.savePeriod },
+        set = { dataSource.savePeriod = it }
+    )
 
     // Alarm settings
 
-    override var repeat: Repeat
-        get() = repeatConverter.toEnum(dataSource.repeat) ?: Repeat.MIN_10.also {
-            repeat = it
-        }
-        set(value) {
-            dataSource.repeat = repeatConverter.toInt(value)
-        }
+    override var repeat: Repeat by EnumDelegator(
+        repeatConverter, Repeat.MIN_10,
+        get = { dataSource.repeat },
+        set = { dataSource.repeat = it }
+    )
 
     override var signalTypeCheck: BooleanArray
         get() = signalConverter.toArray(dataSource.signal)
