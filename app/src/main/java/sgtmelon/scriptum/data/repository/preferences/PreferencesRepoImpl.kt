@@ -23,22 +23,6 @@ import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
-private class EnumDelegator<E: Enum<E>>(
-    private val converter: ParentEnumConverter<E>,
-    private val default: E,
-    private inline val get: () -> Int,
-    private inline val set: (Int) -> Unit
-) : ReadWriteProperty<Any, E> {
-
-    override fun getValue(thisRef: Any, property: KProperty<*>): E {
-        return converter.toEnum(get()) ?: default.also { setValue(thisRef, property, it) }
-    }
-
-    override fun setValue(thisRef: Any, property: KProperty<*>, value: E) {
-        set(converter.toInt(value))
-    }
-}
-
 class PreferencesRepoImpl(
     private val dataSource: PreferencesDataSource,
     themeConverter: ThemeConverter,
@@ -57,7 +41,7 @@ class PreferencesRepoImpl(
 
     // App settings
 
-    override var theme by EnumDelegator(
+    override var theme by PrefEnumDelegator(
         themeConverter, Theme.SYSTEM,
         get = { dataSource.theme },
         set = { dataSource.theme = it }
@@ -69,13 +53,13 @@ class PreferencesRepoImpl(
 
     // Note settings
 
-    override var sort: Sort by EnumDelegator(
+    override var sort: Sort by PrefEnumDelegator(
         sortConverter, Sort.CHANGE,
         get = { dataSource.sort },
         set = { dataSource.sort = it }
     )
 
-    override var defaultColor: Color by EnumDelegator(
+    override var defaultColor: Color by PrefEnumDelegator(
         colorConverter, Color.WHITE,
         get = { dataSource.defaultColor },
         set = { dataSource.defaultColor = it }
@@ -84,7 +68,7 @@ class PreferencesRepoImpl(
     override val saveState: NoteSaveState
         get() = NoteSaveState(dataSource.isPauseSaveOn, dataSource.isAutoSaveOn, savePeriod)
 
-    override var savePeriod: SavePeriod by EnumDelegator(
+    override var savePeriod: SavePeriod by PrefEnumDelegator(
         savePeriodConverter, SavePeriod.MIN_1,
         get = { dataSource.savePeriod },
         set = { dataSource.savePeriod = it }
@@ -92,7 +76,7 @@ class PreferencesRepoImpl(
 
     // Alarm settings
 
-    override var repeat: Repeat by EnumDelegator(
+    override var repeat: Repeat by PrefEnumDelegator(
         repeatConverter, Repeat.MIN_10,
         get = { dataSource.repeat },
         set = { dataSource.repeat = it }
@@ -174,4 +158,20 @@ class PreferencesRepoImpl(
         }
 
     override fun clear() = dataSource.clear()
+}
+
+private class PrefEnumDelegator<E: Enum<E>>(
+    private val converter: ParentEnumConverter<E>,
+    private val default: E,
+    private inline val get: () -> Int,
+    private inline val set: (Int) -> Unit
+) : ReadWriteProperty<Any, E> {
+
+    override fun getValue(thisRef: Any, property: KProperty<*>): E {
+        return converter.toEnum(get()) ?: default.also { setValue(thisRef, property, it) }
+    }
+
+    override fun setValue(thisRef: Any, property: KProperty<*>, value: E) {
+        set(converter.toInt(value))
+    }
 }
