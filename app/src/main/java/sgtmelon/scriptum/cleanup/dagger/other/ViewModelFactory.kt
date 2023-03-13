@@ -261,13 +261,16 @@ object ViewModelFactory {
 
     class Notification(
         private val list: ListStorageImpl<NotificationItem>,
+        private val getList: GetNotificationListUseCase,
+        private val getNote: GetNoteUseCase,
         private val setNotification: SetNotificationUseCase,
-        private val deleteNotification: DeleteNotificationUseCase,
-        private val getList: GetNotificationListUseCase
+        private val deleteNotification: DeleteNotificationUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(NotificationsViewModelImpl::class) {
-                NotificationsViewModelImpl(list, setNotification, deleteNotification, getList)
+                NotificationsViewModelImpl(
+                    list, getList, getNote, setNotification, deleteNotification
+                )
             }
         }
     }

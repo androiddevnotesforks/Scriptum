@@ -122,8 +122,12 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         snackbar.show(parentContainer, withInsets = true)
     }
 
-    private fun openNoteScreen(item: NotificationItem) = open.attempt {
-        startActivity(Screens.Note.toExist(context = this, item))
+    private fun openNoteScreen(item: NotificationItem) {
+        viewModel.getNote(item).collect(owner = this) {
+            open.attempt {
+                startActivity(Screens.Note.toExist(context = this, it))
+            }
+        }
     }
 
     private fun removeNotification(p: Int) = open.attempt(withSwitch = false) {

@@ -7,10 +7,12 @@ import kotlinx.coroutines.flow.Flow
 import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.toCalendar
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetNoteUseCase
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
@@ -19,9 +21,10 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
 class NotificationsViewModelImpl(
     override val list: ListStorageImpl<NotificationItem>,
+    private val getList: GetNotificationListUseCase,
+    private val getNote: GetNoteUseCase,
     private val setNotification: SetNotificationUseCase,
-    private val deleteNotification: DeleteNotificationUseCase,
-    private val getList: GetNotificationListUseCase
+    private val deleteNotification: DeleteNotificationUseCase
 ) : ViewModel(),
     NotificationsViewModel {
 
@@ -90,5 +93,10 @@ class NotificationsViewModelImpl(
     override fun clearUndoStack() {
         undoList.clear()
         showSnackbar.postValue(false)
+    }
+
+    override fun getNote(item: NotificationItem): Flow<NoteItem> = flowOnBack {
+        val noteItem = getNote(item.note.id) ?: return@flowOnBack
+        emit(noteItem)
     }
 }

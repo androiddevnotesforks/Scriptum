@@ -286,12 +286,13 @@ class ViewModelModule {
     fun provideNotificationViewModel(
         owner: ViewModelStoreOwner,
         @Named("Notification") list: ListStorageImpl<NotificationItem>,
+        getList: GetNotificationListUseCase,
+        getNote: GetNoteUseCase,
         setNotification: SetNotificationUseCase,
-        deleteNotification: DeleteNotificationUseCase,
-        getList: GetNotificationListUseCase
+        deleteNotification: DeleteNotificationUseCase
     ): NotificationsViewModel {
         val factory = ViewModelFactory.Notification(
-            list, setNotification, deleteNotification, getList
+            list, getList, getNote, setNotification, deleteNotification
         )
         return ViewModelProvider(owner, factory)[NotificationsViewModelImpl::class.java]
     }

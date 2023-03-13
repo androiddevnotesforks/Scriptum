@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.screen
 import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.bundle.encode
 import sgtmelon.scriptum.infrastructure.bundle.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
@@ -64,11 +63,6 @@ object Screens {
             val isEdit = state == NoteState.CREATE
             val init = NoteInit(item, state, isEdit)
             return context.intent<NoteActivity>(IntentData.Note.Key.INIT to init.encode())
-        }
-
-        fun toExist(context: Context, item: NotificationItem): Intent = with(item.note) {
-            return TODO("Получать заметку, а не notificationItem")
-//            return get(context, NoteState.EXIST, type, id, color, name)
         }
 
         fun toExist(context: Context, item: NoteItem): Intent = with(item) {
