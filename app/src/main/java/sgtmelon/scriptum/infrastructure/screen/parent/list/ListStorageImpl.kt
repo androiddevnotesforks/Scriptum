@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
-import sgtmelon.scriptum.infrastructure.utils.ResetValueDelegator
+import sgtmelon.scriptum.infrastructure.utils.delegators.ResetValueDelegator
 
 /**
  * Class help work with: list screens, custom adapter notify calls, display of UI elements.

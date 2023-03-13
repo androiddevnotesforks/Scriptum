@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.utils
+package sgtmelon.scriptum.infrastructure.utils.delegators
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
