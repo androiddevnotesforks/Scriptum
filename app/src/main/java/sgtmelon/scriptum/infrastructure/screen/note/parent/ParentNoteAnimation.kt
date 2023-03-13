@@ -18,8 +18,8 @@ import sgtmelon.test.idling.getWaitIdling
  * Current state of [isEdit]/[state] needed for skip animation during note open.
  */
 class ParentNoteAnimation(
-    private var isEdit: Boolean,
-    private var state: NoteState
+    private var state: NoteState?,
+    private var isEdit: Boolean?
 ) {
 
     private var animator: Animator? = null
@@ -31,7 +31,7 @@ class ParentNoteAnimation(
     ) {
         if (binding == null) return
 
-        if (this.isEdit == isEdit && this.state == state) {
+        if (this.state == state && this.isEdit == isEdit) {
             /** Skip setup if was double call and animation already running. */
             if (animator?.isRunning.isTrue()) return
 
@@ -39,8 +39,8 @@ class ParentNoteAnimation(
             return
         }
 
-        this.isEdit = isEdit
         this.state = state
+        this.isEdit = isEdit
 
         /** Post needed for better UI performance. */
         binding.root.rootView.post {

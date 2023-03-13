@@ -7,7 +7,7 @@ import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.test.idling.getWaitIdling
 

@@ -33,12 +33,7 @@ import sgtmelon.scriptum.cleanup.dagger.module.domain.MainUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.NoteUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.RankUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.UseCaseModule
-import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.BundleProviderModule
-import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ContextModule
-import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ConverterModule
-import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.PreferencesModule
-import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.RoomModule
-import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.StringModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.*
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.service.EternalServiceLogicImpl
 
@@ -52,7 +47,7 @@ import sgtmelon.scriptum.infrastructure.service.EternalServiceLogicImpl
     PreferencesModule::class,
     RoomModule::class,
     ConverterModule::class,
-    BundleProviderModule::class,
+    ListModule::class,
 
     BindUseCaseModule::class,
     MainUseCaseModule::class,

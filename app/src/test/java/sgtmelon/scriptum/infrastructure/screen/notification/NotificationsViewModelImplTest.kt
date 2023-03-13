@@ -24,9 +24,9 @@ class NotificationsViewModelImplTest : ParentLiveDataTest() {
     @MockK lateinit var deleteNotification: DeleteNotificationUseCase
     @MockK lateinit var getList: GetNotificationListUseCase
 
-    private val viewModel by lazy {
-        NotificationsViewModelImpl(setNotification, deleteNotification, getList)
-    }
+//    private val viewModel: NotificationsViewModelImpl by lazy {
+//        NotificationsViewModelImpl(setNotification, deleteNotification, getList)
+//    }
 
     @After override fun tearDown() {
         super.tearDown()

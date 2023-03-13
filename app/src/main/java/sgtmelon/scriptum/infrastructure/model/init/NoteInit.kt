@@ -1,14 +1,12 @@
 package sgtmelon.scriptum.infrastructure.model.init
 
+import kotlinx.serialization.Serializable
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
+@Serializable
 data class NoteInit(
-    var isEdit: Boolean,
+    var noteItem: NoteItem,
     var state: NoteState,
-    var id: Long,
-    var type: NoteType,
-    var color: Color,
-    var name: String
+    var isEdit: Boolean
 )

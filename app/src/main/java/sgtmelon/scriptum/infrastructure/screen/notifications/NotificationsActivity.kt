@@ -11,9 +11,9 @@ import sgtmelon.scriptum.databinding.ActivityNotificationsBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
-import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
@@ -28,7 +28,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  * Screen with list of feature notifications.
  */
 class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
-    CustomListNotifyUi<NotificationItem>,
+    ListScreen<NotificationItem>,
     SnackbarDelegator.Callback {
 
     override val layoutId: Int = R.layout.activity_notifications
@@ -92,14 +92,14 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.showList.observe(this) {
+        viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
             listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { catchListUpdate(it) }
+        viewModel.list.data.observe(this) { onListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 
@@ -122,8 +122,12 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         snackbar.show(parentContainer, withInsets = true)
     }
 
-    private fun openNoteScreen(item: NotificationItem) = open.attempt {
-        startActivity(InstanceFactory.Note[this, item])
+    private fun openNoteScreen(item: NotificationItem) {
+        viewModel.getNote(item).collect(owner = this) {
+            open.attempt {
+                startActivity(Screens.Note.toExist(context = this, it))
+            }
+        }
     }
 
     private fun removeNotification(p: Int) = open.attempt(withSwitch = false) {

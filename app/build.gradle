@@ -2,6 +2,7 @@ plugins {
     id "com.android.application"
     id 'org.jetbrains.kotlin.android'
     id "kotlin-kapt"
+    id "kotlinx-serialization"
     id "com.google.gms.google-services"
     id "com.google.firebase.crashlytics"
 }
@@ -81,6 +82,8 @@ dependencies {
     testImplementation project(path: ':tests:common')
     androidTestImplementation project(path: ':tests:common')
     androidTestImplementation project(path: ':tests:cappuccino')
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 
     //region Google
 

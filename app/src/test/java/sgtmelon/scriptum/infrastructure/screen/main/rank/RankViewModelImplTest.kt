@@ -26,11 +26,11 @@ class RankViewModelImplTest : ParentLiveDataTest() {
     @MockK lateinit var correctRankPositions: CorrectRankPositionsUseCase
     @MockK lateinit var updateRankPositions: UpdateRankPositionsUseCase
 
-    private val viewModel by lazy {
-        RankViewModelImpl(
-            getList, insertRank, deleteRank, updateRank, correctRankPositions, updateRankPositions
-        )
-    }
+//    private val viewModel by lazy {
+//        RankViewModelImpl(
+//            getList, insertRank, deleteRank, updateRank, correctRankPositions, updateRankPositions
+//        )
+//    }
 
     @After override fun tearDown() {
         super.tearDown()

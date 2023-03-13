@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.listener
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import sgtmelon.extensions.emptyString
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryChange as Change
@@ -16,7 +17,7 @@ class HistoryTextWatcher(
     private val getAction: (value: Change<String>, cursor: Change<Int>) -> HistoryAction?
 ) : TextWatcher {
 
-    private var valueFrom = ""
+    private var valueFrom = emptyString()
     private var cursorFrom = 0
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

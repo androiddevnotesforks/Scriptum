@@ -9,11 +9,11 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.parent.ParentTest
@@ -151,8 +151,9 @@ abstract class ParentUiTest : ParentTest() {
         SplashScreen(after)
     }
 
+    @Deprecated("Replace with launchMain")
     inline fun launchSplash(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
-        launchSplash(before, InstanceFactory.Splash[context], after)
+        launchSplash(before, Screens.Splash.toMain(context), after)
     }
 
     inline fun launchSplashAlarm(
@@ -160,7 +161,11 @@ abstract class ParentUiTest : ParentTest() {
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launchSplash(before, InstanceFactory.Splash.getAlarm(context, item.id), after)
+        launchSplash(before, Screens.Splash.toAlarm(context, item.id), after)
+    }
+
+    inline fun launchSplashNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+        launchSplash(before, Screens.Splash.toNotification(context), after)
     }
 
     inline fun launchSplashBind(
@@ -168,11 +173,7 @@ abstract class ParentUiTest : ParentTest() {
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launchSplash(before, InstanceFactory.Splash.getBind(context, item), after)
-    }
-
-    inline fun launchSplashNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
-        launchSplash(before, InstanceFactory.Splash.getNotification(context), after)
+        launchSplash(before, Screens.Splash.toBindNote(context, item), after)
     }
 
     inline fun launchSplashNewNote(
@@ -180,7 +181,7 @@ abstract class ParentUiTest : ParentTest() {
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
-        launchSplash(before, InstanceFactory.Splash.getNewNote(context, type), after)
+        launchSplash(before, Screens.Splash.toNewNote(context, type), after)
     }
 
     //endregion

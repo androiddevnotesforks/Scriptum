@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import androidx.annotation.MainThread
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.launchBack
@@ -30,31 +29,33 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.infrastructure.database.DbData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.state.ShowListState
-import sgtmelon.scriptum.infrastructure.model.state.UpdateListState
+import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModel
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.visibleList
 
+/**
+ * Inside [ListStorageImpl.data] and [ListStorageImpl.localData] will be stored current list
+ * with some filters (e.g. not show done items). So keep in mind, that need to use adapter
+ * position inside this two lists.
+ *
+ * In [NoteItem.Roll.list] will be stored list without filters, use pure position.
+ */
 class RollNoteViewModelImpl(
     init: NoteInit,
     history: NoteHistory,
     colorConverter: ColorConverter,
-    createNote: CreateRollNoteUseCase,
-    getNote: GetRollNoteUseCase,
+    override val list: ListStorageImpl<RollItem>,
     cacheNote: CacheRollNoteUseCase,
     private val saveNote: SaveNoteUseCase,
     convertNote: ConvertNoteUseCase,
@@ -71,43 +72,22 @@ class RollNoteViewModelImpl(
     getRankDialogNames: GetRankDialogNamesUseCase,
     getHistoryResult: GetHistoryResultUseCase
 ) : ParentNoteViewModelImpl<NoteItem.Roll>(
-    colorConverter, init, history, createNote, getNote, cacheNote,
+    colorConverter, init, history, cacheNote,
     convertNote, updateNote, deleteNote, restoreNote, clearNote,
     setNotification, deleteNotification, getNotificationDateList,
     getRankId, getRankDialogNames, getHistoryResult
-), CustomListNotifyViewModel<RollItem>,
-    RollNoteViewModel {
+), RollNoteViewModel {
 
-    /**
-     * Inside [itemList] and [_itemList] will be stored current list with some filters (e.g. not
-     * show done items). So keep in mind, that need to use adapter position inside this
-     * two lists.
-     *
-     * In [NoteItem.Roll.list] will be stored list without filters, use pure position.
-     */
-    override val showList: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
-    override val itemList: MutableLiveData<List<RollItem>> = MutableLiveData()
-    override val _itemList: MutableList<RollItem> = mutableListOf()
-    override var updateList: UpdateListState = UpdateListState.Notify
-        get() {
-            val value = field
-            updateList = UpdateListState.Notify
-            return value
-        }
-
-    override suspend fun initAfterDataReady(item: NoteItem.Roll) = postNotifyItemList(item)
+    override fun afterDataInit(item: NoteItem.Roll) {
+        super.afterDataInit(item)
+        postNotifyItemList(item)
+    }
 
     /** [updateList] needed for custom updates. */
     private fun postNotifyItemList(item: NoteItem.Roll, updateList: UpdateListState? = null) {
-        val list = item.visibleList
-        _itemList.clearAdd(list)
-
-        if (updateList != null) {
-            this.updateList = updateList
+        list.change(updateList) {
+            it.clearAdd(item.visibleList)
         }
-
-        itemList.postValue(list)
-        notifyShowList()
     }
 
     override fun restoreData(): Boolean {
@@ -115,7 +95,7 @@ class RollNoteViewModelImpl(
         /** Save [NoteItem.Roll.isVisible], because it should be the same after restore. */
         val restoreItem = cacheNote.item?.copy(isVisible = item.isVisible) ?: return false
 
-        if (id.value == Default.ID || item.id == Default.ID) return false
+        if (item.id == Default.ID) return false
 
         isEdit.postValue(false)
         noteItem.postValue(restoreItem)
@@ -209,7 +189,6 @@ class RollNoteViewModelImpl(
 
             if (isCreate) {
                 noteState.postValue(NoteState.EXIST)
-                id.postValue(item.id)
 
                 /**
                  * Need if [noteItem] isVisible changes wasn't set inside [changeVisible]
@@ -233,7 +212,7 @@ class RollNoteViewModelImpl(
         postNotifyItemList(item)
 
         /**
-         * Foreign key can't be created without note [id]. Insert will happen inside [save].
+         * Foreign key can't be created without [NoteItem.id]. Insert will happen inside [save].
          * That's why call update only for created notes.
          */
         if (noteState.value != NoteState.CREATE) {
@@ -271,18 +250,21 @@ class RollNoteViewModelImpl(
     override fun addItem(toBottom: Boolean, text: String) {
         val item = noteItem.value ?: return
 
+        /** List size after adding item, will be last index. */
         val position = if (toBottom) item.list.size else 0
-        val hidePosition = if (toBottom) _itemList.size else 0
         val rollItem = RollItem(position = position, text = text)
 
-        item.list.add(position, rollItem)
-        _itemList.add(hidePosition, rollItem)
-
         /** Post to [noteItem] because list size was changed and need to update a progressBar. */
+        item.list.add(position, rollItem)
         noteItem.postValue(item)
-        updateList = UpdateListState.chooseInsert(_itemList.size, hidePosition)
-        itemList.postValue(_itemList)
-        notifyShowList()
+
+        list.change {
+            /** List size after adding item, will be last index. */
+            val hidePosition = if (toBottom) it.size else 0
+            it.add(hidePosition, rollItem)
+
+            list.update = UpdateListState.chooseInsert(it.size, hidePosition)
+        }
 
         history.add(HistoryAction.Roll.List.Add(position, rollItem))
         historyAvailable.postValue(history.available)
@@ -298,14 +280,7 @@ class RollNoteViewModelImpl(
     override fun swipeItem(position: Int) {
         val absolutePosition = getAbsolutePosition(position) ?: return
 
-        /**
-         * Important: don't use [MutableLiveData.postValue] here with [itemList], because it
-         * leads to UI glitches.
-         */
-        val item = _itemList.removeAtOrNull(position) ?: return
-        updateList = UpdateListState.Remove(position)
-        itemList.value = _itemList
-        notifyShowList()
+        val item = list.swipe(position) ?: return
 
         noteItem.postValueWithChange { it.list.removeAtOrNull(absolutePosition) }
 
@@ -318,15 +293,7 @@ class RollNoteViewModelImpl(
      * during [isEditMode].
      */
     @MainThread
-    override fun moveItem(from: Int, to: Int) {
-        /**
-         * Important: don't use [MutableLiveData.postValue] here with [itemList], because it
-         * leads to UI glitches (during item drag/move).
-         */
-        _itemList.move(from, to)
-        updateList = UpdateListState.Move(from, to)
-        itemList.value = _itemList
-    }
+    override fun moveItem(from: Int, to: Int) = list.move(from, to)
 
     /**
      * All item [RollItem.position] updates after call [save], because it's hard to control
@@ -360,7 +327,7 @@ class RollNoteViewModelImpl(
             position
         } else {
             /**
-             * Need every time filter checked, because [_itemList] in some cases not
+             * Need every time filter checked, because [list] in some cases not
              * representative (some items was moved) and it may produce position bugs.
              *
              * For example, in [moveItemResult] changes was applied (in [moveItem]) before
@@ -377,10 +344,7 @@ class RollNoteViewModelImpl(
         val absolutePosition = getAbsolutePosition(position) ?: return
 
         noteItem.postValueWithChange { it.list.getOrNull(absolutePosition)?.text = text }
-        _itemList.getOrNull(position)?.text = text
-
-        updateList = UpdateListState.Set
-        itemList.postValue(_itemList)
+        list.change(UpdateListState.Set) { it.getOrNull(position)?.text = text }
 
         historyAvailable.postValue(history.available)
     }

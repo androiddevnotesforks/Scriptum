@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.NoteModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
@@ -14,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
  * Component for [TextNoteFragmentImpl].
  */
 @ActivityScope
-@Subcomponent(modules = [ViewModelModule::class])
+@Subcomponent(modules = [ViewModelModule::class, NoteModule::class])
 interface TextNoteComponent {
 
     fun inject(fragment: TextNoteFragmentImpl)

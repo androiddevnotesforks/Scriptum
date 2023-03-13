@@ -4,10 +4,12 @@ import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.databinding.ActivityNoteBinding
+import sgtmelon.scriptum.infrastructure.bundle.BundleValue
+import sgtmelon.scriptum.infrastructure.bundle.json.BundleNoteValue
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
@@ -21,7 +23,7 @@ import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
-import sgtmelon.scriptum.infrastructure.utils.extensions.record
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNotePlaceholder
 
 /**
@@ -33,10 +35,10 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
 
     override val layoutId: Int = R.layout.activity_note
 
-    @Inject lateinit var viewModel: NoteViewModel
-    @Inject lateinit var bundleProvider: NoteBundleProvider
+    private val initBundle = BundleNoteValue()
+    override val bundleValues: List<BundleValue> = listOf(initBundle)
 
-    override lateinit var init: NoteInit
+    override val init: NoteInit get() = initBundle.value
 
     private val fragments = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragments.getTextNote()
@@ -52,24 +54,11 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /** Call it after super function, because [bundleProvider] must be injected. */
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
-
-        /**
-         * Checkout all needed data for display note screen. If something goes wrong - report
-         * and close screen.
-         */
-        init = bundleProvider.init ?: run {
-            NullPointerException("Got wrong bundle init data").record()
-            finish()
-            return
-        }
-
         /** Means this activity was rotated or something like that, and need to check cache. */
         val checkCache = savedInstanceState != null
 
-        updateHolder(init.color)
-        showFragment(init.type, checkCache)
+        updateHolder(init.noteItem.color)
+        showFragment(checkCache)
     }
 
     override fun inject(component: ScriptumComponent) {
@@ -100,13 +89,8 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         unregisterReceiver(unbindNoteReceiver)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        bundleProvider.saveData(outState)
-    }
-
     override fun onBackPressed() {
-        val catchBackPress = when (init.type) {
+        val catchBackPress = when (init.noteItem.type) {
             NoteType.TEXT -> textNoteFragment?.onPressBack() ?: false
             NoteType.ROLL -> rollNoteFragment?.onPressBack() ?: false
         }
@@ -123,11 +107,9 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         tintPlaceholder.changeColor(color, window, binding?.toolbarHolder)
     }
 
-    /**
-     * [checkCache] - find fragment by tag or create new.
-     */
-    private fun showFragment(type: NoteType, checkCache: Boolean) {
-        when (type) {
+    /** [checkCache] - find fragment by tag or create new. */
+    private fun showFragment(checkCache: Boolean) {
+        when (init.noteItem.type) {
             NoteType.TEXT -> showTextFragment(checkCache)
             NoteType.ROLL -> showRollFragment(checkCache)
         }
@@ -154,11 +136,9 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         }
     }
 
-    override fun convertNote() {
-        val newType = viewModel.convertType(init.type)
-        init.type = newType
-
-        showFragment(newType, checkCache = true)
+    override fun convertNote(item: NoteItem) {
+        init.noteItem = item
+        showFragment(checkCache = true)
     }
 
     override fun isOrientationChanging(): Boolean = isChangingConfigurations

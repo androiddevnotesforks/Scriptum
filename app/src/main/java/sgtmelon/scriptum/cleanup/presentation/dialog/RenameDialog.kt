@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
+import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.safedialog.annotation.SavedTag
@@ -29,7 +30,7 @@ class RenameDialog : BlankDialog(),
     var position = DEF_POSITION
         private set
 
-    val name: String get() = nameEnter?.text?.toString()?.removeExtraSpace() ?: ""
+    val name: String get() = nameEnter?.text?.toString()?.removeExtraSpace() ?: emptyString()
 
     fun setArguments(p: Int, title: String, nameList: List<String>) = apply {
         arguments = Bundle().apply {

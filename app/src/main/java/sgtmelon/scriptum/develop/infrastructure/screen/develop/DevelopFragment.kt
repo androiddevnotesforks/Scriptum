@@ -7,9 +7,10 @@ import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
+import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivity
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
 /**
@@ -19,7 +20,7 @@ class DevelopFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_develop
 
-    private val binding = DevelopDataBinding(fragment = this)
+    private val binding = DevelopBinding(fragment = this)
 
     @Inject lateinit var viewModel: DevelopViewModel
 
@@ -44,7 +45,7 @@ class DevelopFragment : ParentPreferenceFragment() {
             alarmButton?.setOnClickListener { openRandomAlarm(it.context) }
 
             eternalButton?.setOnClickListener {
-                startActivity(InstanceFactory.Preference[it.context, PreferenceScreen.SERVICE])
+                startActivity(Screens.toPreference(it.context, PreferenceScreen.SERVICE))
             }
 
             resetButton?.setOnClickListener {
@@ -56,13 +57,13 @@ class DevelopFragment : ParentPreferenceFragment() {
 
     private fun Preference.setOnPrintClickListener(type: PrintType) {
         setOnClickListener {
-            startActivity(InstanceFactory.Preference.Develop.Print[it.context, type])
+            startActivity(PrintDevelopActivity[it.context, type])
         }
     }
 
     private fun openRandomAlarm(context: Context) {
         viewModel.randomNoteId.collect(owner = this) { id ->
-            startActivity(InstanceFactory.Splash.getAlarm(context, id))
+            startActivity(Screens.Splash.toAlarm(context, id))
         }
     }
 }

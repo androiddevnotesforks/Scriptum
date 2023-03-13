@@ -15,10 +15,10 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.service.EternalService
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
@@ -81,7 +81,7 @@ object NotificationFactory {
 
             val id = noteItem.id.toInt()
             val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(InstanceFactory.Splash.getBind(context, noteItem))
+                .addNextIntent(Screens.Splash.toBindNote(context, noteItem))
                 .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
             return NotificationCompat.Builder(context, channelId)
@@ -172,7 +172,7 @@ object NotificationFactory {
          */
         operator fun get(context: Context, id: Int, count: Int): Notification {
             val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(InstanceFactory.Splash.getNotification(context))
+                .addNextIntent(Screens.Splash.toNotification(context))
                 .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
             return NotificationCompat.Builder(context, context.getString(R.string.notification_count_channel_id))
@@ -218,7 +218,7 @@ object NotificationFactory {
          */
         operator fun get(context: Context): Notification {
             val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(InstanceFactory.Splash.getHelpDisappear(context))
+                .addNextIntent(Screens.Splash.toHelpDisappear(context))
                 .getPendingIntent(ID, PendingIntent.FLAG_UPDATE_CURRENT)
 
             val text = context.getString(R.string.notification_eternal_description)

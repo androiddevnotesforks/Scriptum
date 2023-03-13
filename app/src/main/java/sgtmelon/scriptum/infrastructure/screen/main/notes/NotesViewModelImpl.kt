@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +9,6 @@ import sgtmelon.extensions.flowOnBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.toCalendar
-import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
@@ -23,13 +22,14 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
-import sgtmelon.scriptum.infrastructure.screen.parent.list.InfoListViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
 
 class NotesViewModelImpl(
     private val preferencesRepo: PreferencesRepo,
+    override val list: ListStorageImpl<NoteItem>,
     private val getList: GetNotesListUseCase,
     private val sortList: SortNoteListUseCase,
     private val getCopyText: GetCopyTextUseCase,
@@ -39,23 +39,21 @@ class NotesViewModelImpl(
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
     private val getNotificationDateList: GetNotificationsDateListUseCase
-) : InfoListViewModelImpl<NoteItem>(),
+) : ViewModel(),
     NotesViewModel {
 
     override val isListHide: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun updateData() {
         viewModelScope.launchBack {
-            val (list, isHide) = getList()
+            val (itemList, isHide) = getList()
             isListHide.postValue(isHide)
-            _itemList.clearAdd(list)
-            itemList.postValue(list)
-            notifyShowList()
+            list.change { it.clearAdd(itemList) }
         }
     }
 
     override fun getNoteNotification(p: Int): Flow<Pair<Calendar, Boolean>> = flowOnBack {
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
+        val item = list.localData.getOrNull(p) ?: return@flowOnBack
         emit(value = item.alarm.date.toCalendar() to item.haveAlarm)
     }
 
@@ -64,10 +62,8 @@ class NotesViewModelImpl(
     }
 
     override fun deleteNoteNotification(p: Int): Flow<NoteItem> = flowOnBack {
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
+        val item = list.change { it.getOrNull(p)?.clearAlarm() ?: return@flowOnBack }
 
-        item.clearAlarm()
-        itemList.postValue(_itemList)
         deleteNotification(item)
         emit(item)
     }
@@ -78,55 +74,52 @@ class NotesViewModelImpl(
     ): Flow<Pair<NoteItem, Calendar>> = flowOnBack {
         if (calendar.isBeforeNow()) return@flowOnBack
 
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
-
-        Log.i("HERE", "set notification: ${calendar.toText()}")
-        setNotification(item, calendar)
-        itemList.postValue(_itemList)
+        val item = list.change {
+            val item = it.getOrNull(p) ?: return@flowOnBack
+            /** Inside will be updated data about alarm. */
+            setNotification(item, calendar)
+            return@change item
+        }
 
         emit(value = item to calendar)
     }
 
     override fun updateNoteBind(p: Int): Flow<NoteItem> = flowOnBack {
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
+        val item = list.change { it.getOrNull(p)?.switchStatus() ?: return@flowOnBack }
 
-        item.switchStatus()
-        itemList.postValue(_itemList)
         updateNote(item)
         emit(item)
     }
 
     override fun convertNote(p: Int): Flow<NoteItem> = flowOnBack {
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
-        val newItem = convertNote(item)
+        val newItem = list.change {
+            val item = it.getOrNull(p) ?: return@flowOnBack
+            val newItem = convertNote(item)
 
-        /** Sort list without new call to dataBase. */
-        _itemList[p] = newItem
-        _itemList.clearAdd(sortList(_itemList, preferencesRepo.sort))
-        itemList.postValue(_itemList)
+            /** Sort list without new call to dataBase. */
+            it[p] = newItem
+            it.clearAdd(sortList(it, preferencesRepo.sort))
+
+            return@change newItem
+        }
+
         emit(newItem)
     }
 
     override fun getNoteText(p: Int): Flow<String> = flowOnBack {
-        val item = _itemList.getOrNull(p) ?: return@flowOnBack
+        val item = list.localData.getOrNull(p) ?: return@flowOnBack
         emit(getCopyText(item))
     }
 
     override fun deleteNote(p: Int): Flow<NoteItem> = flowOnBack {
-        val item = _itemList.removeAtOrNull(p) ?: return@flowOnBack
-
-        itemList.postValue(_itemList)
-        notifyShowList()
+        val item = list.change { it.removeAtOrNull(p) ?: return@flowOnBack }
 
         deleteNote(item)
         emit(item)
     }
 
-    override fun onReceiveUnbindNote(noteId: Long) {
-        val p = _itemList.indexOfFirst { it.id == noteId }
-        val item = _itemList.getOrNull(p) ?: return
-
+    override fun onReceiveUnbindNote(noteId: Long) = list.change {
+        val item = it.firstOrNull { item -> item.id == noteId } ?: return@change
         item.isStatus = false
-        itemList.postValue(_itemList)
     }
 }

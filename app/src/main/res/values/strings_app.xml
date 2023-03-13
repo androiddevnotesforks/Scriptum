@@ -26,6 +26,7 @@
     <string name="menu_roll_visible">Hide done items</string>
     <string name="menu_roll_invisible">Show done items</string>
 
+    <!--  TODO Remove after help disappear refactor  -->
     <string name="menu_video_lesson">Open video lesson</string>
 
     <!-- Clipboard -->

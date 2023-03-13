@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import javax.inject.Inject
 import sgtmelon.extensions.collect
+import sgtmelon.extensions.emptyString
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -37,7 +38,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     override val xmlId: Int = R.xml.preference_backup
 
-    private val binding = BackupPreferenceDataBinding(fragment = this)
+    private val binding = BackupPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: BackupPreferenceViewModel
 
@@ -114,7 +115,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     private fun observeExportSummary(it: ExportSummaryState) {
         binding.exportButton?.summary = when (it) {
             ExportSummaryState.Permission -> getString(R.string.pref_summary_no_permission)
-            ExportSummaryState.Empty -> ""
+            ExportSummaryState.Empty -> emptyString()
         }
     }
 

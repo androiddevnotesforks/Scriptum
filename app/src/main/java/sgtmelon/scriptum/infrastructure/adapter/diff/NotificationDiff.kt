@@ -1,14 +1,18 @@
 package sgtmelon.scriptum.infrastructure.adapter.diff
 
+import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiff
 
 /**
  * Diff for [NotificationItem].
  */
-class NotificationDiff : ParentDiff<NotificationItem>() {
+class NotificationDiff : DiffUtil.ItemCallback<NotificationItem>() {
 
     override fun areItemsTheSame(oldItem: NotificationItem, newItem: NotificationItem): Boolean {
         return oldItem.note.id == newItem.note.id && oldItem.alarm.id == newItem.alarm.id
+    }
+
+    override fun areContentsTheSame(oldItem: NotificationItem, newItem: NotificationItem): Boolean {
+        return oldItem == newItem
     }
 }

@@ -9,10 +9,10 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.startMarketActivity
@@ -25,7 +25,7 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_menu
 
-    private val binding = MenuPreferenceDataBinding(fragment = this)
+    private val binding = MenuPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: MenuPreferenceViewModel
 
@@ -68,8 +68,8 @@ class MenuPreferenceFragment : ParentPreferenceFragment() {
         }
     }
 
-    private fun Preference.openScreen(key: PreferenceScreen) = open.attempt {
-        startActivity(InstanceFactory.Preference[context, key])
+    private fun Preference.openScreen(screen: PreferenceScreen) = open.attempt {
+        startActivity(Screens.toPreference(context, screen))
     }
 
     override fun setupObservers() {

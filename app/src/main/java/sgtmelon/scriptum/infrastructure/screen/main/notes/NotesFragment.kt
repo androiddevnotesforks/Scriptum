@@ -5,6 +5,7 @@ import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.extensions.collect
@@ -17,14 +18,14 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
-import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
+import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
@@ -36,6 +37,7 @@ import sgtmelon.scriptum.infrastructure.model.key.dialog.NotesDialogOptions as O
  * Screen to display the list of main notes.
  */
 class NotesFragment : BindingFragment<FragmentNotesBinding>(),
+    ListScreen<NoteItem>,
     Toolbar.OnMenuItemClickListener,
     ScrollTopCallback {
 
@@ -45,7 +47,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     override val layoutId: Int = R.layout.fragment_notes
 
-    @Inject lateinit var viewModel: NotesViewModel
+    @Inject override lateinit var viewModel: NotesViewModel
 
     private val listAnimation = ShowListAnimation()
 
@@ -56,12 +58,14 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     private val dateDialog by lazy { dialogs.getDate() }
     private val timeDialog by lazy { dialogs.getTime() }
 
-    private val adapter: NoteAdapter by lazy {
+    override val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {
             override fun onNoteClick(item: NoteItem) = openNoteScreen(item)
             override fun onNoteLongClick(item: NoteItem, p: Int) = showOptionsDialog(item, p)
         })
     }
+    override val layoutManager by lazy { LinearLayoutManager(context) }
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     //region System
 
@@ -87,7 +91,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         binding?.recyclerView?.let {
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(false) /** The height of all items may be not the same. */
-            it.layoutManager = LinearLayoutManager(context)
+            it.layoutManager = layoutManager
             it.adapter = adapter
 
             val fabCallback = activity as? RecyclerMainFabListener.Callback
@@ -134,15 +138,15 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.showList.observe(this) {
+        viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
             listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
+        viewModel.list.data.observe(this) { onListUpdate(it) }
         viewModel.isListHide.observe(this) { observeListHide(it) }
-        viewModel.itemList.observe(this) { adapter.notifyList(it) }
     }
 
     override fun registerReceivers() {
@@ -157,11 +161,6 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     override fun onResume() {
         super.onResume()
-
-        /**
-         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
-         * call of this function inside parent activity (during fragment transaction).
-         */
         viewModel.updateData()
     }
 
@@ -186,7 +185,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     private fun openNoteScreen(item: NoteItem) {
         val context = context ?: return
 
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item, NoteState.EXIST]) }
+        parentOpen?.attempt { startActivity(Screens.Note.toExist(context, item)) }
     }
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {
@@ -271,8 +270,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
         parentOpen?.attempt {
             val intent = when (item?.itemId) {
-                R.id.item_notifications -> InstanceFactory.Notifications[context]
-                R.id.item_preferences -> InstanceFactory.Preference[context, PreferenceScreen.MENU]
+                R.id.item_notifications -> Screens.toNotifications(context)
+                R.id.item_preferences -> Screens.toPreference(context, PreferenceScreen.MENU)
                 else -> return false
             }
 

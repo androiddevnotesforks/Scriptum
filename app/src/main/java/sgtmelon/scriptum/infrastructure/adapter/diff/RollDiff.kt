@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.infrastructure.adapter.diff
 
+import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiff
 
 /**
  * Diff for [RollItem].
  */
-class RollDiff : ParentDiff<RollItem>() {
+class RollDiff : DiffUtil.ItemCallback<RollItem>() {
 
     override fun areItemsTheSame(oldItem: RollItem, newItem: RollItem): Boolean {
         return when {
@@ -14,5 +14,9 @@ class RollDiff : ParentDiff<RollItem>() {
             oldItem.uniqueId == newItem.uniqueId -> true
             else -> false
         }
+    }
+
+    override fun areContentsTheSame(oldItem: RollItem, newItem: RollItem): Boolean {
+        return oldItem == newItem
     }
 }

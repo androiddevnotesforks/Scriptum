@@ -29,6 +29,7 @@
     <string name="pref_title_about">О приложении</string>
     <string name="pref_title_policy">Политика конфиденциальности</string>
 
+    <!--  TODO Remove after help disappear refactor  -->
     <string name="pref_title_help_disappear">Почему пропадают уведомления?</string>
 
     <!-- Preference headers -->

@@ -2,6 +2,8 @@ package sgtmelon.extensions
 
 import java.util.UUID
 
+fun emptyString(): String = ""
+
 val uniqueId: String get() = UUID.randomUUID().toString()
 
 fun String.clearSplit(regex: Regex) = split(regex).dropLastWhile { it.isEmpty() }

@@ -68,16 +68,16 @@ class NoteRepoImpl(
         return itemList to (itemList.size < entityList.size)
     }
 
-    /**
-     * List must contains only item which isVisible.
-     */
+    override suspend fun getNotificationsList(): List<NoteItem> {
+        TODO("Not yet implemented")
+    }
+
+    /** List must contains only item which isVisible. */
     private fun List<NoteEntity>.filterVisible(idVisibleList: List<Long>): List<NoteEntity> {
         return filter { !it.haveRank() || idVisibleList.contains(it.rankId) }
     }
 
-    /**
-     * Correcting rank sort, because notes without rank stay first in list.
-     */
+    /** Correcting rank sort, because notes without rank stay first in list. */
     private fun MutableList<NoteItem>.correctRankSort(sort: Sort) = apply {
         if (sort != Sort.RANK) return@apply
 

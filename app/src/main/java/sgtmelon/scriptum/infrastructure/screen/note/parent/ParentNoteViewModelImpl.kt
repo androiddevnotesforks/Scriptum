@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
+import androidx.annotation.CallSuper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,15 +29,13 @@ import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankDialogNamesUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankIdUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
@@ -48,8 +47,6 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     private val colorConverter: ColorConverter,
     init: NoteInit,
     protected val history: NoteHistory,
-    createNote: CreateNoteUseCase<N>,
-    getNote: GetNoteUseCase<N>,
     protected val cacheNote: CacheNoteUseCase<N>,
     private val convertNote: ConvertNoteUseCase,
     private val updateNote: UpdateNoteUseCase,
@@ -65,20 +62,18 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 ) : ViewModel(),
     ParentNoteViewModel<N> {
 
-    override val isDataReady: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
+    /** This cast is save because we chose (UI class + viewModel) rely on [NoteType]. */
+    @Suppress("UNCHECKED_CAST")
+    override val noteItem: MutableLiveData<N> = MutableLiveData(init.noteItem as N)
 
     override val noteState: MutableLiveData<NoteState> = MutableLiveData(init.state)
 
-    override val id: MutableLiveData<Long> = MutableLiveData(init.id)
+    override val isEdit: MutableLiveData<Boolean> = MutableLiveData(init.isEdit)
 
-    override val color: MutableLiveData<Color> = MutableLiveData(init.color)
+    override val color: MutableLiveData<Color> = MutableLiveData(init.noteItem.color)
 
-    /** App doesn't have any categories (ranks) if size == 1. */
+    /** If app doesn't have any categories (ranks) when array size == 1. */
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
-
-    override val noteItem: MutableLiveData<N> = MutableLiveData()
 
     override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
 
@@ -89,22 +84,16 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         viewModelScope.launch {
             runBack { rankDialogItems.postValue(getRankDialogNames()) }
 
-            val id = init.id
-            val value = runBack { if (id == Default.ID) createNote() else getNote(id) }
-            if (value != null) {
-                noteItem.postValue(value)
-                cacheNote(value)
-
-                isDataReady.postValue(true)
-                initAfterDataReady(value)
-            } else {
-                // TODO report about null item and close screen
+            val item = noteItem.value
+            if (item != null) {
+                cacheNote(item)
+                afterDataInit(item)
             }
         }
     }
 
-    /** Describes initialization which must be done after [noteItem] loading. */
-    abstract suspend fun initAfterDataReady(item: N)
+    /** Describes initialization which must be done after [noteItem] setting up. */
+    @CallSuper open fun afterDataInit(item: N) = Unit
 
     //region Menu clicks
 
@@ -236,12 +225,12 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         }
     }
 
-    override fun convert(): Flow<N> = flowOnBack {
+    override fun convert(): Flow<NoteItem> = flowOnBack {
         if (isEditMode) return@flowOnBack
 
         val item = noteItem.value ?: return@flowOnBack
-        convertNote(item)
-        emit(item)
+        val newNote = convertNote(item)
+        emit(newNote)
     }
 
     override fun delete(): Flow<N> = flowOnBack {
@@ -260,7 +249,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     /** Calls on note notification cancel from status bar for update bind indicator. */
     override fun onReceiveUnbindNote(noteId: Long) {
-        if (id.value != noteId) return
+        if (noteItem.value?.id != noteId) return
 
         noteItem.postValueWithChange { it.isStatus = false }
         cacheNote.item?.isStatus = false

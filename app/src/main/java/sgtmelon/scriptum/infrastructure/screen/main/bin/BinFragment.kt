@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.main.bin
 import android.content.Context
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.safedialog.utils.safeShow
@@ -14,10 +15,10 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -27,6 +28,7 @@ import sgtmelon.scriptum.infrastructure.model.key.dialog.BinDialogOptions as Opt
  * Screen to display the list of deleted notes.
  */
 class BinFragment : BindingFragment<FragmentBinBinding>(),
+    ListScreen<NoteItem>,
     ScrollTopCallback {
 
     // TODO bugs:
@@ -35,7 +37,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
     override val layoutId: Int = R.layout.fragment_bin
 
-    @Inject lateinit var viewModel: BinViewModel
+    @Inject override lateinit var viewModel: BinViewModel
 
     private val listAnimation = ShowListAnimation()
 
@@ -43,12 +45,14 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     private val optionsDialog by lazy { dialogs.getOptions() }
     private val clearBinDialog by lazy { dialogs.getClearBin() }
 
-    private val adapter: NoteAdapter by lazy {
+    override val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {
             override fun onNoteClick(item: NoteItem) = openNoteScreen(item)
             override fun onNoteLongClick(item: NoteItem, p: Int) = showOptionsDialog(item, p)
         })
     }
+    override val layoutManager by lazy { LinearLayoutManager(context) }
+    override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     private val itemClearBin: MenuItem?
         get() = binding?.appBar?.toolbar?.getItem(R.id.item_clear)
@@ -79,7 +83,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
         binding?.recyclerView?.let {
             it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(false) /** The height of all items may be not the same. */
-            it.layoutManager = LinearLayoutManager(context)
+            it.layoutManager = layoutManager
             it.adapter = adapter
         }
     }
@@ -101,26 +105,21 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.showList.observe(this) {
+        viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
             listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) {
-            adapter.notifyList(it)
+        viewModel.list.data.observe(this) {
+            onListUpdate(it)
             itemClearBin?.isVisible = it.isNotEmpty()
         }
     }
 
     override fun onResume() {
         super.onResume()
-
-        /**
-         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
-         * call of this function inside parent activity (during fragment transaction).
-         */
         viewModel.updateData()
     }
 
@@ -129,7 +128,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     private fun openNoteScreen(item: NoteItem) {
         val context = context ?: return
 
-        parentOpen?.attempt { startActivity(InstanceFactory.Note[context, item, NoteState.DELETE]) }
+        parentOpen?.attempt { startActivity(Screens.Note.toExist(context, item)) }
     }
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {

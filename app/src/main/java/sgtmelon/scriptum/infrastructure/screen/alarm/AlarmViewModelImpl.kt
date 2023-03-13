@@ -5,22 +5,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.launchBack
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
-import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 class AlarmViewModelImpl(
-    private val noteId: Long,
+    noteId: Long,
     private val preferencesRepo: PreferencesRepo,
-    private val noteRepo: NoteRepo,
+    private val getNote: GetNoteUseCase,
     private val getMelodyList: GetMelodyListUseCase,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
@@ -45,10 +44,11 @@ class AlarmViewModelImpl(
          */
         deleteNotification(noteId)
 
-        val item = noteRepo.getItem(noteId)
+        val item = getNote(noteId)
         if (item != null) {
             noteItem.postValue(item)
         } else {
+            // TODO #ERROR_HANDLER catch - not found noteItem
             state.postValue(ScreenState.Close)
             return
         }
@@ -63,15 +63,12 @@ class AlarmViewModelImpl(
     }
 
     override fun postpone(repeat: Repeat?, timeArray: IntArray) {
+        val noteItem = noteItem.value ?: return
+
         val actualRepeat = repeat ?: preferencesRepo.repeat
-
-        val noteItem = noteItem.value
-        val minute = timeArray.getOrNull(actualRepeat.ordinal)
-
-        if (noteItem == null || minute == null) {
-            NullPointerException(
-                "noteItem=${noteItem == null} | minute=${minute == null} | repeat=$actualRepeat"
-            ).record()
+        val minute = timeArray.getOrNull(actualRepeat.ordinal) ?: run {
+            // TODO #ERROR_HANDLER catch error - with handler (wrong timeArray or actualRepeat)
+            // TODO может быть брать первый элемент из timeArray, если не получается брать по actualRepeat
             state.postValue(ScreenState.Close)
             return
         }
@@ -81,7 +78,7 @@ class AlarmViewModelImpl(
 
             shiftDateIfExist(calendar)
             setNotification(noteItem, calendar)
-            state.postValue(ScreenState.Postpone(noteId, actualRepeat, calendar))
+            state.postValue(ScreenState.Postpone(noteItem.id, actualRepeat, calendar))
         }
     }
 

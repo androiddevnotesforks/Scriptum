@@ -41,17 +41,17 @@ class RollAdapter(
     fun setCursor(cursor: Int) = apply { this.cursor = cursor }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateEdit(isEdit: Boolean) {
-        if (this.isEdit != isEdit) {
-            this.isEdit = isEdit
+    fun updateState(state: NoteState) {
+        if (this.state != state) {
+            this.state = state
             notifyDataSetChanged()
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateState(state: NoteState) {
-        if (this.state != state) {
-            this.state = state
+    fun updateEdit(isEdit: Boolean) {
+        if (this.isEdit != isEdit) {
+            this.isEdit = isEdit
             notifyDataSetChanged()
         }
     }

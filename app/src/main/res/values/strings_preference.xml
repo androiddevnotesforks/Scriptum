@@ -29,6 +29,7 @@
     <string name="pref_title_about">About app</string>
     <string name="pref_title_policy">Privacy policy</string>
 
+    <!--  TODO Remove after help disappear refactor  -->
     <string name="pref_title_help_disappear">Why notifications disappear?</string>
 
     <!-- Preference headers -->

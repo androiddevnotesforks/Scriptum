@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.cleanup.dagger.module
 
-import android.content.Context
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.Module
@@ -9,12 +7,16 @@ import dagger.Provides
 import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
 import sgtmelon.scriptum.develop.domain.ResetPreferencesUseCase
+import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModel
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModelImpl
@@ -39,6 +41,7 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -46,10 +49,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -73,16 +73,13 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModel
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModel
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
-import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModel
@@ -91,11 +88,23 @@ import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceVie
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModel
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 @Module
 class ViewModelModule {
+
+    @Provides
+    @ActivityScope
+    fun provideSplashViewModel(
+        owner: ViewModelStoreOwner,
+        createNote: CreateNoteUseCase
+    ): SplashViewModel {
+        val factory = ViewModelFactory.Splash(createNote)
+        return ViewModelProvider(owner, factory)[SplashViewModelImpl::class.java]
+    }
 
     @Provides
     @ActivityScope
@@ -112,8 +121,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideMainViewModel(owner: ViewModelStoreOwner): MainViewModel {
-        val factory = ViewModelFactory.MainScreen.Main()
+    fun provideMainViewModel(
+        owner: ViewModelStoreOwner,
+        createNote: CreateNoteUseCase
+    ): MainViewModel {
+        val factory = ViewModelFactory.MainScreen.Main(createNote)
         return ViewModelProvider(owner, factory)[MainViewModelImpl::class.java]
     }
 
@@ -121,6 +133,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideRankViewModel(
         owner: ViewModelStoreOwner,
+        @Named("Rank") list: ListStorageImpl<RankItem>,
         getList: GetRankListUseCase,
         insertRank: InsertRankUseCase,
         deleteRank: DeleteRankUseCase,
@@ -129,7 +142,8 @@ class ViewModelModule {
         updateRankPositions: UpdateRankPositionsUseCase
     ): RankViewModel {
         val factory = ViewModelFactory.MainScreen.Rank(
-            getList, insertRank, deleteRank, updateRank, correctRankPositions, updateRankPositions
+            list, getList, insertRank, deleteRank, updateRank, correctRankPositions,
+            updateRankPositions
         )
         return ViewModelProvider(owner, factory)[RankViewModelImpl::class.java]
     }
@@ -139,6 +153,7 @@ class ViewModelModule {
     fun provideNotesViewModel(
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo,
+        @Named("Note") list: ListStorageImpl<NoteItem>,
         getList: GetNotesListUseCase,
         sortList: SortNoteListUseCase,
         getCopyText: GetCopyTextUseCase,
@@ -150,7 +165,8 @@ class ViewModelModule {
         getNotificationDateList: GetNotificationsDateListUseCase
     ): NotesViewModel {
         val factory = ViewModelFactory.MainScreen.Notes(
-            preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
+            preferencesRepo, list,
+            getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
             setNotification, deleteNotification, getNotificationDateList
         )
         return ViewModelProvider(owner, factory)[NotesViewModelImpl::class.java]
@@ -160,6 +176,7 @@ class ViewModelModule {
     @ActivityScope
     fun provideBinViewModel(
         owner: ViewModelStoreOwner,
+        @Named("Note") list: ListStorageImpl<NoteItem>,
         getList: GetBinListUseCase,
         getCopyText: GetCopyTextUseCase,
         restoreNote: RestoreNoteUseCase,
@@ -167,7 +184,7 @@ class ViewModelModule {
         clearNote: ClearNoteUseCase
     ): BinViewModel {
         val factory = ViewModelFactory.MainScreen.Bin(
-            getList, getCopyText, restoreNote, clearBin, clearNote
+            list, getList, getCopyText, restoreNote, clearBin, clearNote
         )
         return ViewModelProvider(owner, factory)[BinViewModelImpl::class.java]
     }
@@ -178,20 +195,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideNoteViewModel(owner: ViewModelStoreOwner): NoteViewModel {
-        val factory = ViewModelFactory.NoteScreen.Note()
-        return ViewModelProvider(owner, factory)[NoteViewModelImpl::class.java]
-    }
-
-    @Provides
-    @ActivityScope
     fun provideTextNoteViewModel(
         owner: ViewModelStoreOwner,
         init: NoteInit,
         history: NoteHistory,
         colorConverter: ColorConverter,
-        createNote: CreateTextNoteUseCase,
-        getNote: GetTextNoteUseCase,
         cacheNote: CacheTextNoteUseCase,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
@@ -207,7 +215,7 @@ class ViewModelModule {
         getHistoryResult: GetHistoryResultUseCase
     ): TextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(
-            init, history, colorConverter, createNote, getNote, cacheNote,
+            init, history, colorConverter, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             setNotification, deleteNotification, getNotificationDateList,
             getRankId, getRankDialogNames, getHistoryResult
@@ -223,8 +231,7 @@ class ViewModelModule {
         init: NoteInit,
         history: NoteHistory,
         colorConverter: ColorConverter,
-        createNote: CreateRollNoteUseCase,
-        getNote: GetRollNoteUseCase,
+        @Named("Roll") list: ListStorageImpl<RollItem>,
         cacheNote: CacheRollNoteUseCase,
         saveNote: SaveNoteUseCase,
         convertNote: ConvertNoteUseCase,
@@ -242,7 +249,7 @@ class ViewModelModule {
         getHistoryResult: GetHistoryResultUseCase
     ): RollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(
-            init, history, colorConverter, createNote, getNote, cacheNote,
+            init, history, colorConverter, list, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             updateVisible, updateCheck,
             setNotification, deleteNotification, getNotificationDateList,
@@ -250,18 +257,6 @@ class ViewModelModule {
         )
 
         return ViewModelProvider(owner, factory)[RollNoteViewModelImpl::class.java]
-    }
-
-    // TODO move into another module
-    @Provides
-    @ActivityScope
-    fun provideNoteSave(
-        lifecycle: Lifecycle,
-        context: Context,
-        preferencesRepo: PreferencesRepo,
-        callback: NoteSaveImpl.Callback
-    ): NoteSave {
-        return NoteSaveImpl(lifecycle, context.resources, preferencesRepo.saveState, callback)
     }
 
     //endregion
@@ -272,14 +267,14 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         noteId: Long,
         preferencesRepo: PreferencesRepo,
-        noteRepo: NoteRepo,
+        getNote: GetNoteUseCase,
         getMelodyList: GetMelodyListUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         shiftDateIfExist: ShiftDateIfExistUseCase
     ): AlarmViewModel {
         val factory = ViewModelFactory.Alarm(
-            noteId, preferencesRepo, noteRepo, getMelodyList,
+            noteId, preferencesRepo, getNote, getMelodyList,
             setNotification, deleteNotification, shiftDateIfExist
         )
 
@@ -290,11 +285,15 @@ class ViewModelModule {
     @ActivityScope
     fun provideNotificationViewModel(
         owner: ViewModelStoreOwner,
+        @Named("Notification") list: ListStorageImpl<NotificationItem>,
+        getList: GetNotificationListUseCase,
+        getNote: GetNoteUseCase,
         setNotification: SetNotificationUseCase,
-        deleteNotification: DeleteNotificationUseCase,
-        getList: GetNotificationListUseCase
+        deleteNotification: DeleteNotificationUseCase
     ): NotificationsViewModel {
-        val factory = ViewModelFactory.Notification(setNotification, deleteNotification, getList)
+        val factory = ViewModelFactory.Notification(
+            list, getList, getNote, setNotification, deleteNotification
+        )
         return ViewModelProvider(owner, factory)[NotificationsViewModelImpl::class.java]
     }
 
@@ -374,9 +373,10 @@ class ViewModelModule {
     fun providePrintDevelopViewModel(
         owner: ViewModelStoreOwner,
         type: PrintType,
+        @Named("Print") list: ListStorageImpl<PrintItem>,
         getList: GetPrintListUseCase
     ): PrintDevelopViewModel {
-        val factory = ViewModelFactory.Develop.Print(type, getList)
+        val factory = ViewModelFactory.Develop.Print(type, list, getList)
         return ViewModelProvider(owner, factory)[PrintDevelopViewModelImpl::class.java]
     }
 

@@ -2,20 +2,22 @@ package sgtmelon.scriptum.infrastructure.screen.splash
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
+import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
+import sgtmelon.scriptum.infrastructure.bundle.BundleValue
+import sgtmelon.scriptum.infrastructure.bundle.json.BundleSplashValue
 import sgtmelon.scriptum.infrastructure.model.data.FireData
-import sgtmelon.scriptum.infrastructure.model.key.SplashOpen
 import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
-import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.NO_LAYOUT
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.extensions.getCrashlytics
+import sgtmelon.test.idling.getWaitIdling
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen as Open
 
 /**
  * Start screen of application.
@@ -25,17 +27,26 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
 
     override val layoutId: Int = NO_LAYOUT
 
+    @Inject lateinit var viewModel: SplashViewModel
+
     override val statusBar = WindowUiKeys.StatusBar.Transparent
     override val navigation = WindowUiKeys.Navigation.Transparent
     override val navDivider = WindowUiKeys.NavDivider.Transparent
 
-    private val bundleProvider = SplashBundleProvider()
+    private val openFrom = BundleSplashValue()
+    override val bundleValues: List<BundleValue> = listOf(openFrom)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
         super.onCreate(savedInstanceState)
 
         setCrashlyticsKeys()
+
+        system?.broadcast?.run {
+            sendTidyUpAlarm()
+            sendNotifyNotesBind()
+            sendNotifyInfoBind()
+        }
+
         chooseOpenScreen()
     }
 
@@ -44,11 +55,6 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
             .set(owner = this)
             .build()
             .inject(activity = this)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        bundleProvider.saveData(outState)
     }
 
     override fun finish() {
@@ -67,42 +73,25 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         instance.setCustomKey(FireData.RUN_TYPE, runType.name)
     }
 
-    private fun chooseOpenScreen() {
-        system?.broadcast?.run {
-            sendTidyUpAlarm()
-            sendNotifyNotesBind()
-            sendNotifyInfoBind()
+    private fun chooseOpenScreen() = beforeFinish {
+        val open = openFrom.value
+
+        /** Needed for Android (UI) tests, when we open chain of screens. */
+        if (open !is Open.Main) {
+            getWaitIdling().start(waitMillis = 2000)
         }
 
-        when (val it = bundleProvider.open) {
-            is SplashOpen.Main -> openMainScreen()
-            is SplashOpen.Alarm -> openAlarmScreen(it.id)
-            is SplashOpen.BindNote -> openNoteScreen(it)
-            is SplashOpen.Notifications -> openNotificationsScreen()
-            is SplashOpen.HelpDisappear -> openHelpDisappearScreen()
-            is SplashOpen.CreateNote -> openNoteScreen(it.type)
+        val context = this
+        when(open) {
+            is Open.Main -> startActivity(open.getIntent(context))
+            is Open.Notifications -> startActivities(open.getIntents(context))
+            is Open.Alarm -> startActivities(open.getIntents(context))
+            is Open.HelpDisappear -> startActivities(open.getIntents(context))
+            is Open.BindNote -> startActivities(open.getIntents(context))
+            is Open.NewNote -> {
+                val item = viewModel.getNewNote(open.type)
+                startActivities(open.getIntents(context, item))
+            }
         }
-    }
-
-    private fun openMainScreen() = beforeFinish { startActivity(InstanceFactory.Main[this]) }
-
-    private fun openAlarmScreen(noteId: Long) = beforeFinish {
-        startActivities(InstanceFactory.Chains.toAlarm(context = this, noteId))
-    }
-
-    private fun openNoteScreen(data: SplashOpen.BindNote) = beforeFinish {
-        startActivities(InstanceFactory.Chains.toNote(context = this, data))
-    }
-
-    private fun openNotificationsScreen() = beforeFinish {
-        startActivities(InstanceFactory.Chains.toNotifications(context = this))
-    }
-
-    private fun openHelpDisappearScreen() = beforeFinish {
-        startActivities(InstanceFactory.Chains.toHelpDisappear(context = this))
-    }
-
-    private fun openNoteScreen(type: NoteType) = beforeFinish {
-        startActivities(InstanceFactory.Chains.toNote(context = this, type))
     }
 }

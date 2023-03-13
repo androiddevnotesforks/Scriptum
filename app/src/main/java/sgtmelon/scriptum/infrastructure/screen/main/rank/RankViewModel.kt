@@ -1,12 +1,13 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyViewModelFacade
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListViewModel
 
-interface RankViewModel : CustomListNotifyViewModelFacade<RankItem>,
+interface RankViewModel : ListViewModel<RankItem>,
     UnbindNoteReceiver.Callback {
 
     val showSnackbar: LiveData<Boolean>
@@ -17,6 +18,7 @@ interface RankViewModel : CustomListNotifyViewModelFacade<RankItem>,
 
     fun addItem(enter: String, toBottom: Boolean): Flow<AddState>
 
+    @MainThread
     fun moveItem(from: Int, to: Int)
 
     fun moveItemResult()

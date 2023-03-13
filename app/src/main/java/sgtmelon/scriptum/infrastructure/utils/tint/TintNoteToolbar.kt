@@ -5,10 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
-import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
-import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.ColorTransformation
@@ -28,70 +25,67 @@ class TintNoteToolbar(
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
-    private val statusBarColor = ColorTransformation()
-    private val toolbarColor = ColorTransformation()
+    private val barColor = ColorTransformation()
     private val indicatorColor = ColorTransformation()
 
+    /**
+     * Variable for save previous color, and use it during animation preparation
+     * (set [ColorTransformation.from]).
+     */
+    private var previousColor: Color = startColor
+
     init {
-        setupColorAnimator()
-        setupColor(startColor)
+        val theme = theme
+        if (theme != null) {
+            setupColorAnimator(theme)
+            setupColor(theme, getColors(theme, startColor))
+        }
     }
 
-    private fun setupColorAnimator() {
-        val theme = theme ?: return
-
-        val updateColorsListener = ValueAnimator.AnimatorUpdateListener {
-            val ratio = it.animatedFraction
-
-            if (theme != ThemeDisplayed.DARK) {
-                window?.statusBarColor = statusBarColor[ratio]
-                toolbar?.setBackgroundColor(toolbarColor[ratio])
-            } else {
-                indicator?.setBackgroundColor(indicatorColor[ratio])
-            }
-        }
-
-        colorAnimator.removeAllUpdateListeners()
-        colorAnimator.addUpdateListener(updateColorsListener)
+    private fun setupColorAnimator(theme: ThemeDisplayed) {
         colorAnimator.duration = context.resources.getInteger(R.integer.color_transition_time)
             .toLong()
-    }
 
-    private fun setupColor(color: Color) {
-        val theme = theme ?: return
-
-        if (theme != ThemeDisplayed.DARK) {
-            window?.statusBarColor = getStatusBarColor(theme, color)
-            toolbar?.setBackgroundColor(getToolbarColor(theme, color))
-        } else {
-            indicator?.setBackgroundColor(
-                context.getNoteToolbarColor(theme, color, needDark = true)
-            )
+        colorAnimator.removeAllUpdateListeners()
+        colorAnimator.addUpdateListener {
+            val ratio = it.animatedFraction
+            setupColor(theme, Colors(barColor[ratio], indicatorColor[ratio]))
         }
-
-        setColorFrom(color)
     }
 
-    fun setColorFrom(color: Color) = apply {
-        val theme = theme ?: return@apply
-
-        statusBarColor.from = context.getNoteToolbarColor(theme, color, needDark = false)
-        toolbarColor.from = context.getNoteToolbarColor(theme, color, needDark = false)
-        indicatorColor.from = context.getAppSimpleColor(color, ColorShade.DARK)
+    private fun setupColor(theme: ThemeDisplayed, colors: Colors) = when (theme) {
+        ThemeDisplayed.LIGHT -> {
+            window?.statusBarColor = colors.bar
+            toolbar?.setBackgroundColor(colors.bar)
+        }
+        ThemeDisplayed.DARK -> {
+            indicator?.setBackgroundColor(colors.indicator)
+        }
     }
 
-    /**
-     * Set end [colorTo] and start animation if it needed.
-     */
     fun startTint(colorTo: Color) {
         val theme = theme ?: return
 
-        statusBarColor.to = context.getNoteToolbarColor(theme, colorTo, needDark = false)
-        toolbarColor.to = context.getNoteToolbarColor(theme, colorTo, needDark = false)
-        indicatorColor.to = context.getAppSimpleColor(colorTo, ColorShade.DARK)
+        setupAnimationFrom(theme, previousColor)
+        setupAnimationTo(theme, colorTo)
+        previousColor = colorTo
 
-        if (statusBarColor.isReady() || toolbarColor.isReady() || indicatorColor.isReady()) {
+        if (barColor.isReady() || indicatorColor.isReady()) {
             colorAnimator.start()
+        }
+    }
+
+    private fun setupAnimationFrom(theme: ThemeDisplayed, color: Color) {
+        with(getColors(theme, color)) {
+            barColor.from = bar
+            indicatorColor.from = indicator
+        }
+    }
+
+    private fun setupAnimationTo(theme: ThemeDisplayed, color: Color) {
+        with(getColors(theme, color)) {
+            barColor.to = bar
+            indicatorColor.to = indicator
         }
     }
 }

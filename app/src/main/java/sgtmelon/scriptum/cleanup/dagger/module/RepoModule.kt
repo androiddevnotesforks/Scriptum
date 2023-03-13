@@ -9,7 +9,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.RankRepoImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
-import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
@@ -18,54 +17,11 @@ import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
-import sgtmelon.scriptum.data.dataSource.system.FileDataSource
-import sgtmelon.scriptum.data.repository.database.AlarmRepo
-import sgtmelon.scriptum.data.repository.database.AlarmRepoImpl
-import sgtmelon.scriptum.data.repository.database.BindRepo
-import sgtmelon.scriptum.data.repository.database.BindRepoImpl
-import sgtmelon.scriptum.develop.data.DevelopRepo
-import sgtmelon.scriptum.develop.data.DevelopRepoImpl
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
+// TODO remove it, after migration all repos to another package (from 'cleanup' to 'data')
 @Module
+@Deprecated("Check todo")
 class RepoModule {
-
-    @Provides
-    @Singleton
-    fun provideAlarmRepo(dataSource: AlarmDataSource, converter: AlarmConverter): AlarmRepo {
-        return AlarmRepoImpl(dataSource, converter)
-    }
-
-    @Provides
-    @Singleton
-    fun provideBindRepo(
-        noteDataSource: NoteDataSource,
-        alarmDataSource: AlarmDataSource
-    ): BindRepo {
-        return BindRepoImpl(noteDataSource, alarmDataSource)
-    }
-
-    @Provides
-    @Singleton
-    fun provideDevelopRepo(
-        noteDataSource: NoteDataSource,
-        rollDataSource: RollDataSource,
-        rollVisibleDataSource: RollVisibleDataSource,
-        rankDataSource: RankDataSource,
-        alarmDataSource: AlarmDataSource,
-        key: PreferencesKeyProvider,
-        def: PreferencesDefProvider,
-        preferences: Preferences,
-        fileDataSource: FileDataSource
-    ): DevelopRepo {
-        return DevelopRepoImpl(
-            noteDataSource, rollDataSource, rollVisibleDataSource,
-            rankDataSource, alarmDataSource,
-            key, def, preferences, fileDataSource
-        )
-    }
 
     @Provides
     @Singleton

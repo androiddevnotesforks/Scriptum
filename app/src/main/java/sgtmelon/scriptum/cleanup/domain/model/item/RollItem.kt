@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 
 import androidx.room.ColumnInfo
 import androidx.room.TypeConverters
+import kotlinx.serialization.Serializable
 import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
 import sgtmelon.scriptum.infrastructure.converter.types.BoolConverter
 import sgtmelon.scriptum.infrastructure.database.DbData.Roll
@@ -19,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Roll.Default
  * Example: in notes screen every onResume fetch new list with data (for fetch changes), and
  * every fetch we will get different [uniqueId] on the same items.
  */
+@Serializable
 @TypeConverters(BoolConverter::class)
 data class RollItem(
     @ColumnInfo(name = Roll.ID) var id: Long? = Default.ID,

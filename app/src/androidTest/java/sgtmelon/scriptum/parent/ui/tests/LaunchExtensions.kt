@@ -3,11 +3,11 @@ package sgtmelon.scriptum.parent.ui.tests
 import androidx.test.core.app.launchActivity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
-import sgtmelon.scriptum.infrastructure.model.key.PreferenceScreen
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
+import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.parent.ui.screen.alarm.AlarmScreen
 import sgtmelon.scriptum.parent.ui.screen.main.BinScreen
 import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
@@ -24,7 +24,7 @@ inline fun ParentUiTest.launchMain(
     after: MainScreen.() -> Unit
 ) {
     before()
-    launchActivity<MainActivity>(InstanceFactory.Main[context])
+    launchActivity<MainActivity>(Screens.toMain(context))
     MainScreen(after)
 }
 
@@ -112,7 +112,7 @@ inline fun ParentUiTest.launchMenuPreference(
     after: MenuPreferenceScreen.() -> Unit
 ) {
     before()
-    val intent = InstanceFactory.Preference[context, PreferenceScreen.MENU]
+    val intent = Screens.toPreference(context, PreferenceScreen.MENU)
     launchActivity<PreferenceActivity>(intent)
     MenuPreferenceScreen(after)
 }
@@ -122,7 +122,7 @@ inline fun ParentUiTest.launchBackupPreference(
     after: BackupPreferenceScreen.() -> Unit
 ) {
     before()
-    val intent = InstanceFactory.Preference[context, PreferenceScreen.BACKUP]
+    val intent = Screens.toPreference(context, PreferenceScreen.BACKUP)
     launchActivity<PreferenceActivity>(intent)
     BackupPreferenceScreen(after)
 }
@@ -132,7 +132,7 @@ inline fun ParentUiTest.launchNotesPreference(
     after: NotesPreferenceScreen.() -> Unit
 ) {
     before()
-    val intent = InstanceFactory.Preference[context, PreferenceScreen.NOTES]
+    val intent = Screens.toPreference(context, PreferenceScreen.NOTES)
     launchActivity<PreferenceActivity>(intent)
     NotesPreferenceScreen(after)
 }
@@ -142,7 +142,7 @@ inline fun ParentUiTest.launchAlarmPreference(
     after: AlarmPreferenceScreen.() -> Unit
 ) {
     before()
-    val intent = InstanceFactory.Preference[context, PreferenceScreen.ALARM]
+    val intent = Screens.toPreference(context, PreferenceScreen.ALARM)
     launchActivity<PreferenceActivity>(intent)
     AlarmPreferenceScreen(after)
 }
@@ -157,7 +157,7 @@ inline fun ParentUiTest.launchNotifications(
     after: NotificationsScreen.() -> Unit = {}
 ) {
     before()
-    launchActivity<NotificationsActivity>(InstanceFactory.Notifications[context])
+    launchActivity<NotificationsActivity>(Screens.toNotifications(context))
     NotificationsScreen(after, isEmpty)
 }
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
+import sgtmelon.extensions.emptyString
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -27,8 +28,9 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
-import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.system.delegators.SnackbarDelegator
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearText
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
@@ -40,7 +42,7 @@ import sgtmelon.test.idling.getIdling
  * Screen with list of categories and with ability to create them.
  */
 class RankFragment : BindingFragment<FragmentRankBinding>(),
-    CustomListNotifyUi<RankItem>,
+    ListScreen<RankItem>,
     SnackbarDelegator.Callback,
     DragAndSwipeTouchHelper.Callback,
     ScrollTopCallback {
@@ -138,7 +140,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.showList.observe(this) {
+        viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
             listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
@@ -151,7 +153,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
              */
             notifyToolbar()
         }
-        viewModel.itemList.observe(this) { catchListUpdate(it) }
+        viewModel.list.data.observe(this) { onListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 
@@ -168,10 +170,6 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     override fun onResume() {
         super.onResume()
 
-        /**
-         * Lifecycle observer not working inside viewModel when changing pages. Check out custom
-         * call of this function inside parent activity (during fragment transaction).
-         */
         viewModel.updateData()
 
         /** Restore our snack bar if it must be shown. */
@@ -194,10 +192,12 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
-    private fun getEnterText(): String = binding?.appBar?.rankEnter?.text?.toString() ?: ""
+    private fun getEnterText(): String {
+        return binding?.appBar?.rankEnter?.text?.toString() ?: emptyString()
+    }
 
     private fun clearEnter() {
-        binding?.appBar?.rankEnter?.setText("")
+        binding?.appBar?.rankEnter?.clearText()
     }
 
     private fun addFromEnter(toBottom: Boolean) {

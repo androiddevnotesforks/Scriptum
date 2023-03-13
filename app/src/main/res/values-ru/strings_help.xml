@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  TODO Remove after help disappear refactor  -->
+
     <string name="help_notification_disappear">
         Примечание:
         \nУ всех разные телефоны из-за чего сложно собрать единый список

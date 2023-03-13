@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import android.content.IntentFilter
 import android.os.Build
-import android.os.Bundle
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import javax.inject.Inject
@@ -13,15 +12,17 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
+import sgtmelon.scriptum.infrastructure.bundle.BundleValue
+import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.RepeatSheetData
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.factory.InstanceFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Key
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
-import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
+import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.alarm.state.ScreenState
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
@@ -62,7 +63,9 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     @Inject lateinit var viewModel: AlarmViewModel
 
     private val animation = AlarmAnimation()
-    private val bundleProvider = AlarmBundleProvider()
+
+    private val noteId = BundleValueImpl<Long>(Key.ID)
+    override val bundleValues: List<BundleValue> = listOf(noteId)
 
     private val finishTimer = DelayedJob(lifecycle)
 
@@ -80,26 +83,15 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     //region System
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        bundleProvider.getData(bundle = savedInstanceState ?: intent.extras)
-        super.onCreate(savedInstanceState)
-        setupScreen()
-    }
-
-    // TODO not save way to finish activity (view model is lateinit value)
     override fun inject(component: ScriptumComponent) {
-        val noteId = bundleProvider.noteId ?: return finish()
-
         component.getAlarmBuilder()
             .set(owner = this)
-            .set(noteId)
+            .set(noteId.value)
             .build()
             .inject(activity = this)
     }
 
-    /**
-     * This activity not rotatable (don't need setup margin for left and right).
-     */
+    /** This activity not rotatable (don't need setup margin for left and right). */
     override fun setupInsets() {
         super.setupInsets()
 
@@ -117,9 +109,29 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         unregisterReceiver(unbindNoteReceiver)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        bundleProvider.saveData(outState)
+    override fun setupView() {
+        super.setupView()
+
+        setupScreen()
+
+        binding?.parentContainer?.afterLayoutConfigured { isLayoutConfigure = true }
+
+        binding?.recyclerView?.let {
+            it.layoutManager = LinearLayoutManager(this)
+            it.setHasFixedSize(true) /** The height of all items absolutely the same. */
+            it.adapter = adapter
+        }
+
+        binding?.disableButton?.setOnClickListener { open.attempt { finish() } }
+        binding?.repeatButton?.setOnClickListener { open.attempt { startPostpone() } }
+        binding?.moreButton?.setOnClickListener { showRepeatDialog() }
+
+        repeatDialog.apply {
+            onItemSelected(owner = this@AlarmActivity) {
+                startPostpone(RepeatSheetData().convert(it.itemId))
+            }
+            onDismiss { open.clear() }
+        }
     }
 
     private fun setupScreen() {
@@ -177,7 +189,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private fun onSetupState(state: ScreenState.Setup) {
         system?.phoneAwake?.wakeUp(TIMEOUT_TIME)
-        setupView()
 
         if (state.melodyUri != null) {
             setupPlayer(state.melodyUri)
@@ -185,29 +196,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
         system?.broadcast?.sendNotifyInfoBind()
         startLogoShiftAnimation()
-    }
-
-    override fun setupView() {
-        super.setupView()
-
-        binding?.parentContainer?.afterLayoutConfigured { isLayoutConfigure = true }
-
-        binding?.recyclerView?.let {
-            it.layoutManager = LinearLayoutManager(this)
-            it.setHasFixedSize(true) /** The height of all items absolutely the same. */
-            it.adapter = adapter
-        }
-
-        binding?.disableButton?.setOnClickListener { open.attempt { finish() } }
-        binding?.repeatButton?.setOnClickListener { open.attempt { startPostpone() } }
-        binding?.moreButton?.setOnClickListener { showRepeatDialog() }
-
-        repeatDialog.apply {
-            onItemSelected(owner = this@AlarmActivity) {
-                startPostpone(RepeatSheetData().convert(it.itemId))
-            }
-            onDismiss { open.clear() }
-        }
     }
 
     private fun setupPlayer(stringUri: String) {
@@ -310,7 +298,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     }
 
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
-        open.attempt { startActivity(InstanceFactory.Note[this, item, NoteState.EXIST]) }
+        open.attempt { startActivity(Screens.Note.toExist(context = this, item)) }
     }
 
     companion object {

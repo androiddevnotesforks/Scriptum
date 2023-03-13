@@ -3,12 +3,16 @@ package sgtmelon.scriptum.cleanup.dagger.other
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.domain.GetRandomNoteIdUseCase
 import sgtmelon.scriptum.develop.domain.ResetPreferencesUseCase
+import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopViewModelImpl
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopViewModelImpl
@@ -30,6 +34,7 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetHistoryResultUseCase
+import sgtmelon.scriptum.domain.useCase.note.GetNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.SaveNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
@@ -37,10 +42,7 @@ import sgtmelon.scriptum.domain.useCase.note.UpdateRollCheckUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateRollVisibleUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheRollNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.cacheNote.CacheTextNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.createNote.CreateTextNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetRollNoteUseCase
-import sgtmelon.scriptum.domain.useCase.note.getNote.GetTextNoteUseCase
+import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
@@ -59,14 +61,15 @@ import sgtmelon.scriptum.infrastructure.screen.main.MainViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankViewModelImpl
-import sgtmelon.scriptum.infrastructure.screen.note.NoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceViewModelImpl
+import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 
 /**
@@ -77,13 +80,21 @@ object ViewModelFactory {
 
     //region Help func
 
-    private fun onNotFound() = IllegalArgumentException("ViewModel Not Found")
+    private fun onNotFound() = IllegalArgumentException("ViewModel not found")
 
     private inline fun <T> Class<T>.create(modelClass: KClass<*>, createFunc: () -> Any): T {
         return if (isAssignableFrom(modelClass.java)) createFunc() as T else throw onNotFound()
     }
 
     //endregion
+
+    class Splash(private val createNote: CreateNoteUseCase) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return modelClass.create(SplashViewModelImpl::class) {
+                SplashViewModelImpl(createNote)
+            }
+        }
+    }
 
     class Theme(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -95,15 +106,16 @@ object ViewModelFactory {
 
     object MainScreen {
 
-        class Main : ViewModelProvider.Factory {
+        class Main(private val createNote: CreateNoteUseCase) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(MainViewModelImpl::class) {
-                    MainViewModelImpl()
+                    MainViewModelImpl(createNote)
                 }
             }
         }
 
         class Rank(
+            private val list: ListStorageImpl<RankItem>,
             private val getList: GetRankListUseCase,
             private val insertRank: InsertRankUseCase,
             private val deleteRank: DeleteRankUseCase,
@@ -114,7 +126,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RankViewModelImpl::class) {
                     RankViewModelImpl(
-                        getList, insertRank, deleteRank, updateRank,
+                        list, getList, insertRank, deleteRank, updateRank,
                         correctRankPositions, updateRankPositions
                     )
                 }
@@ -123,6 +135,7 @@ object ViewModelFactory {
 
         class Notes(
             private val preferencesRepo: PreferencesRepo,
+            private val list: ListStorageImpl<NoteItem>,
             private val getList: GetNotesListUseCase,
             private val sortList: SortNoteListUseCase,
             private val getCopyText: GetCopyTextUseCase,
@@ -136,7 +149,8 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModelImpl::class) {
                     NotesViewModelImpl(
-                        preferencesRepo, getList, sortList, getCopyText, convertNote, updateNote,
+                        preferencesRepo, list,
+                        getList, sortList, getCopyText, convertNote, updateNote,
                         deleteNote, setNotification, deleteNotification, getNotificationDateList
                     )
                 }
@@ -144,6 +158,7 @@ object ViewModelFactory {
         }
 
         class Bin(
+            private val list: ListStorageImpl<NoteItem>,
             private val getList: GetBinListUseCase,
             private val getCopyText: GetCopyTextUseCase,
             private val restoreNote: RestoreNoteUseCase,
@@ -152,7 +167,7 @@ object ViewModelFactory {
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(BinViewModelImpl::class) {
-                    BinViewModelImpl(getList, getCopyText, restoreNote, clearBin, clearNote)
+                    BinViewModelImpl(list, getList, getCopyText, restoreNote, clearBin, clearNote)
                 }
             }
         }
@@ -160,20 +175,10 @@ object ViewModelFactory {
 
     object NoteScreen {
 
-        class Note : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(NoteViewModelImpl::class) {
-                    NoteViewModelImpl()
-                }
-            }
-        }
-
         class TextNote(
             private val init: NoteInit,
             private val history: NoteHistory,
             private val colorConverter: ColorConverter,
-            private val createNote: CreateTextNoteUseCase,
-            private val getNote: GetTextNoteUseCase,
             private val cacheNote: CacheTextNoteUseCase,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
@@ -191,7 +196,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModelImpl::class) {
                     TextNoteViewModelImpl(
-                        colorConverter, init, history, createNote, getNote, cacheNote,
+                        colorConverter, init, history, cacheNote,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
                         setNotification, deleteNotification, getNotificationDateList,
                         getRankId, getRankDialogNames, getHistoryResult
@@ -204,8 +209,7 @@ object ViewModelFactory {
             private val init: NoteInit,
             private val history: NoteHistory,
             private val colorConverter: ColorConverter,
-            private val createNote: CreateRollNoteUseCase,
-            private val getNote: GetRollNoteUseCase,
+            private val list: ListStorageImpl<RollItem>,
             private val cacheNote: CacheRollNoteUseCase,
             private val saveNote: SaveNoteUseCase,
             private val convertNote: ConvertNoteUseCase,
@@ -225,7 +229,7 @@ object ViewModelFactory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModelImpl::class) {
                     RollNoteViewModelImpl(
-                        init, history, colorConverter, createNote, getNote, cacheNote,
+                        init, history, colorConverter, list, cacheNote,
                         saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
                         updateVisible, updateCheck,
                         setNotification, deleteNotification, getNotificationDateList,
@@ -239,7 +243,7 @@ object ViewModelFactory {
     class Alarm(
         private val noteId: Long,
         private val preferencesRepo: PreferencesRepo,
-        private val noteRepo: NoteRepo,
+        private val getNote: GetNoteUseCase,
         private val getMelodyList: GetMelodyListUseCase,
         private val setNotification: SetNotificationUseCase,
         private val deleteNotification: DeleteNotificationUseCase,
@@ -248,7 +252,7 @@ object ViewModelFactory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AlarmViewModelImpl::class) {
                 AlarmViewModelImpl(
-                    noteId, preferencesRepo, noteRepo, getMelodyList,
+                    noteId, preferencesRepo, getNote, getMelodyList,
                     setNotification, deleteNotification, shiftDateIfExist
                 )
             }
@@ -256,13 +260,17 @@ object ViewModelFactory {
     }
 
     class Notification(
+        private val list: ListStorageImpl<NotificationItem>,
+        private val getList: GetNotificationListUseCase,
+        private val getNote: GetNoteUseCase,
         private val setNotification: SetNotificationUseCase,
-        private val deleteNotification: DeleteNotificationUseCase,
-        private val getList: GetNotificationListUseCase
+        private val deleteNotification: DeleteNotificationUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(NotificationsViewModelImpl::class) {
-                NotificationsViewModelImpl(setNotification, deleteNotification, getList)
+                NotificationsViewModelImpl(
+                    list, getList, getNote, setNotification, deleteNotification
+                )
             }
         }
     }
@@ -343,11 +351,12 @@ object ViewModelFactory {
 
         class Print(
             private val type: PrintType,
+            private val list: ListStorageImpl<PrintItem>,
             private val getList: GetPrintListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(PrintDevelopViewModelImpl::class) {
-                    PrintDevelopViewModelImpl(type, getList)
+                    PrintDevelopViewModelImpl(type, list, getList)
                 }
             }
         }

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
+import kotlinx.serialization.Serializable
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
@@ -12,18 +13,19 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
  */
 // TODO may be convert create/change into Calendar?
-sealed class NoteItem(
-    var id: Long,
-    var create: String,
-    var change: String,
-    var name: String,
-    var text: String,
-    var color: Color,
-    var rank: NoteRank,
-    var isBin: Boolean,
-    var isStatus: Boolean,
-    var alarm: NoteAlarm
-) {
+@Serializable
+sealed class NoteItem {
+
+    abstract var id: Long
+    abstract var create: String
+    abstract var change: String
+    abstract var name: String
+    abstract var text: String
+    abstract var color: Color
+    abstract var rank: NoteRank
+    abstract var isBin: Boolean
+    abstract var isStatus: Boolean
+    abstract var alarm: NoteAlarm
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -64,33 +66,35 @@ sealed class NoteItem(
         return result
     }
 
-    class Text(
-        id: Long = Note.Default.ID,
-        create: String = getCalendarText(),
-        change: String = Note.Default.CHANGE,
-        name: String = Note.Default.NAME,
-        text: String = Note.Default.TEXT,
-        color: Color,
-        rank: NoteRank = NoteRank(),
-        isBin: Boolean = Note.Default.BIN,
-        isStatus: Boolean = Note.Default.STATUS,
-        alarm: NoteAlarm = NoteAlarm()
-    ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm)
+    @Serializable
+    data class Text(
+        override var id: Long = Note.Default.ID,
+        override var create: String = getCalendarText(),
+        override var change: String = Note.Default.CHANGE,
+        override var name: String = Note.Default.NAME,
+        override var text: String = Note.Default.TEXT,
+        override var color: Color,
+        override var rank: NoteRank = NoteRank(),
+        override var isBin: Boolean = Note.Default.BIN,
+        override var isStatus: Boolean = Note.Default.STATUS,
+        override var alarm: NoteAlarm = NoteAlarm()
+    ) : NoteItem()
 
-    class Roll(
-        id: Long = Note.Default.ID,
-        create: String = getCalendarText(),
-        change: String = Note.Default.CHANGE,
-        name: String = Note.Default.NAME,
-        text: String = Note.Default.TEXT,
-        color: Color,
-        rank: NoteRank = NoteRank(),
-        isBin: Boolean = Note.Default.BIN,
-        isStatus: Boolean = Note.Default.STATUS,
-        alarm: NoteAlarm = NoteAlarm(),
+    @Serializable
+    data class Roll(
+        override var id: Long = Note.Default.ID,
+        override var create: String = getCalendarText(),
+        override var change: String = Note.Default.CHANGE,
+        override var name: String = Note.Default.NAME,
+        override var text: String = Note.Default.TEXT,
+        override var color: Color,
+        override var rank: NoteRank = NoteRank(),
+        override var isBin: Boolean = Note.Default.BIN,
+        override var isStatus: Boolean = Note.Default.STATUS,
+        override var alarm: NoteAlarm = NoteAlarm(),
         var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
-    ) : NoteItem(id, create, change, name, text, color, rank, isBin, isStatus, alarm) {
+    ) : NoteItem() {
 
         override fun equals(other: Any?): Boolean {
             if (!super.equals(other)) return false

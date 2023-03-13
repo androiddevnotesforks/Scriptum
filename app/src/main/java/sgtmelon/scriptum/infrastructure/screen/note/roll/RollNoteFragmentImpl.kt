@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
+import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.iconanim.callback.IconChangeCallback
@@ -31,7 +32,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
-import sgtmelon.scriptum.infrastructure.screen.parent.list.CustomListNotifyUi
+import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearText
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
@@ -48,7 +49,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  * Fragment for display roll note.
  */
 class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
-    CustomListNotifyUi<RollItem>,
+    ListScreen<RollItem>,
     DragAndSwipeTouchHelper.Callback {
 
     override val layoutId: Int = R.layout.fragment_roll_note
@@ -60,7 +61,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
     override val panelBar: IncNotePanelBinding? get() = binding?.panel
 
-    private val animation by lazy { RollNoteAnimation(connector.init.isEdit) }
+    private val animation by lazy { RollNoteAnimation(viewModel.isEditMode) }
     private val listAnimation = ShowListAnimation()
 
     private val touchHelper = DragAndSwipeTouchHelper(callback = this)
@@ -218,7 +219,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     }
 
     private fun getAddText(): String {
-        return binding?.addPanel?.rollEnter?.text?.toString()?.removeExtraSpace() ?: ""
+        return binding?.addPanel?.rollEnter?.text?.toString()?.removeExtraSpace() ?: emptyString()
     }
 
     //region Observable staff
@@ -226,7 +227,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.showList.observe(this) {
+        viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
 
             invalidateEmptyInfo()
@@ -235,7 +236,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
                 binding.recyclerView, binding.emptyInfo.parentContainer
             )
         }
-        viewModel.itemList.observe(this) { catchListUpdate(it) }
+        viewModel.list.data.observe(this) { onListUpdate(it) }
     }
 
     private fun invalidateEmptyInfo() {
@@ -243,7 +244,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         val isListEmpty = item.list.isEmpty()
         /**
-         * May simply get count from [adapter] (not from [RollNoteViewModel.itemList]), because
+         * May simply get count from [adapter] (not from [RollNoteViewModel.list]), because
          * it will be before animation - it's mean all items already passed into [adapter].
          */
         val isListHide = !item.isVisible && !isListEmpty && adapter.itemCount == 0
@@ -258,23 +259,6 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
     }
 
-    override fun observeDataReady(it: Boolean) {
-        super.observeDataReady(it)
-
-        visibleMenuItem?.isVisible = it
-        visibleMenuItem?.isEnabled = it
-    }
-
-    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
-        super.observeEdit(previousEdit, isEdit)
-        adapter.updateEdit(isEdit)
-    }
-
-    override fun observeState(previousState: NoteState, state: NoteState) {
-        super.observeState(previousState, state)
-        adapter.updateState(state)
-    }
-
     override fun observeNoteItem(item: NoteItem.Roll) {
         super.observeNoteItem(item)
 
@@ -287,6 +271,16 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
 
         /** Skip animation on first icon setup. */
         visibleIcon?.setDrawable(isVisible, needAnim = visibleIcon?.isEnterIcon != null)
+    }
+
+    override fun observeState(previousState: NoteState, state: NoteState) {
+        super.observeState(previousState, state)
+        adapter.updateState(state)
+    }
+
+    override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
+        super.observeEdit(previousEdit, isEdit)
+        adapter.updateEdit(isEdit)
     }
 
     override fun invalidatePanelState(isEdit: Boolean) {

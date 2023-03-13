@@ -6,6 +6,7 @@ import android.widget.EditText
 import androidx.annotation.IntRange
 import androidx.databinding.ViewDataBinding
 import kotlin.math.min
+import sgtmelon.extensions.emptyString
 
 inline fun EditText.setEditorNextAction(crossinline func: () -> Unit) {
     setOnEditorAction(EditorInfo.IME_ACTION_NEXT, func)
@@ -65,7 +66,7 @@ fun EditText.setSelectionSafe(@IntRange(from = 0) cursor: Int = length()) {
 
 private fun EditText.getCorrectCursor(value: Int) = min(value, length())
 
-fun EditText.clearText() = setText("")
+fun EditText.clearText() = setText(emptyString())
 
 /**
  * Set [text] to [EditText] if it's different from the current one.
