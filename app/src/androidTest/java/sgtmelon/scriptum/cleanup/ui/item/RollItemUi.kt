@@ -54,7 +54,7 @@ class RollItemUi(
             getView(
                 when (state) {
                     NoteState.READ, NoteState.BIN -> R.id.click_button
-                    NoteState.EDIT, NoteState.NEW -> R.id.drag_button
+                    NoteState.EDIT, NoteState.NEW -> TODO() // R.id.drag_button
                 }
             )
         )
