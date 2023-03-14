@@ -38,6 +38,7 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
@@ -93,7 +94,7 @@ class RollNoteViewModelImpl(
     override fun restoreData(): Boolean {
         val item = noteItem.value ?: return false
         /** Save [NoteItem.Roll.isVisible], because it should be the same after restore. */
-        val restoreItem = cacheNote.item?.copy(isVisible = item.isVisible) ?: return false
+        val restoreItem = cacheNote.item?.deepCopy(isVisible = item.isVisible) ?: return false
 
         if (item.id == Default.ID) return false
 

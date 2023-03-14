@@ -124,7 +124,8 @@ fun NoteItem.Roll.onItemCheck(p: Int) = apply {
 
 //endregion
 
-fun NoteItem.Text.copy(
+/** Use custom function for copy inner classes. */
+fun NoteItem.Text.deepCopy(
     id: Long = this.id,
     create: String = this.create,
     change: String = this.change,
@@ -139,7 +140,8 @@ fun NoteItem.Text.copy(
     return NoteItem.Text(id, create, change, name, text, color, rank, isBin, isStatus, alarm)
 }
 
-fun NoteItem.Roll.copy(
+/** Use custom function for copy inner classes. */
+fun NoteItem.Roll.deepCopy(
     id: Long = this.id,
     create: String = this.create,
     change: String = this.change,

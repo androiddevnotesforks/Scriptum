@@ -11,5 +11,4 @@ class GetHistoryResultUseCaseTest : ParentTest() {
     @Test fun todo() {
         TODO()
     }
-
 }

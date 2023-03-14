@@ -4,7 +4,7 @@ import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 
 /**
@@ -38,18 +38,18 @@ interface INoteScreen<T : ParentScreen, N : NoteItem> {
     fun applyItem() {
         when (item) {
             is NoteItem.Text -> {
-                val copyItem = item.castText().copy()
+                val copyItem = item.castText().deepCopy()
                 shadowItem = copyItem.castN()
             }
             is NoteItem.Roll -> {
-                val copyItem = item.castRoll().copy()
+                val copyItem = item.castRoll().deepCopy()
                 shadowItem = copyItem.castN()
             }
         }
     }
 
     fun applyShadowText(): NoteItem.Text {
-        val copyItem = shadowItem.castText().copy()
+        val copyItem = shadowItem.castText().deepCopy()
         item = copyItem.castN()
 
         return item.castText()

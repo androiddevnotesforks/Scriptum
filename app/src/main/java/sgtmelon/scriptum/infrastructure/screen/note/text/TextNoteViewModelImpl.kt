@@ -24,7 +24,7 @@ import sgtmelon.scriptum.infrastructure.database.DbData.Note.Default
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.copy
+import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 
@@ -54,7 +54,7 @@ class TextNoteViewModelImpl(
 
     override fun restoreData(): Boolean {
         val item = noteItem.value ?: return false
-        val restoreItem = cacheNote.item?.copy() ?: return false
+        val restoreItem = cacheNote.item?.deepCopy() ?: return false
 
         if (item.id == Default.ID) return false
 
