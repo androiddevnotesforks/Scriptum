@@ -66,7 +66,7 @@ class TidyUpAlarmUseCaseTest : ParentTest() {
     //        }
     //    }
 
-    @Test fun invoke() {
+    @Test fun todo() {
         TODO("don't know how to test flow")
     }
 }

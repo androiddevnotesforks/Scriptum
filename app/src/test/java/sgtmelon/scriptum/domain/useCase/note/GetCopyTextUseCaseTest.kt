@@ -71,7 +71,7 @@ class GetCopyTextUseCaseTest : ParentTest() {
         val list = mockk<MutableList<RollItem>>()
         val text = nextString()
 
-        FastMock.listExtension()
+        FastMock.rollExtensions()
 
         every { item.name } returns ""
         every { item.id } returns id

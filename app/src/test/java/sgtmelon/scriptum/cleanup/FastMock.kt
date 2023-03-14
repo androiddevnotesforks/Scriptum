@@ -29,9 +29,11 @@ object FastMock {
 
     fun timeExtension() = mockkStatic("sgtmelon.extensions.TimeExtensionsUtils")
 
-    fun listExtension() = mockkStatic("sgtmelon.scriptum.cleanup.extension.ListExtensionUtils")
-
     fun noteExtensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.extensions.note.NoteExtensionsUtils")
+
+    fun rollExtensions() = mockkStatic(
+        "sgtmelon.scriptum.infrastructure.utils.extensions.note.RollExtensionsUtils"
+    )
 
     object Note {
 
