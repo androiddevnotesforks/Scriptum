@@ -6,19 +6,30 @@ import androidx.lifecycle.MutableLiveData
 import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
+import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.delegators.ResetValueDelegator
+import sgtmelon.test.idling.getIdling
 
 /**
  * Class help work with: list screens, custom adapter notify calls, display of UI elements.
  */
 class ListStorageImpl<T> : ListStorage<T> {
 
+    init {
+        getIdling().start(IdlingTag.Anim.LOAD)
+    }
+
     override val show: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
 
     fun notifyShow() {
         val state = show.value ?: return
+
+        if (state == ShowListState.Loading) {
+            getIdling().stop(IdlingTag.Anim.LOAD)
+        }
+
         val newState = if (localData.isEmpty()) ShowListState.Empty else ShowListState.List
 
         /** Skip same state. */

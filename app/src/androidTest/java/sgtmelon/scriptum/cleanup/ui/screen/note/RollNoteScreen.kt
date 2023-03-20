@@ -63,11 +63,11 @@ class RollNoteScreen(
     ToolbarBack,
     BackPress {
 
-    //region Views
-
     private val toolbarHolder = getView(R.id.toolbar_holder)
     private val panelHolder = getView(R.id.panel_holder)
     private val fragmentContainer = getView(R.id.fragment_container)
+
+    //region Views
 
     private val visibleMenuItem = getView(R.id.item_visible)
 

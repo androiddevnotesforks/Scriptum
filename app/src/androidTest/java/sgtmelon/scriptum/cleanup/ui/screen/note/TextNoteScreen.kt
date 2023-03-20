@@ -50,11 +50,11 @@ class TextNoteScreen(
     ToolbarBack,
     BackPress {
 
-    //region Views
-
     private val toolbarHolder = getView(R.id.toolbar_holder)
     private val panelHolder = getView(R.id.panel_holder)
     private val fragmentContainer = getView(R.id.fragment_container)
+
+    //region Views
 
     private val contentCard = getView(R.id.content_card)
     private val contentScroll = getView(R.id.content_scroll)
