@@ -247,7 +247,7 @@ class RollNoteScreen(
     }
 
     fun assert() {
-        toolbarHolder.withBackgroundAppColor(appTheme, item.color, needDark = false)
+        toolbarHolder.withBackgroundAppColor(theme, item.color, needDark = false)
             .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
             .withSize(heightId = R.dimen.note_panel_height)
