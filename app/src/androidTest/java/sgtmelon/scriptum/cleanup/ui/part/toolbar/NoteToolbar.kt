@@ -5,7 +5,6 @@ import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
@@ -14,6 +13,7 @@ import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -30,7 +30,7 @@ import sgtmelon.test.cappuccino.utils.withText
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
 @Suppress("UNCHECKED_CAST")
-class NoteToolbar<T : ParentScreen, N : NoteItem>(
+class NoteToolbar<T : ContainerPart, N : NoteItem>(
     parentContainer: Matcher<View>,
     private val callback: INoteScreen<T, N>,
     private val imeCallback: ImeCallback
@@ -155,7 +155,7 @@ class NoteToolbar<T : ParentScreen, N : NoteItem>(
 
 
     companion object {
-        operator fun <T : ParentScreen, N : NoteItem> invoke(
+        operator fun <T : ContainerPart, N : NoteItem> invoke(
             func: NoteToolbar<T, N>.() -> Unit,
             parentContainer: Matcher<View>,
             callback: INoteScreen<T, N>,

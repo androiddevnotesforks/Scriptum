@@ -17,5 +17,8 @@ annotation class TestViewTag {
         const val PREF_BACKUP = "PREF_BACKUP"
         const val PREF_NOTE = "PREF_NOTE"
         const val PREF_ALARM = "PREF_ALARM"
+
+        const val TEXT_NOTE = "TEXT_NOTE"
+        const val ROLL_NOTE = "ROLL_NOTE"
     }
 }

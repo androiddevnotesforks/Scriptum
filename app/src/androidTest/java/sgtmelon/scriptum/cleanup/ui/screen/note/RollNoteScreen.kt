@@ -5,12 +5,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
-import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.cleanup.ui.item.RollItemUi
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
@@ -26,7 +26,9 @@ import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
 import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
 import sgtmelon.scriptum.parent.ui.model.key.InfoCase
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
+import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
@@ -52,7 +54,8 @@ class RollNoteScreen(
     override var state: NoteState,
     override var item: NoteItem.Roll,
     override val isRankEmpty: Boolean
-) : ParentRecyclerScreen(R.id.recycler_view),
+) : ContainerPart(TestViewTag.ROLL_NOTE),
+    RecyclerPart<RollItem, RollItemUi>,
     INoteScreen<RollNoteScreen, NoteItem.Roll>,
     NoteToolbar.ImeCallback,
     INoteAfterConvert<TextNoteScreen>,
@@ -62,11 +65,13 @@ class RollNoteScreen(
 
     //region Views
 
-    private val toolbarHolder = getViewById(R.id.toolbar_holder)
-    private val panelHolder = getViewById(R.id.panel_holder)
-    private val fragmentContainer = getViewById(R.id.fragment_container)
+    private val toolbarHolder = getView(R.id.toolbar_holder)
+    private val panelHolder = getView(R.id.panel_holder)
+    private val fragmentContainer = getView(R.id.fragment_container)
 
-    private val visibleMenuItem = getViewById(R.id.item_visible)
+    private val visibleMenuItem = getView(R.id.item_visible)
+
+    override val recyclerView = getView(R.id.recycler_view)
 
     private fun getInfoPart(): InfoContainerPart {
         val list = when (state) {
@@ -80,10 +85,9 @@ class RollNoteScreen(
         return InfoContainerPart(parentContainer, InfoCase.Roll(isListEmpty, isListHide))
     }
 
-    private val parentContainer = getViewById(R.id.parent_container)
-    private val doneProgress = getViewById(R.id.done_progress)
+    private val doneProgress = getView(R.id.done_progress)
 
-    private fun getItem(p: Int) = RollItemUi(recyclerView, p, state)
+    override fun getItem(p: Int) = RollItemUi(recyclerView, p, state)
 
     /**
      * Cause of [RollEnterPanel.enterText] is local variable, need return

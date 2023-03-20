@@ -7,7 +7,6 @@ import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.RankDialogUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteAfterConvert
@@ -26,6 +25,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.ContainerPart
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.scriptum.parent.ui.screen.dialogs.ColorDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateTimeCallback
@@ -44,9 +45,9 @@ import sgtmelon.test.cappuccino.utils.withText
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
 
-class NotePanel<T : ParentScreen, N : NoteItem>(
+class NotePanel<T : ContainerPart, N : NoteItem>(
     private val callback: INoteScreen<T, N>
-) : ParentScreen(),
+) : UiPart(),
     DateTimeCallback,
     ConvertDialogUi.Callback,
     ColorDialogUi.Callback,
@@ -54,28 +55,28 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.parent_container)
-    private val dividerView = getViewById(R.id.divider_view)
-    private val buttonContainer = getViewById(R.id.parent_container)
+    private val parentContainer = getView(R.id.parent_container)
+    private val dividerView = getView(R.id.divider_view)
+    private val buttonContainer = getView(R.id.parent_container)
 
-    private val readContainer = getViewById(R.id.read_container)
-    private val notificationButton = getViewById(R.id.notification_button)
-    private val bindButton = getViewById(R.id.bind_button)
-    private val convertButton = getViewById(R.id.convert_button)
-    private val deleteButton = getViewById(R.id.delete_button)
-    private val editButton = getViewById(R.id.edit_button)
+    private val readContainer = getView(R.id.read_container)
+    private val notificationButton = getView(R.id.notification_button)
+    private val bindButton = getView(R.id.bind_button)
+    private val convertButton = getView(R.id.convert_button)
+    private val deleteButton = getView(R.id.delete_button)
+    private val editButton = getView(R.id.edit_button)
 
-    private val binContainer = getViewById(R.id.bin_container)
-    private val restoreButton = getViewById(R.id.restore_button)
-    private val restoreOpenButton = getViewById(R.id.restore_open_button)
-    private val clearButton = getViewById(R.id.clear_button)
+    private val binContainer = getView(R.id.bin_container)
+    private val restoreButton = getView(R.id.restore_button)
+    private val restoreOpenButton = getView(R.id.restore_open_button)
+    private val clearButton = getView(R.id.clear_button)
 
-    private val editContainer = getViewById(R.id.edit_container)
-    private val undoButton = getViewById(R.id.undo_button)
-    private val redoButton = getViewById(R.id.redo_button)
-    private val rankButton = getViewById(R.id.rank_button)
-    private val colorButton = getViewById(R.id.color_button)
-    private val saveButton = getViewById(R.id.save_button)
+    private val editContainer = getView(R.id.edit_container)
+    private val undoButton = getView(R.id.undo_button)
+    private val redoButton = getView(R.id.redo_button)
+    private val rankButton = getView(R.id.rank_button)
+    private val colorButton = getView(R.id.color_button)
+    private val saveButton = getView(R.id.save_button)
 
     //endregion
 
@@ -384,7 +385,7 @@ class NotePanel<T : ParentScreen, N : NoteItem>(
     @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
 
     companion object {
-        operator fun <T : ParentScreen, N : NoteItem> invoke(
+        operator fun <T : ContainerPart, N : NoteItem> invoke(
             func: NotePanel<T, N>.() -> Unit,
             callback: INoteScreen<T, N>
         ): NotePanel<T, N> {

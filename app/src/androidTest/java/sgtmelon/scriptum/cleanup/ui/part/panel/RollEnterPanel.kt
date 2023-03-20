@@ -6,12 +6,13 @@ import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.ContainerPart
+import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -32,16 +33,17 @@ import sgtmelon.test.cappuccino.utils.withText
 /**
  * Part of UI abstraction for [RollNoteScreen]
  */
-class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, NoteItem.Roll>) :
-    ParentScreen() {
+class RollEnterPanel<T : ContainerPart>(
+    private val callback: INoteScreen<T, NoteItem.Roll>
+) : UiPart() {
 
     //region Views
 
-    private val enterContainer = getViewById(R.id.parent_container)
-    private val dividerView = getViewById(R.id.enter_divider_view)
+    private val enterContainer = getView(R.id.parent_container)
+    private val dividerView = getView(R.id.enter_divider_view)
 
-    private val textEnter = getViewById(R.id.roll_enter)
-    private val addButton = getViewById(R.id.add_button)
+    private val textEnter = getView(R.id.roll_enter)
+    private val addButton = getView(R.id.add_button)
 
     //endregion
 
@@ -144,7 +146,7 @@ class RollEnterPanel<T : ParentScreen>(private val callback: INoteScreen<T, Note
     }
 
     companion object {
-        operator fun <T : ParentScreen> invoke(
+        operator fun <T : ContainerPart> invoke(
             func: RollEnterPanel<T>.() -> Unit,
             callback: INoteScreen<T, NoteItem.Roll>
         ): RollEnterPanel<T> {

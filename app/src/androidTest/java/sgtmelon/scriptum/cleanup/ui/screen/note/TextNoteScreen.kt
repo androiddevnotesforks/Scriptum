@@ -4,12 +4,12 @@ import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.testData.DbDelegator
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
@@ -20,6 +20,7 @@ import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
 import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -41,7 +42,7 @@ class TextNoteScreen(
     override var state: NoteState,
     override var item: NoteItem.Text,
     override val isRankEmpty: Boolean
-) : ParentScreen(),
+) : ContainerPart(TestViewTag.TEXT_NOTE),
     INoteScreen<TextNoteScreen, NoteItem.Text>,
     NoteToolbar.ImeCallback,
     INoteAfterConvert<RollNoteScreen>,
@@ -51,17 +52,15 @@ class TextNoteScreen(
 
     //region Views
 
-    private val toolbarHolder = getViewById(R.id.toolbar_holder)
-    private val panelHolder = getViewById(R.id.panel_holder)
-    private val fragmentContainer = getViewById(R.id.fragment_container)
+    private val toolbarHolder = getView(R.id.toolbar_holder)
+    private val panelHolder = getView(R.id.panel_holder)
+    private val fragmentContainer = getView(R.id.fragment_container)
 
-    private val parentContainer = getViewById(R.id.parent_container)
+    private val contentCard = getView(R.id.content_card)
+    private val contentScroll = getView(R.id.content_scroll)
 
-    private val contentCard = getViewById(R.id.content_card)
-    private val contentScroll = getViewById(R.id.content_scroll)
-
-    private val textEnter = getViewById(R.id.text_enter)
-    private val textRead = getViewById(R.id.text_read)
+    private val textEnter = getView(R.id.text_enter)
+    private val textRead = getView(R.id.text_read)
 
     override val toolbar: ToolbarPart get() = toolbar()
 
