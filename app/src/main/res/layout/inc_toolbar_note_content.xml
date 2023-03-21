@@ -4,42 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/inc_toolbar_note">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="?attr/styleToolbar"
-        app:contentInsetEnd="@dimen/layout_8dp"
-        app:contentInsetStart="@dimen/layout_8dp"
-        app:contentInsetStartWithNavigation="56dp"
-        app:popupTheme="?attr/themePopup">
+    <merge>
 
-        <HorizontalScrollView
-            android:id="@+id/scroll_view"
-            style="@style/Container.ToolbarNote.Scroll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="?attr/styleToolbar"
+            app:contentInsetEnd="@dimen/layout_8dp"
+            app:contentInsetStart="@dimen/layout_8dp"
+            app:contentInsetStartWithNavigation="56dp"
+            app:popupTheme="?attr/themePopup">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_24dp">
+            <HorizontalScrollView
+                android:id="@+id/scroll_view"
+                style="@style/Container.ToolbarNote.Scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/name_enter"
-                    style="@style/EditText.ToolbarNote"
-                    android:hint="@string/hint_enter_name"
-                    android:importantForAutofill="noExcludeDescendants"
-                    tools:visibility="invisible" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_24dp">
 
-                <TextView
-                    android:id="@+id/name_read"
-                    style="@style/Text.ToolbarNote"
-                    android:hint="@string/hint_text_name"
-                    tools:text="@string/preview_note_name" />
+                    <EditText
+                        android:id="@+id/name_enter"
+                        style="@style/EditText.ToolbarNote"
+                        android:hint="@string/hint_enter_name"
+                        android:importantForAutofill="noExcludeDescendants"
+                        tools:visibility="invisible" />
 
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/name_read"
+                        style="@style/Text.ToolbarNote"
+                        android:hint="@string/hint_text_name"
+                        tools:text="@string/preview_note_name" />
 
-        </HorizontalScrollView>
+                </FrameLayout>
 
-    </androidx.appcompat.widget.Toolbar>
+            </HorizontalScrollView>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </merge>
 
 </layout>

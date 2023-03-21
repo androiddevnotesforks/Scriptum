@@ -4,64 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_rank">
 
-    <com.google.android.material.appbar.AppBarLayout style="@style/Toolbar.Fix">
+    <merge>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="?attr/styleToolbar"
-            app:contentInsetEnd="@dimen/layout_8dp"
-            app:contentInsetStart="@dimen/layout_8dp"
-            app:popupTheme="?attr/themePopup">
+        <com.google.android.material.appbar.AppBarLayout style="@style/Toolbar.Fix">
 
-            <!-- focusable/InTouchMode для отведения фокуса от EditText при скрытии клавиатуры -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/enter_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                app:cardBackgroundColor="?attr/clBackgroundEnter"
-                app:cardCornerRadius="@dimen/item_card_radius"
-                app:cardElevation="@dimen/elevation_0dp"
-                app:cardUseCompatPadding="false">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="?attr/styleToolbar"
+                app:contentInsetEnd="@dimen/layout_8dp"
+                app:contentInsetStart="@dimen/layout_8dp"
+                app:popupTheme="?attr/themePopup">
 
-                <LinearLayout
+                <!-- focusable/InTouchMode для отведения фокуса от EditText при скрытии клавиатуры -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/enter_card"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    app:cardBackgroundColor="?attr/clBackgroundEnter"
+                    app:cardCornerRadius="@dimen/item_card_radius"
+                    app:cardElevation="@dimen/elevation_0dp"
+                    app:cardUseCompatPadding="false">
 
-                    <ImageButton
-                        android:id="@+id/clear_button"
-                        style="@style/Button.Small"
-                        android:contentDescription="@string/description_enter_rank_clear"
-                        app:srcCompat="@drawable/ic_cancel_enter"
-                        tools:tint="?attr/clDisable"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/rank_enter"
-                        style="@style/EditText.SingleRow"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="@string/hint_enter_rank_new"
-                        android:imeOptions="flagNoFullscreen|actionDone"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-                        android:maxLength="@integer/rank_name_max_length"
-                        android:maxLines="1" />
+                        <ImageButton
+                            android:id="@+id/clear_button"
+                            style="@style/Button.Small"
+                            android:contentDescription="@string/description_enter_rank_clear"
+                            app:srcCompat="@drawable/ic_cancel_enter"
+                            tools:tint="?attr/clDisable" />
 
-                    <ImageButton
-                        android:id="@+id/add_button"
-                        style="@style/Button.Small"
-                        android:contentDescription="@string/description_enter_rank_add"
-                        app:srcCompat="@drawable/ic_rank"
-                        tools:tint="?attr/clAccent"/>
+                        <EditText
+                            android:id="@+id/rank_enter"
+                            style="@style/EditText.SingleRow"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/hint_enter_rank_new"
+                            android:imeOptions="flagNoFullscreen|actionDone"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+                            android:maxLength="@integer/rank_name_max_length"
+                            android:maxLines="1" />
 
-                </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/add_button"
+                            style="@style/Button.Small"
+                            android:contentDescription="@string/description_enter_rank_add"
+                            app:srcCompat="@drawable/ic_rank"
+                            tools:tint="?attr/clAccent" />
 
-            </androidx.cardview.widget.CardView>
+                    </LinearLayout>
 
-        </androidx.appcompat.widget.Toolbar>
+                </androidx.cardview.widget.CardView>
 
-    </com.google.android.material.appbar.AppBarLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </merge>
 
 </layout>

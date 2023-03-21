@@ -3,159 +3,163 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--  Test padding here to see how it will be changed on keyboard appears.  -->
-    <FrameLayout
-        android:id="@+id/parent_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/clPrimary"
-        tools:paddingBottom="32dp"
-        tools:layout_gravity="bottom">
+    <merge>
 
-        <LinearLayout
-            android:id="@+id/bin_container"
+        <!--  Test padding here to see how it will be changed on keyboard appears.  -->
+        <FrameLayout
+            android:id="@+id/parent_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/note_panel_height"
-            android:paddingHorizontal="@dimen/layout_8dp"
-            android:gravity="center_vertical"
-            android:visibility="invisible"
-            tools:visibility="invisible">
+            android:layout_height="wrap_content"
+            android:background="?attr/clPrimary"
+            tools:layout_gravity="bottom"
+            tools:paddingBottom="32dp">
 
-            <ImageButton
-                android:id="@+id/restore_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_restore"
-                app:tint="?attr/clContent"
-                app:srcCompat="@drawable/ic_restore" />
+            <LinearLayout
+                android:id="@+id/bin_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/note_panel_height"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/layout_8dp"
+                android:visibility="invisible"
+                tools:visibility="invisible">
 
-            <ImageButton
-                android:id="@+id/restore_open_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_restore_open"
-                app:tint="?attr/clContent"
-                app:srcCompat="@drawable/ic_restore_open" />
+                <ImageButton
+                    android:id="@+id/restore_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_restore"
+                    app:srcCompat="@drawable/ic_restore"
+                    app:tint="?attr/clContent" />
 
-            <ImageButton
-                android:id="@+id/clear_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_clear"
-                app:tint="?attr/clAccent"
-                app:srcCompat="@drawable/ic_clear" />
+                <ImageButton
+                    android:id="@+id/restore_open_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_restore_open"
+                    app:srcCompat="@drawable/ic_restore_open"
+                    app:tint="?attr/clContent" />
 
-        </LinearLayout>
+                <ImageButton
+                    android:id="@+id/clear_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_clear"
+                    app:srcCompat="@drawable/ic_clear"
+                    app:tint="?attr/clAccent" />
 
-        <LinearLayout
-            android:id="@+id/edit_container"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/note_panel_height"
-            android:paddingHorizontal="@dimen/layout_8dp"
-            android:gravity="center_vertical"
-            android:visibility="invisible"
-            tools:visibility="visible">
+            </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/undo_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_undo"
-                app:tint="?attr/clDisable"
-                app:srcCompat="@drawable/ic_undo"
-                tools:tint="?attr/clContent" />
+            <LinearLayout
+                android:id="@+id/edit_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/note_panel_height"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/layout_8dp"
+                android:visibility="invisible"
+                tools:visibility="visible">
 
-            <ImageButton
-                android:id="@+id/redo_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_redo"
-                app:tint="?attr/clDisable"
-                app:srcCompat="@drawable/ic_redo"
-                tools:tint="?attr/clDisable" />
+                <ImageButton
+                    android:id="@+id/undo_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_undo"
+                    app:srcCompat="@drawable/ic_undo"
+                    app:tint="?attr/clDisable"
+                    tools:tint="?attr/clContent" />
 
-            <ImageButton
-                android:id="@+id/rank_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_rank"
-                app:srcCompat="@drawable/ic_rank"
-                app:tint="?attr/clContent"
-                tools:tint="?attr/clAccent" />
+                <ImageButton
+                    android:id="@+id/redo_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_redo"
+                    app:srcCompat="@drawable/ic_redo"
+                    app:tint="?attr/clDisable"
+                    tools:tint="?attr/clDisable" />
 
-            <ImageButton
-                android:id="@+id/color_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_color"
-                app:tint="?attr/clContent"
-                app:srcCompat="@drawable/ic_palette" />
+                <ImageButton
+                    android:id="@+id/rank_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_rank"
+                    app:srcCompat="@drawable/ic_rank"
+                    app:tint="?attr/clContent"
+                    tools:tint="?attr/clAccent" />
 
+                <ImageButton
+                    android:id="@+id/color_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_color"
+                    app:srcCompat="@drawable/ic_palette"
+                    app:tint="?attr/clContent" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/save_button"
+                    style="@style/Button.Small"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:text="@string/button_note_save" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/read_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/note_panel_height"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/layout_8dp"
+                android:visibility="invisible"
+                tools:visibility="invisible">
+
+                <ImageButton
+                    android:id="@+id/notification_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_notification"
+                    app:srcCompat="@drawable/ic_notifications"
+                    app:tint="?attr/clContent"
+                    tools:tint="?attr/clAccent" />
+
+                <!--  Set contentDescription in UI class  -->
+                <ImageButton
+                    android:id="@+id/bind_button"
+                    style="@style/Button.Small"
+                    app:tint="?attr/clContent"
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/ic_bind_text"
+                    tools:tint="?attr/clAccent" />
+
+                <!--  Set contentDescription in UI class  -->
+                <ImageButton
+                    android:id="@+id/convert_button"
+                    style="@style/Button.Small"
+                    app:srcCompat="@drawable/ic_convert"
+                    app:tint="?attr/clContent"
+                    tools:ignore="ContentDescription" />
+
+                <ImageButton
+                    android:id="@+id/delete_button"
+                    style="@style/Button.Small"
+                    android:contentDescription="@string/description_note_delete"
+                    app:srcCompat="@drawable/ic_bin"
+                    app:tint="?attr/clContent" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/edit_button"
+                    style="@style/Button.Small"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:text="@string/button_note_edit" />
+
+            </LinearLayout>
+
+            <!--  It placed in FrameLayout (not linear) to provide ripple effect behind this view.  -->
             <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:id="@+id/divider_view"
+                style="@style/Divider.Horizontal" />
 
-            <Button
-                android:id="@+id/save_button"
-                style="@style/Button.Small"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:text="@string/button_note_save" />
+        </FrameLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/read_container"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/note_panel_height"
-            android:paddingHorizontal="@dimen/layout_8dp"
-            android:gravity="center_vertical"
-            android:visibility="invisible"
-            tools:visibility="invisible">
-
-            <ImageButton
-                android:id="@+id/notification_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_notification"
-                app:srcCompat="@drawable/ic_notifications"
-                app:tint="?attr/clContent"
-                tools:tint="?attr/clAccent" />
-
-            <!--  Set contentDescription in UI class  -->
-            <ImageButton
-                android:id="@+id/bind_button"
-                style="@style/Button.Small"
-                app:tint="?attr/clContent"
-                tools:src="@drawable/ic_bind_text"
-                tools:ignore="ContentDescription"
-                tools:tint="?attr/clAccent" />
-
-            <!--  Set contentDescription in UI class  -->
-            <ImageButton
-                android:id="@+id/convert_button"
-                style="@style/Button.Small"
-                app:tint="?attr/clContent"
-                app:srcCompat="@drawable/ic_convert"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/delete_button"
-                style="@style/Button.Small"
-                android:contentDescription="@string/description_note_delete"
-                app:tint="?attr/clContent"
-                app:srcCompat="@drawable/ic_bin" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/edit_button"
-                style="@style/Button.Small"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:text="@string/button_note_edit" />
-
-        </LinearLayout>
-
-        <!--  It placed in FrameLayout (not linear) to provide ripple effect behind this view.  -->
-        <View
-            android:id="@+id/divider_view"
-            style="@style/Divider.Horizontal" />
-
-    </FrameLayout>
+    </merge>
 
 </layout>

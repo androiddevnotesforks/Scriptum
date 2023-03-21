@@ -3,15 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout style="@style/Toolbar.Fix">
+    <merge>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="?attr/styleToolbar"
-            app:popupTheme="?attr/themePopup"
-            tools:menu="@menu/fragment_notes"
-            tools:title="Test title" />
+        <com.google.android.material.appbar.AppBarLayout style="@style/Toolbar.Fix">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="?attr/styleToolbar"
+                app:popupTheme="?attr/themePopup"
+                tools:menu="@menu/fragment_notes"
+                tools:title="Test title" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </merge>
 
 </layout>

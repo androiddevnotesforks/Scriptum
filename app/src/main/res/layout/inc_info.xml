@@ -22,31 +22,35 @@
 
     <!-- TODO #RELEASE2 add contentDescription and add them to assertion in tests -->
 
-    <LinearLayout
-        android:id="@+id/parent_container"
-        style="@style/Container.Info">
+    <merge>
 
-        <ImageView
-            android:id="@+id/info_image"
-            style="@style/Image.Info"
-            android:importantForAccessibility="no"
-            app:colorAttr='@{R.attr.clContent}'
-            app:drawableId='@{icon}'
-            tools:src="@mipmap/img_info_notes"
-            tools:tint="?attr/clContent" />
+        <LinearLayout
+            android:id="@+id/parent_container"
+            style="@style/Container.Info">
 
-        <TextView
-            android:id="@+id/title_text"
-            style="@style/Text.Info.Title"
-            app:stringId='@{title}'
-            tools:text="@string/info_notes_empty_title" />
+            <ImageView
+                android:id="@+id/info_image"
+                style="@style/Image.Info"
+                android:importantForAccessibility="no"
+                app:colorAttr='@{R.attr.clContent}'
+                app:drawableId='@{icon}'
+                tools:src="@mipmap/img_info_notes"
+                tools:tint="?attr/clContent" />
 
-        <TextView
-            android:id="@+id/details_text"
-            style="@style/Text.Info.Details"
-            app:stringId='@{details}'
-            tools:text="@string/info_notes_empty_details" />
+            <TextView
+                android:id="@+id/title_text"
+                style="@style/Text.Info.Title"
+                app:stringId='@{title}'
+                tools:text="@string/info_notes_empty_title" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/details_text"
+                style="@style/Text.Info.Details"
+                app:stringId='@{details}'
+                tools:text="@string/info_notes_empty_details" />
+
+        </LinearLayout>
+
+    </merge>
 
 </layout>

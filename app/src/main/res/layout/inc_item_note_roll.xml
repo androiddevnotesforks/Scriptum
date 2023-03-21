@@ -3,23 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/inc_note_roll_content">
 
-    <LinearLayout
-        android:id="@+id/parent_container"
-        style="@style/Container.Note"
-        android:orientation="horizontal"
-        tools:ignore="UseCompoundDrawables">
+    <merge>
 
-        <ImageView
-            android:id="@+id/check_image"
-            style="@style/Image.Note.Check"
-            android:importantForAccessibility="no"
-            tools:srcCompat="@drawable/ic_check_done" />
+        <LinearLayout
+            android:id="@+id/parent_container"
+            style="@style/Container.Note"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
-        <TextView
-            android:id="@+id/content_text"
-            style="@style/Text.Note.Roll"
-            tools:text="@string/preview_note_roll" />
+            <ImageView
+                android:id="@+id/check_image"
+                style="@style/Image.Note.Check"
+                android:importantForAccessibility="no"
+                tools:srcCompat="@drawable/ic_check_done" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/content_text"
+                style="@style/Text.Note.Roll"
+                tools:text="@string/preview_note_roll" />
+
+        </LinearLayout>
+
+    </merge>
 
 </layout>

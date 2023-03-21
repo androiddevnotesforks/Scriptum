@@ -3,18 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_text_note">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/parent_container"
-        style="@style/Toolbar.Flex">
+    <merge>
 
-        <include
-            android:id="@+id/content"
-            layout="@layout/inc_toolbar_note_content" />
+        <com.google.android.material.appbar.AppBarLayout style="@style/Toolbar.Flex">
 
-        <include
-            android:id="@+id/indicator"
-            layout="@layout/inc_toolbar_note_color" />
+            <include
+                android:id="@+id/content"
+                layout="@layout/inc_toolbar_note_content" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <include
+                android:id="@+id/indicator"
+                layout="@layout/inc_toolbar_note_color" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </merge>
 
 </layout>

@@ -434,22 +434,21 @@
 
     <!--  Toolbar  -->
 
-    <style name="Toolbar" />
-
-    <!--  Flex toolbar for put something inside it (not only toolbar)  -->
-    <style name="Toolbar.Flex">
+    <style name="Toolbar">
+        <item name="android:id">@id/toolbar_container</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:elevation">@dimen/toolbar_elevation</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <!--  Flex toolbar for put something inside it (not only toolbar)  -->
+    <style name="Toolbar.Flex">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+
     <style name="Toolbar.Fix">
-        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:elevation">@dimen/toolbar_elevation</item>
-        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <!--  Other  -->

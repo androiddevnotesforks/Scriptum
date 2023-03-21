@@ -12,4 +12,6 @@
     <!--  Alert dialog list  -->
     <item name="select_dialog_listview" type="id"/>
 
+    <item name="toolbar_container" type="id"/>
+
 </resources>

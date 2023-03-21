@@ -38,7 +38,6 @@ class NoteToolbar<T : ContainerPart, N : NoteItem>(
 
     //region Views
 
-    private val toolbarContainer = getView(R.id.parent_container)
     override val toolbar = getView(R.id.toolbar)
     private val nameScroll = getView(R.id.scroll_view)
 
@@ -98,8 +97,6 @@ class NoteToolbar<T : ContainerPart, N : NoteItem>(
 
     fun assert() = apply {
         val color = callback.shadowItem.color
-
-        toolbarContainer.isDisplayed()
 
         toolbar.isDisplayed()
             .withBackgroundAppColor(theme, color, needDark = false)

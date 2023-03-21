@@ -4,56 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_roll_note">
 
-    <LinearLayout
-        android:id="@+id/parent_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?attr/clPrimary"
-        android:orientation="vertical"
-        android:visibility="visible"
-        tools:alpha="0.8"
-        tools:visibility="visible">
-
-        <View
-            android:id="@+id/enter_divider_view"
-            style="@style/Divider.Horizontal" />
+    <merge>
 
         <LinearLayout
+            android:id="@+id/parent_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="@dimen/layout_4dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?attr/clPrimary"
+            android:orientation="vertical"
+            android:visibility="visible"
+            tools:alpha="0.8"
+            tools:visibility="visible">
 
-            <!--
-                Dream effect: multiline with done action button
+            <View
+                android:id="@+id/enter_divider_view"
+                style="@style/Divider.Horizontal" />
 
-                imeOptions and inputType set programmatically, because I can't get the same
-                effect using xml
-            -->
-            <EditText
-                android:id="@+id/roll_enter"
-                style="@style/EditText.SingleRow"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/hint_enter_roll"
-                android:importantForAutofill="noExcludeDescendants"
-                android:maxLines="5"
-                tools:ignore="TextFields"
-                tools:text="@string/preview_note_text" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="@dimen/layout_4dp">
 
-            <ImageButton
-                android:id="@+id/add_button"
-                style="@style/Button.Small"
-                android:layout_gravity="bottom"
-                android:contentDescription="@string/description_enter_roll_add"
-                app:srcCompat="@drawable/ic_add"
-                app:tint="?attr/clDisable"
-                tools:tint="?attr/clAccent" />
+                <!--
+                    Dream effect: multiline with done action button
+
+                    imeOptions and inputType set programmatically, because I can't get the same
+                    effect using xml
+                -->
+                <EditText
+                    android:id="@+id/roll_enter"
+                    style="@style/EditText.SingleRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_enter_roll"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:maxLines="5"
+                    tools:ignore="TextFields"
+                    tools:text="@string/preview_note_text" />
+
+                <ImageButton
+                    android:id="@+id/add_button"
+                    style="@style/Button.Small"
+                    android:layout_gravity="bottom"
+                    android:contentDescription="@string/description_enter_roll_add"
+                    app:srcCompat="@drawable/ic_add"
+                    app:tint="?attr/clDisable"
+                    tools:tint="?attr/clAccent" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </merge>
 
 </layout>
