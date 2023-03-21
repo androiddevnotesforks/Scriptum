@@ -8,6 +8,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.dialog.SheetDialogPart
+import sgtmelon.scriptum.parent.ui.screen.note.NoteScreen
 import sgtmelon.test.cappuccino.utils.click
 
 /**
@@ -26,7 +27,7 @@ class AddSheetDialogUi : SheetDialogPart(
         func: TextNoteScreen.() -> Unit = {}
     ) {
         getButton(NoteType.TEXT).click()
-        TextNoteScreen(func, NoteState.NEW, item, isRankEmpty)
+        NoteScreen().openText(func, NoteState.NEW, item, isRankEmpty)
     }
 
     fun createRoll(
@@ -35,7 +36,7 @@ class AddSheetDialogUi : SheetDialogPart(
         func: RollNoteScreen.() -> Unit = {}
     ) {
         getButton(NoteType.ROLL).click()
-        RollNoteScreen(func, NoteState.NEW, item, isRankEmpty)
+        NoteScreen().openRoll(func, NoteState.NEW, item, isRankEmpty)
     }
 
     companion object {

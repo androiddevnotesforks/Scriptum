@@ -20,7 +20,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
-import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
 import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
@@ -30,18 +29,17 @@ import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
+import sgtmelon.scriptum.parent.ui.screen.note.NoteScreen
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.swipeItem
 import sgtmelon.test.cappuccino.utils.typeText
-import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withMenuDrawable
 import sgtmelon.test.cappuccino.utils.withMenuTitle
 import sgtmelon.test.cappuccino.utils.withProgress
 import sgtmelon.test.cappuccino.utils.withSize
-import sgtmelon.test.cappuccino.utils.withSizeAttr
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragmentImpl].
@@ -62,10 +60,6 @@ class RollNoteScreen(
     KeyboardClose,
     ToolbarBack,
     BackPress {
-
-    private val toolbarHolder = getView(R.id.toolbar_holder)
-    private val panelHolder = getView(R.id.panel_holder)
-    private val fragmentContainer = getView(R.id.fragment_container)
 
     //region Views
 
@@ -209,7 +203,7 @@ class RollNoteScreen(
     }
 
     override fun afterConvert(func: TextNoteScreen.() -> Unit) {
-        TextNoteScreen(func, NoteState.READ, item.onConvert(), isRankEmpty)
+        NoteScreen().openText(func, NoteState.READ, item.onConvert(), isRankEmpty)
     }
 
     override fun pressBack() {
@@ -247,12 +241,7 @@ class RollNoteScreen(
     }
 
     fun assert() {
-        toolbarHolder.withBackgroundAppColor(theme, item.color, needDark = false)
-            .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
-        panelHolder.withBackgroundAttr(R.attr.clPrimary)
-            .withSize(heightId = R.dimen.note_panel_height)
-
-        fragmentContainer.isDisplayed()
+        parentContainer.isDisplayed()
 
         getInfoPart().assert(
             when (state) {

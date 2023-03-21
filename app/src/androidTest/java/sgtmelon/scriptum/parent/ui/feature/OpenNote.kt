@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.parent.ui.model.exception.EmptyListException
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
+import sgtmelon.scriptum.parent.ui.screen.note.NoteScreen
 import sgtmelon.test.cappuccino.utils.getRandomPosition
 
 /**
@@ -53,7 +54,7 @@ interface OpenNote {
             func: TextNoteScreen.() -> Unit
         ) {
             openClick(item)
-            TextNoteScreen(func, state, item, isRankEmpty)
+            NoteScreen().openText(func, state, item, isRankEmpty)
         }
 
         fun openRoll(
@@ -63,7 +64,7 @@ interface OpenNote {
             func: RollNoteScreen.() -> Unit
         ) {
             openClick(item)
-            RollNoteScreen(func, state, item, isRankEmpty)
+            NoteScreen().openRoll(func, state, item, isRankEmpty)
         }
     }
 }

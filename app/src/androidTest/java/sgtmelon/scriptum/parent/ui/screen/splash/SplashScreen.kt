@@ -8,6 +8,7 @@ import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.UiPart
 import sgtmelon.scriptum.parent.ui.screen.alarm.AlarmScreen
 import sgtmelon.scriptum.parent.ui.screen.main.MainScreen
+import sgtmelon.scriptum.parent.ui.screen.note.NoteScreen
 import sgtmelon.scriptum.parent.ui.screen.notifications.NotificationsScreen
 
 /**
@@ -22,7 +23,7 @@ class SplashScreen : UiPart() {
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) = apply {
-        TextNoteScreen(func, NoteState.READ, item, isRankEmpty)
+        NoteScreen().openText(func, NoteState.READ, item, isRankEmpty)
     }
 
     inline fun bindNoteScreen(
@@ -30,7 +31,7 @@ class SplashScreen : UiPart() {
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) = apply {
-        RollNoteScreen(func, NoteState.READ, item, isRankEmpty)
+        NoteScreen().openRoll(func, NoteState.READ, item, isRankEmpty)
     }
 
     inline fun alarmScreen(
@@ -53,7 +54,7 @@ class SplashScreen : UiPart() {
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) = apply {
-        TextNoteScreen(func, NoteState.NEW, item, isRankEmpty)
+        NoteScreen().openText(func, NoteState.NEW, item, isRankEmpty)
     }
 
     inline fun createNoteScreen(
@@ -61,7 +62,7 @@ class SplashScreen : UiPart() {
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) = apply {
-        RollNoteScreen(func, NoteState.NEW, item, isRankEmpty)
+        NoteScreen().openRoll(func, NoteState.NEW, item, isRankEmpty)
     }
 
     companion object {

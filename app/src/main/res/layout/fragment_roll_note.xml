@@ -37,7 +37,6 @@
                 android:id="@+id/progress_bar"
                 style="@style/ProgressBar.Center" />
 
-            <!--  In UI class  -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 style="@style/RecyclerView.Small"
