@@ -144,7 +144,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             val binding = binding ?: return@observe
             listAnimation.startFade(
                 it, binding.parentContainer, binding.progressBar,
-                binding.recyclerView, binding.emptyInfo.parentContainer
+                binding.recyclerView, binding.emptyInfo.root
             )
 
             /**

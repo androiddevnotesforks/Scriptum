@@ -21,13 +21,13 @@ class InfoContainerPart(
     private val case: InfoCase
 ) : UiSubpart(parentContainer) {
 
-    private val includeContainer = getView(R.id.empty_info)
-    private val iconImage = getView(R.id.info_image).includeParent(includeContainer)
+    private val infoContainer = getView(R.id.info_page_container)
+    private val iconImage = getView(R.id.info_image).includeParent(infoContainer)
     private val titleText = case.titleId?.let { getView(R.id.title_text, it) }
     private val detailsText = case.detailsId?.let { getView(R.id.details_text, it) }
 
     fun assert(isVisible: Boolean) {
-        includeContainer.isDisplayed(isVisible)
+        infoContainer.isDisplayed(isVisible)
 
         if (case.iconId != null) {
             iconImage.isDisplayed(isVisible) {
