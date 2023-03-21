@@ -20,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
+import sgtmelon.scriptum.parent.ui.basic.withSmoothProgress
 import sgtmelon.scriptum.parent.ui.feature.BackPress
 import sgtmelon.scriptum.parent.ui.feature.KeyboardClose
 import sgtmelon.scriptum.parent.ui.feature.ToolbarBack
@@ -38,7 +39,6 @@ import sgtmelon.test.cappuccino.utils.swipeItem
 import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withMenuDrawable
 import sgtmelon.test.cappuccino.utils.withMenuTitle
-import sgtmelon.test.cappuccino.utils.withProgress
 import sgtmelon.test.cappuccino.utils.withSize
 
 /**
@@ -267,10 +267,9 @@ class RollNoteScreen(
                 .withMenuTitle(R.id.item_visible, itemTitle)
         }
 
-        parentContainer.isDisplayed()
         doneProgress.isDisplayed(value = state == NoteState.READ || state == NoteState.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
-            withProgress(item.list.getCheckCount(), item.list.size)
+            withSmoothProgress(item.list.getCheckCount(), item.list.size)
         }
 
         recyclerView.isDisplayed()
