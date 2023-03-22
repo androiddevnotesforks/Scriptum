@@ -62,7 +62,7 @@ class TextNoteScreen(
     }
 
     fun controlPanel(func: NotePanel<TextNoteScreen, NoteItem.Text>.() -> Unit) = apply {
-        NotePanel(func, callback = this)
+        NotePanel(parentContainer, func, callback = this)
     }
 
     //endregion

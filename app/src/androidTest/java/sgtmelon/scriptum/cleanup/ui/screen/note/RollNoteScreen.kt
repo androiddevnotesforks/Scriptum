@@ -98,13 +98,13 @@ class RollNoteScreen(
     }
 
     fun enterPanel(func: RollEnterPanel<RollNoteScreen>.() -> Unit) = apply {
-        enterPanel?.apply(func) ?: RollEnterPanel(func, callback = this).also {
+        enterPanel?.apply(func) ?: RollEnterPanel(func, parentContainer, callback = this).also {
             enterPanel = it
         }
     }
 
     fun controlPanel(func: NotePanel<RollNoteScreen, NoteItem.Roll>.() -> Unit) = apply {
-        NotePanel(func, callback = this)
+        NotePanel(parentContainer, func, callback = this)
     }
 
     //endregion

@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.cleanup.ui.part.panel
 
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import kotlin.random.Random
+import org.hamcrest.Matcher
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -12,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
-import sgtmelon.scriptum.parent.ui.parts.UiPart
+import sgtmelon.scriptum.parent.ui.parts.UiSubpart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -34,12 +36,13 @@ import sgtmelon.test.cappuccino.utils.withText
  * Part of UI abstraction for [RollNoteScreen]
  */
 class RollEnterPanel<T : ContainerPart>(
+    parentContainer: Matcher<View>,
     private val callback: INoteScreen<T, NoteItem.Roll>
-) : UiPart() {
+) : UiSubpart(parentContainer) {
 
     //region Views
 
-    private val enterContainer = getView(R.id.parent_container)
+    private val container = getView(R.id.container)
     private val dividerView = getView(R.id.enter_divider_view)
 
     private val textEnter = getView(R.id.roll_enter)
@@ -121,7 +124,7 @@ class RollEnterPanel<T : ContainerPart>(
     fun assert() = apply {
         val visible = with(callback) { state == NoteState.EDIT || state == NoteState.NEW }
 
-        enterContainer.isDisplayed(visible).withBackgroundAttr(R.attr.clPrimary)
+        container.isDisplayed(visible).withBackgroundAttr(R.attr.clPrimary)
 
         dividerView.isDisplayed(visible) {
             withSize(heightId = R.dimen.layout_1dp)
@@ -148,9 +151,10 @@ class RollEnterPanel<T : ContainerPart>(
     companion object {
         operator fun <T : ContainerPart> invoke(
             func: RollEnterPanel<T>.() -> Unit,
+            parentContainer: Matcher<View>,
             callback: INoteScreen<T, NoteItem.Roll>
         ): RollEnterPanel<T> {
-            return RollEnterPanel(callback).assert().apply(func)
+            return RollEnterPanel(parentContainer, callback).assert().apply(func)
         }
     }
 }

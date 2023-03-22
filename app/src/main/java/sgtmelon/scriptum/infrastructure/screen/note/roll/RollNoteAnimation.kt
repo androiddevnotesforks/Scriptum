@@ -34,7 +34,7 @@ class RollNoteAnimation(private var isEdit: Boolean) {
             if (animator?.isRunning.isTrue()) return
 
             /** Make it invisible because needed calculated height of container for anim. */
-            binding.addPanel.parentContainer.makeVisibleIf(isEdit) { makeInvisible() }
+            binding.addPanel.container.makeVisibleIf(isEdit) { makeInvisible() }
             /** Make it invisible in read state to prevent layout size change. */
             binding.panel.dividerView.makeVisibleIf(isEdit) { makeInvisible() }
             binding.doneProgress.makeVisibleIf(!isEdit)
@@ -60,7 +60,7 @@ class RollNoteAnimation(private var isEdit: Boolean) {
         val resources = binding.root.context.resources
         val duration = resources.getInteger(R.integer.note_panel_change_time).toLong()
 
-        val addMaxTranslation = addPanel.parentContainer.height.toFloat()
+        val addMaxTranslation = addPanel.container.height.toFloat()
 
         onAddPanelTranslationStart(binding, isEdit, addMaxTranslation)
 
@@ -71,7 +71,7 @@ class RollNoteAnimation(private var isEdit: Boolean) {
             animator = null
             onAddPanelTranslationEnd(binding, isEdit)
         }) {
-            addPanel.parentContainer.translationY = addMaxTranslation.getPercent(it)
+            addPanel.container.translationY = addMaxTranslation.getPercent(it)
             panel.dividerView.alpha = ALPHA_MAX - ALPHA_MAX.getPercent(it)
             updateContainerMargin(binding)
         }
@@ -85,8 +85,8 @@ class RollNoteAnimation(private var isEdit: Boolean) {
     ) = with(binding) {
         if (isEdit) {
             /** Make visible but hide add panel before slide in animation. */
-            addPanel.parentContainer.makeVisible()
-            addPanel.parentContainer.translationY = addMaxTranslation
+            addPanel.container.makeVisible()
+            addPanel.container.translationY = addMaxTranslation
 
             /** Make visible but completely transparent for start fade in. */
             panel.dividerView.makeVisible()
@@ -112,7 +112,7 @@ class RollNoteAnimation(private var isEdit: Boolean) {
              * Add panel is completely slide out, may hide it and divider. It's not displayed
              * in screen already: panel is translation to end position, divider has empty alpha.
              */
-            addPanel.parentContainer.makeInvisible()
+            addPanel.container.makeInvisible()
             panel.dividerView.makeInvisible()
         }
     }
@@ -122,7 +122,7 @@ class RollNoteAnimation(private var isEdit: Boolean) {
 
         with(binding) {
             val progressMargin = root.context.getDimen(R.dimen.layout_4dp)
-            val addMargin = with(addPanel.parentContainer) {
+            val addMargin = with(addPanel.container) {
                 if (isVisible()) height - translationY else MIN_TRANSLATION
             }.toInt()
 

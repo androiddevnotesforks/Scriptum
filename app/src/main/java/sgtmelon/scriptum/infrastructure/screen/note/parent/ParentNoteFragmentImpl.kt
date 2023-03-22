@@ -90,7 +90,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupInsets() {
         super.setupInsets()
 
-        panelBar?.parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, padding, _ ->
+        panelBar?.panelContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, padding, _ ->
             view.updatePadding(InsetsDir.BOTTOM, insets, padding, !isFirstTime)
             return@doOnApplyWindowInsets insets
         }

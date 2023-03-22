@@ -139,7 +139,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         invalidateAddButton()
 
         /** Needed if text field will become more than 2 lines (change size). */
-        binding?.addPanel?.parentContainer?.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+        binding?.addPanel?.container?.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             animation.updateContainerMargin(binding)
         }
 

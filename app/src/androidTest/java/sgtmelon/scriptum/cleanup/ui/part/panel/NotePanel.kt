@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.cleanup.ui.part.panel
 
+import android.view.View
 import androidx.annotation.AttrRes
 import java.util.Calendar
+import org.hamcrest.Matcher
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
@@ -26,7 +28,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
-import sgtmelon.scriptum.parent.ui.parts.UiPart
+import sgtmelon.scriptum.parent.ui.parts.UiSubpart
 import sgtmelon.scriptum.parent.ui.screen.dialogs.ColorDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateTimeCallback
@@ -46,8 +48,9 @@ import sgtmelon.test.cappuccino.utils.withText
  */
 
 class NotePanel<T : ContainerPart, N : NoteItem>(
+    parentContainer: Matcher<View>,
     private val callback: INoteScreen<T, N>
-) : UiPart(),
+) : UiSubpart(parentContainer),
     DateTimeCallback,
     ConvertDialogUi.Callback,
     ColorDialogUi.Callback,
@@ -55,9 +58,8 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
 
     //region Views
 
-    private val parentContainer = getView(R.id.parent_container)
+    private val panelContainer = getView(R.id.panel_container)
     private val dividerView = getView(R.id.divider_view)
-    private val buttonContainer = getView(R.id.parent_container)
 
     private val readContainer = getView(R.id.read_container)
     private val notificationButton = getView(R.id.notification_button)
@@ -276,7 +278,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
 
     fun assert() {
         callback.apply {
-            parentContainer.isDisplayed()
+            panelContainer.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
             dividerView.isDisplayed(when (item.type) {
                 NoteType.TEXT -> true
@@ -285,12 +287,9 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
                 withSize(heightId = R.dimen.layout_1dp)
             }.withBackgroundAttr(R.attr.clDivider)
 
-            buttonContainer.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
-                .withSize(heightId = R.dimen.note_panel_height)
-
             when (state) {
                 NoteState.READ -> {
-                    readContainer.isDisplayed()
+                    readContainer.isDisplayed().withSize(heightId = R.dimen.note_panel_height)
                     binContainer.isDisplayed(value = false)
                     editContainer.isDisplayed(value = false)
 
@@ -328,7 +327,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
                 }
                 NoteState.BIN -> {
                     readContainer.isDisplayed(value = false)
-                    binContainer.isDisplayed()
+                    binContainer.isDisplayed().withSize(heightId = R.dimen.note_panel_height)
                     editContainer.isDisplayed(value = false)
 
                     restoreButton.isDisplayed()
@@ -346,7 +345,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
                 NoteState.EDIT, NoteState.NEW -> {
                     readContainer.isDisplayed(value = false)
                     binContainer.isDisplayed(value = false)
-                    editContainer.isDisplayed()
+                    editContainer.isDisplayed().withSize(heightId = R.dimen.note_panel_height)
 
                     val undo = history.available.undo
                     undoButton.isDisplayed()
@@ -386,10 +385,11 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
 
     companion object {
         operator fun <T : ContainerPart, N : NoteItem> invoke(
+            parentContainer: Matcher<View>,
             func: NotePanel<T, N>.() -> Unit,
             callback: INoteScreen<T, N>
         ): NotePanel<T, N> {
-            return NotePanel(callback).apply(func)
+            return NotePanel(parentContainer, callback).apply(func)
         }
     }
 }

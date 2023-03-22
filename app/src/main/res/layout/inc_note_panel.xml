@@ -7,7 +7,7 @@
 
         <!--  Test padding here to see how it will be changed on keyboard appears.  -->
         <FrameLayout
-            android:id="@+id/parent_container"
+            android:id="@+id/panel_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/clPrimary"

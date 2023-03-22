@@ -23,6 +23,11 @@ class ListStorageImpl<T> : ListStorage<T> {
 
     override val show: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
 
+    override val data: MutableLiveData<List<T>> = MutableLiveData()
+
+    /** Local storage for [T] items, because don't want put mutable list inside [data]. */
+    val localData: MutableList<T> = mutableListOf()
+
     fun notifyShow() {
         val state = show.value ?: return
 
@@ -37,11 +42,6 @@ class ListStorageImpl<T> : ListStorage<T> {
             show.postValue(newState)
         }
     }
-
-    override val data: MutableLiveData<List<T>> = MutableLiveData()
-
-    /** Local storage for [T] items, because don't want put mutable list inside [data]. */
-    val localData: MutableList<T> = mutableListOf()
 
     inline fun <V> change(update: UpdateListState? = null, func: (MutableList<T>) -> V): V {
         val value = func(localData)
