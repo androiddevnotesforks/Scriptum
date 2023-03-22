@@ -26,6 +26,8 @@
 
         <LinearLayout
             android:id="@+id/info_page_container"
+            android:visibility="gone"
+            tools:visibility="visible"
             style="@style/Container.Info">
 
             <ImageView

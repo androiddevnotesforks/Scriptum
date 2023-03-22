@@ -28,9 +28,7 @@
             <include
                 android:id="@+id/empty_info"
                 layout="@layout/inc_info"
-                android:visibility="gone"
-                app:icon='@{R.mipmap.img_info_notes}'
-                tools:visibility="visible" />
+                app:icon='@{R.mipmap.img_info_notes}' />
 
             <!--  Make only progress visible on screen clean-open.  -->
             <ProgressBar

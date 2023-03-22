@@ -28,9 +28,7 @@
                 layout="@layout/inc_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/layout_4dp"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:layout_marginBottom="@dimen/layout_4dp" />
 
             <!--  Make only progress visible on screen clean-open.  -->
             <ProgressBar
