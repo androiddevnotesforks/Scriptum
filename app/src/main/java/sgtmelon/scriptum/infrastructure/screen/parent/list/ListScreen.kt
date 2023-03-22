@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.parent.list
 
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.infrastructure.adapter.parent.Adapter
@@ -20,7 +19,6 @@ interface ListScreen<T> : Adapter.Custom.Callback,
     override val recyclerView: RecyclerView?
 
     fun onListUpdate(list: List<T>) = adapter.let {
-        Log.i("HERE", "onListUpdate: ${list.joinToString("\n")}")
         when (it) {
             is Adapter.Simple -> it.notifyList(list)
             is Adapter.Custom -> it.notifyList(list, viewModel.list.update, callback = this)

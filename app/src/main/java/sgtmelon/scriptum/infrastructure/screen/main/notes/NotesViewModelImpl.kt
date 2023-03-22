@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -78,19 +77,13 @@ class NotesViewModelImpl(
         val item = list.change {
             val item = it.getOrNull(p) ?: return@flowOnBack
 
-            Log.i("HERE", "before item: ${item.alarm.id} | ${item.alarm.date}")
-
             /** Inside will be updated data about alarm. */
             setNotification(item, calendar)
-
-            Log.i("HERE", "after item: ${item.alarm.id} | ${item.alarm.date}")
 
             return@change item
         }
 
         emit(value = item to calendar)
-
-        Log.i("HERE", "after post: ${list.data.value?.joinToString("\n")}")
     }
 
     override fun updateNoteBind(p: Int): Flow<NoteItem> = flowOnBack {
