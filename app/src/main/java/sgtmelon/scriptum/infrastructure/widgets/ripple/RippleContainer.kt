@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
+import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
@@ -67,6 +68,8 @@ class RippleContainer @JvmOverloads constructor(
     }
 
     fun startAnimation() {
+        if (ScriptumApplication.skipAnimation) return
+
         if (!isConfigure || isAnimate) return
 
         for (it in viewList) {
@@ -78,6 +81,8 @@ class RippleContainer @JvmOverloads constructor(
     }
 
     fun stopAnimation() {
+        if (ScriptumApplication.skipAnimation) return
+
         if (!isConfigure || !isAnimate) return
 
         for (it in viewList) {

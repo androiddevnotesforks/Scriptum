@@ -3,10 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/inc_note_roll_content">
 
+    <!--  TODO pass here a tag, for UI tests  -->
+
     <merge>
 
         <LinearLayout
-            android:id="@+id/parent_container"
+            android:id="@+id/container"
             style="@style/Container.Note"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">

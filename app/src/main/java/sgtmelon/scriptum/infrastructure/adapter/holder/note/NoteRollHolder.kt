@@ -34,7 +34,7 @@ class NoteRollHolder(
         for((i, row) in rowBindingList.withIndex()) {
             val roll = list.getOrNull(i)
 
-            row.parentContainer.makeVisibleIf(condition = roll != null)
+            row.container.makeVisibleIf(condition = roll != null)
 
             /**
              * We must specify visible parentContainer or not for every bind. Don't skip
