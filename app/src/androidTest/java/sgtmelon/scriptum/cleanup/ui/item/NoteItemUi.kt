@@ -2,14 +2,18 @@ package sgtmelon.scriptum.cleanup.ui.item
 
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.annotation.IdRes
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import sgtmelon.extensions.formatPast
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
@@ -80,10 +84,11 @@ class NoteItemUi(
         override val infoLayout = RollInfo()
 
         fun getRow(p: Int) = Row(when (p) {
-            0 -> R.id.first_row
-            1 -> R.id.second_row
-            2 -> R.id.third_row
-            else -> R.id.fourth_row
+            0 -> TestViewTag.ROLL_FIRST_ROW
+            1 -> TestViewTag.ROLL_SECOND_ROW
+            2 -> TestViewTag.ROLL_THIRD_ROW
+            3 -> TestViewTag.ROLL_FOURTH_ROW
+            else -> throw IllegalStateException("Unreachable position value")
         })
 
         override fun assert(item: NoteItem.Roll) {
@@ -98,16 +103,16 @@ class NoteItemUi(
             }
         }
 
-        inner class Row(@IdRes parentId: Int) {
-            val parentContainer = getChild(getView(parentId))
+        inner class Row(@TestViewTag tag: String) {
 
-            val checkImage = getChild(
-                getView(R.id.check_image).includeParent(getView(parentId))
+            private val parentMatcher = allOf(
+                withId(R.id.container),
+                withTagValue(Matchers.`is`(tag))
             )
 
-            val contentText = getChild(
-                getView(R.id.content_text).includeParent(getView(parentId))
-            )
+            val parentContainer = getChild(parentMatcher)
+            val checkImage = getChild(getView(R.id.check_image).includeParent(parentMatcher))
+            val contentText = getChild(getView(R.id.content_text).includeParent(parentMatcher))
 
             fun assert(item: RollItem?) {
                 parentContainer.isDisplayed(value = item != null)
@@ -145,43 +150,15 @@ class NoteItemUi(
 
     private abstract inner class Parent<N : NoteItem>(type: NoteType) {
 
-        val parentCard = getChild(
-            getView(
-                when (type) {
-                    NoteType.TEXT -> R.id.parent_card
-                    NoteType.ROLL -> R.id.parent_card
-                }
-            )
-        )
+        val parentCard = getChild(getView(R.id.parent_card))
 
-        val clickContainer = getChild(
-            getView(
-                when (type) {
-                    NoteType.TEXT -> R.id.click_container
-                    NoteType.ROLL -> R.id.click_container
-                }
-            )
-        )
+        val clickContainer = getChild(getView(R.id.click_container))
 
-        val nameText = getChild(
-            getView(
-                when (type) {
-                    NoteType.TEXT -> R.id.name_text
-                    NoteType.ROLL -> R.id.name_text
-                }
-            )
-        )
+        val nameText = getChild(getView(R.id.name_text))
 
         abstract val infoLayout: Info<N>
 
-        val colorView = getChild(
-            getView(
-                when (type) {
-                    NoteType.TEXT -> R.id.color_view
-                    NoteType.ROLL -> R.id.color_view
-                }
-            )
-        )
+        val colorView = getChild(getView(R.id.color_view))
 
         open fun assert(item: N) {
             parentCard.isDisplayed().withCardBackground(

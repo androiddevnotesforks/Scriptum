@@ -21,5 +21,10 @@ annotation class TestViewTag {
         const val NOTE = "NOTE"
         const val TEXT_NOTE = "TEXT_NOTE"
         const val ROLL_NOTE = "ROLL_NOTE"
+
+        const val ROLL_FIRST_ROW = "ROLL_FIRST_ROW"
+        const val ROLL_SECOND_ROW = "ROLL_SECOND_ROW"
+        const val ROLL_THIRD_ROW = "ROLL_THIRD_ROW"
+        const val ROLL_FOURTH_ROW = "ROLL_FOURTH_ROW"
     }
 }

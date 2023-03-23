@@ -3,12 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/inc_note_roll_content">
 
-    <!--  TODO pass here a tag, for UI tests  -->
+    <data>
+
+        <!--  Tag needed for UI tests (identify correct row layout).  -->
+        <variable
+            name="tag"
+            type="String" />
+    </data>
 
     <merge>
 
         <LinearLayout
             android:id="@+id/container"
+            android:tag='@{tag}'
             style="@style/Container.Note"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
