@@ -33,7 +33,11 @@ class AlarmRepeatClickTest : ParentUiTest(), RepeatCase {
 
     override fun startTest(value: Repeat) {
         preferencesRepo.repeat = value
-        launchAlarmClose(db.insertNote()) { repeat() }
+
+        launchAlarmClose(db.insertNote()) {
+            repeat()
+            setAlarm(it, value, resources)
+        }
     }
 
     @Test fun dateExist() = db.insertText().let {

@@ -29,6 +29,7 @@ import sgtmelon.test.idling.getWaitIdling
 abstract class ParentUiTest : ParentTest() {
 
     val context = ParentInjector.provideContext()
+    val resources = ParentInjector.provideResources()
     val preferences = ParentInjector.providePreferences()
     val preferencesRepo = ParentInjector.providePreferencesRepo()
     val db = ParentInjector.provideDbDelegator()

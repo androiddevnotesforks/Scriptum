@@ -2,6 +2,7 @@ package sgtmelon.scriptum.parent.di
 
 import android.app.Instrumentation
 import android.content.Context
+import android.content.res.Resources
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
@@ -23,6 +24,8 @@ object ParentInjector {
     fun provideInstrumentation(): Instrumentation = InstrumentationRegistry.getInstrumentation()
 
     fun provideContext(): Context = provideInstrumentation().targetContext
+
+    fun provideResources(): Resources = provideContext().resources
 
     fun providePreferences(): Preferences {
         val context = provideContext()

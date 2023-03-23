@@ -197,7 +197,7 @@ inline fun <T : NoteItem> ParentUiTest.launchAlarmClose(
 ) {
     launchSplashAlarm(item) {
         alarmScreen(item) { func(item) }
-        mainScreen()
+        mainScreen { openNotes { assertItem(item) } }
     }
 }
 

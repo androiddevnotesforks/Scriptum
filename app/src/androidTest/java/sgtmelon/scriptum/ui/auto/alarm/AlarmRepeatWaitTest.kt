@@ -27,6 +27,10 @@ class AlarmRepeatWaitTest : ParentUiTest(), RepeatCase {
 
     override fun startTest(value: Repeat) {
         preferencesRepo.repeat = value
-        launchAlarmClose(db.insertNote()) { waitRepeat() }
+
+        launchAlarmClose(db.insertNote()) {
+            waitRepeat()
+            setAlarm(it, value, resources)
+        }
     }
 }

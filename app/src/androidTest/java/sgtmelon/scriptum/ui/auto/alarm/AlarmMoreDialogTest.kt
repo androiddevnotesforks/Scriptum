@@ -39,5 +39,6 @@ class AlarmMoreDialogTest : ParentUiTest(),
 
     override fun startTest(value: Repeat) = launchAlarmClose(db.insertNote()) {
         openMoreDialog { repeat(value) }
+        setAlarm(it, value, resources)
     }
 }
