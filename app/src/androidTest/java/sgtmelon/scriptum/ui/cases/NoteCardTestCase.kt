@@ -166,11 +166,14 @@ abstract class NoteCardTestCase(
 
     open fun rollInvisible() = startVisibleIndicatorTest(isVisible = false)
 
+    open fun rollInvisibleAllDone() {
+        // check how displayed if all items done + done items invisible
+        TODO()
+    }
+
     open fun rollVisible() = startVisibleIndicatorTest(isVisible = true)
 
-    /**
-     * Test of roll visible indicator.
-     */
+    /** Test of roll visible indicator. */
     private fun startVisibleIndicatorTest(isVisible: Boolean) {
         val item = when (page) {
             MainPage.RANK -> throwPageError()

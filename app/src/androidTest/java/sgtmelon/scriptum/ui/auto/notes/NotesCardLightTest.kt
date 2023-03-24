@@ -45,6 +45,8 @@ class NotesCardLightTest : NoteCardTestCase(ThemeDisplayed.LIGHT, MainPage.NOTES
 
     @Test override fun rollInvisible() = super.rollInvisible()
 
+    @Test override fun rollInvisibleAllDone() = super.rollInvisibleAllDone()
+
     @Test override fun rollVisible() = super.rollVisible()
 
 

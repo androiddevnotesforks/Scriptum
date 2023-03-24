@@ -40,6 +40,8 @@ class BinCardDarkTest : NoteCardTestCase(ThemeDisplayed.DARK, MainPage.BIN) {
 
     @Test override fun rollInvisible() = super.rollInvisible()
 
+    @Test override fun rollInvisibleAllDone() = super.rollInvisibleAllDone()
+
     @Test override fun rollVisible() = super.rollVisible()
 
 
