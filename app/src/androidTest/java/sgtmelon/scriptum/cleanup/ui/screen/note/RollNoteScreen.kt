@@ -243,13 +243,15 @@ class RollNoteScreen(
     fun assert() {
         parentContainer.isDisplayed()
 
-        getInfoPart().assert(
-            when (state) {
-                NoteState.READ, NoteState.BIN -> item.list
-                NoteState.EDIT, NoteState.NEW -> shadowItem.list
-            }.let {
-                if (item.isVisible) it.isEmpty() else it.hideChecked().isEmpty()
-            })
+        val isEmpty = when (state) {
+            NoteState.READ, NoteState.BIN -> item.list
+            NoteState.EDIT, NoteState.NEW -> shadowItem.list
+        }.let {
+            if (item.isVisible) it.isEmpty() else it.hideChecked().isEmpty()
+        }
+
+        getInfoPart().assert(isEmpty)
+        recyclerView.isDisplayed(!isEmpty)
 
         toolbar {
             val value = item.isVisible
@@ -271,8 +273,6 @@ class RollNoteScreen(
             withSize(heightId = R.dimen.layout_4dp)
             withSmoothProgress(item.list.getCheckCount(), item.list.size)
         }
-
-        recyclerView.isDisplayed()
     }
 
     //endregion

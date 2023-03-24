@@ -10,9 +10,6 @@ object IdlingTag {
 
     object Alarm {
         private const val PREFIX = "ALARM"
-
-        const val CONFIGURE = "${PREFIX}_CONFIGURE"
-        const val ANIM = "${PREFIX}_ANIM"
         const val START = "${PREFIX}_START"
     }
 }

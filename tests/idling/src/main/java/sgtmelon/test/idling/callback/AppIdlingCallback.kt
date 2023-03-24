@@ -7,4 +7,6 @@ interface AppIdlingCallback : ParentIdlingCallback {
     fun stop(tag: String)
 
     fun change(isWork: Boolean, tag: String)
+
+    fun printThrow(): Nothing
 }

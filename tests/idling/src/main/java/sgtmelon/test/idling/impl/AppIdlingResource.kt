@@ -46,9 +46,10 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
         }
     }
 
-    override fun change(isWork: Boolean, tag: String) {
-        if (isWork) start(tag) else stop(tag)
-    }
+    override fun change(isWork: Boolean, tag: String) = if (isWork) start(tag) else stop(tag)
+
+    /** Use this during UI tests to understand there call of [remove] func didn't happen. */
+    override fun printThrow() = throw IllegalStateException(idleList.joinToString())
 
     override fun unregister() {
         Timber.i(idleList.joinToString())

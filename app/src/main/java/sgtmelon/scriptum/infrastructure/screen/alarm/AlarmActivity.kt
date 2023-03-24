@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import android.content.IntentFilter
 import android.os.Build
+import android.os.Bundle
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import javax.inject.Inject
@@ -82,6 +83,11 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     private var isLayoutConfigure = false
 
     //region System
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getIdling().start(IdlingTag.Alarm.START)
+    }
 
     override fun inject(component: ScriptumComponent) {
         component.getAlarmBuilder()
@@ -220,11 +226,9 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         if (isLayoutConfigure) {
             onStartState()
         } else {
-            getIdling().start(IdlingTag.Alarm.CONFIGURE)
             binding?.parentContainer?.afterLayoutConfigured {
                 isLayoutConfigure = true
                 onStartState()
-                getIdling().stop(IdlingTag.Alarm.CONFIGURE)
             }
         }
     }
@@ -235,8 +239,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private fun onStartState() {
         val alarmState = viewModel.alarmState
-
-        getIdling().start(IdlingTag.Alarm.START)
 
         startRippleAnimation()
         animation.startContentFade(binding)

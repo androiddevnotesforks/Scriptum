@@ -17,11 +17,11 @@ import sgtmelon.test.idling.getIdling
  */
 class ListStorageImpl<T> : ListStorage<T> {
 
+    override val show: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
+
     init {
         getIdling().start(IdlingTag.Anim.LOAD)
     }
-
-    override val show: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
 
     override val data: MutableLiveData<List<T>> = MutableLiveData()
 
@@ -29,11 +29,9 @@ class ListStorageImpl<T> : ListStorage<T> {
     val localData: MutableList<T> = mutableListOf()
 
     fun notifyShow() {
-        val state = show.value ?: return
+        getIdling().stop(IdlingTag.Anim.LOAD)
 
-        if (state == ShowListState.Loading) {
-            getIdling().stop(IdlingTag.Anim.LOAD)
-        }
+        val state = show.value ?: return
 
         val newState = if (localData.isEmpty()) ShowListState.Empty else ShowListState.List
 

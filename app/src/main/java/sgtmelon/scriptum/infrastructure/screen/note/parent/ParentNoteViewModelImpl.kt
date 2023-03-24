@@ -75,7 +75,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     /** If app doesn't have any categories (ranks) when array size == 1. */
     override val rankDialogItems: MutableLiveData<Array<String>> = MutableLiveData()
 
-    override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData()
+    override val historyAvailable: MutableLiveData<HistoryMoveAvailable> = MutableLiveData(
+        HistoryMoveAvailable(undo = false, redo = false)
+    )
 
     override val notificationsDateList: Flow<List<String>>
         get() = flowOnBack { emit(getNotificationsDateList()) }

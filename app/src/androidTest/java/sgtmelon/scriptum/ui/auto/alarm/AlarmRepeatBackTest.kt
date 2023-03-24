@@ -26,12 +26,9 @@ class AlarmRepeatBackTest : ParentUiTest(), RepeatCase {
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
+    /** If click 'back' button - dismiss notification. */
     override fun startTest(value: Repeat) {
         preferencesRepo.repeat = value
-
-        launchAlarmClose(db.insertNote()) {
-            pressBack()
-            setAlarm(it, value, resources)
-        }
+        launchAlarmClose(db.insertNote()) { pressBack() }
     }
 }
