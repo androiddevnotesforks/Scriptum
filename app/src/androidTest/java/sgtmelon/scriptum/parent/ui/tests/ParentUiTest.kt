@@ -8,7 +8,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
-import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
@@ -99,12 +98,9 @@ abstract class ParentUiTest : ParentTest() {
 
     /**
      * Call theme setup only with that function. Otherwise you get plenty assertion errors
-     * related with theme. It's because need set [ParentScreen.appTheme].
+     * related with theme.
      */
     protected fun setupTheme(theme: ThemeDisplayed) {
-        ParentScreen.theme = theme
-
-        // TODO check how it will work with preferencesRepo (not preferences)
         preferencesRepo.theme = when (theme) {
             ThemeDisplayed.LIGHT -> Theme.LIGHT
             ThemeDisplayed.DARK -> Theme.DARK
@@ -133,8 +129,6 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     private fun teardownCompanionData() {
-        ParentScreen.theme = null
-
         ScriptumApplication.skipAnimation = false
         AlarmActivity.isFinishOnStop = true
 

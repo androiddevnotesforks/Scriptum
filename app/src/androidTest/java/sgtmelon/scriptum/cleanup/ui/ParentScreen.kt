@@ -7,8 +7,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
-import sgtmelon.scriptum.cleanup.basic.exception.ThemeException
-import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.di.ParentInjector
 
 /**
@@ -19,8 +17,6 @@ abstract class ParentScreen {
 
     protected val context = ParentInjector.provideContext()
     protected val preferencesRepo = ParentInjector.providePreferencesRepo()
-
-    protected val appTheme: ThemeDisplayed get() = theme ?: throw ThemeException()
 
     //region getView func
 
@@ -48,8 +44,4 @@ abstract class ParentScreen {
 
     //endregion
 
-    companion object {
-        @Deprecated("Try use PreferencesRepo.theme")
-        var theme: ThemeDisplayed? = null
-    }
 }
