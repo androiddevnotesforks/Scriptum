@@ -28,6 +28,7 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
     override fun start(tag: String) {
         if (!BuildConfig.DEBUG) return
 
+        Timber.e(message = "Add idling tag: $tag")
         idleList.add(tag)
     }
 
@@ -36,6 +37,7 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
 
         val index = idleList.indexOfLast { it == tag }
         if (index in idleList.indices) {
+            Timber.e(message = "Remove idling tag: $tag")
             idleList.removeAt(index)
         } else {
             Timber.e(message = "Not found idling tag: $tag")
@@ -52,9 +54,12 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
     override fun printThrow() = throw IllegalStateException(idleList.joinToString())
 
     override fun unregister() {
-        Timber.i(idleList.joinToString())
-
-        idleList.clear()
+        if (idleList.isEmpty()) {
+            Timber.e(message = "Unregister idling tags: it's empty")
+        } else {
+            Timber.e(message = "Unregister idling tags: ${idleList.joinToString()}")
+            idleList.clear()
+        }
 
         if (isIdleNow) {
             callback?.onTransitionToIdle()

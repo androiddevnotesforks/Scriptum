@@ -1,23 +1,14 @@
 package sgtmelon.scriptum.parent.ui.screen.dialogs
 
-import android.view.View
-import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
-import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
-import sgtmelon.scriptum.infrastructure.model.data.ColorData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
 import sgtmelon.scriptum.parent.ui.feature.DialogUi
 import sgtmelon.scriptum.parent.ui.parts.UiPart
-import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.getCount
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
-import sgtmelon.test.cappuccino.utils.withContentDescription
-import sgtmelon.test.cappuccino.utils.withDrawableColor
-import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
@@ -27,7 +18,8 @@ class ColorDialogUi(
     place: Place,
     private var color: Color,
     private val callback: Callback
-) : UiPart(), DialogUi {
+) : UiPart(),
+    DialogUi {
 
     //region Views
 
@@ -42,7 +34,7 @@ class ColorDialogUi(
     private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
     private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
-    private fun getItem(p: Int) = Item(recyclerView, p)
+    private fun getItem(p: Int) = ColorItemUi(recyclerView, p)
 
     //endregion
 
@@ -80,7 +72,8 @@ class ColorDialogUi(
 
 
     fun assertItem(check: Color = color) = apply {
-        getItem(check.ordinal).assert(ColorItem(check, isCheck = check == color))
+        val item = ColorItemUi.Model(check, isCheck = check == color)
+        getItem(check.ordinal).assert(item)
     }
 
     fun assertAll() {
@@ -106,46 +99,7 @@ class ColorDialogUi(
         }
     }
 
-    /**
-     * Class for UI control of [ColorAdapter].
-     */
-    private class Item(
-        listMatcher: Matcher<View>,
-        p: Int
-    ) : RecyclerItemPart<ColorItem>(listMatcher, p) {
-
-        private val parentContainer by lazy { getChild(getView(R.id.parent_container)) }
-        private val backgroundView by lazy { getChild(getView(R.id.background_view)) }
-        private val checkImage by lazy { getChild(getView(R.id.check_image)) }
-        private val clickView by lazy { getChild(getView(R.id.click_view)) }
-
-        override fun assert(item: ColorItem) {
-            parentContainer.isDisplayed()
-
-            backgroundView.isDisplayed()
-                .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)
-                .withColorIndicator(R.drawable.ic_color, theme, item.color)
-
-            val colorId = ColorData.getColorItem(theme, item.color).content
-            checkImage.isDisplayed(item.isCheck).withDrawableColor(R.drawable.ic_check, colorId)
-
-            val colorName = context.resources.getStringArray(R.array.pref_color)[item.color.ordinal]
-            val description = context.getString(R.string.description_item_color, colorName)
-            clickView.isDisplayed()
-                    .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)
-                    .withContentDescription(description)
-        }
-
-    }
-
-    /**
-     * Model for [Item.assert]
-     */
-    private data class ColorItem(val color: Color, val isCheck: Boolean)
-
-    /**
-     * Describes [Place] of [ColorDialog] for decide title
-     */
+    /** Describes [Place] of [ColorDialog] for decide title. */
     enum class Place { NOTE, PREF }
 
     interface Callback {
