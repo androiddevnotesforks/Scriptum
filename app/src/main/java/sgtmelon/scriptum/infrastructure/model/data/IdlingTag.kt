@@ -5,7 +5,12 @@ object IdlingTag {
     object Anim {
         private const val PREFIX = "ANIM"
         const val ICON = "${PREFIX}_ICON"
-        const val LOAD = "${PREFIX}_LOAD"
+    }
+
+    object List {
+        private const val PREFIX = "LIST"
+        const val CHANGE = "${PREFIX}_CHANGE"
+        const val NEXT = "${PREFIX}_NEXT"
     }
 
     object Alarm {

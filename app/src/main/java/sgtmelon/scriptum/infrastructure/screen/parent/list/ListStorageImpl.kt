@@ -19,18 +19,12 @@ class ListStorageImpl<T> : ListStorage<T> {
 
     override val show: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
 
-    init {
-        getIdling().start(IdlingTag.Anim.LOAD)
-    }
-
     override val data: MutableLiveData<List<T>> = MutableLiveData()
 
     /** Local storage for [T] items, because don't want put mutable list inside [data]. */
     val localData: MutableList<T> = mutableListOf()
 
     fun notifyShow() {
-        getIdling().stop(IdlingTag.Anim.LOAD)
-
         val state = show.value ?: return
 
         val newState = if (localData.isEmpty()) ShowListState.Empty else ShowListState.List
@@ -42,6 +36,8 @@ class ListStorageImpl<T> : ListStorage<T> {
     }
 
     inline fun <V> change(update: UpdateListState? = null, func: (MutableList<T>) -> V): V {
+        getIdling().start(IdlingTag.List.CHANGE)
+
         val value = func(localData)
 
         if (update != null) {
@@ -50,6 +46,9 @@ class ListStorageImpl<T> : ListStorage<T> {
 
         data.postValue(localData)
         notifyShow()
+
+        getIdling().stop(IdlingTag.List.CHANGE)
+
         return value
     }
 
@@ -61,6 +60,8 @@ class ListStorageImpl<T> : ListStorage<T> {
         update: UpdateListState? = null,
         crossinline func: suspend (MutableList<T>) -> V
     ): V {
+        getIdling().start(IdlingTag.List.NEXT)
+
         val value = func(localData)
 
         if (update != null) {
@@ -69,6 +70,9 @@ class ListStorageImpl<T> : ListStorage<T> {
 
         runMain { data.value = localData }
         notifyShow()
+
+        getIdling().stop(IdlingTag.List.NEXT)
+
         return value
     }
 
