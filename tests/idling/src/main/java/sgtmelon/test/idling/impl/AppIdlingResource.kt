@@ -35,10 +35,8 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
     override fun stop(tag: String) {
         if (!BuildConfig.DEBUG) return
 
-        val index = idleList.indexOfLast { it == tag }
-        if (index in idleList.indices) {
+        if (idleList.remove(tag)) {
             Timber.e(message = "Remove idling tag: $tag")
-            idleList.removeAt(index)
         } else {
             Timber.e(message = "Not found idling tag: $tag")
         }
