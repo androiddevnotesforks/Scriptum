@@ -33,7 +33,7 @@ class NotificationsViewModelImpl(
     /** List which temporary save canceled items for snackbar work. */
     private val undoList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
 
-    init {
+    override fun updateData() {
         viewModelScope.launchBack {
             list.change { it.clearAdd(getList()) }
         }

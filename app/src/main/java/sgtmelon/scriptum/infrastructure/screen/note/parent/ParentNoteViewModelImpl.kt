@@ -82,7 +82,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     override val notificationsDateList: Flow<List<String>>
         get() = flowOnBack { emit(getNotificationsDateList()) }
 
-    init {
+    override fun fetchData() {
         viewModelScope.launch {
             runBack { rankDialogItems.postValue(getRankDialogNames()) }
 

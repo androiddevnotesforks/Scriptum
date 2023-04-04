@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
@@ -86,6 +87,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private val convertDialog by lazy { dialogs.getConvert(type) }
 
     //region Setup functions
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewModel.fetchData()
+    }
 
     override fun setupInsets() {
         super.setupInsets()

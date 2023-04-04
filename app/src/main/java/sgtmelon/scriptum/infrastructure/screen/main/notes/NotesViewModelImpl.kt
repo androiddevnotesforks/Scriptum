@@ -46,9 +46,11 @@ class NotesViewModelImpl(
 
     override fun updateData() {
         viewModelScope.launchBack {
-            val (itemList, isHide) = getList()
-            isListHide.postValue(isHide)
-            list.change { it.clearAdd(itemList) }
+            list.change {
+                val (itemList, isHide) = getList()
+                isListHide.postValue(isHide)
+                it.clearAdd(itemList)
+            }
         }
     }
 
