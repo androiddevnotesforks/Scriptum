@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
-import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.delegators.ResetValueDelegator
@@ -15,7 +14,10 @@ import sgtmelon.test.idling.getIdling
 /**
  * Class help work with: list screens, custom adapter notify calls, display of UI elements.
  */
-class ListStorageImpl<T> : ListStorage<T> {
+class ListStorageImpl<T>(
+    val changeTag: String,
+    val nextTag: String
+) : ListStorage<T> {
 
     override val show: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
 
@@ -36,7 +38,7 @@ class ListStorageImpl<T> : ListStorage<T> {
     }
 
     inline fun <V> change(update: UpdateListState? = null, func: (MutableList<T>) -> V): V {
-        getIdling().start(IdlingTag.List.CHANGE)
+        getIdling().start(changeTag)
 
         val value = func(localData)
 
@@ -47,7 +49,7 @@ class ListStorageImpl<T> : ListStorage<T> {
         data.postValue(localData)
         notifyShow()
 
-        getIdling().stop(IdlingTag.List.CHANGE)
+        getIdling().stop(changeTag)
 
         return value
     }
@@ -60,7 +62,7 @@ class ListStorageImpl<T> : ListStorage<T> {
         update: UpdateListState? = null,
         crossinline func: suspend (MutableList<T>) -> V
     ): V {
-        getIdling().start(IdlingTag.List.NEXT)
+        getIdling().start(nextTag)
 
         val value = func(localData)
 
@@ -71,7 +73,7 @@ class ListStorageImpl<T> : ListStorage<T> {
         runMain { data.value = localData }
         notifyShow()
 
-        getIdling().stop(IdlingTag.List.NEXT)
+        getIdling().stop(nextTag)
 
         return value
     }

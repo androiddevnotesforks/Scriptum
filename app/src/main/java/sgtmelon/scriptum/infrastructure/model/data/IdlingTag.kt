@@ -9,8 +9,13 @@ object IdlingTag {
 
     object List {
         private const val PREFIX = "LIST"
-        const val CHANGE = "${PREFIX}_CHANGE"
-        const val NEXT = "${PREFIX}_NEXT"
+
+        val RANK = "${PREFIX}_RANK_CHANGE" to "${PREFIX}_RANK_NEXT"
+        val NOTE = "${PREFIX}_NOTE_CHANGE" to "${PREFIX}_NOTE_NEXT"
+        val ROLL = "${PREFIX}_ROLL_CHANGE" to "${PREFIX}_ROLL_NEXT"
+        val NOTIFICATION = "${PREFIX}_NOTIFICATION_CHANGE" to "${PREFIX}_NOTIFICATION_NEXT"
+        val PRINT = "${PREFIX}_PRINT_CHANGE" to "${PREFIX}_PRINT_NEXT"
+
     }
 
     object Alarm {
