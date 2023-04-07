@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearRank
 
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchMain
-import sgtmelon.scriptum.ui.auto.lastArray
+import sgtmelon.scriptum.parent.utils.lastArray
 
 /**
  * Parent class for tests of [NoteAdapter]

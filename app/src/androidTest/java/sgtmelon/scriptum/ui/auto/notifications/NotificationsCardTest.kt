@@ -12,8 +12,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.parent.ui.screen.item.NotificationItemUi
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchNotifications
-import sgtmelon.scriptum.ui.auto.NEXT_HOUR
-import sgtmelon.scriptum.ui.auto.nextArray
+import sgtmelon.scriptum.parent.utils.NEXT_HOUR
+import sgtmelon.scriptum.parent.utils.nextArray
 
 /**
  * Test for [NotificationItemUi]
