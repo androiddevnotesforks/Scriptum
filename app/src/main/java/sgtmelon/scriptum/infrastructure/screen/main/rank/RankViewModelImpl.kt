@@ -78,7 +78,7 @@ class RankViewModelImpl(
         val noteIdList = list.change {
             val p = if (toBottom) it.size else 0
             it.add(p, item)
-            list.update = UpdateListState.chooseInsert(it.size, p)
+            list.update = UpdateListState.Insert(p)
 
             /** Inside will be updated data about positions. */
             return@change correctRankPositions(it)
@@ -159,7 +159,7 @@ class RankViewModelImpl(
             val position = if (isCorrect) pair.first else it.size
             it.add(position, item)
 
-            list.update = UpdateListState.chooseInsert(it.size, position)
+            list.update = UpdateListState.Insert(position)
         }
 
         /** Show/hide snackbar for next item. */

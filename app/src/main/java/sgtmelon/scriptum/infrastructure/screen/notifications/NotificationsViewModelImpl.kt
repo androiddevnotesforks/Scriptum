@@ -67,7 +67,7 @@ class NotificationsViewModelImpl(
             val position = if (isCorrect) pair.first else it.size
             it.add(position, item)
 
-            list.update = UpdateListState.chooseInsert(it.size, position)
+            list.update = UpdateListState.Insert(position)
 
             return@changeNext position
         }

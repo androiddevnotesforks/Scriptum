@@ -1,10 +1,9 @@
 package sgtmelon.scriptum.infrastructure.adapter.parent
 
-import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.infrastructure.adapter.parent.Adapter.Custom.Callback
+import sgtmelon.scriptum.infrastructure.adapter.parent.Adapter.Manual.Callback
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 
@@ -16,10 +15,10 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
  * updated inside [RecyclerView.ViewHolder] during action (e.g. click, long click). And this
  * class make a deal.
  */
-abstract class ParentDiffAdapter<T, VH : RecyclerView.ViewHolder>(
+abstract class ParentManualAdapter<T, VH : RecyclerView.ViewHolder>(
     diffCallback: DiffUtil.ItemCallback<T>
 ) : ParentListAdapter<T, VH>(diffCallback),
-    Adapter.Custom<T> {
+    Adapter.Manual<T> {
 
     private val list: MutableList<T> = ArrayList()
 
@@ -34,19 +33,10 @@ abstract class ParentDiffAdapter<T, VH : RecyclerView.ViewHolder>(
 
     override fun getItemCount() = list.size
 
-    /**
-     * Use here [UpdateListState.NotifyHard] case, because it will prevent lags during
-     * insert first item. When empty info hides and list appears. Insert animation
-     * and list fade in animation concurrent with each other and it's looks laggy.
-     *
-     * TODO remove/fix it in future
-     */
-    @SuppressLint("NotifyDataSetChanged")
     override fun notifyList(list: List<T>, state: UpdateListState, callback: Callback) {
         when (state) {
             is UpdateListState.Set -> setList(list)
             is UpdateListState.Notify -> notifyList(list)
-            is UpdateListState.NotifyHard -> setList(list).notifyDataSetChanged()
             is UpdateListState.Change -> setList(list).notifyItemChanged(state.p)
             is UpdateListState.Remove -> setList(list).notifyItemRemoved(state.p)
             is UpdateListState.Insert -> {

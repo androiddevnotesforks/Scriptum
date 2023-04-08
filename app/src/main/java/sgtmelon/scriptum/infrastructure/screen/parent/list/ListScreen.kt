@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerInsertScroll
 /**
  * Class for catch sealed [adapter] updates.
  */
-interface ListScreen<T> : Adapter.Custom.Callback,
+interface ListScreen<T> : Adapter.Manual.Callback,
     RecyclerInsertScroll {
 
     val viewModel: ListViewModel<T>
@@ -21,7 +21,7 @@ interface ListScreen<T> : Adapter.Custom.Callback,
     fun onListUpdate(list: List<T>) = adapter.let {
         when (it) {
             is Adapter.Simple -> it.notifyList(list)
-            is Adapter.Custom -> it.notifyList(list, viewModel.list.update, callback = this)
+            is Adapter.Manual -> it.notifyList(list, viewModel.list.update, callback = this)
         }
     }
 
