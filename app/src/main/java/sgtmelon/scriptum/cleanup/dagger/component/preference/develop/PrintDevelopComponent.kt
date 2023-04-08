@@ -3,7 +3,8 @@ package sgtmelon.scriptum.cleanup.dagger.component.preference.develop
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ListModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivity
@@ -12,7 +13,7 @@ import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivit
  * Component for [PrintDevelopActivity].
  */
 @ActivityScope
-@Subcomponent(modules = [ViewModelModule::class])
+@Subcomponent(modules = [ViewModelModule::class, ListModule::class])
 interface PrintDevelopComponent {
 
     fun inject(activity: PrintDevelopActivity)

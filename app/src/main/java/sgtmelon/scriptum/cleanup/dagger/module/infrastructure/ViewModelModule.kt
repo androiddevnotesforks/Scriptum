@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.dagger.module
+package sgtmelon.scriptum.cleanup.dagger.module.infrastructure
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
