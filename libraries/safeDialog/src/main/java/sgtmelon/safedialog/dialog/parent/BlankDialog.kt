@@ -25,9 +25,10 @@ abstract class BlankDialog : BlankEmptyDialog() {
         positiveListener = DialogInterface.OnClickListener { _, _ -> func() }
     }
 
+    /** Call 'cancel' before [positiveListener], otherwise it may stop dialog close. */
     protected val onPositiveClick = DialogInterface.OnClickListener { dialogInterface, i ->
-        positiveListener?.onClick(dialogInterface, i)
         dialogInterface.cancel()
+        positiveListener?.onClick(dialogInterface, i)
     }
 
     protected val onNegativeClick = DialogInterface.OnClickListener { dialogInterface, _ ->
