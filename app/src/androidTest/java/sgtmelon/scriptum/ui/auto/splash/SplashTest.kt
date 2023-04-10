@@ -24,12 +24,10 @@ class SplashTest : ParentUiTest() {
     }
 
     @Test fun bindTextNoteOpen() = db.insertText().let {
-        TODO("bug with not correct color of toolbar")
         launchSplashBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 
     @Test fun bindRollNoteOpen() = db.insertRoll().let {
-        TODO("bug with not correct color of toolbar")
         launchSplashBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
     }
 
