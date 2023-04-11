@@ -13,9 +13,7 @@ interface BindDelegator {
 
     fun notifyCount(count: Int)
 
-    /**
-     * Clear notifications on test tearDown.
-     */
+    /** Clear notifications on test tearDown. */
     fun clearRecent(@BindDelegatorImpl.Tag tag: String? = null)
 
 }

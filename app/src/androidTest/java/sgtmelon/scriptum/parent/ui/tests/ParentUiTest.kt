@@ -133,7 +133,7 @@ abstract class ParentUiTest : ParentTest() {
         AlarmActivity.isFinishOnStop = true
 
         BindDelegatorImpl[context].clearRecent()
-        AlarmDelegatorImpl.instance?.clear()
+        AlarmDelegatorImpl[context, null].clear()
     }
 
     //endregion

@@ -20,6 +20,7 @@ class ScriptumApplication : Application() {
     companion object {
         /** Variable for detect test running. */
         var isTesting = false
+        /** Skip animations for make some tests faster, and less laggy. */
         var skipAnimation = false
 
         lateinit var component: ScriptumComponent

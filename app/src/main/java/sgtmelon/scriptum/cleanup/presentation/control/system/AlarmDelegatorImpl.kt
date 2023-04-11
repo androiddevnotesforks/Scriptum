@@ -12,13 +12,14 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.test.prod.RunPrivate
+import timber.log.Timber
 
 /**
  * Class for help control [AlarmManager]
  */
 class AlarmDelegatorImpl(
     private val context: Context,
-    private val toast: ToastDelegator
+    private val toast: ToastDelegator?
 ) : AlarmDelegator {
 
     private val alarmManager: AlarmManager = context.getAlarmService()
@@ -27,12 +28,13 @@ class AlarmDelegatorImpl(
         val intent = AlarmActionReceiver[context, noteId]
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
 
-        if (showToast) {
+        if (showToast && toast != null) {
             val date = calendar.formatFuture(context, DateUtils.DAY_IN_MILLIS).lowercase()
             toast.show(context, context.getString(R.string.toast_alarm_set, date))
         }
 
         if (BuildConfig.DEBUG) {
+            Timber.e("ALARM | set intent | hashCode=${intent.hashCode()}")
             intentList.add(intent)
         }
     }
@@ -41,19 +43,23 @@ class AlarmDelegatorImpl(
         alarmManager.cancel(AlarmActionReceiver[context, id])
     }
 
-    override fun clear() {
-        for (it in intentList) {
+    override fun clear() = with(intentList) {
+        if (isEmpty()) return
+
+        forEach {
+            Timber.e("ALARM | cancel intent | hashCode=${it.hashCode()}")
             alarmManager.cancel(it)
         }
-        intentList.clear()
+
+        clear()
     }
 
     companion object {
         @RunPrivate val intentList: MutableList<PendingIntent> = mutableListOf()
 
-        @RunPrivate var instance: AlarmDelegator? = null
+        private var instance: AlarmDelegator? = null
 
-        operator fun get(context: Context, toast: ToastDelegator): AlarmDelegator {
+        operator fun get(context: Context, toast: ToastDelegator?): AlarmDelegator {
             return instance ?: AlarmDelegatorImpl(context, toast).also { instance = it }
         }
     }
