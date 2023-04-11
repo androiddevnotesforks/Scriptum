@@ -38,7 +38,7 @@ class NotesViewModelImpl(
     private val deleteNote: DeleteNoteUseCase,
     private val setNotification: SetNotificationUseCase,
     private val deleteNotification: DeleteNotificationUseCase,
-    private val getNotificationDateList: GetNotificationsDateListUseCase
+    private val getNotificationsDateList: GetNotificationsDateListUseCase
 ) : ViewModel(),
     NotesViewModel {
 
@@ -59,9 +59,8 @@ class NotesViewModelImpl(
         emit(value = item.alarm.date.toCalendar() to item.haveAlarm)
     }
 
-    override fun getOccupiedDateList(): Flow<List<String>> = flowOnBack {
-        emit(getNotificationDateList())
-    }
+    override val notificationsDateList: Flow<List<String>>
+        get() = flowOnBack { emit(getNotificationsDateList()) }
 
     override fun deleteNoteNotification(p: Int): Flow<NoteItem> = flowOnBack {
         val item = list.change { it.getOrNull(p)?.clearAlarm() ?: return@flowOnBack }

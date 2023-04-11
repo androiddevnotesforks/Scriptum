@@ -148,7 +148,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     override fun setIconEnabled(isEnabled: Boolean) {
-        getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
+        getIdling().change(!isEnabled, IdlingTag.Common.ICON_ANIM)
         open.isBlocked = !isEnabled
     }
 

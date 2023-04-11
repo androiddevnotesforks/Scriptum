@@ -2,9 +2,9 @@ package sgtmelon.scriptum.infrastructure.model.data
 
 object IdlingTag {
 
-    object Anim {
-        private const val PREFIX = "ANIM"
-        const val ICON = "${PREFIX}_ICON"
+    object Common {
+        private const val PREFIX = "COMMON"
+        const val ICON_ANIM = "${PREFIX}_ICON_ANIM"
     }
 
     object List {
