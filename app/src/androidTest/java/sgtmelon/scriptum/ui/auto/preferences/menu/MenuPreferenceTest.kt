@@ -29,18 +29,18 @@ class MenuPreferenceTest : ParentUiTest() {
         assert()
     }
 
-    @Test fun openBackup() = launchMenuPreference { openBackup() }
+    @Test fun todo_openBackup() = launchMenuPreference { openBackup() }
 
     @Test fun openNotes() = launchMenuPreference { openNotes() }
 
     @Test fun openAlarm() = launchMenuPreference { openAlarm() }
 
-    @Test fun openPrivacyPolicy() = launchMenuPreference {
+    @Test fun todo_openPrivacyPolicy() = launchMenuPreference {
         TODO(reason = "it's not working due to select app appears")
         openPrivacyPolicy()
     }
 
-    @Test fun openRate() = launchMenuPreference {
+    @Test fun todo_openRate() = launchMenuPreference {
         TODO(reason = "it's not working due to select app appears")
         openRate()
     }

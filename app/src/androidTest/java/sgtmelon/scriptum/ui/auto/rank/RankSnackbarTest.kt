@@ -120,7 +120,7 @@ class RankSnackbarTest : ParentUiTest(),
         }
     }
 
-    @Test fun dismissOnDrag() {
+    @Test fun todo_dismissOnDrag() {
         TODO()
     }
 

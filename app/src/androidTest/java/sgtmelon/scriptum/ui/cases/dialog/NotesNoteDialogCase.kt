@@ -94,7 +94,7 @@ abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
         }
     }
 
-    open fun copy() {
+    open fun todo_copy() {
         TODO()
 
         launchNotesItem(insert()) {
