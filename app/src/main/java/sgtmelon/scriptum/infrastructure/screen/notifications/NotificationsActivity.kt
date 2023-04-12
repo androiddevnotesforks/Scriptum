@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
+import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
@@ -58,6 +59,11 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
 
     //region System
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.fetchData()
+    }
+
     override fun inject(component: ScriptumComponent) {
         component.getNotificationBuilder()
             .set(owner = this)
@@ -105,8 +111,6 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
 
     override fun onResume() {
         super.onResume()
-
-        viewModel.updateData()
 
         /** Need clear [open], because may be case with [openNoteScreen]. */
         open.clear()
