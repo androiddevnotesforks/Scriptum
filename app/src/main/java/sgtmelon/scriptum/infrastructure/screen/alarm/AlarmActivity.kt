@@ -160,7 +160,10 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
             when (it) {
                 is ScreenState.Setup -> onSetupState(it)
                 is ScreenState.Postpone -> onPostponeState(it)
-                is ScreenState.Close -> finish()
+                is ScreenState.Close -> {
+                    getIdling().stop(IdlingTag.Alarm.START)
+                    finish()
+                }
             }
         }
     }
