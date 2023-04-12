@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.cases
 
+import kotlin.random.Random
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
@@ -131,12 +132,13 @@ abstract class NoteCardTestCase(
             })
         }
 
+        /** Pass isVisible=true, to make sure that visible exactly the [count] of items. */
         assertList(ArrayList<NoteItem>().apply {
             add(
                 when (page) {
                     MainPage.RANK -> throwPageError()
-                    MainPage.NOTES -> db.insertRoll(list = rollList)
-                    MainPage.BIN -> db.insertRollToBin(list = rollList)
+                    MainPage.NOTES -> db.insertRoll(list = rollList, isVisible = true)
+                    MainPage.BIN -> db.insertRollToBin(list = rollList, isVisible = true)
                 }
             )
         })
@@ -163,39 +165,55 @@ abstract class NoteCardTestCase(
         assertList(listOf(db.insertNotification(item)))
     }
 
+    /** Indicates how many items are done in roll list. */
+    private enum class ItemsDone { ALL, PART, NONE }
 
-    open fun rollInvisible() = startVisibleIndicatorTest(isVisible = false)
+    open fun rollNoneDoneVisible() = startVisibleIndicatorTest(ItemsDone.NONE, isVisible = true)
 
-    open fun rollInvisibleAllDone() {
-        // check how displayed if all items done + done items invisible
-        TODO()
-    }
+    open fun rollNoneDoneInvisible() = startVisibleIndicatorTest(ItemsDone.NONE, isVisible = false)
 
-    open fun rollVisible() = startVisibleIndicatorTest(isVisible = true)
+    open fun rollPartDoneVisible() = startVisibleIndicatorTest(ItemsDone.PART, isVisible = true)
+
+    open fun rollPartDoneInvisible() = startVisibleIndicatorTest(ItemsDone.PART, isVisible = false)
+
+    open fun rollAllDoneVisible() = startVisibleIndicatorTest(ItemsDone.ALL, isVisible = true)
+
+    open fun rollAllDoneInvisible() = startVisibleIndicatorTest(ItemsDone.ALL, isVisible = false)
 
     /** Test of roll visible indicator. */
-    private fun startVisibleIndicatorTest(isVisible: Boolean) {
+    private fun startVisibleIndicatorTest(itemsDone: ItemsDone, isVisible: Boolean) {
+        val rollList = db.rollList
+        rollList.forEach {
+            when (itemsDone) {
+                ItemsDone.ALL -> it.isCheck = true
+                ItemsDone.PART -> it.isCheck = Random.nextBoolean()
+                ItemsDone.NONE -> it.isCheck = false
+            }
+        }
+
         val item = when (page) {
             MainPage.RANK -> throwPageError()
-            MainPage.NOTES -> db.insertRoll(isVisible = isVisible)
-            MainPage.BIN -> db.insertRollToBin(isVisible = isVisible)
+            MainPage.NOTES -> db.insertRoll(isVisible = isVisible, list = rollList)
+            MainPage.BIN -> db.insertRollToBin(isVisible = isVisible, list = rollList)
         }
 
         assertList(listOf(item))
     }
 
 
-    open fun progressIndicator1() = startProgressTest(check = 10, size = 99)
+    /** Single digits. */
+    open fun progressIndicator1() = startProgressTest(check = (0..9).random(), size = 9)
 
-    open fun progressIndicator2() = startProgressTest(check = 10, size = 100)
+    /** Double digits. */
+    open fun progressIndicator2() = startProgressTest(check = (10 until 99).random(), size = 99)
 
-    open fun progressIndicator3() = startProgressTest(check = 99, size = 99)
+    /** Size overflow. */
+    open fun progressIndicator3() = startProgressTest(check = (0..99).random(), size = 100)
 
-    open fun progressIndicator4() = startProgressTest(check = 100, size = 100)
+    /** Check and size overflow. */
+    open fun progressIndicator4() = startProgressTest(check = (100..999).random(), size = 999)
 
-    /**
-     * Test of roll item progress.
-     */
+    /** Test of roll item progress indicator. */
     private fun startProgressTest(check: Int, size: Int) {
         if (size < check) throw IllegalAccessException(OVERFLOW_ERROR_TEXT)
 

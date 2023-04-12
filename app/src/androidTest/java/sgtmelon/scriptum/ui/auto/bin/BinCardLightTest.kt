@@ -38,11 +38,17 @@ class BinCardLightTest : NoteCardTestCase(ThemeDisplayed.LIGHT, MainPage.BIN) {
     @Test override fun rollRow4() = super.rollRow4()
 
 
-    @Test override fun rollInvisible() = super.rollInvisible()
+    @Test override fun rollNoneDoneVisible() = super.rollNoneDoneVisible()
 
-    @Test override fun rollInvisibleAllDone() = super.rollInvisibleAllDone()
+    @Test override fun rollNoneDoneInvisible() = super.rollNoneDoneInvisible()
 
-    @Test override fun rollVisible() = super.rollVisible()
+    @Test override fun rollPartDoneVisible() = super.rollPartDoneVisible()
+
+    @Test override fun rollPartDoneInvisible() = super.rollPartDoneInvisible()
+
+    @Test override fun rollAllDoneVisible() = super.rollAllDoneVisible()
+
+    @Test override fun rollAllDoneInvisible() = super.rollAllDoneInvisible()
 
 
     @Test override fun progressIndicator1() = super.progressIndicator1()
