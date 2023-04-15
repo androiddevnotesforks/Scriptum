@@ -3,7 +3,7 @@
 
     <dimen name="item_card_horizontal_margin">7dp</dimen> <!--1dp-->
     <dimen name="item_card_vertical_margin">3.5dp</dimen> <!--0.5dp-->
-    <dimen name="item_card_elevation">0dp</dimen> <!--0dp-->
+    <dimen name="item_card_elevation">1dp</dimen> <!--0dp-->
     <dimen name="item_card_radius">13dp</dimen> <!--1dp-->
 
     <dimen name="item_card_drag_elevation">4dp</dimen> <!--0dp-->
