@@ -25,7 +25,7 @@ class BinNoteDialogTextTest : BinNoteDialogCase(NoteType.TEXT) {
 
     @Test override fun restore() = super.restore()
 
-    @Test override fun copy() = super.copy()
+    @Test override fun todo_copy() = super.todo_copy()
 
     @Test override fun clear() = super.clear()
 

@@ -12,6 +12,8 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankDragTest : ParentUiTest() {
 
+    // TODO case: list with 3 items -> cancel #2 -> drag #3 before #1
+
     @Test fun todo() {
         TODO()
     }
