@@ -93,7 +93,8 @@ class RankViewModelImpl(
     override fun moveItem(from: Int, to: Int) = list.move(from, to)
 
     override fun moveItemResult() {
-        val noteIdList = list.change { correctRankPositions(it) }
+        /** Need just set for skip "diff notify" animation and crashes related with that. */
+        val noteIdList = list.change(UpdateListState.Set) { correctRankPositions(it) }
 
         viewModelScope.launchBack {
             updateRankPositions(list.localData, noteIdList)
