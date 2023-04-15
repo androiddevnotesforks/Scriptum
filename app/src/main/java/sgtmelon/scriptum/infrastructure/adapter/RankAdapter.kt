@@ -5,7 +5,7 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
-import sgtmelon.scriptum.infrastructure.adapter.diff.RankDiff
+import sgtmelon.scriptum.infrastructure.adapter.diff.manual.RankDiff
 import sgtmelon.scriptum.infrastructure.adapter.holder.RankHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentManualAdapter
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener

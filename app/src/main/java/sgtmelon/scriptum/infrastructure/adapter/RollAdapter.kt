@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollBinding
-import sgtmelon.scriptum.infrastructure.adapter.diff.RollDiff
+import sgtmelon.scriptum.infrastructure.adapter.diff.manual.RollDiff
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentManualAdapter
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener

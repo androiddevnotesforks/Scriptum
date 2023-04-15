@@ -1,37 +1,32 @@
 package sgtmelon.scriptum.infrastructure.adapter.parent
 
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.Adapter.Manual.Callback
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 
 /**
- * Version of [ListAdapter], but with ability to notify items by yourself. Sometimes it's needed
- * to skip some diff calculations.
+ * Version of [RecyclerView.Adapter] + diffUtils, but with ability to notify items by yourself.
+ * Sometimes it's needed to skip some diff calculations.
  *
  * For example, you need update data inside [list], but without item notify, because it's already
  * updated inside [RecyclerView.ViewHolder] during action (e.g. click, long click). And this
  * class make a deal.
  */
 abstract class ParentManualAdapter<T, VH : RecyclerView.ViewHolder>(
-    diffCallback: DiffUtil.ItemCallback<T>
-) : ParentListAdapter<T, VH>(diffCallback),
+    private val diff: ParentManualDiff<T>
+) : RecyclerView.Adapter<VH>(),
     Adapter.Manual<T> {
 
+    private var diffResult: DiffUtil.DiffResult? = null
     private val list: MutableList<T> = ArrayList()
 
     override fun notifyList(list: List<T>) {
-        val newList = getListCopy(list)
-
-        this.list.clearAdd(newList)
-        submitList(newList)
+        setList(list)
+        diffResult?.dispatchUpdatesTo(this)
     }
-
-    override fun getItem(position: Int): T = list[position]
-
-    override fun getItemCount() = list.size
 
     override fun notifyList(list: List<T>, state: UpdateListState, callback: Callback) {
         when (state) {
@@ -47,6 +42,19 @@ abstract class ParentManualAdapter<T, VH : RecyclerView.ViewHolder>(
         }
     }
 
-    private fun setList(list: List<T>) = apply { this.list.clearAdd(getListCopy(list)) }
+    private fun setList(list: List<T>) = apply {
+        diff.setList(this.list, list)
+        diffResult = DiffUtil.calculateDiff(diff)
+        this.list.clearAdd(getListCopy(list))
+    }
 
+
+    protected fun getItem(position: Int): T = list[position]
+
+    override fun getItemCount() = list.size
+
+    override fun onViewRecycled(holder: VH) {
+        super.onViewRecycled(holder)
+        (holder as? UnbindCallback)?.unbind()
+    }
 }
