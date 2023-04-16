@@ -90,7 +90,7 @@ abstract class ParentUiTest : ParentTest() {
      * Increase long press timeout, for preventing fake espresso click performed like a
      * long one.
      */
-    protected fun resetLongPressTime() = changeLongPressTime(timeMs = 2000)
+    protected fun resetLongPressTime() = changeLongPressTime(timeMs = 1500)
 
     protected fun changeLongPressTime(timeMs: Long) {
         uiDevice.executeShellCommand("settings put secure long_press_timeout $timeMs")

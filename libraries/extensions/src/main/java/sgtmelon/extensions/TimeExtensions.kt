@@ -15,12 +15,8 @@ import android.text.format.DateFormat as DateFormatAndroid
 
 fun getCalendar(): Calendar = Calendar.getInstance()
 
-/**
- * Calendar of current time but with clear millis/seconds (which equals 0/0).
- */
-fun getClearCalendar(): Calendar {
-    return getCalendar().clearSeconds()
-}
+/** Calendar of current time, but with clear millis/seconds (which equals 0/0). */
+fun getClearCalendar(): Calendar = getCalendar().clearSeconds()
 
 fun Calendar.clearSeconds() = apply {
     set(Calendar.SECOND, 0)
@@ -72,11 +68,13 @@ private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_FULL, Loc
 
 //endregion
 
-fun Context.is24HourFormat(): Boolean = DateFormatAndroid.is24HourFormat(this)
+val Context.is24HourFormat: Boolean get() = DateFormatAndroid.is24HourFormat(this)
 
-fun Calendar.isBeforeNow() = this.before(getCalendar())
+val Calendar.isBeforeNow get() = this.before(getCalendar())
 
-fun Calendar.isAfterNow() = this.after(getCalendar())
+val Calendar.isAfterNow get() = this.after(getCalendar())
+
+val Calendar.seconds get() = get(Calendar.SECOND)
 
 //region Formatting
 

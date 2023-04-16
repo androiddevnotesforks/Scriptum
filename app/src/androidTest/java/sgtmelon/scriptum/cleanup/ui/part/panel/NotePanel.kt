@@ -33,6 +33,7 @@ import sgtmelon.scriptum.parent.ui.screen.dialogs.ColorDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateTimeCallback
 import sgtmelon.scriptum.parent.ui.screen.main.BinScreen
+import sgtmelon.test.cappuccino.utils.awaitMinuteEnd
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
@@ -147,6 +148,8 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
     }
 
     fun onSave() = apply {
+        awaitMinuteEnd()
+
         callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             saveButton.click()
 
@@ -164,6 +167,8 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
     }
 
     fun onLongSave() = apply {
+        awaitMinuteEnd()
+
         callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             saveButton.longClick()
 

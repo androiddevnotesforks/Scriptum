@@ -73,7 +73,7 @@ class NotesViewModelImpl(
         calendar: Calendar,
         p: Int
     ): Flow<Pair<NoteItem, Calendar>> = flowOnBack {
-        if (calendar.isBeforeNow()) return@flowOnBack
+        if (calendar.isBeforeNow) return@flowOnBack
 
         val item = list.change {
             val item = it.getOrNull(p) ?: return@flowOnBack

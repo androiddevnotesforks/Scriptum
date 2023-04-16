@@ -14,7 +14,7 @@ class TidyUpAlarmUseCase(val repository: AlarmRepo) {
             val noteId = it.note.id
             val calendar = it.alarm.date.toCalendar()
 
-            if (calendar.isBeforeNow()) {
+            if (calendar.isBeforeNow) {
                 emit(TidyUpResult.Cancel(noteId))
                 repository.delete(noteId)
             } else {

@@ -192,7 +192,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
         val item = noteItem.value
 
-        if (item == null || calendar.isBeforeNow()) return@flowOnBack
+        if (item == null || calendar.isBeforeNow) return@flowOnBack
 
         setNotification(item, calendar)
         cacheNote(item)

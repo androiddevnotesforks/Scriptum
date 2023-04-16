@@ -24,7 +24,7 @@ class TimeDialogTest : ParentTest() {
         val calendar = mockk<Calendar>()
         val dateList = List(size = 5) { nextString() }
 
-        every { calendar.isAfterNow() } returns false
+        every { calendar.isAfterNow } returns false
         every { calendar.toText() } returns dateList.random()
 
         assertFalse(TimeDialog.getPositiveEnabled(calendar, dateList))
@@ -33,7 +33,7 @@ class TimeDialogTest : ParentTest() {
 
         assertFalse(TimeDialog.getPositiveEnabled(calendar, dateList))
 
-        every { calendar.isAfterNow() } returns true
+        every { calendar.isAfterNow } returns true
         every { calendar.toText() } returns dateList.random()
 
         assertFalse(TimeDialog.getPositiveEnabled(calendar, dateList))
@@ -44,11 +44,11 @@ class TimeDialogTest : ParentTest() {
 
         verifySequence {
             repeat(times = 2) {
-                calendar.isAfterNow()
+                calendar.isAfterNow
             }
 
             repeat(times = 2) {
-                calendar.isAfterNow()
+                calendar.isAfterNow
                 calendar.toText()
             }
         }

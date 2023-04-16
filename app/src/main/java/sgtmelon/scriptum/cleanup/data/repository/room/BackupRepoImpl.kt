@@ -212,7 +212,7 @@ class BackupRepoImpl(
         for (item in result.alarmList) {
             val calendar = item.date.toCalendarOrNull() ?: continue
 
-            if (calendar.isBeforeNow()) {
+            if (calendar.isBeforeNow) {
                 removeList.add(item)
                 continue
             }

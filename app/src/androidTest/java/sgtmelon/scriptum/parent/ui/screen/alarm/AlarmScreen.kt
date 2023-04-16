@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.parent.ui.screen.alarm
 
 import java.util.Calendar
-import sgtmelon.extensions.getCalendar
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
@@ -18,6 +17,7 @@ import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.screen.dialogs.sheet.RepeatSheetDialogUi
 import sgtmelon.test.cappuccino.utils.await
+import sgtmelon.test.cappuccino.utils.awaitMinuteEnd
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withContentDescription
@@ -61,13 +61,7 @@ class AlarmScreen(
     }
 
     fun repeat(): Calendar {
-        /**
-         * If click happens in the corner seconds (like 0.59) and calendar will be received in
-         * the next minute (like 1.10) - this may cause fail of the tests.
-         */
-        while (getCalendar().get(Calendar.SECOND) > 50) {
-            await(time = 5000)
-        }
+        awaitMinuteEnd()
 
         repeatButton.click()
         return onRepeat()
