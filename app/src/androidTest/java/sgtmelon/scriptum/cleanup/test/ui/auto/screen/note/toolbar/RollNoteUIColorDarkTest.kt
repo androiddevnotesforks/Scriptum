@@ -6,13 +6,13 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.ui.cases.note.NoteUIColorTest
+import sgtmelon.scriptum.ui.cases.note.NoteUIColorTestCase
 
 /**
  * Test for [NoteActivity] UI colors with [ThemeDisplayed.DARK].
  */
 @RunWith(AndroidJUnit4::class)
-class RollNoteUIColorDarkTest : NoteUIColorTest(ThemeDisplayed.DARK, NoteType.ROLL) {
+class RollNoteUIColorDarkTest : NoteUIColorTestCase(ThemeDisplayed.DARK, NoteType.ROLL) {
 
     @Test override fun colorRed() = super.colorRed()
 

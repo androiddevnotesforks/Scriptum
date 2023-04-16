@@ -17,7 +17,7 @@ import sgtmelon.test.common.nextString
 /**
  * Parent class for test [ParentNoteFragmentImpl] screen colors.
  */
-abstract class NoteUIColorTest(
+abstract class NoteUIColorTestCase(
     private val theme: ThemeDisplayed,
     private val type: NoteType
 ) : ParentUiTest(),
