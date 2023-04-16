@@ -8,8 +8,8 @@ import sgtmelon.scriptum.parent.ui.model.key.Scroll
 import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
 import sgtmelon.scriptum.parent.ui.tests.launchBinItem
 import sgtmelon.scriptum.parent.ui.tests.launchBinList
-import sgtmelon.scriptum.ui.cases.NoteOpenCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
+import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
 
 /**
  * Weigh test for [BinFragment].

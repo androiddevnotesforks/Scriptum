@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
-import sgtmelon.scriptum.ui.cases.NoteCardTestCase
+import sgtmelon.scriptum.ui.cases.note.NoteCardTestCase
 
 /**
  * Test for [NoteItemUi] inside [NotesScreen].

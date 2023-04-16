@@ -94,6 +94,10 @@ class DbDelegator(
 
     val rankEntity: RankEntity get() = RankEntity(name = nextString())
 
+    fun createNote(type: NoteType) = when(type) {
+        NoteType.TEXT -> createText()
+        NoteType.ROLL -> createRoll()
+    }
 
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
 

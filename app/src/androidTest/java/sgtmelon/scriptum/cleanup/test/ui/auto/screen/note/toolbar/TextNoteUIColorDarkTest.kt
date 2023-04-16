@@ -4,13 +4,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
+import sgtmelon.scriptum.ui.cases.note.NoteUIColorTest
 
 /**
- * Test for [NoteActivity] toolbar color with [ThemeDisplayed.DARK].
+ * Test for [NoteActivity] UI colors with [ThemeDisplayed.DARK].
  */
 @RunWith(AndroidJUnit4::class)
-class ToolbarColorDarkTest : ParentToolbarColorTest(ThemeDisplayed.DARK) {
+class TextNoteUIColorDarkTest : NoteUIColorTest(ThemeDisplayed.DARK, NoteType.TEXT) {
 
     @Test override fun colorRed() = super.colorRed()
 

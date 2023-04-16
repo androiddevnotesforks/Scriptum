@@ -7,8 +7,8 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchAlarm
 import sgtmelon.scriptum.parent.ui.tests.launchAlarmClose
-import sgtmelon.scriptum.ui.cases.NoteOpenCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
+import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
 
 /**
  * Test for [AlarmActivity].

@@ -3,7 +3,7 @@
 package sgtmelon.scriptum.cleanup
 
 import sgtmelon.scriptum.cleanup.test.ui.control.anim.note.NoteIconAnimTest
-import sgtmelon.scriptum.ui.cases.NoteCardTestCase
+import sgtmelon.scriptum.ui.cases.note.NoteCardTestCase
 
 // EXAMPLE: TODO(reason = "#TEST write test")
 

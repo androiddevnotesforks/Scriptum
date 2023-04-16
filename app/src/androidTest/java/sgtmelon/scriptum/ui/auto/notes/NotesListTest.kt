@@ -10,9 +10,9 @@ import sgtmelon.scriptum.parent.ui.tests.launchMain
 import sgtmelon.scriptum.parent.ui.tests.launchNotes
 import sgtmelon.scriptum.parent.ui.tests.launchNotesItem
 import sgtmelon.scriptum.parent.ui.tests.launchNotesList
-import sgtmelon.scriptum.ui.cases.NoteOpenCase
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
+import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
 
 /**
  * Test list for [NotesFragment].

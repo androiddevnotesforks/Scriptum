@@ -9,9 +9,9 @@ import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchBin
 import sgtmelon.scriptum.parent.ui.tests.launchBinItem
 import sgtmelon.scriptum.parent.ui.tests.launchBinList
-import sgtmelon.scriptum.ui.cases.NoteOpenCase
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
+import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
 
 /**
  * Test list for [BinFragment].

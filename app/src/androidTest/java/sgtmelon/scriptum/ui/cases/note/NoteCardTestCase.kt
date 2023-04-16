@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases
+package sgtmelon.scriptum.ui.cases.note
 
 import kotlin.random.Random
 import sgtmelon.extensions.getClearCalendar
