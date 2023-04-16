@@ -10,6 +10,7 @@ import org.hamcrest.Matchers.allOf
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.parent.di.ParentInjector
+import sgtmelon.test.cappuccino.automator.CommandAutomator
 
 /**
  * Basic UI element for tests.
@@ -25,6 +26,8 @@ abstract class UiPart {
             Theme.DARK -> ThemeDisplayed.DARK
             Theme.SYSTEM -> throw IllegalStateException("Not available theme")
         }
+
+    protected val commandAutomator = CommandAutomator(ParentInjector.provideUiDevice())
 
     protected open fun getView(@IdRes viewId: Int): Matcher<View> = withId(viewId)
 

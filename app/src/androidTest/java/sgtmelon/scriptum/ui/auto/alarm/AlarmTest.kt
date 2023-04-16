@@ -30,9 +30,7 @@ class AlarmTest : ParentUiTest(),
 
     @Test fun itemLongClick() {
         launchAlarm(db.insertNote()) {
-            smallLongPressTime {
-                noteLongClick(it)
-            }
+            noteLongClick(it)
             assert()
         }
     }

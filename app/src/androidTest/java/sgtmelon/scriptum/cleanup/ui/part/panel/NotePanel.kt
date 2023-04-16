@@ -26,6 +26,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
+import sgtmelon.scriptum.parent.ui.action.longClick
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.UiSubpart
@@ -37,7 +38,6 @@ import sgtmelon.test.cappuccino.utils.awaitMinuteEnd
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
-import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withContentDescription
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
@@ -170,7 +170,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
         awaitMinuteEnd()
 
         callback.throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
-            saveButton.longClick()
+            saveButton.longClick(commandAutomator)
 
             callback.apply {
                 state = NoteState.EDIT
