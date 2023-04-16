@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.parent.ui.screen.dialogs.sheet
 
-import java.util.Calendar
-import sgtmelon.extensions.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
@@ -11,7 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.dialog.SheetDialogPart
 import sgtmelon.scriptum.parent.ui.screen.note.NoteScreen
-import sgtmelon.test.cappuccino.utils.await
+import sgtmelon.test.cappuccino.utils.awaitMinuteEnd
 import sgtmelon.test.cappuccino.utils.click
 
 /**
@@ -23,13 +21,6 @@ class AddSheetDialogUi : SheetDialogPart(
     R.string.dialog_title_add_note,
     R.array.dialog_add
 ) {
-
-    /** Try to escape cases when model and note have different creation time. */
-    private fun awaitMinuteEnd() {
-        while (getCalendar().get(Calendar.SECOND) > 50) {
-            await(time = 1000)
-        }
-    }
 
     fun createText(
         item: NoteItem.Text,
