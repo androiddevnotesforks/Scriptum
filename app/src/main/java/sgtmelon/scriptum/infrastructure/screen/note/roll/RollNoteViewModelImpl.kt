@@ -3,9 +3,9 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.launchIO
 import sgtmelon.extensions.postValueWithChange
-import sgtmelon.extensions.runBack
+import sgtmelon.extensions.runIO
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
@@ -185,7 +185,7 @@ class RollNoteViewModelImpl(
         viewModelScope.launch {
             val isCreate = noteState.value == NoteState.CREATE
             /** [saveNote] updates [NoteItem.id], if it was in [NoteState.CREATE] */
-            runBack { saveNote(item, isCreate) }
+            runIO { saveNote(item, isCreate) }
             cacheNote(item)
 
             if (isCreate) {
@@ -195,7 +195,7 @@ class RollNoteViewModelImpl(
                  * Need if [noteItem] isVisible changes wasn't set inside [changeVisible]
                  * because of note wasn't exist.
                  */
-                runBack { updateVisible(item) }
+                runIO { updateVisible(item) }
             }
 
             /** Need update data after [saveNote] there was some changes. */
@@ -217,7 +217,7 @@ class RollNoteViewModelImpl(
          * That's why call update only for created notes.
          */
         if (noteState.value != NoteState.CREATE) {
-            viewModelScope.launchBack { updateVisible(item) }
+            viewModelScope.launchIO { updateVisible(item) }
         }
     }
 
@@ -239,7 +239,7 @@ class RollNoteViewModelImpl(
         }
         postNotifyItemList(item, updateList)
 
-        viewModelScope.launchBack {
+        viewModelScope.launchIO {
             updateCheck(item, absolutePosition)
         }
     }

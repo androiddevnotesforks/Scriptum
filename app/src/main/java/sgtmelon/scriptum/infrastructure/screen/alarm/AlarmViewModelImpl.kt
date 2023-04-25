@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import sgtmelon.extensions.getClearCalendar
-import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.launchIO
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
@@ -34,7 +34,7 @@ class AlarmViewModelImpl(
     override val alarmState: AlarmState get() = preferencesRepo.alarmState
 
     init {
-        viewModelScope.launchBack { fetchData(noteId) }
+        viewModelScope.launchIO { fetchData(noteId) }
     }
 
     private suspend fun fetchData(noteId: Long) {
@@ -73,7 +73,7 @@ class AlarmViewModelImpl(
             return
         }
 
-        viewModelScope.launchBack {
+        viewModelScope.launchIO {
             val calendar = getClearCalendar(minute)
 
             shiftDateIfExist(calendar)

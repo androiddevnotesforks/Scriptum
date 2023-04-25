@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowOnBack
-import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.flowIO
+import sgtmelon.extensions.launchIO
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -34,14 +34,14 @@ class NotificationsViewModelImpl(
     private val undoList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
 
     override fun updateData() {
-        viewModelScope.launchBack {
+        viewModelScope.launchIO {
             list.change { it.clearAdd(getList()) }
         }
     }
 
-    override fun removeItem(position: Int) = flowOnBack {
+    override fun removeItem(position: Int) = flowIO {
         val item = list.change(UpdateListState.Remove(position)) {
-            it.removeAtOrNull(position) ?: return@flowOnBack
+            it.removeAtOrNull(position) ?: return@flowIO
         }
 
         /** Save item for snackbar undo action and display it. */
@@ -53,10 +53,10 @@ class NotificationsViewModelImpl(
         emit(value = item to list.localData.size)
     }
 
-    override fun undoRemove(): Flow<UndoState> = flowOnBack {
-        if (undoList.isEmpty()) return@flowOnBack
+    override fun undoRemove(): Flow<UndoState> = flowIO {
+        if (undoList.isEmpty()) return@flowIO
 
-        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flowOnBack
+        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flowIO
         val item = pair.second
 
         /** Need set list value on mainThread for prevent postValue overriding. */
@@ -84,7 +84,7 @@ class NotificationsViewModelImpl(
             it[position] = newItem
 
             return@changeNext newItem
-        } ?: return@flowOnBack
+        } ?: return@flowIO
 
         val calendar = newItem.alarm.date.toCalendar()
         emit(UndoState.NotifyAlarm(newItem.note.id, calendar))
@@ -95,8 +95,8 @@ class NotificationsViewModelImpl(
         showSnackbar.postValue(false)
     }
 
-    override fun getNote(item: NotificationItem): Flow<NoteItem> = flowOnBack {
-        val noteItem = getNote(item.note.id) ?: return@flowOnBack
+    override fun getNote(item: NotificationItem): Flow<NoteItem> = flowIO {
+        val noteItem = getNote(item.note.id) ?: return@flowIO
         emit(noteItem)
     }
 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowOnBack
-import sgtmelon.extensions.launchBack
+import sgtmelon.extensions.flowIO
+import sgtmelon.extensions.launchIO
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
@@ -31,7 +31,7 @@ class AlarmPreferenceViewModelImpl(
     override fun updateSignal(value: BooleanArray) {
         signalSummary.postValue(getSignalSummary(value))
 
-        viewModelScope.launchBack {
+        viewModelScope.launchIO {
             if (getMelodyList().isNotEmpty()) {
                 melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)
             } else {
@@ -55,7 +55,7 @@ class AlarmPreferenceViewModelImpl(
 
     override val melodySummaryState by lazy {
         MutableLiveData<MelodySummaryState>()
-            .also { viewModelScope.launchBack { loadMelody() } }
+            .also { viewModelScope.launchIO { loadMelody() } }
     }
 
     private suspend fun loadMelody() {
@@ -80,7 +80,7 @@ class AlarmPreferenceViewModelImpl(
      * Information about melodies naming and chosen current position.
      */
     override val selectMelodyData: Flow<Pair<Array<String>, Int>>
-        get() = flowOnBack {
+        get() = flowIO {
             val list = getMelodyList()
             val titleArray = list.map { it.title }.toTypedArray()
             val check = preferencesRepo.getMelodyCheck(list)
@@ -93,14 +93,14 @@ class AlarmPreferenceViewModelImpl(
             }
         }
 
-    override fun getMelody(p: Int): Flow<MelodyItem> = flowOnBack {
+    override fun getMelody(p: Int): Flow<MelodyItem> = flowIO {
         getMelodyList().getOrNull(p)?.let { emit(it) }
     }
 
     /**
      * Return: success set melody or chosen another one by app.
      */
-    override fun updateMelody(title: String): Flow<UpdateMelodyState> = flowOnBack {
+    override fun updateMelody(title: String): Flow<UpdateMelodyState> = flowIO {
         val resultTitle = preferencesRepo.setMelodyUri(getMelodyList(), title)
         if (resultTitle != null) {
             melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)

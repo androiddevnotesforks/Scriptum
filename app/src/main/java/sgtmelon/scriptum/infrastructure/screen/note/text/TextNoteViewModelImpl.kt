@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extensions.runBack
+import sgtmelon.extensions.runIO
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.domain.model.result.HistoryResult
@@ -95,7 +95,7 @@ class TextNoteViewModelImpl(
         viewModelScope.launch {
             val isCreate = noteState.value == NoteState.CREATE
             /** [saveNote] updates [NoteItem.id], if it was in [NoteState.CREATE] */
-            runBack { saveNote(item, isCreate) }
+            runIO { saveNote(item, isCreate) }
             cacheNote(item)
 
             if (isCreate) {
