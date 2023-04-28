@@ -1,14 +1,12 @@
 package sgtmelon.scriptum.ui.cases.note
 
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateComplete
 import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
 import sgtmelon.scriptum.parent.ui.tests.launchMain
 import sgtmelon.scriptum.ui.cases.value.ColorCase
@@ -30,46 +28,32 @@ abstract class NoteUIColorTestCase(
         launchMain {
             openNotes(isEmpty = true) {
                 openAddDialog {
-                    val item = db.createNote(type)
+                    var item: NoteItem? = null
 
-                    when (item) {
-                        is NoteItem.Text -> createText(item) { work(item, value) }
-                        is NoteItem.Roll -> createRoll(item) { work(item, value) }
+                    when (type) {
+                        NoteType.TEXT -> createText({ db.createText() }) { item = work(value) }
+                        NoteType.ROLL -> createRoll({ db.createRoll() }) { item = work(value) }
                     }
 
-                    assertItem(item)
+                    assertItem(item!!)
                 }
             }
         }
     }
 
-    private fun TextNoteScreen.work(item: NoteItem.Text, value: Color) {
-        val text = nextString()
-
-        controlPanel {
-            onColor { select(value).apply() }
-            onEnterText(text)
-            onSave()
-        }
+    private fun TextNoteScreen.work(value: Color): NoteItem {
+        controlPanel { onColor { select(value).apply() } }
+        onEnterText(nextString())
+        controlPanel { onSave() }
         toolbar { clickBack() }
-
-        item.color = value
-        item.text = text
+        return item
     }
 
-    private fun RollNoteScreen.work(item: NoteItem.Roll, value: Color) {
-        val text = nextString()
-
-        controlPanel {
-            onColor { select(value).apply() }
-            enterPanel { onAdd(text) }
-            onSave()
-        }
+    private fun RollNoteScreen.work(value: Color): NoteItem.Roll {
+        controlPanel { onColor { select(value).apply() } }
+        enterPanel { onAdd(nextString()) }
+        controlPanel { onSave() }
         toolbar { clickBack() }
-
-        item.color = value
-        item.list.add(RollItem(position = 0, text = text))
-        item.updateComplete()
+        return item
     }
-
 }

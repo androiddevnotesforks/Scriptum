@@ -22,6 +22,7 @@ class AddSheetDialogUi : SheetDialogPart(
     R.array.dialog_add
 ) {
 
+    @Deprecated("Use create text")
     fun createText(
         item: NoteItem.Text,
         isRankEmpty: Boolean = true,
@@ -32,12 +33,37 @@ class AddSheetDialogUi : SheetDialogPart(
         NoteScreen().openText(func, NoteState.NEW, item, isRankEmpty)
     }
 
+    @Deprecated("Use create roll")
     fun createRoll(
         item: NoteItem.Roll,
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) {
         awaitMinuteEnd()
+        getButton(NoteType.ROLL).click()
+        NoteScreen().openRoll(func, NoteState.NEW, item, isRankEmpty)
+    }
+
+    fun createText(
+        create: () -> NoteItem.Text,
+        isRankEmpty: Boolean = true,
+        func: TextNoteScreen.() -> Unit = {}
+    ) {
+        awaitMinuteEnd()
+
+        val item = create()
+        getButton(NoteType.TEXT).click()
+        NoteScreen().openText(func, NoteState.NEW, item, isRankEmpty)
+    }
+
+    fun createRoll(
+        create: () -> NoteItem.Roll,
+        isRankEmpty: Boolean = true,
+        func: RollNoteScreen.() -> Unit = {}
+    ) {
+        awaitMinuteEnd()
+
+        val item = create()
         getButton(NoteType.ROLL).click()
         NoteScreen().openRoll(func, NoteState.NEW, item, isRankEmpty)
     }
