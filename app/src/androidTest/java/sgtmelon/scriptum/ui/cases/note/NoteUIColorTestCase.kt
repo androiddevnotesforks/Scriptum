@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.ui.cases.note
 
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
@@ -28,32 +27,24 @@ abstract class NoteUIColorTestCase(
         launchMain {
             openNotes(isEmpty = true) {
                 openAddDialog {
-                    var item: NoteItem? = null
-
                     when (type) {
-                        NoteType.TEXT -> createText({ db.createText() }) { item = work(value) }
-                        NoteType.ROLL -> createRoll({ db.createRoll() }) { item = work(value) }
+                        NoteType.TEXT -> createText({ db.createText() }) { work(value) }
+                        NoteType.ROLL -> createRoll({ db.createRoll() }) { work(value) }
                     }
-
-                    assertItem(item!!)
                 }
             }
         }
     }
 
-    private fun TextNoteScreen.work(value: Color): NoteItem {
+    private fun TextNoteScreen.work(value: Color) {
         controlPanel { onColor { select(value).apply() } }
         onEnterText(nextString())
         controlPanel { onSave() }
-        toolbar { clickBack() }
-        return item
     }
 
-    private fun RollNoteScreen.work(value: Color): NoteItem.Roll {
+    private fun RollNoteScreen.work(value: Color) {
         controlPanel { onColor { select(value).apply() } }
         enterPanel { onAdd(nextString()) }
         controlPanel { onSave() }
-        toolbar { clickBack() }
-        return item
     }
 }

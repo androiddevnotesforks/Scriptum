@@ -8,7 +8,7 @@ import sgtmelon.extensions.seconds
 fun await(time: Long) = runBlocking { delay(time) }
 
 /**
- * Try to escape cases when app and test have different minute value.
+ * Try to escape case when app and test have different minute value.
  *
  * If click happens in the corner seconds (like 0.59) and calendar will be received in
  * the next minute (like 1.10) - this may cause fail of the tests.

@@ -47,7 +47,6 @@ import sgtmelon.test.cappuccino.utils.withText
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
-
 class NotePanel<T : ContainerPart, N : NoteItem>(
     parentContainer: Matcher<View>,
     private val callback: INoteScreen<T, N>
