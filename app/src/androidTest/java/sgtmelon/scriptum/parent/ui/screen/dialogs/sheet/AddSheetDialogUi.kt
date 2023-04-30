@@ -49,8 +49,6 @@ class AddSheetDialogUi : SheetDialogPart(
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) {
-        awaitMinuteEnd()
-
         val item = create()
         getButton(NoteType.TEXT).click()
         NoteScreen().openText(func, NoteState.NEW, item, isRankEmpty)
@@ -61,8 +59,6 @@ class AddSheetDialogUi : SheetDialogPart(
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) {
-        awaitMinuteEnd()
-
         val item = create()
         getButton(NoteType.ROLL).click()
         NoteScreen().openRoll(func, NoteState.NEW, item, isRankEmpty)
