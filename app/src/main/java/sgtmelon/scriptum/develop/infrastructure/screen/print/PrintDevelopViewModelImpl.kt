@@ -2,7 +2,7 @@ package sgtmelon.scriptum.develop.infrastructure.screen.print
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import sgtmelon.extensions.launchIO
+import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.develop.domain.GetPrintListUseCase
 import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
@@ -17,7 +17,7 @@ class PrintDevelopViewModelImpl(
     PrintDevelopViewModel {
 
     override fun updateData() {
-        viewModelScope.launchIO {
+        viewModelScope.launchBack {
             list.change { it.clearAdd(getList(type)) }
         }
     }

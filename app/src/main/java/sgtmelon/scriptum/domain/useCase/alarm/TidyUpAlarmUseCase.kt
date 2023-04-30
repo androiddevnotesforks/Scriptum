@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.useCase.alarm
 
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowIO
+import sgtmelon.extensions.flowBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
@@ -9,7 +9,7 @@ import sgtmelon.scriptum.domain.model.result.TidyUpResult
 
 class TidyUpAlarmUseCase(val repository: AlarmRepo) {
 
-    suspend operator fun invoke(): Flow<TidyUpResult> = flowIO {
+    suspend operator fun invoke(): Flow<TidyUpResult> = flowBack {
         repository.getList().forEach {
             val noteId = it.note.id
             val calendar = it.alarm.date.toCalendar()

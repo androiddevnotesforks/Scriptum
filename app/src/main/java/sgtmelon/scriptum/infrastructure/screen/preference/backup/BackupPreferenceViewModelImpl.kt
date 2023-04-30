@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowIO
-import sgtmelon.extensions.launchIO
+import sgtmelon.extensions.flowBack
+import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
@@ -34,7 +34,7 @@ class BackupPreferenceViewModelImpl(
 
     override fun updateData(permission: PermissionResult?) {
         if (permission == PermissionResult.GRANTED) {
-            viewModelScope.launchIO { updateBackupFiles() }
+            viewModelScope.launchBack { updateBackupFiles() }
         } else {
             exportEnabled.postValue(true)
             exportSummary.postValue(ExportSummaryState.Permission)
@@ -61,7 +61,7 @@ class BackupPreferenceViewModelImpl(
         exportEnabled.postValue(true)
     }
 
-    override fun startExport(): Flow<ExportState> = flowIO {
+    override fun startExport(): Flow<ExportState> = flowBack {
         emit(ExportState.ShowLoading)
         val result = startBackupExport()
         emit(ExportState.HideLoading)
@@ -79,7 +79,7 @@ class BackupPreferenceViewModelImpl(
     }
 
     override val importData: Flow<Array<String>>
-        get() = flowIO {
+        get() = flowBack {
             val titleArray = getBackupFileList().map { it.name }.toTypedArray()
 
             if (titleArray.isEmpty()) {
@@ -90,7 +90,7 @@ class BackupPreferenceViewModelImpl(
             }
         }
 
-    override fun startImport(name: String): Flow<ImportState> = flowIO {
+    override fun startImport(name: String): Flow<ImportState> = flowBack {
         emit(ImportState.ShowLoading)
         val result = startBackupImport(name, getBackupFileList())
         emit(ImportState.HideLoading)

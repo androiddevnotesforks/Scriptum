@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlin.math.max
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowIO
-import sgtmelon.extensions.launchIO
+import sgtmelon.extensions.flowBack
+import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
@@ -41,7 +41,7 @@ class RankViewModelImpl(
     private val undoList: MutableList<Pair<Int, RankItem>> = mutableListOf()
 
     override fun updateData() {
-        viewModelScope.launchIO {
+        viewModelScope.launchBack {
             list.change { it.clearAdd(getList()) }
         }
     }
@@ -59,12 +59,12 @@ class RankViewModelImpl(
         return name.isNotEmpty() && !uniqueNameList.contains(name.uppercase())
     }
 
-    override fun addItem(enter: String, toBottom: Boolean): Flow<AddState> = flowIO {
+    override fun addItem(enter: String, toBottom: Boolean): Flow<AddState> = flowBack {
         val name = enter.removeExtraSpace()
 
         if (!isValidName(name)) {
             emit(AddState.Deny)
-            return@flowIO
+            return@flowBack
         }
 
         emit(AddState.Prepare)
@@ -72,7 +72,7 @@ class RankViewModelImpl(
         val item = insertRank(name) ?: run {
             recordException("isValidName=${isValidName(name)} and can't insert rank by name")
             emit(AddState.Complete)
-            return@flowIO
+            return@flowBack
         }
 
         val noteIdList = list.change {
@@ -96,14 +96,14 @@ class RankViewModelImpl(
         /** Need just set for skip "diff notify" animation and crashes related with that. */
         val noteIdList = list.change(UpdateListState.Set) { correctRankPositions(it) }
 
-        viewModelScope.launchIO {
+        viewModelScope.launchBack {
             updateRankPositions(list.localData, noteIdList)
         }
     }
 
-    override fun changeVisibility(position: Int): Flow<Unit> = flowIO {
+    override fun changeVisibility(position: Int): Flow<Unit> = flowBack {
         val item = list.change(UpdateListState.Set) {
-            val item = it.getOrNull(position) ?: return@flowIO
+            val item = it.getOrNull(position) ?: return@flowBack
             item.isVisible = !item.isVisible
             return@change item
         }
@@ -113,14 +113,14 @@ class RankViewModelImpl(
         emit(Unit)
     }
 
-    override fun getRenameData(position: Int): Flow<Pair<String, List<String>>> = flowIO {
-        val item = list.localData.getOrNull(position) ?: return@flowIO
+    override fun getRenameData(position: Int): Flow<Pair<String, List<String>>> = flowBack {
+        val item = list.localData.getOrNull(position) ?: return@flowBack
         emit(value = item.name to uniqueNameList)
     }
 
-    override fun renameItem(position: Int, name: String): Flow<Unit> = flowIO {
+    override fun renameItem(position: Int, name: String): Flow<Unit> = flowBack {
         list.change {
-            val item = it.getOrNull(position) ?: return@flowIO
+            val item = it.getOrNull(position) ?: return@flowBack
             item.name = name
             updateRank(item)
         }
@@ -128,9 +128,9 @@ class RankViewModelImpl(
         emit(Unit)
     }
 
-    override fun removeItem(position: Int): Flow<Unit> = flowIO {
+    override fun removeItem(position: Int): Flow<Unit> = flowBack {
         val (item, noteIdList) = list.change(UpdateListState.Remove(position)) {
-            val item = it.removeAtOrNull(position) ?: return@flowIO
+            val item = it.removeAtOrNull(position) ?: return@flowBack
 
             /** Inside will be updated data about positions. */
             return@change item to correctRankPositions(it)
@@ -146,10 +146,10 @@ class RankViewModelImpl(
         emit(Unit)
     }
 
-    override fun undoRemove(): Flow<Unit> = flowIO {
-        if (undoList.isEmpty()) return@flowIO
+    override fun undoRemove(): Flow<Unit> = flowBack {
+        if (undoList.isEmpty()) return@flowBack
 
-        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flowIO
+        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flowBack
         val item = pair.second
 
         /** Need set list value on mainThread for prevent postValue overriding. */
@@ -185,7 +185,7 @@ class RankViewModelImpl(
     }
 
     override fun onReceiveUnbindNote(noteId: Long) {
-        viewModelScope.launchIO {
+        viewModelScope.launchBack {
             list.change {
                 /** Notes may have only one category, that's why we search only one item. */
                 val item = it.firstOrNull { item -> item.noteId.contains(noteId) } ?: return@change

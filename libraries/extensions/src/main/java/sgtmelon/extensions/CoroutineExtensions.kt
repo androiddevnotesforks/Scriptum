@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 var isCoTesting = false
 
 /** Use this function for hard calculation operations. */
-suspend inline fun <T> runIO(crossinline func: suspend () -> T): T {
+suspend inline fun <T> runBack(crossinline func: suspend () -> T): T {
     if (isCoTesting) return func()
 
     return withContext(Dispatchers.IO) { func() }
@@ -28,11 +28,11 @@ suspend inline fun <T> runMain(crossinline func: () -> T): T {
     return withContext(Dispatchers.Main) { func() }
 }
 
-inline fun CoroutineScope.launchIO(crossinline func: suspend CoroutineScope.() -> Unit): Job {
+inline fun CoroutineScope.launchBack(crossinline func: suspend CoroutineScope.() -> Unit): Job {
     return launch(Dispatchers.IO) { func() }
 }
 
-inline fun <T> flowIO(crossinline func: suspend FlowCollector<T>.() -> Unit): Flow<T> {
+inline fun <T> flowBack(crossinline func: suspend FlowCollector<T>.() -> Unit): Flow<T> {
     return flow { func() }.flowOn(Dispatchers.IO)
 }
 

@@ -3,8 +3,8 @@ package sgtmelon.scriptum.infrastructure.screen.main.bin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowIO
-import sgtmelon.extensions.launchIO
+import sgtmelon.extensions.flowBack
+import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
@@ -26,28 +26,28 @@ class BinViewModelImpl(
     BinViewModel {
 
     override fun updateData() {
-        viewModelScope.launchIO {
+        viewModelScope.launchBack {
             list.change { it.clearAdd(getList()) }
         }
     }
 
     override fun clearRecyclerBin() {
-        viewModelScope.launchIO { clearBin() }
+        viewModelScope.launchBack { clearBin() }
         list.change { it.clear() }
     }
 
     override fun restoreNote(p: Int) {
         val item = list.change { it.removeAtOrNull(p) } ?: return
-        viewModelScope.launchIO { restoreNote(item) }
+        viewModelScope.launchBack { restoreNote(item) }
     }
 
-    override fun getNoteText(p: Int): Flow<String> = flowIO {
-        val item = list.localData.getOrNull(p) ?: return@flowIO
+    override fun getNoteText(p: Int): Flow<String> = flowBack {
+        val item = list.localData.getOrNull(p) ?: return@flowBack
         emit(getCopyText(item))
     }
 
     override fun clearNote(p: Int) {
         val item = list.change { it.removeAtOrNull(p) } ?: return
-        viewModelScope.launchIO { clearNote(item) }
+        viewModelScope.launchBack { clearNote(item) }
     }
 }

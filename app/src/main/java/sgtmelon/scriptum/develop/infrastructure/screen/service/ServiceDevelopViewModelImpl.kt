@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import sgtmelon.extensions.launchIO
+import sgtmelon.extensions.launchBack
 
 class ServiceDevelopViewModelImpl : ViewModel(),
     ServiceDevelopViewModel {
@@ -15,7 +15,7 @@ class ServiceDevelopViewModelImpl : ViewModel(),
     override val pingState by lazy { MutableLiveData<ServicePingState>().also { startPing() } }
 
     override fun startPing() {
-        pingJob = viewModelScope.launchIO {
+        pingJob = viewModelScope.launchBack {
             pingState.postValue(ServicePingState.PREPARE)
 
             delay(PING_START_DELAY)
