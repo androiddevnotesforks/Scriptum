@@ -102,7 +102,7 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         createNote: CreateNoteUseCase
     ): SplashViewModel {
-        val factory = ViewModelFactory.Splash(createNote)
+        val factory = ViewModelFactory.getSplash(createNote)
         return ViewModelProvider(owner, factory)[SplashViewModelImpl::class.java]
     }
 
@@ -112,7 +112,7 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         preferencesRepo: PreferencesRepo
     ): ThemeViewModel {
-        val factory = ViewModelFactory.Theme(preferencesRepo)
+        val factory = ViewModelFactory.getTheme(preferencesRepo)
         return ViewModelProvider(owner, factory)[ThemeViewModelImpl::class.java]
     }
 
@@ -125,7 +125,7 @@ class ViewModelModule {
         owner: ViewModelStoreOwner,
         createNote: CreateNoteUseCase
     ): MainViewModel {
-        val factory = ViewModelFactory.MainScreen.Main(createNote)
+        val factory = ViewModelFactory.MainScreen.getMain(createNote)
         return ViewModelProvider(owner, factory)[MainViewModelImpl::class.java]
     }
 
@@ -141,7 +141,7 @@ class ViewModelModule {
         correctRankPositions: CorrectRankPositionsUseCase,
         updateRankPositions: UpdateRankPositionsUseCase
     ): RankViewModel {
-        val factory = ViewModelFactory.MainScreen.Rank(
+        val factory = ViewModelFactory.MainScreen.getRank(
             list, getList, insertRank, deleteRank, updateRank, correctRankPositions,
             updateRankPositions
         )
@@ -164,7 +164,7 @@ class ViewModelModule {
         deleteNotification: DeleteNotificationUseCase,
         getNotificationDateList: GetNotificationsDateListUseCase
     ): NotesViewModel {
-        val factory = ViewModelFactory.MainScreen.Notes(
+        val factory = ViewModelFactory.MainScreen.getNotes(
             preferencesRepo, list,
             getList, sortList, getCopyText, convertNote, updateNote, deleteNote,
             setNotification, deleteNotification, getNotificationDateList
@@ -183,7 +183,7 @@ class ViewModelModule {
         clearBin: ClearBinUseCase,
         clearNote: ClearNoteUseCase
     ): BinViewModel {
-        val factory = ViewModelFactory.MainScreen.Bin(
+        val factory = ViewModelFactory.MainScreen.getBin(
             list, getList, getCopyText, restoreNote, clearBin, clearNote
         )
         return ViewModelProvider(owner, factory)[BinViewModelImpl::class.java]
@@ -214,7 +214,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
         getHistoryResult: GetHistoryResultUseCase
     ): TextNoteViewModel {
-        val factory = ViewModelFactory.NoteScreen.TextNote(
+        val factory = ViewModelFactory.NoteScreen.getTextNote(
             init, history, colorConverter, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             setNotification, deleteNotification, getNotificationDateList,
@@ -248,7 +248,7 @@ class ViewModelModule {
         getRankDialogNames: GetRankDialogNamesUseCase,
         getHistoryResult: GetHistoryResultUseCase
     ): RollNoteViewModel {
-        val factory = ViewModelFactory.NoteScreen.RollNote(
+        val factory = ViewModelFactory.NoteScreen.getRollNote(
             init, history, colorConverter, list, cacheNote,
             saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
             updateVisible, updateCheck,
@@ -273,7 +273,7 @@ class ViewModelModule {
         deleteNotification: DeleteNotificationUseCase,
         shiftDateIfExist: ShiftDateIfExistUseCase
     ): AlarmViewModel {
-        val factory = ViewModelFactory.Alarm(
+        val factory = ViewModelFactory.getAlarm(
             noteId, preferencesRepo, getNote, getMelodyList,
             setNotification, deleteNotification, shiftDateIfExist
         )
@@ -291,7 +291,7 @@ class ViewModelModule {
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase
     ): NotificationsViewModel {
-        val factory = ViewModelFactory.Notification(
+        val factory = ViewModelFactory.getNotification(
             list, getList, getNote, setNotification, deleteNotification
         )
         return ViewModelProvider(owner, factory)[NotificationsViewModelImpl::class.java]
@@ -306,7 +306,7 @@ class ViewModelModule {
         preferencesRepo: PreferencesRepo,
         @Named("Theme") getSummary: GetSummaryUseCase
     ): MenuPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Main(preferencesRepo, getSummary)
+        val factory = ViewModelFactory.Preference.getMain(preferencesRepo, getSummary)
         return ViewModelProvider(owner, factory)[MenuPreferenceViewModelImpl::class.java]
     }
 
@@ -318,7 +318,7 @@ class ViewModelModule {
         startBackupExport: StartBackupExportUseCase,
         startBackupImport: StartBackupImportUseCase
     ): BackupPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Backup(
+        val factory = ViewModelFactory.Preference.getBackup(
             getBackupFileList, startBackupExport, startBackupImport
         )
         return ViewModelProvider(owner, factory)[BackupPreferenceViewModelImpl::class.java]
@@ -333,7 +333,7 @@ class ViewModelModule {
         @Named("DefaultColor") getDefaultColorSummary: GetSummaryUseCase,
         @Named("SavePeriod") getSavePeriodSummary: GetSummaryUseCase
     ): NotesPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Note(
+        val factory = ViewModelFactory.Preference.getNote(
             preferencesRepo, getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
 
@@ -350,7 +350,7 @@ class ViewModelModule {
         @Named("Volume") getVolumeSummary: GetSummaryUseCase,
         getMelodyList: GetMelodyListUseCase
     ): AlarmPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Alarm(
+        val factory = ViewModelFactory.Preference.getAlarm(
             preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary,
             getMelodyList
         )
@@ -364,7 +364,7 @@ class ViewModelModule {
         getRandomNoteId: GetRandomNoteIdUseCase,
         resetPreferences: ResetPreferencesUseCase
     ): DevelopViewModel {
-        val factory = ViewModelFactory.Develop.Main(getRandomNoteId, resetPreferences)
+        val factory = ViewModelFactory.Develop.getMain(getRandomNoteId, resetPreferences)
         return ViewModelProvider(owner, factory)[DevelopViewModelImpl::class.java]
     }
 
@@ -376,14 +376,14 @@ class ViewModelModule {
         @Named("Print") list: ListStorageImpl<PrintItem>,
         getList: GetPrintListUseCase
     ): PrintDevelopViewModel {
-        val factory = ViewModelFactory.Develop.Print(type, list, getList)
+        val factory = ViewModelFactory.Develop.getPrint(type, list, getList)
         return ViewModelProvider(owner, factory)[PrintDevelopViewModelImpl::class.java]
     }
 
     @Provides
     @ActivityScope
     fun provideServiceDevelopViewModel(owner: ViewModelStoreOwner): ServiceDevelopViewModel {
-        val factory = ViewModelFactory.Develop.Service()
+        val factory = ViewModelFactory.Develop.getService()
         return ViewModelProvider(owner, factory)[ServiceDevelopViewModelImpl::class.java]
     }
 

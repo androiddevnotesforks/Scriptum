@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.dagger.other
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlin.reflect.KClass
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
@@ -78,294 +78,248 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 @Suppress("UNCHECKED_CAST")
 object ViewModelFactory {
 
-    //region Help func
-
-    private fun onNotFound() = IllegalArgumentException("ViewModel not found")
-
-    private inline fun <T> Class<T>.create(modelClass: KClass<*>, createFunc: () -> Any): T {
-        return if (isAssignableFrom(modelClass.java)) createFunc() as T else throw onNotFound()
-    }
-
-    //endregion
-
-    class Splash(private val createNote: CreateNoteUseCase) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(SplashViewModelImpl::class) {
-                SplashViewModelImpl(createNote)
-            }
+    fun getSplash(createNote: CreateNoteUseCase): ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            SplashViewModelImpl(createNote)
         }
     }
 
-    class Theme(private val preferencesRepo: PreferencesRepo) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(ThemeViewModelImpl::class) {
-                ThemeViewModelImpl(preferencesRepo)
-            }
+    fun getTheme(preferencesRepo: PreferencesRepo): ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            ThemeViewModelImpl(preferencesRepo)
         }
     }
 
     object MainScreen {
 
-        class Main(private val createNote: CreateNoteUseCase) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(MainViewModelImpl::class) {
-                    MainViewModelImpl(createNote)
-                }
+        fun getMain(createNote: CreateNoteUseCase): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                MainViewModelImpl(createNote)
             }
         }
 
-        class Rank(
-            private val list: ListStorageImpl<RankItem>,
-            private val getList: GetRankListUseCase,
-            private val insertRank: InsertRankUseCase,
-            private val deleteRank: DeleteRankUseCase,
-            private val updateRank: UpdateRankUseCase,
-            private val correctRankPositions: CorrectRankPositionsUseCase,
-            private val updateRankPositions: UpdateRankPositionsUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(RankViewModelImpl::class) {
-                    RankViewModelImpl(
-                        list, getList, insertRank, deleteRank, updateRank,
-                        correctRankPositions, updateRankPositions
-                    )
-                }
+        fun getRank(
+            list: ListStorageImpl<RankItem>,
+            getList: GetRankListUseCase,
+            insertRank: InsertRankUseCase,
+            deleteRank: DeleteRankUseCase,
+            updateRank: UpdateRankUseCase,
+            correctRankPositions: CorrectRankPositionsUseCase,
+            updateRankPositions: UpdateRankPositionsUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                RankViewModelImpl(
+                    list, getList, insertRank, deleteRank, updateRank,
+                    correctRankPositions, updateRankPositions
+                )
             }
         }
 
-        class Notes(
-            private val preferencesRepo: PreferencesRepo,
-            private val list: ListStorageImpl<NoteItem>,
-            private val getList: GetNotesListUseCase,
-            private val sortList: SortNoteListUseCase,
-            private val getCopyText: GetCopyTextUseCase,
-            private val convertNote: ConvertNoteUseCase,
-            private val updateNote: UpdateNoteUseCase,
-            private val deleteNote: DeleteNoteUseCase,
-            private val setNotification: SetNotificationUseCase,
-            private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationsDateListUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(NotesViewModelImpl::class) {
-                    NotesViewModelImpl(
-                        preferencesRepo, list,
-                        getList, sortList, getCopyText, convertNote, updateNote,
-                        deleteNote, setNotification, deleteNotification, getNotificationDateList
-                    )
-                }
+        fun getNotes(
+            preferencesRepo: PreferencesRepo,
+            list: ListStorageImpl<NoteItem>,
+            getList: GetNotesListUseCase,
+            sortList: SortNoteListUseCase,
+            getCopyText: GetCopyTextUseCase,
+            convertNote: ConvertNoteUseCase,
+            updateNote: UpdateNoteUseCase,
+            deleteNote: DeleteNoteUseCase,
+            setNotification: SetNotificationUseCase,
+            deleteNotification: DeleteNotificationUseCase,
+            getNotificationDateList: GetNotificationsDateListUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                NotesViewModelImpl(
+                    preferencesRepo, list,
+                    getList, sortList, getCopyText, convertNote, updateNote,
+                    deleteNote, setNotification, deleteNotification, getNotificationDateList
+                )
             }
         }
 
-        class Bin(
-            private val list: ListStorageImpl<NoteItem>,
-            private val getList: GetBinListUseCase,
-            private val getCopyText: GetCopyTextUseCase,
-            private val restoreNote: RestoreNoteUseCase,
-            private val clearBin: ClearBinUseCase,
-            private val clearNote: ClearNoteUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(BinViewModelImpl::class) {
-                    BinViewModelImpl(list, getList, getCopyText, restoreNote, clearBin, clearNote)
-                }
+        fun getBin(
+            list: ListStorageImpl<NoteItem>,
+            getList: GetBinListUseCase,
+            getCopyText: GetCopyTextUseCase,
+            restoreNote: RestoreNoteUseCase,
+            clearBin: ClearBinUseCase,
+            clearNote: ClearNoteUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                BinViewModelImpl(list, getList, getCopyText, restoreNote, clearBin, clearNote)
             }
         }
     }
 
     object NoteScreen {
 
-        class TextNote(
-            private val init: NoteInit,
-            private val history: NoteHistory,
-            private val colorConverter: ColorConverter,
-            private val cacheNote: CacheTextNoteUseCase,
-            private val saveNote: SaveNoteUseCase,
-            private val convertNote: ConvertNoteUseCase,
-            private val updateNote: UpdateNoteUseCase,
-            private val deleteNote: DeleteNoteUseCase,
-            private val restoreNote: RestoreNoteUseCase,
-            private val clearNote: ClearNoteUseCase,
-            private val setNotification: SetNotificationUseCase,
-            private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationsDateListUseCase,
-            private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase,
-            private val getHistoryResult: GetHistoryResultUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(TextNoteViewModelImpl::class) {
-                    TextNoteViewModelImpl(
-                        colorConverter, init, history, cacheNote,
-                        saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
-                        setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames, getHistoryResult
-                    )
-                }
+        fun getTextNote(
+            init: NoteInit,
+            history: NoteHistory,
+            colorConverter: ColorConverter,
+            cacheNote: CacheTextNoteUseCase,
+            saveNote: SaveNoteUseCase,
+            convertNote: ConvertNoteUseCase,
+            updateNote: UpdateNoteUseCase,
+            deleteNote: DeleteNoteUseCase,
+            restoreNote: RestoreNoteUseCase,
+            clearNote: ClearNoteUseCase,
+            setNotification: SetNotificationUseCase,
+            deleteNotification: DeleteNotificationUseCase,
+            getNotificationDateList: GetNotificationsDateListUseCase,
+            getRankId: GetRankIdUseCase,
+            getRankDialogNames: GetRankDialogNamesUseCase,
+            getHistoryResult: GetHistoryResultUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                TextNoteViewModelImpl(
+                    colorConverter, init, history, cacheNote,
+                    saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+                    setNotification, deleteNotification, getNotificationDateList,
+                    getRankId, getRankDialogNames, getHistoryResult
+                )
             }
         }
 
-        class RollNote(
-            private val init: NoteInit,
-            private val history: NoteHistory,
-            private val colorConverter: ColorConverter,
-            private val list: ListStorageImpl<RollItem>,
-            private val cacheNote: CacheRollNoteUseCase,
-            private val saveNote: SaveNoteUseCase,
-            private val convertNote: ConvertNoteUseCase,
-            private val updateNote: UpdateNoteUseCase,
-            private val deleteNote: DeleteNoteUseCase,
-            private val restoreNote: RestoreNoteUseCase,
-            private val clearNote: ClearNoteUseCase,
-            private val updateVisible: UpdateRollVisibleUseCase,
-            private val updateCheck: UpdateRollCheckUseCase,
-            private val setNotification: SetNotificationUseCase,
-            private val deleteNotification: DeleteNotificationUseCase,
-            private val getNotificationDateList: GetNotificationsDateListUseCase,
-            private val getRankId: GetRankIdUseCase,
-            private val getRankDialogNames: GetRankDialogNamesUseCase,
-            private val getHistoryResult: GetHistoryResultUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(RollNoteViewModelImpl::class) {
-                    RollNoteViewModelImpl(
-                        init, history, colorConverter, list, cacheNote,
-                        saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
-                        updateVisible, updateCheck,
-                        setNotification, deleteNotification, getNotificationDateList,
-                        getRankId, getRankDialogNames, getHistoryResult
-                    )
-                }
-            }
-        }
-    }
-
-    class Alarm(
-        private val noteId: Long,
-        private val preferencesRepo: PreferencesRepo,
-        private val getNote: GetNoteUseCase,
-        private val getMelodyList: GetMelodyListUseCase,
-        private val setNotification: SetNotificationUseCase,
-        private val deleteNotification: DeleteNotificationUseCase,
-        private val shiftDateIfExist: ShiftDateIfExistUseCase
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(AlarmViewModelImpl::class) {
-                AlarmViewModelImpl(
-                    noteId, preferencesRepo, getNote, getMelodyList,
-                    setNotification, deleteNotification, shiftDateIfExist
+        fun getRollNote(
+            init: NoteInit,
+            history: NoteHistory,
+            colorConverter: ColorConverter,
+            list: ListStorageImpl<RollItem>,
+            cacheNote: CacheRollNoteUseCase,
+            saveNote: SaveNoteUseCase,
+            convertNote: ConvertNoteUseCase,
+            updateNote: UpdateNoteUseCase,
+            deleteNote: DeleteNoteUseCase,
+            restoreNote: RestoreNoteUseCase,
+            clearNote: ClearNoteUseCase,
+            updateVisible: UpdateRollVisibleUseCase,
+            updateCheck: UpdateRollCheckUseCase,
+            setNotification: SetNotificationUseCase,
+            deleteNotification: DeleteNotificationUseCase,
+            getNotificationDateList: GetNotificationsDateListUseCase,
+            getRankId: GetRankIdUseCase,
+            getRankDialogNames: GetRankDialogNamesUseCase,
+            getHistoryResult: GetHistoryResultUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                RollNoteViewModelImpl(
+                    init, history, colorConverter, list, cacheNote,
+                    saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+                    updateVisible, updateCheck,
+                    setNotification, deleteNotification, getNotificationDateList,
+                    getRankId, getRankDialogNames, getHistoryResult
                 )
             }
         }
     }
 
-    class Notification(
-        private val list: ListStorageImpl<NotificationItem>,
-        private val getList: GetNotificationListUseCase,
-        private val getNote: GetNoteUseCase,
-        private val setNotification: SetNotificationUseCase,
-        private val deleteNotification: DeleteNotificationUseCase
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create(NotificationsViewModelImpl::class) {
-                NotificationsViewModelImpl(
-                    list, getList, getNote, setNotification, deleteNotification
-                )
-            }
+    fun getAlarm(
+        noteId: Long,
+        preferencesRepo: PreferencesRepo,
+        getNote: GetNoteUseCase,
+        getMelodyList: GetMelodyListUseCase,
+        setNotification: SetNotificationUseCase,
+        deleteNotification: DeleteNotificationUseCase,
+        shiftDateIfExist: ShiftDateIfExistUseCase
+    ): ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            AlarmViewModelImpl(
+                noteId, preferencesRepo, getNote, getMelodyList,
+                setNotification, deleteNotification, shiftDateIfExist
+            )
+        }
+    }
+
+    fun getNotification(
+        list: ListStorageImpl<NotificationItem>,
+        getList: GetNotificationListUseCase,
+        getNote: GetNoteUseCase,
+        setNotification: SetNotificationUseCase,
+        deleteNotification: DeleteNotificationUseCase
+    ): ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            NotificationsViewModelImpl(list, getList, getNote, setNotification, deleteNotification)
         }
     }
 
     object Preference {
 
-        class Main(
-            private val preferencesRepo: PreferencesRepo,
-            private val getSummary: GetSummaryUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(MenuPreferenceViewModelImpl::class) {
-                    MenuPreferenceViewModelImpl(preferencesRepo, getSummary)
-                }
+        fun getMain(
+            preferencesRepo: PreferencesRepo,
+            getSummary: GetSummaryUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                MenuPreferenceViewModelImpl(preferencesRepo, getSummary)
             }
         }
 
-        class Backup(
-            private val getBackupFileList: GetBackupFileListUseCase,
-            private val startBackupExport: StartBackupExportUseCase,
-            private val startBackupImport: StartBackupImportUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(BackupPreferenceViewModelImpl::class) {
-                    BackupPreferenceViewModelImpl(
-                        getBackupFileList, startBackupExport, startBackupImport
-                    )
-                }
+        fun getBackup(
+            getBackupFileList: GetBackupFileListUseCase,
+            startBackupExport: StartBackupExportUseCase,
+            startBackupImport: StartBackupImportUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                BackupPreferenceViewModelImpl(
+                    getBackupFileList, startBackupExport, startBackupImport
+                )
             }
         }
 
-        class Note(
-            private val preferencesRepo: PreferencesRepo,
-            private val getSortSummary: GetSummaryUseCase,
-            private val getDefaultColorSummary: GetSummaryUseCase,
-            private val getSavePeriodSummary: GetSummaryUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(NotesPreferenceViewModelImpl::class) {
-                    NotesPreferenceViewModelImpl(
-                        preferencesRepo,
-                        getSortSummary, getDefaultColorSummary, getSavePeriodSummary
-                    )
-                }
+        fun getNote(
+            preferencesRepo: PreferencesRepo,
+            getSortSummary: GetSummaryUseCase,
+            getDefaultColorSummary: GetSummaryUseCase,
+            getSavePeriodSummary: GetSummaryUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                NotesPreferenceViewModelImpl(
+                    preferencesRepo,
+                    getSortSummary, getDefaultColorSummary, getSavePeriodSummary
+                )
             }
         }
 
-        class Alarm(
-            private val preferencesRepo: PreferencesRepo,
-            private val getSignalSummary: GetSignalSummaryUseCase,
-            private val getRepeatSummary: GetSummaryUseCase,
-            private val getVolumeSummary: GetSummaryUseCase,
-            private val getMelodyList: GetMelodyListUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(AlarmPreferenceViewModelImpl::class) {
-                    AlarmPreferenceViewModelImpl(
-                        preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary,
-                        getMelodyList
-                    )
-                }
+        fun getAlarm(
+            preferencesRepo: PreferencesRepo,
+            getSignalSummary: GetSignalSummaryUseCase,
+            getRepeatSummary: GetSummaryUseCase,
+            getVolumeSummary: GetSummaryUseCase,
+            getMelodyList: GetMelodyListUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                AlarmPreferenceViewModelImpl(
+                    preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary,
+                    getMelodyList
+                )
             }
         }
     }
 
     object Develop {
 
-        class Main(
-            private val getRandomNoteId: GetRandomNoteIdUseCase,
-            private val resetPreferences: ResetPreferencesUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(DevelopViewModelImpl::class) {
-                    DevelopViewModelImpl(getRandomNoteId, resetPreferences)
-                }
+        fun getMain(
+            getRandomNoteId: GetRandomNoteIdUseCase,
+            resetPreferences: ResetPreferencesUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                DevelopViewModelImpl(getRandomNoteId, resetPreferences)
             }
         }
 
-        class Print(
-            private val type: PrintType,
-            private val list: ListStorageImpl<PrintItem>,
-            private val getList: GetPrintListUseCase
-        ) : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(PrintDevelopViewModelImpl::class) {
-                    PrintDevelopViewModelImpl(type, list, getList)
-                }
+        fun getPrint(
+            type: PrintType,
+            list: ListStorageImpl<PrintItem>,
+            getList: GetPrintListUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                PrintDevelopViewModelImpl(type, list, getList)
             }
         }
 
-        class Service : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create(ServiceDevelopViewModelImpl::class) {
-                    ServiceDevelopViewModelImpl()
-                }
+        fun getService(): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                ServiceDevelopViewModelImpl()
             }
         }
     }
