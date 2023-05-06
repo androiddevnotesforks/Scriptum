@@ -210,6 +210,7 @@ class RollNoteViewModelImpl(
         item.isVisible = !item.isVisible
 
         noteItem.postValue(item)
+        // TODO сделать кастомной update (мы ведь точно знаем какие скрыть, а какие показать)
         postNotifyItemList(item)
 
         /**
