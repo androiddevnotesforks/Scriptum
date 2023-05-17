@@ -64,8 +64,17 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
+
+        releaseBinding()
         _binding = null
+
+        releaseSystem()
         _system = null
+
         unregisterReceivers()
     }
+
+    open fun releaseBinding() = Unit
+
+    open fun releaseSystem() = Unit
 }

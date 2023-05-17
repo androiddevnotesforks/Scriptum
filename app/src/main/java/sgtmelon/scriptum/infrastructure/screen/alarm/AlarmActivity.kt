@@ -181,12 +181,15 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun releaseBinding() {
+        super.releaseBinding()
+        binding?.rippleContainer?.stopAnimation()
+    }
 
+    override fun releaseSystem() {
+        super.releaseSystem()
         system?.vibrator?.cancel()
         system?.phoneAwake?.release()
-        binding?.rippleContainer?.stopAnimation()
     }
 
     //endregion
