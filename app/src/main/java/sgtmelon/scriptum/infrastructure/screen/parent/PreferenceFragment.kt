@@ -19,7 +19,8 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  * Parent class for preference fragments.
  */
 abstract class PreferenceFragment : PreferenceFragmentCompat(),
-    DialogOwner {
+    DialogOwner,
+    ReceiverRegistrar {
 
     @get:XmlRes
     abstract val xmlId: Int
@@ -49,6 +50,8 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
         bundleValues.forEach { it.get(bundle = savedInstanceState ?: arguments) }
         open.restore(savedInstanceState)
 
+        registerReceivers()
+
         setupInsets()
         setupRecycler()
 
@@ -57,13 +60,18 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
         setupObservers()
     }
 
-    abstract fun inject(component: ScriptumComponent)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        unregisterReceivers()
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         bundleValues.forEach { it.save(outState) }
         open.save(outState)
     }
+
+    abstract fun inject(component: ScriptumComponent)
 
     /** Setup spaces from android bars and other staff for current screen. */
     @CallSuper

@@ -22,7 +22,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
  * Parent class for fragments with [ViewDataBinding].
  */
 abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
-    DialogOwner {
+    DialogOwner,
+    ReceiverRegistrar {
 
     @get:LayoutRes
     abstract val layoutId: Int
@@ -117,9 +118,5 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
     open fun setupDialogs() = Unit
 
     open fun setupObservers() = Unit
-
-    open fun registerReceivers() = Unit
-
-    open fun unregisterReceivers() = Unit
 
 }

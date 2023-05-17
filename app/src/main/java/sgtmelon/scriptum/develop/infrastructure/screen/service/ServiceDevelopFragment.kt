@@ -34,24 +34,12 @@ class ServiceDevelopFragment : PreferenceFragment(),
 
     //region System
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        context?.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.DEVELOP))
-    }
-
     override fun inject(component: ScriptumComponent) {
         component.getServiceBuilder()
             .set(owner = this)
             .build()
             .inject(fragment = this)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        context?.unregisterReceiver(receiver)
-    }
-
-    //endregion
 
     override fun setup() {
         binding.apply {
@@ -89,6 +77,18 @@ class ServiceDevelopFragment : PreferenceFragment(),
             ServicePingState.NO_RESPONSE -> onServicePong(isSuccess = false)
         }
     }
+
+    override fun registerReceivers() {
+        super.registerReceivers()
+        context?.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.DEVELOP))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        context?.unregisterReceiver(receiver)
+    }
+
+    //endregion
 
     override fun onDotAnimationUpdate(text: String) {
         binding.serviceRefreshButton?.summary = text

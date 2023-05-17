@@ -14,7 +14,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
-    DialogOwner {
+    DialogOwner,
+    ReceiverRegistrar {
 
     @get:LayoutRes
     abstract val layoutId: Int
@@ -57,10 +58,6 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
     }
 
     abstract fun inject(component: ScriptumComponent)
-
-    open fun registerReceivers() = Unit
-
-    open fun unregisterReceivers() = Unit
 
     override fun onDestroy() {
         super.onDestroy()
