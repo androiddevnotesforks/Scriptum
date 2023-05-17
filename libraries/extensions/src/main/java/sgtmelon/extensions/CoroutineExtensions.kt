@@ -28,15 +28,15 @@ suspend inline fun <T> runMain(crossinline func: () -> T): T {
     return withContext(Dispatchers.Main) { func() }
 }
 
-inline fun CoroutineScope.launchBack(crossinline func: suspend () -> Unit): Job {
-    return launch { runBack(func) }
+inline fun CoroutineScope.launchBack(crossinline func: suspend CoroutineScope.() -> Unit): Job {
+    return launch(Dispatchers.IO) { func() }
 }
 
-inline fun <T> flowOnBack(crossinline func: suspend FlowCollector<T>.() -> Unit): Flow<T> {
+inline fun <T> flowBack(crossinline func: suspend FlowCollector<T>.() -> Unit): Flow<T> {
     return flow { func() }.flowOn(Dispatchers.IO)
 }
 
-/** Short collect realization. */
+/** Short collect realization for UI classes. */
 inline fun <T> Flow<T>.collect(owner: LifecycleOwner, crossinline onCollect: (T) -> Unit) {
     owner.lifecycleScope.launch { collect { onCollect(it) } }
 }

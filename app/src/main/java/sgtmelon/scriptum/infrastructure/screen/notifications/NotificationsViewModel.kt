@@ -11,6 +11,8 @@ interface NotificationsViewModel : ListViewModel<NotificationItem> {
 
     val showSnackbar: LiveData<Boolean>
 
+    fun updateData()
+
     fun removeItem(position: Int): Flow<Pair<NotificationItem, Int>>
 
     fun undoRemove(): Flow<UndoState>

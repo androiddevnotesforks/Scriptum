@@ -4,8 +4,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ListModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.NoteModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
@@ -15,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
  * Component for [RollNoteFragmentImpl].
  */
 @ActivityScope
-@Subcomponent(modules = [ViewModelModule::class, NoteModule::class])
+@Subcomponent(modules = [ViewModelModule::class, ListModule::class, NoteModule::class])
 interface RollNoteComponent {
 
     fun inject(fragment: RollNoteFragmentImpl)

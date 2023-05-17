@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
 import sgtmelon.scriptum.parent.ui.model.key.Scroll
@@ -91,6 +92,15 @@ class RankToolbarTest : ParentUiTest() {
         RecyclerItemPart.PREVENT_SCROLL = true
         toolbar { enter(name).addToEnd() }
         openRenameDialog(name, last)
+    }
+
+    @Test fun addManyAtOnce() = launchRank(isEmpty = true) {
+        val list = (1L..5L).map { RankItem(id = it, name = it.toString()) }
+
+        list.forEachIndexed { i, item ->
+            toolbar { enter(item.name).addToEnd() }
+            assertTrue(count == i + 1)
+        }
     }
 
 

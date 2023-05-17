@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.dagger.component
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 

@@ -11,9 +11,9 @@ import sgtmelon.scriptum.parent.ui.tests.launchNotes
 import sgtmelon.scriptum.parent.ui.tests.launchNotifications
 import sgtmelon.scriptum.parent.ui.tests.launchNotificationsItem
 import sgtmelon.scriptum.parent.ui.tests.launchNotificationsList
-import sgtmelon.scriptum.ui.cases.NoteOpenCase
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
+import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
 
 /**
  * Test for [NotificationsActivity].

@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollBinding
-import sgtmelon.scriptum.infrastructure.adapter.diff.RollDiff
+import sgtmelon.scriptum.infrastructure.adapter.diff.manual.RollDiff
 import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
-import sgtmelon.scriptum.infrastructure.adapter.parent.ParentDiffAdapter
+import sgtmelon.scriptum.infrastructure.adapter.parent.ParentManualAdapter
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.ItemDragListener
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
@@ -22,7 +22,7 @@ class RollAdapter(
     private val writeCallback: RollHolder.WriteCallback,
     private val dragListener: ItemDragListener,
     private val onEnterNext: () -> Unit
-) : ParentDiffAdapter<RollItem, RollHolder>(RollDiff()) {
+) : ParentManualAdapter<RollItem, RollHolder>(RollDiff()) {
 
     init {
         setHasStableIds(true)

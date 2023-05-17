@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
@@ -87,6 +88,11 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     //region Setup functions
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewModel.fetchData()
+    }
+
     override fun setupInsets() {
         super.setupInsets()
 
@@ -142,7 +148,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     }
 
     override fun setIconEnabled(isEnabled: Boolean) {
-        getIdling().change(!isEnabled, IdlingTag.Anim.ICON)
+        getIdling().change(!isEnabled, IdlingTag.Common.ICON_ANIM)
         open.isBlocked = !isEnabled
     }
 

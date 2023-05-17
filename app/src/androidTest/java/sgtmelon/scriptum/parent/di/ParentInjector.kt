@@ -21,7 +21,8 @@ import sgtmelon.scriptum.infrastructure.preferences.Preferences
  */
 object ParentInjector {
 
-    fun provideInstrumentation(): Instrumentation = InstrumentationRegistry.getInstrumentation()
+    private fun provideInstrumentation(): Instrumentation =
+        InstrumentationRegistry.getInstrumentation()
 
     fun provideContext(): Context = provideInstrumentation().targetContext
 

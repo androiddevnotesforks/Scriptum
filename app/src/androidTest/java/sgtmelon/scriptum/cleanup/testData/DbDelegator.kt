@@ -24,7 +24,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateComplete
 import sgtmelon.scriptum.parent.RoomWorker
 import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
-import sgtmelon.scriptum.ui.auto.NEXT_HOUR
+import sgtmelon.scriptum.parent.utils.NEXT_HOUR
 import sgtmelon.scriptum.ui.auto.bin.BinNoteDialogRollTest
 import sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogTextTest
 import sgtmelon.test.common.getRandomFutureTime
@@ -94,6 +94,10 @@ class DbDelegator(
 
     val rankEntity: RankEntity get() = RankEntity(name = nextString())
 
+    fun createNote(type: NoteType) = when(type) {
+        NoteType.TEXT -> createText()
+        NoteType.ROLL -> createRoll()
+    }
 
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
 

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.main.bin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowOnBack
+import sgtmelon.extensions.flowBack
 import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
@@ -41,8 +41,8 @@ class BinViewModelImpl(
         viewModelScope.launchBack { restoreNote(item) }
     }
 
-    override fun getNoteText(p: Int): Flow<String> = flowOnBack {
-        val item = list.localData.getOrNull(p) ?: return@flowOnBack
+    override fun getNoteText(p: Int): Flow<String> = flowBack {
+        val item = list.localData.getOrNull(p) ?: return@flowBack
         emit(getCopyText(item))
     }
 

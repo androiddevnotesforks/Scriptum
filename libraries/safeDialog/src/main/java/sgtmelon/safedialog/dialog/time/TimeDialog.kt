@@ -68,7 +68,7 @@ class TimeDialog : BlankDateTimeDialog(), TimeTestCallback {
             requireContext(), this,
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
-            requireContext().is24HourFormat(),
+            requireContext().is24HourFormat,
             touchChangeListener
         ).applyAnimation()
     }
@@ -113,7 +113,7 @@ class TimeDialog : BlankDateTimeDialog(), TimeTestCallback {
         private const val DEF_POSITION = -1
 
         fun getPositiveEnabled(calendar: Calendar, dateList: List<String>): Boolean {
-            return calendar.isAfterNow() && !dateList.contains(calendar.toText())
+            return calendar.isAfterNow && !dateList.contains(calendar.toText())
         }
     }
 }

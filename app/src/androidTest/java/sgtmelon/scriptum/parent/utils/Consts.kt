@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.auto
+package sgtmelon.scriptum.parent.utils
 
 const val NEXT_HOUR = 60
 const val NEXT_DAY = NEXT_HOUR * 24

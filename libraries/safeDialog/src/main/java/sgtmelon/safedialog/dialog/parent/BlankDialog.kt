@@ -21,17 +21,17 @@ abstract class BlankDialog : BlankEmptyDialog() {
 
     var positiveListener: DialogInterface.OnClickListener? = null
 
-    inline fun onPositiveClick(crossinline func: () -> Unit) {
-        positiveListener = DialogInterface.OnClickListener { _, _ -> func() }
+    inline fun onPositiveClick(crossinline func: (dialog: DialogInterface) -> Unit) {
+        positiveListener = DialogInterface.OnClickListener { dialog, _ -> func(dialog) }
     }
 
-    protected val onPositiveClick = DialogInterface.OnClickListener { dialogInterface, i ->
-        positiveListener?.onClick(dialogInterface, i)
-        dialogInterface.cancel()
+    protected val onPositiveClick = DialogInterface.OnClickListener { dialog, i ->
+        positiveListener?.onClick(dialog, i)
+        dialog.cancel()
     }
 
-    protected val onNegativeClick = DialogInterface.OnClickListener { dialogInterface, _ ->
-        dialogInterface.cancel()
+    protected val onNegativeClick = DialogInterface.OnClickListener { dialog, _ ->
+        dialog.cancel()
     }
 
     override fun onRestoreContentState(savedState: Bundle) {

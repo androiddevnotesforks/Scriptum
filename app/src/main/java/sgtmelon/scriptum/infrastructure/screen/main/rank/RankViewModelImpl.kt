@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlin.math.max
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowOnBack
+import sgtmelon.extensions.flowBack
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
@@ -59,12 +59,12 @@ class RankViewModelImpl(
         return name.isNotEmpty() && !uniqueNameList.contains(name.uppercase())
     }
 
-    override fun addItem(enter: String, toBottom: Boolean): Flow<AddState> = flowOnBack {
+    override fun addItem(enter: String, toBottom: Boolean): Flow<AddState> = flowBack {
         val name = enter.removeExtraSpace()
 
         if (!isValidName(name)) {
             emit(AddState.Deny)
-            return@flowOnBack
+            return@flowBack
         }
 
         emit(AddState.Prepare)
@@ -72,13 +72,13 @@ class RankViewModelImpl(
         val item = insertRank(name) ?: run {
             recordException("isValidName=${isValidName(name)} and can't insert rank by name")
             emit(AddState.Complete)
-            return@flowOnBack
+            return@flowBack
         }
 
         val noteIdList = list.change {
             val p = if (toBottom) it.size else 0
             it.add(p, item)
-            list.update = UpdateListState.chooseInsert(it.size, p)
+            list.update = UpdateListState.Insert(p)
 
             /** Inside will be updated data about positions. */
             return@change correctRankPositions(it)
@@ -93,16 +93,17 @@ class RankViewModelImpl(
     override fun moveItem(from: Int, to: Int) = list.move(from, to)
 
     override fun moveItemResult() {
-        val noteIdList = list.change { correctRankPositions(it) }
+        /** Need just set for skip "diff notify" animation and crashes related with that. */
+        val noteIdList = list.change(UpdateListState.Set) { correctRankPositions(it) }
 
         viewModelScope.launchBack {
             updateRankPositions(list.localData, noteIdList)
         }
     }
 
-    override fun changeVisibility(position: Int): Flow<Unit> = flowOnBack {
+    override fun changeVisibility(position: Int): Flow<Unit> = flowBack {
         val item = list.change(UpdateListState.Set) {
-            val item = it.getOrNull(position) ?: return@flowOnBack
+            val item = it.getOrNull(position) ?: return@flowBack
             item.isVisible = !item.isVisible
             return@change item
         }
@@ -112,14 +113,14 @@ class RankViewModelImpl(
         emit(Unit)
     }
 
-    override fun getRenameData(position: Int): Flow<Pair<String, List<String>>> = flowOnBack {
-        val item = list.localData.getOrNull(position) ?: return@flowOnBack
+    override fun getRenameData(position: Int): Flow<Pair<String, List<String>>> = flowBack {
+        val item = list.localData.getOrNull(position) ?: return@flowBack
         emit(value = item.name to uniqueNameList)
     }
 
-    override fun renameItem(position: Int, name: String): Flow<Unit> = flowOnBack {
+    override fun renameItem(position: Int, name: String): Flow<Unit> = flowBack {
         list.change {
-            val item = it.getOrNull(position) ?: return@flowOnBack
+            val item = it.getOrNull(position) ?: return@flowBack
             item.name = name
             updateRank(item)
         }
@@ -127,9 +128,9 @@ class RankViewModelImpl(
         emit(Unit)
     }
 
-    override fun removeItem(position: Int): Flow<Unit> = flowOnBack {
+    override fun removeItem(position: Int): Flow<Unit> = flowBack {
         val (item, noteIdList) = list.change(UpdateListState.Remove(position)) {
-            val item = it.removeAtOrNull(position) ?: return@flowOnBack
+            val item = it.removeAtOrNull(position) ?: return@flowBack
 
             /** Inside will be updated data about positions. */
             return@change item to correctRankPositions(it)
@@ -145,10 +146,10 @@ class RankViewModelImpl(
         emit(Unit)
     }
 
-    override fun undoRemove(): Flow<Unit> = flowOnBack {
-        if (undoList.isEmpty()) return@flowOnBack
+    override fun undoRemove(): Flow<Unit> = flowBack {
+        if (undoList.isEmpty()) return@flowBack
 
-        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flowOnBack
+        val pair = undoList.removeAtOrNull(index = undoList.lastIndex) ?: return@flowBack
         val item = pair.second
 
         /** Need set list value on mainThread for prevent postValue overriding. */
@@ -159,7 +160,7 @@ class RankViewModelImpl(
             val position = if (isCorrect) pair.first else it.size
             it.add(position, item)
 
-            list.update = UpdateListState.chooseInsert(it.size, position)
+            list.update = UpdateListState.Insert(position)
         }
 
         /** Show/hide snackbar for next item. */

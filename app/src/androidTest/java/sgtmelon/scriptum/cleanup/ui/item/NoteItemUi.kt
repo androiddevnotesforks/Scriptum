@@ -20,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
+import sgtmelon.scriptum.parent.ui.action.longClick
 import sgtmelon.scriptum.parent.ui.basic.withCardBackground
 import sgtmelon.scriptum.parent.ui.basic.withColorIndicator
 import sgtmelon.scriptum.parent.ui.feature.OpenNote
@@ -28,7 +29,6 @@ import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.includeParent
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withText
@@ -57,8 +57,8 @@ class NoteItemUi(
 
     override fun dialogClick(item: NoteItem) {
         when (item) {
-            is NoteItem.Text -> Text().clickContainer.longClick()
-            is NoteItem.Roll -> Roll().clickContainer.longClick()
+            is NoteItem.Text -> Text().clickContainer.longClick(commandAutomator)
+            is NoteItem.Roll -> Roll().clickContainer.longClick(commandAutomator)
         }
     }
 

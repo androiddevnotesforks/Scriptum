@@ -30,7 +30,7 @@ class NotesNoteDialogRollTest : NotesNoteDialogCase(NoteType.ROLL) {
 
     @Test override fun unbind() = super.unbind()
 
-    @Test override fun copy() = super.copy()
+    @Test override fun todo_copy() = super.todo_copy()
 
     @Test override fun delete() = super.delete()
 

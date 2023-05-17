@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowOnBack
+import sgtmelon.extensions.flowBack
 import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
@@ -80,7 +80,7 @@ class AlarmPreferenceViewModelImpl(
      * Information about melodies naming and chosen current position.
      */
     override val selectMelodyData: Flow<Pair<Array<String>, Int>>
-        get() = flowOnBack {
+        get() = flowBack {
             val list = getMelodyList()
             val titleArray = list.map { it.title }.toTypedArray()
             val check = preferencesRepo.getMelodyCheck(list)
@@ -93,14 +93,14 @@ class AlarmPreferenceViewModelImpl(
             }
         }
 
-    override fun getMelody(p: Int): Flow<MelodyItem> = flowOnBack {
+    override fun getMelody(p: Int): Flow<MelodyItem> = flowBack {
         getMelodyList().getOrNull(p)?.let { emit(it) }
     }
 
     /**
      * Return: success set melody or chosen another one by app.
      */
-    override fun updateMelody(title: String): Flow<UpdateMelodyState> = flowOnBack {
+    override fun updateMelody(title: String): Flow<UpdateMelodyState> = flowBack {
         val resultTitle = preferencesRepo.setMelodyUri(getMelodyList(), title)
         if (resultTitle != null) {
             melodyGroupEnabled.postValue(preferencesRepo.signalState.isMelody)

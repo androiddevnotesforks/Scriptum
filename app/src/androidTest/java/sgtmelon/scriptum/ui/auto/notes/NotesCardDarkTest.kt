@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
-import sgtmelon.scriptum.ui.cases.NoteCardTestCase
+import sgtmelon.scriptum.ui.cases.note.NoteCardTestCase
 
 /**
  * Test for [NoteItemUi] inside [NotesScreen].
@@ -43,11 +43,17 @@ class NotesCardDarkTest : NoteCardTestCase(ThemeDisplayed.DARK, MainPage.NOTES) 
     @Test override fun notificationRoll() = super.notificationRoll()
 
 
-    @Test override fun rollInvisible() = super.rollInvisible()
+    @Test override fun rollNoneDoneVisible() = super.rollNoneDoneVisible()
 
-    @Test override fun rollInvisibleAllDone() = super.rollInvisibleAllDone()
+    @Test override fun rollNoneDoneInvisible() = super.rollNoneDoneInvisible()
 
-    @Test override fun rollVisible() = super.rollVisible()
+    @Test override fun rollPartDoneVisible() = super.rollPartDoneVisible()
+
+    @Test override fun rollPartDoneInvisible() = super.rollPartDoneInvisible()
+
+    @Test override fun rollAllDoneVisible() = super.rollAllDoneVisible()
+
+    @Test override fun rollAllDoneInvisible() = super.rollAllDoneInvisible()
 
 
     @Test override fun progressIndicator1() = super.progressIndicator1()

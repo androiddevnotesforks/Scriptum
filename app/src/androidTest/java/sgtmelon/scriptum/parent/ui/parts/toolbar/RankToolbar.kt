@@ -4,13 +4,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.parent.ui.action.longClick
 import sgtmelon.scriptum.parent.ui.feature.KeyboardIme
 import sgtmelon.scriptum.parent.ui.screen.main.RankScreen
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
-import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
@@ -58,7 +58,7 @@ class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer)
 
     fun addToEnd() = apply { add { addButton.click() } }
 
-    fun addToStart() = apply { add { addButton.longClick() } }
+    fun addToStart() = apply { add { addButton.longClick(commandAutomator) } }
 
     /**
      * Keyboard will be closed by screen code.

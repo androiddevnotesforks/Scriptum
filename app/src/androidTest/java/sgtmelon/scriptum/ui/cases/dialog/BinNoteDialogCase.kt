@@ -46,7 +46,7 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
         }
     }
 
-    open fun copy() {
+    open fun todo_copy() {
         TODO()
 
         launchBinItem(insert()) {

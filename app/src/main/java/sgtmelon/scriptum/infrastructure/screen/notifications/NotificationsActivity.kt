@@ -106,6 +106,8 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     override fun onResume() {
         super.onResume()
 
+        viewModel.updateData()
+
         /** Need clear [open], because may be case with [openNoteScreen]. */
         open.clear()
 

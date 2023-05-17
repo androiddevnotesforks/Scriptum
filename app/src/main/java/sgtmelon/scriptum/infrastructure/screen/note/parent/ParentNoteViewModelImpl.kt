@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import sgtmelon.extensions.flowOnBack
+import sgtmelon.extensions.flowBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.postValueWithChange
@@ -80,9 +80,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     )
 
     override val notificationsDateList: Flow<List<String>>
-        get() = flowOnBack { emit(getNotificationsDateList()) }
+        get() = flowBack { emit(getNotificationsDateList()) }
 
-    init {
+    override fun fetchData() {
         viewModelScope.launch {
             runBack { rankDialogItems.postValue(getRankDialogNames()) }
 
@@ -99,8 +99,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     //region Menu clicks
 
-    override fun restore(): Flow<NoteItem> = flowOnBack {
-        val item = noteItem.value ?: return@flowOnBack
+    override fun restore(): Flow<NoteItem> = flowBack {
+        val item = noteItem.value ?: return@flowBack
         restoreNote(item)
         emit(item)
     }
@@ -117,8 +117,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         }
     }
 
-    override fun deleteForever(): Flow<NoteItem> = flowOnBack {
-        val item = noteItem.value ?: return@flowOnBack
+    override fun deleteForever(): Flow<NoteItem> = flowBack {
+        val item = noteItem.value ?: return@flowBack
         clearNote(item)
         emit(item)
     }
@@ -128,8 +128,8 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     override fun redoAction(): Flow<HistoryResult> = onUndoRedoAction(isUndo = false)
 
-    private fun onUndoRedoAction(isUndo: Boolean): Flow<HistoryResult> = flowOnBack {
-        if (isReadMode) return@flowOnBack
+    private fun onUndoRedoAction(isUndo: Boolean): Flow<HistoryResult> = flowBack {
+        if (isReadMode) return@flowBack
 
         val item = if (isUndo) history.undo() else history.redo()
         if (item != null) {
@@ -187,12 +187,12 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
     }
 
 
-    override fun setNotification(calendar: Calendar): Flow<N> = flowOnBack {
-        if (isEditMode) return@flowOnBack
+    override fun setNotification(calendar: Calendar): Flow<N> = flowBack {
+        if (isEditMode) return@flowBack
 
         val item = noteItem.value
 
-        if (item == null || calendar.isBeforeNow()) return@flowOnBack
+        if (item == null || calendar.isBeforeNow) return@flowBack
 
         setNotification(item, calendar)
         cacheNote(item)
@@ -201,10 +201,10 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         emit(item)
     }
 
-    override fun removeNotification(): Flow<N> = flowOnBack {
-        if (isEditMode) return@flowOnBack
+    override fun removeNotification(): Flow<N> = flowBack {
+        if (isEditMode) return@flowBack
 
-        val item = noteItem.value ?: return@flowOnBack
+        val item = noteItem.value ?: return@flowBack
 
         deleteNotification(item)
         item.clearAlarm()
@@ -227,18 +227,18 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         }
     }
 
-    override fun convert(): Flow<NoteItem> = flowOnBack {
-        if (isEditMode) return@flowOnBack
+    override fun convert(): Flow<NoteItem> = flowBack {
+        if (isEditMode) return@flowBack
 
-        val item = noteItem.value ?: return@flowOnBack
+        val item = noteItem.value ?: return@flowBack
         val newNote = convertNote(item)
         emit(newNote)
     }
 
-    override fun delete(): Flow<N> = flowOnBack {
-        if (isEditMode) return@flowOnBack
+    override fun delete(): Flow<N> = flowBack {
+        if (isEditMode) return@flowBack
 
-        val item = noteItem.value ?: return@flowOnBack
+        val item = noteItem.value ?: return@flowBack
         deleteNote(item)
         emit(item)
     }

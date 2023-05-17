@@ -6,16 +6,6 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.service.EternalService
 import timber.log.Timber
 
-/**
- * Guideline for maintain project:
- *
- * ---------------------------------------------
- * Need to be careful with lazy properties!
- *
- * 1. Inside fragment setup view's ONLY manually. Inside activity setup view's with lazy func.
- *    Need setup manually because after rotation lazy function will return null.
- *    (TODO refactor with binding)
- */
 class ScriptumApplication : Application() {
 
     override fun onCreate() {
@@ -30,6 +20,7 @@ class ScriptumApplication : Application() {
     companion object {
         /** Variable for detect test running. */
         var isTesting = false
+        /** Skip animations for make some tests faster, and less laggy. */
         var skipAnimation = false
 
         lateinit var component: ScriptumComponent

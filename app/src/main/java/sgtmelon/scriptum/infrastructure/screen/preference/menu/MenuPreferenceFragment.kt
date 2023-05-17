@@ -81,6 +81,12 @@ class MenuPreferenceFragment : PreferenceFragment() {
         super.setupDialogs()
 
         themeDialog.onPositiveClick {
+            /**
+             * Dismiss dialog before apply theme, because otherwise after activity recreation it
+             * will be shown.
+             */
+            it.dismiss()
+
             viewModel.updateTheme(themeDialog.check)
             (activity as? ThemeChangeCallback)?.checkThemeChange()
         }

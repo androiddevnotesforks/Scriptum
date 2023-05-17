@@ -210,6 +210,7 @@ class RollNoteViewModelImpl(
         item.isVisible = !item.isVisible
 
         noteItem.postValue(item)
+        // TODO сделать кастомной update (мы ведь точно знаем какие скрыть, а какие показать)
         postNotifyItemList(item)
 
         /**
@@ -264,7 +265,7 @@ class RollNoteViewModelImpl(
             val hidePosition = if (toBottom) it.size else 0
             it.add(hidePosition, rollItem)
 
-            list.update = UpdateListState.chooseInsert(it.size, hidePosition)
+            list.update = UpdateListState.Insert(hidePosition)
         }
 
         history.add(HistoryAction.Roll.List.Add(position, rollItem))

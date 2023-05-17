@@ -3,7 +3,8 @@ package sgtmelon.scriptum.cleanup.dagger.component.main
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.cleanup.dagger.module.ViewModelModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ListModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
@@ -11,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
  * Component for [RankFragment].
  */
 @ActivityScope
-@Subcomponent(modules = [ViewModelModule::class])
+@Subcomponent(modules = [ViewModelModule::class, ListModule::class])
 interface RankComponent {
 
     fun inject(fragment: RankFragment)

@@ -19,6 +19,7 @@ import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.parent.di.ParentInjector
 import sgtmelon.scriptum.parent.ui.screen.splash.SplashScreen
 import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
+import sgtmelon.test.cappuccino.automator.CommandAutomator
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.idling.getWaitIdling
 
@@ -33,6 +34,8 @@ abstract class ParentUiTest : ParentTest() {
     val preferencesRepo = ParentInjector.providePreferencesRepo()
     val db = ParentInjector.provideDbDelegator()
     val uiDevice = ParentInjector.provideUiDevice()
+
+    protected val commandAutomator = CommandAutomator(uiDevice)
 
     //region SetUp functions
 
@@ -56,9 +59,8 @@ abstract class ParentUiTest : ParentTest() {
          */
         context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
 
-        /** Turn on wi-fi. */
-        uiDevice.executeShellCommand("svc wifi enable")
-        resetLongPressTime()
+        commandAutomator.turnOnWifi()
+        commandAutomator.increaseLongPress()
 
         /** Prepare preferences. */
         setupTheme(ThemeDisplayed.values().random())
@@ -74,26 +76,6 @@ abstract class ParentUiTest : ParentTest() {
 
         /** Prepare database. */
         db.clear()
-    }
-
-    /**
-     * Decrease long press time needed for fast access (when it's important) to long press
-     * feature.
-     */
-    protected inline fun smallLongPressTime(onBetween: () -> Unit) {
-        changeLongPressTime(timeMs = 100)
-        onBetween()
-        resetLongPressTime()
-    }
-
-    /**
-     * Increase long press timeout, for preventing fake espresso click performed like a
-     * long one.
-     */
-    protected fun resetLongPressTime() = changeLongPressTime(timeMs = 2000)
-
-    protected fun changeLongPressTime(timeMs: Long) {
-        uiDevice.executeShellCommand("settings put secure long_press_timeout $timeMs")
     }
 
     /**
@@ -133,7 +115,7 @@ abstract class ParentUiTest : ParentTest() {
         AlarmActivity.isFinishOnStop = true
 
         BindDelegatorImpl[context].clearRecent()
-        AlarmDelegatorImpl.instance?.clear()
+        AlarmDelegatorImpl[context, null].clear()
     }
 
     //endregion

@@ -12,6 +12,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
+import sgtmelon.scriptum.parent.ui.action.longClick
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
 import sgtmelon.scriptum.parent.ui.parts.UiSubpart
@@ -20,7 +21,6 @@ import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.isFocused
-import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
@@ -76,7 +76,7 @@ class RollEnterPanel<T : ContainerPart>(
                     add(size, RollItem(position = size, text = actualText))
                 }
             } else {
-                addButton.longClick()
+                addButton.longClick(commandAutomator)
 
                 callback.shadowItem.list.apply {
                     add(0, RollItem(position = 0, text = actualText))

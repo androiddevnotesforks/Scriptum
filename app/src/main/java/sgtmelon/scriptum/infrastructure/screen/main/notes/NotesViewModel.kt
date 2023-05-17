@@ -16,7 +16,7 @@ interface NotesViewModel : ListViewModel<NoteItem>,
 
     fun getNoteNotification(p: Int): Flow<Pair<Calendar, Boolean>>
 
-    fun getOccupiedDateList(): Flow<List<String>>
+    val notificationsDateList: Flow<List<String>>
 
     fun deleteNoteNotification(p: Int): Flow<NoteItem>
 

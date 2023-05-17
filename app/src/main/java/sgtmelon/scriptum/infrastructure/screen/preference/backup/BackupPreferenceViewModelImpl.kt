@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.extensions.flowOnBack
+import sgtmelon.extensions.flowBack
 import sgtmelon.extensions.launchBack
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
@@ -61,7 +61,7 @@ class BackupPreferenceViewModelImpl(
         exportEnabled.postValue(true)
     }
 
-    override fun startExport(): Flow<ExportState> = flowOnBack {
+    override fun startExport(): Flow<ExportState> = flowBack {
         emit(ExportState.ShowLoading)
         val result = startBackupExport()
         emit(ExportState.HideLoading)
@@ -79,7 +79,7 @@ class BackupPreferenceViewModelImpl(
     }
 
     override val importData: Flow<Array<String>>
-        get() = flowOnBack {
+        get() = flowBack {
             val titleArray = getBackupFileList().map { it.name }.toTypedArray()
 
             if (titleArray.isEmpty()) {
@@ -90,7 +90,7 @@ class BackupPreferenceViewModelImpl(
             }
         }
 
-    override fun startImport(name: String): Flow<ImportState> = flowOnBack {
+    override fun startImport(name: String): Flow<ImportState> = flowBack {
         emit(ImportState.ShowLoading)
         val result = startBackupImport(name, getBackupFileList())
         emit(ImportState.HideLoading)

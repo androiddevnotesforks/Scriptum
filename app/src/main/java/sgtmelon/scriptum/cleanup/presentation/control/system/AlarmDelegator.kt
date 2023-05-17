@@ -11,9 +11,7 @@ interface AlarmDelegator {
 
     fun cancel(id: Long)
 
-    /**
-     * Clear alarm on test tearDown.
-     */
+    /** Clear alarm on test tearDown. */
     fun clear()
 
 }

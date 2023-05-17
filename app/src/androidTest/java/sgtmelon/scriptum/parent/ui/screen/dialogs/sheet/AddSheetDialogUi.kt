@@ -9,6 +9,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.parent.ui.model.key.NoteState
 import sgtmelon.scriptum.parent.ui.parts.dialog.SheetDialogPart
 import sgtmelon.scriptum.parent.ui.screen.note.NoteScreen
+import sgtmelon.test.cappuccino.utils.awaitMinuteEnd
 import sgtmelon.test.cappuccino.utils.click
 
 /**
@@ -21,20 +22,44 @@ class AddSheetDialogUi : SheetDialogPart(
     R.array.dialog_add
 ) {
 
+    @Deprecated("Use create text")
     fun createText(
         item: NoteItem.Text,
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) {
+        awaitMinuteEnd()
         getButton(NoteType.TEXT).click()
         NoteScreen().openText(func, NoteState.NEW, item, isRankEmpty)
     }
 
+    @Deprecated("Use create roll")
     fun createRoll(
         item: NoteItem.Roll,
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) {
+        awaitMinuteEnd()
+        getButton(NoteType.ROLL).click()
+        NoteScreen().openRoll(func, NoteState.NEW, item, isRankEmpty)
+    }
+
+    fun createText(
+        create: () -> NoteItem.Text,
+        isRankEmpty: Boolean = true,
+        func: TextNoteScreen.() -> Unit = {}
+    ) {
+        val item = create()
+        getButton(NoteType.TEXT).click()
+        NoteScreen().openText(func, NoteState.NEW, item, isRankEmpty)
+    }
+
+    fun createRoll(
+        create: () -> NoteItem.Roll,
+        isRankEmpty: Boolean = true,
+        func: RollNoteScreen.() -> Unit = {}
+    ) {
+        val item = create()
         getButton(NoteType.ROLL).click()
         NoteScreen().openRoll(func, NoteState.NEW, item, isRankEmpty)
     }

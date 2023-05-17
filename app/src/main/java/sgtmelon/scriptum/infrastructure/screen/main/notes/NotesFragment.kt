@@ -110,7 +110,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         dateDialog.apply {
             onPositiveClick {
                 parentOpen?.skipClear = true
-                viewModel.getOccupiedDateList().collect(owner = this) {
+                viewModel.notificationsDateList.collect(owner = this) {
                     showTimeDialog(calendar, it, position)
                 }
             }

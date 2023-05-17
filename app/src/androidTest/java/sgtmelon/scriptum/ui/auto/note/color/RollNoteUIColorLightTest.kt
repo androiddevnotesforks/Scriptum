@@ -1,16 +1,18 @@
-package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.toolbar
+package sgtmelon.scriptum.ui.auto.note.color
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
+import sgtmelon.scriptum.ui.cases.note.NoteUIColorTestCase
 
 /**
- * Test for [NoteActivity] toolbar color with [ThemeDisplayed.LIGHT].
+ * Test for [NoteActivity] UI colors with [ThemeDisplayed.DARK].
  */
 @RunWith(AndroidJUnit4::class)
-class ToolbarColorLightTest : ParentToolbarColorTest(ThemeDisplayed.LIGHT) {
+class RollNoteUIColorLightTest : NoteUIColorTestCase(ThemeDisplayed.LIGHT, NoteType.ROLL) {
 
     @Test override fun colorRed() = super.colorRed()
 
