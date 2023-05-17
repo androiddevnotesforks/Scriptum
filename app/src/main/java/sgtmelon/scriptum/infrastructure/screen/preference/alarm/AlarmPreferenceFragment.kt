@@ -16,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.MelodySummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.UpdateMelodyState
 import sgtmelon.scriptum.infrastructure.utils.extensions.isGranted
@@ -28,7 +28,7 @@ import sgtmelon.textDotAnim.DotAnimation
 /**
  * Fragment of notification (alarm) preferences.
  */
-class AlarmPreferenceFragment : ParentPreferenceFragment(),
+class AlarmPreferenceFragment : PreferenceFragment(),
     DotAnimation.Callback {
 
     override val xmlId: Int = R.xml.preference_alarm

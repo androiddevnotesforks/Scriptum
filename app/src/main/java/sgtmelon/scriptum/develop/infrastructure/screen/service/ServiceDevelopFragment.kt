@@ -9,7 +9,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.develop.infrastructure.receiver.DevelopScreenReceiver
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.service.EternalService
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
@@ -18,7 +18,7 @@ import sgtmelon.textDotAnim.DotAnimation
 /**
  * Fragment of service preferences.
  */
-class ServiceDevelopFragment : ParentPreferenceFragment(),
+class ServiceDevelopFragment : PreferenceFragment(),
     DotAnimation.Callback,
     DevelopScreenReceiver.Callback {
 

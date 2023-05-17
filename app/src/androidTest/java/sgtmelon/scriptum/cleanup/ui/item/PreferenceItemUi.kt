@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.ui.item
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.parent.ui.model.PreferenceItem
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
@@ -13,7 +13,7 @@ import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.withText
 
 /**
- * Class for UI control of [ParentPreferenceFragment].
+ * Class for UI control of [PreferenceFragment].
  */
 class PreferenceItemUi(
     listMatcher: Matcher<View>,

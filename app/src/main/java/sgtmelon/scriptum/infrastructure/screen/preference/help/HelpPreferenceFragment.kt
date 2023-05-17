@@ -3,13 +3,13 @@ package sgtmelon.scriptum.infrastructure.screen.preference.help
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.screen.Screens
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
 /**
  * Fragment of help preferences.
  */
-class HelpPreferenceFragment : ParentPreferenceFragment() {
+class HelpPreferenceFragment : PreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_help
 

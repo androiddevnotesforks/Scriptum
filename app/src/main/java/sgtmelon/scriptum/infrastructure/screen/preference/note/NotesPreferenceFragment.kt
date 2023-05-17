@@ -10,13 +10,13 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
 /**
  * Fragment of notes preferences.
  */
-class NotesPreferenceFragment : ParentPreferenceFragment() {
+class NotesPreferenceFragment : PreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_notes
 

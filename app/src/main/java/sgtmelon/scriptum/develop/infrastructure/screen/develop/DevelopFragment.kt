@@ -9,14 +9,14 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.develop.infrastructure.screen.print.PrintDevelopActivity
 import sgtmelon.scriptum.infrastructure.screen.Screens
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 
 /**
  * Fragment of develop preferences.
  */
-class DevelopFragment : ParentPreferenceFragment() {
+class DevelopFragment : PreferenceFragment() {
 
     override val xmlId: Int = R.xml.preference_develop
 

@@ -10,7 +10,7 @@ import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Preference.Key
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.getTintDrawable
@@ -42,7 +42,7 @@ class PreferenceActivity : ThemeActivity<ActivityPreferenceBinding>() {
             .inject(activity = this)
     }
 
-    /** [InsetsDir.BOTTOM] will be set in [ParentPreferenceFragment] (list padding). */
+    /** [InsetsDir.BOTTOM] will be set in [PreferenceFragment] (list padding). */
     override fun setupInsets() {
         super.setupInsets()
 

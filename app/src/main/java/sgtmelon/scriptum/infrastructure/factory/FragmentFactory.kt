@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
@@ -53,9 +53,9 @@ object FragmentFactory {
 
     class Preference(private val fm: FragmentManager) {
 
-        fun get(screen: PreferenceScreen): Pair<ParentPreferenceFragment, String> {
+        fun get(screen: PreferenceScreen): Pair<PreferenceFragment, String> {
             val tag = getTag(screen)
-            val fragment: ParentPreferenceFragment = fm.getFragmentByTag(tag) ?: when (screen) {
+            val fragment: PreferenceFragment = fm.getFragmentByTag(tag) ?: when (screen) {
                 PreferenceScreen.MENU -> MenuPreferenceFragment()
                 PreferenceScreen.BACKUP -> BackupPreferenceFragment()
                 PreferenceScreen.NOTES -> NotesPreferenceFragment()

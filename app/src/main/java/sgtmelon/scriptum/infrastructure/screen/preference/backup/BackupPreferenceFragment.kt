@@ -16,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
-import sgtmelon.scriptum.infrastructure.screen.parent.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
@@ -31,7 +31,7 @@ import sgtmelon.textDotAnim.DotAnimation
 /**
  * Fragment of backup preferences.
  */
-class BackupPreferenceFragment : ParentPreferenceFragment(),
+class BackupPreferenceFragment : PreferenceFragment(),
     DotAnimation.Callback {
 
     // TODO move dialog creation/opening inside another class (this decrease file length)

@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Parent class for preference fragments.
  */
-abstract class ParentPreferenceFragment : PreferenceFragmentCompat(),
+abstract class PreferenceFragment : PreferenceFragmentCompat(),
     DialogOwner {
 
     @get:XmlRes
