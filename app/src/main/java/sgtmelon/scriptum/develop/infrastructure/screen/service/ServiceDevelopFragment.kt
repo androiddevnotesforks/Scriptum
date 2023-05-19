@@ -2,8 +2,6 @@ package sgtmelon.scriptum.develop.infrastructure.screen.service
 
 import android.content.Context
 import android.content.IntentFilter
-import android.os.Bundle
-import android.view.View
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent

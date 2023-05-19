@@ -20,12 +20,13 @@ abstract class ParentManualAdapter<T, VH : RecyclerView.ViewHolder>(
 ) : RecyclerView.Adapter<VH>(),
     Adapter.Manual<T> {
 
-    private var diffResult: DiffUtil.DiffResult? = null
     private val list: MutableList<T> = ArrayList()
 
     override fun notifyList(list: List<T>) {
         setList(list)
-        diffResult?.dispatchUpdatesTo(this)
+
+        DiffUtil.calculateDiff(diff)
+            .dispatchUpdatesTo(this)
     }
 
     override fun notifyList(list: List<T>, state: UpdateListState, callback: Callback) {
@@ -44,7 +45,6 @@ abstract class ParentManualAdapter<T, VH : RecyclerView.ViewHolder>(
 
     private fun setList(list: List<T>) = apply {
         diff.setList(this.list, list)
-        diffResult = DiffUtil.calculateDiff(diff)
         this.list.clearAdd(getListCopy(list))
     }
 
