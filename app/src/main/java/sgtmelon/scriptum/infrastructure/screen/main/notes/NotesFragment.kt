@@ -116,8 +116,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             }
             onNeutralClick {
                 viewModel.deleteNoteNotification(position).collect(owner = this) {
-                    system.broadcast.sendCancelAlarm(it)
-                    system.broadcast.sendNotifyInfoBind()
+                    system?.broadcast?.sendCancelAlarm(it)
+                    system?.broadcast?.sendNotifyInfoBind()
                 }
             }
             onDismiss { parentOpen?.clear() }
@@ -127,8 +127,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             onPositiveClick {
                 viewModel.setNoteNotification(calendar, position).collect(owner = this) {
                     val (item, calendar) = it
-                    system.broadcast.sendSetAlarm(item, calendar)
-                    system.broadcast.sendNotifyInfoBind()
+                    system?.broadcast?.sendSetAlarm(item, calendar)
+                    system?.broadcast?.sendNotifyInfoBind()
                 }
             }
             onDismiss { parentOpen?.clear() }
@@ -235,18 +235,18 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
                 }
             }
             Options.BIND -> viewModel.updateNoteBind(p).collect(owner = this) {
-                system.broadcast.sendNotifyNotesBind()
+                system?.broadcast?.sendNotifyNotesBind()
             }
             Options.CONVERT -> viewModel.convertNote(p).collect(owner = this) {
-                system.broadcast.sendNotifyNotesBind()
+                system?.broadcast?.sendNotifyNotesBind()
             }
             Options.COPY -> viewModel.getNoteText(p).collect(owner = this) {
-                system.clipboard.copy(it)
+                system?.clipboard?.copy(it)
             }
             Options.DELETE -> viewModel.deleteNote(p).collect(owner = this) {
-                system.broadcast.sendCancelAlarm(it)
-                system.broadcast.sendCancelNoteBind(it)
-                system.broadcast.sendNotifyInfoBind()
+                system?.broadcast?.sendCancelAlarm(it)
+                system?.broadcast?.sendCancelNoteBind(it)
+                system?.broadcast?.sendNotifyInfoBind()
             }
         }
     }

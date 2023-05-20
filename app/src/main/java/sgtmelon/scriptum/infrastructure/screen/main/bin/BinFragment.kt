@@ -146,7 +146,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
         when (Options.values().getOrNull(which) ?: return) {
             Options.RESTORE -> viewModel.restoreNote(p)
             Options.COPY -> viewModel.getNoteText(p).collect(owner = this) {
-                system.clipboard.copy(it)
+                system?.clipboard?.copy(it)
             }
             Options.CLEAR -> viewModel.clearNote(p)
         }

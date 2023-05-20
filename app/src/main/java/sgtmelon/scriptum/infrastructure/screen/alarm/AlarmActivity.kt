@@ -191,7 +191,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     override fun releaseSystem() {
         super.releaseSystem()
-        system?.vibrator?.cancel()
+        system?.vibrator?.cancelRepeat()
         system?.phoneAwake?.release()
     }
 

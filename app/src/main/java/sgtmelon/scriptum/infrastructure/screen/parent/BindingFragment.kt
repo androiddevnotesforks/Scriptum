@@ -33,7 +33,7 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
 
     override val fm get() = parentFragmentManager
 
-    private lateinit var _system: SystemDelegatorFactory
+    private var _system: SystemDelegatorFactory? = null
     protected val system get() = _system
 
     /**
@@ -104,9 +104,19 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        releaseBinding()
         _binding = null
+
+        releaseSystem()
+        _system = null
+
         unregisterReceivers()
     }
+
+    open fun releaseBinding() = Unit
+
+    open fun releaseSystem() = Unit
 
     abstract fun inject(component: ScriptumComponent)
 
