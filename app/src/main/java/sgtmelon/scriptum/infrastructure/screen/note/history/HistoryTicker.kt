@@ -12,32 +12,36 @@ import kotlin.math.max
  * Class for [View.callOnClick] multiple times (for undo/redo button) with decreasing delay each
  * iteration.
  */
-class HistoryClicker(
+class HistoryTicker(
     private val lifecycleScope: CoroutineScope,
     private val getSystem: () -> SystemDelegatorFactory?
 ) {
 
-    fun repeat(button: View) = repeat(button, iteration = 0)
+    fun start(button: View, onTick: () -> Unit, onFinish: () -> Unit) =
+        start(button, onTick, onFinish, iteration = 0)
 
-    private fun repeat(button: View, iteration: Int) {
-        if (!button.isPressed || !button.isEnabled) return
+    private fun start(button: View, onTick: () -> Unit, onFinish: () -> Unit, iteration: Int) {
+        if (!button.isPressed || !button.isEnabled) {
+            onFinish()
+            return
+        }
 
         lifecycleScope.launchBack {
             runMain {
-                button.callOnClick()
                 getSystem()?.vibrator?.startShort()
+                onTick()
             }
 
             val gap = HISTORY_GAP_MAX - iteration * HISTORY_GAP_STEP
             delay(max(gap, HISTORY_GAP_MIN))
 
-            repeat(button, iteration = iteration + 1)
+            start(button, onTick, onFinish, iteration = iteration + 1)
         }
     }
 
     companion object {
-        const val HISTORY_GAP_MIN = 100L
-        const val HISTORY_GAP_MAX = 300L
-        const val HISTORY_GAP_STEP = 30L
+        const val HISTORY_GAP_MIN = 150L
+        const val HISTORY_GAP_MAX = 325L
+        const val HISTORY_GAP_STEP = 25L
     }
 }

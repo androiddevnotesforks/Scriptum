@@ -10,12 +10,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
 import java.util.Calendar
 import sgtmelon.extensions.collect
 import sgtmelon.extensions.emptyString
-import sgtmelon.extensions.launchBack
-import sgtmelon.extensions.runMain
 import sgtmelon.extensions.toCalendar
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
@@ -38,7 +35,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
-import sgtmelon.scriptum.infrastructure.screen.note.history.HistoryClicker
+import sgtmelon.scriptum.infrastructure.screen.note.history.HistoryTicker
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
@@ -60,7 +57,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
-import kotlin.math.max
 
 /**
  * Parent class for fragments which will be displayed in [NoteActivity].
@@ -92,7 +88,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private val timeDialog by lazy { dialogs.getTime() }
     private val convertDialog by lazy { dialogs.getConvert(type) }
 
-    private val historyClicker = HistoryClicker(lifecycleScope) { system }
+    private val historyTicker = HistoryTicker(lifecycleScope) { system }
 
     //region Setup functions
 
@@ -172,28 +168,25 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         panelBar.clearButton.setOnClickListener {
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
-        panelBar.undoButton.setOnClickListener { _ ->
-            open.ifNotBlocked {
-                viewModel.undoAction().collect(owner = this) { collectUndoRedo(it) }
-            }
-        }
+
+        val collectUndo = { viewModel.undoAction().collect(owner = this) { collectUndoRedo(it) } }
+        panelBar.undoButton.setOnClickListener { open.ifNotBlocked { collectUndo() } }
         panelBar.undoButton.setOnLongClickListener {
-            open.ifNotBlocked {
-                historyClicker.repeat(it)
+            open.attempt {
+                historyTicker.start(it, collectUndo) { open.isBlocked = false }
             }
             return@setOnLongClickListener true
         }
-        panelBar.redoButton.setOnClickListener { _ ->
-            open.ifNotBlocked {
-                viewModel.redoAction().collect(owner = this) { collectUndoRedo(it) }
-            }
-        }
+
+        val collectRedo = { viewModel.redoAction().collect(owner = this) { collectUndoRedo(it) } }
+        panelBar.redoButton.setOnClickListener { open.ifNotBlocked { collectRedo() } }
         panelBar.redoButton.setOnLongClickListener {
-            open.ifNotBlocked {
-                historyClicker.repeat(it)
+            open.attempt {
+                historyTicker.start(it, collectRedo) { open.isBlocked = false }
             }
             return@setOnLongClickListener true
         }
+
         panelBar.rankButton.setOnClickListener { showRankDialog() }
         panelBar.colorButton.setOnClickListener { showColorDialog() }
         panelBar.saveButton.setOnClickListener {
