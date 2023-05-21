@@ -18,7 +18,7 @@ class HistoryTicker(
 ) {
 
     fun start(button: View, onTick: () -> Unit, onFinish: () -> Unit) =
-        start(button, onTick, onFinish, iteration = 0)
+        start(button, onTick, onFinish, START_ITERATION)
 
     private fun start(button: View, onTick: () -> Unit, onFinish: () -> Unit, iteration: Int) {
         if (!button.isPressed || !button.isEnabled) {
@@ -40,6 +40,8 @@ class HistoryTicker(
     }
 
     companion object {
+        private const val START_ITERATION = 0
+
         const val HISTORY_GAP_MIN = 150L
         const val HISTORY_GAP_MAX = 325L
         const val HISTORY_GAP_STEP = 25L
