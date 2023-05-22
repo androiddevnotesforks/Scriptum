@@ -59,7 +59,7 @@ class NotesPreferenceFragment : PreferenceFragment() {
         sortDialog.apply {
             onPositiveClick {
                 viewModel.updateSort(sortDialog.check)
-                system.broadcast.sendNotifyNotesBind()
+                system?.broadcast?.sendNotifyNotesBind()
             }
             onDismiss { open.clear() }
         }

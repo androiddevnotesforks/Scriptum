@@ -4,6 +4,11 @@
     <!-- Dialog -->
 
     <!-- Dialog titles and text -->
+    <string name="dialog_title_notifications">Очистить корзину</string>
+    <string name="dialog_text_notifications">
+        Вы уверены, что хотите безвозвратно удалить все не скрытые заметки из корзины?
+    </string>
+
     <string name="dialog_title_clear_bin">Очистить корзину</string>
     <string name="dialog_text_clear_bin">
         Вы уверены, что хотите безвозвратно удалить все не скрытые заметки из корзины?

@@ -29,7 +29,6 @@ import sgtmelon.test.prod.RunPrivate
  */
 object NotificationFactory {
 
-    @RequiresApi(VERSION_CODES.O)
     fun deleteOldChannels(context: Context) {
         val service = context.getNotificationService()
 
@@ -42,12 +41,10 @@ object NotificationFactory {
 
     object Notes {
 
-        @RequiresApi(VERSION_CODES.O)
         fun createChannel(context: Context) {
             context.getNotificationService().createNotificationChannel(getChannel(context))
         }
 
-        @RequiresApi(VERSION_CODES.O)
         private fun getChannel(context: Context): NotificationChannel {
             val id = context.getString(R.string.notification_notes_channel_id)
             val name = context.getString(R.string.notification_notes_channel_title)
@@ -132,7 +129,6 @@ object NotificationFactory {
             "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
         }
 
-        @RequiresApi(VERSION_CODES.N)
         fun getBindSummary(context: Context): Notification {
             return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
                 .setSmallIcon(R.drawable.notif_bind_group)
@@ -149,12 +145,10 @@ object NotificationFactory {
 
     object Count {
 
-        @RequiresApi(VERSION_CODES.O)
         fun createChannel(context: Context) {
             context.getNotificationService().createNotificationChannel(getChannel(context))
         }
 
-        @RequiresApi(VERSION_CODES.O)
         private fun getChannel(context: Context): NotificationChannel {
             val id = context.getString(R.string.notification_count_channel_id)
             val name = context.getString(R.string.notification_count_channel_title)
@@ -192,12 +186,10 @@ object NotificationFactory {
 
     object Service {
 
-        @RequiresApi(VERSION_CODES.O)
         fun createChannel(context: Context) {
             context.getNotificationService().createNotificationChannel(getChannel(context))
         }
 
-        @RequiresApi(VERSION_CODES.O)
         private fun getChannel(context: Context): NotificationChannel {
             val id = context.getString(R.string.notification_eternal_channel_id)
             val name = context.getString(R.string.notification_eternal_channel_title)

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- 3 things to do: -->
+    <!-- - add app to autostart -->
+    <!-- - remove battery restrictions -->
+    <!-- - disable eternal service notification - use notifications -->
+
     <!--  TODO Remove after help disappear refactor  -->
 
     <string name="help_notification_disappear">

@@ -4,6 +4,11 @@
     <!-- Dialog -->
 
     <!-- Dialog titles and text -->
+    <string name="dialog_title_notifications">Clear bin</string>
+    <string name="dialog_text_notifications">
+        Are you sure you want to permanently delete all not hidden notes from bin?
+    </string>
+
     <string name="dialog_title_clear_bin">Clear bin</string>
     <string name="dialog_text_clear_bin">
         Are you sure you want to permanently delete all not hidden notes from bin?

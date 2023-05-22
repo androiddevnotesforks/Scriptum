@@ -55,11 +55,11 @@ class MenuPreferenceFragment : PreferenceFragment() {
             binding.policyButton?.setOnClickListener {
                 open.attempt {
                     val url = BuildConfig.PRIVACY_POLICY_URL
-                    it.context.startUrlActivity(url, system.toast)
+                    it.context.startUrlActivity(url, system?.toast)
                 }
             }
             rateButton?.setOnClickListener {
-                open.attempt { it.context.startMarketActivity(system.toast) }
+                open.attempt { it.context.startMarketActivity(system?.toast) }
             }
             helpButton?.setOnClickListener { it.openScreen(PreferenceScreen.HELP) }
             aboutButton?.setOnClickListener { showAboutDialog() }
@@ -120,7 +120,7 @@ class MenuPreferenceFragment : PreferenceFragment() {
         val isDeveloper = viewModel.isDeveloper.value ?: return
 
         val toastId = if (isDeveloper) R.string.toast_dev_already else R.string.toast_dev_unlock
-        system.toast.show(context, toastId)
+        system?.toast?.show(context, toastId)
 
         viewModel.unlockDeveloper()
     }

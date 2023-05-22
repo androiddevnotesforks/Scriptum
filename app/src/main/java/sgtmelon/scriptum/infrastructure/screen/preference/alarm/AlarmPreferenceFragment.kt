@@ -166,7 +166,7 @@ class AlarmPreferenceFragment : PreferenceFragment(),
             onItemClick { onMelodyClick(it) }
             onPositiveClick { onMelodyApply(with(melodyDialog) { itemArray.getOrNull(check) }) }
             onDismiss {
-                system.musicPlay.stop()
+                system?.musicPlay?.stop()
                 open.clear()
             }
         }
@@ -203,9 +203,9 @@ class AlarmPreferenceFragment : PreferenceFragment(),
 
     private fun playMelody(item: MelodyItem) {
         val uri = UriConverter().toUri(item.uri) ?: return
-        system.musicPlay.stop()
-            .setupPlayer(uri, isLooping = false)
-            .start()
+        system?.musicPlay?.stop()
+            ?.setupPlayer(uri, isLooping = false)
+            ?.start()
     }
 
     private fun onMelodyApply(title: String?) {
@@ -214,7 +214,7 @@ class AlarmPreferenceFragment : PreferenceFragment(),
         viewModel.updateMelody(title).collect(owner = this) {
             when (it) {
                 UpdateMelodyState.AutoChoose -> {
-                    system.toast.show(context, R.string.pref_toast_melody_replaced)
+                    system?.toast?.show(context, R.string.pref_toast_melody_replaced)
                 }
             }
         }

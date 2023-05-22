@@ -27,7 +27,7 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
 
     override val fm get() = parentFragmentManager
 
-    private lateinit var _system: SystemDelegatorFactory
+    private var _system: SystemDelegatorFactory? = null
     protected val system get() = _system
 
     /**
@@ -62,8 +62,14 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        releaseSystem()
+        _system = null
+
         unregisterReceivers()
     }
+
+    open fun releaseSystem() = Unit
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
