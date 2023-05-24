@@ -25,12 +25,8 @@
     <string name="pref_title_alarm_increase">Нарастание громкости</string>
 
     <string name="pref_title_rate">Оценить</string>
-    <string name="pref_title_help">Помощь</string>
     <string name="pref_title_about">О приложении</string>
     <string name="pref_title_policy">Политика конфиденциальности</string>
-
-    <!--  TODO Remove after help disappear refactor  -->
-    <string name="pref_title_help_disappear">Почему пропадают уведомления?</string>
 
     <!-- Preference headers -->
 
@@ -74,8 +70,6 @@
     <string name="pref_summary_alarm_melody_empty">Извините, мы не нашли ни одной мелодии! :(</string>
     <string name="pref_summary_alarm_volume">Процент от максимальной громкости: %d%%</string>
     <string name="pref_summary_alarm_increase">Плавное увеличение громкости начиная с нуля</string>
-
-    <string name="pref_summary_help_disappear">И как исправить это</string>
 
     <!-- Preference toast text -->
 

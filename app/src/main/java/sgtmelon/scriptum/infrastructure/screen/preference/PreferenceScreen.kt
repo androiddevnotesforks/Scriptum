@@ -11,7 +11,6 @@ enum class PreferenceScreen(@StringRes val titleId: Int) {
     BACKUP(R.string.pref_title_backup),
     NOTES(R.string.pref_title_note),
     ALARM(R.string.pref_title_alarm),
-    HELP(R.string.pref_title_help),
     DEVELOP(R.string.pref_title_developer),
     SERVICE(R.string.pref_header_service)
 }

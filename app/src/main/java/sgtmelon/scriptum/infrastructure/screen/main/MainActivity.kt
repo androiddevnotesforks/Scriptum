@@ -43,8 +43,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     // TODO двинуть в другой модуль EdgeDragHelper, RecyclerviewOverscroll!
     // TODO выносить из cleanup ui тесты
 
-
-
     // TODO notifications help
     // 0. Удалить старый экран
     // 1. Логика отображения - ключ в настройки, его сброс
@@ -55,6 +53,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     // 5. Unit тесты для ключа
     // 6. UI тесты для диалога
     // 7. Проверка скрыт канал или нет?
+    // 8. Fail for android 12
 
     override val layoutId: Int = R.layout.activity_main
 

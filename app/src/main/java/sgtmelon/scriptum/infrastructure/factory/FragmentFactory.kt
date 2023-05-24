@@ -12,7 +12,6 @@ import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceFragment
-import sgtmelon.scriptum.infrastructure.screen.preference.help.HelpPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.getFragmentByTag
@@ -60,7 +59,6 @@ object FragmentFactory {
                 PreferenceScreen.BACKUP -> BackupPreferenceFragment()
                 PreferenceScreen.NOTES -> NotesPreferenceFragment()
                 PreferenceScreen.ALARM -> AlarmPreferenceFragment()
-                PreferenceScreen.HELP -> HelpPreferenceFragment()
                 PreferenceScreen.DEVELOP -> DevelopFragment()
                 PreferenceScreen.SERVICE -> ServiceDevelopFragment()
             }
@@ -74,7 +72,6 @@ object FragmentFactory {
                 PreferenceScreen.BACKUP -> Tag.BACKUP
                 PreferenceScreen.NOTES -> Tag.NOTE
                 PreferenceScreen.ALARM -> Tag.ALARM
-                PreferenceScreen.HELP -> Tag.HELP
                 PreferenceScreen.DEVELOP -> Tag.DEVELOP
                 PreferenceScreen.SERVICE -> Tag.SERVICE
             }
@@ -86,7 +83,6 @@ object FragmentFactory {
             const val BACKUP = "${PREFIX}_BACKUP"
             const val NOTE = "${PREFIX}_NOTE"
             const val ALARM = "${PREFIX}_ALARM"
-            const val HELP = "${PREFIX}_HELP"
             const val DEVELOP = "${PREFIX}_DEVELOP"
             const val SERVICE = "${PREFIX}_SERVICE"
         }

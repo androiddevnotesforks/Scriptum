@@ -22,9 +22,6 @@
     <string name="menu_roll_visible">Скрыть выполненные пункты</string>
     <string name="menu_roll_invisible">Показать выполненные пункты</string>
 
-    <!--  TODO Remove after help disappear refactor  -->
-    <string name="menu_video_lesson">Открыть видео урок</string>
-
     <!-- Notifications -->
     <string name="notification_count_channel_title">Количество уведомлений</string>
     <string name="notification_count_channel_description">

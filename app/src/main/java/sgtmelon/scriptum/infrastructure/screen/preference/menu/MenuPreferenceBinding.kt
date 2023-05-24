@@ -15,7 +15,6 @@ class MenuPreferenceBinding(val fragment: PreferenceFragmentCompat) {
 
     val policyButton: Preference? get() = fragment.findPreference(R.string.pref_key_policy)
     val rateButton: Preference? get() = fragment.findPreference(R.string.pref_key_rate)
-    val helpButton: Preference? get() = fragment.findPreference(R.string.pref_key_help)
     val aboutButton: Preference? get() = fragment.findPreference(R.string.pref_key_about)
 
     val developerButton: Preference? get() = fragment.findPreference(R.string.pref_key_developer)

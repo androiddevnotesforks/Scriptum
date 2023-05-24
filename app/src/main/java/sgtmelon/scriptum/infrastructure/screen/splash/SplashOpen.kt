@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.Screens
-import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 
 /**
  * Describes which screen need open after splash.
@@ -38,20 +37,6 @@ sealed class SplashOpen {
 
         fun getIntents(context: Context): Array<Intent> {
             return arrayOf(Screens.toMain(context), Screens.toAlarm(context, noteId))
-        }
-    }
-
-    @Serializable
-    @Deprecated("Remove after help disappear refactor")
-    object HelpDisappear : SplashOpen() {
-
-        fun getIntents(context: Context): Array<Intent> {
-            return arrayOf(
-                Screens.toMain(context),
-                Screens.toPreference(context, PreferenceScreen.MENU),
-                Screens.toPreference(context, PreferenceScreen.HELP),
-                Screens.toHelpDisappear(context)
-            )
         }
     }
 

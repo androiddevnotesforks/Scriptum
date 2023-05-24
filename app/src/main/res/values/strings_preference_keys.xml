@@ -33,9 +33,6 @@
 
     <string name="pref_key_policy" translatable="false">key_other_policy</string>
     <string name="pref_key_rate" translatable="false">key_other_rate</string>
-    <string name="pref_key_help" translatable="false">key_other_help</string>
     <string name="pref_key_about" translatable="false">key_other_about</string>
-
-    <string name="pref_key_help_disappear" translatable="false">key_help_notifications</string>
 
 </resources>

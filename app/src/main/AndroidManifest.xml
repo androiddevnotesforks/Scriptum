@@ -57,12 +57,6 @@
             android:parentActivityName=".infrastructure.screen.main.MainActivity" />
 
         <activity
-            android:name=".infrastructure.screen.preference.disappear.HelpDisappearActivity"
-            android:configChanges="keyboardHidden"
-            android:exported="false"
-            android:parentActivityName=".infrastructure.screen.preference.PreferenceActivity" />
-
-        <activity
             android:name=".develop.infrastructure.screen.print.PrintDevelopActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"

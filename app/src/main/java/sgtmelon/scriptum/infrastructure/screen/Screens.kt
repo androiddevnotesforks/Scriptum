@@ -15,7 +15,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
-import sgtmelon.scriptum.infrastructure.screen.preference.disappear.HelpDisappearActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen
 
@@ -38,9 +37,6 @@ object Screens {
         }
 
         fun toNotification(context: Context) = get(context, SplashOpen.Notifications)
-
-        @Deprecated("Remove after help disappear refactor")
-        fun toHelpDisappear(context: Context) = get(context, SplashOpen.HelpDisappear)
 
         fun toBindNote(context: Context, item: NoteItem): Intent {
             return get(context, SplashOpen.BindNote(item))
@@ -84,7 +80,4 @@ object Screens {
     fun toAlarm(context: Context, noteId: Long): Intent {
         return context.intent<AlarmActivity>(IntentData.Note.Key.ID to noteId)
     }
-
-    @Deprecated("Remove after help disappear refactor")
-    fun toHelpDisappear(context: Context) = context.intent<HelpDisappearActivity>()
 }

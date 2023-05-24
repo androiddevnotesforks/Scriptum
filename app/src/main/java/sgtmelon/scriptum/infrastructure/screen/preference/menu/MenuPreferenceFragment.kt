@@ -61,7 +61,6 @@ class MenuPreferenceFragment : PreferenceFragment() {
             rateButton?.setOnClickListener {
                 open.attempt { it.context.startMarketActivity(system?.toast) }
             }
-            helpButton?.setOnClickListener { it.openScreen(PreferenceScreen.HELP) }
             aboutButton?.setOnClickListener { showAboutDialog() }
 
             developerButton?.setOnClickListener { it.openScreen(PreferenceScreen.DEVELOP) }
