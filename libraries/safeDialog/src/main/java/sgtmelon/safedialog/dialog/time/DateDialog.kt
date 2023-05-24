@@ -22,12 +22,6 @@ import sgtmelon.test.prod.RunNone
 class DateDialog : BlankDateTimeDialog(),
     DateTestCallback {
 
-    var neutralListener: DialogInterface.OnClickListener? = null
-
-    inline fun onNeutralClick(crossinline func: () -> Unit) {
-        neutralListener = DialogInterface.OnClickListener { _, _ -> func() }
-    }
-
     private var neutralVisible: Boolean = DEF_NEUTRAL
 
     /**
@@ -69,7 +63,11 @@ class DateDialog : BlankDateTimeDialog(),
             calendar.get(Calendar.DAY_OF_MONTH)
         ).apply {
             datePicker.minDate = defaultTime
-            setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.dialog_button_reset), neutralListener)
+            setButton(
+                DialogInterface.BUTTON_NEUTRAL,
+                getString(R.string.dialog_button_reset),
+                onNeutralClick
+            )
         }.applyAnimation()
     }
 

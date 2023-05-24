@@ -31,6 +31,7 @@ abstract class ThemeActivity<T : ViewDataBinding> : BindingActivity<T>(),
 
         setupInsets()
         setupView()
+        setupDialogs()
         setupObservers()
 
         checkThemeChange()
@@ -44,6 +45,8 @@ abstract class ThemeActivity<T : ViewDataBinding> : BindingActivity<T>(),
     open fun setupInsets() = Unit
 
     open fun setupView() = Unit
+
+    open fun setupDialogs() = Unit
 
     open fun setupObservers() = Unit
 

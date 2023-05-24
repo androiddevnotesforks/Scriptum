@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.infrastructure.bundle.json
 
 import sgtmelon.scriptum.infrastructure.bundle.BundleJsonValue
-import sgtmelon.scriptum.infrastructure.bundle.decode
-import sgtmelon.scriptum.infrastructure.bundle.encode
+import sgtmelon.extensions.decode
+import sgtmelon.extensions.encode
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Key
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 

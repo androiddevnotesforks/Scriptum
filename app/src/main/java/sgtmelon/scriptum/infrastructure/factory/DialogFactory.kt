@@ -43,10 +43,14 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.type = MessageType.INFO
+            dialog.type = MessageType.Custom(
+                positiveButton = R.string.dialog_notifications_settings,
+                negativeButton = R.string.dialog_notifications_channel,
+                neutralButton = R.string.dialog_notifications_done
+            )
             dialog.title = context.getString(R.string.dialog_title_notifications)
             dialog.message = context.getString(R.string.dialog_text_notifications)
-
+            dialog.isCancelable = false
 
             return dialog
         }
@@ -66,7 +70,7 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.type = MessageType.CHOICE
+            dialog.type = MessageType.Choice
             dialog.title = context.getString(R.string.dialog_title_clear_bin)
             dialog.message = context.getString(R.string.dialog_text_clear_bin)
 
@@ -93,7 +97,7 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.type = MessageType.CHOICE
+            dialog.type = MessageType.Choice
             dialog.title = context.getString(R.string.dialog_title_convert)
             dialog.message = when (type) {
                 NoteType.TEXT -> context.getString(R.string.dialog_text_convert_text)
@@ -170,7 +174,7 @@ object DialogFactory {
 
                 if (context == null) return dialog
 
-                dialog.type = MessageType.INFO
+                dialog.type = MessageType.Info
                 dialog.title = context.getString(R.string.dialog_title_export_permission)
                 dialog.message = context.getString(R.string.dialog_text_export_permission)
 
@@ -182,7 +186,7 @@ object DialogFactory {
 
                 if (context == null) return dialog
 
-                dialog.type = MessageType.INFO
+                dialog.type = MessageType.Info
                 dialog.title = context.getString(R.string.dialog_title_export_deny)
                 dialog.message = context.getString(R.string.dialog_text_export_deny)
 
@@ -196,7 +200,7 @@ object DialogFactory {
 
                 if (context == null) return dialog
 
-                dialog.type = MessageType.INFO
+                dialog.type = MessageType.Info
                 dialog.title = context.getString(R.string.dialog_title_import_permission)
                 dialog.message = context.getString(R.string.dialog_text_import_permission)
 
@@ -208,7 +212,7 @@ object DialogFactory {
 
                 if (context == null) return dialog
 
-                dialog.type = MessageType.INFO
+                dialog.type = MessageType.Info
                 dialog.title = context.getString(R.string.dialog_title_import_deny)
                 dialog.message = context.getString(R.string.dialog_text_import_deny)
 
@@ -311,7 +315,7 @@ object DialogFactory {
 
                 if (context == null) return dialog
 
-                dialog.type = MessageType.INFO
+                dialog.type = MessageType.Info
                 dialog.title = context.getString(R.string.dialog_title_melody_permission)
                 dialog.message = context.getString(R.string.dialog_text_melody_permission)
 

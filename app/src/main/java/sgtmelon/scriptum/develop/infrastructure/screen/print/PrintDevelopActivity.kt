@@ -14,7 +14,7 @@ import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
-import sgtmelon.scriptum.infrastructure.bundle.intent
+import sgtmelon.extensions.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Key
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity

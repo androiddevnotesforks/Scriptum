@@ -3,8 +3,8 @@ package sgtmelon.scriptum.infrastructure.screen
 import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.bundle.encode
-import sgtmelon.scriptum.infrastructure.bundle.intent
+import sgtmelon.extensions.encode
+import sgtmelon.extensions.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.NoteState

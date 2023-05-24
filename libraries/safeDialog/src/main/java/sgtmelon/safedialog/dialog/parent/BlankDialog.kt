@@ -19,10 +19,22 @@ abstract class BlankDialog : BlankEmptyDialog() {
     protected var negativeButton: Button? = null
     protected var neutralButton: Button? = null
 
-    var positiveListener: DialogInterface.OnClickListener? = null
+    //region Buttons listeners setup
 
-    inline fun onPositiveClick(crossinline func: (dialog: DialogInterface) -> Unit) {
+    private var positiveListener: DialogInterface.OnClickListener? = null
+    private var negativeListener: DialogInterface.OnClickListener? = null
+    private var neutralListener: DialogInterface.OnClickListener? = null
+
+    fun onPositiveClick(func: (dialog: DialogInterface) -> Unit) {
         positiveListener = DialogInterface.OnClickListener { dialog, _ -> func(dialog) }
+    }
+
+    fun onNegativeClick(func: (dialog: DialogInterface) -> Unit) {
+        negativeListener = DialogInterface.OnClickListener { dialog, _ -> func(dialog) }
+    }
+
+    fun onNeutralClick(func: () -> Unit) {
+        neutralListener = DialogInterface.OnClickListener { _, _ -> func() }
     }
 
     protected val onPositiveClick = DialogInterface.OnClickListener { dialog, i ->
@@ -30,9 +42,17 @@ abstract class BlankDialog : BlankEmptyDialog() {
         dialog.cancel()
     }
 
-    protected val onNegativeClick = DialogInterface.OnClickListener { dialog, _ ->
+    protected val onNegativeClick = DialogInterface.OnClickListener { dialog, i ->
+        negativeListener?.onClick(dialog, i)
         dialog.cancel()
     }
+
+    protected val onNeutralClick = DialogInterface.OnClickListener { dialog, i ->
+        neutralListener?.onClick(dialog, i)
+        dialog.cancel()
+    }
+
+    //endregion
 
     override fun onRestoreContentState(savedState: Bundle) {
         super.onRestoreContentState(savedState)

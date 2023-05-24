@@ -23,11 +23,11 @@ private fun Context.getSettingsIntent(): Intent {
     return intent
 }
 
-private fun Context.getSettingsChannelIntent(@StringRes channelId: Int): Intent {
+private fun Context.getSettingsChannelIntent(@StringRes id: Int): Intent {
     return Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-        .putExtra(Settings.EXTRA_CHANNEL_ID, getString(channelId))
+        .putExtra(Settings.EXTRA_CHANNEL_ID, getString(id))
 }
 
 fun Context.startUrlActivity(url: String, toast: ToastDelegator?) {
@@ -38,8 +38,8 @@ fun Context.startSettingsActivity(toast: ToastDelegator?) {
     startActivitySafe(getSettingsIntent(), toast)
 }
 
-fun Context.startSettingsChannelActivity(@StringRes channelId: Int, toast: ToastDelegator?) {
-    startActivitySafe(getSettingsChannelIntent(channelId), toast)
+fun Context.startSettingsChannelActivity(toast: ToastDelegator?, @StringRes id: Int) {
+    startActivitySafe(getSettingsChannelIntent(id), toast)
 }
 
 fun Context.startMarketActivity(toast: ToastDelegator?) {

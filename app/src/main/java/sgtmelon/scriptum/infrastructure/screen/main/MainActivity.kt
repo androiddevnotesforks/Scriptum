@@ -5,6 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -27,6 +29,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.insets.addSystemInsetsM
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updateMargin
 import sgtmelon.scriptum.infrastructure.utils.extensions.onView
+import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
+import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsChannelActivity
 import sgtmelon.scriptum.infrastructure.widgets.GradientFab
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 
@@ -39,6 +43,19 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     // TODO двинуть в другой модуль EdgeDragHelper, RecyclerviewOverscroll!
     // TODO выносить из cleanup ui тесты
 
+
+
+    // TODO notifications help
+    // 0. Удалить старый экран
+    // 1. Логика отображения - ключ в настройки, его сброс
+    //    если нажал на уведомление - сброс ключа и показать диалог
+    // 2. Тема для диалога - другой цвет кнопок
+    // 3. Отображать диалог после возвращения на гланый экран (ушёл в настройки - вернулся)
+    // 4. Leaks for all dialogs?
+    // 5. Unit тесты для ключа
+    // 6. UI тесты для диалога
+    // 7. Проверка скрыт канал или нет?
+
     override val layoutId: Int = R.layout.activity_main
 
     @Inject lateinit var viewModel: MainViewModel
@@ -48,7 +65,9 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     private val notesFragment by lazy { fragments.getNotes() }
     private val binFragment by lazy { fragments.getBin() }
 
-    private val addDialog by lazy { DialogFactory.Main(context = this, fm).getAdd() }
+    private val dialogs by lazy { DialogFactory.Main(context = this, fm) }
+    private val notificationsHelpDialog by lazy { dialogs.getNotificationsHelp() }
+    private val addDialog by lazy { dialogs.getAdd() }
 
     private val showHolder = ShowPlaceholder(lifecycle, context = this)
 
@@ -117,6 +136,18 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         binding?.menuNavigation?.setOnItemReselectedListener {
             val page = viewModel.currentPage.value ?: return@setOnItemReselectedListener
             scrollTop(page)
+        }
+    }
+
+    override fun setupDialogs() {
+        super.setupDialogs()
+
+        notificationsHelpDialog.onPositiveClick { startSettingsActivity(system?.toast) }
+        notificationsHelpDialog.onNegativeClick {
+            startSettingsChannelActivity(system?.toast, R.string.notification_eternal_channel_id)
+        }
+        notificationsHelpDialog.onNeutralClick {
+            // TODO disable dialog for future show (change in preferences)
         }
 
         addDialog.onItemSelected(owner = this) {

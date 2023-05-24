@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.bundle
+package sgtmelon.extensions
 
 import android.content.Context
 import android.content.Intent

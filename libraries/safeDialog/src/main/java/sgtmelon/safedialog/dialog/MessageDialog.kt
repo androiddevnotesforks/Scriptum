@@ -3,7 +3,8 @@ package sgtmelon.safedialog.dialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.R
+import sgtmelon.extensions.decode
+import sgtmelon.extensions.encode
 import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.utils.applyAnimation
@@ -24,11 +25,13 @@ class MessageDialog : BlankDialog() {
             .setTitle(title)
             .setMessage(message)
 
-        if (type == MessageType.INFO) {
-            builder.setPositiveButton(getString(R.string.dialog_button_ok), onPositiveClick)
-        } else {
-            builder.setPositiveButton(getString(R.string.dialog_button_yes), onPositiveClick)
-            builder.setNegativeButton(getString(R.string.dialog_button_no), onNegativeClick)
+        builder.setPositiveButton(getString(type.positiveButton), onPositiveClick)
+
+        type.negativeButton?.let {
+            builder.setNegativeButton(getString(it), onNegativeClick)
+        }
+        type.neutralButton?.let {
+            builder.setNeutralButton(getString(it), onNeutralClick)
         }
 
         return builder.setCancelable(true)
@@ -39,20 +42,19 @@ class MessageDialog : BlankDialog() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(SavedTag.Message.TYPE, type.ordinal)
+        outState.putString(SavedTag.Message.TYPE, type.encode())
         outState.putString(SavedTag.Message.TEXT, message)
     }
 
     override fun onRestoreContentState(savedState: Bundle) {
         super.onRestoreContentState(savedState)
 
-        val ordinal = savedState.getInt(SavedTag.Message.TYPE)
-        type = MessageType.values().getOrNull(ordinal) ?: DEF_TYPE
+        type = savedState.getString(SavedTag.Message.TYPE)?.decode() as? MessageType ?: DEF_TYPE
         message = savedState.getString(SavedTag.Message.TEXT) ?: DEF_TEXT
     }
 
     companion object {
-        private val DEF_TYPE = MessageType.INFO
+        private val DEF_TYPE = MessageType.Info
         private const val DEF_TEXT = ""
     }
 }
