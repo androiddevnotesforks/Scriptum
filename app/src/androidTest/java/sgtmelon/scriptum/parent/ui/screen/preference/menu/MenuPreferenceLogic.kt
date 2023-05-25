@@ -22,7 +22,6 @@ class MenuPreferenceLogic : PreferenceLogic() {
             Header(R.string.pref_header_other),
             Simple(R.string.pref_title_policy),
             Simple(R.string.pref_title_rate),
-            Simple(R.string.pref_title_help),
             Simple(R.string.pref_title_about)
         )
 
@@ -33,11 +32,9 @@ class MenuPreferenceLogic : PreferenceLogic() {
         return list
     }
 
-    /**
-     * Needed for describe order of items.
-     */
+    /** Needed for describe order of items. */
     enum class Part {
         APP_HEADER, THEME_ITEM, BACKUP_ITEM, NOTES_ITEM, ALARM_ITEM,
-        OTHER_HEADER, PRIVACY_ITEM, RATE_ITEM, HELP_ITEM, ABOUT_ITEM
+        OTHER_HEADER, PRIVACY_ITEM, RATE_ITEM, ABOUT_ITEM
     }
 }
