@@ -7,7 +7,9 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 interface MainViewModel {
 
-    var showNotificationsHelp: Boolean
+    val showNotificationsHelp: Boolean
+
+    fun hideNotificationsHelp()
 
     fun getNewNote(type: NoteType): NoteItem
 

@@ -84,6 +84,10 @@ class SplashActivity : ThemeActivity<ViewDataBinding>() {
         val context = this
         when(open) {
             is Open.Main -> startActivity(open.getIntent(context))
+            is Open.NotificationsHelp -> {
+                viewModel.resetNotificationsHelp()
+                startActivity(open.getIntent(context))
+            }
             is Open.Notifications -> startActivities(open.getIntents(context))
             is Open.Alarm -> startActivities(open.getIntents(context))
             is Open.BindNote -> startActivities(open.getIntents(context))

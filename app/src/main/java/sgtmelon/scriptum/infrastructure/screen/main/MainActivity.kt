@@ -5,8 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
@@ -44,14 +42,9 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     // TODO выносить из cleanup ui тесты
 
     // TODO notifications help
-    // 1. Логика отображения - ключ в настройки, его сброс
-    //    если нажал на уведомление - сброс ключа и показать диалог
     // 2. Тема для диалога - другой цвет кнопок
-    // 3. Отображать диалог после возвращения на гланый экран (ушёл в настройки - вернулся)
     // 4. Leaks for all dialogs?
-    // 5. Unit тесты для ключа
     // 6. UI тесты для диалога
-    // 7. Проверка скрыт канал или нет?
     // 8. Fail for android 12
 
     override val layoutId: Int = R.layout.activity_main
@@ -144,9 +137,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         notificationsHelpDialog.onNegativeClick {
             startSettingsChannelActivity(system?.toast, R.string.notification_eternal_channel_id)
         }
-        notificationsHelpDialog.onNeutralClick {
-            viewModel.showNotificationsHelp = false
-        }
+        notificationsHelpDialog.onNeutralClick { viewModel.hideNotificationsHelp() }
 
         addDialog.onItemSelected(owner = this) {
             val type = AddSheetData().convert(it.itemId) ?: return@onItemSelected

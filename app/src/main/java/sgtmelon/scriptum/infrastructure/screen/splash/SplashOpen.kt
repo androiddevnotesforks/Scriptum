@@ -25,6 +25,12 @@ sealed class SplashOpen {
     }
 
     @Serializable
+    object NotificationsHelp : SplashOpen() {
+
+        fun getIntent(context: Context): Intent = Screens.toMain(context)
+    }
+
+    @Serializable
     object Notifications : SplashOpen() {
 
         fun getIntents(context: Context): Array<Intent> {

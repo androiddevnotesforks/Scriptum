@@ -5,6 +5,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 interface SplashViewModel {
 
+    fun resetNotificationsHelp()
+
     fun getNewNote(type: NoteType): NoteItem
 
 }

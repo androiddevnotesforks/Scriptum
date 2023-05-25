@@ -100,9 +100,10 @@ class ViewModelModule {
     @ActivityScope
     fun provideSplashViewModel(
         owner: ViewModelStoreOwner,
+        preferencesRepo: PreferencesRepo,
         createNote: CreateNoteUseCase
     ): SplashViewModel {
-        val factory = ViewModelFactory.getSplash(createNote)
+        val factory = ViewModelFactory.getSplash(preferencesRepo, createNote)
         return ViewModelProvider(owner, factory)[SplashViewModelImpl::class.java]
     }
 

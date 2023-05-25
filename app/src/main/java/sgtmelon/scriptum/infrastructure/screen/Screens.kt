@@ -31,6 +31,8 @@ object Screens {
             return context.intent<SplashActivity>(IntentData.Splash.Key.OPEN to open.encode())
         }
 
+        fun toNotificationsHelp(context: Context) = get(context, SplashOpen.NotificationsHelp)
+
         fun toAlarm(context: Context, noteId: Long): Intent {
             val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             return get(context, SplashOpen.Alarm(noteId)).addFlags(flags)

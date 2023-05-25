@@ -14,11 +14,11 @@ class MainViewModelImpl(
 ) : ViewModel(),
     MainViewModel {
 
-    override var showNotificationsHelp: Boolean
-        get() = preferencesRepo.showNotificationsHelp
-        set(value) {
-            preferencesRepo.showNotificationsHelp = value
-        }
+    override val showNotificationsHelp: Boolean get() = preferencesRepo.showNotificationsHelp
+
+    override fun hideNotificationsHelp() {
+        preferencesRepo.showNotificationsHelp = false
+    }
 
     override fun getNewNote(type: NoteType): NoteItem = createNote(type)
 

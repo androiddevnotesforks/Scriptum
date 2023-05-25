@@ -77,9 +77,12 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
  */
 object ViewModelFactory {
 
-    fun getSplash(createNote: CreateNoteUseCase): ViewModelProvider.Factory = viewModelFactory {
+    fun getSplash(
+        preferencesRepo: PreferencesRepo,
+        createNote: CreateNoteUseCase
+    ): ViewModelProvider.Factory = viewModelFactory {
         initializer {
-            SplashViewModelImpl(createNote)
+            SplashViewModelImpl(preferencesRepo, createNote)
         }
     }
 

@@ -5,8 +5,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Build.VERSION_CODES
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.extensions.getNotificationService
@@ -205,13 +203,10 @@ object NotificationFactory {
             }
         }
 
-        /**
-         * Notification for good work of [EternalService].
-         */
+        /** Notification for good work of [EternalService]. */
         operator fun get(context: Context): Notification {
             val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(Screens.Splash.toMain(context)) // TODO show info
-//                .addNextIntent(Screens.Splash.toHelpDisappear(context))
+                .addNextIntent(Screens.Splash.toNotificationsHelp(context))
                 .getPendingIntent(ID, PendingIntent.FLAG_UPDATE_CURRENT)
 
             val text = context.getString(R.string.notification_eternal_description)

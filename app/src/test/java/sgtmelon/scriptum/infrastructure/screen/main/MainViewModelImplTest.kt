@@ -56,15 +56,13 @@ class MainViewModelImplTest : ParentLiveDataTest() {
         }
     }
 
-    @Test fun setShowNotificationsHelp() {
-        val value = Random.nextBoolean()
+    @Test fun hideNotificationsHelp() {
+        every { preferencesRepo.showNotificationsHelp = false } returns Unit
 
-        every { preferencesRepo.showNotificationsHelp = value } returns Unit
-
-        viewModel.showNotificationsHelp = value
+        viewModel.hideNotificationsHelp()
 
         verifySequence {
-            preferencesRepo.showNotificationsHelp = value
+            preferencesRepo.showNotificationsHelp = false
         }
     }
 
