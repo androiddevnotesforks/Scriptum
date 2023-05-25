@@ -60,6 +60,18 @@ class PreferencesDataSourceImplTest : ParentTest() {
         { dataSource.isFirstStart = it }
     )
 
+    @Test fun isShowNotificationsHelp() = getTest(
+        Random.nextBoolean(),
+        { preferences.showNotificationsHelp },
+        { dataSource.showNotificationsHelp }
+    )
+
+    @Test fun setShowNotificationsHelp() = setTest(
+        Random.nextBoolean(),
+        { preferences.showNotificationsHelp = it },
+        { dataSource.showNotificationsHelp = it }
+    )
+
     // App settings
 
     @Test fun getTheme() = getTest(Random.nextInt(), { preferences.theme }, { dataSource.theme })

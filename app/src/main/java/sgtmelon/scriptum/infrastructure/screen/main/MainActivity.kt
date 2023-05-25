@@ -44,7 +44,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     // TODO выносить из cleanup ui тесты
 
     // TODO notifications help
-    // 0. Удалить старый экран
     // 1. Логика отображения - ключ в настройки, его сброс
     //    если нажал на уведомление - сброс ключа и показать диалог
     // 2. Тема для диалога - другой цвет кнопок
@@ -146,7 +145,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
             startSettingsChannelActivity(system?.toast, R.string.notification_eternal_channel_id)
         }
         notificationsHelpDialog.onNeutralClick {
-            // TODO disable dialog for future show (change in preferences)
+            viewModel.showNotificationsHelp = false
         }
 
         addDialog.onItemSelected(owner = this) {
@@ -165,6 +164,10 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
         /** Show FAB (if it is possible) after returning to the screen. */
         changeFabVisibility()
+
+        if (viewModel.showNotificationsHelp) {
+            notificationsHelpDialog.safeShow(DialogFactory.Main.NOTIFICATIONS, owner = this)
+        }
     }
 
     override fun onDestroy() {

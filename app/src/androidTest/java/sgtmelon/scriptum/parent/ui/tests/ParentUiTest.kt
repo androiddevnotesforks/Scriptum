@@ -66,6 +66,7 @@ abstract class ParentUiTest : ParentTest() {
         setupTheme(ThemeDisplayed.values().random())
 
         preferencesRepo.isFirstStart = false
+        preferencesRepo.showNotificationsHelp = false
         preferences.apply {
             isAutoSaveOn = false
             isPauseSaveOn = false

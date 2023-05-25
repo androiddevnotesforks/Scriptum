@@ -13,6 +13,12 @@ class PreferencesDataSourceImpl(
             preferences.isFirstStart = value
         }
 
+    override var showNotificationsHelp: Boolean
+        get() = preferences.showNotificationsHelp
+        set(value) {
+            preferences.showNotificationsHelp = value
+        }
+
     // App settings
 
     override var theme: Int

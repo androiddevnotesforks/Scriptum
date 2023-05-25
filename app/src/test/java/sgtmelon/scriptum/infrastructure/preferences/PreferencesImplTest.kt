@@ -150,6 +150,19 @@ class PreferencesImplTest : ParentTest() {
         { preferences.isFirstStart = it }
     )
 
+    @Test fun isShowNotificationsHelp() = getTest(
+        Pair(Random.nextBoolean(), Random.nextBoolean()),
+        { keyProvider.showNotificationsHelp },
+        { defProvider.showNotificationsHelp },
+        { preferences.showNotificationsHelp }
+    )
+
+    @Test fun setShowNotificationsHelp() = setTest(
+        Random.nextBoolean(),
+        { keyProvider.showNotificationsHelp },
+        { preferences.showNotificationsHelp = it }
+    )
+
     // App settings
 
     @Test fun getTheme() = getTest(

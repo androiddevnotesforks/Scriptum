@@ -14,6 +14,8 @@ interface PreferencesRepo {
 
     var isFirstStart: Boolean
 
+    var showNotificationsHelp: Boolean
+
     // App settings
 
     var theme: Theme

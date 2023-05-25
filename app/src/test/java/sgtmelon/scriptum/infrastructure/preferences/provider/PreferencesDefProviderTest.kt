@@ -29,6 +29,7 @@ class PreferencesDefProviderTest : ParentTest() {
 
     @Test fun `correct links`() {
         val isFirstStart = Random.nextBoolean()
+        val showNotificationsHelp = Random.nextBoolean()
         val theme = Random.nextInt()
         val isBackupSkip = Random.nextBoolean()
         val sort = Random.nextInt()
@@ -43,22 +44,26 @@ class PreferencesDefProviderTest : ParentTest() {
         val isVolumeIncrease = Random.nextBoolean()
         val isDeveloper = Random.nextBoolean()
 
-        every { resources.getBoolean(R.bool.pref_first_start) } returns isFirstStart
-        every { resources.getInteger(R.integer.pref_app_theme) } returns theme
-        every { resources.getBoolean(R.bool.pref_backup_skip) } returns isBackupSkip
-        every { resources.getInteger(R.integer.pref_note_sort) } returns sort
-        every { resources.getInteger(R.integer.pref_note_color) } returns defaultColor
-        every { resources.getBoolean(R.bool.pref_note_pause_save) } returns isPauseSaveOn
-        every { resources.getBoolean(R.bool.pref_note_auto_save) } returns isAutoSaveOn
-        every { resources.getInteger(R.integer.pref_note_save_period) } returns savePeriod
-        every { resources.getInteger(R.integer.pref_alarm_repeat) } returns repeat
-        every { resources.getString(R.string.pref_alarm_signal) } returns signal
-        every { resources.getString(R.string.pref_alarm_melody) } returns melodyUri
-        every { resources.getInteger(R.integer.pref_alarm_volume) } returns volume
-        every { resources.getBoolean(R.bool.pref_alarm_increase) } returns isVolumeIncrease
-        every { resources.getBoolean(R.bool.pref_developer) } returns isDeveloper
+        with(resources) {
+            every { getBoolean(R.bool.pref_first_start) } returns isFirstStart
+            every { getBoolean(R.bool.pref_notifications_help) } returns showNotificationsHelp
+            every { getInteger(R.integer.pref_app_theme) } returns theme
+            every { getBoolean(R.bool.pref_backup_skip) } returns isBackupSkip
+            every { getInteger(R.integer.pref_note_sort) } returns sort
+            every { getInteger(R.integer.pref_note_color) } returns defaultColor
+            every { getBoolean(R.bool.pref_note_pause_save) } returns isPauseSaveOn
+            every { getBoolean(R.bool.pref_note_auto_save) } returns isAutoSaveOn
+            every { getInteger(R.integer.pref_note_save_period) } returns savePeriod
+            every { getInteger(R.integer.pref_alarm_repeat) } returns repeat
+            every { getString(R.string.pref_alarm_signal) } returns signal
+            every { getString(R.string.pref_alarm_melody) } returns melodyUri
+            every { getInteger(R.integer.pref_alarm_volume) } returns volume
+            every { getBoolean(R.bool.pref_alarm_increase) } returns isVolumeIncrease
+            every { getBoolean(R.bool.pref_developer) } returns isDeveloper
+        }
 
         assertEquals(isFirstStart, providerDef.isFirstStart)
+        assertEquals(showNotificationsHelp, providerDef.showNotificationsHelp)
         assertEquals(theme, providerDef.theme)
         assertEquals(isBackupSkip, providerDef.isBackupSkip)
         assertEquals(sort, providerDef.sort)
@@ -75,6 +80,7 @@ class PreferencesDefProviderTest : ParentTest() {
 
         verifySequence {
             resources.getBoolean(R.bool.pref_first_start)
+            resources.getBoolean(R.bool.pref_notifications_help)
             resources.getInteger(R.integer.pref_app_theme)
             resources.getBoolean(R.bool.pref_backup_skip)
             resources.getInteger(R.integer.pref_note_sort)

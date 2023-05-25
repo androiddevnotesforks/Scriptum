@@ -75,7 +75,6 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
 /**
  * ViewModel factory for create ViewModels with constructor parameters.
  */
-@Suppress("UNCHECKED_CAST")
 object ViewModelFactory {
 
     fun getSplash(createNote: CreateNoteUseCase): ViewModelProvider.Factory = viewModelFactory {
@@ -92,9 +91,12 @@ object ViewModelFactory {
 
     object MainScreen {
 
-        fun getMain(createNote: CreateNoteUseCase): ViewModelProvider.Factory = viewModelFactory {
+        fun getMain(
+            preferencesRepo: PreferencesRepo,
+            createNote: CreateNoteUseCase
+        ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                MainViewModelImpl(createNote)
+                MainViewModelImpl(preferencesRepo, createNote)
             }
         }
 

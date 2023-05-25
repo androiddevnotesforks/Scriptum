@@ -10,6 +10,8 @@ import sgtmelon.scriptum.R
 class PreferencesKeyProvider(resources: Resources) {
 
     val isFirstStart: String = resources.getString(R.string.pref_key_first_start)
+    val showNotificationsHelp: String = resources.getString(R.string.pref_key_notifications_help)
+
     val theme: String = resources.getString(R.string.pref_key_theme)
 
     val isBackupSkip: String = resources.getString(R.string.pref_key_backup_skip)

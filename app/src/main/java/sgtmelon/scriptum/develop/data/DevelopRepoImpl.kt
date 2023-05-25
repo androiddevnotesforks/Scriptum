@@ -52,6 +52,11 @@ class DevelopRepoImpl(
         return listOf(
             PrintPref.Title(R.string.pref_header_app),
             PrintPref.Key(key.isFirstStart, def.isFirstStart, isFirstStart),
+            PrintPref.Key(
+                key.showNotificationsHelp,
+                def.showNotificationsHelp,
+                showNotificationsHelp
+            ),
             PrintPref.Key(key.theme, def.theme, theme),
             PrintPref.Title(R.string.pref_title_backup),
             PrintPref.Key(key.isBackupSkip, def.isBackupSkip, isBackupSkip),

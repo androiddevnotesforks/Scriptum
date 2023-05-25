@@ -4,6 +4,8 @@ interface PreferencesDataSource {
 
     var isFirstStart: Boolean
 
+    var showNotificationsHelp: Boolean
+
     // App settings
 
     var theme: Int

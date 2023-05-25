@@ -123,9 +123,10 @@ class ViewModelModule {
     @ActivityScope
     fun provideMainViewModel(
         owner: ViewModelStoreOwner,
+        preferencesRepo: PreferencesRepo,
         createNote: CreateNoteUseCase
     ): MainViewModel {
-        val factory = ViewModelFactory.MainScreen.getMain(createNote)
+        val factory = ViewModelFactory.MainScreen.getMain(preferencesRepo, createNote)
         return ViewModelProvider(owner, factory)[MainViewModelImpl::class.java]
     }
 

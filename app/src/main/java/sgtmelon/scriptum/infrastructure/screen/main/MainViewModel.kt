@@ -7,6 +7,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 interface MainViewModel {
 
+    var showNotificationsHelp: Boolean
+
     fun getNewNote(type: NoteType): NoteItem
 
     val previousPage: MainPage?

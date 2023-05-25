@@ -28,6 +28,7 @@ class PreferencesKeyProviderTest : ParentTest() {
 
     @Test fun `correct links`() {
         val isFirstStart = nextString()
+        val showNotificationsHelp = nextString()
         val theme = nextString()
         val isBackupSkip = nextString()
         val sort = nextString()
@@ -42,20 +43,23 @@ class PreferencesKeyProviderTest : ParentTest() {
         val isVolumeIncrease = nextString()
         val isDeveloper = nextString()
 
-        every { resources.getString(R.string.pref_key_first_start) } returns isFirstStart
-        every { resources.getString(R.string.pref_key_theme) } returns theme
-        every { resources.getString(R.string.pref_key_backup_skip) } returns isBackupSkip
-        every { resources.getString(R.string.pref_key_note_sort) } returns sort
-        every { resources.getString(R.string.pref_key_note_color) } returns defaultColor
-        every { resources.getString(R.string.pref_key_note_pause_save) } returns isPauseSaveOn
-        every { resources.getString(R.string.pref_key_note_auto_save) } returns isAutoSaveOn
-        every { resources.getString(R.string.pref_key_note_save_period) } returns savePeriod
-        every { resources.getString(R.string.pref_key_alarm_repeat) } returns repeat
-        every { resources.getString(R.string.pref_key_alarm_signal) } returns signal
-        every { resources.getString(R.string.pref_key_alarm_melody) } returns melodyUri
-        every { resources.getString(R.string.pref_key_alarm_volume) } returns volume
-        every { resources.getString(R.string.pref_key_alarm_increase) } returns isVolumeIncrease
-        every { resources.getString(R.string.pref_key_developer) } returns isDeveloper
+        with(resources) {
+            every { getString(R.string.pref_key_first_start) } returns isFirstStart
+            every { getString(R.string.pref_key_notifications_help) } returns showNotificationsHelp
+            every { getString(R.string.pref_key_theme) } returns theme
+            every { getString(R.string.pref_key_backup_skip) } returns isBackupSkip
+            every { getString(R.string.pref_key_note_sort) } returns sort
+            every { getString(R.string.pref_key_note_color) } returns defaultColor
+            every { getString(R.string.pref_key_note_pause_save) } returns isPauseSaveOn
+            every { getString(R.string.pref_key_note_auto_save) } returns isAutoSaveOn
+            every { getString(R.string.pref_key_note_save_period) } returns savePeriod
+            every { getString(R.string.pref_key_alarm_repeat) } returns repeat
+            every { getString(R.string.pref_key_alarm_signal) } returns signal
+            every { getString(R.string.pref_key_alarm_melody) } returns melodyUri
+            every { getString(R.string.pref_key_alarm_volume) } returns volume
+            every { getString(R.string.pref_key_alarm_increase) } returns isVolumeIncrease
+            every { getString(R.string.pref_key_developer) } returns isDeveloper
+        }
 
         assertEquals(isFirstStart, providerKey.isFirstStart)
         assertEquals(theme, providerKey.theme)
@@ -74,6 +78,7 @@ class PreferencesKeyProviderTest : ParentTest() {
 
         verifySequence {
             resources.getString(R.string.pref_key_first_start)
+            resources.getString(R.string.pref_key_notifications_help)
             resources.getString(R.string.pref_key_theme)
             resources.getString(R.string.pref_key_backup_skip)
             resources.getString(R.string.pref_key_note_sort)

@@ -101,6 +101,11 @@ class AlarmPreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
         { viewModel.volumeSummary }
     )
 
+    @Test fun todo() {
+        TODO()
+    }
+
+    /**
     @Test fun getMelodySummaryState() {
         TODO()
     }
@@ -128,4 +133,5 @@ class AlarmPreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
     @Test fun updateMelody() {
         TODO()
     }
+    */
 }

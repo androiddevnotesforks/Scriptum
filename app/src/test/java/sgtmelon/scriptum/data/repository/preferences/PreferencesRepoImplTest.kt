@@ -162,6 +162,19 @@ class PreferencesRepoImplTest : ParentTest() {
         { repo.isFirstStart = it }
     )
 
+    @Test fun isShowNotificationsHelp() = getTest(
+        Random.nextBoolean(),
+        { dataSource.showNotificationsHelp },
+        { repo.showNotificationsHelp }
+    )
+
+    @Test fun setShowNotificationsHelp() = setTest(
+        Random.nextBoolean(),
+        { dataSource.showNotificationsHelp = it },
+        { repo.showNotificationsHelp = it }
+    )
+
+
     // App settings
 
     @Test fun getTheme() = getEnumTest(

@@ -39,6 +39,12 @@ class PreferencesRepoImpl(
             dataSource.isFirstStart = value
         }
 
+    override var showNotificationsHelp: Boolean
+        get() = dataSource.showNotificationsHelp
+        set(value) {
+            dataSource.showNotificationsHelp = value
+        }
+
     // App settings
 
     override var theme by PrefEnumDelegator(

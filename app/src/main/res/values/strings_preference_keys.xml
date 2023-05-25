@@ -2,6 +2,7 @@
 <resources>
 
     <string name="pref_key_first_start" translatable="false">key_first_start</string>
+    <string name="pref_key_notifications_help" translatable="false">key_notifications_help</string>
 
     <string name="pref_key_theme" translatable="false">key_app_theme</string>
 
