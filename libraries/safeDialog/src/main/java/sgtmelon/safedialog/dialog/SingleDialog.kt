@@ -1,19 +1,23 @@
 package sgtmelon.safedialog.dialog
 
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
+import sgtmelon.safedialog.dialog.parent.CreateAlertDialog
 import sgtmelon.safedialog.utils.safeShow
 
 /**
  * Dialog for single choice.
  */
-class SingleDialog : BlankButtonDialog() {
+class SingleDialog : BlankButtonDialog(),
+    CreateAlertDialog {
+
+    @StyleRes override var themeId: Int? = null
 
     var itemArray: Array<String> = emptyArray()
 
@@ -25,9 +29,7 @@ class SingleDialog : BlankButtonDialog() {
 
     private var checkInit = DEF_CHECK
 
-    /**
-     * This is a result check position.
-     */
+    /** This is a result check position. */
     var check = DEF_CHECK
         private set
 
@@ -49,9 +51,9 @@ class SingleDialog : BlankButtonDialog() {
         }
     }
 
-    override fun createDialog(context: Context): Dialog {
-        return AlertDialog.Builder(context)
-            .setTitle(title)
+
+    override fun buildDialog(builder: AlertDialog.Builder, context: Context): AlertDialog.Builder {
+        return builder.setTitle(title)
             .setSingleChoiceItems(itemArray, check) { _, i ->
                 itemListener?.onClick(dialog, i)
                 check = i
@@ -60,7 +62,6 @@ class SingleDialog : BlankButtonDialog() {
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
             .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
-            .create()
     }
 
     override fun onRestoreContentState(savedState: Bundle) {

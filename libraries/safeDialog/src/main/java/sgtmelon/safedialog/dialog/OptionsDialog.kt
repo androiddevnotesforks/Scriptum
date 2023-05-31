@@ -1,19 +1,23 @@
 package sgtmelon.safedialog.dialog
 
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
+import sgtmelon.safedialog.dialog.parent.CreateAlertDialog
 import sgtmelon.safedialog.utils.safeShow
 
 /**
  * Dialog showing options for choose (also work with list items - [position]).
  */
 class OptionsDialog : BlankEmptyDialog(),
+    CreateAlertDialog,
     DialogInterface.OnClickListener {
+
+    @StyleRes override var themeId: Int? = null
 
     var title: String = DEF_TITLE
     var itemListener: DialogInterface.OnClickListener? = null
@@ -44,12 +48,10 @@ class OptionsDialog : BlankEmptyDialog(),
         }
     }
 
-    override fun createDialog(context: Context): Dialog {
-        return AlertDialog.Builder(context)
-            .setItems(itemList.toTypedArray(), this)
+    override fun buildDialog(builder: AlertDialog.Builder, context: Context): AlertDialog.Builder {
+        return builder.setItems(itemList.toTypedArray(), this)
             .setCancelable(true)
             .apply { title.takeIf { it != DEF_TITLE }?.let { setTitle(it) } }
-            .create()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

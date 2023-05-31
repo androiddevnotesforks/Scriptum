@@ -1,32 +1,32 @@
 package sgtmelon.safedialog.dialog
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
+import sgtmelon.safedialog.dialog.parent.CreateAlertDialog
 import sgtmelon.safedialog.utils.safeShow
 
 /**
- * Dialog for multiply check choice
+ * Dialog for multiply check choice.
  */
-class MultipleDialog : BlankButtonDialog() {
+class MultipleDialog : BlankButtonDialog(),
+    CreateAlertDialog {
+
+    @StyleRes override var themeId: Int? = null
 
     var itemArray: Array<String> = emptyArray()
 
     private var checkInit = BooleanArray(size = 0)
 
-    /**
-     * This is a result check positions.
-     */
+    /** This is a result check positions. */
     var check = BooleanArray(size = 0)
         private set
 
-    /**
-     * If true - [check] should contain at least one true value for success apply.
-     */
+    /** If true - [check] should contain at least one true value for success apply. */
     var atLeastOne = DEF_AT_LEAST
 
     /**
@@ -42,9 +42,8 @@ class MultipleDialog : BlankButtonDialog() {
     }
 
 
-    override fun createDialog(context: Context): Dialog {
-        return AlertDialog.Builder(context)
-            .setTitle(title)
+    override fun buildDialog(builder: AlertDialog.Builder, context: Context): AlertDialog.Builder {
+        return builder.setTitle(title)
             .setMultiChoiceItems(itemArray, check) { _, which, isChecked ->
                 check[which] = isChecked
                 changeButtonEnable()
@@ -52,7 +51,6 @@ class MultipleDialog : BlankButtonDialog() {
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
             .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
-            .create()
     }
 
     override fun onRestoreContentState(savedState: Bundle) {

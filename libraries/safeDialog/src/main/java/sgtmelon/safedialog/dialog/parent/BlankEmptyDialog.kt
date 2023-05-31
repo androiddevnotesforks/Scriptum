@@ -13,7 +13,8 @@ import sgtmelon.safedialog.utils.safeShow
  * Base class for safe dialogs without title/buttons/etc. Use mainly for [BlankButtonDialog] and custom
  * dialogs with view.
  */
-abstract class BlankEmptyDialog : DialogFragment() {
+abstract class BlankEmptyDialog : DialogFragment(),
+    CreateDialog {
 
     var dismissListener: DialogInterface.OnDismissListener? = null
 
@@ -36,10 +37,6 @@ abstract class BlankEmptyDialog : DialogFragment() {
         val dialog = createDialog(requireContext())
         return transformDialog(dialog)
     }
-
-    abstract fun createDialog(context: Context): Dialog
-
-    open fun transformDialog(dialog: Dialog): Dialog = dialog.applyAnimation()
 
     //endregion
 

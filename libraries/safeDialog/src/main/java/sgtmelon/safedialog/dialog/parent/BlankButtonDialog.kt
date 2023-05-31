@@ -9,7 +9,7 @@ import sgtmelon.safedialog.annotation.SavedTag
 import android.app.AlertDialog as AlertDialogOld
 
 /**
- * Base class for dialogs with buttons
+ * Base class for dialogs with buttons.
  */
 abstract class BlankButtonDialog : BlankEmptyDialog() {
 
@@ -95,9 +95,7 @@ abstract class BlankButtonDialog : BlankEmptyDialog() {
         }
     }
 
-    /**
-     * Func for change [positiveButton]/[negativeButton]/[neutralButton] enable state.
-     */
+    /** Func for change [positiveButton]/[negativeButton]/[neutralButton] enable state. */
     @CallSuper
     protected open fun changeButtonEnable() = Unit
 
