@@ -1,24 +1,24 @@
 package sgtmelon.scriptum.cleanup.presentation.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.dialog.parent.BlankDialog
-import sgtmelon.safedialog.utils.applyAnimation
+import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.adapter.ColorAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 
 /**
  * Dialog for display application available colors for notes.
  */
-class ColorDialog : BlankDialog(),
+class ColorDialog : BlankButtonDialog(),
     ColorClickListener {
 
     private var checkInit: Int = DEF_CHECK
@@ -34,21 +34,18 @@ class ColorDialog : BlankDialog(),
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
-        return AlertDialog.Builder(requireContext())
+    override fun createDialog(context: Context): Dialog {
+        return AlertDialog.Builder(context)
             .setTitle(title)
-            .setView(createRecycler())
+            .setView(createRecycler(context))
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
             .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
             .create()
-            .applyAnimation()
     }
 
-    private fun createRecycler(): View {
-        val recyclerView = RecyclerView(requireContext())
+    private fun createRecycler(context: Context): View {
+        val recyclerView = RecyclerView(context)
 
         recyclerView.id = R.id.color_recycler_view
 
@@ -60,7 +57,7 @@ class ColorDialog : BlankDialog(),
         recyclerView.layoutManager = GridLayoutManager(context, columnCount)
         recyclerView.adapter = ColorAdapter(callback = this@ColorDialog, check)
 
-        (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        recyclerView.disableChangeAnimations()
 
         /** The height of all items absolutely the same. */
         recyclerView.setHasFixedSize(true)

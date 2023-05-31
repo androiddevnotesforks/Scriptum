@@ -9,9 +9,9 @@ import sgtmelon.safedialog.annotation.SavedTag
 import android.app.AlertDialog as AlertDialogOld
 
 /**
- * Base class for safe dialogs
+ * Base class for dialogs with buttons
  */
-abstract class BlankDialog : BlankEmptyDialog() {
+abstract class BlankButtonDialog : BlankEmptyDialog() {
 
     var title: String = DEF_TITLE
 

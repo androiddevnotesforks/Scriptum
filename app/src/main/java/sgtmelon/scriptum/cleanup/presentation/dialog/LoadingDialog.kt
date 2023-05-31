@@ -1,12 +1,11 @@
 package sgtmelon.scriptum.cleanup.presentation.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
-import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
-import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.applyTransparentBackground
 import sgtmelon.scriptum.R
 import sgtmelon.textDotAnim.DotAnimType
@@ -22,15 +21,16 @@ class LoadingDialog : BlankEmptyDialog(), DotAnimation.Callback {
 
     private val dotAnimation = DotAnimation(lifecycle, DotAnimType.SPAN, callback = this)
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
-        return AlertDialog.Builder(requireContext())
+    override fun createDialog(context: Context): Dialog {
+        return AlertDialog.Builder(context)
             .setView(R.layout.view_loading)
             .setCancelable(false)
             .create()
+    }
+
+    override fun transformDialog(dialog: Dialog): Dialog {
+        return super.transformDialog(dialog)
             .applyTransparentBackground()
-            .applyAnimation()
     }
 
     override fun setupView() {

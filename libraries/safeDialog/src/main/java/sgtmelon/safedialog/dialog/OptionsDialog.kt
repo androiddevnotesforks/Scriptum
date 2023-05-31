@@ -1,12 +1,12 @@
 package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
-import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.safeShow
 
 /**
@@ -44,18 +44,12 @@ class OptionsDialog : BlankEmptyDialog(),
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
-        val builder = AlertDialog.Builder(requireContext())
+    override fun createDialog(context: Context): Dialog {
+        return AlertDialog.Builder(context)
             .setItems(itemList.toTypedArray(), this)
             .setCancelable(true)
-
-        if (title != DEF_TITLE) {
-            builder.setTitle(title)
-        }
-
-        return builder.create().applyAnimation()
+            .apply { title.takeIf { it != DEF_TITLE }?.let { setTitle(it) } }
+            .create()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

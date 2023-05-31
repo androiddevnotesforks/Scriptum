@@ -2,6 +2,7 @@ package sgtmelon.safedialog.dialog.time
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
@@ -12,7 +13,6 @@ import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.callback.DateTestCallback
 import sgtmelon.safedialog.dialog.parent.BlankDateTimeDialog
-import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.test.prod.RunNone
 
@@ -50,14 +50,13 @@ class DateDialog : BlankDateTimeDialog(),
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
+    override fun createDialog(context: Context): Dialog {
         if (BuildConfig.DEBUG) {
             callback = this
         }
 
-        return DatePickerDialog(requireContext(), this,
+        return DatePickerDialog(
+            context, this,
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
@@ -68,7 +67,7 @@ class DateDialog : BlankDateTimeDialog(),
                 getString(R.string.dialog_button_reset),
                 onNeutralClick
             )
-        }.applyAnimation()
+        }
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {

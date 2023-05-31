@@ -2,6 +2,7 @@ package sgtmelon.safedialog.dialog.time
 
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import java.util.Calendar
 import sgtmelon.extensions.clearSeconds
@@ -13,7 +14,6 @@ import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.callback.TimeTestCallback
 import sgtmelon.safedialog.dialog.parent.BlankDateTimeDialog
 import sgtmelon.safedialog.dialog.parent.TouchTimePickerDialog
-import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.test.prod.RunNone
 
@@ -57,20 +57,18 @@ class TimeDialog : BlankDateTimeDialog(), TimeTestCallback {
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
+    override fun createDialog(context: Context): Dialog {
         if (BuildConfig.DEBUG) {
             callback = this
         }
 
         return TouchTimePickerDialog(
-            requireContext(), this,
+            context, this,
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
-            requireContext().is24HourFormat,
+            context.is24HourFormat,
             touchChangeListener
-        ).applyAnimation()
+        )
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {

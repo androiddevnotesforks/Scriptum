@@ -1,18 +1,18 @@
 package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.utils.applyAnimation
-import sgtmelon.safedialog.dialog.parent.BlankDialog
+import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 import sgtmelon.safedialog.utils.safeShow
 
 /**
  * Dialog for multiply check choice
  */
-class MultipleDialog : BlankDialog() {
+class MultipleDialog : BlankButtonDialog() {
 
     var itemArray: Array<String> = emptyArray()
 
@@ -41,10 +41,9 @@ class MultipleDialog : BlankDialog() {
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
 
-        return AlertDialog.Builder(requireContext())
+    override fun createDialog(context: Context): Dialog {
+        return AlertDialog.Builder(context)
             .setTitle(title)
             .setMultiChoiceItems(itemArray, check) { _, which, isChecked ->
                 check[which] = isChecked
@@ -54,7 +53,6 @@ class MultipleDialog : BlankDialog() {
             .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
             .create()
-            .applyAnimation()
     }
 
     override fun onRestoreContentState(savedState: Bundle) {

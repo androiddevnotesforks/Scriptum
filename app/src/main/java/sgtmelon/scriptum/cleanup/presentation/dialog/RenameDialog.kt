@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
@@ -12,18 +13,17 @@ import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.dialog.parent.BlankDialog
-import sgtmelon.safedialog.utils.applyAnimation
+import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 import sgtmelon.safedialog.utils.showKeyboard
 import sgtmelon.scriptum.R
 
 /**
- * Dialog with EditText for rename category.
+ * Dialog with [EditText] for rename category.
  */
-class RenameDialog : BlankDialog(),
+class RenameDialog : BlankButtonDialog(),
     TextView.OnEditorActionListener {
 
-    private val nameEnter get() = dialog?.findViewById<EditText?>(R.id.rename_enter)
+    private val nameEnter: EditText? get() = dialog?.findViewById(R.id.rename_enter)
 
     private var nameList: ArrayList<String> = ArrayList()
 
@@ -40,18 +40,19 @@ class RenameDialog : BlankDialog(),
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
-        return AlertDialog.Builder(requireContext())
+    override fun createDialog(context: Context): Dialog {
+        return AlertDialog.Builder(context)
             .setTitle(title)
             .setView(R.layout.view_rename)
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
             .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
             .create()
+    }
+
+    override fun transformDialog(dialog: Dialog): Dialog {
+        return super.transformDialog(dialog)
             .showKeyboard()
-            .applyAnimation()
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {

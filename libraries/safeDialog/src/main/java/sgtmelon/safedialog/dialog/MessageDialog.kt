@@ -1,42 +1,34 @@
 package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.extensions.decode
 import sgtmelon.extensions.encode
 import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.utils.applyAnimation
-import sgtmelon.safedialog.dialog.parent.BlankDialog
+import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 
 /**
  * Dialog with title and message for user.
  */
-class MessageDialog : BlankDialog() {
+class MessageDialog : BlankButtonDialog() {
 
     var type: MessageType = DEF_TYPE
     var message: String = DEF_TEXT
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
-        val builder = AlertDialog.Builder(requireContext())
+    override fun createDialog(context: Context): Dialog {
+        return AlertDialog.Builder(context)
             .setTitle(title)
             .setMessage(message)
-
-        builder.setPositiveButton(getString(type.positiveButton), onPositiveClick)
-
-        type.negativeButton?.let {
-            builder.setNegativeButton(getString(it), onNegativeClick)
-        }
-        type.neutralButton?.let {
-            builder.setNeutralButton(getString(it), onNeutralClick)
-        }
-
-        return builder.setCancelable(true)
+            .setPositiveButton(getString(type.positiveButton), onPositiveClick)
+            .apply {
+                type.negativeButton?.let { setNegativeButton(getString(it), onNegativeClick) }
+                type.neutralButton?.let { setNeutralButton(getString(it), onNeutralClick) }
+            }
+            .setCancelable(true)
             .create()
-            .applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

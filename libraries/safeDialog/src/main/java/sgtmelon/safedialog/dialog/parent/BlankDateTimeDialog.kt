@@ -14,7 +14,7 @@ import sgtmelon.safedialog.dialog.time.TimeDialog
 /**
  * Base class for work with [DateDialog] and [TimeDialog].
  */
-abstract class BlankDateTimeDialog : BlankDialog(),
+abstract class BlankDateTimeDialog : BlankButtonDialog(),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 

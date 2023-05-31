@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
@@ -9,7 +10,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
-import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 
@@ -27,14 +27,11 @@ class AboutDialog : BlankEmptyDialog(),
     var hideOpen = DEF_HIDE
         private set
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
-        return AlertDialog.Builder(requireContext())
+    override fun createDialog(context: Context): Dialog {
+        return AlertDialog.Builder(context)
             .setView(R.layout.view_about)
             .setCancelable(true)
             .create()
-            .applyAnimation()
     }
 
     override fun onRestoreContentState(savedState: Bundle) {

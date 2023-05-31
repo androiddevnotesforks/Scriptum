@@ -1,20 +1,20 @@
 package sgtmelon.scriptum.cleanup.presentation.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.dialog.parent.BlankDialog
+import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
 
 /**
  * Dialog with seekBar for change volume level.
  */
-class VolumeDialog : BlankDialog(),
+class VolumeDialog : BlankButtonDialog(),
     SeekBar.OnSeekBarChangeListener {
 
     private val seekBar get() = dialog?.findViewById<SeekBar?>(R.id.volume_seek_bar)
@@ -31,17 +31,14 @@ class VolumeDialog : BlankDialog(),
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        super.onCreateDialog(savedInstanceState)
-
-        return AlertDialog.Builder(requireContext())
+    override fun createDialog(context: Context): Dialog {
+        return AlertDialog.Builder(context)
             .setTitle(title)
             .setView(R.layout.view_volume)
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
             .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
             .create()
-            .applyAnimation()
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
