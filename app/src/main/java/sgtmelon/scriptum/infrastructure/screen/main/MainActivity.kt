@@ -42,7 +42,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     // TODO выносить из cleanup ui тесты
 
     // TODO notifications help
-    // 2. Тема для диалога - другой цвет кнопок
     // 4. Leaks for all dialogs?
     // 6. UI тесты для диалога
     // 8. Fail for android 12
@@ -133,6 +132,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     override fun setupDialogs() {
         super.setupDialogs()
 
+        notificationsHelpDialog.themeId = R.style.App_Dialog_Alert_NotificationsHelp
         notificationsHelpDialog.onPositiveClick { startSettingsActivity(system?.toast) }
         notificationsHelpDialog.onNegativeClick {
             startSettingsChannelActivity(system?.toast, R.string.notification_eternal_channel_id)

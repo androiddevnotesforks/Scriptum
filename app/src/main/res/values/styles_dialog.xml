@@ -10,18 +10,23 @@
         <item name="android:textColorPrimary">?attr/clContent</item>
 
         <item name="android:windowBackground">?attr/clPrimary</item>
-        <item name="buttonBarNegativeButtonStyle">@style/App.Dialog.NegativeButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/App.Dialog.PaleButton</item>
 
         <!--  For overScrollMode  -->
         <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
         <!--  This flag works good with alert dialogs  -->
         <item name="android:overScrollMode">ifContentScrolls</item>
+    </style>
+
+    <style name="App.Dialog.Alert.NotificationsHelp">
+        <item name="buttonBarNegativeButtonStyle">@style/App.Dialog.AccentButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/App.Dialog.PaleButton</item>
     </style>
 
     <style name="App.Dialog.DateTime" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="colorAccent">?attr/clAccent</item>
         <item name="android:windowBackground">?attr/clPrimary</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/App.Dialog.NegativeButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/App.Dialog.PaleButton</item>
 
         <!--  For overScrollMode  -->
         <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
@@ -29,7 +34,11 @@
         <item name="android:overScrollMode">ifContentScrolls</item>
     </style>
 
-    <style name="App.Dialog.NegativeButton" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="App.Dialog.AccentButton" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">?attr/clAccent</item>
+    </style>
+
+    <style name="App.Dialog.PaleButton" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">?attr/clContentSecond</item>
     </style>
 
