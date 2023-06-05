@@ -16,23 +16,19 @@ fun Dialog.applyTransparentBackground() = apply {
     window?.setBackgroundDrawableResource(android.R.color.transparent)
 }
 
-fun DialogFragment.safeShow(tag: String?, owner: DialogOwner) = safeShow(owner.fm, tag, owner)
-
-fun DialogFragment.safeShow(fm: FragmentManager, tag: String?, owner: LifecycleOwner) {
+fun DialogFragment.safeShow(tag: String?, owner: DialogOwner) {
     owner.lifecycleScope.launchWhenResumed {
         if (!isAdded) {
-            show(fm, tag)
+            show(owner.fm, tag)
         }
     }
 }
 
 fun DialogFragment.safeDismiss(owner: LifecycleOwner) {
-    owner.lifecycleScope.launchWhenResumed { safeDismiss() }
-}
-
-fun DialogFragment.safeDismiss() {
-    if (isAdded) {
-        dismiss()
+    owner.lifecycleScope.launchWhenResumed {
+        if (isAdded) {
+            dismiss()
+        }
     }
 }
 
