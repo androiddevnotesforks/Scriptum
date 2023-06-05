@@ -20,13 +20,13 @@ import sgtmelon.safedialog.utils.safeDismiss
  * Parent dialog for sheet's with [NavigationView].
  */
 abstract class BlankMenuSheetDialog : BottomSheetDialogFragment(),
-        NavigationView.OnNavigationItemSelectedListener {
+    NavigationView.OnNavigationItemSelectedListener {
 
     @get:LayoutRes abstract val layoutId: Int
     @get:IdRes abstract val navigationId: Int
 
     var dismissListener: DialogInterface.OnDismissListener? = null
-    var itemSelectedListener: NavigationView.OnNavigationItemSelectedListener? = null
+    var selectListener: NavigationView.OnNavigationItemSelectedListener? = null
 
     inline fun onDismiss(crossinline func: () -> Unit) {
         dismissListener = DialogInterface.OnDismissListener { func() }
@@ -36,7 +36,7 @@ abstract class BlankMenuSheetDialog : BottomSheetDialogFragment(),
         owner: LifecycleOwner,
         crossinline func: (menuItem: MenuItem) -> Unit
     ) {
-        itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
+        selectListener = NavigationView.OnNavigationItemSelectedListener {
             safeDismiss(owner)
             func(it)
             return@OnNavigationItemSelectedListener true
@@ -78,7 +78,7 @@ abstract class BlankMenuSheetDialog : BottomSheetDialogFragment(),
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        itemSelectedListener?.onNavigationItemSelected(menuItem)
+        selectListener?.onNavigationItemSelected(menuItem)
         return false
     }
 }

@@ -38,8 +38,8 @@ object DialogFactory {
 
     class Main(private val context: Context?, private val fm: FragmentManager) {
 
-        fun getNotificationsHelp(): MessageDialog {
-            val dialog = fm.getFragmentByTag(NOTIFICATIONS) ?: MessageDialog()
+        fun createNotificationsHelp(): MessageDialog {
+            val dialog = MessageDialog()
 
             if (context == null) return dialog
 
@@ -55,9 +55,16 @@ object DialogFactory {
             return dialog
         }
 
-        fun getRename(): RenameDialog = fm.getFragmentByTag(RENAME) ?: RenameDialog()
+        fun findNotificationsHelp(): MessageDialog? = fm.getFragmentByTag(NOTIFICATIONS)
 
-        fun getAdd(): AddSheetDialog = fm.getFragmentByTag(ADD) ?: AddSheetDialog()
+        fun createAdd(): AddSheetDialog = AddSheetDialog()
+
+        fun findAdd(): AddSheetDialog? = fm.getFragmentByTag(ADD)
+
+
+
+
+        fun getRename(): RenameDialog = fm.getFragmentByTag(RENAME) ?: RenameDialog()
 
         fun getOptions(): OptionsDialog = fm.getFragmentByTag(OPTIONS) ?: OptionsDialog()
 

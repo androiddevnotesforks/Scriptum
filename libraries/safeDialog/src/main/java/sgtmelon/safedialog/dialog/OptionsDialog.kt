@@ -7,7 +7,7 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
-import sgtmelon.safedialog.dialog.parent.CreateAlertDialog
+import sgtmelon.safedialog.dialog.parent.create.CreateAlertDialog
 import sgtmelon.safedialog.utils.safeShow
 
 /**

@@ -1,12 +1,11 @@
 package sgtmelon.safedialog.dialog.parent
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.fragment.app.DialogFragment
-import sgtmelon.safedialog.utils.applyAnimation
+import sgtmelon.safedialog.dialog.parent.create.CreateDialog
 import sgtmelon.safedialog.utils.safeShow
 
 /**

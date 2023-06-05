@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
-import sgtmelon.safedialog.dialog.parent.CreateAlertDialog
+import sgtmelon.safedialog.dialog.parent.create.CreateAlertDialog
 import sgtmelon.safedialog.utils.safeShow
 
 /**

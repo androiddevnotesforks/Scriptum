@@ -9,7 +9,7 @@ import sgtmelon.extensions.encode
 import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
-import sgtmelon.safedialog.dialog.parent.CreateAlertDialog
+import sgtmelon.safedialog.dialog.parent.create.CreateAlertDialog
 
 /**
  * Dialog with title and message for user.

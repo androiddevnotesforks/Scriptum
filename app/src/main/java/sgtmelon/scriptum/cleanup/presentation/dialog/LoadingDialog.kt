@@ -15,7 +15,8 @@ import sgtmelon.textDotAnim.DotAnimation
  * Dialog with endless progress bar and loading text.
  */
 // TODO move into safedialogs
-class LoadingDialog : BlankEmptyDialog(), DotAnimation.Callback {
+class LoadingDialog : BlankEmptyDialog(),
+    DotAnimation.Callback {
 
     private val loadingText get() = dialog?.findViewById<TextView>(R.id.loading_text)
 

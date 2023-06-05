@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.dialog.parent
+package sgtmelon.safedialog.dialog.parent.create
 
 import androidx.appcompat.app.AlertDialog
 import android.app.Dialog
