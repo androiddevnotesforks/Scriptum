@@ -6,10 +6,10 @@
     <!-- Dialog titles and text -->
     <string name="dialog_title_notifications">Setup notifications</string>
     <string name="dialog_text_notifications">
-        For better work of application notifications you need do 3 things:\n\n1. Turn ON autostart
-        in \"App settings\". It allow us display your status bar notifications after device
-        restart.\n2. Turn OFF battery restriction (battery saver) in \"App settings\". It allow to
-        display notifications in status bar even when you close app.\n3.Turn OFF \"show
+        For better work of application notifications you need to do 3 things:\n\n1. Turn ON
+        autostart in \"App settings\". It allow us display your status bar notifications after
+        device restart.\n2. Turn OFF battery restriction (battery saver) in \"App settings\". It
+        allow to display notifications in status bar even when you close app.\n3.Turn OFF \"show
         notifications\" for \"Eternal service\". This service allows app not to miss your
         notifications.\n\nFor first and second option use \"App settings\" button, for third -
         use \"Hide notification\" button.
@@ -96,16 +96,16 @@
     <string name="dialog_menu_convert_text">Convert to list</string>
 
     <string-array name="dialog_menu_text">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>@string/dialog_menu_convert_text</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
 
     <string-array name="dialog_menu_roll">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>@string/dialog_menu_convert_roll</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>

@@ -1,8 +1,7 @@
 package sgtmelon.scriptum.cleanup.dagger.other
 
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import sgtmelon.extensions.getViewModelFactory
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
@@ -80,16 +79,12 @@ object ViewModelFactory {
     fun getSplash(
         preferencesRepo: PreferencesRepo,
         createNote: CreateNoteUseCase
-    ): ViewModelProvider.Factory = viewModelFactory {
-        initializer {
-            SplashViewModelImpl(preferencesRepo, createNote)
-        }
+    ): ViewModelProvider.Factory = getViewModelFactory {
+        SplashViewModelImpl(preferencesRepo, createNote)
     }
 
-    fun getTheme(preferencesRepo: PreferencesRepo): ViewModelProvider.Factory = viewModelFactory {
-        initializer {
-            ThemeViewModelImpl(preferencesRepo)
-        }
+    fun getTheme(preferencesRepo: PreferencesRepo): ViewModelProvider.Factory = getViewModelFactory {
+        ThemeViewModelImpl(preferencesRepo)
     }
 
     object MainScreen {
@@ -97,10 +92,8 @@ object ViewModelFactory {
         fun getMain(
             preferencesRepo: PreferencesRepo,
             createNote: CreateNoteUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                MainViewModelImpl(preferencesRepo, createNote)
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            MainViewModelImpl(preferencesRepo, createNote)
         }
 
         fun getRank(
@@ -111,13 +104,11 @@ object ViewModelFactory {
             updateRank: UpdateRankUseCase,
             correctRankPositions: CorrectRankPositionsUseCase,
             updateRankPositions: UpdateRankPositionsUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                RankViewModelImpl(
-                    list, getList, insertRank, deleteRank, updateRank,
-                    correctRankPositions, updateRankPositions
-                )
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            RankViewModelImpl(
+                list, getList, insertRank, deleteRank, updateRank,
+                correctRankPositions, updateRankPositions
+            )
         }
 
         fun getNotes(
@@ -132,14 +123,12 @@ object ViewModelFactory {
             setNotification: SetNotificationUseCase,
             deleteNotification: DeleteNotificationUseCase,
             getNotificationDateList: GetNotificationsDateListUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                NotesViewModelImpl(
-                    preferencesRepo, list,
-                    getList, sortList, getCopyText, convertNote, updateNote,
-                    deleteNote, setNotification, deleteNotification, getNotificationDateList
-                )
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            NotesViewModelImpl(
+                preferencesRepo, list,
+                getList, sortList, getCopyText, convertNote, updateNote,
+                deleteNote, setNotification, deleteNotification, getNotificationDateList
+            )
         }
 
         fun getBin(
@@ -149,10 +138,8 @@ object ViewModelFactory {
             restoreNote: RestoreNoteUseCase,
             clearBin: ClearBinUseCase,
             clearNote: ClearNoteUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                BinViewModelImpl(list, getList, getCopyText, restoreNote, clearBin, clearNote)
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            BinViewModelImpl(list, getList, getCopyText, restoreNote, clearBin, clearNote)
         }
     }
 
@@ -175,15 +162,13 @@ object ViewModelFactory {
             getRankId: GetRankIdUseCase,
             getRankDialogNames: GetRankDialogNamesUseCase,
             getHistoryResult: GetHistoryResultUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                TextNoteViewModelImpl(
-                    colorConverter, init, history, cacheNote,
-                    saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
-                    setNotification, deleteNotification, getNotificationDateList,
-                    getRankId, getRankDialogNames, getHistoryResult
-                )
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            TextNoteViewModelImpl(
+                colorConverter, init, history, cacheNote,
+                saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+                setNotification, deleteNotification, getNotificationDateList,
+                getRankId, getRankDialogNames, getHistoryResult
+            )
         }
 
         fun getRollNote(
@@ -206,16 +191,14 @@ object ViewModelFactory {
             getRankId: GetRankIdUseCase,
             getRankDialogNames: GetRankDialogNamesUseCase,
             getHistoryResult: GetHistoryResultUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                RollNoteViewModelImpl(
-                    init, history, colorConverter, list, cacheNote,
-                    saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
-                    updateVisible, updateCheck,
-                    setNotification, deleteNotification, getNotificationDateList,
-                    getRankId, getRankDialogNames, getHistoryResult
-                )
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            RollNoteViewModelImpl(
+                init, history, colorConverter, list, cacheNote,
+                saveNote, convertNote, updateNote, deleteNote, restoreNote, clearNote,
+                updateVisible, updateCheck,
+                setNotification, deleteNotification, getNotificationDateList,
+                getRankId, getRankDialogNames, getHistoryResult
+            )
         }
     }
 
@@ -227,13 +210,11 @@ object ViewModelFactory {
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase,
         shiftDateIfExist: ShiftDateIfExistUseCase
-    ): ViewModelProvider.Factory = viewModelFactory {
-        initializer {
-            AlarmViewModelImpl(
-                noteId, preferencesRepo, getNote, getMelodyList,
-                setNotification, deleteNotification, shiftDateIfExist
-            )
-        }
+    ): ViewModelProvider.Factory = getViewModelFactory {
+        AlarmViewModelImpl(
+            noteId, preferencesRepo, getNote, getMelodyList,
+            setNotification, deleteNotification, shiftDateIfExist
+        )
     }
 
     fun getNotification(
@@ -242,10 +223,8 @@ object ViewModelFactory {
         getNote: GetNoteUseCase,
         setNotification: SetNotificationUseCase,
         deleteNotification: DeleteNotificationUseCase
-    ): ViewModelProvider.Factory = viewModelFactory {
-        initializer {
-            NotificationsViewModelImpl(list, getList, getNote, setNotification, deleteNotification)
-        }
+    ): ViewModelProvider.Factory = getViewModelFactory {
+        NotificationsViewModelImpl(list, getList, getNote, setNotification, deleteNotification)
     }
 
     object Preference {
@@ -253,22 +232,18 @@ object ViewModelFactory {
         fun getMain(
             preferencesRepo: PreferencesRepo,
             getSummary: GetSummaryUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                MenuPreferenceViewModelImpl(preferencesRepo, getSummary)
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            MenuPreferenceViewModelImpl(preferencesRepo, getSummary)
         }
 
         fun getBackup(
             getBackupFileList: GetBackupFileListUseCase,
             startBackupExport: StartBackupExportUseCase,
             startBackupImport: StartBackupImportUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                BackupPreferenceViewModelImpl(
-                    getBackupFileList, startBackupExport, startBackupImport
-                )
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            BackupPreferenceViewModelImpl(
+                getBackupFileList, startBackupExport, startBackupImport
+            )
         }
 
         fun getNote(
@@ -276,13 +251,11 @@ object ViewModelFactory {
             getSortSummary: GetSummaryUseCase,
             getDefaultColorSummary: GetSummaryUseCase,
             getSavePeriodSummary: GetSummaryUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                NotesPreferenceViewModelImpl(
-                    preferencesRepo,
-                    getSortSummary, getDefaultColorSummary, getSavePeriodSummary
-                )
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            NotesPreferenceViewModelImpl(
+                preferencesRepo,
+                getSortSummary, getDefaultColorSummary, getSavePeriodSummary
+            )
         }
 
         fun getAlarm(
@@ -291,13 +264,11 @@ object ViewModelFactory {
             getRepeatSummary: GetSummaryUseCase,
             getVolumeSummary: GetSummaryUseCase,
             getMelodyList: GetMelodyListUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                AlarmPreferenceViewModelImpl(
-                    preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary,
-                    getMelodyList
-                )
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            AlarmPreferenceViewModelImpl(
+                preferencesRepo, getSignalSummary, getRepeatSummary, getVolumeSummary,
+                getMelodyList
+            )
         }
     }
 
@@ -306,26 +277,20 @@ object ViewModelFactory {
         fun getMain(
             getRandomNoteId: GetRandomNoteIdUseCase,
             resetPreferences: ResetPreferencesUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                DevelopViewModelImpl(getRandomNoteId, resetPreferences)
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            DevelopViewModelImpl(getRandomNoteId, resetPreferences)
         }
 
         fun getPrint(
             type: PrintType,
             list: ListStorageImpl<PrintItem>,
             getList: GetPrintListUseCase
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                PrintDevelopViewModelImpl(type, list, getList)
-            }
+        ): ViewModelProvider.Factory = getViewModelFactory {
+            PrintDevelopViewModelImpl(type, list, getList)
         }
 
-        fun getService(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                ServiceDevelopViewModelImpl()
-            }
+        fun getService(): ViewModelProvider.Factory = getViewModelFactory {
+            ServiceDevelopViewModelImpl()
         }
     }
 }
