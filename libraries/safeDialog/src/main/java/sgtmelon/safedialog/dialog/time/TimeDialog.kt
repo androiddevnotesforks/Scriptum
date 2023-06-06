@@ -3,6 +3,7 @@ package sgtmelon.safedialog.dialog.time
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import java.util.Calendar
 import sgtmelon.extensions.clearSeconds
@@ -103,6 +104,11 @@ class TimeDialog : BlankDateTimeDialog(), TimeTestCallback {
                 calendar.get(Calendar.MINUTE)
             )
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        callback = null
     }
 
     companion object {

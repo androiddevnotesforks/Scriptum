@@ -5,11 +5,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import sgtmelon.safedialog.utils.DialogStorage
 import javax.inject.Inject
-import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
@@ -72,7 +73,12 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val repeatDialog by lazy { DialogFactory.Alarm(fm).getRepeat() }
+    private val dialogs by lazy { DialogFactory.Alarm(fm) }
+    private val repeatDialog = DialogStorage(
+        create = { dialogs.createRepeat() },
+        find = { dialogs.findRepeat() },
+        setup = { setupRepeatDialog(it) }
+    )
 
     private val adapter = NoteAdapter(object : NoteClickListener {
         override fun onNoteClick(item: NoteItem) = openNoteScreen(item)
@@ -131,13 +137,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         binding?.disableButton?.setOnClickListener { open.attempt { finish() } }
         binding?.repeatButton?.setOnClickListener { open.attempt { startPostpone() } }
         binding?.moreButton?.setOnClickListener { showRepeatDialog() }
-
-        repeatDialog.apply {
-            onItemSelected(owner = this@AlarmActivity) {
-                startPostpone(RepeatSheetData().convert(it.itemId))
-            }
-            onDismiss { open.clear() }
-        }
     }
 
     private fun setupScreen() {
@@ -149,6 +148,21 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         } else {
             window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
             window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
+        }
+    }
+
+    override fun setupDialogs() {
+        super.setupDialogs()
+        repeatDialog.restore()
+    }
+
+    private fun setupRepeatDialog(dialog: RepeatSheetDialog): Unit = with(dialog) {
+        onItemSelected(owner = this@AlarmActivity) {
+            startPostpone(RepeatSheetData().convert(it.itemId))
+        }
+        onDismiss {
+            repeatDialog.release()
+            open.clear()
         }
     }
 
@@ -302,7 +316,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     //endregion
 
     private fun showRepeatDialog() = open.attempt {
-        repeatDialog.safeShow(DialogFactory.Alarm.REPEAT, owner = this)
+        repeatDialog.show(DialogFactory.Alarm.REPEAT, owner = this)
     }
 
     private fun openNoteScreen(item: NoteItem) = beforeFinish {

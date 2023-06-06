@@ -27,7 +27,8 @@ object DialogFactory {
 
     class Alarm(private val fm: FragmentManager) {
 
-        fun getRepeat(): RepeatSheetDialog = fm.getFragmentByTag(REPEAT) ?: RepeatSheetDialog()
+        fun createRepeat(): RepeatSheetDialog = RepeatSheetDialog()
+        fun findRepeat(): RepeatSheetDialog? = fm.getFragmentByTag(REPEAT)
 
         companion object {
             private const val PREFIX = "DIALOG_ALARM"

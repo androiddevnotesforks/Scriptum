@@ -116,7 +116,10 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
     private fun setupClearBinDialog(dialog: MessageDialog): Unit = with(dialog) {
         onPositiveClick { viewModel.clearRecyclerBin() }
-        onDismiss { parentOpen?.clear() }
+        onDismiss {
+            clearBinDialog.release()
+            parentOpen?.clear()
+        }
     }
 
     override fun setupObservers() {

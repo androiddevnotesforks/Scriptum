@@ -102,6 +102,11 @@ class DateDialog : BlankDateTimeDialog(),
         }
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        callback = null
+    }
+
     companion object {
         @RunNone var callback: DateTestCallback? = null
 
