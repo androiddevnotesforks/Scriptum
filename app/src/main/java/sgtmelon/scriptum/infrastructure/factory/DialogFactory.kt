@@ -54,27 +54,25 @@ object DialogFactory {
 
             return dialog
         }
-
         fun findNotificationsHelp(): MessageDialog? = fm.getFragmentByTag(NOTIFICATIONS)
 
         fun createAdd(): AddSheetDialog = AddSheetDialog()
-
         fun findAdd(): AddSheetDialog? = fm.getFragmentByTag(ADD)
 
-
         fun createRename(): RenameDialog = RenameDialog()
-
         fun findRename(): RenameDialog? = fm.getFragmentByTag(RENAME)
 
+        fun createOptions(): OptionsDialog = OptionsDialog()
+        fun findOptions(): OptionsDialog? = fm.getFragmentByTag(OPTIONS)
 
-        fun getOptions(): OptionsDialog = fm.getFragmentByTag(OPTIONS) ?: OptionsDialog()
+        fun createDate(): DateDialog = DateDialog()
+        fun findDate(): DateDialog? = fm.getFragmentByTag(DATE)
 
-        fun getDate(): DateDialog = fm.getFragmentByTag(DATE) ?: DateDialog()
+        fun createTime(): TimeDialog = TimeDialog()
+        fun findTime(): TimeDialog? = fm.getFragmentByTag(TIME)
 
-        fun getTime(): TimeDialog = fm.getFragmentByTag(TIME) ?: TimeDialog()
-
-        fun getClearBin(): MessageDialog {
-            val dialog = fm.getFragmentByTag(CLEAR_BIN) ?: MessageDialog()
+        fun createClearBin(): MessageDialog {
+            val dialog = MessageDialog()
 
             if (context == null) return dialog
 
@@ -84,6 +82,8 @@ object DialogFactory {
 
             return dialog
         }
+        fun findClearBin(): MessageDialog? = fm.getFragmentByTag(CLEAR_BIN)
+
 
         companion object {
             private const val PREFIX = "DIALOG_MAIN"

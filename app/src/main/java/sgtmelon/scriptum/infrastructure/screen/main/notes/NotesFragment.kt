@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import java.util.Calendar
 import javax.inject.Inject
 import sgtmelon.extensions.collect
-import sgtmelon.safedialog.utils.safeShow
+import sgtmelon.safedialog.dialog.OptionsDialog
+import sgtmelon.safedialog.dialog.time.DateDialog
+import sgtmelon.safedialog.dialog.time.TimeDialog
+import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -54,9 +57,22 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
-    private val optionsDialog by lazy { dialogs.getOptions() }
-    private val dateDialog by lazy { dialogs.getDate() }
-    private val timeDialog by lazy { dialogs.getTime() }
+
+    private val optionsDialog = DialogStorage(
+        create = { dialogs.createOptions() },
+        find = { dialogs.findOptions() },
+        setup = { setupOptionsDialog(it) }
+    )
+    private val dateDialog = DialogStorage(
+        create = { dialogs.createDate() },
+        find = { dialogs.findDate() },
+        setup = { setupDateDialog(it) }
+    )
+    private val timeDialog = DialogStorage(
+        create = { dialogs.createTime() },
+        find = { dialogs.findTime() },
+        setup = { setupTimeDialog(it) }
+    )
 
     override val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {
@@ -102,36 +118,49 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override fun setupDialogs() {
         super.setupDialogs()
 
-        optionsDialog.apply {
-            onItem { onOptionSelect(position, it) }
-            onDismiss { parentOpen?.clear() }
-        }
+        optionsDialog.restore()
+        dateDialog.restore()
+        timeDialog.restore()
+    }
 
-        dateDialog.apply {
-            onPositiveClick {
-                parentOpen?.skipClear = true
-                viewModel.notificationsDateList.collect(owner = this) {
-                    showTimeDialog(calendar, it, position)
-                }
-            }
-            onNeutralClick {
-                viewModel.deleteNoteNotification(position).collect(owner = this) {
-                    system?.broadcast?.sendCancelAlarm(it)
-                    system?.broadcast?.sendNotifyInfoBind()
-                }
-            }
-            onDismiss { parentOpen?.clear() }
+    private fun setupOptionsDialog(dialog: OptionsDialog): Unit = with(dialog) {
+        onItem { onOptionSelect(position, it) }
+        onDismiss {
+            optionsDialog.release()
+            parentOpen?.clear()
         }
+    }
 
-        timeDialog.apply {
-            onPositiveClick {
-                viewModel.setNoteNotification(calendar, position).collect(owner = this) {
-                    val (item, calendar) = it
-                    system?.broadcast?.sendSetAlarm(item, calendar)
-                    system?.broadcast?.sendNotifyInfoBind()
-                }
+    private fun setupDateDialog(dialog: DateDialog): Unit = with(dialog) {
+        onPositiveClick {
+            parentOpen?.skipClear = true
+            viewModel.notificationsDateList.collect(owner = this) {
+                showTimeDialog(calendar, it, position)
             }
-            onDismiss { parentOpen?.clear() }
+        }
+        onNeutralClick {
+            viewModel.deleteNoteNotification(position).collect(owner = this) {
+                system?.broadcast?.sendCancelAlarm(it)
+                system?.broadcast?.sendNotifyInfoBind()
+            }
+        }
+        onDismiss {
+            dateDialog.release()
+            parentOpen?.clear()
+        }
+    }
+
+    private fun setupTimeDialog(dialog: TimeDialog): Unit = with(dialog) {
+        onPositiveClick {
+            viewModel.setNoteNotification(calendar, position).collect(owner = this) {
+                val (item, calendar) = it
+                system?.broadcast?.sendSetAlarm(item, calendar)
+                system?.broadcast?.sendNotifyInfoBind()
+            }
+        }
+        onDismiss {
+            timeDialog.release()
+            parentOpen?.clear()
         }
     }
 
@@ -194,9 +223,10 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
             val (title, itemArray) = getOptionsDialogData(item)
 
-            optionsDialog.title = title
-            optionsDialog.setArguments(itemArray, p)
-                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
+            optionsDialog.show(DialogFactory.Main.OPTIONS, owner = this) {
+                this.title = title
+                setArguments(itemArray, p)
+            }
         }
     }
 
@@ -253,15 +283,17 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     private fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
         parentOpen?.attempt(OpenState.Tag.DIALOG) {
-            dateDialog.setArguments(calendar, resetVisible, p)
-                .safeShow(DialogFactory.Main.DATE, owner = this)
+            dateDialog.show(DialogFactory.Main.DATE, owner = this) {
+                setArguments(calendar, resetVisible, p)
+            }
         }
     }
 
     private fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
         parentOpen?.attempt(OpenState.Tag.DIALOG) {
-            timeDialog.setArguments(calendar, dateList, p)
-                .safeShow(DialogFactory.Main.TIME, owner = this)
+            timeDialog.show(DialogFactory.Main.TIME, owner = this) {
+                setArguments(calendar, dateList, p)
+            }
         }
     }
 

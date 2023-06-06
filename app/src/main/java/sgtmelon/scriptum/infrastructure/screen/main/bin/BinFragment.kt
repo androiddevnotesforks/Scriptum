@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import sgtmelon.extensions.collect
+import sgtmelon.safedialog.dialog.MessageDialog
+import sgtmelon.safedialog.dialog.OptionsDialog
+import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -42,8 +45,16 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     private val listAnimation = ShowListAnimation()
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
-    private val optionsDialog by lazy { dialogs.getOptions() }
-    private val clearBinDialog by lazy { dialogs.getClearBin() }
+    private val optionsDialog = DialogStorage(
+        create = { dialogs.createOptions() },
+        find = { dialogs.findOptions() },
+        setup = { setupOptionsDialog(it) }
+    )
+    private val clearBinDialog = DialogStorage(
+        create = { dialogs.createClearBin() },
+        find = { dialogs.findClearBin() },
+        setup = { setupClearBinDialog(it) }
+    )
 
     override val adapter: NoteAdapter by lazy {
         NoteAdapter(object : NoteClickListener {
@@ -91,15 +102,21 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     override fun setupDialogs() {
         super.setupDialogs()
 
-        clearBinDialog.apply {
-            onPositiveClick { viewModel.clearRecyclerBin() }
-            onDismiss { parentOpen?.clear() }
-        }
+        optionsDialog.restore()
+        clearBinDialog.restore()
+    }
 
-        optionsDialog.apply {
-            onItem { onOptionSelect(position, it) }
-            onDismiss { parentOpen?.clear() }
+    private fun setupOptionsDialog(dialog: OptionsDialog): Unit = with(dialog) {
+        onItem { onOptionSelect(position, it) }
+        onDismiss {
+            optionsDialog.release()
+            parentOpen?.clear()
         }
+    }
+
+    private fun setupClearBinDialog(dialog: MessageDialog): Unit = with(dialog) {
+        onPositiveClick { viewModel.clearRecyclerBin() }
+        onDismiss { parentOpen?.clear() }
     }
 
     override fun setupObservers() {
@@ -136,9 +153,10 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
             val title = item.name.ifEmpty { getString(R.string.empty_note_name) }
             val itemArray = resources.getStringArray(R.array.dialog_menu_bin)
 
-            optionsDialog.title = title
-            optionsDialog.setArguments(itemArray, p)
-                .safeShow(DialogFactory.Main.OPTIONS, owner = this)
+            optionsDialog.show(DialogFactory.Main.OPTIONS, owner = this) {
+                this.title = title
+                setArguments(itemArray, p)
+            }
         }
     }
 
@@ -154,7 +172,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
     private fun showClearBinDialog() {
         parentOpen?.attempt {
-            clearBinDialog.safeShow(DialogFactory.Main.CLEAR_BIN, owner = this@BinFragment)
+            clearBinDialog.show(DialogFactory.Main.CLEAR_BIN, owner = this)
         }
     }
 
