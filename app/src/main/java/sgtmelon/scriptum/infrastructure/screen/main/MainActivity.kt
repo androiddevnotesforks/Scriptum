@@ -57,7 +57,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     private val notesFragment by lazy { fragments.getNotes() }
     private val binFragment by lazy { fragments.getBin() }
 
-    private val dialogs by lazy { DialogFactory.Main(context = this) }
+    private val dialogs by lazy { DialogFactory.Main(resources) }
     private val notificationsHelpDialog = DialogStorage(
         DialogFactory.Main.NOTIFICATIONS, owner = this,
         create = { dialogs.getNotificationsHelp() },

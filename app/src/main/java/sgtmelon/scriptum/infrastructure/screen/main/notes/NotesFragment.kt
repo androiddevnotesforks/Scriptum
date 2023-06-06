@@ -56,7 +56,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val dialogs by lazy { DialogFactory.Main(context) }
+    private val dialogs by lazy { DialogFactory.Main(resources) }
     private val optionsDialog = DialogStorage(
         DialogFactory.Main.OPTIONS, owner = this,
         create = { dialogs.getOptions() },

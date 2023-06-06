@@ -56,7 +56,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val dialogs by lazy { DialogFactory.Main(context) }
+    private val dialogs by lazy { DialogFactory.Main(resources) }
     private val renameDialog = DialogStorage(
         DialogFactory.Main.RENAME, owner = this,
         create = { dialogs.getRename() },

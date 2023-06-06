@@ -43,7 +43,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
     private val listAnimation = ShowListAnimation()
 
-    private val dialogs by lazy { DialogFactory.Main(context) }
+    private val dialogs by lazy { DialogFactory.Main(resources) }
     private val optionsDialog = DialogStorage(
         DialogFactory.Main.OPTIONS, owner = this,
         create = { dialogs.getOptions() },

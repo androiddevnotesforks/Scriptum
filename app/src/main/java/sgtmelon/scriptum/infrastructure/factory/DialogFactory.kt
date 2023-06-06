@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.factory
 
 import android.content.Context
+import android.content.res.Resources
 import androidx.fragment.app.FragmentManager
 import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.dialog.MessageDialog
@@ -36,22 +37,18 @@ object DialogFactory {
         }
     }
 
-    class Main(private val context: Context?) {
+    class Main(private val resources: Resources) {
 
         fun getNotificationsHelp(): MessageDialog {
             val dialog = MessageDialog()
-
-            if (context == null) return dialog
-
             dialog.type = MessageType.Custom(
                 positiveButton = R.string.dialog_notifications_settings,
                 negativeButton = R.string.dialog_notifications_channel,
                 neutralButton = R.string.dialog_notifications_done
             )
-            dialog.title = context.getString(R.string.dialog_title_notifications)
-            dialog.message = context.getString(R.string.dialog_text_notifications)
+            dialog.title = resources.getString(R.string.dialog_title_notifications)
+            dialog.message = resources.getString(R.string.dialog_text_notifications)
             dialog.isCancelable = false
-
             return dialog
         }
 
@@ -67,13 +64,9 @@ object DialogFactory {
 
         fun getClearBin(): MessageDialog {
             val dialog = MessageDialog()
-
-            if (context == null) return dialog
-
             dialog.type = MessageType.Choice
-            dialog.title = context.getString(R.string.dialog_title_clear_bin)
-            dialog.message = context.getString(R.string.dialog_text_clear_bin)
-
+            dialog.title = resources.getString(R.string.dialog_title_clear_bin)
+            dialog.message = resources.getString(R.string.dialog_text_clear_bin)
             return dialog
         }
 
@@ -90,40 +83,28 @@ object DialogFactory {
         }
     }
 
-    class Note(private val context: Context?) {
+    class Note(private val resources: Resources) {
 
         fun getConvert(type: NoteType): MessageDialog {
             val dialog = MessageDialog()
-
-            if (context == null) return dialog
-
             dialog.type = MessageType.Choice
-            dialog.title = context.getString(R.string.dialog_title_convert)
+            dialog.title = resources.getString(R.string.dialog_title_convert)
             dialog.message = when (type) {
-                NoteType.TEXT -> context.getString(R.string.dialog_text_convert_text)
-                NoteType.ROLL -> context.getString(R.string.dialog_roll_convert_roll)
+                NoteType.TEXT -> resources.getString(R.string.dialog_text_convert_text)
+                NoteType.ROLL -> resources.getString(R.string.dialog_roll_convert_roll)
             }
-
             return dialog
         }
 
         fun getRank(): SingleDialog {
             val dialog = SingleDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.dialog_title_rank)
-
+            dialog.title = resources.getString(R.string.dialog_title_rank)
             return dialog
         }
 
         fun getColor(): ColorDialog {
             val dialog = ColorDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.dialog_title_color)
-
+            dialog.title = resources.getString(R.string.dialog_title_color)
             return dialog
         }
 
@@ -144,20 +125,16 @@ object DialogFactory {
 
     object Preference {
 
-        class Main(private val context: Context?, private val fm: FragmentManager) {
+        class Main(private val resources: Resources) {
 
             fun getTheme(): SingleDialog {
-                val dialog = fm.getFragmentByTag(THEME) ?: SingleDialog()
-
-                if (context == null) return dialog
-
-                dialog.title = context.getString(R.string.pref_title_app_theme)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_theme)
-
+                val dialog = SingleDialog()
+                dialog.title = resources.getString(R.string.pref_title_app_theme)
+                dialog.itemArray = resources.getStringArray(R.array.pref_theme)
                 return dialog
             }
 
-            fun getAbout(): AboutDialog = fm.getFragmentByTag(ABOUT) ?: AboutDialog()
+            fun getAbout(): AboutDialog = AboutDialog()
 
             companion object {
                 private const val PREFIX = "DIALOG_PREF_MAIN"

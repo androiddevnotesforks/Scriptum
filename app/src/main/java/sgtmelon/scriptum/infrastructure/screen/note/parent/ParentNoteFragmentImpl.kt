@@ -87,7 +87,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
 
-    private val dialogs by lazy { DialogFactory.Note(context) }
+    private val dialogs by lazy { DialogFactory.Note(resources) }
     private val dialogOwner: DialogOwner get() = this
     private val convertDialog = DialogStorage(
         DialogFactory.Note.CONVERT, dialogOwner,
