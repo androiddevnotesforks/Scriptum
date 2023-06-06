@@ -56,21 +56,20 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val dialogs by lazy { DialogFactory.Main(context, fm) }
-
+    private val dialogs by lazy { DialogFactory.Main(context) }
     private val optionsDialog = DialogStorage(
-        create = { dialogs.createOptions() },
-        find = { dialogs.findOptions() },
+        DialogFactory.Main.OPTIONS, owner = this,
+        create = { dialogs.getOptions() },
         setup = { setupOptionsDialog(it) }
     )
     private val dateDialog = DialogStorage(
-        create = { dialogs.createDate() },
-        find = { dialogs.findDate() },
+        DialogFactory.Main.DATE, owner = this,
+        create = { dialogs.getDate() },
         setup = { setupDateDialog(it) }
     )
     private val timeDialog = DialogStorage(
-        create = { dialogs.createTime() },
-        find = { dialogs.findTime() },
+        DialogFactory.Main.TIME, owner = this,
+        create = { dialogs.getTime() },
         setup = { setupTimeDialog(it) }
     )
 
@@ -223,7 +222,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
             val (title, itemArray) = getOptionsDialogData(item)
 
-            optionsDialog.show(DialogFactory.Main.OPTIONS, owner = this) {
+            optionsDialog.show {
                 this.title = title
                 setArguments(itemArray, p)
             }
@@ -283,17 +282,13 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     private fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
         parentOpen?.attempt(OpenState.Tag.DIALOG) {
-            dateDialog.show(DialogFactory.Main.DATE, owner = this) {
-                setArguments(calendar, resetVisible, p)
-            }
+            dateDialog.show { setArguments(calendar, resetVisible, p) }
         }
     }
 
     private fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
         parentOpen?.attempt(OpenState.Tag.DIALOG) {
-            timeDialog.show(DialogFactory.Main.TIME, owner = this) {
-                setArguments(calendar, dateList, p)
-            }
+            timeDialog.show { setArguments(calendar, dateList, p) }
         }
     }
 

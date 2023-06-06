@@ -56,10 +56,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val dialogs by lazy { DialogFactory.Main(context, fm) }
+    private val dialogs by lazy { DialogFactory.Main(context) }
     private val renameDialog = DialogStorage(
-        create = { dialogs.createRename() },
-        find = { dialogs.findRename() },
+        DialogFactory.Main.RENAME, owner = this,
+        create = { dialogs.getRename() },
         setup = { setupRenameDialog(it) },
     )
 
@@ -252,9 +252,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
                  */
                 snackbar.cancel()
 
-                renameDialog.show(DialogFactory.Main.RENAME, owner = this) {
-                    setArguments(p, name, nameList)
-                }
+                renameDialog.show { setArguments(p, name, nameList) }
             }
         }
     }

@@ -73,10 +73,9 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
-    private val dialogs by lazy { DialogFactory.Alarm(fm) }
     private val repeatDialog = DialogStorage(
-        create = { dialogs.createRepeat() },
-        find = { dialogs.findRepeat() },
+        DialogFactory.Alarm.REPEAT, owner = this,
+        create = { DialogFactory.Alarm().getRepeat() },
         setup = { setupRepeatDialog(it) }
     )
 
@@ -315,9 +314,7 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     //endregion
 
-    private fun showRepeatDialog() = open.attempt {
-        repeatDialog.show(DialogFactory.Alarm.REPEAT, owner = this)
-    }
+    private fun showRepeatDialog() = open.attempt { repeatDialog.show() }
 
     private fun openNoteScreen(item: NoteItem) = beforeFinish {
         open.attempt { startActivity(Screens.Note.toExist(context = this, item)) }

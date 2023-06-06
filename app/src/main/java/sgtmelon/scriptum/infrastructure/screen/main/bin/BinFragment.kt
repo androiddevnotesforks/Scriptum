@@ -9,7 +9,6 @@ import sgtmelon.extensions.collect
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.safedialog.dialog.OptionsDialog
 import sgtmelon.safedialog.utils.DialogStorage
-import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -44,15 +43,15 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
     private val listAnimation = ShowListAnimation()
 
-    private val dialogs by lazy { DialogFactory.Main(context, fm) }
+    private val dialogs by lazy { DialogFactory.Main(context) }
     private val optionsDialog = DialogStorage(
-        create = { dialogs.createOptions() },
-        find = { dialogs.findOptions() },
+        DialogFactory.Main.OPTIONS, owner = this,
+        create = { dialogs.getOptions() },
         setup = { setupOptionsDialog(it) }
     )
     private val clearBinDialog = DialogStorage(
-        create = { dialogs.createClearBin() },
-        find = { dialogs.findClearBin() },
+        DialogFactory.Main.CLEAR_BIN, owner = this,
+        create = { dialogs.getClearBin() },
         setup = { setupClearBinDialog(it) }
     )
 
@@ -156,7 +155,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
             val title = item.name.ifEmpty { getString(R.string.empty_note_name) }
             val itemArray = resources.getStringArray(R.array.dialog_menu_bin)
 
-            optionsDialog.show(DialogFactory.Main.OPTIONS, owner = this) {
+            optionsDialog.show {
                 this.title = title
                 setArguments(itemArray, p)
             }
@@ -174,9 +173,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     }
 
     private fun showClearBinDialog() {
-        parentOpen?.attempt {
-            clearBinDialog.show(DialogFactory.Main.CLEAR_BIN, owner = this)
-        }
+        parentOpen?.attempt { clearBinDialog.show() }
     }
 
     override fun scrollTop() {

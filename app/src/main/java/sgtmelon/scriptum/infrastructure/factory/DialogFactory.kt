@@ -25,10 +25,9 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.getFragmentByTag
  */
 object DialogFactory {
 
-    class Alarm(private val fm: FragmentManager) {
+    class Alarm {
 
-        fun createRepeat(): RepeatSheetDialog = RepeatSheetDialog()
-        fun findRepeat(): RepeatSheetDialog? = fm.getFragmentByTag(REPEAT)
+        fun getRepeat(): RepeatSheetDialog = RepeatSheetDialog()
 
         companion object {
             private const val PREFIX = "DIALOG_ALARM"
@@ -37,9 +36,9 @@ object DialogFactory {
         }
     }
 
-    class Main(private val context: Context?, private val fm: FragmentManager) {
+    class Main(private val context: Context?) {
 
-        fun createNotificationsHelp(): MessageDialog {
+        fun getNotificationsHelp(): MessageDialog {
             val dialog = MessageDialog()
 
             if (context == null) return dialog
@@ -55,24 +54,18 @@ object DialogFactory {
 
             return dialog
         }
-        fun findNotificationsHelp(): MessageDialog? = fm.getFragmentByTag(NOTIFICATIONS)
 
-        fun createAdd(): AddSheetDialog = AddSheetDialog()
-        fun findAdd(): AddSheetDialog? = fm.getFragmentByTag(ADD)
+        fun getAdd(): AddSheetDialog = AddSheetDialog()
 
-        fun createRename(): RenameDialog = RenameDialog()
-        fun findRename(): RenameDialog? = fm.getFragmentByTag(RENAME)
+        fun getRename(): RenameDialog = RenameDialog()
 
-        fun createOptions(): OptionsDialog = OptionsDialog()
-        fun findOptions(): OptionsDialog? = fm.getFragmentByTag(OPTIONS)
+        fun getOptions(): OptionsDialog = OptionsDialog()
 
-        fun createDate(): DateDialog = DateDialog()
-        fun findDate(): DateDialog? = fm.getFragmentByTag(DATE)
+        fun getDate(): DateDialog = DateDialog()
 
-        fun createTime(): TimeDialog = TimeDialog()
-        fun findTime(): TimeDialog? = fm.getFragmentByTag(TIME)
+        fun getTime(): TimeDialog = TimeDialog()
 
-        fun createClearBin(): MessageDialog {
+        fun getClearBin(): MessageDialog {
             val dialog = MessageDialog()
 
             if (context == null) return dialog
@@ -83,8 +76,6 @@ object DialogFactory {
 
             return dialog
         }
-        fun findClearBin(): MessageDialog? = fm.getFragmentByTag(CLEAR_BIN)
-
 
         companion object {
             private const val PREFIX = "DIALOG_MAIN"
@@ -99,10 +90,10 @@ object DialogFactory {
         }
     }
 
-    class Note(private val context: Context?, private val fm: FragmentManager) {
+    class Note(private val context: Context?) {
 
         fun getConvert(type: NoteType): MessageDialog {
-            val dialog = fm.getFragmentByTag(CONVERT) ?: MessageDialog()
+            val dialog = MessageDialog()
 
             if (context == null) return dialog
 
@@ -117,7 +108,7 @@ object DialogFactory {
         }
 
         fun getRank(): SingleDialog {
-            val dialog = fm.getFragmentByTag(RANK) ?: SingleDialog()
+            val dialog = SingleDialog()
 
             if (context == null) return dialog
 
@@ -127,7 +118,7 @@ object DialogFactory {
         }
 
         fun getColor(): ColorDialog {
-            val dialog = fm.getFragmentByTag(COLOR) ?: ColorDialog()
+            val dialog = ColorDialog()
 
             if (context == null) return dialog
 
@@ -136,9 +127,9 @@ object DialogFactory {
             return dialog
         }
 
-        fun getDate(): DateDialog = fm.getFragmentByTag(DATE) ?: DateDialog()
+        fun getDate(): DateDialog = DateDialog()
 
-        fun getTime(): TimeDialog = fm.getFragmentByTag(TIME) ?: TimeDialog()
+        fun getTime(): TimeDialog = TimeDialog()
 
         companion object {
             private const val PREFIX = "DIALOG_NOTE"

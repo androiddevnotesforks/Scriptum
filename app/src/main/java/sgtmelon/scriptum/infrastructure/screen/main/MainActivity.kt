@@ -57,15 +57,15 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     private val notesFragment by lazy { fragments.getNotes() }
     private val binFragment by lazy { fragments.getBin() }
 
-    private val dialogs by lazy { DialogFactory.Main(context = this, fm) }
+    private val dialogs by lazy { DialogFactory.Main(context = this) }
     private val notificationsHelpDialog = DialogStorage(
-        create = { dialogs.createNotificationsHelp() },
-        find = { dialogs.findNotificationsHelp() },
+        DialogFactory.Main.NOTIFICATIONS, owner = this,
+        create = { dialogs.getNotificationsHelp() },
         setup = { setupNotificationsHelpDialog(it) }
     )
     private val addDialog = DialogStorage(
-        create = { dialogs.createAdd() },
-        find = { dialogs.findAdd() },
+        DialogFactory.Main.ADD, owner = this,
+        create = { dialogs.getAdd() },
         setup = { setupAddDialog(it) }
     )
 
@@ -177,7 +177,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         changeFabVisibility()
 
         if (viewModel.showNotificationsHelp) {
-            notificationsHelpDialog.show(DialogFactory.Main.NOTIFICATIONS, owner = this)
+            notificationsHelpDialog.show()
         }
     }
 
@@ -217,9 +217,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         (it as? ScrollTopCallback)?.scrollTop()
     }
 
-    private fun showAddDialog() = open.attempt {
-        addDialog.show(DialogFactory.Main.ADD, owner = this)
-    }
+    private fun showAddDialog() = open.attempt { addDialog.show() }
 
     private fun openNoteScreen(type: NoteType) = open.attempt {
         startActivity(Screens.Note.toNew(context = this, viewModel.getNewNote(type)))

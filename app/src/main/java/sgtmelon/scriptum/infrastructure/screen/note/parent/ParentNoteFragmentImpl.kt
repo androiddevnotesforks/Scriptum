@@ -16,11 +16,17 @@ import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.toCalendar
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
-import sgtmelon.safedialog.utils.safeShow
+import sgtmelon.safedialog.dialog.MessageDialog
+import sgtmelon.safedialog.dialog.SingleDialog
+import sgtmelon.safedialog.dialog.time.DateDialog
+import sgtmelon.safedialog.dialog.time.TimeDialog
+import sgtmelon.safedialog.utils.DialogOwner
+import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
+import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelBinding
@@ -81,12 +87,33 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
 
-    private val dialogs by lazy { DialogFactory.Note(context, fm) }
-    private val rankDialog by lazy { dialogs.getRank() }
-    private val colorDialog by lazy { dialogs.getColor() }
-    private val dateDialog by lazy { dialogs.getDate() }
-    private val timeDialog by lazy { dialogs.getTime() }
-    private val convertDialog by lazy { dialogs.getConvert(type) }
+    private val dialogs by lazy { DialogFactory.Note(context) }
+    private val dialogOwner: DialogOwner get() = this
+    private val convertDialog = DialogStorage(
+        DialogFactory.Note.CONVERT, dialogOwner,
+        create = { dialogs.getConvert(type) },
+        setup = { setupConvertDialog(it) }
+    )
+    private val rankDialog = DialogStorage(
+        DialogFactory.Note.RANK, dialogOwner,
+        create = { dialogs.getRank() },
+        setup = { setupRankDialog(it) }
+    )
+    private val colorDialog = DialogStorage(
+        DialogFactory.Note.COLOR, dialogOwner,
+        create = { dialogs.getColor() },
+        setup = { setupColorDialog(it) }
+    )
+    private val dateDialog = DialogStorage(
+        DialogFactory.Note.DATE, dialogOwner,
+        create = { dialogs.getDate() },
+        setup = { setupDateDialog(it) }
+    )
+    private val timeDialog = DialogStorage(
+        DialogFactory.Note.TIME, dialogOwner,
+        create = { dialogs.getTime() },
+        setup = { setupTimeDialog(it) }
+    )
 
     private val historyTicker = HistoryTicker(lifecycleScope) { system }
 
@@ -229,39 +256,71 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     override fun setupDialogs() {
         super.setupDialogs()
 
-        rankDialog.onPositiveClick { viewModel.changeRank(check = rankDialog.check - 1) }
-        rankDialog.onDismiss { open.clear() }
+        convertDialog.restore()
+        rankDialog.restore()
+        colorDialog.restore()
+        dateDialog.restore()
+        timeDialog.restore()
+    }
 
-        colorDialog.onPositiveClick { viewModel.changeColor(colorDialog.check) }
-        colorDialog.onDismiss { open.clear() }
+    private fun setupConvertDialog(dialog: MessageDialog): Unit = with(dialog) {
+        onPositiveClick {
+            viewModel.convert().collect(owner = this) { connector.convertNote(it) }
+        }
+        onDismiss {
+            convertDialog.release()
+            open.clear()
+        }
+    }
 
-        dateDialog.onPositiveClick {
+    private fun setupRankDialog(dialog: SingleDialog): Unit = with(dialog) {
+        itemArray = viewModel.rankDialogItems.value ?: emptyArray()
+        onPositiveClick { viewModel.changeRank(check = check - 1) }
+        onDismiss {
+            rankDialog.release()
+            open.clear()
+        }
+    }
+
+    private fun setupColorDialog(dialog: ColorDialog): Unit = with(dialog) {
+        onPositiveClick { viewModel.changeColor(check) }
+        onDismiss {
+            colorDialog.release()
+            open.clear()
+        }
+    }
+
+    private fun setupDateDialog(dialog: DateDialog): Unit = with(dialog) {
+        onPositiveClick {
             open.skipClear = true
             viewModel.notificationsDateList.collect(owner = this) {
-                showTimeDialog(dateDialog.calendar, it)
+                showTimeDialog(calendar, it)
             }
         }
-        dateDialog.onNeutralClick {
+        onNeutralClick {
             viewModel.removeNotification().collect(owner = this) {
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendNotifyInfoBind()
             }
         }
-        dateDialog.onDismiss { open.clear() }
+        onDismiss {
+            dateDialog.release()
+            open.clear()
+        }
+    }
 
-        timeDialog.onPositiveClick {
-            val calendar = timeDialog.calendar
+    private fun setupTimeDialog(dialog: TimeDialog): Unit = with(dialog) {
+        onPositiveClick {
+            val calendar = calendar
             viewModel.setNotification(calendar).collect(owner = this) {
                 system?.broadcast?.sendSetAlarm(it, calendar)
                 system?.broadcast?.sendNotifyInfoBind()
             }
         }
-        timeDialog.onDismiss { open.clear() }
-
-        convertDialog.onPositiveClick {
-            viewModel.convert().collect(owner = this) { connector.convertNote(it) }
+        onDismiss {
+            timeDialog.release()
+            open.clear()
         }
-        convertDialog.onDismiss { open.clear() }
     }
 
     //endregion
@@ -283,7 +342,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         observeWithHistoryDisable(viewModel.noteState) { observeState(connector.init.state, it) }
         observeWithHistoryDisable(viewModel.isEdit) { observeEdit(connector.init.isEdit, it) }
         observeWithHistoryDisable(viewModel.color) { observeColor(it) }
-        observeWithHistoryDisable(viewModel.rankDialogItems) { observeRankDialogItems(it) }
+        observeWithHistoryDisable(viewModel.rankDialogItems) { invalidateRankButton() }
         observeWithHistoryDisable(viewModel.historyAvailable) { observeHistoryAvailable(it) }
     }
 
@@ -369,11 +428,6 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private fun observeColor(color: Color) {
         connector.updateHolder(color)
         tintToolbar?.startTint(color)
-    }
-
-    private fun observeRankDialogItems(itemArray: Array<String>) {
-        rankDialog.itemArray = itemArray
-        invalidateRankButton()
     }
 
     private fun observeHistoryAvailable(available: HistoryMoveAvailable) {
@@ -511,7 +565,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         hideKeyboard()
         open.attempt {
-            rankDialog.setArguments(check).safeShow(DialogFactory.Note.RANK, owner = this)
+            rankDialog.show { setArguments(check) }
         }
     }
 
@@ -522,7 +576,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         hideKeyboard()
         open.attempt {
-            colorDialog.setArguments(color).safeShow(DialogFactory.Note.COLOR, owner = this)
+            colorDialog.show { setArguments(color) }
         }
     }
 
@@ -535,8 +589,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         hideKeyboard()
         open.attempt {
             open.tag = OpenState.Tag.DIALOG
-            dateDialog.setArguments(calendar, item.haveAlarm)
-                .safeShow(DialogFactory.Note.DATE, owner = this)
+            dateDialog.show { setArguments(calendar, item.haveAlarm) }
         }
     }
 
@@ -545,8 +598,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         hideKeyboard()
         open.attempt(OpenState.Tag.DIALOG) {
-            timeDialog.setArguments(calendar, dateList)
-                .safeShow(DialogFactory.Note.TIME, owner = this)
+            timeDialog.show { setArguments(calendar, dateList) }
         }
     }
 
@@ -555,7 +607,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
         hideKeyboard()
         open.attempt {
-            convertDialog.safeShow(DialogFactory.Note.CONVERT, owner = this)
+            convertDialog.show()
         }
     }
 

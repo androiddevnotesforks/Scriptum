@@ -7,8 +7,9 @@ import androidx.fragment.app.DialogFragment
  * rotation.
  */
 class DialogStorage<T: DialogFragment>(
+    private val tag: String,
+    private val owner: DialogOwner,
     private val create: () -> T,
-    private val find: () -> T?,
     private val setup: (T) -> Unit
 ) {
 
@@ -16,9 +17,10 @@ class DialogStorage<T: DialogFragment>(
     private var dialog: T? = null
 
     /** Restore dialog after rotation. */
+    @Suppress("UNCHECKED_CAST")
     fun restore() {
         if (dialog == null) {
-            find()?.let {
+            (owner.fm.findFragmentByTag(tag) as? T)?.let {
                 setup(it)
                 dialog = it
             }
@@ -29,7 +31,7 @@ class DialogStorage<T: DialogFragment>(
         dialog = null
     }
 
-    fun show(tag: String, owner: DialogOwner, prepare: T.() -> Unit = {}) {
+    fun show(prepare: T.() -> Unit = {}) {
         dialog?.safeDismiss(owner)
         dialog = create().apply(prepare).also {
             setup(it)
