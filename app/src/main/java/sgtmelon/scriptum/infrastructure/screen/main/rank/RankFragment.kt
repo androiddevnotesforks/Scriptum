@@ -11,11 +11,12 @@ import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.extensions.emptyString
 import sgtmelon.iconanim.callback.IconBlockCallback
-import sgtmelon.safedialog.utils.safeShow
+import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
+import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
@@ -56,7 +57,11 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
 
     private val dialogs by lazy { DialogFactory.Main(context, fm) }
-    private val renameDialog by lazy { dialogs.getRename() }
+    private val renameDialog = DialogStorage(
+        create = { dialogs.createRename() },
+        find = { dialogs.findRename() },
+        setup = { setupRenameDialog(it) },
+    )
 
     private val touchHelper = DragAndSwipeTouchHelper(callback = this)
     override val adapter by lazy {
@@ -128,14 +133,19 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     override fun setupDialogs() {
         super.setupDialogs()
+        renameDialog.restore()
+    }
 
-        renameDialog.apply {
-            onPositiveClick {
-                viewModel.renameItem(position, name).collect(owner = this) { notifyToolbar() }
-            }
-            onDismiss { parentOpen?.clear() }
+    private fun setupRenameDialog(dialog: RenameDialog): Unit = with(dialog) {
+        onPositiveClick {
+            viewModel.renameItem(position, name).collect(owner = this) { notifyToolbar() }
+        }
+        onDismiss {
+            renameDialog.release()
+            parentOpen?.clear()
         }
     }
+
 
     override fun setupObservers() {
         super.setupObservers()
@@ -233,16 +243,18 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     private fun showRenameDialog(p: Int) {
         parentOpen?.attempt {
-            viewModel.getRenameData(p).collect(owner = this) {
-                val (name, nameList) = it
+            viewModel.getRenameData(p).collect(owner = this) { pair ->
+                val (name, nameList) = pair
 
                 /**
                  * Cancel snackbar because item may be renamed to canceled item (exist in
                  * snackbar stack).
                  */
                 snackbar.cancel()
-                renameDialog.setArguments(p, name, nameList)
-                    .safeShow(DialogFactory.Main.RENAME, owner = this)
+
+                renameDialog.show(DialogFactory.Main.RENAME, owner = this) {
+                    setArguments(p, name, nameList)
+                }
             }
         }
     }

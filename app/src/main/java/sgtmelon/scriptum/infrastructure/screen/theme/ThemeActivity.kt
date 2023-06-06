@@ -46,6 +46,10 @@ abstract class ThemeActivity<T : ViewDataBinding> : BindingActivity<T>(),
 
     open fun setupView() = Unit
 
+    /**
+     * If some dialogs was displayed before (e.g. before rotation change) need to check it and
+     * setup all needed listeners/data
+     */
     open fun setupDialogs() = Unit
 
     open fun setupObservers() = Unit

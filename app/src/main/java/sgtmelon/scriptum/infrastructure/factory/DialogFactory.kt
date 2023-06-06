@@ -62,9 +62,10 @@ object DialogFactory {
         fun findAdd(): AddSheetDialog? = fm.getFragmentByTag(ADD)
 
 
+        fun createRename(): RenameDialog = RenameDialog()
 
+        fun findRename(): RenameDialog? = fm.getFragmentByTag(RENAME)
 
-        fun getRename(): RenameDialog = fm.getFragmentByTag(RENAME) ?: RenameDialog()
 
         fun getOptions(): OptionsDialog = fm.getFragmentByTag(OPTIONS) ?: OptionsDialog()
 

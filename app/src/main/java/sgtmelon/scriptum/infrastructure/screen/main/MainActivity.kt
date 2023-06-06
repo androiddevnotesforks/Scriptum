@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import sgtmelon.safedialog.dialog.MessageDialog
-import sgtmelon.safedialog.utils.safeDismiss
+import sgtmelon.safedialog.utils.DialogStorage
 import javax.inject.Inject
-import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
@@ -59,8 +58,16 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     private val binFragment by lazy { fragments.getBin() }
 
     private val dialogs by lazy { DialogFactory.Main(context = this, fm) }
-    private var notificationsHelpDialog: MessageDialog? = null
-    private var addDialog: AddSheetDialog? = null
+    private val notificationsHelpDialog = DialogStorage(
+        create = { dialogs.createNotificationsHelp() },
+        find = { dialogs.findNotificationsHelp() },
+        setup = { setupNotificationsHelpDialog(it) }
+    )
+    private val addDialog = DialogStorage(
+        create = { dialogs.createAdd() },
+        find = { dialogs.findAdd() },
+        setup = { setupAddDialog(it) }
+    )
 
     private val showHolder = ShowPlaceholder(lifecycle, context = this)
 
@@ -134,37 +141,29 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
 
     override fun setupDialogs() {
         super.setupDialogs()
-
-        if (notificationsHelpDialog == null) {
-            dialogs.findNotificationsHelp()?.let {
-                setupNotificationsHelpDialog(it)
-                notificationsHelpDialog = it
-            }
-        }
-
-        if (addDialog == null) {
-            dialogs.findAdd()?.let {
-                setupAddDialog(it)
-                addDialog = it
-            }
-        }
+        notificationsHelpDialog.restore()
+        addDialog.restore()
     }
 
-    private fun setupNotificationsHelpDialog(dialog: MessageDialog) = with(dialog) {
+    private fun setupNotificationsHelpDialog(dialog: MessageDialog): Unit = with(dialog) {
         themeId = R.style.App_Dialog_Alert_NotificationsHelp
         onPositiveClick { startSettingsActivity(system?.toast) }
         onNegativeClick {
             startSettingsChannelActivity(system?.toast, R.string.notification_eternal_channel_id)
         }
         onNeutralClick { viewModel.hideNotificationsHelp() }
+        onDismiss { notificationsHelpDialog.release() }
     }
 
-    private fun setupAddDialog(dialog: AddSheetDialog) = with(dialog) {
+    private fun setupAddDialog(dialog: AddSheetDialog): Unit = with(dialog) {
         onItemSelected(owner = this) {
             val type = AddSheetData().convert(it.itemId) ?: return@onItemSelected
             openNoteScreen(type)
         }
-        onDismiss { open.clear() }
+        onDismiss {
+            addDialog.release()
+            open.clear()
+        }
     }
 
     override fun onResume() {
@@ -178,11 +177,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
         changeFabVisibility()
 
         if (viewModel.showNotificationsHelp) {
-            notificationsHelpDialog?.safeDismiss(owner = this)
-            notificationsHelpDialog = dialogs.createNotificationsHelp().also {
-                setupNotificationsHelpDialog(it)
-                it.safeShow(DialogFactory.Main.NOTIFICATIONS, owner = this)
-            }
+            notificationsHelpDialog.show(DialogFactory.Main.NOTIFICATIONS, owner = this)
         }
     }
 
@@ -223,11 +218,7 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     }
 
     private fun showAddDialog() = open.attempt {
-        addDialog?.safeDismiss(owner = this)
-        addDialog = dialogs.createAdd().also {
-            setupAddDialog(it)
-            it.safeShow(DialogFactory.Main.ADD, owner = this)
-        }
+        addDialog.show(DialogFactory.Main.ADD, owner = this)
     }
 
     private fun openNoteScreen(type: NoteType) = open.attempt {
