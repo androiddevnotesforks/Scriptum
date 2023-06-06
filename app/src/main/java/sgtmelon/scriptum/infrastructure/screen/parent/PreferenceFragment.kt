@@ -22,8 +22,7 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
     DialogOwner,
     ReceiverRegistrar {
 
-    @get:XmlRes
-    abstract val xmlId: Int
+    @get:XmlRes abstract val xmlId: Int
 
     override val fm get() = parentFragmentManager
 

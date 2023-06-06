@@ -6,9 +6,13 @@ import android.view.View
 import androidx.annotation.IntRange
 import javax.inject.Inject
 import sgtmelon.extensions.collect
-import sgtmelon.safedialog.utils.safeShow
+import sgtmelon.safedialog.dialog.MessageDialog
+import sgtmelon.safedialog.dialog.MultipleDialog
+import sgtmelon.safedialog.dialog.SingleDialog
+import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
@@ -39,12 +43,32 @@ class AlarmPreferenceFragment : PreferenceFragment(),
 
     private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    private val dialogs by lazy { DialogFactory.Preference.Alarm(context, fm) }
-    private val repeatDialog by lazy { dialogs.getRepeat() }
-    private val signalDialog by lazy { dialogs.getSignal() }
-    private val melodyAccessDialog by lazy { dialogs.getMelodyAccess() }
-    private val melodyDialog by lazy { dialogs.getMelody() }
-    private val volumeDialog by lazy { dialogs.getVolume() }
+    private val dialogs by lazy { DialogFactory.Preference.Alarm(resources) }
+    private val repeatDialog = DialogStorage(
+        DialogFactory.Preference.Alarm.REPEAT, owner = this,
+        create = { dialogs.getRepeat() },
+        setup = { setupRepeatDialog(it) }
+    )
+    private val signalDialog = DialogStorage(
+        DialogFactory.Preference.Alarm.SIGNAL, owner = this,
+        create = { dialogs.getSignal() },
+        setup = { setupSignalDialog(it) }
+    )
+    private val melodyAccessDialog = DialogStorage(
+        DialogFactory.Preference.Alarm.MELODY_ACCESS, owner = this,
+        create = { dialogs.getMelodyAccess() },
+        setup = { setupMelodyAccessDialog(it) }
+    )
+    private val melodyDialog = DialogStorage(
+        DialogFactory.Preference.Alarm.MELODY, owner = this,
+        create = { dialogs.getMelody() },
+        setup = { setupMelodyDialog(it) }
+    )
+    private val volumeDialog = DialogStorage(
+        DialogFactory.Preference.Alarm.VOLUME, owner = this,
+        create = { dialogs.getVolume() },
+        setup = { setupVolumeDialog(it) }
+    )
 
     private val dotAnimation = DotAnimation(lifecycle, DotAnimType.COUNT, callback = this)
 
@@ -136,65 +160,85 @@ class AlarmPreferenceFragment : PreferenceFragment(),
         binding.volumeButton?.isEnabled = isEnabled
     }
 
-    //region Dialogs
+    //region Dialogs setup
 
     override fun setupDialogs() {
         super.setupDialogs()
 
-        signalDialog.apply {
-            onPositiveClick { viewModel.updateSignal(signalDialog.check) }
-            onDismiss { open.clear() }
-        }
+        repeatDialog.restore()
+        signalDialog.restore()
+        melodyAccessDialog.restore()
+        melodyDialog.restore()
+        volumeDialog.restore()
+    }
 
-        repeatDialog.apply {
-            onPositiveClick { viewModel.updateRepeat(repeatDialog.check) }
-            onDismiss { open.clear() }
+    private fun setupRepeatDialog(dialog: SingleDialog): Unit = with(dialog) {
+        onPositiveClick { viewModel.updateRepeat(check) }
+        onDismiss {
+            repeatDialog.release()
+            open.clear()
         }
+    }
 
-        volumeDialog.apply {
-            onPositiveClick { viewModel.updateVolume(volumeDialog.progress) }
-            onDismiss { open.clear() }
+    private fun setupSignalDialog(dialog: MultipleDialog): Unit = with(dialog) {
+        onPositiveClick { viewModel.updateSignal(check) }
+        onDismiss {
+            signalDialog.release()
+            open.clear()
         }
+    }
 
-        melodyAccessDialog.apply {
-            isCancelable = false
-            onPositiveClick { requestPermission(PermissionRequest.MELODY, permissionState) }
-            onDismiss { open.clear() }
+    private fun setupMelodyAccessDialog(dialog: MessageDialog): Unit = with(dialog) {
+        isCancelable = false
+        onPositiveClick { requestPermission(PermissionRequest.MELODY, permissionState) }
+        onDismiss {
+            melodyAccessDialog.release()
+            open.clear()
         }
+    }
 
-        melodyDialog.apply {
-            onItemClick { onMelodyClick(it) }
-            onPositiveClick { onMelodyApply(with(melodyDialog) { itemArray.getOrNull(check) }) }
-            onDismiss {
-                system?.musicPlay?.stop()
-                open.clear()
-            }
+    private fun setupMelodyDialog(dialog: SingleDialog): Unit = with(dialog) {
+        onItemClick { onMelodyClick(it) }
+        onPositiveClick { onMelodyApply(with(melodyDialog) { itemArray.getOrNull(check) }) }
+        onDismiss {
+            melodyDialog.release()
+            open.clear()
+
+            system?.musicPlay?.stop()
         }
+    }
+
+    private fun setupVolumeDialog(dialog: VolumeDialog): Unit = with(dialog) {
+        onPositiveClick { viewModel.updateVolume(progress) }
+        onDismiss {
+            melodyDialog.release()
+            open.clear()
+        }
+    }
+
+    //endregion
+
+    //region Dialogs show and actions
+
+    private fun showRepeatDialog(repeat: Repeat) = open.attempt {
+        repeatDialog.show { setArguments(repeat.ordinal) }
     }
 
     private fun showSignalDialog(valueArray: BooleanArray) = open.attempt {
-        signalDialog.setArguments(valueArray)
-            .safeShow(DialogFactory.Preference.Alarm.SIGNAL, owner = this)
+        signalDialog.show { setArguments(valueArray) }
     }
 
-    private fun showRepeatDialog(repeat: Repeat) = open.attempt {
-        repeatDialog.setArguments(repeat.ordinal)
-            .safeShow(DialogFactory.Preference.Alarm.REPEAT, owner = this)
+    private fun showMelodyAccessDialog() = open.attempt { melodyAccessDialog.show() }
+
+    private fun showMelodyDialog(titleArray: Array<String>, value: Int) = open.attempt {
+        melodyDialog.show {
+            itemArray = titleArray
+            setArguments(value)
+        }
     }
 
     private fun showVolumeDialog(@IntRange(from = 10, to = 100) value: Int) = open.attempt {
-        volumeDialog.setArguments(value)
-            .safeShow(DialogFactory.Preference.Alarm.VOLUME, owner = this)
-    }
-
-    private fun showMelodyAccessDialog() = open.attempt {
-        melodyAccessDialog.safeShow(DialogFactory.Preference.Alarm.MELODY_ACCESS, owner = this)
-    }
-
-    private fun showMelodyDialog(titleArray: Array<String>, value: Int) = open.attempt {
-        melodyDialog.itemArray = titleArray
-        melodyDialog.setArguments(value)
-            .safeShow(DialogFactory.Preference.Alarm.MELODY, owner = this)
+        volumeDialog.show { setArguments(value) }
     }
 
     private fun onMelodyClick(p: Int) {

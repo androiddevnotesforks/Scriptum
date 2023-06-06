@@ -262,68 +262,48 @@ object DialogFactory {
             }
         }
 
-        class Alarm(private val context: Context?, private val fm: FragmentManager) {
+        class Alarm(private val resources: Resources) {
 
             fun getSignal(): MultipleDialog {
-                val dialog = fm.getFragmentByTag(SIGNAL) ?: MultipleDialog()
-
-                if (context == null) return dialog
-
+                val dialog = MultipleDialog()
                 dialog.atLeastOne = true
-                dialog.title = context.getString(R.string.pref_title_alarm_signal)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_signal)
-
+                dialog.title = resources.getString(R.string.pref_title_alarm_signal)
+                dialog.itemArray = resources.getStringArray(R.array.pref_signal)
                 return dialog
             }
 
             fun getRepeat(): SingleDialog {
-                val dialog = fm.getFragmentByTag(REPEAT) ?: SingleDialog()
-
-                if (context == null) return dialog
-
-                dialog.title = context.getString(R.string.pref_title_alarm_repeat)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_repeat)
-
+                val dialog = SingleDialog()
+                dialog.title = resources.getString(R.string.pref_title_alarm_repeat)
+                dialog.itemArray = resources.getStringArray(R.array.pref_repeat)
                 return dialog
             }
 
             fun getMelodyAccess(): MessageDialog {
-                val dialog = fm.getFragmentByTag(MELODY_ACCESS) ?: MessageDialog()
-
-                if (context == null) return dialog
-
+                val dialog = MessageDialog()
                 dialog.type = MessageType.Info
-                dialog.title = context.getString(R.string.dialog_title_melody_permission)
-                dialog.message = context.getString(R.string.dialog_text_melody_permission)
-
+                dialog.title = resources.getString(R.string.dialog_title_melody_permission)
+                dialog.message = resources.getString(R.string.dialog_text_melody_permission)
                 return dialog
             }
 
             fun getMelody(): SingleDialog {
-                val dialog = fm.getFragmentByTag(MELODY) ?: SingleDialog()
-
-                if (context == null) return dialog
-
-                dialog.title = context.getString(R.string.pref_title_alarm_melody)
-
+                val dialog = SingleDialog()
+                dialog.title = resources.getString(R.string.pref_title_alarm_melody)
                 return dialog
             }
 
             fun getVolume(): VolumeDialog {
-                val dialog = fm.getFragmentByTag(VOLUME) ?: VolumeDialog()
-
-                if (context == null) return dialog
-
-                dialog.title = context.getString(R.string.pref_title_alarm_volume)
-
+                val dialog = VolumeDialog()
+                dialog.title = resources.getString(R.string.pref_title_alarm_volume)
                 return dialog
             }
 
             companion object {
                 private const val PREFIX = "DIALOG_PREF_ALARM"
 
-                const val SIGNAL = "${PREFIX}_SIGNAL"
                 const val REPEAT = "${PREFIX}_REPEAT"
+                const val SIGNAL = "${PREFIX}_SIGNAL"
                 const val MELODY_ACCESS = "${PREFIX}_MELODY_ACCESS"
                 const val MELODY = "${PREFIX}_MELODY"
                 const val VOLUME = "${PREFIX}_VOLUME"
