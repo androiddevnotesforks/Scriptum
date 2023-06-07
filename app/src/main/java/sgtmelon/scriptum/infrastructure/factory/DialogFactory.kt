@@ -219,37 +219,25 @@ object DialogFactory {
             }
         }
 
-        class Notes(private val context: Context?, private val fm: FragmentManager) {
+        class Notes(private val resources: Resources) {
 
             fun getSort(): SingleDialog {
-                val dialog = fm.getFragmentByTag(SORT) ?: SingleDialog()
-
-                if (context == null) return dialog
-
-                dialog.title = context.getString(R.string.pref_title_note_sort)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_sort)
-
+                val dialog = SingleDialog()
+                dialog.title = resources.getString(R.string.pref_title_note_sort)
+                dialog.itemArray = resources.getStringArray(R.array.pref_sort)
                 return dialog
             }
 
             fun getColor(): ColorDialog {
-                val dialog = fm.getFragmentByTag(COLOR) ?: ColorDialog()
-
-                if (context == null) return dialog
-
-                dialog.title = context.getString(R.string.pref_title_note_color)
-
+                val dialog = ColorDialog()
+                dialog.title = resources.getString(R.string.pref_title_note_color)
                 return dialog
             }
 
             fun getSavePeriod(): SingleDialog {
-                val dialog = fm.getFragmentByTag(SAVE_PERIOD) ?: SingleDialog()
-
-                if (context == null) return dialog
-
-                dialog.title = context.getString(R.string.pref_title_note_save_period)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_save_period)
-
+                val dialog = SingleDialog()
+                dialog.title = resources.getString(R.string.pref_title_note_save_period)
+                dialog.itemArray = resources.getStringArray(R.array.pref_save_period)
                 return dialog
             }
 

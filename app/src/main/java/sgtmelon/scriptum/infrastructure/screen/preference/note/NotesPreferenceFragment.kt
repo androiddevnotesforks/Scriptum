@@ -2,10 +2,12 @@ package sgtmelon.scriptum.infrastructure.screen.preference.note
 
 import android.os.Bundle
 import android.view.View
+import sgtmelon.safedialog.dialog.SingleDialog
+import sgtmelon.safedialog.utils.DialogStorage
 import javax.inject.Inject
-import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
@@ -24,10 +26,22 @@ class NotesPreferenceFragment : PreferenceFragment() {
 
     @Inject lateinit var viewModel: NotesPreferenceViewModel
 
-    private val dialogs by lazy { DialogFactory.Preference.Notes(context, fm) }
-    private val sortDialog by lazy { dialogs.getSort() }
-    private val colorDialog by lazy { dialogs.getColor() }
-    private val savePeriodDialog by lazy { dialogs.getSavePeriod() }
+    private val dialogs by lazy { DialogFactory.Preference.Notes(resources) }
+    private val sortDialog = DialogStorage(
+        DialogFactory.Preference.Notes.SORT, owner = this,
+        create = { dialogs.getSort() },
+        setup = { setupSortDialog(it) }
+    )
+    private val colorDialog = DialogStorage(
+        DialogFactory.Preference.Notes.COLOR, owner = this,
+        create = { dialogs.getColor() },
+        setup = { setupColorDialog(it) }
+    )
+    private val savePeriodDialog = DialogStorage(
+        DialogFactory.Preference.Notes.SAVE_PERIOD, owner = this,
+        create = { dialogs.getSavePeriod() },
+        setup = { setupSavePeriodDialog(it) }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,37 +70,47 @@ class NotesPreferenceFragment : PreferenceFragment() {
     override fun setupDialogs() {
         super.setupDialogs()
 
-        sortDialog.apply {
-            onPositiveClick {
-                viewModel.updateSort(sortDialog.check)
-                system?.broadcast?.sendNotifyNotesBind()
-            }
-            onDismiss { open.clear() }
-        }
+        sortDialog.restore()
+        colorDialog.restore()
+        savePeriodDialog.restore()
+    }
 
-        colorDialog.apply {
-            onPositiveClick { viewModel.updateDefaultColor(colorDialog.check) }
-            onDismiss { open.clear() }
+    private fun setupSortDialog(dialog: SingleDialog): Unit = with(dialog) {
+        onPositiveClick {
+            viewModel.updateSort(check)
+            system?.broadcast?.sendNotifyNotesBind()
         }
+        onDismiss {
+            sortDialog.release()
+            open.clear()
+        }
+    }
 
-        savePeriodDialog.apply {
-            onPositiveClick { viewModel.updateSavePeriod(savePeriodDialog.check) }
-            onDismiss { open.clear() }
+    private fun setupColorDialog(dialog: ColorDialog): Unit = with(dialog) {
+        onPositiveClick { viewModel.updateDefaultColor(check) }
+        onDismiss {
+            colorDialog.release()
+            open.clear()
+        }
+    }
+
+    private fun setupSavePeriodDialog(dialog: SingleDialog): Unit = with(dialog) {
+        onPositiveClick { viewModel.updateSavePeriod(check) }
+        onDismiss {
+            savePeriodDialog.release()
+            open.clear()
         }
     }
 
     private fun showSortDialog(sort: Sort) = open.attempt {
-        sortDialog.setArguments(sort.ordinal)
-            .safeShow(DialogFactory.Preference.Notes.SORT, owner = this)
+        sortDialog.show { setArguments(sort.ordinal) }
     }
 
     private fun showDefaultColorDialog(color: Color) = open.attempt {
-        colorDialog.setArguments(color)
-            .safeShow(DialogFactory.Preference.Notes.COLOR, owner = this)
+        colorDialog.show { setArguments(color) }
     }
 
     private fun showSavePeriodDialog(savePeriod: SavePeriod) = open.attempt {
-        savePeriodDialog.setArguments(savePeriod.ordinal)
-            .safeShow(DialogFactory.Preference.Notes.SAVE_PERIOD, owner = this)
+        savePeriodDialog.show { setArguments(savePeriod.ordinal) }
     }
 }
