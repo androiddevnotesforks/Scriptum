@@ -7,10 +7,12 @@ import android.widget.Toast
 import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.extensions.emptyString
-import sgtmelon.safedialog.utils.safeDismiss
-import sgtmelon.safedialog.utils.safeShow
+import sgtmelon.safedialog.dialog.MessageDialog
+import sgtmelon.safedialog.dialog.SingleDialog
+import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
@@ -44,13 +46,37 @@ class BackupPreferenceFragment : PreferenceFragment(),
 
     private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    private val dialogs by lazy { DialogFactory.Preference.Backup(context, fm) }
-    private val exportPermissionDialog by lazy { dialogs.getExportPermission() }
-    private val exportDenyDialog by lazy { dialogs.getExportDeny() }
-    private val importPermissionDialog by lazy { dialogs.getImportPermission() }
-    private val importDenyDialog by lazy { dialogs.getImportDeny() }
-    private val importDialog by lazy { dialogs.getImport() }
-    private val loadingDialog by lazy { dialogs.getLoading() }
+    private val dialogs by lazy { DialogFactory.Preference.Backup(resources) }
+    private val exportPermissionDialog = DialogStorage(
+        DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this,
+        create = { dialogs.getExportPermission() },
+        setup = { setupExportPermissionDialog(it) }
+    )
+    private val exportDenyDialog = DialogStorage(
+        DialogFactory.Preference.Backup.EXPORT_DENY, owner = this,
+        create = { dialogs.getExportDeny() },
+        setup = { setupExportDenyDialog(it) }
+    )
+    private val importPermissionDialog = DialogStorage(
+        DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this,
+        create = { dialogs.getImportPermission() },
+        setup = { setupImportPermissionDialog(it) }
+    )
+    private val importDenyDialog = DialogStorage(
+        DialogFactory.Preference.Backup.IMPORT_DENY, owner = this,
+        create = { dialogs.getImportDeny() },
+        setup = { setupImportDenyDialog(it) }
+    )
+    private val importDialog = DialogStorage(
+        DialogFactory.Preference.Backup.IMPORT, owner = this,
+        create = { dialogs.getImport() },
+        setup = { setupImportDialog(it) }
+    )
+    private val loadingDialog = DialogStorage(
+        DialogFactory.Preference.Backup.LOADING, owner = this,
+        create = { dialogs.getLoading() },
+        setup = { setupLoadingDialog(it) }
+    )
 
     private val dotAnimation = DotAnimation(lifecycle, DotAnimType.COUNT, callback = this)
 
@@ -161,7 +187,7 @@ class BackupPreferenceFragment : PreferenceFragment(),
         viewModel.startExport().collect(owner = this) {
             when (it) {
                 is ExportState.ShowLoading -> showExportLoadingDialog()
-                is ExportState.HideLoading -> loadingDialog.safeDismiss(owner = this)
+                is ExportState.HideLoading -> loadingDialog.dismiss()
                 is ExportState.LoadSuccess -> {
                     val text = getString(R.string.pref_toast_export_result, it.path)
                     system?.toast?.show(context, text, Toast.LENGTH_LONG)
@@ -189,71 +215,90 @@ class BackupPreferenceFragment : PreferenceFragment(),
         }
     }
 
-    //region Dialogs
+    //region Dialogs setup
 
     override fun setupDialogs() {
         super.setupDialogs()
 
-        exportPermissionDialog.apply {
-            isCancelable = false
-            onPositiveClick { requestPermission(PermissionRequest.EXPORT, permissionState) }
-            onDismiss { open.clear() }
-        }
+        exportPermissionDialog.restore()
+        exportDenyDialog.restore()
+        importPermissionDialog.restore()
+        importDenyDialog.restore()
+        importDialog.restore()
+        loadingDialog.restore()
+    }
 
-        exportDenyDialog.apply {
-            onPositiveClick { context?.startSettingsActivity(system?.toast) }
-            onDismiss { open.clear() }
-        }
-
-        importPermissionDialog.apply {
-            isCancelable = false
-            onPositiveClick { requestPermission(PermissionRequest.IMPORT, permissionState) }
-            onDismiss { open.clear() }
-        }
-
-        importDenyDialog.apply {
-            onPositiveClick { context?.startSettingsActivity(system?.toast) }
-            onDismiss { open.clear() }
-        }
-
-        importDialog.apply {
-            onPositiveClick { onImportApply(itemArray.getOrNull(check)) }
-            onDismiss { open.clear() }
-        }
-
-        loadingDialog.apply {
-            isCancelable = false
-            onDismiss { open.clear() }
+    private fun setupExportPermissionDialog(dialog: MessageDialog): Unit = with(dialog) {
+        isCancelable = false
+        onPositiveClick { requestPermission(PermissionRequest.EXPORT, permissionState) }
+        onDismiss {
+            exportPermissionDialog.release()
+            open.clear()
         }
     }
 
-    private fun showExportPermissionDialog() = open.attempt {
-        exportPermissionDialog
-            .safeShow(DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this)
+    private fun setupExportDenyDialog(dialog: MessageDialog): Unit = with(dialog) {
+        onPositiveClick { context?.startSettingsActivity(system?.toast) }
+        onDismiss {
+            exportDenyDialog.release()
+            open.clear()
+        }
     }
 
-    private fun showExportDenyDialog() = open.attempt {
-        exportDenyDialog.safeShow(DialogFactory.Preference.Backup.EXPORT_DENY, owner = this)
+    private fun setupImportPermissionDialog(dialog: MessageDialog): Unit = with(dialog) {
+        isCancelable = false
+        onPositiveClick { requestPermission(PermissionRequest.IMPORT, permissionState) }
+        onDismiss {
+            importPermissionDialog.release()
+            open.clear()
+        }
     }
 
-    private fun showExportLoadingDialog() = open.attempt {
-        loadingDialog.safeShow(DialogFactory.Preference.Backup.LOADING, owner = this)
+    private fun setupImportDenyDialog(dialog: MessageDialog): Unit = with(dialog) {
+        onPositiveClick { context?.startSettingsActivity(system?.toast) }
+        onDismiss {
+            importDenyDialog.release()
+            open.clear()
+        }
     }
 
-    private fun showImportPermissionDialog() = open.attempt {
-        importPermissionDialog
-            .safeShow(DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this)
+    private fun setupImportDialog(dialog: SingleDialog): Unit = with(dialog) {
+        onPositiveClick { onImportApply(itemArray.getOrNull(check)) }
+        onDismiss {
+            importDialog.release()
+            open.clear()
+        }
     }
 
-    private fun showImportDenyDialog() = open.attempt {
-        importDenyDialog.safeShow(DialogFactory.Preference.Backup.IMPORT_DENY, owner = this)
+    private fun setupLoadingDialog(dialog: LoadingDialog): Unit = with(dialog) {
+        isCancelable = false
+        onDismiss {
+            loadingDialog.release()
+            open.clear()
+        }
     }
+
+    //endregion
+
+    //region Dialogs show and actions
+
+    private fun showExportPermissionDialog() = open.attempt { exportPermissionDialog.show() }
+
+    private fun showExportDenyDialog() = open.attempt { exportDenyDialog.show() }
+
+    private fun showExportLoadingDialog() = open.attempt { loadingDialog.show() }
+
+    private fun showImportPermissionDialog() = open.attempt { importPermissionDialog.show() }
+
+    private fun showImportDenyDialog() = open.attempt { importDenyDialog.show() }
 
     private fun showImportDialog(titleArray: Array<String>) = open.attempt {
         open.tag = OpenState.Tag.DIALOG
+        importDialog.show { this.itemArray = titleArray }
+    }
 
-        importDialog.itemArray = titleArray
-        importDialog.safeShow(DialogFactory.Preference.Backup.IMPORT, owner = this)
+    private fun showImportLoadingDialog() = open.attempt(OpenState.Tag.DIALOG) {
+        loadingDialog.show()
     }
 
     private fun onImportApply(name: String?) {
@@ -264,7 +309,7 @@ class BackupPreferenceFragment : PreferenceFragment(),
         viewModel.startImport(name).collect(owner = this) {
             when (it) {
                 is ImportState.ShowLoading -> showImportLoadingDialog()
-                is ImportState.HideLoading -> loadingDialog.safeDismiss(owner = this)
+                is ImportState.HideLoading -> loadingDialog.dismiss()
                 is ImportState.LoadSuccess -> {
                     system?.toast?.show(context, R.string.pref_toast_import_result)
                 }
@@ -282,10 +327,6 @@ class BackupPreferenceFragment : PreferenceFragment(),
                 }
             }
         }
-    }
-
-    private fun showImportLoadingDialog() = open.attempt(OpenState.Tag.DIALOG) {
-        loadingDialog.safeShow(DialogFactory.Preference.Backup.LOADING, owner = this)
     }
 
     //endregion

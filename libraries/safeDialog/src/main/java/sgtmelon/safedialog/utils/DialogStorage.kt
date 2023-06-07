@@ -31,6 +31,8 @@ class DialogStorage<T: DialogFragment>(
         dialog = null
     }
 
+    fun dismiss() = run { dialog?.safeDismiss(owner) }
+
     fun show(prepare: T.() -> Unit = {}) {
         dialog?.safeDismiss(owner)
         dialog = create().apply(prepare).also {

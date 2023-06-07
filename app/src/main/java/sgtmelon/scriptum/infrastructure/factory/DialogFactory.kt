@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.infrastructure.factory
 
-import android.content.Context
 import android.content.res.Resources
-import androidx.fragment.app.FragmentManager
 import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.safedialog.dialog.MultipleDialog
@@ -19,7 +17,6 @@ import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.utils.extensions.getFragmentByTag
 
 /**
  * Factory for create/get dialogs.
@@ -144,78 +141,58 @@ object DialogFactory {
             }
         }
 
-        class Backup(private val context: Context?, private val fm: FragmentManager) {
+        class Backup(private val resources: Resources) {
 
             fun getExportPermission(): MessageDialog {
-                val dialog = fm.getFragmentByTag(EXPORT_PERMISSION) ?: MessageDialog()
-
-                if (context == null) return dialog
-
+                val dialog = MessageDialog()
                 dialog.type = MessageType.Info
-                dialog.title = context.getString(R.string.dialog_title_export_permission)
-                dialog.message = context.getString(R.string.dialog_text_export_permission)
-
+                dialog.title = resources.getString(R.string.dialog_title_export_permission)
+                dialog.message = resources.getString(R.string.dialog_text_export_permission)
                 return dialog
             }
 
             fun getExportDeny(): MessageDialog {
-                val dialog = fm.getFragmentByTag(EXPORT_DENY) ?: MessageDialog()
-
-                if (context == null) return dialog
-
+                val dialog = MessageDialog()
                 dialog.type = MessageType.Info
-                dialog.title = context.getString(R.string.dialog_title_export_deny)
-                dialog.message = context.getString(R.string.dialog_text_export_deny)
-
+                dialog.title = resources.getString(R.string.dialog_title_export_deny)
+                dialog.message = resources.getString(R.string.dialog_text_export_deny)
                 return dialog
             }
 
-            fun getLoading(): LoadingDialog = fm.getFragmentByTag(LOADING) ?: LoadingDialog()
-
             fun getImportPermission(): MessageDialog {
-                val dialog = fm.getFragmentByTag(IMPORT_PERMISSION) ?: MessageDialog()
-
-                if (context == null) return dialog
-
+                val dialog = MessageDialog()
                 dialog.type = MessageType.Info
-                dialog.title = context.getString(R.string.dialog_title_import_permission)
-                dialog.message = context.getString(R.string.dialog_text_import_permission)
-
+                dialog.title = resources.getString(R.string.dialog_title_import_permission)
+                dialog.message = resources.getString(R.string.dialog_text_import_permission)
                 return dialog
             }
 
             fun getImportDeny(): MessageDialog {
-                val dialog = fm.getFragmentByTag(IMPORT_DENY) ?: MessageDialog()
-
-                if (context == null) return dialog
-
+                val dialog = MessageDialog()
                 dialog.type = MessageType.Info
-                dialog.title = context.getString(R.string.dialog_title_import_deny)
-                dialog.message = context.getString(R.string.dialog_text_import_deny)
-
+                dialog.title = resources.getString(R.string.dialog_title_import_deny)
+                dialog.message = resources.getString(R.string.dialog_text_import_deny)
                 return dialog
             }
 
             fun getImport(): SingleDialog {
-                val dialog = fm.getFragmentByTag(IMPORT) ?: SingleDialog()
-
-                if (context == null) return dialog
-
+                val dialog = SingleDialog()
                 dialog.applyEnable = true
-                dialog.title = context.getString(R.string.dialog_title_import)
-
+                dialog.title = resources.getString(R.string.dialog_title_import)
                 return dialog
             }
+
+            fun getLoading(): LoadingDialog = LoadingDialog()
 
             companion object {
                 private const val PREFIX = "DIALOG_PREF_BACKUP"
 
                 const val EXPORT_PERMISSION = "${PREFIX}_EXPORT_PERMISSION"
                 const val EXPORT_DENY = "${PREFIX}_EXPORT_DENY"
-                const val LOADING = "${PREFIX}_LOADING"
                 const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
                 const val IMPORT_DENY = "${PREFIX}_IMPORT_DENY"
                 const val IMPORT = "${PREFIX}_IMPORT"
+                const val LOADING = "${PREFIX}_LOADING"
             }
         }
 

@@ -67,6 +67,8 @@ class NotesPreferenceFragment : PreferenceFragment() {
         viewModel.savePeriodSummary.observe(this) { binding.savePeriodButton?.summary = it }
     }
 
+    //region Dialogs setup
+
     override fun setupDialogs() {
         super.setupDialogs()
 
@@ -101,6 +103,8 @@ class NotesPreferenceFragment : PreferenceFragment() {
             open.clear()
         }
     }
+
+    //endregion
 
     private fun showSortDialog(sort: Sort) = open.attempt {
         sortDialog.show { setArguments(sort.ordinal) }
