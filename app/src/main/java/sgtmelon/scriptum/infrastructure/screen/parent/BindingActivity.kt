@@ -5,8 +5,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import sgtmelon.safedialog.utils.DialogOwner
-import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -14,11 +12,11 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
+    UiInject,
     DialogOwner,
     ReceiverRegistrar {
 
-    @get:LayoutRes
-    abstract val layoutId: Int
+    @get:LayoutRes abstract val layoutId: Int
 
     private var _binding: T? = null
     protected val binding: T? get() = _binding
@@ -44,7 +42,7 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
         bundleValues.forEach { it.get(bundle = savedInstanceState ?: intent.extras) }
         open.restore(savedInstanceState)
 
-        inject(ScriptumApplication.component)
+        inject()
         registerReceivers()
 
         /** If keyboard was opened in another app. */
@@ -56,8 +54,6 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
         bundleValues.forEach { it.save(outState) }
         open.save(outState)
     }
-
-    abstract fun inject(component: ScriptumComponent)
 
     override fun onDestroy() {
         super.onDestroy()

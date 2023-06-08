@@ -39,7 +39,7 @@ class ServiceDevelopFragment : PreferenceFragment(),
             .inject(fragment = this)
     }
 
-    override fun setup() {
+    override fun setupView() {
         binding.apply {
             serviceRefreshButton?.setOnClickListener { viewModel.startPing() }
             serviceRunButton?.setOnClickListener { startService(it.context) }

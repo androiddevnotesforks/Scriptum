@@ -97,8 +97,8 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             .inject(fragment = this)
     }
 
-    override fun setupView(context: Context) {
-        super.setupView(context)
+    override fun setupView() {
+        super.setupView()
 
         /**
          * Use [OpenState.attempt] inside add category feature, because calculations happens

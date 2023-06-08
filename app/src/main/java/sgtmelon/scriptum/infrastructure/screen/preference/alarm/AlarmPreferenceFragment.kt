@@ -100,7 +100,7 @@ class AlarmPreferenceFragment : PreferenceFragment(),
         }
     }
 
-    override fun setup() {
+    override fun setupView() {
         binding.signalButton?.setOnClickListener { showSignalDialog(viewModel.signalTypeCheck) }
         binding.repeatButton?.setOnClickListener { showRepeatDialog(viewModel.repeat) }
 

@@ -55,7 +55,7 @@ class NotesPreferenceFragment : PreferenceFragment() {
             .inject(fragment = this)
     }
 
-    override fun setup() {
+    override fun setupView() {
         binding.sortButton?.setOnClickListener { showSortDialog(viewModel.sort) }
         binding.colorButton?.setOnClickListener { showDefaultColorDialog(viewModel.defaultColor) }
         binding.savePeriodButton?.setOnClickListener { showSavePeriodDialog(viewModel.savePeriod) }

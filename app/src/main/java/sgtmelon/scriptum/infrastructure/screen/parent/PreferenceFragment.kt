@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.screen.parent
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.CallSuper
 import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.safedialog.utils.DialogOwner
@@ -19,6 +18,8 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  * Parent class for preference fragments.
  */
 abstract class PreferenceFragment : PreferenceFragmentCompat(),
+    UiInject,
+    UiSetup,
     DialogOwner,
     ReceiverRegistrar {
 
@@ -39,7 +40,7 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(xmlId, rootKey)
-        inject(ScriptumApplication.component)
+        inject()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,13 +51,7 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
         open.restore(savedInstanceState)
 
         registerReceivers()
-
-        setupInsets()
-        setupRecycler()
-
-        setup()
-        setupDialogs()
-        setupObservers()
+        setupUi()
     }
 
     override fun onDestroyView() {
@@ -76,22 +71,13 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
         open.save(outState)
     }
 
-    abstract fun inject(component: ScriptumComponent)
-
     /** Setup spaces from android bars and other staff for current screen. */
-    @CallSuper
-    open fun setupInsets() {
+    override fun setupInsets() {
         listView.setPaddingInsets(InsetsDir.BOTTOM)
     }
 
-    private fun setupRecycler() {
+    override fun setupView() {
         listView.clipToPadding = false
         listView.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
     }
-
-    open fun setup() = Unit
-
-    open fun setupDialogs() = Unit
-
-    open fun setupObservers() = Unit
 }

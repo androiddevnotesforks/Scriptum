@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.parent
 
-import android.content.Context
 import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -22,11 +21,12 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
  * Parent class for fragments with [ViewDataBinding].
  */
 abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
+    UiInject,
+    UiSetup,
     DialogOwner,
     ReceiverRegistrar {
 
-    @get:LayoutRes
-    abstract val layoutId: Int
+    @get:LayoutRes abstract val layoutId: Int
 
     private var _binding: T? = null
     protected val binding: T? get() = _binding
@@ -51,7 +51,7 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
         savedInstanceState: Bundle?
     ): View {
         val binding = inflater.inflateBinding<T>(layoutId, container).also { _binding = it }
-        inject(ScriptumApplication.component)
+        inject()
         return binding.root
     }
 
@@ -88,12 +88,7 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
          * 3. [setupView] = add [TextWatcher]
          * You didn't get any text changes while [BindingFragment] initialization.
          */
-        val context = context ?: return
-
-        setupInsets()
-        setupView(context)
-        setupDialogs()
-        setupObservers()
+        setupUi()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -117,16 +112,5 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
     open fun releaseBinding() = Unit
 
     open fun releaseSystem() = Unit
-
-    abstract fun inject(component: ScriptumComponent)
-
-    /** Setup spaces from android bars and other staff for current screen. */
-    open fun setupInsets() = Unit
-
-    open fun setupView(context: Context) = Unit
-
-    open fun setupDialogs() = Unit
-
-    open fun setupObservers() = Unit
 
 }

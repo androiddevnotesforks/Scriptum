@@ -31,7 +31,7 @@ class DevelopFragment : PreferenceFragment() {
             .inject(fragment = this)
     }
 
-    override fun setup() {
+    override fun setupView() {
         binding.apply {
             printNoteButton?.setOnPrintClickListener(PrintType.NOTE)
             printBinButton?.setOnPrintClickListener(PrintType.BIN)

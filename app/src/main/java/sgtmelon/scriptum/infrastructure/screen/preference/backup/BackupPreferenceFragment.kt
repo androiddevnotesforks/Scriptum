@@ -122,7 +122,7 @@ class BackupPreferenceFragment : PreferenceFragment(),
         }
     }
 
-    override fun setup() {
+    override fun setupView() {
         binding.exportButton?.setOnClickListener {
             onExportPermission(permissionState.getResult(activity))
         }

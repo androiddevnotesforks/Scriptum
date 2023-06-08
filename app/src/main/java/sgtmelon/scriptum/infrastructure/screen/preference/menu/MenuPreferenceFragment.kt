@@ -55,7 +55,7 @@ class MenuPreferenceFragment : PreferenceFragment() {
             .inject(fragment = this)
     }
 
-    override fun setup() {
+    override fun setupView() {
         binding.apply {
             themeButton?.setOnClickListener { showThemeDialog(viewModel.theme) }
             backupButton?.setOnClickListener { it.openScreen(PreferenceScreen.BACKUP) }

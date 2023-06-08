@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
-import android.content.Context
 import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
@@ -91,8 +90,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             .inject(fragment = this)
     }
 
-    override fun setupView(context: Context) {
-        super.setupView(context)
+    override fun setupView() {
+        super.setupView()
 
         binding?.appBar?.toolbar?.apply {
             title = getString(R.string.title_notes)

@@ -133,14 +133,14 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    override fun setupView(context: Context) {
-        super.setupView(context)
+    override fun setupView() {
+        super.setupView()
 
         /**
          * This functions must be called before [setupObservers], to init all needed variables,
          * like a [navigationIcon].
          */
-        setupToolbar(context, appBar?.content?.toolbar)
+        setupToolbar(requireContext(), appBar?.content?.toolbar)
         setupPanel()
         setupContent()
     }

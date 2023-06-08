@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.bin
 
-import android.content.Context
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -76,8 +75,8 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
             .inject(fragment = this)
     }
 
-    override fun setupView(context: Context) {
-        super.setupView(context)
+    override fun setupView() {
+        super.setupView()
 
         binding?.appBar?.toolbar?.apply {
             title = getString(R.string.title_bin)
