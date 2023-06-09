@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.receiver.service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import java.util.Calendar
 import sgtmelon.extensions.toCalendarOrNull
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Eternal
@@ -63,9 +64,9 @@ class EternalServiceReceiver : BroadcastReceiver() {
 
     private fun notifyInfo(intent: Intent) {
         val count = intent.getIntExtra(Eternal.Key.COUNT, Eternal.Default.COUNT)
+            .takeIf { it != Eternal.Default.COUNT }
 
-        if (count == Eternal.Default.COUNT) return
-
+        /** If count == null -> count will be fetched from database. */
         callback?.notifyCount(count)
     }
 

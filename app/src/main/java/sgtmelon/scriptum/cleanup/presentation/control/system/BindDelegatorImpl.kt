@@ -36,10 +36,10 @@ class BindDelegatorImpl(private val context: Context) : BindDelegator {
         Factory.deleteOldChannels(context)
     }
 
-    override fun notifyNotes(itemList: List<NoteItem>) {
+    override fun notifyNotes(list: List<NoteItem>) {
         clearRecent(Tag.NOTE)
 
-        noteItemList.clearAdd(itemList)
+        noteItemList.clearAdd(list)
 
         if (noteItemList.size > 1) {
             val summaryNotification = Factory.Notes.getBindSummary(context)
