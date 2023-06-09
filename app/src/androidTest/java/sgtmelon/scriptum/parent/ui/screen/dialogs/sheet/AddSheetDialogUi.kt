@@ -2,7 +2,7 @@ package sgtmelon.scriptum.parent.ui.screen.dialogs.sheet
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
+import sgtmelon.scriptum.infrastructure.dialogs.sheet.AddSheetDialog
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType

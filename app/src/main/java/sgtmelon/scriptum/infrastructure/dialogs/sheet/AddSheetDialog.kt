@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.dialog.sheet
+package sgtmelon.scriptum.infrastructure.dialogs.sheet
 
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes

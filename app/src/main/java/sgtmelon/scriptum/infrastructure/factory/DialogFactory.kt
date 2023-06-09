@@ -14,8 +14,8 @@ import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
-import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
-import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
+import sgtmelon.scriptum.infrastructure.dialogs.sheet.AddSheetDialog
+import sgtmelon.scriptum.infrastructure.dialogs.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 
 /**

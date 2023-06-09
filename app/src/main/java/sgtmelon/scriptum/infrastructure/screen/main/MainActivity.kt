@@ -10,7 +10,7 @@ import sgtmelon.safedialog.utils.DialogStorage
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
+import sgtmelon.scriptum.infrastructure.dialogs.sheet.AddSheetDialog
 import sgtmelon.scriptum.databinding.ActivityMainBinding
 import sgtmelon.scriptum.infrastructure.converter.MainPageConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.AddSheetData

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.parent.ui.screen.dialogs.sheet
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
+import sgtmelon.scriptum.infrastructure.dialogs.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.parent.ui.parts.dialog.SheetDialogPart
 import sgtmelon.test.cappuccino.utils.click

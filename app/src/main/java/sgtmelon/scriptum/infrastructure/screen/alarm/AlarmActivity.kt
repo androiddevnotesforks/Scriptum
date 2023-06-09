@@ -10,7 +10,7 @@ import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
+import sgtmelon.scriptum.infrastructure.dialogs.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
