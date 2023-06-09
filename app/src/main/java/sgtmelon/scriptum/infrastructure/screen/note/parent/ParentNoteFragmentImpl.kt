@@ -265,7 +265,9 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     private fun setupConvertDialog(dialog: MessageDialog): Unit = with(dialog) {
         onPositiveClick {
-            viewModel.convert().collect(owner = this) { connector.convertNote(it) }
+            viewModel.convert().collect(owner = this@ParentNoteFragmentImpl) {
+                connector.convertNote(it)
+            }
         }
         onDismiss {
             convertDialog.release()
@@ -293,12 +295,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private fun setupDateDialog(dialog: DateDialog): Unit = with(dialog) {
         onPositiveClick {
             open.skipClear = true
-            viewModel.notificationsDateList.collect(owner = this) {
+            viewModel.notificationsDateList.collect(owner = this@ParentNoteFragmentImpl) {
                 showTimeDialog(calendar, it)
             }
         }
         onNeutralClick {
-            viewModel.removeNotification().collect(owner = this) {
+            viewModel.removeNotification().collect(owner = this@ParentNoteFragmentImpl) {
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendNotifyInfoBind()
             }

@@ -59,9 +59,7 @@ abstract class BlankMenuSheetDialog : BottomSheetDialogFragment(),
         setPeekHeight(view)
     }
 
-    /**
-     * Function for disable half height display after screen rotation.
-     */
+    /** Function for disable half height display after screen rotation. */
     private fun setPeekHeight(view: View) {
         val parentContainer = view.findViewById<CoordinatorLayout>(R.id.sheet_parent_container)
 

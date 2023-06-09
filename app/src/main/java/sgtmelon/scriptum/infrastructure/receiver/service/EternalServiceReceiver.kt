@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.receiver.service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import java.util.Calendar
 import sgtmelon.extensions.toCalendarOrNull
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Eternal

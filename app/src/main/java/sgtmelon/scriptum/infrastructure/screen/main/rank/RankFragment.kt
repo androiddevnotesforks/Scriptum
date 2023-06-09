@@ -138,7 +138,9 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
     private fun setupRenameDialog(dialog: RenameDialog): Unit = with(dialog) {
         onPositiveClick {
-            viewModel.renameItem(position, name).collect(owner = this) { notifyToolbar() }
+            viewModel.renameItem(position, name).collect(owner = this@RankFragment) {
+                notifyToolbar()
+            }
         }
         onDismiss {
             renameDialog.release()

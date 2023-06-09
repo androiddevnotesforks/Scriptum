@@ -132,12 +132,12 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     private fun setupDateDialog(dialog: DateDialog): Unit = with(dialog) {
         onPositiveClick {
             parentOpen?.skipClear = true
-            viewModel.notificationsDateList.collect(owner = this) {
+            viewModel.notificationsDateList.collect(owner = this@NotesFragment) {
                 showTimeDialog(calendar, it, position)
             }
         }
         onNeutralClick {
-            viewModel.deleteNoteNotification(position).collect(owner = this) {
+            viewModel.deleteNoteNotification(position).collect(owner = this@NotesFragment) {
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendNotifyInfoBind()
             }
@@ -150,7 +150,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     private fun setupTimeDialog(dialog: TimeDialog): Unit = with(dialog) {
         onPositiveClick {
-            viewModel.setNoteNotification(calendar, position).collect(owner = this) {
+            viewModel.setNoteNotification(calendar, position).collect(owner = this@NotesFragment) {
                 val (item, calendar) = it
                 system?.broadcast?.sendSetAlarm(item, calendar)
                 system?.broadcast?.sendNotifyInfoBind()
