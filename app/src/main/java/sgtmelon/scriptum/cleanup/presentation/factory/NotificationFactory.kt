@@ -13,6 +13,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
+import sgtmelon.scriptum.infrastructure.model.annotation.notifications.NotificationId
 import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.action.UnbindActionReceiver
@@ -77,7 +78,9 @@ object NotificationFactory {
             val id = noteItem.id.toInt()
             val contentIntent = TaskStackBuilder.create(context)
                 .addNextIntent(Screens.Splash.toBindNote(context, noteItem))
-                .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(
+                    id, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
 
             return NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(icon)
@@ -96,9 +99,7 @@ object NotificationFactory {
                 .build()
         }
 
-        /**
-         * If [NoteType.ROLL] - title will starts with amount of done list items.
-         */
+        /** If [NoteType.ROLL] - title will starts with amount of done list items. */
         @RunPrivate fun getStatusTitle(
             context: Context,
             item: NoteItem
@@ -159,13 +160,13 @@ object NotificationFactory {
             }
         }
 
-        /**
-         * Notification for display count of alarm.
-         */
+        /** Notification for display count of alarm. */
         operator fun get(context: Context, id: Int, count: Int): Notification {
             val contentIntent = TaskStackBuilder.create(context)
                 .addNextIntent(Screens.Splash.toNotification(context))
-                .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(
+                    id, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
 
             return NotificationCompat.Builder(context, context.getString(R.string.notification_count_channel_id))
                 .setSmallIcon(R.drawable.notif_info)
@@ -207,7 +208,10 @@ object NotificationFactory {
         operator fun get(context: Context): Notification {
             val contentIntent = TaskStackBuilder.create(context)
                 .addNextIntent(Screens.Splash.toNotificationsHelp(context))
-                .getPendingIntent(ID, PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(
+                    NotificationId.SERVICE,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
 
             val text = context.getString(R.string.notification_eternal_description)
 
@@ -225,8 +229,5 @@ object NotificationFactory {
                 .setGroup(context.getString(R.string.notification_group_eternal))
                 .build()
         }
-
-        const val ID = 1
-        const val REQUEST_CODE = 1
     }
 }

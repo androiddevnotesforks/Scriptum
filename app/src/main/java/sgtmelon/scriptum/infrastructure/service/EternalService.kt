@@ -10,6 +10,7 @@ import android.os.IBinder
 import java.util.Calendar
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
+import sgtmelon.scriptum.infrastructure.model.annotation.notifications.NotificationId
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.receiver.service.ServiceReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
@@ -39,7 +40,7 @@ class EternalService : Service(),
 
         /** Attach this service to notification, which provide long life for them. */
         Factory.Service.createChannel(context = this)
-        startForeground(Factory.Service.ID, Factory.Service[this])
+        startForeground(NotificationId.SERVICE, Factory.Service[this])
 
         logic.setup()
         registerReceiver(receiver, IntentFilter(ReceiverData.Filter.ETERNAL))
@@ -63,7 +64,8 @@ class EternalService : Service(),
         intent.setPackage(packageName)
 
         val pendingIntent = PendingIntent.getService(
-            this, Factory.Service.REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT
+            this, NotificationId.SERVICE, intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT
         )
 
         /** Fire next [EternalService] after 5 seconds. */

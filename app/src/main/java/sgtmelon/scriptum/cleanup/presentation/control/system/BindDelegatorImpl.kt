@@ -2,14 +2,13 @@ package sgtmelon.scriptum.cleanup.presentation.control.system
 
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
-import androidx.annotation.IntDef
-import androidx.annotation.StringDef
 import sgtmelon.extensions.getNotificationService
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
+import sgtmelon.scriptum.infrastructure.model.annotation.notifications.NotificationId as Id
+import sgtmelon.scriptum.infrastructure.model.annotation.notifications.NotificationTag as Tag
 import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
 /**
@@ -19,14 +18,10 @@ class BindDelegatorImpl(private val context: Context) : BindDelegator {
 
     private val manager: NotificationManager = context.getNotificationService()
 
-    /**
-     * Cached note list for binding in status bar.
-     */
+    /** Cached note list for binding in status bar. */
     private val noteItemList: MutableList<NoteItem> = ArrayList()
 
-    /**
-     * Use this list when you need save notes id for future unbind ([Tag.NOTE]).
-     */
+    /** Use this list when you need save notes id for future unbind ([Tag.NOTE]). */
     private val noteIdList: MutableList<Int> = mutableListOf()
 
     /**
@@ -74,11 +69,13 @@ class BindDelegatorImpl(private val context: Context) : BindDelegator {
     }
 
     override fun notifyCount(count: Int) {
+        val id = Id.NOTIFICATIONS_COUNT
+
         if (count != 0) {
-            manager.notify(Tag.INFO, Id.INFO, Factory.Count[context, Id.INFO, count])
-            tagIdMap[Tag.INFO] = Id.INFO
+            manager.notify(Tag.INFO, id, Factory.Count[context, id, count])
+            tagIdMap[Tag.INFO] = id
         } else {
-            manager.cancel(Tag.INFO, Id.INFO)
+            manager.cancel(Tag.INFO, id)
         }
     }
 
@@ -105,29 +102,6 @@ class BindDelegatorImpl(private val context: Context) : BindDelegator {
                 manager.cancelAll()
                 tagIdMap.clear()
             }
-        }
-    }
-
-    @StringDef(Tag.NOTE, Tag.NOTE_GROUP, Tag.INFO)
-    annotation class Tag {
-        companion object {
-            private const val PREFIX = "TAG_BIND"
-
-            const val NOTE = "${PREFIX}_NOTE"
-            const val NOTE_GROUP = "${PREFIX}_NOTE_GROUP"
-            const val INFO = "${PREFIX}_INFO"
-        }
-    }
-
-    /**
-     * Id's for [Tag.NOTE_GROUP] and [Tag.INFO] notifications. For [Tag.NOTE] need
-     * use [NoteItem.id].
-     */
-    @IntDef(Id.NOTE_GROUP, Id.INFO)
-    private annotation class Id {
-        companion object {
-            const val NOTE_GROUP = 0
-            const val INFO = 1
         }
     }
 

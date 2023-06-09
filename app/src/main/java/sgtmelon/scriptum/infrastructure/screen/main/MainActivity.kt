@@ -44,7 +44,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     // TODO выносить из cleanup ui тесты
 
     // TODO notifications help
-    // 4. Leaks for all dialogs?
     // 6. UI тесты для диалога
     // 8. Fail for android 12
 
