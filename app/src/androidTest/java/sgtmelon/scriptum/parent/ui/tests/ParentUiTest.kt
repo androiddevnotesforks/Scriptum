@@ -134,16 +134,23 @@ abstract class ParentUiTest : ParentTest() {
         launchSplash(before, Screens.Splash.toMain(context), after)
     }
 
+    inline fun launchSplashNotificationsHelp(
+        before: () -> Unit = {},
+        after: SplashScreen.() -> Unit
+    ) {
+        launchSplash(before, Screens.Splash.toNotificationsHelp(context), after)
+    }
+
+    inline fun launchSplashNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+        launchSplash(before, Screens.Splash.toNotification(context), after)
+    }
+
     inline fun launchSplashAlarm(
         item: NoteItem,
         before: () -> Unit = {},
         after: SplashScreen.() -> Unit
     ) {
         launchSplash(before, Screens.Splash.toAlarm(context, item.id), after)
-    }
-
-    inline fun launchSplashNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
-        launchSplash(before, Screens.Splash.toNotification(context), after)
     }
 
     inline fun launchSplashBind(

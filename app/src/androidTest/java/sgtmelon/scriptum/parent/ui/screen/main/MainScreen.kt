@@ -5,6 +5,7 @@ import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.parent.ui.parts.ContainerPart
+import sgtmelon.scriptum.parent.ui.screen.dialogs.message.NotificationsHelpDialogUi
 import sgtmelon.scriptum.parent.ui.screen.dialogs.sheet.AddSheetDialogUi
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.click
@@ -95,13 +96,15 @@ class MainScreen : ContainerPart(TestViewTag.MAIN) {
         await(SCROLL_TIME)
     }
 
+    inline fun openHelpDialog(func: NotificationsHelpDialogUi.() -> Unit = {}) {
+        NotificationsHelpDialogUi(func)
+    }
+
     fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) {
         fab.click(func)
     }
 
-    /**
-     * [page] and [isFabVisible] equals NULL if you want skip assert of related elements.
-     */
+    /** If [isFabVisible] equals NULL when assertion will be skipped. */
     fun assert(page: MainPage = currentPage, isFabVisible: Boolean? = null) = apply {
         parentContainer.isDisplayed()
 

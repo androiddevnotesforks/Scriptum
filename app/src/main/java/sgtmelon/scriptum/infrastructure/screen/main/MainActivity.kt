@@ -43,10 +43,6 @@ class MainActivity : ThemeActivity<ActivityMainBinding>(),
     // TODO двинуть в другой модуль EdgeDragHelper, RecyclerviewOverscroll!
     // TODO выносить из cleanup ui тесты
 
-    // TODO notifications help
-    // 6. UI тесты для диалога
-    // 8. Fail for android 12
-
     override val layoutId: Int = R.layout.activity_main
 
     @Inject lateinit var viewModel: MainViewModel

@@ -15,6 +15,17 @@ class SplashTest : ParentUiTest() {
 
     @Test fun mainScreenOpen() = launchSplash { mainScreen() }
 
+    @Test fun notificationsHelpOpen() = launchSplashNotificationsHelp({
+        preferencesRepo.showNotificationsHelp = false
+    }) {
+        mainHelpDialog { openHelpDialog() }
+    }
+
+    @Test fun notificationsOpen() = launchSplashNotifications {
+        notificationsScreen { pressBack() }
+        mainScreen()
+    }
+
     @Test fun alarmTextNoteOpen() = db.insertText().let {
         launchSplashAlarm(it) { alarmScreen(it) }
     }
@@ -29,11 +40,6 @@ class SplashTest : ParentUiTest() {
 
     @Test fun bindRollNoteOpen() = db.insertRoll().let {
         launchSplashBind(it) { bindNoteScreen(it) { pressBack() }.mainScreen() }
-    }
-
-    @Test fun notificationsOpen() = launchSplashNotifications {
-        notificationsScreen { pressBack() }
-        mainScreen()
     }
 
     @Test fun createTextOpen() = launchSplashNewNote(NoteType.TEXT) {

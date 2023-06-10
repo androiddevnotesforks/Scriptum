@@ -28,6 +28,15 @@ inline fun ParentUiTest.launchMain(
     MainScreen(after)
 }
 
+inline fun ParentUiTest.launchHelpMain(
+    before: () -> Unit = {},
+    after: MainScreen.() -> Unit
+) {
+    before()
+    launchActivity<MainActivity>(Screens.toMain(context))
+    MainScreen().apply(after)
+}
+
 //region Rank functions
 
 inline fun ParentUiTest.launchRank(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) {

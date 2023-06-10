@@ -10,8 +10,8 @@ import sgtmelon.scriptum.parent.ui.parts.dialog.MessageDialogPart
 class ClearDialogUi : MessageDialogPart(
     R.string.dialog_title_clear_bin,
     R.string.dialog_text_clear_bin,
-    sgtmelon.safedialog.R.string.dialog_button_no,
-    sgtmelon.safedialog.R.string.dialog_button_yes
+    sgtmelon.safedialog.R.string.dialog_button_yes,
+    sgtmelon.safedialog.R.string.dialog_button_no
 ) {
 
     companion object {

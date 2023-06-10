@@ -24,9 +24,9 @@ class BinClearDialogTest : ParentUiTest(),
     }
 
     @Test fun work() = launchBinList {
-        openClearDialog { cancel() }
+        openClearDialog { negative() }
         assert(isEmpty = false)
-        openClearDialog { apply() }
+        openClearDialog { positive() }
         assert(isEmpty = true)
     }
 
@@ -38,7 +38,7 @@ class BinClearDialogTest : ParentUiTest(),
 
             openRank { itemVisible() }
             openBin {
-                openClearDialog { apply() }
+                openClearDialog { positive() }
                 assert(isEmpty = true)
             }
 

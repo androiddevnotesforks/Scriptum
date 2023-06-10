@@ -18,6 +18,25 @@ class SplashScreen : UiPart() {
 
     inline fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen(func)
 
+    inline fun mainHelpDialog(func: MainScreen.() -> Unit = {}) {
+        MainScreen().apply(func)
+    }
+
+    inline fun notificationsScreen(
+        isEmpty: Boolean = true,
+        func: NotificationsScreen.() -> Unit = {}
+    ) = apply {
+        NotificationsScreen(func, isEmpty)
+    }
+
+    inline fun alarmScreen(
+        item: NoteItem,
+        dateList: List<String>? = null,
+        func: AlarmScreen.() -> Unit = {}
+    ) = apply {
+        AlarmScreen(func, item, dateList)
+    }
+
     inline fun bindNoteScreen(
         item: NoteItem.Text,
         isRankEmpty: Boolean = true,
@@ -32,21 +51,6 @@ class SplashScreen : UiPart() {
         func: RollNoteScreen.() -> Unit = {}
     ) = apply {
         NoteScreen().openRoll(func, NoteState.READ, item, isRankEmpty)
-    }
-
-    inline fun alarmScreen(
-        item: NoteItem,
-        dateList: List<String>? = null,
-        func: AlarmScreen.() -> Unit = {}
-    ) = apply {
-        AlarmScreen(func, item, dateList)
-    }
-
-    inline fun notificationsScreen(
-        isEmpty: Boolean = true,
-        func: NotificationsScreen.() -> Unit = {}
-    ) = apply {
-        NotificationsScreen(func, isEmpty)
     }
 
     inline fun createNoteScreen(
