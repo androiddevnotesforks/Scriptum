@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.TitleToolbarPart
 import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarItem
-import sgtmelon.scriptum.parent.ui.screen.dialogs.ClearDialogUi
+import sgtmelon.scriptum.parent.ui.screen.dialogs.message.ClearDialogUi
 import sgtmelon.test.cappuccino.utils.isDisplayed
 
 /**

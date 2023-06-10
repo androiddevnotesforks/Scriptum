@@ -42,9 +42,7 @@ abstract class ListDialogPart(
 
     private val listView by lazy { getView(R.id.select_dialog_listview) }
 
-    /**
-     * Exclude this parent for prevent match error with summary (similar strings).
-     */
+    /** Exclude this parent for prevent match error with pref summaries (similar strings). */
     private val preferenceList by lazy { getView(R.id.recycler_view) }
 
     private val titleText = getViewByText(titleId).excludeParent(preferenceList)
