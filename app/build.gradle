@@ -41,7 +41,6 @@ android {
         }
 
         debug {
-
             applicationIdSuffix = ".debug"
 
             /** Turn off for tests correct work! */
