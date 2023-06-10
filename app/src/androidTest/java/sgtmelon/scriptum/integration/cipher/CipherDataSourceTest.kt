@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.integrational.cipher
+package sgtmelon.scriptum.integration.cipher
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals

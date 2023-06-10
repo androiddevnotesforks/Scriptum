@@ -1,6 +1,5 @@
-package sgtmelon.scriptum.integrational.dao
+package sgtmelon.scriptum.integration.dao
 
-import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
@@ -146,7 +145,7 @@ class NoteDaoTest : ParentRoomTest() {
     }
 
     @Test fun getBindCount_overflowCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteException::class.java)
+        overflowDelegator.expectException(exceptionRule)
         noteDao.getBindCount(overflowDelegator.getList { Random.nextLong() })
     }
 
@@ -176,7 +175,7 @@ class NoteDaoTest : ParentRoomTest() {
     }
 
     @Test fun getList_byIdList_overflowCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteException::class.java)
+        overflowDelegator.expectException(exceptionRule)
         noteDao.getList(overflowDelegator.getList { Random.nextLong() })
     }
 

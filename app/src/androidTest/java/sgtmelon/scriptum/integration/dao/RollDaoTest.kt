@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.integrational.dao
+package sgtmelon.scriptum.integration.dao
 
 import android.database.sqlite.SQLiteConstraintException
-import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.math.abs
 import kotlin.random.Random
@@ -214,7 +213,7 @@ class RollDaoTest : ParentRoomTest() {
     }
 
     @Test fun delete_withExclude_overflowCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteException::class.java)
+        overflowDelegator.expectException(exceptionRule)
 
         val (note, rollList) = firstPair
         insertRelation(note, rollList)
@@ -234,7 +233,7 @@ class RollDaoTest : ParentRoomTest() {
     }
 
     @Test fun delete_byIdList_overflowCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteException::class.java)
+        overflowDelegator.expectException(exceptionRule)
         rollDao.delete(overflowDelegator.getList { Random.nextLong() })
     }
 
@@ -303,7 +302,7 @@ class RollDaoTest : ParentRoomTest() {
     }
 
     @Test fun getList_byNoteIdList_overflowCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteException::class.java)
+        overflowDelegator.expectException(exceptionRule)
         rollDao.getList(overflowDelegator.getList { Random.nextLong() })
     }
 

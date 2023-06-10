@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.integrational.dao
+package sgtmelon.scriptum.integration.dao
 
 import android.database.sqlite.SQLiteConstraintException
-import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
@@ -160,7 +159,7 @@ class RollVisibleDaoTest : ParentRoomTest() {
     }
 
     @Test fun getList_byId_overflowCheck() = inRoomTest {
-        exceptionRule.expect(SQLiteException::class.java)
+        overflowDelegator.expectException(exceptionRule)
         rollVisibleDao.getList(overflowDelegator.getList { Random.nextLong() })
     }
 
