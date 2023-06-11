@@ -12,21 +12,33 @@ import sgtmelon.scriptum.source.ui.parts.preferences.PreferenceLogic
 /**
  * Logic for [BackupPreferenceScreen].
  */
-class BackupPreferenceLogic : PreferenceLogic() {
+class BackupPreferenceLogic(
+    private val callback: BackupPreferenceCallback
+) : PreferenceLogic() {
 
-    override fun getScreenList(): List<PreferenceItem> {
-        val list = mutableListOf(
-            Header(R.string.pref_header_main),
-            Simple(R.string.pref_title_backup_export, isEnabled = TODO())
-        )
+    override fun getScreenList(): List<PreferenceItem> = with(callback) {
+        val list = mutableListOf<PreferenceItem>(Header(R.string.pref_header_main))
 
-        val summary = if (Random.nextBoolean()) {
-            context.getString(R.string.pref_summary_import_found, TODO())
+        val exportItem = if (isExportPermissionGranted) {
+            Simple(R.string.pref_title_backup_export, isExportEnabled)
         } else {
-            context.getString(R.string.pref_summary_import_empty)
+            val summary = context.getString(R.string.pref_summary_no_permission)
+            Summary.Text(R.string.pref_title_backup_export, summary, isExportEnabled)
+
+        }
+        list.add(exportItem)
+
+        val summary = if (isImportPermissionGranted) {
+            if (Random.nextBoolean()) {
+                context.getString(R.string.pref_summary_import_found, TODO())
+            } else {
+                context.getString(R.string.pref_summary_import_empty)
+            }
+        } else {
+            context.getString(R.string.pref_summary_no_permission)
         }
 
-        list.add(Summary.Text(R.string.pref_title_backup_import, summary, isEnabled = TODO()))
+        list.add(Summary.Text(R.string.pref_title_backup_import, summary, isImportEnabled))
 
         val skipSwitch = Switch(
             R.string.pref_title_import_skip,
@@ -39,9 +51,7 @@ class BackupPreferenceLogic : PreferenceLogic() {
         return list
     }
 
-    /**
-     * Needed for describe order of items.
-     */
+    /** Needed for describe order of items. */
     enum class Part {
         MAIN_HEADER, EXPORT_ITEM, IMPORT_ITEM,
         OPTIONS_HEADER, SKIP_ITEM

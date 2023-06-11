@@ -10,12 +10,20 @@ import sgtmelon.scriptum.source.ui.parts.preferences.PreferencePart
  */
 class BackupPreferenceScreen : PreferencePart<BackupPreferenceLogic>(
     R.string.pref_title_backup, TestViewTag.PREF_BACKUP
-) {
+), BackupPreferenceCallback {
 
-    override val screenLogic = BackupPreferenceLogic()
+    override val screenLogic = BackupPreferenceLogic(callback = this)
+
+    // TODO complete screen
+    override val isExportPermissionGranted: Boolean get() = false
+    override val isImportPermissionGranted: Boolean get() = false
+    override val isExportEnabled: Boolean get() = true
+    override val isImportEnabled: Boolean get() = true
 
     companion object {
-        inline operator fun invoke(func: BackupPreferenceScreen.() -> Unit): BackupPreferenceScreen {
+        inline operator fun invoke(
+            func: BackupPreferenceScreen.() -> Unit
+        ): BackupPreferenceScreen {
             return BackupPreferenceScreen().apply { assert() }.apply(func)
         }
     }
