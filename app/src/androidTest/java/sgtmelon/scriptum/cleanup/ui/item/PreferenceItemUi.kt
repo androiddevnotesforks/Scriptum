@@ -4,8 +4,8 @@ import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
-import sgtmelon.scriptum.parent.ui.model.PreferenceItem
-import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
+import sgtmelon.scriptum.source.ui.model.PreferenceItem
+import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isChecked
 import sgtmelon.test.cappuccino.utils.isDisplayed

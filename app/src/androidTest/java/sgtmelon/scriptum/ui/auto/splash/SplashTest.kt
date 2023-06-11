@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 
 /**
  * Test for [SplashActivity].

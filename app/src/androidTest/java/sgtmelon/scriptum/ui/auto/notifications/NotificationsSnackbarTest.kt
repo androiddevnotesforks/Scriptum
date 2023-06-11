@@ -3,12 +3,12 @@ package sgtmelon.scriptum.ui.auto.notifications
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
-import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.parts.SnackbarPart
-import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchNotes
-import sgtmelon.scriptum.parent.ui.tests.launchNotificationsList
+import sgtmelon.scriptum.source.ui.model.key.Scroll
+import sgtmelon.scriptum.source.ui.parts.SnackbarPart
+import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerItemPart
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchNotes
+import sgtmelon.scriptum.source.ui.tests.launchNotificationsList
 import sgtmelon.scriptum.ui.cases.list.ListCancelSnackbarCase
 import sgtmelon.test.cappuccino.utils.await
 

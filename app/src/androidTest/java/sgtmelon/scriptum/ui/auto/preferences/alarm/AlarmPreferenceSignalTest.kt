@@ -7,10 +7,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SignalDialogUi
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchAlarmPreference
-import sgtmelon.scriptum.parent.utils.getRandomSignalCheck
+import sgtmelon.scriptum.source.ui.screen.dialogs.select.SignalDialogUi
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
+import sgtmelon.scriptum.source.utils.getRandomSignalCheck
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.dialog.DialogWorkCase
 

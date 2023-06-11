@@ -6,9 +6,9 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
-import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.model.key.Scroll
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.test.cappuccino.utils.await
 
 /**

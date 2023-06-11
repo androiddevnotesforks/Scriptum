@@ -4,8 +4,8 @@ import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
-import sgtmelon.scriptum.parent.ui.model.key.NoteState
-import sgtmelon.scriptum.parent.ui.parts.ContainerPart
+import sgtmelon.scriptum.source.ui.model.key.NoteState
+import sgtmelon.scriptum.source.ui.parts.ContainerPart
 
 /**
  * Interface for communication child ui abstractions with [TextNoteScreen] and [RollNoteScreen]

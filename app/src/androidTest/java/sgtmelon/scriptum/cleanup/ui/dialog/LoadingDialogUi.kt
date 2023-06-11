@@ -4,7 +4,7 @@ import android.view.ViewGroup.LayoutParams
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
-import sgtmelon.scriptum.parent.ui.feature.DialogUi
+import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withBackgroundAttr
 import sgtmelon.test.cappuccino.utils.withParent

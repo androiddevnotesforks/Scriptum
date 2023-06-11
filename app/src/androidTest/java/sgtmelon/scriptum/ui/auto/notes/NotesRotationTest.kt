@@ -5,11 +5,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
+import sgtmelon.scriptum.source.ui.screen.main.NotesScreen
 
-import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.parent.ui.tests.launchMain
-import sgtmelon.scriptum.parent.ui.tests.launchNotesItem
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 
 /**

@@ -4,10 +4,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
-import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.parent.ui.tests.launchNotifications
-import sgtmelon.scriptum.parent.ui.tests.launchNotificationsItem
-import sgtmelon.scriptum.parent.ui.tests.launchNotificationsList
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchNotifications
+import sgtmelon.scriptum.source.ui.tests.launchNotificationsItem
+import sgtmelon.scriptum.source.ui.tests.launchNotificationsList
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
 

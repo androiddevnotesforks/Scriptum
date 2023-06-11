@@ -19,9 +19,9 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.deleteSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
-import sgtmelon.scriptum.parent.ParentRoomTest
-import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
-import sgtmelon.scriptum.parent.provider.EntityProvider.nextRollEntity
+import sgtmelon.scriptum.source.ParentRoomTest
+import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
+import sgtmelon.scriptum.source.provider.EntityProvider.nextRollEntity
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 

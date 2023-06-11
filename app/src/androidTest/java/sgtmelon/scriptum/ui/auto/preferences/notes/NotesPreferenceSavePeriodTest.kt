@@ -6,9 +6,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
-import sgtmelon.scriptum.parent.ui.screen.dialogs.select.SavePeriodDialogUi
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchNotesPreference
+import sgtmelon.scriptum.source.ui.screen.dialogs.select.SavePeriodDialogUi
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.value.SavePeriodCase
 import sgtmelon.test.common.getDifferentValues

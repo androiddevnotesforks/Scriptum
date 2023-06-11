@@ -12,10 +12,10 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
-import sgtmelon.scriptum.parent.ui.action.longClick
-import sgtmelon.scriptum.parent.ui.model.key.NoteState
-import sgtmelon.scriptum.parent.ui.parts.ContainerPart
-import sgtmelon.scriptum.parent.ui.parts.UiSubpart
+import sgtmelon.scriptum.source.ui.action.longClick
+import sgtmelon.scriptum.source.ui.model.key.NoteState
+import sgtmelon.scriptum.source.ui.parts.ContainerPart
+import sgtmelon.scriptum.source.ui.parts.UiSubpart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed

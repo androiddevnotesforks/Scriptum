@@ -4,7 +4,7 @@ import kotlin.random.Random
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
-import sgtmelon.scriptum.parent.ui.tests.ParentUiControlTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiControlTest
 import sgtmelon.scriptum.ui.cases.value.ColorCase
 import sgtmelon.test.cappuccino.utils.await
 

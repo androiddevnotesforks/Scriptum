@@ -22,9 +22,9 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateComplete
-import sgtmelon.scriptum.parent.RoomWorker
-import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
-import sgtmelon.scriptum.parent.utils.NEXT_HOUR
+import sgtmelon.scriptum.source.RoomWorker
+import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
+import sgtmelon.scriptum.source.utils.NEXT_HOUR
 import sgtmelon.scriptum.ui.auto.bin.BinNoteDialogRollTest
 import sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogTextTest
 import sgtmelon.test.common.getRandomFutureTime

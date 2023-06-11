@@ -5,10 +5,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchBin
-import sgtmelon.scriptum.parent.ui.tests.launchBinItem
-import sgtmelon.scriptum.parent.ui.tests.launchBinList
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchBin
+import sgtmelon.scriptum.source.ui.tests.launchBinItem
+import sgtmelon.scriptum.source.ui.tests.launchBinList
 import sgtmelon.scriptum.ui.cases.list.ListContentCase
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 import sgtmelon.scriptum.ui.cases.note.NoteOpenCase

@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.parent.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
  * Test of [MainActivity] work with phone rotation.

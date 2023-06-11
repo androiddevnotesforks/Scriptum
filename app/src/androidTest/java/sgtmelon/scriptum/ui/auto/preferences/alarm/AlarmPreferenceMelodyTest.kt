@@ -8,10 +8,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.parent.ui.screen.dialogs.select.MelodyDialogUi
-import sgtmelon.scriptum.parent.ui.screen.preference.alarm.AlarmPreferenceLogic
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchAlarmPreference
+import sgtmelon.scriptum.source.ui.screen.dialogs.select.MelodyDialogUi
+import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceLogic
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
 import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.ui.cases.dialog.DialogWorkCase
 import sgtmelon.test.common.getDifferentValues

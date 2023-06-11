@@ -7,12 +7,12 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 
-import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerItemPart
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchRank
-import sgtmelon.scriptum.parent.ui.tests.launchRankItem
-import sgtmelon.scriptum.parent.ui.tests.launchRankList
+import sgtmelon.scriptum.source.ui.model.key.Scroll
+import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerItemPart
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchRank
+import sgtmelon.scriptum.source.ui.tests.launchRankItem
+import sgtmelon.scriptum.source.ui.tests.launchRankList
 import sgtmelon.test.common.nextString
 
 /**

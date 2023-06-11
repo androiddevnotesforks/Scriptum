@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.control.main
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.parent.ui.tests.ParentUiControlTest
-import sgtmelon.scriptum.parent.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.tests.ParentUiControlTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.ui.cases.value.ThemeCase
 import sgtmelon.test.cappuccino.utils.await
 

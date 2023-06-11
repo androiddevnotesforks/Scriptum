@@ -2,9 +2,9 @@ package sgtmelon.scriptum.ui.cases.dialog
 
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.parent.ui.screen.dialogs.time.DateDialogUi
-import sgtmelon.scriptum.parent.ui.screen.dialogs.time.TimeDialogUi
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.screen.dialogs.time.DateDialogUi
+import sgtmelon.scriptum.source.ui.screen.dialogs.time.TimeDialogUi
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 
 /**
  * Parent class for tests of [DateDialogUi] and [TimeDialogUi].

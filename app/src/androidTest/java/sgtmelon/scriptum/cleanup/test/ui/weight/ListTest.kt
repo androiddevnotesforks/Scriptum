@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
+import sgtmelon.scriptum.source.ui.model.key.Scroll
+import sgtmelon.scriptum.source.ui.tests.ParentUiWeighTest
 
 /**
  * Test recyclerView lists for lags

@@ -4,10 +4,10 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.parent.ui.screen.dialogs.NoteDialogUi
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchBinItem
-import sgtmelon.scriptum.parent.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.screen.dialogs.NoteDialogUi
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchBinItem
+import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
  * Parent class for tests of [NoteDialogUi] inside [MainPage.BIN].

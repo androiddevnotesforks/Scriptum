@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.parent.ui.screen.main.NotesScreen
+import sgtmelon.scriptum.source.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.cases.note.NoteCardTestCase
 
 /**

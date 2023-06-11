@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 
 /**
  * Test enter focus for [TextNoteFragmentImpl].

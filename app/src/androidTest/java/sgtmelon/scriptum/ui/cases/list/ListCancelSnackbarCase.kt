@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.ui.cases.list
 
-import sgtmelon.scriptum.parent.ui.feature.ListSnackbarWork
-import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.parts.recycler.RecyclerPart
+import sgtmelon.scriptum.source.ui.feature.ListSnackbarWork
+import sgtmelon.scriptum.source.ui.model.key.Scroll
+import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerPart
 
 interface ListCancelSnackbarCase {
 

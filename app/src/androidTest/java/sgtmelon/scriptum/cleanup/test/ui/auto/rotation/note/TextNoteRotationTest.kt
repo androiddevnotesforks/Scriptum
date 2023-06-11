@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.basic.exception.NoteCastException
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
 
-import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 
 /**
  * Test of [TextNoteFragmentImpl] work with phone rotation.

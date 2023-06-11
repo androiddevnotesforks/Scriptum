@@ -4,10 +4,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.utils.extensions.maxIndicatorTest
-import sgtmelon.scriptum.parent.ui.screen.item.RankItemUi
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchMain
-import sgtmelon.scriptum.parent.ui.tests.launchRankItem
+import sgtmelon.scriptum.source.ui.screen.item.RankItemUi
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.tests.launchRankItem
 
 /**
  * Test for [RankItemUi].

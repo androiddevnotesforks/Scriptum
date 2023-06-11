@@ -9,8 +9,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
-import sgtmelon.scriptum.parent.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.parent.ui.tests.launchNotesPreference
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
 import sgtmelon.test.common.getDifferentValues
 
 /**

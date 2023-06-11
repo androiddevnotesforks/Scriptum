@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.test.parent.situation.DateTimeDialogCase
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 
 @RunWith(AndroidJUnit4::class)
 class RollNoteDateTimeDialogTest : ParentUiTest(), DateTimeDialogCase {

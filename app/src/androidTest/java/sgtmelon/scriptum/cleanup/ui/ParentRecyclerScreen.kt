@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.ui
 
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.parent.ui.model.key.Scroll
+import sgtmelon.scriptum.source.ui.model.key.Scroll
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.getCount
 import sgtmelon.test.cappuccino.utils.getRandomPosition

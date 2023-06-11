@@ -5,7 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.system.dataSource.CipherDataSourceImpl
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.source.ParentTest
 
 /**
  * Test for [CipherDataSourceImpl].

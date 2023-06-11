@@ -16,13 +16,13 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.parent.ParentRoomTest
-import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
-import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
-import sgtmelon.scriptum.parent.provider.DateProvider.DATE_3
-import sgtmelon.scriptum.parent.provider.DateProvider.DATE_4
-import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
-import sgtmelon.scriptum.parent.provider.EntityProvider.nextNoteEntity
+import sgtmelon.scriptum.source.ParentRoomTest
+import sgtmelon.scriptum.source.provider.DateProvider.DATE_1
+import sgtmelon.scriptum.source.provider.DateProvider.DATE_2
+import sgtmelon.scriptum.source.provider.DateProvider.DATE_3
+import sgtmelon.scriptum.source.provider.DateProvider.DATE_4
+import sgtmelon.scriptum.source.provider.DateProvider.DATE_5
+import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 

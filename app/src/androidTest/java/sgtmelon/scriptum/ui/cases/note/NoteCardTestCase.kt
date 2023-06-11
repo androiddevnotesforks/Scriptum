@@ -13,9 +13,9 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearRank
 
-import sgtmelon.scriptum.parent.ui.tests.ParentUiTest
-import sgtmelon.scriptum.parent.ui.tests.launchMain
-import sgtmelon.scriptum.parent.utils.lastArray
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
+import sgtmelon.scriptum.source.utils.lastArray
 
 /**
  * Parent class for tests of [NoteAdapter]

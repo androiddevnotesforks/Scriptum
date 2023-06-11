@@ -4,10 +4,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.parent.ui.model.key.Scroll
-import sgtmelon.scriptum.parent.ui.tests.ParentUiWeighTest
-import sgtmelon.scriptum.parent.ui.tests.launchNotesItem
-import sgtmelon.scriptum.parent.ui.tests.launchNotesList
+import sgtmelon.scriptum.source.ui.model.key.Scroll
+import sgtmelon.scriptum.source.ui.tests.ParentUiWeighTest
+import sgtmelon.scriptum.source.ui.tests.launchNotesItem
+import sgtmelon.scriptum.source.ui.tests.launchNotesList
 import sgtmelon.scriptum.ui.cases.list.ListScrollCase
 import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
 

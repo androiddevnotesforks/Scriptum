@@ -11,10 +11,10 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.parent.ui.basic.withBackgroundAppColor
-import sgtmelon.scriptum.parent.ui.model.key.NoteState
-import sgtmelon.scriptum.parent.ui.parts.ContainerPart
-import sgtmelon.scriptum.parent.ui.parts.toolbar.ToolbarPart
+import sgtmelon.scriptum.source.ui.basic.withBackgroundAppColor
+import sgtmelon.scriptum.source.ui.model.key.NoteState
+import sgtmelon.scriptum.source.ui.parts.ContainerPart
+import sgtmelon.scriptum.source.ui.parts.toolbar.ToolbarPart
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isFocused

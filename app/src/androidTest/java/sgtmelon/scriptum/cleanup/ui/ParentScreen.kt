@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
-import sgtmelon.scriptum.parent.di.ParentInjector
+import sgtmelon.scriptum.source.di.ParentInjector
 
 /**
  * Parent class for access standard UI functions.
