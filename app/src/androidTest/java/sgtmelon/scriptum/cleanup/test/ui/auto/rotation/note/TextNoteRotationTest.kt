@@ -160,7 +160,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                 openNotes {
                     openText(it) {
                         controlPanel {
-                            onConvert { onClickYes() }
+                            onConvert { positive() }
                             rotate.toSide()
                             afterConvert()
                         }

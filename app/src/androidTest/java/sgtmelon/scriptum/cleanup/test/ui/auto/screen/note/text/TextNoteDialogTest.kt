@@ -33,8 +33,8 @@ class TextNoteDialogTest : ParentUiTest() {
                 openNotes {
                     openText(it) {
                         controlPanel { onConvert { softClose() } }.assert()
-                        controlPanel { onConvert { onClickNo() } }.assert()
-                        controlPanel { onConvert { onClickYes() } }.afterConvert()
+                        controlPanel { onConvert { negative() } }.assert()
+                        controlPanel { onConvert { positive() } }.afterConvert()
                     }
                 }
             }

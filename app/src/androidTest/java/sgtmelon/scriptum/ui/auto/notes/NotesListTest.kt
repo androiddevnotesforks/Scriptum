@@ -18,10 +18,7 @@ import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
  * Test list for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesListTest : ParentUiTest(),
-    ListContentCase,
-    ListScrollCase,
-    NoteOpenCase {
+class NotesListTest : ParentUiTest(), ListContentCase, ListScrollCase, NoteOpenCase {
 
     @Test override fun contentEmpty() = launchNotes(isEmpty = true)
 
@@ -40,51 +37,43 @@ class NotesListTest : ParentUiTest(),
     }
 
 
-    @Test fun textCreateAndReturn() = db.createText().let {
-        launchMain {
-            openNotes(isEmpty = true)
-            openAddDialog { createText(it) { pressBack() } }
-            openNotes(isEmpty = true)
-        }
+    @Test fun textCreateAndReturn() = launchMain {
+        openNotes(isEmpty = true)
+        openAddDialog { createText({ db.createText() }) { pressBack() } }
+        openNotes(isEmpty = true)
     }
 
-    @Test fun rollCreateAndReturn() = db.createRoll().let {
-        launchMain {
-            openNotes(isEmpty = true)
-            openAddDialog { createRoll(it) { pressBack() } }
-            openNotes(isEmpty = true)
-        }
+    @Test fun rollCreateAndReturn() = launchMain {
+        openNotes(isEmpty = true)
+        openAddDialog { createRoll({ db.createRoll() }) { pressBack() } }
+        openNotes(isEmpty = true)
     }
 
-    @Test fun textCreateAndReturnWithSave() = db.createText().let {
-        launchMain {
-            openNotes(isEmpty = true)
+    @Test fun textCreateAndReturnWithSave() = launchMain {
+        openNotes(isEmpty = true)
 
-            var item: NoteItem.Text? = null
-            openAddDialog {
-                createText(it) {
-                    item = db.insertText()
-                    toolbar { clickBack() }
-                }
+        var item: NoteItem.Text? = null
+        openAddDialog {
+            createText({ db.createText() }) {
+                item = db.insertText()
+                toolbar { clickBack() }
             }
-
-            openNotes { assertItem(item!!) }
         }
+
+        openNotes { assertItem(item!!) }
     }
 
-    @Test fun rollCreateAndReturnWithSave() = db.createRoll().let {
-        launchMain {
-            openNotes(isEmpty = true)
+    @Test fun rollCreateAndReturnWithSave() = launchMain {
+        openNotes(isEmpty = true)
 
-            var item: NoteItem.Roll? = null
-            openAddDialog {
-                createRoll(it) {
-                    item = db.insertRoll()
-                    toolbar { clickBack() }
-                }
+        var item: NoteItem.Roll? = null
+        openAddDialog {
+            createRoll({ db.createRoll() }) {
+                item = db.insertRoll()
+                toolbar { clickBack() }
             }
-
-            openNotes { assertItem(item!!) }
         }
+
+        openNotes { assertItem(item!!) }
     }
 }

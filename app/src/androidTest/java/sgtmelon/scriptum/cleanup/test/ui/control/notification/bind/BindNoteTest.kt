@@ -60,7 +60,7 @@ class BindNoteTest : ParentNotificationTest() {
                 openNotes {
                     openText(it) {
                         controlPanel {
-                            onConvert { onSee { onClickYes() } }
+                            onConvert { onSee { positive() } }
                             onSee { onBind() }
                         }
                     }
@@ -78,7 +78,7 @@ class BindNoteTest : ParentNotificationTest() {
                 openNotes {
                     openRoll(it) {
                         controlPanel {
-                            onConvert { onSee { onClickYes() } }
+                            onConvert { onSee { positive() } }
                             onSee { onBind() }
                         }
                     }

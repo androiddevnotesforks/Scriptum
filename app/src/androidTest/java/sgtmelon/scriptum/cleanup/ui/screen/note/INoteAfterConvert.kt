@@ -9,9 +9,7 @@ import sgtmelon.scriptum.cleanup.ui.dialog.ConvertDialogUi
  */
 interface INoteAfterConvert<T> {
 
-    /**
-     * Call this func after [ConvertDialogUi.onClickYes].
-     */
+    /** Call this func after [ConvertDialogUi.positive]. */
     fun afterConvert(func: T.() -> Unit = {})
 
 }

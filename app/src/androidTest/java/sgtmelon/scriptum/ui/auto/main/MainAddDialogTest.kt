@@ -22,11 +22,8 @@ class MainAddDialogTest : ParentUiTest(),
         assert()
     }
 
-    @Test fun createTextNote() = db.createText().let {
-        launchMain { openAddDialog { createText(it) } }
-    }
+    @Test fun createTextNote() = launchMain { openAddDialog { createText({ db.createText() }) } }
 
-    @Test fun createRollNote() = db.createRoll().let {
-        launchMain { openAddDialog { createRoll(it) } }
-    }
+    @Test fun createRollNote() = launchMain { openAddDialog { createRoll({ db.createRoll() }) } }
+
 }

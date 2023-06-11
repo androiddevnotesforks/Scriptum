@@ -159,7 +159,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openNotes {
                     openRoll(it) {
-                        controlPanel { onConvert { onClickYes() } }
+                        controlPanel { onConvert { positive() } }
                         rotate.toSide()
                         afterConvert()
                     }
