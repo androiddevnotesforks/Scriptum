@@ -16,7 +16,7 @@ android {
         applicationId "sgtmelon.scriptum"
         minSdk 26
         targetSdk 32
-        versionCode 23
+        versionCode 24
         versionName git.version.execute().text.trim()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
