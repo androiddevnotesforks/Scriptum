@@ -18,14 +18,23 @@ class SmoothProgressBar @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : ProgressBar(context, attrs, defStyleAttr, defStyleRes) {
 
+    var skipFirstAnimation = true
+
     fun getProgressSmooth(): Int = progress / ANIM_SCALE
 
     fun setProgressSmooth(max: Int, progress: Int) {
-        setMax(max * ANIM_SCALE)
-        setProgressSmooth(progress)
+        if (this.max == 0 && this.progress == 0 && skipFirstAnimation) {
+            setMax(max * ANIM_SCALE)
+            setProgress(progress * ANIM_SCALE)
+        } else {
+            setMax(max * ANIM_SCALE)
+            setProgressSmooth(progress)
+        }
     }
 
     fun setProgressSmooth(progress: Int) {
+        if (progress == getProgressSmooth()) return
+
         val duration = resources.getInteger(R.integer.progress_change_time).toLong()
         val valueTo = progress * ANIM_SCALE
 
