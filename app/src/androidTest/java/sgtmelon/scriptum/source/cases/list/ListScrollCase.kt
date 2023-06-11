@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases.list
+package sgtmelon.scriptum.source.cases.list
 
 interface ListScrollCase {
     fun listScroll()

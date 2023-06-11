@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
-import sgtmelon.scriptum.ui.cases.value.ColorCase
+import sgtmelon.scriptum.source.cases.value.ColorCase
 
 /**
  * Test of [PreferencesImpl.defaultColor] setup for [RollNoteFragmentImpl].

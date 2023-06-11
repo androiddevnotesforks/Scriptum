@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.source.ui.model.key.Scroll
 import sgtmelon.scriptum.source.ui.tests.ParentUiWeighTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
-import sgtmelon.scriptum.ui.cases.list.ListScrollCase
+import sgtmelon.scriptum.source.cases.list.ListScrollCase
 
 /**
  * Weigh test for [RankFragment].

@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
-import sgtmelon.scriptum.ui.cases.dialog.BinNoteDialogCase
+import sgtmelon.scriptum.source.cases.dialog.BinNoteDialogCase
 
 /**
  * Test note dialog for [BinFragment].

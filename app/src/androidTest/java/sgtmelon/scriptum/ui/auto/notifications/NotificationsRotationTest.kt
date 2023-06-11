@@ -8,8 +8,8 @@ import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchNotifications
 import sgtmelon.scriptum.source.ui.tests.launchNotificationsItem
 import sgtmelon.scriptum.source.ui.tests.launchNotificationsList
-import sgtmelon.scriptum.ui.cases.list.ListContentCase
-import sgtmelon.scriptum.ui.cases.note.NoteOpenCase
+import sgtmelon.scriptum.source.cases.list.ListContentCase
+import sgtmelon.scriptum.source.cases.note.NoteOpenCase
 
 /**
  * Test of [NotificationsActivity] work with phone rotation.

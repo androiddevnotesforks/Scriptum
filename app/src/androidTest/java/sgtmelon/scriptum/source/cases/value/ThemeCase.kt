@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases.value
+package sgtmelon.scriptum.source.cases.value
 
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 

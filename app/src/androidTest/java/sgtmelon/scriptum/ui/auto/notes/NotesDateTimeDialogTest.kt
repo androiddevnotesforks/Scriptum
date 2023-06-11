@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.source.ui.screen.dialogs.time.DateDialogUi
 import sgtmelon.scriptum.source.ui.tests.launchNotesItem
-import sgtmelon.scriptum.ui.cases.dialog.DateTimeDialogCase
+import sgtmelon.scriptum.source.cases.dialog.DateTimeDialogCase
 
 /**
  * Test dateTime dialog for [MainActivity].

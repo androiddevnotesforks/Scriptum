@@ -13,7 +13,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarmClose
-import sgtmelon.scriptum.ui.cases.value.RepeatCase
+import sgtmelon.scriptum.source.cases.value.RepeatCase
 
 /**
  * Test for [AlarmActivity].

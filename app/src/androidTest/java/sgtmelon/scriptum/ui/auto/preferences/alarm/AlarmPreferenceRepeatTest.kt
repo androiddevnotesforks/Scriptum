@@ -9,8 +9,8 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceF
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.RepeatDialogUi
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
-import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
-import sgtmelon.scriptum.ui.cases.value.RepeatCase
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.value.RepeatCase
 import sgtmelon.test.common.getDifferentValues
 
 /**

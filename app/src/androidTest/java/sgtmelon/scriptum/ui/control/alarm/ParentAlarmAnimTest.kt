@@ -5,7 +5,7 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.source.ui.tests.ParentUiControlTest
-import sgtmelon.scriptum.ui.cases.value.ColorCase
+import sgtmelon.scriptum.source.cases.value.ColorCase
 import sgtmelon.test.cappuccino.utils.await
 
 /**

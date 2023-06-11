@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchRankItem
 import sgtmelon.scriptum.source.ui.tests.launchRankList
-import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.test.common.nextString
 
 /**

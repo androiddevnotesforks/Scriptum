@@ -9,8 +9,8 @@ import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFr
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.SavePeriodDialogUi
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
-import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
-import sgtmelon.scriptum.ui.cases.value.SavePeriodCase
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.value.SavePeriodCase
 import sgtmelon.test.common.getDifferentValues
 
 /**

@@ -8,8 +8,8 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchRank
 import sgtmelon.scriptum.source.ui.tests.launchRankList
-import sgtmelon.scriptum.ui.cases.list.ListContentCase
-import sgtmelon.scriptum.ui.cases.list.ListScrollCase
+import sgtmelon.scriptum.source.cases.list.ListContentCase
+import sgtmelon.scriptum.source.cases.list.ListScrollCase
 
 /**
  * Test list for [RankFragment].

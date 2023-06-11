@@ -11,8 +11,8 @@ import sgtmelon.scriptum.source.ui.screen.dialogs.select.SignalDialogUi
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
 import sgtmelon.scriptum.source.utils.getRandomSignalCheck
-import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
-import sgtmelon.scriptum.ui.cases.dialog.DialogWorkCase
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.dialog.DialogWorkCase
 
 
 /**

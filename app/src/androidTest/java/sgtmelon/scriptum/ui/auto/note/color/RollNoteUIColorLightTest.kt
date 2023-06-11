@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.ui.cases.note.NoteUIColorTestCase
+import sgtmelon.scriptum.source.cases.note.NoteUIColorTestCase
 
 /**
  * Test for [NoteActivity] UI colors with [ThemeDisplayed.DARK].

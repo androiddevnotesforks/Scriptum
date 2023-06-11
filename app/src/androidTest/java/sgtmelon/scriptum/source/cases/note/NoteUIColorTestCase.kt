@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases.note
+package sgtmelon.scriptum.source.cases.note
 
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
-import sgtmelon.scriptum.ui.cases.value.ColorCase
+import sgtmelon.scriptum.source.cases.value.ColorCase
 import sgtmelon.test.common.nextString
 
 /**

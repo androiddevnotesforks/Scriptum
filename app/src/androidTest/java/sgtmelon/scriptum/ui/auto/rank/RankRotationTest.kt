@@ -8,7 +8,7 @@ import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.ui.tests.launchRankItem
-import sgtmelon.scriptum.ui.cases.list.ListContentCase
+import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.test.common.nextString
 
 /**

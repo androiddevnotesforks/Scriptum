@@ -9,8 +9,8 @@ import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFr
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.SortDialogUi
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
-import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
-import sgtmelon.scriptum.ui.cases.value.SortCase
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.value.SortCase
 import sgtmelon.test.common.getDifferentValues
 
 /**

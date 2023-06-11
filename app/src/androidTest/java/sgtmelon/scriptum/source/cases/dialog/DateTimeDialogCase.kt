@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases.dialog
+package sgtmelon.scriptum.source.cases.dialog
 
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.cases.note
+package sgtmelon.scriptum.source.cases.note
 
 interface NoteOpenCase {
 

@@ -8,8 +8,8 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarm
 import sgtmelon.scriptum.source.ui.tests.launchAlarmClose
-import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
-import sgtmelon.scriptum.ui.cases.value.RepeatCase
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.value.RepeatCase
 
 
 /**

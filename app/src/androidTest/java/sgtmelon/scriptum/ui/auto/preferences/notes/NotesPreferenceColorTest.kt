@@ -9,8 +9,8 @@ import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
-import sgtmelon.scriptum.ui.cases.dialog.DialogCloseCase
-import sgtmelon.scriptum.ui.cases.value.ColorCase
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.value.ColorCase
 import sgtmelon.test.common.getDifferentValues
 
 /**

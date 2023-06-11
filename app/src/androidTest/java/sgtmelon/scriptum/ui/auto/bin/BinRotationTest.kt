@@ -9,7 +9,7 @@ import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchBinItem
 import sgtmelon.scriptum.source.ui.tests.launchBinList
 import sgtmelon.scriptum.source.ui.tests.launchMain
-import sgtmelon.scriptum.ui.cases.list.ListContentCase
+import sgtmelon.scriptum.source.cases.list.ListContentCase
 
 /**
  * Test of [BinFragment] work with phone rotation.
