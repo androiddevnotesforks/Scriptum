@@ -18,12 +18,14 @@ sealed class MessageType {
     @get:StringRes abstract val negativeButton: Int?
     @get:StringRes abstract val neutralButton: Int?
 
+    @Serializable
     object Info : MessageType() {
         override val positiveButton = R.string.dialog_button_ok
         override val negativeButton = null
         override val neutralButton = null
     }
 
+    @Serializable
     object Choice : MessageType() {
         override val positiveButton = R.string.dialog_button_yes
         override val negativeButton = R.string.dialog_button_no
