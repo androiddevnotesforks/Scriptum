@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchHelpMain
 import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
@@ -35,6 +36,13 @@ class MainRotationTest : ParentUiRotationTest() {
             assert(isEmpty = true)
         }
         assert()
+    }
+
+    @Test fun helpDialog() = launchHelpMain({ preferencesRepo.showNotificationsHelp = true }) {
+        openHelpDialog {
+            rotate.toSide()
+            assert()
+        }
     }
 
     @Test fun addDialog() = launchMain {
