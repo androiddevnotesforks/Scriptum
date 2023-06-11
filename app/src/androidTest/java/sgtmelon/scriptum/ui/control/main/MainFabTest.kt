@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.control
+package sgtmelon.scriptum.ui.control.main
 
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme

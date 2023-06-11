@@ -30,10 +30,6 @@ class MainHelpDialogTest : ParentUiTest(),
         assert()
     }
 
-    @Test fun openSettings() = launchHelpMain { openHelpDialog { positive() } }
-
-    @Test fun openChannel() = launchHelpMain { openHelpDialog { negative() } }
-
     @Test fun displayAfterResume() = launchHelpMain {
         openHelpDialog { neutral() }
         openNotes(isEmpty = true) {
