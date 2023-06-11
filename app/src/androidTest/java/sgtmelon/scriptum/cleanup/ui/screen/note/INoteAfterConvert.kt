@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.ui.screen.note
 
-import sgtmelon.scriptum.cleanup.ui.dialog.ConvertDialogUi
+import sgtmelon.scriptum.source.ui.screen.dialogs.message.ConvertDialogUi
 
 /**
  * Interface for [TextNoteScreen]/[RollNoteScreen].

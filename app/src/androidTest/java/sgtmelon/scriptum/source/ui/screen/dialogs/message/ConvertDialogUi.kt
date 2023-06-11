@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.ui.dialog
+package sgtmelon.scriptum.source.ui.screen.dialogs.message
 
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R

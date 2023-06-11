@@ -9,7 +9,7 @@ import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.ui.dialog.ConvertDialogUi
+import sgtmelon.scriptum.source.ui.screen.dialogs.message.ConvertDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.RankDialogUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteAfterConvert
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
