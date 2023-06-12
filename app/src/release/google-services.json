@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "996854285572",
+    "project_id": "scriptum-notes",
+    "storage_bucket": "scriptum-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996854285572:android:d1db3a42b5d1bff6073c51",
+        "android_client_info": {
+          "package_name": "sgtmelon.scriptum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996854285572-j9p9pkis9f6iivjp66eich7u2am1gbqg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sgtmelon.scriptum",
+            "certificate_hash": "17a0fcba2f3a5bcd975671cd7db0ef521956dd99"
+          }
+        },
+        {
+          "client_id": "996854285572-drnrerp6idcil2hp4roi64ikldvohri2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYaXdREo9WEceuua05E3w02giSRXWxdFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996854285572-drnrerp6idcil2hp4roi64ikldvohri2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
