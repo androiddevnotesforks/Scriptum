@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdk 26
-        targetSdk 32
+        targetSdk 33
 
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -21,29 +21,27 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    namespace 'sgtmelon.test.cappuccino'
 }
 
 dependencies {
     implementation project(':libraries:extensions')
 
-    implementation "androidx.core:core-ktx:1.8.0"
-    implementation "androidx.appcompat:appcompat:1.5.1"
-    implementation "com.google.android.material:material:1.6.1"
+    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "com.google.android.material:material:1.9.0"
 
-    implementation "androidx.test.ext:junit:1.1.4"
+    implementation "androidx.test.ext:junit:1.1.5"
 
-    /**
-     * 3.5.0 error: https://stackoverflow.com/questions/72351022/espresso-testing-is-failing-due-to-incompatibleclasschangeerror
-     */
-    implementation "androidx.test.espresso:espresso-core:3.4.0"
-    implementation "androidx.test.espresso:espresso-contrib:3.4.0"
+    implementation "androidx.test.espresso:espresso-core:3.5.1"
+    implementation "androidx.test.espresso:espresso-contrib:3.5.1"
 
     implementation "androidx.test.uiautomator:uiautomator:2.2.0"
 }

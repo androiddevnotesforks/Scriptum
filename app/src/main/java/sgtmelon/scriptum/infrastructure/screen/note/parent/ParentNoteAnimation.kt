@@ -82,7 +82,7 @@ class ParentNoteAnimation(
             })
 
             addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     animator = null
                     /** Call it because some views are visible, but with zero alpha channel. */
                     changePanel(binding, isEdit, state)

@@ -10,12 +10,12 @@ plugins {
 apply from: '../values.gradle'
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "sgtmelon.scriptum"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 25
         versionName git.version.execute().text.trim()
 
@@ -57,17 +57,18 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     buildFeatures {
         dataBinding = true
     }
+    namespace 'sgtmelon.scriptum'
 }
 
 dependencies {
@@ -86,10 +87,10 @@ dependencies {
 
     //region Google
 
-    implementation "com.google.firebase:firebase-analytics-ktx:21.2.0"
-    implementation "com.google.firebase:firebase-crashlytics-ktx:18.3.2"
+    implementation "com.google.firebase:firebase-analytics-ktx:21.3.0"
+    implementation "com.google.firebase:firebase-crashlytics-ktx:18.3.7"
 
-    implementation "com.google.android.material:material:1.6.1"
+    implementation "com.google.android.material:material:1.9.0"
 
     implementation "com.google.dagger:dagger:2.41"
     kapt "com.google.dagger:dagger-compiler:2.41"
@@ -98,19 +99,19 @@ dependencies {
 
     //region AndroidX
 
-    implementation "androidx.core:core-ktx:1.8.0"
+    implementation "androidx.core:core-ktx:1.10.1"
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.6.1"
 
-    implementation "androidx.room:room-runtime:2.4.3"
-    implementation "androidx.room:room-ktx:2.4.3"
-    kapt "androidx.room:room-compiler:2.4.3"
-    testImplementation "androidx.room:room-testing:2.4.3"
+    implementation "androidx.room:room-runtime:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
+    testImplementation "androidx.room:room-testing:2.5.1"
 
     implementation "androidx.preference:preference-ktx:1.2.0"
-    implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
@@ -124,17 +125,17 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.9.1"
 
     androidTestImplementation "androidx.test:core-ktx:1.5.0"
-    androidTestImplementation "androidx.test:runner:1.5.1"
+    androidTestImplementation "androidx.test:runner:1.5.2"
     androidTestImplementation "androidx.test:rules:1.5.0"
-    androidTestImplementation "androidx.test.ext:junit:1.1.4"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
 
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.1"
 
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
 
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
     testImplementation "io.mockk:mockk:1.12.4"
     testImplementation "org.json:json:20211205"
 

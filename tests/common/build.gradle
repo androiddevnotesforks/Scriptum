@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdk 26
-        targetSdk 32
+        targetSdk 33
 
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -21,18 +21,19 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    namespace 'sgtmelon.test.common'
 }
 
 dependencies {
     implementation project(':libraries:extensions')
 
     implementation "androidx.test:core-ktx:1.5.0"
-    implementation "androidx.test.ext:junit:1.1.4"
+    implementation "androidx.test.ext:junit:1.1.5"
 }

@@ -78,7 +78,7 @@ inline fun animateValue(
 
         addUpdateListener { onChange(it.animatedValue as Int) }
         addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) = onEnd()
+            override fun onAnimationEnd(animation: Animator) = onEnd()
         })
     }
 
