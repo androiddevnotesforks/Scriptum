@@ -55,7 +55,7 @@ object ParentInjector {
     }
 
     fun provideDbWeightDelegator(): DbWeightDelegator {
-        return DbWeightDelegator(provideContext(), provideDatabase())
+        return DbWeightDelegator(provideDatabase())
     }
 
     fun provideDatabase(): Database {
