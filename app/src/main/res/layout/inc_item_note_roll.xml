@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/content_text"
                 style="@style/Text.Note.Roll"
-                tools:text="@string/preview_note_roll" />
+                tools:text="@sample/preview.json/note/item[0]" />
 
         </LinearLayout>
 

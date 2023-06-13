@@ -22,13 +22,13 @@
                     <TextView
                         android:id="@+id/name_text"
                         style="@style/Text.Note.Name"
-                        tools:text="@string/preview_note_name"
+                        tools:text="@sample/preview.json/note/name[0]"
                         tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/content_text"
                         style="@style/Text.Note.Content"
-                        tools:text="@string/preview_note_text" />
+                        tools:text="@sample/preview.json/note/text[0]" />
 
                     <include
                         android:id="@+id/info"

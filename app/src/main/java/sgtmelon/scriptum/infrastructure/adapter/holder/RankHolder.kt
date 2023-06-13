@@ -13,7 +13,6 @@ import sgtmelon.scriptum.infrastructure.adapter.touch.listener.DragTouchListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.maxIndicatorTest
-import sgtmelon.test.prod.RunNone
 
 @SuppressLint("ClickableViewAccessibility")
 class RankHolder(
@@ -94,13 +93,5 @@ class RankHolder(
         clickContainer.setOnClickListener(null)
         cancelButton.setOnClickListener(null)
         visibleButton.setOnClickListener(null)
-    }
-
-    companion object {
-        const val MAX_COUNT = 99
-        const val MAX_COUNT_TEXT = ":D"
-
-        /** Variable only for UI tests. */
-        @RunNone var isMaxTest = false
     }
 }

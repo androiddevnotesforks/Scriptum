@@ -36,7 +36,7 @@
                         android:id="@+id/name_read"
                         style="@style/Text.ToolbarNote"
                         android:hint="@string/hint_text_name"
-                        tools:text="@string/preview_note_name" />
+                        tools:text="@sample/preview.json/note/name[1]" />
 
                 </FrameLayout>
 

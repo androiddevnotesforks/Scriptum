@@ -43,7 +43,7 @@
                     android:importantForAutofill="noExcludeDescendants"
                     android:maxLines="5"
                     tools:ignore="TextFields"
-                    tools:text="@string/preview_note_text" />
+                    tools:text="@sample/preview.json/note/text[0]" />
 
                 <ImageButton
                     android:id="@+id/add_button"

@@ -42,13 +42,13 @@
                             style="@style/EditText.TextNote.Enter"
                             android:hint="@string/hint_enter_text"
                             android:importantForAutofill="noExcludeDescendants"
-                            tools:text="@string/preview_note_text"
+                            tools:text="@sample/preview.json/note/text[0]"
                             tools:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/text_read"
                             style="@style/EditText.TextNote.Read"
-                            tools:text="@string/preview_note_text" />
+                            tools:text="@sample/preview.json/note/text[0]" />
 
                     </FrameLayout>
 

@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/layout_8dp"
-                tools:text="@string/preview_version" />
+                tools:text="@sample/preview.json/version" />
 
             <TextView
                 android:id="@+id/about_developer_text"

@@ -20,7 +20,7 @@
             <TextView
                 android:id="@+id/name_text"
                 style="@style/Text.Note.Name"
-                tools:text="@string/preview_note_name" />
+                tools:text="@sample/preview.json/note/name[0]" />
 
             <LinearLayout
                 android:layout_width="match_parent"

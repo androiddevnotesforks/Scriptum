@@ -35,12 +35,12 @@
                 <TextView
                     android:id="@+id/name_text"
                     style="@style/Text.SmallCard.Title"
-                    tools:text="@string/preview_notification_name" />
+                    tools:text="@sample/preview.json/notification/name[0]" />
 
                 <TextView
                     android:id="@+id/date_text"
                     style="@style/Text.SmallCard.Subtitle"
-                    tools:text="@string/preview_notification_date" />
+                    tools:text="@sample/preview.json/notification/date[0]" />
 
             </LinearLayout>
 

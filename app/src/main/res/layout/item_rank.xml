@@ -39,9 +39,9 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/name_text"
-                    style="@style/Text.SmallCard.Title"
-                    tools:text="@string/preview_rank_name" />
+                        android:id="@+id/name_text"
+                        style="@style/Text.SmallCard.Title"
+                        tools:text="@sample/preview.json/rank/name[0]" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                             <TextView
                                 android:id="@+id/notification_text"
                                 style="@style/Text.SmallCard.Indicator"
-                                tools:text="5" />
+                                tools:text="@sample/preview.json/rank/count[0]" />
 
                             <ImageView
                                 android:id="@+id/notification_image"
@@ -89,7 +89,7 @@
                             <TextView
                                 android:id="@+id/bind_text"
                                 style="@style/Text.SmallCard.Indicator"
-                                tools:text=":D" />
+                                tools:text="@sample/preview.json/rank/count[1]" />
 
                             <ImageView
                                 android:id="@+id/bind_image"
@@ -104,7 +104,7 @@
                     <TextView
                         android:id="@+id/count_text"
                         style="@style/Text.SmallCard.Subtitle"
-                        tools:text="@string/preview_rank_count" />
+                        tools:text="@sample/preview.json/rank/notes[0]" />
 
                 </LinearLayout>
 

@@ -61,7 +61,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/check_box"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/preview_note_roll"
+                tools:text="@sample/preview.json/note/item[0]"
                 tools:textColor="?attr/clContrast"
                 tools:visibility="visible" />
 
@@ -79,7 +79,7 @@
                 android:imeOptions="flagNoFullscreen"
                 android:importantForAutofill="noExcludeDescendants"
                 android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                tools:text="@string/preview_note_roll"
+                tools:text="@sample/preview.json/note/item[0]"
                 tools:textColor="?attr/clContrast"
                 tools:visibility="gone" />
 
