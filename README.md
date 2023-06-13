@@ -23,6 +23,6 @@ It's an **open source** project, and the main **goal** of it is to create an app
 
 ### Plans
 
-:small_orange_diamond: Refactor to correct MVVM architecture\
-:small_orange_diamond: Fix Unit/UI tests work\
-:small_orange_diamond: Support Android 11 :moyai:
+:small_orange_diamond: Improve UI tests and increase count of them\
+:small_orange_diamond: Fix bugs\
+:small_orange_diamond: Add features
