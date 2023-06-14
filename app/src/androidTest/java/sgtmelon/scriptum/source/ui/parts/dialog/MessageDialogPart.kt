@@ -32,7 +32,7 @@ abstract class MessageDialogPart(
     private val messageText = getViewByText(messageId)
     private val positiveButton = getViewByText(positiveId)
     private val negativeButton = getViewByText(negativeId)
-    private val neutralButton = neutralId?.let { getViewByText(it) }
+    private val neutralButton = neutralId?.let(::getViewByText)
 
     fun positive() = waitClose {
         positiveButton.click()

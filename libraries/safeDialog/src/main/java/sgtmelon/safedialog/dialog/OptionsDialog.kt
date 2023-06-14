@@ -51,7 +51,7 @@ class OptionsDialog : BlankEmptyDialog(),
     override fun buildDialog(builder: AlertDialog.Builder, context: Context): AlertDialog.Builder {
         return builder.setItems(itemList.toTypedArray(), this)
             .setCancelable(true)
-            .apply { title.takeIf { it != DEF_TITLE }?.let { setTitle(it) } }
+            .apply { title.takeIf { it != DEF_TITLE }?.let(::setTitle) }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
