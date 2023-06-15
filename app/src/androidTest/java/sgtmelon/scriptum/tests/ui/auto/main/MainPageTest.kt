@@ -9,7 +9,7 @@ import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
- * Test for [MainActivity].
+ * Test of navigation menu pages switch in [MainActivity].
  */
 @RunWith(AndroidJUnit4::class)
 class MainPageTest : ParentUiTest() {
