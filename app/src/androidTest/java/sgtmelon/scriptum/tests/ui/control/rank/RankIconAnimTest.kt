@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.ui.control
+package sgtmelon.scriptum.tests.ui.control.rank
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
