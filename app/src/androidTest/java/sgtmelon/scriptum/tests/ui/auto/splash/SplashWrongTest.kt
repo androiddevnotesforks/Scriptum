@@ -22,10 +22,18 @@ class SplashWrongTest : ParentUiTest() {
         mainScreen { openNotes(isEmpty = true) }
     }
 
+    /**
+     * TODO #FIX в данный момент не работает, надо добавить проверку id заметки на существование её
+     *      в базе данных
+     */
     @Test fun bindTextNote() = launchSplashBind(db.getInvalidNote(NoteType.TEXT)) {
         mainScreen { openNotes(isEmpty = true) }
     }
 
+    /**
+     * TODO #FIX в данный момент не работает, надо добавить проверку id заметки на существование её
+     *      в базе данных
+     */
     @Test fun bindRollNote() = launchSplashBind(db.getInvalidNote(NoteType.ROLL)) {
         mainScreen { openNotes(isEmpty = true) }
     }

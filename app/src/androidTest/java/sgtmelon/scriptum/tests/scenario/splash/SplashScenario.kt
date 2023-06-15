@@ -13,8 +13,6 @@ interface SplashScenario {
     /** Launch app with different [Intent] and via [SplashActivity] open screens. */
     fun openScreens() = SplashOpenTest()
 
-    // TODO в данный момент не работает, надо добавить проверку id заметки на существование её
-    //      в базе данных
     /** Similar to [openScreens], but put wrong data inside [Intent]. */
     fun openScreensWithWrongData() = SplashWrongTest()
 
