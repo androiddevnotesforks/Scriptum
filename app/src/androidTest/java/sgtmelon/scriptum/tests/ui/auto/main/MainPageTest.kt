@@ -12,7 +12,7 @@ import sgtmelon.scriptum.source.ui.tests.launchMain
  * Test for [MainActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class MainTest : ParentUiTest() {
+class MainPageTest : ParentUiTest() {
 
     @Test fun correctPage() = launchMain {
         repeat(times = 3) { for (page in MainPage.values()) openPage(page, isEmpty = true) }

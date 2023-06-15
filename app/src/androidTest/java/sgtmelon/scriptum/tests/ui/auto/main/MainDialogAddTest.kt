@@ -12,7 +12,7 @@ import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
  * Test add dialog for [MainActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class MainAddDialogTest : ParentUiTest(),
+class MainDialogAddTest : ParentUiTest(),
     DialogCloseCase {
 
     @Test override fun close() = launchMain {

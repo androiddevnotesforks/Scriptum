@@ -13,7 +13,7 @@ import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
  * Test notifications help dialog for [MainActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class MainHelpDialogTest : ParentUiTest(),
+class MainDialogHelpTest : ParentUiTest(),
     DialogCloseCase {
 
     @Before override fun setUp() {
