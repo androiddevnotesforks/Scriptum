@@ -25,8 +25,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateComplete
 import sgtmelon.scriptum.source.RoomWorker
 import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.source.utils.NEXT_HOUR
-import sgtmelon.scriptum.ui.auto.bin.BinNoteDialogRollTest
-import sgtmelon.scriptum.ui.auto.notes.NotesNoteDialogTextTest
+import sgtmelon.scriptum.tests.ui.auto.main.bin.BinNoteDialogRollTest
+import sgtmelon.scriptum.tests.ui.auto.main.notes.NotesNoteDialogTextTest
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.nextString
 
