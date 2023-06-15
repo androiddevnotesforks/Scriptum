@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.ui.auto.rank
+package sgtmelon.scriptum.tests.ui.auto.main.rank
 
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment

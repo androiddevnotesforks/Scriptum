@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.ui.auto.notes
+package sgtmelon.scriptum.tests.ui.auto.main.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.source.cases.note.NoteCardTestCase
  * Test for [NoteItemUi] inside [NotesScreen].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesCardDarkTest : NoteCardTestCase(ThemeDisplayed.DARK, MainPage.NOTES) {
+class NotesCardLightTest : NoteCardTestCase(ThemeDisplayed.LIGHT, MainPage.NOTES) {
 
     @Test override fun colorText() = super.colorText()
 

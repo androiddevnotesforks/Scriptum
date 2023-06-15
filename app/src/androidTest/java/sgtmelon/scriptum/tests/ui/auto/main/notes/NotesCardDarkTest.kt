@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.ui.auto.bin
+package sgtmelon.scriptum.tests.ui.auto.main.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -6,14 +6,14 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.ui.item.NoteItemUi
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
-import sgtmelon.scriptum.source.ui.screen.main.BinScreen
+import sgtmelon.scriptum.source.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.source.cases.note.NoteCardTestCase
 
 /**
- * Test for [NoteItemUi] inside [BinScreen].
+ * Test for [NoteItemUi] inside [NotesScreen].
  */
 @RunWith(AndroidJUnit4::class)
-class BinCardLightTest : NoteCardTestCase(ThemeDisplayed.LIGHT, MainPage.BIN) {
+class NotesCardDarkTest : NoteCardTestCase(ThemeDisplayed.DARK, MainPage.NOTES) {
 
     @Test override fun colorText() = super.colorText()
 
@@ -36,6 +36,11 @@ class BinCardLightTest : NoteCardTestCase(ThemeDisplayed.LIGHT, MainPage.BIN) {
     @Test override fun rollRow3() = super.rollRow3()
 
     @Test override fun rollRow4() = super.rollRow4()
+
+
+    @Test override fun notificationText() = super.notificationText()
+
+    @Test override fun notificationRoll() = super.notificationRoll()
 
 
     @Test override fun rollNoneDoneVisible() = super.rollNoneDoneVisible()

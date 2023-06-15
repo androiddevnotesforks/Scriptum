@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.ui.auto.notes
+package sgtmelon.scriptum.tests.ui.auto.main.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test

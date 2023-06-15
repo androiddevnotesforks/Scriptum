@@ -1,7 +1,5 @@
-package sgtmelon.scriptum.tests.ui
+package sgtmelon.scriptum.tests.scenario
 
-// TODO case: MenuPreferenceTest - openRate (it's not working due to select app appears)
-// TODO case: MenuPreferenceTest - openPrivacyPolicy (it's not working due to select app appears)
 // TODO case: BinNoteDialogCase/NotesNoteDialogCase - note dialog copy
 
 // TODO new: RankDragTest - drag'n'drop rank tests
