@@ -11,6 +11,7 @@ import sgtmelon.scriptum.tests.ui.control.main.MainFabGradientTest
 /**
  * Scenarios for test [MainActivity].
  */
+@Suppress("unused")
 interface MainScenario {
 
     /** For add FAB. */

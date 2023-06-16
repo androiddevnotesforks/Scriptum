@@ -10,6 +10,7 @@ import sgtmelon.scriptum.tests.ui.auto.splash.SplashWrongTest
 /**
  * Scenarios for test [SplashActivity].
  */
+@Suppress("unused")
 interface SplashScenario {
 
     /**
