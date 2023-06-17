@@ -53,10 +53,32 @@ interface MainScenario {
      */
     fun scrollListTopOnTabDoubleClick() = MainScrollTopTest()
 
-    /**
-     * Check navigation menu works in [MainActivity] and show needed fragment (screen).
-     * - Compare page and opened fragment/screen.
-     */
-    fun changePages() = MainPageTest()
+    /** Check switch between navigation view items. */
+    interface Page {
+
+        /**
+         * Check menu works and show needed fragment (screen).
+         * - Compare page and opened fragment/screen.
+         */
+        fun changePages() = MainPageTest().correctPage()
+
+        /**
+         * Check prone rotation and selected page.
+         * - Compare menu and screen before+after rotation.
+         */
+        fun rotate() = with(MainPageTest()) {
+            rotateRankPage()
+            rotateNotesPage()
+            rotateBinPage()
+        }
+    }
+
+    interface DialogAdd {
+
+    }
+
+    interface DialogHelp {
+
+    }
 
 }

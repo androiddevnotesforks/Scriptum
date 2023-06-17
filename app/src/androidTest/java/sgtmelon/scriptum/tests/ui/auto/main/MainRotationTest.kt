@@ -14,30 +14,6 @@ import sgtmelon.scriptum.source.ui.tests.launchMain
 @RunWith(AndroidJUnit4::class)
 class MainRotationTest : ParentUiRotationTest() {
 
-    @Test fun rankPage() = launchMain {
-        openRank(isEmpty = true) {
-            rotate.toSide()
-            assert(isEmpty = true)
-        }
-        assert()
-    }
-
-    @Test fun notesPage() = launchMain {
-        openNotes(isEmpty = true) {
-            rotate.toSide()
-            assert(isEmpty = true)
-        }
-        assert()
-    }
-
-    @Test fun binPage() = launchMain {
-        openBin(isEmpty = true) {
-            rotate.toSide()
-            assert(isEmpty = true)
-        }
-        assert()
-    }
-
     @Test fun helpDialog() = launchHelpMain({ preferencesRepo.showNotificationsHelp = true }) {
         openHelpDialog {
             rotate.toSide()
@@ -51,4 +27,7 @@ class MainRotationTest : ParentUiRotationTest() {
             assert()
         }
     }
+
+    // TODO dialog work after rotation?
+
 }
