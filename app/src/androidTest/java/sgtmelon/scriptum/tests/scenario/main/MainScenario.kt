@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.tests.scenario.main
 
+import sgtmelon.scriptum.infrastructure.dialogs.sheet.AddSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
+import sgtmelon.scriptum.tests.ui.auto.main.MainDialogAddTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainFabTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainPageTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainScrollTopTest
@@ -73,8 +75,29 @@ interface MainScenario {
         }
     }
 
+    /** Tests for [AddSheetDialog] in main screen. */
     interface DialogAdd {
 
+        /** Check dialog close.
+         * - With back button
+         * - With swipe
+         */
+        fun close() = MainDialogAddTest().close()
+
+        /**
+         * Create available notes.
+         * - Note screen opened and asserted
+         */
+        fun createNotes() = with(MainDialogAddTest()) {
+            createTextNote()
+            createRollNote()
+        }
+
+        /** Similar to [close], but with rotation before close itself. */
+        fun rotateClose() = MainDialogAddTest().rotateClose()
+
+        /** Similar to [createNotes], but with rotation before click item for create note. */
+        fun rotateWork() = MainDialogAddTest().rotateWork()
     }
 
     interface DialogHelp {

@@ -21,13 +21,4 @@ class MainRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun addDialog() = launchMain {
-        openAddDialog {
-            rotate.toSide()
-            assert()
-        }
-    }
-
-    // TODO dialog work after rotation?
-
 }
