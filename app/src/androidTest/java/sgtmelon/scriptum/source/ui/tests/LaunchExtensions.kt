@@ -34,6 +34,11 @@ inline fun ParentUiTest.launchHelpMain(
 ) {
     before()
     launchActivity<MainActivity>(Screens.toMain(context))
+
+    /**
+     * Skip screen assertion because dialog will be shown very fast and there is no time for
+     * assert main screen.
+     */
     MainScreen().apply(after)
 }
 
