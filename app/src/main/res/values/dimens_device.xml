@@ -13,7 +13,6 @@
     <dimen name="text_card_text">18sp</dimen>
     <dimen name="text_card_space">8dp</dimen>
 
-    <integer name="recycler_color_padding">24</integer>
     <dimen name="recycler_vertical_margin">4dp</dimen>
     <dimen name="recycler_horizontal_margin">0dp</dimen>
     <dimen name="recycler_small_vertical_margin">4dp</dimen>
