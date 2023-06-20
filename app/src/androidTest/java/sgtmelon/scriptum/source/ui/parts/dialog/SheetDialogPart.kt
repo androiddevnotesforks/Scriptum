@@ -37,7 +37,7 @@ abstract class SheetDialogPart(
     fun swipeClose() = waitClose { navigationView.swipeDown() }
 
     fun assert() {
-        navigationContainer.isDisplayed().withBackgroundDrawable(R.drawable.bg_sheet_dialog)
+        navigationContainer.isDisplayed().withBackgroundDrawable(R.drawable.bg_dialog)
         navigationView.isDisplayed()
         titleText.isDisplayed().withTextColor(R.attr.clContentSecond)
 

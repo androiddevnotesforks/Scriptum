@@ -8,8 +8,7 @@
 
         <!--  Title text color  -->
         <item name="android:textColorPrimary">?attr/clContent</item>
-
-        <item name="android:windowBackground">?attr/clPrimary</item>
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
         <item name="buttonBarNegativeButtonStyle">@style/App.Dialog.PaleButton</item>
 
         <!--  For overScrollMode  -->
@@ -25,7 +24,7 @@
 
     <style name="App.Dialog.DateTime" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="colorAccent">?attr/clAccent</item>
-        <item name="android:windowBackground">?attr/clPrimary</item>
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/App.Dialog.PaleButton</item>
 
         <!--  For overScrollMode  -->
