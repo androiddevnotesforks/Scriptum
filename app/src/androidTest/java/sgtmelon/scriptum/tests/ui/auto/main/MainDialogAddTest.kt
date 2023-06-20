@@ -3,7 +3,6 @@ package sgtmelon.scriptum.tests.ui.auto.main
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.dialogs.sheet.AddSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.source.ui.tests.launchMain

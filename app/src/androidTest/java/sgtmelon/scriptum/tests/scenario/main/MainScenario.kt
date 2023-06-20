@@ -5,6 +5,8 @@ import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.tests.ui.auto.main.MainDialogAddTest
+import sgtmelon.scriptum.tests.ui.auto.main.MainDialogHelpTest as MainDialogHelpAutoTest
+import sgtmelon.scriptum.tests.ui.control.main.MainDialogHelpTest as MainDialogHelpControlTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainFabTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainPageTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainScrollTopTest
@@ -75,7 +77,7 @@ interface MainScenario {
         }
     }
 
-    /** Tests for [AddSheetDialog] in main screen. */
+    /** Tests for [AddSheetDialog] (create note) in main screen. */
     interface DialogAdd {
 
         /** Check dialog close.
@@ -96,12 +98,32 @@ interface MainScenario {
         /** Similar to [close], but with rotation before close itself. */
         fun rotateClose() = MainDialogAddTest().rotateClose()
 
-        /** Similar to [createNotes], but with rotation before click item for create note. */
+        /** Similar to [createNotes], but with rotation before click item. */
         fun rotateWork() = MainDialogAddTest().rotateWork()
     }
 
     interface DialogHelp {
 
+        /**
+         * Check dialog close.
+         * - With dialog button (back press is not available)
+         */
+        fun close() = MainDialogHelpAutoTest().close()
+
+        /** Check dialog (after closed) will not appear onResume screen state. */
+        fun displayAfterResume() = MainDialogHelpAutoTest().displayAfterResume()
+
+        /** Button work - open app settings. */
+        fun openSettings() = MainDialogHelpControlTest().openSettings()
+
+        /** Button work - open eternal service channel settings. */
+        fun openChannel() = MainDialogHelpControlTest().openChannel()
+
+        /** Similar to [close], but with rotation before close itself. */
+        fun rotateClose() = MainDialogHelpAutoTest().rotateClose()
+
+        /** Similar to [openSettings]/[openChannel], but with rotation before click button. */
+        fun rotateWork() = MainDialogHelpControlTest().rotateWork()
     }
 
 }

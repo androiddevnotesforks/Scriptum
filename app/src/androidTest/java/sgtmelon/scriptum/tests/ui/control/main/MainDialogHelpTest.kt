@@ -8,7 +8,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchHelpMain
 import sgtmelon.test.cappuccino.utils.await
 import kotlin.random.Random
@@ -35,7 +34,7 @@ class MainDialogHelpTest : ParentUiRotationTest(),
 
     @Test fun openChannel() = launchHelpMain { openHelpDialog { negative() } }
 
-    /** It will be tested in [MainDialogHelpAutoTest.rotateWork]. */
+    /** It will be tested in [MainDialogHelpAutoTest.rotateClose]. */
     override fun rotateClose() = Unit
 
     @Test override fun rotateWork() = launchHelpMain {
