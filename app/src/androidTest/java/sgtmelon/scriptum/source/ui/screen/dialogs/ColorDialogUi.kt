@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.source.ui.screen.dialogs
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
+import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.scriptum.source.ui.parts.UiPart

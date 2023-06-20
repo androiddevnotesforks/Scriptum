@@ -26,7 +26,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
-import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
+import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelBinding

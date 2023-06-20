@@ -10,7 +10,7 @@ import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.safedialog.dialog.time.TimeDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
-import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
+import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog

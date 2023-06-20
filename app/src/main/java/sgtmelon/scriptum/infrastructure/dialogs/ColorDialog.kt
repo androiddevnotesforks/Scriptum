@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.dialog
+package sgtmelon.scriptum.infrastructure.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -49,7 +49,7 @@ class ColorDialog : BlankButtonDialog(),
 
         recyclerView.id = R.id.color_recycler_view
 
-        val padding = 24
+        val padding = resources.getInteger(R.integer.recycler_color_padding)
         recyclerView.setPadding(padding, padding, padding, padding)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
 

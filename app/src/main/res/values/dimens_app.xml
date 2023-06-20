@@ -3,6 +3,9 @@
 
     <!--  TODO refactor this xml file and make normal names and move all dimens inside dimens_device with screen optimization.  -->
 
+    <!--  TODO optimize for different screens  -->
+    <integer name="recycler_color_padding">24</integer>
+
     <dimen name="text_18sp">18sp</dimen>
     <dimen name="text_16sp">16sp</dimen>
     <dimen name="text_14sp">14sp</dimen>

@@ -3,7 +3,6 @@
 
     <item name="color_recycler_view" type="id"/>
 
-
     <!--  Some id's used for UI tests  -->
 
     <!--  Preference screen recyclerView  -->
