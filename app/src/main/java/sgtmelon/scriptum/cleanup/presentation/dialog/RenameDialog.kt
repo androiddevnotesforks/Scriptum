@@ -16,6 +16,7 @@ import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 import sgtmelon.safedialog.utils.showKeyboard
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.utils.extensions.selectAllText
 
 /**
  * Dialog with [EditText] for rename category.
@@ -81,7 +82,8 @@ class RenameDialog : BlankButtonDialog(),
             setOnEditorActionListener(this@RenameDialog)
             doOnTextChanged { _, _, _, _ -> changeButtonEnable() }
 
-            requestFocus()
+            setText(title)
+            selectAllText()
         }
     }
 

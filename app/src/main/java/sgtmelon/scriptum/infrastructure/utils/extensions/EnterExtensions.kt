@@ -66,6 +66,13 @@ fun EditText.setSelectionSafe(@IntRange(from = 0) cursor: Int = length()) {
 
 private fun EditText.getCorrectCursor(value: Int) = min(value, length())
 
+fun EditText.selectAllText() {
+    if (text.isNotEmpty()) {
+        setSelection(0, text.length)
+    }
+    requestFocus()
+}
+
 fun EditText.clearText() = setText(emptyString())
 
 /**
