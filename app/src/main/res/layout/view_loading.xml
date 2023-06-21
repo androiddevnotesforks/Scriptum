@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center">
 
-    <!--  android:background color same as in all dialogs (see styles_dialog)  -->
+    <!--  android:background same as in all dialogs (see styles_dialog)  -->
     <LinearLayout
         android:id="@+id/loading_content_container"
         android:layout_width="wrap_content"

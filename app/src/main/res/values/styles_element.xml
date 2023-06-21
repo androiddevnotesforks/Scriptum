@@ -230,6 +230,12 @@
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 
+    <style name="Text.About.Email">
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/Appearance.Accent</item>
+        <item name="android:textSize">@dimen/text_16sp</item>
+    </style>
+
     <style name="Text.Note"/>
 
     <style name="Text.Note.Name">

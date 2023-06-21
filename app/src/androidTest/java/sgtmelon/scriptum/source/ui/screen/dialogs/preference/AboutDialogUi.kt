@@ -1,13 +1,17 @@
 package sgtmelon.scriptum.source.ui.screen.dialogs.preference
 
+import android.view.ViewGroup
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.scriptum.source.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.isDisplayed
+import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
 import sgtmelon.test.cappuccino.utils.withDrawable
+import sgtmelon.test.cappuccino.utils.withParent
 import sgtmelon.test.cappuccino.utils.withSize
+import sgtmelon.test.cappuccino.utils.withSizeCode
 import sgtmelon.test.cappuccino.utils.withText
 
 /**
@@ -17,6 +21,8 @@ class AboutDialogUi : UiPart(),
     DialogUi {
 
     private val parentContainer = getView(R.id.about_parent_container)
+    private val contentContainer = getView(R.id.about_content_container)
+
     private val logoImage = getView(R.id.about_logo_image)
     private val appText = getView(R.id.about_app_text)
     private val versionText = getView(R.id.about_version_text)
@@ -26,6 +32,10 @@ class AboutDialogUi : UiPart(),
 
     fun assert() = apply {
         parentContainer.isDisplayed()
+
+        contentContainer.isDisplayed()
+            .withParent(parentContainer)
+            .withBackgroundDrawable(R.drawable.bg_dialog)
 
         logoImage.isDisplayed()
             .withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
@@ -40,7 +50,7 @@ class AboutDialogUi : UiPart(),
         designerText.isDisplayed()
             .withText(R.string.dialog_about_logo_designer, R.attr.clContent, R.dimen.text_16sp)
         emailText.isDisplayed()
-            .withText(R.string.dialog_about_email, R.attr.clContentSecond, R.dimen.text_14sp)
+            .withText(R.string.dialog_about_email, R.attr.clAccent, R.dimen.text_16sp)
     }
 
     companion object {

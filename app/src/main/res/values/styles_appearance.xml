@@ -11,6 +11,10 @@
         <item name="android:textColor">?attr/clContentSecond</item>
     </style>
 
+    <style name="Appearance.Accent">
+        <item name="android:textColor">?attr/clAccent</item>
+    </style>
+
     <style name="Appearance.Indicator">
         <item name="android:textColor">?attr/clIndicator</item>
     </style>

@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.cleanup.ui.ParentScreen
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.test.cappuccino.utils.isDisplayed
-import sgtmelon.test.cappuccino.utils.withBackgroundAttr
+import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
 import sgtmelon.test.cappuccino.utils.withParent
 import sgtmelon.test.cappuccino.utils.withSizeCode
 import sgtmelon.test.cappuccino.utils.withText
@@ -28,7 +28,7 @@ class LoadingDialogUi : ParentScreen(), DialogUi {
         contentContainer.isDisplayed()
             .withSizeCode(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             .withParent(parentContainer)
-            .withBackgroundAttr(R.attr.clPrimary)
+            .withBackgroundDrawable(R.drawable.bg_dialog)
 
         progressBar.isDisplayed()
             .withSizeCode(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)

@@ -1,82 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/about_parent_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/layout_16dp">
+    android:layout_gravity="center"
+    android:gravity="center">
 
+    <!--  android:background same as in all dialogs (see styles_dialog)  -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/about_content_container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_dialog"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:padding="@dimen/layout_16dp"
+        tools:ignore="UselessParent">
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/layout_4dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/layout_16dp">
 
             <ImageView
                 android:id="@+id/about_logo_image"
                 style="@style/Image.Logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:importantForAccessibility="no" />
 
-        </FrameLayout>
+            <LinearLayout
+                app:layout_constraintBottom_toBottomOf="@id/about_logo_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/about_logo_image"
+                app:layout_constraintTop_toTopOf="@id/about_logo_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/layout_16dp"
+                android:orientation="vertical">
 
-        <LinearLayout
+                <TextView
+                    android:id="@+id/about_app_text"
+                    style="@style/Text.About.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name" />
+
+                <TextView
+                    android:id="@+id/about_version_text"
+                    style="@style/Text.About.Subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/layout_8dp"
+                    tools:text="@sample/preview.json/version" />
+
+                <TextView
+                    android:id="@+id/about_developer_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/layout_8dp"
+                    android:gravity="center"
+                    android:text="@string/dialog_about_developer"
+                    android:textAppearance="@style/Appearance.Main"
+                    android:textSize="@dimen/text_16sp" />
+
+                <TextView
+                    android:id="@+id/about_designer_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/dialog_about_logo_designer"
+                    android:textAppearance="@style/Appearance.Main"
+                    android:textSize="@dimen/text_16sp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/about_email_text"
+            style="@style/Text.About.Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/about_app_text"
-                style="@style/Text.About.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name" />
-
-            <TextView
-                android:id="@+id/about_version_text"
-                style="@style/Text.About.Subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/layout_8dp"
-                tools:text="@sample/preview.json/version" />
-
-            <TextView
-                android:id="@+id/about_developer_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/layout_8dp"
-                android:gravity="center"
-                android:text="@string/dialog_about_developer"
-                android:textAppearance="@style/Appearance.Main"
-                android:textSize="@dimen/text_16sp" />
-
-            <TextView
-                android:id="@+id/about_designer_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/dialog_about_logo_designer"
-                android:textAppearance="@style/Appearance.Main"
-                android:textSize="@dimen/text_16sp" />
-
-        </LinearLayout>
+            android:layout_marginTop="@dimen/layout_8dp"
+            android:text="@string/dialog_about_email" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/about_email_text"
-        style="@style/Text.About.Subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_8dp"
-        android:text="@string/dialog_about_email" />
-
-</LinearLayout>
+</FrameLayout>

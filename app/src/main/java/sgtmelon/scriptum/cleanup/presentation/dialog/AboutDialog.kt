@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
+import sgtmelon.safedialog.utils.applyTransparentBackground
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 
@@ -32,6 +33,11 @@ class AboutDialog : BlankEmptyDialog(),
             .setView(R.layout.view_about)
             .setCancelable(true)
             .create()
+    }
+
+    override fun transformDialog(dialog: Dialog): Dialog {
+        return super.transformDialog(dialog)
+            .applyTransparentBackground()
     }
 
     override fun onRestoreContentState(savedState: Bundle) {
