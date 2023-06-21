@@ -16,7 +16,9 @@
         android:background="@drawable/bg_dialog"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:padding="@dimen/layout_16dp"
+        android:paddingHorizontal="@dimen/layout_16dp"
+        android:paddingTop="@dimen/layout_16dp"
+        android:paddingBottom="@dimen/layout_8dp"
         tools:ignore="UselessParent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,7 +91,10 @@
             style="@style/Text.About.Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_8dp"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/layout_4dp"
+            android:layout_marginTop="@dimen/layout_4dp"
+            android:layout_marginBottom="@dimen/layout_4dp"
             android:text="@string/dialog_about_email" />
 
     </LinearLayout>

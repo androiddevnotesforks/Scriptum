@@ -1,17 +1,16 @@
 package sgtmelon.scriptum.source.ui.screen.dialogs.preference
 
-import android.view.ViewGroup
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.scriptum.source.ui.parts.UiPart
+import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
 import sgtmelon.test.cappuccino.utils.withDrawable
 import sgtmelon.test.cappuccino.utils.withParent
 import sgtmelon.test.cappuccino.utils.withSize
-import sgtmelon.test.cappuccino.utils.withSizeCode
 import sgtmelon.test.cappuccino.utils.withText
 
 /**
@@ -29,6 +28,10 @@ class AboutDialogUi : UiPart(),
     private val developerText = getView(R.id.about_developer_text)
     private val designerText = getView(R.id.about_designer_text)
     private val emailText = getView(R.id.about_email_text)
+
+    fun sendEmail() {
+        emailText.click()
+    }
 
     fun assert() = apply {
         parentContainer.isDisplayed()

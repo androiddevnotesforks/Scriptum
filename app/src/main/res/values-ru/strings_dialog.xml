@@ -116,4 +116,6 @@
     <string name="dialog_about_developer">Разработчик:\nКузнецов Алексей</string>
     <string name="dialog_about_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
 
+    <string name="email_about_subject">Про приложение Scriptum</string>
+
 </resources>

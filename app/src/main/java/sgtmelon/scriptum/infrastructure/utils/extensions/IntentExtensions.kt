@@ -30,6 +30,13 @@ private fun Context.getSettingsChannelIntent(@StringRes id: Int): Intent {
         .putExtra(Settings.EXTRA_CHANNEL_ID, getString(id))
 }
 
+/** Only email apps should handle this. */
+private fun Context.getEmailIntent(email: String, @StringRes subjectId: Int): Intent {
+    return Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
+        .putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+        .putExtra(Intent.EXTRA_SUBJECT, getString(subjectId))
+}
+
 fun Context.startUrlActivity(url: String, toast: ToastDelegator?) {
     startActivitySafe(getUrlIntent(url), toast)
 }
@@ -44,6 +51,10 @@ fun Context.startSettingsChannelActivity(toast: ToastDelegator?, @StringRes id: 
 
 fun Context.startMarketActivity(toast: ToastDelegator?) {
     startActivitySafe(getUrlIntent(BuildConfig.BROWSER_URL), toast)
+}
+
+fun Context.startEmailActivity(toast: ToastDelegator?, email: String, @StringRes subjectId: Int) {
+    startActivitySafe(getEmailIntent(email, subjectId), toast)
 }
 
 private fun Context.startActivitySafe(intent: Intent?, toast: ToastDelegator?) {

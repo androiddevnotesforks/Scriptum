@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -13,15 +12,16 @@ import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
 import sgtmelon.safedialog.utils.applyTransparentBackground
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.utils.extensions.startEmailActivity
 
 /**
  * Dialog with information about project.
  */
-class AboutDialog : BlankEmptyDialog(),
-    View.OnClickListener {
+class AboutDialog : BlankEmptyDialog() {
 
     private val logoImage get() = dialog?.findViewById<ImageView?>(R.id.about_logo_image)
     private val versionText get() = dialog?.findViewById<TextView?>(R.id.about_version_text)
+    private val emailText get() = dialog?.findViewById<TextView?>(R.id.about_email_text)
 
     private var clickCount = DEF_CLICK
 
@@ -57,13 +57,17 @@ class AboutDialog : BlankEmptyDialog(),
     override fun setupView() {
         super.setupView()
 
-        logoImage?.setOnClickListener(this)
+        logoImage?.setOnClickListener {
+            if (++clickCount == context?.resources?.getInteger(R.integer.pref_develop_open)) {
+                hideOpen = true
+                dialog?.dismiss()
+            }
+        }
         versionText?.text = BuildConfig.VERSION_NAME
-    }
 
-    override fun onClick(v: View) {
-        if (++clickCount == context?.resources?.getInteger(R.integer.pref_develop_open)) {
-            hideOpen = true
+        emailText?.setOnClickListener {
+            val text = emailText?.text?.toString() ?: return@setOnClickListener
+            context?.startEmailActivity(toast = null, text, R.string.email_about_subject)
             dialog?.dismiss()
         }
     }
