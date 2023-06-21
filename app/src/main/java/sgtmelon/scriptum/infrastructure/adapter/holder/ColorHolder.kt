@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.infrastructure.adapter.holder
 
+import android.content.res.ColorStateList
+import android.graphics.drawable.RippleDrawable
 import sgtmelon.extensions.getColorCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
@@ -9,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.ColorClickListener
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.scriptum.infrastructure.utils.extensions.getRipple
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 
 class ColorHolder(
@@ -21,7 +24,12 @@ class ColorHolder(
     fun bindColor(color: Color) = with(binding) {
         val colorItem = backgroundView.bindIndicatorColor(color)
         if (colorItem != null) {
-            checkImage.setColorFilter(context.getColorCompat(colorItem.content))
+            val contentColor = context.getColorCompat(colorItem.content)
+
+            checkImage.setColorFilter(contentColor)
+
+            val ripple = clickView.background as? RippleDrawable
+            ripple?.setColor(ColorStateList.valueOf(colorItem.getRipple(context)))
         }
 
         val colorName = context.resources.getStringArray(R.array.pref_color)[color.ordinal]

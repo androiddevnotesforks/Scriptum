@@ -28,6 +28,7 @@
             app:srcCompat="@drawable/ic_check" />
 
         <!-- android:contentDescription - programmatically setup -->
+        <!-- color of ripple will be changed programmatically -->
         <View
             android:id="@+id/click_view"
             android:layout_width="@dimen/icon_48dp"

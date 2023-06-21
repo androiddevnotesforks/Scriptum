@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.model.data
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.model.annotation.ThemeRippleAlpha
 import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
 import sgtmelon.scriptum.infrastructure.model.item.ColorItem
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
@@ -52,8 +53,8 @@ object ColorData {
         val light = light[color.ordinal]
 
         return when (theme) {
-            ThemeDisplayed.LIGHT -> ColorItem(dark, light, dark)
-            ThemeDisplayed.DARK -> ColorItem(dark, dark, light)
+            ThemeDisplayed.LIGHT -> ColorItem(dark, light, dark, ThemeRippleAlpha.LIGHT)
+            ThemeDisplayed.DARK -> ColorItem(dark, dark, light, ThemeRippleAlpha.DARK)
         }
     }
 }

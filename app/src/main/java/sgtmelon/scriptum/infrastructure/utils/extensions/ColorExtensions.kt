@@ -5,7 +5,9 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.MenuItem
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getColorCompat
@@ -43,4 +45,9 @@ fun Drawable.setColor(context: Context, colorItem: ColorItem) {
 
     setColor(context.getColorCompat(colorItem.fill))
     setStroke(context.getDimen(value = 1f), context.getColorCompat(colorItem.stroke))
+}
+
+
+@ColorInt fun ColorItem.getRipple(context: Context): Int {
+    return ColorUtils.setAlphaComponent(context.getColorCompat(content), rippleAlpha)
 }
