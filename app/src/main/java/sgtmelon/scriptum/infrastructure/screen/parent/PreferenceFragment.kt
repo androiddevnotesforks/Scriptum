@@ -36,7 +36,7 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
      */
     open val bundleValues: List<BundleValue> = listOf()
 
-    protected val open: OpenState = OpenState(lifecycle)
+    protected val open: OpenState by lazy { OpenState(lifecycle) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(xmlId, rootKey)

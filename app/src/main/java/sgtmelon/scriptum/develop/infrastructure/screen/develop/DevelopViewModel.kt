@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DevelopViewModel {
 
-    val randomNoteId: Flow<Long>
+    val randomNoteId: Flow<Long?>
 
     fun resetPreferences()
 }

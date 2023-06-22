@@ -32,7 +32,7 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
      */
     open val bundleValues: List<BundleValue> = listOf()
 
-    val open: OpenState = OpenState(lifecycle)
+    val open: OpenState by lazy { OpenState(lifecycle) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

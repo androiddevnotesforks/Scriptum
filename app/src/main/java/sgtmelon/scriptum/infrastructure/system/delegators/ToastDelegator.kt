@@ -31,11 +31,11 @@ class ToastDelegator(lifecycle: Lifecycle?) : DefaultLifecycleObserver {
         show(context, context.getString(stringId), length)
     }
 
-    fun show(context: Context?, string: String, length: Int = Toast.LENGTH_SHORT) {
+    fun show(context: Context?, text: String, length: Int = Toast.LENGTH_SHORT) {
         if (context == null) return
 
         lastToast?.cancel()
-        Toast.makeText(context, string, length)
+        Toast.makeText(context, text, length)
             .also { lastToast = it }
             .show()
 

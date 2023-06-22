@@ -18,7 +18,7 @@ interface DevelopRepo {
 
     suspend fun getPrintFileList(): List<PrintItem.Preference>
 
-    suspend fun getRandomNoteId(): Long
+    suspend fun getRandomNoteId(): Long?
 
     fun resetPreferences()
 }

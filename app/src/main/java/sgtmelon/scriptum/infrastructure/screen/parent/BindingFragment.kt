@@ -10,8 +10,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import sgtmelon.safedialog.utils.DialogOwner
-import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -42,7 +40,7 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
      */
     open val bundleValues: List<BundleValue> = listOf()
 
-    protected val open: OpenState = OpenState(lifecycle)
+    protected val open: OpenState by lazy { OpenState(lifecycle) }
     protected val parentOpen: OpenState? get() = (activity as? BindingActivity<*>)?.open
 
     override fun onCreateView(

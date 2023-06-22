@@ -12,7 +12,7 @@ class DevelopViewModelImpl(
 ) : ViewModel(),
     DevelopViewModel {
 
-    override val randomNoteId: Flow<Long> get() = flow { emit(getRandomNoteId()) }
+    override val randomNoteId: Flow<Long?> get() = flow { emit(getRandomNoteId()) }
 
     override fun resetPreferences() = resetPreferences.invoke()
 

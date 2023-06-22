@@ -63,7 +63,11 @@ class DevelopFragment : PreferenceFragment() {
 
     private fun openRandomAlarm(context: Context) {
         viewModel.randomNoteId.collect(owner = this) { id ->
-            startActivity(Screens.Splash.toAlarm(context, id))
+            if (id == null) {
+                system?.toast?.show(context, text = "You don't have notes")
+            } else {
+                startActivity(Screens.Splash.toAlarm(context, id))
+            }
         }
     }
 }

@@ -101,8 +101,8 @@ class DevelopRepoImpl(
         return list
     }
 
-    override suspend fun getRandomNoteId(): Long {
-        return noteDataSource.getList(isBin = false).random().id
+    override suspend fun getRandomNoteId(): Long? {
+        return noteDataSource.getList(isBin = false).randomOrNull()?.id
     }
 
     override fun resetPreferences() = preferences.clear()
