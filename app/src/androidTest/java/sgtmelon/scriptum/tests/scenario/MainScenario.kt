@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.scenario.main
+package sgtmelon.scriptum.tests.scenario
 
 import sgtmelon.scriptum.infrastructure.dialogs.sheet.AddSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.MainPage

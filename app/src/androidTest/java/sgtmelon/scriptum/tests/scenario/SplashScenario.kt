@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.scenario.splash
+package sgtmelon.scriptum.tests.scenario
 
 import android.content.Intent
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
