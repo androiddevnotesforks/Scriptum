@@ -10,7 +10,6 @@ import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
@@ -18,6 +17,7 @@ import sgtmelon.test.cappuccino.matchers.ContentDescriptionMatcher
 import sgtmelon.test.cappuccino.matchers.CursorMatcher
 import sgtmelon.test.cappuccino.matchers.FocusMather
 import sgtmelon.test.cappuccino.matchers.ProgressMatcher
+import sgtmelon.test.cappuccino.matchers.SelectionMatcher
 import sgtmelon.test.cappuccino.matchers.TagMatcher
 import sgtmelon.test.cappuccino.matchers.card.CardBackgroundAttrMatcher
 import sgtmelon.test.cappuccino.matchers.card.CardElevationMatcher
@@ -101,6 +101,12 @@ fun Matcher<View>.withCursor(p: Int) = also {
     matchOnView(it, CursorMatcher(p))
 }
 
+fun Matcher<View>.withSelection(from: Int, to: Int) = also {
+    matchOnView(it, SelectionMatcher(from, to))
+}
+
+fun Matcher<View>.withSelection(text: String) = also { withSelection(0, text.length) }
+
 
 fun Matcher<View>.withTextColor(@AttrRes attrColor: Int) = also {
     matchOnView(it, TextAttrColorMatcher(attrColor))
@@ -115,7 +121,7 @@ fun Matcher<View>.withHint(
     @AttrRes attrColor: Int? = null,
     @DimenRes dimenId: Int? = null
 ) = also {
-    val allMatcher = CoreMatchers.allOf(
+    val allMatcher = allOf(
         ViewMatchers.withHint(stringId),
         ViewMatchers.withText("")
     )

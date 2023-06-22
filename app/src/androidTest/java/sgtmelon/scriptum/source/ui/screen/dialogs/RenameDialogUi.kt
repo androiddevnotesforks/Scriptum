@@ -15,6 +15,7 @@ import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
 import sgtmelon.test.cappuccino.utils.withHint
 import sgtmelon.test.cappuccino.utils.withImeAction
+import sgtmelon.test.cappuccino.utils.withSelection
 import sgtmelon.test.cappuccino.utils.withText
 import sgtmelon.test.cappuccino.utils.withTextColor
 
@@ -74,9 +75,18 @@ class RenameDialogUi(title: String) : UiPart(),
         }
     }
 
+    fun assertSelection(enter: String) {
+        renameEnter.withSelection(enter)
+    }
+
     companion object {
         inline operator fun invoke(func: RenameDialogUi.() -> Unit, title: String): RenameDialogUi {
-            return RenameDialogUi(title).apply { waitOpen { assert() } }.apply(func)
+            return RenameDialogUi(title).apply {
+                waitOpen {
+                    assertSelection(title)
+                    assert(title)
+                }
+            }.apply(func)
         }
     }
 }

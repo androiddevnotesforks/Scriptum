@@ -25,6 +25,10 @@ class RankRenameDialogTest : ParentUiTest(),
         assertItem(it)
     }
 
+    @Test fun applyEmpty() = launchRankItem(db.insertRank()) {
+        openRenameDialog(it.name) { enter(name = "", isEnabled = false) }
+    }
+
     @Test fun applySameName() = launchRankItem(db.insertRank()) {
         openRenameDialog(it.name) { enter(it.name, isEnabled = false) }
     }
