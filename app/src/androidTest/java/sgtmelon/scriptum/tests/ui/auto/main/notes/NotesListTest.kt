@@ -5,7 +5,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.ui.tests.launchNotes
 import sgtmelon.scriptum.source.ui.tests.launchNotesItem
@@ -13,16 +12,39 @@ import sgtmelon.scriptum.source.ui.tests.launchNotesList
 import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.scriptum.source.cases.list.ListScrollCase
 import sgtmelon.scriptum.source.cases.note.NoteOpenCase
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 
 /**
  * Test list for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesListTest : ParentUiTest(), ListContentCase, ListScrollCase, NoteOpenCase {
+class NotesListTest : ParentUiRotationTest(),
+    ListContentCase,
+    ListScrollCase,
+    NoteOpenCase {
 
     @Test override fun contentEmpty() = launchNotes(isEmpty = true)
 
     @Test override fun contentList() = launchNotesList { assertList(it) }
+
+    @Test override fun contentRotateEmpty() = launchMain {
+        openNotes(isEmpty = true) {
+            rotate.toSide()
+            assert(isEmpty = true)
+        }
+        assert(isFabVisible = true)
+    }
+
+    @Test override fun contentRotateList() = db.fillNotes().let {
+        launchMain {
+            openNotes {
+                rotate.toSide()
+                assert(isEmpty = false)
+                assertList(it)
+            }
+            assert(isFabVisible = true)
+        }
+    }
 
     @Test override fun listScroll() = launchNotesList { scrollThrough() }
 

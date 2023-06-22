@@ -14,7 +14,7 @@ import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 /**
  * Parent class for tests of [NoteDialogUi] inside [MainPage.NOTES].
  */
-abstract class NotesNoteDialogCase(private val type: NoteType) : ParentUiTest(),
+abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiTest(),
     DialogCloseCase {
 
     abstract fun insert(): NoteItem

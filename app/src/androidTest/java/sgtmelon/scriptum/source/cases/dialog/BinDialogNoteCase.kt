@@ -5,15 +5,16 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.source.ui.screen.dialogs.NoteDialogUi
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchBinItem
 import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
  * Parent class for tests of [NoteDialogUi] inside [MainPage.BIN].
  */
-abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
-    DialogCloseCase {
+abstract class BinDialogNoteCase(private val type: NoteType) : ParentUiRotationTest(),
+    DialogCloseCase,
+    DialogRotateCase {
 
     abstract fun insert(): NoteItem
 
@@ -46,8 +47,8 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
         }
     }
 
-    open fun todo_copy() {
-        TODO()
+    open fun copy() {
+        TODO("Finish")
 
         launchBinItem(insert()) {
             openNoteDialog(it) { copy() }
@@ -62,5 +63,23 @@ abstract class BinNoteDialogCase(private val type: NoteType) : ParentUiTest(),
             }
             openNotes(isEmpty = true)
         }
+    }
+
+    override fun rotateClose() = launchBinItem(insert()) {
+        openNoteDialog(it) {
+            rotate.toSide()
+            assert()
+            softClose()
+        }
+        assert(isEmpty = false)
+    }
+
+    override fun rotateWork() = launchBinItem(insert()) {
+        openNoteDialog(it) {
+            rotate.toSide()
+            /** Just check click listeners work fine. Doesn't matter what action to do. */
+            clear()
+        }
+        assert(isEmpty = true)
     }
 }

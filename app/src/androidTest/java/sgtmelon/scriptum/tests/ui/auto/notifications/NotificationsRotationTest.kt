@@ -5,10 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.source.ui.tests.launchNotifications
 import sgtmelon.scriptum.source.ui.tests.launchNotificationsItem
-import sgtmelon.scriptum.source.ui.tests.launchNotificationsList
-import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.scriptum.source.cases.note.NoteOpenCase
 
 /**
@@ -16,21 +13,7 @@ import sgtmelon.scriptum.source.cases.note.NoteOpenCase
  */
 @RunWith(AndroidJUnit4::class)
 class NotificationsRotationTest : ParentUiRotationTest(),
-    ListContentCase,
     NoteOpenCase {
-
-    @Test override fun contentEmpty() = launchNotifications(isEmpty = true) {
-        assert(isEmpty = true)
-        rotate.toSide()
-        assert(isEmpty = true)
-    }
-
-    @Test override fun contentList() = launchNotificationsList {
-        assert(isEmpty = false)
-        rotate.toSide()
-        assert(isEmpty = false)
-        assertList(it)
-    }
 
     @Test fun itemCancelAndSnackbar() = launchNotificationsItem(db.insertNote()) {
         repeat(times = 3) { _ ->

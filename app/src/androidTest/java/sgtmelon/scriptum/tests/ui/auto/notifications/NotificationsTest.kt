@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.source.provider.DateProvider.DATE_5
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchNotes
 import sgtmelon.scriptum.source.ui.tests.launchNotifications
 import sgtmelon.scriptum.source.ui.tests.launchNotificationsItem
@@ -14,12 +13,13 @@ import sgtmelon.scriptum.source.ui.tests.launchNotificationsList
 import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.scriptum.source.cases.list.ListScrollCase
 import sgtmelon.scriptum.source.cases.note.NoteOpenCase
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 
 /**
  * Test for [NotificationsActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationsTest : ParentUiTest(),
+class NotificationsTest : ParentUiRotationTest(),
     ListContentCase,
     ListScrollCase,
     NoteOpenCase {
@@ -27,6 +27,19 @@ class NotificationsTest : ParentUiTest(),
     @Test override fun contentEmpty() = launchNotifications(isEmpty = true)
 
     @Test override fun contentList() = launchNotificationsList { assertList(it) }
+
+    @Test override fun contentRotateEmpty() = launchNotifications(isEmpty = true) {
+        assert(isEmpty = true)
+        rotate.toSide()
+        assert(isEmpty = true)
+    }
+
+    @Test override fun contentRotateList() = launchNotificationsList {
+        assert(isEmpty = false)
+        rotate.toSide()
+        assert(isEmpty = false)
+        assertList(it)
+    }
 
     @Test override fun listScroll() = launchNotificationsList { scrollThrough() }
 

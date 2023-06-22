@@ -6,37 +6,14 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.source.ui.screen.main.NotesScreen
-
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.ui.tests.launchNotesItem
-import sgtmelon.scriptum.source.cases.list.ListContentCase
 
 /**
  * Test of [NotesFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotesRotationTest : ParentUiRotationTest(),
-    ListContentCase {
-
-    @Test override fun contentEmpty() = launchMain {
-        openNotes(isEmpty = true) {
-            rotate.toSide()
-            assert(isEmpty = true)
-        }
-        assert(isFabVisible = true)
-    }
-
-    @Test override fun contentList() = db.fillNotes().let {
-        launchMain {
-            openNotes {
-                rotate.toSide()
-                assert(isEmpty = false)
-                assertList(it)
-            }
-            assert(isFabVisible = true)
-        }
-    }
+class NotesRotationTest : ParentUiRotationTest() {
 
     @Test fun textNoteDialog() = launchNotesItem(db.insertText()) {
         openNoteDialog(it) {

@@ -10,22 +10,27 @@ import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchBinList
 import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
+import sgtmelon.scriptum.source.ui.screen.dialogs.message.ClearDialogUi
+import sgtmelon.scriptum.source.ui.screen.main.BinScreen
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 
 /**
  * Test clear dialog for [BinFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class BinClearDialogTest : ParentUiTest(),
-    DialogCloseCase {
+class BinDialogClearTest : ParentUiRotationTest(),
+    DialogCloseCase,
+    DialogRotateCase {
 
     @Test override fun close() = launchBinList {
         openClearDialog { softClose() }
         assert(isEmpty = false)
+        openClearDialog { negative() }
+        assert(isEmpty = false)
     }
 
     @Test fun work() = launchBinList {
-        openClearDialog { negative() }
-        assert(isEmpty = false)
         openClearDialog { positive() }
         assert(isEmpty = true)
     }
@@ -45,5 +50,30 @@ class BinClearDialogTest : ParentUiTest(),
             openRank { itemVisible() }
             openBin(isEmpty = true)
         }
+    }
+
+    @Test override fun rotateClose() = launchBinList {
+        assertRotationClose { softClose() }
+        rotate.toNormal()
+        assertRotationClose { negative() }
+    }
+
+    /** Allow to [closeDialog] in different ways. */
+    private fun BinScreen.assertRotationClose(closeDialog: ClearDialogUi.() -> Unit) {
+        openClearDialog {
+            rotate.toSide()
+            assert()
+            closeDialog(this)
+        }
+        assert(isEmpty = false)
+    }
+
+    @Test override fun rotateWork() = launchBinList {
+        openClearDialog {
+            rotate.toSide()
+            assert()
+            positive()
+        }
+        assert(isEmpty = true)
     }
 }

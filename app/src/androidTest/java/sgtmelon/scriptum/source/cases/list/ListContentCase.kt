@@ -5,4 +5,8 @@ interface ListContentCase {
     fun contentEmpty()
 
     fun contentList()
+
+    fun contentRotateEmpty()
+
+    fun contentRotateList()
 }

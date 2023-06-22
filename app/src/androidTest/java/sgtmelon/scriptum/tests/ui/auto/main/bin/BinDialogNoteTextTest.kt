@@ -7,17 +7,17 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
-import sgtmelon.scriptum.source.cases.dialog.BinNoteDialogCase
+import sgtmelon.scriptum.source.cases.dialog.BinDialogNoteCase
 
 /**
  * Test note dialog for [BinFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class BinNoteDialogRollTest : BinNoteDialogCase(NoteType.ROLL) {
+class BinDialogNoteTextTest : BinDialogNoteCase(NoteType.TEXT) {
 
-    override fun insert(): NoteItem = db.insertRollToBin()
+    override fun insert(): NoteItem = db.insertTextToBin()
 
-    override fun insert(entity: NoteEntity): NoteItem = db.insertRollToBin(entity)
+    override fun insert(entity: NoteEntity): NoteItem = db.insertTextToBin(entity)
 
     @Test override fun close() = super.close()
 
@@ -25,8 +25,12 @@ class BinNoteDialogRollTest : BinNoteDialogCase(NoteType.ROLL) {
 
     @Test override fun restore() = super.restore()
 
-    @Test override fun todo_copy() = super.todo_copy()
+    @Test override fun copy() = super.copy()
 
     @Test override fun clear() = super.clear()
+
+    @Test override fun rotateClose() = super.rotateClose()
+
+    @Test override fun rotateWork() = super.rotateWork()
 
 }

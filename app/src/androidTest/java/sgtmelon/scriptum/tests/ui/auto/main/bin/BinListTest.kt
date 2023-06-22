@@ -12,12 +12,14 @@ import sgtmelon.scriptum.source.ui.tests.launchBinList
 import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.scriptum.source.cases.list.ListScrollCase
 import sgtmelon.scriptum.source.cases.note.NoteOpenCase
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
  * Test list for [BinFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class BinListTest : ParentUiTest(),
+class BinListTest : ParentUiRotationTest(),
     ListContentCase,
     ListScrollCase,
     NoteOpenCase {
@@ -25,6 +27,25 @@ class BinListTest : ParentUiTest(),
     @Test override fun contentEmpty() = launchBin(isEmpty = true)
 
     @Test override fun contentList() = launchBinList { assertList(it) }
+
+    @Test override fun contentRotateEmpty() = launchMain {
+        openBin(isEmpty = true) {
+            rotate.toSide()
+            assert(isEmpty = true)
+        }
+        assert(isFabVisible = false)
+    }
+
+    @Test override fun contentRotateList() = db.fillBin().let {
+        launchMain {
+            openBin {
+                rotate.toSide()
+                assert(isEmpty = false)
+                assertList(it)
+            }
+            assert(isFabVisible = false)
+        }
+    }
 
     @Test override fun listScroll() = launchBinList { scrollThrough() }
 

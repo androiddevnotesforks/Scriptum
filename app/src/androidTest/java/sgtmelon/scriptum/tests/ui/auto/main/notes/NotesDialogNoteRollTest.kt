@@ -7,17 +7,18 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.source.cases.dialog.NotesNoteDialogCase
+import sgtmelon.scriptum.source.cases.dialog.NotesDialogNoteCase
+
 
 /**
  * Test note dialog for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesNoteDialogTextTest : NotesNoteDialogCase(NoteType.TEXT) {
+class NotesDialogNoteRollTest : NotesDialogNoteCase(NoteType.ROLL) {
 
-    override fun insert(): NoteItem = db.insertText()
+    override fun insert(): NoteItem = db.insertRoll()
 
-    override fun insert(entity: NoteEntity): NoteItem = db.insertText(entity)
+    override fun insert(entity: NoteEntity): NoteItem = db.insertRoll(entity)
 
     @Test override fun close() = super.close()
 

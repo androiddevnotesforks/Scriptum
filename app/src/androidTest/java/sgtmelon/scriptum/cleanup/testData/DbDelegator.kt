@@ -25,8 +25,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateComplete
 import sgtmelon.scriptum.source.RoomWorker
 import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.source.utils.NEXT_HOUR
-import sgtmelon.scriptum.tests.ui.auto.main.bin.BinNoteDialogRollTest
-import sgtmelon.scriptum.tests.ui.auto.main.notes.NotesNoteDialogTextTest
+import sgtmelon.scriptum.tests.ui.auto.main.bin.BinDialogNoteRollTest
+import sgtmelon.scriptum.tests.ui.auto.main.notes.NotesDialogNoteTextTest
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.nextString
 
@@ -50,7 +50,7 @@ class DbDelegator(
     //region CleanUp
 
     /**
-     * For [NotesNoteDialogTextTest] and [BinNoteDialogRollTest] need filled [NoteEntity.name] by default.
+     * For [NotesDialogNoteTextTest] and [BinDialogNoteRollTest] need filled [NoteEntity.name] by default.
      */
     val textNote: NoteEntity
         get() = NoteEntity().apply {
@@ -63,7 +63,7 @@ class DbDelegator(
         }
 
     /**
-     * For [NotesNoteDialogTextTest] and [BinNoteDialogRollTest] need filled [NoteEntity.name] by default.
+     * For [NotesDialogNoteTextTest] and [BinDialogNoteRollTest] need filled [NoteEntity.name] by default.
      */
     val rollNote: NoteEntity
         get() = NoteEntity().apply {
