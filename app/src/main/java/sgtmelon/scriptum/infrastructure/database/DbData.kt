@@ -74,7 +74,8 @@ object DbData {
         const val INDEX_NOTE_ID = "${TABLE}_NOTE_ID_INDEX"
 
         object Default {
-            val ID = null
+            /** Specify type for tests. */
+            val ID: Long? = null
             const val NOTE_ID = 0L
             const val POSITION = 0
             const val CHECK = false

@@ -25,10 +25,6 @@
     <dimen name="color_vertical_shift_space">1dp</dimen> <!--1dp-->
     <dimen name="color_horizontal_size">5.5dp</dimen> <!--1.5dp-->
 
-    <dimen name="button_borderless_text">16sp</dimen> <!--2sp-->
-    <dimen name="button_borderless_inside_vertical_space">14dp</dimen> <!--2dp-->
-    <dimen name="button_borderless_inside_horizontal_space">26dp</dimen> <!--2dp-->
-
     <!-- Info page dimens -->
 
     <dimen name="info_icon_size">152dp</dimen> <!--24dp-->

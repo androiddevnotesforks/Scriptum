@@ -7,7 +7,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 /**
  * Add [RollVisibleEntity].
  */
-@Suppress("KDocUnresolvedReference")
 object From7To8 {
 
     val value = object : Migration(7, 8) {

@@ -5,8 +5,6 @@ import android.view.View
 import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.safedialog.utils.DialogOwner
-import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.state.OpenState

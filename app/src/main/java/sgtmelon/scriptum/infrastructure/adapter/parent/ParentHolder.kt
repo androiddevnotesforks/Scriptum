@@ -23,6 +23,6 @@ abstract class ParentHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             return true
         }
 
-        return true
+        return false
     }
 }
