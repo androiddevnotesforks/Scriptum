@@ -6,7 +6,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchBinList
 import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase

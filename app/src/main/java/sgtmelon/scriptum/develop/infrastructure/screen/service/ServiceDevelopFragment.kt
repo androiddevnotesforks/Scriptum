@@ -10,7 +10,6 @@ import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.service.EternalService
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
-import sgtmelon.scriptum.test.Rectangle
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimation
 

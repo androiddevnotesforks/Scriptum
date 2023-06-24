@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
-import android.content.Context
 import android.content.IntentFilter
 import android.view.View
 import androidx.core.widget.doOnTextChanged

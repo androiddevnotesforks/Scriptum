@@ -3,7 +3,6 @@ package sgtmelon.safedialog.utils
 import android.app.Dialog
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import sgtmelon.safedialog.R
