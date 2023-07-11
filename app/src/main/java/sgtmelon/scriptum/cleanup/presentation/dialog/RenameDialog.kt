@@ -82,8 +82,10 @@ class RenameDialog : BlankButtonDialog(),
             setOnEditorActionListener(this@RenameDialog)
             doOnTextChanged { _, _, _, _ -> changeButtonEnable() }
 
-            setText(title)
-            selectAllText()
+            if (!isContentRestored) {
+                setText(title)
+                selectAllText()
+            }
         }
     }
 

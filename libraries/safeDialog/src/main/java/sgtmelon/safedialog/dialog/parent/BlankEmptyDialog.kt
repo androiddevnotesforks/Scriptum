@@ -15,6 +15,10 @@ import sgtmelon.safedialog.utils.safeShow
 abstract class BlankEmptyDialog : DialogFragment(),
     CreateDialog {
 
+    /** For example, detect dialog rotation case. */
+    protected var isContentRestored: Boolean = false
+        private set
+
     var dismissListener: DialogInterface.OnDismissListener? = null
 
     inline fun onDismiss(crossinline func: () -> Unit) {
@@ -46,7 +50,9 @@ abstract class BlankEmptyDialog : DialogFragment(),
      * Call inside [onCreateDialog] before create them.
      */
     @CallSuper
-    protected open fun onRestoreContentState(savedState: Bundle) = Unit
+    protected open fun onRestoreContentState(savedState: Bundle) {
+        isContentRestored = true
+    }
 
     /**
      * Function for restore content which was passed through setArgument function

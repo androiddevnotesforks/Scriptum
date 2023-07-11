@@ -25,7 +25,7 @@ class SplashWrongTest : ParentUiTest() {
      * TODO #FIX в данный момент не работает, надо добавить проверку id заметки на существование её
      *      в базе данных
      */
-    @Test fun bindTextNote() = launchSplashBind(db.getInvalidNote(NoteType.TEXT)) {
+    @Test fun todo_bindTextNote() = launchSplashBind(db.getInvalidNote(NoteType.TEXT)) {
         mainScreen { openNotes(isEmpty = true) }
     }
 
@@ -33,7 +33,7 @@ class SplashWrongTest : ParentUiTest() {
      * TODO #FIX в данный момент не работает, надо добавить проверку id заметки на существование её
      *      в базе данных
      */
-    @Test fun bindRollNote() = launchSplashBind(db.getInvalidNote(NoteType.ROLL)) {
+    @Test fun todo_bindRollNote() = launchSplashBind(db.getInvalidNote(NoteType.ROLL)) {
         mainScreen { openNotes(isEmpty = true) }
     }
 }
