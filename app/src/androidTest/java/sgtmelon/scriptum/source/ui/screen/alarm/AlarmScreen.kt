@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.source.ui.screen.alarm
 
-import java.util.Calendar
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
@@ -26,6 +25,7 @@ import sgtmelon.test.cappuccino.utils.withDrawableColor
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withTag
 import sgtmelon.test.cappuccino.utils.withText
+import java.util.Calendar
 
 /**
  * Class for UI control of [AlarmActivity].
@@ -103,7 +103,7 @@ class AlarmScreen(
         rippleContainer.isDisplayed().withTag(fillColor)
 
         logoView.isDisplayed()
-            .withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
+            .withSize(R.dimen.logo_medium_size, R.dimen.logo_medium_size)
             .withDrawableColor(R.mipmap.img_logo)
 
         recyclerView.isDisplayed()

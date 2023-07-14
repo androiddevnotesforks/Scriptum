@@ -4,13 +4,15 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import sgtmelon.extensions.getDimen
 import sgtmelon.safedialog.utils.DialogStorage
-import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.dialogs.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.databinding.ActivityAlarmBinding
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
@@ -18,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.converter.dialog.RepeatSheetData
+import sgtmelon.scriptum.infrastructure.dialogs.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Key
@@ -37,6 +40,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.test.idling.getIdling
 import sgtmelon.test.prod.RunPrivate
+import javax.inject.Inject
 
 /**
  * Screen with notification opened by timer.
@@ -106,7 +110,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     override fun setupInsets() {
         super.setupInsets()
 
-        binding?.logoView?.setMarginInsets(InsetsDir.TOP)
         binding?.buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
     }
 
@@ -220,7 +223,11 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         }
 
         system?.broadcast?.sendNotifyInfoBind()
-        startLogoShiftAnimation()
+
+        lifecycleScope.launch {
+            delay(resources.getInteger(R.integer.alarm_start_delay).toLong())
+            startLogoShiftAnimation()
+        }
     }
 
     private fun setupPlayer(stringUri: String) {
@@ -234,6 +241,9 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
 
     private fun startLogoShiftAnimation() {
         animation.startLogoTransition(binding, { onLogoTransitionEnd() }) {
+            binding?.logoView?.layoutParams?.height = getDimen(R.dimen.logo_medium_size)
+            binding?.logoView?.layoutParams?.width = getDimen(R.dimen.logo_medium_size)
+
             binding?.recyclerView?.makeVisible()
             binding?.buttonContainer?.makeVisible()
         }

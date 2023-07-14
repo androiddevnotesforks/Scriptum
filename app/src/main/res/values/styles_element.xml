@@ -393,10 +393,25 @@
     </style>
 
     <style name="Image.Logo">
-        <item name="android:layout_width">@dimen/icon_128dp</item>
-        <item name="android:layout_height">@dimen/icon_128dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:src">@mipmap/img_logo</item>
+    </style>
+
+    <style name="Image.Logo.Big">
+        <item name="android:layout_width">@dimen/logo_big_size</item>
+        <item name="android:layout_height">@dimen/logo_big_size</item>
+    </style>
+
+
+    <style name="Image.Logo.Medium">
+        <item name="android:layout_width">@dimen/logo_medium_size</item>
+        <item name="android:layout_height">@dimen/logo_medium_size</item>
+    </style>
+
+
+    <style name="Image.Logo.Small">
+        <item name="android:layout_width">@dimen/logo_small_size</item>
+        <item name="android:layout_height">@dimen/logo_small_size</item>
     </style>
 
     <style name="Image.Note">

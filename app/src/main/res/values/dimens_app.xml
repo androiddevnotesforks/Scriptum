@@ -19,7 +19,6 @@
     <dimen name="layout_1dp">1dp</dimen>
     <dimen name="layout_0dp">0dp</dimen>
 
-    <dimen name="icon_128dp">128dp</dimen>
     <dimen name="icon_48dp">48dp</dimen>
     <dimen name="icon_16dp">16dp</dimen>
 

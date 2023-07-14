@@ -31,7 +31,7 @@
 
             <ImageView
                 android:id="@+id/about_logo_image"
-                style="@style/Image.Logo"
+                style="@style/Image.Logo.Small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

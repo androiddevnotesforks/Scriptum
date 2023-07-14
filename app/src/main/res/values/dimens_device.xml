@@ -76,4 +76,9 @@
     <dimen name="snackbar_radius">8dp</dimen>
     <dimen name="snackbar_border">1dp</dimen>
 
+    <!--  TODO optimization for different screens  -->
+    <dimen name="logo_big_size">224dp</dimen>
+    <dimen name="logo_medium_size">160dp</dimen>
+    <dimen name="logo_small_size">128dp</dimen>
+
 </resources>

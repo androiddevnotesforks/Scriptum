@@ -27,12 +27,14 @@
 
         <ImageView
             android:id="@+id/logo_view"
-            style="@style/Image.Logo"
+            style="@style/Image.Logo.Big"
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toTopOf="@id/recycler_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:layout_width="@dimen/logo_medium_size"
+            tools:layout_height="@dimen/logo_medium_size"
             tools:alpha="0.5" />
 
         <androidx.recyclerview.widget.RecyclerView

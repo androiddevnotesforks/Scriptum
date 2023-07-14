@@ -41,7 +41,7 @@ class AboutDialogUi : UiPart(),
             .withBackgroundDrawable(R.drawable.bg_dialog)
 
         logoImage.isDisplayed()
-            .withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
+            .withSize(R.dimen.logo_small_size, R.dimen.logo_small_size)
             .withDrawable(R.mipmap.img_logo)
 
         appText.isDisplayed()

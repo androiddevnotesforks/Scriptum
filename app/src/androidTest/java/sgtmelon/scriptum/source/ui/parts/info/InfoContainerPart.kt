@@ -31,7 +31,7 @@ class InfoContainerPart(
 
         if (case.iconId != null) {
             iconImage.isDisplayed(isVisible) {
-                withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
+                withSize(R.dimen.info_icon_size, R.dimen.info_icon_size)
             }.withDrawableAttr(case.iconId, R.attr.clContent)
         } else {
             iconImage.isDisplayed(value = false)

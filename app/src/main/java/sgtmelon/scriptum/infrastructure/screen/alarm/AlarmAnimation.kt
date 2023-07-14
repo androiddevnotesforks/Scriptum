@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.alarm
 
 import android.animation.AnimatorSet
-import android.view.animation.AccelerateInterpolator
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
@@ -21,8 +21,12 @@ class AlarmAnimation {
     ) {
         if (binding == null) return
 
+        val resources = binding.parentContainer.context.resources
+        val duration = resources.getInteger(R.integer.alarm_start_time).toLong()
+
         val transition = AutoTransition()
-            .setInterpolator(AccelerateInterpolator())
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .setDuration(duration)
             .addTarget(binding.logoView)
             .addListener(object : TransitionListenerAdapter() {
                 override fun onTransitionEnd(transition: Transition) = onEnd()

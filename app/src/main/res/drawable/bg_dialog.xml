@@ -5,6 +5,6 @@
 
     <solid android:color="?attr/clPrimary" />
     <corners android:radius="@dimen/dialog_radius" />
-    <size tools:height="@dimen/icon_48dp" tools:width="@dimen/icon_128dp"/>
+    <size tools:height="48dp" tools:width="128dp"/>
 
 </shape>
