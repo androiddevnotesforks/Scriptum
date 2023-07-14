@@ -13,9 +13,9 @@
     <dimen name="text_card_space">12dp</dimen> <!--4dp-->
 
     <dimen name="recycler_vertical_margin">10dp</dimen> <!--6dp-->
-    <dimen name="recycler_horizontal_margin">12dp</dimen> <!--12dp-->
+    <dimen name="recycler_horizontal_margin">12dp</dimen> <!--11dp-->
     <dimen name="recycler_small_vertical_margin">8dp</dimen> <!--8dp-->
-    <dimen name="recycler_small_horizontal_margin">6dp</dimen> <!--6dp-->
+    <dimen name="recycler_small_horizontal_margin">6dp</dimen> <!--5dp-->
 
     <dimen name="toolbar_elevation">9dp</dimen> <!--1dp-->
 

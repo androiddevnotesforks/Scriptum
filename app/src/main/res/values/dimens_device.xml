@@ -14,9 +14,9 @@
     <dimen name="text_card_space">8dp</dimen>
 
     <dimen name="recycler_vertical_margin">4dp</dimen>
-    <dimen name="recycler_horizontal_margin">0dp</dimen>
+    <dimen name="recycler_horizontal_margin">1dp</dimen>
     <dimen name="recycler_small_vertical_margin">4dp</dimen>
-    <dimen name="recycler_small_horizontal_margin">0dp</dimen>
+    <dimen name="recycler_small_horizontal_margin">1dp</dimen>
 
     <dimen name="toolbar_elevation">8dp</dimen>
 
