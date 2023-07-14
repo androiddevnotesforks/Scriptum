@@ -7,15 +7,16 @@ import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.source.provider.DateProvider
 import sgtmelon.scriptum.source.ui.screen.dialogs.NoteDialogUi
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 
 /**
  * Parent class for tests of [NoteDialogUi] inside [MainPage.NOTES].
  */
-abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiTest(),
-    DialogCloseCase {
+abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiRotationTest(),
+    DialogCloseCase,
+    DialogRotateCase {
 
     abstract fun insert(): NoteItem
 
@@ -110,5 +111,23 @@ abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiTest(),
             }
             openBin()
         }
+    }
+
+    override fun rotateClose() = launchNotesItem(insert()) {
+        openNoteDialog(it) {
+            rotate.toSide()
+            assert()
+            softClose()
+        }
+        assert(isEmpty = false)
+    }
+
+    override fun rotateWork() = launchNotesItem(insert()) {
+        openNoteDialog(it) {
+            rotate.toSide()
+            /** Just check click listeners work fine. Doesn't matter what action to do. */
+            delete()
+        }
+        assert(isEmpty = true)
     }
 }

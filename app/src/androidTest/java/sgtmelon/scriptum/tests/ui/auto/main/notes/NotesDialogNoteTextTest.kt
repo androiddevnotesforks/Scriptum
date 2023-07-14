@@ -33,4 +33,8 @@ class NotesDialogNoteTextTest : NotesDialogNoteCase(NoteType.TEXT) {
 
     @Test override fun delete() = super.delete()
 
+    @Test override fun rotateClose() = super.rotateClose()
+
+    @Test override fun rotateWork() = super.rotateWork()
+
 }

@@ -15,20 +15,6 @@ import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 @RunWith(AndroidJUnit4::class)
 class NotesRotationTest : ParentUiRotationTest() {
 
-    @Test fun textNoteDialog() = launchNotesItem(db.insertText()) {
-        openNoteDialog(it) {
-            rotate.toSide()
-            assert()
-        }
-    }
-
-    @Test fun rollNoteDialog() = launchNotesItem(db.insertRoll()) {
-        openNoteDialog(it) {
-            rotate.toSide()
-            assert()
-        }
-    }
-
     @Test fun dateDialog() = launchNotesItem(db.insertNote()) {
         checkDateRotate(it)
     }
