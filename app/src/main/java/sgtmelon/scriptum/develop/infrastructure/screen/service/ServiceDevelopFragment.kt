@@ -2,7 +2,6 @@ package sgtmelon.scriptum.develop.infrastructure.screen.service
 
 import android.content.Context
 import android.content.IntentFilter
-import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.develop.infrastructure.receiver.DevelopScreenReceiver
@@ -11,13 +10,14 @@ import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.service.EternalService
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
-import sgtmelon.textDotAnim.DotAnimation
+import sgtmelon.textDotAnim.DotAnimationImpl
+import javax.inject.Inject
 
 /**
  * Fragment of service preferences.
  */
 class ServiceDevelopFragment : PreferenceFragment(),
-    DotAnimation.Callback,
+    DotAnimationImpl.Callback,
     DevelopScreenReceiver.Callback {
 
     override val xmlId: Int = R.xml.preference_service
@@ -26,7 +26,7 @@ class ServiceDevelopFragment : PreferenceFragment(),
 
     @Inject lateinit var viewModel: ServiceDevelopViewModel
 
-    private val dotAnimation = DotAnimation(lifecycle, DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimationImpl(lifecycle, DotAnimType.COUNT, callback = this)
 
     private val receiver = DevelopScreenReceiver[this]
 

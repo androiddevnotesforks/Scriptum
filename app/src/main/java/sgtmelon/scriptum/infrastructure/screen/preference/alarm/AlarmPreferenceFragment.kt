@@ -4,7 +4,6 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IntRange
-import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.safedialog.dialog.MultipleDialog
@@ -27,13 +26,14 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isGranted
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestPermission
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
-import sgtmelon.textDotAnim.DotAnimation
+import sgtmelon.textDotAnim.DotAnimationImpl
+import javax.inject.Inject
 
 /**
  * Fragment of notification (alarm) preferences.
  */
 class AlarmPreferenceFragment : PreferenceFragment(),
-    DotAnimation.Callback {
+    DotAnimationImpl.Callback {
 
     override val xmlId: Int = R.xml.preference_alarm
 
@@ -70,7 +70,7 @@ class AlarmPreferenceFragment : PreferenceFragment(),
         setup = { setupVolumeDialog(it) }
     )
 
-    private val dotAnimation = DotAnimation(lifecycle, DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimationImpl(lifecycle, DotAnimType.COUNT, callback = this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

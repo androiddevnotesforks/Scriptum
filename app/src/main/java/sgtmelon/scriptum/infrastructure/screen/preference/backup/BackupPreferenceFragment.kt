@@ -4,7 +4,6 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.extensions.emptyString
 import sgtmelon.safedialog.dialog.MessageDialog
@@ -28,13 +27,14 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.requestPermission
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
-import sgtmelon.textDotAnim.DotAnimation
+import sgtmelon.textDotAnim.DotAnimationImpl
+import javax.inject.Inject
 
 /**
  * Fragment of backup preferences.
  */
 class BackupPreferenceFragment : PreferenceFragment(),
-    DotAnimation.Callback {
+    DotAnimationImpl.Callback {
 
     // TODO move dialog creation/opening inside another class (this decrease file length)
 
@@ -78,7 +78,7 @@ class BackupPreferenceFragment : PreferenceFragment(),
         setup = { setupLoadingDialog(it) }
     )
 
-    private val dotAnimation = DotAnimation(lifecycle, DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimationImpl(lifecycle, DotAnimType.COUNT, callback = this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
