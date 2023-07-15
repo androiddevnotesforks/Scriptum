@@ -18,7 +18,6 @@ class PreferencesImpl(
         get() = preferences.getBoolean(key.isFirstStart, def.isFirstStart)
         set(value) = edit { putBoolean(key.isFirstStart, value) }
 
-    /** Removed from use (Intro screen) since: 04.11.22 */
     override var showNotificationsHelp: Boolean
         get() = preferences.getBoolean(key.showNotificationsHelp, def.showNotificationsHelp)
         set(value) = edit { putBoolean(key.showNotificationsHelp, value) }
