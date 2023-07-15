@@ -28,6 +28,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimationImpl
+import sgtmelon.textDotAnim.DotText
 import javax.inject.Inject
 
 /**
@@ -165,7 +166,7 @@ class BackupPreferenceFragment : PreferenceFragment(),
         }
     }
 
-    private fun updateImportSummary(text: String) {
+    private fun updateImportSummary(text: CharSequence) {
         binding.importButton?.summary = text
     }
 
@@ -331,6 +332,6 @@ class BackupPreferenceFragment : PreferenceFragment(),
 
     //endregion
 
-    override fun onDotAnimationUpdate(text: String) = updateImportSummary(text)
+    override fun onDotAnimationUpdate(text: DotText) = updateImportSummary(text.value)
 
 }

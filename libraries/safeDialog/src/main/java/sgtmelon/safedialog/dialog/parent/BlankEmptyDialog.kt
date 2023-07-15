@@ -68,9 +68,7 @@ abstract class BlankEmptyDialog : DialogFragment(),
         setupView()
     }
 
-    /**
-     * Func for setup child some view's of custom view
-     */
+    /** Func for setup child some view's of custom view. */
     @CallSuper
     protected open fun setupView() = Unit
 

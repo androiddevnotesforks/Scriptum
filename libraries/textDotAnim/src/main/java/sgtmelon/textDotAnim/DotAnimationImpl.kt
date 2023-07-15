@@ -113,9 +113,8 @@ class DotAnimationImpl private constructor(
                 /** Need for skip of duplicated values. */
                 lastValue = value
 
-                val text = list.getOrNull(value)
-                if (text != null) {
-                    callback.onDotAnimationUpdate(text.toString())
+                list.getOrNull(value)?.let { text ->
+                    callback.onDotAnimationUpdate(DotText(text))
                 }
             }
         }
@@ -135,7 +134,7 @@ class DotAnimationImpl private constructor(
 
     /** Inside this callback need call [TextView.setText] or something similar. */
     interface Callback {
-        fun onDotAnimationUpdate(text: String)
+        fun onDotAnimationUpdate(text: DotText)
     }
 
     companion object {

@@ -10,11 +10,11 @@ import sgtmelon.safedialog.utils.applyTransparentBackground
 import sgtmelon.scriptum.R
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimationImpl
+import sgtmelon.textDotAnim.DotText
 
 /**
  * Dialog with endless progress bar and loading text.
  */
-// TODO move into safedialogs
 class LoadingDialog : BlankEmptyDialog(),
     DotAnimationImpl.Callback {
 
@@ -45,7 +45,7 @@ class LoadingDialog : BlankEmptyDialog(),
         dotAnimation.stop()
     }
 
-    override fun onDotAnimationUpdate(text: String) {
-        loadingText?.text = text
+    override fun onDotAnimationUpdate(text: DotText) {
+        loadingText?.text = text.value
     }
 }

@@ -11,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.service.EternalService
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimationImpl
+import sgtmelon.textDotAnim.DotText
 import javax.inject.Inject
 
 /**
@@ -88,8 +89,8 @@ class ServiceDevelopFragment : PreferenceFragment(),
 
     //endregion
 
-    override fun onDotAnimationUpdate(text: String) {
-        binding.serviceRefreshButton?.summary = text
+    override fun onDotAnimationUpdate(text: DotText) {
+        binding.serviceRefreshButton?.summary = text.value
     }
 
     override fun onReceiveEternalServicePong() {
