@@ -9,11 +9,11 @@ import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.safedialog.dialog.time.TimeDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
-import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
+import sgtmelon.scriptum.infrastructure.dialogs.AboutDialog
+import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.infrastructure.dialogs.sheet.AddSheetDialog
 import sgtmelon.scriptum.infrastructure.dialogs.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType

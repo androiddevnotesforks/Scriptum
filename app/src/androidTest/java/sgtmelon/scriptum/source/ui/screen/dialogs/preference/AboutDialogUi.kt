@@ -2,7 +2,7 @@ package sgtmelon.scriptum.source.ui.screen.dialogs.preference
 
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
+import sgtmelon.scriptum.infrastructure.dialogs.AboutDialog
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.scriptum.source.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click

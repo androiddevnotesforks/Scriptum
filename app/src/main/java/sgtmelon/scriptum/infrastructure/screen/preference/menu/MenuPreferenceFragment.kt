@@ -5,11 +5,10 @@ import android.view.View
 import androidx.preference.Preference
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.safedialog.utils.DialogStorage
-import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
+import sgtmelon.scriptum.infrastructure.dialogs.AboutDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.screen.Screens
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.screen.theme.ThemeChangeCallback
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.startMarketActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.startUrlActivity
+import javax.inject.Inject
 
 /**
  * Fragment with main preference menu
