@@ -11,7 +11,7 @@ import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
+import sgtmelon.scriptum.infrastructure.dialogs.LoadingDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.dialog
+package sgtmelon.scriptum.infrastructure.dialogs
 
 import android.app.Dialog
 import android.content.Context
