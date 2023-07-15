@@ -20,7 +20,7 @@ class LoadingDialog : BlankEmptyDialog(),
 
     private val loadingText get() = dialog?.findViewById<TextView>(R.id.loading_text)
 
-    private val dotAnimation = DotAnimationImpl(lifecycle, DotAnimType.SPAN, callback = this)
+    private val dotAnimation = DotAnimationImpl[lifecycle, DotAnimType.SPAN, this]
 
     override fun createDialog(context: Context): Dialog {
         return AlertDialog.Builder(context)

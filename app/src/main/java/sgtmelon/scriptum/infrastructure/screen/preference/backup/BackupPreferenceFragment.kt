@@ -78,7 +78,7 @@ class BackupPreferenceFragment : PreferenceFragment(),
         setup = { setupLoadingDialog(it) }
     )
 
-    private val dotAnimation = DotAnimationImpl(lifecycle, DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimationImpl[lifecycle, DotAnimType.COUNT, this]
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

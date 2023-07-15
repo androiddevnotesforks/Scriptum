@@ -12,7 +12,7 @@ import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 /**
  * Receiver for open [AlarmActivity] by time.
  */
-class AlarmActionReceiver : BroadcastReceiver() {
+class AlarmActionReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return

@@ -20,11 +20,12 @@ import sgtmelon.text.dotanim.R
 /**
  * Class for help animate [TextView] ending with loading dots.
  */
-class DotAnimationImpl(
+class DotAnimationImpl private constructor(
     lifecycle: Lifecycle?,
     private val type: DotAnimType,
     private val callback: Callback
-) : DefaultLifecycleObserver {
+) : DefaultLifecycleObserver,
+    DotAnimation {
 
     init {
         lifecycle?.addObserver(this)
@@ -37,8 +38,8 @@ class DotAnimationImpl(
 
     private var animator: ValueAnimator? = null
 
-    fun start(context: Context?, @StringRes stringId: Int) = apply {
-        if (context == null) return@apply
+    override fun start(context: Context?, @StringRes stringId: Int) {
+        if (context == null) return
 
         getIdling().start(IDLING_TAG)
 
@@ -120,7 +121,7 @@ class DotAnimationImpl(
         }
     }
 
-    fun stop() {
+    override fun stop() {
         /**
          * Need call removeAllListeners before cancel, otherwise without it animator will
          * not stop correctly.
@@ -132,9 +133,7 @@ class DotAnimationImpl(
         getIdling().stop(IDLING_TAG)
     }
 
-    /**
-     * Inside this callback need call [TextView.setText] or something similar.
-     */
+    /** Inside this callback need call [TextView.setText] or something similar. */
     interface Callback {
         fun onDotAnimationUpdate(text: String)
     }
@@ -143,5 +142,13 @@ class DotAnimationImpl(
         const val DOT_COUNT = 3
 
         private const val IDLING_TAG = "DOT_ANIM"
+
+        operator fun get(
+            lifecycle: Lifecycle?,
+            type: DotAnimType,
+            callback: Callback
+        ): DotAnimation {
+            return DotAnimationImpl(lifecycle, type, callback)
+        }
     }
 }

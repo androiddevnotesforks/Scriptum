@@ -26,7 +26,7 @@ class ServiceDevelopFragment : PreferenceFragment(),
 
     @Inject lateinit var viewModel: ServiceDevelopViewModel
 
-    private val dotAnimation = DotAnimationImpl(lifecycle, DotAnimType.COUNT, callback = this)
+    private val dotAnimation = DotAnimationImpl[lifecycle, DotAnimType.COUNT, this]
 
     private val receiver = DevelopScreenReceiver[this]
 
