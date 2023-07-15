@@ -33,7 +33,7 @@
     </integer-array>
 
     <string name="pref_alarm_melody" translatable="false"/>
-    <integer name="pref_alarm_volume">75</integer>
+    <integer name="pref_alarm_volume">20</integer>
     <bool name="pref_alarm_increase">false</bool>
 
 </resources>
