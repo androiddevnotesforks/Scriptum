@@ -2,14 +2,20 @@ package sgtmelon.scriptum.infrastructure.model.state
 
 import android.app.Activity
 import android.content.pm.PackageManager
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verifySequence
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.scriptum.data.model.PermissionKey
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [PermissionState].
@@ -17,24 +23,70 @@ import sgtmelon.test.common.nextString
 class PermissionStateTest : ParentTest() {
 
     @MockK lateinit var activity: Activity
+    @MockK lateinit var viewModel: PermissionViewModel
 
-    private val permission = nextString()
-    private val state by lazy { PermissionState(permission) }
+    private val value = nextString()
+    private val key = PermissionKey(value)
+    private val state by lazy { PermissionState(key) }
 
-    @Test fun getResult() {
-        assertNull(state.getResult(activity = null))
-
-        every { activity.checkSelfPermission(permission) } returns PackageManager.PERMISSION_GRANTED
-        assertEquals(state.getResult(activity), PermissionResult.GRANTED)
-
-        every { activity.checkSelfPermission(permission) } returns PackageManager.PERMISSION_DENIED
-        every { activity.shouldShowRequestPermissionRationale(permission) } returns false
-        assertEquals(state.getResult(activity), PermissionResult.FORBIDDEN)
-
-        every { activity.shouldShowRequestPermissionRationale(permission) } returns true
-        assertEquals(state.getResult(activity), PermissionResult.ASK)
-
-        assertNull(PermissionState(permission).getResult(activity = null))
+    @After override fun tearDown() {
+        super.tearDown()
+        confirmVerified(activity, viewModel)
     }
 
+    @Test fun `getResult with null activity`() {
+        assertNull(state.getResult(activity = null, viewModel))
+    }
+
+    @Test fun `getResult granted`() {
+        every { activity.checkSelfPermission(value) } returns PackageManager.PERMISSION_GRANTED
+        every { activity.shouldShowRequestPermissionRationale(value) } returns Random.nextBoolean()
+        every { viewModel.isCalled(key) } returns Random.nextBoolean()
+
+        assertEquals(state.getResult(activity, viewModel), PermissionResult.GRANTED)
+
+        verifySequence {
+            activity.checkSelfPermission(value)
+            activity.shouldShowRequestPermissionRationale(value)
+            viewModel.isCalled(key)
+        }
+    }
+
+    @Test fun `getResult forbidden`() {
+        every { activity.checkSelfPermission(value) } returns PackageManager.PERMISSION_DENIED
+        every { activity.shouldShowRequestPermissionRationale(value) } returns false
+        every { viewModel.isCalled(key) } returns true
+
+        assertEquals(state.getResult(activity, viewModel), PermissionResult.FORBIDDEN)
+
+        verifySequence {
+            activity.checkSelfPermission(value)
+            activity.shouldShowRequestPermissionRationale(value)
+            viewModel.isCalled(key)
+        }
+    }
+
+    @Test fun `getResult ask`() {
+        every { activity.checkSelfPermission(value) } returns PackageManager.PERMISSION_DENIED
+
+        every { activity.shouldShowRequestPermissionRationale(value) } returns false
+        every { viewModel.isCalled(key) } returns false
+        assertEquals(state.getResult(activity, viewModel), PermissionResult.ASK)
+
+        every { activity.shouldShowRequestPermissionRationale(value) } returns true
+        every { viewModel.isCalled(key) } returns true
+        assertEquals(state.getResult(activity, viewModel), PermissionResult.ASK)
+
+        every { activity.shouldShowRequestPermissionRationale(value) } returns true
+        every { viewModel.isCalled(key) } returns false
+        assertEquals(state.getResult(activity, viewModel), PermissionResult.ASK)
+
+        verifySequence {
+            repeat(times = 3) {
+                activity.checkSelfPermission(value)
+                activity.shouldShowRequestPermissionRationale(value)
+                viewModel.isCalled(key)
+            }
+        }
+    }
 }
