@@ -8,7 +8,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
-import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -18,6 +17,7 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
+import sgtmelon.scriptum.data.model.PermissionKey
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ParentEnumConverter
@@ -37,6 +37,7 @@ import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [PreferencesRepoImpl].
@@ -174,6 +175,28 @@ class PreferencesRepoImplTest : ParentTest() {
         { repo.showNotificationsHelp = it }
     )
 
+    @Test fun isPermissionCalled() {
+        val key = PermissionKey(nextString())
+        val result = Random.nextBoolean()
+
+        every { dataSource.isPermissionCalled(key) } returns result
+        assertEquals(repo.isPermissionCalled(key), result)
+
+        verifySequence {
+            dataSource.isPermissionCalled(key)
+        }
+    }
+
+    @Test fun setPermissionCalled() {
+        val key = PermissionKey(nextString())
+
+        every { dataSource.setPermissionCalled(key) } returns Unit
+        repo.setPermissionCalled(key)
+
+        verifySequence {
+            dataSource.setPermissionCalled(key)
+        }
+    }
 
     // App settings
 
