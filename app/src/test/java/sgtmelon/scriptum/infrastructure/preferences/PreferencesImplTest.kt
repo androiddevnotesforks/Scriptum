@@ -4,8 +4,8 @@ import android.content.SharedPreferences
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verifySequence
-import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -14,6 +14,7 @@ import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvi
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [PreferencesImpl].
@@ -38,6 +39,7 @@ class PreferencesImplTest : ParentTest() {
         every { preferencesEditor.putBoolean(any(), any()) } returns preferencesEditor
         every { preferencesEditor.putInt(any(), any()) } returns preferencesEditor
         every { preferencesEditor.putString(any(), any()) } returns preferencesEditor
+        every { preferencesEditor.putStringSet(any(), any()) } returns preferencesEditor
         every { preferencesEditor.clear() } returns preferencesEditor
     }
 
@@ -116,6 +118,36 @@ class PreferencesImplTest : ParentTest() {
         }
     }
 
+    private fun getStringSetTest(
+        keyFunc: () -> String,
+        defFunc: () -> Set<String>,
+        runFunc: () -> Set<String>
+    ) {
+        val key = nextString()
+        val def = mockk<Set<String>>()
+        val value = mockk<Set<String>>()
+
+        every { keyFunc() } returns key
+        every { defFunc() } returns def
+
+        every { sharedPreferences.getStringSet(key, def) } returns null
+        assertEquals(runFunc(), def)
+
+        every { sharedPreferences.getStringSet(key, def) } returns value
+        assertEquals(runFunc(), value)
+
+        verifySequence {
+            keyFunc()
+            defFunc()
+            sharedPreferences.getStringSet(key, def)
+            defFunc()
+
+            keyFunc()
+            defFunc()
+            sharedPreferences.getStringSet(key, def)
+        }
+    }
+
     private fun <T> setTest(value: T, keyFunc: () -> String, runFunc: (value: T) -> Unit) {
         val key = nextString()
 
@@ -125,12 +157,16 @@ class PreferencesImplTest : ParentTest() {
         verifySequence {
             sharedPreferences.edit()
             keyFunc()
+
+            @Suppress("UNCHECKED_CAST")
             when (value) {
                 is Int -> preferencesEditor.putInt(key, value)
                 is Boolean -> preferencesEditor.putBoolean(key, value)
                 is String -> preferencesEditor.putString(key, value)
+                is Set<*> -> preferencesEditor.putStringSet(key, value as Set<String>)
                 else -> getIllegalException()
             }
+
             preferencesEditor.apply()
         }
     }
@@ -161,6 +197,18 @@ class PreferencesImplTest : ParentTest() {
         Random.nextBoolean(),
         { keyProvider.showNotificationsHelp },
         { preferences.showNotificationsHelp = it }
+    )
+
+    @Test fun getPermissionHistory() = getStringSetTest(
+        { keyProvider.permissionHistory },
+        { defProvider.permissionHistory },
+        { preferences.permissionHistory }
+    )
+
+    @Test fun setPermissionHistory() = setTest(
+        mockk<Set<String>>(),
+        { keyProvider.permissionHistory },
+        { preferences.permissionHistory = it }
     )
 
     // App settings
