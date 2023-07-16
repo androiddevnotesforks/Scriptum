@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -80,6 +79,8 @@ import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModel
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModel
@@ -92,6 +93,7 @@ import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModel
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModel
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeViewModelImpl
+import javax.inject.Named
 
 @Module
 class ViewModelModule {
@@ -115,6 +117,16 @@ class ViewModelModule {
     ): ThemeViewModel {
         val factory = ViewModelFactory.getTheme(preferencesRepo)
         return ViewModelProvider(owner, factory)[ThemeViewModelImpl::class.java]
+    }
+
+    @Provides
+    @ActivityScope
+    fun providePermissionViewModel(
+        owner: ViewModelStoreOwner,
+        preferencesRepo: PreferencesRepo
+    ): PermissionViewModel {
+        val factory = ViewModelFactory.getPermission(preferencesRepo)
+        return ViewModelProvider(owner, factory)[PermissionViewModelImpl::class.java]
     }
 
 

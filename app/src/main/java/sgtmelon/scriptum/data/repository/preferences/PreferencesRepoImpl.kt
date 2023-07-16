@@ -1,11 +1,8 @@
 package sgtmelon.scriptum.data.repository.preferences
 
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
+import sgtmelon.scriptum.data.model.PermissionKey
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ParentEnumConverter
@@ -22,6 +19,10 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 class PreferencesRepoImpl(
     private val dataSource: PreferencesDataSource,
@@ -44,6 +45,10 @@ class PreferencesRepoImpl(
         set(value) {
             dataSource.showNotificationsHelp = value
         }
+
+    override fun isPermissionCalled(key: PermissionKey) = dataSource.isPermissionCalled(key)
+
+    override fun setPermissionCalled(key: PermissionKey) = dataSource.setPermissionCalled(key)
 
     // App settings
 

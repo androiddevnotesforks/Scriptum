@@ -1,10 +1,16 @@
 package sgtmelon.scriptum.data.dataSource
 
+import sgtmelon.scriptum.data.model.PermissionKey
+
 interface PreferencesDataSource {
 
     var isFirstStart: Boolean
 
     var showNotificationsHelp: Boolean
+    
+    fun isPermissionCalled(key: PermissionKey): Boolean
+
+    fun setPermissionCalled(key: PermissionKey)
 
     // App settings
 

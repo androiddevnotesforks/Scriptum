@@ -65,6 +65,7 @@ import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.BackupPreferenceViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceViewModelImpl
@@ -90,6 +91,10 @@ object ViewModelFactory {
         initializer {
             ThemeViewModelImpl(preferencesRepo)
         }
+    }
+
+    fun getPermission(preferencesRepo: PreferencesRepo): ViewModelProvider.Factory {
+        return viewModelFactory { initializer { PermissionViewModelImpl(preferencesRepo) } }
     }
 
     object MainScreen {

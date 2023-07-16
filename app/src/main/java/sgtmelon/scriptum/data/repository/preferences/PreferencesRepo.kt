@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.data.repository.preferences
 
+import sgtmelon.scriptum.data.model.PermissionKey
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
@@ -15,6 +16,10 @@ interface PreferencesRepo {
     var isFirstStart: Boolean
 
     var showNotificationsHelp: Boolean
+    
+    fun isPermissionCalled(key: PermissionKey): Boolean
+
+    fun setPermissionCalled(key: PermissionKey)
 
     // App settings
 

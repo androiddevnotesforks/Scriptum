@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 
-import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IntRange
@@ -15,11 +14,13 @@ import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.key.Permission
 import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.MelodySummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.UpdateMelodyState
 import sgtmelon.scriptum.infrastructure.utils.extensions.isGranted
@@ -41,8 +42,9 @@ class AlarmPreferenceFragment : PreferenceFragment(),
     private val binding = AlarmPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: AlarmPreferenceViewModel
+    @Inject lateinit var permissionViewModel: PermissionViewModel
 
-    private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private val permissionState = PermissionState(Permission.WriteExternalStorage)
 
     private val dialogs by lazy { DialogFactory.Preference.Alarm(resources) }
     private val repeatDialog = DialogStorage(
@@ -106,7 +108,8 @@ class AlarmPreferenceFragment : PreferenceFragment(),
         binding.repeatButton?.setOnClickListener { showRepeatDialog(viewModel.repeat) }
 
         binding.melodyButton?.setOnClickListener {
-            onMelodyPermission(permissionState.getResult(activity))
+            onMelodyPermission(permissionState.getResult(activity, permissionViewModel))
+
         }
 
         binding.volumeButton?.setOnClickListener { showVolumeDialog(viewModel.volumePercent) }
@@ -191,7 +194,9 @@ class AlarmPreferenceFragment : PreferenceFragment(),
 
     private fun setupMelodyAccessDialog(dialog: MessageDialog): Unit = with(dialog) {
         isCancelable = false
-        onPositiveClick { requestPermission(PermissionRequest.MELODY, permissionState) }
+        onPositiveClick {
+            requestPermission(PermissionRequest.MELODY, permissionState, permissionViewModel)
+        }
         onDismiss {
             melodyAccessDialog.release()
             open.clear()

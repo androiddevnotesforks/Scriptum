@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.preferences.dataSource
 
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
+import sgtmelon.scriptum.data.model.PermissionKey
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 class PreferencesDataSourceImpl(
@@ -18,6 +19,16 @@ class PreferencesDataSourceImpl(
         set(value) {
             preferences.showNotificationsHelp = value
         }
+
+    override fun isPermissionCalled(key: PermissionKey): Boolean {
+        return preferences.permissionHistory.contains(key.value)
+    }
+
+    override fun setPermissionCalled(key: PermissionKey) {
+        val history = preferences.permissionHistory.toMutableSet()
+        history.add(key.value)
+        preferences.permissionHistory = history
+    }
 
     // App settings
 

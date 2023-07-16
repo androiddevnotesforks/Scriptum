@@ -22,6 +22,11 @@ class PreferencesImpl(
         get() = preferences.getBoolean(key.showNotificationsHelp, def.showNotificationsHelp)
         set(value) = edit { putBoolean(key.showNotificationsHelp, value) }
 
+    override var permissionHistory: Set<String>
+        get() = preferences.getStringSet(key.permissionHistory, def.permissionHistory)
+            ?: def.permissionHistory
+        set(value) = edit { putStringSet(key.permissionHistory, value) }
+
     // App settings
 
     override var theme: Int

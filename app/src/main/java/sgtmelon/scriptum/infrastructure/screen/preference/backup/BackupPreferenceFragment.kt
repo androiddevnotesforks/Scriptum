@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
-import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -13,11 +12,13 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.dialogs.LoadingDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
+import sgtmelon.scriptum.infrastructure.model.key.Permission
 import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
 import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
@@ -44,8 +45,9 @@ class BackupPreferenceFragment : PreferenceFragment(),
     private val binding = BackupPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: BackupPreferenceViewModel
+    @Inject lateinit var permissionViewModel: PermissionViewModel
 
-    private val permissionState = PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    private val permissionState = PermissionState(Permission.WriteExternalStorage)
 
     private val dialogs by lazy { DialogFactory.Preference.Backup(resources) }
     private val exportPermissionDialog = DialogStorage(
@@ -97,7 +99,7 @@ class BackupPreferenceFragment : PreferenceFragment(),
         super.onResume()
 
         /** Update data after every return to screen - user may change files or permission. */
-        viewModel.updateData(permissionState.getResult(activity))
+        viewModel.updateData(permissionState.getResult(activity, permissionViewModel))
     }
 
     override fun onRequestPermissionsResult(
@@ -125,10 +127,10 @@ class BackupPreferenceFragment : PreferenceFragment(),
 
     override fun setupView() {
         binding.exportButton?.setOnClickListener {
-            onExportPermission(permissionState.getResult(activity))
+            onExportPermission(permissionState.getResult(activity, permissionViewModel))
         }
         binding.importButton?.setOnClickListener {
-            onImportPermission(permissionState.getResult(activity))
+            onImportPermission(permissionState.getResult(activity, permissionViewModel))
         }
     }
 
@@ -231,7 +233,9 @@ class BackupPreferenceFragment : PreferenceFragment(),
 
     private fun setupExportPermissionDialog(dialog: MessageDialog): Unit = with(dialog) {
         isCancelable = false
-        onPositiveClick { requestPermission(PermissionRequest.EXPORT, permissionState) }
+        onPositiveClick {
+            requestPermission(PermissionRequest.EXPORT, permissionState, permissionViewModel)
+        }
         onDismiss {
             exportPermissionDialog.release()
             open.clear()
@@ -248,7 +252,9 @@ class BackupPreferenceFragment : PreferenceFragment(),
 
     private fun setupImportPermissionDialog(dialog: MessageDialog): Unit = with(dialog) {
         isCancelable = false
-        onPositiveClick { requestPermission(PermissionRequest.IMPORT, permissionState) }
+        onPositiveClick {
+            requestPermission(PermissionRequest.IMPORT, permissionState, permissionViewModel)
+        }
         onDismiss {
             importPermissionDialog.release()
             open.clear()

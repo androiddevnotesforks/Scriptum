@@ -6,6 +6,8 @@ interface Preferences {
 
     var showNotificationsHelp: Boolean
 
+    var permissionHistory: Set<String>
+
     // App settings
 
     var theme: Int

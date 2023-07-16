@@ -12,6 +12,8 @@ class PreferencesDefProvider(resources: Resources) {
     val isFirstStart: Boolean = resources.getBoolean(R.bool.pref_first_start)
     val showNotificationsHelp: Boolean = resources.getBoolean(R.bool.pref_notifications_help)
 
+    val permissionHistory: Set<String> = emptySet()
+
     val theme: Int = resources.getInteger(R.integer.pref_app_theme)
 
     val isBackupSkip: Boolean = resources.getBoolean(R.bool.pref_backup_skip)
