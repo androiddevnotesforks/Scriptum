@@ -4,13 +4,18 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
-import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import sgtmelon.scriptum.data.model.PermissionKey
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.testing.parent.ParentTest
+import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [PreferencesDataSourceImpl].
@@ -71,6 +76,36 @@ class PreferencesDataSourceImplTest : ParentTest() {
         { preferences.showNotificationsHelp = it },
         { dataSource.showNotificationsHelp = it }
     )
+
+    @Test fun isPermissionCalled() {
+        val set = List(getRandomSize()) { nextString() }.toSet()
+
+        every { preferences.permissionHistory } returns set
+
+        assertFalse(dataSource.isPermissionCalled(PermissionKey(nextShortString())))
+        assertTrue(dataSource.isPermissionCalled(PermissionKey(set.random())))
+
+        verifySequence {
+            preferences.permissionHistory
+            preferences.permissionHistory
+        }
+    }
+
+    @Test fun setPermissionCalled() {
+        val set = List(getRandomSize()) { nextString() }.toSet()
+        val key = PermissionKey(nextShortString())
+        val newSet = set.toMutableSet().apply { add(key.value) }
+
+        every { preferences.permissionHistory } returns set
+        every { preferences.permissionHistory = newSet } returns Unit
+
+        dataSource.setPermissionCalled(key)
+
+        verifySequence {
+            preferences.permissionHistory
+            preferences.permissionHistory = newSet
+        }
+    }
 
     // App settings
 
