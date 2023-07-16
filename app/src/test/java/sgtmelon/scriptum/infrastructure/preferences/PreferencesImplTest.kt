@@ -54,10 +54,6 @@ class PreferencesImplTest : ParentTest() {
 
     private fun getIllegalException(): Nothing = throw IllegalStateException("Not supported type")
 
-    /**
-     * For [T] is String, please use [getStringTest]. Because it's make test of null returning
-     * state.
-     */
     private fun <T> getTest(
         pair: Pair<T, T>,
         keyFunc: () -> String,
@@ -88,63 +84,55 @@ class PreferencesImplTest : ParentTest() {
         }
     }
 
-    private fun getStringTest(
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> getNullableTest(
+        pair: Pair<T, T>,
         keyFunc: () -> String,
-        defFunc: () -> String,
-        runFunc: () -> String
+        defFunc: () -> T,
+        runFunc: () -> T
     ) {
         val key = nextString()
-        val def = nextString()
-        val value = nextString()
+        val (def, value) = pair
 
         every { keyFunc() } returns key
         every { defFunc() } returns def
 
-        every { sharedPreferences.getString(key, def) } returns null
-        assertEquals(runFunc(), def)
-
-        every { sharedPreferences.getString(key, def) } returns value
-        assertEquals(runFunc(), value)
-
-        verifySequence {
-            keyFunc()
-            defFunc()
-            sharedPreferences.getString(key, def)
-            defFunc()
-
-            keyFunc()
-            defFunc()
-            sharedPreferences.getString(key, def)
+        when (value) {
+            is String -> every { sharedPreferences.getString(key, def as String) } returns null
+            is Set<*> -> {
+                every { sharedPreferences.getStringSet(key, def as Set<String>) } returns null
+            }
+            else -> getIllegalException()
         }
-    }
-
-    private fun getStringSetTest(
-        keyFunc: () -> String,
-        defFunc: () -> Set<String>,
-        runFunc: () -> Set<String>
-    ) {
-        val key = nextString()
-        val def = mockk<Set<String>>()
-        val value = mockk<Set<String>>()
-
-        every { keyFunc() } returns key
-        every { defFunc() } returns def
-
-        every { sharedPreferences.getStringSet(key, def) } returns null
         assertEquals(runFunc(), def)
 
-        every { sharedPreferences.getStringSet(key, def) } returns value
+        when (value) {
+            is String -> every { sharedPreferences.getString(key, def as String) } returns value
+            is Set<*> -> {
+                def as Set<String>
+                every { sharedPreferences.getStringSet(key, def) } returns value as Set<String>
+            }
+            else -> getIllegalException()
+        }
         assertEquals(runFunc(), value)
+
+        fun verifyGet() {
+            when (value) {
+                is String -> sharedPreferences.getString(key, def as String)
+                is Set<*> -> sharedPreferences.getStringSet(key, def as Set<String>)
+                else -> getIllegalException()
+            }
+        }
 
         verifySequence {
             keyFunc()
             defFunc()
-            sharedPreferences.getStringSet(key, def)
+            verifyGet()
             defFunc()
 
             keyFunc()
             defFunc()
-            sharedPreferences.getStringSet(key, def)
+            verifyGet()
         }
     }
 
@@ -199,7 +187,8 @@ class PreferencesImplTest : ParentTest() {
         { preferences.showNotificationsHelp = it }
     )
 
-    @Test fun getPermissionHistory() = getStringSetTest(
+    @Test fun getPermissionHistory() = getNullableTest(
+        Pair(mockk(), mockk()),
         { keyProvider.permissionHistory },
         { defProvider.permissionHistory },
         { preferences.permissionHistory }
@@ -323,7 +312,8 @@ class PreferencesImplTest : ParentTest() {
         { preferences.repeat = it }
     )
 
-    @Test fun getSignal() = getStringTest(
+    @Test fun getSignal() = getNullableTest(
+        Pair(nextString(), nextString()),
         { keyProvider.signal },
         { defProvider.signal },
         { preferences.signal }
@@ -335,7 +325,8 @@ class PreferencesImplTest : ParentTest() {
         { preferences.signal = it }
     )
 
-    @Test fun getMelodyUri() = getStringTest(
+    @Test fun getMelodyUri() = getNullableTest(
+        Pair(nextString(), nextString()),
         { keyProvider.melodyUri },
         { defProvider.melodyUri },
         { preferences.melodyUri }
