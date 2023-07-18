@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.model.key
+package sgtmelon.scriptum.infrastructure.model.key.permission
 
 /**
  * Class identifying result of permission request:

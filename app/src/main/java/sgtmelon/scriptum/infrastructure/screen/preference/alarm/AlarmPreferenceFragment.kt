@@ -14,18 +14,18 @@ import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
-import sgtmelon.scriptum.infrastructure.model.key.Permission
-import sgtmelon.scriptum.infrastructure.model.key.PermissionRequest
-import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
+import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.MelodySummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.state.UpdateMelodyState
-import sgtmelon.scriptum.infrastructure.utils.extensions.isGranted
-import sgtmelon.scriptum.infrastructure.utils.extensions.requestPermission
+import sgtmelon.scriptum.infrastructure.utils.extensions.launch
+import sgtmelon.scriptum.infrastructure.utils.extensions.registerPermissionRequest
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.toPermissionResult
 import sgtmelon.textDotAnim.DotAnimType
 import sgtmelon.textDotAnim.DotAnimationImpl
 import sgtmelon.textDotAnim.DotText
@@ -44,7 +44,10 @@ class AlarmPreferenceFragment : PreferenceFragment(),
     @Inject lateinit var viewModel: AlarmPreferenceViewModel
     @Inject lateinit var permissionViewModel: PermissionViewModel
 
-    private val permissionState = PermissionState(Permission.WriteExternalStorage)
+    private val writePermissionState = PermissionState(Permission.WriteExternalStorage)
+    private val melodyPermissionRequest = registerPermissionRequest {
+        onMelodyPermission(it.toPermissionResult())
+    }
 
     private val dialogs by lazy { DialogFactory.Preference.Alarm(resources) }
     private val repeatDialog = DialogStorage(
@@ -87,29 +90,12 @@ class AlarmPreferenceFragment : PreferenceFragment(),
             .inject(fragment = this)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        val isGranted = grantResults.firstOrNull()?.isGranted() ?: return
-        val result = if (isGranted) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
-
-        when (PermissionRequest.values().getOrNull(requestCode)) {
-            PermissionRequest.MELODY -> onMelodyPermission(result)
-            else -> return
-        }
-    }
-
     override fun setupView() {
         binding.signalButton?.setOnClickListener { showSignalDialog(viewModel.signalTypeCheck) }
         binding.repeatButton?.setOnClickListener { showRepeatDialog(viewModel.repeat) }
 
         binding.melodyButton?.setOnClickListener {
-            onMelodyPermission(permissionState.getResult(activity, permissionViewModel))
-
+            onMelodyPermission(writePermissionState.getResult(activity, permissionViewModel))
         }
 
         binding.volumeButton?.setOnClickListener { showVolumeDialog(viewModel.volumePercent) }
@@ -195,7 +181,8 @@ class AlarmPreferenceFragment : PreferenceFragment(),
     private fun setupMelodyAccessDialog(dialog: MessageDialog): Unit = with(dialog) {
         isCancelable = false
         onPositiveClick {
-            requestPermission(PermissionRequest.MELODY, permissionState, permissionViewModel)
+            melodyPermissionRequest.launch(writePermissionState, permissionViewModel)
+//            requestPermission(PermissionRequest.MELODY, permissionState, permissionViewModel)
         }
         onDismiss {
             melodyAccessDialog.release()
@@ -205,7 +192,7 @@ class AlarmPreferenceFragment : PreferenceFragment(),
 
     private fun setupMelodyDialog(dialog: SingleDialog): Unit = with(dialog) {
         onItemClick { onMelodyClick(it) }
-        onPositiveClick { onMelodyApply(with(melodyDialog) { itemArray.getOrNull(check) }) }
+        onPositiveClick { onMelodyApply(itemArray.getOrNull(check)) }
         onDismiss {
             melodyDialog.release()
             open.clear()

@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
-import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState

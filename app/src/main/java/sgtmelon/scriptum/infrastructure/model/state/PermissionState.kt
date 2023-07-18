@@ -2,10 +2,10 @@ package sgtmelon.scriptum.infrastructure.model.state
 
 import android.app.Activity
 import sgtmelon.scriptum.data.model.PermissionKey
-import sgtmelon.scriptum.infrastructure.model.key.Permission
-import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
+import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
-import sgtmelon.scriptum.infrastructure.utils.extensions.isNotGranted
+import sgtmelon.scriptum.infrastructure.utils.extensions.isGranted
 import timber.log.Timber
 
 /**
@@ -35,14 +35,14 @@ class PermissionState(val key: PermissionKey) {
          * - Don't ask before: flag=-1, shouldShow=false
          * - After switch in settings: flag=-1, shouldShow=true
          */
-        return if (checkPermission.isNotGranted()) {
+        return if (checkPermission.isGranted()) {
+            PermissionResult.GRANTED
+        } else {
             if (showExplanation || !isCalled) {
                 PermissionResult.ASK
             } else {
                 PermissionResult.FORBIDDEN
             }
-        } else {
-            PermissionResult.GRANTED
         }
     }
 }

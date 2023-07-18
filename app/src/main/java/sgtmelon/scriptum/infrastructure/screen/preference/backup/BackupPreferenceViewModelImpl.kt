@@ -11,7 +11,7 @@ import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
-import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
