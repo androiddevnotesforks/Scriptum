@@ -2,16 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--
-          WRITE_EXTERNAL STORAGE implies READ_EXTERNAL_STORAGE, so you only need one of those,
-          not both
-    -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--
+          For Pre-33 versions: WRITE_EXTERNAL_STORAGE implies READ_EXTERNAL_STORAGE, so you only
+          need to request one of those, not both.
+    -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <!-- It's needed for API 33+ -->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>

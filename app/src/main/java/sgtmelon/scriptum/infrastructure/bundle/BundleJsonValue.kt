@@ -3,6 +3,10 @@ package sgtmelon.scriptum.infrastructure.bundle
 import android.os.Bundle
 import sgtmelon.scriptum.infrastructure.model.exception.BundleNullException
 
+/**
+ * Realization of [BundleValue] for Json classes, which need to [decode]/[encode] before it can be
+ * [get]/[save] from/to [Bundle].
+ */
 abstract class BundleJsonValue<T: Any>(
     private val key: String,
     private val defaultValue: T? = null

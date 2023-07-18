@@ -2,8 +2,12 @@ package sgtmelon.scriptum.infrastructure.bundle
 
 import android.os.Bundle
 import sgtmelon.scriptum.infrastructure.model.exception.BundleNullException
+import java.io.Serializable
 
-class BundleValueImpl<T : java.io.Serializable>(
+/**
+ * Realization of [BundleValue] for [Serializable] classes.
+ */
+class BundleValueImpl<T : Serializable>(
     private val key: String,
     private val defaultValue: T? = null
 ) : BundleValue {
