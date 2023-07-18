@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
-import sgtmelon.scriptum.infrastructure.model.key.PermissionResult
+import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
 
 /**

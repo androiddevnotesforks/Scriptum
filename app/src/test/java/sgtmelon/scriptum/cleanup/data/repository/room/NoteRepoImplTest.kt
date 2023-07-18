@@ -8,7 +8,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -27,9 +26,10 @@ import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onDelete
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
-import sgtmelon.scriptum.testing.getRandomSize
+import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [NoteRepoImpl].

@@ -4,7 +4,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.random.Random
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -13,8 +12,9 @@ import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.screen.preference.ParentPreferenceViewModelTest
-import sgtmelon.scriptum.testing.getRandomSize
+import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [AlarmPreferenceViewModelImpl].

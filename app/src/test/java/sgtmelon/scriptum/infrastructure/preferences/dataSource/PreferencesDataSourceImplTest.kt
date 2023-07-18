@@ -11,8 +11,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.scriptum.data.model.PermissionKey
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.testing.parent.ParentTest
+import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
 import kotlin.random.Random

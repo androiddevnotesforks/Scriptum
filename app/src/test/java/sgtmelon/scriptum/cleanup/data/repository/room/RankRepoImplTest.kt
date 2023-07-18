@@ -7,7 +7,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.spyk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertArrayEquals
@@ -24,9 +23,10 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
-import sgtmelon.scriptum.testing.getRandomSize
+import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [RankRepoImpl].

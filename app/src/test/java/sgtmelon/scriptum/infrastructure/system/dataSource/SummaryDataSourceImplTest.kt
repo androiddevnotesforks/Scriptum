@@ -5,8 +5,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verifySequence
-import java.util.Locale
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.R
@@ -18,9 +16,11 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
-import sgtmelon.scriptum.testing.getRandomSize
 import sgtmelon.scriptum.testing.parent.ParentTest
+import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
+import java.util.Locale
+import kotlin.random.Random
 
 /**
  * Test for [SummaryDataSourceImpl].

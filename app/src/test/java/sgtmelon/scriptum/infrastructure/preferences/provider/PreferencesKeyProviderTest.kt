@@ -29,6 +29,7 @@ class PreferencesKeyProviderTest : ParentTest() {
     @Test fun `correct links`() {
         val isFirstStart = nextString()
         val showNotificationsHelp = nextString()
+        val permissionHistory = nextString()
         val theme = nextString()
         val isBackupSkip = nextString()
         val sort = nextString()
@@ -46,6 +47,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         with(resources) {
             every { getString(R.string.pref_key_first_start) } returns isFirstStart
             every { getString(R.string.pref_key_notifications_help) } returns showNotificationsHelp
+            every { getString(R.string.pref_key_permission_history) } returns permissionHistory
             every { getString(R.string.pref_key_theme) } returns theme
             every { getString(R.string.pref_key_backup_skip) } returns isBackupSkip
             every { getString(R.string.pref_key_note_sort) } returns sort
@@ -62,6 +64,8 @@ class PreferencesKeyProviderTest : ParentTest() {
         }
 
         assertEquals(isFirstStart, providerKey.isFirstStart)
+        assertEquals(showNotificationsHelp, providerKey.showNotificationsHelp)
+        assertEquals(permissionHistory, providerKey.permissionHistory)
         assertEquals(theme, providerKey.theme)
         assertEquals(isBackupSkip, providerKey.isBackupSkip)
         assertEquals(sort, providerKey.sort)
@@ -79,6 +83,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         verifySequence {
             resources.getString(R.string.pref_key_first_start)
             resources.getString(R.string.pref_key_notifications_help)
+            resources.getString(R.string.pref_key_permission_history)
             resources.getString(R.string.pref_key_theme)
             resources.getString(R.string.pref_key_backup_skip)
             resources.getString(R.string.pref_key_note_sort)

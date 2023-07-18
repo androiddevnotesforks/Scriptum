@@ -5,15 +5,15 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import io.mockk.verifySequence
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.testing.getRandomSize
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
+import sgtmelon.scriptum.testing.parent.ParentTest
+import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [GetSignalSummaryUseCase].

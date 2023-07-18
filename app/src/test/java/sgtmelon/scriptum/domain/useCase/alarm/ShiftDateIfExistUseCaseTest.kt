@@ -4,16 +4,16 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
-import java.util.Calendar
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
-import sgtmelon.scriptum.testing.getRandomSize
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
+import sgtmelon.scriptum.testing.parent.ParentTest
+import sgtmelon.test.common.getRandomSize
+import java.util.Calendar
 
 /**
  * Test fun [ShiftDateIfExistUseCase].
