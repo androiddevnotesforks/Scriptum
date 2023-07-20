@@ -15,13 +15,17 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
 /**
  * Parent class for preference fragments.
  */
-abstract class PreferenceFragment : PreferenceFragmentCompat(),
+abstract class PreferenceFragment<T: PreferenceBinding> : PreferenceFragmentCompat(),
     UiInject,
     UiSetup,
+    UiRelease,
     DialogOwner,
     ReceiverRegistrar {
 
     @get:XmlRes abstract val xmlId: Int
+
+    private var _binding: T? = null
+    protected val binding: T? get() = _binding
 
     override val fm get() = parentFragmentManager
 
@@ -43,6 +47,7 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = createBinding()
         _system = SystemDelegatorFactory(view.context, lifecycle)
 
         bundleValues.forEach { it.get(bundle = savedInstanceState ?: arguments) }
@@ -52,8 +57,13 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
         setupUi()
     }
 
+    abstract fun createBinding(): T
+
     override fun onDestroyView() {
         super.onDestroyView()
+
+        releaseBinding()
+        _binding = null
 
         releaseSystem()
         _system = null
@@ -61,7 +71,9 @@ abstract class PreferenceFragment : PreferenceFragmentCompat(),
         unregisterReceivers()
     }
 
-    open fun releaseSystem() = Unit
+    override fun releaseBinding() {
+        binding?.release()
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

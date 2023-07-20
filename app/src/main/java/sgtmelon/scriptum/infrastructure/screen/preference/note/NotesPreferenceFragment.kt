@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.safedialog.utils.DialogStorage
-import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
@@ -14,15 +13,16 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
+import javax.inject.Inject
 
 /**
  * Fragment of notes preferences.
  */
-class NotesPreferenceFragment : PreferenceFragment() {
+class NotesPreferenceFragment : PreferenceFragment<NotesPreferenceBinding>() {
 
     override val xmlId: Int = R.xml.preference_notes
 
-    private val binding = NotesPreferenceBinding(fragment = this)
+    override fun createBinding(): NotesPreferenceBinding = NotesPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: NotesPreferenceViewModel
 
@@ -56,15 +56,15 @@ class NotesPreferenceFragment : PreferenceFragment() {
     }
 
     override fun setupView() {
-        binding.sortButton?.setOnClickListener { showSortDialog(viewModel.sort) }
-        binding.colorButton?.setOnClickListener { showDefaultColorDialog(viewModel.defaultColor) }
-        binding.savePeriodButton?.setOnClickListener { showSavePeriodDialog(viewModel.savePeriod) }
+        binding?.sortButton?.setOnClickListener { showSortDialog(viewModel.sort) }
+        binding?.colorButton?.setOnClickListener { showDefaultColorDialog(viewModel.defaultColor) }
+        binding?.savePeriodButton?.setOnClickListener { showSavePeriodDialog(viewModel.savePeriod) }
     }
 
     override fun setupObservers() {
-        viewModel.sortSummary.observe(this) { binding.sortButton?.summary = it }
-        viewModel.defaultColorSummary.observe(this) { binding.colorButton?.summary = it }
-        viewModel.savePeriodSummary.observe(this) { binding.savePeriodButton?.summary = it }
+        viewModel.sortSummary.observe(this) { binding?.sortButton?.summary = it }
+        viewModel.defaultColorSummary.observe(this) { binding?.colorButton?.summary = it }
+        viewModel.savePeriodSummary.observe(this) { binding?.savePeriodButton?.summary = it }
     }
 
     //region Dialogs setup

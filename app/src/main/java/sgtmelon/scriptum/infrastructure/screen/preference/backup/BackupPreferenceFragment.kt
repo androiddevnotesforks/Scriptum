@@ -34,14 +34,14 @@ import javax.inject.Inject
 /**
  * Fragment of backup preferences.
  */
-class BackupPreferenceFragment : PreferenceFragment(),
+class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
     DotAnimationImpl.Callback {
 
     // TODO move dialog creation/opening inside another class (this decrease file length)
 
     override val xmlId: Int = R.xml.preference_backup
 
-    private val binding = BackupPreferenceBinding(fragment = this)
+    override fun createBinding(): BackupPreferenceBinding = BackupPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: BackupPreferenceViewModel
     @Inject lateinit var permissionViewModel: PermissionViewModel
@@ -116,23 +116,23 @@ class BackupPreferenceFragment : PreferenceFragment(),
     }
 
     override fun setupView() {
-        binding.exportButton?.setOnClickListener {
+        binding?.exportButton?.setOnClickListener {
             onExportPermission(writePermissionState.getResult(activity, permissionViewModel))
         }
-        binding.importButton?.setOnClickListener {
+        binding?.importButton?.setOnClickListener {
             onImportPermission(writePermissionState.getResult(activity, permissionViewModel))
         }
     }
 
     override fun setupObservers() {
         viewModel.exportSummary.observe(this) { observeExportSummary(it) }
-        viewModel.exportEnabled.observe(this) { binding.exportButton?.isEnabled = it }
+        viewModel.exportEnabled.observe(this) { binding?.exportButton?.isEnabled = it }
         viewModel.importSummary.observe(this) { observeImportSummary(it) }
-        viewModel.importEnabled.observe(this) { binding.importButton?.isEnabled = it }
+        viewModel.importEnabled.observe(this) { binding?.importButton?.isEnabled = it }
     }
 
     private fun observeExportSummary(it: ExportSummaryState) {
-        binding.exportButton?.summary = when (it) {
+        binding?.exportButton?.summary = when (it) {
             ExportSummaryState.Permission -> getString(R.string.pref_summary_no_permission)
             ExportSummaryState.Empty -> emptyString()
         }
@@ -159,7 +159,7 @@ class BackupPreferenceFragment : PreferenceFragment(),
     }
 
     private fun updateImportSummary(text: CharSequence) {
-        binding.importButton?.summary = text
+        binding?.importButton?.summary = text
     }
 
     /**

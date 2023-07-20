@@ -3,11 +3,11 @@ package sgtmelon.scriptum.infrastructure.screen.preference.note
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceBinding
 
-class NotesPreferenceBinding(val fragment: PreferenceFragmentCompat) {
+class NotesPreferenceBinding(fragment: PreferenceFragmentCompat) : PreferenceBinding(fragment) {
 
-    val sortButton: Preference? get() = fragment.findPreference(R.string.pref_key_note_sort)
-    val colorButton: Preference? get() = fragment.findPreference(R.string.pref_key_note_color)
-    val savePeriodButton: Preference? get() = fragment.findPreference(R.string.pref_key_note_save_period)
+    val sortButton: Preference? get() = findPreference(R.string.pref_key_note_sort)
+    val colorButton: Preference? get() = findPreference(R.string.pref_key_note_color)
+    val savePeriodButton: Preference? get() = findPreference(R.string.pref_key_note_save_period)
 }

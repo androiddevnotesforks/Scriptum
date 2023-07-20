@@ -34,12 +34,12 @@ import javax.inject.Inject
 /**
  * Fragment of notification (alarm) preferences.
  */
-class AlarmPreferenceFragment : PreferenceFragment(),
+class AlarmPreferenceFragment : PreferenceFragment<AlarmPreferenceBinding>(),
     DotAnimationImpl.Callback {
 
     override val xmlId: Int = R.xml.preference_alarm
 
-    private val binding = AlarmPreferenceBinding(fragment = this)
+    override fun createBinding() = AlarmPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: AlarmPreferenceViewModel
     @Inject lateinit var permissionViewModel: PermissionViewModel
@@ -91,20 +91,20 @@ class AlarmPreferenceFragment : PreferenceFragment(),
     }
 
     override fun setupView() {
-        binding.signalButton?.setOnClickListener { showSignalDialog(viewModel.signalTypeCheck) }
-        binding.repeatButton?.setOnClickListener { showRepeatDialog(viewModel.repeat) }
+        binding?.signalButton?.setOnClickListener { showSignalDialog(viewModel.signalTypeCheck) }
+        binding?.repeatButton?.setOnClickListener { showRepeatDialog(viewModel.repeat) }
 
-        binding.melodyButton?.setOnClickListener {
+        binding?.melodyButton?.setOnClickListener {
             onMelodyPermission(writePermissionState.getResult(activity, permissionViewModel))
         }
 
-        binding.volumeButton?.setOnClickListener { showVolumeDialog(viewModel.volumePercent) }
+        binding?.volumeButton?.setOnClickListener { showVolumeDialog(viewModel.volumePercent) }
     }
 
     override fun setupObservers() {
-        viewModel.signalSummary.observe(this) { binding.signalButton?.summary = it }
-        viewModel.repeatSummary.observe(this) { binding.repeatButton?.summary = it }
-        viewModel.volumeSummary.observe(this) { binding.volumeButton?.summary = it }
+        viewModel.signalSummary.observe(this) { binding?.signalButton?.summary = it }
+        viewModel.repeatSummary.observe(this) { binding?.repeatButton?.summary = it }
+        viewModel.volumeSummary.observe(this) { binding?.volumeButton?.summary = it }
         viewModel.melodySummaryState.observe(this) { observeMelodySummaryState(it) }
         viewModel.melodyGroupEnabled.observe(this) { observeMelodyGroupEnabled(it) }
     }
@@ -141,13 +141,13 @@ class AlarmPreferenceFragment : PreferenceFragment(),
     }
 
     private fun updateMelodySummary(summary: CharSequence) {
-        binding.melodyButton?.summary = summary
+        binding?.melodyButton?.summary = summary
     }
 
     private fun observeMelodyGroupEnabled(isEnabled: Boolean) {
-        binding.melodyButton?.isEnabled = isEnabled
-        binding.increaseButton?.isEnabled = isEnabled
-        binding.volumeButton?.isEnabled = isEnabled
+        binding?.melodyButton?.isEnabled = isEnabled
+        binding?.increaseButton?.isEnabled = isEnabled
+        binding?.volumeButton?.isEnabled = isEnabled
     }
 
     //region Dialogs setup

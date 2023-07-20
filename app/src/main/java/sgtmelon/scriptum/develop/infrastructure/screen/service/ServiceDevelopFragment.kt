@@ -17,13 +17,13 @@ import javax.inject.Inject
 /**
  * Fragment of service preferences.
  */
-class ServiceDevelopFragment : PreferenceFragment(),
+class ServiceDevelopFragment : PreferenceFragment<ServiceDevelopBinding>(),
     DotAnimationImpl.Callback,
     DevelopScreenReceiver.Callback {
 
     override val xmlId: Int = R.xml.preference_service
 
-    private val binding = ServiceDevelopBinding(fragment = this)
+    override fun createBinding(): ServiceDevelopBinding = ServiceDevelopBinding(fragment = this)
 
     @Inject lateinit var viewModel: ServiceDevelopViewModel
 
@@ -41,7 +41,7 @@ class ServiceDevelopFragment : PreferenceFragment(),
     }
 
     override fun setupView() {
-        binding.apply {
+        binding?.apply {
             serviceRefreshButton?.setOnClickListener { viewModel.startPing() }
             serviceRunButton?.setOnClickListener { startService(it.context) }
             serviceKillButton?.setOnClickListener {
@@ -90,7 +90,7 @@ class ServiceDevelopFragment : PreferenceFragment(),
     //endregion
 
     override fun onDotAnimationUpdate(text: DotText) {
-        binding.serviceRefreshButton?.summary = text.value
+        binding?.serviceRefreshButton?.summary = text.value
     }
 
     override fun onReceiveEternalServicePong() {
@@ -100,21 +100,21 @@ class ServiceDevelopFragment : PreferenceFragment(),
         system?.toast?.show(context, R.string.toast_dev_service_run)
     }
 
-    private fun onServicePrepare() = with(binding) {
+    private fun onServicePrepare() {
         dotAnimation.start(context, R.string.pref_summary_eternal_search)
 
-        serviceRefreshButton?.isEnabled = false
-        serviceRunButton?.isEnabled = false
-        serviceKillButton?.isEnabled = false
+        binding?.serviceRefreshButton?.isEnabled = false
+        binding?.serviceRunButton?.isEnabled = false
+        binding?.serviceKillButton?.isEnabled = false
     }
 
-    private fun onServicePong(isSuccess: Boolean) = with(binding) {
+    private fun onServicePong(isSuccess: Boolean) {
         dotAnimation.stop()
 
-        serviceRefreshButton?.summary = getString(R.string.pref_summary_eternal_refresh)
-        serviceRefreshButton?.isEnabled = true
-        serviceRunButton?.isEnabled = !isSuccess
-        serviceKillButton?.isEnabled = isSuccess
+        binding?.serviceRefreshButton?.summary = getString(R.string.pref_summary_eternal_refresh)
+        binding?.serviceRefreshButton?.isEnabled = true
+        binding?.serviceRunButton?.isEnabled = !isSuccess
+        binding?.serviceKillButton?.isEnabled = isSuccess
 
         if (!isSuccess) {
             system?.toast?.show(context, R.string.toast_dev_service_fail)

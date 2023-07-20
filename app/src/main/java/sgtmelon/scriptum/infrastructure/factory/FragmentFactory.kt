@@ -52,9 +52,9 @@ object FragmentFactory {
 
     class Preference(private val fm: FragmentManager) {
 
-        fun get(screen: PreferenceScreen): Pair<PreferenceFragment, String> {
+        fun get(screen: PreferenceScreen): Pair<PreferenceFragment<*>, String> {
             val tag = getTag(screen)
-            val fragment: PreferenceFragment = fm.getFragmentByTag(tag) ?: when (screen) {
+            val fragment: PreferenceFragment<*> = fm.getFragmentByTag(tag) ?: when (screen) {
                 PreferenceScreen.MENU -> MenuPreferenceFragment()
                 PreferenceScreen.BACKUP -> BackupPreferenceFragment()
                 PreferenceScreen.NOTES -> NotesPreferenceFragment()

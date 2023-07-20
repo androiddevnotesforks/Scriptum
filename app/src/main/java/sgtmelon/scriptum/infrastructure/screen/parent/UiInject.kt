@@ -4,7 +4,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 
 /**
- * Needed for access the inject function and fastly implement it.
+ * Needed for access the inject function and for fastly implementation of it.
  */
 interface UiInject {
 

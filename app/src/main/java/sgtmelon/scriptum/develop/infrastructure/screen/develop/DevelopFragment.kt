@@ -2,7 +2,6 @@ package sgtmelon.scriptum.develop.infrastructure.screen.develop
 
 import android.content.Context
 import androidx.preference.Preference
-import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -12,15 +11,16 @@ import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
+import javax.inject.Inject
 
 /**
  * Fragment of develop preferences.
  */
-class DevelopFragment : PreferenceFragment() {
+class DevelopFragment : PreferenceFragment<DevelopBinding>() {
 
     override val xmlId: Int = R.xml.preference_develop
 
-    private val binding = DevelopBinding(fragment = this)
+    override fun createBinding(): DevelopBinding = DevelopBinding(fragment = this)
 
     @Inject lateinit var viewModel: DevelopViewModel
 
@@ -32,7 +32,7 @@ class DevelopFragment : PreferenceFragment() {
     }
 
     override fun setupView() {
-        binding.apply {
+        binding?.apply {
             printNoteButton?.setOnPrintClickListener(PrintType.NOTE)
             printBinButton?.setOnPrintClickListener(PrintType.BIN)
             printRollButton?.setOnPrintClickListener(PrintType.ROLL)

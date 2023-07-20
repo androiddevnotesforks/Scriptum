@@ -13,6 +13,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
     UiInject,
+    UiRelease,
     DialogOwner,
     ReceiverRegistrar {
 
@@ -66,8 +67,4 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
 
         unregisterReceivers()
     }
-
-    open fun releaseBinding() = Unit
-
-    open fun releaseSystem() = Unit
 }

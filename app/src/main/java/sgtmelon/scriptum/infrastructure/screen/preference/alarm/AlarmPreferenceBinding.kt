@@ -3,13 +3,13 @@ package sgtmelon.scriptum.infrastructure.screen.preference.alarm
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.utils.extensions.findPreference
+import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceBinding
 
-class AlarmPreferenceBinding(val fragment: PreferenceFragmentCompat) {
+class AlarmPreferenceBinding(fragment: PreferenceFragmentCompat) : PreferenceBinding(fragment) {
 
-    val signalButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_signal)
-    val repeatButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_repeat)
-    val melodyButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_melody)
-    val increaseButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_increase)
-    val volumeButton: Preference? get() = fragment.findPreference(R.string.pref_key_alarm_volume)
+    val signalButton: Preference? get() = findPreference(R.string.pref_key_alarm_signal)
+    val repeatButton: Preference? get() = findPreference(R.string.pref_key_alarm_repeat)
+    val melodyButton: Preference? get() = findPreference(R.string.pref_key_alarm_melody)
+    val increaseButton: Preference? get() = findPreference(R.string.pref_key_alarm_increase)
+    val volumeButton: Preference? get() = findPreference(R.string.pref_key_alarm_volume)
 }

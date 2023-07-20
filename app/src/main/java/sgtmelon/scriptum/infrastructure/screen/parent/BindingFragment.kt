@@ -21,6 +21,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
     UiInject,
     UiSetup,
+    UiRelease,
     DialogOwner,
     ReceiverRegistrar {
 
@@ -106,9 +107,4 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
 
         unregisterReceivers()
     }
-
-    open fun releaseBinding() = Unit
-
-    open fun releaseSystem() = Unit
-
 }

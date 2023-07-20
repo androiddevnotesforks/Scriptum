@@ -23,11 +23,11 @@ import javax.inject.Inject
 /**
  * Fragment with main preference menu
  */
-class MenuPreferenceFragment : PreferenceFragment() {
+class MenuPreferenceFragment : PreferenceFragment<MenuPreferenceBinding>() {
 
     override val xmlId: Int = R.xml.preference_menu
 
-    private val binding = MenuPreferenceBinding(fragment = this)
+    override fun createBinding(): MenuPreferenceBinding = MenuPreferenceBinding(fragment = this)
 
     @Inject lateinit var viewModel: MenuPreferenceViewModel
 
@@ -56,13 +56,13 @@ class MenuPreferenceFragment : PreferenceFragment() {
     }
 
     override fun setupView() {
-        binding.apply {
+        binding?.apply {
             themeButton?.setOnClickListener { showThemeDialog(viewModel.theme) }
             backupButton?.setOnClickListener { it.openScreen(PreferenceScreen.BACKUP) }
             noteButton?.setOnClickListener { it.openScreen(PreferenceScreen.NOTES) }
             alarmButton?.setOnClickListener { it.openScreen(PreferenceScreen.ALARM) }
 
-            binding.policyButton?.setOnClickListener {
+            policyButton?.setOnClickListener {
                 open.attempt {
                     val url = BuildConfig.PRIVACY_POLICY_URL
                     it.context.startUrlActivity(url, system?.toast)
@@ -82,8 +82,8 @@ class MenuPreferenceFragment : PreferenceFragment() {
     }
 
     override fun setupObservers() {
-        viewModel.isDeveloper.observe(this) { binding.developerButton?.isVisible = it }
-        viewModel.themeSummary.observe(this) { binding.themeButton?.summary = it }
+        viewModel.isDeveloper.observe(this) { binding?.developerButton?.isVisible = it }
+        viewModel.themeSummary.observe(this) { binding?.themeButton?.summary = it }
     }
 
     override fun setupDialogs() {
