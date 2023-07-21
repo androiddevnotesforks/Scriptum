@@ -173,6 +173,7 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
             PermissionResult.ASK -> showExportPermissionDialog()
             PermissionResult.FORBIDDEN -> showExportDenyDialog()
             PermissionResult.GRANTED -> onExportPermissionGranted()
+            PermissionResult.NEW_API -> onExportPermissionGranted()
         }
     }
 
@@ -202,10 +203,13 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
         when (result) {
             PermissionResult.ASK -> showImportPermissionDialog()
             PermissionResult.FORBIDDEN -> showImportDenyDialog()
-            PermissionResult.GRANTED -> {
-                viewModel.importData.collect(owner = this) { showImportDialog(it) }
-            }
+            PermissionResult.GRANTED -> onImportPermissionGranted()
+            PermissionResult.NEW_API -> onImportPermissionGranted()
         }
+    }
+
+    private fun onImportPermissionGranted() {
+        viewModel.importData.collect(owner = this) { showImportDialog(it) }
     }
 
     //region Dialogs setup

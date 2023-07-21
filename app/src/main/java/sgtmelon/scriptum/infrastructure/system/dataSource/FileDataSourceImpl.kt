@@ -1,8 +1,18 @@
 package sgtmelon.scriptum.infrastructure.system.dataSource
 
+import android.content.ContentValues
 import android.content.Context
+import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
 import androidx.core.content.ContextCompat
+import sgtmelon.extensions.getCalendarText
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.data.dataSource.system.FileDataSource
+import sgtmelon.scriptum.infrastructure.model.exception.FilesException
+import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.scriptum.infrastructure.model.key.FileType
+import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.File
@@ -12,12 +22,6 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.OutputStream
 import java.io.OutputStreamWriter
-import sgtmelon.extensions.getCalendarText
-import sgtmelon.scriptum.data.dataSource.system.FileDataSource
-import sgtmelon.scriptum.infrastructure.model.exception.FilesException
-import sgtmelon.scriptum.infrastructure.model.item.FileItem
-import sgtmelon.scriptum.infrastructure.model.type.FileType
-import sgtmelon.scriptum.infrastructure.utils.extensions.record
 
 /**
  * Class for working and any manipulations with files.
@@ -60,22 +64,43 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
     }.toString()
 
     /**
-     * Return path to created file.
+     * Returned value is a path to created file. [name] must contain extension.
      */
     override fun writeFile(name: String, data: String): String? {
-        val file = File(saveDirectory, name)
+        var outputStream: OutputStream? = null
 
         try {
-            file.createNewFile()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val path = Environment.DIRECTORY_DOCUMENTS
+                    .plus(File.separator)
+                    .plus(context.getString(R.string.app_name))
 
-            val outputStream = FileOutputStream(file)
-            writeOutputStream(outputStream, data)
-            outputStream.flush()
-            outputStream.close()
+                val values = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, path)
+                }
 
-            return file.path
+                val resolver = context.contentResolver
+                val pathUri = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                val fileUri = resolver.insert(pathUri, values) ?: throw NullPointerException()
+                outputStream = resolver.openOutputStream(fileUri) ?: throw NullPointerException()
+                writeOutputStream(outputStream, data)
+
+                return path.plus(File.separator).plus(name)
+            } else {
+                val file = File(saveDirectory, name)
+                file.createNewFile()
+
+                outputStream = FileOutputStream(file)
+                writeOutputStream(outputStream, data)
+
+                return file.path
+            }
         } catch (e: Throwable) {
             FilesException(e).record()
+        } finally {
+            outputStream?.flush()
+            outputStream?.close()
         }
 
         return null
@@ -87,13 +112,11 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
         bufferedWriter.close()
     }
 
-    override fun getBackupName(): String = getTimeName(FileType.BACKUP)
-
-    private fun getTimeName(@FileType type: String): String = getCalendarText().plus(type)
+    override fun getTimeName(type: FileType): String = getCalendarText().plus(type.extension)
 
     override suspend fun getBackupFileList(): List<FileItem> = getFileList(FileType.BACKUP)
 
-    private suspend fun getFileList(@FileType type: String): List<FileItem> {
+    private suspend fun getFileList(type: FileType): List<FileItem> {
         val list = mutableListOf<FileItem>()
 
         list.addAll(getFileList(saveDirectory, type))
@@ -109,14 +132,17 @@ class FileDataSourceImpl(private val context: Context) : FileDataSource {
         return list.sortedByDescending { it.name }
     }
 
-    private suspend fun getFileList(directory: File, @FileType type: String): List<FileItem> {
+    @Suppress("RedundantSuspendModifier")
+    private suspend fun getFileList(directory: File, type: FileType): List<FileItem> {
         val fileList = directory.listFiles() ?: return emptyList()
 
         return ArrayList<FileItem>().apply {
             for (it in fileList) {
                 when {
                     it.isDirectory -> addAll(getFileList(it, type))
-                    it.name.endsWith(type) -> add(FileItem(it.nameWithoutExtension, it.path))
+                    it.name.endsWith(type.extension) -> {
+                        add(FileItem(it.nameWithoutExtension, it.path, type))
+                    }
                 }
             }
         }

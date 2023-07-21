@@ -5,6 +5,7 @@ import sgtmelon.scriptum.data.backup.BackupCollector
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.domain.model.result.ExportResult
+import sgtmelon.scriptum.infrastructure.model.key.FileType
 
 class StartBackupExportUseCase(
     private val backupRepo: BackupRepo,
@@ -19,7 +20,7 @@ class StartBackupExportUseCase(
         val data = backupCollector.convert(parserResult) ?: return ExportResult.Error
         val encryptData = cipherDataSource.encrypt(data)
 
-        val timeName = fileDataSource.getBackupName()
+        val timeName = fileDataSource.getTimeName(FileType.BACKUP)
         val path = fileDataSource.writeFile(timeName, encryptData) ?: return ExportResult.Error
 
         return ExportResult.Success(path)

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.model.state
 
 import android.app.Activity
-import sgtmelon.scriptum.data.model.PermissionKey
+import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
@@ -11,12 +11,16 @@ import timber.log.Timber
 /**
  * State for permission request.
  */
-class PermissionState(val key: PermissionKey) {
+class PermissionState(private val permission: Permission) {
 
-    constructor(permission: Permission) : this(PermissionKey(permission.value))
+    val key = permission.key
 
     fun getResult(activity: Activity?, viewModel: PermissionViewModel): PermissionResult? {
         if (activity == null) return null
+
+        if (permission is Permission.WriteExternalStorage && !BuildProvider.Version.isPre33) {
+            return PermissionResult.NEW_API
+        }
 
         val checkPermission = activity.checkSelfPermission(key.value)
         val showExplanation = activity.shouldShowRequestPermissionRationale(key.value)

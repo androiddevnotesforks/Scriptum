@@ -33,14 +33,23 @@ class BackupPreferenceViewModelImpl(
     override val importEnabled: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun updateData(permission: PermissionResult?) {
-        if (permission == PermissionResult.GRANTED) {
-            viewModelScope.launchBack { updateBackupFiles() }
-        } else {
-            exportEnabled.postValue(true)
-            exportSummary.postValue(ExportSummaryState.Permission)
-            importEnabled.postValue(true)
-            importSummary.postValue(ImportSummaryState.Permission)
+        when (permission ?: return) {
+            PermissionResult.ASK -> blockBackup()
+            PermissionResult.FORBIDDEN -> blockBackup()
+            PermissionResult.GRANTED -> accessBackup()
+            PermissionResult.NEW_API -> accessBackup()
         }
+    }
+
+    private fun accessBackup() {
+        viewModelScope.launchBack { updateBackupFiles() }
+    }
+
+    private fun blockBackup() {
+        exportEnabled.postValue(true)
+        exportSummary.postValue(ExportSummaryState.Permission)
+        importEnabled.postValue(true)
+        importSummary.postValue(ImportSummaryState.Permission)
     }
 
     private suspend fun updateBackupFiles() {

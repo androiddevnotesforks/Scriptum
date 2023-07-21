@@ -7,7 +7,7 @@ import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
-import sgtmelon.scriptum.infrastructure.model.type.FileType
+import sgtmelon.scriptum.infrastructure.model.key.FileType
 
 class StartBackupImportUseCase(
     private val preferencesRepo: PreferencesRepo,

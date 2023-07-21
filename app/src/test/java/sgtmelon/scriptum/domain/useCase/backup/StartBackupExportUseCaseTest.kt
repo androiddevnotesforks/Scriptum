@@ -11,12 +11,13 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.BackupRepo
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.backup.BackupCollector
 import sgtmelon.scriptum.data.dataSource.system.CipherDataSource
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
+import sgtmelon.scriptum.infrastructure.model.key.FileType
+import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
@@ -51,7 +52,7 @@ class StartBackupExportUseCaseTest : ParentTest() {
         coEvery { backupRepo.getData() } returns parserResult
         every { backupCollector.convert(parserResult) } returns data
         every { cipherDataSource.encrypt(data) } returns encryptData
-        every { fileDataSource.getBackupName() } returns timeName
+        every { fileDataSource.getTimeName(FileType.BACKUP) } returns timeName
         every { fileDataSource.writeFile(timeName, encryptData) } returns null
 
         runBlocking {
@@ -69,7 +70,7 @@ class StartBackupExportUseCaseTest : ParentTest() {
                 backupRepo.getData()
                 backupCollector.convert(parserResult)
                 cipherDataSource.encrypt(data)
-                fileDataSource.getBackupName()
+                fileDataSource.getTimeName(FileType.BACKUP)
                 fileDataSource.writeFile(timeName, encryptData)
             }
         }

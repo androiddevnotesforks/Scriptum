@@ -8,8 +8,11 @@ import sgtmelon.scriptum.BuildConfig
  */
 object BuildProvider {
 
-    fun isDebug() = BuildConfig.DEBUG
+    val isDebug get() = BuildConfig.DEBUG
 
-    fun noteHistoryMaxSize() = BuildConfig.NOTE_HISTORY_MAX_SIZE
+    val noteHistoryMaxSize get() = BuildConfig.NOTE_HISTORY_MAX_SIZE
 
+    object Version {
+        val isPre33 get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+    }
 }

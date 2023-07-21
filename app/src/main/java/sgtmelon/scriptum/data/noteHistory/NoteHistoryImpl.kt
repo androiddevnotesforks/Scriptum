@@ -50,11 +50,9 @@ class NoteHistoryImpl : NoteHistory {
         }
     }
 
-    /**
-     * If list size bigger than max size, when need clear first N items.
-     */
+    /** If list size bigger than max size, when need clear first N items. */
     private fun checkListOverflow() {
-        while (list.size >= BuildProvider.noteHistoryMaxSize()) {
+        while (list.size >= BuildProvider.noteHistoryMaxSize) {
             list.removeFirstOrNull()
             position--
         }
@@ -64,7 +62,7 @@ class NoteHistoryImpl : NoteHistory {
     override var saveChanges = true
 
     private fun listAll() {
-        if (!BuildProvider.isDebug()) return
+        if (!BuildProvider.isDebug) return
 
         Timber.i(message = "Note history list (ps=$position):")
         for (i in list.indices) {
