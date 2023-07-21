@@ -9,8 +9,10 @@ import io.mockk.verifySequence
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.data.model.PermissionKey
+import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.testing.parent.ParentTest
@@ -24,14 +26,20 @@ class PermissionStateTest : ParentTest() {
 
     @MockK lateinit var activity: Activity
     @MockK lateinit var viewModel: PermissionViewModel
+    @MockK lateinit var permission: Permission
 
     private val value = nextString()
-    private val key = PermissionKey(value)
-    private val state by lazy { PermissionState(key) }
+    private val key = PermissionKey(nextString())
+    private val state by lazy { PermissionState(permission) }
+
+    @Before override fun setUp() {
+        super.setUp()
+        every { permission.key } returns key
+    }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(activity, viewModel)
+        confirmVerified(activity, viewModel, permission)
     }
 
     @Test fun `getResult with null activity`() {

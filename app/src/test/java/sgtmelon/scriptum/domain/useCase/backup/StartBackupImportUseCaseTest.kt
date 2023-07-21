@@ -6,7 +6,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -19,9 +18,12 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.scriptum.infrastructure.model.key.FileType
 import sgtmelon.scriptum.testing.parent.ParentTest
+import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [StartBackupImportUseCase].
@@ -50,7 +52,9 @@ class StartBackupImportUseCaseTest : ParentTest() {
     }
 
     @Test fun import() {
-        val fileList = List(size = 5) { FileItem(nextShortString(), nextString()) }
+        val fileList = List(getRandomSize()) {
+            FileItem(nextShortString(), nextString(), FileType.BACKUP)
+        }
         val wrongName = nextString()
         val item = fileList.random()
         val encryptData = nextString()

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup
 
-import kotlin.random.Random
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
@@ -11,9 +10,11 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.key.FileType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Class which provide data for tests.
@@ -133,10 +134,10 @@ object TestData {
 
     object Backup {
         val fileList = listOf(
-                FileItem(nextString(), nextString()),
-                FileItem(nextString(), nextString()),
-                FileItem(nextString(), nextString()),
-                FileItem(nextString(), nextString())
+                FileItem(nextString(), nextString(), FileType.values().random()),
+                FileItem(nextString(), nextString(), FileType.values().random()),
+                FileItem(nextString(), nextString(), FileType.values().random()),
+                FileItem(nextString(), nextString(), FileType.values().random())
         )
     }
 

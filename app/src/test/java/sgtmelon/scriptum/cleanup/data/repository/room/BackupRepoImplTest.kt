@@ -6,8 +6,6 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
-import java.util.Calendar
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -32,9 +30,12 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.getRandomPastTime
+import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
+import java.util.Calendar
+import kotlin.random.Random
 
 /**
  * Test for [BackupRepoImpl].
@@ -158,7 +159,7 @@ class BackupRepoImplTest : ParentRepoTest() {
         val name = nextShortString()
         val text = nextString()
 
-        val list = MutableList(size = 5) {
+        val list = MutableList(getRandomSize()) {
             NoteEntity(name = nextShortString(), text = nextString())
         }
 
