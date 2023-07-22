@@ -29,7 +29,7 @@ class PermissionStateTest : ParentTest() {
     @MockK lateinit var permission: Permission
 
     private val value = nextString()
-    private val key = PermissionKey(nextString())
+    private val key = PermissionKey(value)
     private val state by lazy { PermissionState(permission) }
 
     @Before override fun setUp() {
@@ -44,6 +44,10 @@ class PermissionStateTest : ParentTest() {
 
     @Test fun `getResult with null activity`() {
         assertNull(state.getResult(activity = null, viewModel))
+
+        verifySequence {
+            permission.key
+        }
     }
 
     @Test fun `getResult granted`() {
@@ -54,6 +58,8 @@ class PermissionStateTest : ParentTest() {
         assertEquals(state.getResult(activity, viewModel), PermissionResult.GRANTED)
 
         verifySequence {
+            permission.key
+
             activity.checkSelfPermission(value)
             activity.shouldShowRequestPermissionRationale(value)
             viewModel.isCalled(key)
@@ -68,6 +74,8 @@ class PermissionStateTest : ParentTest() {
         assertEquals(state.getResult(activity, viewModel), PermissionResult.FORBIDDEN)
 
         verifySequence {
+            permission.key
+
             activity.checkSelfPermission(value)
             activity.shouldShowRequestPermissionRationale(value)
             viewModel.isCalled(key)
@@ -90,6 +98,8 @@ class PermissionStateTest : ParentTest() {
         assertEquals(state.getResult(activity, viewModel), PermissionResult.ASK)
 
         verifySequence {
+            permission.key
+
             repeat(times = 3) {
                 activity.checkSelfPermission(value)
                 activity.shouldShowRequestPermissionRationale(value)
