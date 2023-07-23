@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.text.format.DateUtils
-import java.util.Calendar
 import sgtmelon.extensions.formatFuture
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.scriptum.BuildConfig
@@ -13,6 +12,7 @@ import sgtmelon.scriptum.infrastructure.receiver.action.AlarmActionReceiver
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 import sgtmelon.test.prod.RunPrivate
 import timber.log.Timber
+import java.util.Calendar
 
 /**
  * Class for help control [AlarmManager]
@@ -26,7 +26,7 @@ class AlarmDelegatorImpl(
 
     override fun set(noteId: Long, calendar: Calendar, showToast: Boolean) {
         val intent = AlarmActionReceiver[context, noteId]
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
 
         if (showToast && toast != null) {
             val date = calendar.formatFuture(context, DateUtils.DAY_IN_MILLIS).lowercase()
