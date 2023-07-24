@@ -1,19 +1,29 @@
 [versions]
 android-core = "1.10.1"
+android-appcompat = "1.6.1"
 android-transition = "1.4.1"
 
+google-material = "1.9.0"
+
 test-core = "1.5.0"
-test-ext = "1.1.5"
-espresso-idling = "3.5.1"
+test-junit = "1.1.5"
+test-espresso = "3.5.1"
+test-uiautomator = "2.2.0"
 
 timber = "5.0.1"
 
 [libraries]
 android-core = { module = "androidx.core:core-ktx", version.ref = "android-core" }
+android-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "android-appcompat" }
 android-transition = { module = "androidx.transition:transition-ktx", version.ref = "android-transition" }
 
+google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
+
 test-core = {module = "androidx.test:core-ktx", version.ref = "test-core"}
-test-ext = {module = "androidx.test.ext:junit", version.ref = "test-ext"}
-espresso-idling = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "espresso-idling" }
+test-junit = {module = "androidx.test.ext:junit", version.ref = "test-junit"}
+test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "test-espresso" }
+test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "test-espresso" }
+test-espresso-idling = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "test-espresso" }
+test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "test-uiautomator" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }

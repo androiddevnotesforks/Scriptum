@@ -35,6 +35,6 @@ android {
 dependencies {
 
     implementation(libs.android.transition)
-    implementation(libs.espresso.idling) // TODO make only for androidTestImplementation
+    implementation(libs.test.espresso.idling) // TODO make only for androidTestImplementation
     implementation(libs.timber)
 }

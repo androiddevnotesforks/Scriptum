@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "sgtmelon.test.common"
+    namespace = "sgtmelon.test.cappuccino"
 
     compileSdk = AndroidConfig.COMPILE_SDK
 
@@ -35,6 +35,13 @@ android {
 dependencies {
     implementation(project(":libraries:extensions"))
 
-    implementation(libs.test.core)
+    implementation(libs.android.core)
+    implementation(libs.android.appcompat)
+    implementation(libs.google.material)
+
     implementation(libs.test.junit)
+    implementation(libs.test.espresso.core)
+    implementation(libs.test.espresso.contrib)
+
+    implementation(libs.test.uiautomator)
 }
