@@ -1,9 +1,8 @@
 [versions]
 android-core = "1.10.1"
 android-appcompat = "1.6.1"
+android-material = "1.9.0"
 android-transition = "1.4.1"
-
-google-material = "1.9.0"
 
 test-core = "1.5.0"
 test-junit = "1.1.5"
@@ -15,9 +14,8 @@ timber = "5.0.1"
 [libraries]
 android-core = { module = "androidx.core:core-ktx", version.ref = "android-core" }
 android-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "android-appcompat" }
+android-material = { module = "com.google.android.material:material", version.ref = "android-material" }
 android-transition = { module = "androidx.transition:transition-ktx", version.ref = "android-transition" }
-
-google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 
 test-core = {module = "androidx.test:core-ktx", version.ref = "test-core"}
 test-junit = {module = "androidx.test.ext:junit", version.ref = "test-junit"}

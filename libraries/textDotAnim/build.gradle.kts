@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "sgtmelon.test.cappuccino"
+    namespace = "sgtmelon.text.dotanim"
 
     compileSdk = AndroidConfig.COMPILE_SDK
 
@@ -33,15 +33,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":libraries:extensions"))
+    implementation(project(":tests:idling"))
 
     implementation(libs.android.core)
     implementation(libs.android.appcompat)
     implementation(libs.android.material)
-
-    implementation(libs.test.junit)
-    implementation(libs.test.espresso.core)
-    implementation(libs.test.espresso.contrib)
-
-    implementation(libs.test.uiautomator)
 }
