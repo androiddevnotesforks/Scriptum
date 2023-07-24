@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "sgtmelon.test.prod"
+    namespace = "sgtmelon.test.idling"
 
     compileSdk = AndroidConfig.COMPILE_SDK
 
@@ -34,5 +34,7 @@ android {
 
 dependencies {
 
-    implementation(libs.android.core)
+    implementation(libs.android.transition)
+    implementation(libs.espresso.idling) // TODO make only for androidTestImplementation
+    implementation(libs.timber)
 }
