@@ -2,6 +2,8 @@
 android-core = "1.10.1"
 android-transition = "1.4.1"
 
+test-core = "1.5.0"
+test-ext = "1.1.5"
 espresso-idling = "3.5.1"
 
 timber = "5.0.1"
@@ -10,6 +12,8 @@ timber = "5.0.1"
 android-core = { module = "androidx.core:core-ktx", version.ref = "android-core" }
 android-transition = { module = "androidx.transition:transition-ktx", version.ref = "android-transition" }
 
+test-core = {module = "androidx.test:core-ktx", version.ref = "test-core"}
+test-ext = {module = "androidx.test.ext:junit", version.ref = "test-ext"}
 espresso-idling = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "espresso-idling" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
