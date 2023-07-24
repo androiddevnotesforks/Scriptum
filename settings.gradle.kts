@@ -16,14 +16,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "Scriptum"
 
-include ':app'
+include(":app")
 
-include ':libraries:safeDialog'
-include ':libraries:iconAnim'
-include ':libraries:textDotAnim'
-include ':libraries:extensions'
+include(":libraries:safeDialog")
+include(":libraries:iconAnim")
+include(":libraries:textDotAnim")
+include(":libraries:extensions")
 
-include ':tests:common'
-include ':tests:idling'
-include ':tests:cappuccino'
-include ':tests:prod'
+include(":tests:common")
+include(":tests:idling")
+include(":tests:cappuccino")
+include(":tests:prod")
