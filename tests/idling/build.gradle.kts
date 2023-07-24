@@ -6,11 +6,11 @@ plugins {
 android {
     namespace = "sgtmelon.test.idling"
 
-    compileSdk = AndroidConfig.COMPILE_SDK
+    compileSdk = AndroidVersion.COMPILE_SDK
 
     defaultConfig {
-        minSdk = AndroidConfig.MIN_SDK
-        targetSdk = AndroidConfig.TARGET_SDK
+        minSdk = AndroidVersion.MIN_SDK
+        targetSdk = AndroidVersion.TARGET_SDK
 
         consumerProguardFiles(ProFiles.CONSUMER)
     }

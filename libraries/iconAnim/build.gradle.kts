@@ -1,11 +1,10 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlinx-serialization")
 }
 
 android {
-    namespace = "sgtmelon.safedialog"
+    namespace = "sgtmelon.iconanim"
 
     compileSdk = AndroidVersion.COMPILE_SDK
 
@@ -35,15 +34,6 @@ android {
 
 dependencies {
     implementation(project(":libraries:extensions"))
-    implementation(project(":tests:prod"))
-    testImplementation(project(":tests:common"))
-
-    implementation(libs.kotlin.serialization)
 
     implementation(libs.android.appcompat)
-    implementation(libs.android.material)
-    implementation(libs.android.lifecycle)
-
-    testImplementation(libs.test.junit)
-    testImplementation(libs.test.mockk)
 }
