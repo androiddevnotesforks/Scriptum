@@ -216,7 +216,7 @@ object NotificationFactory {
             val text = context.getString(R.string.notification_eternal_description)
 
             return NotificationCompat.Builder(context, context.getString(R.string.notification_eternal_channel_id))
-                .setSmallIcon(R.drawable.notif_app)
+                .setSmallIcon(R.drawable.notif_service)
                 .setContentTitle(context.getString(R.string.notification_eternal_title))
                 .setContentText(text)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
