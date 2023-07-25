@@ -29,9 +29,9 @@ android {
             }
         }
 
-        buildConfigField "String", "DB_NAME", '"HandyNotes"'
-        buildConfigField "String", "BROWSER_URL", '"https://play.google.com/store/apps/details?id=sgtmelon.scriptum"'
-        buildConfigField "String", "PRIVACY_POLICY_URL", '"https://github.com/SerjantArbuz/Scriptum/blob/master/PrivacyPolicy.md"'
+        buildConfigField "String", "DB_NAME", "\"HandyNotes\""
+        buildConfigField "String", "BROWSER_URL", "\"https://play.google.com/store/apps/details?id=sgtmelon.scriptum\""
+        buildConfigField "String", "PRIVACY_POLICY_URL", "\"https://github.com/SerjantArbuz/Scriptum/blob/master/PrivacyPolicy.md\""
     }
 
     buildTypes {
