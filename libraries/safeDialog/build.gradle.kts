@@ -42,7 +42,7 @@ dependencies {
 
     implementation(libs.android.appcompat)
     implementation(libs.android.material)
-    implementation(libs.android.lifecycle)
+    implementation(libs.android.lifecycle.runtime)
 
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)

@@ -40,5 +40,5 @@ dependencies {
     implementation(libs.kotlin.serialization)
     implementation(libs.android.core)
     implementation(libs.android.appcompat)
-    implementation(libs.android.lifecycle)
+    implementation(libs.android.lifecycle.runtime)
 }
