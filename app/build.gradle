@@ -5,6 +5,7 @@ plugins {
     id "kotlinx-serialization"
     id "com.google.gms.google-services"
     id "com.google.firebase.crashlytics"
+    id "com.google.firebase.firebase-perf"
 }
 
 apply from: '../values.gradle'
@@ -88,6 +89,7 @@ dependencies {
 
     implementation libs.firebase.analytics
     implementation libs.firebase.crashlytics
+    implementation libs.firebase.performance
 
     implementation libs.dagger.core
     kapt libs.dagger.compiler

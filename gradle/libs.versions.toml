@@ -26,6 +26,7 @@ test-json = "20211205"
 
 firebase-analytics = "21.3.0"
 firebase-crashlytics = "18.3.7"
+firebase-performance = "20.4.0"
 dagger = "2.41"
 leakcanary = "2.9.1"
 timber = "5.0.1"
@@ -68,6 +69,7 @@ test-json = { module = "org.json:json", version.ref = "test-json" }
 
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
+firebase-performance = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebase-performance" }
 dagger-core = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
