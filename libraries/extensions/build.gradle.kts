@@ -14,6 +14,9 @@ android {
         targetSdk = AndroidVersion.TARGET_SDK
 
         consumerProguardFiles(ProFiles.CONSUMER)
+
+        buildConfigField(type = "String", name = "DATE_FORMAT_FULL", value = "\"yyyy-MM-dd HH:mm:ss\"")
+        buildConfigField(type = "String", name = "DATE_FORMAT_SHORT", value = "\"d MMM\"")
     }
 
     buildTypes {
