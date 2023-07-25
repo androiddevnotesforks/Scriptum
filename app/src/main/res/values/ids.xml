@@ -13,4 +13,10 @@
 
     <item name="toolbar_container" type="id"/>
 
+    <item name="notif_bind_group" type="drawable"/>
+    <item name="notif_bind_roll" type="drawable"/>
+    <item name="notif_bind_text" type="drawable"/>
+    <item name="notif_info" type="drawable"/>
+    <item name="notif_service" type="drawable"/>
+
 </resources>
