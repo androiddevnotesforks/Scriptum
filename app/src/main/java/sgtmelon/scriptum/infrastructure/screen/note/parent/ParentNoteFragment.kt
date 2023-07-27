@@ -10,7 +10,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import java.util.Calendar
 import sgtmelon.extensions.collect
 import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.toCalendar
@@ -26,12 +25,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
-import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
+import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
@@ -63,11 +62,12 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
+import java.util.Calendar
 
 /**
  * Parent class for fragments which will be displayed in [NoteActivity].
  */
-abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
+abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFragment<T>(),
     IconBlockCallback {
 
     protected val connector get() = activity as NoteConnector
@@ -265,7 +265,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
 
     private fun setupConvertDialog(dialog: MessageDialog): Unit = with(dialog) {
         onPositiveClick {
-            viewModel.convert().collect(owner = this@ParentNoteFragmentImpl) {
+            viewModel.convert().collect(owner = this@ParentNoteFragment) {
                 connector.convertNote(it)
             }
         }
@@ -295,12 +295,12 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
     private fun setupDateDialog(dialog: DateDialog): Unit = with(dialog) {
         onPositiveClick {
             open.skipClear = true
-            viewModel.notificationsDateList.collect(owner = this@ParentNoteFragmentImpl) {
+            viewModel.notificationsDateList.collect(owner = this@ParentNoteFragment) {
                 showTimeDialog(calendar, it)
             }
         }
         onNeutralClick {
-            viewModel.removeNotification().collect(owner = this@ParentNoteFragmentImpl) {
+            viewModel.removeNotification().collect(owner = this@ParentNoteFragment) {
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendNotifyInfoBind()
             }
@@ -427,7 +427,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
         }
     }
 
-    private fun observeColor(color: Color) {
+    @CallSuper open fun observeColor(color: Color) {
         connector.updateHolder(color)
         tintToolbar?.startTint(color)
     }
@@ -458,10 +458,7 @@ abstract class ParentNoteFragmentImpl<N : NoteItem, T : ViewDataBinding> : Bindi
             nameRead.makeVisibleIf(!isEdit) { makeInvisible() }
 
             nameEnter.setTextIfDifferent(item.name)
-            /**
-             * Set empty text needed for nameEnter has ability to change size
-             * inside scrollView.
-             */
+            /** Set empty text needed for EditTExt has ability to change size inside scrollView. */
             nameRead.text = if (isEdit) emptyString() else item.name
         }
     }

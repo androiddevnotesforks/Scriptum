@@ -5,7 +5,7 @@ import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
+import sgtmelon.scriptum.infrastructure.adapter.RollContentAdapter
 import sgtmelon.scriptum.source.ui.model.key.NoteState
 import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerItemPart
 import sgtmelon.test.cappuccino.utils.isChecked
@@ -19,7 +19,7 @@ import sgtmelon.test.cappuccino.utils.withImeAction
 import sgtmelon.test.cappuccino.utils.withText
 
 /**
- * Class for UI control of [RollAdapter].
+ * Class for UI control of [RollContentAdapter].
  */
 class RollItemUi(
     listMatcher: Matcher<View>,

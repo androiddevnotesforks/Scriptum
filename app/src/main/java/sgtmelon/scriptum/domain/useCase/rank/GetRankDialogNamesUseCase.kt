@@ -7,9 +7,7 @@ class GetRankDialogNamesUseCase(
     private val repository: RankRepo
 ) {
 
-    /**
-     * Return array with all available category names.
-     */
+    /** Return array with all available category names. */
     suspend operator fun invoke(): Array<String> {
         val list = mutableListOf(withoutCategoryName)
         list.addAll(repository.getNameList())

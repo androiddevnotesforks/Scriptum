@@ -3,13 +3,13 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragment
 
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test visible button and list for [RollNoteFragmentImpl].
+ * Test visible button and list for [RollNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class RollNoteVisibleTest : ParentUiTest() {

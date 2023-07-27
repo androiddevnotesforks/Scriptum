@@ -3,16 +3,16 @@ package sgtmelon.scriptum.cleanup.test.ui.control.anim.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragment
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragment
 
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 
 /**
- * Test of change insets on keyboard show/hide (and change editMode) for [TextNoteFragmentImpl],
- * [RollNoteFragmentImpl].
+ * Test of change insets on keyboard show/hide (and change editMode) for [TextNoteFragment],
+ * [RollNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class NoteKeyboardAnimTest : ParentUiTest() {

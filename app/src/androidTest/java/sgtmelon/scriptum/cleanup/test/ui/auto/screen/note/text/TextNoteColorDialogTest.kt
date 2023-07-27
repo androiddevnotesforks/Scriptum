@@ -6,12 +6,12 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragment
 import sgtmelon.scriptum.source.cases.value.ColorCase
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 
 /**
- * Test of [PreferencesImpl.defaultColor] setup for [TextNoteFragmentImpl].
+ * Test of [PreferencesImpl.defaultColor] setup for [TextNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class TextNoteColorDialogTest : ParentUiTest(), ColorCase {

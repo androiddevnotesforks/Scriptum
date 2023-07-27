@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.infrastructure.screen.note.text
 
+import android.os.Build
+import android.widget.ScrollView
 import androidx.core.widget.doOnTextChanged
-import javax.inject.Inject
 import sgtmelon.extensions.emptyString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -12,20 +13,23 @@ import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOverscrollColor
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
+import javax.inject.Inject
 
 /**
  * Fragment for display text note.
  */
-class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextNoteBinding>() {
+class TextNoteFragment : ParentNoteFragment<NoteItem.Text, FragmentTextNoteBinding>() {
 
     override val layoutId: Int = R.layout.fragment_text_note
     override val type: NoteType = NoteType.TEXT
@@ -107,6 +111,17 @@ class TextNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Text, FragmentTextN
          * inside scrollView.
          */
         binding?.textRead?.text = if (isEdit) emptyString() else item.text
+    }
+
+    override fun observeColor(color: Color) {
+        super.observeColor(color)
+
+        /** If we can -> make overscroll color the same as note. Otherwise -> hide overscroll. */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            binding?.contentScroll?.setOverscrollColor(color)
+        } else {
+            binding?.contentScroll?.overScrollMode = ScrollView.OVER_SCROLL_NEVER
+        }
     }
 
     //endregion

@@ -3,14 +3,14 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragment
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragment
 
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test text trim for [TextNoteFragmentImpl] and [RollNoteFragmentImpl].
+ * Test text trim for [TextNoteFragment] and [RollNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class NoteTrimTest : ParentUiTest() {

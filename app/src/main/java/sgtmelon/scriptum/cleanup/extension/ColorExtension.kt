@@ -29,11 +29,13 @@ fun Context.getNoteToolbarColor(theme: ThemeDisplayed, color: Color, needDark: B
     }
 }
 
-/**
- * Get note color for cards
- */
+/** Get note color for cards. */
 @ColorInt
-fun Context.getNoteCardColor(color: Color): Int = getColorCompat(light[color.ordinal])
+fun Context.getNoteCardColor(color: Color): Int = getAppSimpleColor(color, ColorShade.LIGHT)
+
+/** Color for overscroll/edge. */
+@ColorInt
+fun Context.getNoteOverscrollColor(color: Color): Int = getAppSimpleColor(color, ColorShade.ACCENT)
 
 @ColorInt
 fun Context.getAppSimpleColor(color: Color, shade: ColorShade): Int {

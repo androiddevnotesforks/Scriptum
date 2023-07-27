@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.adapter.parent.ParentManualDiff
 /**
  * Diff for [RollItem].
  */
-class RollDiff : ParentManualDiff<RollItem>() {
+class RollContentDiff : ParentManualDiff<RollItem>() {
 
     override fun areItemsTheSame(oldItem: RollItem, newItem: RollItem): Boolean {
         return when {

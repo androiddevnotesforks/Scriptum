@@ -9,7 +9,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import javax.inject.Inject
 import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.getDimen
 import sgtmelon.extensions.removeExtraSpace
@@ -23,14 +22,15 @@ import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.databinding.IncNotePanelBinding
 import sgtmelon.scriptum.databinding.IncToolbarNoteBinding
 import sgtmelon.scriptum.domain.model.result.HistoryResult
-import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
-import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
+import sgtmelon.scriptum.infrastructure.adapter.RollContentAdapter
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollContentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragAndSwipeTouchHelper
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
-import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearText
@@ -42,13 +42,15 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
+import sgtmelon.scriptum.infrastructure.utils.extensions.setOverscrollColor
 import sgtmelon.scriptum.infrastructure.utils.icons.VisibleFilterIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
+import javax.inject.Inject
 
 /**
  * Fragment for display roll note.
  */
-class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollNoteBinding>(),
+class RollNoteFragment : ParentNoteFragment<NoteItem.Roll, FragmentRollNoteBinding>(),
     ListScreen<RollItem>,
     DragAndSwipeTouchHelper.Callback {
 
@@ -65,8 +67,8 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     private val listAnimation = ShowListAnimation()
 
     private val touchHelper = DragAndSwipeTouchHelper(callback = this)
-    override val adapter: RollAdapter by lazy {
-        val readCallback = object : RollHolder.ReadCallback {
+    override val adapter: RollContentAdapter by lazy {
+        val readCallback = object : RollContentHolder.ReadCallback {
             override fun onRollChangeCheck(p: Int, animTime: Long, action: () -> Unit) {
                 /** This 'if' needed for fast click on many checkBoxes at one time. */
                 if (!open.isChangeEnabled && open.tag == OpenState.Tag.ANIM) {
@@ -85,7 +87,7 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
         }
 
         return@lazy with(connector.init) {
-            RollAdapter(isEdit, state, readCallback, viewModel, touchHelper) {
+            RollContentAdapter(isEdit, state, readCallback, viewModel, touchHelper) {
                 focusOnEnter()
             }
         }
@@ -281,6 +283,11 @@ class RollNoteFragmentImpl : ParentNoteFragmentImpl<NoteItem.Roll, FragmentRollN
     override fun observeEdit(previousEdit: Boolean, isEdit: Boolean) {
         super.observeEdit(previousEdit, isEdit)
         adapter.updateEdit(isEdit)
+    }
+
+    override fun observeColor(color: Color) {
+        super.observeColor(color)
+        binding?.recyclerView?.setOverscrollColor(color)
     }
 
     override fun invalidatePanelState(isEdit: Boolean) {

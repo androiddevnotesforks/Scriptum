@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.getCheckCount
@@ -42,7 +42,7 @@ import sgtmelon.test.cappuccino.utils.withMenuTitle
 import sgtmelon.test.cappuccino.utils.withSize
 
 /**
- * Class for UI control of [NoteActivity], [RollNoteFragmentImpl].
+ * Class for UI control of [NoteActivity], [RollNoteFragment].
  *
  * Note:
  *  Call [NoteItem.Roll.isVisible] only from [INoteScreen.item] because it's a save way.

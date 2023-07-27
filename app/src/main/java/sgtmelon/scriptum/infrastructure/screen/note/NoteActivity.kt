@@ -16,8 +16,8 @@ import sgtmelon.scriptum.infrastructure.model.init.NoteInit
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragment
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragment
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.utils.ShowPlaceholder
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
@@ -27,7 +27,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNotePlaceholder
 
 /**
- * Screen which display note - [TextNoteFragmentImpl], [RollNoteFragmentImpl].
+ * Screen which display note - [TextNoteFragment], [RollNoteFragment].
  */
 class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     NoteConnector,
@@ -116,12 +116,12 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     }
 
     private fun showTextFragment(checkCache: Boolean) {
-        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragmentImpl()
+        val fragment = (if (checkCache) textNoteFragment else null) ?: TextNoteFragment()
         showFragment(fragment, FragmentFactory.Note.Tag.TEXT)
     }
 
     private fun showRollFragment(checkCache: Boolean) {
-        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragmentImpl()
+        val fragment = (if (checkCache) rollNoteFragment else null) ?: RollNoteFragment()
         showFragment(fragment, FragmentFactory.Note.Tag.ROLL)
     }
 

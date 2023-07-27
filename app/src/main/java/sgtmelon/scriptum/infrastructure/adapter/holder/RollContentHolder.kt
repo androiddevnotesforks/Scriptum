@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.extension.bindDrawable
 import sgtmelon.scriptum.cleanup.extension.bindTextColor
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnableControl
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
-import sgtmelon.scriptum.databinding.ItemRollBinding
+import sgtmelon.scriptum.databinding.ItemRollContentBinding
 import sgtmelon.scriptum.infrastructure.adapter.callback.UnbindCallback
 import sgtmelon.scriptum.infrastructure.adapter.parent.ParentHolder
 import sgtmelon.scriptum.infrastructure.adapter.touch.listener.DragTouchListener
@@ -24,8 +24,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.setSelectionSafe
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 
 @SuppressLint("ClickableViewAccessibility")
-class RollHolder(
-    private val binding: ItemRollBinding,
+class RollContentHolder(
+    private val binding: ItemRollContentBinding,
     private val readCallback: ReadCallback,
     private val writeCallback: WriteCallback,
     private val dragListener: ItemDragListener,
@@ -125,6 +125,7 @@ class RollHolder(
             imeOptions = EditorInfo.IME_ACTION_NEXT or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
             setEditorNextAction { onEnterNext() }
+            removeTextChangedListener(textWatcher)
             addTextChangedListener(textWatcher)
             setOnTouchListener(touchListener)
         }

@@ -9,17 +9,17 @@ import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.NoteModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ViewModelModule
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 
 /**
- * Component for [RollNoteFragmentImpl].
+ * Component for [RollNoteFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [ViewModelModule::class, ListModule::class, NoteModule::class])
 interface RollNoteComponent {
 
-    fun inject(fragment: RollNoteFragmentImpl)
+    fun inject(fragment: RollNoteFragment)
 
     @Subcomponent.Builder
     interface Builder {

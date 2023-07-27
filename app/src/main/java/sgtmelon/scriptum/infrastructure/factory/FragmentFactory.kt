@@ -6,8 +6,8 @@ import sgtmelon.scriptum.develop.infrastructure.screen.service.ServiceDevelopFra
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
-import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragmentImpl
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.roll.RollNoteFragment
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragment
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
@@ -23,9 +23,9 @@ object FragmentFactory {
 
     class Note(private val fm: FragmentManager) {
 
-        fun getTextNote(): TextNoteFragmentImpl? = fm.getFragmentByTag(Tag.TEXT)
+        fun getTextNote(): TextNoteFragment? = fm.getFragmentByTag(Tag.TEXT)
 
-        fun getRollNote(): RollNoteFragmentImpl? = fm.getFragmentByTag(Tag.ROLL)
+        fun getRollNote(): RollNoteFragment? = fm.getFragmentByTag(Tag.ROLL)
 
         object Tag {
             private const val PREFIX = "FRAGMENT_NOTE"

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragment
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
@@ -31,7 +31,7 @@ import sgtmelon.test.cappuccino.utils.withHint
 import sgtmelon.test.cappuccino.utils.withText
 
 /**
- * Class for UI control of [NoteActivity], [TextNoteFragmentImpl].
+ * Class for UI control of [NoteActivity], [TextNoteFragment].
  */
 class TextNoteScreen(
     override var state: NoteState,

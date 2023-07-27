@@ -3,14 +3,14 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 import kotlinx.serialization.Serializable
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
-import sgtmelon.scriptum.infrastructure.adapter.RollAdapter
+import sgtmelon.scriptum.infrastructure.adapter.RollContentAdapter
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 
 /**
- * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
+ * Model for store short information about note, use in [NoteAdapter]/[RollContentAdapter].
  */
 // TODO may be convert create/change into Calendar?
 @Serializable

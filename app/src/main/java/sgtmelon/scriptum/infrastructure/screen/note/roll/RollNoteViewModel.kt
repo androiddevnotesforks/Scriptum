@@ -3,13 +3,13 @@ package sgtmelon.scriptum.infrastructure.screen.note.roll
 import androidx.annotation.MainThread
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.infrastructure.adapter.holder.RollHolder
+import sgtmelon.scriptum.infrastructure.adapter.holder.RollContentHolder
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModel
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListViewModel
 
 interface RollNoteViewModel : ParentNoteViewModel<NoteItem.Roll>,
     ListViewModel<RollItem>,
-    RollHolder.WriteCallback {
+    RollContentHolder.WriteCallback {
 
     fun changeVisible()
 

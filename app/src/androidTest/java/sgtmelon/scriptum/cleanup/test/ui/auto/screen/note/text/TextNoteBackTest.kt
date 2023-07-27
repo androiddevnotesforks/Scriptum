@@ -3,13 +3,13 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.text
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragmentImpl
+import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragment
 
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.test.common.nextString
 
 /**
- * Test toolbar arrow and back press for [TextNoteFragmentImpl].
+ * Test toolbar arrow and back press for [TextNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class TextNoteBackTest : ParentUiTest() {
