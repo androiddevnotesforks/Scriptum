@@ -4,9 +4,9 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.allOf
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.test.cappuccino.utils.isDescendant

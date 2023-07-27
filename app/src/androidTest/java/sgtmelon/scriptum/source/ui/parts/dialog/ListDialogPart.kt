@@ -7,8 +7,8 @@ import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.`is`
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.scriptum.source.ui.parts.UiPart
