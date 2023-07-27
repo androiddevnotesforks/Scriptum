@@ -9,7 +9,6 @@ import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 import sgtmelon.scriptum.source.cases.value.ColorCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
-import sgtmelon.test.common.getDifferentValues
 import sgtmelon.test.common.nextString
 
 /**
@@ -23,7 +22,7 @@ abstract class NoteUIColorTestCase(
 
     override fun startTest(value: Color) {
         setupTheme(theme)
-        preferencesRepo.defaultColor = Color.values().getDifferentValues(value).second
+        preferencesRepo.defaultColor = Color.values().filter { it != value }.random()
 
         launchMain {
             openNotes(isEmpty = true) {

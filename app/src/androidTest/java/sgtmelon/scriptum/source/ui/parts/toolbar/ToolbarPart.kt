@@ -5,10 +5,10 @@ import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withParent
-import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.anyOf
-import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.anyOf
 import sgtmelon.scriptum.source.ui.parts.UiSubpart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.withMenuDrawable

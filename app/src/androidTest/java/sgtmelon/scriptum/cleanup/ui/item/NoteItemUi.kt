@@ -4,9 +4,9 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
-import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import sgtmelon.extensions.formatPast
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.R
@@ -107,7 +107,7 @@ class NoteItemUi(
 
             private val parentMatcher = allOf(
                 withId(R.id.container),
-                withTagValue(`is`(tag))
+                withTagValue(Matchers.`is`(tag))
             )
 
             val parentContainer = getChild(parentMatcher)
