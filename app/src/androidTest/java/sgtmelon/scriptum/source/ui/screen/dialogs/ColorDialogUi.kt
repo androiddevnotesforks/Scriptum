@@ -9,6 +9,7 @@ import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.getCount
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
+import sgtmelon.test.cappuccino.utils.longClick
 import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
@@ -48,6 +49,8 @@ class ColorDialogUi(
 
         assert()
     }
+
+    fun longPress(color: Color) = apply { recyclerView.longClick(color.ordinal) }
 
     /**
      * Return position different from [color] and [initColor]
