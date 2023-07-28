@@ -31,6 +31,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.getRandomPastTime
 import sgtmelon.test.common.getRandomSize
+import sgtmelon.test.common.halfChance
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
@@ -220,14 +221,14 @@ class BackupRepoImplTest : ParentRepoTest() {
         )
         for ((i, item) in startRankList.withIndex()) {
             if (i.isDivideEntirely()) {
-                val id = if (Random.nextBoolean()) firstItem.id else secondItem.id
+                val id = if (halfChance()) firstItem.id else secondItem.id
                 item.noteId.add(id)
             }
         }
 
         startAlarmList.addAll(
             List(size = 5) {
-                val noteId = if (Random.nextBoolean()) firstItem.id else secondItem.id
+                val noteId = if (halfChance()) firstItem.id else secondItem.id
                 return@List AlarmEntity(id = Random.nextLong(), noteId = noteId)
             }
         )

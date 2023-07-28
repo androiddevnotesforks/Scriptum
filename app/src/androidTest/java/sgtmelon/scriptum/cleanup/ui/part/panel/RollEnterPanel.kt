@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.ui.part.panel
 
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import kotlin.random.Random
 import org.hamcrest.Matcher
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.R
@@ -31,6 +30,7 @@ import sgtmelon.test.cappuccino.utils.withHint
 import sgtmelon.test.cappuccino.utils.withImeAction
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withText
+import sgtmelon.test.common.halfChance
 
 /**
  * Part of UI abstraction for [RollNoteScreen]
@@ -69,7 +69,7 @@ class RollEnterPanel<T : ContainerPart>(
 
             val actualText = text.removeExtraSpace()
 
-            if (Random.nextBoolean()) {
+            if (halfChance()) {
                 addButton.click()
 
                 callback.shadowItem.list.apply {

@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(project(":libraries:extensions"))
+    implementation(project(":tests:common"))
 
     implementation(libs.android.core)
     implementation(libs.android.appcompat)

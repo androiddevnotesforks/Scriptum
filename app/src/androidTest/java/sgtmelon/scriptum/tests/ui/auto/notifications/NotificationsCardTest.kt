@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.tests.ui.auto.notifications
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extensions.getClearCalendar
@@ -14,6 +13,7 @@ import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchNotifications
 import sgtmelon.scriptum.source.utils.NEXT_HOUR
 import sgtmelon.scriptum.source.utils.nextArray
+import sgtmelon.test.common.halfChance
 
 /**
  * Test for [NotificationItemUi]
@@ -34,7 +34,7 @@ class NotificationsCardTest : ParentUiTest() {
 
         startListTest(List(Color.values().size) {
             val date = getClearCalendar(addMinutes = NEXT_HOUR + it * NEXT_HOUR).toText()
-            val item = if (Random.nextBoolean()) {
+            val item = if (halfChance()) {
                 db.insertText(db.textNote.copy(color = Color.values()[it]))
             } else {
                 db.insertRoll(db.rollNote.copy(color = Color.values()[it]))

@@ -44,13 +44,27 @@ class ColorHolder(
         onUpdate: () -> Unit
     ) {
         binding.clickView.setOnClickListener {
-            callback.onColorClick(position)
+            onClick(checkArray, check, position, callback, onUpdate)
+        }
+        binding.clickView.setOnLongClickListener {
+            onClick(checkArray, check, position, callback, onUpdate)
+            return@setOnLongClickListener true
+        }
+    }
 
-            if (check != position) {
-                onUpdate()
-                checkArray[position] = true
-                animation.startCheckFade(binding) { changeCheck(isVisible = true) }
-            }
+    private inline fun onClick(
+        checkArray: BooleanArray,
+        check: Int,
+        position: Int,
+        callback: ColorClickListener,
+        onUpdate: () -> Unit
+    ) {
+        callback.onColorClick(position)
+
+        if (check != position) {
+            onUpdate()
+            checkArray[position] = true
+            animation.startCheckFade(binding) { changeCheck(isVisible = true) }
         }
     }
 

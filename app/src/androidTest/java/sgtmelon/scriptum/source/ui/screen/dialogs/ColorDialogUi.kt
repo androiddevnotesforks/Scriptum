@@ -42,23 +42,30 @@ class ColorDialogUi(
     private var initColor: Color = color
 
     fun select(setColor: Color = Color.values().random()) = apply {
+        select(setColor, isLong = false)
+    }
+
+    fun selectLong(setColor: Color = Color.values().random()) = apply {
+        select(setColor, isLong = true)
+    }
+
+    private fun select(setColor: Color, isLong: Boolean) {
         val newColor = getNewColor(setColor)
         color = newColor
-
-        recyclerView.click(newColor.ordinal)
-
+        if (!isLong) {
+            recyclerView.click(newColor.ordinal)
+        } else {
+            recyclerView.longClick(newColor.ordinal)
+        }
         assert()
     }
 
-    fun longPress(color: Color) = apply { recyclerView.longClick(color.ordinal) }
-
-    /**
-     * Return position different from [color] and [initColor]
-     */
+    /** Return position different from current [color] and [initColor]. */
     private fun getNewColor(color: Color = Color.values().random()): Color {
         return if (color == this.color || color == initColor) getNewColor() else color
     }
 
+    @Deprecated("Remove from use, see how it in NotesPreferenceColorTest")
     fun selectAll() = apply {
         val values = Color.values()
         for (i in 0 until recyclerView.getCount()) select(values[i])

@@ -27,7 +27,7 @@ class CommandAutomator(private val uiDevice: UiDevice) {
         increaseLongPress()
     }
 
-    private fun changeLongPress(timeMs: Long) {
+    fun changeLongPress(timeMs: Long) {
         uiDevice.executeShellCommand("settings put secure long_press_timeout $timeMs")
     }
 

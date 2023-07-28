@@ -8,10 +8,9 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import kotlin.random.Random
 import org.hamcrest.Matcher
 import sgtmelon.test.cappuccino.actions.SeekBarAction
-
+import sgtmelon.test.common.halfChance
 
 private fun actionOnView(viewMatcher: Matcher<View>, vararg action: ViewAction) {
     onView(viewMatcher).perform(*action)
@@ -56,7 +55,7 @@ fun Matcher<View>.longClick(p: Int) = also {
 }
 
 fun Matcher<View>.swipeItem(p: Int) = also {
-    val action = if (Random.nextBoolean()) ViewActions.swipeLeft() else ViewActions.swipeRight()
+    val action = if (halfChance()) ViewActions.swipeLeft() else ViewActions.swipeRight()
 
     onView(it).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(p, action))
 }

@@ -66,12 +66,11 @@ class RollNoteColorDialogTest : ParentUiTest(), ColorCase {
 
     @Test override fun colorWhite() = super.colorWhite()
 
-    /**
-     * Check [PreferencesImpl.defaultColor] work.
-     */
+    /** Check [PreferencesImpl.defaultColor] work. */
     override fun startTest(value: Color) {
         preferencesRepo.defaultColor = value
 
+        // TODO improve tests, check default color, switch to new one (simple or long click) and apply it
         val item = db.createRoll()
         launchSplash {
             mainScreen {

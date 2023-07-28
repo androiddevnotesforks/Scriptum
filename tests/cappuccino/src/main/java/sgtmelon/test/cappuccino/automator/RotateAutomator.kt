@@ -1,8 +1,8 @@
 package sgtmelon.test.cappuccino.automator
 
 import androidx.test.uiautomator.UiDevice
-import kotlin.random.Random
 import sgtmelon.test.cappuccino.utils.await
+import sgtmelon.test.common.halfChance
 
 /**
  * Automator for rotate device during tests.
@@ -16,7 +16,7 @@ class RotateAutomator(private val uiDevice: UiDevice) {
         if (!isNormal) return
 
         isNormal = false
-        if (Random.nextBoolean()) uiDevice.setOrientationLeft() else uiDevice.setOrientationRight()
+        if (halfChance()) uiDevice.setOrientationLeft() else uiDevice.setOrientationRight()
         await(ROTATE_PAUSE)
     }
 

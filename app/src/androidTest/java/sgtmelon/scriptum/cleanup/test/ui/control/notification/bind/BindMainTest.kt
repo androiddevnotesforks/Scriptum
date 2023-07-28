@@ -105,7 +105,7 @@ class BindMainTest : ParentNotificationTest() {
         TODO()
         //
         //        val noteItem = with(db) {
-        //            return@with if (Random.nextBoolean()) {
+        //            return@with if (halfChance()) {
         //                insertText(textNote.copy(isStatus = true))
         //            } else {
         //                insertRoll(rollNote.copy(isStatus = true))

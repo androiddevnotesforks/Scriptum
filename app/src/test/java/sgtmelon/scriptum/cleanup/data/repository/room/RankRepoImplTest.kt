@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.parent.ParentRepoTest
 import sgtmelon.scriptum.infrastructure.database.DbData.Note
 import sgtmelon.test.common.getRandomSize
+import sgtmelon.test.common.halfChance
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
 import kotlin.random.Random
@@ -143,7 +144,7 @@ class RankRepoImplTest : ParentRepoTest() {
         }
 
         every { converter.toEntity(rankItem) } returns rankEntity
-        coEvery { rankDataSource.insert(rankEntity) } returns if (Random.nextBoolean()) id else null
+        coEvery { rankDataSource.insert(rankEntity) } returns if (halfChance()) id else null
 
         runBlocking {
             repository.insert(rankItem)

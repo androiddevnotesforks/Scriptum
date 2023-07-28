@@ -7,11 +7,12 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
-import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.cases.value.ColorCase
+import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
 import sgtmelon.test.common.getDifferentValues
+import sgtmelon.test.common.oneFourthChance
 
 /**
  * Test of [PreferencesImpl.defaultColor] setup for [MenuPreferenceFragment]
@@ -22,7 +23,8 @@ class NotesPreferenceColorTest : ParentUiTest(),
     ColorCase {
 
     @Test override fun close() = launchNotesPreference {
-        val color = preferencesRepo.defaultColor
+        val color = Color.values().random()
+        preferencesRepo.defaultColor = color
 
         openColorDialog(color) { cancel() }
         assert()
@@ -57,7 +59,11 @@ class NotesPreferenceColorTest : ParentUiTest(),
         preferencesRepo.defaultColor = initValue
 
         launchNotesPreference {
-            openColorDialog(initValue) { assertItem().select(setValue).apply() }
+            openColorDialog(initValue) {
+                assertItem()
+                if (oneFourthChance()) selectLong(setValue) else select(setValue)
+                apply()
+            }
             assert()
         }
 

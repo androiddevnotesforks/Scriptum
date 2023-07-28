@@ -72,6 +72,7 @@ class TextNoteColorDialogTest : ParentUiTest(), ColorCase {
     override fun startTest(value: Color) {
         preferencesRepo.defaultColor = value
 
+        // TODO improve tests, check default color, switch to new one (simple or long click) and apply it
         val item = db.createText()
         launchSplash {
             mainScreen {

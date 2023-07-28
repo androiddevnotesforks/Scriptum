@@ -1,6 +1,7 @@
 package sgtmelon.test.common
 
 import org.junit.Assert.assertNotEquals
+import sgtmelon.extensions.emptyString
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.extensions.uniqueId
@@ -15,11 +16,19 @@ fun nextString() = uniqueId.substring(0, 16)
 
 fun nextShortString() = nextString().substring(0, 4)
 
-fun nextBooleanOrNull() = if (Random.nextBoolean()) Random.nextBoolean() else null
+fun nextStringOrEmpty() = if (halfChance()) nextString() else emptyString()
 
-fun nextLongOrNull() = if (Random.nextBoolean()) Random.nextLong() else null
+fun nextBooleanOrNull() = if (halfChance()) Random.nextBoolean() else null
 
-fun nextIntOrNull() = if (Random.nextBoolean()) Random.nextInt() else null
+fun nextLongOrNull() = if (halfChance()) Random.nextLong() else null
+
+fun nextIntOrNull() = if (halfChance()) Random.nextInt() else null
+
+/** 50% TRUE - 50% FALSE */
+fun halfChance() = Random.nextBoolean()
+
+/** 25% TRUE - 75% FALSE */
+fun oneFourthChance() = halfChance() && halfChance()
 
 //endregion
 

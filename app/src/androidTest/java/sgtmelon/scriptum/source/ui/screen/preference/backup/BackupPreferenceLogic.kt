@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.source.ui.screen.preference.backup
 
-import kotlin.random.Random
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.source.ui.model.PreferenceItem
 import sgtmelon.scriptum.source.ui.model.PreferenceItem.Header
@@ -8,6 +7,7 @@ import sgtmelon.scriptum.source.ui.model.PreferenceItem.Simple
 import sgtmelon.scriptum.source.ui.model.PreferenceItem.Summary
 import sgtmelon.scriptum.source.ui.model.PreferenceItem.Switch
 import sgtmelon.scriptum.source.ui.parts.preferences.PreferenceLogic
+import sgtmelon.test.common.halfChance
 
 /**
  * Logic for [BackupPreferenceScreen].
@@ -29,7 +29,7 @@ class BackupPreferenceLogic(
         list.add(exportItem)
 
         val summary = if (isImportPermissionGranted) {
-            if (Random.nextBoolean()) {
+            if (halfChance()) {
                 context.getString(R.string.pref_summary_import_found, TODO())
             } else {
                 context.getString(R.string.pref_summary_import_empty)

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.testData
 
-import kotlin.random.Random
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
@@ -28,7 +27,10 @@ import sgtmelon.scriptum.source.utils.NEXT_HOUR
 import sgtmelon.scriptum.tests.ui.auto.main.bin.BinDialogNoteRollTest
 import sgtmelon.scriptum.tests.ui.auto.main.notes.NotesDialogNoteTextTest
 import sgtmelon.test.common.getRandomFutureTime
+import sgtmelon.test.common.halfChance
 import sgtmelon.test.common.nextString
+import sgtmelon.test.common.nextStringOrEmpty
+import kotlin.random.Random
 
 /**
  * Class which fill db and provide data for tests.
@@ -56,7 +58,7 @@ class DbDelegator(
         get() = NoteEntity().apply {
             create = getCalendarText()
             change = getCalendarText()
-            name = if (Random.nextBoolean()) nextString() else ""
+            name = nextStringOrEmpty()
             text = nextString().repeat(n = (1 until 10).random())
             color = Color.values().random()
             type = NoteType.TEXT
@@ -69,7 +71,7 @@ class DbDelegator(
         get() = NoteEntity().apply {
             create = getCalendarText()
             change = getCalendarText()
-            name = if (Random.nextBoolean()) nextString() else ""
+            name = nextStringOrEmpty()
             color = Color.values().random()
             type = NoteType.ROLL
         }
@@ -99,7 +101,7 @@ class DbDelegator(
         NoteType.ROLL -> createRoll()
     }
 
-    fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
+    fun createNote(): NoteItem = if (halfChance()) createText() else createRoll()
 
     fun createText(): NoteItem.Text = CreateTextNoteUseCase(preferencesRepo).invoke()
 

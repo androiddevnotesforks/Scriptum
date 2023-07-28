@@ -10,7 +10,7 @@ import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchHelpMain
 import sgtmelon.test.cappuccino.utils.await
-import kotlin.random.Random
+import sgtmelon.test.common.halfChance
 import sgtmelon.scriptum.tests.ui.auto.main.MainDialogHelpTest as MainDialogHelpAutoTest
 
 /**
@@ -40,7 +40,7 @@ class MainDialogHelpTest : ParentUiRotationTest(),
     @Test override fun rotateWork() = launchHelpMain {
         openHelpDialog {
             rotate.toSide()
-            if (Random.nextBoolean()) positive() else negative()
+            if (halfChance()) positive() else negative()
         }
     }
 
