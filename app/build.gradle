@@ -38,7 +38,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile(ProFiles.DEFAULT), ProFiles.MAIN
+            proguardFiles getDefaultProguardFile(ProFiles.ANDROID), ProFiles.MAIN
 
             buildConfigField "int", "NOTE_HISTORY_MAX_SIZE", '200'
         }
@@ -48,7 +48,7 @@ android {
 
             /** Turn off for tests correct work! */
             minifyEnabled false
-            proguardFiles getDefaultProguardFile(ProFiles.DEFAULT), ProFiles.MAIN
+            proguardFiles getDefaultProguardFile(ProFiles.ANDROID), ProFiles.MAIN
             testProguardFile ProFiles.TEST
 
             buildConfigField "int", "NOTE_HISTORY_MAX_SIZE", '50'
@@ -89,7 +89,7 @@ dependencies {
 
     implementation libs.firebase.analytics
     implementation libs.firebase.crashlytics
-    implementation libs.firebase.performance
+    releaseImplementation libs.firebase.performance
 
     implementation libs.dagger.core
     kapt libs.dagger.compiler
@@ -97,10 +97,6 @@ dependencies {
     //region AndroidX
 
     implementation libs.android.core
-    implementation libs.android.appcompat
-    implementation libs.android.material
-    implementation libs.android.cardview
-    implementation libs.android.constraint
 
     implementation libs.android.lifecycle.ext
     implementation libs.android.lifecycle.vm
@@ -109,9 +105,13 @@ dependencies {
     implementation libs.android.room.runtime
     implementation libs.android.room.ktx
     kapt libs.android.room.compiler
-    implementation libs.android.room.testing
+    testImplementation libs.android.room.testing
 
     implementation libs.android.preference
+    implementation libs.android.appcompat
+    implementation libs.android.cardview
+    implementation libs.android.constraint
+
     implementation libs.android.vector
     implementation libs.android.vector.animated
 

@@ -22,7 +22,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile(ProFiles.DEFAULT), ProFiles.MAIN)
+            proguardFiles(getDefaultProguardFile(ProFiles.ANDROID_OPTIMIZE), ProFiles.MAIN)
         }
     }
 
