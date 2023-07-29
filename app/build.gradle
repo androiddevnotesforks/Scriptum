@@ -109,6 +109,7 @@ dependencies {
 
     implementation libs.android.preference
     implementation libs.android.appcompat
+    implementation libs.android.material
     implementation libs.android.cardview
     implementation libs.android.constraint
 
