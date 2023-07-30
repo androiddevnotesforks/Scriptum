@@ -2,7 +2,7 @@ package sgtmelon.scriptum.source.ui.screen.dialogs
 
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
+import sgtmelon.scriptum.infrastructure.dialogs.RenameDialog
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.scriptum.source.ui.feature.KeyboardIme
 import sgtmelon.scriptum.source.ui.parts.UiPart

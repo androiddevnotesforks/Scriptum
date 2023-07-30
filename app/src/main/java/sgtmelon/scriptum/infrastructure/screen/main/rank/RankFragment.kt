@@ -6,7 +6,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.extensions.emptyString
 import sgtmelon.iconanim.callback.IconBlockCallback
@@ -15,12 +14,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
-import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.infrastructure.adapter.RankAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.RankClickListener
 import sgtmelon.scriptum.infrastructure.adapter.touch.DragAndSwipeTouchHelper
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
+import sgtmelon.scriptum.infrastructure.dialogs.RenameDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
@@ -37,6 +36,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorDoneAction
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
 import sgtmelon.test.idling.getIdling
+import javax.inject.Inject
 
 /**
  * Screen with list of categories and with ability to create them.

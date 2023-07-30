@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.dialog
+package sgtmelon.scriptum.infrastructure.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -84,7 +84,11 @@ class RenameDialog : BlankButtonDialog(),
             doOnTextChanged { _, _, _, _ -> changeButtonEnable() }
 
             if (!isContentRestored) {
-                /** If first open (not after rotation) -> set text and select all. */
+                /**
+                 * If first open (not after rotation) -> set text and select all. Don't need to
+                 * set text in other cases, because [EditText] handle rotation and save state
+                 * itself (text in particular).
+                 */
                 setText(title)
                 selectAllText()
             } else if (text.toString() == title) {
