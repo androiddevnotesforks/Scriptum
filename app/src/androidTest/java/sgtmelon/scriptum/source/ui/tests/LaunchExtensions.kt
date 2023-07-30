@@ -3,16 +3,21 @@ package sgtmelon.scriptum.source.ui.tests
 import androidx.test.core.app.launchActivity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
+import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceActivity
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
+import sgtmelon.scriptum.source.ui.model.key.NoteState
 import sgtmelon.scriptum.source.ui.screen.alarm.AlarmScreen
 import sgtmelon.scriptum.source.ui.screen.main.BinScreen
 import sgtmelon.scriptum.source.ui.screen.main.MainScreen
 import sgtmelon.scriptum.source.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.source.ui.screen.main.RankScreen
+import sgtmelon.scriptum.source.ui.screen.note.NoteScreen
 import sgtmelon.scriptum.source.ui.screen.notifications.NotificationsScreen
 import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceScreen
 import sgtmelon.scriptum.source.ui.screen.preference.backup.BackupPreferenceScreen
@@ -94,7 +99,6 @@ inline fun <T : NoteItem> ParentUiTest.launchNotesItem(
 
 //region Bin functions
 
-
 inline fun ParentUiTest.launchBin(
     isEmpty: Boolean = false,
     func: BinScreen.() -> Unit = {}
@@ -115,6 +119,60 @@ inline fun <T : NoteItem> ParentUiTest.launchBinItem(
     crossinline func: BinScreen.(T) -> Unit
 ) {
     launchBin { func(item) }
+}
+
+//endregion
+
+//region Note functions
+
+inline fun ParentUiTest.launchTextNote(
+    before: () -> Unit = {},
+    item: NoteItem.Text,
+    isRankEmpty: Boolean = true,
+    after: TextNoteScreen.() -> Unit
+) {
+    before()
+    val intent = Screens.Note.toExist(context, item)
+    launchActivity<NoteActivity>(intent)
+    val state = if (item.isBin) NoteState.BIN else NoteState.READ
+    NoteScreen().openText(after, state, item, isRankEmpty)
+}
+
+inline fun ParentUiTest.launchNewTextNote(
+    before: () -> Unit = {},
+    item: NoteItem.Text,
+    isRankEmpty: Boolean = true,
+    after: TextNoteScreen.() -> Unit
+) {
+    before()
+    val intent = Screens.Note.toNew(context, item)
+    launchActivity<NoteActivity>(intent)
+    NoteScreen().openText(after, NoteState.NEW, item, isRankEmpty)
+}
+
+inline fun ParentUiTest.launchRollNote(
+    before: () -> Unit = {},
+    item: NoteItem.Roll,
+    isRankEmpty: Boolean = true,
+    after: RollNoteScreen.() -> Unit
+) {
+    before()
+    val intent = Screens.Note.toExist(context, item)
+    launchActivity<NoteActivity>(intent)
+    val state = if (item.isBin) NoteState.BIN else NoteState.READ
+    NoteScreen().openRoll(after, state, item, isRankEmpty)
+}
+
+inline fun ParentUiTest.launchNewRollNote(
+    before: () -> Unit = {},
+    item: NoteItem.Roll,
+    isRankEmpty: Boolean = true,
+    after: RollNoteScreen.() -> Unit
+) {
+    before()
+    val intent = Screens.Note.toNew(context, item)
+    launchActivity<NoteActivity>(intent)
+    NoteScreen().openRoll(after, NoteState.NEW, item, isRankEmpty)
 }
 
 //endregion

@@ -24,8 +24,6 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateComplete
 import sgtmelon.scriptum.source.RoomWorker
 import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.source.utils.NEXT_HOUR
-import sgtmelon.scriptum.tests.ui.auto.main.bin.BinDialogNoteRollTest
-import sgtmelon.scriptum.tests.ui.auto.main.notes.NotesDialogNoteTextTest
 import sgtmelon.test.common.getRandomFutureTime
 import sgtmelon.test.common.halfChance
 import sgtmelon.test.common.nextString
@@ -51,22 +49,16 @@ class DbDelegator(
 
     //region CleanUp
 
-    /**
-     * For [NotesDialogNoteTextTest] and [BinDialogNoteRollTest] need filled [NoteEntity.name] by default.
-     */
     val textNote: NoteEntity
         get() = NoteEntity().apply {
             create = getCalendarText()
             change = getCalendarText()
             name = nextStringOrEmpty()
-            text = nextString().repeat(n = (1 until 10).random())
+            text = nextString((1 until 10).random())
             color = Color.values().random()
             type = NoteType.TEXT
         }
 
-    /**
-     * For [NotesDialogNoteTextTest] and [BinDialogNoteRollTest] need filled [NoteEntity.name] by default.
-     */
     val rollNote: NoteEntity
         get() = NoteEntity().apply {
             create = getCalendarText()
@@ -78,21 +70,17 @@ class DbDelegator(
 
     val isVisible: Boolean get() = Random.nextBoolean()
 
-    val rollList: ArrayList<RollEntity>
-        get() = ArrayList<RollEntity>().apply {
-            for (i in 0 until (1 until 6).random()) {
-                add(rollEntity.apply {
-                    position = i
-                    text = "$i | $text"
-                })
-            }
+    fun getRollList(size: Int = (1 until 6).random()): ArrayList<RollEntity> {
+        return ArrayList<RollEntity>().apply {
+            for (i in 0 until size) add(getRollEntity(i))
         }
+    }
 
-    val rollEntity: RollEntity
-        get() = RollEntity().apply {
-            isCheck = Random.nextBoolean()
-            text = nextString()
-        }
+    private fun getRollEntity(index: Int): RollEntity = RollEntity().apply {
+        isCheck = Random.nextBoolean()
+        position = index
+        text = "$index | ${nextString((1 ..3).random())}"
+    }
 
     val rankEntity: RankEntity get() = RankEntity(name = nextString())
 
@@ -171,7 +159,7 @@ class DbDelegator(
     fun insertRoll(
         entity: NoteEntity = rollNote,
         isVisible: Boolean = this.isVisible,
-        list: ArrayList<RollEntity> = rollList
+        list: ArrayList<RollEntity> = getRollList()
     ): NoteItem.Roll {
         inRoomTest {
             entity.id = noteDao.insertSafe(entity) ?: throw NullPointerException()
@@ -199,7 +187,7 @@ class DbDelegator(
     fun insertRollToBin(
         entity: NoteEntity = rollNote,
         isVisible: Boolean = this.isVisible,
-        list: ArrayList<RollEntity> = rollList
+        list: ArrayList<RollEntity> = getRollList()
     ): NoteItem.Roll {
         return insertRoll(entity.apply { isBin = true }, isVisible, list)
     }

@@ -14,6 +14,8 @@ fun getRandomSize(minSize: Int = 5): Int = (minSize..(minSize * 2)).random()
 
 fun nextString() = uniqueId.substring(0, 16)
 
+fun nextString(times: Int) = nextString().repeat(times)
+
 fun nextShortString() = nextString().substring(0, 4)
 
 fun nextStringOrEmpty() = if (halfChance()) nextString() else emptyString()

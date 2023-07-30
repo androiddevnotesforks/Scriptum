@@ -7,11 +7,12 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.text.TextNoteFragment
 
+
 /**
- * Test overscroll color in [TextNoteFragment] with [ThemeDisplayed.DARK] theme.
+ * Test overscroll color in [TextNoteFragment] with [ThemeDisplayed.LIGHT] theme.
  */
 @RunWith(AndroidJUnit4::class)
-class TextNoteOverscrollDarkTest : NoteOverscrollTestCase(ThemeDisplayed.DARK, NoteType.TEXT) {
+class TextNoteOverscrollLightTest : NoteOverscrollTestCase(ThemeDisplayed.LIGHT, NoteType.TEXT) {
 
     @Test override fun colorRed() = super.colorRed()
 

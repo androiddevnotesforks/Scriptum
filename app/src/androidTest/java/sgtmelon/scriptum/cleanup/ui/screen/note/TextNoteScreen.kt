@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.ui.screen.note
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen.Companion.SCROLL_TIME
 import sgtmelon.scriptum.cleanup.ui.part.panel.NotePanel
 import sgtmelon.scriptum.cleanup.ui.part.toolbar.NoteToolbar
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryImpl
@@ -17,12 +18,16 @@ import sgtmelon.scriptum.source.ui.feature.BackPress
 import sgtmelon.scriptum.source.ui.feature.KeyboardClose
 import sgtmelon.scriptum.source.ui.feature.ToolbarBack
 import sgtmelon.scriptum.source.ui.model.key.NoteState
+import sgtmelon.scriptum.source.ui.model.key.Scroll
 import sgtmelon.scriptum.source.ui.parts.ContainerPart
 import sgtmelon.scriptum.source.ui.parts.toolbar.ToolbarPart
 import sgtmelon.scriptum.source.ui.screen.note.NoteScreen
+import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isFocused
+import sgtmelon.test.cappuccino.utils.swipeDown
+import sgtmelon.test.cappuccino.utils.swipeUp
 import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
 import sgtmelon.test.cappuccino.utils.withCard
@@ -77,6 +82,15 @@ class TextNoteScreen(
         controlPanel { assert() }
     }
 
+    // TODO the same logic like in [ParentRecyclerScreen], mey be make it common? e.g. through interface?
+    fun scrollTo(scroll: Scroll, time: Int) = repeat(time) {
+        when (scroll) {
+            Scroll.START -> contentScroll.swipeDown()
+            Scroll.END -> contentScroll.swipeUp()
+        }
+
+        await(SCROLL_TIME)
+    }
 
     fun onEnterText(text: String = "") = apply {
         textEnter.typeText(text)

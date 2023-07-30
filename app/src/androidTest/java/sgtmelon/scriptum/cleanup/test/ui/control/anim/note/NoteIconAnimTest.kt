@@ -40,7 +40,7 @@ class NoteIconAnimTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        enterPanel { onAdd(db.rollList.first().text) }
+                        enterPanel { onAdd(nextString()) }
                         controlPanel { onSave() }
                     }
                 }

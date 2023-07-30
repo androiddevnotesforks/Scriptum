@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.source.cases.note
 
-import kotlin.random.Random
 import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
-import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
@@ -12,10 +10,10 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearRank
-
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.utils.lastArray
+import kotlin.random.Random
 
 /**
  * Parent class for tests of [NoteAdapter]
@@ -119,18 +117,9 @@ abstract class NoteCardTestCase(
 
     open fun rollRow4() = startRowTest(count = 4)
 
-    /**
-     * Test of displaying different [count] of roll rows.
-     */
+    /** Test of displaying different [count] of roll rows. */
     private fun startRowTest(count: Int) {
-        val rollList = ArrayList<RollEntity>()
-
-        for (i in 0 until count) {
-            rollList.add(db.rollEntity.apply {
-                position = i
-                text = "$i | $text"
-            })
-        }
+        val rollList = db.getRollList(count)
 
         /** Pass isVisible=true, to make sure that visible exactly the [count] of items. */
         assertList(ArrayList<NoteItem>().apply {
@@ -182,12 +171,20 @@ abstract class NoteCardTestCase(
 
     /** Test of roll visible indicator. */
     private fun startVisibleIndicatorTest(itemsDone: ItemsDone, isVisible: Boolean) {
-        val rollList = db.rollList
+        val rollList = db.getRollList(size = 4)
         rollList.forEach {
-            when (itemsDone) {
-                ItemsDone.ALL -> it.isCheck = true
-                ItemsDone.PART -> it.isCheck = Random.nextBoolean()
-                ItemsDone.NONE -> it.isCheck = false
+            it.isCheck = when (itemsDone) {
+                ItemsDone.ALL -> true
+                ItemsDone.PART -> Random.nextBoolean()
+                ItemsDone.NONE -> false
+            }
+        }
+
+        /** Just in case if all isCheck values equal TRUE/FALSE values. */
+        if (itemsDone == ItemsDone.PART) {
+            when {
+                rollList.all { it.isCheck } -> rollList.random().isCheck = false
+                rollList.all { !it.isCheck } -> rollList.random().isCheck = true
             }
         }
 
@@ -217,14 +214,8 @@ abstract class NoteCardTestCase(
     private fun startProgressTest(check: Int, size: Int) {
         if (size < check) throw IllegalAccessException(OVERFLOW_ERROR_TEXT)
 
-        val rollList = ArrayList<RollEntity>()
-
-        for (i in 0 until size) {
-            rollList.add(db.rollEntity.apply {
-                position = i
-                text = "$i | $text"
-            })
-        }
+        val rollList = db.getRollList(size)
+        rollList.forEach { it.isCheck = false }
 
         for ((done, entity) in rollList.withIndex()) {
             entity.isCheck = true
@@ -278,7 +269,7 @@ abstract class NoteCardTestCase(
      */
     private fun startRankCancelTest(type: NoteType) {
         val pair = when (page) {
-            MainPage.RANK -> throw IllegalAccessError(PAGE_ERROR_TEXT)
+            MainPage.RANK -> throwPageError()
             MainPage.NOTES -> db.insertRankForNotes(type = type)
             MainPage.BIN -> db.insertRankForBin(type = type)
         }
