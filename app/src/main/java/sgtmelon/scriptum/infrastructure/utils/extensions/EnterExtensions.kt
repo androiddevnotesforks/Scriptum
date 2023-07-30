@@ -5,8 +5,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.annotation.IntRange
 import androidx.databinding.ViewDataBinding
-import kotlin.math.min
 import sgtmelon.extensions.emptyString
+import kotlin.math.min
 
 inline fun EditText.setEditorNextAction(crossinline func: () -> Unit) {
     setOnEditorAction(EditorInfo.IME_ACTION_NEXT, func)
@@ -68,7 +68,7 @@ private fun EditText.getCorrectCursor(value: Int) = min(value, length())
 
 fun EditText.selectAllText() {
     if (text.isNotEmpty()) {
-        setSelection(0, text.length)
+        setSelection(0, length())
     }
     requestFocus()
 }

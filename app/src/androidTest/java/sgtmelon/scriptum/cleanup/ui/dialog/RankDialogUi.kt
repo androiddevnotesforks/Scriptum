@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerScreen
+import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isChecked
@@ -13,7 +14,8 @@ import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.withTextColor
 
 /**
- * Class for UI control of [SingleDialog] with rank list.
+ * Class for UI control of [SingleDialog] which open from [NoteActivity] for select
+ * category/rank.
  */
 class RankDialogUi(
     private val item: NoteItem,
@@ -93,10 +95,10 @@ class RankDialogUi(
         inline operator fun invoke(
             func: RankDialogUi.() -> Unit,
             item: NoteItem,
-            rankList: List<RankItem>,
+            list: List<RankItem>,
             callback: Callback
         ): RankDialogUi {
-            return RankDialogUi(item, rankList, callback)
+            return RankDialogUi(item, list, callback)
                 .apply { waitOpen { assert() } }
                 .apply(func)
         }

@@ -13,6 +13,7 @@ import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.typeText
 import sgtmelon.test.cappuccino.utils.withBackgroundColor
+import sgtmelon.test.cappuccino.utils.withCursor
 import sgtmelon.test.cappuccino.utils.withHint
 import sgtmelon.test.cappuccino.utils.withImeAction
 import sgtmelon.test.cappuccino.utils.withSelection
@@ -77,6 +78,10 @@ class RenameDialogUi(title: String) : UiPart(),
 
     fun assertSelection(enter: String) {
         renameEnter.withSelection(enter)
+    }
+
+    fun assertSelectionEnd(enter: String) {
+        renameEnter.withCursor(enter.length)
     }
 
     companion object {

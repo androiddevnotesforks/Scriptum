@@ -24,6 +24,26 @@ class RankRotationTest : ParentUiRotationTest() {
         }
     }
 
+    @Test fun selectAfterRotation() = launchRankItem(db.insertRank()) {
+        val newName = nextString()
+
+        openRenameDialog(it.name) {
+            /** Check initial selection. */
+            assertSelection(it.name)
+
+            /** Check selection and content after rotation (selected all text). */
+            rotate.toSide()
+            assert(it.name)
+            assertSelection(it.name)
+
+            /** Enter new name and check selection after rotation (cursor at the end). */
+            enter(newName)
+            assertSelectionEnd(newName)
+            rotate.toNormal()
+            assertSelectionEnd(newName)
+        }
+    }
+
     @Test fun snackbar() = launchRankItem(db.insertRank()) {
         repeat(times = 3) {
             itemCancel()

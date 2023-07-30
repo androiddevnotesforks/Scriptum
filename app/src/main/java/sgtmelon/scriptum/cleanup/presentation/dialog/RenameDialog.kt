@@ -17,6 +17,7 @@ import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 import sgtmelon.safedialog.utils.showKeyboard
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.utils.extensions.selectAllText
+import sgtmelon.scriptum.infrastructure.utils.extensions.setSelectionSafe
 
 /**
  * Dialog with [EditText] for rename category.
@@ -83,8 +84,15 @@ class RenameDialog : BlankButtonDialog(),
             doOnTextChanged { _, _, _, _ -> changeButtonEnable() }
 
             if (!isContentRestored) {
+                /** If first open (not after rotation) -> set text and select all. */
                 setText(title)
                 selectAllText()
+            } else if (text.toString() == title) {
+                /** If the same text (as default) -> select all. */
+                selectAllText()
+            } else {
+                /** In other cases set cursor to the end. */
+                setSelectionSafe()
             }
         }
     }
