@@ -2,7 +2,9 @@ package sgtmelon.scriptum.source.ui.screen.dialogs.preference
 
 import androidx.annotation.IntRange
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
+import sgtmelon.scriptum.infrastructure.dialogs.VolumeDialog
+import sgtmelon.scriptum.infrastructure.dialogs.VolumeDialog.Companion.MAX_VALUE
+import sgtmelon.scriptum.infrastructure.dialogs.VolumeDialog.Companion.MIN_VALUE
 import sgtmelon.scriptum.source.ui.feature.DialogUi
 import sgtmelon.scriptum.source.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
@@ -43,7 +45,7 @@ class VolumeDialogUi : UiPart(),
         applyButton.click()
     }
 
-    fun seekTo(@IntRange(from = 10, to = 100) progress: Int) {
+    fun seekTo(@IntRange(from = MIN_VALUE.toLong(), to = MAX_VALUE.toLong()) progress: Int) {
         value = progress
 
         seekBar.setProgress(progress)
@@ -56,7 +58,7 @@ class VolumeDialogUi : UiPart(),
         val text = context.getString(R.string.dialog_text_volume, value)
         progressText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_16sp)
 
-        seekBar.isDisplayed().withProgress(value, max = 100)
+        seekBar.isDisplayed().withProgress(value, max = MAX_VALUE)
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
         applyButton.isDisplayed().isEnabled(value = value != initValue) {
@@ -67,7 +69,7 @@ class VolumeDialogUi : UiPart(),
     companion object {
 
         /** Int array with values from 10 up to 100 */
-        val list = Array(size = 90) { it + 10 }
+        val VALUES = Array(size = 90) { it + 10 }
 
         inline operator fun invoke(func: VolumeDialogUi.() -> Unit): VolumeDialogUi {
             return VolumeDialogUi().apply { waitOpen { assert() } }.apply(func)

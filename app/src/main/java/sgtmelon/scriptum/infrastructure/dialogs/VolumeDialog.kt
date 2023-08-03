@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.dialog
+package sgtmelon.scriptum.infrastructure.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -7,8 +7,8 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 import sgtmelon.safedialog.annotation.SavedTag
+import sgtmelon.safedialog.dialog.parent.BlankButtonDialog
 import sgtmelon.scriptum.R
 
 /**
@@ -20,11 +20,13 @@ class VolumeDialog : BlankButtonDialog(),
     private val seekBar get() = dialog?.findViewById<SeekBar?>(R.id.volume_seek_bar)
     private val progressText get() = dialog?.findViewById<TextView?>(R.id.volume_progress_text)
 
-    private var progressInit = DEF_CHECK
-    var progress = DEF_CHECK
+    private var progressInit = DEF_VALUE
+    var progress = DEF_VALUE
         private set
 
-    fun setArguments(@IntRange(from = 10, to = 100) progress: Int) = apply {
+    fun setArguments(
+        @IntRange(from = MIN_VALUE.toLong(), to = MAX_VALUE.toLong()) progress: Int
+    ) = apply {
         arguments = Bundle().apply {
             putInt(SavedTag.Common.VALUE_INIT, progress)
             putInt(SavedTag.Common.VALUE, progress)
@@ -44,8 +46,8 @@ class VolumeDialog : BlankButtonDialog(),
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
 
-        progressInit = bundle?.getInt(SavedTag.Common.VALUE_INIT) ?: DEF_CHECK
-        progress = bundle?.getInt(SavedTag.Common.VALUE) ?: DEF_CHECK
+        progressInit = bundle?.getInt(SavedTag.Common.VALUE_INIT) ?: DEF_VALUE
+        progress = bundle?.getInt(SavedTag.Common.VALUE) ?: DEF_VALUE
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -91,7 +93,8 @@ class VolumeDialog : BlankButtonDialog(),
 
     companion object {
         const val MIN_VALUE = 10
+        const val MAX_VALUE = 100
 
-        private const val DEF_CHECK = MIN_VALUE
+        private const val DEF_VALUE = MIN_VALUE
     }
 }

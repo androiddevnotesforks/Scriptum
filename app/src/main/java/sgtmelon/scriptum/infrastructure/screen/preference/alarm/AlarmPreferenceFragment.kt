@@ -10,8 +10,8 @@ import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
+import sgtmelon.scriptum.infrastructure.dialogs.VolumeDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.permission.Permission

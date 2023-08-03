@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.tests.ui.auto.preferences.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
 import sgtmelon.scriptum.source.utils.getRandomSignalCheck
 import sgtmelon.test.common.getDifferentValues
+import kotlin.random.Random
 
 /**
  * Test of [AlarmPreferenceFragment] work with phone rotation.
@@ -30,7 +30,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         val melodyList = runBlocking { AlarmPreferenceLogic().getMelodyList() }
         preferences.melodyUri = melodyList.random().uri
 
-        preferencesRepo.volumePercent = VolumeDialogUi.list.random()
+        preferencesRepo.volumePercent = VolumeDialogUi.VALUES.random()
         preferences.isVolumeIncrease = Random.nextBoolean()
     }) {
         rotate.toSide()
@@ -92,7 +92,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun volumeDialog() {
-        val (setValue, initValue) = VolumeDialogUi.list.getDifferentValues()
+        val (setValue, initValue) = VolumeDialogUi.VALUES.getDifferentValues()
 
         launchAlarmPreference({
             preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
