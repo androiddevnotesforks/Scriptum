@@ -182,7 +182,6 @@ class AlarmPreferenceFragment : PreferenceFragment<AlarmPreferenceBinding>(),
         isCancelable = false
         onPositiveClick {
             melodyPermissionRequest.launch(writePermissionState, permissionViewModel)
-//            requestPermission(PermissionRequest.MELODY, permissionState, permissionViewModel)
         }
         onDismiss {
             melodyAccessDialog.release()
