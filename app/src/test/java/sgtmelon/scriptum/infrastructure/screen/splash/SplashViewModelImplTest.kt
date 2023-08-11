@@ -12,12 +12,11 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.note.createNote.CreateNoteUseCase
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [SplashViewModelImpl].
  */
-class SplashViewModelImplTest : ParentTest() {
+class SplashViewModelImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var createNote: CreateNoteUseCase

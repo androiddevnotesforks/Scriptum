@@ -7,8 +7,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
-import java.util.Calendar
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -20,14 +18,15 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextLongOrNull
 import sgtmelon.test.common.nextString
+import java.util.Calendar
+import kotlin.random.Random
 
 /**
  * Test for [SetNotificationUseCase].
  */
-class SetNotificationUseCaseTest : ParentTest() {
+class SetNotificationUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var alarmRepo: AlarmRepo

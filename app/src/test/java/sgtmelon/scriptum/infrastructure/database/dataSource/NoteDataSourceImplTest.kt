@@ -5,7 +5,6 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -17,12 +16,12 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
-import sgtmelon.scriptum.testing.parent.ParentTest
+import kotlin.random.Random
 
 /**
  * Test for [NoteDataSourceImpl].
  */
-class NoteDataSourceImplTest : ParentTest() {
+class NoteDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var dao: NoteDao
 

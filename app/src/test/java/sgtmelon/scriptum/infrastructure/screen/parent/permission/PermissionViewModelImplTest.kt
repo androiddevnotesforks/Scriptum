@@ -9,14 +9,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.data.model.PermissionKey
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 import kotlin.random.Random
 
 /**
  * Test for [PermissionViewModelImpl]
  */
-class PermissionViewModelImplTest : ParentTest() {
+class PermissionViewModelImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
 

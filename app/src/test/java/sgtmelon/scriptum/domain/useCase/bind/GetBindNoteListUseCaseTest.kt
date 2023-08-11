@@ -14,12 +14,11 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [GetBindNoteListUseCase].
  */
-class GetBindNoteListUseCaseTest : ParentTest() {
+class GetBindNoteListUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var noteRepo: NoteRepo

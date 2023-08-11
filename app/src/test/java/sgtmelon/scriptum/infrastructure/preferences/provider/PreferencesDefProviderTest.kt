@@ -5,18 +5,17 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
-import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test of [PreferencesDefProvider].
  */
-class PreferencesDefProviderTest : ParentTest() {
+class PreferencesDefProviderTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var resources: Resources
 

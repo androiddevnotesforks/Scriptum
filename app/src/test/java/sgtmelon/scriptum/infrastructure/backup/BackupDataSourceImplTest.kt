@@ -10,13 +10,12 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 
 /**
  * Test for [BackupDataSourceImpl].
  */
-class BackupDataSourceImplTest : ParentTest() {
+class BackupDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var context: Context
 

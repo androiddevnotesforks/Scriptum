@@ -9,9 +9,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.extensions.isAfterNow
 import sgtmelon.extensions.toText
-import sgtmelon.safedialog.ParentTest
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import java.util.Calendar
 
 /**

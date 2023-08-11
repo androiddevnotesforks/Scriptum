@@ -6,8 +6,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.math.abs
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -18,14 +16,15 @@ import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.OverflowDelegator
+import kotlin.math.abs
+import kotlin.random.Random
 
 /**
  * Test for NoteDaoSafe.
  */
 @Suppress("DEPRECATION")
-class NoteDaoSafeTest : ParentTest() {
+class NoteDaoSafeTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var dao: NoteDao
 

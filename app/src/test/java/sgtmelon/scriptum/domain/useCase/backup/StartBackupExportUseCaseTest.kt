@@ -17,14 +17,13 @@ import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.key.FileType
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 import sgtmelon.scriptum.infrastructure.model.key.AppError.File as FileError
 
 /**
  * Test for [StartBackupImportUseCase].
  */
-class StartBackupExportUseCaseTest : ParentTest() {
+class StartBackupExportUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var backupRepo: BackupRepo
 

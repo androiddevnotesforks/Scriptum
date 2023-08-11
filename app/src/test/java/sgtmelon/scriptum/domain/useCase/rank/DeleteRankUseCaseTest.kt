@@ -7,15 +7,13 @@ import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
-
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [DeleteRankUseCase].
  */
-class DeleteRankUseCaseTest : ParentTest() {
+class DeleteRankUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var repository: RankRepo
 

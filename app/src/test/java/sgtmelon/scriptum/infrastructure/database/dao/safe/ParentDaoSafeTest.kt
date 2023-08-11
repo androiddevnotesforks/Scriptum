@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.database.dao.safe
 
 import io.mockk.every
 import io.mockk.mockk
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -11,14 +10,14 @@ import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.OverflowDelegator
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Tests for ParentDaoSafe.
  */
-class ParentDaoSafeTest : ParentTest() {
+class ParentDaoSafeTest : sgtmelon.tests.uniter.ParentTest() {
 
     private val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 

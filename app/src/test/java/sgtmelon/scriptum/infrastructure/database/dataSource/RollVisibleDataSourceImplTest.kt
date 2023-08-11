@@ -5,22 +5,21 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
+import kotlin.random.Random
 
 /**
  * Test for [RollVisibleDataSourceImpl].
  */
-class RollVisibleDataSourceImplTest : ParentTest() {
+class RollVisibleDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var dao: RollVisibleDao
 

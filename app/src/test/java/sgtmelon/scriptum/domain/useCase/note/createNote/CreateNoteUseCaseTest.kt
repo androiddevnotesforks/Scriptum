@@ -10,12 +10,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [CreateNoteUseCase].
  */
-class CreateNoteUseCaseTest : ParentTest() {
+class CreateNoteUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var createText: CreateTypeNoteUseCase<NoteItem.Text>
     @MockK lateinit var createRoll: CreateTypeNoteUseCase<NoteItem.Roll>

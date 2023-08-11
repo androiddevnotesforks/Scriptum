@@ -2,12 +2,11 @@ package sgtmelon.scriptum.infrastructure.database
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [DatabaseMigration].
  */
-class DatabaseMigrationTest : ParentTest() {
+class DatabaseMigrationTest : sgtmelon.tests.uniter.ParentTest() {
 
     @Test fun `FROM 4 TO 5 remove multiply noteId`() {
         val noteIdExistSet: MutableSet<Long> = mutableSetOf()

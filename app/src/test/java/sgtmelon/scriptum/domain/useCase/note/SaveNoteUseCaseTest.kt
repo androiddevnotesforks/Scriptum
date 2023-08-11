@@ -5,19 +5,18 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.testing.parent.ParentTest
+import kotlin.random.Random
 
 /**
  * Test for [SaveNoteUseCase].
  */
-class SaveNoteUseCaseTest : ParentTest() {
+class SaveNoteUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var rankRepo: RankRepo

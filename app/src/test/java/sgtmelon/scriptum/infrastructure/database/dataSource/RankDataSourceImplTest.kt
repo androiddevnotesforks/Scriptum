@@ -6,7 +6,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -16,13 +15,13 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [RankDataSourceImpl].
  */
-class RankDataSourceImplTest : ParentTest() {
+class RankDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var dao: RankDao
 

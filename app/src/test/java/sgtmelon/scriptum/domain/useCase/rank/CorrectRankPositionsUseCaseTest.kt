@@ -6,13 +6,12 @@ import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.getRandomSize
 
 /**
  * Test for [CorrectRankPositionsUseCase].
  */
-class CorrectRankPositionsUseCaseTest : ParentTest() {
+class CorrectRankPositionsUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     private val useCase = CorrectRankPositionsUseCase()
 

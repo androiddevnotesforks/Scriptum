@@ -10,7 +10,6 @@ import org.junit.Test
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
 import kotlin.random.Random
@@ -18,7 +17,7 @@ import kotlin.random.Random
 /**
  * Test for [GetSignalSummaryUseCase].
  */
-class GetSignalSummaryUseCaseTest : ParentTest(),
+class GetSignalSummaryUseCaseTest : sgtmelon.tests.uniter.ParentTest(),
     GetSummaryUseCaseTest {
 
     @MockK lateinit var summaryDataSource: SummaryDataSource

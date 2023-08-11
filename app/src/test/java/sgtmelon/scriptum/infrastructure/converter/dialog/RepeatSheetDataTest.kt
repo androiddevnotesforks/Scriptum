@@ -10,12 +10,11 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.infrastructure.model.exception.InvalidIdException
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [RepeatSheetData].
  */
-class RepeatSheetDataTest : ParentTest() {
+class RepeatSheetDataTest : sgtmelon.tests.uniter.ParentTest() {
 
     private val data = RepeatSheetData()
 

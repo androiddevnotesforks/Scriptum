@@ -5,7 +5,6 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -16,13 +15,13 @@ import sgtmelon.scriptum.infrastructure.database.dao.RollDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.deleteSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [RollDataSourceImpl].
  */
-class RollDataSourceImplTest : ParentTest() {
+class RollDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var dao: RollDao
 

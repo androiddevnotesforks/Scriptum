@@ -5,12 +5,11 @@ import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Tests for [TidyUpAlarmUseCase].
  */
-class TidyUpAlarmUseCaseTest : ParentTest() {
+class TidyUpAlarmUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 

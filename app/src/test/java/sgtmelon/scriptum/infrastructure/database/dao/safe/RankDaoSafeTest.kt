@@ -6,8 +6,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlin.math.abs
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -18,13 +16,14 @@ import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
-import sgtmelon.scriptum.testing.parent.ParentTest
+import kotlin.math.abs
+import kotlin.random.Random
 
 /**
  * Test for RankDaoSafe.
  */
 @Suppress("DEPRECATION")
-class RankDaoSafeTest : ParentTest() {
+class RankDaoSafeTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var dao: RankDao
 

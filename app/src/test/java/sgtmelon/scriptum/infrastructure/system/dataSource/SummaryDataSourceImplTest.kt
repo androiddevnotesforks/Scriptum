@@ -16,7 +16,6 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
 import java.util.Locale
@@ -25,7 +24,7 @@ import kotlin.random.Random
 /**
  * Test for [SummaryDataSourceImpl].
  */
-class SummaryDataSourceImplTest : ParentTest() {
+class SummaryDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var resources: Resources
 

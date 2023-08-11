@@ -6,12 +6,11 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [AlarmConverter].
  */
-class AlarmConverterTest : ParentTest() {
+class AlarmConverterTest : sgtmelon.tests.uniter.ParentTest() {
 
     //region Data
 

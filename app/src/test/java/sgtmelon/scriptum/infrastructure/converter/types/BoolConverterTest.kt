@@ -4,12 +4,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [BoolConverter].
  */
-class BoolConverterTest : ParentTest() {
+class BoolConverterTest : sgtmelon.tests.uniter.ParentTest() {
 
     private val converter = BoolConverter()
 

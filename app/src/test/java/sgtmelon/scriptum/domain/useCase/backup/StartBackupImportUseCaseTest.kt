@@ -20,7 +20,6 @@ import sgtmelon.scriptum.domain.model.result.ImportResult.Error
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
 import sgtmelon.scriptum.infrastructure.model.key.FileType
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
@@ -30,7 +29,7 @@ import sgtmelon.scriptum.infrastructure.model.key.AppError.File as FileError
 /**
  * Test for [StartBackupImportUseCase].
  */
-class StartBackupImportUseCaseTest : ParentTest() {
+class StartBackupImportUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var backupRepo: BackupRepo

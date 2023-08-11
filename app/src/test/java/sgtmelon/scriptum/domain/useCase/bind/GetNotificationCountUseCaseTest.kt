@@ -4,18 +4,17 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.data.repository.database.BindRepo
-import sgtmelon.scriptum.testing.parent.ParentTest
+import kotlin.random.Random
 
 /**
  * Test for [GetNotificationCountUseCase].
  */
-class GetNotificationCountUseCaseTest : ParentTest() {
+class GetNotificationCountUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var repository: BindRepo
 

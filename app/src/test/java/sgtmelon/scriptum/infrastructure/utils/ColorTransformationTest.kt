@@ -5,12 +5,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [ColorTransformation].
  */
-class ColorTransformationTest : ParentTest() {
+class ColorTransformationTest : sgtmelon.tests.uniter.ParentTest() {
 
     @Test fun defaultValues() = with(ColorTransformation()) {
         assertEquals(ColorTransformation.ND_VALUE, from)

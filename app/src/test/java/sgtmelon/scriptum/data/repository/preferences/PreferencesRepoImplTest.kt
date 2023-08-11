@@ -34,7 +34,6 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.model.state.AlarmState
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
 import kotlin.random.Random
@@ -43,7 +42,7 @@ import kotlin.random.Random
  * Test for [PreferencesRepoImpl].
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-class PreferencesRepoImplTest : ParentTest() {
+class PreferencesRepoImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     //region Setup
 

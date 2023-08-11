@@ -4,12 +4,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [RollConverter].
  */
-class RollConverterTest : ParentTest() {
+class RollConverterTest : sgtmelon.tests.uniter.ParentTest() {
 
     //region Data
 

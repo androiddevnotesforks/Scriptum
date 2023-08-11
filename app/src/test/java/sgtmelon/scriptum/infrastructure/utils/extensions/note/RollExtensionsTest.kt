@@ -1,9 +1,8 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions.note
 
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 
-class RollExtensionsTest : ParentTest() {
+class RollExtensionsTest : sgtmelon.tests.uniter.ParentTest() {
 
     @Test fun todo() {
         TODO()

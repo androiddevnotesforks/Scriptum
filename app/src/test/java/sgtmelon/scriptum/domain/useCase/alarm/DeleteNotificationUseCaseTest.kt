@@ -7,19 +7,18 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
+import kotlin.random.Random
 
 /**
  * Test for [DeleteNotificationUseCase].
  */
-class DeleteNotificationUseCaseTest : ParentTest() {
+class DeleteNotificationUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 

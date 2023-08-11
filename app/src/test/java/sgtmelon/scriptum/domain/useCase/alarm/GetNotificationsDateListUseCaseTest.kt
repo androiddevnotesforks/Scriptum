@@ -10,12 +10,11 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [GetNotificationsDateListUseCase].
  */
-class GetNotificationsDateListUseCaseTest : ParentTest() {
+class GetNotificationsDateListUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 

@@ -12,14 +12,13 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
 import kotlin.random.Random
 
 /**
  * Test for [PreferencesImpl].
  */
-class PreferencesImplTest : ParentTest() {
+class PreferencesImplTest : sgtmelon.tests.uniter.ParentTest() {
 
     //region Setup
 

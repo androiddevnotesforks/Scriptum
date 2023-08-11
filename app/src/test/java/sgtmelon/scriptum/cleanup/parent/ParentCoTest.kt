@@ -7,13 +7,12 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import sgtmelon.extensions.isCoTesting
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Parent class for coroutines tests.
  */
 @ExperimentalCoroutinesApi
-abstract class ParentCoTest : ParentTest() {
+abstract class ParentCoTest : sgtmelon.tests.uniter.ParentTest() {
 
     @get:Rule val coTestRule = CoroutinesTestRule()
 

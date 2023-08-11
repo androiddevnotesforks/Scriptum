@@ -3,12 +3,11 @@ package sgtmelon.scriptum.cleanup.data.room.entity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.database.DbData.Roll.Default
-import sgtmelon.scriptum.testing.parent.ParentTest
 
 /**
  * Test for [RollEntity].
  */
-class RollEntityTest : ParentTest() {
+class RollEntityTest : sgtmelon.tests.uniter.ParentTest() {
 
     @Test fun defaultValues() {
         with(RollEntity()) {

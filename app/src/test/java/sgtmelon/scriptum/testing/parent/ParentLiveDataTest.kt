@@ -6,7 +6,7 @@ import org.junit.Rule
 /**
  * Parent class for Unit tests where classes use live data variables.
  */
-abstract class ParentLiveDataTest : ParentTest() {
+abstract class ParentLiveDataTest : sgtmelon.tests.uniter.ParentTest() {
 
     @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
 

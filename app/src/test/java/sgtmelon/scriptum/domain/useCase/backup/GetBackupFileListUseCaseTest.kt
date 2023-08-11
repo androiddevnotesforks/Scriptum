@@ -9,14 +9,13 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
 
 /**
  * Test for [GetBackupFileListUseCase].
  */
-class GetBackupFileListUseCaseTest : ParentTest() {
+class GetBackupFileListUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var dataSource: FileDataSource
 

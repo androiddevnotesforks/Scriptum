@@ -37,6 +37,7 @@ dependencies {
     implementation(project(":libraries:extensions"))
     implementation(project(":tests:prod"))
     testImplementation(project(":tests:common"))
+    testImplementation(project(":tests:uniter"))
 
     implementation(libs.kotlin.serialization)
 

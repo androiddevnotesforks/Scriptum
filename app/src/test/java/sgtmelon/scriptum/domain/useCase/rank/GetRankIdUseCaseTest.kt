@@ -4,19 +4,18 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.infrastructure.database.DbData
-import sgtmelon.scriptum.testing.parent.ParentTest
+import kotlin.random.Random
 
 /**
  * Test for [GetRankIdUseCase].
  */
-class GetRankIdUseCaseTest : ParentTest() {
+class GetRankIdUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var repository: RankRepo
 

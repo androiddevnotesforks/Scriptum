@@ -5,21 +5,20 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import io.mockk.verifySequence
-import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetVolumeSummaryUseCase
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Test for [GetVolumeSummaryUseCase].
  */
-class GetVolumeSummaryUseCaseTest : ParentTest() {
+class GetVolumeSummaryUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
 
     @MockK lateinit var summaryDataSource: SummaryDataSource
     @MockK lateinit var preferencesRepo: PreferencesRepo

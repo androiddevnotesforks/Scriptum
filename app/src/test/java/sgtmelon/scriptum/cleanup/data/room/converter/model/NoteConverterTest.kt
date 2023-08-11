@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.data.room.converter.model
 
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
-import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -15,12 +14,12 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.testing.parent.ParentTest
+import kotlin.random.Random
 
 /**
  * Test for [NoteConverter].
  */
-class NoteConverterTest : ParentTest() {
+class NoteConverterTest : sgtmelon.tests.uniter.ParentTest() {
 
     //region Data
 
