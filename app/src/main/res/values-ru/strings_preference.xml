@@ -41,15 +41,16 @@
 
     <!-- Preference summaries -->
 
-    <string name="pref_summary_no_permission">Приложению требуется разрешение</string>
-
     <string name="pref_summary_app_theme">Выбранная тема</string>
 
+    <string name="pref_summary_export_path">Путь: %s</string>
+
     <string name="pref_summary_import_search">Ищем резервный файлы</string>
+    <string name="pref_summary_import_found">Найдено файлов: %d</string>
     <string name="pref_summary_import_empty">
         У Вас нет файлов для восстановления данных
     </string>
-    <string name="pref_summary_import_found">Найдено файлов: %d</string>
+    <string name="pref_summary_import_manual">Выбрать файл</string>
     <string name="pref_summary_import_skip">
         Если в приложении уже есть заметка с таким же именем и содержанием, то она не будет
         добавлена при резервном копировании
@@ -73,14 +74,12 @@
 
     <!-- Preference toast text -->
 
-    <string name="pref_toast_import_error">Извините, но файл повреждён! :(</string>
     <string name="pref_toast_import_result">Данные успешно добавлены! :)</string>
     <string name="pref_toast_import_skip">
         Данные успешно добавлены! :)\nПропущено заметок: %d
     </string>
 
-    <string name="pref_toast_export_result">Файл успешно сохранён!\nПуть: %s</string>
-    <string name="pref_toast_export_error">Произошла ошибка! Не удалось сохранить файл</string>
+    <string name="pref_toast_export_result">Файл успешно сохранён!</string>
 
     <string name="pref_toast_melody_replaced">
         Извините, мы не смогли установить выбранную мелодию! Так что мы выбрали другую. :(

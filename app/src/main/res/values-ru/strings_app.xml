@@ -56,6 +56,8 @@
     </string>
 
     <!-- Button -->
+    <string name="button_request_permission">Приложению требуется разрешение</string>
+
     <string name="button_disable">Отключить</string>
     <string name="button_repeat">Отложить</string>
 
@@ -91,12 +93,5 @@
     <string name="snackbar_message_notification">Уведомление удалено</string>
 
     <string name="snackbar_action_cancel">Отмена</string>
-
-    <!--  Error text  -->
-    <string name="error_something_wrong">Что-то пошло не так… Но мы обязательно это исправим!</string>
-
-    <string name="error_start_activity">
-        Извините, мы не смогли найти приложения для совершения данного действия :(
-    </string>
 
 </resources>

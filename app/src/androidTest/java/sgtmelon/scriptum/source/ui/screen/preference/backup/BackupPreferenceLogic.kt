@@ -22,7 +22,7 @@ class BackupPreferenceLogic(
         val exportItem = if (isExportPermissionGranted) {
             Simple(R.string.pref_title_backup_export, isExportEnabled)
         } else {
-            val summary = context.getString(R.string.pref_summary_no_permission)
+            val summary = context.getString(R.string.button_request_permission)
             Summary.Text(R.string.pref_title_backup_export, summary, isExportEnabled)
 
         }
@@ -35,7 +35,7 @@ class BackupPreferenceLogic(
                 context.getString(R.string.pref_summary_import_empty)
             }
         } else {
-            context.getString(R.string.pref_summary_no_permission)
+            context.getString(R.string.button_request_permission)
         }
 
         list.add(Summary.Text(R.string.pref_title_backup_import, summary, isImportEnabled))

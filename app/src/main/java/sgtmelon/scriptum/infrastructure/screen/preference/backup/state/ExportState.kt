@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.preference.backup.state
 
+import sgtmelon.scriptum.infrastructure.model.key.AppError
+
 /**
  * State of data export.
  */
@@ -7,9 +9,9 @@ sealed class ExportState {
 
     object ShowLoading : ExportState()
 
-    object HideLoading : ExportState()
+    object LoadSuccess : ExportState()
 
-    class LoadSuccess(val path: String) : ExportState()
+    data class LoadError(val value: AppError) : ExportState()
 
-    object LoadError : ExportState()
+    object Finish : ExportState()
 }

@@ -42,6 +42,7 @@
     <string name="pref_header_other_print" translatable="false">Other prints</string>
     <string name="pref_header_screen" translatable="false">Open screen</string>
     <string name="pref_header_path_save" translatable="false">Save file path</string>
+    <string name="pref_header_external_directory" translatable="false">External directory</string>
     <string name="pref_header_path_files" translatable="false">External file path</string>
     <string name="pref_header_path_cache" translatable="false">External cache path</string>
     <string name="pref_header_backup_files" translatable="false">Backup files</string>

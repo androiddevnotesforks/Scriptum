@@ -21,6 +21,9 @@ interface BackupPreferenceComponent {
         @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
+        @BindsInstance
+        fun set(isFilesAutoFetch: Boolean): Builder
+
         fun build(): BackupPreferenceComponent
     }
 }

@@ -4,5 +4,5 @@ sealed class ExportSummaryState {
 
     object Permission : ExportSummaryState()
 
-    object Empty : ExportSummaryState()
+    data class Path(val value: String) : ExportSummaryState()
 }

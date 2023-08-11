@@ -176,7 +176,7 @@ object DialogFactory {
             }
 
             fun getImport(): SingleDialog {
-                val dialog = SingleDialog()
+                val dialog = SingleDialog() // TODO NEUTRAL BUTTON
                 dialog.applyEnable = true
                 dialog.title = resources.getString(R.string.dialog_title_import)
                 return dialog

@@ -25,9 +25,11 @@ fun DialogFragment.safeShow(tag: String?, owner: DialogOwner) {
 
 fun DialogFragment.safeDismiss(owner: LifecycleOwner) {
     owner.lifecycleScope.launchWhenResumed {
-        if (isAdded) {
-            dismiss()
-        }
+        /**
+         * If check isAdded key - may be a case when dialog show func done buy not it not added yet,
+         * and this check (if (isAdded) dismiss()) will not work properly.
+         */
+        dismiss()
     }
 }
 

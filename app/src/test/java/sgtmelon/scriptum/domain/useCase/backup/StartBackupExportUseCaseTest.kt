@@ -19,6 +19,7 @@ import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.infrastructure.model.key.FileType
 import sgtmelon.scriptum.testing.parent.ParentTest
 import sgtmelon.test.common.nextString
+import sgtmelon.scriptum.infrastructure.model.key.AppError.File as FileError
 
 /**
  * Test for [StartBackupImportUseCase].
@@ -50,13 +51,19 @@ class StartBackupExportUseCaseTest : ParentTest() {
         val path = nextString()
 
         coEvery { backupRepo.getData() } returns parserResult
+        every { backupCollector.convert(parserResult) } returns null
+
+        runBlocking {
+            assertEquals(startBackupExport(), ExportResult.Error(FileError.Data))
+        }
+
         every { backupCollector.convert(parserResult) } returns data
         every { cipherDataSource.encrypt(data) } returns encryptData
         every { fileDataSource.getTimeName(FileType.BACKUP) } returns timeName
         every { fileDataSource.writeFile(timeName, encryptData) } returns null
 
         runBlocking {
-            assertEquals(startBackupExport(), ExportResult.Error)
+            assertEquals(startBackupExport(), ExportResult.Error(FileError.Create))
         }
 
         every { fileDataSource.writeFile(timeName, encryptData) } returns path
@@ -66,6 +73,9 @@ class StartBackupExportUseCaseTest : ParentTest() {
         }
 
         coVerifySequence {
+            backupRepo.getData()
+            backupCollector.convert(parserResult)
+
             repeat(times = 2) {
                 backupRepo.getData()
                 backupCollector.convert(parserResult)

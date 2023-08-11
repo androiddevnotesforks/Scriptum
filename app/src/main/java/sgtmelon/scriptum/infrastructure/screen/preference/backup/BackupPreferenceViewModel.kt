@@ -2,6 +2,7 @@ package sgtmelon.scriptum.infrastructure.screen.preference.backup
 
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
+import sgtmelon.scriptum.infrastructure.model.item.BackupImportItem
 import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
@@ -24,6 +25,6 @@ interface BackupPreferenceViewModel {
 
     val importData: Flow<Array<String>>
 
-    fun startImport(name: String): Flow<ImportState>
+    fun startImport(item: BackupImportItem): Flow<ImportState>
 
 }

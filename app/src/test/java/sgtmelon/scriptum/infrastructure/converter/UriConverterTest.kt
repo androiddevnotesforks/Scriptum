@@ -50,4 +50,17 @@ class UriConverterTest : ParentTest() {
             exception.record()
         }
     }
+
+    @Test fun `uri toString`() {
+        val uri = mockk<Uri>()
+        val result = nextString()
+
+        every { uri.toString() } returns result
+
+        assertEquals(converter.toString(uri), result)
+
+        verifySequence {
+            uri.toString()
+        }
+    }
 }

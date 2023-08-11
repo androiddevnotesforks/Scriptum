@@ -3,15 +3,19 @@ package sgtmelon.scriptum.infrastructure.screen.preference.backup
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.StringRes
+import kotlinx.coroutines.flow.Flow
 import sgtmelon.extensions.collect
-import sgtmelon.extensions.emptyString
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.safedialog.utils.DialogStorage
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
+import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.dialogs.LoadingDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
+import sgtmelon.scriptum.infrastructure.model.item.BackupImportItem
 import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -22,7 +26,9 @@ import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSta
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ExportSummaryState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportState
 import sgtmelon.scriptum.infrastructure.screen.preference.backup.state.ImportSummaryState
+import sgtmelon.scriptum.infrastructure.utils.extensions.getPickFileIntent
 import sgtmelon.scriptum.infrastructure.utils.extensions.launch
+import sgtmelon.scriptum.infrastructure.utils.extensions.registerFileRequest
 import sgtmelon.scriptum.infrastructure.utils.extensions.registerPermissionRequest
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
@@ -39,6 +45,8 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
 
     // TODO move dialog creation/opening inside another class (this decrease file length)
 
+    // TODO import dialog / manual button
+
     override val xmlId: Int = R.xml.preference_backup
 
     override fun createBinding(): BackupPreferenceBinding = BackupPreferenceBinding(fragment = this)
@@ -46,7 +54,18 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
     @Inject lateinit var viewModel: BackupPreferenceViewModel
     @Inject lateinit var permissionViewModel: PermissionViewModel
 
+    /**
+     * [isFilesAutoFetch] - TRUE -> files will be fetched automatically, FALSE -> user need to
+     * select files manually, with file picker.
+     */
+    private val isFilesAutoFetch: Boolean = BuildProvider.Version.isPre30
+
     private val writePermissionState = PermissionState(Permission.WriteExternalStorage)
+
+    private val fileImportRequest = registerFileRequest {
+        val uri = UriConverter().toString(value = it ?: return@registerFileRequest)
+        viewModel.startImport(BackupImportItem.Manual(uri)).collectImport()
+    }
 
     /**
      * We don't pass [PermissionResult.FORBIDDEN] (isGranted==false) if permission not granted.
@@ -104,6 +123,7 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
     override fun inject(component: ScriptumComponent) {
         component.getBackupPrefBuilder()
             .set(owner = this)
+            .set(isFilesAutoFetch)
             .build()
             .inject(fragment = this)
     }
@@ -133,30 +153,36 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
 
     private fun observeExportSummary(it: ExportSummaryState) {
         binding?.exportButton?.summary = when (it) {
-            ExportSummaryState.Permission -> getString(R.string.pref_summary_no_permission)
-            ExportSummaryState.Empty -> emptyString()
+            is ExportSummaryState.Permission -> getString(R.string.button_request_permission)
+            is ExportSummaryState.Path -> getString(R.string.pref_summary_export_path, it.value)
         }
     }
 
     private fun observeImportSummary(it: ImportSummaryState) {
+        if (it != ImportSummaryState.StartSearch) {
+            dotAnimation.stop()
+        }
+
         when (it) {
             is ImportSummaryState.StartSearch -> {
                 dotAnimation.start(context, R.string.pref_summary_import_search)
             }
             is ImportSummaryState.Permission -> {
-                dotAnimation.stop()
-                updateImportSummary(getString(R.string.pref_summary_no_permission))
+                updateImportSummary(R.string.button_request_permission)
             }
             is ImportSummaryState.Found -> {
-                dotAnimation.stop()
                 updateImportSummary(getString(R.string.pref_summary_import_found, it.count))
             }
             is ImportSummaryState.NoFound -> {
-                dotAnimation.stop()
-                updateImportSummary(getString(R.string.pref_summary_import_empty))
+                updateImportSummary(R.string.pref_summary_import_empty)
+            }
+            is ImportSummaryState.Manual -> {
+                updateImportSummary(R.string.pref_summary_import_manual)
             }
         }
     }
+
+    private fun updateImportSummary(@StringRes id: Int) = updateImportSummary(getString(id))
 
     private fun updateImportSummary(text: CharSequence) {
         binding?.importButton?.summary = text
@@ -181,14 +207,13 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
         viewModel.startExport().collect(owner = this) {
             when (it) {
                 is ExportState.ShowLoading -> showExportLoadingDialog()
-                is ExportState.HideLoading -> loadingDialog.dismiss()
                 is ExportState.LoadSuccess -> {
-                    val text = getString(R.string.pref_toast_export_result, it.path)
-                    system?.toast?.show(context, text, Toast.LENGTH_LONG)
+                    system?.toast?.show(context, R.string.pref_toast_export_result)
                 }
                 is ExportState.LoadError -> {
-                    system?.toast?.show(context, R.string.pref_toast_export_error)
+                    system?.toast?.show(context, it.value)
                 }
+                is ExportState.Finish -> loadingDialog.dismiss()
             }
         }
     }
@@ -209,7 +234,11 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
     }
 
     private fun onImportPermissionGranted() {
-        viewModel.importData.collect(owner = this) { showImportDialog(it) }
+        if (isFilesAutoFetch) {
+            viewModel.importData.collect(owner = this) { showImportDialog(it) }
+        } else {
+            fileImportRequest.launch(getPickFileIntent())
+        }
     }
 
     //region Dialogs setup
@@ -307,25 +336,28 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
 
         open.skipClear = true
 
-        viewModel.startImport(name).collect(owner = this) {
-            when (it) {
-                is ImportState.ShowLoading -> showImportLoadingDialog()
-                is ImportState.HideLoading -> loadingDialog.dismiss()
-                is ImportState.LoadSuccess -> {
-                    system?.toast?.show(context, R.string.pref_toast_import_result)
-                }
-                is ImportState.LoadSkip -> {
-                    val text = getString(R.string.pref_toast_import_skip, it.count)
-                    system?.toast?.show(context, text, Toast.LENGTH_LONG)
-                }
-                is ImportState.LoadError -> {
-                    system?.toast?.show(context, R.string.pref_toast_import_error)
-                }
-                is ImportState.Finish -> {
-                    system?.broadcast?.sendTidyUpAlarm()
-                    system?.broadcast?.sendNotifyNotesBind()
-                    system?.broadcast?.sendNotifyInfoBind()
-                }
+        viewModel.startImport(BackupImportItem.AutoFetch(name)).collectImport()
+    }
+
+    private fun Flow<ImportState>.collectImport() = collect(owner = this@BackupPreferenceFragment) {
+        when (it) {
+            is ImportState.ShowLoading -> showImportLoadingDialog()
+            is ImportState.LoadSuccess -> {
+                system?.toast?.show(context, R.string.pref_toast_import_result)
+            }
+            is ImportState.LoadSkip -> {
+                val text = getString(R.string.pref_toast_import_skip, it.count)
+                system?.toast?.show(context, text, Toast.LENGTH_LONG)
+            }
+            is ImportState.LoadError -> {
+                system?.toast?.show(context, it.value)
+            }
+            is ImportState.Finish -> {
+                loadingDialog.dismiss()
+
+                system?.broadcast?.sendTidyUpAlarm()
+                system?.broadcast?.sendNotifyNotesBind()
+                system?.broadcast?.sendNotifyInfoBind()
             }
         }
     }

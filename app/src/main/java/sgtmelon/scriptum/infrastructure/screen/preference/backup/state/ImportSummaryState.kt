@@ -10,4 +10,5 @@ sealed class ImportSummaryState {
 
     object NoFound : ImportSummaryState()
 
+    object Manual : ImportSummaryState()
 }

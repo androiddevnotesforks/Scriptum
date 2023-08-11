@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_unknown">Something went wrong… But we will try to fix it!</string>
+
+    <!--  App  -->
+    <string name="error_start_app">Sorry, we didn\'t find any application to do this action :(</string>
+
+    <!--  Files  -->
+    <string name="error_file_not_found">Selected file not found</string>
+    <string name="error_file_read">An error has occurred! Can\'t read data from this file</string>
+    <string name="error_file_convert_data">An error has occurred while we tried to convert data</string>
+    <string name="error_file_decode">Something wrong with file, we can\'t decrypt it</string>
+    <string name="error_file_damaged">Sorry, but file is damaged! :(</string>
+    <string name="error_file_create">An error has occurred! Failed to create a file</string>
+
+</resources>

@@ -4,5 +4,6 @@ interface CipherDataSource {
 
     fun encrypt(text: String): String
 
-    fun decrypt(text: String): String
+    /** Return null in case if [text] was incorrect for decrypting. */
+    fun decrypt(text: String): String?
 }

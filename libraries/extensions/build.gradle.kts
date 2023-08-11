@@ -15,6 +15,7 @@ android {
 
         consumerProguardFiles(ProFiles.CONSUMER)
 
+        // Don't change date format, because it uses for save date in database
         buildConfigField(type = "String", name = "DATE_FORMAT_FULL", value = "\"yyyy-MM-dd HH:mm:ss\"")
         buildConfigField(type = "String", name = "DATE_FORMAT_SHORT", value = "\"d MMM\"")
     }

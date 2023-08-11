@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
 import sgtmelon.scriptum.data.dataSource.backup.BackupDataSource
 import sgtmelon.scriptum.data.dataSource.database.AlarmDataSource
@@ -17,6 +16,7 @@ import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.infrastructure.backup.BackupDataSourceImpl
+import sgtmelon.scriptum.infrastructure.converter.UriConverter
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.NoteDao
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
@@ -33,6 +33,7 @@ import sgtmelon.scriptum.infrastructure.system.dataSource.CipherDataSourceImpl
 import sgtmelon.scriptum.infrastructure.system.dataSource.FileDataSourceImpl
 import sgtmelon.scriptum.infrastructure.system.dataSource.RingtoneDataSourceImpl
 import sgtmelon.scriptum.infrastructure.system.dataSource.SummaryDataSourceImpl
+import javax.inject.Singleton
 
 @Module
 class DataSourceModule {
@@ -77,8 +78,8 @@ class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideFileDataSource(context: Context): FileDataSource {
-        return FileDataSourceImpl(context)
+    fun provideFileDataSource(context: Context, uriConverter: UriConverter): FileDataSource {
+        return FileDataSourceImpl(context, uriConverter)
     }
 
     @Provides

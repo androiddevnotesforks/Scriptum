@@ -6,10 +6,16 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.BuildConfig
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.converter.UriConverter
+import sgtmelon.scriptum.infrastructure.model.key.AppError
 import sgtmelon.scriptum.infrastructure.system.delegators.ToastDelegator
 
+fun getPickFileIntent(): Intent {
+    return Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+        addCategory(Intent.CATEGORY_OPENABLE)
+        type = "application/*"
+    }
+}
 
 private fun getUrlIntent(url: String): Intent? {
     val uri = UriConverter().toUri(url) ?: return null
@@ -63,9 +69,9 @@ private fun Context.startActivitySafe(intent: Intent?, toast: ToastDelegator?) {
             startActivity(intent)
         } catch (e: Throwable) {
             e.record()
-            toast?.show(context = this, R.string.error_start_activity)
+            toast?.show(context = this, AppError.StartActivity)
         }
     } else {
-        toast?.show(context = this, R.string.error_something_wrong)
+        toast?.show(context = this, AppError.Unknown)
     }
 }

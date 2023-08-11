@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_unknown">Что-то пошло не так… Но мы обязательно это исправим!</string>
+
+    <!--  App  -->
+    <string name="error_start_app">Извините, мы не смогли найти приложения для совершения данного действия :(</string>
+
+    <!--  Files  -->
+    <string name="error_file_not_found">Выбранный файл не найден</string>
+    <string name="error_file_read">Произошла ошибка! Не удалось прочесть данные из файла</string>
+    <string name="error_file_convert_data">Произошла ошибка при конвертировании данных</string>
+    <string name="error_file_decode">Что-то не так с файлом, мы не можем его расшифровать</string>
+    <string name="error_file_damaged">Извините, но файл повреждён! :(</string>
+    <string name="error_file_create">Произошла ошибка! Не удалось создать файл</string>
+
+</resources>

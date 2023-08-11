@@ -11,6 +11,7 @@ import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
 import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.testing.parent.ParentLiveDataTest
+import kotlin.random.Random
 
 /**
  * Test for [BackupPreferenceViewModelImpl].
@@ -28,7 +29,7 @@ class BackupPreferenceViewModelImplTest : ParentLiveDataTest() {
 
     private val viewModel by lazy {
         BackupPreferenceViewModelImpl(
-            getBackupFileList, startBackupExport, startBackupImport
+            Random.nextBoolean(), TODO(), getBackupFileList, startBackupExport, startBackupImport
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }

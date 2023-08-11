@@ -13,4 +13,10 @@ class UriConverter {
             null
         }
     }
+
+    /**
+     * Allow not to mistake with Uri converting to string and back. E.g. if you'll try to pass
+     * [Uri.getPath] to [toUri] - it will fail at the end (during file request).
+     */
+    fun toString(value: Uri): String = value.toString()
 }

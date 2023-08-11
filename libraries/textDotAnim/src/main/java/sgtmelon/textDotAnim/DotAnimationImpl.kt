@@ -27,6 +27,12 @@ class DotAnimationImpl private constructor(
 ) : DefaultLifecycleObserver,
     DotAnimation {
 
+    /**
+     * Variable for skip [ValueAnimator.addUpdateListener] calls after [stop]. Because exist small
+     * gap before update listener will be stopped.
+     */
+    private var isStop = true
+
     init {
         lifecycle?.addObserver(this)
     }
@@ -47,6 +53,8 @@ class DotAnimationImpl private constructor(
             DotAnimType.COUNT -> getCountList(context, stringId)
             DotAnimType.SPAN -> getSpanList(context, stringId)
         }
+
+        isStop = false
 
         animator = getAnimator(context, textList)
         animator?.start()
@@ -105,6 +113,8 @@ class DotAnimationImpl private constructor(
 
             var lastValue = -1
             addUpdateListener {
+                if (isStop) return@addUpdateListener
+
                 /** Sometimes [ValueAnimator] give a corner value which equals valueTo. */
                 val value = (it.animatedValue as? Int)
                     ?.takeIf { i -> i != valueTo && i != lastValue }
@@ -121,11 +131,14 @@ class DotAnimationImpl private constructor(
     }
 
     override fun stop() {
+        isStop = true
+
         /**
          * Need call removeAllListeners before cancel, otherwise without it animator will
          * not stop correctly.
          */
         animator?.removeAllListeners()
+        animator?.removeAllUpdateListeners()
         animator?.cancel()
         animator = null
 

@@ -41,13 +41,15 @@
 
     <!-- Preference summaries -->
 
-    <string name="pref_summary_no_permission">Application need a permission</string>
-
     <string name="pref_summary_app_theme">Selected theme</string>
 
+    <string name="pref_summary_export_path">Path: %s</string>
+
     <string name="pref_summary_import_search">Searching for a backup files</string>
-    <string name="pref_summary_import_empty">You don\'t have any backup files</string>
     <string name="pref_summary_import_found">Founded files: %d</string>
+    <string name="pref_summary_import_empty">You don\'t have any backup files</string>
+    <string name="pref_summary_import_manual">Choose file</string>
+
     <string name="pref_summary_import_skip">
         If an application already has a note with the same name and content, then it will not be
         added during backup
@@ -69,12 +71,10 @@
 
     <!-- Preference toast text -->
 
-    <string name="pref_toast_import_error">Sorry, but file is damaged! :(</string>
     <string name="pref_toast_import_result">Data successfully added! :)</string>
     <string name="pref_toast_import_skip">Data successfully added! :)\nSkipped notes: %d</string>
 
-    <string name="pref_toast_export_result">File successfully saved!\nPath: %s</string>
-    <string name="pref_toast_export_error">An error has occurred! Failed to save a file</string>
+    <string name="pref_toast_export_result">File successfully saved!</string>
 
     <string name="pref_toast_melody_replaced">
         Sorry, we can\'t apply selected melody! But we choose another one for you :(

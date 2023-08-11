@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import sgtmelon.scriptum.infrastructure.model.key.AppError
 import sgtmelon.test.idling.getWaitIdling
 
 /**
@@ -24,6 +25,9 @@ class ToastDelegator(lifecycle: Lifecycle?) : DefaultLifecycleObserver {
     }
 
     private var lastToast: Toast? = null
+
+    fun show(context: Context?, error: AppError, length: Int = Toast.LENGTH_SHORT) =
+        show(context, error.messageId, length)
 
     fun show(context: Context?, @StringRes stringId: Int, length: Int = Toast.LENGTH_SHORT) {
         if (context == null) return

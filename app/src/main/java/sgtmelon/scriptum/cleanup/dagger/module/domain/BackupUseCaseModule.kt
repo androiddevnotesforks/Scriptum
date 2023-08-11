@@ -11,9 +11,15 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
+import sgtmelon.scriptum.domain.useCase.files.GetSavePathUseCase
 
 @Module
 class BackupUseCaseModule {
+
+    @Provides
+    fun provideGetSavePath(dataSource: FileDataSource): GetSavePathUseCase {
+        return GetSavePathUseCase(dataSource)
+    }
 
     @Provides
     fun provideGetBackupFileListUseCase(dataSource: FileDataSource): GetBackupFileListUseCase {

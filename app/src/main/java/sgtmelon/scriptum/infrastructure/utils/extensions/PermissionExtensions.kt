@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.infrastructure.utils.extensions
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -26,4 +28,12 @@ fun Fragment.registerPermissionRequest(
     onResult: (isGranted: Boolean) -> Unit
 ): ActivityResultLauncher<String> {
     return registerForActivityResult(ActivityResultContracts.RequestPermission()) { onResult(it) }
+}
+
+fun Fragment.registerFileRequest(
+    onResult: (uri: Uri?) -> Unit
+): ActivityResultLauncher<Intent> {
+    return registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        onResult(it?.data?.data)
+    }
 }

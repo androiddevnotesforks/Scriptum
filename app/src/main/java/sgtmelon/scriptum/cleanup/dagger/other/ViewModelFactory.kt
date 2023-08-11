@@ -25,6 +25,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.backup.GetBackupFileListUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupExportUseCase
 import sgtmelon.scriptum.domain.useCase.backup.StartBackupImportUseCase
+import sgtmelon.scriptum.domain.useCase.files.GetSavePathUseCase
 import sgtmelon.scriptum.domain.useCase.main.ClearBinUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.main.GetNotesListUseCase
@@ -265,13 +266,16 @@ object ViewModelFactory {
         }
 
         fun getBackup(
+            isFilesAutoFetch: Boolean,
+            getSavePath: GetSavePathUseCase,
             getBackupFileList: GetBackupFileListUseCase,
             startBackupExport: StartBackupExportUseCase,
             startBackupImport: StartBackupImportUseCase
         ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 BackupPreferenceViewModelImpl(
-                    getBackupFileList, startBackupExport, startBackupImport
+                    isFilesAutoFetch, getSavePath, getBackupFileList, startBackupExport,
+                    startBackupImport
                 )
             }
         }

@@ -11,6 +11,7 @@ import sgtmelon.scriptum.develop.infrastructure.model.PrintItem
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
+import java.io.File
 import sgtmelon.scriptum.develop.infrastructure.model.PrintItem.Preference as PrintPref
 
 /**
@@ -80,16 +81,19 @@ class DevelopRepoImpl(
     override suspend fun getPrintFileList(): List<PrintPref> {
         val list = mutableListOf(
             PrintPref.Title(R.string.pref_header_path_save),
-            PrintPref.Path(fileDataSource.saveDirectory)
+            PrintPref.Path(File(fileDataSource.savePath)),
+
+            PrintPref.Title(R.string.pref_header_external_directory),
+            PrintPref.Path(fileDataSource.externalDirectory)
         )
 
         list.add(PrintPref.Title(R.string.pref_header_path_files))
-        for (it in fileDataSource.getExternalFiles()) {
+        for (it in fileDataSource.externalFiles) {
             list.add(PrintPref.Path(it))
         }
 
         list.add(PrintPref.Title(R.string.pref_header_path_cache))
-        for (it in fileDataSource.getExternalCache()) {
+        for (it in fileDataSource.externalCache) {
             list.add(PrintPref.Path(it))
         }
 
