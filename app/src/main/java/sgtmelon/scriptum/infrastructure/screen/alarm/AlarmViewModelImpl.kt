@@ -44,14 +44,13 @@ class AlarmViewModelImpl(
          */
         deleteNotification(noteId)
 
-        val item = getNote(noteId)
-        if (item != null) {
-            noteItem.postValue(item)
-        } else {
+        val item = getNote(noteId) ?: run {
             // TODO #ERROR_HANDLER catch - not found noteItem
             state.postValue(ScreenState.Close)
             return
         }
+
+        noteItem.postValue(item)
 
         val melodyUri = if (preferencesRepo.signalState.isMelody) {
             preferencesRepo.getMelodyUri(getMelodyList())

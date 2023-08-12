@@ -4,7 +4,6 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.flowBack
@@ -39,6 +38,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onRestore
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
+import java.util.Calendar
 
 /**
  * Parent ViewModel for notes, describes main logic and features.
@@ -84,7 +84,7 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
     override fun fetchData() {
         viewModelScope.launch {
-            runBack { rankDialogItems.postValue(getRankDialogNames()) }
+            runBack { rankDialogItems.postValue(getRankDialogNames.invoke()) }
 
             val item = noteItem.value
             if (item != null) {
@@ -188,11 +188,9 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
 
 
     override fun setNotification(calendar: Calendar): Flow<N> = flowBack {
-        if (isEditMode) return@flowBack
+        if (isEditMode || calendar.isBeforeNow) return@flowBack
 
-        val item = noteItem.value
-
-        if (item == null || calendar.isBeforeNow) return@flowBack
+        val item = noteItem.value ?: return@flowBack
 
         setNotification(item, calendar)
         cacheNote(item)
