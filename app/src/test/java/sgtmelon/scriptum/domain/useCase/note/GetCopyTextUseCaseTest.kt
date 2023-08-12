@@ -17,12 +17,13 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.joinToText
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [GetCopyTextUseCase].
  */
-class GetCopyTextUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class GetCopyTextUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: NoteRepo
 

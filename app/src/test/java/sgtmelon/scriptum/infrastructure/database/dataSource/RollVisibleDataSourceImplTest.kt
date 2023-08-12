@@ -14,12 +14,13 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [RollVisibleDataSourceImpl].
  */
-class RollVisibleDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
+class RollVisibleDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var dao: RollVisibleDao
 

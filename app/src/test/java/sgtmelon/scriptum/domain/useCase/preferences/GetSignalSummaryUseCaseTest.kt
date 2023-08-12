@@ -12,12 +12,13 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [GetSignalSummaryUseCase].
  */
-class GetSignalSummaryUseCaseTest : sgtmelon.tests.uniter.ParentTest(),
+class GetSignalSummaryUseCaseTest : ParentTest(),
     GetSummaryUseCaseTest {
 
     @MockK lateinit var summaryDataSource: SummaryDataSource

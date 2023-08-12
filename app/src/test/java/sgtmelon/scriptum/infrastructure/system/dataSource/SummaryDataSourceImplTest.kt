@@ -18,13 +18,14 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import java.util.Locale
 import kotlin.random.Random
 
 /**
  * Test for [SummaryDataSourceImpl].
  */
-class SummaryDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
+class SummaryDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var resources: Resources
 

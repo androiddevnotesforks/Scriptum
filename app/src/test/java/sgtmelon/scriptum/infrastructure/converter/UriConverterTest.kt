@@ -11,11 +11,12 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [UriConverter].
  */
-class UriConverterTest : sgtmelon.tests.uniter.ParentTest() {
+class UriConverterTest : ParentTest() {
 
     private val converter = UriConverter()
 

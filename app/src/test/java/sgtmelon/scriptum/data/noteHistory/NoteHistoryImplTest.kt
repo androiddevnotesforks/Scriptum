@@ -2,11 +2,12 @@ package sgtmelon.scriptum.data.noteHistory
 
 import io.mockk.spyk
 import org.junit.Test
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [NoteHistoryImpl].
  */
-class NoteHistoryImplTest : sgtmelon.tests.uniter.ParentTest() {
+class NoteHistoryImplTest : ParentTest() {
 
     private val history by lazy { NoteHistoryImpl() }
     private val spyHistory by lazy { spyk(history) }

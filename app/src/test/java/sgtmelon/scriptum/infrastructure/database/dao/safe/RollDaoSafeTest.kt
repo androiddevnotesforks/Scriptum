@@ -19,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.OverflowDelegator
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -26,7 +27,7 @@ import kotlin.random.Random
  * Test for RollDaoSafe.
  */
 @Suppress("DEPRECATION")
-class RollDaoSafeTest : sgtmelon.tests.uniter.ParentTest() {
+class RollDaoSafeTest : ParentTest() {
 
     @MockK lateinit var dao: RollDao
 

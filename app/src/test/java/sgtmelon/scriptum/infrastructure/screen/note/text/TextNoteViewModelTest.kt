@@ -1,11 +1,12 @@
 package sgtmelon.scriptum.infrastructure.screen.note.text
 
 import org.junit.Test
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [TextNoteViewModelImpl].
  */
-class TextNoteViewModelTest : sgtmelon.tests.uniter.ParentTest() {
+class TextNoteViewModelTest : ParentTest() {
 
     @Test fun todo() {
         TODO()

@@ -1,11 +1,12 @@
 package sgtmelon.scriptum.infrastructure.screen.note.roll
 
 import org.junit.Test
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [RollNoteViewModelImpl].
  */
-class RollNoteViewModelTest : sgtmelon.tests.uniter.ParentTest() {
+class RollNoteViewModelTest : ParentTest() {
 
     @Test fun todo() {
         TODO()

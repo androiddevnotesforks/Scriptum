@@ -12,11 +12,12 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [InsertRankUseCase].
  */
-class InsertRankUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class InsertRankUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: RankRepo
 

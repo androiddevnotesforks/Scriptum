@@ -11,11 +11,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [ConvertNoteUseCase].
  */
-class ConvertNoteUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class ConvertNoteUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: NoteRepo
 

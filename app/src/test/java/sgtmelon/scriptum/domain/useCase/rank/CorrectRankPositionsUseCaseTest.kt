@@ -7,11 +7,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.test.common.getRandomSize
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [CorrectRankPositionsUseCase].
  */
-class CorrectRankPositionsUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class CorrectRankPositionsUseCaseTest : ParentTest() {
 
     private val useCase = CorrectRankPositionsUseCase()
 

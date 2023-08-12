@@ -9,11 +9,12 @@ import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [RestoreNoteUseCase].
  */
-class RestoreNoteUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class RestoreNoteUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: NoteRepo
 

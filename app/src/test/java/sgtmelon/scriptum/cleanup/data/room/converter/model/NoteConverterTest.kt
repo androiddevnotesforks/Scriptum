@@ -14,12 +14,13 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.infrastructure.database.DbData.RollVisible
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [NoteConverter].
  */
-class NoteConverterTest : sgtmelon.tests.uniter.ParentTest() {
+class NoteConverterTest : ParentTest() {
 
     //region Data
 

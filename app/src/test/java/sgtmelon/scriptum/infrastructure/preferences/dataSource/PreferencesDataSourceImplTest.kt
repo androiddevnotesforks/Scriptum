@@ -14,12 +14,13 @@ import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [PreferencesDataSourceImpl].
  */
-class PreferencesDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
+class PreferencesDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var preferences: Preferences
 

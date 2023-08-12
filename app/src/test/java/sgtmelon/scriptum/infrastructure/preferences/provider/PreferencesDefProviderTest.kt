@@ -10,12 +10,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test of [PreferencesDefProvider].
  */
-class PreferencesDefProviderTest : sgtmelon.tests.uniter.ParentTest() {
+class PreferencesDefProviderTest : ParentTest() {
 
     @MockK lateinit var resources: Resources
 

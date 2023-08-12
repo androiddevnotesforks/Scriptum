@@ -12,11 +12,12 @@ import org.junit.Test
 import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.model.item.MelodyItem
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [GetMelodyListUseCase].
  */
-class GetMelodyListUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class GetMelodyListUseCaseTest : ParentTest() {
 
     @MockK lateinit var dataSource: RingtoneDataSource
 

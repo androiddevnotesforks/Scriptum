@@ -23,13 +23,14 @@ import sgtmelon.scriptum.infrastructure.model.key.FileType
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextShortString
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 import sgtmelon.scriptum.infrastructure.model.key.AppError.File as FileError
 
 /**
  * Test for [StartBackupImportUseCase].
  */
-class StartBackupImportUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class StartBackupImportUseCaseTest : ParentTest() {
 
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var backupRepo: BackupRepo

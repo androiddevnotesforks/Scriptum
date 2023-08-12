@@ -16,12 +16,13 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.deleteSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [RollDataSourceImpl].
  */
-class RollDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
+class RollDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var dao: RollDao
 

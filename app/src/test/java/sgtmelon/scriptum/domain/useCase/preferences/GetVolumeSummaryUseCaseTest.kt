@@ -13,12 +13,13 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetVolumeSummaryUseCase
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [GetVolumeSummaryUseCase].
  */
-class GetVolumeSummaryUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class GetVolumeSummaryUseCaseTest : ParentTest() {
 
     @MockK lateinit var summaryDataSource: SummaryDataSource
     @MockK lateinit var preferencesRepo: PreferencesRepo

@@ -10,11 +10,12 @@ import sgtmelon.scriptum.data.backup.BackupParserImpl
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Parent test for backup staff.
  */
-abstract class ParentBackupTest : sgtmelon.tests.uniter.ParentTest() {
+abstract class ParentBackupTest : ParentTest() {
 
     //region Json help
 

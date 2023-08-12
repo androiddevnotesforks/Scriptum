@@ -9,12 +9,13 @@ import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [UpdateRollCheckUseCase].
  */
-class UpdateRollCheckUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class UpdateRollCheckUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: NoteRepo
 

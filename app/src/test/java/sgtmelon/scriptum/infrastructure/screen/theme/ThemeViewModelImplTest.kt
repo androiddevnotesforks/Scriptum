@@ -10,11 +10,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [ThemeViewModelImpl].
  */
-class ThemeViewModelImplTest : sgtmelon.tests.uniter.ParentTest() {
+class ThemeViewModelImplTest : ParentTest() {
 
     //region Setup
 

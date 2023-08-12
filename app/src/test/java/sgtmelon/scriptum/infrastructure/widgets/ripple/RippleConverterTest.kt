@@ -5,11 +5,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.model.key.ColorShade
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [RippleConverter].
  */
-class RippleConverterTest : sgtmelon.tests.uniter.ParentTest() {
+class RippleConverterTest : ParentTest() {
 
     private val converter = RippleConverter()
 

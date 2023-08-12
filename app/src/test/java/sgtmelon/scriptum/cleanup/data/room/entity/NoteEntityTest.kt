@@ -3,11 +3,12 @@ package sgtmelon.scriptum.cleanup.data.room.entity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.database.DbData.Note.Default
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [NoteEntity].
  */
-class NoteEntityTest : sgtmelon.tests.uniter.ParentTest() {
+class NoteEntityTest : ParentTest() {
 
     @Test fun defaultValues() {
         with(NoteEntity()) {

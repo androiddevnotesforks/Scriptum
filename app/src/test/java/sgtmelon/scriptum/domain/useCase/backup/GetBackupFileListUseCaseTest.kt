@@ -11,11 +11,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.scriptum.infrastructure.model.item.FileItem
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [GetBackupFileListUseCase].
  */
-class GetBackupFileListUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class GetBackupFileListUseCaseTest : ParentTest() {
 
     @MockK lateinit var dataSource: FileDataSource
 

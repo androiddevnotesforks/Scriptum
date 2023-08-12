@@ -3,11 +3,12 @@ package sgtmelon.scriptum.cleanup.data.room.entity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.database.DbData.Rank.Default
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [RankEntity].
  */
-class RankEntityTest : sgtmelon.tests.uniter.ParentTest() {
+class RankEntityTest : ParentTest() {
 
     @Test fun defaultValues() {
         with(RankEntity()) {

@@ -4,11 +4,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.extensions.emptyString
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [LongListConverter].
  */
-class LongListConverterTest : sgtmelon.tests.uniter.ParentTest() {
+class LongListConverterTest : ParentTest() {
 
     private val goodList: List<Long> = mutableListOf(1, 2, 3, 4, 5)
     private val goodString = "1, 2, 3, 4, 5"

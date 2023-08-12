@@ -16,6 +16,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoConflictIdException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -23,7 +24,7 @@ import kotlin.random.Random
  * Test for RankDaoSafe.
  */
 @Suppress("DEPRECATION")
-class RankDaoSafeTest : sgtmelon.tests.uniter.ParentTest() {
+class RankDaoSafeTest : ParentTest() {
 
     @MockK lateinit var dao: RankDao
 

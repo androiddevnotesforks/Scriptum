@@ -9,11 +9,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.data.dataSource.system.FileDataSource
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [GetSavePathUseCase].
  */
-class GetSavePathUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class GetSavePathUseCaseTest : ParentTest() {
 
     @MockK lateinit var dataSource: FileDataSource
 

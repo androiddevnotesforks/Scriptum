@@ -16,12 +16,13 @@ import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [PermissionState].
  */
-class PermissionStateTest : sgtmelon.tests.uniter.ParentTest() {
+class PermissionStateTest : ParentTest() {
 
     @MockK lateinit var activity: Activity
     @MockK lateinit var viewModel: PermissionViewModel

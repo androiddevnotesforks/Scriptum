@@ -12,12 +12,13 @@ import sgtmelon.extensions.getClearCalendar
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.test.common.getRandomSize
+import sgtmelon.tests.uniter.ParentTest
 import java.util.Calendar
 
 /**
  * Test fun [ShiftDateIfExistUseCase].
  */
-class ShiftDateIfExistUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class ShiftDateIfExistUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 

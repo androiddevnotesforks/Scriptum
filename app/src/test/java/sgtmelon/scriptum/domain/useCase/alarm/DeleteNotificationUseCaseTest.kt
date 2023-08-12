@@ -13,12 +13,13 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [DeleteNotificationUseCase].
  */
-class DeleteNotificationUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class DeleteNotificationUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: AlarmRepo
 

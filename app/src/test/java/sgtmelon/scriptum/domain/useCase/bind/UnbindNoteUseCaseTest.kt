@@ -8,12 +8,13 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.data.repository.database.BindRepo
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [UnbindNoteUseCase].
  */
-class UnbindNoteUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class UnbindNoteUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: BindRepo
 

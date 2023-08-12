@@ -10,12 +10,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.infrastructure.database.DbData
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [GetRankIdUseCase].
  */
-class GetRankIdUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class GetRankIdUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: RankRepo
 

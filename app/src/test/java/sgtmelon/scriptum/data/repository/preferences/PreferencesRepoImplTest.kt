@@ -36,13 +36,14 @@ import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [PreferencesRepoImpl].
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-class PreferencesRepoImplTest : sgtmelon.tests.uniter.ParentTest() {
+class PreferencesRepoImplTest : ParentTest() {
 
     //region Setup
 

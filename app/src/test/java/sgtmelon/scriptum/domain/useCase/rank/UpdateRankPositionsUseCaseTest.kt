@@ -9,11 +9,12 @@ import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [UpdateRankPositionsUseCase].
  */
-class UpdateRankPositionsUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class UpdateRankPositionsUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: RankRepo
 

@@ -5,11 +5,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [SortNoteListUseCase].
  */
-class SortNoteListUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class SortNoteListUseCaseTest : ParentTest() {
 
     private val useCase = SortNoteListUseCase()
 

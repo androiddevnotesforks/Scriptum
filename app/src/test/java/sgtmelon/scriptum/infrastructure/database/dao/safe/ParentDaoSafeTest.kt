@@ -12,12 +12,13 @@ import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.OverflowDelegator
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Tests for ParentDaoSafe.
  */
-class ParentDaoSafeTest : sgtmelon.tests.uniter.ParentTest() {
+class ParentDaoSafeTest : ParentTest() {
 
     private val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 

@@ -16,12 +16,13 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [RankDataSourceImpl].
  */
-class RankDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
+class RankDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var dao: RankDao
 

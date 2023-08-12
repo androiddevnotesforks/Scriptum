@@ -20,13 +20,14 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.test.common.nextLongOrNull
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import java.util.Calendar
 import kotlin.random.Random
 
 /**
  * Test for [SetNotificationUseCase].
  */
-class SetNotificationUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class SetNotificationUseCaseTest : ParentTest() {
 
     @MockK lateinit var noteRepo: NoteRepo
     @MockK lateinit var alarmRepo: AlarmRepo

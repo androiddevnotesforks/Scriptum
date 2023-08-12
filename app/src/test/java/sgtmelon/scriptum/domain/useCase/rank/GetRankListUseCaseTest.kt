@@ -11,11 +11,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [GetRankListUseCase].
  */
-class GetRankListUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class GetRankListUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: RankRepo
 

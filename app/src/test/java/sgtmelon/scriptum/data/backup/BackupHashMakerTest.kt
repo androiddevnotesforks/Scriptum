@@ -2,11 +2,12 @@ package sgtmelon.scriptum.data.backup
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [BackupHashMaker].
  */
-class BackupHashMakerTest : sgtmelon.tests.uniter.ParentTest() {
+class BackupHashMakerTest : ParentTest() {
 
     private val hashMaker = BackupHashMaker()
 

@@ -8,11 +8,12 @@ import sgtmelon.scriptum.data.dataSource.database.NoteDataSource
 import sgtmelon.scriptum.data.dataSource.database.RankDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollDataSource
 import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Parent test class for repositories who works with dataSource's.
  */
-abstract class ParentRepoTest : sgtmelon.tests.uniter.ParentTest() {
+abstract class ParentRepoTest : ParentTest() {
 
     @MockK lateinit var noteDataSource: NoteDataSource
     @MockK lateinit var rollDataSource: RollDataSource

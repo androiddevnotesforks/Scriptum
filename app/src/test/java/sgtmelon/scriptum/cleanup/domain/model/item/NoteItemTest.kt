@@ -26,11 +26,12 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.type
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateComplete
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.updateTime
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [NoteItem].
  */
-class NoteItemTest : sgtmelon.tests.uniter.ParentTest() {
+class NoteItemTest : ParentTest() {
 
     // TODO create tests for Extensions
 

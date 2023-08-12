@@ -4,11 +4,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [RankConverter].
  */
-class RankConverterTest : sgtmelon.tests.uniter.ParentTest() {
+class RankConverterTest : ParentTest() {
 
     //region Data
 

@@ -16,12 +16,13 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.getBindCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [NoteDataSourceImpl].
  */
-class NoteDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
+class NoteDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var dao: NoteDao
 

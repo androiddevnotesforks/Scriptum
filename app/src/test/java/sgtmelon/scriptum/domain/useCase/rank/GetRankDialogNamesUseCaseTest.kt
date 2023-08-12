@@ -11,11 +11,12 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.RankRepo
 import sgtmelon.test.common.getRandomSize
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [GetRankDialogNamesUseCase].
  */
-class GetRankDialogNamesUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class GetRankDialogNamesUseCaseTest : ParentTest() {
 
     private val name = nextString()
     @MockK lateinit var repository: RankRepo

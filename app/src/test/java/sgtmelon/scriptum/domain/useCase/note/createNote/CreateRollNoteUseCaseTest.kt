@@ -11,11 +11,12 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [CreateRollNoteUseCase].
  */
-class CreateRollNoteUseCaseTest : sgtmelon.tests.uniter.ParentTest() {
+class CreateRollNoteUseCaseTest : ParentTest() {
 
     @MockK lateinit var repository: PreferencesRepo
 

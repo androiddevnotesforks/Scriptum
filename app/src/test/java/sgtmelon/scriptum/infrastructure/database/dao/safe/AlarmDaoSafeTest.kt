@@ -18,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.model.exception.dao.DaoForeignException
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
 import sgtmelon.test.common.OverflowDelegator
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -25,7 +26,7 @@ import kotlin.random.Random
  * Test for AlarmDaoSafe.
  */
 @Suppress("DEPRECATION")
-class AlarmDaoSafeTest : sgtmelon.tests.uniter.ParentTest() {
+class AlarmDaoSafeTest : ParentTest() {
 
     @MockK lateinit var dao: AlarmDao
 

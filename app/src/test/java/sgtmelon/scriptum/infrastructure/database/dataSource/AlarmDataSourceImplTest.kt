@@ -16,12 +16,13 @@ import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for [AlarmDataSourceImpl].
  */
-class AlarmDataSourceImplTest : sgtmelon.tests.uniter.ParentTest() {
+class AlarmDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var dao: AlarmDao
 

@@ -10,11 +10,12 @@ import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.infrastructure.model.exception.InvalidIdException
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.record
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [AddSheetData].
  */
-class AddSheetDataTest : sgtmelon.tests.uniter.ParentTest() {
+class AddSheetDataTest : ParentTest() {
 
     private val data = AddSheetData()
 

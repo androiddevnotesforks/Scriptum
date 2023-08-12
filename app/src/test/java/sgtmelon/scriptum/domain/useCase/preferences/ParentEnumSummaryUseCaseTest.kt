@@ -13,12 +13,13 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ParentEnumConverter
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 import kotlin.random.Random
 
 /**
  * Test for all child of [GetSummaryUseCase].
  */
-abstract class ParentEnumSummaryUseCaseTest<T: ParentEnumConverter<*>> : sgtmelon.tests.uniter.ParentTest(),
+abstract class ParentEnumSummaryUseCaseTest<T: ParentEnumConverter<*>> : ParentTest(),
     GetSummaryUseCaseTest {
 
     @MockK lateinit var summaryDataSource: SummaryDataSource

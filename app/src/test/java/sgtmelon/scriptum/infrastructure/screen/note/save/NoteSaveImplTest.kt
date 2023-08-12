@@ -1,11 +1,12 @@
 package sgtmelon.scriptum.infrastructure.screen.note.save
 
 import org.junit.Test
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test for [NoteSaveImpl].
  */
-class NoteSaveImplTest : sgtmelon.tests.uniter.ParentTest() {
+class NoteSaveImplTest : ParentTest() {
 
     @Test fun todo() {
         TODO()

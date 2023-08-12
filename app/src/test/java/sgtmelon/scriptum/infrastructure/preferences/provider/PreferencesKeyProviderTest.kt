@@ -10,11 +10,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.test.common.nextString
+import sgtmelon.tests.uniter.ParentTest
 
 /**
  * Test of [PreferencesKeyProvider].
  */
-class PreferencesKeyProviderTest : sgtmelon.tests.uniter.ParentTest() {
+class PreferencesKeyProviderTest : ParentTest() {
 
     @MockK lateinit var resources: Resources
 
