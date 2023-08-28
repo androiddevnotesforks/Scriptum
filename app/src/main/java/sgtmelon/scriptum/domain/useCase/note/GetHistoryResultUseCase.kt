@@ -15,13 +15,13 @@ class GetHistoryResultUseCase {
             is Action.Color -> Result.Color(it.value[isUndo])
             is Action.Text.Enter -> Result.Text.Enter(it.value[isUndo], it.cursor[isUndo])
             is Action.Roll.Enter -> Result.Roll.Enter(it.p, it.value[isUndo], it.cursor[isUndo])
-            is Action.Roll.List.Add -> {
-                if (isUndo) Result.Roll.Remove(it.p) else Result.Roll.Add(it.p, it.item)
-            }
-            is Action.Roll.List.Remove -> {
-                if (isUndo) Result.Roll.Add(it.p, it.item) else Result.Roll.Remove(it.p)
-            }
+            is Action.Roll.List.Add -> getRollResult(it, !isUndo)
+            is Action.Roll.List.Remove -> getRollResult(it, isUndo)
             is Action.Roll.Move -> Result.Roll.Move(it.value[!isUndo], it.value[isUndo])
         }
+    }
+
+    private fun getRollResult(action: Action.Roll.List, isAdd: Boolean): Result {
+        return if (isAdd) Result.Roll.Add(action.p, action.item) else Result.Roll.Remove(action.p)
     }
 }
