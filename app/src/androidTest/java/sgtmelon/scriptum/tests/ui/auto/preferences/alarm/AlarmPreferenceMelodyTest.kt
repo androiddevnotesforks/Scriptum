@@ -1,20 +1,20 @@
 package sgtmelon.scriptum.tests.ui.auto.preferences.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.dialog.DialogWorkCase
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.MelodyDialogUi
 import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
-import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
-import sgtmelon.scriptum.source.cases.dialog.DialogWorkCase
 import sgtmelon.test.common.getDifferentValues
+import kotlin.random.Random
 
 /**
  * Test for [AlarmPreferenceFragment] and [MelodyDialogUi].
@@ -26,6 +26,9 @@ class AlarmPreferenceMelodyTest : ParentUiTest(),
 
     @Before override fun setUp() {
         super.setUp()
+
+        TODO("Grant permission for simple check")
+
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 

@@ -24,6 +24,7 @@ class CipherDataSourceTest : ParentTest() {
 
     @Test fun decryptWithEmptyText() = assertEquals(dataSource.decrypt(text = ""), "")
 
-    // TODO test bad base64
-
+    @Test fun decryptBadData() {
+        TODO("Test bad base64 / when it will return null")
+    }
 }

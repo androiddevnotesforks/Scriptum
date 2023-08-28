@@ -71,6 +71,8 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
     }
 
     @Test fun melodyDialog() {
+        TODO("Grant permission for access melodies")
+
         // TODO inject getMelodyUseCase
         val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
         val (setValue, initValue) = list.getDifferentValues()
