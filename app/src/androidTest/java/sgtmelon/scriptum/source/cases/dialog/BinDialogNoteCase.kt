@@ -47,7 +47,7 @@ abstract class BinDialogNoteCase(private val type: NoteType) : ParentUiRotationT
         }
     }
 
-    open fun copy() {
+    open fun todo_copy() {
         TODO("Finish")
 
         launchBinItem(insert()) {
