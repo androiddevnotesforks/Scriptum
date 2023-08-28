@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.dagger.component
 
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.dagger.component.main.BinComponent
 import sgtmelon.scriptum.cleanup.dagger.component.main.MainComponent
 import sgtmelon.scriptum.cleanup.dagger.component.main.NotesComponent
@@ -37,8 +36,9 @@ import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.RoomModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.StringModule
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.service.EternalServiceLogicImpl
+import javax.inject.Singleton
 
 /**
  * Parent component for application.

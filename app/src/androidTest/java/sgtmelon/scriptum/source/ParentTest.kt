@@ -3,7 +3,7 @@ package sgtmelon.scriptum.source
 import androidx.annotation.CallSuper
 import org.junit.After
 import org.junit.Before
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 
 /**
  * Parent class for tests.

@@ -2,21 +2,21 @@ package sgtmelon.scriptum.infrastructure.screen.splash
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import javax.inject.Inject
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.json.BundleSplashValue
 import sgtmelon.scriptum.infrastructure.model.data.FireData
 import sgtmelon.scriptum.infrastructure.model.key.firebase.RunType
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
 import sgtmelon.scriptum.infrastructure.system.delegators.window.WindowUiKeys
 import sgtmelon.scriptum.infrastructure.utils.extensions.NO_LAYOUT
 import sgtmelon.scriptum.infrastructure.utils.extensions.beforeFinish
 import sgtmelon.scriptum.infrastructure.utils.extensions.getCrashlytics
 import sgtmelon.test.idling.getWaitIdling
+import javax.inject.Inject
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashOpen as Open
 
 /**

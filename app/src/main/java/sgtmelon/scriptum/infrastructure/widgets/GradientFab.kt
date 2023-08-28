@@ -13,7 +13,7 @@ import androidx.core.animation.addListener
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.utils.DelayedJob
 import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleXAnimator

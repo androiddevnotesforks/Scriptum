@@ -2,13 +2,10 @@ package sgtmelon.scriptum.infrastructure.service
 
 import android.content.Context
 import android.content.IntentFilter
-import java.util.Calendar
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sgtmelon.extensions.runMain
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 import sgtmelon.scriptum.domain.model.result.TidyUpResult
 import sgtmelon.scriptum.domain.useCase.alarm.TidyUpAlarmUseCase
 import sgtmelon.scriptum.domain.useCase.bind.GetBindNoteListUseCase
@@ -17,6 +14,9 @@ import sgtmelon.scriptum.domain.useCase.bind.UnbindNoteUseCase
 import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
+import java.util.Calendar
+import javax.inject.Inject
 
 /**
  * Logic class for working with alarm's and notifications.

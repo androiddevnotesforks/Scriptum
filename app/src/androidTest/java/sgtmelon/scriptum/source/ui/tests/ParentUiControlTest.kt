@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.source.ui.tests
 
 import org.junit.Before
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 
 /**
  * Parent class for test "control" cases, when developer need to see whats happen on device screen

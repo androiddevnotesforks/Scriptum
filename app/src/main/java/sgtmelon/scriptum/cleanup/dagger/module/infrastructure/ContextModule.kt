@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.presentation.screen.ScriptumApplication
 
 @Module
 class ContextModule {
