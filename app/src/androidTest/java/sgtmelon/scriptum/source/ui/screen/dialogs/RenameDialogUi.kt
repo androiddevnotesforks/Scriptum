@@ -4,6 +4,7 @@ import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.dialogs.RenameDialog
 import sgtmelon.scriptum.source.ui.feature.DialogUi
+import sgtmelon.scriptum.source.ui.feature.KeyboardClose
 import sgtmelon.scriptum.source.ui.feature.KeyboardIme
 import sgtmelon.scriptum.source.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
@@ -25,7 +26,8 @@ import sgtmelon.test.cappuccino.utils.withTextColor
  */
 class RenameDialogUi(title: String) : UiPart(),
     DialogUi,
-    KeyboardIme {
+    KeyboardIme,
+    KeyboardClose {
 
     private var applyEnabled = false
 
@@ -41,7 +43,11 @@ class RenameDialogUi(title: String) : UiPart(),
         assert(name)
     }
 
-    fun cancel() = waitClose { cancelButton.click() }
+    fun cancel() = waitClose {
+        /** Close keyboard to be sure - show anim will not interrupt button action. */
+        closeKeyboard()
+        cancelButton.click()
+    }
 
     fun apply() = waitClose {
         if (!applyEnabled) throw IllegalAccessException("Apply button not enabled")

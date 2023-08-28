@@ -4,11 +4,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
-
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchRankItem
 import sgtmelon.scriptum.source.ui.tests.launchRankList
-import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.test.common.nextString
 
 /**
@@ -21,6 +20,9 @@ class RankRenameDialogTest : ParentUiTest(),
     @Test override fun close() = launchRankItem(db.insertRank()) {
         openRenameDialog(it.name) { softClose() }
         assertItem(it)
+
+        // TODO посмотреть как будет работать после добавления - скрытие клавы до нажатия на кнопку
+        //      28.08.23 получил ошибку, что не было произведено нажатие на клавишу cancel.
         openRenameDialog(it.name) { cancel() }
         assertItem(it)
     }
