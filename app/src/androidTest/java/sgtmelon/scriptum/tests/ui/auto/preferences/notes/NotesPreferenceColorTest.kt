@@ -22,14 +22,15 @@ class NotesPreferenceColorTest : ParentUiTest(),
     DialogCloseCase,
     ColorCase {
 
-    @Test override fun close() = launchNotesPreference {
+    @Test override fun close() {
         val color = Color.values().random()
-        preferencesRepo.defaultColor = color
 
-        openColorDialog(color) { cancel() }
-        assert()
-        openColorDialog(color) { softClose() }
-        assert()
+        launchNotesPreference(before = { preferencesRepo.defaultColor = color }) {
+            openColorDialog(color) { cancel() }
+            assert()
+            openColorDialog(color) { softClose() }
+            assert()
+        }
     }
 
     @Test override fun colorRed() = super.colorRed()
