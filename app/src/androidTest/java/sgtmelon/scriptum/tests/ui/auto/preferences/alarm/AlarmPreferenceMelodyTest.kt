@@ -1,17 +1,16 @@
 package sgtmelon.scriptum.tests.ui.auto.preferences.alarm
 
-import android.Manifest
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.cases.dialog.DialogWorkCase
+import sgtmelon.scriptum.source.permission.GrantWriteExternalPermission
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.MelodyDialogUi
 import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceScreen
@@ -25,16 +24,17 @@ import kotlin.random.Random
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
+    GrantWriteExternalPermission,
     DialogCloseCase,
     DialogWorkCase,
     DialogRotateCase {
 
     // TODO inject getMelodyUseCase in [work] and [rotateWork].
 
-    @get:Rule val permissionRule = getPermissionRule(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
     @Before override fun setUp() {
         super.setUp()
+
+        // TODO assert permission gained
 
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }

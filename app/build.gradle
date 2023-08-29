@@ -58,6 +58,8 @@ android {
     }
 
     testOptions {
+        /** This line makes "clearPackageData" (clear data on each test run) to work. */
+        execution 'ANDROID_TEST_ORCHESTRATOR'
         unitTests.returnDefaultValues = true
     }
 
@@ -116,7 +118,7 @@ dependencies {
     implementation libs.android.cardview
     implementation libs.android.constraint
 
-    implementation libs.android.vector
+    implementation libs.android.vector.main
     implementation libs.android.vector.animated
 
     //endregion
@@ -133,6 +135,7 @@ dependencies {
     androidTestImplementation libs.test.espresso.core
     androidTestImplementation libs.test.espresso.contrib
     androidTestImplementation libs.test.uiautomator
+    androidTestUtil libs.test.orchestrator
 
     testImplementation libs.test.mockk
     testImplementation libs.test.coroutines

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.source.ui.tests
 
 import android.content.Intent
 import androidx.test.core.app.launchActivity
-import androidx.test.rule.GrantPermissionRule
 import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -121,16 +120,6 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     //endregion
-
-    /**
-     * Short version for [GrantPermissionRule] without declare type for val.
-     *
-     * Use it:
-     * @get:Rule val permissionRule = getPermissionRule(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-     */
-    protected fun getPermissionRule(vararg permissions: String): GrantPermissionRule {
-        return GrantPermissionRule.grant(*permissions)
-    }
 
     //region Launch Splash functions
 

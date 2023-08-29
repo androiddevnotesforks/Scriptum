@@ -53,7 +53,7 @@ class MainDialogAddTest : ParentUiRotationTest(),
              * Turn it back toNormal because of keyboard appears (on note screen) - sometimes it
              * may fail the test.
              */
-            rotate.toSide()
+            rotate.switch()
             assert()
             rotate.toNormal()
 
