@@ -1,17 +1,21 @@
 package sgtmelon.scriptum.tests.ui.auto.preferences.alarm
 
+import android.Manifest
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.cases.dialog.DialogWorkCase
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.MelodyDialogUi
 import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceLogic
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceScreen
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
 import sgtmelon.test.common.getDifferentValues
 import kotlin.random.Random
@@ -20,14 +24,17 @@ import kotlin.random.Random
  * Test for [AlarmPreferenceFragment] and [MelodyDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceMelodyTest : ParentUiTest(),
+class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
     DialogCloseCase,
-    DialogWorkCase {
+    DialogWorkCase,
+    DialogRotateCase {
+
+    // TODO inject getMelodyUseCase in [work] and [rotateWork].
+
+    @get:Rule val permissionRule = getPermissionRule(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @Before override fun setUp() {
         super.setUp()
-
-        TODO("Grant permission for simple check")
 
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
@@ -40,7 +47,6 @@ class AlarmPreferenceMelodyTest : ParentUiTest(),
     }
 
     @Test override fun work() {
-        // TODO inject getMelodyUseCase
         val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
 
         val (setValue, initValue) = list.getDifferentValues()
@@ -58,5 +64,49 @@ class AlarmPreferenceMelodyTest : ParentUiTest(),
         }
 
         assertEquals(setValue.uri, preferences.melodyUri)
+    }
+
+    @Test override fun rotateClose() = launchAlarmPreference {
+        assertRotationClose { softClose() }
+        assert()
+        assertRotationClose { cancel() }
+        assert()
+    }
+
+    /** Allow to [closeDialog] in different ways. */
+    private fun AlarmPreferenceScreen.assertRotationClose(closeDialog: MelodyDialogUi.() -> Unit) {
+        openMelodyDialog {
+            rotate.toSide()
+            assert()
+            closeDialog(this)
+        }
+        assert()
+    }
+
+    @Test override fun rotateWork() {
+        val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
+
+        val (setValue, initValue) = list.getDifferentValues()
+        val initIndex = list.indexOf(initValue)
+        val setIndex = list.indexOf(setValue)
+
+        launchAlarmPreference({ preferences.melodyUri = initValue.uri }) {
+            openMelodyDialog {
+                assertRotationClick(setIndex)
+                assertRotationClick(initIndex)
+                assertRotationClick(setIndex)
+                apply()
+            }
+            assert()
+        }
+
+        assertEquals(setValue.uri, preferences.melodyUri)
+    }
+
+    /** Allow to click different [index] and rotate+check after that. */
+    private fun MelodyDialogUi.assertRotationClick(index: Int) {
+        click(index)
+        rotate.toSide()
+        assert()
     }
 }

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.source.ui.tests
 
 import android.content.Intent
 import androidx.test.core.app.launchActivity
+import androidx.test.rule.GrantPermissionRule
 import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -121,6 +122,16 @@ abstract class ParentUiTest : ParentTest() {
 
     //endregion
 
+    /**
+     * Short version for [GrantPermissionRule] without declare type for val.
+     *
+     * Use it:
+     * @get:Rule val permissionRule = getPermissionRule(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+     */
+    protected fun getPermissionRule(vararg permissions: String): GrantPermissionRule {
+        return GrantPermissionRule.grant(*permissions)
+    }
+
     //region Launch Splash functions
 
     inline fun launchSplash(before: () -> Unit, intent: Intent, after: SplashScreen.() -> Unit) {
@@ -129,7 +140,7 @@ abstract class ParentUiTest : ParentTest() {
         SplashScreen(after)
     }
 
-    @Deprecated("Replace with launchMain")
+    @Deprecated("Replace with launchMain where it possible")
     inline fun launchSplash(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         launchSplash(before, Screens.Splash.toMain(context), after)
     }

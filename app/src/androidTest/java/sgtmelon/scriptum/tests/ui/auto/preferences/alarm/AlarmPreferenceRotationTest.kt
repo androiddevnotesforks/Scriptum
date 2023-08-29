@@ -70,29 +70,6 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         assertEquals(setValue, preferencesRepo.repeat)
     }
 
-    @Test fun melodyDialog() {
-        TODO("Grant permission for access melodies")
-
-        // TODO inject getMelodyUseCase
-        val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
-        val (setValue, initValue) = list.getDifferentValues()
-
-        launchAlarmPreference({
-            preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
-            preferences.melodyUri = initValue.uri
-        }) {
-            openMelodyDialog {
-                click(list.indexOf(setValue))
-                rotate.toSide()
-                assert()
-                apply()
-            }
-            assert()
-        }
-
-        assertEquals(setValue.uri, preferences.melodyUri)
-    }
-
     @Test fun volumeDialog() {
         val (setValue, initValue) = VolumeDialogUi.VALUES.getDifferentValues()
 

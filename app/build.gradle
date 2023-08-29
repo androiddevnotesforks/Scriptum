@@ -23,6 +23,8 @@ android {
         versionName git.version.execute().text.trim()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        /** Clear all data for each test run. Revoke all permissions. */
+        testInstrumentationRunnerArguments clearPackageData: 'true'
 
         javaCompileOptions {
             annotationProcessorOptions {
