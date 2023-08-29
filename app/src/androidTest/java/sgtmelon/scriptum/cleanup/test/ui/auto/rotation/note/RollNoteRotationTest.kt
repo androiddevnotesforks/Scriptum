@@ -24,7 +24,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openBin {
                     openRoll(it) {
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -38,7 +38,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                 openBin {
                     openRoll(it) {
                         controlPanel { onRestoreOpen() }
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -51,7 +51,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -64,7 +64,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openNotes {
                     openRoll(it) {
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -78,7 +78,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                 openNotes {
                     openRoll(it) {
                         controlPanel { onEdit() }
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -107,7 +107,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                     openRoll(item) {
                         controlPanel {
                             onNotification(isUpdateDate) {
-                                rotate.toSide()
+                                rotate.switch()
                                 assert()
                             }
                         }
@@ -125,7 +125,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onNotification {
                                 applyDate {
-                                    rotate.toSide()
+                                    rotate.switch()
                                     assert()
                                 }
                             }
@@ -144,7 +144,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                     openRoll(it) {
                         controlPanel {
                             onConvert {
-                                rotate.toSide()
+                                rotate.switch()
                                 assert()
                             }
                         }
@@ -160,7 +160,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                 openNotes {
                     openRoll(it) {
                         controlPanel { onConvert { positive() } }
-                        rotate.toSide()
+                        rotate.switch()
                         afterConvert()
                     }
                 }
@@ -176,7 +176,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onColor {
                                 select()
-                                rotate.toSide()
+                                rotate.switch()
                                 assert()
                             }
                         }
@@ -194,7 +194,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()
-                                rotate.toSide()
+                                rotate.switch()
                                 assert()
                             }
                         }

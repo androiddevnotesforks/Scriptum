@@ -5,11 +5,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.source.ui.tests.launchHelpMain
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchHelpMain
 import sgtmelon.scriptum.tests.ui.control.main.MainDialogHelpTest as MainDialogHelpControlTest
+
 /**
  * Test notifications help dialog for [MainActivity].
  */
@@ -43,7 +44,7 @@ class MainDialogHelpTest : ParentUiRotationTest(),
 
     @Test override fun rotateClose() = launchHelpMain {
         openHelpDialog {
-            rotate.toSide()
+            rotate.switch()
             assert()
             /** This dialog is not cancelable by back press. */
             softClose()

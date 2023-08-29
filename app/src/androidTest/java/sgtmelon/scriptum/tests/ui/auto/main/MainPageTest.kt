@@ -21,7 +21,7 @@ class MainPageTest : ParentUiRotationTest() {
 
     @Test fun rotateRankPage() = launchMain {
         openRank(isEmpty = true) {
-            rotate.toSide()
+            rotate.switch()
             assert(isEmpty = true)
         }
         assert()
@@ -29,7 +29,7 @@ class MainPageTest : ParentUiRotationTest() {
 
     @Test fun rotateNotesPage() = launchMain {
         openNotes(isEmpty = true) {
-            rotate.toSide()
+            rotate.switch()
             assert(isEmpty = true)
         }
         assert()
@@ -37,7 +37,7 @@ class MainPageTest : ParentUiRotationTest() {
 
     @Test fun rotateBinPage() = launchMain {
         openBin(isEmpty = true) {
-            rotate.toSide()
+            rotate.switch()
             assert(isEmpty = true)
         }
         assert()

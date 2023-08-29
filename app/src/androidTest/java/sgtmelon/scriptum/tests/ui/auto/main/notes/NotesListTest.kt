@@ -5,14 +5,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.source.ui.tests.launchMain
-import sgtmelon.scriptum.source.ui.tests.launchNotes
-import sgtmelon.scriptum.source.ui.tests.launchNotesItem
-import sgtmelon.scriptum.source.ui.tests.launchNotesList
 import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.scriptum.source.cases.list.ListScrollCase
 import sgtmelon.scriptum.source.cases.note.NoteOpenCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.tests.launchNotes
+import sgtmelon.scriptum.source.ui.tests.launchNotesItem
+import sgtmelon.scriptum.source.ui.tests.launchNotesList
 
 /**
  * Test list for [NotesFragment].
@@ -29,7 +29,7 @@ class NotesListTest : ParentUiRotationTest(),
 
     @Test override fun contentRotateEmpty() = launchMain {
         openNotes(isEmpty = true) {
-            rotate.toSide()
+            rotate.switch()
             assert(isEmpty = true)
         }
         assert(isFabVisible = true)
@@ -38,7 +38,7 @@ class NotesListTest : ParentUiRotationTest(),
     @Test override fun contentRotateList() = db.fillNotes().let {
         launchMain {
             openNotes {
-                rotate.toSide()
+                rotate.switch()
                 assert(isEmpty = false)
                 assertList(it)
             }

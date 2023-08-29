@@ -33,7 +33,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         preferencesRepo.volumePercent = VolumeDialogUi.VALUES.random()
         preferences.isVolumeIncrease = Random.nextBoolean()
     }) {
-        rotate.toSide()
+        rotate.switch()
         assert()
     }
 
@@ -44,7 +44,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         launchAlarmPreference({ preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
                 click(setValue)
-                rotate.toSide()
+                rotate.switch()
                 assert()
                 apply()
             }
@@ -60,7 +60,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         launchAlarmPreference({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
                 click(setValue)
-                rotate.toSide()
+                rotate.switch()
                 assert()
                 apply()
             }
@@ -79,7 +79,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         }) {
             openVolumeDialog {
                 seekTo(setValue)
-                rotate.toSide()
+                rotate.switch()
                 assert()
                 apply()
             }

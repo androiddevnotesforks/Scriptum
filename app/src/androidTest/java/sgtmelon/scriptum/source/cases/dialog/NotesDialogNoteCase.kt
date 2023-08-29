@@ -115,7 +115,7 @@ abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiRotatio
 
     override fun rotateClose() = launchNotesItem(insert()) {
         openNoteDialog(it) {
-            rotate.toSide()
+            rotate.switch()
             assert()
             softClose()
         }
@@ -124,7 +124,7 @@ abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiRotatio
 
     override fun rotateWork() = launchNotesItem(insert()) {
         openNoteDialog(it) {
-            rotate.toSide()
+            rotate.switch()
             /** Just check click listeners work fine. Doesn't matter what action to do. */
             delete()
         }

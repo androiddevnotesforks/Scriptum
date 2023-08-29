@@ -16,7 +16,7 @@ import sgtmelon.scriptum.source.ui.tests.launchMenuPreference
 class MenuPreferenceRotationTest : ParentUiRotationTest() {
 
     @Test fun content() = launchMenuPreference {
-        rotate.toSide()
+        rotate.switch()
         assert()
     }
 
@@ -26,7 +26,7 @@ class MenuPreferenceRotationTest : ParentUiRotationTest() {
         launchMenuPreference({ preferencesRepo.theme = initValue }) {
             openThemeDialog {
                 click(value)
-                rotate.toSide()
+                rotate.switch()
                 assert()
                 apply()
             }
@@ -38,7 +38,7 @@ class MenuPreferenceRotationTest : ParentUiRotationTest() {
 
     @Test fun aboutDialog() = launchMenuPreference {
         openAboutDialog {
-            rotate.toSide()
+            rotate.switch()
             assert()
         }
     }

@@ -39,7 +39,7 @@ class MainDialogHelpTest : ParentUiRotationTest(),
 
     @Test override fun rotateWork() = launchHelpMain {
         openHelpDialog {
-            rotate.toSide()
+            rotate.switch()
             if (halfChance()) positive() else negative()
         }
     }

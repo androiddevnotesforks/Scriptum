@@ -31,7 +31,7 @@ class PreferenceDialogAboutTest : ParentUiRotationTest(),
 
     @Test override fun rotateWork() = launchMenuPreference {
         openAboutDialog {
-            rotate.toSide()
+            rotate.switch()
             sendEmail()
         }
     }

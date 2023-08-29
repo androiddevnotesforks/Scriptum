@@ -76,7 +76,7 @@ class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
     /** Allow to [closeDialog] in different ways. */
     private fun AlarmPreferenceScreen.assertRotationClose(closeDialog: MelodyDialogUi.() -> Unit) {
         openMelodyDialog {
-            rotate.toSide()
+            rotate.switch()
             assert()
             closeDialog(this)
         }

@@ -67,7 +67,7 @@ abstract class BinDialogNoteCase(private val type: NoteType) : ParentUiRotationT
 
     override fun rotateClose() = launchBinItem(insert()) {
         openNoteDialog(it) {
-            rotate.toSide()
+            rotate.switch()
             assert()
             softClose()
         }
@@ -76,7 +76,7 @@ abstract class BinDialogNoteCase(private val type: NoteType) : ParentUiRotationT
 
     override fun rotateWork() = launchBinItem(insert()) {
         openNoteDialog(it) {
-            rotate.toSide()
+            rotate.switch()
             /** Just check click listeners work fine. Doesn't matter what action to do. */
             clear()
         }

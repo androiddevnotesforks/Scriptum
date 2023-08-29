@@ -24,7 +24,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openBin {
                     openText(it) {
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -38,7 +38,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                 openBin {
                     openText(it) {
                         controlPanel { onRestoreOpen() }
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -51,7 +51,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openAddDialog {
                     createText(it) {
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -64,7 +64,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openNotes {
                     openText(it) {
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -78,7 +78,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                 openNotes {
                     openText(it) {
                         controlPanel { onEdit() }
-                        rotate.toSide()
+                        rotate.switch()
                         fullAssert()
                     }
                 }
@@ -107,7 +107,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                     openText(item) {
                         controlPanel {
                             onNotification(isUpdateDate) {
-                                rotate.toSide()
+                                rotate.switch()
                                 assert()
                             }
                         }
@@ -125,7 +125,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onNotification {
                                 applyDate {
-                                    rotate.toSide()
+                                    rotate.switch()
                                     assert()
                                 }
                             }
@@ -144,7 +144,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                     openText(it) {
                         controlPanel {
                             onConvert {
-                                rotate.toSide()
+                                rotate.switch()
                                 assert()
                             }
                         }
@@ -161,7 +161,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                     openText(it) {
                         controlPanel {
                             onConvert { positive() }
-                            rotate.toSide()
+                            rotate.switch()
                             afterConvert()
                         }
                     }
@@ -178,7 +178,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onColor {
                                 select()
-                                rotate.toSide()
+                                rotate.switch()
                                 assert()
                             }
                         }
@@ -196,7 +196,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()
-                                rotate.toSide()
+                                rotate.switch()
                                 assert()
                             }
                         }

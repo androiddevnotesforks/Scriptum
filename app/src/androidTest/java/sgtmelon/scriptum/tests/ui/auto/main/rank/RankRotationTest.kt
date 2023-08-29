@@ -19,7 +19,7 @@ class RankRotationTest : ParentUiRotationTest() {
         val newName = nextString()
         openRenameDialog(it.name) {
             enter(newName)
-            rotate.toSide()
+            rotate.switch()
             assert(newName)
         }
     }
@@ -32,14 +32,14 @@ class RankRotationTest : ParentUiRotationTest() {
             assertSelection(it.name)
 
             /** Check selection and content after rotation (selected all text). */
-            rotate.toSide()
+            rotate.switch()
             assert(it.name)
             assertSelection(it.name)
 
             /** Enter new name and check selection after rotation (cursor at the end). */
             enter(newName)
             assertSelectionEnd(newName)
-            rotate.toNormal()
+            rotate.switch()
             assertSelectionEnd(newName)
         }
     }

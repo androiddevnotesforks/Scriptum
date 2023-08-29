@@ -5,14 +5,13 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
-
-import sgtmelon.scriptum.source.ui.tests.launchBinList
-import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.ui.screen.dialogs.message.ClearDialogUi
 import sgtmelon.scriptum.source.ui.screen.main.BinScreen
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchBinList
+import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
  * Test clear dialog for [BinFragment].
@@ -53,14 +52,13 @@ class BinDialogClearTest : ParentUiRotationTest(),
 
     @Test override fun rotateClose() = launchBinList {
         assertRotationClose { softClose() }
-        rotate.toNormal()
         assertRotationClose { negative() }
     }
 
     /** Allow to [closeDialog] in different ways. */
     private fun BinScreen.assertRotationClose(closeDialog: ClearDialogUi.() -> Unit) {
         openClearDialog {
-            rotate.toSide()
+            rotate.switch()
             assert()
             closeDialog(this)
         }
@@ -69,7 +67,7 @@ class BinDialogClearTest : ParentUiRotationTest(),
 
     @Test override fun rotateWork() = launchBinList {
         openClearDialog {
-            rotate.toSide()
+            rotate.switch()
             assert()
             positive()
         }

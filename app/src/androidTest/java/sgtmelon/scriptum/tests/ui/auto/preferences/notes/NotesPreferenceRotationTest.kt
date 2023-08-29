@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.tests.ui.auto.preferences.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,6 +11,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFr
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
 import sgtmelon.test.common.getDifferentValues
+import kotlin.random.Random
 
 /**
  * Test of [NotesPreferenceFragment] work with phone rotation.
@@ -26,7 +26,7 @@ class NotesPreferenceRotationTest : ParentUiRotationTest() {
         preferences.isAutoSaveOn = Random.nextBoolean()
         preferencesRepo.savePeriod = SavePeriod.values().random()
     }) {
-        rotate.toSide()
+        rotate.switch()
         assert()
     }
 
@@ -36,7 +36,7 @@ class NotesPreferenceRotationTest : ParentUiRotationTest() {
         launchNotesPreference({ preferencesRepo.sort = initValue }) {
             openSortDialog {
                 click(setValue)
-                rotate.toSide()
+                rotate.switch()
                 assert()
                 apply()
             }
@@ -52,7 +52,7 @@ class NotesPreferenceRotationTest : ParentUiRotationTest() {
         launchNotesPreference({ preferencesRepo.defaultColor = initValue }) {
             openColorDialog(initValue) {
                 select(setValue)
-                rotate.toSide()
+                rotate.switch()
                 assert()
                 apply()
             }
@@ -71,7 +71,7 @@ class NotesPreferenceRotationTest : ParentUiRotationTest() {
         }) {
             openSavePeriodDialog {
                 click(setValue)
-                rotate.toSide()
+                rotate.switch()
                 assert()
                 apply()
             }

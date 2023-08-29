@@ -4,12 +4,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
-import sgtmelon.scriptum.source.ui.tests.launchRank
-import sgtmelon.scriptum.source.ui.tests.launchRankList
 import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.scriptum.source.cases.list.ListScrollCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.tests.launchRank
+import sgtmelon.scriptum.source.ui.tests.launchRankList
 
 /**
  * Test list for [RankFragment].
@@ -27,7 +27,7 @@ class RankListTest : ParentUiRotationTest(),
 
     @Test override fun contentRotateEmpty() = launchMain {
         openRank(isEmpty = true) {
-            rotate.toSide()
+            rotate.switch()
             assert(isEmpty = true)
         }
         assert(isFabVisible = false)
@@ -36,7 +36,7 @@ class RankListTest : ParentUiRotationTest(),
     @Test override fun contentRotateList() = db.fillRank().let {
         launchMain {
             openRank {
-                rotate.toSide()
+                rotate.switch()
                 assert(isEmpty = false)
                 assertList(it)
             }

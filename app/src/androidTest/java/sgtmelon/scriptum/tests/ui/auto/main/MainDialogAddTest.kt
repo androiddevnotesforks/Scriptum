@@ -5,12 +5,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.ui.screen.dialogs.sheet.AddSheetDialogUi
 import sgtmelon.scriptum.source.ui.screen.main.MainScreen
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
  * Test add dialog for [MainActivity].
@@ -34,14 +34,13 @@ class MainDialogAddTest : ParentUiRotationTest(),
 
     @Test override fun rotateClose() = launchMain {
         assertRotationClose { softClose() }
-        rotate.toNormal()
         assertRotationClose { swipeClose() }
     }
 
     /** Allow to [closeDialog] in different ways. */
     private fun MainScreen.assertRotationClose(closeDialog: AddSheetDialogUi.() -> Unit) {
         openAddDialog {
-            rotate.toSide()
+            rotate.switch()
             assert()
             closeDialog(this)
         }
@@ -50,9 +49,12 @@ class MainDialogAddTest : ParentUiRotationTest(),
 
     @Test override fun rotateWork() = launchMain {
         openAddDialog {
+            /**
+             * Turn it back toNormal because of keyboard appears (on note screen) - sometimes it
+             * may fail the test.
+             */
             rotate.toSide()
-
-            /** Turn it back because of keyboard appears (on note screen) - it may fail test sometime. */
+            assert()
             rotate.toNormal()
 
             /** We check only click listener - doesn't matter what screen to open. */

@@ -5,13 +5,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
-import sgtmelon.scriptum.source.ui.tests.launchBin
-import sgtmelon.scriptum.source.ui.tests.launchBinItem
-import sgtmelon.scriptum.source.ui.tests.launchBinList
 import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.scriptum.source.cases.list.ListScrollCase
 import sgtmelon.scriptum.source.cases.note.NoteOpenCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchBin
+import sgtmelon.scriptum.source.ui.tests.launchBinItem
+import sgtmelon.scriptum.source.ui.tests.launchBinList
 import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
@@ -29,7 +29,7 @@ class BinListTest : ParentUiRotationTest(),
 
     @Test override fun contentRotateEmpty() = launchMain {
         openBin(isEmpty = true) {
-            rotate.toSide()
+            rotate.switch()
             assert(isEmpty = true)
         }
         assert(isFabVisible = false)
@@ -38,7 +38,7 @@ class BinListTest : ParentUiRotationTest(),
     @Test override fun contentRotateList() = db.fillBin().let {
         launchMain {
             openBin {
-                rotate.toSide()
+                rotate.switch()
                 assert(isEmpty = false)
                 assertList(it)
             }
