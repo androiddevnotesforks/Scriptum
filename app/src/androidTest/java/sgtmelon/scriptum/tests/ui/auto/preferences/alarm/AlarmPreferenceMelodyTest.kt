@@ -106,7 +106,7 @@ class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
     /** Allow to click different [index] and rotate+check after that. */
     private fun MelodyDialogUi.assertRotationClick(index: Int) {
         click(index)
-        rotate.toSide()
+        rotate.switch()
         assert()
     }
 }

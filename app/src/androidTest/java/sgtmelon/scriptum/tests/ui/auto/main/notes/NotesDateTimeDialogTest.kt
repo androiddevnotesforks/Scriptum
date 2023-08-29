@@ -5,9 +5,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
-import sgtmelon.scriptum.source.ui.screen.dialogs.time.DateDialogUi
-import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 import sgtmelon.scriptum.source.cases.dialog.DateTimeDialogCase
+import sgtmelon.scriptum.source.ui.screen.dialogs.time.DateDialogUi
+import sgtmelon.scriptum.source.ui.screen.dialogs.time.TimeDialogUi
+import sgtmelon.scriptum.source.ui.screen.main.NotesScreen
+import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 
 /**
  * Test dateTime dialog for [MainActivity].
@@ -24,13 +26,15 @@ class NotesDateTimeDialogTest : DateTimeDialogCase<NoteItem>() {
     }
 
     @Test override fun close() = launchNotesItem(db.insertNote()) {
-        openNoteDialog(it) { notification { softClose() } }
-        assert(isEmpty = false)
-        openNoteDialog(it) { notification { cancel() } }
-        assert(isEmpty = false)
-        openNoteDialog(it) { notification { applyDate { softClose() } } }
-        assert(isEmpty = false)
-        openNoteDialog(it) { notification { applyDate { cancel() } } }
+        assertClose(it) { softClose() }
+        assertClose(it) { cancel() }
+        assertClose(it) { applyDate { softClose() } }
+        assertClose(it) { applyDate { cancel() } }
+    }
+
+    /** Allow to [closeDialog] in different ways. */
+    private fun NotesScreen.assertClose(item: NoteItem, closeDialog: DateDialogUi.() -> Unit) {
+        openNoteDialog(item) { notification { closeDialog() } }
         assert(isEmpty = false)
     }
 
@@ -43,5 +47,44 @@ class NotesDateTimeDialogTest : DateTimeDialogCase<NoteItem>() {
     @Test override fun timeApplyEnablePast() = super.timeApplyEnablePast()
 
     @Test override fun timeApplyEnableList() = super.timeApplyEnableList()
+
+    @Test override fun rotateClose() = launchNotesItem(db.insertNote()) {
+        fun assertDateRotationClose(onClose: DateDialogUi.() -> Unit) {
+            assertRotationClose(it) {
+                rotate.switch()
+                assert()
+                onClose()
+            }
+        }
+
+        assertDateRotationClose { softClose() }
+        assertDateRotationClose { cancel() }
+
+        fun assertTimeRotationClose(onClose: TimeDialogUi.() -> Unit) {
+            assertRotationClose(it) {
+                applyDate {
+                    rotate.switch()
+                    assert()
+                    onClose()
+                }
+            }
+        }
+
+        assertTimeRotationClose { softClose() }
+        assertTimeRotationClose { cancel() }
+    }
+
+    /** Allow to [closeDialog] in different ways. */
+    private inline fun NotesScreen.assertRotationClose(
+        item: NoteItem,
+        crossinline closeDialog: DateDialogUi.() -> Unit
+    ) {
+        openNoteDialog(item) { notification { closeDialog() } }
+        assert(isEmpty = false)
+    }
+
+    @Test override fun rotateWork() = super.rotateWork()
+
+    @Test override fun rotateReset() = super.rotateReset()
 
 }

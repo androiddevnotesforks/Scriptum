@@ -11,6 +11,8 @@ class RotateAutomator(private val uiDevice: UiDevice) {
 
     private var isNormal: Boolean = true
 
+        // TODO use in tests only "switch"
+
     fun toSide() {
         /** Skip if already rotated to side. */
         if (!isNormal) return

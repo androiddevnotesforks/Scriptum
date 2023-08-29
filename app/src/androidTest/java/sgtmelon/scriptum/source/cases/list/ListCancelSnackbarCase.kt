@@ -6,9 +6,7 @@ import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerPart
 
 interface ListCancelSnackbarCase {
 
-    /**
-     * Check insets-spacing for snackbar bottom.
-     */
+    /** Check insets-spacing for snackbar bottom. */
     fun displayInsets()
 
     fun startDisplayInserts(screen: Any) {

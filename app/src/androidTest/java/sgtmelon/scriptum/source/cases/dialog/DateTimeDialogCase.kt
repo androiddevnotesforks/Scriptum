@@ -4,18 +4,22 @@ import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.source.ui.screen.dialogs.time.DateDialogUi
 import sgtmelon.scriptum.source.ui.screen.dialogs.time.TimeDialogUi
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 
 /**
  * Parent class for tests of [DateDialogUi] and [TimeDialogUi].
  */
-abstract class DateTimeDialogCase<T : NoteItem> : ParentUiTest(),
-    DialogCloseCase {
+abstract class DateTimeDialogCase<T : NoteItem> : ParentUiRotationTest(),
+    DialogCloseCase,
+    DialogRotateCase {
 
+    /** Insert note WITHOUT alarm notification. */
     abstract fun insert(): T
 
+    /** Insert note WITH alarm notification. */
     abstract fun insertNotification(): T
 
+    /** Implementation must open [DateDialogUi] for future manipulations. */
     abstract fun launchDateDialog(item: T, func: DateDialogUi.() -> Unit)
 
     open fun dateReset() = launchDateDialog(insertNotification()) { reset() }
@@ -45,4 +49,17 @@ abstract class DateTimeDialogCase<T : NoteItem> : ParentUiTest(),
         set(calendar).applyDate(listOf(alarmDate)) { set(calendar) }
     }
 
+    override fun rotateWork() = launchDateDialog(insert()) {
+        rotate.switch()
+        assert()
+        applyDate {
+            rotate.switch()
+            assert()
+        }
+    }
+
+    open fun rotateReset() = launchDateDialog(insertNotification()) {
+        rotate.switch()
+        assert()
+    }
 }
