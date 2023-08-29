@@ -2,11 +2,11 @@ package sgtmelon.scriptum.tests.integration.dao
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.source.ParentRoomTest
 import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.source.provider.EntityProvider.nextRollVisibleEntity
+import kotlin.random.Random
 
 /**
  * Integration test for [RollVisibleDao] and safe functions.
@@ -129,9 +130,10 @@ class RollVisibleDaoTest : ParentRoomTest() {
      * This test check this situation.
      */
     @Test fun insertSafe_throwsCheck() {
-        inRoomTest {
-            exceptionRule.expect(SQLiteConstraintException::class.java)
-            rollVisibleDao.insert(firstVisible)
+        assertThrows(SQLiteConstraintException::class.java) {
+            inRoomTest {
+                rollVisibleDao.insert(firstVisible)
+            }
         }
     }
 
@@ -158,9 +160,12 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertEquals(rollVisibleDao.getList(), visibleList)
     }
 
-    @Test fun getList_byId_overflowCheck() = inRoomTest {
-        overflowDelegator.expectException(exceptionRule)
-        rollVisibleDao.getList(overflowDelegator.getList { Random.nextLong() })
+    @Test fun getList_byId_overflowCheck() {
+        overflowDelegator.expectException {
+            inRoomTest {
+                rollVisibleDao.getList(it.getList { Random.nextLong() })
+            }
+        }
     }
 
     @Test fun getList_byId() = inRoomTest {

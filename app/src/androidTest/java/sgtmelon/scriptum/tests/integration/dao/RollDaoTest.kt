@@ -2,12 +2,11 @@ package sgtmelon.scriptum.tests.integration.dao
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.math.abs
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,6 +23,8 @@ import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
 import sgtmelon.scriptum.source.provider.EntityProvider.nextRollEntity
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
+import kotlin.math.abs
+import kotlin.random.Random
 
 /**
  * Integration test for [RollDao] and safe functions.
@@ -160,9 +161,10 @@ class RollDaoTest : ParentRoomTest() {
      * This test check this situation.
      */
     @Test fun insertSafe_throwsCheck() {
-        inRoomTest {
-            exceptionRule.expect(SQLiteConstraintException::class.java)
-            rollDao.insert(firstPair.second.random())
+        assertThrows(SQLiteConstraintException::class.java) {
+            inRoomTest {
+                rollDao.insert(firstPair.second.random())
+            }
         }
     }
 
@@ -212,12 +214,14 @@ class RollDaoTest : ParentRoomTest() {
         assertTrue(rollDao.getList(note.id).isEmpty())
     }
 
-    @Test fun delete_withExclude_overflowCheck() = inRoomTest {
-        overflowDelegator.expectException(exceptionRule)
-
-        val (note, rollList) = firstPair
-        insertRelation(note, rollList)
-        rollDao.delete(note.id, overflowDelegator.getList { Random.nextLong() })
+    @Test fun delete_withExclude_overflowCheck() {
+        overflowDelegator.expectException {
+            inRoomTest {
+                val (note, rollList) = firstPair
+                insertRelation(note, rollList)
+                rollDao.delete(note.id, it.getList { Random.nextLong() })
+            }
+        }
     }
 
     @Test fun delete_withExclude() = inRoomTest {
@@ -232,9 +236,12 @@ class RollDaoTest : ParentRoomTest() {
         assertEquals(rollDao.getIdList(note.id), excludeList)
     }
 
-    @Test fun delete_byIdList_overflowCheck() = inRoomTest {
-        overflowDelegator.expectException(exceptionRule)
-        rollDao.delete(overflowDelegator.getList { Random.nextLong() })
+    @Test fun delete_byIdList_overflowCheck() {
+        overflowDelegator.expectException {
+            inRoomTest {
+                rollDao.delete(it.getList { Random.nextLong() })
+            }
+        }
     }
 
     @Test fun delete_byIdList() = inRoomTest {
@@ -301,9 +308,12 @@ class RollDaoTest : ParentRoomTest() {
         assertEquals(rollDao.getIdList(secondNote.id), secondRollList.map { it.id })
     }
 
-    @Test fun getList_byNoteIdList_overflowCheck() = inRoomTest {
-        overflowDelegator.expectException(exceptionRule)
-        rollDao.getList(overflowDelegator.getList { Random.nextLong() })
+    @Test fun getList_byNoteIdList_overflowCheck() {
+        overflowDelegator.expectException {
+            inRoomTest {
+                rollDao.getList(it.getList { Random.nextLong() })
+            }
+        }
     }
 
     @Test fun getList_byNoteIdList() = inRoomTest {

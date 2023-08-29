@@ -2,11 +2,11 @@ package sgtmelon.scriptum.tests.integration.dao
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,6 +24,7 @@ import sgtmelon.scriptum.source.provider.DateProvider.DATE_2
 import sgtmelon.scriptum.source.provider.EntityProvider.nextAlarmEntity
 import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
 import sgtmelon.test.common.isDivideEntirely
+import kotlin.random.Random
 
 
 /**
@@ -144,9 +145,10 @@ class AlarmDaoTest : ParentRoomTest() {
      * This test check this situation.
      */
     @Test fun insertSafe_throwsCheck() {
-        inRoomTest {
-            exceptionRule.expect(SQLiteConstraintException::class.java)
-            alarmDao.insert(firstAlarm)
+        assertThrows(SQLiteConstraintException::class.java) {
+            inRoomTest {
+                alarmDao.insert(firstAlarm)
+            }
         }
     }
 
@@ -192,9 +194,12 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmDao.getList(), listOf(firstAlarm, secondAlarm))
     }
 
-    @Test fun getList_byId_overflowCheck() = inRoomTest {
-        overflowDelegator.expectException(exceptionRule)
-        alarmDao.getList(overflowDelegator.getList { Random.nextLong() })
+    @Test fun getList_byId_overflowCheck() {
+        overflowDelegator.expectException {
+            inRoomTest {
+                alarmDao.getList(it.getList { Random.nextLong() })
+            }
+        }
     }
 
     @Test fun getList_byId() = inRoomTest {
@@ -249,9 +254,12 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmDao.getCount(), noteList.size)
     }
 
-    @Test fun getCount_byIdList_overflowCheck() = inRoomTest {
-        overflowDelegator.expectException(exceptionRule)
-        alarmDao.getCount(overflowDelegator.getList { Random.nextLong() })
+    @Test fun getCount_byIdList_overflowCheck() {
+        overflowDelegator.expectException {
+            inRoomTest {
+                alarmDao.getCount(it.getList { Random.nextLong() })
+            }
+        }
     }
 
     @Test fun getCount_byIdList() = inRoomTest {

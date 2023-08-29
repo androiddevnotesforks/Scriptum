@@ -72,7 +72,7 @@ class NoteConverterTest : ParentTest() {
     @MockK lateinit var alarmConverter: AlarmConverter
     @MockK lateinit var rankConverter: RankConverter
 
-    private val converter = NoteConverter(alarmConverter, rankConverter)
+    private val converter by lazy { NoteConverter(alarmConverter, rankConverter) }
 
     @After override fun tearDown() {
         super.tearDown()

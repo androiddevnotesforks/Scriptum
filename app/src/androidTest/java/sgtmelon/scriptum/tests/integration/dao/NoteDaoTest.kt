@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.tests.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -25,6 +24,7 @@ import sgtmelon.scriptum.source.provider.DateProvider.DATE_5
 import sgtmelon.scriptum.source.provider.EntityProvider.nextNoteEntity
 import sgtmelon.test.common.isDivideEntirely
 import sgtmelon.test.common.nextString
+import kotlin.random.Random
 
 /**
  * Integration test for [NoteDao] and safe functions.
@@ -144,9 +144,12 @@ class NoteDaoTest : ParentRoomTest() {
         }
     }
 
-    @Test fun getBindCount_overflowCheck() = inRoomTest {
-        overflowDelegator.expectException(exceptionRule)
-        noteDao.getBindCount(overflowDelegator.getList { Random.nextLong() })
+    @Test fun getBindCount_overflowCheck() {
+        overflowDelegator.expectException {
+            inRoomTest {
+                noteDao.getBindCount(it.getList { Random.nextLong() })
+            }
+        }
     }
 
     @Test fun getBindCount() = inRoomTest {
@@ -174,9 +177,12 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(noteDao.get(note.id), note)
     }
 
-    @Test fun getList_byIdList_overflowCheck() = inRoomTest {
-        overflowDelegator.expectException(exceptionRule)
-        noteDao.getList(overflowDelegator.getList { Random.nextLong() })
+    @Test fun getList_byIdList_overflowCheck() {
+        overflowDelegator.expectException {
+            inRoomTest {
+                noteDao.getList(it.getList { Random.nextLong() })
+            }
+        }
     }
 
     @Test fun getList_byIdList() = inRoomTest {

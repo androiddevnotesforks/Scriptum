@@ -2,11 +2,11 @@ package sgtmelon.test.common
 
 import android.database.sqlite.SQLiteException
 import android.os.Build
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import kotlin.math.ceil
 import kotlin.math.min
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.rules.ExpectedException
 
 /**
  * Provides list for check overflow error.
@@ -20,9 +20,11 @@ class OverflowDelegator(private val overflowCount: Int) {
      * On API == 33 exception wasn't called, and it was ok. I think it is fixed for specific API.
      * But we must check it for lower API.
      */
-    fun expectException(rule: ExpectedException) {
+    fun expectException(runFunc: (OverflowDelegator) -> Unit) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            rule.expect(SQLiteException::class.java)
+            assertThrows(SQLiteException::class.java) { runFunc(this) }
+        } else {
+            runFunc(this)
         }
     }
 

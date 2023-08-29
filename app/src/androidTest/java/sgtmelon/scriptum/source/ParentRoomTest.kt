@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.source
 
 import org.junit.Before
-import org.junit.Rule
-import org.junit.rules.ExpectedException
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
 import sgtmelon.scriptum.source.di.ParentInjector
 import sgtmelon.test.common.OverflowDelegator
@@ -12,8 +10,6 @@ import sgtmelon.test.common.OverflowDelegator
  */
 abstract class ParentRoomTest : ParentTest(),
     RoomWorker {
-
-    @get:Rule val exceptionRule: ExpectedException = ExpectedException.none()
 
     override val database = ParentInjector.provideDatabase()
 
