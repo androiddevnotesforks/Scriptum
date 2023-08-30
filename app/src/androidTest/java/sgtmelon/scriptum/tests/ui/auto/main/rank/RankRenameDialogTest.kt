@@ -70,7 +70,7 @@ class RankRenameDialogTest : ParentUiRotationTest(),
     private fun RankScreen.assertRotationClose(it: RankItem, closeDialog: RenameDialogUi.() -> Unit) {
         openRenameDialog(it.name) {
             rotate.switch()
-            assert()
+            assert(it.name)
             closeDialog(this)
         }
         assertItem(it)
