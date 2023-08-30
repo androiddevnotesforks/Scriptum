@@ -9,7 +9,7 @@ interface ListCancelSnackbarCase {
     /** Check insets-spacing for snackbar bottom. */
     fun displayInsets()
 
-    fun startDisplayInserts(screen: Any) {
+    fun startDisplayInsets(screen: Any) {
         if (screen !is RecyclerPart<*, *> || screen !is ListSnackbarWork) throwOnCast()
 
         with(screen) {
@@ -36,5 +36,7 @@ interface ListCancelSnackbarCase {
     fun dismissTimeout()
 
     private fun throwOnCast(): Nothing = throw ClassCastException()
+
+    fun workAfterRotation()
 
 }

@@ -2,22 +2,23 @@ package sgtmelon.scriptum.tests.ui.auto.main.rank
 
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.screen.main.rank.RankFragment
+import sgtmelon.scriptum.source.cases.list.ListCancelSnackbarCase
 import sgtmelon.scriptum.source.ui.model.key.Scroll
 import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerItemPart
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.tests.launchRankItem
 import sgtmelon.scriptum.source.ui.tests.launchRankList
-import sgtmelon.scriptum.source.cases.list.ListCancelSnackbarCase
 import sgtmelon.test.cappuccino.utils.await
 import sgtmelon.test.common.nextShortString
 
 /**
  * Test for Snackbar in [RankFragment].
  */
-class RankSnackbarTest : ParentUiTest(),
+class RankSnackbarTest : ParentUiRotationTest(),
     ListCancelSnackbarCase {
 
-    @Test override fun displayInsets() = launchRankList { startDisplayInserts(screen = this) }
+    @Test override fun displayInsets() = launchRankList { startDisplayInsets(screen = this) }
 
     @Test override fun singleActionClick() = launchRankList(count = 5) {
         val p = it.indices.random()
@@ -117,6 +118,19 @@ class RankSnackbarTest : ParentUiTest(),
             }
             openNotes(isEmpty = true)
             openRank { assertSnackbarDismissed() }
+        }
+    }
+
+    @Test override fun workAfterRotation() = launchRankItem(db.insertRank()) {
+        repeat(times = 3) { _ ->
+            assertItem(it)
+            itemCancel()
+            assert(isEmpty = true)
+            rotate.switch()
+            assert(isEmpty = true)
+            snackbar { action() }
+            assert(isEmpty = false)
+            assertItem(it)
         }
     }
 

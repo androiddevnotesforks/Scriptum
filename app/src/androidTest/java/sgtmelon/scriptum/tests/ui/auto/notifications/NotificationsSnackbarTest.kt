@@ -3,23 +3,24 @@ package sgtmelon.scriptum.tests.ui.auto.notifications
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.screen.notifications.NotificationsActivity
+import sgtmelon.scriptum.source.cases.list.ListCancelSnackbarCase
 import sgtmelon.scriptum.source.ui.model.key.Scroll
 import sgtmelon.scriptum.source.ui.parts.SnackbarPart
 import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerItemPart
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchNotes
+import sgtmelon.scriptum.source.ui.tests.launchNotificationsItem
 import sgtmelon.scriptum.source.ui.tests.launchNotificationsList
-import sgtmelon.scriptum.source.cases.list.ListCancelSnackbarCase
 import sgtmelon.test.cappuccino.utils.await
 
 /**
  * Test for SnackBar in [NotificationsActivity].
  */
-class NotificationsSnackbarTest : ParentUiTest(),
+class NotificationsSnackbarTest : ParentUiRotationTest(),
     ListCancelSnackbarCase {
 
     @Test override fun displayInsets() = launchNotificationsList {
-        startDisplayInserts(screen = this)
+        startDisplayInsets(screen = this)
     }
 
     @Test override fun singleActionClick() = launchNotificationsList(count = 5) {
@@ -163,6 +164,19 @@ class NotificationsSnackbarTest : ParentUiTest(),
         }
 
         assertSnackbarDismissed()
+    }
+
+    @Test override fun workAfterRotation() = launchNotificationsItem(db.insertNote()) {
+        repeat(times = 3) { _ ->
+            assertItem(it)
+            itemCancel()
+            assert(isEmpty = true)
+            rotate.switch()
+            assert(isEmpty = true)
+            snackbar { action() }
+            assert(isEmpty = false)
+            assertItem(it)
+        }
     }
 
     @Test fun clearCacheOnScreenClose() {
