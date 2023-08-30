@@ -195,9 +195,11 @@ object NotificationFactory {
             val description = context.getString(R.string.notification_eternal_channel_description)
 
             /**
-             * [NotificationManager.IMPORTANCE_HIGH] need for prevent closing of [EternalService].
+             * [NotificationManager.IMPORTANCE_DEFAULT] (not high) because it's enough for
+             * [EternalService] work and it's needed for UI testing. If change it to "HIGH" it will
+             * interrupt test run in some cases (notification overlay some UI elements).
              */
-            return NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH).apply {
+            return NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
                 setSound(null, null)
                 this.vibrationPattern = null
                 this.description = description
