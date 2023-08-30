@@ -103,7 +103,7 @@ dependencies {
 
     implementation libs.android.core
 
-    implementation libs.android.lifecycle.runtime // TODO is it needed? may be try runtime dependency
+    implementation libs.android.lifecycle.runtime
     implementation libs.android.lifecycle.ext
     implementation libs.android.lifecycle.vm
 

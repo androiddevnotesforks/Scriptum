@@ -8,8 +8,11 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.cases.value.ColorCase
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.screen.dialogs.ColorDialogUi
+import sgtmelon.scriptum.source.ui.screen.preference.notes.NotesPreferenceScreen
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
 import sgtmelon.test.common.getDifferentValues
 import sgtmelon.test.common.oneFourthChance
@@ -18,9 +21,10 @@ import sgtmelon.test.common.oneFourthChance
  * Test of [PreferencesImpl.defaultColor] setup for [MenuPreferenceFragment]
  */
 @RunWith(AndroidJUnit4::class)
-class NotesPreferenceColorTest : ParentUiTest(),
+class NotesPreferenceColorTest : ParentUiRotationTest(),
     DialogCloseCase,
-    ColorCase {
+    ColorCase,
+    DialogRotateCase {
 
     @Test override fun close() {
         val color = Color.values().random()
@@ -55,14 +59,50 @@ class NotesPreferenceColorTest : ParentUiTest(),
 
     @Test override fun colorWhite() = super.colorWhite()
 
-    override fun startTest(value: Color) {
+    override fun startTest(value: Color) = runWorkTest(value) {
+        if (oneFourthChance()) selectLong(it) else select(it)
+    }
+
+    @Test override fun rotateClose() {
+        val color = Color.values().random()
+
+        launchNotesPreference(before = { preferencesRepo.defaultColor = color }) {
+            assertRotationClose(color) { softClose() }
+            assertRotationClose(color) { cancel() }
+        }
+    }
+
+    /** Allow to [closeDialog] in different ways. */
+    private fun NotesPreferenceScreen.assertRotationClose(
+        color: Color,
+        closeDialog: ColorDialogUi.() -> Unit
+    ) {
+        openColorDialog(color) {
+            rotate.switch()
+            assert()
+            closeDialog(this)
+        }
+        assert()
+    }
+
+    @Test override fun rotateWork() = runWorkTest { assertRotationClick(it) }
+
+    /** Allow to click different [value] and rotate+check after that. */
+    private fun ColorDialogUi.assertRotationClick(value: Color) {
+        select(value)
+        rotate.switch()
+        assert()
+    }
+
+    /** Allow to run work test with different [action]. */
+    private fun runWorkTest(value: Color? = null, action: ColorDialogUi.(value: Color) -> Unit) {
         val (setValue, initValue) = Color.values().getDifferentValues(value)
         preferencesRepo.defaultColor = initValue
 
         launchNotesPreference {
             openColorDialog(initValue) {
                 assertItem()
-                if (oneFourthChance()) selectLong(setValue) else select(setValue)
+                action(setValue)
                 apply()
             }
             assert()

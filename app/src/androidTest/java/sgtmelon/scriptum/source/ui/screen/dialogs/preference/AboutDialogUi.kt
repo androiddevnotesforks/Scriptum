@@ -29,6 +29,7 @@ class AboutDialogUi : UiPart(),
     private val designerText = getView(R.id.about_designer_text)
     private val emailText = getView(R.id.about_email_text)
 
+    // TODO add UIAutomator assertion
     fun sendEmail() {
         emailText.click()
     }

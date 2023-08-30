@@ -12,6 +12,8 @@ import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class BackupPreferenceTest : ParentUiTest() {
 
+    // TODO closeScreenCase
+    // TODO rotateScreenCase
     @Test fun todo() {
         TODO()
     }

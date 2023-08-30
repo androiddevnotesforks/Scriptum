@@ -5,16 +5,21 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.source.cases.screen.CloseScreenCase
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.cases.screen.ContentScreenCase
+import sgtmelon.scriptum.source.cases.screen.RotateScreenCase
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.ui.tests.launchMenuPreference
+import kotlin.random.Random
 
 /**
  * Test for [MenuPreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class MenuPreferenceTest : ParentUiTest(),
-    CloseScreenCase {
+class MenuPreferenceTest : ParentUiRotationTest(),
+    CloseScreenCase,
+    ContentScreenCase,
+    RotateScreenCase {
 
     @Test override fun closeScreen() = launchMain {
         openNotes(isEmpty = true) {
@@ -23,11 +28,7 @@ class MenuPreferenceTest : ParentUiTest(),
         }
     }
 
-    @Test fun assertList() = launchMenuPreference { assert() }
-
-    @Test fun assertListDeveloper() = launchMenuPreference({
-        preferencesRepo.isDeveloper = true
-    }) {
+    @Test override fun content() = launchMenuPreference({ setupRandomContent() }) {
         assert()
     }
 
@@ -37,8 +38,13 @@ class MenuPreferenceTest : ParentUiTest(),
 
     @Test fun openAlarm() = launchMenuPreference { openAlarm() }
 
-    @Test fun aboutDialogClose() = launchMenuPreference {
-        openAboutDialog { softClose() }
+    @Test override fun rotateScreen() = launchMenuPreference({ setupRandomContent() }) {
+        rotate.switch()
         assert()
+    }
+
+    /** Setup random content for screen tests. */
+    private fun setupRandomContent() {
+        preferencesRepo.isDeveloper = Random.nextBoolean()
     }
 }

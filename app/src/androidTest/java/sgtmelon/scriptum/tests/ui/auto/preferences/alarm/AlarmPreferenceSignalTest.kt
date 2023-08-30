@@ -33,31 +33,11 @@ class AlarmPreferenceSignalTest : ParentUiRotationTest(),
         assert()
     }
 
-    @Test override fun work() {
-        val initValue = getRandomSignalCheck()
-        val setValue = getRandomSignalCheck(initValue)
-
-        assertFalse(initValue.contentEquals(setValue))
-        assertEquals(initValue.size, setValue.size)
-
-        launchAlarmPreference({ preferencesRepo.signalTypeCheck = initValue }) {
-            openSignalDialog {
-                click(setValue)
-                click(initValue)
-                click(setValue)
-                apply()
-            }
-            assert()
-        }
-
-        assertTrue(preferencesRepo.signalTypeCheck.contentEquals(setValue))
-    }
+    @Test override fun work() = runWorkTest { click(it) }
 
     @Test override fun rotateClose() = launchAlarmPreference {
         assertRotationClose { softClose() }
-        assert()
         assertRotationClose { cancel() }
-        assert()
     }
 
     /** Allow to [closeDialog] in different ways. */
@@ -70,7 +50,17 @@ class AlarmPreferenceSignalTest : ParentUiRotationTest(),
         assert()
     }
 
-    @Test override fun rotateWork() {
+    @Test override fun rotateWork() = runWorkTest { assertRotationClick(it) }
+
+    /** Allow to click different [value] and rotate+check after that. */
+    private fun SignalDialogUi.assertRotationClick(value: BooleanArray) {
+        click(value)
+        rotate.switch()
+        assert()
+    }
+
+    /** Allow to run work test with different [action]. */
+    private fun runWorkTest(action: SignalDialogUi.(value: BooleanArray) -> Unit) {
         val initValue = getRandomSignalCheck()
         val setValue = getRandomSignalCheck(initValue)
 
@@ -79,21 +69,14 @@ class AlarmPreferenceSignalTest : ParentUiRotationTest(),
 
         launchAlarmPreference({ preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
-                assertRotationClick(setValue)
-                assertRotationClick(initValue)
-                assertRotationClick(setValue)
+                action(setValue)
+                action(initValue)
+                action(setValue)
                 apply()
             }
             assert()
         }
 
         assertTrue(preferencesRepo.signalTypeCheck.contentEquals(setValue))
-    }
-
-    /** Allow to click different [value] and rotate+check after that. */
-    private fun SignalDialogUi.assertRotationClick(value: BooleanArray) {
-        click(value)
-        rotate.switch()
-        assert()
     }
 }

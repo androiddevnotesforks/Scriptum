@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.source.cases.screen.CloseScreenCase
+import sgtmelon.scriptum.source.cases.screen.ContentScreenCase
 import sgtmelon.scriptum.source.cases.screen.RotateScreenCase
 import sgtmelon.scriptum.source.ui.screen.dialogs.preference.VolumeDialogUi
 import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceLogic
@@ -23,10 +24,15 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceTest : ParentUiRotationTest(),
     CloseScreenCase,
+    ContentScreenCase,
     RotateScreenCase {
 
     @Test override fun closeScreen() = launchMenuPreference {
         openAlarm { clickClose() }
+        assert()
+    }
+
+    @Test override fun content() = launchMenuPreference({ setupRandomContent() }) {
         assert()
     }
 
@@ -52,7 +58,13 @@ class AlarmPreferenceTest : ParentUiRotationTest(),
         assertEquals(!value, preferencesRepo.isVolumeIncrease)
     }
 
-    @Test override fun rotateScreen() = launchAlarmPreference({
+    @Test override fun rotateScreen() = launchAlarmPreference({ setupRandomContent() }) {
+        rotate.switch()
+        assert()
+    }
+
+    /** Setup random content for screen tests. */
+    private fun setupRandomContent() {
         preferencesRepo.repeat = Repeat.values().random()
         preferencesRepo.signalTypeCheck = getRandomSignalCheck()
 
@@ -62,8 +74,5 @@ class AlarmPreferenceTest : ParentUiRotationTest(),
 
         preferencesRepo.volumePercent = VolumeDialogUi.VALUES.random()
         preferences.isVolumeIncrease = Random.nextBoolean()
-    }) {
-        rotate.switch()
-        assert()
     }
 }

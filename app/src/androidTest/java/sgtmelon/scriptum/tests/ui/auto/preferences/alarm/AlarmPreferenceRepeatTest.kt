@@ -41,21 +41,7 @@ class AlarmPreferenceRepeatTest : ParentUiRotationTest(),
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(value: Repeat) {
-        val (setValue, initValue) = Repeat.values().getDifferentValues(value)
-
-        launchAlarmPreference({ preferencesRepo.repeat = initValue }) {
-            openRepeatDialog {
-                click(setValue)
-                click(initValue)
-                click(setValue)
-                apply()
-            }
-            assert()
-        }
-
-        assertEquals(setValue, preferencesRepo.repeat)
-    }
+    override fun startTest(value: Repeat) = runWorkTest(value) { click(it) }
 
     @Test override fun rotateClose() = launchAlarmPreference {
         assertRotationClose { softClose() }
@@ -72,26 +58,29 @@ class AlarmPreferenceRepeatTest : ParentUiRotationTest(),
         assert()
     }
 
-    @Test override fun rotateWork() {
-        val (setValue, initValue) = Repeat.values().getDifferentValues()
-
-        launchAlarmPreference({ preferencesRepo.repeat = initValue }) {
-            openRepeatDialog {
-                assertRotationClick(setValue)
-                assertRotationClick(initValue)
-                assertRotationClick(setValue)
-                apply()
-            }
-            assert()
-        }
-
-        assertEquals(setValue, preferencesRepo.repeat)
-    }
+    @Test override fun rotateWork() = runWorkTest { assertRotationClick(it) }
 
     /** Allow to click different [value] and rotate+check after that. */
     private fun RepeatDialogUi.assertRotationClick(value: Repeat) {
         click(value)
         rotate.switch()
         assert()
+    }
+
+    /** Allow to run work test with different [action]. */
+    private fun runWorkTest(value: Repeat? = null, action: RepeatDialogUi.(value: Repeat) -> Unit) {
+        val (setValue, initValue) = Repeat.values().getDifferentValues(value)
+
+        launchAlarmPreference({ preferencesRepo.repeat = initValue }) {
+            openRepeatDialog {
+                action(setValue)
+                action(initValue)
+                action(setValue)
+                apply()
+            }
+            assert()
+        }
+
+        assertEquals(setValue, preferencesRepo.repeat)
     }
 }

@@ -7,9 +7,10 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.dialogs.AboutDialog
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
+import sgtmelon.scriptum.source.cases.dialog.DialogWorkCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchMenuPreference
-import sgtmelon.scriptum.tests.ui.auto.preferences.menu.MenuPreferenceRotationTest
+import sgtmelon.scriptum.tests.ui.auto.preferences.menu.MenuPreferenceAboutTest
 import sgtmelon.test.cappuccino.utils.await
 
 /**
@@ -17,6 +18,7 @@ import sgtmelon.test.cappuccino.utils.await
  */
 @RunWith(AndroidJUnit4::class)
 class PreferenceDialogAboutTest : ParentUiRotationTest(),
+    DialogWorkCase,
     DialogRotateCase {
 
     @After override fun tearDown() {
@@ -24,14 +26,15 @@ class PreferenceDialogAboutTest : ParentUiRotationTest(),
         await(END_DELAY)
     }
 
-    @Test fun work() = launchMenuPreference { openAboutDialog { sendEmail() } }
+    @Test override fun work() = launchMenuPreference { openAboutDialog { sendEmail() } }
 
-    /** It will be tested in [MenuPreferenceRotationTest.aboutDialog]. */
+    /** It will be tested in [MenuPreferenceAboutTest]. */
     override fun rotateClose() = Unit
 
     @Test override fun rotateWork() = launchMenuPreference {
         openAboutDialog {
             rotate.switch()
+            assert()
             sendEmail()
         }
     }

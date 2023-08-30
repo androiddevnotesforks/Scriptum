@@ -23,7 +23,6 @@ class MainDialogAddTest : ParentUiRotationTest(),
     @Test override fun close() = launchMain {
         openAddDialog { softClose() }
         assert()
-
         openAddDialog { swipeClose() }
         assert()
     }

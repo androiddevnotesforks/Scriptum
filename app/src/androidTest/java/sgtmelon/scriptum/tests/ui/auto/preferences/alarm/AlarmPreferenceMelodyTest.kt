@@ -48,31 +48,11 @@ class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
         assert()
     }
 
-    @Test override fun work() {
-        val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
-
-        val (setValue, initValue) = list.getDifferentValues()
-        val initIndex = list.indexOf(initValue)
-        val setIndex = list.indexOf(setValue)
-
-        launchAlarmPreference({ preferences.melodyUri = initValue.uri }) {
-            openMelodyDialog {
-                click(setIndex)
-                click(initIndex)
-                click(setIndex)
-                apply()
-            }
-            assert()
-        }
-
-        assertEquals(setValue.uri, preferences.melodyUri)
-    }
+    @Test override fun work() = runWorkTest { click(it) }
 
     @Test override fun rotateClose() = launchAlarmPreference {
         assertRotationClose { softClose() }
-        assert()
         assertRotationClose { cancel() }
-        assert()
     }
 
     /** Allow to [closeDialog] in different ways. */
@@ -85,7 +65,17 @@ class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
         assert()
     }
 
-    @Test override fun rotateWork() {
+    @Test override fun rotateWork() = runWorkTest { assertRotationClick(it) }
+
+    /** Allow to click different [value] and rotate+check after that. */
+    private fun MelodyDialogUi.assertRotationClick(value: Int) {
+        click(value)
+        rotate.switch()
+        assert()
+    }
+
+    /** Allow to run work test with different [action]. */
+    private fun runWorkTest(action: MelodyDialogUi.(value: Int) -> Unit) {
         val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
 
         val (setValue, initValue) = list.getDifferentValues()
@@ -94,21 +84,14 @@ class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
 
         launchAlarmPreference({ preferences.melodyUri = initValue.uri }) {
             openMelodyDialog {
-                assertRotationClick(setIndex)
-                assertRotationClick(initIndex)
-                assertRotationClick(setIndex)
+                action(setIndex)
+                action(initIndex)
+                action(setIndex)
                 apply()
             }
             assert()
         }
 
         assertEquals(setValue.uri, preferences.melodyUri)
-    }
-
-    /** Allow to click different [index] and rotate+check after that. */
-    private fun MelodyDialogUi.assertRotationClick(index: Int) {
-        click(index)
-        rotate.switch()
-        assert()
     }
 }
