@@ -48,7 +48,6 @@ android-vector-animated = { module = "androidx.vectordrawable:vectordrawable-ani
 android-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "android-lifecycle" }
 android-lifecycle-ext = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "android-lifecycle-ext" }
 android-lifecycle-vm = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "android-lifecycle" }
-android-lifecycle-common = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "android-lifecycle" }
 
 android-room-runtime = { module = "androidx.room:room-runtime", version.ref = "android-room" }
 android-room-ktx = { module = "androidx.room:room-ktx", version.ref = "android-room" }

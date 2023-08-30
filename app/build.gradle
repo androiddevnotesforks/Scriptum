@@ -103,9 +103,9 @@ dependencies {
 
     implementation libs.android.core
 
+    implementation libs.android.lifecycle.runtime // TODO is it needed? may be try runtime dependency
     implementation libs.android.lifecycle.ext
     implementation libs.android.lifecycle.vm
-    implementation libs.android.lifecycle.common // TODO is it needed? may be try runtime dependency
 
     implementation libs.android.room.runtime
     implementation libs.android.room.ktx
