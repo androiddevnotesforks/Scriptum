@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.source.cases.list.ListContentCase
 import sgtmelon.scriptum.source.cases.list.ListScrollCase
 import sgtmelon.scriptum.source.cases.note.NoteOpenCase
+import sgtmelon.scriptum.source.cases.screen.CloseScreenCase
 import sgtmelon.scriptum.source.provider.DateProvider.DATE_5
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchNotes
@@ -22,6 +23,7 @@ import sgtmelon.scriptum.source.ui.tests.launchNotificationsList
 class NotificationsTest : ParentUiRotationTest(),
     ListContentCase,
     ListScrollCase,
+    CloseScreenCase,
     NoteOpenCase {
 
     @Test override fun contentEmpty() = launchNotifications(isEmpty = true)
@@ -43,7 +45,7 @@ class NotificationsTest : ParentUiRotationTest(),
 
     @Test override fun listScroll() = launchNotificationsList { scrollThrough() }
 
-    @Test fun close() = launchNotes(isEmpty = true) {
+    @Test override fun closeScreen() = launchNotes(isEmpty = true) {
         openNotifications(isEmpty = true) { pressBack() }
         assert(isEmpty = true)
         openNotifications(isEmpty = true) { clickClose() }

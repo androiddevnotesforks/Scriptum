@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.tests.ui.auto.preferences.notes
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -9,17 +8,20 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.preference.Sort
 import sgtmelon.scriptum.infrastructure.screen.preference.note.NotesPreferenceFragment
+import sgtmelon.scriptum.source.cases.screen.CloseScreenCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchMenuPreference
 import sgtmelon.scriptum.source.ui.tests.launchNotesPreference
+import kotlin.random.Random
 
 /**
  * Test for [NotesPreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesPreferenceTest : ParentUiTest() {
+class NotesPreferenceTest : ParentUiTest(),
+    CloseScreenCase {
 
-    @Test fun close() = launchMenuPreference {
+    @Test override fun closeScreen() = launchMenuPreference {
         openNotes { clickClose() }
         assert()
     }
