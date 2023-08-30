@@ -6,7 +6,7 @@ import sgtmelon.scriptum.data.model.PermissionKey
 /**
  * Class for hold information about permission key (taken from [Manifest]).
  */
-sealed class Permission(value: String) {
+sealed class Permission(val value: String) {
 
     val key = PermissionKey(value)
 

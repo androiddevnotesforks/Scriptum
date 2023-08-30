@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.source.permission
 
-import android.Manifest
 import androidx.test.rule.GrantPermissionRule
 import org.junit.Rule
+import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 
 interface GrantWriteExternalPermission {
 
-    @get:Rule val writeExternalPermission: GrantPermissionRule
-        get() = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @get:Rule val writeExternalGrantRule: GrantPermissionRule
+        get() = GrantPermissionRule.grant(Permission.WriteExternalStorage.value)
 
 }

@@ -35,6 +35,7 @@ class PermissionStateTest : ParentTest() {
     @Before override fun setUp() {
         super.setUp()
         every { permission.key } returns key
+        every { permission.value } returns value
     }
 
     @After override fun tearDown() {
@@ -44,10 +45,6 @@ class PermissionStateTest : ParentTest() {
 
     @Test fun `getResult with null activity`() {
         assertNull(state.getResult(activity = null, viewModel))
-
-        verifySequence {
-            permission.key
-        }
     }
 
     @Test fun `getResult granted`() {
@@ -58,11 +55,14 @@ class PermissionStateTest : ParentTest() {
         assertEquals(state.getResult(activity, viewModel), PermissionResult.GRANTED)
 
         verifySequence {
-            permission.key
-
+            permission.value
             activity.checkSelfPermission(value)
+            permission.value
             activity.shouldShowRequestPermissionRationale(value)
+            permission.key
             viewModel.isCalled(key)
+
+            permission.value
         }
     }
 
@@ -74,11 +74,14 @@ class PermissionStateTest : ParentTest() {
         assertEquals(state.getResult(activity, viewModel), PermissionResult.FORBIDDEN)
 
         verifySequence {
-            permission.key
-
+            permission.value
             activity.checkSelfPermission(value)
+            permission.value
             activity.shouldShowRequestPermissionRationale(value)
+            permission.key
             viewModel.isCalled(key)
+
+            permission.value
         }
     }
 
@@ -98,12 +101,15 @@ class PermissionStateTest : ParentTest() {
         assertEquals(state.getResult(activity, viewModel), PermissionResult.ASK)
 
         verifySequence {
-            permission.key
-
             repeat(times = 3) {
+                permission.value
                 activity.checkSelfPermission(value)
+                permission.value
                 activity.shouldShowRequestPermissionRationale(value)
+                permission.key
                 viewModel.isCalled(key)
+
+                permission.value
             }
         }
     }

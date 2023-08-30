@@ -11,9 +11,7 @@ import timber.log.Timber
 /**
  * State for permission request.
  */
-class PermissionState(private val permission: Permission) {
-
-    val key = permission.key
+class PermissionState(val permission: Permission) {
 
     fun getResult(activity: Activity?, viewModel: PermissionViewModel): PermissionResult? {
         if (activity == null) return null
@@ -22,12 +20,12 @@ class PermissionState(private val permission: Permission) {
             return PermissionResult.NEW_API
         }
 
-        val checkPermission = activity.checkSelfPermission(key.value)
-        val showExplanation = activity.shouldShowRequestPermissionRationale(key.value)
-        val isCalled = viewModel.isCalled(key)
+        val checkPermission = activity.checkSelfPermission(permission.value)
+        val showExplanation = activity.shouldShowRequestPermissionRationale(permission.value)
+        val isCalled = viewModel.isCalled(permission.key)
 
         Timber.i(
-            message = "Permission: ${key.value} | isCalled=$isCalled, " +
+            message = "Permission: ${permission.value} | isCalled=$isCalled, " +
                     "checkPermission=$checkPermission, showExplanation=$showExplanation"
         )
 
