@@ -8,9 +8,7 @@ import sgtmelon.extensions.postValueWithChange
 import sgtmelon.extensions.runBack
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.move
-import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.data.noteHistory.NoteHistory
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
@@ -38,12 +36,14 @@ import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteViewModelImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.deepCopy
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.hideChecked
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onItemCheck
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onSave
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.visibleList
+import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
 /**
  * Inside [ListStorageImpl.data] and [ListStorageImpl.localData] will be stored current list

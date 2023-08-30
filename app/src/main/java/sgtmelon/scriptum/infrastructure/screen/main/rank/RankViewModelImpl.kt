@@ -4,14 +4,11 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlin.math.max
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.extensions.flowBack
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.removeExtraSpace
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.domain.useCase.rank.CorrectRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.DeleteRankUseCase
 import sgtmelon.scriptum.domain.useCase.rank.GetRankListUseCase
@@ -20,7 +17,10 @@ import sgtmelon.scriptum.domain.useCase.rank.UpdateRankPositionsUseCase
 import sgtmelon.scriptum.domain.useCase.rank.UpdateRankUseCase
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.recordException
+import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
+import kotlin.math.max
 
 class RankViewModelImpl(
     override val list: ListStorageImpl<RankItem>,

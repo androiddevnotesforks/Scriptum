@@ -2,9 +2,7 @@
 
 package sgtmelon.scriptum.cleanup.extension
 
-fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {
-    return if (index in indices) removeAt(index) else null
-}
+import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 
 //region Work with indexes
 
@@ -28,13 +26,4 @@ fun <T> MutableList<T>.move(from: Int, to: Int) {
 fun <T> MutableList<T>.moveToEnd(from: Int) {
     val item = removeAtOrNull(from) ?: return
     add(item)
-}
-
-fun <T> MutableList<T>.clearAdd(replace: List<T>) = apply {
-    clear()
-    addAll(replace)
-}
-
-fun BooleanArray.safeSet(index: Int, value: Boolean) {
-    if (index in indices) set(index, value)
 }

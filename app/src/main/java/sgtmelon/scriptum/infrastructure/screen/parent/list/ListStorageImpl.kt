@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import sgtmelon.extensions.runMain
 import sgtmelon.scriptum.cleanup.extension.move
-import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.utils.delegators.ResetValueDelegator
+import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
 import sgtmelon.test.idling.getIdling
 
 /**

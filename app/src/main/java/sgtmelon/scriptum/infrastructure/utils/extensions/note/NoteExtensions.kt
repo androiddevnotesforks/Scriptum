@@ -8,9 +8,9 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteRank
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.getIndicatorText
 
 val NoteItem.type: NoteType

@@ -7,6 +7,7 @@ import sgtmelon.scriptum.source.ui.screen.dialogs.time.TimeDialogUi
 /**
  * Interface describes [DateDialogUi] and [TimeDialogUi] tests.
  */
+@Deprecated("Use new version - abstract class")
 interface DateTimeDialogCase {
 
     fun dateReset()

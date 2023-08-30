@@ -3,15 +3,12 @@ package sgtmelon.scriptum.infrastructure.screen.main.notes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.extensions.flowBack
 import sgtmelon.extensions.isBeforeNow
 import sgtmelon.extensions.launchBack
 import sgtmelon.extensions.toCalendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
@@ -23,9 +20,12 @@ import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.switchStatus
+import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
+import java.util.Calendar
 
 class NotesViewModelImpl(
     private val preferencesRepo: PreferencesRepo,

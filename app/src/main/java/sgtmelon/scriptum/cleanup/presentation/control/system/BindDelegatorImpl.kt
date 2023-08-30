@@ -4,12 +4,12 @@ import android.app.NotificationManager
 import android.content.Context
 import sgtmelon.extensions.getNotificationService
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.cleanup.extension.removeAtOrNull
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
+import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
+import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
+import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 import sgtmelon.scriptum.infrastructure.model.annotation.notifications.NotificationId as Id
 import sgtmelon.scriptum.infrastructure.model.annotation.notifications.NotificationTag as Tag
-import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
 /**
  * Class for help control [NoteItem] notification bind in statusBar
