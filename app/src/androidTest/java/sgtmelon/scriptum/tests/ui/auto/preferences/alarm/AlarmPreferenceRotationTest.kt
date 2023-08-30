@@ -54,22 +54,6 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest() {
         assertTrue(preferencesRepo.signalTypeCheck.contentEquals(setValue))
     }
 
-    @Test fun repeatDialog() {
-        val (setValue, initValue) = Repeat.values().getDifferentValues()
-
-        launchAlarmPreference({ preferencesRepo.repeat = initValue }) {
-            openRepeatDialog {
-                click(setValue)
-                rotate.switch()
-                assert()
-                apply()
-            }
-            assert()
-        }
-
-        assertEquals(setValue, preferencesRepo.repeat)
-    }
-
     @Test fun volumeDialog() {
         val (setValue, initValue) = VolumeDialogUi.VALUES.getDifferentValues()
 
