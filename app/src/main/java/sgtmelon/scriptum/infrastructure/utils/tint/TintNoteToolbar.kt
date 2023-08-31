@@ -9,6 +9,7 @@ import sgtmelon.scriptum.cleanup.extension.getDisplayedTheme
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.utils.ColorTransformation
+import sgtmelon.test.idling.getWaitIdling
 
 /**
  * Control of note toolbar tinting.
@@ -72,6 +73,7 @@ class TintNoteToolbar(
 
         if (barColor.isReady() || indicatorColor.isReady()) {
             colorAnimator.start()
+            getWaitIdling().start(colorAnimator.duration)
         }
     }
 
