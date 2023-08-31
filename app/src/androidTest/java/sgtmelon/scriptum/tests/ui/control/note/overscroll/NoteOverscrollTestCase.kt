@@ -24,18 +24,22 @@ abstract class NoteOverscrollTestCase(
 
     override fun startTest(value: Color) {
         setupTheme(theme)
-        preferencesRepo.defaultColor = value
 
         when (type) {
             NoteType.TEXT -> {
                 val item = db.insertText(db.textNote.apply {
+                    color = value
                     text = nextString(TEXT_SIZE)
                 })
 
                 launchTextNote(item = item) { scrollTo(Scroll.START, SCROLL_REPEAT) }
             }
             NoteType.ROLL -> {
-                val item = db.insertRoll(list = db.getRollList(LIST_SIZE), isVisible = true)
+                val item = db.insertRoll(
+                    entity = db.rollNote.apply { color = value },
+                    list = db.getRollList(LIST_SIZE),
+                    isVisible = true
+                )
 
                 launchRollNote(item = item) { scrollTo(Scroll.START, SCROLL_REPEAT) }
             }
