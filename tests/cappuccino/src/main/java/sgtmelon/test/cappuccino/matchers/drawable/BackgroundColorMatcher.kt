@@ -10,6 +10,7 @@ import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import sgtmelon.extensions.getColorAttr
 import sgtmelon.extensions.getColorCompat
+import sgtmelon.extensions.toHexString
 
 /**
  * Matcher for check background color.
@@ -63,7 +64,7 @@ class BackgroundColorMatcher(
             description?.appendText("\nView with background attrColor: $attrColor")
         }
 
-        description?.appendText("\nExpected color: $expectedColor\nActual color: $actualColor")
+        description?.appendText("\nExpected: color = ${expectedColor?.toHexString()}")
+        description?.appendText(" | Actual: color = ${actualColor?.toHexString()}")
     }
-
 }

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.ColorInt
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
+import sgtmelon.extensions.toHexString
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
@@ -32,7 +33,7 @@ class BackgroundAppColorMatcher(
 
     override fun describeTo(description: Description?) {
         description?.appendText("\nData: theme = $theme | color = $color | needDark = $needDark")
-        description?.appendText("\nExpected: color = $expectedColor")
-        description?.appendText(" | Actual: color = $actualColor")
+        description?.appendText("\nExpected: color = ${expectedColor?.toHexString()}")
+        description?.appendText(" | Actual: color = ${actualColor?.toHexString()}")
     }
 }
