@@ -27,6 +27,8 @@ class RollItemUi(
     private val state: NoteState
 ) : RecyclerItemPart<RollItem>(listMatcher, p) {
 
+    // TODO now it's the same item
+
     private val parentCard by lazy {
         getChild(
             getView(
@@ -64,8 +66,8 @@ class RollItemUi(
         getChild(
             getView(
                 when (state) {
-                    NoteState.READ, NoteState.BIN -> R.id.roll_text
-                    NoteState.EDIT, NoteState.NEW -> R.id.text_enter
+                    NoteState.READ, NoteState.BIN -> R.id.item_text
+                    NoteState.EDIT, NoteState.NEW -> R.id.item_enter
                 }
             )
         )
@@ -115,7 +117,7 @@ class RollItemUi(
                         if (item.text.isNotEmpty()) {
                             withText(item.text, textColor, R.dimen.text_18sp)
                         } else {
-                            withHint(R.string.hind_enter_roll_empty, R.attr.clDisable, R.dimen.text_18sp)
+                            withHint(R.string.hind_enter_roll_empty, R.attr.clContrast, R.dimen.text_18sp)
                         }
                     }
             }

@@ -131,11 +131,11 @@ class RollNoteFragment : ParentNoteFragment<NoteItem.Roll, FragmentRollNoteBindi
     override fun setupPanel() {
         super.setupPanel()
 
-        /** Setup small horizontal spaces for edit mode, in read - divider will be hided. */
-        panelBar?.dividerView?.updateMargin(
-            left = resources.getDimen(R.dimen.layout_8dp),
-            right = resources.getDimen(R.dimen.layout_8dp),
-        )
+        panelBar?.dividerView?.apply {
+            /** Setup small horizontal spaces for edit mode, in read - divider will be hided. */
+            val margin = resources.getDimen(R.dimen.layout_8dp)
+            updateMargin(left = margin, right = margin)
+        }
 
         /** Invalidate during setup needed in rotation case - enter field may contain text. */
         invalidateAddButton()

@@ -137,7 +137,7 @@ class RollEnterPanel<T : ContainerPart>(
                     if (enterText.isNotEmpty()) {
                         withText(enterText, R.attr.clContent, R.dimen.text_18sp)
                     } else {
-                        withHint(R.string.hint_enter_roll, R.attr.clDisable, R.dimen.text_18sp)
+                        withHint(R.string.hint_enter_roll, R.attr.clContrast, R.dimen.text_18sp)
                     }
                 }
 
