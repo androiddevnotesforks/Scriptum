@@ -13,7 +13,7 @@
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/repeat_navigation"
             style="@style/App.Style.SheetNavigation"
-            app:elevation="@dimen/elevation_0dp"
+            app:elevation="@dimen/no_elevation"
             app:itemTextColor="?attr/clContent"
             app:menu="@menu/sheet_repeat" />
 

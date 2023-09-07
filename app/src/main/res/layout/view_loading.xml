@@ -23,7 +23,7 @@
             android:id="@+id/loading_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_0dp"
+            android:layout_marginStart="@dimen/no_space"
             android:layout_marginEnd="@dimen/layout_8dp" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/layout_8dp"
-            android:layout_marginEnd="@dimen/layout_0dp"
+            android:layout_marginEnd="@dimen/no_space"
             android:gravity="center"
             android:paddingStart="@dimen/layout_24dp"
             android:paddingEnd="@dimen/layout_24dp"
