@@ -78,7 +78,7 @@ class RenameDialog : BlankButtonDialog(),
 
         nameEnter?.apply {
             setTextColor(context.getColorAttr(R.attr.clContent))
-            setHintTextColor(context.getColorAttr(R.attr.clDisable))
+            setHintTextColor(context.getColorAttr(R.attr.clContrast))
 
             setOnEditorActionListener(this@RenameDialog)
             doOnTextChanged { _, _, _, _ -> changeButtonEnable() }

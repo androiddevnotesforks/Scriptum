@@ -13,7 +13,7 @@ import sgtmelon.test.cappuccino.utils.imeOption
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.typeText
-import sgtmelon.test.cappuccino.utils.withBackgroundColor
+import sgtmelon.test.cappuccino.utils.withBackgroundDrawable
 import sgtmelon.test.cappuccino.utils.withCursor
 import sgtmelon.test.cappuccino.utils.withHint
 import sgtmelon.test.cappuccino.utils.withImeAction
@@ -67,12 +67,12 @@ class RenameDialogUi(title: String) : UiPart(),
         titleText.isDisplayed().withTextColor(R.attr.clContent)
         renameEnter.isDisplayed()
             .withImeAction(EditorInfo.IME_ACTION_DONE)
-            .withBackgroundColor(android.R.color.transparent)
+            .withBackgroundDrawable(R.drawable.bg_rename_enter)
             .apply {
                 if (enter.isNotEmpty()) {
                     withText(enter, R.attr.clContent, R.dimen.text_18sp)
                 } else {
-                    withHint(R.string.hint_enter_rank_rename, R.attr.clDisable, R.dimen.text_18sp)
+                    withHint(R.string.hint_enter_rank_rename, R.attr.clContrast, R.dimen.text_18sp)
                 }
             }
 
