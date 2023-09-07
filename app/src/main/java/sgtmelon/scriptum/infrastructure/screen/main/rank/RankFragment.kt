@@ -196,10 +196,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
         binding?.appBar?.apply {
             clearButton.isEnabled = isClearEnable
-            clearButton.bindBoolTint(isClearEnable, R.attr.clContent, R.attr.clDisable)
+            clearButton.bindBoolTint(isClearEnable, R.attr.clContent, R.attr.clContrast)
 
             addButton.isEnabled = isAddEnable
-            addButton.bindBoolTint(isAddEnable, R.attr.clAccent, R.attr.clDisable)
+            addButton.bindBoolTint(isAddEnable, R.attr.clAccent, R.attr.clContrast)
         }
     }
 

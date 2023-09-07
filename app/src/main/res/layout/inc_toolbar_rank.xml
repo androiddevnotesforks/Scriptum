@@ -24,7 +24,7 @@
                     android:focusableInTouchMode="true"
                     app:cardBackgroundColor="?attr/clBackgroundEnter"
                     app:cardCornerRadius="@dimen/item_card_radius"
-                    app:cardElevation="@dimen/elevation_0dp"
+                    app:cardElevation="@dimen/no_elevation"
                     app:cardUseCompatPadding="false">
 
                     <LinearLayout
@@ -36,7 +36,7 @@
                             style="@style/Button.Small"
                             android:contentDescription="@string/description_enter_rank_clear"
                             app:srcCompat="@drawable/ic_cancel_enter"
-                            tools:tint="?attr/clDisable" />
+                            tools:tint="?attr/clContrast" />
 
                         <EditText
                             android:id="@+id/rank_enter"

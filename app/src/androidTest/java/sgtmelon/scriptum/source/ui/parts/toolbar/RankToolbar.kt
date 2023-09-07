@@ -84,7 +84,7 @@ class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer)
             .withNavigationDrawable(resourceId = null)
 
         enterCard.isDisplayed()
-            .withCard(R.attr.clBackgroundEnter, R.dimen.item_card_radius, R.dimen.elevation_0dp)
+            .withCard(R.attr.clBackgroundEnter, R.dimen.item_card_radius, R.dimen.no_elevation)
 
         val isEnterEmpty = currentEnter.isEmpty()
         nameEnter.isDisplayed()
@@ -94,16 +94,16 @@ class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer)
                 if (!isEnterEmpty) {
                     withText(currentEnter, R.attr.clContent, R.dimen.text_18sp)
                 } else {
-                    withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
+                    withHint(R.string.hint_enter_rank_new, R.attr.clContrast, R.dimen.text_18sp)
                 }
             }
 
-        val clearTint = if (!isEnterEmpty) R.attr.clContent else R.attr.clDisable
+        val clearTint = if (!isEnterEmpty) R.attr.clContent else R.attr.clContrast
         clearButton.isDisplayed().isEnabled(!isEnterEmpty)
             .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, clearTint)
             .withContentDescription(R.string.description_enter_rank_clear)
 
-        val addTint = if (isAddEnabled) R.attr.clAccent else R.attr.clDisable
+        val addTint = if (isAddEnabled) R.attr.clAccent else R.attr.clContrast
         addButton.isDisplayed().isEnabled(isAddEnabled)
             .withDrawableAttr(R.drawable.ic_rank, addTint)
             .withContentDescription(R.string.description_enter_rank_add)
