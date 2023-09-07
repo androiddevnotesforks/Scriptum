@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="no_elevation">0dp</dimen>
+    <dimen name="no_space">0dp</dimen>
+
     <dimen name="item_card_horizontal_margin">6dp</dimen>
     <dimen name="item_card_vertical_margin">3dp</dimen>
     <dimen name="item_card_elevation">1dp</dimen>
@@ -62,6 +65,7 @@
     <!--  View dimens  -->
 
     <dimen name="view_volume_seek_space">10dp</dimen>
+    <dimen name="view_rename_radius">6dp</dimen>
 
     <!--  Fab sizes  -->
     <!--  TODO optimization for different screens  -->

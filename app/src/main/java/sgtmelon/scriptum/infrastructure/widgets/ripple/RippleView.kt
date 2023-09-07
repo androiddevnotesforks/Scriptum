@@ -5,8 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
 import androidx.annotation.ColorInt
-import kotlin.math.min
+import sgtmelon.extensions.getDimen
 import sgtmelon.scriptum.R
+import kotlin.math.min
 
 /**
  * View element which uses inside [RippleContainer].
@@ -32,7 +33,7 @@ class RippleView(context: Context) : View(context) {
      */
     override fun onDraw(canvas: Canvas) {
         val center = (min(width, height) / 2).toFloat()
-        val radius = center - resources.getDimension(R.dimen.radius_2dp)
+        val radius = center - context.getDimen(value = 2f)
 
         canvas.drawCircle(center, center, radius, paint)
     }
