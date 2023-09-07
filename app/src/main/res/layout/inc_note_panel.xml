@@ -91,6 +91,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
+                <!-- What color is it? Set it for UI tests -->
                 <Button
                     android:id="@+id/save_button"
                     style="@style/Button.Small"

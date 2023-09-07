@@ -2,14 +2,12 @@ package sgtmelon.scriptum.cleanup.ui.part.panel
 
 import android.view.View
 import androidx.annotation.AttrRes
-import java.util.Calendar
 import org.hamcrest.Matcher
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.source.ui.screen.dialogs.message.ConvertDialogUi
 import sgtmelon.scriptum.cleanup.ui.dialog.RankDialogUi
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteAfterConvert
 import sgtmelon.scriptum.cleanup.ui.screen.note.INoteScreen
@@ -31,6 +29,7 @@ import sgtmelon.scriptum.source.ui.model.key.NoteState
 import sgtmelon.scriptum.source.ui.parts.ContainerPart
 import sgtmelon.scriptum.source.ui.parts.UiSubpart
 import sgtmelon.scriptum.source.ui.screen.dialogs.ColorDialogUi
+import sgtmelon.scriptum.source.ui.screen.dialogs.message.ConvertDialogUi
 import sgtmelon.scriptum.source.ui.screen.dialogs.time.DateDialogUi
 import sgtmelon.scriptum.source.ui.screen.dialogs.time.DateTimeCallback
 import sgtmelon.scriptum.source.ui.screen.main.BinScreen
@@ -42,6 +41,7 @@ import sgtmelon.test.cappuccino.utils.withContentDescription
 import sgtmelon.test.cappuccino.utils.withDrawableAttr
 import sgtmelon.test.cappuccino.utils.withSize
 import sgtmelon.test.cappuccino.utils.withText
+import java.util.Calendar
 
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
@@ -371,6 +371,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
                         .withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
                         .withContentDescription(R.string.description_note_color)
 
+                    // TODO assert text color (enable/disable)
                     saveButton.withText(R.string.button_note_save).isDisplayed()
                         .isEnabled(shadowItem.isSaveEnabled)
                 }
