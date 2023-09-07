@@ -56,6 +56,6 @@
 
     <!--  Color for not enabled views or hints.  -->
     <color name="disable_light">#CFCFCF</color>
-    <color name="disable_dark">#3B3B3B</color>
+    <color name="disable_dark">#505050</color>
 
 </resources>
