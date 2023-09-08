@@ -91,10 +91,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <!-- What color is it? Set it for UI tests -->
+                <!-- Set color programmatically, depends on enabled/disabled state -->
                 <Button
                     android:id="@+id/save_button"
                     style="@style/Button.Small"
+                    android:textColor="?attr/clDisable"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:text="@string/button_note_save" />
 
@@ -149,6 +150,7 @@
                 <Button
                     android:id="@+id/edit_button"
                     style="@style/Button.Small"
+                    android:textColor="?attr/clContent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:text="@string/button_note_edit" />
 

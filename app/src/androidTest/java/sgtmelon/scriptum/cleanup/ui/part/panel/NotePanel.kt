@@ -322,7 +322,8 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
                         .withDrawableAttr(R.drawable.ic_bin, R.attr.clContent)
                         .withContentDescription(R.string.description_note_delete)
 
-                    editButton.withText(R.string.button_note_edit).isDisplayed()
+                    editButton.isDisplayed()
+                        .withText(R.string.button_note_edit, R.attr.clContent)
                 }
                 NoteState.BIN -> {
                     readContainer.isDisplayed(value = false)
@@ -371,9 +372,11 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
                         .withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
                         .withContentDescription(R.string.description_note_color)
 
-                    // TODO assert text color (enable/disable)
-                    saveButton.withText(R.string.button_note_save).isDisplayed()
-                        .isEnabled(shadowItem.isSaveEnabled)
+                    val isSaveEnabled = shadowItem.isSaveEnabled
+                    val saveTextColor = if (isSaveEnabled) R.attr.clContent else R.attr.clDisable
+                    saveButton.isDisplayed()
+                        .withText(R.string.button_note_save, saveTextColor)
+                        .isEnabled(isSaveEnabled)
                 }
             }
         }

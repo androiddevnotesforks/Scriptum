@@ -25,6 +25,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.bindBoolTint
 import sgtmelon.scriptum.cleanup.extension.bindDrawable
+import sgtmelon.scriptum.cleanup.extension.bindTextColor
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryMoveAvailable
 import sgtmelon.scriptum.databinding.IncNotePanelBinding
@@ -496,7 +497,12 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
     }
 
     protected fun invalidateSaveButton(item: N) {
-        panelBar?.saveButton?.isEnabled = item.isSaveEnabled
+        val isEnabled = item.isSaveEnabled
+
+        panelBar?.saveButton?.apply {
+            this.isEnabled = isEnabled
+            bindTextColor(isEnabled, R.attr.clContent, R.attr.clDisable)
+        }
     }
 
     //endregion
