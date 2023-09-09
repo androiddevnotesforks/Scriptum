@@ -63,9 +63,17 @@ object IntentData {
 
         object Key {
             private const val KEY_PREFIX = "OPEN_STATE"
-            const val KEY_CHANGE = "${KEY_PREFIX}_CHANGE"
-            const val KEY_VALUE = "${KEY_PREFIX}_VALUE"
-            const val KEY_TAG = "${KEY_PREFIX}_TAG"
+            const val CHANGE = "${KEY_PREFIX}_CHANGE"
+            const val VALUE = "${KEY_PREFIX}_VALUE"
+            const val TAG = "${KEY_PREFIX}_TAG"
+        }
+    }
+
+    object ShowList {
+
+        object Key {
+            private const val KEY_PREFIX = "SHOW_LIST_STATE"
+            const val VALUE = "${KEY_PREFIX}_VALUE"
         }
     }
 }

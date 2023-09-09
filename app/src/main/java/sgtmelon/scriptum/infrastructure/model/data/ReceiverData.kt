@@ -14,6 +14,7 @@ object ReceiverData {
 
         const val RANK = "${PREFIX}_RANK"
         const val NOTES = "${PREFIX}_NOTES"
+        const val BIN = "${PREFIX}_BIN"
         const val NOTE = "${PREFIX}_NOTE"
         const val ALARM = "${PREFIX}_ALARM"
         const val SYSTEM = "${PREFIX}_SYSTEM"
@@ -26,6 +27,7 @@ object ReceiverData {
 
         object UI {
             const val UNBIND_NOTE = "${PREFIX}_UNBIND_NOTE"
+            const val INFO_CHANGE = "${PREFIX}_INFO_CHANGE"
         }
 
         object System {

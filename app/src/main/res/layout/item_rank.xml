@@ -16,7 +16,7 @@
             android:padding="@dimen/item_container_space"
             android:weightSum="1">
 
-            <!--TODO change size for another screens-->
+            <!--TODO change size for another screen sizes-->
             <sgtmelon.iconanim.widget.SwitchButton
                 android:id="@+id/visible_button"
                 style="@style/Button.Medium"
@@ -110,7 +110,7 @@
 
             </LinearLayout>
 
-            <!--TODO change size for another screens-->
+            <!--TODO change size for another screen sizes-->
             <ImageButton
                 android:id="@+id/cancel_button"
                 style="@style/Button.Medium"

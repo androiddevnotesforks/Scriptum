@@ -11,6 +11,7 @@ import sgtmelon.scriptum.domain.useCase.main.GetBinListUseCase
 import sgtmelon.scriptum.domain.useCase.note.ClearNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.RestoreNoteUseCase
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.removeAtOrNull
@@ -50,4 +51,7 @@ class BinViewModelImpl(
         val item = list.change { it.removeAtOrNull(p) } ?: return
         viewModelScope.launchBack { clearNote(item) }
     }
+
+    override fun onReceiveInfoChange(state: ShowListState) = list.notifyShow(state)
+
 }

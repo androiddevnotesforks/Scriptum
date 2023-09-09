@@ -17,7 +17,7 @@ abstract class BundleJsonValue<T: Any>(
 
     abstract fun decode(string: String?): T?
 
-    abstract fun encode(): String
+    abstract fun encode(): String?
 
     override fun get(bundle: Bundle?) {
         _value = decode(bundle?.getString(key))

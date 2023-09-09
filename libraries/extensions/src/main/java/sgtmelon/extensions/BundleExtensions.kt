@@ -16,6 +16,18 @@ fun <T : Any> Intent.setExtras(pairs: Array<out Pair<String, Any?>>): Intent = a
     putExtras(bundleOf(*pairs))
 }
 
-inline fun <reified T> T.encode(): String = Json.encodeToString(value = this)
+inline fun <reified T> T.encode(): String? {
+    return try {
+        Json.encodeToString(value = this)
+    } catch (e: Throwable) {
+        null
+    }
+}
 
-inline fun <reified T> String.decode(): T = Json.decodeFromString(string = this)
+inline fun <reified T> String.decode(): T? {
+    return try {
+        Json.decodeFromString(string = this)
+    } catch (e: Throwable) {
+        null
+    }
+}

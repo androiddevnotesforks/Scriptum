@@ -114,8 +114,7 @@ object NotificationFactory {
                 is NoteItem.Text -> item.text
                 is NoteItem.Roll -> {
                     val finalList = if (item.isVisible) item.list else item.list.hideChecked()
-                    // TODO первое условие тут точно нужно?
-                    if (item.isVisible || finalList.isNotEmpty()) {
+                    if (finalList.isNotEmpty()) {
                         finalList.toStatusText()
                     } else {
                         context.getString(R.string.info_roll_hide_title)

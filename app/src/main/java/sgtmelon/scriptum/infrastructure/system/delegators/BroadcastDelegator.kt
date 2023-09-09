@@ -2,7 +2,7 @@ package sgtmelon.scriptum.infrastructure.system.delegators
 
 import android.content.Context
 import android.content.Intent
-import java.util.Calendar
+import sgtmelon.extensions.encode
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -10,6 +10,8 @@ import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
+import java.util.Calendar
 
 /**
  * Class, which delegate send of broadcast messages.
@@ -22,6 +24,13 @@ class BroadcastDelegator(private val context: Context) {
 
         context.sendTo(places, Command.UI.UNBIND_NOTE) {
             putExtra(IntentData.Note.Key.ID, noteId)
+        }
+    }
+
+    /** [place] - one of [Filter] const's. */
+    fun sendInfoChangeUi(state: ShowListState, place: String) {
+        context.sendTo(place, Command.UI.INFO_CHANGE) {
+            putExtra(IntentData.ShowList.Key.VALUE, state.encode())
         }
     }
 

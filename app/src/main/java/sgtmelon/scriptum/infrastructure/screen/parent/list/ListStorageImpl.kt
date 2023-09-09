@@ -27,13 +27,16 @@ class ListStorageImpl<T>(
     val localData: MutableList<T> = mutableListOf()
 
     fun notifyShow() {
-        val state = show.value ?: return
-
         val newState = if (localData.isEmpty()) ShowListState.Empty else ShowListState.List
+        notifyShow(newState)
+    }
+
+    fun notifyShow(state: ShowListState) {
+        val currentState = show.value ?: return
 
         /** Skip same state. */
-        if (state != newState) {
-            show.postValue(newState)
+        if (currentState != state) {
+            show.postValue(state)
         }
     }
 

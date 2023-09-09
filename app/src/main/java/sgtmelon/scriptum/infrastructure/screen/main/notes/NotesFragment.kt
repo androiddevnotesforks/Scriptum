@@ -5,8 +5,6 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.util.Calendar
-import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.safedialog.dialog.OptionsDialog
 import sgtmelon.safedialog.dialog.time.DateDialog
@@ -22,6 +20,7 @@ import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
@@ -33,6 +32,8 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
+import java.util.Calendar
+import javax.inject.Inject
 import sgtmelon.scriptum.infrastructure.model.key.dialog.NotesDialogOptions as Options
 
 /**
@@ -272,6 +273,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
                 system?.clipboard?.copy(it)
             }
             Options.DELETE -> viewModel.deleteNote(p).collect(owner = this) {
+                system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverData.Filter.BIN)
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendCancelNoteBind(it)
                 system?.broadcast?.sendNotifyInfoBind()

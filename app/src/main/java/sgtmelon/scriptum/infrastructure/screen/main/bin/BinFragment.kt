@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.infrastructure.screen.main.bin
 
+import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.safedialog.dialog.OptionsDialog
@@ -16,6 +16,8 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.receiver.screen.InfoChangeReceiver
 import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
@@ -23,6 +25,7 @@ import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
+import javax.inject.Inject
 import sgtmelon.scriptum.infrastructure.model.key.dialog.BinDialogOptions as Options
 
 /**
@@ -41,6 +44,8 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     @Inject override lateinit var viewModel: BinViewModel
 
     private val listAnimation = ShowListAnimation()
+
+    private val infoChangeReceiver by lazy { InfoChangeReceiver[viewModel] }
 
     private val dialogs by lazy { DialogFactory.Main(resources) }
     private val optionsDialog = DialogStorage(
@@ -134,6 +139,16 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
             onListUpdate(it)
             itemClearBin?.isVisible = it.isNotEmpty()
         }
+    }
+
+    override fun registerReceivers() {
+        super.registerReceivers()
+        context?.registerReceiver(infoChangeReceiver, IntentFilter(ReceiverData.Filter.BIN))
+    }
+
+    override fun unregisterReceivers() {
+        super.unregisterReceivers()
+        context?.unregisterReceiver(infoChangeReceiver)
     }
 
     override fun onResume() {

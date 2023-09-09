@@ -83,17 +83,17 @@ class OpenState(lifecycle: Lifecycle) {
     }
 
     fun save(bundle: Bundle) {
-        bundle.putBoolean(Open.Key.KEY_CHANGE, isChangeEnabled)
-        bundle.putBoolean(Open.Key.KEY_VALUE, isBlocked)
-        bundle.putString(Open.Key.KEY_TAG, tag)
+        bundle.putBoolean(Open.Key.CHANGE, isChangeEnabled)
+        bundle.putBoolean(Open.Key.VALUE, isBlocked)
+        bundle.putString(Open.Key.TAG, tag)
     }
 
     fun restore(bundle: Bundle?) {
         if (bundle == null) return
 
-        isChangeEnabled = bundle.getBoolean(Open.Key.KEY_CHANGE)
-        isBlocked = bundle.getBoolean(Open.Key.KEY_VALUE)
-        tag = bundle.getString(Open.Key.KEY_TAG, Tag.ND)
+        isChangeEnabled = bundle.getBoolean(Open.Key.CHANGE)
+        isBlocked = bundle.getBoolean(Open.Key.VALUE)
+        tag = bundle.getString(Open.Key.TAG, Tag.ND)
     }
 
     object Tag {
