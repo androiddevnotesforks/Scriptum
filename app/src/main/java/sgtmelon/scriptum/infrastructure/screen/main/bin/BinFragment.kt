@@ -17,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.InfoChangeReceiver
 import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
@@ -34,10 +35,6 @@ import sgtmelon.scriptum.infrastructure.model.key.dialog.BinDialogOptions as Opt
 class BinFragment : BindingFragment<FragmentBinBinding>(),
     ListScreen<NoteItem>,
     ScrollTopCallback {
-
-    // TODO bugs:
-    // 1. similar glitch as in NoteFragment (with single item delete animation of info not smooth)
-    //    May be skip animation?
 
     override val layoutId: Int = R.layout.fragment_bin
 
@@ -178,7 +175,9 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
 
     private fun onOptionSelect(p: Int, which: Int) {
         when (Options.values().getOrNull(which) ?: return) {
-            Options.RESTORE -> viewModel.restoreNote(p)
+            Options.RESTORE -> viewModel.restoreNote(p).collect(owner = this) {
+                system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverData.Filter.NOTES)
+            }
             Options.COPY -> viewModel.getNoteText(p).collect(owner = this) {
                 system?.clipboard?.copy(it)
             }

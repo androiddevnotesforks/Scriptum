@@ -1,14 +1,16 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
 import androidx.lifecycle.LiveData
-import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.infrastructure.receiver.screen.InfoChangeReceiver
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListViewModel
+import java.util.Calendar
 
 interface NotesViewModel : ListViewModel<NoteItem>,
-    UnbindNoteReceiver.Callback {
+    UnbindNoteReceiver.Callback,
+    InfoChangeReceiver.Callback {
 
     val isListHide: LiveData<Boolean>
 

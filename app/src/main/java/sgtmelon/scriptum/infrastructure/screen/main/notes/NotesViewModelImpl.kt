@@ -19,6 +19,7 @@ import sgtmelon.scriptum.domain.useCase.note.ConvertNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.DeleteNoteUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.domain.useCase.note.UpdateNoteUseCase
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearAdd
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.clearAlarm
@@ -125,4 +126,6 @@ class NotesViewModelImpl(
         val item = it.firstOrNull { item -> item.id == noteId } ?: return@change
         item.isStatus = false
     }
+
+    override fun onReceiveInfoChange(state: ShowListState) = list.notifyShow(state)
 }

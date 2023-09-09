@@ -21,6 +21,7 @@ import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
+import sgtmelon.scriptum.infrastructure.receiver.screen.InfoChangeReceiver
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
@@ -55,6 +56,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     private val listAnimation = ShowListAnimation()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
+    private val infoChangeReceiver by lazy { InfoChangeReceiver[viewModel] }
 
     private val dialogs by lazy { DialogFactory.Main(resources) }
     private val optionsDialog = DialogStorage(
@@ -180,11 +182,13 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override fun registerReceivers() {
         super.registerReceivers()
         context?.registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTES))
+        context?.registerReceiver(infoChangeReceiver, IntentFilter(ReceiverData.Filter.NOTES))
     }
 
     override fun unregisterReceivers() {
         super.unregisterReceivers()
         context?.unregisterReceiver(unbindNoteReceiver)
+        context?.unregisterReceiver(infoChangeReceiver)
     }
 
     override fun onResume() {

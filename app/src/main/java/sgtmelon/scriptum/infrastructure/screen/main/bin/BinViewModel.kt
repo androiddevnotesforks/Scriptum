@@ -12,7 +12,7 @@ interface BinViewModel : ListViewModel<NoteItem>,
 
     fun clearRecyclerBin()
 
-    fun restoreNote(p: Int)
+    fun restoreNote(p: Int): Flow<NoteItem>
 
     fun getNoteText(p: Int): Flow<String>
 

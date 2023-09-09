@@ -37,9 +37,11 @@ class BinViewModelImpl(
         list.change { it.clear() }
     }
 
-    override fun restoreNote(p: Int) {
-        val item = list.change { it.removeAtOrNull(p) } ?: return
-        viewModelScope.launchBack { restoreNote(item) }
+    override fun restoreNote(p: Int): Flow<NoteItem> = flowBack {
+        val item = list.change { it.removeAtOrNull(p) ?: return@flowBack }
+
+        restoreNote(item)
+        emit(item)
     }
 
     override fun getNoteText(p: Int): Flow<String> = flowBack {

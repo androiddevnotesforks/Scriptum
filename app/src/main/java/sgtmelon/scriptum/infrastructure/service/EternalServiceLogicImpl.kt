@@ -38,6 +38,7 @@ class EternalServiceLogicImpl(private val context: Context) : EternalServiceLogi
     override fun setup() {
         ScriptumApplication.component.inject(logic = this)
 
+        // TODO move receiver inside service?
         context.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.SYSTEM))
 
         /** Update all available data. */
