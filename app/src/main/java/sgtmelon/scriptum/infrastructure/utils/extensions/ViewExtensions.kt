@@ -26,9 +26,9 @@ fun View?.isInvisible(): Boolean = this?.visibility == View.INVISIBLE
 
 fun View?.isGone(): Boolean = this?.visibility == View.GONE
 
-/**
- * Return true if [MotionEvent] happened inside [view] rectangle.
- */
+fun View.resetAlpha() = apply { alpha = ALPHA_MAX }
+
+/** Return true if [MotionEvent] happened inside [view] rectangle. */
 fun MotionEvent?.onView(view: View?): Boolean {
     if (view == null || this == null) return false
 

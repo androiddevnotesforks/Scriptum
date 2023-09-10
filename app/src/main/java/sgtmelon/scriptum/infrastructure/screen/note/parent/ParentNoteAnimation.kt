@@ -39,6 +39,9 @@ class ParentNoteAnimation(
             return
         }
 
+        /** Must be called before value update. */
+        stopPreviousAnimation(binding, this.state, this.isEdit)
+
         this.state = state
         this.isEdit = isEdit
 
@@ -61,6 +64,22 @@ class ParentNoteAnimation(
             binContainer.makeInvisible()
             editContainer.makeVisibleIf(isEdit) { makeInvisible() }
             readContainer.makeVisibleIf(!isEdit) { makeInvisible() }
+        }
+    }
+
+    /** Prevent fast tapping lags (if animation is still running). */
+    private fun stopPreviousAnimation(
+        binding: IncNotePanelBinding,
+        state: NoteState?,
+        isEdit: Boolean?
+    ) {
+        if (animator != null) {
+            animator?.cancel()
+            animator = null
+
+            if (state == null || isEdit == null) return
+
+            changePanel(binding, isEdit, state)
         }
     }
 

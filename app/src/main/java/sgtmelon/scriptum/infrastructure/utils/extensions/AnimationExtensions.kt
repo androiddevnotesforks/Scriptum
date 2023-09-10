@@ -26,7 +26,12 @@ fun View.getAlphaAnimator(visibleTo: Boolean) : Animator? {
     /** If it has the same [visibleTo] value -> it must not be animated. */
     if (isVisible() == visibleTo) return null
 
-    val alphaFrom = if (visibleTo) ALPHA_MIN else ALPHA_MAX
+    /** If current [View.getAlpha] not equal corner values -> animate from this position. */
+    val alphaFrom = if (alpha != ALPHA_MIN && alpha != ALPHA_MAX) {
+        alpha
+    } else {
+        if (visibleTo) ALPHA_MIN else ALPHA_MAX
+    }
     val alphaTo = if (visibleTo) ALPHA_MAX else ALPHA_MIN
 
     /** Prepare view before animation. */
