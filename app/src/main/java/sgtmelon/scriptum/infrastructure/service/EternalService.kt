@@ -7,13 +7,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
-import java.util.Calendar
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
 import sgtmelon.scriptum.infrastructure.model.annotation.notifications.NotificationId
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.receiver.service.AppSystemReceiver
 import sgtmelon.scriptum.infrastructure.receiver.service.ServiceReceiver
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
+import java.util.Calendar
+import javax.inject.Inject
 import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Factory
 
 /**
@@ -23,8 +26,11 @@ import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Fac
 class EternalService : Service(),
     ServiceReceiver.Callback {
 
-    private val logic: EternalServiceLogic = EternalServiceLogicImpl(context = this)
-    private val receiver = ServiceReceiver[this]
+    @Inject lateinit var logic: EternalServiceLogic
+
+    private val serviceReceiver = ServiceReceiver[this]
+    private val appSystemReceiver by lazy { AppSystemReceiver[logic] }
+
     private val broadcast = BroadcastDelegator(context = this)
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -42,8 +48,11 @@ class EternalService : Service(),
         Factory.Service.createChannel(context = this)
         startForeground(NotificationId.SERVICE, Factory.Service[this])
 
+        ScriptumApplication.component.inject(service = this)
         logic.setup()
-        registerReceiver(receiver, IntentFilter(ReceiverData.Filter.ETERNAL))
+
+        registerReceiver(appSystemReceiver, IntentFilter(ReceiverData.Filter.SYSTEM))
+        registerReceiver(serviceReceiver, IntentFilter(ReceiverData.Filter.ETERNAL))
     }
 
     override fun onDestroy() {
@@ -53,12 +62,12 @@ class EternalService : Service(),
         super.onDestroy()
 
         logic.release()
-        unregisterReceiver(receiver)
+
+        unregisterReceiver(appSystemReceiver)
+        unregisterReceiver(serviceReceiver)
     }
 
-    /**
-     * Restart our service if it was closed.
-     */
+    /** Restart our service if it was closed. */
     private fun restartService() {
         val intent = Intent(applicationContext, EternalService::class.java)
         intent.setPackage(packageName)

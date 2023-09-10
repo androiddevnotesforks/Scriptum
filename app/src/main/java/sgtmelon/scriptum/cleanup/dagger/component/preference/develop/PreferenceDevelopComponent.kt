@@ -12,7 +12,7 @@ import sgtmelon.scriptum.develop.infrastructure.screen.develop.DevelopFragment
  */
 @ActivityScope
 @Subcomponent(modules = [ViewModelModule::class])
-interface DevelopPreferenceComponent {
+interface PreferenceDevelopComponent {
 
     fun inject(fragment: DevelopFragment)
 
@@ -21,6 +21,6 @@ interface DevelopPreferenceComponent {
         @BindsInstance
         fun set(owner: ViewModelStoreOwner): Builder
 
-        fun build(): DevelopPreferenceComponent
+        fun build(): PreferenceDevelopComponent
     }
 }

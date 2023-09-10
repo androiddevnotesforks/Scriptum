@@ -3,18 +3,18 @@ package sgtmelon.scriptum.infrastructure.receiver.service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import java.util.Calendar
 import sgtmelon.extensions.toCalendarOrNull
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Eternal
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
 import sgtmelon.scriptum.infrastructure.service.EternalServiceLogicImpl
+import java.util.Calendar
 
 /**
  * Receiver for [EternalServiceLogicImpl] commands.
  */
-class EternalServiceReceiver : BroadcastReceiver() {
+class AppSystemReceiver : BroadcastReceiver() {
 
     private var callback: Callback? = null
 
@@ -69,9 +69,7 @@ class EternalServiceReceiver : BroadcastReceiver() {
         callback?.notifyCount(count)
     }
 
-    /**
-     * Callback, which will be called after getting an [Intent] inside [onReceive] function.
-     */
+    /** Callback, which will be called after getting an [Intent] inside [onReceive] function. */
     interface Callback {
 
         fun tidyUpAlarm()
@@ -84,9 +82,7 @@ class EternalServiceReceiver : BroadcastReceiver() {
 
         fun cancelNote(noteId: Long)
 
-        /**
-         * If [count] == null it means what need take value from database.
-         */
+        /**  If [count] == null it means what need take value from database. */
         fun notifyCount(count: Int?)
 
         fun clearBind()
@@ -95,8 +91,8 @@ class EternalServiceReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        operator fun get(callback: Callback): EternalServiceReceiver {
-            return EternalServiceReceiver().apply { this.callback = callback }
+        operator fun get(callback: Callback): AppSystemReceiver {
+            return AppSystemReceiver().apply { this.callback = callback }
         }
     }
 }

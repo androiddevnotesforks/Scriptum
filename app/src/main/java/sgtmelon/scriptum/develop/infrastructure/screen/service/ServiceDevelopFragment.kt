@@ -34,7 +34,7 @@ class ServiceDevelopFragment : PreferenceFragment<ServiceDevelopBinding>(),
     //region System
 
     override fun inject(component: ScriptumComponent) {
-        component.getServiceBuilder()
+        component.getServiceDevBuilder()
             .set(owner = this)
             .build()
             .inject(fragment = this)

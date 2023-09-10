@@ -48,7 +48,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(),
     override val recyclerView: RecyclerView? get() = binding?.recyclerView
 
     override fun inject(component: ScriptumComponent) {
-        component.getPrintBuilder()
+        component.getPrintDevBuilder()
             .set(owner = this)
             .set(type.value)
             .build()

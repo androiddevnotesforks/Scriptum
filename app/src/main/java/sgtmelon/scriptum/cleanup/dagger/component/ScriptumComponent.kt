@@ -14,7 +14,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.preference.BackupPreferenceCom
 import sgtmelon.scriptum.cleanup.dagger.component.preference.MainPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.NotesPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.PreferenceComponent
-import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.DevelopPreferenceComponent
+import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PreferenceDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PrintDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.ServiceDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.module.RepoModule
@@ -33,11 +33,12 @@ import sgtmelon.scriptum.cleanup.dagger.module.domain.RankUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.UseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ContextModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ConverterModule
+import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.EternalModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.RoomModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.StringModule
 import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
-import sgtmelon.scriptum.infrastructure.service.EternalServiceLogicImpl
+import sgtmelon.scriptum.infrastructure.service.EternalService
 import javax.inject.Singleton
 
 /**
@@ -65,6 +66,7 @@ import javax.inject.Singleton
     RepositoryModule::class,
     BackupModule::class,
     NoteHistoryModule::class,
+    EternalModule::class,
 
     RepoModule::class
 ])
@@ -105,16 +107,15 @@ interface ScriptumComponent {
 
     fun getAlarmPrefBuilder(): AlarmPreferenceComponent.Builder
 
-    fun getDevelopBuilder(): DevelopPreferenceComponent.Builder
+    fun getPreferenceDevBuilder(): PreferenceDevelopComponent.Builder
 
-    fun getPrintBuilder(): PrintDevelopComponent.Builder
+    fun getPrintDevBuilder(): PrintDevelopComponent.Builder
 
-    fun getServiceBuilder(): ServiceDevelopComponent.Builder
+    fun getServiceDevBuilder(): ServiceDevelopComponent.Builder
 
     //endregion
 
-    fun inject(logic: EternalServiceLogicImpl)
-
+    fun inject(service: EternalService)
 
     @Component.Builder
     interface Builder {

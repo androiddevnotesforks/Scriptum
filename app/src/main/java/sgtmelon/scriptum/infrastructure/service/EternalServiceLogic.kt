@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.infrastructure.service
 
-interface EternalServiceLogic {
+import sgtmelon.scriptum.infrastructure.receiver.service.AppSystemReceiver
+
+interface EternalServiceLogic : AppSystemReceiver.Callback {
 
     fun setup()
 

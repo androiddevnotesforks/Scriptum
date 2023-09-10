@@ -33,7 +33,7 @@ class ShowListAnimation {
         }
     }
 
-    fun startFade(
+    private fun startFade(
         showList: ShowListState,
         parentContainer: ViewGroup,
         progressBar: View,

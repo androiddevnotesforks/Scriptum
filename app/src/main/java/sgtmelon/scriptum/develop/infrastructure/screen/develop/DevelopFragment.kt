@@ -25,7 +25,7 @@ class DevelopFragment : PreferenceFragment<DevelopBinding>() {
     @Inject lateinit var viewModel: DevelopViewModel
 
     override fun inject(component: ScriptumComponent) {
-        component.getDevelopBuilder()
+        component.getPreferenceDevBuilder()
             .set(owner = this)
             .build()
             .inject(fragment = this)

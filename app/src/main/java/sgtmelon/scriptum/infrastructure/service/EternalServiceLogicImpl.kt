@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.infrastructure.service
 
-import android.content.Context
-import android.content.IntentFilter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,35 +10,22 @@ import sgtmelon.scriptum.domain.useCase.bind.GetBindNoteListUseCase
 import sgtmelon.scriptum.domain.useCase.bind.GetNotificationCountUseCase
 import sgtmelon.scriptum.domain.useCase.bind.UnbindNoteUseCase
 import sgtmelon.scriptum.infrastructure.factory.SystemDelegatorFactory
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
-import sgtmelon.scriptum.infrastructure.receiver.service.EternalServiceReceiver
-import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import java.util.Calendar
-import javax.inject.Inject
 
 /**
  * Logic class for working with alarm's and notifications.
  */
-class EternalServiceLogicImpl(private val context: Context) : EternalServiceLogic,
-    EternalServiceReceiver.Callback {
-
-    @Inject lateinit var tidyUpAlarm: TidyUpAlarmUseCase
-    @Inject lateinit var getBindNotes: GetBindNoteListUseCase
-    @Inject lateinit var getNotificationsCount: GetNotificationCountUseCase
-    @Inject lateinit var unbindNote: UnbindNoteUseCase
+class EternalServiceLogicImpl(
+    private val tidyUpAlarm: TidyUpAlarmUseCase,
+    private val getBindNotes: GetBindNoteListUseCase,
+    private val getNotificationsCount: GetNotificationCountUseCase,
+    private val unbindNote: UnbindNoteUseCase,
+    private val system: SystemDelegatorFactory
+) : EternalServiceLogic {
 
     private val ioScope by lazy { CoroutineScope(Dispatchers.IO) }
 
-    private val receiver = EternalServiceReceiver[this]
-
-    private val system = SystemDelegatorFactory(context, lifecycle = null)
-
     override fun setup() {
-        ScriptumApplication.component.inject(logic = this)
-
-        // TODO move receiver inside service?
-        context.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.SYSTEM))
-
         /** Update all available data. */
         tidyUpAlarm()
         notifyAllNotes()
@@ -48,7 +33,6 @@ class EternalServiceLogicImpl(private val context: Context) : EternalServiceLogi
     }
 
     override fun release() {
-        context.unregisterReceiver(receiver)
         system.toast.cancel()
     }
 
