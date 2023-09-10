@@ -20,13 +20,13 @@
 
     <integer name="placeholder_fade_time">500</integer>
 
-    <integer name="list_fade_time">300</integer>
+    <integer name="list_fade_time">200</integer>
 
     <integer name="alarm_start_delay">200</integer>
     <integer name="alarm_start_time">500</integer>
     <integer name="alarm_show_delay">500</integer>
     <integer name="alarm_show_time">500</integer>
 
-    <integer name="note_panel_change_time">300</integer>
+    <integer name="note_panel_change_time">200</integer>
     <integer name="progress_change_time">300</integer>
 </resources>

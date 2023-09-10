@@ -6,6 +6,7 @@ import android.animation.AnimatorSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
@@ -130,14 +131,23 @@ class ShowListAnimation {
         duration: Long,
         onEnd: () -> Unit
     ): Animator {
+        /**
+         * Need skip case when first view to hide is [RecyclerView], because it already had basic
+         * animation (of items hide).
+         */
+        val skipFirst = currentView is RecyclerView
+
         return AnimatorSet().apply {
             this.duration = duration
             this.interpolator = AccelerateDecelerateInterpolator()
 
             playSequentially(
                 listOfNotNull(
-                    currentView.getAlphaAnimator(visibleTo = false),
-                    nextView.getAlphaAnimator(visibleTo = true),
+                    if (skipFirst) null else currentView.getAlphaAnimator(visibleTo = false),
+                    nextView.getAlphaAnimator(visibleTo = true)?.apply {
+                        /** Shift this anim (to get correct sequence) like first isn't null. */
+                        if (skipFirst) startDelay = duration
+                    },
                 )
             )
 
