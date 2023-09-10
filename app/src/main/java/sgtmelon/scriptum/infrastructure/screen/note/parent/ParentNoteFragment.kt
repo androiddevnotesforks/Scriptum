@@ -35,10 +35,12 @@ import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
+import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
 import sgtmelon.scriptum.infrastructure.screen.note.history.HistoryTicker
@@ -190,7 +192,10 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         val panelBar = panelBar ?: return
 
         panelBar.restoreButton.setOnClickListener {
-            viewModel.restore().collect(owner = this) { activity?.finish() }
+            viewModel.restore().collect(owner = this) {
+                system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
+                activity?.finish()
+            }
         }
         panelBar.restoreOpenButton.setOnClickListener { viewModel.restoreOpen() }
         panelBar.clearButton.setOnClickListener {
@@ -230,6 +235,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         panelBar.deleteButton.setOnClickListener {
             open.ifNotBlocked {
                 viewModel.delete().collect(owner = this) {
+                    system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.BIN)
                     system?.broadcast?.sendCancelAlarm(it)
                     system?.broadcast?.sendCancelNoteBind(it)
                     system?.broadcast?.sendNotifyInfoBind()
