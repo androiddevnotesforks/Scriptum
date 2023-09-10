@@ -15,6 +15,8 @@ import androidx.lifecycle.LifecycleOwner
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.utils.DelayedJob
+import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MAX
+import sgtmelon.scriptum.infrastructure.utils.extensions.ALPHA_MIN
 import sgtmelon.scriptum.infrastructure.utils.extensions.getAlphaAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleXAnimator
 import sgtmelon.scriptum.infrastructure.utils.extensions.getScaleYAnimator
@@ -132,8 +134,8 @@ internal class GradientFab(
         val parentCard = parentCard ?: return this
 
         val duration = activity.resources.getInteger(R.integer.fab_change_time).toLong()
-        val alpha = if (isVisible) 1f else 0f
-        val scale = if (isVisible) 1f else 0.2f
+        val alphaTo = if (isVisible) ALPHA_MAX else ALPHA_MIN
+        val scaleTo = if (isVisible) 1f else 0.2f
 
         val alphaInterpolator = DecelerateInterpolator()
         val scaleInterpolator = AccelerateDecelerateInterpolator()
@@ -144,9 +146,9 @@ internal class GradientFab(
         )
 
         playTogether(
-            parentCard.getAlphaAnimator(alpha).apply { interpolator = alphaInterpolator },
-            parentCard.getScaleXAnimator(scale).apply { interpolator = scaleInterpolator },
-            parentCard.getScaleYAnimator(scale).apply { interpolator = scaleInterpolator }
+            parentCard.getAlphaAnimator(alphaTo).apply { interpolator = alphaInterpolator },
+            parentCard.getScaleXAnimator(scaleTo).apply { interpolator = scaleInterpolator },
+            parentCard.getScaleYAnimator(scaleTo).apply { interpolator = scaleInterpolator }
         )
 
         return this

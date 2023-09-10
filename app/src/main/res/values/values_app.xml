@@ -9,7 +9,7 @@
     <integer name="keyboard_change_time">200</integer>
 
     <integer name="fragment_fade_time">200</integer>
-    <integer name="fab_change_time">200</integer>
+    <integer name="fab_change_time">250</integer>
     <integer name="color_fade_time">300</integer>
     <integer name="color_transition_time">300</integer>
     <integer name="touch_change_time">300</integer>
@@ -27,6 +27,6 @@
     <integer name="alarm_show_delay">500</integer>
     <integer name="alarm_show_time">500</integer>
 
-    <integer name="note_panel_change_time">200</integer>
-    <integer name="progress_change_time">200</integer>
+    <integer name="note_panel_change_time">300</integer>
+    <integer name="progress_change_time">300</integer>
 </resources>
