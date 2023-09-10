@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/layout_24dp"
-    tools:background="?attr/clPrimary"
     android:paddingTop="@dimen/layout_8dp"
+    tools:background="?attr/clPrimary"
     tools:layout_gravity="center">
 
     <!--  Setting of textColor and textColorHint through code -->
@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/layout_4dp"
         android:background="@drawable/bg_rename_enter"
-        android:padding="@dimen/layout_8dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:hint="@string/hint_enter_rank_rename"
@@ -26,6 +26,7 @@
         android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
         android:maxLength="@integer/rank_name_max_length"
         android:maxLines="1"
+        android:padding="@dimen/layout_8dp"
         android:textSize="@dimen/text_18sp" />
 
 </LinearLayout>
