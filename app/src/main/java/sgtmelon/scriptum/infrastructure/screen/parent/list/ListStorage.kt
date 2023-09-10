@@ -6,7 +6,8 @@ import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 
 interface ListStorage<T> {
 
-    val show: LiveData<ShowListState>
+    /** Boolean - show list with animation or not. */
+    val show: LiveData<Pair<ShowListState, Boolean>>
 
     val data: LiveData<List<T>>
 

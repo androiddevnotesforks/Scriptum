@@ -390,17 +390,25 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         invalidatePanelState(isEdit)
 
         /**
-         * If [NoteState.EXIST] and in isEdit mode - that means note was created [NoteState.CREATE]
-         * and saved without changing edit mode. This may happens if auto save is on.
-         *
-         * And that's why need change icon from ARROW to CANCEL.
+         * Detect note was created and saved.
          *
          * Need check [previousState], because screen may be rotated and in this case all
          * observe staff will be called (it comes to animation false call). Need to determinate
          * case when [state] really was changed.
          */
-        if (previousState == NoteState.CREATE && state == NoteState.EXIST && isEdit) {
-            navigationIcon?.setDrawable(isEnterIcon = true, needAnim = true)
+        if (previousState == NoteState.CREATE && state == NoteState.EXIST) {
+            /** We cant surely say NOTES page will display a list. */
+            system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
+
+            /**
+             * If [NoteState.EXIST] and in isEdit mode - that means note was created and saved
+             * without changing edit mode. This may happens if auto save is on.
+             *
+             * And that's why need change icon from ARROW to CANCEL.
+             */
+            if (isEdit) {
+                navigationIcon?.setDrawable(isEnterIcon = true, needAnim = true)
+            }
         }
     }
 

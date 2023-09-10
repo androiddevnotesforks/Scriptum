@@ -19,7 +19,9 @@ class ListStorageImpl<T>(
     val nextTag: String
 ) : ListStorage<T> {
 
-    override val show: MutableLiveData<ShowListState> = MutableLiveData(ShowListState.Loading)
+    /** Boolean - show list with animation or not. */
+    override val show: MutableLiveData<Pair<ShowListState, Boolean>> =
+        MutableLiveData(ShowListState.Loading to false)
 
     override val data: MutableLiveData<List<T>> = MutableLiveData()
 
@@ -28,15 +30,15 @@ class ListStorageImpl<T>(
 
     fun notifyShow() {
         val newState = if (localData.isEmpty()) ShowListState.Empty else ShowListState.List
-        notifyShow(newState)
+        notifyShow(newState, withAnimation = true)
     }
 
-    fun notifyShow(state: ShowListState) {
+    fun notifyShow(state: ShowListState, withAnimation: Boolean) {
         val currentState = show.value ?: return
 
         /** Skip same state. */
         if (currentState != state) {
-            show.postValue(state)
+            show.postValue(state to withAnimation)
         }
     }
 

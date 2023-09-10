@@ -18,6 +18,21 @@ import sgtmelon.test.idling.getWaitIdling
  */
 class ShowListAnimation {
 
+    fun start(
+        showList: Pair<ShowListState, Boolean>,
+        parentContainer: ViewGroup,
+        progressBar: View,
+        recyclerView: View,
+        infoContainer: View
+    ) {
+        val (state, withAnimation) = showList
+        if (withAnimation) {
+            startFade(state, parentContainer, progressBar, recyclerView, infoContainer)
+        } else {
+            changeVisibility(state, progressBar, recyclerView, infoContainer)
+        }
+    }
+
     fun startFade(
         showList: ShowListState,
         parentContainer: ViewGroup,

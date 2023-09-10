@@ -54,6 +54,8 @@ class BinViewModelImpl(
         viewModelScope.launchBack { clearNote(item) }
     }
 
-    override fun onReceiveInfoChange(state: ShowListState) = list.notifyShow(state)
+    override fun onReceiveInfoChange(state: ShowListState) {
+        list.notifyShow(state, withAnimation = false)
+    }
 
 }

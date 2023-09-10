@@ -154,7 +154,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
         viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
-            listAnimation.startFade(
+            listAnimation.start(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.root
             )

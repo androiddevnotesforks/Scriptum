@@ -233,7 +233,7 @@ class RollNoteFragment : ParentNoteFragment<NoteItem.Roll, FragmentRollNoteBindi
             val binding = binding ?: return@observe
 
             invalidateEmptyInfo()
-            listAnimation.startFade(
+            listAnimation.start(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.root
             )

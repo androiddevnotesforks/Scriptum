@@ -2,7 +2,6 @@ package sgtmelon.scriptum.infrastructure.screen.notifications
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import javax.inject.Inject
 import sgtmelon.extensions.collect
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
+import javax.inject.Inject
 
 /**
  * Screen with list of feature notifications.
@@ -94,7 +94,7 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
 
         viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
-            listAnimation.startFade(
+            listAnimation.start(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.root
             )

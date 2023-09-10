@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import javax.inject.Inject
+import sgtmelon.extensions.intent
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
@@ -14,7 +14,6 @@ import sgtmelon.scriptum.develop.infrastructure.model.PrintType
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.BundleValueImpl
-import sgtmelon.extensions.intent
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Print.Key
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
 import sgtmelon.scriptum.infrastructure.screen.theme.ThemeActivity
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setMarginInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.setPaddingInsets
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
+import javax.inject.Inject
 
 /**
  * Screen for print data of data base and preference.
@@ -111,7 +111,7 @@ class PrintDevelopActivity : ThemeActivity<ActivityDevelopPrintBinding>(),
         viewModel.list.show.observe(this) {
             val binding = binding ?: return@observe
 
-            listAnimation.startFade(
+            listAnimation.start(
                 it, binding.parentContainer, binding.progressBar,
                 binding.recyclerView, binding.emptyInfo.root
             )
