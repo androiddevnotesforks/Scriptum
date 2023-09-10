@@ -23,7 +23,7 @@ interface RankViewModel : ListViewModel<RankItem>,
 
     fun moveItemResult()
 
-    fun changeVisibility(position: Int): Flow<Unit>
+    fun changeVisibility(position: Int): Flow<RankItem>
 
     fun getRenameData(position: Int): Flow<Pair<String, List<String>>>
 

@@ -176,6 +176,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     private fun onOptionSelect(p: Int, which: Int) {
         when (Options.values().getOrNull(which) ?: return) {
             Options.RESTORE -> viewModel.restoreNote(p).collect(owner = this) {
+                /** We cant surely say NOTES page will display a list. */
                 system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverData.Filter.NOTES)
             }
             Options.COPY -> viewModel.getNoteText(p).collect(owner = this) {

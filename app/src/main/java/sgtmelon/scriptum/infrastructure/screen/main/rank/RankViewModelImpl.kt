@@ -101,7 +101,7 @@ class RankViewModelImpl(
         }
     }
 
-    override fun changeVisibility(position: Int): Flow<Unit> = flowBack {
+    override fun changeVisibility(position: Int): Flow<RankItem> = flowBack {
         val item = list.change(UpdateListState.Set) {
             val item = it.getOrNull(position) ?: return@flowBack
             item.isVisible = !item.isVisible
@@ -109,8 +109,7 @@ class RankViewModelImpl(
         }
 
         updateRank(item)
-
-        emit(Unit)
+        emit(item)
     }
 
     override fun getRenameData(position: Int): Flow<Pair<String, List<String>>> = flowBack {

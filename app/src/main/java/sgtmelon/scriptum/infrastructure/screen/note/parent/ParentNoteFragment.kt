@@ -193,6 +193,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
 
         panelBar.restoreButton.setOnClickListener {
             viewModel.restore().collect(owner = this) {
+                /** We cant surely say NOTES page will display a list. */
                 system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
                 activity?.finish()
             }
@@ -235,7 +236,9 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         panelBar.deleteButton.setOnClickListener {
             open.ifNotBlocked {
                 viewModel.delete().collect(owner = this) {
+                    /** We cant surely say BIN page will display a list. */
                     system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.BIN)
+
                     system?.broadcast?.sendCancelAlarm(it)
                     system?.broadcast?.sendCancelNoteBind(it)
                     system?.broadcast?.sendNotifyInfoBind()

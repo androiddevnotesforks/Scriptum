@@ -45,10 +45,6 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     Toolbar.OnMenuItemClickListener,
     ScrollTopCallback {
 
-    // TODO bugs:
-    // 1. create one note -> open it and delete -> got not smooth animation of info and item remove
-    //    May be skip animation?
-
     override val layoutId: Int = R.layout.fragment_notes
 
     @Inject override lateinit var viewModel: NotesViewModel
@@ -277,7 +273,9 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
                 system?.clipboard?.copy(it)
             }
             Options.DELETE -> viewModel.deleteNote(p).collect(owner = this) {
+                /** We cant surely say BIN page will display a list. */
                 system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverData.Filter.BIN)
+
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendCancelNoteBind(it)
                 system?.broadcast?.sendNotifyInfoBind()
