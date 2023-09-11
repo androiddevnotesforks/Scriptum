@@ -198,7 +198,11 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
                 activity?.finish()
             }
         }
-        panelBar.restoreOpenButton.setOnClickListener { viewModel.restoreOpen() }
+        panelBar.restoreOpenButton.setOnClickListener {
+            /** We cant surely say NOTES page will display a list. */
+            system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
+            viewModel.restoreOpen()
+        }
         panelBar.clearButton.setOnClickListener {
             viewModel.deleteForever().collect(owner = this) { activity?.finish() }
         }
