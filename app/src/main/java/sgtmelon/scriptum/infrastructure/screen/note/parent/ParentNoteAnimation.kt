@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.screen.note.parent
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncNotePanelBinding
@@ -12,6 +13,7 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
+import sgtmelon.scriptum.infrastructure.utils.extensions.resetAlpha
 import sgtmelon.test.idling.getWaitIdling
 
 /**
@@ -30,6 +32,21 @@ class ParentNoteAnimation(
         state: NoteState
     ) {
         if (binding == null) return
+
+        /**
+         * The moment when user save created note. At the same time we have changes of [isEdit]
+         * and of [state]. It will cause anim glitch, because [startPanelFade] will be called
+         * multiple times.
+         *
+         * In this situation everything depends on [isEdit] value. Actually, [state] doesn't
+         * matter, because it will not affect on UI. Don't need to stop animation if already
+         * receive correct data for displaying UI.
+         *
+         */
+        if (this.isEdit == isEdit && this.state == NoteState.CREATE && state == NoteState.EXIST) {
+            this.state = state
+            return
+        }
 
         if (this.state == state && this.isEdit == isEdit) {
             /** Skip setup if was double call and animation already running. */
@@ -51,10 +68,12 @@ class ParentNoteAnimation(
         }
     }
 
+    /** Disable [withAlphaReset] if you need to continue animation from same alpha position. */
     private fun changePanel(
         binding: IncNotePanelBinding,
         isEdit: Boolean,
-        state: NoteState
+        state: NoteState,
+        withAlphaReset: Boolean = true
     ) = with(binding) {
         if (state == NoteState.DELETE) {
             binContainer.makeVisible()
@@ -65,6 +84,16 @@ class ParentNoteAnimation(
             editContainer.makeVisibleIf(isEdit) { makeInvisible() }
             readContainer.makeVisibleIf(!isEdit) { makeInvisible() }
         }
+
+        /**
+         * Reset alpha is important, in case if we skip animation. That means may occur a situation
+         * when alpha=0, but view is [View.VISIBLE].
+         */
+        if (withAlphaReset) {
+            binContainer.resetAlpha()
+            editContainer.resetAlpha()
+            readContainer.resetAlpha()
+        }
     }
 
     /** Prevent fast tapping lags (if animation is still running). */
@@ -73,14 +102,13 @@ class ParentNoteAnimation(
         state: NoteState?,
         isEdit: Boolean?
     ) {
-        if (animator != null) {
-            animator?.cancel()
-            animator = null
+        if (animator == null || state == null || isEdit == null) return
 
-            if (state == null || isEdit == null) return
+        animator?.removeAllListeners()
+        animator?.cancel()
+        animator = null
 
-            changePanel(binding, isEdit, state)
-        }
+        changePanel(binding, isEdit, state, withAlphaReset = false)
     }
 
     private fun panelFade(binding: IncNotePanelBinding, isEdit: Boolean, state: NoteState) {

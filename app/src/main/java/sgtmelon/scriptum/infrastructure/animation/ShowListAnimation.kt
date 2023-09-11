@@ -44,10 +44,12 @@ class ShowListAnimation {
         }
     }
 
+    /** Disable [withAlphaReset] if you need to continue animation from same alpha position. */
     private fun updateVisibility(
         progressBar: View,
         recyclerView: View,
-        infoContainer: View
+        infoContainer: View,
+        withAlphaReset: Boolean = true
     ) {
         val showList = currentShowList ?: return
 
@@ -59,9 +61,11 @@ class ShowListAnimation {
          * Reset alpha is important, because in [start] function where is a case without
          * animation. That means may occur a situation when alpha=0, but view is [View.VISIBLE].
          */
-        progressBar.resetAlpha()
-        recyclerView.resetAlpha()
-        infoContainer.resetAlpha()
+        if (withAlphaReset) {
+            progressBar.resetAlpha()
+            recyclerView.resetAlpha()
+            infoContainer.resetAlpha()
+        }
     }
 
     private fun startFade(
@@ -105,11 +109,13 @@ class ShowListAnimation {
         recyclerView: View,
         infoContainer: View
     ) {
-        if (animator != null) {
-            animator?.cancel()
-            animator = null
-            updateVisibility(progressBar, recyclerView, infoContainer)
-        }
+        if (animator == null) return
+
+        animator?.removeAllListeners()
+        animator?.cancel()
+        animator = null
+
+        updateVisibility(progressBar, recyclerView, infoContainer, withAlphaReset = false)
     }
 
     private fun getShowListView(
@@ -125,11 +131,11 @@ class ShowListAnimation {
         }
     }
 
-    private fun buildAnimator(
+    private inline fun buildAnimator(
         currentView: View,
         nextView: View,
         duration: Long,
-        onEnd: () -> Unit
+        crossinline onEnd: () -> Unit
     ): Animator {
         /**
          * Need skip case when first view to hide is [RecyclerView], because it already had basic
@@ -152,10 +158,7 @@ class ShowListAnimation {
             )
 
             addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    super.onAnimationEnd(animation)
-                    onEnd()
-                }
+                override fun onAnimationEnd(animation: Animator) = onEnd()
             })
         }
     }
