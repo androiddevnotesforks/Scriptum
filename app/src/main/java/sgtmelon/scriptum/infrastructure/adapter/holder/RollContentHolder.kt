@@ -33,6 +33,8 @@ class RollContentHolder(
 ) : ParentHolder(binding.root),
     UnbindCallback {
 
+    private val touchListener = DragTouchListener(dragListener, binding.clickButton)
+
     private val textWatcher = HistoryTextWatcher(
         binding.itemEnter, callback = object : HistoryTextWatcher.Callback {
             override fun onHistoryAdd(action: HistoryAction) {
@@ -71,9 +73,25 @@ class RollContentHolder(
             if (isEdit) {
                 itemText.text = ""
 
+                /** Important to REMOVE listener before setting text and ADD watcher after it. */
+                itemEnter.removeTextChangedListener(textWatcher)
                 writeCallback.disableHistoryChanges {
                     itemEnter.setTextIfDifferent(item.text)
                     itemEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
+                }
+                itemEnter.addTextChangedListener(textWatcher)
+
+                with(itemEnter) {
+                    setRawInputType(
+                        InputType.TYPE_CLASS_TEXT
+                                or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+                                or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                                or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                    )
+                    imeOptions = EditorInfo.IME_ACTION_NEXT or EditorInfo.IME_FLAG_NO_FULLSCREEN
+
+                    setEditorNextAction { onEnterNext() }
+                    setOnTouchListener(touchListener)
                 }
             } else {
                 itemEnter.clearText()
@@ -90,8 +108,8 @@ class RollContentHolder(
         if (isEdit) {
             val colorAttr = if (item.isCheck) R.attr.clAccent else R.attr.clContent
             clickButton.bindDrawable(R.drawable.ic_move, colorAttr)
+            clickButton.setOnTouchListener(touchListener)
 
-            bindDrag()
             bindWriteDescription(item.text)
         } else {
             clickButton.setImageDrawable(null)
@@ -110,27 +128,6 @@ class RollContentHolder(
                 }
             }
         }
-    }
-
-    private fun bindDrag() = with(binding) {
-        val touchListener = DragTouchListener(dragListener, clickButton)
-
-        itemEnter.apply {
-            setRawInputType(
-                InputType.TYPE_CLASS_TEXT
-                        or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-                        or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                        or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
-            )
-            imeOptions = EditorInfo.IME_ACTION_NEXT or EditorInfo.IME_FLAG_NO_FULLSCREEN
-
-            setEditorNextAction { onEnterNext() }
-            removeTextChangedListener(textWatcher)
-            addTextChangedListener(textWatcher)
-            setOnTouchListener(touchListener)
-        }
-
-        clickButton.setOnTouchListener(touchListener)
     }
 
     private fun bindWriteDescription(text: String) {
