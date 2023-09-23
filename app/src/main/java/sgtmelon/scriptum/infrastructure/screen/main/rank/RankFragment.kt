@@ -266,6 +266,10 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         }
     }
 
+    /**
+     * Don't send any broadcast about infoChangeUi, because it's hard to handle this action.
+     * Restore rank action and make invisible - as well.
+     */
     private fun removeRank(p: Int) {
         parentOpen?.attempt(withSwitch = false) {
             viewModel.removeItem(p).collect(owner = this) { updateNotesBind() }
