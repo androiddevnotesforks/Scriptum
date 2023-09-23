@@ -16,6 +16,7 @@ object ReceiverData {
         const val NOTES = "${PREFIX}_NOTES"
         const val BIN = "${PREFIX}_BIN"
         const val NOTE = "${PREFIX}_NOTE"
+        const val NOTIFICATION = "${PREFIX}_NOTIFICATION"
         const val ALARM = "${PREFIX}_ALARM"
         const val SYSTEM = "${PREFIX}_SYSTEM"
         const val ETERNAL = "${PREFIX}_ETERNAL"

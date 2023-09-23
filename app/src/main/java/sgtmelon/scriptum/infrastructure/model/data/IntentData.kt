@@ -74,6 +74,11 @@ object IntentData {
         object Key {
             private const val KEY_PREFIX = "SHOW_LIST_STATE"
             const val VALUE = "${KEY_PREFIX}_VALUE"
+            const val ID = "${KEY_PREFIX}_ID"
+        }
+
+        object Default {
+            const val ID = -1L
         }
     }
 }

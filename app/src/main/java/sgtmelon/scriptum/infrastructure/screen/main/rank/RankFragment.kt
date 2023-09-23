@@ -242,7 +242,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
             viewModel.changeVisibility(p).collect(owner = this) {
                 updateNotesBind()
 
-                /** We cant surely say NOTES page will display a list. */
+                /** We can surely say NOTES page will display a list. */
                 if (it.isVisible && it.noteId.isNotEmpty()) {
                     system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
                 }

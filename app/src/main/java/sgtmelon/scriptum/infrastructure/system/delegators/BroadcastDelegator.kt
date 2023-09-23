@@ -34,6 +34,13 @@ class BroadcastDelegator(private val context: Context) {
         }
     }
 
+    /** [place] - one of [Filter] const's. */
+    fun sendInfoChangeUi(changeId: Long, place: String) {
+        context.sendTo(place, Command.UI.INFO_CHANGE) {
+            putExtra(IntentData.ShowList.Key.ID, changeId)
+        }
+    }
+
     //region Bind functions
 
     fun sendNotifyNotesBind() = context.sendTo(Filter.SYSTEM, Command.System.NOTIFY_NOTES)

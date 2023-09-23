@@ -193,13 +193,13 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
 
         panelBar.restoreButton.setOnClickListener {
             viewModel.restore().collect(owner = this) {
-                /** We cant surely say NOTES page will display a list. */
+                /** We can surely say NOTES page will display a list. */
                 system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
                 activity?.finish()
             }
         }
         panelBar.restoreOpenButton.setOnClickListener {
-            /** We cant surely say NOTES page will display a list. */
+            /** We can surely say NOTES page will display a list. */
             system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
             viewModel.restoreOpen()
         }
@@ -240,8 +240,10 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         panelBar.deleteButton.setOnClickListener {
             open.ifNotBlocked {
                 viewModel.delete().collect(owner = this) {
-                    /** We cant surely say BIN page will display a list. */
+                    /** We can surely say BIN page will display a list. */
                     system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.BIN)
+                    /** We can surely say NOTIFICATIONS screen state changed. */
+                    system?.broadcast?.sendInfoChangeUi(it.id, Filter.NOTIFICATION)
 
                     system?.broadcast?.sendCancelAlarm(it)
                     system?.broadcast?.sendCancelNoteBind(it)
@@ -315,6 +317,9 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         }
         onNeutralClick {
             viewModel.removeNotification().collect(owner = this@ParentNoteFragment) {
+                /** We can surely say NOTIFICATIONS screen state changed. */
+                system?.broadcast?.sendInfoChangeUi(it.id, Filter.NOTIFICATION)
+
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendNotifyInfoBind()
             }
@@ -401,7 +406,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
          * case when [state] really was changed.
          */
         if (previousState == NoteState.CREATE && state == NoteState.EXIST) {
-            /** We cant surely say NOTES page will display a list. */
+            /** We can surely say NOTES page will display a list. */
             system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
 
             /**

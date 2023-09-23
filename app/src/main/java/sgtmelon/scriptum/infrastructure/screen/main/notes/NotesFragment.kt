@@ -273,7 +273,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
                 system?.clipboard?.copy(it)
             }
             Options.DELETE -> viewModel.deleteNote(p).collect(owner = this) {
-                /** We cant surely say BIN page will display a list. */
+                /** We can surely say BIN page will display a list. */
                 system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverData.Filter.BIN)
 
                 system?.broadcast?.sendCancelAlarm(it)

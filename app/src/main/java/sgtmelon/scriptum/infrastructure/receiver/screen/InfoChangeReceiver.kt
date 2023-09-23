@@ -4,7 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import sgtmelon.extensions.decode
-import sgtmelon.scriptum.infrastructure.model.data.IntentData
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.ShowList.Default
+import sgtmelon.scriptum.infrastructure.model.data.IntentData.ShowList.Key
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Values
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
@@ -28,14 +29,18 @@ class InfoChangeReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.getStringExtra(Values.COMMAND) != Command.UI.INFO_CHANGE) return
 
-        val state = intent.getStringExtra(IntentData.ShowList.Key.VALUE)?.decode<ShowListState>()
-        if (state != null) {
-            callback?.onReceiveInfoChange(state)
+        val state = intent.getStringExtra(Key.VALUE)?.decode<ShowListState>()
+        val changeId = intent.getLongExtra(Key.ID, Default.ID).takeIf { it != Default.ID }
+
+        when {
+            state != null -> callback?.onReceiveInfoChange(state)
+            changeId != null -> callback?.onReceiveInfoChange(changeId)
         }
     }
 
     interface Callback {
-        fun onReceiveInfoChange(state: ShowListState)
+        fun onReceiveInfoChange(state: ShowListState) = Unit
+        fun onReceiveInfoChange(changeId: Long) = Unit
     }
 
     companion object {

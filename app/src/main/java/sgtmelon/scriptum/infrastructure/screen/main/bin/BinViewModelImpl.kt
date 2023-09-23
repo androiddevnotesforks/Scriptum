@@ -57,5 +57,4 @@ class BinViewModelImpl(
     override fun onReceiveInfoChange(state: ShowListState) {
         list.notifyShow(state, withAnimation = false)
     }
-
 }

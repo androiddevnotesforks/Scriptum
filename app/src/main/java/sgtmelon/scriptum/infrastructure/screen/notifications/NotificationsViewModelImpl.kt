@@ -13,6 +13,7 @@ import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.note.GetNoteUseCase
+import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.model.state.list.UpdateListState
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListStorageImpl
@@ -98,5 +99,16 @@ class NotificationsViewModelImpl(
     override fun getNote(item: NotificationItem): Flow<NoteItem> = flowBack {
         val noteItem = getNote(item.note.id) ?: return@flowBack
         emit(noteItem)
+    }
+
+    /**
+     * If item with [changeId] is present in [list] AND [list] contains only this element -> we
+     * can surely say screen will display an empty info. Because, only possible change is - remove
+     * alarm notification.
+     */
+    override fun onReceiveInfoChange(changeId: Long) {
+        if (list.localData.size == 1 && list.localData.any { it.note.id == changeId }) {
+            list.notifyShow(ShowListState.Empty, withAnimation = false)
+        }
     }
 }
