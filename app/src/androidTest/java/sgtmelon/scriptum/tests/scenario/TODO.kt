@@ -11,6 +11,5 @@ package sgtmelon.scriptum.tests.scenario
 // TODO bug: NotificationsTest-itemCancelFromPast - indicator on note (event if alarm not exists)
 // TODO bug: loading dialog dots animation?
 
-// TODO improve: hide scriptum service notification via adb? because sometimes it's fails the test
 // TODO improve: toast assertion (setting date (add to DateTimeDialogCase) / alarm work / note copy)
 // TODO improve: dagger for ui testing https://medium.com/@jurajkunier/writing-ui-tests-with-dagger-android-and-mockwebserver-aed9564e89b3

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.scenario
+package sgtmelon.scriptum.tests.scenario.auto
 
 import android.content.Intent
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity

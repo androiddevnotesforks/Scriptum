@@ -56,29 +56,6 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-
-    @Test fun binInfoShow() = db.insertTextToBin().let {
-        launchSplash {
-            mainScreen {
-                openBin {
-                    openText(it) { controlPanel { onClear() } }
-                    assert(isEmpty = true)
-                }
-            }
-        }
-    }
-
-    @Test fun binInfoHide() = db.insertText().let {
-        launchSplash {
-            mainScreen {
-                openBin(isEmpty = true)
-                openNotes { openNoteDialog(it) { delete() } }
-                openBin()
-            }
-        }
-    }
-
-
     @Test fun notificationInfoShowAndHide() = launchSplash({ db.insertNotification() }) {
         mainScreen {
             openNotes {

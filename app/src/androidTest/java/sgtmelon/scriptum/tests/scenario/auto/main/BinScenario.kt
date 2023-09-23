@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.scenario.main
+package sgtmelon.scriptum.tests.scenario.auto.main
 
 import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 
@@ -7,7 +7,5 @@ import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
  */
 @Suppress("unused")
 interface BinScenario {
-
-
 
 }

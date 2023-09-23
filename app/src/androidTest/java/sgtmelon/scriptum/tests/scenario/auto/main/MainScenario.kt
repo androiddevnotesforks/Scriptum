@@ -1,16 +1,16 @@
-package sgtmelon.scriptum.tests.scenario.main
+package sgtmelon.scriptum.tests.scenario.auto.main
 
 import sgtmelon.scriptum.infrastructure.dialogs.sheet.AddSheetDialog
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.tests.ui.auto.main.MainDialogAddTest
-import sgtmelon.scriptum.tests.ui.auto.main.MainDialogHelpTest as MainDialogHelpAutoTest
-import sgtmelon.scriptum.tests.ui.control.main.MainDialogHelpTest as MainDialogHelpControlTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainFabTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainPageTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainScrollTopTest
 import sgtmelon.scriptum.tests.ui.control.main.MainFabGradientTest
+import sgtmelon.scriptum.tests.ui.auto.main.MainDialogHelpTest as MainDialogHelpAutoTest
+import sgtmelon.scriptum.tests.ui.control.main.MainDialogHelpTest as MainDialogHelpControlTest
 
 /**
  * Scenarios for test [MainActivity].

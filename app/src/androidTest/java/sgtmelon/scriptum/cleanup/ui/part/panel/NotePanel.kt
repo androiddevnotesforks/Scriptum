@@ -81,9 +81,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
 
     //endregion
 
-    /**
-     * Return user to [BinScreen]
-     */
+    /** Return user to [BinScreen]. */
     fun onRestore() = callback.throwOnWrongState(NoteState.BIN) {
         restoreButton.click()
         callback.item.change = getCalendarText()
@@ -99,9 +97,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
         }
     }
 
-    /**
-     * Return user to [BinScreen]
-     */
+    /** Return user to [BinScreen]. */
     fun onClear() = callback.throwOnWrongState(NoteState.BIN) { clearButton.click() }
 
     /**
