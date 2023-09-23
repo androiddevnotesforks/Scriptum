@@ -77,9 +77,7 @@ abstract class EdgeDragTouchHelper(
 
     interface EdgeDragCallback {
 
-        /**
-         * Calls when user starts/ends dragging/swiping item.
-         */
+        /** Calls when user starts/ends dragging/swiping item. */
         fun onTouchAction(inAction: Boolean)
     }
 

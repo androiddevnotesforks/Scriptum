@@ -68,10 +68,6 @@ class NoteRepoImpl(
         return itemList to (itemList.size < entityList.size)
     }
 
-    override suspend fun getNotificationsList(): List<NoteItem> {
-        TODO("Not yet implemented")
-    }
-
     /** List must contains only item which isVisible. */
     private fun List<NoteEntity>.filterVisible(idVisibleList: List<Long>): List<NoteEntity> {
         return filter { !it.haveRank() || idVisibleList.contains(it.rankId) }
