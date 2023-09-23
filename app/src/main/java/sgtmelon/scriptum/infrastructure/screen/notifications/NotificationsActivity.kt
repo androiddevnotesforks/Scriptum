@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.notifications
 
-import android.content.IntentFilter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.extensions.collect
@@ -11,7 +10,7 @@ import sgtmelon.scriptum.databinding.ActivityNotificationsBinding
 import sgtmelon.scriptum.infrastructure.adapter.NotificationAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NotificationClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.receiver.screen.InfoChangeReceiver
 import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.notifications.state.UndoState
@@ -44,6 +43,8 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
     private val listAnimation = ShowListAnimation()
 
     private val infoChangeReceiver by lazy { InfoChangeReceiver[viewModel] }
+    override val receiverFilter = ReceiverFilter.NOTIFICATION
+    override val receiverList get() = listOf(infoChangeReceiver)
 
     override val adapter: NotificationAdapter by lazy {
         NotificationAdapter(object : NotificationClickListener {
@@ -106,16 +107,6 @@ class NotificationsActivity : ThemeActivity<ActivityNotificationsBinding>(),
         }
         viewModel.list.data.observe(this) { onListUpdate(it) }
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
-    }
-
-    override fun registerReceivers() {
-        super.registerReceivers()
-        registerReceiver(infoChangeReceiver, IntentFilter(ReceiverData.Filter.NOTIFICATION))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        unregisterReceiver(infoChangeReceiver)
     }
 
     override fun onResume() {

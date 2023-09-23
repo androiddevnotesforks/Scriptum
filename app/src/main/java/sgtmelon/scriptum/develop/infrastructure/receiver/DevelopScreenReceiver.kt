@@ -15,7 +15,7 @@ class DevelopScreenReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.getStringExtra(Values.COMMAND) ?: return) {
-            Command.Eternal.PONG -> callback?.onReceiveEternalServicePong()
+            Command.Develop.PONG -> callback?.onReceiveEternalServicePong()
         }
     }
 

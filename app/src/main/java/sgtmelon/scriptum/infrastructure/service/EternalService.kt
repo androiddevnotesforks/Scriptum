@@ -5,15 +5,14 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.IBinder
 import sgtmelon.extensions.getAlarmService
 import sgtmelon.extensions.getCalendar
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.infrastructure.model.annotation.notifications.NotificationId
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.receiver.service.AppSystemReceiver
 import sgtmelon.scriptum.infrastructure.receiver.service.ServiceReceiver
-import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.system.delegators.BroadcastDelegator
 import java.util.Calendar
 import javax.inject.Inject
@@ -23,13 +22,15 @@ import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory as Fac
  * [Service] that will never die. That needed for work with notifications, alarms, ect.
  * Setup and update system staff outside of UI/Controller classes.
  */
-class EternalService : Service(),
+class EternalService : ParentService(),
     ServiceReceiver.Callback {
 
     @Inject lateinit var logic: EternalServiceLogic
 
-    private val serviceReceiver = ServiceReceiver[this]
     private val appSystemReceiver by lazy { AppSystemReceiver[logic] }
+    private val serviceReceiver = ServiceReceiver[this]
+    override val receiverFilter = ReceiverFilter.ETERNAL
+    override val receiverList get() = listOf(appSystemReceiver, serviceReceiver)
 
     private val broadcast = BroadcastDelegator(context = this)
 
@@ -41,31 +42,23 @@ class EternalService : Service(),
      */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
 
-    override fun onCreate() {
-        super.onCreate()
-
-        /** Attach this service to notification, which provide long life for them. */
+    /** Attach this service to notification, which provide long life for them. */
+    override fun startForeground() {
         Factory.Service.createChannel(context = this)
         startForeground(NotificationId.SERVICE, Factory.Service[this])
-
-        ScriptumApplication.component.inject(service = this)
-        logic.setup()
-
-        registerReceiver(appSystemReceiver, IntentFilter(ReceiverData.Filter.SYSTEM))
-        registerReceiver(serviceReceiver, IntentFilter(ReceiverData.Filter.ETERNAL))
     }
+
+    override fun inject(component: ScriptumComponent) = component.inject(service = this)
+
+    override fun setup() = logic.setup()
 
     override fun onDestroy() {
         /** Need call before "super". */
         restartService()
-
         super.onDestroy()
-
-        logic.release()
-
-        unregisterReceiver(appSystemReceiver)
-        unregisterReceiver(serviceReceiver)
     }
+
+    override fun release() = logic.release()
 
     /** Restart our service if it was closed. */
     private fun restartService() {

@@ -16,11 +16,11 @@ import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListe
  * Parent class for preference fragments.
  */
 abstract class PreferenceFragment<T: PreferenceBinding> : PreferenceFragmentCompat(),
-    UiInject,
+    ComponentInject,
     UiSetup,
     UiRelease,
     DialogOwner,
-    ReceiverRegistrar {
+    ReceiverReception {
 
     @get:XmlRes abstract val xmlId: Int
 
@@ -53,7 +53,7 @@ abstract class PreferenceFragment<T: PreferenceBinding> : PreferenceFragmentComp
         bundleValues.forEach { it.get(bundle = savedInstanceState ?: arguments) }
         open.restore(savedInstanceState)
 
-        registerReceivers()
+        checkInReceivers(requireContext())
         setupUi()
     }
 
@@ -68,7 +68,7 @@ abstract class PreferenceFragment<T: PreferenceBinding> : PreferenceFragmentComp
         releaseSystem()
         _system = null
 
-        unregisterReceivers()
+        checkOutReceivers(requireContext())
     }
 
     override fun releaseBinding() {

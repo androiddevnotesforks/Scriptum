@@ -14,7 +14,8 @@
           need to request one of those, not both.
     -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
 
     <!-- It's needed for API 33+ -->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
@@ -91,11 +92,18 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".infrastructure.receiver.action.AlarmActionReceiver" />
-        <receiver android:name=".infrastructure.receiver.action.UnbindActionReceiver" />
-        <receiver android:name=".infrastructure.receiver.screen.UnbindNoteReceiver" />
-        <receiver android:name=".develop.infrastructure.receiver.DevelopScreenReceiver" />
-        <receiver android:name=".infrastructure.receiver.service.ServiceReceiver" />
+        <receiver android:name=".infrastructure.receiver.action.AlarmActionReceiver"
+            android:exported="false" />
+        <receiver android:name=".infrastructure.receiver.action.UnbindActionReceiver"
+            android:exported="false" />
+        <receiver android:name=".infrastructure.receiver.screen.UnbindNoteReceiver"
+            android:exported="false" />
+        <receiver android:name=".infrastructure.receiver.screen.InfoChangeReceiver"
+            android:exported="false" />
+        <receiver android:name=".develop.infrastructure.receiver.DevelopScreenReceiver"
+            android:exported="false" />
+        <receiver android:name=".infrastructure.receiver.service.ServiceReceiver"
+            android:exported="false" />
 
         <receiver
             android:name=".infrastructure.receiver.system.BootReceiver"

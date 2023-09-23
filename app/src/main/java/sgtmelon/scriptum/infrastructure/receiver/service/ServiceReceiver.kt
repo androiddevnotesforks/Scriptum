@@ -14,8 +14,8 @@ class ServiceReceiver : BroadcastReceiver() {
         if (intent == null) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
-            Command.Eternal.KILL -> callback?.killService()
-            Command.Eternal.PING -> callback?.sendPongBroadcast()
+            Command.Develop.KILL -> callback?.killService()
+            Command.Develop.PING -> callback?.sendPongBroadcast()
         }
     }
 

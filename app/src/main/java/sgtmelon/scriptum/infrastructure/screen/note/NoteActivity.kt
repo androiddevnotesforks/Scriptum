@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
-import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -11,8 +10,8 @@ import sgtmelon.scriptum.databinding.ActivityNoteBinding
 import sgtmelon.scriptum.infrastructure.bundle.BundleValue
 import sgtmelon.scriptum.infrastructure.bundle.json.BundleNoteValue
 import sgtmelon.scriptum.infrastructure.factory.FragmentFactory
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.init.NoteInit
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
@@ -48,6 +47,8 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
     private val tintPlaceholder = TintNotePlaceholder(context = this)
 
     private val unbindNoteReceiver = UnbindNoteReceiver[this]
+    override val receiverFilter = ReceiverFilter.NOTE
+    override val receiverList get() = listOf(unbindNoteReceiver)
 
     //region System
 
@@ -77,16 +78,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
             return@doOnApplyWindowInsets insets
         }
-    }
-
-    override fun registerReceivers() {
-        super.registerReceivers()
-        registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun onBackPressed() {

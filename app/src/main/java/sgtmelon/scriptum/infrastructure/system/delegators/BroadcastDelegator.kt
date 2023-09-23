@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.model.data.IntentData
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
 import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Command
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import java.util.Calendar
 
@@ -20,22 +20,20 @@ class BroadcastDelegator(private val context: Context) {
 
     /** Function for let UI know about note unbind action. */
     fun sendUnbindNoteUi(noteId: Long) {
-        val places = listOf(Filter.RANK, Filter.NOTES, Filter.NOTE, Filter.ALARM)
+        val places = listOf(ReceiverFilter.RANK, ReceiverFilter.NOTES, ReceiverFilter.NOTE, ReceiverFilter.ALARM)
 
         context.sendTo(places, Command.UI.UNBIND_NOTE) {
             putExtra(IntentData.Note.Key.ID, noteId)
         }
     }
 
-    /** [place] - one of [Filter] const's. */
-    fun sendInfoChangeUi(state: ShowListState, place: String) {
+    fun sendInfoChangeUi(state: ShowListState, place: ReceiverFilter) {
         context.sendTo(place, Command.UI.INFO_CHANGE) {
             putExtra(IntentData.ShowList.Key.VALUE, state.encode())
         }
     }
 
-    /** [place] - one of [Filter] const's. */
-    fun sendInfoChangeUi(changeId: Long, place: String) {
+    fun sendInfoChangeUi(changeId: Long, place: ReceiverFilter) {
         context.sendTo(place, Command.UI.INFO_CHANGE) {
             putExtra(IntentData.ShowList.Key.ID, changeId)
         }
@@ -43,12 +41,12 @@ class BroadcastDelegator(private val context: Context) {
 
     //region Bind functions
 
-    fun sendNotifyNotesBind() = context.sendTo(Filter.SYSTEM, Command.System.NOTIFY_NOTES)
+    fun sendNotifyNotesBind() = context.sendTo(ReceiverFilter.ETERNAL, Command.System.NOTIFY_NOTES)
 
     fun sendCancelNoteBind(item: NoteItem) = sendCancelNoteBind(item.id)
 
     fun sendCancelNoteBind(noteId: Long) {
-        context.sendTo(Filter.SYSTEM, Command.System.CANCEL_NOTE) {
+        context.sendTo(ReceiverFilter.ETERNAL, Command.System.CANCEL_NOTE) {
             putExtra(IntentData.Note.Key.ID, noteId)
         }
     }
@@ -57,26 +55,26 @@ class BroadcastDelegator(private val context: Context) {
      * If [count] == null it means: "we don't know exactly, please, take correct value from DB".
      */
     fun sendNotifyInfoBind(count: Int? = null) {
-        context.sendTo(Filter.SYSTEM, Command.System.NOTIFY_INFO) {
+        context.sendTo(ReceiverFilter.ETERNAL, Command.System.NOTIFY_INFO) {
             if (count != null) {
                 putExtra(IntentData.Eternal.Key.COUNT, count)
             }
         }
     }
 
-    fun sendClearBind() = context.sendTo(Filter.SYSTEM, Command.System.CLEAR_BIND)
+    fun sendClearBind() = context.sendTo(ReceiverFilter.ETERNAL, Command.System.CLEAR_BIND)
 
     //endregion
 
     //region Alarm functions
 
-    fun sendTidyUpAlarm() = context.sendTo(Filter.SYSTEM, Command.System.TIDY_UP_ALARM)
+    fun sendTidyUpAlarm() = context.sendTo(ReceiverFilter.ETERNAL, Command.System.TIDY_UP_ALARM)
 
     fun sendSetAlarm(item: NoteItem, calendar: Calendar, showToast: Boolean = true) =
         sendSetAlarm(item.id, calendar, showToast)
 
     fun sendSetAlarm(noteId: Long, calendar: Calendar, showToast: Boolean) {
-        context.sendTo(Filter.SYSTEM, Command.System.SET_ALARM) {
+        context.sendTo(ReceiverFilter.ETERNAL, Command.System.SET_ALARM) {
             putExtra(IntentData.Note.Key.ID, noteId)
             putExtra(IntentData.Eternal.Key.DATE, calendar.toText())
             putExtra(IntentData.Eternal.Key.TOAST, showToast)
@@ -87,44 +85,41 @@ class BroadcastDelegator(private val context: Context) {
 
     fun sendCancelAlarm(item: NoteItem) = sendCancelAlarm(item.id)
 
-    fun sendCancelAlarm(noteId: Long) {
-        context.sendTo(Filter.SYSTEM, Command.System.CANCEL_ALARM) {
+    private fun sendCancelAlarm(noteId: Long) {
+        context.sendTo(ReceiverFilter.ETERNAL, Command.System.CANCEL_ALARM) {
             putExtra(IntentData.Note.Key.ID, noteId)
         }
     }
 
-    fun sendClearAlarm() = context.sendTo(Filter.SYSTEM, Command.System.CLEAR_ALARM)
+    fun sendClearAlarm() = context.sendTo(ReceiverFilter.ETERNAL, Command.System.CLEAR_ALARM)
 
     //endregion
 
-    //region Eternal functions
+    //region Develop functions
 
-    fun sendEternalKill() = context.sendTo(Filter.ETERNAL, Command.Eternal.KILL)
+    fun sendEternalKill() = context.sendTo(ReceiverFilter.ETERNAL, Command.Develop.KILL)
 
-    fun sendEternalPing() = context.sendTo(Filter.ETERNAL, Command.Eternal.PING)
+    fun sendEternalPing() = context.sendTo(ReceiverFilter.ETERNAL, Command.Develop.PING)
 
-    fun sendEternalPong() = context.sendTo(Filter.DEVELOP, Command.Eternal.PONG)
+    fun sendEternalPong() = context.sendTo(ReceiverFilter.DEVELOP, Command.Develop.PONG)
 
     //endregion
 
     private inline fun Context.sendTo(
-        place: String,
+        place: ReceiverFilter,
         command: String,
         extras: Intent.() -> Unit = {}
     ) {
-        sendBroadcast(Intent(place).apply {
+        sendBroadcast(Intent(place.action).apply {
             putExtra(ReceiverData.Values.COMMAND, command)
             putExtras(Intent().apply(extras))
         })
     }
 
     private inline fun Context.sendTo(
-        places: List<String>,
+        places: List<ReceiverFilter>,
         command: String,
         extras: Intent.() -> Unit = {}
-    ) {
-        for (place in places) {
-            sendTo(place, command, extras)
-        }
-    }
+    ) = places.forEach { sendTo(it, command, extras) }
+
 }

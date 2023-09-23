@@ -19,11 +19,11 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
  * Parent class for fragments with [ViewDataBinding].
  */
 abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
-    UiInject,
+    ComponentInject,
     UiSetup,
     UiRelease,
     DialogOwner,
-    ReceiverRegistrar {
+    ReceiverReception {
 
     @get:LayoutRes abstract val layoutId: Int
 
@@ -61,7 +61,7 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
         bundleValues.forEach { it.get(bundle = savedInstanceState ?: arguments) }
         open.restore(savedInstanceState)
 
-        registerReceivers()
+        checkInReceivers(requireContext())
     }
 
     /**
@@ -105,6 +105,6 @@ abstract class BindingFragment<T : ViewDataBinding> : Fragment(),
         releaseSystem()
         _system = null
 
-        unregisterReceivers()
+        checkOutReceivers(requireContext())
     }
 }

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.alarm
 
-import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -24,7 +23,7 @@ import sgtmelon.scriptum.infrastructure.dialogs.sheet.RepeatSheetDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.data.IntentData.Note.Key
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.screen.Screens
@@ -76,6 +75,8 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
     private val finishTimer = DelayedJob(lifecycle)
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
+    override val receiverFilter = ReceiverFilter.ALARM
+    override val receiverList get() = listOf(unbindNoteReceiver)
 
     private val repeatDialog = DialogStorage(
         DialogFactory.Alarm.REPEAT, owner = this,
@@ -111,16 +112,6 @@ class AlarmActivity : ThemeActivity<ActivityAlarmBinding>() {
         super.setupInsets()
 
         binding?.buttonContainer?.setMarginInsets(InsetsDir.BOTTOM)
-    }
-
-    override fun registerReceivers() {
-        super.registerReceivers()
-        registerReceiver(unbindNoteReceiver, IntentFilter(Filter.ALARM))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        unregisterReceiver(unbindNoteReceiver)
     }
 
     override fun setupView() {

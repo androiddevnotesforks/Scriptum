@@ -35,8 +35,8 @@ import sgtmelon.scriptum.infrastructure.dialogs.ColorDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
@@ -194,13 +194,13 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         panelBar.restoreButton.setOnClickListener {
             viewModel.restore().collect(owner = this) {
                 /** We can surely say NOTES page will display a list. */
-                system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
+                system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverFilter.NOTES)
                 activity?.finish()
             }
         }
         panelBar.restoreOpenButton.setOnClickListener {
             /** We can surely say NOTES page will display a list. */
-            system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
+            system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverFilter.NOTES)
             viewModel.restoreOpen()
         }
         panelBar.clearButton.setOnClickListener {
@@ -241,9 +241,9 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
             open.ifNotBlocked {
                 viewModel.delete().collect(owner = this) {
                     /** We can surely say BIN page will display a list. */
-                    system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.BIN)
+                    system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverFilter.BIN)
                     /** We can surely say NOTIFICATIONS screen state changed. */
-                    system?.broadcast?.sendInfoChangeUi(it.id, Filter.NOTIFICATION)
+                    system?.broadcast?.sendInfoChangeUi(it.id, ReceiverFilter.NOTIFICATION)
 
                     system?.broadcast?.sendCancelAlarm(it)
                     system?.broadcast?.sendCancelNoteBind(it)
@@ -318,7 +318,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         onNeutralClick {
             viewModel.removeNotification().collect(owner = this@ParentNoteFragment) {
                 /** We can surely say NOTIFICATIONS screen state changed. */
-                system?.broadcast?.sendInfoChangeUi(it.id, Filter.NOTIFICATION)
+                system?.broadcast?.sendInfoChangeUi(it.id, ReceiverFilter.NOTIFICATION)
 
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendNotifyInfoBind()
@@ -407,7 +407,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
          */
         if (previousState == NoteState.CREATE && state == NoteState.EXIST) {
             /** We can surely say NOTES page will display a list. */
-            system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
+            system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverFilter.NOTES)
 
             /**
              * If [NoteState.EXIST] and in isEdit mode - that means note was created and saved

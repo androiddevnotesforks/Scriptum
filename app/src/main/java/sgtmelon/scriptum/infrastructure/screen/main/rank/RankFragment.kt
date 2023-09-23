@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.rank
 
-import android.content.IntentFilter
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -22,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.dialogs.RenameDialog
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
@@ -55,6 +54,8 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
     private val listAnimation = ShowListAnimation()
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
+    override val receiverFilter = ReceiverFilter.RANK
+    override val receiverList get() = listOf(unbindNoteReceiver)
 
     private val dialogs by lazy { DialogFactory.Main(resources) }
     private val renameDialog = DialogStorage(
@@ -169,16 +170,6 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
         viewModel.showSnackbar.observe(this) { if (it) showSnackbar() }
     }
 
-    override fun registerReceivers() {
-        super.registerReceivers()
-        context?.registerReceiver(unbindNoteReceiver, IntentFilter(Filter.RANK))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        context?.unregisterReceiver(unbindNoteReceiver)
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -244,7 +235,7 @@ class RankFragment : BindingFragment<FragmentRankBinding>(),
 
                 /** We can surely say NOTES page will display a list. */
                 if (it.isVisible && it.noteId.isNotEmpty()) {
-                    system?.broadcast?.sendInfoChangeUi(ShowListState.List, Filter.NOTES)
+                    system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverFilter.NOTES)
                 }
             }
         }

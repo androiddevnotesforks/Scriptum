@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.notes
 
-import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.InfoChangeReceiver
@@ -53,6 +52,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
     private val unbindNoteReceiver by lazy { UnbindNoteReceiver[viewModel] }
     private val infoChangeReceiver by lazy { InfoChangeReceiver[viewModel] }
+    override val receiverFilter = ReceiverFilter.NOTES
+    override val receiverList get() = listOf(unbindNoteReceiver, infoChangeReceiver)
 
     private val dialogs by lazy { DialogFactory.Main(resources) }
     private val optionsDialog = DialogStorage(
@@ -175,18 +176,6 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         viewModel.isListHide.observe(this) { observeListHide(it) }
     }
 
-    override fun registerReceivers() {
-        super.registerReceivers()
-        context?.registerReceiver(unbindNoteReceiver, IntentFilter(ReceiverData.Filter.NOTES))
-        context?.registerReceiver(infoChangeReceiver, IntentFilter(ReceiverData.Filter.NOTES))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        context?.unregisterReceiver(unbindNoteReceiver)
-        context?.unregisterReceiver(infoChangeReceiver)
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.updateData()
@@ -274,7 +263,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             }
             Options.DELETE -> viewModel.deleteNote(p).collect(owner = this) {
                 /** We can surely say BIN page will display a list. */
-                system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverData.Filter.BIN)
+                system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverFilter.BIN)
 
                 system?.broadcast?.sendCancelAlarm(it)
                 system?.broadcast?.sendCancelNoteBind(it)

@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 /**
  * Needed for access the inject function and for fastly implementation of it.
  */
-interface UiInject {
+interface ComponentInject {
 
     fun inject() = inject(ScriptumApplication.component)
 

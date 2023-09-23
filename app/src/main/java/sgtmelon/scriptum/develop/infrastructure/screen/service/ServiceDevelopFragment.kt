@@ -1,11 +1,10 @@
 package sgtmelon.scriptum.develop.infrastructure.screen.service
 
 import android.content.Context
-import android.content.IntentFilter
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.develop.infrastructure.receiver.DevelopScreenReceiver
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.screen.parent.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.service.EternalService
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnClickListener
@@ -30,6 +29,8 @@ class ServiceDevelopFragment : PreferenceFragment<ServiceDevelopBinding>(),
     private val dotAnimation = DotAnimationImpl[lifecycle, DotAnimType.COUNT, this]
 
     private val receiver = DevelopScreenReceiver[this]
+    override val receiverFilter = ReceiverFilter.DEVELOP
+    override val receiverList get() = listOf(receiver)
 
     //region System
 
@@ -75,16 +76,6 @@ class ServiceDevelopFragment : PreferenceFragment<ServiceDevelopBinding>(),
             ServicePingState.SUCCESS -> onServicePong(isSuccess = true)
             ServicePingState.NO_RESPONSE -> onServicePong(isSuccess = false)
         }
-    }
-
-    override fun registerReceivers() {
-        super.registerReceivers()
-        context?.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.DEVELOP))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        context?.unregisterReceiver(receiver)
     }
 
     //endregion

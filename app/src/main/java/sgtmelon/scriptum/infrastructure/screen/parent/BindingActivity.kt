@@ -12,10 +12,10 @@ import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.inflateBinding
 
 abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
-    UiInject,
+    ComponentInject,
     UiRelease,
     DialogOwner,
-    ReceiverRegistrar {
+    ReceiverReception {
 
     @get:LayoutRes abstract val layoutId: Int
 
@@ -44,7 +44,7 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
         open.restore(savedInstanceState)
 
         inject()
-        registerReceivers()
+        checkInReceivers(context = this)
 
         /** If keyboard was opened in another app. */
         hideKeyboard()
@@ -65,6 +65,6 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity(),
         releaseSystem()
         _system = null
 
-        unregisterReceivers()
+        checkOutReceivers(context = this)
     }
 }

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.infrastructure.screen.main.bin
 
-import android.content.IntentFilter
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,7 @@ import sgtmelon.scriptum.infrastructure.adapter.NoteAdapter
 import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
-import sgtmelon.scriptum.infrastructure.model.data.ReceiverData
+import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.InfoChangeReceiver
 import sgtmelon.scriptum.infrastructure.screen.Screens
@@ -43,6 +42,8 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
     private val listAnimation = ShowListAnimation()
 
     private val infoChangeReceiver by lazy { InfoChangeReceiver[viewModel] }
+    override val receiverFilter = ReceiverFilter.BIN
+    override val receiverList get() = listOf(infoChangeReceiver)
 
     private val dialogs by lazy { DialogFactory.Main(resources) }
     private val optionsDialog = DialogStorage(
@@ -138,16 +139,6 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
         }
     }
 
-    override fun registerReceivers() {
-        super.registerReceivers()
-        context?.registerReceiver(infoChangeReceiver, IntentFilter(ReceiverData.Filter.BIN))
-    }
-
-    override fun unregisterReceivers() {
-        super.unregisterReceivers()
-        context?.unregisterReceiver(infoChangeReceiver)
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.updateData()
@@ -177,7 +168,7 @@ class BinFragment : BindingFragment<FragmentBinBinding>(),
         when (Options.values().getOrNull(which) ?: return) {
             Options.RESTORE -> viewModel.restoreNote(p).collect(owner = this) {
                 /** We can surely say NOTES page will display a list. */
-                system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverData.Filter.NOTES)
+                system?.broadcast?.sendInfoChangeUi(ShowListState.List, ReceiverFilter.NOTES)
             }
             Options.COPY -> viewModel.getNoteText(p).collect(owner = this) {
                 system?.clipboard?.copy(it)
