@@ -12,7 +12,7 @@ import sgtmelon.scriptum.source.ui.tests.launchNotificationsItem
  * Test of animation info about empty list for [NotificationsActivity].
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationsAnimTest : ParentUiTest() {
+class NotificationsInfoAnimTest : ParentUiTest() {
 
     @Test fun onScreen_cancel_restore() = launchNotificationsItem(db.insertNotification()) {
         repeat(SWITCH_REPEAT) {
