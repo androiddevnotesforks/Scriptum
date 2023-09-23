@@ -6,6 +6,7 @@ import org.hamcrest.Matcher
 import sgtmelon.extensions.getCalendarText
 import sgtmelon.extensions.toText
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.ui.dialog.RankDialogUi
@@ -15,7 +16,6 @@ import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.data.noteHistory.model.HistoryAction
 import sgtmelon.scriptum.data.noteHistory.model.HistoryChange
-import sgtmelon.scriptum.infrastructure.database.DbData
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
@@ -220,14 +220,14 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
 
     override fun dateResetResult() {
         callback.apply {
-            item.alarm.date = DbData.Alarm.Default.DATE
+            item.alarm = NoteAlarm()
             fullAssert()
         }
     }
 
     override fun timeSetResult(calendar: Calendar) {
         callback.apply {
-            item.alarm.id = 1
+            item.alarm.id = calendar.timeInMillis
             item.alarm.date = calendar.toText()
 
             fullAssert()

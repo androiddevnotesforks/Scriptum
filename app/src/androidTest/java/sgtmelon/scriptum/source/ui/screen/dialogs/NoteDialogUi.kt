@@ -1,11 +1,10 @@
 package sgtmelon.scriptum.source.ui.screen.dialogs
 
-import java.util.Calendar
 import sgtmelon.extensions.toText
 import sgtmelon.safedialog.dialog.OptionsDialog
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteAlarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.database.DbData
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.onConvert
@@ -21,6 +20,7 @@ import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
 import sgtmelon.test.cappuccino.utils.isEnabled
 import sgtmelon.test.cappuccino.utils.withTextColor
+import java.util.Calendar
 
 /**
  * Class for UI control of [OptionsDialog] when cause long click on note.
@@ -102,8 +102,7 @@ class NoteDialogUi(val item: NoteItem) : UiPart(),
 
 
     override fun dateResetResult() {
-        item.alarm.id = DbData.Alarm.Default.ID
-        item.alarm.date = DbData.Alarm.Default.DATE
+        item.alarm = NoteAlarm()
     }
 
     override fun timeSetResult(calendar: Calendar) {
