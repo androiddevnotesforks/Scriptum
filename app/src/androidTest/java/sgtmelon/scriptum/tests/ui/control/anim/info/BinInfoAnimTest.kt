@@ -4,13 +4,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.infrastructure.screen.main.bin.BinFragment
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchBinItem
 import sgtmelon.scriptum.source.ui.tests.launchBinList
 import sgtmelon.scriptum.source.ui.tests.launchMain
 
 /**
- * Test of animation info about empty list.
+ * Test of animation info about empty list for [BinFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class BinInfoAnimTest : ParentUiTest() {
@@ -20,8 +21,13 @@ class BinInfoAnimTest : ParentUiTest() {
         assert(isEmpty = true)
     }
 
-    @Test fun onScreen_noteDialog() = launchBinItem(db.insertNoteToBin()) {
+    @Test fun onScreen_noteDialog_clear() = launchBinItem(db.insertNoteToBin()) {
         openNoteDialog(it) { clear() }
+        assert(isEmpty = true)
+    }
+
+    @Test fun onScreen_noteDialog_restore() = launchBinItem(db.insertNoteToBin()) {
+        openNoteDialog(it) { restore() }
         assert(isEmpty = true)
     }
 

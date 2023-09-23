@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.tests.scenario.control
 
 import sgtmelon.scriptum.tests.ui.control.anim.info.BinInfoAnimTest
+import sgtmelon.scriptum.tests.ui.control.anim.info.NotesInfoAnimTest
 
 @Suppress("unused")
 interface Animation {
@@ -17,7 +18,7 @@ interface Animation {
 
 //        fun rank() = RankInfoAnimTest()
 
-//        fun notes() = NotesInfoAnimTest()
+        fun notes() = NotesInfoAnimTest()
 
         fun bin() = BinInfoAnimTest()
 

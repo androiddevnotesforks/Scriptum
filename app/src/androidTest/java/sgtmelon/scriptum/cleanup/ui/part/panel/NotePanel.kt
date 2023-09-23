@@ -55,6 +55,8 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
     ColorDialogUi.Callback,
     RankDialogUi.Callback {
 
+    // TODO remove `on` from func naming
+
     //region Views
 
     private val panelContainer = getView(R.id.panel_container)
