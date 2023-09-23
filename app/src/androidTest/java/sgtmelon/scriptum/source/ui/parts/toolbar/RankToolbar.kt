@@ -21,6 +21,7 @@ import sgtmelon.test.cappuccino.utils.withHint
 import sgtmelon.test.cappuccino.utils.withImeAction
 import sgtmelon.test.cappuccino.utils.withNavigationDrawable
 import sgtmelon.test.cappuccino.utils.withText
+import sgtmelon.test.common.halfChance
 
 /**
  * UI abstraction of Toolbar with ability to add rank in [RankScreen].
@@ -55,6 +56,8 @@ class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer)
         clearButton.click()
         assert()
     }
+
+    fun add() = apply { if (halfChance()) addToEnd() else addToStart() }
 
     fun addToEnd() = apply { add { addButton.click() } }
 
