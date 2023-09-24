@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.infrastructure.screen.note
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import sgtmelon.scriptum.R
@@ -69,6 +70,27 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
             .inject(activity = this)
     }
 
+    override fun setupUi() {
+        super.setupUi()
+
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val isNoteSaved = when (init.noteItem.type) {
+                    NoteType.TEXT -> textNoteFragment?.onBackPressedSave() ?: false
+                    NoteType.ROLL -> rollNoteFragment?.onBackPressedSave() ?: false
+                }
+
+                /**
+                 * If back press was handle by child fragments (note data was saved/restored) -
+                 * not needed to close the screen.
+                 */
+                if (!isNoteSaved) {
+                    finish()
+                }
+            }
+        })
+    }
+
     override fun setupInsets() {
         super.setupInsets()
 
@@ -77,18 +99,6 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
             return@doOnApplyWindowInsets insets
-        }
-    }
-
-    override fun onBackPressed() {
-        val catchBackPress = when (init.noteItem.type) {
-            NoteType.TEXT -> textNoteFragment?.onPressBack() ?: false
-            NoteType.ROLL -> rollNoteFragment?.onPressBack() ?: false
-        }
-
-        /** If back press was caught by child fragments - don't call activity back press. */
-        if (!catchBackPress) {
-            super.onBackPressed()
         }
     }
 
@@ -138,5 +148,4 @@ class NoteActivity : ThemeActivity<ActivityNoteBinding>(),
         textNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)
         rollNoteFragment?.viewModel?.onReceiveUnbindNote(noteId)
     }
-
 }

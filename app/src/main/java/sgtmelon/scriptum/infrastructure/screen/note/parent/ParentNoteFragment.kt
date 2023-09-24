@@ -558,21 +558,24 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
     }
 
     /**
-     * FALSE - will call super.onBackPress() in parent activity.
-     * TRUE  - will do nothing.
+     * Return TRUE if note data was saved or restored. In this case additional actions - not needed.
+     * Otherwise FALSE - in this case we can simply close screen.
      */
-    fun onPressBack(): Boolean {
+    fun onBackPressedSave(): Boolean {
         /** If user click fastly 2 times back (and icon is animating). */
         if (open.isBlocked) return true
 
-        val isScreenOpen = viewModel.saveOrRestoreData()
+        val isSavedOrRestored = viewModel.saveOrRestoreData()
 
-        if (!isScreenOpen) {
-            /** If note can't be saved and activity will be closed (because return FALSE). */
+        /**
+         * If note can't be saved/restored and activity will be closed (because return FALSE) -
+         * need to prevent note saving during activity pause state.
+         */
+        if (!isSavedOrRestored) {
             noteSave.skipPauseSave()
         }
 
-        return isScreenOpen
+        return isSavedOrRestored
     }
 
     /** In this case we don't change edit mode, just notice user about saving. */
