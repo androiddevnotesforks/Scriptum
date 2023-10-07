@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.extensions.collect
+import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.safedialog.dialog.OptionsDialog
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.safedialog.dialog.time.TimeDialog
@@ -18,7 +19,10 @@ import sgtmelon.scriptum.infrastructure.adapter.callback.click.NoteClickListener
 import sgtmelon.scriptum.infrastructure.animation.ShowListAnimation
 import sgtmelon.scriptum.infrastructure.factory.DialogFactory
 import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
+import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
+import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.receiver.screen.InfoChangeReceiver
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
@@ -26,9 +30,13 @@ import sgtmelon.scriptum.infrastructure.screen.Screens
 import sgtmelon.scriptum.infrastructure.screen.main.callback.ScrollTopCallback
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.infrastructure.screen.preference.PreferenceScreen
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
+import sgtmelon.scriptum.infrastructure.utils.extensions.launch
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
+import sgtmelon.scriptum.infrastructure.utils.extensions.registerPermissionRequest
+import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
 import sgtmelon.scriptum.infrastructure.utils.extensions.tintIcon
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerOverScrollListener
@@ -47,6 +55,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override val layoutId: Int = R.layout.fragment_notes
 
     @Inject override lateinit var viewModel: NotesViewModel
+    @Inject lateinit var permissionViewModel: PermissionViewModel
 
     private val listAnimation = ShowListAnimation()
 
@@ -55,7 +64,30 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override val receiverFilter = ReceiverFilter.NOTES
     override val receiverList get() = listOf(unbindNoteReceiver, infoChangeReceiver)
 
+    private val notificationsPermissionState = PermissionState(Permission.Notifications)
+
+    /**
+     * We don't pass [PermissionResult.FORBIDDEN] (isGranted==false) if permission not granted.
+     * Just skip it, user make a decision.
+     *
+     * [PermissionResult.FORBIDDEN] will be a final stage, when we display deny dialog
+     * (which will open app settings after "OK" click).
+     */
+    private val notificationsPermissionRequest = registerPermissionRequest { isGranted ->
+        if (isGranted) onNotificationsPermission(PermissionResult.GRANTED)
+    }
+
     private val dialogs by lazy { DialogFactory.Main(resources) }
+    private val notificationsPermissionDialog = DialogStorage(
+        DialogFactory.Main.NOTIFICATIONS_PERMISSION, owner = this,
+        create = { dialogs.getNotificationsPermission() },
+        setup = { setupNotificationsPermissionDialog(it) }
+    )
+    private val notificationsDenyDialog = DialogStorage(
+        DialogFactory.Main.NOTIFICATIONS_DENY, owner = this,
+        create = { dialogs.getNotificationsDeny() },
+        setup = { setupNotificationsDenyDialog(it) }
+    )
     private val optionsDialog = DialogStorage(
         DialogFactory.Main.OPTIONS, owner = this,
         create = { dialogs.getOptions() },
@@ -113,12 +145,53 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         }
     }
 
+    /**
+     * Notify binds only if [result] equals [PermissionResult.GRANTED], otherwise we must
+     * show dialog.
+     */
+    private fun onNotificationsPermission(result: PermissionResult?) {
+        if (result == null) return
+
+        when (result) {
+            PermissionResult.OLD_API -> onNotificationsPermissionGranted()
+            PermissionResult.ASK -> showNotificationsPermissionDialog()
+            PermissionResult.FORBIDDEN -> showNotificationsDenyDialog()
+            PermissionResult.GRANTED -> onNotificationsPermissionGranted()
+            PermissionResult.NEW_API -> return /** Not reachable for NOTIFICATIONS permission. */
+        }
+    }
+
+    private fun onNotificationsPermissionGranted() {
+        system?.broadcast?.sendNotifyNotesBind()
+    }
+
     override fun setupDialogs() {
         super.setupDialogs()
 
+        notificationsPermissionDialog.restore()
+        notificationsDenyDialog.restore()
         optionsDialog.restore()
         dateDialog.restore()
         timeDialog.restore()
+    }
+
+    private fun setupNotificationsPermissionDialog(dialog: MessageDialog): Unit = with(dialog) {
+        isCancelable = false
+        onPositiveClick {
+            notificationsPermissionRequest.launch(notificationsPermissionState, permissionViewModel)
+        }
+        onDismiss {
+            notificationsPermissionDialog.release()
+            open.clear()
+        }
+    }
+
+    private fun setupNotificationsDenyDialog(dialog: MessageDialog): Unit = with(dialog) {
+        onPositiveClick { context?.startSettingsActivity(system?.toast) }
+        onDismiss {
+            notificationsDenyDialog.release()
+            open.clear()
+        }
     }
 
     private fun setupOptionsDialog(dialog: OptionsDialog): Unit = with(dialog) {
@@ -205,6 +278,13 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         parentOpen?.attempt { startActivity(Screens.Note.toExist(context, item)) }
     }
 
+    private fun showNotificationsPermissionDialog() = open.attempt {
+        notificationsPermissionDialog.show()
+    }
+
+    private fun showNotificationsDenyDialog() = open.attempt { notificationsDenyDialog.show() }
+
+
     private fun showOptionsDialog(item: NoteItem, p: Int) {
         parentOpen?.attempt {
             parentOpen?.tag = OpenState.Tag.DIALOG
@@ -253,7 +333,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
                 }
             }
             Options.BIND -> viewModel.updateNoteBind(p).collect(owner = this) {
-                system?.broadcast?.sendNotifyNotesBind()
+                val result = notificationsPermissionState.getResult(activity, permissionViewModel)
+                onNotificationsPermission(result)
             }
             Options.CONVERT -> viewModel.convertNote(p).collect(owner = this) {
                 system?.broadcast?.sendNotifyNotesBind()

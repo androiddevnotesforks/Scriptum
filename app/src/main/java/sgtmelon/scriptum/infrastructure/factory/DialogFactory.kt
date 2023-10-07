@@ -26,7 +26,7 @@ object DialogFactory {
     /** Abstract class for all places where permission needed. */
     abstract class Permissions(protected val resources: Resources) {
 
-        fun getNotificationPermission(): MessageDialog {
+        fun getNotificationsPermission(): MessageDialog {
             val dialog = MessageDialog()
             dialog.type = MessageType.Info
             dialog.title = resources.getString(R.string.dialog_title_notification_permission)
@@ -34,7 +34,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getNotificationDeny(): MessageDialog {
+        fun getNotificationsDeny(): MessageDialog {
             val dialog = MessageDialog()
             dialog.type = MessageType.Info
             dialog.title = resources.getString(R.string.dialog_title_notification_deny)
@@ -122,8 +122,8 @@ object DialogFactory {
         companion object {
             private const val PREFIX = "DIALOG_MAIN"
 
-            const val NOTIFICATION_PERMISSION = "${PREFIX}_NOTIFICATION_PERMISSION"
-            const val NOTIFICATION_DENY = "${PREFIX}_NOTIFICATION_DENY"
+            const val NOTIFICATIONS_PERMISSION = "${PREFIX}_NOTIFICATIONS_PERMISSION"
+            const val NOTIFICATIONS_DENY = "${PREFIX}_NOTIFICATIONS_DENY"
 
             const val NOTIFICATIONS = "${PREFIX}_NOTIFICATIONS"
             const val RENAME = "${PREFIX}_RENAME"
@@ -167,8 +167,8 @@ object DialogFactory {
         companion object {
             private const val PREFIX = "DIALOG_NOTE"
 
-            const val NOTIFICATION_PERMISSION = "${PREFIX}_NOTIFICATION_PERMISSION"
-            const val NOTIFICATION_DENY = "${PREFIX}_NOTIFICATION_DENY"
+            const val NOTIFICATIONS_PERMISSION = "${PREFIX}_NOTIFICATIONS_PERMISSION"
+            const val NOTIFICATIONS_DENY = "${PREFIX}_NOTIFICATIONS_DENY"
 
             const val DATE = "${PREFIX}_DATE"
             const val TIME = "${PREFIX}_TIME"

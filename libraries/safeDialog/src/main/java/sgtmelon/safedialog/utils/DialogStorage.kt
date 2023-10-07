@@ -27,9 +27,7 @@ class DialogStorage<T: DialogFragment>(
         }
     }
 
-    fun release() {
-        dialog = null
-    }
+    fun release() = run { dialog = null }
 
     fun dismiss() = run { dialog?.safeDismiss(owner) }
 

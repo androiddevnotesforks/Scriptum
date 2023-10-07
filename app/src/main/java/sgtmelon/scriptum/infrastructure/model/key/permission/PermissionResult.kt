@@ -9,4 +9,4 @@ package sgtmelon.scriptum.infrastructure.model.key.permission
  * [NEW_API] --- Don't need to request a permission, but need to do a workaround due to Android API
  *               changes.
  */
-enum class PermissionResult { ASK, FORBIDDEN, GRANTED, NEW_API }
+enum class PermissionResult { OLD_API, ASK, FORBIDDEN, GRANTED, NEW_API }

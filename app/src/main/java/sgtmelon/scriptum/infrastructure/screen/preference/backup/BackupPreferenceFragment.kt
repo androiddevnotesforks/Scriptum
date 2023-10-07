@@ -60,12 +60,12 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
      */
     private val isFilesAutoFetch: Boolean = BuildProvider.Version.isPre30
 
-    private val writePermissionState = PermissionState(Permission.WriteExternalStorage)
-
     private val fileImportRequest = registerFileRequest {
         val uri = UriConverter().toString(value = it ?: return@registerFileRequest)
         viewModel.startImport(BackupImportItem.Manual(uri)).collectImport()
     }
+
+    private val writePermissionState = PermissionState(Permission.WriteExternalStorage)
 
     /**
      * We don't pass [PermissionResult.FORBIDDEN] (isGranted==false) if permission not granted.
@@ -196,6 +196,7 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
         if (result == null) return
 
         when (result) {
+            PermissionResult.OLD_API -> return /** Not reachable for WRITE_STORAGE permission. */
             PermissionResult.ASK -> showExportPermissionDialog()
             PermissionResult.FORBIDDEN -> showExportDenyDialog()
             PermissionResult.GRANTED -> onExportPermissionGranted()
@@ -226,6 +227,7 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
         if (result == null) return
 
         when (result) {
+            PermissionResult.OLD_API -> return /** Not reachable for WRITE_STORAGE permission. */
             PermissionResult.ASK -> showImportPermissionDialog()
             PermissionResult.FORBIDDEN -> showImportDenyDialog()
             PermissionResult.GRANTED -> onImportPermissionGranted()

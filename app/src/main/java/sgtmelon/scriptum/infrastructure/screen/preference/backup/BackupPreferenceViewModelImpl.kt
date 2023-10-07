@@ -45,6 +45,7 @@ class BackupPreferenceViewModelImpl(
 
     override fun updateData(permission: PermissionResult?) {
         when (permission ?: return) {
+            PermissionResult.OLD_API -> return /** Not reachable for WRITE_STORAGE permission. */
             PermissionResult.ASK -> blockBackup()
             PermissionResult.FORBIDDEN -> blockBackup()
             PermissionResult.GRANTED -> changeBackupState()

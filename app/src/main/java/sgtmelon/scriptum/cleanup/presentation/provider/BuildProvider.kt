@@ -13,7 +13,8 @@ object BuildProvider {
     val noteHistoryMaxSize get() = BuildConfig.NOTE_HISTORY_MAX_SIZE
 
     object Version {
-        val isPre30 get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.R
-        val isPre33 get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+        val current get() = Build.VERSION.SDK_INT
+
+        val isPre30 get() = current < Build.VERSION_CODES.R
     }
 }
