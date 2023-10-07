@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.model.key.permission
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Build
+import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider.Version
 import sgtmelon.scriptum.data.model.PermissionKey
 
 /**
@@ -18,6 +19,9 @@ import sgtmelon.scriptum.data.model.PermissionKey
 sealed class Permission(val value: String, val applyVersion: Int?, val expireVersion: Int?) {
 
     val key = PermissionKey(value)
+
+    val isOldApi get() = applyVersion != null && Version.current < applyVersion
+    val isNewApi get() = expireVersion != null && Version.current >= expireVersion
 
     /** Starting from TIRAMISU version we use ScopedStorage, and don't need ask for permission. */
     object WriteExternalStorage : Permission(

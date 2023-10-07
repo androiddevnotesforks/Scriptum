@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.model.state
 
 import android.app.Activity
-import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider.Version
 import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
@@ -16,13 +15,8 @@ class PermissionState(val permission: Permission) {
     fun getResult(activity: Activity?, viewModel: PermissionViewModel): PermissionResult? {
         if (activity == null) return null
 
-        if (permission.applyVersion != null && Version.current < permission.applyVersion) {
-            return PermissionResult.OLD_API
-        }
-
-        if (permission.expireVersion != null && Version.current >= permission.expireVersion) {
-            return PermissionResult.NEW_API
-        }
+        if (permission.isOldApi) return PermissionResult.OLD_API
+        if (permission.isNewApi) return PermissionResult.NEW_API
 
         val checkPermission = activity.checkSelfPermission(permission.value)
         val showExplanation = activity.shouldShowRequestPermissionRationale(permission.value)
