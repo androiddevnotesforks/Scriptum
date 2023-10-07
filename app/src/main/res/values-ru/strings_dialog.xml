@@ -78,7 +78,20 @@
 
     <string name="dialog_title_repeat">Выбрать повтор</string>
 
+    <string name="dialog_title_notification_permission">Требуется разрешение</string>
+    <string name="dialog_text_notification_permission">
+        Для закрепления заметок в шторке, приложению необходимо ваше разрешение.
+        Иначе мы не сможем сделать это для вас.
+    </string>
+
+    <string name="dialog_title_notification_deny">Включите разрешение</string>
+    <string name="dialog_text_notification_deny">
+        Мы не можем закрепить заметку в шторке без нужного разрешения.
+        Пройдите в настройки приложения и включите рахрешение \"Уведомления\".
+    </string>
+
     <!-- Dialog menu buttons -->
+
     <string name="dialog_menu_delete">Удалить</string>
     <string name="dialog_menu_clear">Удалить навсегда</string>
     <string name="dialog_menu_restore">Восстановить</string>

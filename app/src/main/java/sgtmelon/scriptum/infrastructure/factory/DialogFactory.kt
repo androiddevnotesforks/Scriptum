@@ -23,6 +23,58 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
  */
 object DialogFactory {
 
+    /** Abstract class for all places where permission needed. */
+    abstract class Permissions(protected val resources: Resources) {
+
+        fun getNotificationPermission(): MessageDialog {
+            val dialog = MessageDialog()
+            dialog.type = MessageType.Info
+            dialog.title = resources.getString(R.string.dialog_title_notification_permission)
+            dialog.message = resources.getString(R.string.dialog_text_notification_permission)
+            return dialog
+        }
+
+        fun getNotificationDeny(): MessageDialog {
+            val dialog = MessageDialog()
+            dialog.type = MessageType.Info
+            dialog.title = resources.getString(R.string.dialog_title_notification_deny)
+            dialog.message = resources.getString(R.string.dialog_text_notification_deny)
+            return dialog
+        }
+
+        fun getExportPermission(): MessageDialog {
+            val dialog = MessageDialog()
+            dialog.type = MessageType.Info
+            dialog.title = resources.getString(R.string.dialog_title_export_permission)
+            dialog.message = resources.getString(R.string.dialog_text_export_permission)
+            return dialog
+        }
+
+        fun getExportDeny(): MessageDialog {
+            val dialog = MessageDialog()
+            dialog.type = MessageType.Info
+            dialog.title = resources.getString(R.string.dialog_title_export_deny)
+            dialog.message = resources.getString(R.string.dialog_text_export_deny)
+            return dialog
+        }
+
+        fun getImportPermission(): MessageDialog {
+            val dialog = MessageDialog()
+            dialog.type = MessageType.Info
+            dialog.title = resources.getString(R.string.dialog_title_import_permission)
+            dialog.message = resources.getString(R.string.dialog_text_import_permission)
+            return dialog
+        }
+
+        fun getImportDeny(): MessageDialog {
+            val dialog = MessageDialog()
+            dialog.type = MessageType.Info
+            dialog.title = resources.getString(R.string.dialog_title_import_deny)
+            dialog.message = resources.getString(R.string.dialog_text_import_deny)
+            return dialog
+        }
+    }
+
     class Alarm {
 
         fun getRepeat(): RepeatSheetDialog = RepeatSheetDialog()
@@ -34,7 +86,7 @@ object DialogFactory {
         }
     }
 
-    class Main(private val resources: Resources) {
+    class Main(resources: Resources) : Permissions(resources) {
 
         fun getNotificationsHelp(): MessageDialog {
             val dialog = MessageDialog()
@@ -70,6 +122,9 @@ object DialogFactory {
         companion object {
             private const val PREFIX = "DIALOG_MAIN"
 
+            const val NOTIFICATION_PERMISSION = "${PREFIX}_NOTIFICATION_PERMISSION"
+            const val NOTIFICATION_DENY = "${PREFIX}_NOTIFICATION_DENY"
+
             const val NOTIFICATIONS = "${PREFIX}_NOTIFICATIONS"
             const val RENAME = "${PREFIX}_RENAME"
             const val ADD = "${PREFIX}_ADD"
@@ -80,7 +135,7 @@ object DialogFactory {
         }
     }
 
-    class Note(private val resources: Resources) {
+    class Note(resources: Resources) : Permissions(resources) {
 
         fun getConvert(type: NoteType): MessageDialog {
             val dialog = MessageDialog()
@@ -112,6 +167,9 @@ object DialogFactory {
         companion object {
             private const val PREFIX = "DIALOG_NOTE"
 
+            const val NOTIFICATION_PERMISSION = "${PREFIX}_NOTIFICATION_PERMISSION"
+            const val NOTIFICATION_DENY = "${PREFIX}_NOTIFICATION_DENY"
+
             const val DATE = "${PREFIX}_DATE"
             const val TIME = "${PREFIX}_TIME"
             const val CONVERT = "${PREFIX}_CONVERT"
@@ -141,39 +199,7 @@ object DialogFactory {
             }
         }
 
-        class Backup(private val resources: Resources) {
-
-            fun getExportPermission(): MessageDialog {
-                val dialog = MessageDialog()
-                dialog.type = MessageType.Info
-                dialog.title = resources.getString(R.string.dialog_title_export_permission)
-                dialog.message = resources.getString(R.string.dialog_text_export_permission)
-                return dialog
-            }
-
-            fun getExportDeny(): MessageDialog {
-                val dialog = MessageDialog()
-                dialog.type = MessageType.Info
-                dialog.title = resources.getString(R.string.dialog_title_export_deny)
-                dialog.message = resources.getString(R.string.dialog_text_export_deny)
-                return dialog
-            }
-
-            fun getImportPermission(): MessageDialog {
-                val dialog = MessageDialog()
-                dialog.type = MessageType.Info
-                dialog.title = resources.getString(R.string.dialog_title_import_permission)
-                dialog.message = resources.getString(R.string.dialog_text_import_permission)
-                return dialog
-            }
-
-            fun getImportDeny(): MessageDialog {
-                val dialog = MessageDialog()
-                dialog.type = MessageType.Info
-                dialog.title = resources.getString(R.string.dialog_title_import_deny)
-                dialog.message = resources.getString(R.string.dialog_text_import_deny)
-                return dialog
-            }
+        class Backup(resources: Resources) : Permissions(resources) {
 
             fun getImport(): SingleDialog {
                 val dialog = SingleDialog() // TODO NEUTRAL BUTTON

@@ -48,13 +48,13 @@
     <string name="dialog_text_volume" translatable="false">%d%%</string>
     <string name="dialog_text_loading">Loading</string>
 
-    <string name="dialog_title_melody_permission">Required permission</string>
+    <string name="dialog_title_melody_permission">Permission required</string>
     <string name="dialog_text_melody_permission">
         In order to use the melodies located on the SD card, application needs your permission.
         Otherwise some ringtones will not be available to you.
     </string>
 
-    <string name="dialog_title_export_permission">Required permission</string>
+    <string name="dialog_title_export_permission">Permission required</string>
     <string name="dialog_text_export_permission">
         In order to save backup file, application needs your permission.
         Otherwise we can\'t do it for you.
@@ -66,7 +66,7 @@
         Turn on \"Storage\" permission in application settings.
     </string>
 
-    <string name="dialog_title_import_permission">Required permission</string>
+    <string name="dialog_title_import_permission">Permission required</string>
     <string name="dialog_text_import_permission">
         In order to find all backup files, application needs your permission.
         Otherwise we can\'t do it for you.
@@ -82,7 +82,20 @@
 
     <string name="dialog_title_repeat">Select repeat</string>
 
+    <string name="dialog_title_notification_permission">Permission required</string>
+    <string name="dialog_text_notification_permission">
+        In order to pin note in status bar, application needs your permission.
+        Otherwise we can\'t do it for you.
+    </string>
+
+    <string name="dialog_title_notification_deny">Turn on permission</string>
+    <string name="dialog_text_notification_deny">
+        We can\'t pin note in status bar without necessary permission.
+        Turn on \"Notifications\" permission in application settings.
+    </string>
+
     <!-- Dialog menu buttons -->
+
     <string name="dialog_menu_delete">Delete</string>
     <string name="dialog_menu_restore">Restore</string>
     <string name="dialog_menu_clear">Delete forever</string>
