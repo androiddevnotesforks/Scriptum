@@ -44,50 +44,33 @@
 
     <string name="dialog_text_loading">Загрузка</string>
 
+    <string name="dialog_title_import">Выберите файл</string>
+    <string name="dialog_title_repeat">Выбрать повтор</string>
+
+    <!--  Permissions  -->
+
+    <string name="dialog_title_notification_deny">Требуется разрешение</string>
+    <string name="dialog_text_notification_deny">
+        Для закрепления заметок в шторке, приложению необходимо ваше разрешение.
+        Пройдите в настройки приложения и включите рахрешение \"Уведомления\".
+    </string>
+
+    <string name="dialog_title_export_deny">Требуется разрешение</string>
+    <string name="dialog_text_export_deny">
+        Для сохранения файла, приложению необходимо ваше разрешение.
+        Пройдите в настройки приложения и включите рахрешение \"Хранилище\".
+    </string>
+
+    <string name="dialog_title_import_deny">Требуется разрешение</string>
+    <string name="dialog_text_import_deny">
+        Для поиска всех файлов восстановления данных, приложению необходимо ваше разрешение.
+        Пройдите в настройки приложения и включите рахрешение \"Хранилище\".
+    </string>
+
     <string name="dialog_title_melody_permission">Требуется разрешение</string>
     <string name="dialog_text_melody_permission">
         Для того что бы использовать мелодии находящиеся на SD карте,
         приложению необходимо ваше разрешение. Иначе некоторые мелодии будут не доступны для вас.
-    </string>
-
-    <string name="dialog_title_export_permission">Требуется разрешение</string>
-    <string name="dialog_text_export_permission">
-        Для сохранения файла с резервной копией, приложению необходимо ваше разрешение.
-        Иначе мы не сможем сделать это для вас.
-    </string>
-
-    <string name="dialog_title_export_deny">Включите разрешение</string>
-    <string name="dialog_text_export_deny">
-        Мы не можем выполнить создание резервной копии без нужного разрешения.
-        Пройдите в настройки приложения и включите рахрешение \"Хранилище\".
-    </string>
-
-    <string name="dialog_title_import_permission">Требуется разрешение</string>
-    <string name="dialog_text_import_permission">
-        Для поиска всех файлов восстановления данных, приложению необходимо ваше разрешение.
-        Иначе мы не сможем сделать это для вас.
-    </string>
-
-    <string name="dialog_title_import_deny">Включите разрешение</string>
-    <string name="dialog_text_import_deny">
-        Мы не можем начать поиск файлов для восстановления данных без нужного разрешения.
-        Пройдите в настройки приложения и включите рахрешение \"Хранилище\".
-    </string>
-
-    <string name="dialog_title_import">Выберите файл</string>
-
-    <string name="dialog_title_repeat">Выбрать повтор</string>
-
-    <string name="dialog_title_notification_permission">Требуется разрешение</string>
-    <string name="dialog_text_notification_permission">
-        Для закрепления заметок в шторке, приложению необходимо ваше разрешение.
-        Иначе мы не сможем сделать это для вас.
-    </string>
-
-    <string name="dialog_title_notification_deny">Включите разрешение</string>
-    <string name="dialog_text_notification_deny">
-        Мы не можем закрепить заметку в шторке без нужного разрешения.
-        Пройдите в настройки приложения и включите рахрешение \"Уведомления\".
     </string>
 
     <!-- Dialog menu buttons -->

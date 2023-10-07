@@ -78,11 +78,6 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     }
 
     private val dialogs by lazy { DialogFactory.Main(resources) }
-    private val notificationsPermissionDialog = DialogStorage(
-        DialogFactory.Main.NOTIFICATIONS_PERMISSION, owner = this,
-        create = { dialogs.getNotificationsPermission() },
-        setup = { setupNotificationsPermissionDialog(it) }
-    )
     private val notificationsDenyDialog = DialogStorage(
         DialogFactory.Main.NOTIFICATIONS_DENY, owner = this,
         create = { dialogs.getNotificationsDeny() },
@@ -154,7 +149,11 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
 
         when (result) {
             PermissionResult.OLD_API -> onNotificationsPermissionGranted()
-            PermissionResult.ASK -> showNotificationsPermissionDialog()
+            PermissionResult.ASK -> {
+                notificationsPermissionRequest.launch(
+                    notificationsPermissionState, permissionViewModel
+                )
+            }
             PermissionResult.FORBIDDEN -> showNotificationsDenyDialog()
             PermissionResult.GRANTED -> onNotificationsPermissionGranted()
             PermissionResult.NEW_API -> return /** Not reachable for NOTIFICATIONS permission. */
@@ -168,22 +167,10 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override fun setupDialogs() {
         super.setupDialogs()
 
-        notificationsPermissionDialog.restore()
         notificationsDenyDialog.restore()
         optionsDialog.restore()
         dateDialog.restore()
         timeDialog.restore()
-    }
-
-    private fun setupNotificationsPermissionDialog(dialog: MessageDialog): Unit = with(dialog) {
-        isCancelable = false
-        onPositiveClick {
-            notificationsPermissionRequest.launch(notificationsPermissionState, permissionViewModel)
-        }
-        onDismiss {
-            notificationsPermissionDialog.release()
-            open.clear()
-        }
     }
 
     private fun setupNotificationsDenyDialog(dialog: MessageDialog): Unit = with(dialog) {
@@ -276,10 +263,6 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
         val context = context ?: return
 
         parentOpen?.attempt { startActivity(Screens.Note.toExist(context, item)) }
-    }
-
-    private fun showNotificationsPermissionDialog() = open.attempt {
-        notificationsPermissionDialog.show()
     }
 
     private fun showNotificationsDenyDialog() = open.attempt { notificationsDenyDialog.show() }

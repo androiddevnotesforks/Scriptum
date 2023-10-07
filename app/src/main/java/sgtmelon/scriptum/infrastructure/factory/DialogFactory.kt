@@ -26,51 +26,11 @@ object DialogFactory {
     /** Abstract class for all places where permission needed. */
     abstract class Permissions(protected val resources: Resources) {
 
-        fun getNotificationsPermission(): MessageDialog {
-            val dialog = MessageDialog()
-            dialog.type = MessageType.Info
-            dialog.title = resources.getString(R.string.dialog_title_notification_permission)
-            dialog.message = resources.getString(R.string.dialog_text_notification_permission)
-            return dialog
-        }
-
         fun getNotificationsDeny(): MessageDialog {
             val dialog = MessageDialog()
             dialog.type = MessageType.Info
             dialog.title = resources.getString(R.string.dialog_title_notification_deny)
             dialog.message = resources.getString(R.string.dialog_text_notification_deny)
-            return dialog
-        }
-
-        fun getExportPermission(): MessageDialog {
-            val dialog = MessageDialog()
-            dialog.type = MessageType.Info
-            dialog.title = resources.getString(R.string.dialog_title_export_permission)
-            dialog.message = resources.getString(R.string.dialog_text_export_permission)
-            return dialog
-        }
-
-        fun getExportDeny(): MessageDialog {
-            val dialog = MessageDialog()
-            dialog.type = MessageType.Info
-            dialog.title = resources.getString(R.string.dialog_title_export_deny)
-            dialog.message = resources.getString(R.string.dialog_text_export_deny)
-            return dialog
-        }
-
-        fun getImportPermission(): MessageDialog {
-            val dialog = MessageDialog()
-            dialog.type = MessageType.Info
-            dialog.title = resources.getString(R.string.dialog_title_import_permission)
-            dialog.message = resources.getString(R.string.dialog_text_import_permission)
-            return dialog
-        }
-
-        fun getImportDeny(): MessageDialog {
-            val dialog = MessageDialog()
-            dialog.type = MessageType.Info
-            dialog.title = resources.getString(R.string.dialog_title_import_deny)
-            dialog.message = resources.getString(R.string.dialog_text_import_deny)
             return dialog
         }
     }
@@ -122,9 +82,7 @@ object DialogFactory {
         companion object {
             private const val PREFIX = "DIALOG_MAIN"
 
-            const val NOTIFICATIONS_PERMISSION = "${PREFIX}_NOTIFICATIONS_PERMISSION"
             const val NOTIFICATIONS_DENY = "${PREFIX}_NOTIFICATIONS_DENY"
-
             const val NOTIFICATIONS = "${PREFIX}_NOTIFICATIONS"
             const val RENAME = "${PREFIX}_RENAME"
             const val ADD = "${PREFIX}_ADD"
@@ -167,9 +125,7 @@ object DialogFactory {
         companion object {
             private const val PREFIX = "DIALOG_NOTE"
 
-            const val NOTIFICATIONS_PERMISSION = "${PREFIX}_NOTIFICATIONS_PERMISSION"
             const val NOTIFICATIONS_DENY = "${PREFIX}_NOTIFICATIONS_DENY"
-
             const val DATE = "${PREFIX}_DATE"
             const val TIME = "${PREFIX}_TIME"
             const val CONVERT = "${PREFIX}_CONVERT"
@@ -201,6 +157,22 @@ object DialogFactory {
 
         class Backup(resources: Resources) : Permissions(resources) {
 
+            fun getExportDeny(): MessageDialog {
+                val dialog = MessageDialog()
+                dialog.type = MessageType.Info
+                dialog.title = resources.getString(R.string.dialog_title_export_deny)
+                dialog.message = resources.getString(R.string.dialog_text_export_deny)
+                return dialog
+            }
+
+            fun getImportDeny(): MessageDialog {
+                val dialog = MessageDialog()
+                dialog.type = MessageType.Info
+                dialog.title = resources.getString(R.string.dialog_title_import_deny)
+                dialog.message = resources.getString(R.string.dialog_text_import_deny)
+                return dialog
+            }
+
             fun getImport(): SingleDialog {
                 val dialog = SingleDialog() // TODO NEUTRAL BUTTON
                 dialog.applyEnable = true
@@ -213,9 +185,7 @@ object DialogFactory {
             companion object {
                 private const val PREFIX = "DIALOG_PREF_BACKUP"
 
-                const val EXPORT_PERMISSION = "${PREFIX}_EXPORT_PERMISSION"
                 const val EXPORT_DENY = "${PREFIX}_EXPORT_DENY"
-                const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
                 const val IMPORT_DENY = "${PREFIX}_IMPORT_DENY"
                 const val IMPORT = "${PREFIX}_IMPORT"
                 const val LOADING = "${PREFIX}_LOADING"

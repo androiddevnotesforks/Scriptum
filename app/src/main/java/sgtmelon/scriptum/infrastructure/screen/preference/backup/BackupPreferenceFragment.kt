@@ -82,20 +82,10 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
     }
 
     private val dialogs by lazy { DialogFactory.Preference.Backup(resources) }
-    private val exportPermissionDialog = DialogStorage(
-        DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this,
-        create = { dialogs.getExportPermission() },
-        setup = { setupExportPermissionDialog(it) }
-    )
     private val exportDenyDialog = DialogStorage(
         DialogFactory.Preference.Backup.EXPORT_DENY, owner = this,
         create = { dialogs.getExportDeny() },
         setup = { setupExportDenyDialog(it) }
-    )
-    private val importPermissionDialog = DialogStorage(
-        DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this,
-        create = { dialogs.getImportPermission() },
-        setup = { setupImportPermissionDialog(it) }
     )
     private val importDenyDialog = DialogStorage(
         DialogFactory.Preference.Backup.IMPORT_DENY, owner = this,
@@ -197,7 +187,9 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
 
         when (result) {
             PermissionResult.OLD_API -> return /** Not reachable for WRITE_STORAGE permission. */
-            PermissionResult.ASK -> showExportPermissionDialog()
+            PermissionResult.ASK -> {
+                exportPermissionRequest.launch(writePermissionState, permissionViewModel)
+            }
             PermissionResult.FORBIDDEN -> showExportDenyDialog()
             PermissionResult.GRANTED -> onExportPermissionGranted()
             PermissionResult.NEW_API -> onExportPermissionGranted()
@@ -228,7 +220,9 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
 
         when (result) {
             PermissionResult.OLD_API -> return /** Not reachable for WRITE_STORAGE permission. */
-            PermissionResult.ASK -> showImportPermissionDialog()
+            PermissionResult.ASK -> {
+                importPermissionRequest.launch(writePermissionState, permissionViewModel)
+            }
             PermissionResult.FORBIDDEN -> showImportDenyDialog()
             PermissionResult.GRANTED -> onImportPermissionGranted()
             PermissionResult.NEW_API -> onImportPermissionGranted()
@@ -248,40 +242,16 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
     override fun setupDialogs() {
         super.setupDialogs()
 
-        exportPermissionDialog.restore()
         exportDenyDialog.restore()
-        importPermissionDialog.restore()
         importDenyDialog.restore()
         importDialog.restore()
         loadingDialog.restore()
-    }
-
-    private fun setupExportPermissionDialog(dialog: MessageDialog): Unit = with(dialog) {
-        isCancelable = false
-        onPositiveClick {
-            exportPermissionRequest.launch(writePermissionState, permissionViewModel)
-        }
-        onDismiss {
-            exportPermissionDialog.release()
-            open.clear()
-        }
     }
 
     private fun setupExportDenyDialog(dialog: MessageDialog): Unit = with(dialog) {
         onPositiveClick { context?.startSettingsActivity(system?.toast) }
         onDismiss {
             exportDenyDialog.release()
-            open.clear()
-        }
-    }
-
-    private fun setupImportPermissionDialog(dialog: MessageDialog): Unit = with(dialog) {
-        isCancelable = false
-        onPositiveClick {
-            importPermissionRequest.launch(writePermissionState, permissionViewModel)
-        }
-        onDismiss {
-            importPermissionDialog.release()
             open.clear()
         }
     }
@@ -314,13 +284,9 @@ class BackupPreferenceFragment : PreferenceFragment<BackupPreferenceBinding>(),
 
     //region Dialogs show and actions
 
-    private fun showExportPermissionDialog() = open.attempt { exportPermissionDialog.show() }
-
     private fun showExportDenyDialog() = open.attempt { exportDenyDialog.show() }
 
     private fun showExportLoadingDialog() = open.attempt { loadingDialog.show() }
-
-    private fun showImportPermissionDialog() = open.attempt { importPermissionDialog.show() }
 
     private fun showImportDenyDialog() = open.attempt { importDenyDialog.show() }
 
