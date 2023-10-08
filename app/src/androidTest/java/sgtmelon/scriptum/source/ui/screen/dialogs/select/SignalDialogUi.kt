@@ -3,7 +3,7 @@ package sgtmelon.scriptum.source.ui.screen.dialogs.select
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.source.ui.parts.dialog.MultipleDialogUi
+import sgtmelon.scriptum.source.ui.parts.dialog.MultipleDialogPart
 import sgtmelon.test.cappuccino.utils.click
 
 /**
@@ -12,7 +12,7 @@ import sgtmelon.test.cappuccino.utils.click
  */
 class SignalDialogUi(
     override val initCheck: BooleanArray
-) : MultipleDialogUi(
+) : MultipleDialogPart(
     R.string.pref_title_alarm_signal,
     R.array.pref_signal,
     needOneSelect = true

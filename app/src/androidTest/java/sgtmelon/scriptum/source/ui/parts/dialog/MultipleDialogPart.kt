@@ -14,7 +14,7 @@ import sgtmelon.test.cappuccino.utils.withTextColor
 /**
  * Class for UI control of [MultipleDialog] with fixed size.
  */
-abstract class MultipleDialogUi(
+abstract class MultipleDialogPart(
     @StringRes private val titleId: Int,
     @ArrayRes private val textArrayId: Int,
     private val needOneSelect: Boolean
