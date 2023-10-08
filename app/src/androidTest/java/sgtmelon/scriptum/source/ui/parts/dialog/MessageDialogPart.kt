@@ -20,7 +20,7 @@ abstract class MessageDialogPart(
     @StringRes titleId: Int,
     @StringRes messageId: Int,
     @StringRes positiveId: Int,
-    @StringRes negativeId: Int,
+    @StringRes negativeId: Int? = null,
     @StringRes neutralId: Int? = null
 ): UiPart(),
     DialogUi {
@@ -31,7 +31,7 @@ abstract class MessageDialogPart(
     private val titleText = getViewByText(titleId)
     private val messageText = getViewByText(messageId)
     private val positiveButton = getViewByText(positiveId)
-    private val negativeButton = getViewByText(negativeId)
+    private val negativeButton = negativeId?.let(::getViewByText)
     private val neutralButton = neutralId?.let(::getViewByText)
 
     fun positive() = waitClose {
@@ -41,7 +41,10 @@ abstract class MessageDialogPart(
 
     open fun onPositiveResult() = Unit
 
-    fun negative() = waitClose { negativeButton.click() }
+    fun negative() = waitClose {
+        assertNotNull(negativeButton)
+        negativeButton?.click()
+    }
 
     fun neutral() = waitClose {
         assertNotNull(neutralButton)
@@ -53,7 +56,7 @@ abstract class MessageDialogPart(
         messageText.isDisplayed().withTextColor(R.attr.clContent)
 
         positiveButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
-        negativeButton.isDisplayed().isEnabled().withTextColor(negativeAttr)
+        negativeButton?.isDisplayed()?.isEnabled()?.withTextColor(negativeAttr)
         neutralButton?.isDisplayed()?.isEnabled()?.withTextColor(neutralAttr)
     }
 }
