@@ -4,6 +4,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import junit.framework.Assert.assertNotNull
+import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.source.ui.feature.DialogUi
@@ -24,6 +25,12 @@ abstract class MessageDialogPart(
     @StringRes neutralId: Int? = null
 ): UiPart(),
     DialogUi {
+
+    constructor(
+        @StringRes titleId: Int,
+        @StringRes messageId: Int,
+        type: MessageType
+    ) : this(titleId, messageId, type.positiveButton, type.negativeButton, type.neutralButton)
 
     @get:AttrRes open val negativeAttr: Int = R.attr.clContentSecond
     @get:AttrRes open val neutralAttr: Int = R.attr.clAccent

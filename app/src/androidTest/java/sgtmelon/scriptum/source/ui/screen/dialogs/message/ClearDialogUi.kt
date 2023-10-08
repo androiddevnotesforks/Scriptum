@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.source.ui.screen.dialogs.message
 
+import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.source.ui.parts.dialog.MessageDialogPart
@@ -10,8 +11,7 @@ import sgtmelon.scriptum.source.ui.parts.dialog.MessageDialogPart
 class ClearDialogUi : MessageDialogPart(
     R.string.dialog_title_clear_bin,
     R.string.dialog_text_clear_bin,
-    sgtmelon.safedialog.R.string.dialog_button_yes,
-    sgtmelon.safedialog.R.string.dialog_button_no
+    MessageType.Choice
 ) {
 
     companion object {

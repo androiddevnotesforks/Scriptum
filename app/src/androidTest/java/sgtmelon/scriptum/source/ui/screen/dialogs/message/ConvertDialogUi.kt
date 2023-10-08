@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.source.ui.screen.dialogs.message
 
+import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -20,8 +21,7 @@ class ConvertDialogUi(
         NoteType.TEXT -> R.string.dialog_text_convert_text
         NoteType.ROLL -> R.string.dialog_roll_convert_roll
     },
-    sgtmelon.safedialog.R.string.dialog_button_yes,
-    sgtmelon.safedialog.R.string.dialog_button_no
+    MessageType.Choice
 ) {
 
     override fun onPositiveResult() = callback.onConvertDialogResult()
