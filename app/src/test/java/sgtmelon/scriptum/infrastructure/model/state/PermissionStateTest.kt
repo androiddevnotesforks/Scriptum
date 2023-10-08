@@ -47,7 +47,31 @@ class PermissionStateTest : ParentTest() {
         assertNull(state.getResult(activity = null, viewModel))
     }
 
+    @Test fun `getResult oldApi`() {
+        every { permission.isOldApi } returns true
+
+        assertEquals(state.getResult(activity, viewModel), PermissionResult.OLD_API)
+
+        verifySequence {
+            permission.isOldApi
+        }
+    }
+
+    @Test fun `getResult newApi`() {
+        every { permission.isOldApi } returns false
+        every { permission.isNewApi } returns true
+
+        assertEquals(state.getResult(activity, viewModel), PermissionResult.NEW_API)
+
+        verifySequence {
+            permission.isOldApi
+            permission.isNewApi
+        }
+    }
+
     @Test fun `getResult granted`() {
+        every { permission.isOldApi } returns false
+        every { permission.isNewApi } returns false
         every { activity.checkSelfPermission(value) } returns PackageManager.PERMISSION_GRANTED
         every { activity.shouldShowRequestPermissionRationale(value) } returns Random.nextBoolean()
         every { viewModel.isCalled(key) } returns Random.nextBoolean()
@@ -55,6 +79,9 @@ class PermissionStateTest : ParentTest() {
         assertEquals(state.getResult(activity, viewModel), PermissionResult.GRANTED)
 
         verifySequence {
+            permission.isOldApi
+            permission.isNewApi
+
             permission.value
             activity.checkSelfPermission(value)
             permission.value
@@ -67,6 +94,8 @@ class PermissionStateTest : ParentTest() {
     }
 
     @Test fun `getResult forbidden`() {
+        every { permission.isOldApi } returns false
+        every { permission.isNewApi } returns false
         every { activity.checkSelfPermission(value) } returns PackageManager.PERMISSION_DENIED
         every { activity.shouldShowRequestPermissionRationale(value) } returns false
         every { viewModel.isCalled(key) } returns true
@@ -74,6 +103,9 @@ class PermissionStateTest : ParentTest() {
         assertEquals(state.getResult(activity, viewModel), PermissionResult.FORBIDDEN)
 
         verifySequence {
+            permission.isOldApi
+            permission.isNewApi
+
             permission.value
             activity.checkSelfPermission(value)
             permission.value
@@ -86,6 +118,9 @@ class PermissionStateTest : ParentTest() {
     }
 
     @Test fun `getResult ask`() {
+        every { permission.isOldApi } returns false
+        every { permission.isNewApi } returns false
+
         every { activity.checkSelfPermission(value) } returns PackageManager.PERMISSION_DENIED
 
         every { activity.shouldShowRequestPermissionRationale(value) } returns false
@@ -102,6 +137,9 @@ class PermissionStateTest : ParentTest() {
 
         verifySequence {
             repeat(times = 3) {
+                permission.isOldApi
+                permission.isNewApi
+
                 permission.value
                 activity.checkSelfPermission(value)
                 permission.value

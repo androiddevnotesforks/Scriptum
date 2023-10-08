@@ -69,7 +69,7 @@ class AlarmPreferenceViewModelImplTest : ParentPreferenceViewModelTest() {
 
     @Test fun `getSignalSummary value`() = getSummaryTest(signalSummary) { viewModel.signalSummary }
 
-    @Test fun updateSignal() {
+    @Test fun todo_updateSignal() {
         TODO()
     }
 
