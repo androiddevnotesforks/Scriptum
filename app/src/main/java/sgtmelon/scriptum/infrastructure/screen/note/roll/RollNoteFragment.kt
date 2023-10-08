@@ -33,6 +33,7 @@ import sgtmelon.scriptum.infrastructure.model.state.OpenState
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.screen.parent.list.ListScreen
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.infrastructure.utils.extensions.clearText
 import sgtmelon.scriptum.infrastructure.utils.extensions.disableChangeAnimations
 import sgtmelon.scriptum.infrastructure.utils.extensions.getItem
@@ -58,6 +59,7 @@ class RollNoteFragment : ParentNoteFragment<NoteItem.Roll, FragmentRollNoteBindi
     override val type: NoteType = NoteType.ROLL
 
     @Inject override lateinit var viewModel: RollNoteViewModel
+    @Inject override lateinit var permissionViewModel: PermissionViewModel
     @Inject override lateinit var noteSave: NoteSave
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar

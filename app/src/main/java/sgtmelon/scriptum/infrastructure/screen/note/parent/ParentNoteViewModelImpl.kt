@@ -212,17 +212,17 @@ abstract class ParentNoteViewModelImpl<N : NoteItem>(
         emit(item)
     }
 
-    override fun switchBind() {
-        if (isEditMode) return
+    override fun switchBind(): Flow<N> = flowBack {
+        if (isEditMode) return@flowBack
 
-        viewModelScope.launch {
-            val item = noteItem.value ?: return@launch
-            item.switchStatus()
-            runBack { updateNote(item) }
+        val item = noteItem.value ?: return@flowBack
 
-            cacheNote(item)
-            noteItem.postValue(item)
-        }
+        item.switchStatus()
+        updateNote(item)
+        cacheNote(item)
+
+        noteItem.postValue(item)
+        emit(item)
     }
 
     override fun convert(): Flow<NoteItem> = flowBack {

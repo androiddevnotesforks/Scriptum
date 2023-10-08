@@ -155,7 +155,7 @@ object DialogFactory {
             }
         }
 
-        class Backup(resources: Resources) : Permissions(resources) {
+        class Backup(private val resources: Resources) {
 
             fun getExportDeny(): MessageDialog {
                 val dialog = MessageDialog()

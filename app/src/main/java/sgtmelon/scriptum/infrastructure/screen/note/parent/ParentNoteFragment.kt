@@ -37,9 +37,12 @@ import sgtmelon.scriptum.infrastructure.listener.HistoryTextWatcher
 import sgtmelon.scriptum.infrastructure.model.data.IdlingTag
 import sgtmelon.scriptum.infrastructure.model.key.NoteState
 import sgtmelon.scriptum.infrastructure.model.key.ReceiverFilter
+import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
+import sgtmelon.scriptum.infrastructure.model.key.permission.PermissionResult
 import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.model.state.OpenState
+import sgtmelon.scriptum.infrastructure.model.state.PermissionState
 import sgtmelon.scriptum.infrastructure.model.state.list.ShowListState
 import sgtmelon.scriptum.infrastructure.screen.note.NoteActivity
 import sgtmelon.scriptum.infrastructure.screen.note.NoteConnector
@@ -47,21 +50,25 @@ import sgtmelon.scriptum.infrastructure.screen.note.history.HistoryTicker
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSaveImpl
 import sgtmelon.scriptum.infrastructure.screen.parent.BindingFragment
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.infrastructure.utils.extensions.hideKeyboard
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.InsetsDir
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.doOnApplyWindowInsets
 import sgtmelon.scriptum.infrastructure.utils.extensions.insets.updatePadding
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
+import sgtmelon.scriptum.infrastructure.utils.extensions.launch
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveAlarm
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.haveRank
 import sgtmelon.scriptum.infrastructure.utils.extensions.note.isSaveEnabled
+import sgtmelon.scriptum.infrastructure.utils.extensions.registerPermissionRequest
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
 import sgtmelon.scriptum.infrastructure.utils.extensions.setEditorNextAction
 import sgtmelon.scriptum.infrastructure.utils.extensions.setOnTouchSelectionListener
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextIfDifferent
 import sgtmelon.scriptum.infrastructure.utils.extensions.setTextSelectionSafe
+import sgtmelon.scriptum.infrastructure.utils.extensions.startSettingsActivity
 import sgtmelon.scriptum.infrastructure.utils.icons.BackToCancelIcon
 import sgtmelon.scriptum.infrastructure.utils.tint.TintNoteToolbar
 import sgtmelon.test.idling.getIdling
@@ -78,6 +85,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
     abstract val type: NoteType
 
     abstract val viewModel: ParentNoteViewModel<N>
+    abstract val permissionViewModel: PermissionViewModel
     abstract val noteSave: NoteSave
 
     abstract val appBar: IncToolbarNoteBinding?
@@ -90,8 +98,26 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
 
+    private val notificationsPermissionState = PermissionState(Permission.Notifications)
+
+    /**
+     * We don't pass [PermissionResult.FORBIDDEN] (isGranted==false) if permission not granted.
+     * Just skip it, user make a decision.
+     *
+     * [PermissionResult.FORBIDDEN] will be a final stage, when we display deny dialog
+     * (which will open app settings after "OK" click).
+     */
+    private val notificationsPermissionRequest = registerPermissionRequest { isGranted ->
+        if (isGranted) onNotificationsPermission(PermissionResult.GRANTED)
+    }
+
     private val dialogs by lazy { DialogFactory.Note(resources) }
     private val dialogOwner: DialogOwner get() = this
+    private val notificationsDenyDialog = DialogStorage(
+        DialogFactory.Note.NOTIFICATIONS_DENY, dialogOwner,
+        create = { dialogs.getNotificationsDeny() },
+        setup = { setupNotificationsDenyDialog(it) }
+    )
     private val convertDialog = DialogStorage(
         DialogFactory.Note.CONVERT, dialogOwner,
         create = { dialogs.getConvert(type) },
@@ -235,7 +261,12 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
             return@setOnLongClickListener true
         }
         panelBar.notificationButton.setOnClickListener { showDateDialog() }
-        panelBar.bindButton.setOnClickListener { viewModel.switchBind() }
+        panelBar.bindButton.setOnClickListener {
+            viewModel.switchBind().collect(owner = this) {
+                val result = notificationsPermissionState.getResult(activity, permissionViewModel)
+                onNotificationsPermission(result)
+            }
+        }
         panelBar.convertButton.setOnClickListener { showConvertDialog() }
         panelBar.deleteButton.setOnClickListener {
             open.ifNotBlocked {
@@ -269,14 +300,47 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
 
     @CallSuper open fun setupContent() = Unit
 
+    /**
+     * Notify binds only if [result] equals [PermissionResult.GRANTED]/[PermissionResult.OLD_API],
+     * otherwise we must show dialog.
+     */
+    private fun onNotificationsPermission(result: PermissionResult?) {
+        if (result == null) return
+
+        when (result) {
+            PermissionResult.OLD_API -> onNotificationsPermissionGranted()
+            PermissionResult.ASK -> {
+                notificationsPermissionRequest.launch(
+                    notificationsPermissionState, permissionViewModel
+                )
+            }
+            PermissionResult.FORBIDDEN -> showNotificationsDenyDialog()
+            PermissionResult.GRANTED -> onNotificationsPermissionGranted()
+            PermissionResult.NEW_API -> return /** Not reachable for NOTIFICATIONS permission. */
+        }
+    }
+
+    private fun onNotificationsPermissionGranted() {
+        system?.broadcast?.sendNotifyNotesBind()
+    }
+
     override fun setupDialogs() {
         super.setupDialogs()
 
+        notificationsDenyDialog.restore()
         convertDialog.restore()
         rankDialog.restore()
         colorDialog.restore()
         dateDialog.restore()
         timeDialog.restore()
+    }
+
+    private fun setupNotificationsDenyDialog(dialog: MessageDialog): Unit = with(dialog) {
+        onPositiveClick { context?.startSettingsActivity(system?.toast) }
+        onDismiss {
+            notificationsDenyDialog.release()
+            open.clear()
+        }
     }
 
     private fun setupConvertDialog(dialog: MessageDialog): Unit = with(dialog) {
@@ -591,6 +655,17 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
 
     //region Dialogs
 
+    private fun showNotificationsDenyDialog() = open.attempt { notificationsDenyDialog.show() }
+
+    private fun showConvertDialog() {
+        if (viewModel.isEditMode) return
+
+        hideKeyboard()
+        open.attempt {
+            convertDialog.show()
+        }
+    }
+
     private fun showRankDialog() {
         if (viewModel.isReadMode) return
 
@@ -633,15 +708,6 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         hideKeyboard()
         open.attempt(OpenState.Tag.DIALOG) {
             timeDialog.show { setArguments(calendar, dateList) }
-        }
-    }
-
-    private fun showConvertDialog() {
-        if (viewModel.isEditMode) return
-
-        hideKeyboard()
-        open.attempt {
-            convertDialog.show()
         }
     }
 

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.screen.note.parent
 
 import androidx.lifecycle.LiveData
-import java.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.data.noteHistory.NoteHistoryEnableControl
@@ -13,6 +12,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.receiver.screen.UnbindNoteReceiver
 import sgtmelon.scriptum.infrastructure.utils.extensions.isFalse
 import sgtmelon.scriptum.infrastructure.utils.extensions.isTrue
+import java.util.Calendar
 
 interface ParentNoteViewModel<N : NoteItem> :
     UnbindNoteReceiver.Callback,
@@ -94,7 +94,7 @@ interface ParentNoteViewModel<N : NoteItem> :
 
     fun removeNotification(): Flow<N>
 
-    fun switchBind()
+    fun switchBind(): Flow<N>
 
     fun convert(): Flow<NoteItem>
 

@@ -141,8 +141,8 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     }
 
     /**
-     * Notify binds only if [result] equals [PermissionResult.GRANTED], otherwise we must
-     * show dialog.
+     * Notify binds only if [result] equals [PermissionResult.GRANTED]/[PermissionResult.OLD_API],
+     * otherwise we must show dialog.
      */
     private fun onNotificationsPermission(result: PermissionResult?) {
         if (result == null) return
@@ -266,7 +266,6 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     }
 
     private fun showNotificationsDenyDialog() = open.attempt { notificationsDenyDialog.show() }
-
 
     private fun showOptionsDialog(item: NoteItem, p: Int) {
         parentOpen?.attempt {

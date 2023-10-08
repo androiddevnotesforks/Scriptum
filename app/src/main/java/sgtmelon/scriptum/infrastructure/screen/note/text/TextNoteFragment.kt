@@ -17,6 +17,7 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Color
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.note.parent.ParentNoteFragment
 import sgtmelon.scriptum.infrastructure.screen.note.save.NoteSave
+import sgtmelon.scriptum.infrastructure.screen.parent.permission.PermissionViewModel
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeInvisible
 import sgtmelon.scriptum.infrastructure.utils.extensions.makeVisibleIf
 import sgtmelon.scriptum.infrastructure.utils.extensions.requestFocusWithCursor
@@ -35,6 +36,7 @@ class TextNoteFragment : ParentNoteFragment<NoteItem.Text, FragmentTextNoteBindi
     override val type: NoteType = NoteType.TEXT
 
     @Inject override lateinit var viewModel: TextNoteViewModel
+    @Inject override lateinit var permissionViewModel: PermissionViewModel
     @Inject override lateinit var noteSave: NoteSave
 
     override val appBar: IncToolbarNoteBinding? get() = binding?.appBar
