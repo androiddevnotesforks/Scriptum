@@ -92,16 +92,16 @@
     <string name="dialog_menu_convert_text">Convert to list</string>
 
     <string-array name="dialog_menu_text">
-        <item />
-        <item />
+        <item /> <!-- set/update notification -->
+        <item /> <!-- bind/unbind note -->
         <item>@string/dialog_menu_convert_text</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
 
     <string-array name="dialog_menu_roll">
-        <item />
-        <item />
+        <item /> <!-- set/update notification -->
+        <item /> <!-- bind/unbind note -->
         <item>@string/dialog_menu_convert_roll</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
