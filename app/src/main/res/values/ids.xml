@@ -13,6 +13,10 @@
 
     <item name="toolbar_container" type="id"/>
 
+    <!--
+        Notification icon ids - needed for prevent crash case: resource id
+        not found on notification push.
+    -->
     <item name="notif_bind_group" type="drawable"/>
     <item name="notif_bind_roll" type="drawable"/>
     <item name="notif_bind_text" type="drawable"/>
