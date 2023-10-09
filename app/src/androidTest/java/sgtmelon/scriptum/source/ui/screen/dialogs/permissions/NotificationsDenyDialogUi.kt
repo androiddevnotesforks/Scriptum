@@ -6,7 +6,7 @@ import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.source.ui.parts.dialog.permission.PermissionInfoDialogPart
 
 /**
- * Class for UI control of [MessageDialog] which open after [Permission.Notifications] deny
+ * Class for UI control of [MessageDialog] which open after [Permission.PostNotifications] deny
  * to inform user.
  */
 class NotificationsDenyDialogUi : PermissionInfoDialogPart(

@@ -64,7 +64,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
     override val receiverFilter = ReceiverFilter.NOTES
     override val receiverList get() = listOf(unbindNoteReceiver, infoChangeReceiver)
 
-    private val notificationsPermissionState = PermissionState(Permission.Notifications)
+    private val notificationsPermissionState = PermissionState(Permission.PostNotifications)
 
     /**
      * We don't pass [PermissionResult.FORBIDDEN] (isGranted==false) if permission not granted.

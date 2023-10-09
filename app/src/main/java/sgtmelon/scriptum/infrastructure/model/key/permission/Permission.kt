@@ -31,7 +31,7 @@ sealed class Permission(val value: String, val applyVersion: Int?, val expireVer
     )
 
     /** This permission required only starting from TIRAMISU, don't ask for older versions. */
-    object Notifications : Permission(
+    object PostNotifications : Permission(
         Manifest.permission.POST_NOTIFICATIONS,
         applyVersion = Build.VERSION_CODES.TIRAMISU,
         expireVersion = null

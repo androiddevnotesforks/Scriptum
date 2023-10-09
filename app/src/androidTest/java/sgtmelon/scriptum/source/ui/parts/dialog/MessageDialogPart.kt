@@ -58,7 +58,7 @@ abstract class MessageDialogPart(
         neutralButton?.click()
     }
 
-    @CallSuper open  fun assert() {
+    @CallSuper open fun assert() {
         titleText.isDisplayed().withTextColor(R.attr.clContent)
         messageText.isDisplayed().withTextColor(R.attr.clContent)
 

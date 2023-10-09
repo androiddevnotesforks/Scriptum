@@ -98,7 +98,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
     private var tintToolbar: TintNoteToolbar? = null
     private var navigationIcon: IconChangeCallback? = null
 
-    private val notificationsPermissionState = PermissionState(Permission.Notifications)
+    private val notificationsPermissionState = PermissionState(Permission.PostNotifications)
 
     /**
      * We don't pass [PermissionResult.FORBIDDEN] (isGranted==false) if permission not granted.
