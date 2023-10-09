@@ -110,7 +110,7 @@ class NotesViewModelImpl(
         emit(newItem)
     }
 
-    override fun getNoteText(p: Int): Flow<String> = flowBack {
+    override fun getCopyText(p: Int): Flow<String> = flowBack {
         val item = list.localData.getOrNull(p) ?: return@flowBack
         emit(getCopyText(item))
     }

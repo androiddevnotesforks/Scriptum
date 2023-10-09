@@ -1,10 +1,12 @@
 package sgtmelon.scriptum.source.cases.dialog
 
+import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
+import sgtmelon.scriptum.source.permission.GrantPostNotificationsPermission
 import sgtmelon.scriptum.source.provider.DateProvider
 import sgtmelon.scriptum.source.ui.screen.dialogs.NoteDialogUi
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
@@ -15,8 +17,14 @@ import sgtmelon.scriptum.source.ui.tests.launchNotesItem
  * Parent class for tests of [NoteDialogUi] inside [MainPage.NOTES].
  */
 abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiRotationTest(),
+    GrantPostNotificationsPermission,
     DialogCloseCase,
     DialogRotateCase {
+
+    @Before override fun setUp() {
+        super.setUp()
+        assertPostNotificationsGranted(context)
+    }
 
     abstract fun insert(): NoteItem
 

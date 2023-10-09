@@ -321,7 +321,7 @@ class NotesFragment : BindingFragment<FragmentNotesBinding>(),
             Options.CONVERT -> viewModel.convertNote(p).collect(owner = this) {
                 system?.broadcast?.sendNotifyNotesBind()
             }
-            Options.COPY -> viewModel.getNoteText(p).collect(owner = this) {
+            Options.COPY -> viewModel.getCopyText(p).collect(owner = this) {
                 system?.clipboard?.copy(it)
             }
             Options.DELETE -> viewModel.deleteNote(p).collect(owner = this) {

@@ -3,13 +3,10 @@ package sgtmelon.scriptum.tests.ui.auto.preferences.alarm
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
-import sgtmelon.scriptum.infrastructure.utils.extensions.isPermissionGranted
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.cases.dialog.DialogWorkCase
@@ -37,7 +34,7 @@ class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
     @Before override fun setUp() {
         super.setUp()
 
-        assertTrue(context.isPermissionGranted(Permission.WriteExternalStorage))
+        assertWriteExternalGranted(context)
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 

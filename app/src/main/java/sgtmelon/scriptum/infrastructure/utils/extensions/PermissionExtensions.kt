@@ -20,7 +20,7 @@ fun Boolean.toPermissionResult(): PermissionResult {
     return if (this) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
 }
 
-fun Context.isPermissionGranted(permission: Permission.WriteExternalStorage): Boolean {
+fun Context.isPermissionGranted(permission: Permission): Boolean {
     return checkSelfPermission(permission.value).isGranted()
 }
 

@@ -8,15 +8,12 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.source.cases.dialog.NotesDialogNoteCase
-import sgtmelon.scriptum.source.permission.GrantPostNotificationsPermission
-
 
 /**
  * Test note dialog for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesDialogNoteRollTest : NotesDialogNoteCase(NoteType.ROLL),
-    GrantPostNotificationsPermission {
+class NotesDialogNoteRollTest : NotesDialogNoteCase(NoteType.ROLL) {
 
     override fun insert(): NoteItem = db.insertRoll()
 

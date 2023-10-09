@@ -28,7 +28,7 @@ interface NotesViewModel : ListViewModel<NoteItem>,
 
     fun convertNote(p: Int): Flow<NoteItem>
 
-    fun getNoteText(p: Int): Flow<String>
+    fun getCopyText(p: Int): Flow<String>
 
     fun deleteNote(p: Int): Flow<NoteItem>
 
