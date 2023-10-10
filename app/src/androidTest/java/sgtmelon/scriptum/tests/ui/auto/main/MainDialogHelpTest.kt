@@ -9,7 +9,7 @@ import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchHelpMain
-import sgtmelon.scriptum.tests.ui.control.main.MainDialogHelpTest as MainDialogHelpControlTest
+import sgtmelon.test.common.halfChance
 
 /**
  * Test notifications help dialog for [MainActivity].
@@ -23,6 +23,10 @@ class MainDialogHelpTest : ParentUiRotationTest(),
         super.setUp()
         preferencesRepo.showNotificationsHelp = true
     }
+
+    @Test fun openSettings() = launchHelpMain { openHelpDialog { positive() } }
+
+    @Test fun openChannel() = launchHelpMain { openHelpDialog { negative() } }
 
     @Test override fun close() = launchHelpMain {
         openHelpDialog {
@@ -54,6 +58,10 @@ class MainDialogHelpTest : ParentUiRotationTest(),
         assert()
     }
 
-    /** It will be tested in [MainDialogHelpControlTest.rotateWork]. */
-    override fun rotateWork() = Unit
+    @Test override fun rotateWork() = launchHelpMain {
+        openHelpDialog {
+            rotate.switch()
+            if (halfChance()) positive() else negative()
+        }
+    }
 }

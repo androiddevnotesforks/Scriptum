@@ -5,12 +5,11 @@ import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.screen.main.MainActivity
 import sgtmelon.scriptum.infrastructure.widgets.recycler.RecyclerMainFabListener
 import sgtmelon.scriptum.tests.ui.auto.main.MainDialogAddTest
+import sgtmelon.scriptum.tests.ui.auto.main.MainDialogHelpTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainFabTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainPageTest
 import sgtmelon.scriptum.tests.ui.auto.main.MainScrollTopTest
 import sgtmelon.scriptum.tests.ui.control.main.MainFabGradientTest
-import sgtmelon.scriptum.tests.ui.auto.main.MainDialogHelpTest as MainDialogHelpAutoTest
-import sgtmelon.scriptum.tests.ui.control.main.MainDialogHelpTest as MainDialogHelpControlTest
 
 /**
  * Scenarios for test [MainActivity].
@@ -108,22 +107,22 @@ interface MainScenario {
          * Check dialog close.
          * - With dialog button (back press is not available)
          */
-        fun close() = MainDialogHelpAutoTest().close()
+        fun close() = MainDialogHelpTest().close()
 
         /** Check dialog (after closed) will not appear onResume screen state. */
-        fun displayAfterResume() = MainDialogHelpAutoTest().displayAfterResume()
+        fun displayAfterResume() = MainDialogHelpTest().displayAfterResume()
 
         /** Button work - open app settings. */
-        fun openSettings() = MainDialogHelpControlTest().openSettings()
+        fun openSettings() = MainDialogHelpTest().openSettings()
 
         /** Button work - open eternal service channel settings. */
-        fun openChannel() = MainDialogHelpControlTest().openChannel()
+        fun openChannel() = MainDialogHelpTest().openChannel()
 
         /** Similar to [close], but with rotation before close itself. */
-        fun rotateClose() = MainDialogHelpAutoTest().rotateClose()
+        fun rotateClose() = MainDialogHelpTest().rotateClose()
 
         /** Similar to [openSettings]/[openChannel], but with rotation before click button. */
-        fun rotateWork() = MainDialogHelpControlTest().rotateWork()
+        fun rotateWork() = MainDialogHelpTest().rotateWork()
     }
 
 }

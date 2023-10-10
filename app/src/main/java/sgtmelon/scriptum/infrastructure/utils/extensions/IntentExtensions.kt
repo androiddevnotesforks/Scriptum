@@ -22,9 +22,13 @@ private fun getUrlIntent(url: String): Intent? {
     return Intent(Intent.ACTION_VIEW, uri)
 }
 
+fun getPackageUri(context: Context): Uri {
+    return Uri.fromParts("package", context.packageName, null)
+}
+
 private fun Context.getSettingsIntent(): Intent {
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-    intent.data = Uri.fromParts("package", packageName, null)
+    intent.data = getPackageUri(context = this)
 
     return intent
 }
@@ -36,9 +40,11 @@ private fun Context.getSettingsChannelIntent(@StringRes id: Int): Intent {
         .putExtra(Settings.EXTRA_CHANNEL_ID, getString(id))
 }
 
+val mailtoUri: Uri get() = Uri.parse("mailto:")
+
 /** Only email apps should handle this. */
 private fun Context.getEmailIntent(@StringRes email: Int, @StringRes subject: Int): Intent {
-    return Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
+    return Intent(Intent.ACTION_SENDTO, mailtoUri)
         .putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(email)))
         .putExtra(Intent.EXTRA_SUBJECT, getString(subject))
 }
