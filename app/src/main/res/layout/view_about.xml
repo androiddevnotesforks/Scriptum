@@ -95,7 +95,7 @@
             android:padding="@dimen/layout_4dp"
             android:layout_marginTop="@dimen/layout_4dp"
             android:layout_marginBottom="@dimen/layout_4dp"
-            android:text="@string/dialog_about_email" />
+            android:text="@string/email_about" />
 
     </LinearLayout>
 </FrameLayout>

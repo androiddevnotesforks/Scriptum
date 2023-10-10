@@ -115,8 +115,8 @@
 
     <string name="dialog_about_developer">Developer:\nKuznetsov Alexey</string>
     <string name="dialog_about_logo_designer">Logo designer:\nPolepkina Arina</string>
-    <string name="dialog_about_email" translatable="false">lex.kuznet@gmail.com</string>
 
+    <string name="email_about" translatable="false">lex.kuznet@gmail.com</string>
     <string name="email_about_subject">About Scriptum app</string>
 
 </resources>

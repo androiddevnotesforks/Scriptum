@@ -4,6 +4,7 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.dialogs.AboutDialog
 import sgtmelon.scriptum.source.ui.feature.DialogUi
+import sgtmelon.scriptum.source.ui.intent.SendEmailIntent
 import sgtmelon.scriptum.source.ui.parts.UiPart
 import sgtmelon.test.cappuccino.utils.click
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -17,6 +18,7 @@ import sgtmelon.test.cappuccino.utils.withText
  * Class for UI control of [AboutDialog].
  */
 class AboutDialogUi : UiPart(),
+    SendEmailIntent,
     DialogUi {
 
     private val parentContainer = getView(R.id.about_parent_container)
@@ -29,9 +31,9 @@ class AboutDialogUi : UiPart(),
     private val designerText = getView(R.id.about_designer_text)
     private val emailText = getView(R.id.about_email_text)
 
-    // TODO add UIAutomator assertion
-    fun sendEmail() {
+    fun sendEmail() = trackIntent {
         emailText.click()
+        assertSendEmail(context, R.string.email_about, R.string.email_about_subject)
     }
 
     fun assert() = apply {
@@ -54,7 +56,7 @@ class AboutDialogUi : UiPart(),
         designerText.isDisplayed()
             .withText(R.string.dialog_about_logo_designer, R.attr.clContent, R.dimen.text_16sp)
         emailText.isDisplayed()
-            .withText(R.string.dialog_about_email, R.attr.clAccent, R.dimen.text_16sp)
+            .withText(R.string.email_about, R.attr.clAccent, R.dimen.text_16sp)
     }
 
     companion object {

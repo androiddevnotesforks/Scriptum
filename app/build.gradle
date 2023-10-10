@@ -133,6 +133,7 @@ dependencies {
     androidTestImplementation libs.test.junit
 
     androidTestImplementation libs.test.espresso.core
+    androidTestImplementation libs.test.espresso.intent
     androidTestImplementation libs.test.espresso.contrib
     androidTestImplementation libs.test.uiautomator
     androidTestUtil libs.test.orchestrator

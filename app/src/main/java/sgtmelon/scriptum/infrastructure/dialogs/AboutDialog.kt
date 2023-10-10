@@ -66,8 +66,7 @@ class AboutDialog : BlankEmptyDialog() {
         versionText?.text = BuildConfig.VERSION_NAME
 
         emailText?.setOnClickListener {
-            val text = emailText?.text?.toString() ?: return@setOnClickListener
-            context?.startEmailActivity(toast = null, text, R.string.email_about_subject)
+            context?.startEmailActivity(toast = null, R.string.email_about, R.string.email_about_subject)
             dialog?.dismiss()
         }
     }

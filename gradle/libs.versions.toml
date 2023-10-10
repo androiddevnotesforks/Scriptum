@@ -60,6 +60,7 @@ test-rules = { module = "androidx.test:rules", version.ref = "test-rules" }
 test-junit = { module = "androidx.test.ext:junit", version.ref = "test-junit" }
 test-mockk = { module = "io.mockk:mockk", version.ref = "test-mockk" }
 test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "test-espresso" }
+test-espresso-intent = { module = "androidx.test.espresso:espresso-intents", version.ref = "test-espresso" }
 test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "test-espresso" }
 test-espresso-idling = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "test-espresso" }
 test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "test-uiautomator" }
