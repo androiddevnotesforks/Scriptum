@@ -38,6 +38,10 @@ class MenuPreferenceTest : ParentUiRotationTest(),
 
     @Test fun openAlarm() = launchMenuPreference { openAlarm() }
 
+    @Test fun openPrivacyPolicy() = launchMenuPreference { openPrivacyPolicy() }
+
+    @Test fun openRate() = launchMenuPreference { openRate() }
+
     @Test override fun rotateScreen() = launchMenuPreference({ setupRandomContent() }) {
         rotate.switch()
         assert()

@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.source.ui.screen.preference.menu
 
+import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.annotation.TestViewTag
 import sgtmelon.scriptum.infrastructure.screen.preference.menu.MenuPreferenceFragment
+import sgtmelon.scriptum.source.ui.intent.UrlIntent
 import sgtmelon.scriptum.source.ui.parts.preferences.PreferencePart
 import sgtmelon.scriptum.source.ui.screen.dialogs.preference.AboutDialogUi
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.ThemeDialogUi
@@ -16,7 +18,7 @@ import sgtmelon.scriptum.source.ui.screen.preference.notes.NotesPreferenceScreen
  */
 class MenuPreferenceScreen : PreferencePart<MenuPreferenceLogic>(
     R.string.title_preference, TestViewTag.PREF_MENU
-) {
+), UrlIntent {
 
     override val screenLogic = MenuPreferenceLogic()
 
@@ -40,9 +42,15 @@ class MenuPreferenceScreen : PreferencePart<MenuPreferenceLogic>(
         AlarmPreferenceScreen(func)
     }
 
-    fun openPrivacyPolicy() = getItem(Part.PRIVACY_ITEM).Simple().onItemClick()
+    fun openPrivacyPolicy() = trackIntent {
+        getItem(Part.PRIVACY_ITEM).Simple().onItemClick()
+        assertUrlOpen(BuildConfig.PRIVACY_POLICY_URL)
+    }
 
-    fun openRate() = getItem(Part.RATE_ITEM).Simple().onItemClick()
+    fun openRate() = trackIntent {
+        getItem(Part.RATE_ITEM).Simple().onItemClick()
+        assertUrlOpen(BuildConfig.BROWSER_URL)
+    }
 
     fun openAboutDialog(func: AboutDialogUi.() -> Unit = {}) {
         getItem(Part.ABOUT_ITEM).Simple().onItemClick()
