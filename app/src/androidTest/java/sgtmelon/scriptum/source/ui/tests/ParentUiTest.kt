@@ -31,14 +31,14 @@ import sgtmelon.test.idling.getWaitIdling
  */
 abstract class ParentUiTest : ParentTest() {
 
-    val context = TestInjector.getContext()
-
-    val preferences: Preferences by lazy { component.preferences }
-    val preferencesRepo: PreferencesRepo by lazy { component.preferencesRepo }
+    /** It's not protected, because used in extensions. */
+    val context = TestInjector.context
     val db by lazy { DbDelegator(component.database, preferencesRepo) }
 
-    val uiDevice = TestInjector.getUiDevice()
+    protected val preferences: Preferences by lazy { component.preferences }
+    protected val preferencesRepo: PreferencesRepo by lazy { component.preferencesRepo }
 
+    protected val uiDevice = TestInjector.uiDevice
     protected val commandAutomator = CommandAutomator(uiDevice)
 
     //region SetUp functions

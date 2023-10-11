@@ -18,7 +18,7 @@ import sgtmelon.test.cappuccino.automator.CommandAutomator
  */
 abstract class UiPart {
 
-    protected val context = TestInjector.getContext()
+    protected val context = TestInjector.context
     protected val preferencesRepo = ParentTest.component.preferencesRepo
 
     protected val theme
@@ -28,7 +28,7 @@ abstract class UiPart {
             Theme.SYSTEM -> throw IllegalStateException("Not available theme")
         }
 
-    protected val commandAutomator = CommandAutomator(TestInjector.getUiDevice())
+    protected val commandAutomator = CommandAutomator(TestInjector.uiDevice)
 
     protected open fun getView(@IdRes viewId: Int): Matcher<View> = withId(viewId)
 

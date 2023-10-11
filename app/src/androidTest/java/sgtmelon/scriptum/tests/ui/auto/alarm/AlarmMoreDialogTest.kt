@@ -22,7 +22,7 @@ class AlarmMoreDialogTest : ParentUiTest(),
     RepeatCase,
     DialogCloseCase {
 
-    override val resources: Resources = TestInjector.getResources()
+    override val resources: Resources = TestInjector.resources
 
     @Test override fun close() = launchAlarm(db.insertNote()) {
         openMoreDialog { softClose() }

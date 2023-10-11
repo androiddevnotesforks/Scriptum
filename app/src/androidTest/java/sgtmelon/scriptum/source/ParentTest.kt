@@ -20,7 +20,7 @@ abstract class ParentTest {
 
     open fun inject() {
         component = DaggerScriptumComponent.builder()
-            .set(application = TestInjector.getApplication())
+            .set(application = TestInjector.application)
             .build()
             .getTestComponent()
     }

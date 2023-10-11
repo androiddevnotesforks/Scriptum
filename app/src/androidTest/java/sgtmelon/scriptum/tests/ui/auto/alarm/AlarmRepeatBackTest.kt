@@ -18,7 +18,7 @@ import sgtmelon.scriptum.source.ui.tests.launchAlarmClose
 @RunWith(AndroidJUnit4::class)
 class AlarmRepeatBackTest : ParentUiTest(), RepeatCase {
 
-    override val resources: Resources = TestInjector.getResources()
+    override val resources: Resources = TestInjector.resources
 
     @Test override fun repeatMin10() = super.repeatMin10()
 

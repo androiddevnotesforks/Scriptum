@@ -12,7 +12,6 @@ import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.cases.dialog.DialogWorkCase
 import sgtmelon.scriptum.source.permission.GrantWriteExternalPermission
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.MelodyDialogUi
-import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceScreen
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
@@ -28,8 +27,6 @@ class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
     DialogCloseCase,
     DialogWorkCase,
     DialogRotateCase {
-
-    // TODO inject getMelodyUseCase in [work] and [rotateWork].
 
     @Before override fun setUp() {
         super.setUp()
@@ -73,7 +70,7 @@ class AlarmPreferenceMelodyTest : ParentUiRotationTest(),
 
     /** Allow to run work test with different [action]. */
     private fun runWorkTest(action: MelodyDialogUi.(value: Int) -> Unit) {
-        val list = runBlocking { AlarmPreferenceLogic().getMelodyList() }
+        val list = runBlocking { component.getMelodyList() }
 
         val (setValue, initValue) = list.getDifferentValues()
         val initIndex = list.indexOf(initValue)

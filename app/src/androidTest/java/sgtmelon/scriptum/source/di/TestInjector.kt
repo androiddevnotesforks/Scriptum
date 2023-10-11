@@ -12,16 +12,17 @@ import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
  */
 object TestInjector {
 
-    private fun getInstrumentation(): Instrumentation =
-        InstrumentationRegistry.getInstrumentation()
-
-    fun getContext(): Context = getInstrumentation().targetContext
-
-    fun getResources(): Resources = getContext().resources
-
-    fun getApplication(): ScriptumApplication {
-        return getInstrumentation().targetContext.applicationContext as ScriptumApplication
+    private val instrumentation: Instrumentation get() {
+        return InstrumentationRegistry.getInstrumentation()
     }
 
-    fun getUiDevice(): UiDevice = UiDevice.getInstance(getInstrumentation())
+    val context: Context get() = instrumentation.targetContext
+
+    val resources: Resources get() = context.resources
+
+    val application: ScriptumApplication get() {
+        return instrumentation.targetContext.applicationContext as ScriptumApplication
+    }
+
+    val uiDevice: UiDevice get() = UiDevice.getInstance(instrumentation)
 }

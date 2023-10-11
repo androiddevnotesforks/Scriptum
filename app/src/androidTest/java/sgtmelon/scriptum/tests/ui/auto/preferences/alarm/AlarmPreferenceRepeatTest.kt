@@ -26,7 +26,7 @@ class AlarmPreferenceRepeatTest : ParentUiRotationTest(),
     RepeatCase,
     DialogRotateCase {
 
-    override val resources: Resources = TestInjector.getResources()
+    override val resources: Resources = TestInjector.resources
 
     @Test override fun close() = launchAlarmPreference {
         openRepeatDialog { softClose() }

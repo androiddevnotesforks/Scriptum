@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.cleanup.dagger.component.test
 
 import dagger.Subcomponent
+import sgtmelon.scriptum.data.dataSource.system.SummaryDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
@@ -19,5 +21,9 @@ interface TestComponent {
     val database: Database
 
     val getCopyText: GetCopyTextUseCase
+
+    val summaryDataSource: SummaryDataSource
+
+    val getMelodyList: GetMelodyListUseCase
 
 }

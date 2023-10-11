@@ -11,7 +11,6 @@ import sgtmelon.scriptum.source.cases.screen.CloseScreenCase
 import sgtmelon.scriptum.source.cases.screen.ContentScreenCase
 import sgtmelon.scriptum.source.cases.screen.RotateScreenCase
 import sgtmelon.scriptum.source.ui.screen.dialogs.preference.VolumeDialogUi
-import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceLogic
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
 import sgtmelon.scriptum.source.ui.tests.launchMenuPreference
@@ -68,8 +67,7 @@ class AlarmPreferenceTest : ParentUiRotationTest(),
         preferencesRepo.repeat = Repeat.values().random()
         preferencesRepo.signalTypeCheck = getRandomSignalCheck()
 
-        // TODO inject getMelodyUseCase
-        val melodyList = runBlocking { AlarmPreferenceLogic().getMelodyList() }
+        val melodyList = runBlocking { component.getMelodyList() }
         preferences.melodyUri = melodyList.random().uri
 
         preferencesRepo.volumePercent = VolumeDialogUi.VALUES.random()

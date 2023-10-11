@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.dagger.module.domain
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.NoteRepo
+import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.data.repository.database.AlarmRepo
 import sgtmelon.scriptum.domain.useCase.alarm.DeleteNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationListUseCase
@@ -10,9 +11,15 @@ import sgtmelon.scriptum.domain.useCase.alarm.GetNotificationsDateListUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.SetNotificationUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.ShiftDateIfExistUseCase
 import sgtmelon.scriptum.domain.useCase.alarm.TidyUpAlarmUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 
 @Module
 class AlarmUseCaseModule {
+
+    @Provides
+    fun provideGetMelodyListUseCase(dataSource: RingtoneDataSource): GetMelodyListUseCase {
+        return GetMelodyListUseCase(dataSource)
+    }
 
     @Provides
     fun provideTidyUpAlarmUseCase(repository: AlarmRepo): TidyUpAlarmUseCase {

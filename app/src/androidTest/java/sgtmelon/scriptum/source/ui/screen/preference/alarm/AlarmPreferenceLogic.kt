@@ -2,8 +2,7 @@ package sgtmelon.scriptum.source.ui.screen.preference.alarm
 
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
-import sgtmelon.scriptum.cleanup.dagger.module.domain.UseCaseModule
+import sgtmelon.scriptum.source.ParentTest
 import sgtmelon.scriptum.source.ui.model.PreferenceItem
 import sgtmelon.scriptum.source.ui.model.PreferenceItem.Header
 import sgtmelon.scriptum.source.ui.model.PreferenceItem.Summary
@@ -15,11 +14,8 @@ import sgtmelon.scriptum.source.ui.parts.preferences.PreferenceLogic
  */
 class AlarmPreferenceLogic : PreferenceLogic() {
 
-    // TODO may be inject this somehow?
-    private val summaryDataSource = DataSourceModule().provideSummaryDataSource(context.resources)
-    val getMelodyList = UseCaseModule().provideGetMelodyListUseCase(
-        DataSourceModule().provideRingtoneDataSource(context)
-    )
+    private val summaryDataSource = ParentTest.component.summaryDataSource
+    private val getMelodyList = ParentTest.component.getMelodyList
 
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf<PreferenceItem>(Header(R.string.pref_header_common))

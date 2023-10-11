@@ -31,7 +31,6 @@ import sgtmelon.scriptum.cleanup.dagger.module.domain.GetSummaryUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.MainUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.NoteUseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.domain.RankUseCaseModule
-import sgtmelon.scriptum.cleanup.dagger.module.domain.UseCaseModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ContextModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.infrastructure.EternalModule
@@ -60,7 +59,6 @@ import javax.inject.Singleton
     AlarmUseCaseModule::class,
     BackupUseCaseModule::class,
     GetSummaryUseCaseModule::class,
-    UseCaseModule::class,
     DevelopUseCaseModule::class,
 
     DataSourceModule::class,

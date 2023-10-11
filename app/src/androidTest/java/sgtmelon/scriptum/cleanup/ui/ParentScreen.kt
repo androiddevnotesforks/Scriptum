@@ -16,7 +16,7 @@ import sgtmelon.scriptum.source.di.TestInjector
 @Deprecated("Use UiPart/UiParentPart")
 abstract class ParentScreen {
 
-    protected val context = TestInjector.getContext()
+    protected val context = TestInjector.context
     protected val preferencesRepo = ParentTest.component.preferencesRepo
 
     //region getView func
