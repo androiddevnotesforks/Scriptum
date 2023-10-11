@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.tests.ui.auto.preferences.alarm
 
+import android.content.res.Resources
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -9,6 +10,7 @@ import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceF
 import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
 import sgtmelon.scriptum.source.cases.dialog.DialogRotateCase
 import sgtmelon.scriptum.source.cases.value.RepeatCase
+import sgtmelon.scriptum.source.di.TestInjector
 import sgtmelon.scriptum.source.ui.screen.dialogs.select.RepeatDialogUi
 import sgtmelon.scriptum.source.ui.screen.preference.alarm.AlarmPreferenceScreen
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
@@ -23,6 +25,8 @@ class AlarmPreferenceRepeatTest : ParentUiRotationTest(),
     DialogCloseCase,
     RepeatCase,
     DialogRotateCase {
+
+    override val resources: Resources = TestInjector.getResources()
 
     @Test override fun close() = launchAlarmPreference {
         openRepeatDialog { softClose() }

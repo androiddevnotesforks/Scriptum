@@ -5,7 +5,6 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.source.permission.GrantPostNotificationsPermission
@@ -14,7 +13,7 @@ import sgtmelon.scriptum.source.ui.screen.dialogs.NoteDialogUi
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchMain
 import sgtmelon.scriptum.source.ui.tests.launchNotesItem
-import sgtmelon.scriptum.source.utils.pastFromClipboard
+import sgtmelon.test.cappuccino.automator.pastFromClipboard
 
 /**
  * Parent class for tests of [NoteDialogUi] inside [MainPage.NOTES].
@@ -24,11 +23,8 @@ abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiRotatio
     DialogCloseCase,
     DialogRotateCase {
 
-    private lateinit var getCopyText: GetCopyTextUseCase
-
     @Before override fun setUp() {
         super.setUp()
-        getCopyText = component.getTestComponent().getCopyTextUseCase()
         assertPostNotificationsGranted(context)
     }
 
@@ -111,7 +107,7 @@ abstract class NotesDialogNoteCase(private val type: NoteType) : ParentUiRotatio
 
     open fun copy() {
         val item = insert()
-        val copyText = runBlocking { getCopyText(item) }
+        val copyText = runBlocking { component.getCopyText(item) }
 
         launchMain {
             openNotes {

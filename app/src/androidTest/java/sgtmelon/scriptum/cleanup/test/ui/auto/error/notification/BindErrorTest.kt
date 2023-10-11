@@ -26,7 +26,7 @@ class BindErrorTest : ParentNotificationTest() {
                     openText(it) {
                         controlPanel { onEdit() }
                         onEnterText(nextString())
-                        automator.unbind(item)
+//                        automator.unbind(item)
                         toolbar { clickBack() }
                     }
                 }
@@ -46,7 +46,7 @@ class BindErrorTest : ParentNotificationTest() {
                     openRoll(it) {
                         controlPanel { onEdit() }
                         enterPanel { onAdd(nextString()) }
-                        automator.unbind(item)
+//                        automator.unbind(item)
                         toolbar { clickBack() }
                     }
                 }

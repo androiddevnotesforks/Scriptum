@@ -10,7 +10,7 @@ import sgtmelon.test.cappuccino.automator.RotateAutomator
  */
 abstract class ParentUiRotationTest : ParentUiTest() {
 
-    protected val rotate by lazy { RotateAutomator(uiDevice) }
+    protected val rotate = RotateAutomator(uiDevice)
 
     @After override fun tearDown() {
         super.tearDown()

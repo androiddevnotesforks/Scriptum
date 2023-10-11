@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.cleanup.dagger.component.test
 
 import dagger.Subcomponent
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
+import sgtmelon.scriptum.infrastructure.database.Database
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 /**
  * Component only for test usage.
@@ -9,6 +12,12 @@ import sgtmelon.scriptum.domain.useCase.note.GetCopyTextUseCase
 @Subcomponent
 interface TestComponent {
 
-    fun getCopyTextUseCase(): GetCopyTextUseCase
+    val preferences: Preferences
+
+    val preferencesRepo: PreferencesRepo
+
+    val database: Database
+
+    val getCopyText: GetCopyTextUseCase
 
 }

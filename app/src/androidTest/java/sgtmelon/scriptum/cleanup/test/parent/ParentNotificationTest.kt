@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.test.parent
 
-import sgtmelon.scriptum.cleanup.basic.automator.NotificationAutomator
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 
 /**
@@ -8,7 +7,7 @@ import sgtmelon.scriptum.source.ui.tests.ParentUiTest
  */
 abstract class ParentNotificationTest : ParentUiTest() {
 
-    protected val automator by lazy { NotificationAutomator(context, uiDevice) }
+//    protected val automator by lazy { NotificationAutomator(context, uiDevice) }
 
     // TODO remove
     protected fun onSee(afterFunc: () -> Unit = {}) {

@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.source.cases.dialog
 
-import androidx.test.uiautomator.UiObject
-import androidx.test.uiautomator.UiSelector
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
@@ -26,17 +24,17 @@ abstract class NotesDialogNotePermissionCase(private val type: NoteType) : Paren
     abstract fun insert(): NoteItem
 
     override fun allow() {
-
+        TODO()
         val item = insert()
         launchMain {
             openNotes {
                 openNoteDialog(item) {
                     bind()
 
-                        val allowPermissions: UiObject = uiDevice.findObject(UiSelector().text("Allow"))
-                        if (allowPermissions.exists()) {
-                            allowPermissions.click()
-                        }
+//                        val allowPermissions: UiObject = uiDevice.findObject(UiSelector().text("Allow"))
+//                        if (allowPermissions.exists()) {
+//                            allowPermissions.click()
+//                        }
                 }
 
                 openNoteDialog(item) {

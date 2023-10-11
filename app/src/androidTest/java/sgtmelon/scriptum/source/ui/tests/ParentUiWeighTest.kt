@@ -1,19 +1,15 @@
 package sgtmelon.scriptum.source.ui.tests
 
 import org.junit.After
-import sgtmelon.scriptum.source.RoomWorker
-import sgtmelon.scriptum.source.di.TestInjector
+import sgtmelon.scriptum.cleanup.testData.DbWeightDelegator
 import timber.log.Timber
 
 /**
  * Parent class for UI weigh tests.
  */
-abstract class ParentUiWeighTest : ParentUiRotationTest(),
-    RoomWorker {
+abstract class ParentUiWeighTest : ParentUiRotationTest() {
 
-    override val database = TestInjector.provideDatabase()
-
-    protected val dbWeight = TestInjector.provideDbWeightDelegator()
+    protected val dbWeight by lazy { DbWeightDelegator(component.database) }
 
     @After override fun tearDown() {
         super.tearDown()

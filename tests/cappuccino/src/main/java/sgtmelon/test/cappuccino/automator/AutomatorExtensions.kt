@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.source.utils
+package sgtmelon.test.cappuccino.automator
 
 import android.view.KeyEvent
 import androidx.test.uiautomator.UiDevice
