@@ -2,7 +2,7 @@ package sgtmelon.scriptum.source
 
 import org.junit.Before
 import sgtmelon.scriptum.infrastructure.database.model.DaoConst
-import sgtmelon.scriptum.source.di.ParentInjector
+import sgtmelon.scriptum.source.di.TestInjector
 import sgtmelon.test.common.OverflowDelegator
 
 /**
@@ -11,7 +11,7 @@ import sgtmelon.test.common.OverflowDelegator
 abstract class ParentRoomTest : ParentTest(),
     RoomWorker {
 
-    override val database = ParentInjector.provideDatabase()
+    override val database = TestInjector.provideDatabase()
 
     protected val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 

@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.test.core.app.launchActivity
 import org.junit.After
 import org.junit.Before
+import sgtmelon.scriptum.cleanup.dagger.component.DaggerScriptumComponent
+import sgtmelon.scriptum.cleanup.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmDelegatorImpl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindDelegatorImpl
@@ -16,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
 import sgtmelon.scriptum.infrastructure.screen.splash.SplashActivity
 import sgtmelon.scriptum.source.ParentTest
-import sgtmelon.scriptum.source.di.ParentInjector
+import sgtmelon.scriptum.source.di.TestInjector
 import sgtmelon.scriptum.source.ui.screen.splash.SplashScreen
 import sgtmelon.scriptum.source.utils.getRandomSignalCheck
 import sgtmelon.test.cappuccino.automator.CommandAutomator
@@ -28,12 +30,11 @@ import sgtmelon.test.idling.getWaitIdling
  */
 abstract class ParentUiTest : ParentTest() {
 
-    val context = ParentInjector.provideContext()
-    val resources = ParentInjector.provideResources()
-    val preferences = ParentInjector.providePreferences()
-    val preferencesRepo = ParentInjector.providePreferencesRepo()
-    val db = ParentInjector.provideDbDelegator()
-    val uiDevice = ParentInjector.provideUiDevice()
+    val context = TestInjector.provideContext()
+    val preferences = TestInjector.providePreferences()
+    val preferencesRepo = TestInjector.providePreferencesRepo()
+    val db = TestInjector.provideDbDelegator()
+    val uiDevice = TestInjector.provideUiDevice()
 
     protected val commandAutomator = CommandAutomator(uiDevice)
 
@@ -42,9 +43,16 @@ abstract class ParentUiTest : ParentTest() {
     @Before override fun setUp() {
         super.setUp()
 
+        inject()
         setupIdling()
         setupDevice()
         setupCompanionData()
+    }
+
+    open fun inject() {
+        component = DaggerScriptumComponent.builder()
+            .set(application = TestInjector.getApplication())
+            .build()
     }
 
     private fun setupIdling() {
@@ -171,4 +179,7 @@ abstract class ParentUiTest : ParentTest() {
 
     //endregion
 
+    companion object {
+        lateinit var component: ScriptumComponent
+    }
 }

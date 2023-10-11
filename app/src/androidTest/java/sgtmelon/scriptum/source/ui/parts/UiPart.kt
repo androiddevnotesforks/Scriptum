@@ -9,7 +9,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.model.key.preference.Theme
-import sgtmelon.scriptum.source.di.ParentInjector
+import sgtmelon.scriptum.source.di.TestInjector
 import sgtmelon.test.cappuccino.automator.CommandAutomator
 
 /**
@@ -17,8 +17,8 @@ import sgtmelon.test.cappuccino.automator.CommandAutomator
  */
 abstract class UiPart {
 
-    protected val context = ParentInjector.provideContext()
-    protected val preferencesRepo = ParentInjector.providePreferencesRepo()
+    protected val context = TestInjector.provideContext()
+    protected val preferencesRepo = TestInjector.providePreferencesRepo()
 
     protected val theme
         get() = when (preferencesRepo.theme) {
@@ -27,7 +27,7 @@ abstract class UiPart {
             Theme.SYSTEM -> throw IllegalStateException("Not available theme")
         }
 
-    protected val commandAutomator = CommandAutomator(ParentInjector.provideUiDevice())
+    protected val commandAutomator = CommandAutomator(TestInjector.provideUiDevice())
 
     protected open fun getView(@IdRes viewId: Int): Matcher<View> = withId(viewId)
 

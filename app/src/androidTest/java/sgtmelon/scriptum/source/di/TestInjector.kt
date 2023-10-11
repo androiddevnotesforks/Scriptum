@@ -15,18 +15,23 @@ import sgtmelon.scriptum.cleanup.testData.DbWeightDelegator
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.database.Database
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.screen.ScriptumApplication
 
 /**
  * Injector for clear code and simple providing needed classes.
  */
-object ParentInjector {
+object TestInjector {
 
-    private fun provideInstrumentation(): Instrumentation =
+    fun provideInstrumentation(): Instrumentation =
         InstrumentationRegistry.getInstrumentation()
 
     fun provideContext(): Context = provideInstrumentation().targetContext
 
-    fun provideResources(): Resources = provideContext().resources
+    fun getResources(): Resources = provideContext().resources
+
+    fun getApplication(): ScriptumApplication {
+        return provideInstrumentation().targetContext.applicationContext as ScriptumApplication
+    }
 
     fun providePreferences(): Preferences {
         val context = provideContext()

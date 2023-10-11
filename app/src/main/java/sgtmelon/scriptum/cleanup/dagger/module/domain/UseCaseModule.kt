@@ -5,6 +5,7 @@ import dagger.Provides
 import sgtmelon.scriptum.data.dataSource.system.RingtoneDataSource
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 
+// TODO move to another place
 @Module
 class UseCaseModule {
 

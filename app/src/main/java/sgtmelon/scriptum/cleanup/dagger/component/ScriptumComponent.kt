@@ -17,6 +17,7 @@ import sgtmelon.scriptum.cleanup.dagger.component.preference.PreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PreferenceDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PrintDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.ServiceDevelopComponent
+import sgtmelon.scriptum.cleanup.dagger.component.test.TestComponent
 import sgtmelon.scriptum.cleanup.dagger.module.RepoModule
 import sgtmelon.scriptum.cleanup.dagger.module.data.BackupModule
 import sgtmelon.scriptum.cleanup.dagger.module.data.DataSourceModule
@@ -116,6 +117,8 @@ interface ScriptumComponent {
     //endregion
 
     fun inject(service: EternalService)
+
+    fun getTestComponent(): TestComponent
 
     @Component.Builder
     interface Builder {

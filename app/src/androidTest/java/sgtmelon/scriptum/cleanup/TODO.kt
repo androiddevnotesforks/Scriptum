@@ -64,10 +64,6 @@ class Rotation {
      * # Для текста
      * # Для списка
      */
-
-    /**
-     * TODO #TEST for preference screen
-     */
 }
 
 class AutoSave {

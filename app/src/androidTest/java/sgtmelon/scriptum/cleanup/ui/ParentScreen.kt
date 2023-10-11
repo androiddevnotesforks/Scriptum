@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
-import sgtmelon.scriptum.source.di.ParentInjector
+import sgtmelon.scriptum.source.di.TestInjector
 
 /**
  * Parent class for access standard UI functions.
@@ -15,8 +15,8 @@ import sgtmelon.scriptum.source.di.ParentInjector
 @Deprecated("Use UiPart/UiParentPart")
 abstract class ParentScreen {
 
-    protected val context = ParentInjector.provideContext()
-    protected val preferencesRepo = ParentInjector.providePreferencesRepo()
+    protected val context = TestInjector.provideContext()
+    protected val preferencesRepo = TestInjector.providePreferencesRepo()
 
     //region getView func
 

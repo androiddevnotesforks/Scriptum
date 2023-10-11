@@ -14,6 +14,8 @@ import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
  */
 interface RepeatCase {
 
+    val resources: Resources
+
     fun repeatMin10() = startTest(Repeat.MIN_10)
 
     fun repeatMin30() = startTest(Repeat.MIN_30)
@@ -27,7 +29,7 @@ interface RepeatCase {
     fun startTest(value: Repeat)
 
     /** Update [NoteAlarm.date] for [item]. Needed to display notification indicator in card. */
-    fun setAlarm(item: NoteItem, repeat: Repeat, resources: Resources) {
+    fun setAlarm(item: NoteItem, repeat: Repeat) {
         val minutes = resources.getIntArray(R.array.pref_alarm_repeat_array)[repeat.ordinal]
         item.alarm = NoteAlarm(date = getClearCalendar(minutes).toText())
     }

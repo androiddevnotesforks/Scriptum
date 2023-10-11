@@ -94,11 +94,24 @@ class TextNoteScreen(
 
     fun onEnterText(text: String = "") = apply {
         textEnter.typeText(text)
+        applyEnterText(text, isSingleHistory = false)
+    }
 
-        if (text.isEmpty()) {
+    /** Focus must be on [textEnter]. */
+    fun onEnterTextPast(pastText: String) = apply {
+        applyEnterText(pastText, isSingleHistory = true)
+    }
+
+    /**
+     * [isSingleHistory] - choose how add entered text to [history]:
+     * - FALSE - by letters;
+     * - TRUE  - single history action.
+     */
+    private fun applyEnterText(text: String, isSingleHistory: Boolean) {
+        if (text.isEmpty() || isSingleHistory) {
             val valueFrom = shadowItem.text
 
-            /** Remember what text isEmpty - valueTo="", cursorTo=0 */
+            /** Remember: if text isEmpty -> valueTo="", cursorTo=0. */
             val action = HistoryAction.Text.Enter(
                 HistoryChange(valueFrom, text),
                 HistoryChange(valueFrom.length, text.length)
@@ -121,9 +134,7 @@ class TextNoteScreen(
         fullAssert()
     }
 
-    /**
-     * TODO improve ime option
-     */
+    /** TODO improve ime option: assert new line  */
     fun onImeOptionText() = apply {
         throwOnWrongState(NoteState.EDIT, NoteState.NEW) {
             textEnter.imeOption()

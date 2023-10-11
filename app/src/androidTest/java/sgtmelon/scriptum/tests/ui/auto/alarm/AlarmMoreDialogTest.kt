@@ -1,15 +1,17 @@
 package sgtmelon.scriptum.tests.ui.auto.alarm
 
+import android.content.res.Resources
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.model.key.preference.Repeat
 import sgtmelon.scriptum.infrastructure.screen.alarm.AlarmActivity
+import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
+import sgtmelon.scriptum.source.cases.value.RepeatCase
+import sgtmelon.scriptum.source.di.TestInjector
 import sgtmelon.scriptum.source.ui.tests.ParentUiTest
 import sgtmelon.scriptum.source.ui.tests.launchAlarm
 import sgtmelon.scriptum.source.ui.tests.launchAlarmClose
-import sgtmelon.scriptum.source.cases.dialog.DialogCloseCase
-import sgtmelon.scriptum.source.cases.value.RepeatCase
 
 
 /**
@@ -19,6 +21,8 @@ import sgtmelon.scriptum.source.cases.value.RepeatCase
 class AlarmMoreDialogTest : ParentUiTest(),
     RepeatCase,
     DialogCloseCase {
+
+    override val resources: Resources = TestInjector.getResources()
 
     @Test override fun close() = launchAlarm(db.insertNote()) {
         openMoreDialog { softClose() }
@@ -39,6 +43,6 @@ class AlarmMoreDialogTest : ParentUiTest(),
 
     override fun startTest(value: Repeat) = launchAlarmClose(db.insertNote()) {
         openMoreDialog { repeat(value) }
-        setAlarm(it, value, resources)
+        setAlarm(it, value)
     }
 }
