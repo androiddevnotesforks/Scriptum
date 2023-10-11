@@ -23,6 +23,9 @@ sealed class Permission(val value: String, val applyVersion: Int?, val expireVer
     val isOldApi get() = applyVersion != null && Version.current < applyVersion
     val isNewApi get() = expireVersion != null && Version.current >= expireVersion
 
+    /** [applyVersion] <= YOUR_API < [expireVersion]. */
+    val isWorking get() = !isOldApi && !isNewApi
+
     /** Starting from TIRAMISU version we use ScopedStorage, and don't need ask for permission. */
     object WriteExternalStorage : Permission(
         Manifest.permission.WRITE_EXTERNAL_STORAGE,

@@ -1,13 +1,15 @@
 package sgtmelon.scriptum.source.cases.dialog
 
 import org.junit.Before
+import org.junit.Rule
+import org.junit.rules.TestName
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.source.cases.permissions.PostNotificationsCase
 import sgtmelon.scriptum.source.ui.screen.dialogs.NoteDialogUi
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
-import sgtmelon.scriptum.source.ui.tests.launchMain
+import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 
 
 /**
@@ -16,51 +18,58 @@ import sgtmelon.scriptum.source.ui.tests.launchMain
 abstract class NotesDialogNotePermissionCase(private val type: NoteType) : ParentUiRotationTest(),
     PostNotificationsCase {
 
+    @get:Rule val name = TestName()
+
     @Before override fun setUp() {
         super.setUp()
+
+        throwOnLowApi()
         assertPostNotificationsNotGranted(context)
     }
 
     abstract fun insert(): NoteItem
 
-    override fun allow() {
-        TODO()
-        val item = insert()
-        launchMain {
-            openNotes {
-                openNoteDialog(item) {
-                    bind()
+    override fun allow() = launchNotesItem(insert()) {
+        openNoteDialog(it) { bind() }
+        postPermission { allow() }
 
-//                        val allowPermissions: UiObject = uiDevice.findObject(UiSelector().text("Allow"))
-//                        if (allowPermissions.exists()) {
-//                            allowPermissions.click()
-//                        }
-                }
+        /** Assert it not appears. */
+        openNoteDialog(it) { bind() }
+        openPreferences()
+    }
 
-                openNoteDialog(item) {
-                    bind()
-                }
-            }
+    override fun denyInfo() = denyWork()
+
+    override fun denyInfoClose() = denyClose()
+
+    override fun denyInfoRotateWork() = denyWork { rotate.switch() }
+
+    override fun denyInfoRotateClose() = denyClose { rotate.switch() }
+
+    private fun denyWork(before: () -> Unit = {}) = launchNotesItem(insert()) {
+        repeat (times = 2) { _ ->
+            openNoteDialog(it) { bind() }
+            postPermission { deny() }
+        }
+        openNoteDialog(it) { bind() }
+        postPermissionDeny {
+            before()
+            positive()
         }
     }
 
-    override fun deny() {
-        TODO("Not yet implemented")
-    }
+    private fun denyClose(before: () -> Unit = {}) = launchNotesItem(insert()) {
+        repeat (times = 2) { _ ->
+            openNoteDialog(it) { bind() }
+            postPermission { deny() }
+        }
+        openNoteDialog(it) { bind() }
+        postPermissionDeny {
+            before()
+            softClose()
+        }
 
-    override fun denyInfo() {
-        TODO("Not yet implemented")
-    }
-
-    override fun close() {
-        TODO("Not yet implemented")
-    }
-
-    override fun rotateClose() {
-        TODO("Not yet implemented")
-    }
-
-    override fun rotateWork() {
-        TODO("Not yet implemented")
+        /** Check previous one actually closed */
+        openPreferences()
     }
 }

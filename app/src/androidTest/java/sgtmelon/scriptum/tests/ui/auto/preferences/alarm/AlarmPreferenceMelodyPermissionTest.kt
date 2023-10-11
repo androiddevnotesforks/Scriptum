@@ -13,9 +13,9 @@ import kotlin.random.Random
  * Test for [AlarmPreferenceFragment] and [MelodyPermissionDialogUi]. TODO!!!
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceMelodyPermissionTest : ParentUiTest()/*,
-    DialogCloseCase,
-    DialogWorkCase*/ {
+class AlarmPreferenceMelodyPermissionTest : ParentUiTest()
+ /*   DialogCloseCase,
+    DialogWorkCase */{
 
     @Before override fun setUp() {
         super.setUp()

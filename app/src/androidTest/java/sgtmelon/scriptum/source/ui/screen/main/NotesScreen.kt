@@ -14,6 +14,8 @@ import sgtmelon.scriptum.source.ui.parts.info.InfoContainerPart
 import sgtmelon.scriptum.source.ui.parts.recycler.RecyclerPart
 import sgtmelon.scriptum.source.ui.parts.toolbar.TitleToolbarPart
 import sgtmelon.scriptum.source.ui.parts.toolbar.ToolbarItem
+import sgtmelon.scriptum.source.ui.screen.dialogs.permissions.PostNotificationsPermissionDialogUi
+import sgtmelon.scriptum.source.ui.screen.dialogs.permissions.deny.NotificationsDenyDialogUi
 import sgtmelon.scriptum.source.ui.screen.notifications.NotificationsScreen
 import sgtmelon.scriptum.source.ui.screen.preference.menu.MenuPreferenceScreen
 import sgtmelon.test.cappuccino.utils.isDisplayed
@@ -47,6 +49,14 @@ class NotesScreen(private val isHidden: Boolean) : ContainerPart(TestViewTag.NOT
     override val openNoteState: NoteState = NoteState.READ
 
     //endregion
+
+    fun postPermission(func: PostNotificationsPermissionDialogUi.() -> Unit = {}) {
+        PostNotificationsPermissionDialogUi(func)
+    }
+
+    fun postPermissionDeny(func: NotificationsDenyDialogUi.() -> Unit = {}) {
+        NotificationsDenyDialogUi(func)
+    }
 
     fun openNotifications(isEmpty: Boolean = false, func: NotificationsScreen.() -> Unit = {}) {
         notificationsItem.click()

@@ -1,7 +1,5 @@
 <resources>
 
-    <string name="app_name">Icons Anim</string>
-
     <!-- Drawable part name -->
     <string name="anim_visible_strike_path" translatable="false">visible_strike_path</string>
     <string name="anim_visible_strike_mask" translatable="false">visible_strike_mask</string>

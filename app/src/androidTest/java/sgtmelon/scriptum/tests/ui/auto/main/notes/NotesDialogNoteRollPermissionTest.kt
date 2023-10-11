@@ -18,14 +18,12 @@ class NotesDialogNoteRollPermissionTest : NotesDialogNotePermissionCase(NoteType
 
     @Test override fun allow() = super.allow()
 
-    @Test override fun deny() = super.deny()
-
     @Test override fun denyInfo() = super.denyInfo()
 
-    @Test override fun close() = super.close()
+    @Test override fun denyInfoClose() = super.denyInfoClose()
 
-    @Test override fun rotateClose() = super.rotateClose()
+    @Test override fun denyInfoRotateClose() = super.denyInfoRotateClose()
 
-    @Test override fun rotateWork() = super.rotateWork()
+    @Test override fun denyInfoRotateWork() = super.denyInfoRotateWork()
 
 }
