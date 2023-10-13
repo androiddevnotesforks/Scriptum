@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.source.cases.dialog
 
 import org.junit.Before
-import org.junit.Rule
-import org.junit.rules.TestName
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
@@ -18,13 +16,11 @@ import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 abstract class NotesDialogNotePermissionCase(private val type: NoteType) : ParentUiRotationTest(),
     BindNotePermissionCase {
 
-    @get:Rule val name = TestName()
-
     @Before override fun setUp() {
         super.setUp()
 
         throwOnWrongApi()
-        assertPostNotificationsNotGranted(context)
+        assertPermissionNotGranted(context)
     }
 
     abstract fun insert(): NoteItem

@@ -1,18 +1,20 @@
 package sgtmelon.scriptum.source.cases.permissions
 
+import sgtmelon.scriptum.infrastructure.model.annotation.WorkInProgress
 import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.source.ui.model.annotation.ApiPolicy
 import sgtmelon.scriptum.source.ui.model.annotation.SpecificApi
 
 /**
- * Case for describe behaviour of [Permission.PostNotifications] and note bind feature.
+ * Case for describe behaviour of [Permission.WriteExternalStorage] and backup feature.
  */
 @SpecificApi(ApiPolicy.STRICT)
-interface BindNotePermissionCase : PermissionCase {
+@WorkInProgress
+interface BackupPermissionCase : PermissionCase {
 
-    override val permission: Permission get() = Permission.PostNotifications
+    override val permission: Permission get() = Permission.WriteExternalStorage
 
-    /** User grant permission - feature available to use. */
+    /** User grant permission - feature available to use.  */
     fun allow()
 
     /** User deny permission, show information dialog + open settings. */
