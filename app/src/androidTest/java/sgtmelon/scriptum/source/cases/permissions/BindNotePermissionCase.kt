@@ -4,14 +4,19 @@ import android.content.Context
 import org.junit.Assert.assertFalse
 import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.infrastructure.utils.extensions.isPermissionGranted
+import sgtmelon.scriptum.source.ui.model.annotation.ApiPolicy
+import sgtmelon.scriptum.source.ui.model.annotation.SpecificApi
 import sgtmelon.scriptum.source.ui.model.exception.ApiPermissionException
 
 /**
- * Case for describe behaviour of [Permission.PostNotifications].
+ * Case for describe behaviour of [Permission.PostNotifications] and note bind feature.
  */
-interface PostNotificationsCase {
+@SpecificApi(ApiPolicy.STRICT)
+interface BindNotePermissionCase {
 
-    /** User grant permission - feature available for use. */
+    private val permission: Permission get() = Permission.PostNotifications
+
+    /** User grant permission - feature available to use. */
     fun allow()
 
     /** User deny permission, show information dialog + open settings. */
@@ -26,13 +31,14 @@ interface PostNotificationsCase {
     /** Same as [denyInfoClose] but with rotation. */
     fun denyInfoRotateClose()
 
-    fun throwOnLowApi() {
-        if (!Permission.PostNotifications.isWorking) {
-            throw ApiPermissionException(Permission.PostNotifications)
+    fun throwOnWrongApi() {
+        if (!permission.isWorking) {
+            throw ApiPermissionException(permission)
         }
     }
 
     fun assertPostNotificationsNotGranted(context: Context) {
-        assertFalse(context.isPermissionGranted(Permission.PostNotifications))
+        val isGranted = context.isPermissionGranted(permission) ?: return
+        assertFalse(isGranted)
     }
 }

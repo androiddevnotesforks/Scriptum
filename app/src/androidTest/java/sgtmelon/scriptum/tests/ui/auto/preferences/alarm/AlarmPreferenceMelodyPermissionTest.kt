@@ -20,8 +20,6 @@ class AlarmPreferenceMelodyPermissionTest : ParentUiTest()
     @Before override fun setUp() {
         super.setUp()
 
-        TODO("Check permission dialog work")
-
         preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 

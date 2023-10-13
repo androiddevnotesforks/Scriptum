@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.android.material)
 
     implementation(libs.test.junit)
+    implementation(libs.test.rules)
     implementation(libs.test.espresso.core)
     implementation(libs.test.espresso.contrib)
 

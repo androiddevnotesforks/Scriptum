@@ -6,7 +6,7 @@ import org.junit.rules.TestName
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.MainPage
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
-import sgtmelon.scriptum.source.cases.permissions.PostNotificationsCase
+import sgtmelon.scriptum.source.cases.permissions.BindNotePermissionCase
 import sgtmelon.scriptum.source.ui.screen.dialogs.NoteDialogUi
 import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
 import sgtmelon.scriptum.source.ui.tests.launchNotesItem
@@ -16,14 +16,14 @@ import sgtmelon.scriptum.source.ui.tests.launchNotesItem
  * Parent class for tests permissions of [NoteDialogUi] inside [MainPage.NOTES].
  */
 abstract class NotesDialogNotePermissionCase(private val type: NoteType) : ParentUiRotationTest(),
-    PostNotificationsCase {
+    BindNotePermissionCase {
 
     @get:Rule val name = TestName()
 
     @Before override fun setUp() {
         super.setUp()
 
-        throwOnLowApi()
+        throwOnWrongApi()
         assertPostNotificationsNotGranted(context)
     }
 

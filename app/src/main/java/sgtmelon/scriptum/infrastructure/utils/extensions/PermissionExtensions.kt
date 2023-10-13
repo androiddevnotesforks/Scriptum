@@ -20,7 +20,10 @@ fun Boolean.toPermissionResult(): PermissionResult {
     return if (this) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
 }
 
-fun Context.isPermissionGranted(permission: Permission): Boolean {
+/** If [permission] not working for current API version -> return null. */
+fun Context.isPermissionGranted(permission: Permission): Boolean? {
+    if (!permission.isWorking) return null
+
     return checkSelfPermission(permission.value).isGranted()
 }
 

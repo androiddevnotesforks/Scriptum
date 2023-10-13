@@ -12,12 +12,9 @@
     <!--
           For Pre-33 versions: WRITE_EXTERNAL_STORAGE implies READ_EXTERNAL_STORAGE, so you only
           need to request one of those, not both.
-
-          tools:remove="android:maxSdkVersion" - needed for correct work in UI tests. Otherwise
-          on API>32 it starts crashing. Link: https://stackoverflow.com/q/53903976/7699617
     -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:remove="android:maxSdkVersion"
+        android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
 
     <!-- It's needed for API 33+ -->
