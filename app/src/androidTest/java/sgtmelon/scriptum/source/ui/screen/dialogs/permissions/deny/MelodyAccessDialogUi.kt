@@ -4,6 +4,7 @@ import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.source.ui.parts.dialog.permission.PermissionInfoDialogPart
+import sgtmelon.scriptum.source.ui.screen.dialogs.permissions.WriteExternalPermissionDialogUi
 
 /**
  * Class for UI control of [MessageDialog] which open before [Permission.WriteExternalStorage]
@@ -15,7 +16,17 @@ class MelodyAccessDialogUi : PermissionInfoDialogPart(
     R.string.dialog_text_melody_permission
 ) {
 
-    // TODO positive button click with func of permission dialog - PermissionDialog.() -> Unit = {}
+    // TODO add on result callback
+
+    override fun positive() {
+        super.positive()
+        WriteExternalPermissionDialogUi.invoke {}
+    }
+
+    fun positive(func: WriteExternalPermissionDialogUi.() -> Unit) {
+        super.positive()
+        WriteExternalPermissionDialogUi(func)
+    }
 
     companion object {
         inline operator fun invoke(

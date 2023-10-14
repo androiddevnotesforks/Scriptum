@@ -6,15 +6,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.infrastructure.screen.preference.alarm.AlarmPreferenceFragment
 import sgtmelon.scriptum.source.cases.permissions.MelodyPermissionCase
-import sgtmelon.scriptum.source.ui.tests.ParentUiTest
+import sgtmelon.scriptum.source.ui.tests.ParentUiRotationTest
+import sgtmelon.scriptum.source.ui.tests.launchAlarmPreference
 import kotlin.random.Random
 
 
 /**
- * Test for [AlarmPreferenceFragment] and [MelodyPermissionDialogUi]. TODO!!!
+ * Test of permission request in [AlarmPreferenceFragment] for select alarm melody feature.
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceMelodyPermissionTest : ParentUiTest(),
+class AlarmPreferenceMelodyPermissionTest : ParentUiRotationTest(),
     MelodyPermissionCase {
 
     @Before override fun setUp() {
@@ -26,20 +27,28 @@ class AlarmPreferenceMelodyPermissionTest : ParentUiTest(),
         assertPermissionNotGranted(context)
     }
 
-    @Test override fun info() {
-        TODO("Not yet implemented")
+    @Test override fun info() = launchAlarmPreference {
+        melodyPermission { positive() }
     }
 
-    @Test override fun infoClose() {
-        TODO("Not yet implemented")
+    @Test override fun infoClose() = launchAlarmPreference {
+        melodyPermission { softClose() }
+        assert()
     }
 
-    @Test override fun infoRotateWork() {
-        TODO("Not yet implemented")
+    @Test override fun infoRotateWork() = launchAlarmPreference {
+        melodyPermission {
+            rotate.switch()
+            positive()
+        }
     }
 
-    @Test override fun infoRotateClose() {
-        TODO("Not yet implemented")
+    @Test override fun infoRotateClose() = launchAlarmPreference {
+        melodyPermission {
+            rotate.switch()
+            softClose()
+        }
+        assert()
     }
 
     @Test override fun allow() {

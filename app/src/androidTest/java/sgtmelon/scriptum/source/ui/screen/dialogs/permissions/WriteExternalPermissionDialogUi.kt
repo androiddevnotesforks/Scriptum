@@ -8,9 +8,9 @@ import sgtmelon.scriptum.source.ui.model.PermissionData
 import sgtmelon.scriptum.source.ui.parts.dialog.permission.PermissionDialogPart
 
 /**
- * Class for UI control of system [Manifest.permission.POST_NOTIFICATIONS] permission dialog.
+ * Class for UI control of system [Manifest.permission.WRITE_EXTERNAL_STORAGE] permission dialog.
  */
-class PostNotificationsPermissionDialogUi : PermissionDialogPart(Permission.PostNotifications) {
+class WriteExternalPermissionDialogUi : PermissionDialogPart(Permission.WriteExternalStorage) {
 
     override val allowButton: UiObject = getObject(PermissionData.Button.ALLOW)
     override val denyButton: UiObject = getObject(PermissionData.Button.DENY)
@@ -26,9 +26,9 @@ class PostNotificationsPermissionDialogUi : PermissionDialogPart(Permission.Post
 
     companion object {
         inline operator fun invoke(
-            func: PostNotificationsPermissionDialogUi.() -> Unit
-        ): PostNotificationsPermissionDialogUi {
-            return PostNotificationsPermissionDialogUi().apply { assert() }.apply(func)
+            func: WriteExternalPermissionDialogUi.() -> Unit
+        ): WriteExternalPermissionDialogUi {
+            return WriteExternalPermissionDialogUi().apply { assert() }.apply(func)
         }
     }
 }
