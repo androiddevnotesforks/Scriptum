@@ -33,14 +33,15 @@ class AlarmPreferenceScreen : PreferencePart<AlarmPreferenceLogic>(
     fun melodyPermission(func: MelodyAccessDialogUi.() -> Unit = {}) {
         getItem(Part.MELODY_ITEM).Summary().onItemClick()
 
-        MelodyAccessDialogUi(func)
+        val (textArray, initCheck) = screenLogic.getMelodyDialogPair()
+        MelodyAccessDialogUi(textArray, initCheck, func)
     }
 
     fun openMelodyDialog(func: MelodyDialogUi.() -> Unit = {}) {
         getItem(Part.MELODY_ITEM).Summary().onItemClick()
 
-        val pair = screenLogic.getMelodyDialogPair()
-        MelodyDialogUi(pair.first, pair.second, func)
+        val (textArray, initCheck) = screenLogic.getMelodyDialogPair()
+        MelodyDialogUi(textArray, initCheck, func)
     }
 
     fun openVolumeDialog(func: VolumeDialogUi.() -> Unit = {}) {

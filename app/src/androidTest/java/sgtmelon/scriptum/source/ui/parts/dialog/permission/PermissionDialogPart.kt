@@ -2,7 +2,6 @@ package sgtmelon.scriptum.source.ui.parts.dialog.permission
 
 import androidx.annotation.CallSuper
 import androidx.test.uiautomator.UiObject
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.infrastructure.model.key.permission.Permission
 import sgtmelon.scriptum.source.ui.feature.DialogUi
@@ -17,21 +16,25 @@ abstract class PermissionDialogPart(protected val permission: Permission): UiAut
 
     private val titleText: UiObject = getObject(PermissionData.getTitle(context, permission))
 
-    abstract val allowButton: UiObject
-    abstract val denyButton: UiObject
+    private val allowButton: UiObject = getObject(PermissionData.getAllowButton())
+    private val denyButton: UiObject = getObject(PermissionData.getDenyButton())
 
     /** This button is optional, one time it exist, another time - not. */
-    abstract val notAskButton: UiObject?
+    private val notAskButton: UiObject = getObject(PermissionData.getNotAskButton())
 
-    fun allow() = allowButton.click()
-    fun deny() = denyButton.click()
+    @CallSuper open fun allow(): Unit = run { allowButton.click() }
+    @CallSuper open fun deny(): Unit = run { denyButton.click() }
 
-    fun notAsk() {
-        assertNotNull(notAskButton)
-        notAskButton?.click()
+    @CallSuper open fun notAsk() {
+        assertTrue(notAskButton.exists())
+        notAskButton.click()
+        denyButton.click()
     }
 
     @CallSuper open fun assert() {
         assertTrue(titleText.waitForExists(AWAIT_TIMEOUT))
+
+        assertTrue(allowButton.exists())
+        assertTrue(denyButton.exists())
     }
 }

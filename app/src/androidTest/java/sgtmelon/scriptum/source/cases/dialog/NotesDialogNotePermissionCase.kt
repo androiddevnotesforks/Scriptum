@@ -16,6 +16,8 @@ import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 abstract class NotesDialogNotePermissionCase(private val type: NoteType) : ParentUiRotationTest(),
     BindNotePermissionCase {
 
+    // TODO move inside api tests package (run on specific emulator api)
+
     @Before override fun setUp() {
         super.setUp()
 

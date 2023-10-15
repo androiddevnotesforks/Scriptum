@@ -18,6 +18,8 @@ import kotlin.random.Random
 class AlarmPreferenceMelodyPermissionTest : ParentUiRotationTest(),
     MelodyPermissionCase {
 
+    // TODO move inside api tests package (run on specific emulator api)
+
     @Before override fun setUp() {
         super.setUp()
 
@@ -32,8 +34,10 @@ class AlarmPreferenceMelodyPermissionTest : ParentUiRotationTest(),
     }
 
     @Test override fun infoClose() = launchAlarmPreference {
-        melodyPermission { softClose() }
-        assert()
+        melodyPermission {
+            softClose()
+            assert()
+        }
     }
 
     @Test override fun infoRotateWork() = launchAlarmPreference {
@@ -47,15 +51,21 @@ class AlarmPreferenceMelodyPermissionTest : ParentUiRotationTest(),
         melodyPermission {
             rotate.switch()
             softClose()
+            assert()
         }
-        assert()
     }
 
-    @Test override fun allow() {
-        TODO("Not yet implemented")
+    @Test override fun allow() = launchAlarmPreference {
+        melodyPermission { positive { allow() } }
     }
 
-    @Test override fun deny() {
-        TODO("Not yet implemented")
+    @Test override fun deny() = launchAlarmPreference {
+        melodyPermission { positive { deny() } }
+    }
+
+    @Test override fun notAsk() = launchAlarmPreference {
+        melodyPermission { positive { deny { cancel() } } }
+        melodyPermission { positive { notAsk { cancel() } } }
+        openMelodyDialog()
     }
 }

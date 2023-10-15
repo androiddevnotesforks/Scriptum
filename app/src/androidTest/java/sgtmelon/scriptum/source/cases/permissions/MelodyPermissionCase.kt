@@ -30,4 +30,10 @@ interface MelodyPermissionCase : PermissionCase {
     /** User deny permission - feature (also) available to use, but with some restrictions. */
     fun deny()
 
+    /**
+     * User click not ask and deny permission - same as [deny], but without [info]
+     * dialog next time.
+     */
+    fun notAsk()
+
 }
