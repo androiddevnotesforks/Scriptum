@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.source.cases.dialog
+package sgtmelon.scriptum.tests.ui.api.on33
 
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -11,12 +11,10 @@ import sgtmelon.scriptum.source.ui.tests.launchNotesItem
 
 
 /**
- * Parent class for tests permissions of [NoteDialogUi] inside [MainPage.NOTES].
+ * Parent class for test post permission called from [NoteDialogUi] inside [MainPage.NOTES].
  */
-abstract class NotesDialogNotePermissionCase(private val type: NoteType) : ParentUiRotationTest(),
+abstract class NotesDialogPostPermissionCase(private val type: NoteType) : ParentUiRotationTest(),
     BindNotePermissionCase {
-
-    // TODO move inside api tests package (run on specific emulator api)
 
     @Before override fun setUp() {
         super.setUp()

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.ui.auto.main.notes
+package sgtmelon.scriptum.tests.ui.api.on33
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -6,13 +6,12 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.infrastructure.model.key.preference.NoteType
 import sgtmelon.scriptum.infrastructure.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.source.cases.dialog.NotesDialogNotePermissionCase
 
 /**
  * Test note dialog permissions for [NotesFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotesDialogNoteTextPermissionTest : NotesDialogNotePermissionCase(NoteType.TEXT) {
+class NotesDialogNoteTextPostPermissionTest : NotesDialogPostPermissionCase(NoteType.TEXT) {
 
     override fun insert(): NoteItem = db.insertText()
 

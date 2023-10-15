@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.tests.ui.auto.preferences.alarm
+package sgtmelon.scriptum.tests.ui.api.on26
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
@@ -17,8 +17,6 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceMelodyPermissionTest : ParentUiRotationTest(),
     MelodyPermissionCase {
-
-    // TODO move inside api tests package (run on specific emulator api)
 
     @Before override fun setUp() {
         super.setUp()
