@@ -51,7 +51,7 @@
                     android:layout_gravity="bottom"
                     android:contentDescription="@string/description_enter_roll_add"
                     app:srcCompat="@drawable/ic_add"
-                    app:tint="?attr/clDisable"
+                    app:tint="?attr/clContrast"
                     tools:tint="?attr/clAccent" />
 
             </LinearLayout>

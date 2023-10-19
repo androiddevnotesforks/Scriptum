@@ -50,12 +50,8 @@
     <color name="content_second_light">#868686</color>
     <color name="content_second_dark">#818181</color>
 
-    <!--  Color for create contrast with content_light/dark  -->
-    <color name="contrast_light">#AAAAAA</color>
-    <color name="contrast_dark">#505050</color>
-
     <!--  Color for not enabled views or hints.  -->
-    <color name="disable_light">#CFCFCF</color>
-    <color name="disable_dark">#505050</color>
+    <color name="contrast_light">#AAAAAA</color>
+    <color name="contrast_dark">#686868</color>
 
 </resources>

@@ -142,7 +142,7 @@ class RollEnterPanel<T : ContainerPart>(
                 }
 
         val addEnable = enterText.removeExtraSpace().isNotEmpty()
-        val addTint = if (addEnable) R.attr.clAccent else R.attr.clDisable
+        val addTint = if (addEnable) R.attr.clAccent else R.attr.clContrast
         addButton.isDisplayed(visible).isEnabled(addEnable)
                 .withDrawableAttr(R.drawable.ic_add, addTint)
                 .withContentDescription(R.string.description_enter_roll_add)

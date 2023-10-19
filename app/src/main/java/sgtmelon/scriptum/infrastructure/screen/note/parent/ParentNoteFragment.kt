@@ -526,11 +526,11 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
     private fun observeHistoryAvailable(available: HistoryMoveAvailable) {
         panelBar?.undoButton?.apply {
             isEnabled = available.undo
-            bindBoolTint(available.undo, R.attr.clContent, R.attr.clDisable)
+            bindBoolTint(available.undo, R.attr.clContent, R.attr.clContrast)
         }
         panelBar?.redoButton?.apply {
             isEnabled = available.redo
-            bindBoolTint(available.redo, R.attr.clContent, R.attr.clDisable)
+            bindBoolTint(available.redo, R.attr.clContent, R.attr.clContrast)
         }
     }
 
@@ -582,7 +582,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
         val isRankEmpty = rankItems == null || rankItems.size == 1
 
         val trueColor = if (item.haveRank) R.attr.clAccent else R.attr.clContent
-        panelBar?.rankButton?.bindBoolTint(!isRankEmpty, trueColor, R.attr.clDisable)
+        panelBar?.rankButton?.bindBoolTint(!isRankEmpty, trueColor, R.attr.clContrast)
         panelBar?.rankButton?.isEnabled = !isRankEmpty
     }
 
@@ -591,7 +591,7 @@ abstract class ParentNoteFragment<N : NoteItem, T : ViewDataBinding> : BindingFr
 
         panelBar?.saveButton?.apply {
             this.isEnabled = isEnabled
-            bindTextColor(isEnabled, R.attr.clContent, R.attr.clDisable)
+            bindTextColor(isEnabled, R.attr.clContent, R.attr.clContrast)
         }
     }
 

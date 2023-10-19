@@ -38,11 +38,8 @@
         <!--  Color for information content. For give user second information.  -->
         <attr name="clContentSecond" format="color" />
 
-        <!--  Color for create contrast with clContent  -->
-        <attr name="clContrast" format="color" />
-
         <!--  Color for not enabled views or hints.  -->
-        <attr name="clDisable" format="color" />
+        <attr name="clContrast" format="color" />
     </declare-styleable>
 
     <!--  Attr for control card text and indicators color in list. (Switch by theme)  -->

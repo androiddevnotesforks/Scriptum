@@ -371,7 +371,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
                         .withContentDescription(R.string.description_note_color)
 
                     val isSaveEnabled = shadowItem.isSaveEnabled
-                    val saveTextColor = if (isSaveEnabled) R.attr.clContent else R.attr.clDisable
+                    val saveTextColor = if (isSaveEnabled) R.attr.clContent else R.attr.clContrast
                     saveButton.isDisplayed()
                         .withText(R.string.button_note_save, saveTextColor)
                         .isEnabled(isSaveEnabled)
@@ -382,7 +382,7 @@ class NotePanel<T : ContainerPart, N : NoteItem>(
 
     @AttrRes private fun getTint(b: Boolean) = if (b) R.attr.clAccent else R.attr.clContent
 
-    @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
+    @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clContrast
 
     companion object {
         operator fun <T : ContainerPart, N : NoteItem> invoke(
