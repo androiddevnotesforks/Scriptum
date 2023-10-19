@@ -36,7 +36,7 @@
                             style="@style/Button.Small"
                             android:contentDescription="@string/description_enter_rank_clear"
                             app:srcCompat="@drawable/ic_cancel_enter"
-                            tools:tint="?attr/clContrast" />
+                            tools:tint="?attr/clContentThird" />
 
                         <EditText
                             android:id="@+id/rank_enter"

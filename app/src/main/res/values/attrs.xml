@@ -39,7 +39,7 @@
         <attr name="clContentSecond" format="color" />
 
         <!--  Color for not enabled views or hints.  -->
-        <attr name="clContrast" format="color" />
+        <attr name="clContentThird" format="color" />
     </declare-styleable>
 
     <!--  Attr for control card text and indicators color in list. (Switch by theme)  -->

@@ -206,7 +206,7 @@ class TextNoteScreen(
                         if (text.isNotEmpty()) {
                             withText(text, R.attr.clContent, R.dimen.text_18sp)
                         } else {
-                            withHint(R.string.hint_enter_text, R.attr.clContrast, R.dimen.text_18sp)
+                            withHint(R.string.hint_enter_text, R.attr.clContentThird, R.dimen.text_18sp)
                         }
                     }
             }

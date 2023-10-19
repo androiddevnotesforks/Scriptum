@@ -77,7 +77,7 @@ class RollContentHolder(
                 itemEnter.removeTextChangedListener(textWatcher)
                 writeCallback.disableHistoryChanges {
                     itemEnter.setTextIfDifferent(item.text)
-                    itemEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
+                    itemEnter.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContentThird)
                 }
                 itemEnter.addTextChangedListener(textWatcher)
 
@@ -97,7 +97,7 @@ class RollContentHolder(
                 itemEnter.clearText()
 
                 itemText.text = item.text
-                itemText.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContrast)
+                itemText.bindTextColor(!item.isCheck, R.attr.clContent, R.attr.clContentThird)
             }
         }
     }

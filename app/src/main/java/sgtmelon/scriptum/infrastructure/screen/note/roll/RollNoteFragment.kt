@@ -184,7 +184,7 @@ class RollNoteFragment : ParentNoteFragment<NoteItem.Roll, FragmentRollNoteBindi
 
         binding?.addPanel?.addButton?.apply {
             isEnabled = isAddAvailable
-            bindBoolTint(isAddAvailable, R.attr.clAccent, R.attr.clContrast)
+            bindBoolTint(isAddAvailable, R.attr.clAccent, R.attr.clContentThird)
         }
     }
 

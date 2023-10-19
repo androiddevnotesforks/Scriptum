@@ -22,7 +22,7 @@
 
         <item name="clContent">@color/content_light</item>
         <item name="clContentSecond">@color/content_second_light</item>
-        <item name="clContrast">@color/contrast_light</item>
+        <item name="clContentThird">@color/content_third_light</item>
 
         <item name="clIndicator">?attr/clContent</item>
 
@@ -80,7 +80,7 @@
 
         <item name="clContent">@color/content_dark</item>
         <item name="clContentSecond">@color/content_second_dark</item>
-        <item name="clContrast">@color/contrast_dark</item>
+        <item name="clContentThird">@color/content_third_dark</item>
 
         <item name="clIndicator">?attr/clAccent</item>
 

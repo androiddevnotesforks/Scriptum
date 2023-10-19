@@ -3,14 +3,14 @@
 
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <solid android:color="?attr/clContrast" />
+            <solid android:color="?attr/clContentThird" />
         </shape>
     </item>
 
     <item android:id="@android:id/secondaryProgress">
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle">
-                <solid android:color="?attr/clContrast" />
+                <solid android:color="?attr/clContentThird" />
             </shape>
         </scale>
     </item>

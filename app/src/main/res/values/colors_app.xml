@@ -51,7 +51,7 @@
     <color name="content_second_dark">#818181</color>
 
     <!--  Color for not enabled views or hints.  -->
-    <color name="contrast_light">#AAAAAA</color>
-    <color name="contrast_dark">#686868</color>
+    <color name="content_third_light">#AAAAAA</color>
+    <color name="content_third_dark">#686868</color>
 
 </resources>

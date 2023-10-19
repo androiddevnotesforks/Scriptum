@@ -80,7 +80,7 @@ class RollItemUi(
             R.dimen.item_card_elevation
         )
 
-        val textColor = if (!item.isCheck) R.attr.clContent else R.attr.clContrast
+        val textColor = if (!item.isCheck) R.attr.clContent else R.attr.clContentThird
 
         when (state) {
             NoteState.READ, NoteState.BIN -> {
@@ -117,7 +117,7 @@ class RollItemUi(
                         if (item.text.isNotEmpty()) {
                             withText(item.text, textColor, R.dimen.text_18sp)
                         } else {
-                            withHint(R.string.hind_enter_roll_empty, R.attr.clContrast, R.dimen.text_18sp)
+                            withHint(R.string.hind_enter_roll_empty, R.attr.clContentThird, R.dimen.text_18sp)
                         }
                     }
             }

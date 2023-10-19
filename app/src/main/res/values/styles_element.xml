@@ -294,7 +294,7 @@
 
     <style name="EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">?attr/clContent</item>
-        <item name="android:textColorHint">?attr/clContrast</item>
+        <item name="android:textColorHint">?attr/clContentThird</item>
     </style>
 
     <style name="EditText.TextNote">

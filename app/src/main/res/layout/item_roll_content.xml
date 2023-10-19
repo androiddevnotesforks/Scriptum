@@ -62,7 +62,7 @@
                 app:layout_constraintStart_toEndOf="@id/check_box"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@sample/preview.json/note/item[0]"
-                tools:textColor="?attr/clContrast"
+                tools:textColor="?attr/clContentThird"
                 tools:visibility="visible" />
 
             <EditText
@@ -80,7 +80,7 @@
                 android:importantForAutofill="noExcludeDescendants"
                 android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
                 tools:text="@sample/preview.json/note/item[0]"
-                tools:textColor="?attr/clContrast"
+                tools:textColor="?attr/clContentThird"
                 tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -97,16 +97,16 @@ class RankToolbar(parentContainer: Matcher<View>) : ToolbarPart(parentContainer)
                 if (!isEnterEmpty) {
                     withText(currentEnter, R.attr.clContent, R.dimen.text_18sp)
                 } else {
-                    withHint(R.string.hint_enter_rank_new, R.attr.clContrast, R.dimen.text_18sp)
+                    withHint(R.string.hint_enter_rank_new, R.attr.clContentThird, R.dimen.text_18sp)
                 }
             }
 
-        val clearTint = if (!isEnterEmpty) R.attr.clContent else R.attr.clContrast
+        val clearTint = if (!isEnterEmpty) R.attr.clContent else R.attr.clContentThird
         clearButton.isDisplayed().isEnabled(!isEnterEmpty)
             .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, clearTint)
             .withContentDescription(R.string.description_enter_rank_clear)
 
-        val addTint = if (isAddEnabled) R.attr.clAccent else R.attr.clContrast
+        val addTint = if (isAddEnabled) R.attr.clAccent else R.attr.clContentThird
         addButton.isDisplayed().isEnabled(isAddEnabled)
             .withDrawableAttr(R.drawable.ic_rank, addTint)
             .withContentDescription(R.string.description_enter_rank_add)

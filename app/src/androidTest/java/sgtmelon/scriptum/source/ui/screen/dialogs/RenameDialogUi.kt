@@ -72,7 +72,7 @@ class RenameDialogUi(title: String) : UiPart(),
                 if (enter.isNotEmpty()) {
                     withText(enter, R.attr.clContent, R.dimen.text_18sp)
                 } else {
-                    withHint(R.string.hint_enter_rank_rename, R.attr.clContrast, R.dimen.text_18sp)
+                    withHint(R.string.hint_enter_rank_rename, R.attr.clContentThird, R.dimen.text_18sp)
                 }
             }
 
